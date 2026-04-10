@@ -1,8 +1,9 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass120<T>  {
-  public String[] myMethod(String[] p1) { return null; }
-  public enum NestedEnum { V1 }
+// Generics: Generics.upperBound, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.abstract_, MemberName: MemberName.isFoo, NestedKind: NestedKind.class_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
+public abstract interface TestClass120<T extends Number>  extends List<String> {
+  <S, V> java.lang.Thread.State isFoo(java.lang.Thread.State p1, int p2);
+  public static class Nested {}
 
 }

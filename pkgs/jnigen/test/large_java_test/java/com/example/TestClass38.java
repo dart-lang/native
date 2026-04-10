@@ -1,9 +1,9 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass38<T>  extends ArrayList {
-  public void run() {}
-  public <S, V> TestClass38() {}
-  public enum NestedEnum { V1 }
+// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.static_, MemberName: MemberName.setFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.object
+public interface TestClass38  extends Cloneable {
+  static <S extends Number> Object setFoo() { return null; }
+  public static interface Nested {}
 
 }

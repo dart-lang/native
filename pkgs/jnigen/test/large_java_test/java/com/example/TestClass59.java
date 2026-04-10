@@ -1,8 +1,10 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass59<T, U>  extends Runnable, Cloneable {
-  <S, V> int myMethod();
-  public enum NestedEnum { V1 }
+// Generics: Generics.oneParam, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.throws, MemberName: MemberName.getFoo, NestedKind: NestedKind.record, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.byte_
+public final class TestClass59<T>  implements DiamondLeft, DiamondRight {
+  public void run() {}
+  public byte[] getFoo() throws Exception { return null; }
+  public static record NestedRecord(int x) {}
 
 }

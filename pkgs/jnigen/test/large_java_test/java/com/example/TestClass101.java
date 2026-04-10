@@ -1,8 +1,6 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass101<T>  {
-  public <S extends Number> double myMethod(double p1) { return 0.0; }
-  public static class Nested {}
-
+// Generics: Generics.upperBound, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.abstract_, MemberName: MemberName.getFoo, NestedKind: NestedKind.class_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.record, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.short_
+public record TestClass101<T extends Number>(short field)  {
 }

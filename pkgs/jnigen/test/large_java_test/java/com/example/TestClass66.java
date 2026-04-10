@@ -1,8 +1,8 @@
 package com.example;
 import java.util.*;
 
-public abstract class TestClass66<T, U>  extends Object {
-  public abstract <S extends Number> ArrayList<String> isFoo(ArrayList<String> p1, int p2);
-  public static class Nested {}
-
+// Generics: Generics.none, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.isFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.map
+public final class TestClass66  extends ArrayList<String> {
+  public void run() {}
+  public synchronized <S> Map<S, S>[] isFoo() { return null; }
 }

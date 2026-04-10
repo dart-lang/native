@@ -1,8 +1,6 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass99<T>  {
-  <S> byte[] getFoo(byte[] p1, int p2);
-  public static interface Nested {}
-
+// Generics: Generics.oneParam, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.any, NestedKind: NestedKind.class_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.record, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
+public record TestClass99<T>(java.lang.Thread.State[] field)  {
 }

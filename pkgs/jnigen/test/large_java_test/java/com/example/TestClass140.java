@@ -1,9 +1,8 @@
 package com.example;
 import java.util.*;
 
-public abstract class TestClass140  extends ArrayList<String> {
+// Generics: Generics.none, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customInterface
+public final class TestClass140  implements Runnable, Cloneable {
   public void run() {}
-  public abstract <S, V> Object[] myMethod();
-  public static interface Nested {}
-
+  public TestClass140() {}
 }

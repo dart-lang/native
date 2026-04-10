@@ -1,9 +1,8 @@
 package com.example;
 import java.util.*;
 
-public class TestClass55  extends ArrayList {
+// Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.byte_
+public class TestClass55<T, U>  implements DagA, DagD, DagE {
   public void run() {}
-  public <S> TestClass55() {}
-  public static interface Nested {}
-
+  public synchronized <S, V> byte setFoo(byte p1) { return 0; }
 }

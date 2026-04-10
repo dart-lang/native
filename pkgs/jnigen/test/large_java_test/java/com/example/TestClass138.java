@@ -1,9 +1,10 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass138<T, U>  extends ArrayList {
+// Generics: Generics.none, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.initializer, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.class_, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.object
+public class TestClass138  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public synchronized <S extends Number> byte[] getFoo(byte[] p1) { return null; }
-  public static interface Nested {}
+  { }
+  public static class Nested {}
 
 }

@@ -1,8 +1,10 @@
 package com.example;
 import java.util.*;
 
-public class TestClass51<T extends Number>  extends Object {
-  public <S extends Number> Map<String, String>[] getFoo(Map<String, String>[] p1) { return null; }
-  public enum NestedEnum { V1 }
+// Generics: Generics.twoParams, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.getFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.double_
+public class TestClass51<T, U>  extends ArrayList<String> {
+  public void run() {}
+  public synchronized double getFoo(double p1, int p2) { return 0.0; }
+  public static interface Nested {}
 
 }

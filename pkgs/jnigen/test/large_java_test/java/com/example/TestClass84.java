@@ -1,8 +1,10 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass84<T>  {
-  <S> Object isFoo(Object p1, int p2);
-  public static class Nested {}
+// Generics: Generics.none, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.static_, MemberName: MemberName.getFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customObject
+public class TestClass84  extends ArrayList<String> {
+  public void run() {}
+  public static <S, V> ArrayList<S> getFoo(ArrayList<S> p1) { return null; }
+  public static interface Nested {}
 
 }

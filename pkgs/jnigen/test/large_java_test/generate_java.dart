@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+import 'package:path/path.dart' as p;
 import 'package:test_case_selector/test_case_selector.dart';
 
 enum TopLevelKind { class_, interface, enum_, record }
@@ -11,7 +12,7 @@ enum Member { field, method, constructor, initializer }
 
 enum NestedKind { none, class_, interface, enum_, record }
 
-enum TopLevelModifier { none, sealed, final_, static_ }
+enum TopLevelModifier { none, final_ }
 
 enum MemberModifier {
   none,
@@ -42,7 +43,14 @@ enum Inheritance {
 
 enum Generics { none, oneParam, twoParams, upperBound, lowerBound, wildcard }
 
-enum MemberGenerics { none, oneParam, twoParams, upperBound }
+enum MemberGenerics {
+  none,
+  oneParam,
+  twoParams,
+  upperBound,
+  lowerBound,
+  wildcard
+}
 
 enum TypeKind {
   void_,
@@ -93,6 +101,7 @@ Future<void> main() async {
       {Member, ParamCount},
       {Member, TypeKind},
       {TypeKind, IsArray},
+      {Member, MemberGenerics, TypeKind},
     ],
     isValid: (tc) {
       final top = tc.get<TopLevelKind>();
@@ -116,6 +125,7 @@ Future<void> main() async {
           return false;
         }
       }
+
       if (top == TopLevelKind.interface) {
         if (member == Member.constructor) {
           return false;
@@ -136,9 +146,6 @@ Future<void> main() async {
             inheritance != Inheritance.implements_) {
           return false;
         }
-        if (modifier == TopLevelModifier.sealed) {
-          return false;
-        }
         if (modifier == TopLevelModifier.final_) {
           return false;
         }
@@ -151,24 +158,35 @@ Future<void> main() async {
           return false;
         }
       }
+
+      // Generics constraints
+      // Declaration-site bounds
+      if (generics == Generics.lowerBound || generics == Generics.wildcard) {
+        return false;
+      }
+      if (memberGenerics == MemberGenerics.lowerBound ||
+          memberGenerics == MemberGenerics.wildcard) {
+        return false;
+      }
+
       if (top == TopLevelKind.record) {
-        if (member == Member.initializer) {
+        if (member == Member.initializer || memberGenerics != MemberGenerics.none) {
           return false;
         }
       }
 
-      // TopLevelModifiers
-      // Since all generated classes are top-level, they can't be static.
-      if (modifier == TopLevelModifier.static_) {
-        return false;
-      }
-      // sealed requires subclasses in the same file/package, too complex for now.
-      if (modifier == TopLevelModifier.sealed) {
-        return false;
-      }
-
       // Member modifiers
       if (mod != MemberModifier.none) {
+        if (mod == MemberModifier.transient || mod == MemberModifier.volatile) {
+          if (member != Member.field || top == TopLevelKind.interface) {
+            return false;
+          }
+        }
+        if (mod == MemberModifier.throws) {
+          if (member != Member.method) {
+            return false;
+          }
+        }
         if (member != Member.method && member != Member.constructor) {
           if (mod != MemberModifier.static_ || member != Member.field) {
             return false;
@@ -178,7 +196,9 @@ Future<void> main() async {
             (mod == MemberModifier.abstract_ ||
                 mod == MemberModifier.native ||
                 mod == MemberModifier.default_ ||
-                mod == MemberModifier.static_)) {
+                mod == MemberModifier.static_ ||
+                mod == MemberModifier.synchronized ||
+                mod == MemberModifier.throws)) {
           return false;
         }
       }
@@ -195,16 +215,39 @@ Future<void> main() async {
       if (type == TypeKind.void_ && member != Member.method) {
         return false;
       }
+      if (top == TopLevelKind.record && type == TypeKind.void_) {
+        return false;
+      }
       if (type == TypeKind.void_ && (paramCount != ParamCount.zero)) {
         return false;
       }
 
       // Generics vs Static
+      if (mod == MemberModifier.static_) {
+        // If the type is forced to use the class scope 'T' (or is T itself),
+        // and the class is generic, it's invalid in a static context.
+        final useMemberScope = memberGenerics != MemberGenerics.none;
+
+        if (!useMemberScope) {
+          if (type == TypeKind.typeParam || generics != Generics.none) {
+            // Some TypeKind like list/set/map/etc will use 'T' if top-level is generic.
+            const genericTypes = {
+              TypeKind.list,
+              TypeKind.set,
+              TypeKind.map,
+              TypeKind.customObject,
+              TypeKind.nestedCustom,
+              TypeKind.typeParam,
+            };
+            if (genericTypes.contains(type)) {
+              return false;
+            }
+          }
+        }
+      }
+
       if (type == TypeKind.typeParam) {
         if (generics == Generics.none) {
-          return false;
-        }
-        if (mod == MemberModifier.static_) {
           return false;
         }
         if (top == TopLevelKind.interface && member == Member.field) {
@@ -227,11 +270,14 @@ Future<void> main() async {
   final testCases = selector.select();
   print('Generated ${testCases.length} test cases.');
 
-  final outputDir = Directory('test/large_java_test/java/com/example');
+  final scriptDir = p.dirname(p.fromUri(Platform.script));
+  final outputDir = Directory(p.join(scriptDir, 'java', 'com', 'example'));
   if (outputDir.existsSync()) {
     outputDir.deleteSync(recursive: true);
   }
   outputDir.createSync(recursive: true);
+
+  writeCoreClasses(outputDir);
 
   for (var i = 0; i < testCases.length; i++) {
     final tc = testCases[i];
@@ -240,13 +286,75 @@ Future<void> main() async {
     sb.writeln('package com.example;');
     sb.writeln('import java.util.*;');
     sb.writeln();
+    sb.writeln('// $tc');
     generateTestCase(sb, className, tc);
 
-    final file = File('test/large_java_test/java/com/example/$className.java');
+    final file = File(p.join(outputDir.path, '$className.java'));
     file.writeAsStringSync(sb.toString());
   }
 
-  print('Wrote files to test/large_java_test/java/com/example/');
+  print('Wrote files to ${outputDir.path}');
+}
+
+void writeCoreClasses(Directory outputDir) {
+  final coreClasses = {
+    'BaseInterface': '''
+public interface BaseInterface {
+  int BASE_FIELD = 0;
+  default void baseMethod() {}
+}
+''',
+    'DiamondLeft': '''
+public interface DiamondLeft extends BaseInterface {
+  int LEFT_FIELD = 1;
+  default void leftMethod() {}
+}
+''',
+    'DiamondRight': '''
+public interface DiamondRight extends BaseInterface {
+  int RIGHT_FIELD = 2;
+  default void rightMethod() {}
+}
+''',
+    'DagA': '''
+public interface DagA {
+  int A_FIELD = 3;
+  default void aMethod() {}
+}
+''',
+    'DagB': '''
+public interface DagB extends DagA {
+  int B_FIELD = 4;
+  default void bMethod() {}
+}
+''',
+    'DagC': '''
+public interface DagC extends DagA, DagB {
+  int C_FIELD = 5;
+  default void cMethod() {}
+}
+''',
+    'DagD': '''
+public interface DagD extends DagA, DagB, DagC {
+  int D_FIELD = 6;
+  default void dMethod() {}
+}
+''',
+    'DagE': '''
+public interface DagE extends DagB, DagD {
+  int E_FIELD = 7;
+  default void eMethod() {}
+}
+''',
+    'CoreRecord': '''
+public record CoreRecord(int x, String y) {}
+''',
+  };
+
+  for (final entry in coreClasses.entries) {
+    final file = File('${outputDir.path}/${entry.key}.java');
+    file.writeAsStringSync('package com.example;\n\n${entry.value.trim()}\n');
+  }
 }
 
 void generateTestCase(StringBuffer sb, String className, TestCase tc) {
@@ -263,8 +371,8 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   final typeKind = tc.get<TypeKind>();
   final isArray = tc.get<IsArray>();
 
-  final typeStr = getJavaType(
-      typeKind, isArray == IsArray.yes, generics, memberGenerics);
+  final typeStr =
+      getJavaType(typeKind, isArray == IsArray.yes, generics, memberGenerics);
   final inheritanceStr = getInheritanceStr(inheritance, top);
   final genStr = getGenericsStr(generics);
   final memberGenStr = getMemberGenericsStr(memberGenerics);
@@ -318,7 +426,7 @@ String getInheritanceStr(Inheritance inheritance, TopLevelKind top) {
       if (top == TopLevelKind.record) return '';
       return ' extends Object';
     case Inheritance.implements_:
-      if (top == TopLevelKind.interface) return ' extends Runnable';
+      if (top == TopLevelKind.interface) return ' extends Cloneable';
       return ' implements Runnable';
     case Inheritance.multipleImplements:
       if (top == TopLevelKind.interface) return ' extends Runnable, Cloneable';
@@ -331,6 +439,16 @@ String getInheritanceStr(Inheritance inheritance, TopLevelKind top) {
       if (top == TopLevelKind.interface) return ' extends List';
       if (top == TopLevelKind.record) return ' implements List';
       return ' extends ArrayList';
+    case Inheritance.diamond:
+      if (top == TopLevelKind.interface) {
+        return ' extends DiamondLeft, DiamondRight';
+      }
+      return ' implements DiamondLeft, DiamondRight';
+    case Inheritance.complexDag:
+      if (top == TopLevelKind.interface) {
+        return ' extends DagA, DagD, DagE';
+      }
+      return ' implements DagA, DagD, DagE';
     default:
       return '';
   }
@@ -353,6 +471,8 @@ String getMemberGenericsStr(MemberGenerics memberGenerics) {
     MemberGenerics.oneParam => '<S> ',
     MemberGenerics.twoParams => '<S, V> ',
     MemberGenerics.upperBound => '<S extends Number> ',
+    MemberGenerics.lowerBound => '<S> ',
+    MemberGenerics.wildcard => '<S> ',
   };
 }
 
@@ -360,8 +480,6 @@ String getTopLevelModifierStr(TopLevelModifier modifier, MemberModifier mod) {
   var s = switch (modifier) {
     TopLevelModifier.none => '',
     TopLevelModifier.final_ => 'final ',
-    TopLevelModifier.static_ => 'static ',
-    TopLevelModifier.sealed => 'sealed ',
   };
   if (mod == MemberModifier.abstract_) {
     s += 'abstract ';
@@ -384,6 +502,8 @@ String getMemberModifierStr(MemberModifier mod) {
     MemberModifier.synchronized => 'synchronized ',
     MemberModifier.native => 'native ',
     MemberModifier.abstract_ => 'abstract ',
+    MemberModifier.transient => 'transient ',
+    MemberModifier.volatile => 'volatile ',
     _ => '',
   };
 }
@@ -412,8 +532,8 @@ String getFieldStr(TopLevelKind top, MemberModifier mod, String typeStr) {
   if (top == TopLevelKind.interface) {
     return '  $typeStr myField = ${getJavaDefaultValue(typeStr)};\n';
   }
-  final staticStr = mod == MemberModifier.static_ ? 'static ' : '';
-  return '  public $staticStr$typeStr myField;\n';
+  final modStr = getMemberModifierStr(mod);
+  return '  public $modStr$typeStr myField;\n';
 }
 
 String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
@@ -421,24 +541,26 @@ String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
   final methodName = name == MemberName.any ? 'myMethod' : name.name;
   final defaultValue = getJavaDefaultValue(typeStr);
   final body = typeStr == 'void' ? '' : 'return $defaultValue;';
+  final throwsStr = mod == MemberModifier.throws ? ' throws Exception' : '';
 
   if (top == TopLevelKind.interface) {
     return switch (mod) {
       MemberModifier.default_ =>
-        '  default $memberGenStr$typeStr $methodName($params) { $body }\n',
+        '  default $memberGenStr$typeStr $methodName($params)$throwsStr { $body }\n',
       MemberModifier.static_ =>
-        '  static $memberGenStr$typeStr $methodName($params) { $body }\n',
-      _ => '  $memberGenStr$typeStr $methodName($params);\n',
+        '  static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }\n',
+      _ => '  $memberGenStr$typeStr $methodName($params)$throwsStr;\n',
     };
   }
 
   final modStr = getMemberModifierStr(mod);
   return switch (mod) {
     MemberModifier.abstract_ =>
-      '  public abstract $memberGenStr$typeStr $methodName($params);\n',
+      '  public abstract $memberGenStr$typeStr $methodName($params)$throwsStr;\n',
     MemberModifier.native =>
-      '  public native $memberGenStr$typeStr $methodName($params);\n',
-    _ => '  public $modStr$memberGenStr$typeStr $methodName($params) { $body }\n',
+      '  public native $memberGenStr$typeStr $methodName($params)$throwsStr;\n',
+    _ =>
+      '  public $modStr$memberGenStr$typeStr $methodName($params)$throwsStr { $body }\n',
   };
 }
 
@@ -471,14 +593,31 @@ String getNestedStr(NestedKind nested) {
 }
 
 bool hasRunMethod(Inheritance inheritance) {
-  return inheritance == Inheritance.implements_ ||
+  return inheritance == Inheritance.extends_ ||
+      inheritance == Inheritance.implements_ ||
       inheritance == Inheritance.multipleImplements ||
       inheritance == Inheritance.extendsGenericSpecialized ||
-      inheritance == Inheritance.extendsGenericUnspecialized;
+      inheritance == Inheritance.extendsGenericUnspecialized ||
+      inheritance == Inheritance.diamond ||
+      inheritance == Inheritance.complexDag;
 }
 
 String getJavaType(
     TypeKind kind, bool isArray, Generics generics, MemberGenerics mGenerics) {
+  final useMemberScope = mGenerics != MemberGenerics.none;
+
+  final scopeVar = useMemberScope ? 'S' : 'T';
+  final scopeEnum = useMemberScope ? mGenerics : generics;
+
+  final g = switch (scopeEnum) {
+    Generics.oneParam || MemberGenerics.oneParam => scopeVar,
+    Generics.twoParams || MemberGenerics.twoParams => scopeVar,
+    Generics.upperBound || MemberGenerics.upperBound => scopeVar,
+    Generics.lowerBound || MemberGenerics.lowerBound => '? super $scopeVar',
+    Generics.wildcard || MemberGenerics.wildcard => '?',
+    _ => 'String',
+  };
+
   var t = switch (kind) {
     TypeKind.void_ => 'void',
     TypeKind.int_ => 'int',
@@ -491,14 +630,14 @@ String getJavaType(
     TypeKind.string => 'String',
     TypeKind.typeParam => 'T',
     TypeKind.memberTypeParam => 'S',
-    TypeKind.list => 'List<String>',
-    TypeKind.set => 'Set<String>',
-    TypeKind.map => 'Map<String, String>',
-    TypeKind.customObject => 'ArrayList<String>',
+    TypeKind.list => 'List<$g>',
+    TypeKind.set => 'Set<$g>',
+    TypeKind.map => 'Map<$g, $g>',
+    TypeKind.customObject => 'ArrayList<$g>',
     TypeKind.customInterface => 'Runnable',
     TypeKind.customEnum => 'java.lang.Thread.State',
-    TypeKind.customRecord => 'Object',
-    TypeKind.nestedCustom => 'Map.Entry<String, String>',
+    TypeKind.customRecord => 'CoreRecord',
+    TypeKind.nestedCustom => 'Map.Entry<$g, $g>',
   };
   if (isArray) t += '[]';
   return t;
@@ -525,6 +664,10 @@ String getJavaDefaultValue(String type) {
       return 'false';
     case 'char':
       return "' '";
+    case 'CoreRecord':
+      return 'new CoreRecord(0, "")';
+    case 'java.lang.Thread.State':
+      return 'java.lang.Thread.State.NEW';
     default:
       return 'null';
   }

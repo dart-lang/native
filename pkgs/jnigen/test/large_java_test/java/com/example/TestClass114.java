@@ -1,8 +1,9 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass114<T, U>  extends Object {
-  public <S> String setFoo() { return null; }
-  public static record NestedRecord(int x) {}
+// Generics: Generics.none, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.no, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.any, NestedKind: NestedKind.class_, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.string
+public interface TestClass114  extends List<String> {
+  String myField = null;
+  public static class Nested {}
 
 }

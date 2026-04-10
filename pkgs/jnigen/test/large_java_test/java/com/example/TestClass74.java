@@ -1,9 +1,11 @@
 package com.example;
 import java.util.*;
 
-public abstract class TestClass74<T, U>  implements Runnable {
+// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.set
+public enum TestClass74  implements Runnable {
+  VALUE1, VALUE2;
   public void run() {}
-  public abstract <S> int[] getFoo(int[] p1);
+  public <S, V> Set<S>[] myMethod() { return null; }
   public static interface Nested {}
 
 }

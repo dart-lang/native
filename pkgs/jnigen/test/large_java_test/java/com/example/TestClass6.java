@@ -1,9 +1,8 @@
 package com.example;
 import java.util.*;
 
-public class TestClass6<T, U>  extends ArrayList {
+// Generics: Generics.none, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.yes, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.map
+public final class TestClass6  extends ArrayList<String> {
   public void run() {}
-  public <S, V> long myMethod(long p1, int p2) { return 0; }
-  public static interface Nested {}
-
+  public Map<String, String>[] myField;
 }
