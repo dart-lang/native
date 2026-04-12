@@ -452,7 +452,11 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final paramStr = _joinParamStr(context, params);
 
     // The method declaration.
-    s.write('\n  ${makeDartDoc(dartDoc)}  ');
+    final deprecatedAnnotation = apiAvailability.deprecatedAnnotation;
+    final deprecatedPrefix = deprecatedAnnotation != null
+        ? '$deprecatedAnnotation\n  '
+        : '';
+    s.write('\n  $deprecatedPrefix${makeDartDoc(dartDoc)}  ');
     late String targetStr;
     if (isClassMethod) {
       targetStr = (target as ObjCInterface).classObject.name;

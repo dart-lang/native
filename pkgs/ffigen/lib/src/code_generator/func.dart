@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -47,6 +48,7 @@ class Func extends LookUpBinding with HasLocalScope {
   final bool objCReturnsRetained;
   final bool useNameForLookup;
   final bool recordUse;
+  final ApiAvailability? apiAvailability;
 
   @override
   final bool loadFromNativeAsset;
@@ -72,6 +74,7 @@ class Func extends LookUpBinding with HasLocalScope {
     this.recordUse = false,
     super.isInternal,
     this.loadFromNativeAsset = false,
+    this.apiAvailability,
   }) : functionType = FunctionType(
          returnType: returnType,
          parameters: parameters,
@@ -101,6 +104,10 @@ class Func extends LookUpBinding with HasLocalScope {
     final s = StringBuffer();
     final enclosingFuncName = name;
 
+    final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
+    if (deprecatedAnnotation != null) {
+      s.write('$deprecatedAnnotation\n');
+    }
     s.write(makeDartDoc(dartDoc));
 
     final context = w.context;

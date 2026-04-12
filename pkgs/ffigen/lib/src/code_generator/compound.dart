@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../config_provider.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -37,6 +38,8 @@ abstract class Compound extends BindingType with HasLocalScope {
   /// `struct` or `union`, depending on whether the declaration is a typedef.
   final String nativeType;
 
+  final ApiAvailability? apiAvailability;
+
   Compound({
     super.usr,
     super.originalName,
@@ -47,6 +50,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     super.isInternal,
     required this.context,
     String? nativeType,
+    this.apiAvailability,
   }) : members = members ?? [],
        nativeType = nativeType ?? originalName ?? name;
 
@@ -148,6 +152,10 @@ abstract class Compound extends BindingType with HasLocalScope {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     final enclosingClassName = name;
+    final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
+    if (deprecatedAnnotation != null) {
+      s.write('$deprecatedAnnotation\n');
+    }
     s.write(makeDartDoc(dartDoc));
 
     /// Write @Packed(X) annotation if struct is packed.

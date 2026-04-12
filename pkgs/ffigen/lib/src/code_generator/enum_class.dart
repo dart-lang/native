@@ -6,6 +6,7 @@ import 'package:collection/collection.dart';
 
 import '../config_provider.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'imports.dart';
@@ -54,6 +55,8 @@ class EnumClass extends BindingType with HasLocalScope {
   /// Don't code gen this alias at all, just use the [nativeType] directly.
   bool isAnonymous;
 
+  final ApiAvailability? apiAvailability;
+
   EnumClass({
     super.usr,
     super.originalName,
@@ -64,6 +67,7 @@ class EnumClass extends BindingType with HasLocalScope {
     required this.context,
     this.style = EnumStyle.dartEnum,
     this.isAnonymous = false,
+    this.apiAvailability,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];
 
@@ -159,6 +163,10 @@ class EnumClass extends BindingType with HasLocalScope {
 
   /// Writes the DartDoc string for this enum.
   void _writeDartDoc(StringBuffer s) {
+    final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
+    if (deprecatedAnnotation != null) {
+      s.write('$deprecatedAnnotation\n');
+    }
     s.write(makeDartDoc(dartDoc));
   }
 

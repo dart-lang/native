@@ -89,7 +89,10 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
 ///
 ''');
     }
-    s.write(makeDartDoc(dartDoc ?? originalName));
+    final deprecatedAnnotation = apiAvailability.deprecatedAnnotation;
+    if (deprecatedAnnotation != null) {
+      s.write('$deprecatedAnnotation\n');
+    }
 
     final sp = [
       protocolBase,
