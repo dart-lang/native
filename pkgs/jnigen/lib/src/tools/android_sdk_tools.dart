@@ -75,18 +75,23 @@ class AndroidSdkTools {
 
   static const _gradleGetClasspathStub = '''
 // Gradle stub for listing dependencies in JNIgen. If found in
-// android/build.gradle, please delete the following function.
-task $_gradleGetClasspathTaskName(type: Copy) {
-  project.afterEvaluate {
+// android/build.gradle, please delete the following task.
+tasks.register("$_gradleGetClasspathTaskName") {
+  def app = project(':app')
+  def jarView = app.configurations.releaseCompileClasspath.incoming.artifactView {
+    attributes {
+      attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+    }
+  }
+  inputs.files(jarView.files)
+  doLast {
     try {
-      def app = project(':app')
       def android = app.android
-      def cp = [android.getBootClasspath()[0]]
-      android.applicationVariants.each { variant ->
-        if (variant.name.equals('release')) {
-          cp += variant.javaCompile.classpath.getFiles()
-        }
-      }
+      def cp = []
+      try {
+        cp += android.getBootClasspath()
+      } catch (Exception e) {}
+      jarView.files.each { println it.absolutePath }
       cp.each { println it }
     } catch (Exception e) {
       System.err.println("$_gradleCannotFindJars")
@@ -99,22 +104,22 @@ task $_gradleGetClasspathTaskName(type: Copy) {
 
   static const _gradleGetClasspathStubKt = '''
 // Gradle stub for listing dependencies in JNIgen. If found in
-// android/build.gradle.kts, please delete the following function.
+// android/build.gradle.kts, please delete the following task.
 tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
+    val app = project(":app")
+    val jarView = app.configurations.getByName("releaseCompileClasspath").incoming.artifactView {
+        attributes {
+            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+        }
+    }
+    inputs.files(jarView.files)
     doLast {
         try {
-            val app = project(":app")
-            val android = app.android
-            val classPaths = mutableListOf(android.bootClasspath.first()) // Access the first element directly
-            for (variant in android.applicationVariants) {
-                if (variant.name == "release") {
-                    val javaCompile = variant.javaCompileProvider.get()
-                    classPaths.addAll(javaCompile.classpath.files)
-                }
+            for (file in jarView.files) {
+                println(file)
             }
-            for (classPath in classPaths) {
-                println(classPath)
-            }
+            val android = app.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+            android?.bootClasspath?.forEach { println(it) }
         } catch (e: Exception) {
             System.err.println("$_gradleCannotFindJars")
             throw e
@@ -131,10 +136,17 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
   // So it appears different methods should be used for JAR artifacts.
   static const _gradleGetSourcesStub = '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
-// android/build.gradle, please delete the following function.
-task $_gradleGetSourcesTaskName(type: Copy) {
-  project.afterEvaluate {
-    def componentIds = project(':app').configurations.releaseCompileClasspath.incoming
+// android/build.gradle, please delete the following task.
+tasks.register("$_gradleGetSourcesTaskName") {
+  def app = project(':app')
+  def jarView = app.configurations.releaseCompileClasspath.incoming.artifactView {
+    attributes {
+      attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+    }
+  }
+  inputs.files(jarView.files)
+  doLast {
+    def componentIds = app.configurations.releaseCompileClasspath.incoming
       .resolutionResult.allDependencies.collect { it.selected.id }
 
     ArtifactResolutionResult result = dependencies.createArtifactResolutionQuery()
@@ -160,11 +172,16 @@ task $_gradleGetSourcesTaskName(type: Copy) {
 
   static const _gradleGetSourcesStubKt = '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
-// android/build.gradle.kts, please delete the following function.
-
+// android/build.gradle.kts, please delete the following task.
 tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
+    val app = project(":app")
+    val jarView = app.configurations.getByName("releaseCompileClasspath").incoming.artifactView {
+        attributes {
+            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+        }
+    }
+    inputs.files(jarView.files)
     doLast {
-        val app = project(":app")
         val releaseCompileClasspath = app.configurations.getByName("releaseCompileClasspath")
 
         val componentIds =
@@ -265,9 +282,10 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     origBuild.writeAsStringSync(_appendStub(script, stubCode));
     log.finer('Running gradle wrapper...');
     final gradleCommand = Platform.isWindows ? '.\\gradlew.bat' : './gradlew';
+    final taskPath = usesKotlinScript ? ':app:$stubName' : stubName;
     ProcessResult procRes;
     try {
-      procRes = Process.runSync(gradleCommand, ['-q', stubName],
+      procRes = Process.runSync(gradleCommand, ['-q', taskPath],
           workingDirectory: android, runInShell: true);
     } finally {
       log.info('Restoring build scripts');
@@ -283,9 +301,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
           (androidProject == '') ? '' : ' in $androidProject';
       throw GradleException('''\n\nGradle execution failed.
 
-1. The most likely cause is that the Android build is not yet cached.
+1. The most likely cause is that the Flutter metadata files are not yet cached.
 
-Run `flutter build apk`$inAndroidProject and try again.
+Run `flutter pub get`$inAndroidProject and try again.
 
 2. If the Gradle output includes text like this:
 

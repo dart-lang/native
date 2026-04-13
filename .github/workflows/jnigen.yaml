@@ -94,11 +94,11 @@ jobs:
           cache: maven
       - name: Install dependencies
         run: dart pub get
-      - name: build in_app_java APK
-        run: flutter build apk --target-platform=android-arm64
+      - name: Install in_app_java dependencies
+        run: flutter pub get
         working-directory: ./pkgs/jnigen/example/in_app_java
-      - name: build notification_plugin example APK
-        run: flutter build apk --target-platform=android-arm64
+      - name: Install notification_plugin example dependencies
+        run: flutter pub get
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Run summarizer tests
         run: ./gradlew test
@@ -107,6 +107,12 @@ jobs:
         run: dart run jnigen:setup
       - name: Run VM tests
         run: dart test --test-randomize-ordering-seed random
+      - name: build in_app_java APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/in_app_java
+      - name: build notification_plugin example APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Collect coverage
@@ -191,8 +197,6 @@ jobs:
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - name: Install dependencies
         run: flutter pub get
-      - name: building the test runner project succeeds
-        run: flutter build apk
       - name: regenerate & compare jni_flutter bindings
         working-directory: ./pkgs/jni_flutter
         run: |
@@ -287,16 +291,18 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
-      - name: building the example project succeeds
+      - name: Install example dependencies
         working-directory: ./pkgs/jni/example/
-        run: |
-          flutter build apk
+        run: flutter pub get
       - name: regenerate & compare jnigen bindings
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src/plugin
           dart run tool/generate_primitive_arrays.dart
           git diff --exit-code -- lib/src/primitive_jarrays.dart
+      - name: building the example project succeeds
+        working-directory: ./pkgs/jni/example/
+        run: flutter build apk
       # TODO(https://github.com/dart-lang/ffigen/issues/555): FFIgen generated
       # on my machine has macOS specific stuff and CI does not.
       # We should just generate the struct as opaque, but we currently can't.

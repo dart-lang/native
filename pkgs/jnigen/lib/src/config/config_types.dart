@@ -54,9 +54,9 @@ class MavenDownloads {
 ///
 /// If [addGradleDeps] is true, a gradle stub is run in order to collect the
 /// actual compile classpath of the `android/` subproject.
-/// This will fail if there was no previous build of the project, or if a
-/// `clean` task was run either through flutter or gradle wrapper. In such case,
-/// it's required to run `flutter build apk` & retry running JNIgen.
+/// This may fail if a `clean` task was run either through flutter or gradle
+/// wrapper. In such case, it's required to run `flutter pub get` & retry
+/// running JNIgen.
 ///
 /// A configuration is invalid if [versions] is unspecified or empty, and gradle
 /// options are also false. If [sdkRoot] is not specified but versions is
