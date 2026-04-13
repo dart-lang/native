@@ -1,3 +1,8 @@
+## 0.16.1-wip
+
+- Fixed incorrect code generation for generic constructors in generic classes.
+  These are now generated as static `create` methods.
+
 ## 0.16.0
 
 - **Breaking Change**: All Java wrapper classes have been migrated to extension

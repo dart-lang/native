@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Add `toJson()` and `fromJson()` to `BuildResult` to support serialization.
+
 ## 1.1.1
 
 - Bump `package:record_use` to 0.6.0.
