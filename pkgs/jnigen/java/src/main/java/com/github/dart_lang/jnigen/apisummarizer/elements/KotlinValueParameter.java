@@ -4,11 +4,10 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.elements;
 
-import kotlinx.metadata.KmValueParameter;
+import kotlin.metadata.KmValueParameter;
 
 public class KotlinValueParameter {
   public String name;
-  public int flags;
   public KotlinType type;
   public KotlinType varargElementType;
 
@@ -16,7 +15,6 @@ public class KotlinValueParameter {
     if (p == null) return null;
     var param = new KotlinValueParameter();
     param.name = p.getName();
-    param.flags = p.getFlags();
     param.type = KotlinType.fromKmType(p.getType());
     param.varargElementType = KotlinType.fromKmType(p.getVarargElementType());
     return param;

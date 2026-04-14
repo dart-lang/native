@@ -1,5 +1,6 @@
 ## 0.16.1-wip
 
+- Update kotlin-metadata-jvm, allowing JNIgen to run on newer packages.
 - Fixed incorrect code generation for generic constructors in generic classes.
   These are now generated as static `create` methods.
 

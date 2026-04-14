@@ -9,8 +9,8 @@ import com.github.dart_lang.jnigen.apisummarizer.elements.KotlinClass;
 import com.github.dart_lang.jnigen.apisummarizer.elements.KotlinPackage;
 import java.util.ArrayList;
 import java.util.List;
-import kotlinx.metadata.jvm.KotlinClassHeader;
-import kotlinx.metadata.jvm.KotlinClassMetadata;
+import kotlin.metadata.jvm.KotlinClassHeader;
+import kotlin.metadata.jvm.KotlinClassMetadata;
 import org.objectweb.asm.AnnotationVisitor;
 
 /**
@@ -87,13 +87,13 @@ public class KotlinMetadataAnnotationVisitor extends AnnotationVisitor {
             extraString,
             packageName,
             extraInt);
-    var metadata = KotlinClassMetadata.read(header);
+    var metadata = KotlinClassMetadata.readStrict(header);
     if (metadata instanceof KotlinClassMetadata.Class) {
       decl.kotlinClass =
-          KotlinClass.fromKmClass(((KotlinClassMetadata.Class) metadata).toKmClass());
+          KotlinClass.fromKmClass(((KotlinClassMetadata.Class) metadata).getKmClass());
     } else if (metadata instanceof KotlinClassMetadata.FileFacade) {
       decl.kotlinPackage =
-          KotlinPackage.fromKmPackage(((KotlinClassMetadata.FileFacade) metadata).toKmPackage());
+          KotlinPackage.fromKmPackage(((KotlinClassMetadata.FileFacade) metadata).getKmPackage());
     } else if (metadata instanceof KotlinClassMetadata.SyntheticClass) {
       // Ignore synthetic classes such as lambdas.
     } else if (metadata instanceof KotlinClassMetadata.MultiFileClassFacade) {
