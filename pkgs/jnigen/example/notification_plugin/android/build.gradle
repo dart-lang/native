@@ -26,4 +26,8 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+
+    dependencies {
+        implementation 'androidx.core:core:1.13.1'
+    }
 }
