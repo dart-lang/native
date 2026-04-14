@@ -56,12 +56,8 @@
 /// ```dart
 /// void main(List<String> arguments) {
 ///   link(arguments, (input, output) async {
-///     final usesUri = input.recordedUsagesFile;
-///     if (usesUri == null) return;
-///     final usesJson = await File.fromUri(usesUri).readAsString();
-///     final uses = Recordings.fromJson(
-///       jsonDecode(usesJson) as Map<String, Object?>,
-///     );
+///     final uses = input.recordedUses;
+///     if (uses == null) return;
 ///
 ///     final calls = uses.calls[methodId] ?? [];
 ///     for (final call in calls) {

@@ -18,14 +18,12 @@ void main(List<String> args) async {
     }
 
     // ignore: experimental_member_use
-    final recordedUsagesFile = input.recordedUsagesFile;
+    final recordings = input.recordedUses;
 
-    if (recordedUsagesFile == null) {
+    if (recordings == null) {
       output.assets.data.add(techAsset.asDataAsset);
       return;
     }
-
-    final recordings = await _loadRecordings(recordedUsagesFile);
     final usedTechnologies = _extractUsedTechnologies(recordings);
     final allTech = await _loadTechnologies(techAsset);
     final filteredTech = _filterTechnologies(allTech, usedTechnologies);
@@ -41,11 +39,6 @@ EncodedAsset? _findTechAsset(LinkInput input) => input.assets.encodedAssets
           a.asDataAsset.id == 'package:pirate_technology/technologies',
     )
     .firstOrNull;
-
-Future<Recordings> _loadRecordings(Uri file) async {
-  final content = await File.fromUri(file).readAsString();
-  return Recordings.fromJson(jsonDecode(content) as Map<String, Object?>);
-}
 
 Set<String> _extractUsedTechnologies(Recordings recordings) {
   final usedTechnologies = <String>{};

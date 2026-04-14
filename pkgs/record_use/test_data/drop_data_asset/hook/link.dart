@@ -4,23 +4,19 @@
 
 // ignore_for_file: experimental_member_use
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (input, output) async {
-    final recordedUsagesFile = input.recordedUsagesFile;
-    if (recordedUsagesFile == null) {
+    final usages = input.recordedUses;
+    if (usages == null) {
       throw ArgumentError(
         'Enable the --enable-experiment=record-use experiment'
         ' to use this app.',
       );
     }
-    final usages = await recordedUsages(recordedUsagesFile);
     final dataAssets = input.assets.data;
     print('Received assets: ${dataAssets.map((a) => a.id).join(', ')}.');
 
@@ -96,13 +92,4 @@ void main(List<String> arguments) async {
     print('Keeping only ${neededCodeAssets.map((e) => e.id).join(', ')}.');
     output.assets.data.addAll(neededCodeAssets);
   });
-}
-
-Future<Recordings> recordedUsages(Uri recordedUsagesFile) async {
-  final file = File.fromUri(recordedUsagesFile);
-  final string = await file.readAsString();
-  final usages = Recordings.fromJson(
-    jsonDecode(string) as Map<String, Object?>,
-  );
-  return usages;
 }

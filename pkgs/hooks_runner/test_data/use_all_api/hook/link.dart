@@ -19,7 +19,7 @@ void main(List<String> args) async {
     input.assets.code; // link only
     input.assets.data; // link only
     // ignore: experimental_member_use
-    input.recordedUsagesFile; // link only
+    input.recordedUses; // link only
     // c. target config
     // c.2. per asset
     input.config.buildAssetTypes;
