@@ -17,7 +17,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '0.16.0';
+const String version = '0.16.1';
 
 /// Version of package:jni. Keep in sync with package:jni's `pubspec.yaml`.
 @visibleForTesting
@@ -1208,7 +1208,7 @@ ${modifier}final _$idName = $_protectedExtension
         .accept(const _ParamReference())
         .where((ref) => ref.isNotEmpty)
         .toList();
-    if (node.isConstructor) {
+    if (node.isConstructor && node.typeParams.isEmpty) {
       final className = node.classDecl.finalName;
       final name = node.finalName;
       final ctorName = name == 'new\$' ? className : '$className.$name';
@@ -1225,13 +1225,23 @@ ${modifier}final _$idName = $_protectedExtension
     }
 
     final name = node.finalName;
-    final returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver));
-    final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
+    final String returnType;
+    if (node.isConstructor) {
+      final typeParamsCall = node.classDecl.allTypeParams
+          .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
+          .join(', ')
+          .encloseIfNotEmpty('<', '>');
+      returnType = '${node.classDecl.finalName}$typeParamsCall';
+    } else {
+      returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver));
+    }
+    final ifStatic =
+        (node.isStatic || node.isConstructor) && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
-    final typeParamsDef = node.typeParams
-        .accept(const _TypeParamDef())
-        .join(', ')
-        .encloseIfNotEmpty('<', '>');
+    final typeParamsDef = [
+      if (node.isConstructor) ...node.classDecl.allTypeParams,
+      ...node.typeParams,
+    ].accept(const _TypeParamDef()).join(', ').encloseIfNotEmpty('<', '>');
     if (node.isSuspendFun) {
       defArgs.removeLast();
       localReferences.removeLast();
@@ -1246,7 +1256,7 @@ ${modifier}final _$idName = $_protectedExtension
     } else {
       s.write('  $ifStatic$returnType $name$typeParamsDef($params)');
     }
-    final callExpr = methodCall(node);
+    final callExpr = node.isConstructor ? constructor(node) : methodCall(node);
     if (node.isSuspendFun) {
       final asyncReturnType = node.asyncReturnType!;
       final isNullable = asyncReturnType.isNullable;

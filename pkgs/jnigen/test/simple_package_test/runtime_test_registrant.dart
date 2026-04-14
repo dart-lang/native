@@ -364,6 +364,25 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
         });
       });
+      test('GenericConstructor', () {
+        using((arena) {
+          final array = JArray.withLength(JString.type, 1)..releasedBy(arena);
+          array[0] = 'Hello'.toJString()..releasedBy(arena);
+          final gc = GenericConstructor.create<JInteger, JString>(array)
+            ..releasedBy(arena);
+          expect(gc, isNotNull);
+          expect(gc.isInstanceOf(GenericConstructor.type.jClass), isTrue);
+          final capturedArray = gc.field!.as(JArray.type(JString.type))
+            ..releasedBy(arena);
+          expect(capturedArray.length, 1);
+          expect(capturedArray[0].toDartString(releaseOriginal: true), 'Hello');
+
+          final number = 123.toJInteger()..releasedBy(arena);
+          final result = gc.identity(number)!..releasedBy(arena);
+          expect(result.isInstanceOf(JInteger.type.jClass), isTrue);
+          expect(result.toDartInt(), 123);
+        });
+      });
       group('classes extending generics', () {
         test('StringStack', () {
           using((arena) {
