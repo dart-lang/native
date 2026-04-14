@@ -161,8 +161,9 @@ static inline void attach_thread() {
   if (jniEnv == NULL) {
     if (jni->jvm == NULL) {
       LOGF(
-          "JNI is not initialized. Are you trying to invoke a Java API"
-          " too early, before Flutter plugin initialization?");
+          "JNI is not initialized. Are you trying to invoke a Java API from"
+          " Dart code too early, before 'main()' (such as during Dart plugin"
+          " class registration)?");
     }
     (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
 #if !defined(_WIN32)
