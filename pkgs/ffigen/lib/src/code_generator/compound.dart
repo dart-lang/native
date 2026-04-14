@@ -152,11 +152,11 @@ abstract class Compound extends BindingType with HasLocalScope {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     final enclosingClassName = name;
+    s.write(makeDartDoc(dartDoc));
     final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
     if (deprecatedAnnotation != null) {
       s.write('$deprecatedAnnotation\n');
     }
-    s.write(makeDartDoc(dartDoc));
 
     /// Write @Packed(X) annotation if struct is packed.
     final ffiPrefix = context.libs.prefix(ffiImport);

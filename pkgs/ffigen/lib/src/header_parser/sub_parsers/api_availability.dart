@@ -43,8 +43,7 @@ class ApiAvailability {
 
   String? get deprecatedAnnotation {
     if (!isDeprecated) return null;
-    final msg = _effectiveDeprecationMessage;
-    final escaped = msg.replaceAll(r'\', r'\\').replaceAll("'", r"\'");
+    final escaped = escapeDartString(_effectiveDeprecationMessage);
     return "@Deprecated('$escaped')";
   }
 
@@ -52,8 +51,20 @@ class ApiAvailability {
     if (deprecationMessage != null && deprecationMessage!.isNotEmpty) {
       return deprecationMessage!;
     }
-    final platformMsg = ios?.message ?? macos?.message;
-    if (platformMsg != null && platformMsg.isNotEmpty) return platformMsg;
+    final iosMsg = ios?.message;
+    final macosMsg = macos?.message;
+    final iosNonEmpty = iosMsg != null && iosMsg.isNotEmpty;
+    final macosNonEmpty = macosMsg != null && macosMsg.isNotEmpty;
+    if (iosNonEmpty && macosNonEmpty) {
+      if (iosMsg != macosMsg) {
+        return 'iOS: $iosMsg, macOS: $macosMsg';
+      }
+      return iosMsg;
+    }
+    final platformMsg = iosNonEmpty
+        ? iosMsg
+        : (macosNonEmpty ? macosMsg : null);
+    if (platformMsg != null) return platformMsg;
     return 'Deprecated';
   }
 

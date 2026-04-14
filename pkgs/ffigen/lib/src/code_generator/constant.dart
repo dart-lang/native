@@ -47,11 +47,11 @@ class Constant extends NoLookUpBinding {
     final s = StringBuffer();
     final constantName = name;
 
+    s.write(makeDartDoc(dartDoc));
     final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
     if (deprecatedAnnotation != null) {
       s.write('$deprecatedAnnotation\n');
     }
-    s.write(makeDartDoc(dartDoc));
     s.write('\nconst $rawType $constantName = $rawValue;\n\n');
 
     return BindingString(

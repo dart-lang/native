@@ -163,11 +163,11 @@ class EnumClass extends BindingType with HasLocalScope {
 
   /// Writes the DartDoc string for this enum.
   void _writeDartDoc(StringBuffer s) {
+    s.write(makeDartDoc(dartDoc));
     final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
     if (deprecatedAnnotation != null) {
       s.write('$deprecatedAnnotation\n');
     }
-    s.write(makeDartDoc(dartDoc));
   }
 
   /// Writes a sealed class when no members exist, because Dart enums cannot be

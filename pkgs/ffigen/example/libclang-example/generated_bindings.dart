@@ -3651,7 +3651,6 @@ class LibClang {
   late final _clang_getDiagnosticCategory = _clang_getDiagnosticCategoryPtr
       .asFunction<DartClang_getDiagnosticCategory>();
 
-  @Deprecated('Deprecated')
   /// Retrieve the name of a particular diagnostic category.  This
   /// is now deprecated.  Use clang_getDiagnosticCategoryText()
   /// instead.
@@ -3660,6 +3659,7 @@ class LibClang {
   /// \c clang_getDiagnosticCategory().
   ///
   /// \returns The name of the given diagnostic category.
+  @Deprecated('Deprecated')
   CXString clang_getDiagnosticCategoryName(int Category) {
     return _clang_getDiagnosticCategoryName(Category);
   }

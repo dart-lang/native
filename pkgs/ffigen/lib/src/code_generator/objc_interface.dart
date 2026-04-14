@@ -8,6 +8,7 @@ import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'scope.dart';
+import 'utils.dart';
 import 'writer.dart';
 
 class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
@@ -87,6 +88,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 ///
 ''');
     }
+    s.write(makeDartDoc(dartDoc));
     final deprecatedAnnotation = apiAvailability.deprecatedAnnotation;
     if (deprecatedAnnotation != null) {
       s.write('$deprecatedAnnotation\n');
