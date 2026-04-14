@@ -153,7 +153,7 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
         }
     }
     allprojects {
-        configurations.all { config ->
+        configurations.forEach { config ->
             if (config.name == "releaseCompileClasspath" ||
                 config.name == "releaseRuntimeClasspath") {
                 try {
@@ -161,15 +161,15 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
                         attributes {
                             attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
                         }
-                        lenient = true
+                        lenient(true)
                     }
+                    inputs.files(jarView.files)
                     val aarView = config.incoming.artifactView {
                         attributes {
                             attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
                         }
-                        lenient = true
+                        lenient(true)
                     }
-                    inputs.files(jarView.files)
                     inputs.files(aarView.files)
                 } catch (e: Exception) {}
             }
@@ -179,7 +179,7 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
         try {
             val bootCP = mutableListOf<File>()
             allprojects {
-                configurations.all { config ->
+                configurations.forEach { config ->
                     if (config.name == "releaseCompileClasspath" ||
                         config.name == "releaseRuntimeClasspath") {
                         try {
@@ -187,13 +187,13 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
                                 attributes {
                                     attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
                                 }
-                                lenient = true
+                                lenient(true)
                             }.files.forEach { println(it) }
                             config.incoming.artifactView {
                                 attributes {
                                     attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
                                 }
-                                lenient = true
+                                lenient(true)
                             }.files.forEach { println(it) }
                         } catch (e: Exception) {}
                     }
@@ -275,14 +275,14 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
         }
     }
     allprojects {
-        configurations.all { config ->
+        configurations.forEach { config ->
             if (config.name == "releaseCompileClasspath") {
                 try {
                     val jarView = config.incoming.artifactView {
                         attributes {
                             attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
                         }
-                        lenient = true
+                        lenient(true)
                     }
                     inputs.files(jarView.files)
                 } catch (e: Exception) {}
@@ -295,17 +295,19 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
             if (releaseCompileClasspath == null) return@allprojects
 
             val componentIds =
-                releaseCompileClasspath.incoming.resolutionResult.allDependencies.map { it.from.id }
+                releaseCompileClasspath.incoming.resolutionResult.allDependencies
+                    .filterIsInstance<org.gradle.api.artifacts.result.ResolvedDependencyResult>()
+                    .map { it.selected.id }
 
             val result = dependencies.createArtifactResolutionQuery()
                 .forComponents(componentIds)
-                .withArtifacts(JvmLibrary::class, SourcesArtifact::class)
+                .withArtifacts(org.gradle.api.artifacts.result.JvmLibrary::class, org.gradle.api.artifacts.result.SourcesArtifact::class)
                 .execute()
 
             val sourceArtifacts = mutableListOf<File>()
 
             for (component in result.resolvedComponents) {
-                val sourcesArtifactsResult = component.getArtifacts(SourcesArtifact::class)
+                val sourcesArtifactsResult = component.getArtifacts(org.gradle.api.artifacts.result.SourcesArtifact::class)
                 for (artifactResult in sourcesArtifactsResult) {
                     if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
                         sourceArtifacts.add(artifactResult.file)
@@ -313,7 +315,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
                 }
             }
             for (sourceArtifact in sourceArtifacts) {
-                println(sourceArtifact)
+                println(sourceArtifact.absolutePath)
             }
         }
     }
