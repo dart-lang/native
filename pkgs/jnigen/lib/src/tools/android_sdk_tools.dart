@@ -77,22 +77,63 @@ class AndroidSdkTools {
 // Gradle stub for listing dependencies in JNIgen. If found in
 // android/build.gradle, please delete the following task.
 tasks.register("$_gradleGetClasspathTaskName") {
-  def app = project(':app')
-  def jarView = app.configurations.releaseCompileClasspath.incoming.artifactView {
-    attributes {
-      attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+  allprojects { project ->
+    if (project != rootProject) {
+        evaluationDependsOn(project.path)
     }
   }
-  inputs.files(jarView.files)
+  allprojects { project ->
+    project.configurations.all { config ->
+        if (config.name == "releaseCompileClasspath" ||
+            config.name == "releaseRuntimeClasspath") {
+            try {
+                def jarView = config.incoming.artifactView {
+                    attributes {
+                        attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+                    }
+                    lenient = true
+                }
+                def aarView = config.incoming.artifactView {
+                    attributes {
+                        attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
+                    }
+                    lenient = true
+                }
+                inputs.files(jarView.files)
+                inputs.files(aarView.files)
+            } catch (Exception e) {}
+        }
+    }
+  }
   doLast {
     try {
-      def android = app.android
       def cp = []
-      try {
-        cp += android.getBootClasspath()
-      } catch (Exception e) {}
-      jarView.files.each { println it.absolutePath }
-      cp.each { println it }
+      allprojects { project ->
+        def android = project.extensions.findByName("android")
+        if (android != null && android.hasProperty("bootClasspath")) {
+          cp += android.bootClasspath
+        }
+        project.configurations.all { config ->
+            if (config.name == "releaseCompileClasspath" ||
+                config.name == "releaseRuntimeClasspath") {
+                try {
+                   config.incoming.artifactView {
+                     attributes {
+                       attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+                     }
+                     lenient = true
+                   }.files.each { println it.absolutePath }
+                   config.incoming.artifactView {
+                     attributes {
+                       attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
+                     }
+                     lenient = true
+                   }.files.each { println it.absolutePath }
+                } catch (Exception e) {}
+            }
+        }
+      }
+      cp.unique().each { println it }
     } catch (Exception e) {
       System.err.println("$_gradleCannotFindJars")
       System.err.println("$_leftOverStubWarning")
@@ -106,20 +147,61 @@ tasks.register("$_gradleGetClasspathTaskName") {
 // Gradle stub for listing dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following task.
 tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
-    val app = project(":app")
-    val jarView = app.configurations.getByName("releaseCompileClasspath").incoming.artifactView {
-        attributes {
-            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+    allprojects {
+        if (this != rootProject) {
+            evaluationDependsOn(path)
         }
     }
-    inputs.files(jarView.files)
+    allprojects {
+        configurations.all { config ->
+            if (config.name == "releaseCompileClasspath" ||
+                config.name == "releaseRuntimeClasspath") {
+                try {
+                    val jarView = config.incoming.artifactView {
+                        attributes {
+                            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+                        }
+                        lenient = true
+                    }
+                    val aarView = config.incoming.artifactView {
+                        attributes {
+                            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
+                        }
+                        lenient = true
+                    }
+                    inputs.files(jarView.files)
+                    inputs.files(aarView.files)
+                } catch (e: Exception) {}
+            }
+        }
+    }
     doLast {
         try {
-            for (file in jarView.files) {
-                println(file)
+            val bootCP = mutableListOf<File>()
+            allprojects {
+                configurations.all { config ->
+                    if (config.name == "releaseCompileClasspath" ||
+                        config.name == "releaseRuntimeClasspath") {
+                        try {
+                            config.incoming.artifactView {
+                                attributes {
+                                    attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+                                }
+                                lenient = true
+                            }.files.forEach { println(it) }
+                            config.incoming.artifactView {
+                                attributes {
+                                    attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
+                                }
+                                lenient = true
+                            }.files.forEach { println(it) }
+                        } catch (e: Exception) {}
+                    }
+                }
+                val android = extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+                android?.bootClasspath?.let { bootCP.addAll(it) }
             }
-            val android = app.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
-            android?.bootClasspath?.forEach { println(it) }
+            bootCP.distinct().forEach { println(it) }
         } catch (e: Exception) {
             System.err.println("$_gradleCannotFindJars")
             throw e
@@ -130,41 +212,53 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
 ''';
 
   static const _gradleGetSourcesTaskName = 'getSources';
-  // adapted from https://stackoverflow.com/questions/39975780/how-can-i-use-gradle-to-download-dependencies-and-their-source-files-and-place-t/39981143#39981143
-  // Although it appears we can use this same code for getting JAR artifacts,
-  // there is no JAR equivalent for `org.gradle.language.base.Artifact`.
-  // So it appears different methods should be used for JAR artifacts.
   static const _gradleGetSourcesStub = '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
 // android/build.gradle, please delete the following task.
 tasks.register("$_gradleGetSourcesTaskName") {
-  def app = project(':app')
-  def jarView = app.configurations.releaseCompileClasspath.incoming.artifactView {
-    attributes {
-      attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+  allprojects { project ->
+    if (project != rootProject) {
+        evaluationDependsOn(project.path)
     }
   }
-  inputs.files(jarView.files)
+  allprojects { project ->
+    project.configurations.all { config ->
+        if (config.name == "releaseCompileClasspath") {
+            try {
+                def jarView = config.incoming.artifactView {
+                    attributes {
+                        attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+                    }
+                    lenient = true
+                }
+                inputs.files(jarView.files)
+            } catch (Exception e) {}
+        }
+    }
+  }
   doLast {
-    def componentIds = app.configurations.releaseCompileClasspath.incoming
-      .resolutionResult.allDependencies.collect { it.selected.id }
+    allprojects { project ->
+      def config = project.configurations.findByName("releaseCompileClasspath")
+      if (config == null) return
+      def componentIds = config.incoming.resolutionResult.allDependencies.collect { it.selected.id }
 
-    ArtifactResolutionResult result = dependencies.createArtifactResolutionQuery()
-      .forComponents(componentIds)
-      .withArtifacts(JvmLibrary, SourcesArtifact)
-      .execute()
+      ArtifactResolutionResult result = dependencies.createArtifactResolutionQuery()
+        .forComponents(componentIds)
+        .withArtifacts(JvmLibrary, SourcesArtifact)
+        .execute()
 
-    def sourceArtifacts = []
+      def sourceArtifacts = []
 
-    result.resolvedComponents.each { ComponentArtifactsResult component ->
-      Set<ArtifactResult> sources = component.getArtifacts(SourcesArtifact)
-      sources.each { ArtifactResult ar ->
-        if (ar instanceof ResolvedArtifactResult) {
-          sourceArtifacts << ar.file
+      result.resolvedComponents.each { ComponentArtifactsResult component ->
+        Set<ArtifactResult> sources = component.getArtifacts(SourcesArtifact)
+        sources.each { ArtifactResult ar ->
+          if (ar instanceof ResolvedArtifactResult) {
+            sourceArtifacts << ar.file
+          }
         }
       }
+      sourceArtifacts.forEach { println it }
     }
-    sourceArtifacts.forEach { println it }
   }
   System.err.println("$_leftOverStubWarning")
 }
@@ -173,42 +267,58 @@ tasks.register("$_gradleGetSourcesTaskName") {
   static const _gradleGetSourcesStubKt = '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following task.
+
 tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
-    val app = project(":app")
-    val jarView = app.configurations.getByName("releaseCompileClasspath").incoming.artifactView {
-        attributes {
-            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+    allprojects {
+        if (this != rootProject) {
+            evaluationDependsOn(path)
         }
     }
-    inputs.files(jarView.files)
-    doLast {
-        val releaseCompileClasspath = app.configurations.getByName("releaseCompileClasspath")
-
-        val componentIds =
-            releaseCompileClasspath.incoming.resolutionResult.allDependencies.map { it.from.id }
-
-        val result = dependencies.createArtifactResolutionQuery()
-            .forComponents(componentIds)
-            .withArtifacts(JvmLibrary::class, SourcesArtifact::class)
-            .execute()
-
-        val sourceArtifacts = mutableListOf<File>()
-
-        for (component in result.resolvedComponents) {
-            val sourcesArtifactsResult = component.getArtifacts(SourcesArtifact::class)
-            for (artifactResult in sourcesArtifactsResult) {
-                if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
-                    sourceArtifacts.add(artifactResult.file)
-                }
+    allprojects {
+        configurations.all { config ->
+            if (config.name == "releaseCompileClasspath") {
+                try {
+                    val jarView = config.incoming.artifactView {
+                        attributes {
+                            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+                        }
+                        lenient = true
+                    }
+                    inputs.files(jarView.files)
+                } catch (e: Exception) {}
             }
         }
-        for (sourceArtifact in sourceArtifacts) {
-            println(sourceArtifact)
+    }
+    doLast {
+        allprojects {
+            val releaseCompileClasspath = configurations.findByName("releaseCompileClasspath")
+            if (releaseCompileClasspath == null) return@allprojects
+
+            val componentIds =
+                releaseCompileClasspath.incoming.resolutionResult.allDependencies.map { it.from.id }
+
+            val result = dependencies.createArtifactResolutionQuery()
+                .forComponents(componentIds)
+                .withArtifacts(JvmLibrary::class, SourcesArtifact::class)
+                .execute()
+
+            val sourceArtifacts = mutableListOf<File>()
+
+            for (component in result.resolvedComponents) {
+                val sourcesArtifactsResult = component.getArtifacts(SourcesArtifact::class)
+                for (artifactResult in sourcesArtifactsResult) {
+                    if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
+                        sourceArtifacts.add(artifactResult.file)
+                    }
+                }
+            }
+            for (sourceArtifact in sourceArtifacts) {
+                println(sourceArtifact)
+            }
         }
     }
     System.err.println("$_leftOverStubWarning")
 }
-
 ''';
 
   /// Get release compile classpath used by Gradle for android build.
