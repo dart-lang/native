@@ -305,7 +305,15 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
 
 Run `flutter pub get`$inAndroidProject and try again.
 
-2. If the Gradle output includes text like this:
+2. If the Gradle output says "./gradlew: not found", the Flutter Gradle wrapper
+  script is missing.
+
+Run `flutter build apk`$inAndroidProject and try again.
+
+This is commonly seen in a fresh clone of a git repo. You can also consider
+adjusting your .gitignore rules to check these files in to your git repo.
+
+3. If the Gradle output includes text like this:
 
 * What went wrong:
 Execution failed for task ':gradle:compileGroovy'.

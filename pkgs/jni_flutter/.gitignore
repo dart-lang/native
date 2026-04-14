@@ -1,9 +1,3 @@
-test_lib/
-test_src/
-mvn_java/
-mvn_jar/
-target/
-
 # Allow Gradle wrapper
 !gradlew
 !gradlew.bat
