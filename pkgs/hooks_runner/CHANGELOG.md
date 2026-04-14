@@ -1,3 +1,7 @@
+## 1.2.1
+
+- Add `PROCESSOR_ARCHITECTURE` to environment variables allowlist.
+
 ## 1.2.0
 
 - Add `toJson()` and `fromJson()` to `BuildResult` to support serialization.
