@@ -92,13 +92,13 @@ tasks.register("$_gradleGetClasspathTaskName") {
             }
             lenient = true
           }
+          inputs.files(jarView.files)
           def aarView = config.incoming.artifactView {
             attributes {
               attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
             }
             lenient = true
           }
-          inputs.files(jarView.files)
           inputs.files(aarView.files)
         } catch (Exception e) {}
       }
@@ -106,29 +106,42 @@ tasks.register("$_gradleGetClasspathTaskName") {
   }
   doLast {
     try {
-      def fullCp = []
+      def cp = []
 
-      def addConfig = { c ->
-        if (c != null) {
+      def addConfig = { config ->
+        if (config != null) {
           try {
-            c.incoming.artifactView {
-              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar") }
+            config.incoming.artifactView {
+              attributes {
+                attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+              }
               lenient = true
-            }.files.each { fullCp << it.absolutePath }
-            c.incoming.artifactView {
-              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar") }
+            }.files.each {
+              cp << it.absolutePath
+            }
+            config.incoming.artifactView {
+              attributes {
+                attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
+              }
               lenient = true
-            }.files.each { fullCp << it.absolutePath }
+            }.files.each {
+              cp << it.absolutePath
+            }
           } catch (Exception e) {}
         }
       }
 
-      def mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
+      def mainProject = allprojects.find {
+        it.plugins.hasPlugin("com.android.application")
+      } ?: project
 
+      // JNIgen
       // 1. Boot classpath (android.jar) FIRST, matching old stub logic.
       def android = mainProject.extensions.findByName("android")
       if (android != null && android.hasProperty("bootClasspath")) {
-        android.bootClasspath.each { fullCp << it.absolutePath }
+        android.bootClasspath.each {
+          cp << it.absolutePath
+        }
       }
 
       // 2. Main project classpath
@@ -142,13 +155,15 @@ tasks.register("$_gradleGetClasspathTaskName") {
         }
       }
 
-      fullCp.unique().each { println it }
+      cp.unique().each {
+        println it
+      }
     } catch (Exception e) {
       System.err.println("$_gradleCannotFindJars")
-      System.err.println("$_leftOverStubWarning")
       throw e
     }
   }
+  System.err.println("$_leftOverStubWarning")
 }
 ''';
 
@@ -185,27 +200,39 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
   }
   doLast {
     try {
-      val fullCp = mutableListOf<String>()
+      val cp = mutableListOf<String>()
 
       fun addConfig(config: org.gradle.api.artifacts.Configuration?) {
         if (config != null) {
           try {
             config.incoming.artifactView {
-              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar") }
+              attributes {
+                attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+              }
               lenient(true)
-            }.files.forEach { fullCp.add(it.absolutePath) }
+            }.files.forEach {
+              cp.add(it.absolutePath)
+            }
             config.incoming.artifactView {
-              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar") }
+              attributes {
+                attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
+              }
               lenient(true)
-            }.files.forEach { fullCp.add(it.absolutePath) }
+            }.files.forEach {
+              cp.add(it.absolutePath)
+            }
           } catch (e: Exception) {}
         }
       }
 
-      val mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
+      val mainProject = allprojects.find {
+        it.plugins.hasPlugin("com.android.application")
+      } ?: project
 
       val android = mainProject.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
-      android?.bootClasspath?.forEach { fullCp.add(it.absolutePath) }
+      android?.bootClasspath?.forEach {
+        cp.add(it.absolutePath)
+      }
 
       addConfig(mainProject.configurations.findByName("releaseCompileClasspath"))
 
@@ -215,7 +242,7 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
         }
       }
 
-      fullCp.distinct().forEach { println(it) }
+      cp.distinct().forEach { println(it) }
     } catch (e: Exception) {
       System.err.println("$_gradleCannotFindJars")
       throw e
@@ -251,7 +278,9 @@ tasks.register("$_gradleGetSourcesTaskName") {
     }
   }
   doLast {
-    def mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
+    def mainProject = allprojects.find {
+      it.plugins.hasPlugin("com.android.application")
+    } ?: project
     def projects = [mainProject]
     if (!mainProject.plugins.hasPlugin("com.android.application")) {
       projects += (allprojects - mainProject)
@@ -259,7 +288,10 @@ tasks.register("$_gradleGetSourcesTaskName") {
     projects.each { p ->
       def config = p.configurations.findByName("releaseCompileClasspath")
       if (config == null) return
-      def componentIds = config.incoming.resolutionResult.allDependencies.collect { it.selected.id }
+
+      def componentIds = config.incoming.resolutionResult.allDependencies.collect {
+        it.selected.id
+      }
 
       ArtifactResolutionResult result = dependencies.createArtifactResolutionQuery()
         .forComponents(componentIds)
@@ -286,7 +318,6 @@ tasks.register("$_gradleGetSourcesTaskName") {
   static const _gradleGetSourcesStubKt = '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following task.
-
 tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   allprojects {
     if (this != rootProject) {
@@ -309,7 +340,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     }
   }
   doLast {
-    val mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
+    val mainProject = allprojects.find {
+      it.plugins.hasPlugin("com.android.application")
+    } ?: project
     val projects = mutableListOf(mainProject)
     if (!mainProject.plugins.hasPlugin("com.android.application")) {
       projects.addAll(allprojects.filter { it != mainProject })
@@ -480,6 +513,7 @@ ${procRes.stderr}
         .trim()
         .split(Platform.isWindows ? '\r\n' : '\n');
     log.fine('Found ${paths.length} entries');
+    print("\n\nZCXVZXCVZXCV\n" + paths.join('\n') + "\n\n\n");
     return paths;
   }
 }
