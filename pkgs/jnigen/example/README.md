@@ -8,6 +8,8 @@ This directory contains examples on how to use JNIgen.
 | [pdfbox_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/pdfbox_plugin/)             | Example of a flutter plugin which provides bindings to Apache PDFBox library. Currently works on Flutter desktop and Dart standalone on linux. |
 | [notification_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/notification_plugin/) | Example of a reusable Flutter plugin with custom Java code which uses Android libraries.                                                       |
 | [kotlin_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/kotlin_plugin)             | Example of using JNIgen to generate bindings for Kotlin.                                                                                       |
+| [maven_libs](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/maven_libs)                   | Example of using JNIgen to generate bindings for 3rd party Maven libraries in a Kotlin-based plugin.                                           |
+| [maven_libs_groovy](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/maven_libs_groovy)     | Example of using JNIgen to generate bindings for 3rd party Maven libraries in a Groovy-based plugin.                                           |
 
 We intend to cover few more use cases in future.
 
