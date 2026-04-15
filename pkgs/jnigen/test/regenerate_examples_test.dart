@@ -98,4 +98,16 @@ void main() async {
     join('lib', 'kotlin_bindings.dart'),
     isLargeTest: true,
   );
+  testDartApiExample(
+    exampleName: 'maven_libs',
+    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    outputPath: join('lib', 'maven_libs_bindings.dart'),
+    isLargeTest: true,
+  );
+  testDartApiExample(
+    exampleName: 'maven_libs_groovy',
+    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    outputPath: join('lib', 'maven_libs_bindings.dart'),
+    isLargeTest: true,
+  );
 }
