@@ -92,14 +92,12 @@ class AndroidSdkConfig {
   /// Attempt to determine exact compile time dependencies by running a gradle
   /// stub in android subproject of this project.
   ///
-  /// An Android build must have happened before we are able to obtain classpath
-  /// of Gradle dependencies. Run `flutter build apk` before running a JNIgen
-  /// script with this option.
+  /// If the flutter project is a plugin instead of application, it's not
+  /// possible to determine the build classpath directly. Please provide
+  /// [androidExample] pointing to an example application in that case.
   ///
-  /// For the same reason, if the flutter project is a plugin instead of
-  /// application, it's not possible to determine the build classpath directly.
-  /// Please provide [androidExample] pointing to an example application in
-  /// that case.
+  /// It is necessary to run `flutter pub get` on the application (or plugin's
+  /// example app) before running JNIgen.
   bool addGradleDeps;
 
   /// Similar to [addGradleDeps], runs a stub to obtain source dependencies of
@@ -113,8 +111,7 @@ class AndroidSdkConfig {
   /// Relative path to example application which will be used to determine
   /// compile time classpath using a gradle stub. For most Android plugin
   /// packages, 'example' will be the name of example application created inside
-  /// the package. This example should be built once before using this option,
-  /// so that gradle would have resolved all the dependencies.
+  /// the package.
   String? androidExample;
 }
 

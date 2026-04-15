@@ -42,7 +42,7 @@ To create an FFI plugin with JNI bindings:
 ### Android plugin with custom Java code
 
 - Create an FFI plugin with Android as the only platform.
-- Build the example/ Android project using command `flutter build apk`. After a release build is done, JNIgen can use a gradle stub to collect compile classpaths.
+- Get the dependencies of the example/ Android project using `flutter pub get`. JNIgen can then use a gradle stub to collect compile classpaths.
 - Write your custom Java code in `android/src/main/java` hierarchy of the plugin.
 - Generate JNI bindings as described above. See [notification_plugin/jnigen.yaml](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/notification_plugin/jnigen.yaml) for example configuration.
 
