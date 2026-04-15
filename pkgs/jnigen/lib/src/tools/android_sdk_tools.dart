@@ -79,29 +79,29 @@ class AndroidSdkTools {
 tasks.register("$_gradleGetClasspathTaskName") {
   allprojects { project ->
     if (project != rootProject) {
-        evaluationDependsOn(project.path)
+      evaluationDependsOn(project.path)
     }
   }
   allprojects { project ->
     project.configurations.all { config ->
-        if (config.name == "releaseCompileClasspath") {
-            try {
-                def jarView = config.incoming.artifactView {
-                    attributes {
-                        attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
-                    }
-                    lenient = true
-                }
-                def aarView = config.incoming.artifactView {
-                    attributes {
-                        attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
-                    }
-                    lenient = true
-                }
-                inputs.files(jarView.files)
-                inputs.files(aarView.files)
-            } catch (Exception e) {}
-        }
+      if (config.name == "releaseCompileClasspath") {
+        try {
+          def jarView = config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+            }
+            lenient = true
+          }
+          def aarView = config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
+            }
+            lenient = true
+          }
+          inputs.files(jarView.files)
+          inputs.files(aarView.files)
+        } catch (Exception e) {}
+      }
     }
   }
   doLast {
@@ -111,14 +111,14 @@ tasks.register("$_gradleGetClasspathTaskName") {
       def addConfig = { c ->
         if (c != null) {
           try {
-             c.incoming.artifactView {
-               attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar") }
-               lenient = true
-             }.files.each { fullCp << it.absolutePath }
-             c.incoming.artifactView {
-               attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar") }
-               lenient = true
-             }.files.each { fullCp << it.absolutePath }
+            c.incoming.artifactView {
+              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar") }
+              lenient = true
+            }.files.each { fullCp << it.absolutePath }
+            c.incoming.artifactView {
+              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar") }
+              lenient = true
+            }.files.each { fullCp << it.absolutePath }
           } catch (Exception e) {}
         }
       }
@@ -137,9 +137,9 @@ tasks.register("$_gradleGetClasspathTaskName") {
       // 3. ONLY add other projects if main project doesn't have an application plugin.
       // Or if we are in a Flutter environment where subprojects might have extra deps.
       if (!mainProject.plugins.hasPlugin("com.android.application")) {
-          (allprojects - mainProject).each { p ->
-            addConfig(p.configurations.findByName("releaseCompileClasspath"))
-          }
+        (allprojects - mainProject).each { p ->
+          addConfig(p.configurations.findByName("releaseCompileClasspath"))
+        }
       }
 
       fullCp.unique().each { println it }
@@ -156,72 +156,72 @@ tasks.register("$_gradleGetClasspathTaskName") {
 // Gradle stub for listing dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following task.
 tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
-    allprojects {
-        if (this != rootProject) {
-            evaluationDependsOn(path)
-        }
+  allprojects {
+    if (this != rootProject) {
+      evaluationDependsOn(path)
     }
-    allprojects {
-        configurations.forEach { config ->
-            if (config.name == "releaseCompileClasspath") {
-                try {
-                    val jarView = config.incoming.artifactView {
-                        attributes {
-                            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
-                        }
-                        lenient(true)
-                    }
-                    inputs.files(jarView.files)
-                    val aarView = config.incoming.artifactView {
-                        attributes {
-                            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
-                        }
-                        lenient(true)
-                    }
-                    inputs.files(aarView.files)
-                } catch (e: Exception) {}
-            }
-        }
-    }
-    doLast {
+  }
+  allprojects {
+    configurations.forEach { config ->
+      if (config.name == "releaseCompileClasspath") {
         try {
-            val fullCp = mutableListOf<String>()
-
-            fun addConfig(config: org.gradle.api.artifacts.Configuration?) {
-                if (config != null) {
-                    try {
-                        config.incoming.artifactView {
-                            attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar") }
-                            lenient(true)
-                        }.files.forEach { fullCp.add(it.absolutePath) }
-                        config.incoming.artifactView {
-                            attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar") }
-                            lenient(true)
-                        }.files.forEach { fullCp.add(it.absolutePath) }
-                    } catch (e: Exception) {}
-                }
+          val jarView = config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
             }
-
-            val mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
-
-            val android = mainProject.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
-            android?.bootClasspath?.forEach { fullCp.add(it.absolutePath) }
-
-            addConfig(mainProject.configurations.findByName("releaseCompileClasspath"))
-
-            if (!mainProject.plugins.hasPlugin("com.android.application")) {
-                allprojects.filter { it != mainProject }.forEach { p ->
-                    addConfig(p.configurations.findByName("releaseCompileClasspath"))
-                }
+            lenient(true)
+          }
+          inputs.files(jarView.files)
+          val aarView = config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
             }
-
-            fullCp.distinct().forEach { println(it) }
-        } catch (e: Exception) {
-            System.err.println("$_gradleCannotFindJars")
-            throw e
-        }
+            lenient(true)
+          }
+          inputs.files(aarView.files)
+        } catch (e: Exception) {}
+      }
     }
-    System.err.println("$_leftOverStubWarning")
+  }
+  doLast {
+    try {
+      val fullCp = mutableListOf<String>()
+
+      fun addConfig(config: org.gradle.api.artifacts.Configuration?) {
+        if (config != null) {
+          try {
+            config.incoming.artifactView {
+              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar") }
+              lenient(true)
+            }.files.forEach { fullCp.add(it.absolutePath) }
+            config.incoming.artifactView {
+              attributes { attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar") }
+              lenient(true)
+            }.files.forEach { fullCp.add(it.absolutePath) }
+          } catch (e: Exception) {}
+        }
+      }
+
+      val mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
+
+      val android = mainProject.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+      android?.bootClasspath?.forEach { fullCp.add(it.absolutePath) }
+
+      addConfig(mainProject.configurations.findByName("releaseCompileClasspath"))
+
+      if (!mainProject.plugins.hasPlugin("com.android.application")) {
+        allprojects.filter { it != mainProject }.forEach { p ->
+          addConfig(p.configurations.findByName("releaseCompileClasspath"))
+        }
+      }
+
+      fullCp.distinct().forEach { println(it) }
+    } catch (e: Exception) {
+      System.err.println("$_gradleCannotFindJars")
+      throw e
+    }
+  }
+  System.err.println("$_leftOverStubWarning")
 }
 ''';
 
@@ -232,29 +232,29 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
 tasks.register("$_gradleGetSourcesTaskName") {
   allprojects { project ->
     if (project != rootProject) {
-        evaluationDependsOn(project.path)
+      evaluationDependsOn(project.path)
     }
   }
   allprojects { project ->
     project.configurations.all { config ->
-        if (config.name == "releaseCompileClasspath") {
-            try {
-                def jarView = config.incoming.artifactView {
-                    attributes {
-                        attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
-                    }
-                    lenient = true
-                }
-                inputs.files(jarView.files)
-            } catch (Exception e) {}
-        }
+      if (config.name == "releaseCompileClasspath") {
+        try {
+          def jarView = config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+            }
+            lenient = true
+          }
+          inputs.files(jarView.files)
+        } catch (Exception e) {}
+      }
     }
   }
   doLast {
     def mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
     def projects = [mainProject]
     if (!mainProject.plugins.hasPlugin("com.android.application")) {
-        projects += (allprojects - mainProject)
+      projects += (allprojects - mainProject)
     }
     projects.each { p ->
       def config = p.configurations.findByName("releaseCompileClasspath")
@@ -288,63 +288,63 @@ tasks.register("$_gradleGetSourcesTaskName") {
 // android/build.gradle.kts, please delete the following task.
 
 tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
-    allprojects {
-        if (this != rootProject) {
-            evaluationDependsOn(path)
-        }
+  allprojects {
+    if (this != rootProject) {
+      evaluationDependsOn(path)
     }
-    allprojects {
-        configurations.forEach { config ->
-            if (config.name == "releaseCompileClasspath") {
-                try {
-                    val jarView = config.incoming.artifactView {
-                        attributes {
-                            attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
-                        }
-                        lenient(true)
-                    }
-                    inputs.files(jarView.files)
-                } catch (e: Exception) {}
+  }
+  allprojects {
+    configurations.forEach { config ->
+      if (config.name == "releaseCompileClasspath") {
+        try {
+          val jarView = config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
             }
-        }
+            lenient(true)
+          }
+          inputs.files(jarView.files)
+        } catch (e: Exception) {}
+      }
     }
-    doLast {
-        val mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
-        val projects = mutableListOf(mainProject)
-        if (!mainProject.plugins.hasPlugin("com.android.application")) {
-            projects.addAll(allprojects.filter { it != mainProject })
-        }
-
-        projects.forEach { p ->
-            val config = p.configurations.findByName("releaseCompileClasspath")
-            if (config == null) return@forEach
-
-            val componentIds =
-                config.incoming.resolutionResult.allDependencies
-                    .filterIsInstance<org.gradle.api.artifacts.result.ResolvedDependencyResult>()
-                    .map { it.selected.id }
-
-            val result = dependencies.createArtifactResolutionQuery()
-                .forComponents(componentIds)
-                .withArtifacts(org.gradle.api.artifacts.result.JvmLibrary::class, org.gradle.api.artifacts.result.SourcesArtifact::class)
-                .execute()
-
-            val sourceArtifacts = mutableListOf<File>()
-
-            for (component in result.resolvedComponents) {
-                val sourcesArtifactsResult = component.getArtifacts(org.gradle.api.artifacts.result.SourcesArtifact::class)
-                for (artifactResult in sourcesArtifactsResult) {
-                    if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
-                        sourceArtifacts.add(artifactResult.file)
-                    }
-                }
-            }
-            for (sourceArtifact in sourceArtifacts) {
-                println(sourceArtifact.absolutePath)
-            }
-        }
+  }
+  doLast {
+    val mainProject = allprojects.find { it.plugins.hasPlugin("com.android.application") } ?: project
+    val projects = mutableListOf(mainProject)
+    if (!mainProject.plugins.hasPlugin("com.android.application")) {
+      projects.addAll(allprojects.filter { it != mainProject })
     }
-    System.err.println("$_leftOverStubWarning")
+
+    projects.forEach { p ->
+      val config = p.configurations.findByName("releaseCompileClasspath")
+      if (config == null) return@forEach
+
+      val componentIds =
+        config.incoming.resolutionResult.allDependencies
+          .filterIsInstance<org.gradle.api.artifacts.result.ResolvedDependencyResult>()
+          .map { it.selected.id }
+
+      val result = dependencies.createArtifactResolutionQuery()
+        .forComponents(componentIds)
+        .withArtifacts(org.gradle.api.artifacts.result.JvmLibrary::class, org.gradle.api.artifacts.result.SourcesArtifact::class)
+        .execute()
+
+      val sourceArtifacts = mutableListOf<File>()
+
+      for (component in result.resolvedComponents) {
+        val sourcesArtifactsResult = component.getArtifacts(org.gradle.api.artifacts.result.SourcesArtifact::class)
+        for (artifactResult in sourcesArtifactsResult) {
+          if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
+            sourceArtifacts.add(artifactResult.file)
+          }
+        }
+      }
+      for (sourceArtifact in sourceArtifacts) {
+        println(sourceArtifact.absolutePath)
+      }
+    }
+  }
+  System.err.println("$_leftOverStubWarning")
 }
 ''';
 
