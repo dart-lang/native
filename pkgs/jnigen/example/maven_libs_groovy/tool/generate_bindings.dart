@@ -15,10 +15,7 @@ void main() async {
         addGradleDeps: true,
         androidExample: packageRoot.resolve('example/').toFilePath(),
       ),
-      classes: [
-        'com.google.gson.Gson',
-        'okhttp3.OkHttpClient',
-      ],
+      classes: ['com.google.gson.Gson', 'okhttp3.OkHttpClient'],
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
           path: packageRoot.resolve('lib/maven_libs_bindings.dart'),

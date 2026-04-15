@@ -35,15 +35,16 @@ class _MyAppState extends State<MyApp> {
       final map = JHashMap<JString, JString>();
       map.asDart()['abc'.toJString()] = '123'.toJString();
       map.asDart()['def'.toJString()] = '456'.toJString();
-      
+
       final json = gson.toJson(map.as(JObject.type))!.toDartString();
-      
+
       setState(() {
-        _status = '''
+        _status =
+            '''
 JSON from Gson: $json
 OkHttpClient: ${client.toString()}''';
       });
-      
+
       // Cleanup
       map.release();
       gson.release();
