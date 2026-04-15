@@ -1,26 +1,25 @@
 # maven_libs
 
-This example demonstrates how JNIgen can resolve and generate bindings for 3rd-party Maven dependencies (like GSON and OkHttp) in a Kotlin-based Android project without requiring a full build.
+This example demonstrates how JNIgen can resolve and generate bindings for
+3rd-party Maven dependencies.
 
-It uses the programmatic Dart API for configuration instead of a YAML file, and demonstrates a pure JNI-based plugin without Method Channel boilerplate.
+The plugin depends on GSON, in `./android/build.gradle.kts`, and the example app
+depends on OkHttp in `./example/android/app/build.gradle.kts`. The plugin then
+generates bindings for both in `./tool/generate_bindings.dart`.
+
+**Note:** Best practice would be to have the plugin itself depend on both GSON
+and OkHttp directly, rather than having indirect dependencies via the example
+app. This example is set up the way it is as a stress test for JNIgen's
+dependency resolution.
 
 The command to regenerate JNI bindings is:
+
 ```bash
-dart run tool/generate_bindings.dart # run from maven_libs project root
+dart run tool/generate_bindings.dart
 ```
 
-## Features
+The `example/` app must have its dependencies resolved, using `flutter pub get`,
+before running JNIgen.
 
-- **Build-less Resolution:** Demonstrates JNIgen's ability to extract `classes.jar` from AAR dependencies in the Gradle cache immediately after a `flutter pub get`.
-- **Kotlin DSL Support:** Uses modern `build.gradle.kts` files for both the plugin and the example app.
-- **Complex Dependency Graph:** The plugin depends on GSON, while the example app depends on OkHttp. JNIgen correctly identifies and captures both.
-- **Programmatic Configuration:** Uses `tool/generate_bindings.dart` to configure JNIgen via the `Config` and `AndroidSdkConfig` classes.
-
-## Prerequisites
-
-Ensure the example app's dependencies are resolved before running the generator:
-```bash
-cd example
-flutter pub get
-```
-Unlike older versions of JNIgen, a full `flutter build apk` is not required.
+This example is identical to `maven_libs_groovy`, but uses Kotlin `build.gradle`
+files instead of Groovy.
