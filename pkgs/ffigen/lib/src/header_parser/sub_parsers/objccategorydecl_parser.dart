@@ -71,6 +71,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
       availability: apiAvailability.dartDoc,
     ),
     context: context,
+    apiAvailability: apiAvailability,
   );
 
   context.bindingsIndex.addObjCCategoryToSeen(usr, category);

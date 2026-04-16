@@ -157,6 +157,7 @@ List<Func> parseFunctionDeclaration(
           recordUse: config.functions.recordUse(decl),
           objCReturnsRetained: objCReturnsRetained,
           loadFromNativeAsset: config.output.style is NativeExternalBindings,
+          apiAvailability: apiAvailability,
         ),
       );
     }

@@ -30,6 +30,8 @@ API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0))
 -(int)depMac3 API_DEPRECATED("test", macos(1.0, 3.0));
 -(int)depIos2 API_DEPRECATED("test", ios(1.0, 2.0));
 -(int)depIos2Mac2 API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 2.0));
+-(int)depDifferentMessages API_DEPRECATED("Use newIosMethod", ios(1.0, 2.0))
+                           API_DEPRECATED("Use newMacMethod", macos(1.0, 2.0));
 -(int)depIos2Mac3 API_DEPRECATED("test", ios(1.0, 2.0), macos(1.0, 3.0));
 -(int)depIos3 API_DEPRECATED("test", ios(1.0, 3.0));
 -(int)depIos3Mac2 API_DEPRECATED("test", ios(1.0, 3.0), macos(1.0, 2.0));

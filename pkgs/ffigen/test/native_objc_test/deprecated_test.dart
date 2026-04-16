@@ -800,6 +800,7 @@ void main() {
           contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
+@Deprecated('test')
 final class DeprecatedStruct extends ffi.Struct'''),
         );
 
@@ -808,6 +809,7 @@ final class DeprecatedStruct extends ffi.Struct'''),
           contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
+@Deprecated('test')
 final class DeprecatedUnion extends ffi.Union'''),
         );
 
@@ -816,6 +818,7 @@ final class DeprecatedUnion extends ffi.Union'''),
           contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
+@Deprecated('test')
 enum DeprecatedEnum'''),
         );
 
@@ -824,6 +827,7 @@ enum DeprecatedEnum'''),
           contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
+@Deprecated('test')
 
 const int deprecatedUnnamedEnum = 1;
 '''),
@@ -834,6 +838,7 @@ const int deprecatedUnnamedEnum = 1;
           contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
+@Deprecated('test')
 int deprecatedFunction()'''),
         );
 
@@ -844,7 +849,8 @@ int deprecatedFunction()'''),
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-'''),
+@Deprecated('test')
+extension type DeprecatedInterface'''),
         );
 
         expect(
@@ -854,6 +860,7 @@ int deprecatedFunction()'''),
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
+@Deprecated('test')
 '''),
         );
 
@@ -864,7 +871,8 @@ int deprecatedFunction()'''),
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-'''),
+@Deprecated('test')
+extension type DeprecatedProtocol'''),
         );
 
         expect(
@@ -883,6 +891,7 @@ int deprecatedFunction()'''),
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
+@Deprecated('test')
 '''),
         );
 
@@ -1013,6 +1022,188 @@ int deprecatedFunction()'''),
         expect(bindings, contains('normalUnnamedEnum'));
         expect(bindings, isNot(contains('deprecatedUnnamedEnum')));
       });
+    });
+    group('@Deprecated annotations', () {
+      late final String bindings;
+      setUpAll(() {
+        bindings = bindingsForVersion();
+      });
+
+      test('normal symbols have no @Deprecated annotation', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          isNot(
+            contains('''
+@Deprecated('Deprecated')
+int normalMethod'''),
+          ),
+        );
+        expect(
+          trimmed,
+          isNot(
+            contains('''
+@Deprecated('Deprecated')
+int normalFunction'''),
+          ),
+        );
+      });
+
+      test(
+        'alwaysDeprecated method gets @Deprecated with fallback message',
+        () {
+          final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+          expect(
+            trimmed,
+            contains('''
+/// alwaysDeprecated
+@Deprecated('Deprecated')
+int alwaysDeprecated'''),
+          );
+        },
+      );
+
+      test('alwaysDeprecated protocol method gets @Deprecated', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+/// protAlwaysDeprecated
+@Deprecated('Deprecated')
+int protAlwaysDeprecated'''),
+        );
+      });
+
+      test('alwaysDeprecated category method gets @Deprecated', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+/// catAlwaysDeprecated
+@Deprecated('Deprecated')
+int catAlwaysDeprecated'''),
+        );
+      });
+
+      test('API_DEPRECATED interface gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+@Deprecated('test')
+extension type DeprecatedInterface'''),
+        );
+      });
+
+      test('API_DEPRECATED protocol gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+@Deprecated('test')
+extension type DeprecatedProtocol'''),
+        );
+      });
+
+      test('API_DEPRECATED category gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+/// DeprecatedCategory
+@Deprecated('test')
+'''),
+        );
+      });
+
+      test('API_DEPRECATED method gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(trimmed, contains('/// depIos2Mac2\n'));
+        expect(
+          trimmed,
+          contains('''
+@Deprecated('test')
+int depIos2Mac2'''),
+        );
+      });
+
+      test('API_DEPRECATED function gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+@Deprecated('test')
+int deprecatedFunction'''),
+        );
+      });
+
+      test('API_DEPRECATED struct gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+@Deprecated('test')
+final class DeprecatedStruct'''),
+        );
+      });
+
+      test('API_DEPRECATED union gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+@Deprecated('test')
+final class DeprecatedUnion'''),
+        );
+      });
+
+      test('API_DEPRECATED enum gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+@Deprecated('test')
+enum DeprecatedEnum'''),
+        );
+      });
+
+      test(
+        'API_DEPRECATED unnamed enum constant gets @Deprecated with message',
+        () {
+          final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+          expect(
+            trimmed,
+            contains('''
+@Deprecated('test')
+
+const int deprecatedUnnamedEnum'''),
+          );
+        },
+      );
+
+      test('API_DEPRECATED property getter gets @Deprecated with message', () {
+        final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+        expect(
+          trimmed,
+          contains('''
+/// deprecatedProperty
+@Deprecated('test')
+'''),
+        );
+      });
+
+      test(
+        'API_DEPRECATED with different messages per platform combines them',
+        () {
+          final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
+          expect(
+            trimmed,
+            contains(
+              "@Deprecated('iOS: Use newIosMethod, macOS: Use newMacMethod')",
+            ),
+          );
+        },
+      );
     });
   });
 }

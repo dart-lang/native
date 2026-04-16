@@ -629,6 +629,18 @@ String writeDoubleAsString(double d) {
   }
 }
 
+/// Escapes a Dart string so it can be placed inside single-quoted string
+/// literals in generated Dart source code.
+///
+/// Handles characters that need escaping: `$ ' \` and control characters.
+String escapeDartString(String s) {
+  final sb = StringBuffer();
+  for (final char in s.runes) {
+    sb.write(_getWritableChar(char));
+  }
+  return sb.toString();
+}
+
 /// Gets a written representation string of a C string.
 ///
 /// E.g- For a string "Hello\nWorld", The new line character is converted to \n.
@@ -639,16 +651,12 @@ String getWrittenStringRepresentation(
   Pointer<Char> strPtr,
   Context context,
 ) {
-  final sb = StringBuffer();
   try {
     // Consider string to be Utf8 encoded by default.
-    sb.clear();
     // This throws a Format Exception if string isn't Utf8 so that we handle it
     // in the catch block.
     final result = strPtr.cast<Utf8>().toDartString();
-    for (final s in result.runes) {
-      sb.write(_getWritableChar(s));
-    }
+    return escapeDartString(result);
   } catch (e) {
     // Handle string if it isn't Utf8. String is considered to be
     // Extended ASCII in this case.
@@ -656,7 +664,7 @@ String getWrittenStringRepresentation(
       "Couldn't decode string value for '$varName' as Utf8, using "
       'ASCII instead.',
     );
-    sb.clear();
+    final sb = StringBuffer();
     final length = strPtr.cast<Utf8>().length;
     final charList = Uint8List.view(
       strPtr.cast<Uint8>().asTypedList(length).buffer,
@@ -667,9 +675,8 @@ String getWrittenStringRepresentation(
     for (final char in charList) {
       sb.write(_getWritableChar(char, utf8: false));
     }
+    return sb.toString();
   }
-
-  return sb.toString();
 }
 
 /// Creates a writable char from [char] code.

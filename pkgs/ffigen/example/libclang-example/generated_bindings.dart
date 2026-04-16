@@ -3659,6 +3659,7 @@ class LibClang {
   /// \c clang_getDiagnosticCategory().
   ///
   /// \returns The name of the given diagnostic category.
+  @Deprecated('Deprecated')
   CXString clang_getDiagnosticCategoryName(int Category) {
     return _clang_getDiagnosticCategoryName(Category);
   }

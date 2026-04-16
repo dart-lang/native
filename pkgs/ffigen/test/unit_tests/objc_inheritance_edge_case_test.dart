@@ -70,6 +70,7 @@ void main() {
         usr: name,
         originalName: name,
         parent: parent,
+        apiAvailability: availability,
       );
       parent.categories.add(category);
       for (final m in methods) {
