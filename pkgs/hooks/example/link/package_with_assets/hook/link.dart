@@ -4,9 +4,6 @@
 
 // ignore_for_file: experimental_member_use
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
@@ -28,11 +25,12 @@ final assetMapping = {
 
 void main(List<String> args) async {
   await link(args, (input, output) async {
-    final usages = input.usages;
+    final usages = input.recordedUses;
 
     final usedAssets = [
-      for (final entry in assetMapping.entries)
-        if (usages.calls.containsKey(entry.key)) entry.value,
+      if (usages != null)
+        for (final entry in assetMapping.entries)
+          if (usages.calls.containsKey(entry.key)) entry.value,
     ];
 
     output.assets.data.addAll(
@@ -41,14 +39,4 @@ void main(List<String> args) async {
       ),
     );
   });
-}
-
-extension on LinkInput {
-  Recordings get usages {
-    final usagesFile = recordedUsagesFile;
-    final usagesContent = File.fromUri(usagesFile!).readAsStringSync();
-    final usagesJson = jsonDecode(usagesContent) as Map<String, Object?>;
-    final usages = Recordings.fromJson(usagesJson);
-    return usages;
-  }
 }

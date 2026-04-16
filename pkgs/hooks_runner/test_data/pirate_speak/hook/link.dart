@@ -16,13 +16,11 @@ void main(List<String> args) async {
     if (translationAsset == null) return;
 
     // ignore: experimental_member_use
-    final recordedUsagesFile = input.recordedUsagesFile;
-    if (recordedUsagesFile == null) {
+    final recordings = input.recordedUses;
+    if (recordings == null) {
       output.assets.data.add(translationAsset.asDataAsset);
       return;
     }
-
-    final recordings = await _loadRecordings(recordedUsagesFile);
     final usedPhrases = _extractUsedPhrases(recordings);
     final allTranslations = await _loadTranslations(translationAsset);
     final filteredTranslations = _filterTranslations(
@@ -43,11 +41,6 @@ EncodedAsset? _findTranslationAsset(LinkInput input) => input
           a.asDataAsset.id == 'package:pirate_speak/translations',
     )
     .firstOrNull;
-
-Future<Recordings> _loadRecordings(Uri file) async {
-  final content = await File.fromUri(file).readAsString();
-  return Recordings.fromJson(jsonDecode(content) as Map<String, Object?>);
-}
 
 Set<String> _extractUsedPhrases(Recordings recordings) {
   final usedPhrases = <String>{};
