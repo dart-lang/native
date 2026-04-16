@@ -1,5 +1,8 @@
 ## 21.0.0
 
+- Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart
+  bindings. Deprecation messages from `__attribute__((deprecated("msg")))` and
+  `API_DEPRECATED("msg", ...)` are included in the annotation.
 - __Breaking change__: Remove deprecated `useDartHandle` field from
   `FfiGenerator`.
 - __Breaking change__: Remove unused `includeSymbolAddress` field from
