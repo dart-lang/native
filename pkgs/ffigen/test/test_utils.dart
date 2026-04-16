@@ -223,13 +223,14 @@ void _matchFileWithExpected({
         actualPath,
       ]);
       fail('''
-Expected output does not match actual output.
+${result.stdout}
+
+Expected output does not match actual output:
   ${path.relative(expectedPath)}
       vs
   ${path.relative(actualPath)}
-If the diffs are expected, rerun with UPDATE=true
 
-${result.stdout}
+If the diffs are expected, rerun with UPDATE=true
 ''');
     }
   }
