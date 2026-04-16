@@ -23,6 +23,7 @@ export 'package:ffigen/src/config_provider/utils.dart';
 Context testContext([FfiGenerator? generator]) => Context(
   createTestLogger(),
   generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
+  tmpDir: absPath(path.join('test', '.temp test output')),
 );
 
 Logger createTestLogger({
@@ -173,7 +174,7 @@ void matchRecordUseMappingWithExpected(
   );
 }
 
-const bool updateExpectations = false;
+final updateExpectations = Platform.environment['UPDATE'] == 'true';
 
 /// Transforms a repo relative path to an absolute path.
 String absPath(String p) => path.join(packagePathForTests, p);
@@ -196,30 +197,47 @@ void _matchFileWithExpected({
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
   final tmpDirPath = context.tmpDir;
-  final file = File(path.join(tmpDirPath, pathForActual));
+  final actualPath = path.join(tmpDirPath, pathForActual);
+  final actualFile = File(actualPath);
 
-  fileWriter(library: library, file: file);
-  try {
-    final actual = _normalizeGeneratedCode(
-      file.readAsStringSync(),
-      codeNormalizer,
-    );
-    final expected = _normalizeGeneratedCode(
-      File(expectedPath).readAsStringSync(),
-      codeNormalizer,
-    );
-    expect(actual.split('\n'), expected.split('\n'));
-    _expectNoAnalysisErrors(expectedPath);
-    if (file.existsSync()) {
-      file.delete();
-    }
-  } catch (e) {
-    print('Failed test: Debug generated file: ${file.absolute.path}');
+  fileWriter(library: library, file: actualFile);
+  final actual = _normalizeGeneratedCode(
+    actualFile.readAsStringSync(),
+    codeNormalizer,
+  );
+  final expected = _normalizeGeneratedCode(
+    File(expectedPath).readAsStringSync(),
+    codeNormalizer,
+  );
+
+  if (expected != actual) {
     if (updateExpectations) {
       print('Updating expectations. Check the diffs!');
-      file.copySync(expectedPath);
+      actualFile.copySync(expectedPath);
+    } else {
+      final result = Process.runSync('git', [
+        'diff',
+        '--no-index',
+        '--color=always',
+        expectedPath,
+        actualPath,
+      ]);
+      fail('''
+${result.stdout}
+
+Expected output does not match actual output:
+  ${path.relative(expectedPath)}
+      vs
+  ${path.relative(actualPath)}
+
+If the diffs are expected, rerun with UPDATE=true
+''');
     }
-    rethrow;
+  }
+
+  _expectNoAnalysisErrors(expectedPath);
+  if (actualFile.existsSync()) {
+    actualFile.delete();
   }
 }
 
