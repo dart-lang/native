@@ -3,7 +3,8 @@
 - Fixed incorrect code generation for generic constructors in generic classes.
   These are now generated as static `create` methods.
 - It's no longer necessary to run `flutter build apk` before running JNIgen in
-  a Flutter project. It's usually enough to just run `flutter pub get`.
+  a Flutter project. It's enough to just run `flutter pub get` or
+  `flutter build apk --config-only`
 
 ## 0.16.0
 

@@ -1,5 +1,5 @@
 name: maven_libs
-description: "A new Flutter plugin project."
+description: "Demonstrates how JNIgen can resolve and generate bindings for 3rd-party Maven dependencies."
 version: 0.0.1
 publish_to: none
 

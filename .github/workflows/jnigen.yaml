@@ -57,9 +57,9 @@ jobs:
         with:
           working-directory: ./pkgs/jnigen
       - id: install
-        name: Install dependencies
+        name: pub get
         run: dart pub get
-      - name: install dependencies for android test runner
+      - name: pub get android_test_runner
         run: flutter pub get
         working-directory: ./pkgs/jnigen/android_test_runner
       - name: Check formatting
@@ -92,12 +92,11 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
           cache: maven
-      - name: Install dependencies
-        run: dart pub get
-      - name: Install in_app_java dependencies
+      - run: dart pub get
+      - name: pub get in_app_java example
         run: flutter pub get
         working-directory: ./pkgs/jnigen/example/in_app_java
-      - name: Install notification_plugin example dependencies
+      - name: pub get notification_plugin example
         run: flutter pub get
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Run summarizer tests
@@ -139,8 +138,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - name: Install dependencies
-        run: dart pub get
+      - run: dart pub get
       - name: Enable KVM group perms
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -174,7 +172,7 @@ jobs:
         with:
           working-directory: ./pkgs/jni_flutter
       - run: flutter pub get
-      - name: install dependencies for android test runner
+      - name: pub get android_test_runner
         run: flutter pub get
         working-directory: ./pkgs/jni_flutter/android_test_runner
       - name: Check formatting
@@ -195,8 +193,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - name: Install dependencies
-        run: flutter pub get
+      - run: flutter pub get
       - name: regenerate & compare jni_flutter bindings
         working-directory: ./pkgs/jni_flutter
         run: |
@@ -291,7 +288,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
-      - name: Install example dependencies
+      - name: pub get example
         working-directory: ./pkgs/jni/example/
         run: flutter pub get
       - name: regenerate & compare jnigen bindings
