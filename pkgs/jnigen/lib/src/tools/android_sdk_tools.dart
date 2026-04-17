@@ -432,6 +432,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     return script.contains(stub) ? script : script + stub;
   }
 
+  static String _inAndroidProject(String androidProject) =>
+      (androidProject == '') ? '' : ' in $androidProject';
+
   static List<String> _runGradleStub({
     required bool isSource,
     Uri? configRoot,
@@ -443,6 +446,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     if (configRoot != null) {
       androidProject = configRoot.resolve(androidProject).toFilePath();
     }
+    _runFlutterConfigOnly(androidProject);
     final android = join(androidProject, 'android');
     var buildGradle = join(android, 'build.gradle');
     final usesKotlinScript = !File.fromUri(Uri.file(buildGradle)).existsSync();
@@ -484,8 +488,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
       File(buildGradleOld).deleteSync();
     }
     if (procRes.exitCode != 0) {
-      final inAndroidProject =
-          (androidProject == '') ? '' : ' in $androidProject';
+      final inAndroidProject = _inAndroidProject(androidProject);
       throw GradleException('''\n\nGradle execution failed.
 
 1. The most likely cause is that the Flutter metadata files are not yet cached.
@@ -531,5 +534,39 @@ ${procRes.stderr}
         .split(Platform.isWindows ? '\r\n' : '\n');
     log.fine('Found ${paths.length} entries');
     return paths;
+  }
+
+  static void _runFlutterConfigOnly(String androidProject) {
+    // Only run if it looks like a flutter project.
+    if (!File(join(androidProject, 'pubspec.yaml')).existsSync()) {
+      return;
+    }
+
+    final inAndroidProject = _inAndroidProject(androidProject);
+    log.info('Running "flutter build apk --config-only"$inAndroidProject...');
+    var success = false;
+    try {
+      final result = Process.runSync(
+        'flutter',
+        ['build', 'apk', '--config-only'],
+        workingDirectory: androidProject,
+        runInShell: true,
+      );
+      if (result.exitCode == 0) {
+        success = true;
+      } else {
+        log.warning(result.stderr);
+      }
+    } catch (e) {
+      log.warning('Error: $e');
+    }
+
+    if (!success) {
+      log.warning(
+        'Flutter configuration failed. Failure may be legitimate if this '
+        'project uses a non-standard structure, so attempting to continue '
+        'with JNIgen anyway...',
+      );
+    }
   }
 }
