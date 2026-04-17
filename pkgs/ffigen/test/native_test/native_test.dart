@@ -28,36 +28,18 @@ void main() {
     });
 
     test('generate_bindings', () {
-      final configFile = File(
-        path.join(packagePathForTests, 'test', 'native_test', 'config.yaml'),
-      ).absolute;
-      final outFile = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'debug_generated',
-          '_expected_native_test_bindings.dart',
+      final context = testContext(
+        testConfigFromPath(
+          path.join(packagePathForTests, 'test', 'native_test', 'config.yaml'),
         ),
-      ).absolute;
+      );
 
-      final config = testConfigFromPath(configFile.path);
-      final library = parse(testContext(config));
-
-      library.generateFile(outFile);
-
-      try {
-        final actual = outFile.readAsStringSync().replaceAll('\r', '');
-        final expected = File(
-          path.join(config.output.dartFile.toFilePath()),
-        ).readAsStringSync().replaceAll('\r', '');
-        expect(actual, expected);
-        if (outFile.existsSync()) {
-          outFile.delete();
-        }
-      } catch (e) {
-        print('Failed test: Debug generated file: ${outFile.absolute.path}');
-        rethrow;
-      }
+      matchLibraryWithExpected(
+        context,
+        parse(context),
+        'native_test_bindings.dart',
+        ['test', 'native_test', '_expected_native_test_bindings.dart'],
+      );
     });
 
     test('bool', () {
