@@ -2,6 +2,7 @@
 
 - Made `CLinker.run` `Logger` argument optional. It now defaults to a logger
   printing to stdout and stderr.
+- For `LinkerOptions.treeshake`, skip bundling a dynamic library if `symbolsToKeep` is empty.
 
 ## 0.17.6
 
