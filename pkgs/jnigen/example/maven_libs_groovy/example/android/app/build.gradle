@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.maven_libs_groovy_example"
-        minSdkVersion 21
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutter.versionCode
         versionName flutter.versionName

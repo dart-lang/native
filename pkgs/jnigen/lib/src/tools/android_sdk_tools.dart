@@ -471,7 +471,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     origBuild.createSync();
     log.finer('Writing temporary gradle script with stub "$stubName"...');
     origBuild.writeAsStringSync(_appendStub(script, stubCode));
-    log.finer('Running gradle wrapper...');
+    log.info('Running gradle wrapper...');
     final gradleCommand = Platform.isWindows ? '.\\gradlew.bat' : './gradlew';
     final taskPath = usesKotlinScript ? ':app:$stubName' : stubName;
     ProcessResult procRes;
