@@ -227,11 +227,9 @@ void _matchFileWithExpected({
   }
 
   if (updateExpectations) {
-    print('Updating expectations. Check the diffs!');
+    print('Updating expectations: ${path.relative(expectedPath)}');
     actualFile.copySync(expectedPath);
-  }
-
-  if (!matches) {
+  } else if (!matches) {
     final result = Process.runSync('git', [
       'diff',
       '--no-index',
