@@ -39,6 +39,37 @@ void main() {
       expect(mapping, contains('const recordUseMapping = {'));
     });
 
+    test(
+      'generate @RecordUse mapping with underscores for wrapper methods',
+      () {
+        final func = Func(
+          name: 'init',
+          originalName: 'init_native',
+          returnType:
+              ObjCObjectPointer(), // This makes sameDartAndFfiDartType false
+          parameters: [
+            Parameter(name: 'a', type: intType, objCConsumed: false),
+          ],
+          recordUse: true,
+          loadFromNativeAsset: true,
+        );
+
+        final library = Library(bindings: [func], context: testContext())
+          ..forceFillNamesForTesting();
+
+        final output = library.generate();
+        expect(output, contains('@meta.RecordUse()'));
+        expect(
+          output,
+          contains('external ffi.Pointer<objc.ObjCObjectImpl> _init('),
+        );
+
+        final mapping = library.writer.generateRecordUseMapping();
+        expect(mapping, contains("'_init': 'init_native'"));
+        expect(mapping, contains('const recordUseMapping = {'));
+      },
+    );
+
     test('no @RecordUse annotation and mapping when recordUse is false', () {
       final func = Func(
         name: 'sum',

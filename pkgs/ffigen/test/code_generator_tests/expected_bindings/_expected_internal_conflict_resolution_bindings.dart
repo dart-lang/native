@@ -25,13 +25,13 @@ class init_dylib$1 {
   ) : _lookup = lookup;
 
   void Test() {
-    return _Test$1();
+    return _Test();
   }
 
   late final _TestPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
     'Test',
   );
-  late final _Test$1 = _TestPtr.asFunction<void Function()>();
+  late final _Test = _TestPtr.asFunction<void Function()>();
 
   void _c_test() {
     return __c_test();
@@ -72,7 +72,7 @@ class init_dylib$1 {
 
 final class ArrayHelperPrefixCollisionTest extends ffi.Opaque {}
 
-final class _Test extends ffi.Struct {
+final class _Test$1 extends ffi.Struct {
   @ffi.Array.multi([2])
   external ffi.Array<ffi.Int8> array;
 }

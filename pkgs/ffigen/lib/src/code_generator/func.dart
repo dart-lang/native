@@ -53,6 +53,12 @@ class Func extends LookUpBinding with HasLocalScope {
   @override
   final bool loadFromNativeAsset;
 
+  /// The symbol for the internal function or method name, used for record use
+  /// mapping and avoiding collisions.
+  final Symbol funcVarSymbol;
+
+  bool get needsWrapper => !functionType.sameDartAndFfiDartType && !isInternal;
+
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
   Typealias? _exposedFunctionTypealias;
 
@@ -80,6 +86,7 @@ class Func extends LookUpBinding with HasLocalScope {
          parameters: parameters,
          varArgParameters: varArgParameters,
        ),
+       funcVarSymbol = Symbol('_$name', SymbolKind.method),
        super(symbol: Symbol(name, SymbolKind.method)) {
     for (var i = 0; i < functionType.parameters.length; i++) {
       if (functionType.parameters[i].symbol.oldName.isEmpty) {
@@ -119,7 +126,7 @@ class Func extends LookUpBinding with HasLocalScope {
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final funcVarName = context.rootScope.addPrivate('_$name');
+    final funcVarName = funcVarSymbol.name;
     final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
@@ -235,6 +242,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(funcVarSymbol);
     visitor.visit(functionType);
     visitor.visit(_exposedFunctionTypealias);
     visitor.visit(ffiImport);
@@ -249,8 +257,12 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   @override
   void visit(Visitation visitation) => visitation.visitFunc(this);
 
-  (String, String)? get recordUseMapping =>
-      recordUse ? (name, useNameForLookup ? name : originalName) : null;
+  (String, String)? get recordUseMapping => recordUse
+      ? (
+          needsWrapper ? funcVarSymbol.name : name,
+          useNameForLookup ? name : originalName,
+        )
+      : null;
 }
 
 /// Extension on [Iterable<Func>] to generate record use mapping.

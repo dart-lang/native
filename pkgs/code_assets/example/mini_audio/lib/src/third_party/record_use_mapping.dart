@@ -29,7 +29,7 @@
 
 /// Mapping from Dart function name to native symbol name.
 const recordUseMapping = {
-  'ma_engine_init': 'ma_engine_init',
-  'ma_engine_play_sound': 'ma_engine_play_sound',
+  '_ma_engine_init': 'ma_engine_init',
+  '_ma_engine_play_sound': 'ma_engine_play_sound',
   'ma_engine_uninit': 'ma_engine_uninit',
 };
