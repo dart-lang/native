@@ -1,4 +1,0 @@
-# Allow Gradle wrapper
-!gradlew
-!gradlew.bat
-!gradle-wrapper.jar
