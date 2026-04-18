@@ -1,17 +1,25 @@
-import 'dart:io';
+// Copyright 2025 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
-/// Build hook for objective_c_helper.
-///
-/// The native C compilation is only required on macOS.
-/// On other platforms (e.g. Windows, Linux), this hook is intentionally skipped.
-/// macOS CI will handle the actual native compilation.
-Future<void> main(List<String> args) async {
-  if (!Platform.isMacOS) {
-    print('objective_c_helper build hook skipped (non-macOS platform).');
-    return;
-  }
+import 'package:hooks/hooks.dart';
+import 'package:logging/logging.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-  print(
-    'objective_c_helper build hook: native compilation will run on macOS CI.',
-  );
+void main(List<String> args) async {
+  await build(args, (input, output) async {
+    final logger = Logger('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) {
+        print('${record.level.name}: ${record.time}: ${record.message}');
+      });
+
+    final builder = CBuilder.library(
+      name: 'objective_c_helper',
+      assetName: 'objective_c_helper.dylib',
+      sources: ['lib/src/util.c'],
+    );
+
+    await builder.run(input: input, output: output, logger: logger);
+  });
 }

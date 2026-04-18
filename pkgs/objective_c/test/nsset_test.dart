@@ -10,7 +10,7 @@ import 'dart:ffi';
 
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
-import 'package:objective_c_helper/src/util.dart';
+import 'package:objective_c_helper/objective_c_helper.dart';
 
 void main() {
   group('NSSet', () {

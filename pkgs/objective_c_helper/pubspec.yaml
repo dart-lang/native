@@ -7,9 +7,13 @@ environment:
   sdk: ">=3.10.0 <4.0.0"
 
 dependencies:
-  objective_c:
-    path: ../objective_c
+  logging: ^1.3.0
   native_toolchain_c: ^0.17.4
 
-executables:
-  build_hook: hook/build.dart
+dev_dependencies:
+  hooks:
+    path: ../hooks
+
+dependency_overrides:
+  native_toolchain_c:
+    path: ../native_toolchain_c

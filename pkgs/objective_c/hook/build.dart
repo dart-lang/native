@@ -13,9 +13,6 @@ const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
 const assetName = 'objective_c.dylib';
 
-// TODO(https://github.com/dart-lang/native/issues/2272): Remove this from the
-// main build.
-
 final logger = Logger('')
   ..level = Level.INFO
   ..onRecord.listen((record) {
@@ -57,10 +54,6 @@ void main(List<String> args) async {
         if (path.endsWith('.h')) hFiles.add(path);
       }
     }
-
-    // Only include the test utils on mac OS. They use memory functions that
-    // aren't supported on iOS, like mach_vm_region. We don't need them on iOS
-    // anyway since we only run memory tests on mac.
 
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);

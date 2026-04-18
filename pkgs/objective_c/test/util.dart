@@ -5,7 +5,6 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
-import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart'
     as internal_for_testing
@@ -31,5 +30,3 @@ void doGC() {
   _executeInternalCommand!(gcNow.cast(), nullptr);
   calloc.free(gcNow);
 }
-
-String pkgDir = findPackageRoot('objective_c').toFilePath();
