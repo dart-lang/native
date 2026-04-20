@@ -2980,7 +2980,3 @@ sealed class CX_StorageClass {
   static const CX_SC_Auto = 6;
   static const CX_SC_Register = 7;
 }
-
-typedef __darwin_time_t = ffi.Long;
-typedef Dart__darwin_time_t = int;
-typedef time_t = __darwin_time_t;
