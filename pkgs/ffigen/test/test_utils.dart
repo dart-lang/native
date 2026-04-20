@@ -12,6 +12,7 @@ import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/visitor/ast.dart';
+import 'package:ffigen/src/visitor/visitor.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
@@ -119,13 +120,11 @@ void matchLibraryWithExpected(
   bool format = true,
   bool Function(String, String)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) =>
-        library.generateFile(file, format: format),
+    fileWriter: (File file) => library.generateFile(file, format: format),
     codeNormalizer: codeNormalizer,
     verify: verify,
   );
@@ -142,12 +141,11 @@ void matchLibrarySymbolFileWithExpected(
   String importPath, {
   bool Function(String, String)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) {
+    fileWriter: (File file) {
       if (!library.writer.canGenerateSymbolOutput) library.generate();
       library.generateSymbolOutputFile(file, importPath);
     },
@@ -168,12 +166,11 @@ void matchRecordUseMappingWithExpected(
   bool format = true,
   bool Function(String, String)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) =>
+    fileWriter: (File file) =>
         library.generateRecordUseMappingFile(file, format: format),
     codeNormalizer: codeNormalizer,
     verify: verify,
@@ -189,18 +186,17 @@ String absPath(String p) => path.join(packagePathForTests, p);
 String configPath(String directory, String file) =>
     absPath(configPathForTest(directory, file));
 
-/// Generates actual file using library and tests using [expect] with expected.
+/// Generates actual file using [fileWriter] and compares it with the expected
+/// file content at [pathToExpected].
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
-void _matchFileWithExpected({
+void matchFileWithExpected({
   required Context context,
-  required Library library,
   required String pathForActual,
   required List<String> pathToExpected,
-  required void Function({required Library library, required File file})
-  fileWriter,
+  required void Function(File file) fileWriter,
   String Function(String)? codeNormalizer,
-  bool Function(String, String)? verify,
+  bool Function(String expected, String actual)? verify,
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
   final tmpDirPath = context.tmpDir;
@@ -208,7 +204,7 @@ void _matchFileWithExpected({
   final actualFile = File(actualPath);
   verify ??= (expected, actual) => expected == actual;
 
-  fileWriter(library: library, file: actualFile);
+  fileWriter(actualFile);
   final actual = _normalizeGeneratedCode(
     actualFile.readAsStringSync(),
     codeNormalizer,
@@ -261,6 +257,7 @@ If the diffs are expected, rerun with UPDATE=true
 }
 
 void _expectNoAnalysisErrors(String file) {
+  if (!file.endsWith('.dart')) return;
   Process.runSync(dartExecutable, [
     'pub',
     'get',

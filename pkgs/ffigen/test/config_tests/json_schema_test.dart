@@ -18,21 +18,28 @@ import '../test_utils.dart';
 
 void main() {
   group('json_schema_test', () {
+    final context = testContext();
     final schema = YamlConfig.getsRootConfigSpec(
-      createTestLogger(),
+      context.logger,
     ).generateJsonSchema(strings.ffigenJsonSchemaId);
 
     test('Schema Changes', () {
-      final actualJsonSchema =
-          const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
-            YamlConfig.getsRootConfigSpec(
-              createTestLogger(),
-            ).generateJsonSchema(strings.ffigenJsonSchemaId),
-          );
-      final expectedJsonSchema = File(
-        path.join(packagePathForTests, strings.ffigenJsonSchemaFileName),
-      ).readAsStringSync().replaceAll('\r\n', '\n');
-      expect(actualJsonSchema, expectedJsonSchema);
+      matchFileWithExpected(
+        context: context,
+        pathForActual: 'ffigen.schema.json',
+        pathToExpected: [strings.ffigenJsonSchemaFileName],
+        fileWriter: (File file) {
+          final actualJsonSchema =
+              const JsonEncoder.withIndent(
+                strings.ffigenJsonSchemaIndent,
+              ).convert(
+                YamlConfig.getsRootConfigSpec(
+                  context.logger,
+                ).generateJsonSchema(strings.ffigenJsonSchemaId),
+              );
+          file.writeAsStringSync(actualJsonSchema);
+        },
+      );
     });
 
     final jsonSchema = JsonSchema.create(schema);
