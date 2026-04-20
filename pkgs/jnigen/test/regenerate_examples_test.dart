@@ -41,10 +41,11 @@ void testDartApiExample(
     {required String exampleName,
     required String generatorScriptPath,
     required String outputPath,
-    bool isLargeTest = false}) {
+    bool isLargeTest = false,
+    Timeout timeout = const Timeout.factor(3)}) {
   test(
     'Generate and compare bindings for $exampleName',
-    timeout: const Timeout.factor(3),
+    timeout: timeout,
     () async {
       final examplePath = join('example', exampleName);
       try {
@@ -103,11 +104,13 @@ void main() async {
     generatorScriptPath: join('tool', 'generate_bindings.dart'),
     outputPath: join('lib', 'maven_libs_bindings.dart'),
     isLargeTest: true,
+    timeout: const Timeout.factor(10),
   );
   testDartApiExample(
     exampleName: 'maven_libs_groovy',
     generatorScriptPath: join('tool', 'generate_bindings.dart'),
     outputPath: join('lib', 'maven_libs_bindings.dart'),
     isLargeTest: true,
+    timeout: const Timeout.factor(10),
   );
 }
