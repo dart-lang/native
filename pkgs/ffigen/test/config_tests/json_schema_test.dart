@@ -10,7 +10,6 @@ import 'package:ffigen/src/strings.dart' as strings;
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
