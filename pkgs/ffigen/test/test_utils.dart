@@ -117,6 +117,7 @@ void matchLibraryWithExpected(
   List<String> pathToExpected, {
   String Function(String)? codeNormalizer,
   bool format = true,
+  bool Function(String, String)? verify,
 }) {
   _matchFileWithExpected(
     context: context,
@@ -126,6 +127,7 @@ void matchLibraryWithExpected(
     fileWriter: ({required Library library, required File file}) =>
         library.generateFile(file, format: format),
     codeNormalizer: codeNormalizer,
+    verify: verify,
   );
 }
 
@@ -137,8 +139,9 @@ void matchLibrarySymbolFileWithExpected(
   Library library,
   String pathForActual,
   List<String> pathToExpected,
-  String importPath,
-) {
+  String importPath, {
+  bool Function(String, String)? verify,
+}) {
   _matchFileWithExpected(
     context: context,
     library: library,
@@ -148,6 +151,7 @@ void matchLibrarySymbolFileWithExpected(
       if (!library.writer.canGenerateSymbolOutput) library.generate();
       library.generateSymbolOutputFile(file, importPath);
     },
+    verify: verify,
   );
 }
 
@@ -162,6 +166,7 @@ void matchRecordUseMappingWithExpected(
   List<String> pathToExpected, {
   String Function(String)? codeNormalizer,
   bool format = true,
+  bool Function(String, String)? verify,
 }) {
   _matchFileWithExpected(
     context: context,
@@ -171,6 +176,7 @@ void matchRecordUseMappingWithExpected(
     fileWriter: ({required Library library, required File file}) =>
         library.generateRecordUseMappingFile(file, format: format),
     codeNormalizer: codeNormalizer,
+    verify: verify,
   );
 }
 
@@ -194,11 +200,13 @@ void _matchFileWithExpected({
   required void Function({required Library library, required File file})
   fileWriter,
   String Function(String)? codeNormalizer,
+  bool Function(String, String)? verify,
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
   final tmpDirPath = context.tmpDir;
   final actualPath = path.join(tmpDirPath, pathForActual);
   final actualFile = File(actualPath);
+  verify ??= (expected, actual) => expected == actual;
 
   fileWriter(library: library, file: actualFile);
   final actual = _normalizeGeneratedCode(
@@ -210,29 +218,40 @@ void _matchFileWithExpected({
     codeNormalizer,
   );
 
-  if (expected != actual) {
-    if (updateExpectations) {
-      print('Updating expectations. Check the diffs!');
-      actualFile.copySync(expectedPath);
-    } else {
-      final result = Process.runSync('git', [
-        'diff',
-        '--no-index',
-        '--color=always',
-        expectedPath,
-        actualPath,
-      ]);
-      fail('''
+  var matches = false;
+  Object? verifyException;
+  try {
+    matches = verify(expected, actual);
+  } catch (e) {
+    verifyException = e;
+  }
+
+  if (updateExpectations) {
+    print('Updating expectations: ${path.relative(expectedPath)}');
+    actualFile.copySync(expectedPath);
+  } else if (!matches) {
+    final result = Process.runSync('git', [
+      'diff',
+      '--no-index',
+      '--color=always',
+      expectedPath,
+      actualPath,
+    ]);
+
+    final message = verifyException != null
+        ? 'Verification failed: $verifyException\n'
+        : 'Expected output does not match actual output:';
+
+    fail('''
 ${result.stdout}
 
-Expected output does not match actual output:
+$message
   ${path.relative(expectedPath)}
       vs
   ${path.relative(actualPath)}
 
 If the diffs are expected, rerun with UPDATE=true
 ''');
-    }
   }
 
   _expectNoAnalysisErrors(expectedPath);

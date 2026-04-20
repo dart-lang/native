@@ -15,20 +15,30 @@ import '../test_utils.dart';
 void main() {
   group('objective_c_example_test', () {
     test('objective_c', () {
-      final output = parse(testContext(config)).generate();
+      final context = testContext(config);
 
-      // Verify that the output contains all the methods and classes that the
-      // example app uses.
-      expect(
-        output,
-        contains('extension type AVAudioPlayer._(objc.ObjCObject '),
+      matchLibraryWithExpected(
+        context,
+        parse(context),
+        'objective_c_example.dart',
+        ['example', 'objective_c', 'avf_audio_bindings.dart'],
+        verify: (expected, actual) {
+          // Verify that the output contains all the methods and classes that
+          // the example app uses.
+          expect(
+            actual,
+            contains('extension type AVAudioPlayer._(objc.ObjCObject '),
+          );
+          expect(
+            actual,
+            contains('AVAudioPlayer? initWithContentsOfURL(objc.NSURL url) {'),
+          );
+          expect(actual, contains('double get duration {'));
+          expect(actual, contains('bool play() {'));
+
+          return true;
+        },
       );
-      expect(
-        output,
-        contains('AVAudioPlayer? initWithContentsOfURL(objc.NSURL url) {'),
-      );
-      expect(output, contains('double get duration {'));
-      expect(output, contains('bool play() {'));
     });
   });
 }
