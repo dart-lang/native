@@ -46,7 +46,7 @@ Future<RunProcessResult> runProcess({
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: false;
+    runInShell: false,
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {
