@@ -22,12 +22,13 @@ import 'package:yaml/yaml.dart' as yaml;
 export 'package:ffigen/src/config_provider/utils.dart';
 
 Context testContext([FfiGenerator? generator]) {
-  final tmpDir = Directory.systemTemp.createTempSync('ffigen_test');
-  addTearDown(() {
-    if (tmpDir.existsSync()) {
-      tmpDir.deleteSync(recursive: true);
-    }
-  });
+  final baseTempDir = Directory(
+    absPath(path.join('test', '.temp test output')),
+  );
+  if (!baseTempDir.existsSync()) {
+    baseTempDir.createSync(recursive: true);
+  }
+  final tmpDir = baseTempDir.createTempSync();
   return Context(
     createTestLogger(),
     generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
@@ -136,25 +137,6 @@ void matchLibraryWithExpected(
     codeNormalizer: codeNormalizer,
     verify: verify,
   );
-
-  final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
-  final expectedMPath = '$expectedPath.m';
-  final actualMPath = path.join(context.tmpDir, '$pathForActual.m');
-  if (File(actualMPath).existsSync() || File(expectedMPath).existsSync()) {
-    matchFileWithExpected(
-      context: context,
-      pathForActual: '$pathForActual.m',
-      pathToExpected: [
-        ...pathToExpected.sublist(0, pathToExpected.length - 1),
-        '${pathToExpected.last}.m',
-      ],
-      fileWriter: (File file) {
-        // The .m file is generated as a side effect of generating the .dart
-        // file if the library has any ObjC bindings.
-      },
-      verify: verify,
-    );
-  }
 }
 
 /// Generates actual file using library and tests using [expect] with expected.
@@ -243,16 +225,8 @@ void matchFileWithExpected({
     actualFile.copySync(expectedPath);
   }
 
-  final expectedFile = File(expectedPath);
-  if (!expectedFile.existsSync()) {
-    if (!updateExpectations) {
-      fail('Expected file $expectedPath does not exist.');
-    }
-    return;
-  }
-
   final expected = _normalizeGeneratedCode(
-    expectedFile.readAsStringSync(),
+    File(expectedPath).readAsStringSync(),
     codeNormalizer,
   );
 
@@ -305,15 +279,8 @@ void _expectNoAnalysisErrors(String file) {
     'analyze',
     file,
   ], workingDirectory: path.dirname(file));
-  if (result.exitCode != 0) {
-    // Some tests generate code with unused elements, which is fine for tests.
-    final stdout = result.stdout as String;
-    if (stdout.contains('unused_element')) {
-      return;
-    }
-    print(stdout);
-    fail('Analysis failed for $file');
-  }
+  if (result.exitCode != 0) print(result.stdout);
+  expect(result.exitCode, 0);
 }
 
 class NotFoundException implements Exception {

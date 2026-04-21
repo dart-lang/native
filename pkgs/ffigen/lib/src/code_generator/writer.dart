@@ -97,6 +97,8 @@ class Writer {
       //   unused imports.
       if (!RegExp(r'ignore_for_file:\s*unused_import').hasMatch(header ?? ''))
         'unused_import',
+      if (!RegExp(r'ignore_for_file:\s*unused_element').hasMatch(header ?? ''))
+        'unused_element',
       if (anyFuncHasRecordUse &&
           !RegExp(
             r'ignore_for_file:\s*experimental_member_use',
@@ -305,7 +307,7 @@ class Writer {
       ),
     );
 
-    s.writeln('// ignore_for_file: type=lint');
+    s.writeln('// ignore_for_file: type=lint, unused_element');
     s.writeln();
     s.writeln('/// Mapping from Dart function name to native symbol name.');
     s.writeln('const recordUseMapping = {');

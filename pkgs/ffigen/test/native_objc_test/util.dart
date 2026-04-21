@@ -53,6 +53,26 @@ void verifyBindings(
     'native_objc_test',
     bindingName,
   ], verify: verify);
+
+  final expectedMPath = p.join(
+    packagePathForTests,
+    'test',
+    'native_objc_test',
+    '$bindingName.m',
+  );
+  final actualMPath = p.join(context.tmpDir, '$bindingName.m');
+  if (File(actualMPath).existsSync() || File(expectedMPath).existsSync()) {
+    matchFileWithExpected(
+      context: context,
+      pathForActual: '$bindingName.m',
+      pathToExpected: ['test', 'native_objc_test', '$bindingName.m'],
+      fileWriter: (File file) {
+        // The .m file is generated as a side effect of generating the .dart
+        // file if the library has any ObjC bindings.
+      },
+      verify: verify,
+    );
+  }
 }
 
 final _executeInternalCommand = () {
