@@ -232,18 +232,6 @@ void matchFileWithExpected({
   verify ??= (expected, actual) => expected == actual;
 
   fileWriter(actualFile);
-  if (!actualFile.existsSync()) {
-    if (File(expectedPath).existsSync()) {
-      if (updateExpectations) {
-        print('Deleting no-longer-generated file: ${path.relative(expectedPath)}');
-        File(expectedPath).deleteSync();
-      } else {
-        fail('Actual file $actualPath was not generated, but expected file '
-            '$expectedPath exists.');
-      }
-    }
-    return;
-  }
 
   final actual = _normalizeGeneratedCode(
     actualFile.readAsStringSync(),
