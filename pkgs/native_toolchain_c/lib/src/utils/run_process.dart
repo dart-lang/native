@@ -27,7 +27,12 @@ Future<RunProcessResult> runProcess({
       workingDirectory != null && workingDirectory != Directory.current.uri;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
-    ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
+    ...?environment?.entries.map((entry) {
+    final value = entry.value.contains(' ')
+        ? '"${entry.value}"'
+        : entry.value;
+    return '${entry.key}=$value';
+  }),
     executable.toFilePath(),
     ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
     if (printWorkingDir) ')',
@@ -41,7 +46,7 @@ Future<RunProcessResult> runProcess({
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: Platform.isWindows && workingDirectory != null,
+    runInShell: false;
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {
