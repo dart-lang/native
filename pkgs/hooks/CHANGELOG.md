@@ -1,4 +1,4 @@
-## 1.0.3-wip
+## 1.0.3
 
 - Deprecated `recordedUsagesFile` in `LinkInput`.
 - Added `recordedUses` getter to `LinkInput`.
