@@ -39,7 +39,27 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      generateBindingsForCoverage('protocol');
+
+      // TODO(https://github.com/dart-lang/native/issues/3318): Remove custom
+      // verifier.
+      verifyBindings('protocol', (expected, actual) {
+        if (actual.contains('extension type MyProtocol')) {
+          // This is the .dart file.
+          expect(actual, contains('instanceMethod_withDouble_'));
+          expect(actual, contains('fooMethod'));
+          expect(actual, contains('extension type MyProtocol._(objc.ObjCObject'));
+          expect(actual, contains('extension type SecondaryProtocol._(objc.ObjCObject'));
+          expect(actual, contains('extension type EmptyProtocol._(objc.ObjCObject'));
+          expect(actual, contains('extension type UnusedProtocol._(objc.ObjCObject'));
+        } else {
+          // This is the .m file.
+          expect(actual, contains('@protocol(MyProtocol)'));
+          expect(actual, contains('@protocol(SecondaryProtocol)'));
+          expect(actual, contains('@protocol(EmptyProtocol)'));
+          expect(actual, contains('@protocol(UnusedProtocol)'));
+        }
+        return true;
+      });
     });
 
     group('ObjC implementation', () {

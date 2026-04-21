@@ -29,7 +29,7 @@ void main() {
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
 
-      generateBindingsForCoverage('block_inherit');
+      verifyBindings('block_inherit');
     });
 
     test('BlockInheritTestBase', () {

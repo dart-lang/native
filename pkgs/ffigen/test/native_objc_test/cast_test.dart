@@ -31,7 +31,7 @@ void main() {
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = Castaway();
-      generateBindingsForCoverage('cast');
+      verifyBindings('cast');
     });
 
     test('as', () {

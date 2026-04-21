@@ -28,7 +28,7 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('category');
+      verifyBindings('category');
     });
 
     test('Category methods', () {

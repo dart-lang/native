@@ -28,7 +28,7 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('runtime_version');
+      verifyBindings('runtime_version');
     });
 
     test('Interface', () {

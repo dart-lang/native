@@ -31,7 +31,7 @@ void main() {
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = PropertyInterface();
-      generateBindingsForCoverage('property');
+      verifyBindings('property');
     });
 
     group('instance properties', () {

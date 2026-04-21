@@ -27,7 +27,7 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('rename');
+      verifyBindings('rename');
     });
 
     test('Renamed class', () {

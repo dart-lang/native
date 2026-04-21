@@ -14,8 +14,6 @@ import 'util.dart';
 
 void main() {
   group('SDK variable', () {
-    late String bindings;
-
     setUpAll(() {
       final dylib = File(
         path.join(
@@ -27,27 +25,16 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('rename');
-      bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'sdk_variable_bindings.dart',
-        ),
-      ).readAsStringSync();
+
+      // TODO(https://github.com/dart-lang/native/issues/3318): Remove custom
+      // verifier.
+      verifyBindings('sdk_variable', (expected, actual) {
+        return actual.contains('extension type NSColorPicker.') &&
+            actual.contains('extension type UIPickerView.') &&
+            actual.contains('extension type NSTextList.');
+      });
     });
 
-    test('XCODE', () {
-      expect(bindings, contains('extension type NSColorPicker.'));
-    });
-
-    test('IOS_SDK', () {
-      expect(bindings, contains('extension type UIPickerView.'));
-    });
-
-    test('MACOS_SDK', () {
-      expect(bindings, contains('extension type NSTextList.'));
-    });
+    test('dummy', () {});
   });
 }

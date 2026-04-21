@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 import 'package:logging/logging.dart';
 import 'package:objective_c/objective_c.dart';
@@ -17,22 +18,40 @@ import 'package:objective_c/src/internal.dart'
     as internal_for_testing
     show isValidBlock, isValidClass;
 import 'package:path/path.dart' as p;
+import 'package:yaml/yaml.dart';
 
 import '../test_utils.dart';
 
-void generateBindingsForCoverage(String testName, [Logger? logger]) {
-  // The ObjC test bindings are generated in setup.dart (see #362), which means
-  // that the ObjC related bits of FFIgen are missed by test coverage. So this
-  // function just regenerates those bindings. It doesn't test anything except
-  // that the generation succeeded, by asserting the file exists.
-  final path = p.join(
+void verifyBindings(String configName,
+    [bool Function(String, String)? verify, Logger? logger]) {
+  final configFile = p.join(
     packagePathForTests,
     'test',
     'native_objc_test',
-    '${testName}_config.yaml',
+    '${configName}_config.yaml',
   );
-  final config = testConfig(File(path).readAsStringSync(), filename: path);
-  config.generate(logger: logger ?? createTestLogger());
+  final configYaml = loadYaml(File(configFile).readAsStringSync()) as YamlMap;
+  final output = configYaml['output'];
+  final String bindingName;
+  if (output is String) {
+    bindingName = output;
+  } else if (output is YamlMap) {
+    bindingName = output['bindings'] as String;
+  } else {
+    throw Exception('Invalid output configuration in $configFile');
+  }
+
+  final config = testConfigFromPath(configFile, logger: logger);
+  final context = testContext(config);
+  final library = parse(context);
+
+  matchLibraryWithExpected(
+    context,
+    library,
+    bindingName,
+    ['test', 'native_objc_test', bindingName],
+    verify: verify,
+  );
 }
 
 final _executeInternalCommand = () {

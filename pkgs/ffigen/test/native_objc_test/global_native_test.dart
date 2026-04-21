@@ -28,7 +28,7 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('global');
+      verifyBindings('global');
     });
 
     test('Global string', () {

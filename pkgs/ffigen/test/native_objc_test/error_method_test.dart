@@ -28,7 +28,7 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('error_method');
+      verifyBindings('error_method');
     });
 
     test("Error method that returns bool", () {

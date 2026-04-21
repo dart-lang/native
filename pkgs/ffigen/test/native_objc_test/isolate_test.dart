@@ -30,7 +30,7 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('isolate');
+      verifyBindings('isolate');
     });
 
     // Runs on other isolate (can't use expect function).

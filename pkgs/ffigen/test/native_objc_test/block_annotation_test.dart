@@ -48,7 +48,7 @@ void main() {
         DynamicLibrary.open(dylib.absolute.path),
       );
 
-      generateBindingsForCoverage('block_annotation');
+      verifyBindings('block_annotation');
     });
 
     void objectProducerTest(EmptyObject producer()) {

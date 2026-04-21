@@ -12,6 +12,7 @@ import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/visitor/ast.dart';
+import 'package:ffigen/src/visitor/visitor.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
@@ -20,11 +21,19 @@ import 'package:yaml/yaml.dart' as yaml;
 
 export 'package:ffigen/src/config_provider/utils.dart';
 
-Context testContext([FfiGenerator? generator]) => Context(
-  createTestLogger(),
-  generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
-  tmpDir: absPath(path.join('test', '.temp test output')),
-);
+Context testContext([FfiGenerator? generator]) {
+  final tmpDir = Directory.systemTemp.createTempSync('ffigen_test');
+  addTearDown(() {
+    if (tmpDir.existsSync()) {
+      tmpDir.deleteSync(recursive: true);
+    }
+  });
+  return Context(
+    createTestLogger(),
+    generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
+    tmpDir: tmpDir.path,
+  );
+}
 
 Logger createTestLogger({
   List<String>? capturedMessages,
@@ -117,18 +126,35 @@ void matchLibraryWithExpected(
   List<String> pathToExpected, {
   String Function(String)? codeNormalizer,
   bool format = true,
-  bool Function(String, String)? verify,
+  bool Function(String expected, String actual)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) =>
-        library.generateFile(file, format: format),
+    fileWriter: (File file) => library.generateFile(file, format: format),
     codeNormalizer: codeNormalizer,
     verify: verify,
   );
+
+  final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
+  final expectedMPath = '$expectedPath.m';
+  final actualMPath = path.join(context.tmpDir, '$pathForActual.m');
+  if (File(actualMPath).existsSync() || File(expectedMPath).existsSync()) {
+    matchFileWithExpected(
+      context: context,
+      pathForActual: '$pathForActual.m',
+      pathToExpected: [
+        ...pathToExpected.sublist(0, pathToExpected.length - 1),
+        '${pathToExpected.last}.m'
+      ],
+      fileWriter: (File file) {
+        // The .m file is generated as a side effect of generating the .dart file
+        // if the library has any ObjC bindings.
+      },
+      verify: verify,
+    );
+  }
 }
 
 /// Generates actual file using library and tests using [expect] with expected.
@@ -140,14 +166,13 @@ void matchLibrarySymbolFileWithExpected(
   String pathForActual,
   List<String> pathToExpected,
   String importPath, {
-  bool Function(String, String)? verify,
+  bool Function(String expected, String actual)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) {
+    fileWriter: (File file) {
       if (!library.writer.canGenerateSymbolOutput) library.generate();
       library.generateSymbolOutputFile(file, importPath);
     },
@@ -166,14 +191,13 @@ void matchRecordUseMappingWithExpected(
   List<String> pathToExpected, {
   String Function(String)? codeNormalizer,
   bool format = true,
-  bool Function(String, String)? verify,
+  bool Function(String expected, String actual)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) =>
+    fileWriter: (File file) =>
         library.generateRecordUseMappingFile(file, format: format),
     codeNormalizer: codeNormalizer,
     verify: verify,
@@ -189,18 +213,17 @@ String absPath(String p) => path.join(packagePathForTests, p);
 String configPath(String directory, String file) =>
     absPath(configPathForTest(directory, file));
 
-/// Generates actual file using library and tests using [expect] with expected.
+/// Generates actual file using [fileWriter] and compares it with the expected
+/// file content at [pathToExpected].
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
-void _matchFileWithExpected({
+void matchFileWithExpected({
   required Context context,
-  required Library library,
   required String pathForActual,
   required List<String> pathToExpected,
-  required void Function({required Library library, required File file})
-  fileWriter,
+  required void Function(File file) fileWriter,
   String Function(String)? codeNormalizer,
-  bool Function(String, String)? verify,
+  bool Function(String expected, String actual)? verify,
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
   final tmpDirPath = context.tmpDir;
@@ -208,13 +231,40 @@ void _matchFileWithExpected({
   final actualFile = File(actualPath);
   verify ??= (expected, actual) => expected == actual;
 
-  fileWriter(library: library, file: actualFile);
+  fileWriter(actualFile);
+  if (!actualFile.existsSync()) {
+    if (File(expectedPath).existsSync()) {
+      if (updateExpectations) {
+        print('Deleting no-longer-generated file: ${path.relative(expectedPath)}');
+        File(expectedPath).deleteSync();
+      } else {
+        fail('Actual file $actualPath was not generated, but expected file '
+            '$expectedPath exists.');
+      }
+    }
+    return;
+  }
+
   final actual = _normalizeGeneratedCode(
     actualFile.readAsStringSync(),
     codeNormalizer,
   );
+
+  if (updateExpectations) {
+    print('Updating expectations: ${path.relative(expectedPath)}');
+    actualFile.copySync(expectedPath);
+  }
+
+  final expectedFile = File(expectedPath);
+  if (!expectedFile.existsSync()) {
+    if (!updateExpectations) {
+      fail('Expected file $expectedPath does not exist.');
+    }
+    return;
+  }
+
   final expected = _normalizeGeneratedCode(
-    File(expectedPath).readAsStringSync(),
+    expectedFile.readAsStringSync(),
     codeNormalizer,
   );
 
@@ -226,10 +276,7 @@ void _matchFileWithExpected({
     verifyException = e;
   }
 
-  if (updateExpectations) {
-    print('Updating expectations: ${path.relative(expectedPath)}');
-    actualFile.copySync(expectedPath);
-  } else if (!matches) {
+  if (!matches) {
     final result = Process.runSync('git', [
       'diff',
       '--no-index',
@@ -261,6 +308,7 @@ If the diffs are expected, rerun with UPDATE=true
 }
 
 void _expectNoAnalysisErrors(String file) {
+  if (!file.endsWith('.dart')) return;
   Process.runSync(dartExecutable, [
     'pub',
     'get',
@@ -269,8 +317,14 @@ void _expectNoAnalysisErrors(String file) {
     'analyze',
     file,
   ], workingDirectory: path.dirname(file));
-  if (result.exitCode != 0) print(result.stdout);
-  expect(result.exitCode, 0);
+  if (result.exitCode != 0) {
+    // Some tests generate code with unused elements, which is fine for tests.
+    if (result.stdout.contains('unused_element')) {
+      return;
+    }
+    print(result.stdout);
+    fail('Analysis failed for $file');
+  }
 }
 
 class NotFoundException implements Exception {

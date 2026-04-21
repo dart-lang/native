@@ -28,7 +28,7 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('enum');
+      verifyBindings('enum');
     });
 
     test('NS_ENUM generates a Dart enum', () {
