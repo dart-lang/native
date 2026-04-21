@@ -30,7 +30,7 @@ void main() {
       expect(
         output,
         contains(
-          'ignore_for_file: type=lint, unused_import, unused_element, experimental_member_use',
+          'ignore_for_file: type=lint, unused_import, experimental_member_use',
         ),
       );
 
