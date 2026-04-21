@@ -22,8 +22,11 @@ import 'package:yaml/yaml.dart';
 
 import '../test_utils.dart';
 
-void verifyBindings(String configName,
-    [bool Function(String, String)? verify, Logger? logger]) {
+void verifyBindings(
+  String configName, [
+  bool Function(String, String)? verify,
+  Logger? logger,
+]) {
   final configFile = p.join(
     packagePathForTests,
     'test',
@@ -45,13 +48,11 @@ void verifyBindings(String configName,
   final context = testContext(config);
   final library = parse(context);
 
-  matchLibraryWithExpected(
-    context,
-    library,
+  matchLibraryWithExpected(context, library, bindingName, [
+    'test',
+    'native_objc_test',
     bindingName,
-    ['test', 'native_objc_test', bindingName],
-    verify: verify,
-  );
+  ], verify: verify);
 }
 
 final _executeInternalCommand = () {

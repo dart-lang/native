@@ -47,10 +47,18 @@ void main() {
           // This is the .dart file.
           return actual.contains('instanceMethod_withDouble_') &&
               actual.contains('fooMethod') &&
-              actual.contains('extension type MyProtocol._(objc.ObjCProtocol') &&
-              actual.contains('extension type SecondaryProtocol._(objc.ObjCProtocol') &&
-              actual.contains('extension type EmptyProtocol._(objc.ObjCProtocol') &&
-              actual.contains('extension type UnusedProtocol._(objc.ObjCProtocol');
+              actual.contains(
+                'extension type MyProtocol._(objc.ObjCProtocol',
+              ) &&
+              actual.contains(
+                'extension type SecondaryProtocol._(objc.ObjCProtocol',
+              ) &&
+              actual.contains(
+                'extension type EmptyProtocol._(objc.ObjCProtocol',
+              ) &&
+              actual.contains(
+                'extension type UnusedProtocol._(objc.ObjCProtocol',
+              );
         } else {
           // This is the .m file.
           return actual.contains('@protocol(MyProtocol)') &&

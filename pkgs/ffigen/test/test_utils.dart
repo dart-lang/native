@@ -146,11 +146,11 @@ void matchLibraryWithExpected(
       pathForActual: '$pathForActual.m',
       pathToExpected: [
         ...pathToExpected.sublist(0, pathToExpected.length - 1),
-        '${pathToExpected.last}.m'
+        '${pathToExpected.last}.m',
       ],
       fileWriter: (File file) {
-        // The .m file is generated as a side effect of generating the .dart file
-        // if the library has any ObjC bindings.
+        // The .m file is generated as a side effect of generating the .dart
+        // file if the library has any ObjC bindings.
       },
       verify: verify,
     );
@@ -307,10 +307,11 @@ void _expectNoAnalysisErrors(String file) {
   ], workingDirectory: path.dirname(file));
   if (result.exitCode != 0) {
     // Some tests generate code with unused elements, which is fine for tests.
-    if (result.stdout.contains('unused_element')) {
+    final stdout = result.stdout as String;
+    if (stdout.contains('unused_element')) {
       return;
     }
-    print(result.stdout);
+    print(stdout);
     fail('Analysis failed for $file');
   }
 }
