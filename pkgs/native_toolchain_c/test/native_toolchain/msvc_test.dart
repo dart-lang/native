@@ -179,4 +179,29 @@ void main() {
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
+
+  test('runProcess with environment values containing spaces and workingDirectory',
+    () async {
+  // Regression test: when Visual Studio is installed in the default path
+  // (C:\Program Files (x86)\...), environment variables like DevEnvDir
+  // contain spaces. With runInShell: true, cmd.exe would split on the space
+  // and try to execute "C:\Program" as a command, causing the build to fail.
+  final tempUri = await tempDirForTest();
+  final result = await runProcess(
+    executable: Uri.file('cmd.exe'),
+    arguments: ['/c', 'echo', '%TEST_VAR%'],
+    workingDirectory: tempUri,
+    environment: {
+      ...Platform.environment,
+      'TEST_VAR': r'C:\Program Files (x86)\Microsoft Visual Studio',
+    },
+    logger: logger,
+    captureOutput: true,
+  );
+  expect(result.exitCode, 0);
+  expect(
+    result.stdout.trim(),
+    r'C:\Program Files (x86)\Microsoft Visual Studio',
+  );
+});
 }
