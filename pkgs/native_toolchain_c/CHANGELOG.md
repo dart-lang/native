@@ -1,10 +1,6 @@
 ## 0.18.1
-- Remove `runInShell: Platform.isWindows && workingDirectory != null`. Modern
-  Dart supports `workingDirectory` on Windows natively without needing a shell
-  wrapper, so this workaround is no longer needed. Removing it means `cl.exe`
-  is invoked directly, bypassing cmd.exe path parsing entirely.
-- Quote environment variable values containing spaces in the `commandString`
-  log string so the logged command is accurate and reproducible. ([#3321](https://github.com/dart-lang/native/issues/3321))
+
+- Quote executable paths containing spaces when running in shell on Windows to prevent cmd.exe from splitting on spaces in paths such as `C:\Program Files (x86)\...`.
 
 ## 0.18.0
 

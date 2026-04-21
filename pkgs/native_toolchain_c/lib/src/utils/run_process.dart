@@ -41,12 +41,22 @@ Future<RunProcessResult> runProcess({
 
   final stdoutBuffer = StringBuffer();
   final stderrBuffer = StringBuffer();
+  final executablePath = executable.toFilePath();
+  // When running in shell on Windows, cmd.exe splits unquoted paths on spaces.
+  // Quote the executable path if it contains spaces to prevent this.
+  final shellExecutablePath =
+      (Platform.isWindows &&
+              workingDirectory != null &&
+                        executablePath.contains(' '))
+      ? '"$executablePath"'
+      : executablePath;
+
   final process = await Process.start(
-    executable.toFilePath(),
+    shellExecutablePath,
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: false,
+    runInShell: Platform.isWindows && workingDirectory != null,
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {
