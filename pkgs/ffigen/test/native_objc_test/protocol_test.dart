@@ -45,20 +45,19 @@ void main() {
       verifyBindings('protocol', (expected, actual) {
         if (actual.contains('extension type MyProtocol')) {
           // This is the .dart file.
-          expect(actual, contains('instanceMethod_withDouble_'));
-          expect(actual, contains('fooMethod'));
-          expect(actual, contains('extension type MyProtocol._(objc.ObjCObject'));
-          expect(actual, contains('extension type SecondaryProtocol._(objc.ObjCObject'));
-          expect(actual, contains('extension type EmptyProtocol._(objc.ObjCObject'));
-          expect(actual, contains('extension type UnusedProtocol._(objc.ObjCObject'));
+          return actual.contains('instanceMethod_withDouble_') &&
+              actual.contains('fooMethod') &&
+              actual.contains('extension type MyProtocol._(objc.ObjCProtocol') &&
+              actual.contains('extension type SecondaryProtocol._(objc.ObjCProtocol') &&
+              actual.contains('extension type EmptyProtocol._(objc.ObjCProtocol') &&
+              actual.contains('extension type UnusedProtocol._(objc.ObjCProtocol');
         } else {
           // This is the .m file.
-          expect(actual, contains('@protocol(MyProtocol)'));
-          expect(actual, contains('@protocol(SecondaryProtocol)'));
-          expect(actual, contains('@protocol(EmptyProtocol)'));
-          expect(actual, contains('@protocol(UnusedProtocol)'));
+          return actual.contains('@protocol(MyProtocol)') &&
+              actual.contains('@protocol(SecondaryProtocol)') &&
+              actual.contains('@protocol(EmptyProtocol)') &&
+              actual.contains('@protocol(UnusedProtocol)');
         }
-        return true;
       });
     });
 
