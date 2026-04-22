@@ -34,7 +34,6 @@ void main() {
       nullableBase = NullableBase();
       nullableChild = NullableChild();
       obj = NSObject();
-      generateBindingsForCoverage('nullable');
     });
 
     group('Base', () {

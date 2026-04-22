@@ -28,7 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('string');
     });
 
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {

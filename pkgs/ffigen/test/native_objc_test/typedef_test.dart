@@ -26,7 +26,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('typedef');
     });
 
     test('Regression test for #386', () {

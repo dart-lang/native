@@ -28,7 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('log');
     });
 
     test('Duplicate method log spam', () {
@@ -37,7 +36,7 @@ void main() {
         capturedMessages: logs,
         level: Level.SEVERE,
       );
-      generateBindingsForCoverage('log', logger);
+      verifyBindings('log', logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));
     });

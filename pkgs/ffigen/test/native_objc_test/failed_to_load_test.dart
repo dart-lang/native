@@ -11,10 +11,6 @@ import 'util.dart';
 
 void main() {
   group('Failed to load', () {
-    setUpAll(() {
-      generateBindingsForCoverage('failed_to_load');
-    });
-
     test('Failed to load Objective-C class', () {
       // This class has a declaration but no implementation, so it fails to
       // load. The native objc_getClass returns null, which the wrapper in

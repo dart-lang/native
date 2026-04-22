@@ -63,8 +63,6 @@ void main() {
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      generateBindingsForCoverage('block');
-
       BlockTester.setup(NativeApi.initializeApiDLData);
     });
 

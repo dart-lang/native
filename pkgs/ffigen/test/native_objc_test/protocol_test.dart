@@ -39,7 +39,6 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      generateBindingsForCoverage('protocol');
     });
 
     group('ObjC implementation', () {

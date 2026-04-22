@@ -26,7 +26,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('forward_decl');
     });
 
     test('Forward declared class', () {

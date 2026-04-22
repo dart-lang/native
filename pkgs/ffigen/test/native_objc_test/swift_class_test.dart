@@ -26,7 +26,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('swift_class');
     });
 
     test('Renamed class', () {

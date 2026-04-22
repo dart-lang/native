@@ -30,7 +30,6 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = GlobalTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      generateBindingsForCoverage('global');
     });
 
     test('Global string', () {

@@ -20,7 +20,7 @@ import 'package:path/path.dart' as p;
 
 import '../test_utils.dart';
 
-void generateBindingsForCoverage(String testName, [Logger? logger]) {
+void verifyBindings(String testName, [Logger? logger]) {
   // The ObjC test bindings are generated in setup.dart (see #362), which means
   // that the ObjC related bits of FFIgen are missed by test coverage. So this
   // function just regenerates those bindings. It doesn't test anything except

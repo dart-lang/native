@@ -32,7 +32,6 @@ void main() {
       DynamicLibrary.open(dylib.absolute.path);
       nullableInterface = NullableInterface();
       obj = NSObject();
-      generateBindingsForCoverage('nullable');
     });
 
     group('Nullable property', () {

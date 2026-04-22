@@ -30,8 +30,6 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = RefCountTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-
-      generateBindingsForCoverage('ref_count');
     });
 
     test('objectRetainCount edge cases', () {

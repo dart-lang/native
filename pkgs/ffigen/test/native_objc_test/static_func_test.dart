@@ -35,8 +35,6 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = StaticFuncTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-
-      generateBindingsForCoverage('static_func');
     });
 
     Pointer<Int32> staticFuncOfObjectRefCountTest(Allocator alloc) {

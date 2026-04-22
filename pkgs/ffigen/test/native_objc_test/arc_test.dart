@@ -30,8 +30,6 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = ArcTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-
-      generateBindingsForCoverage('arc');
     });
 
     test('objectRetainCount edge cases', () {

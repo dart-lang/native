@@ -24,7 +24,6 @@ void main() {
     group('no version info', () {
       late final String bindings;
       setUpAll(() {
-        generateBindingsForCoverage('method_filtering');
         bindings = File(
           path.join(
             packagePathForTests,

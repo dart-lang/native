@@ -27,7 +27,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('native_objc');
     });
 
     test('Basic types', () {
