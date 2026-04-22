@@ -28,11 +28,11 @@ Future<RunProcessResult> runProcess({
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) {
-    final value = entry.value.contains(' ')
-        ? '"${entry.value}"'
-        : entry.value;
-    return '${entry.key}=$value';
-  }),
+      final value = entry.value.contains(' ')
+          ? '"${entry.value}"'
+          : entry.value;
+      return '${entry.key}=$value';
+    }),
     executable.toFilePath(),
     ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
     if (printWorkingDir) ')',
@@ -41,13 +41,11 @@ Future<RunProcessResult> runProcess({
 
   final stdoutBuffer = StringBuffer();
   final stderrBuffer = StringBuffer();
+  final runInShell = Platform.isWindows && workingDirectory != null;
   final executablePath = executable.toFilePath();
   // When running in shell on Windows, cmd.exe splits unquoted paths on spaces.
   // Quote the executable path if it contains spaces to prevent this.
-  final shellExecutablePath =
-      (Platform.isWindows &&
-              workingDirectory != null &&
-                        executablePath.contains(' '))
+  final shellExecutablePath = runInShell && executablePath.contains(' ')
       ? '"$executablePath"'
       : executablePath;
 
@@ -56,7 +54,7 @@ Future<RunProcessResult> runProcess({
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: Platform.isWindows && workingDirectory != null,
+    runInShell: runInShell,
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {
