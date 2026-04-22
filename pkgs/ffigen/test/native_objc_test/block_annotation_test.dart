@@ -17,7 +17,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'block_annotation_bindings.dart';
+import 'block_annotation_test_bindings.dart';
 import 'util.dart';
 
 void main() {

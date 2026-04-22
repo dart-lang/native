@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'category_bindings.dart';
+import 'category_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -93,7 +93,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'category_bindings.dart',
+          'category_test_bindings.dart',
         ),
       ).readAsStringSync();
       expect(bindings, isNot(contains('excludedExtensionMethod')));
@@ -110,7 +110,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'category_bindings.dart',
+          'category_test_bindings.dart',
         ),
       ).readAsStringSync();
 

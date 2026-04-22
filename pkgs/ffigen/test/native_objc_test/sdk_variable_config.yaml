@@ -1,7 +1,7 @@
 name: SdkVariableTestObjCLibrary
 description: 'Tests the ObjC SDK variables'
 language: objc
-output: 'sdk_variable_bindings.dart'
+output: 'sdk_variable_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

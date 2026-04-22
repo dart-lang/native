@@ -1,5 +1,9 @@
 *_bindings.dart
 *_bindings.m
 *_bindings.dart.m
+*_test_bindings.dart
+*_test_bindings.m
+*_test_bindings.dart.m
+*_test_bindings.o
 *-Swift.h
 *.o

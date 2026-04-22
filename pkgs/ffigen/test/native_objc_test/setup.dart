@@ -137,7 +137,7 @@ Future<void> build(List<String> testNames) async {
   for (final name in _getTestNames()) {
     final mFile = '${name}_test.m';
     if (File(mFile).existsSync()) mFiles.add(mFile);
-    final bindingMFile = '${name}_bindings.m';
+    final bindingMFile = '${name}_test_bindings.m';
     if (File(bindingMFile).existsSync()) mFiles.add(bindingMFile);
   }
   if (mFiles.isNotEmpty) {
@@ -149,10 +149,9 @@ Future<void> clean(List<String> testNames) async {
   print('Deleting generated and built files...');
   final filenames = [
     for (final name in testNames) ...[
-      '${name}_bindings.dart',
-      '${name}_bindings.m',
-      '${name}_bindings.o',
       '${name}_test_bindings.dart',
+      '${name}_test_bindings.m',
+      '${name}_test_bindings.o',
       '${name}_test.o',
     ],
     'objc_test.dylib',

@@ -1,7 +1,7 @@
 name: PropertyTestObjCLibrary
 description: 'Tests calling Objective-C properties i.e. getters and setters'
 language: objc
-output: 'property_bindings.dart'
+output: 'property_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

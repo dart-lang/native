@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'nullable_inheritance_bindings.dart';
+import 'nullable_inheritance_test_bindings.dart';
 import 'util.dart';
 
 void main() {

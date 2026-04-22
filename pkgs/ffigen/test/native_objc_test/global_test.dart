@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'global_bindings.dart';
+import 'global_test_bindings.dart';
 import 'util.dart';
 
 void main() {

@@ -12,7 +12,7 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'arc_bindings.dart';
+import 'arc_test_bindings.dart';
 import 'util.dart';
 
 void main() {

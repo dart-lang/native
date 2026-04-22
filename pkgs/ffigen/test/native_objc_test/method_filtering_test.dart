@@ -30,7 +30,7 @@ void main() {
             packagePathForTests,
             'test',
             'native_objc_test',
-            'method_filtering_bindings.dart',
+            'method_filtering_test_bindings.dart',
           ),
         ).readAsStringSync();
       });

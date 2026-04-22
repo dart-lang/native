@@ -1,9 +1,7 @@
 name: BlockInheritTestObjCLibrary
 description: 'Tests inheritance rules for blocks.'
 language: objc
-output:
-  bindings: 'block_inherit_bindings.dart'
-  objc-bindings: 'block_inherit_bindings.m'
+output: 'block_inherit_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

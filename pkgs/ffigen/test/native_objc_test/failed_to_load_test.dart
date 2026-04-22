@@ -6,7 +6,7 @@
 @TestOn('mac-os')
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'failed_to_load_bindings.dart';
+import 'failed_to_load_test_bindings.dart';
 import 'util.dart';
 
 void main() {

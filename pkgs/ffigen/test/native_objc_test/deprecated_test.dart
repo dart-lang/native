@@ -23,7 +23,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'deprecated_bindings.dart',
+          'deprecated_test_bindings.dart',
         ),
       ),
       format: false,
@@ -80,7 +80,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       packagePathForTests,
       'test',
       'native_objc_test',
-      'deprecated_bindings.dart',
+      'deprecated_test_bindings.dart',
     ),
   ).readAsStringSync();
 }

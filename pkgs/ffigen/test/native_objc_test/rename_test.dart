@@ -11,7 +11,7 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'rename_bindings.dart';
+import 'rename_test_bindings.dart';
 import 'util.dart';
 
 void main() {

@@ -1,7 +1,9 @@
 name: MethodFilteringTestLibrary
 description: 'Tests method filtering'
 language: objc
-output: 'method_filtering_bindings.dart'
+output:
+  bindings: 'method_filtering_test_bindings.dart'
+  objc-bindings: 'method_filtering_test_bindings.m'
 exclude-all-by-default: true
 objc-interfaces:
   include:

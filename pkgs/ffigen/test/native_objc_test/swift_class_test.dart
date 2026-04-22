@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'swift_class_bindings.dart';
+import 'swift_class_test_bindings.dart';
 import 'util.dart';
 
 void main() {

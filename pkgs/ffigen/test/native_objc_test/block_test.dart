@@ -18,7 +18,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'block_bindings.dart';
+import 'block_test_bindings.dart';
 import 'util.dart';
 
 typedef IntBlock = ObjCBlock_Int32_Int32;
@@ -899,7 +899,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'block_bindings.m',
+          'block_test_bindings.m',
         ),
       ).readAsStringSync();
 
