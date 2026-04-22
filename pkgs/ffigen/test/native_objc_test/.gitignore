@@ -1,9 +1,6 @@
-*_bindings.dart
-*_bindings.m
-*_bindings.dart.m
-*_test_bindings.dart
-*_test_bindings.m
-*_test_bindings.dart.m
-*_test_bindings.o
+deprecated_test_bindings.*
+ns_range_test_bindings.*
+transitive_test_bindings.*
+swift_unavailable_test_bindings.*
 *-Swift.h
 *.o
