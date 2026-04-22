@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
+import 'package:yaml/yaml.dart';
 
 import '../logging/logging.dart';
 
@@ -446,7 +447,11 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     if (configRoot != null) {
       androidProject = configRoot.resolve(androidProject).toFilePath();
     }
-    _runFlutterConfigOnly(androidProject);
+
+    if (_isFlutterProject(androidProject)) {
+      _runFlutterConfigOnly(androidProject);
+    }
+
     final android = join(androidProject, 'android');
     var buildGradle = join(android, 'build.gradle');
     final usesKotlinScript = !File.fromUri(Uri.file(buildGradle)).existsSync();
@@ -536,12 +541,17 @@ ${procRes.stderr}
     return paths;
   }
 
-  static void _runFlutterConfigOnly(String androidProject) {
-    // Only run if it looks like a flutter project.
-    if (!File(join(androidProject, 'pubspec.yaml')).existsSync()) {
-      return;
+  static bool _isFlutterProject(String projectPath) {
+    try {
+      final pubspecFile = File(join(projectPath, 'pubspec.yaml'));
+      final pubspec = loadYaml(pubspecFile.readAsStringSync());
+      return pubspec is Map && pubspec.containsKey('flutter');
+    } catch (e) {
+      return false;
     }
+  }
 
+  static void _runFlutterConfigOnly(String androidProject) {
     final inAndroidProject = _inAndroidProject(androidProject);
     log.info('Running "flutter build apk --config-only"$inAndroidProject...');
     var success = false;
