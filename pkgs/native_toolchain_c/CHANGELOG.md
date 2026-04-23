@@ -1,3 +1,7 @@
+## 0.18.1
+
+- Fix [native_toolchain_c failing with MSSSMS installed](https://github.com/dart-lang/native/issues/3327) by requiring vswhere to only show output that includes the necessary build tools
+
 ## 0.18.0
 
 - Made `CLinker.run` `Logger` argument optional. It now defaults to a logger
