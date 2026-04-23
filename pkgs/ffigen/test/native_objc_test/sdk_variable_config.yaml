@@ -1,13 +1,18 @@
 name: SdkVariableTestObjCLibrary
 description: 'Tests the ObjC SDK variables'
 language: objc
-output: 'sdk_variable_bindings.dart'
+output: 'sdk_variable_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:
     - NSColorPicker
     - UIPickerView
     - NSTextList
+  member-filter:
+    NSTextList:
+      exclude:
+        # This method is missing on some machines.
+        - includesTextListMarkers
 headers:
   entry-points:
     - '$XCODE/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h'

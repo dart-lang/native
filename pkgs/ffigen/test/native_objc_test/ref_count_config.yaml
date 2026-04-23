@@ -1,7 +1,7 @@
 name: RefCountTestObjCLibrary
 description: 'Tests reference counting of Objective-C objects'
 language: objc
-output: 'ref_count_bindings.dart'
+output: 'ref_count_test_bindings.dart'
 exclude-all-by-default: true
 functions:
   include:

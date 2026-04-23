@@ -12,7 +12,7 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'property_bindings.dart';
+import 'property_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -31,7 +31,6 @@ void main() {
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = PropertyInterface();
-      generateBindingsForCoverage('property');
     });
 
     group('instance properties', () {

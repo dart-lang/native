@@ -1,7 +1,7 @@
 name: CastTestObjCLibrary
 description: 'Tests casting objects'
 language: objc
-output: 'cast_bindings.dart'
+output: 'cast_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

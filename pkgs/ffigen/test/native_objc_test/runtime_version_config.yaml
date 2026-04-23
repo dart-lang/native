@@ -1,7 +1,7 @@
 name: RuntimeVersionTestObjCLibrary
 description: 'Tests runtime version checks Objective-C APIs'
 language: objc
-output: 'runtime_version_bindings.dart'
+output: 'runtime_version_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:
@@ -13,3 +13,5 @@ objc-categories:
 headers:
   entry-points:
     - 'runtime_version_test.m'
+preamble: |
+  // ignore_for_file: unused_element

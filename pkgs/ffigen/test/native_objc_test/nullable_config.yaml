@@ -1,7 +1,7 @@
 name: NullableTestObjCLibrary
 description: 'Tests nullability for Objective-C methods'
 language: objc
-output: 'nullable_bindings.dart'
+output: 'nullable_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

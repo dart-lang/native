@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'log_bindings.dart';
+import 'log_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -28,7 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('log');
     });
 
     test('Duplicate method log spam', () {
@@ -37,7 +36,7 @@ void main() {
         capturedMessages: logs,
         level: Level.SEVERE,
       );
-      generateBindingsForCoverage('log', logger);
+      verifyBindings('log', logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));
     });

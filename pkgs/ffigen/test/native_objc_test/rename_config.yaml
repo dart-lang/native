@@ -9,7 +9,7 @@
 name: RenameLibrary
 description: 'Rename test'
 language: objc
-output: 'rename_bindings.dart'
+output: 'rename_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

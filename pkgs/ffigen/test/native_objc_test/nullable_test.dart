@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'nullable_bindings.dart';
+import 'nullable_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -32,7 +32,6 @@ void main() {
       DynamicLibrary.open(dylib.absolute.path);
       nullableInterface = NullableInterface();
       obj = NSObject();
-      generateBindingsForCoverage('nullable');
     });
 
     group('Nullable property', () {

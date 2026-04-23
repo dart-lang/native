@@ -26,7 +26,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('bad_method');
     });
 
     test("Test incomplete struct methods that weren't skipped", () {

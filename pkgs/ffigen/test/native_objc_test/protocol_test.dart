@@ -16,7 +16,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'protocol_bindings.dart';
+import 'protocol_test_bindings.dart';
 import 'util.dart';
 
 typedef InstanceMethodBlock = ObjCBlock_NSString_ffiVoid_NSString_ffiDouble;
@@ -39,7 +39,6 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      generateBindingsForCoverage('protocol');
     });
 
     group('ObjC implementation', () {
@@ -406,7 +405,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'protocol_bindings.dart',
+          'protocol_test_bindings.dart',
         ),
       ).readAsStringSync();
 

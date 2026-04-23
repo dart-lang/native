@@ -2,8 +2,8 @@ name: IsolateTestObjCLibrary
 description: 'Tests sending objects between isolates'
 language: objc
 output:
-  bindings: 'isolate_bindings.dart'
-  objc-bindings: 'isolate_bindings.m'
+  bindings: 'isolate_test_bindings.dart'
+  objc-bindings: 'isolate_test_bindings.m'
 exclude-all-by-default: true
 objc-interfaces:
   include:

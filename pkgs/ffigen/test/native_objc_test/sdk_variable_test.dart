@@ -27,13 +27,12 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('rename');
       bindings = File(
         path.join(
           packagePathForTests,
           'test',
           'native_objc_test',
-          'sdk_variable_bindings.dart',
+          'sdk_variable_test_bindings.dart',
         ),
       ).readAsStringSync();
     });

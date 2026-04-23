@@ -1,7 +1,7 @@
 name: BadOverrideTestObjCLibrary
 description: 'Tests various overrides that are valid in ObjC but invalid in Dart'
 language: objc
-output: 'bad_override_bindings.dart'
+output: 'bad_override_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

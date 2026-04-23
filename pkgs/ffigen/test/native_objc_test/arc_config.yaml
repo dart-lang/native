@@ -1,9 +1,7 @@
 name: ArcTestObjCLibrary
 description: 'Tests ARC'
 language: objc
-output:
-  bindings: 'arc_bindings.dart'
-  objc-bindings: 'arc_bindings.m'
+output: 'arc_test_bindings.dart'
 exclude-all-by-default: true
 functions:
   include:
