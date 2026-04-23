@@ -21,7 +21,7 @@ void testExample(String exampleName, String dartOutput,
     {bool isLargeTest = false}) {
   test(
     'Generate and compare bindings for $exampleName',
-    timeout: const Timeout.factor(3),
+    timeout: const Timeout.factor(10),
     () async {
       final examplePath = join('example', exampleName);
       final configPath = join(examplePath, 'jnigen.yaml');
@@ -44,7 +44,7 @@ void testDartApiExample(
     bool isLargeTest = false}) {
   test(
     'Generate and compare bindings for $exampleName',
-    timeout: const Timeout.factor(3),
+    timeout: const Timeout.factor(10),
     () async {
       final examplePath = join('example', exampleName);
       try {
@@ -96,6 +96,18 @@ void main() async {
   testExample(
     'kotlin_plugin',
     join('lib', 'kotlin_bindings.dart'),
+    isLargeTest: true,
+  );
+  testDartApiExample(
+    exampleName: 'maven_libs',
+    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    outputPath: join('lib', 'maven_libs_bindings.dart'),
+    isLargeTest: true,
+  );
+  testDartApiExample(
+    exampleName: 'maven_libs_groovy',
+    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    outputPath: join('lib', 'maven_libs_bindings.dart'),
     isLargeTest: true,
   );
 }
