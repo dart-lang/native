@@ -524,19 +524,6 @@ extension type NSTextList._(objc.ObjCObject object$)
     return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
-  /// includesTextListMarkers
-  static bool getIncludesTextListMarkers() {
-    objc.checkOsVersionInternal(
-      'NSTextList.includesTextListMarkers',
-      iOS: (false, (26, 0, 0)),
-      macOS: (false, (26, 0, 0)),
-    );
-    return _objc_msgSend_91o635(
-      _class_NSTextList,
-      _sel_includesTextListMarkers,
-    );
-  }
-
   /// new
   static NSTextList new$() {
     final $ret = _objc_msgSend_151sglz(_class_NSTextList, _sel_new);
@@ -1468,9 +1455,6 @@ late final _sel_dataSource = objc.registerName("dataSource");
 late final _sel_delegate = objc.registerName("delegate");
 late final _sel_detachColorList_ = objc.registerName("detachColorList:");
 late final _sel_encodeWithCoder_ = objc.registerName("encodeWithCoder:");
-late final _sel_includesTextListMarkers = objc.registerName(
-  "includesTextListMarkers",
-);
 late final _sel_init = objc.registerName("init");
 late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
 late final _sel_initWithMarkerFormat_options_ = objc.registerName(

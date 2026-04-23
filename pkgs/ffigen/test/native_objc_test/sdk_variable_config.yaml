@@ -8,6 +8,11 @@ objc-interfaces:
     - NSColorPicker
     - UIPickerView
     - NSTextList
+  member-filter:
+    NSTextList:
+      exclude:
+        # This method is missing on some machines.
+        - includesTextListMarkers
 headers:
   entry-points:
     - '$XCODE/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h'
