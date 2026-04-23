@@ -37,9 +37,11 @@ void verifyBindings(String testName, [Logger? logger]) {
   ]);
 
   final mFileName = context.config.output.objCFile.pathSegments.last;
-  matchObjCFileWithExpected(
-    context, library, mFileName, ['test', 'native_objc_test', mFileName],
-  );
+  matchObjCFileWithExpected(context, library, mFileName, [
+    'test',
+    'native_objc_test',
+    mFileName,
+  ]);
 }
 
 final _executeInternalCommand = () {

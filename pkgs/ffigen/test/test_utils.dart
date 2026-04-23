@@ -158,9 +158,9 @@ void matchLibrarySymbolFileWithExpected(
   );
 }
 
-/// Generates actual file using library and tests using [expect] with expected.
+/// Generates ObjC file using library and tests using [expect] with expected.
 ///
-/// This will not delete the actual debug file incase [expect] throws an error.
+/// This will not delete the actual ObjC file incase [expect] throws an error.
 void matchObjCFileWithExpected(
   Context context,
   Library library,
@@ -242,10 +242,10 @@ void matchFileWithExpected({
 
   // Move the expected and actual files to their correct locations.
   if (expectedFile.existsSync()) {
-    expectedFile.renameSync(actualFile.path);
+    expectedFile.renameSync(actualPath);
   }
   if (backupFile.existsSync()) {
-    backupFile.renameSync(expectedFile.path);
+    backupFile.renameSync(expectedPath);
   }
 
   if (updateExpectations) {
@@ -259,18 +259,12 @@ void matchFileWithExpected({
 
   final actualFileExists = actualFile.existsSync();
   final actualContent = actualFileExists
-      ? _normalizeGeneratedCode(
-          actualFile.readAsStringSync(),
-          codeNormalizer,
-        )
+      ? _normalizeGeneratedCode(actualFile.readAsStringSync(), codeNormalizer)
       : null;
 
   final expectedFileExists = expectedFile.existsSync();
   final expectedContent = expectedFileExists
-      ? _normalizeGeneratedCode(
-          expectedFile.readAsStringSync(),
-          codeNormalizer,
-        )
+      ? _normalizeGeneratedCode(expectedFile.readAsStringSync(), codeNormalizer)
       : null;
 
   var matches = false;
@@ -279,8 +273,8 @@ void matchFileWithExpected({
     matches = ((expectedContent == null) && (actualContent == null))
         ? true
         : ((expectedContent == null) || (actualContent == null))
-            ? false
-            : verify(expectedContent, actualContent);
+        ? false
+        : verify(expectedContent, actualContent);
   } catch (e) {
     verifyException = e;
   }
@@ -292,9 +286,9 @@ void matchFileWithExpected({
         'diff',
         '--no-index',
         '--color=always',
-        expectedFile.path,
-        actualFile.path,
-      ]).stdout;
+        expectedPath,
+        actualPath,
+      ]).stdout.toString();
     } else if (expectedFileExists) {
       diff = "Expected file exists, but actual file doesn't";
     } else {
@@ -309,15 +303,15 @@ void matchFileWithExpected({
 $diff
 
 $message
-  ${path.relative(expectedFile.path)}
+  ${path.relative(expectedPath)}
       vs
-  ${path.relative(actualFile.path)}
+  ${path.relative(actualPath)}
 
 If the diffs are expected, rerun with UPDATE=true
 ''');
   }
 
-  _expectNoAnalysisErrors(expectedFile.path);
+  _expectNoAnalysisErrors(expectedPath);
 
   if (actualFileExists) {
     actualFile.deleteSync();
