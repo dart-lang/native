@@ -16,13 +16,15 @@ void main(List<String> args) async {
   final mavenDownloads = config.mavenDownloads;
   if (mavenDownloads != null) {
     await GradleTools.downloadMavenSources(
-        GradleTools.deps(mavenDownloads.sourceDeps), mavenDownloads.sourceDir);
+      GradleTools.deps(mavenDownloads.sourceDeps),
+      mavenDownloads.sourceDir,
+    );
     // Include sources in jar download to make sure transitive
     // dependencies are included
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(
-            mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
-        mavenDownloads.jarDir);
+      GradleTools.deps(mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
+      mavenDownloads.jarDir,
+    );
     await Directory(mavenDownloads.jarDir)
         .list()
         .map((entry) => entry.path)

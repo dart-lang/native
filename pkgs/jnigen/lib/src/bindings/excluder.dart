@@ -42,8 +42,10 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
         log.fine('Excluded class ${classDecl.binaryName}');
       }
       if (classDecl.name.isInvalidDartIdentifier) {
-        log.warning('Excluded class ${classDecl.binaryName}: the name is not a'
-            ' valid Dart identifer');
+        log.warning(
+          'Excluded class ${classDecl.binaryName}: the name is not a'
+          ' valid Dart identifer',
+        );
         return true;
       }
       return excluded;
@@ -74,8 +76,9 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       }
       if (method.name.isInvalidDartIdentifier) {
         log.warning(
-            'Excluded method ${node.binaryName}#${method.name}: the name is not'
-            ' a valid Dart identifer');
+          'Excluded method ${node.binaryName}#${method.name}: the name is not'
+          ' a valid Dart identifer',
+        );
         return false;
       }
       return !excluded;
@@ -87,8 +90,9 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       }
       if (field.name.isInvalidDartIdentifier) {
         log.warning(
-            'Excluded field ${node.binaryName}#${field.name}: the name is not'
-            ' a valid Dart identifer');
+          'Excluded field ${node.binaryName}#${field.name}: the name is not'
+          ' a valid Dart identifer',
+        );
         return false;
       }
       return !excluded;

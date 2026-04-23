@@ -90,13 +90,14 @@ class UserRenamer extends Visitor {
 
 Future<void> rename(ast.Classes classes) async {
   final config = jnigen.Config(
-      outputConfig: jnigen.OutputConfig(
-        dartConfig: jnigen.DartCodeOutputConfig(
-          path: Uri.file('test.dart'),
-          structure: jnigen.OutputStructure.singleFile,
-        ),
+    outputConfig: jnigen.OutputConfig(
+      dartConfig: jnigen.DartCodeOutputConfig(
+        path: Uri.file('test.dart'),
+        structure: jnigen.OutputStructure.singleFile,
       ),
-      classes: []);
+    ),
+    classes: [],
+  );
   await classes.accept(Linker(config));
   classes.accept(Renamer(config));
 }
@@ -122,17 +123,18 @@ void main() {
         ],
       ),
       'y.Foo': ast.ClassDecl(
-          binaryName: 'y.Foo',
-          declKind: ast.DeclKind.classKind,
-          superclass: ast.DeclaredType.object,
-          methods: [
-            ast.Method(name: 'foo', returnType: ast.DeclaredType.object),
-            ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
-          ],
-          fields: [
-            ast.Field(name: 'foo', type: ast.DeclaredType.object),
-            ast.Field(name: 'Bar', type: ast.DeclaredType.object),
-          ]),
+        binaryName: 'y.Foo',
+        declKind: ast.DeclKind.classKind,
+        superclass: ast.DeclaredType.object,
+        methods: [
+          ast.Method(name: 'foo', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
+        ],
+        fields: [
+          ast.Field(name: 'foo', type: ast.DeclaredType.object),
+          ast.Field(name: 'Bar', type: ast.DeclaredType.object),
+        ],
+      ),
     });
 
     final simpleClasses = Classes(classes);
@@ -141,63 +143,90 @@ void main() {
     expect(classes.decls['y.Foo']?.isExcluded, true);
     expect(classes.decls['Foo']?.isExcluded, false);
 
-    expect(classes.decls['Foo']?.fields.isExcludedValues,
-        [false, true, false, true]);
-    expect(classes.decls['Foo']?.methods.isExcludedValues,
-        [false, true, false, true]);
+    expect(classes.decls['Foo']?.fields.isExcludedValues, [
+      false,
+      true,
+      false,
+      true,
+    ]);
+    expect(classes.decls['Foo']?.methods.isExcludedValues, [
+      false,
+      true,
+      false,
+      true,
+    ]);
   });
 
-  test('Rename classes, fields, methods and params using the user renamer',
-      () async {
-    final classes = ast.Classes({
-      'Foo': ast.ClassDecl(
-        binaryName: 'Foo',
-        declKind: ast.DeclKind.classKind,
-        superclass: ast.DeclaredType.object,
-        methods: [
-          ast.Method(name: 'Foo', returnType: ast.DeclaredType.object),
-          ast.Method(name: 'Foo', returnType: ast.DeclaredType.object),
-          ast.Method(name: 'Foo1', returnType: ast.DeclaredType.object),
-          ast.Method(name: 'Foo1', returnType: ast.DeclaredType.object),
-        ],
-        fields: [
-          ast.Field(name: 'Foo', type: ast.DeclaredType.object),
-          ast.Field(name: 'Foo', type: ast.DeclaredType.object),
-          ast.Field(name: 'Foo1', type: ast.DeclaredType.object),
-          ast.Field(name: 'Foo1', type: ast.DeclaredType.object),
-        ],
-      ),
-      'y.Foo': ast.ClassDecl(
-        binaryName: 'y.Foo',
-        declKind: ast.DeclKind.classKind,
-        superclass: ast.DeclaredType.object,
-        methods: [
-          ast.Method(name: 'Foo', returnType: ast.DeclaredType.object, params: [
-            ast.Param(name: 'Foo', type: ast.DeclaredType.object),
-            ast.Param(name: 'Foo1', type: ast.DeclaredType.object),
-          ]),
-          ast.Method(name: '<init>', returnType: ast.DeclaredType.object)
-        ],
-      ),
-    });
+  test(
+    'Rename classes, fields, methods and params using the user renamer',
+    () async {
+      final classes = ast.Classes({
+        'Foo': ast.ClassDecl(
+          binaryName: 'Foo',
+          declKind: ast.DeclKind.classKind,
+          superclass: ast.DeclaredType.object,
+          methods: [
+            ast.Method(name: 'Foo', returnType: ast.DeclaredType.object),
+            ast.Method(name: 'Foo', returnType: ast.DeclaredType.object),
+            ast.Method(name: 'Foo1', returnType: ast.DeclaredType.object),
+            ast.Method(name: 'Foo1', returnType: ast.DeclaredType.object),
+          ],
+          fields: [
+            ast.Field(name: 'Foo', type: ast.DeclaredType.object),
+            ast.Field(name: 'Foo', type: ast.DeclaredType.object),
+            ast.Field(name: 'Foo1', type: ast.DeclaredType.object),
+            ast.Field(name: 'Foo1', type: ast.DeclaredType.object),
+          ],
+        ),
+        'y.Foo': ast.ClassDecl(
+          binaryName: 'y.Foo',
+          declKind: ast.DeclKind.classKind,
+          superclass: ast.DeclaredType.object,
+          methods: [
+            ast.Method(
+              name: 'Foo',
+              returnType: ast.DeclaredType.object,
+              params: [
+                ast.Param(name: 'Foo', type: ast.DeclaredType.object),
+                ast.Param(name: 'Foo1', type: ast.DeclaredType.object),
+              ],
+            ),
+            ast.Method(name: '<init>', returnType: ast.DeclaredType.object),
+          ],
+        ),
+      });
 
-    final simpleClasses = Classes(classes);
-    simpleClasses.accept(UserRenamer());
+      final simpleClasses = Classes(classes);
+      simpleClasses.accept(UserRenamer());
 
-    await rename(classes);
+      await rename(classes);
 
-    expect(classes.decls['Foo']?.finalName, 'Bar');
-    expect(classes.decls['y.Foo']?.finalName, r'Bar$1');
+      expect(classes.decls['Foo']?.finalName, 'Bar');
+      expect(classes.decls['y.Foo']?.finalName, r'Bar$1');
 
-    expect(classes.decls['Foo']?.fields.finalNames,
-        ['Bar', r'Bar$1', 'Bar1', r'Bar1$1']);
+      expect(classes.decls['Foo']?.fields.finalNames, [
+        'Bar',
+        r'Bar$1',
+        'Bar1',
+        r'Bar1$1',
+      ]);
 
-    expect(classes.decls['Foo']?.methods.finalNames,
-        [r'Bar$2', r'Bar$3', r'Bar1$2', r'Bar1$3']);
+      expect(classes.decls['Foo']?.methods.finalNames, [
+        r'Bar$2',
+        r'Bar$3',
+        r'Bar1$2',
+        r'Bar1$3',
+      ]);
 
-    expect(classes.decls['y.Foo']?.methods.finalNames, [r'Bar', 'constructor']);
+      expect(classes.decls['y.Foo']?.methods.finalNames, [
+        r'Bar',
+        'constructor',
+      ]);
 
-    expect(classes.decls['y.Foo']?.methods.first.params.finalNames,
-        ['Bar', 'Bar1']);
-  });
+      expect(classes.decls['y.Foo']?.methods.first.params.finalNames, [
+        'Bar',
+        'Bar1',
+      ]);
+    },
+  );
 }

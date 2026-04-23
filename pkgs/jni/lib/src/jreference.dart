@@ -85,9 +85,12 @@ final class JGlobalReference extends JReference {
   final Pointer<Bool> _isReleased;
   final Pointer<Pointer<Char>> _releasedStackTracePointer;
 
-  JGlobalReference._(super.finalizable, this._jobjectFinalizableHandle,
-      this._isReleased, this._releasedStackTracePointer)
-      : super._();
+  JGlobalReference._(
+    super.finalizable,
+    this._jobjectFinalizableHandle,
+    this._isReleased,
+    this._releasedStackTracePointer,
+  ) : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
     final finalizable = _JFinalizable(pointer);
@@ -95,16 +98,25 @@ final class JGlobalReference extends JReference {
     var releasedStackTracePointer = nullptr.cast<Pointer<Char>>();
     final jobjectFinalizableHandle =
         InternalJniExtension.newJObjectFinalizableHandle(
-            finalizable, finalizable.pointer, JObjectRefType.JNIGlobalRefType);
+          finalizable,
+          finalizable.pointer,
+          JObjectRefType.JNIGlobalRefType,
+        );
     InternalJniExtension.newBooleanFinalizableHandle(finalizable, isReleased);
     assert(() {
       releasedStackTracePointer = calloc<Pointer<Char>>();
       InternalJniExtension.newStackTraceFinalizableHandle(
-          finalizable, releasedStackTracePointer.cast());
+        finalizable,
+        releasedStackTracePointer.cast(),
+      );
       return true;
     }());
-    return JGlobalReference._(finalizable, jobjectFinalizableHandle, isReleased,
-        releasedStackTracePointer);
+    return JGlobalReference._(
+      finalizable,
+      jobjectFinalizableHandle,
+      isReleased,
+      releasedStackTracePointer,
+    );
   }
 
   @override
@@ -134,7 +146,9 @@ final class JGlobalReference extends JReference {
     }
     _isReleased.value = true;
     InternalJniExtension.deleteFinalizableHandle(
-        _jobjectFinalizableHandle, _finalizable);
+      _jobjectFinalizableHandle,
+      _finalizable,
+    );
     assert(() {
       if (Jni.captureStackTraceOnRelease) {
         _appendToStackTrace('Object was released at:\n${StackTrace.current}\n');
@@ -147,8 +161,9 @@ final class JGlobalReference extends JReference {
   void registeredInArena() {
     if (Jni.captureStackTraceOnRelease) {
       _appendToStackTrace(
-          'Object was registered to be released by an arena at:\n'
-          '${StackTrace.current}\n');
+        'Object was registered to be released by an arena at:\n'
+        '${StackTrace.current}\n',
+      );
     }
   }
 

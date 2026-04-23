@@ -16,16 +16,16 @@ Future<void> populateRAG(
 
   final listOfSummaries = <String>[];
 
-  final bindingsClassSummary =
-      context.bindingsSummary.map((c) => c.toDartLikeRepresentation()).toList();
+  final bindingsClassSummary = context.bindingsSummary
+      .map((c) => c.toDartLikeRepresentation())
+      .toList();
 
   listOfSummaries.addAll(bindingsClassSummary);
 
   for (final package in context.packageSummaries) {
-    final packageClassesSummary =
-        package.classesSummaries
-            .map((c) => c.toDartLikeRepresentation())
-            .toList();
+    final packageClassesSummary = package.classesSummaries
+        .map((c) => c.toDartLikeRepresentation())
+        .toList();
     listOfSummaries.addAll(packageClassesSummary);
   }
 

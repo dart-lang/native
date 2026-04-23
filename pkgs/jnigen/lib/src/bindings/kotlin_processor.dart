@@ -6,8 +6,9 @@ import '../elements/elements.dart';
 import 'visitor.dart';
 
 String _toJavaBinaryName(String kotlinBinaryName) {
-  final binaryName =
-      kotlinBinaryName.replaceAll('.', r'$').replaceAll('/', '.');
+  final binaryName = kotlinBinaryName
+      .replaceAll('.', r'$')
+      .replaceAll('/', '.');
   return const {
         'kotlin.Any': 'java.lang.Object',
         'kotlin.Byte': 'java.lang.Byte',
@@ -55,7 +56,8 @@ class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
     if (node.kotlinClass != null) {
       for (var i = 0; i < node.kotlinClass!.typeParameters.length; ++i) {
         node.typeParams[i].accept(
-            _KotlinTypeParamProcessor(node.kotlinClass!.typeParameters[i]));
+          _KotlinTypeParamProcessor(node.kotlinClass!.typeParameters[i]),
+        );
       }
       if (node.superclass case final superClass?) {
         final kotlinSuperTypes = node.kotlinClass!.superTypes.where(
@@ -122,7 +124,9 @@ class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
 }
 
 void _processParams(
-    List<Param> params, List<KotlinValueParameter> kotlinParams) {
+  List<Param> params,
+  List<KotlinValueParameter> kotlinParams,
+) {
   if (params.length != kotlinParams.length) {
     return;
   }
@@ -141,14 +145,17 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
     _processParams(node.params, function.valueParameters);
     node.kotlinFunction = function;
     for (var i = 0; i < node.typeParams.length; ++i) {
-      node.typeParams[i]
-          .accept(_KotlinTypeParamProcessor(function.typeParameters[i]));
+      node.typeParams[i].accept(
+        _KotlinTypeParamProcessor(function.typeParameters[i]),
+      );
     }
     if (function.isSuspend) {
       const kotlinContinutationType = 'kotlin.coroutines.Continuation';
-      assert(node.params.isNotEmpty &&
-          node.params.last.type is DeclaredType &&
-          node.params.last.type.name == kotlinContinutationType);
+      assert(
+        node.params.isNotEmpty &&
+            node.params.last.type is DeclaredType &&
+            node.params.last.type.name == kotlinContinutationType,
+      );
       var continuationType =
           (node.params.last.type as DeclaredType).params.firstOrNull;
       if (continuationType != null &&
@@ -287,8 +294,9 @@ class _KotlinTypeProcessor extends TypeVisitor<void> {
   @override
   void visitNonPrimitiveType(ReferredType node) {
     node.annotations ??= [];
-    node.annotations!
-        .add(kotlinType.isNullable ? Annotation.nullable : Annotation.nonNull);
+    node.annotations!.add(
+      kotlinType.isNullable ? Annotation.nullable : Annotation.nonNull,
+    );
   }
 
   @override

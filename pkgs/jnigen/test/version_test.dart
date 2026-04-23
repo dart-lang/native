@@ -7,16 +7,17 @@ import 'dart:io';
 import 'package:test/test.dart';
 
 String _pubspecVersion(String path) {
-  final v = RegExp(r'version: (.*)')
-      .firstMatch(File(path).readAsStringSync())!
-      .group(1)!;
+  final v = RegExp(
+    r'version: (.*)',
+  ).firstMatch(File(path).readAsStringSync())!.group(1)!;
   return v.endsWith('-wip') ? v.substring(0, v.length - '-wip'.length) : v;
 }
 
 String _dartGeneratorVersion(String varName) {
   return RegExp("const String $varName = '(.*)';")
       .firstMatch(
-          File('lib/src/bindings/dart_generator.dart').readAsStringSync())!
+        File('lib/src/bindings/dart_generator.dart').readAsStringSync(),
+      )!
       .group(1)!;
 }
 
@@ -29,11 +30,15 @@ void main() {
 
   test('JNI versions in pubspec.yaml and dart_generator.dart match', () {
     final pubspecVersion = _pubspecVersion('../jni/pubspec.yaml');
-    final pubspecVersionNoPatch =
-        pubspecVersion.substring(0, pubspecVersion.lastIndexOf('.'));
+    final pubspecVersionNoPatch = pubspecVersion.substring(
+      0,
+      pubspecVersion.lastIndexOf('.'),
+    );
     final dartGeneratorMajorVersion = _dartGeneratorVersion('jniMajorVersion');
     final dartGeneratorMinorVersion = _dartGeneratorVersion('jniMinorVersion');
-    expect(pubspecVersionNoPatch,
-        '$dartGeneratorMajorVersion.$dartGeneratorMinorVersion');
+    expect(
+      pubspecVersionNoPatch,
+      '$dartGeneratorMajorVersion.$dartGeneratorMinorVersion',
+    );
   });
 }

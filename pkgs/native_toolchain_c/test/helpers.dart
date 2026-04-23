@@ -16,8 +16,6 @@ import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
-export 'package:native_toolchain_c/src/utils/run_process.dart';
-
 /// Returns a suffix for a test that is parameterized.
 ///
 /// [tags] represent the current configuration of the test. Each element

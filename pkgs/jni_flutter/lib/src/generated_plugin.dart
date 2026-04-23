@@ -47,7 +47,8 @@ const _$jniVersionCheck = jni$_.JniVersionCheck(1, 0);
 extension type JniFlutterPlugin._(jni$_.JObject _$this)
     implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
-      r'com/github/dart_lang/jni_flutter/JniFlutterPlugin');
+    r'com/github/dart_lang/jni_flutter/JniFlutterPlugin',
+  );
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JniFlutterPlugin> type = $JniFlutterPlugin$Type$();
@@ -55,23 +56,29 @@ extension type JniFlutterPlugin._(jni$_.JObject _$this)
     r'()V',
   );
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JniFlutterPlugin() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<JniFlutterPlugin>();
+    return _new$(
+      _class.reference.pointer,
+      _id_new$.pointer,
+    ).object<JniFlutterPlugin>();
   }
 
   static final _id_get$applicationContext = _class.staticMethodId(
@@ -79,24 +86,29 @@ extension type JniFlutterPlugin._(jni$_.JObject _$this)
     r'()Landroid/content/Context;',
   );
 
-  static final _get$applicationContext = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$applicationContext =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject get applicationContext {
     return _get$applicationContext(
-            _class.reference.pointer, _id_get$applicationContext.pointer)
-        .object<jni$_.JObject>();
+      _class.reference.pointer,
+      _id_get$applicationContext.pointer,
+    ).object<jni$_.JObject>();
   }
 
   static final _id_getActivity = _class.staticMethodId(
@@ -104,150 +116,198 @@ extension type JniFlutterPlugin._(jni$_.JObject _$this)
     r'(J)Landroid/app/Activity;',
   );
 
-  static final _getActivity = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
-          'globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
+  static final _getActivity =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int64,)>,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+            )
+          >();
 
   /// from: `static public android.app.Activity getActivity(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? getActivity(
     core$_.int j,
   ) {
-    return _getActivity(_class.reference.pointer, _id_getActivity.pointer, j)
-        .object<jni$_.JObject?>();
+    return _getActivity(
+      _class.reference.pointer,
+      _id_getActivity.pointer,
+      j,
+    ).object<jni$_.JObject?>();
   }
 }
 
 extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
-  static final _id_onAttachedToEngine =
-      JniFlutterPlugin._class.instanceMethodId(
+  static final _id_onAttachedToEngine = JniFlutterPlugin._class.instanceMethodId(
     r'onAttachedToEngine',
     r'(Lio/flutter/embedding/engine/plugins/FlutterPlugin$FlutterPluginBinding;)V',
   );
 
-  static final _onAttachedToEngine = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _onAttachedToEngine =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void onAttachedToEngine(io.flutter.embedding.engine.plugins.FlutterPlugin$FlutterPluginBinding flutterPluginBinding)`
   void onAttachedToEngine(
     jni$_.JObject flutterPluginBinding,
   ) {
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    _onAttachedToEngine(reference.pointer, _id_onAttachedToEngine.pointer,
-            _$flutterPluginBinding.pointer)
-        .check();
+    _onAttachedToEngine(
+      reference.pointer,
+      _id_onAttachedToEngine.pointer,
+      _$flutterPluginBinding.pointer,
+    ).check();
   }
 
-  static final _id_onDetachedFromEngine =
-      JniFlutterPlugin._class.instanceMethodId(
+  static final _id_onDetachedFromEngine = JniFlutterPlugin._class.instanceMethodId(
     r'onDetachedFromEngine',
     r'(Lio/flutter/embedding/engine/plugins/FlutterPlugin$FlutterPluginBinding;)V',
   );
 
-  static final _onDetachedFromEngine = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _onDetachedFromEngine =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void onDetachedFromEngine(io.flutter.embedding.engine.plugins.FlutterPlugin$FlutterPluginBinding flutterPluginBinding)`
   void onDetachedFromEngine(
     jni$_.JObject flutterPluginBinding,
   ) {
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    _onDetachedFromEngine(reference.pointer, _id_onDetachedFromEngine.pointer,
-            _$flutterPluginBinding.pointer)
-        .check();
+    _onDetachedFromEngine(
+      reference.pointer,
+      _id_onDetachedFromEngine.pointer,
+      _$flutterPluginBinding.pointer,
+    ).check();
   }
 
-  static final _id_onAttachedToActivity =
-      JniFlutterPlugin._class.instanceMethodId(
+  static final _id_onAttachedToActivity = JniFlutterPlugin._class.instanceMethodId(
     r'onAttachedToActivity',
     r'(Lio/flutter/embedding/engine/plugins/activity/ActivityPluginBinding;)V',
   );
 
-  static final _onAttachedToActivity = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _onAttachedToActivity =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void onAttachedToActivity(io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding activityPluginBinding)`
   void onAttachedToActivity(
     jni$_.JObject activityPluginBinding,
   ) {
     final _$activityPluginBinding = activityPluginBinding.reference;
-    _onAttachedToActivity(reference.pointer, _id_onAttachedToActivity.pointer,
-            _$activityPluginBinding.pointer)
-        .check();
+    _onAttachedToActivity(
+      reference.pointer,
+      _id_onAttachedToActivity.pointer,
+      _$activityPluginBinding.pointer,
+    ).check();
   }
 
-  static final _id_onDetachedFromActivityForConfigChanges =
-      JniFlutterPlugin._class.instanceMethodId(
-    r'onDetachedFromActivityForConfigChanges',
-    r'()V',
-  );
+  static final _id_onDetachedFromActivityForConfigChanges = JniFlutterPlugin
+      ._class
+      .instanceMethodId(
+        r'onDetachedFromActivityForConfigChanges',
+        r'()V',
+      );
 
   static final _onDetachedFromActivityForConfigChanges =
       jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallVoidMethod')
-          .asFunction<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void onDetachedFromActivityForConfigChanges()`
   void onDetachedFromActivityForConfigChanges() {
-    _onDetachedFromActivityForConfigChanges(reference.pointer,
-            _id_onDetachedFromActivityForConfigChanges.pointer)
-        .check();
+    _onDetachedFromActivityForConfigChanges(
+      reference.pointer,
+      _id_onDetachedFromActivityForConfigChanges.pointer,
+    ).check();
   }
 
-  static final _id_onReattachedToActivityForConfigChanges =
-      JniFlutterPlugin._class.instanceMethodId(
-    r'onReattachedToActivityForConfigChanges',
-    r'(Lio/flutter/embedding/engine/plugins/activity/ActivityPluginBinding;)V',
-  );
+  static final _id_onReattachedToActivityForConfigChanges = JniFlutterPlugin
+      ._class
+      .instanceMethodId(
+        r'onReattachedToActivityForConfigChanges',
+        r'(Lio/flutter/embedding/engine/plugins/activity/ActivityPluginBinding;)V',
+      );
 
   static final _onReattachedToActivityForConfigChanges =
       jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JThrowablePtr Function(
-                          jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr,
-                          jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-              'globalEnv_CallVoidMethod')
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
           .asFunction<
-              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void onReattachedToActivityForConfigChanges(io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding activityPluginBinding)`
   void onReattachedToActivityForConfigChanges(
@@ -255,35 +315,40 @@ extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
   ) {
     final _$activityPluginBinding = activityPluginBinding.reference;
     _onReattachedToActivityForConfigChanges(
-            reference.pointer,
-            _id_onReattachedToActivityForConfigChanges.pointer,
-            _$activityPluginBinding.pointer)
-        .check();
+      reference.pointer,
+      _id_onReattachedToActivityForConfigChanges.pointer,
+      _$activityPluginBinding.pointer,
+    ).check();
   }
 
-  static final _id_onDetachedFromActivity =
-      JniFlutterPlugin._class.instanceMethodId(
-    r'onDetachedFromActivity',
-    r'()V',
-  );
+  static final _id_onDetachedFromActivity = JniFlutterPlugin._class
+      .instanceMethodId(
+        r'onDetachedFromActivity',
+        r'()V',
+      );
 
-  static final _onDetachedFromActivity = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _onDetachedFromActivity =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void onDetachedFromActivity()`
   void onDetachedFromActivity() {
     _onDetachedFromActivity(
-            reference.pointer, _id_onDetachedFromActivity.pointer)
-        .check();
+      reference.pointer,
+      _id_onDetachedFromActivity.pointer,
+    ).check();
   }
 }
 

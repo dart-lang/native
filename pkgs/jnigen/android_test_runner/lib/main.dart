@@ -34,16 +34,12 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Integration test runner"),
-      ),
+      appBar: AppBar(title: const Text("Integration test runner")),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'This app should be run as flutter integration test',
-            ),
+            Text('This app should be run as flutter integration test'),
           ],
         ),
       ),

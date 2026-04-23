@@ -15,11 +15,13 @@ class Paths {
   static final currentDir = Directory.current.uri;
   static final bindingsDir = currentDir.resolve('lib/src/third_party/');
   // Contains extensions for our C wrapper types.
-  static final globalEnvExts =
-      bindingsDir.resolve('global_env_extensions.dart');
+  static final globalEnvExts = bindingsDir.resolve(
+    'global_env_extensions.dart',
+  );
   // Contains extensions for JNI's struct types.
-  static final localEnvExts =
-      bindingsDir.resolve('jnienv_javavm_extensions.dart');
+  static final localEnvExts = bindingsDir.resolve(
+    'jnienv_javavm_extensions.dart',
+  );
 }
 
 const writeLocalEnvExtensions = false;
@@ -101,9 +103,10 @@ String? getGlobalEnvExtensionFunction(
         .map((p) => '${p.type.getDartType(context)} ${p.name}')
         .join(', ');
 
-    final dartType =
-        FunctionType(returnType: checkedReturnType!, parameters: params)
-            .getDartType(context);
+    final dartType = FunctionType(
+      returnType: checkedReturnType!,
+      parameters: params,
+    ).getDartType(context);
     final callArgs = params.map((p) => p.name).join(', ');
     final checkedGetter = getCheckedGetter(context, returnType);
     var returns = returnType.getDartType(context);
@@ -135,8 +138,9 @@ import 'jni_bindings_generated.dart';
 ''';
 
   final globalEnvExtension = getGlobalEnvExtension(library);
-  File.fromUri(Paths.globalEnvExts)
-      .writeAsStringSync('$preamble$header$globalEnvExtension');
+  File.fromUri(
+    Paths.globalEnvExts,
+  ).writeAsStringSync('$preamble$header$globalEnvExtension');
   final localEnvExtsFile = File.fromUri(Paths.localEnvExts);
   if (localEnvExtsFile.existsSync()) {
     localEnvExtsFile.deleteSync();
@@ -158,8 +162,9 @@ import 'jni_bindings_generated.dart';
     indirect: true,
     implicitThis: true,
   );
-  localEnvExtsFile
-      .writeAsStringSync('$preamble$header$envExtension$jvmExtension');
+  localEnvExtsFile.writeAsStringSync(
+    '$preamble$header$envExtension$jvmExtension',
+  );
 }
 
 const leafFunctions = {
@@ -244,9 +249,7 @@ const leafFunctions = {
   'getStaticField',
 };
 
-String getGlobalEnvExtension(
-  Library library,
-) {
+String getGlobalEnvExtension(Library library) {
   final env = findCompound(library, localEnvType);
   final globalEnv = findCompound(library, globalEnvType);
   final checkedReturnTypes = <String, Type>{};
@@ -260,16 +263,19 @@ String getGlobalEnvExtension(
   final extensionFunctions = env.members
       // ignore ones that get va_list
       .where((member) => !member.name.endsWith('V'))
-      .map((member) => getGlobalEnvExtensionFunction(
-            library.context,
-            member,
-            checkedReturnTypes[member.name],
-            isLeaf: leafFunctions.contains(member.name),
-          ))
+      .map(
+        (member) => getGlobalEnvExtensionFunction(
+          library.context,
+          member,
+          checkedReturnTypes[member.name],
+          isLeaf: leafFunctions.contains(member.name),
+        ),
+      )
       .nonNulls
       .join('\n');
-  final generatedFunctions =
-      primitiveArrayHelperFunctions.map((f) => f.dartCode).join('\n');
+  final generatedFunctions = primitiveArrayHelperFunctions
+      .map((f) => f.dartCode)
+      .join('\n');
   return '''
 /// Wraps over `Pointer<GlobalJniEnvStruct>` and exposes function pointer fields
 /// as methods.
@@ -305,11 +311,13 @@ String? getFunctionPointerExtensionFunction(
         .map((p) => '${p.type.getDartType(context)} ${p.name}')
         .join(', ');
 
-    final dartType = FunctionType(returnType: returnType, parameters: params)
-        .getDartType(context);
+    final dartType = FunctionType(
+      returnType: returnType,
+      parameters: params,
+    ).getDartType(context);
     final callArgs = [
       if (implicitThis) 'ptr',
-      ...visibleParams.map((p) => p.name)
+      ...visibleParams.map((p) => p.name),
     ].join(', ');
     final returns = returnType.getDartType(context);
     final dereference = indirect ? 'value.ref' : 'ref';
@@ -325,16 +333,25 @@ $returns ${field.name}($signature) => _${field.name}($callArgs);
 }
 
 String getFunctionPointerExtension(
-    Library library, String type, String wrapperClassName,
-    {bool indirect = false, bool implicitThis = false}) {
+  Library library,
+  String type,
+  String wrapperClassName, {
+  bool indirect = false,
+  bool implicitThis = false,
+}) {
   final typeBinding =
       library.bindings.firstWhere((b) => b.name == type) as Type;
   final compound = typeBinding.typealiasType.baseType as Compound;
   final extensionFunctions = compound.members
-      .map((f) => getFunctionPointerExtensionFunction(library.context, f,
+      .map(
+        (f) => getFunctionPointerExtensionFunction(
+          library.context,
+          f,
           indirect: indirect,
           implicitThis: implicitThis,
-          isLeaf: leafFunctions.contains(f.name)))
+          isLeaf: leafFunctions.contains(f.name),
+        ),
+      )
       .nonNulls
       .join('\n');
   return '''

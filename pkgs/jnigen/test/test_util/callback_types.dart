@@ -6,7 +6,5 @@
 // integration tests, and we test_util imports several parts of package:jnigen.
 
 typedef TestCaseCallback = void Function();
-typedef TestRunnerCallback = void Function(
-  String description,
-  TestCaseCallback test,
-);
+typedef TestRunnerCallback =
+    void Function(String description, TestCaseCallback test);

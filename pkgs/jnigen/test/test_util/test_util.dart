@@ -28,13 +28,23 @@ Future<bool> isEmptyOrNotExistDir(String path) async {
 }
 
 /// Runs command, and prints output only if the exit status is non-zero.
-Future<int> runCommandReturningStatus(String exec, List<String> args,
-    {String? workingDirectory, bool runInShell = false}) async {
-  final proc = await Process.run(exec, args,
-      workingDirectory: workingDirectory, runInShell: runInShell);
+Future<int> runCommandReturningStatus(
+  String exec,
+  List<String> args, {
+  String? workingDirectory,
+  bool runInShell = false,
+}) async {
+  final proc = await Process.run(
+    exec,
+    args,
+    workingDirectory: workingDirectory,
+    runInShell: runInShell,
+  );
   if (proc.exitCode != 0) {
-    printError('command exited with exit status ${proc.exitCode}:\n'
-        '$exec ${args.join(" ")}\n');
+    printError(
+      'command exited with exit status ${proc.exitCode}:\n'
+      '$exec ${args.join(" ")}\n',
+    );
     printError(proc.stdout);
     printError(proc.stderr);
   }
@@ -87,10 +97,14 @@ void comparePaths(String path1, String path2) {
   if (diffProc.exitCode != 0) {
     final originalDiff = diffProc.stdout;
     log.warning(
-        'Paths $path1 and $path2 differ, Running dart format on $path1.');
+      'Paths $path1 and $path2 differ, Running dart format on $path1.',
+    );
     Process.runSync('dart', ['format', path1]);
-    final fallbackDiffProc =
-        Process.runSync('git', [...diffCommand, path1, path2]);
+    final fallbackDiffProc = Process.runSync('git', [
+      ...diffCommand,
+      path1,
+      path2,
+    ]);
     if (fallbackDiffProc.exitCode != 0) {
       stderr.writeln(originalDiff);
       throw Exception('Paths $path1 and $path2 differ');
@@ -114,8 +128,8 @@ Future<void> _generateTempBindings(Config config, Directory tempDir) async {
 /// `dartReferenceBindings` can be directory or file depending on output
 /// configuration.
 Future<void> generateAndCompareBindings(Config config) async {
-  final dartReferenceBindings =
-      config.outputConfig.dartConfig.path.toFilePath();
+  final dartReferenceBindings = config.outputConfig.dartConfig.path
+      .toFilePath();
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync('jnigen_test_temp');
   final singleFile =
@@ -131,8 +145,10 @@ Future<void> generateAndCompareBindings(Config config) async {
   }
 }
 
-Future<void> generateAndAnalyzeBindings(Config config,
-    {Iterable<String> confirmExists = const []}) async {
+Future<void> generateAndAnalyzeBindings(
+  Config config, {
+  Iterable<String> confirmExists = const [],
+}) async {
   final tempDir = Directory.current.createTempSync('jnigen_test_temp');
   try {
     await _generateTempBindings(config, tempDir);
@@ -144,12 +160,14 @@ Future<void> generateAndAnalyzeBindings(Config config,
     final singleFile =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
     if (!singleFile && confirmExists.isNotEmpty) {
-      throw UnimplementedError('Currently only supports single file mode '
-          'for confirming that classes exists');
+      throw UnimplementedError(
+        'Currently only supports single file mode '
+        'for confirming that classes exists',
+      );
     } else if (singleFile && confirmExists.isNotEmpty) {
-      final generatedCode =
-          await File.fromUri(tempDir.uri.resolve('generated.dart'))
-              .readAsString();
+      final generatedCode = await File.fromUri(
+        tempDir.uri.resolve('generated.dart'),
+      ).readAsString();
       for (final className in confirmExists) {
         if (!generatedCode.contains(className)) {
           fail('$className does not exist in the generated bindings');
@@ -167,16 +185,24 @@ Future<void> failIfSummarizerNotBuilt() async {
   final jarExists = await File(summarizerJar).exists();
   if (!jarExists) {
     stderr.writeln();
-    log.fatal('Please build summarizer by running '
-        '`dart run jnigen:setup` and try again');
+    log.fatal(
+      'Please build summarizer by running '
+      '`dart run jnigen:setup` and try again',
+    );
   }
-  final isJarStale = jarExists &&
+  final isJarStale =
+      jarExists &&
       await isPackageModifiedAfter(
-          'jnigen', await File(summarizerJar).lastModified(), 'java/');
+        'jnigen',
+        await File(summarizerJar).lastModified(),
+        'java/',
+      );
   if (isJarStale) {
     stderr.writeln();
-    log.fatal('Summarizer is not rebuilt after recent changes. '
-        'Please run `dart run jnigen:setup` and try again.');
+    log.fatal(
+      'Summarizer is not rebuilt after recent changes. '
+      'Please run `dart run jnigen:setup` and try again.',
+    );
   }
 }
 
@@ -194,10 +220,7 @@ Future<void> checkLocallyBuiltDependencies() async {
   await failIfSummarizerNotBuilt();
 }
 
-void generateAndCompare(
-  String description,
-  Config config,
-) {
+void generateAndCompare(String description, Config config) {
   test(description, () async {
     await generateAndCompareBindings(config);
   }, timeout: const Timeout(Duration(minutes: 2)));

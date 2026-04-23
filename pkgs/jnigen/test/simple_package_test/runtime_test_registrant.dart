@@ -22,12 +22,13 @@ void _runJavaGC() {
   );
   final bean = managementFactory
       .staticMethodId(
-    'getRuntimeMXBean',
-    '()Ljava/lang/management/RuntimeMXBean;',
-  )
+        'getRuntimeMXBean',
+        '()Ljava/lang/management/RuntimeMXBean;',
+      )
       .call(managementFactory, JObject.type, []);
-  final pid =
-      bean.jClass.instanceMethodId('getPid', '()J').call(bean, jlong.type, []);
+  final pid = bean.jClass
+      .instanceMethodId('getPid', '()J')
+      .call(bean, jlong.type, []);
   ProcessResult result;
   do {
     result = Process.runSync('jcmd', [pid.toString(), 'GC.run']);
@@ -135,14 +136,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
       final rand = e.random;
       expect(rand, isNotNull);
       final _ = e.randomLong;
-      final id =
-          e.getRandomNumericString(rand)!.toDartString(releaseOriginal: true);
+      final id = e
+          .getRandomNumericString(rand)!
+          .toDartString(releaseOriginal: true);
       expect(int.parse(id), lessThan(10000));
       e.number = 145;
-      expect(
-        e.self!.self!.self!.self!.number,
-        equals(145),
-      );
+      expect(e.self!.self!.self!.self!.number, equals(145));
       e.release();
     });
 
@@ -342,17 +341,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             (map.get(
               'Hello'.toJString()..releasedBy(arena),
-            )!
-                  ..releasedBy(arena))
-                .number,
+            )!..releasedBy(arena)).number,
             1,
           );
           expect(
             (map.get(
               'World'.toJString()..releasedBy(arena),
-            )!
-                  ..releasedBy(arena))
-                .number,
+            )!..releasedBy(arena)).number,
             2,
           );
           expect(
@@ -402,9 +397,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             expect(
               (map.get(
                 'Hello'.toJString()..releasedBy(arena),
-              )!
-                    ..releasedBy(arena))
-                  .number,
+              )!..releasedBy(arena)).number,
               0,
             );
           });
@@ -452,12 +445,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
           final exampleStaticParent = GrandParent.varStaticParent(
             Example()..releasedBy(arena),
-          )!
-            ..releasedBy(arena);
-          expect(
-            (exampleStaticParent.value!..releasedBy(arena)).number,
-            0,
-          );
+          )!..releasedBy(arena);
+          expect((exampleStaticParent.value!..releasedBy(arena)).number, 0);
 
           final strParent = grandParent.stringParent()!..releasedBy(arena);
           expect(
@@ -470,8 +459,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
           final exampleParent = grandParent.varParent(
             Example()..releasedBy(arena),
-          )!
-            ..releasedBy(arena);
+          )!..releasedBy(arena);
           expect(
             exampleParent.parentValue!
                 .as(JString.type, releaseOriginal: true)
@@ -487,14 +475,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Constructing non-static nested classes', () {
       using((arena) {
         final grandParent = GrandParent(1.toJInteger())..releasedBy(arena);
-        final parent = GrandParent$Parent(
-          grandParent,
-          2.toJInteger(),
-        )..releasedBy(arena);
-        final child = GrandParent$Parent$Child(
-          parent,
-          3.toJInteger(),
-        )..releasedBy(arena);
+        final parent = GrandParent$Parent(grandParent, 2.toJInteger())
+          ..releasedBy(arena);
+        final child = GrandParent$Parent$Child(parent, 3.toJInteger())
+          ..releasedBy(arena);
         expect(grandParent.value!.toDartInt(releaseOriginal: true), 1);
         expect(parent.parentValue!.toDartInt(releaseOriginal: true), 1);
         expect(parent.value!.toDartInt(releaseOriginal: true), 2);
@@ -523,8 +507,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 return (s!.toDartString(releaseOriginal: true) * 2).toJString();
               },
               varCallback: (JInteger? t) {
-                final result =
-                    (t!.toDartInt(releaseOriginal: true) * 2).toJInteger();
+                final result = (t!.toDartInt(releaseOriginal: true) * 2)
+                    .toJInteger();
                 varCallbackResult.complete(result);
                 return result;
               },
@@ -560,7 +544,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           final voidCallback = await voidCallbackResult.future;
           expect(
-              voidCallback.toDartString(releaseOriginal: true), 'hellohello');
+            voidCallback.toDartString(releaseOriginal: true),
+            'hellohello',
+          );
 
           final varCallback = await varCallbackResult.future;
           expect(varCallback.intValue(), 14);
@@ -697,8 +683,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       group('Dart exceptions are handled', () {
         for (final exception in [UnimplementedError(), 'Hello!']) {
           for (final sameThread in [true, false]) {
-            test(
-                'on ${sameThread ? 'the same thread' : 'another thread'}'
+            test('on ${sameThread ? 'the same thread' : 'another thread'}'
                 ' throwing $exception', () async {
               await using((arena) async {
                 final runnable = MyRunnable.implement(
@@ -778,8 +763,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ) async {
               final receivePort = ReceivePort();
               await Isolate.spawn((sendPort) {
-                final futureClass =
-                    JClass.forName('java/util/concurrent/Future');
+                final futureClass = JClass.forName(
+                  'java/util/concurrent/Future',
+                );
                 final getMethod = futureClass.instanceMethodId(
                   'get',
                   '()Ljava/lang/Object;',
@@ -805,8 +791,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               sevenHundred = (await toDartFuture(
                 sevenHundredBoxed,
                 JInteger.type,
-              ))
-                  .intValue();
+              )).intValue();
             }
             expect(sevenHundred, 700);
 
@@ -840,8 +825,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )..releasedBy(arena);
           final stringArray = genericInterface.arrayOf(
             'hello'.toJString()..releasedBy(arena),
-          )!
-            ..releasedBy(arena);
+          )!..releasedBy(arena);
           expect(stringArray.asDart(), hasLength(1));
           expect(stringArray[0]!.toDartString(releaseOriginal: true), 'hello');
           expect(
@@ -853,8 +837,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
           final intArray = genericInterface.genericArrayOf(
             42.toJInteger()..releasedBy(arena),
-          )!
-            ..releasedBy(arena);
+          )!..releasedBy(arena);
           expect(
             genericInterface
                 .firstOfGenericArray(intArray)!
@@ -865,12 +848,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final jmap = genericInterface.mapOf(
             'hello'.toJString()..releasedBy(arena),
             42.toJInteger()..releasedBy(arena),
-          )!
-            ..releasedBy(arena);
+          )!..releasedBy(arena);
           expect(
             jmap.asDart()['hello'.toJString()..releasedBy(arena)]!.toDartInt(
-                  releaseOriginal: true,
-                ),
+              releaseOriginal: true,
+            ),
             42,
           );
           expect(
@@ -888,14 +870,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
         });
       });
       test('Superinterface methods are available', () {
-        final parent = $R2250(
-          foo: (JString? _) => 42,
-        );
+        final parent = $R2250(foo: (JString? _) => 42);
         expect(parent.foo(null), 42);
 
-        final child = $R2250$Child(
-          foo: (JObject? _) => 24,
-        );
+        final child = $R2250$Child(foo: (JObject? _) => 24);
         expect(child.foo(null), 24);
       });
     });
@@ -950,7 +928,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final annotated = newTestObject(arena);
           expect(
-              annotated.hello().toDartString(releaseOriginal: true), 'hello');
+            annotated.hello().toDartString(releaseOriginal: true),
+            'hello',
+          );
           expect(annotated.nullableHello(true), isNull);
           expect(
             annotated.nullableHello(false)!.toDartString(releaseOriginal: true),
@@ -973,9 +953,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             (annotated.nullableArray(
               false,
-            )!
-                  ..releasedBy(arena))[0]
-                .toDartString(releaseOriginal: true),
+            )!..releasedBy(arena))[0].toDartString(releaseOriginal: true),
             'hello',
           );
           expect(annotated.nullableArrayOfNullable(true), isNull);
@@ -991,26 +969,26 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final annotated = newTestObject(arena);
           expect(
             (annotated.list()..releasedBy(arena)).asDart()[0].toDartString(
-                  releaseOriginal: true,
-                ),
+              releaseOriginal: true,
+            ),
             'hello',
           );
-          expect((annotated.listOfNullable()..releasedBy(arena)).asDart()[0],
-              isNull);
+          expect(
+            (annotated.listOfNullable()..releasedBy(arena)).asDart()[0],
+            isNull,
+          );
           expect(annotated.nullableList(true), isNull);
           expect(
-            (annotated.nullableList(
-              false,
-            )!
-                  ..releasedBy(arena))
+            (annotated.nullableList(false)!..releasedBy(arena))
                 .asDart()[0]
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(annotated.nullableListOfNullable(true), isNull);
           expect(
-            (annotated.nullableListOfNullable(false)!..releasedBy(arena))
-                .asDart()[0],
+            (annotated.nullableListOfNullable(
+              false,
+            )!..releasedBy(arena)).asDart()[0],
             isNull,
           );
         });
@@ -1106,8 +1084,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             annotated
-                // Requires `V`.
-                .nullableReturnMethodGenericEcho(object, true),
+            // Requires `V`.
+            .nullableReturnMethodGenericEcho(object, true),
             isNull,
           );
           expect(
@@ -1120,14 +1098,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             annotated
-                // `V` is optional.
-                .nullableReturnMethodGenericEcho2(object, true),
+            // `V` is optional.
+            .nullableReturnMethodGenericEcho2(object, true),
             isNull,
           );
-          expect(
-            annotated.nullableMethodGenericEcho<JObject>(null),
-            isNull,
-          );
+          expect(annotated.nullableMethodGenericEcho<JObject>(null), isNull);
           expect(
             annotated
                 .nullableMethodGenericEcho(object)!
@@ -1184,9 +1159,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             (annotated.classGenericList()..releasedBy(arena))
                 .asDart()
                 .first!
-                .toDartString(
-                  releaseOriginal: true,
-                ),
+                .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
@@ -1197,10 +1170,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(annotated.nullableClassGenericList(true), isNull);
           expect(
-            (annotated.nullableClassGenericList(
-              false,
-            )!
-                  ..releasedBy(arena))
+            (annotated.nullableClassGenericList(false)!..releasedBy(arena))
                 .asDart()
                 .first!
                 .toDartString(releaseOriginal: true),
@@ -1210,10 +1180,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             (annotated.nullableClassGenericListOfNullable(
               false,
-            )!
-                  ..releasedBy(arena))
-                .asDart()
-                .first,
+            )!..releasedBy(arena)).asDart().first,
             isNull,
           );
         });
@@ -1252,15 +1219,17 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final derived = SpecificDerivedClass()..releasedBy(arena);
 
           expect(
-              base
-                  .someMethod('Foo'.toJString()..releasedBy(arena))
-                  ?.toDartString(releaseOriginal: true),
-              'Foo');
+            base
+                .someMethod('Foo'.toJString()..releasedBy(arena))
+                ?.toDartString(releaseOriginal: true),
+            'Foo',
+          );
           expect(
-              derived
-                  .someMethod('Bar'.toJString()..releasedBy(arena))
-                  ?.toDartString(releaseOriginal: true),
-              'Hello Bar');
+            derived
+                .someMethod('Bar'.toJString()..releasedBy(arena))
+                ?.toDartString(releaseOriginal: true),
+            'Hello Bar',
+          );
         });
       });
       test('Child implements BaseClass and BaseInterface', () {
@@ -1288,47 +1257,60 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
         });
       });
-      test('DerivedInterface implements BaseGenericInterface and BaseInterface',
-          () {
-        using((arena) {
-          final derived = DerivedInterface.implement(
-            $DerivedInterface(
-              foo: () => 'derived_foo'.toJString()..releasedBy(arena),
-              someMethod: (s) => s,
-            ),
-          )..releasedBy(arena);
+      test(
+        'DerivedInterface implements BaseGenericInterface and BaseInterface',
+        () {
+          using((arena) {
+            final derived = DerivedInterface.implement(
+              $DerivedInterface(
+                foo: () => 'derived_foo'.toJString()..releasedBy(arena),
+                someMethod: (s) => s,
+              ),
+            )..releasedBy(arena);
 
-          expect(derived.foo()?.toDartString(releaseOriginal: true),
-              'derived_foo');
-
-          // Verify it can be assigned to BaseGenericInterface.
-          // Skip this on Android due to
-          // https://github.com/dart-lang/native/issues/3212
-          final BaseGenericInterface<JString?> baseGeneric = derived;
-          expect(baseGeneric.foo()?.toDartString(releaseOriginal: true),
+            expect(
+              derived.foo()?.toDartString(releaseOriginal: true),
               'derived_foo',
-              skip: Platform.isAndroid);
+            );
 
-          // Verify it can be assigned to BaseInterface.
-          final BaseInterface base = derived;
-          expect(
-              base.foo()?.toDartString(releaseOriginal: true), 'derived_foo');
-        });
-      });
+            // Verify it can be assigned to BaseGenericInterface.
+            // Skip this on Android due to
+            // https://github.com/dart-lang/native/issues/3212
+            final BaseGenericInterface<JString?> baseGeneric = derived;
+            expect(
+              baseGeneric.foo()?.toDartString(releaseOriginal: true),
+              'derived_foo',
+              skip: Platform.isAndroid,
+            );
+
+            // Verify it can be assigned to BaseInterface.
+            final BaseInterface base = derived;
+            expect(
+              base.foo()?.toDartString(releaseOriginal: true),
+              'derived_foo',
+            );
+          });
+        },
+      );
       test('ShibaInu complicated inheritance', () {
         using((arena) {
           final shiba = ShibaInu()..releasedBy(arena);
           expect(shiba.bark().toDartString(releaseOriginal: true), 'Woof!');
-          expect(shiba.groom().toDartString(releaseOriginal: true),
-              'Grooming Shiba');
           expect(
-              shiba
-                  .eat('bones'.toJString()..releasedBy(arena))
-                  .toDartString(releaseOriginal: true),
-              'Shiba eating bones');
+            shiba.groom().toDartString(releaseOriginal: true),
+            'Grooming Shiba',
+          );
+          expect(
+            shiba
+                .eat('bones'.toJString()..releasedBy(arena))
+                .toDartString(releaseOriginal: true),
+            'Shiba eating bones',
+          );
           expect(shiba.walk(42), 42);
-          expect(shiba.giveBirth(true)?.toDartString(releaseOriginal: true),
-              'Baby Shiba');
+          expect(
+            shiba.giveBirth(true)?.toDartString(releaseOriginal: true),
+            'Baby Shiba',
+          );
           expect(shiba.giveBirth(false), isNull);
 
           // Test assignments (diamonds)
@@ -1336,29 +1318,35 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(dog.bark().toDartString(releaseOriginal: true), 'Woof!');
 
           final Mammal mammal = dog;
-          expect(mammal.giveBirth(true)?.toDartString(releaseOriginal: true),
-              'Baby Shiba');
+          expect(
+            mammal.giveBirth(true)?.toDartString(releaseOriginal: true),
+            'Baby Shiba',
+          );
 
           final FourLegged fourLegged = dog;
           expect(fourLegged.walk(10), 10);
 
           final Animal animalFromMammal = mammal;
           expect(
-              animalFromMammal
-                  .eat('meat'.toJString()..releasedBy(arena))
-                  .toDartString(releaseOriginal: true),
-              'Shiba eating meat');
+            animalFromMammal
+                .eat('meat'.toJString()..releasedBy(arena))
+                .toDartString(releaseOriginal: true),
+            'Shiba eating meat',
+          );
 
           final Animal animalFromFourLegged = fourLegged;
           expect(
-              animalFromFourLegged
-                  .eat('fish'.toJString()..releasedBy(arena))
-                  .toDartString(releaseOriginal: true),
-              'Shiba eating fish');
+            animalFromFourLegged
+                .eat('fish'.toJString()..releasedBy(arena))
+                .toDartString(releaseOriginal: true),
+            'Shiba eating fish',
+          );
 
           final Furry furry = shiba;
-          expect(furry.groom().toDartString(releaseOriginal: true),
-              'Grooming Shiba');
+          expect(
+            furry.groom().toDartString(releaseOriginal: true),
+            'Grooming Shiba',
+          );
         });
       });
     });

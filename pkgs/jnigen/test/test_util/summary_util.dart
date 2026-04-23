@@ -44,8 +44,10 @@ final summarizerClassesSpec = [
   removalPackageForSummaryTests,
 ];
 
-Config getSummaryGenerationConfig(
-    {List<String>? sourcePath, List<String>? classPath}) {
+Config getSummaryGenerationConfig({
+  List<String>? sourcePath,
+  List<String>? classPath,
+}) {
   return Config(
     outputConfig: OutputConfig(
       dartConfig: DartCodeOutputConfig(

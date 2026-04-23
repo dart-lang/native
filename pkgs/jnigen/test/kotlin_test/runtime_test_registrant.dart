@@ -16,18 +16,24 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final hello = await suspendFun.sayHello();
         expect(hello.toDartString(releaseOriginal: true), 'Hello!');
         const name = 'Bob';
-        final helloBob =
-            await suspendFun.sayHello$1(name.toJString()..releasedBy(arena));
+        final helloBob = await suspendFun.sayHello$1(
+          name.toJString()..releasedBy(arena),
+        );
         expect(helloBob.toDartString(releaseOriginal: true), 'Hello $name!');
         final noDelayHello = await suspendFun.sayHelloWithoutDelay();
         expect(noDelayHello.toDartString(releaseOriginal: true), 'Hello!');
         await expectLater(suspendFun.fail, throwsA(isA<JThrowable>()));
         await expectLater(
-            suspendFun.failWithoutDelay, throwsA(isA<JThrowable>()));
-        final noDelayNullableHello =
-            await suspendFun.nullableHelloWithoutDelay(false);
-        expect(noDelayNullableHello!.toDartString(releaseOriginal: true),
-            'Hello!');
+          suspendFun.failWithoutDelay,
+          throwsA(isA<JThrowable>()),
+        );
+        final noDelayNullableHello = await suspendFun.nullableHelloWithoutDelay(
+          false,
+        );
+        expect(
+          noDelayNullableHello!.toDartString(releaseOriginal: true),
+          'Hello!',
+        );
         final nullableHello = await suspendFun.nullableHello(false);
         expect(nullableHello!.toDartString(releaseOriginal: true), 'Hello!');
         final noDelayNull = await suspendFun.nullableHelloWithoutDelay(true);
@@ -36,14 +42,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(asyncNull, null);
 
         expect(await suspendFun.nullableList(null), isNull);
-        final list = await suspendFun.nullableList([
-          'abc'.toJString(),
-          null,
-          'def'.toJString(),
-        ].toJList());
+        final list = await suspendFun.nullableList(
+          ['abc'.toJString(), null, 'def'.toJString()].toJList(),
+        );
         expect(
-            list!.asDart().map((s) => s?.toDartString(releaseOriginal: true)),
-            ['abc', null, 'def']);
+          list!.asDart().map((s) => s?.toDartString(releaseOriginal: true)),
+          ['abc', null, 'def'],
+        );
 
         expect(suspendFun.result, 0);
         final voidFuture = suspendFun.noReturn();
@@ -169,20 +174,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     group('Nullability', () {
       Nullability<JString?, JString> testObject(Arena arena) {
-        return Nullability(
-          null,
-          'hello'.toJString(),
-          null,
-        )..releasedBy(arena);
+        return Nullability(null, 'hello'.toJString(), null)..releasedBy(arena);
       }
 
       test('Getters', () {
         using((arena) {
           final obj = testObject(arena);
-          expect(
-            obj.u.toDartString(releaseOriginal: true),
-            'hello',
-          );
+          expect(obj.u.toDartString(releaseOriginal: true), 'hello');
           expect(obj.t, null);
           expect(obj.nullableU, null);
         });
@@ -198,10 +196,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'hello',
           );
           obj.nullableU = null;
-          expect(
-            obj.nullableU,
-            null,
-          );
+          expect(obj.nullableU, null);
         });
       });
       test('Methods', () {
@@ -231,16 +226,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             obj
                 .classGenericNullableEcho(
-                    'hello'.toJString()..releasedBy(arena))!
+                  'hello'.toJString()..releasedBy(arena),
+                )!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(obj.classGenericNullableEcho(null), null);
           expect(
             obj
-                .methodGenericEcho(
-                  'hello'.toJString()..releasedBy(arena),
-                )
+                .methodGenericEcho('hello'.toJString()..releasedBy(arena))
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -252,10 +246,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 ?.toDartString(releaseOriginal: true),
             'hello',
           );
-          expect(
-            obj.methodGenericNullableEcho(null),
-            null,
-          );
+          expect(obj.methodGenericNullableEcho(null), null);
           expect(
             obj
                 .stringListOf('hello'.toJString()..releasedBy(arena))
@@ -281,7 +272,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             obj
                 .classGenericNullableListOf(
-                    'hello'.toJString()..releasedBy(arena))
+                  'hello'.toJString()..releasedBy(arena),
+                )
                 .asDart()[0]!
                 .toDartString(releaseOriginal: true),
             'hello',
@@ -303,10 +295,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 .toDartString(releaseOriginal: true),
             'hello',
           );
-          expect(
-            obj.methodGenericNullableListOf(null).asDart()[0],
-            null,
-          );
+          expect(obj.methodGenericNullableListOf(null).asDart()[0], null);
           expect(
             obj
                 .firstOf(['hello'.toJString()..releasedBy(arena)].toJList())
@@ -316,59 +305,59 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             obj
                 .firstOfNullable(
-                    ['hello'.toJString()..releasedBy(arena), null].toJList())!
+                  ['hello'.toJString()..releasedBy(arena), null].toJList(),
+                )!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             obj.firstOfNullable(
-                [null, 'hello'.toJString()..releasedBy(arena)].toJList()),
+              [null, 'hello'.toJString()..releasedBy(arena)].toJList(),
+            ),
             null,
           );
           expect(
             obj
                 .classGenericFirstOf(
-                    ['hello'.toJString()..releasedBy(arena)].toJList())
+                  ['hello'.toJString()..releasedBy(arena)].toJList(),
+                )
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             obj
-                .classGenericFirstOfNullable([
-                  'hello'.toJString()..releasedBy(arena),
-                  null,
-                ].toJList())!
+                .classGenericFirstOfNullable(
+                  ['hello'.toJString()..releasedBy(arena), null].toJList(),
+                )!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            obj.classGenericFirstOfNullable([
-              null,
-              'hello'.toJString()..releasedBy(arena),
-            ].toJList()),
+            obj.classGenericFirstOfNullable(
+              [null, 'hello'.toJString()..releasedBy(arena)].toJList(),
+            ),
             null,
           );
           expect(
             obj
                 .methodGenericFirstOf(
-                    ['hello'.toJString()..releasedBy(arena)].toJList())
+                  ['hello'.toJString()..releasedBy(arena)].toJList(),
+                )
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             obj
-                .methodGenericFirstOfNullable([
-                  'hello'.toJString()..releasedBy(arena),
-                  null,
-                ].toJList())!
+                .methodGenericFirstOfNullable(
+                  ['hello'.toJString()..releasedBy(arena), null].toJList(),
+                )!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            obj.methodGenericFirstOfNullable([
-              null,
-              'hello'.toJString()..releasedBy(arena),
-            ].toJList()),
+            obj.methodGenericFirstOfNullable(
+              [null, 'hello'.toJString()..releasedBy(arena)].toJList(),
+            ),
             null,
           );
         });
@@ -376,12 +365,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Inner class', () {
         using((arena) {
           final obj = testObject(arena);
-          final innerObj =
-              Nullability$InnerClass<JString?, JString, JInteger>(obj);
-          expect(
-            innerObj.f,
-            isA<void Function(JString?, JString, JInteger)>(),
+          final innerObj = Nullability$InnerClass<JString?, JString, JInteger>(
+            obj,
           );
+          expect(innerObj.f, isA<void Function(JString?, JString, JInteger)>());
         });
       });
     });
@@ -389,23 +376,27 @@ void registerTests(String groupName, TestRunnerCallback test) {
     group('Interface with suspend functions', () {
       test('return immediately', () async {
         var result = 0;
-        final itf = SuspendInterface.implement($SuspendInterface(
-          sayHello: () async => 'Hello'.toJString(),
-          sayHello$1: (JString name) async =>
-              'Hello ${name.toDartString()}'.toJString(),
-          nullableHello: (bool returnNull) async =>
-              returnNull ? null : 'Hello'.toJString(),
-          sayInt: () async => JInteger(123),
-          sayInt$1: (JInteger value) async => JInteger(10 * value.intValue()),
-          nullableInt: (bool returnNull) async =>
-              returnNull ? null : JInteger(123),
-          nullableList: (JList<JString?>? list) async => list,
-          noReturn: () async => result = 123,
-        ));
+        final itf = SuspendInterface.implement(
+          $SuspendInterface(
+            sayHello: () async => 'Hello'.toJString(),
+            sayHello$1: (JString name) async =>
+                'Hello ${name.toDartString()}'.toJString(),
+            nullableHello: (bool returnNull) async =>
+                returnNull ? null : 'Hello'.toJString(),
+            sayInt: () async => JInteger(123),
+            sayInt$1: (JInteger value) async => JInteger(10 * value.intValue()),
+            nullableInt: (bool returnNull) async =>
+                returnNull ? null : JInteger(123),
+            nullableList: (JList<JString?>? list) async => list,
+            noReturn: () async => result = 123,
+          ),
+        );
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
-        expect((await itf.sayHello$1('Bob'.toJString())).toDartString(),
-            'Hello Bob');
+        expect(
+          (await itf.sayHello$1('Bob'.toJString())).toDartString(),
+          'Hello Bob',
+        );
         expect((await itf.nullableHello(false))?.toDartString(), 'Hello');
         expect(await itf.nullableHello(true), null);
         expect((await itf.sayInt()).intValue(), 123);
@@ -414,16 +405,17 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(await itf.nullableInt(true), null);
         expect(await itf.nullableList(null), null);
         expect(
-            (await itf.nullableList(['abc'.toJString()].toJList()))
-                ?.asDart()
-                .map((s) => s?.toDartString(releaseOriginal: true)),
-            ['abc']);
+          (await itf.nullableList(
+            ['abc'.toJString()].toJList(),
+          ))?.asDart().map((s) => s?.toDartString(releaseOriginal: true)),
+          ['abc'],
+        );
         await itf.noReturn();
         expect(result, 123);
 
         expect(
-            (await consumeOnSameThread(itf)).toDartString(),
-            '''
+          (await consumeOnSameThread(itf)).toDartString(),
+          '''
 Hello
 Hello Alice
 Hello
@@ -433,10 +425,11 @@ Hello
 [abc, def]
 kotlin.Unit
 '''
-                .trim());
+              .trim(),
+        );
         expect(
-            (await consumeOnAnotherThread(itf)).toDartString(),
-            '''
+          (await consumeOnAnotherThread(itf)).toDartString(),
+          '''
 Hello
 Hello Alice
 Hello
@@ -446,46 +439,51 @@ Hello
 [abc, def]
 kotlin.Unit
 '''
-                .trim());
+              .trim(),
+        );
       });
 
       test('return delayed', () async {
         var result = 0;
-        final itf = SuspendInterface.implement($SuspendInterface(
-          sayHello: () async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            return 'Hello'.toJString();
-          },
-          sayHello$1: (JString name) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            return 'Hello ${name.toDartString()}'.toJString();
-          },
-          nullableHello: (bool returnNull) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            return returnNull ? null : 'Hello'.toJString();
-          },
-          sayInt: () async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            return JInteger(123);
-          },
-          sayInt$1: (JInteger value) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            return JInteger(10 * value.intValue());
-          },
-          nullableInt: (bool returnNull) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            return returnNull ? null : JInteger(123);
-          },
-          nullableList: (JList<JString?>? list) async => list,
-          noReturn: () async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            result = 123;
-          },
-        ));
+        final itf = SuspendInterface.implement(
+          $SuspendInterface(
+            sayHello: () async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              return 'Hello'.toJString();
+            },
+            sayHello$1: (JString name) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              return 'Hello ${name.toDartString()}'.toJString();
+            },
+            nullableHello: (bool returnNull) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              return returnNull ? null : 'Hello'.toJString();
+            },
+            sayInt: () async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              return JInteger(123);
+            },
+            sayInt$1: (JInteger value) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              return JInteger(10 * value.intValue());
+            },
+            nullableInt: (bool returnNull) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              return returnNull ? null : JInteger(123);
+            },
+            nullableList: (JList<JString?>? list) async => list,
+            noReturn: () async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              result = 123;
+            },
+          ),
+        );
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
-        expect((await itf.sayHello$1('Bob'.toJString())).toDartString(),
-            'Hello Bob');
+        expect(
+          (await itf.sayHello$1('Bob'.toJString())).toDartString(),
+          'Hello Bob',
+        );
         expect((await itf.nullableHello(false))?.toDartString(), 'Hello');
         expect(await itf.nullableHello(true), null);
         expect((await itf.sayInt()).intValue(), 123);
@@ -494,16 +492,17 @@ kotlin.Unit
         expect(await itf.nullableInt(true), null);
         expect(await itf.nullableList(null), null);
         expect(
-            (await itf.nullableList(['abc'.toJString()].toJList()))
-                ?.asDart()
-                .map((s) => s?.toDartString(releaseOriginal: true)),
-            ['abc']);
+          (await itf.nullableList(
+            ['abc'.toJString()].toJList(),
+          ))?.asDart().map((s) => s?.toDartString(releaseOriginal: true)),
+          ['abc'],
+        );
         await itf.noReturn();
         expect(result, 123);
 
         expect(
-            (await consumeOnSameThread(itf)).toDartString(),
-            '''
+          (await consumeOnSameThread(itf)).toDartString(),
+          '''
 Hello
 Hello Alice
 Hello
@@ -513,10 +512,11 @@ Hello
 [abc, def]
 kotlin.Unit
 '''
-                .trim());
+              .trim(),
+        );
         expect(
-            (await consumeOnAnotherThread(itf)).toDartString(),
-            '''
+          (await consumeOnAnotherThread(itf)).toDartString(),
+          '''
 Hello
 Hello Alice
 Hello
@@ -526,85 +526,102 @@ Hello
 [abc, def]
 kotlin.Unit
 '''
-                .trim());
+              .trim(),
+        );
       });
 
       test('throw immediately', () async {
-        final itf = SuspendInterface.implement($SuspendInterface(
-          sayHello: () async => throw Exception(),
-          sayHello$1: (JString name) async => throw Exception(),
-          nullableHello: (bool returnNull) async => throw Exception(),
-          sayInt: () async => throw Exception(),
-          sayInt$1: (JInteger value) async => throw Exception(),
-          nullableInt: (bool returnNull) async => throw Exception(),
-          nullableList: (JList<JString?>? list) async => throw Exception(),
-          noReturn: () async => throw Exception(),
-        ));
+        final itf = SuspendInterface.implement(
+          $SuspendInterface(
+            sayHello: () async => throw Exception(),
+            sayHello$1: (JString name) async => throw Exception(),
+            nullableHello: (bool returnNull) async => throw Exception(),
+            sayInt: () async => throw Exception(),
+            sayInt$1: (JInteger value) async => throw Exception(),
+            nullableInt: (bool returnNull) async => throw Exception(),
+            nullableList: (JList<JString?>? list) async => throw Exception(),
+            noReturn: () async => throw Exception(),
+          ),
+        );
 
         await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.sayHello$1('Bob'.toJString()), throwsA(isA<JThrowable>()));
+          itf.sayHello$1('Bob'.toJString()),
+          throwsA(isA<JThrowable>()),
+        );
         await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
         await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.sayInt$1(JInteger(456)), throwsA(isA<JThrowable>()));
+          itf.sayInt$1(JInteger(456)),
+          throwsA(isA<JThrowable>()),
+        );
         await expectLater(itf.nullableInt(false), throwsA(isA<JThrowable>()));
         await expectLater(itf.noReturn(), throwsA(isA<JThrowable>()));
 
         await expectLater(consumeOnSameThread(itf), throwsA(isA<JThrowable>()));
         await expectLater(
-            consumeOnAnotherThread(itf), throwsA(isA<JThrowable>()));
+          consumeOnAnotherThread(itf),
+          throwsA(isA<JThrowable>()),
+        );
       });
 
       test('throw delayed', () async {
-        final itf = SuspendInterface.implement($SuspendInterface(
-          sayHello: () async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-          sayHello$1: (JString name) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-          nullableHello: (bool returnNull) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-          sayInt: () async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-          sayInt$1: (JInteger value) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-          nullableInt: (bool returnNull) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-          nullableList: (JList<JString?>? list) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-          noReturn: () async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            throw Exception();
-          },
-        ));
+        final itf = SuspendInterface.implement(
+          $SuspendInterface(
+            sayHello: () async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+            sayHello$1: (JString name) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+            nullableHello: (bool returnNull) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+            sayInt: () async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+            sayInt$1: (JInteger value) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+            nullableInt: (bool returnNull) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+            nullableList: (JList<JString?>? list) async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+            noReturn: () async {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+              throw Exception();
+            },
+          ),
+        );
 
         await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.sayHello$1('Bob'.toJString()), throwsA(isA<JThrowable>()));
+          itf.sayHello$1('Bob'.toJString()),
+          throwsA(isA<JThrowable>()),
+        );
         await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
         await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.sayInt$1(JInteger(456)), throwsA(isA<JThrowable>()));
+          itf.sayInt$1(JInteger(456)),
+          throwsA(isA<JThrowable>()),
+        );
         await expectLater(itf.nullableInt(false), throwsA(isA<JThrowable>()));
         await expectLater(itf.noReturn(), throwsA(isA<JThrowable>()));
 
         await expectLater(consumeOnSameThread(itf), throwsA(isA<JThrowable>()));
         await expectLater(
-            consumeOnAnotherThread(itf), throwsA(isA<JThrowable>()));
+          consumeOnAnotherThread(itf),
+          throwsA(isA<JThrowable>()),
+        );
       });
     });
   });

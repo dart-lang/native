@@ -12,8 +12,9 @@ class JniVersionCheck {
   static const int actualMinorVersion = 0;
 
   const JniVersionCheck(int major, int minor)
-      : assert(
-            actualMajorVersion == major && actualMinorVersion >= minor,
-            'The generated bindings expect package:jni ^$major.$minor.0, '
-            'but $actualMajorVersion.$actualMinorVersion.x was imported.');
+    : assert(
+        actualMajorVersion == major && actualMinorVersion >= minor,
+        'The generated bindings expect package:jni ^$major.$minor.0, '
+        'but $actualMajorVersion.$actualMinorVersion.x was imported.',
+      );
 }

@@ -14,9 +14,12 @@ void main() {
     // ignore: prefer_final_locals
     var check = JniVersionCheck.new;
     expect(
-        () => check(JniVersionCheck.actualMajorVersion,
-            JniVersionCheck.actualMinorVersion),
-        returnsNormally);
+      () => check(
+        JniVersionCheck.actualMajorVersion,
+        JniVersionCheck.actualMinorVersion,
+      ),
+      returnsNormally,
+    );
 
     // Major version mismatch always fails.
     expect(() => check(0, 0), throwsA(isA<AssertionError>()));
@@ -24,8 +27,10 @@ void main() {
 
     // Minor version mismatch fails only if the required version is newer.
     expect(() => check(JniVersionCheck.actualMajorVersion, 0), returnsNormally);
-    expect(() => check(JniVersionCheck.actualMajorVersion, 1234),
-        throwsA(isA<AssertionError>()));
+    expect(
+      () => check(JniVersionCheck.actualMajorVersion, 1234),
+      throwsA(isA<AssertionError>()),
+    );
   });
 
   group('JniVersionCheck compile-time assert', () {
@@ -33,10 +38,10 @@ void main() {
 
     void testAnalyze(String fileName, {required bool shouldPass}) {
       test('dart analyze $fileName', () {
-        final result = Process.runSync(
-          'dart',
-          ['analyze', path.join(testDir, fileName)],
-        );
+        final result = Process.runSync('dart', [
+          'analyze',
+          path.join(testDir, fileName),
+        ]);
 
         final stdout = result.stdout.toString();
         if (shouldPass) {
@@ -56,8 +61,10 @@ void main() {
   test('JniVersionCheck constants match pubspec', () {
     final pubspecFile = File('pubspec.yaml');
     final pubspecContent = pubspecFile.readAsStringSync();
-    final versionRegex =
-        RegExp(r'^version:\s+(\d+)\.(\d+)\.\d+', multiLine: true);
+    final versionRegex = RegExp(
+      r'^version:\s+(\d+)\.(\d+)\.\d+',
+      multiLine: true,
+    );
     final match = versionRegex.firstMatch(pubspecContent);
     expect(match, isNotNull);
     final major = int.parse(match!.group(1)!);

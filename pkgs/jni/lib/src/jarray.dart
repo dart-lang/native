@@ -18,7 +18,7 @@ part 'primitive_jarrays.dart';
 
 final class _$JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
   _$JArray$Type$(JType<E> elementType)
-      : signature = '[${elementType.signature}';
+    : signature = '[${elementType.signature}';
 
   @override
   final String signature;
@@ -33,22 +33,31 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
   ///
   /// The [length] must be a non-negative integer.
   static JArray<$E?> withLength<$E extends JObject?>(
-      JType<$E> elementType, int length) {
+    JType<$E> elementType,
+    int length,
+  ) {
     RangeError.checkNotNegative(length);
     return _newArray<$E>(elementType.jClass, length);
   }
 
-  static JArray<$E> _newArray<$E extends JObject?>(JClass jClass, int length,
-      [$E? fill]) {
+  static JArray<$E> _newArray<$E extends JObject?>(
+    JClass jClass,
+    int length, [
+    $E? fill,
+  ]) {
     final classRef = jClass.reference;
     final fillRef = fill?.reference ?? jNullReference;
-    final array = JObject.fromReference(
-      JGlobalReference(Jni.env.NewObjectArray(
-        length,
-        classRef.pointer,
-        fillRef.pointer,
-      )),
-    ) as JArray<$E>;
+    final array =
+        JObject.fromReference(
+              JGlobalReference(
+                Jni.env.NewObjectArray(
+                  length,
+                  classRef.pointer,
+                  fillRef.pointer,
+                ),
+              ),
+            )
+            as JArray<$E>;
     classRef.release();
     return array;
   }
@@ -56,8 +65,11 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
   /// Creates a [JArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
-  static JArray<$E> filled<$E extends JObject>(int length, $E fill,
-      {JType<$E>? elementType}) {
+  static JArray<$E> filled<$E extends JObject>(
+    int length,
+    $E fill, {
+    JType<$E>? elementType,
+  }) {
     RangeError.checkNotNegative(length);
     final jClass = elementType == null ? fill.jClass : elementType.jClass;
     return _newArray<$E>(jClass, length, fill);
@@ -65,7 +77,9 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
 
   /// Creates a [JArray] from `elements`.
   static JArray<$E> of<$E extends JObject?>(
-      JType<$E> elementType, Iterable<$E> elements) {
+    JType<$E> elementType,
+    Iterable<$E> elements,
+  ) {
     final len = elements.length;
     return _newArray<$E>(elementType.jClass, len)..setRange(0, len, elements);
   }

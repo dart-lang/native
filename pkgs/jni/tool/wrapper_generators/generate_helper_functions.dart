@@ -59,21 +59,28 @@ List<GeneratedFunction> _primitiveArrayHelpers({required bool isField}) {
         :dartReturnType,
         :dartArgumentType,
         :conversionSuffix,
-        :resultGetter
-      ) in primitiveTypes) {
+        :resultGetter,
+      )
+      in primitiveTypes) {
     final elementType = 'j${typeName.toLowerCase()}';
     final arrayType = '${elementType}Array';
 
-    /* Get */ {
+    /* Get */
+    {
       final name = 'Get${typeName}ArrayElement';
       if (isField) {
-        functions.add(GeneratedFunction(
-          name,
-          'JniResult (*$name)($arrayType array, jsize index);',
-          null,
-        ));
+        functions.add(
+          GeneratedFunction(
+            name,
+            'JniResult (*$name)($arrayType array, jsize index);',
+            null,
+          ),
+        );
       } else {
-        functions.add(GeneratedFunction(name, '''
+        functions.add(
+          GeneratedFunction(
+            name,
+            '''
 JniResult globalEnv_$name($arrayType array, jsize index) {
   jvalue value;
   jthrowable exception =
@@ -81,30 +88,40 @@ JniResult globalEnv_$name($arrayType array, jsize index) {
       &value.$jValueGetter);
   return (JniResult){.value = value, .exception = exception};
 }
-''', '''
+''',
+            '''
   late final _$name = ptr.ref.$name.asFunction<
       JniResult Function(J${typeName}ArrayPtr array, int index)>(isLeaf: true);
 
   $dartReturnType $name(
           J${typeName}ArrayPtr array, int index) =>
       _$name(array, index).$resultGetter;
-'''));
+''',
+          ),
+        );
       }
-      /* Set */ {
+      /* Set */
+      {
         final name = 'Set${typeName}ArrayElement';
         if (isField) {
-          functions.add(GeneratedFunction(
-            name,
-            'jthrowable (*$name)($arrayType array, jsize index,'
-            ' $elementType element);',
-            null,
-          ));
+          functions.add(
+            GeneratedFunction(
+              name,
+              'jthrowable (*$name)($arrayType array, jsize index,'
+              ' $elementType element);',
+              null,
+            ),
+          );
         } else {
-          functions.add(GeneratedFunction(name, '''
+          functions.add(
+            GeneratedFunction(
+              name,
+              '''
 jthrowable globalEnv_$name($arrayType array, jsize index, $elementType val) {
   return globalEnv_Set${typeName}ArrayRegion(array, index, 1, &val);
 }
-''', '''
+''',
+              '''
   late final _$name = ptr.ref.$name.asFunction<
       JThrowablePtr Function(J${typeName}ArrayPtr array, int index,
         $dartArgumentType val)>(isLeaf: true);
@@ -112,7 +129,9 @@ jthrowable globalEnv_$name($arrayType array, jsize index, $elementType val) {
   void $name(
           J${typeName}ArrayPtr array, int index, $dartReturnType value) =>
       _$name(array, index, value$conversionSuffix).check();
-'''));
+''',
+            ),
+          );
         }
       }
     }

@@ -55,8 +55,9 @@ class PrimitiveType {
 }
 
 void main() {
-  final outputUri =
-      Platform.script.resolve('../lib/src/primitive_jarrays.dart');
+  final outputUri = Platform.script.resolve(
+    '../lib/src/primitive_jarrays.dart',
+  );
   final outputFile = File.fromUri(outputUri);
   final s = StringBuffer();
   s.writeln('''
@@ -194,7 +195,8 @@ extension ${arrayName}ToList on $arrayName {
 
 ''');
     final formatter = DartFormatter(
-        languageVersion: DartFormatter.latestShortStyleLanguageVersion);
+      languageVersion: DartFormatter.latestShortStyleLanguageVersion,
+    );
     outputFile.writeAsStringSync(formatter.format(s.toString()));
   }
 }

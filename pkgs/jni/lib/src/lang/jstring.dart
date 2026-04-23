@@ -27,8 +27,7 @@ extension JStringExtension on JString {
 extension ToJStringMethod on String {
   /// Returns a [JString] with the contents of this String.
   JString toJString() {
-    return JObject.fromReference(
-      JGlobalReference(Jni.env.toJStringPtr(this)),
-    ) as JString;
+    return JObject.fromReference(JGlobalReference(Jni.env.toJStringPtr(this)))
+        as JString;
   }
 }

@@ -44,32 +44,37 @@ const _$jniVersionCheck = jni$_.JniVersionCheck(1, 0);
 
 /// from: `com.example.notification_plugin.Notifications`
 extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/example/notification_plugin/Notifications');
+  static final _class = jni$_.JClass.forName(
+    r'com/example/notification_plugin/Notifications',
+  );
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Notifications> type = $Notifications$Type$();
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<Notifications>();
+    return _new$(
+      _class.reference.pointer,
+      _id_new$.pointer,
+    ).object<Notifications>();
   }
 
   static final _id_showNotification = _class.staticMethodId(
@@ -77,26 +82,33 @@ extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
     r'(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)V',
   );
 
-  static final _showNotification = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _showNotification =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Int32,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Int32,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               core$_.int,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
@@ -108,9 +120,14 @@ extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$context = context?.reference ?? jni$_.jNullReference;
     final _$title = title?.reference ?? jni$_.jNullReference;
     final _$text = text?.reference ?? jni$_.jNullReference;
-    _showNotification(_class.reference.pointer, _id_showNotification.pointer,
-            _$context.pointer, notificationID, _$title.pointer, _$text.pointer)
-        .check();
+    _showNotification(
+      _class.reference.pointer,
+      _id_showNotification.pointer,
+      _$context.pointer,
+      notificationID,
+      _$title.pointer,
+      _$text.pointer,
+    ).check();
   }
 }
 

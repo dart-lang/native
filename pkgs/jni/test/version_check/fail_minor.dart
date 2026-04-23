@@ -4,7 +4,9 @@
 
 import 'package:jni/_internal.dart';
 
-const jniVersionCheck =
-    JniVersionCheck(JniVersionCheck.actualMajorVersion, 1234);
+const jniVersionCheck = JniVersionCheck(
+  JniVersionCheck.actualMajorVersion,
+  1234,
+);
 
 void main() {}

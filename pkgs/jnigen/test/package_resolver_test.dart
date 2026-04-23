@@ -37,16 +37,22 @@ void main() async {
       'e.f.G',
       'e.F',
       'a.g.Y',
-      'a.m.n.P'
+      'a.m.n.P',
     },
   );
 
   final tests = [
     // Absolute imports resolved using import map
     ResolverTest(
-        'android.os.Process', 'package:android/os.dart', r'process$_.'),
-    ResolverTest('org.apache.pdfbox.pdmodel.PDDocument',
-        'package:pdfbox/pdfbox.dart', r'pddocument$_.'),
+      'android.os.Process',
+      'package:android/os.dart',
+      r'process$_.',
+    ),
+    ResolverTest(
+      'org.apache.pdfbox.pdmodel.PDDocument',
+      'package:pdfbox/pdfbox.dart',
+      r'pddocument$_.',
+    ),
     // Relative imports
     // inner package
     ResolverTest('a.b.c.D', 'c/D.dart', r'd$_.'),
@@ -67,16 +73,21 @@ void main() async {
     final binaryName = testCase.binaryName;
     final packageName = Resolver.getFileClassName(binaryName);
     test(
-        'getImport $binaryName',
-        () => expect(resolver.getImport(packageName, binaryName),
-            equals(testCase.expectedImport)));
+      'getImport $binaryName',
+      () => expect(
+        resolver.getImport(packageName, binaryName),
+        equals(testCase.expectedImport),
+      ),
+    );
     test(
-        'resolve $binaryName',
-        () => expect(
-            resolver.resolvePrefix(ClassDecl(
-              declKind: DeclKind.classKind,
-              binaryName: binaryName,
-            )..path = ''),
-            equals(testCase.expectedName)));
+      'resolve $binaryName',
+      () => expect(
+        resolver.resolvePrefix(
+          ClassDecl(declKind: DeclKind.classKind, binaryName: binaryName)
+            ..path = '',
+        ),
+        equals(testCase.expectedName),
+      ),
+    );
   }
 }

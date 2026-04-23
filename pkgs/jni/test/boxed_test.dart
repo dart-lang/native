@@ -59,9 +59,13 @@ void run({required TestRunnerCallback testRunner}) {
     const eps = 1e-6;
     using((arena) {
       expect(
-          JFloat(val).toDartDouble(releaseOriginal: true), closeTo(val, eps));
-      expect((-val).toJFloat().toDartDouble(releaseOriginal: true),
-          closeTo(-val, eps));
+        JFloat(val).toDartDouble(releaseOriginal: true),
+        closeTo(val, eps),
+      );
+      expect(
+        (-val).toJFloat().toDartDouble(releaseOriginal: true),
+        closeTo(-val, eps),
+      );
     });
   });
   testRunner('JDouble', () {
@@ -69,9 +73,13 @@ void run({required TestRunnerCallback testRunner}) {
     const eps = 1e-9;
     using((arena) {
       expect(
-          JDouble(val).toDartDouble(releaseOriginal: true), closeTo(val, eps));
-      expect((-val).toJDouble().toDartDouble(releaseOriginal: true),
-          closeTo(-val, eps));
+        JDouble(val).toDartDouble(releaseOriginal: true),
+        closeTo(val, eps),
+      );
+      expect(
+        (-val).toJDouble().toDartDouble(releaseOriginal: true),
+        closeTo(-val, eps),
+      );
     });
   });
   testRunner('JBoolean', () {
@@ -84,35 +92,37 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final number = JInteger(42).as(JNumber.type, releaseOriginal: true);
       expect(
-          number
-              .toJByte(releaseOriginal: false)
-              .toDartInt(releaseOriginal: true),
-          42);
+        number.toJByte(releaseOriginal: false).toDartInt(releaseOriginal: true),
+        42,
+      );
       expect(
-          number
-              .toJShort(releaseOriginal: false)
-              .toDartInt(releaseOriginal: true),
-          42);
+        number
+            .toJShort(releaseOriginal: false)
+            .toDartInt(releaseOriginal: true),
+        42,
+      );
       expect(
-          number
-              .toJInteger(releaseOriginal: false)
-              .toDartInt(releaseOriginal: true),
-          42);
+        number
+            .toJInteger(releaseOriginal: false)
+            .toDartInt(releaseOriginal: true),
+        42,
+      );
       expect(
-          number
-              .toJLong(releaseOriginal: false)
-              .toDartInt(releaseOriginal: true),
-          42);
+        number.toJLong(releaseOriginal: false).toDartInt(releaseOriginal: true),
+        42,
+      );
       expect(
-          number
-              .toJFloat(releaseOriginal: false)
-              .toDartDouble(releaseOriginal: true),
-          closeTo(42.0, 1e-6));
+        number
+            .toJFloat(releaseOriginal: false)
+            .toDartDouble(releaseOriginal: true),
+        closeTo(42.0, 1e-6),
+      );
       expect(
-          number
-              .toJDouble(releaseOriginal: true)
-              .toDartDouble(releaseOriginal: true),
-          closeTo(42.0, 1e-9));
+        number
+            .toJDouble(releaseOriginal: true)
+            .toDartDouble(releaseOriginal: true),
+        closeTo(42.0, 1e-9),
+      );
     });
   });
 }
