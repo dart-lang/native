@@ -36,8 +36,12 @@ void main() {
     test('protocol object survives GC after build', () async {
       final builder = ObjCProtocolBuilder();
       final obj = builder.build(keepIsolateAlive: false);
-
-      final raw = obj.ref.pointer;
+      // Extract obj.ref (ObjCObjectRef implements Finalizable) into a local.
+      // The Finalizable contract keeps ref in the GC stack map for its entire
+      // scope, preventing the ObjC object from being released at any GC
+      // safepoint — including the non-leaf FFI calls inside objectRetainCount.
+      final ref = obj.ref;
+      final raw = ref.pointer;
       expect(objectRetainCount(raw), greaterThan(0));
 
       doGC();
@@ -45,10 +49,6 @@ void main() {
       doGC();
 
       expect(objectRetainCount(raw), greaterThan(0));
-      // Keeps obj live through the GC calls above. Without this, the JIT
-      // optimizer drops obj from the GC stack map after raw is extracted,
-      // causing it to be collected before the retain count check.
-      expect(obj, isNotNull);
     });
   });
 
