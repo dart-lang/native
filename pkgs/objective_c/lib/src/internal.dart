@@ -304,14 +304,7 @@ abstract final class _ObjCReference<T extends NativeType>
 // Wrapper around ObjCObjectRef/ObjCBlockRef. This is needed because
 // deeply-immutable classes must be final, but the FFIgen bindings need to
 // extend ObjCObject/ObjCBlockBase.
-//
-// Implements Finalizable so that local variables of subclass types (ObjCObject,
-// ObjCBlockBase) are kept alive across FFI safepoints. Without this, the
-// compiler can consider a block/object parameter dead after its raw pointer is
-// extracted, allowing the GC to fire before ObjC retains the pointer.
-// See: https://github.com/dart-lang/native/issues/3209
-class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>>
-    implements Finalizable {
+class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
   final Ref ref;
 
   _ObjCRefHolder(this.ref);
@@ -390,7 +383,19 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
 }
 
 /// Only for use by FFIgen bindings.
-class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
+// Implements Finalizable so that local variables of type ObjCBlockBase (and
+// its subclasses) are kept alive across FFI safepoints. Without this, the
+// compiler can consider a block parameter dead after its raw pointer is
+// extracted via block.ref.pointer.cast(), allowing the GC to fire before ObjC
+// retains the pointer — causing EXC_BAD_ACCESS in production.
+// See: https://github.com/dart-lang/native/issues/3209
+//
+// Note: ObjCObject intentionally does NOT implement Finalizable here, because
+// ObjCObject instances may be sent across Dart isolates (e.g. NSInputStream),
+// and Finalizable objects are non-sendable. Blocks capture Dart closures and
+// are never sent across isolates, so Finalizable is safe for ObjCBlockBase.
+class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef>
+    implements Finalizable {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
     : super(ObjCBlockRef(ptr, retain: retain, release: release));
 }
