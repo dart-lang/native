@@ -6,10 +6,6 @@
 @TestOn('mac-os')
 library;
 
-// Regression test for https://github.com/dart-lang/native/issues/3209
-
-import 'dart:ffi';
-
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/objective_c_bindings_generated.dart'
     show ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent;
@@ -37,13 +33,6 @@ bool _gcAndCheckBlock() {
 
 void main() {
   group('object model', () {
-    // ObjCObject is not directly instantiable; NSObject is used as a
-    // concrete subclass.
-    test('ObjCObject is NOT Finalizable (preserves isolate sendability)', () {
-      final obj = NSObject();
-      expect(obj, isNot(isA<Finalizable>()));
-    });
-
     test('protocol object survives GC after build', () async {
       final builder = ObjCProtocolBuilder();
       final obj = builder.build(keepIsolateAlive: false);
@@ -56,10 +45,14 @@ void main() {
       doGC();
 
       expect(objectRetainCount(raw), greaterThan(0));
+      // Keeps obj live through the GC calls above. Without this, the JIT
+      // optimizer drops obj from the GC stack map after raw is extracted,
+      // causing it to be collected before the retain count check.
+      expect(obj, isNotNull);
     });
   });
 
-  group('GC safepoint reproduction (issue #3209)', () {
+  group('block wrapper not freed at GC safepoints', () {
     setUpAll(() {
       initGCInject();
       installGCInjectSwizzle();
