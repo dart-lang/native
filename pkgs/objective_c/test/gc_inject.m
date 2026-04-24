@@ -4,9 +4,16 @@
 
 // GC injection helpers for regression-testing issue #3209.
 //
-// Swizzles DOBJCDartProtocolBuilder's implementMethod:withBlock:... to force
-// a Dart GC before ObjC retains the block, making premature release
-// observable via the block's retain count.
+// Swizzles DOBJCDartProtocolBuilder's implementMethod:withBlock:... to inject
+// a Dart GC at the FFI safepoint between Dart extracting the raw block pointer
+// and Objective-C retaining it — the exact window where premature GC can
+// release the block before the handover completes.
+//
+// Run AOT to reproduce under production-like conditions — GC liveness issues
+// like this are unreliable in JIT (from pkgs/objective_c/).
+// Native assets must be enabled; stable from Dart 3.10.0:
+//   dart compile exe test/gc_safepoint_test.dart -o /tmp/gc_test
+//   DYLD_INSERT_LIBRARIES=.dart_tool/lib/objective_c.dylib /tmp/gc_test
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
