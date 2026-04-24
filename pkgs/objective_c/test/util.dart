@@ -2,11 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// All @Native bindings in this file live in the package's native asset dylib.
+@DefaultAsset('package:objective_c/objective_c.dylib')
+library;
+
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/src/c_bindings_generated.dart' as c;
 import 'package:objective_c/src/internal.dart'
     as internal_for_testing
     show isValidClass;
@@ -66,3 +71,53 @@ int objectRetainCount(Pointer<ObjCObjectImpl> object) {
 }
 
 String pkgDir = findPackageRoot('objective_c').toFilePath();
+
+// ---------------------------------------------------------------------------
+// Block retain count (from util.c: getBlockRetainCount).
+// ---------------------------------------------------------------------------
+
+@Native<Uint64 Function(Pointer<Void>)>(
+  isLeaf: true,
+  symbol: 'getBlockRetainCount',
+)
+external int _getBlockRetainCount(Pointer<Void> block);
+
+int blockRetainCount(Pointer<c.ObjCBlockImpl> block) =>
+    _getBlockRetainCount(block.cast());
+
+// ---------------------------------------------------------------------------
+// GC injection helpers (from gc_inject.m) — only available on macOS.
+// ---------------------------------------------------------------------------
+
+@Native<Void Function()>(isLeaf: true, symbol: 'initGCInject')
+external void initGCInject();
+
+@Native<Void Function()>(isLeaf: true, symbol: 'installGCInjectSwizzle')
+external void installGCInjectSwizzle();
+
+@Native<Void Function()>(isLeaf: true, symbol: 'removeGCInjectSwizzle')
+external void removeGCInjectSwizzle();
+
+@Native<Void Function(Bool)>(isLeaf: true, symbol: 'setGCInjectActive')
+external void setGCInjectActive(bool active);
+
+@Native<Bool Function()>(isLeaf: true, symbol: 'wasBlockFreedBeforeRetain')
+external bool wasBlockFreedBeforeRetain();
+
+@Native<Bool Function()>(isLeaf: true, symbol: 'gcNowAvailableFromNative')
+external bool gcNowAvailableFromNative();
+
+// Must NOT be isLeaf: the native side calls Dart_ExecuteInternalCommand which
+// requires the Dart thread to be at a proper native-mode safepoint.
+@Native<Void Function()>(symbol: 'callGCNowFromNative')
+external void callGCNowFromNative();
+
+// Forces a Dart GC at a non-leaf FFI safepoint and returns the raw ObjC
+// block retain count. Must NOT be isLeaf so the Dart thread enters native
+// mode and the JIT's precise stack map is snapshotted at the call site.
+// See gc_inject.m:gcAndGetRetainCount for the full protocol.
+@Native<Int Function(Pointer<Void>)>(symbol: 'gcAndGetRetainCount')
+external int _gcAndGetRetainCount(Pointer<Void> block);
+
+int gcAndGetRetainCount(Pointer<c.ObjCBlockImpl> block) =>
+    _gcAndGetRetainCount(block.cast());

@@ -16,6 +16,7 @@ const assetName = 'objective_c.dylib';
 // TODO(https://github.com/dart-lang/native/issues/2272): Remove this from the
 // main build.
 const testFiles = ['test/util.c'];
+const testMFiles = ['test/gc_inject.m'];
 
 final logger = Logger('')
   ..level = Level.INFO
@@ -65,6 +66,9 @@ void main(List<String> args) async {
     if (os == OS.macOS) {
       cFiles.addAll(
         testFiles.map((f) => input.packageRoot.resolve(f).toFilePath()),
+      );
+      mFiles.addAll(
+        testMFiles.map((f) => input.packageRoot.resolve(f).toFilePath()),
       );
     }
 
