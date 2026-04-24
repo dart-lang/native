@@ -1,4 +1,4 @@
-## 21.0.0
+## 21.0.0-dev.0
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart
   bindings. Deprecation messages from `__attribute__((deprecated("msg")))` and
