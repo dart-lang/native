@@ -1,11 +1,7 @@
 ## 9.4.0-wip
 - Fix a [bug](https://github.com/dart-lang/native/issues/3209) where a Dart GC
   safepoint during a non-leaf FFI call could prematurely release an ObjC block
-  before ObjC retained it, causing an EXC_BAD_ACCESS crash. Fixed by extracting
-  `block.ref` into a local `blockRef` variable in
-  `ObjCProtocolBuilder.implementMethod`. `blockRef` has static type
-  `ObjCBlockRef`, which transitively implements `Finalizable` via
-  `_ObjCReference`, so the Dart VM keeps it alive across the FFI safepoint.
+  before ObjC retained it, causing an EXC_BAD_ACCESS crash.
 - Fix (https://github.com/dart-lang/native/issues/2877) such that all
   occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and
   returns `false` when input is`null`
