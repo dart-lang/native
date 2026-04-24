@@ -18,6 +18,8 @@ import 'dart:ffi';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
+import 'util.dart';
+
 // ---------------------------------------------------------------------------
 // Compile-time assertions (enforced by dart analyze).
 //
@@ -40,9 +42,36 @@ void _checkObjCBlockBaseIsFinalizable(ObjCBlockBase b) =>
 
 void main() {
   group('Finalizable', () {
+    // Verifies at runtime that ObjCObject instances carry the Finalizable
+    // interface. This complements the compile-time check above: together they
+    // ensure both the static type and the runtime type are correct.
     test('ObjCObject implements Finalizable', () {
-      final obj = NSObject.new1();
+      final obj = NSObject();
       expect(obj, isA<Finalizable>());
+    });
+
+    // Verifies that the fix for issue #3209 holds under explicit GC pressure.
+    //
+    // We cannot reproduce the exact race (GC at a safepoint *inside* a native
+    // call) in a unit test — doGC() runs between Dart instructions, not at FFI
+    // safepoints. However, forcing GC immediately after building a protocol
+    // object exercises the retain-count machinery and will catch any obvious
+    // use-after-free regression.
+    test('protocol object survives GC after build', () async {
+      final builder = ObjCProtocolBuilder();
+      final obj = builder.build(keepIsolateAlive: false);
+
+      // Raw pointer to verify liveness after GC.
+      final raw = obj.ref.pointer;
+      expect(objectRetainCount(raw), greaterThan(0));
+
+      // Force GC and let finalizers flush.
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+
+      // The protocol object is still referenced by `obj`, so it must be alive.
+      expect(objectRetainCount(raw), greaterThan(0));
     });
   });
 }
