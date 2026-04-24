@@ -111,4 +111,3 @@ external bool gcNowAvailableFromNative();
 // requires the Dart thread to be at a proper native-mode safepoint.
 @Native<Void Function()>(symbol: 'callGCNowFromNative')
 external void callGCNowFromNative();
-
