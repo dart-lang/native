@@ -27,8 +27,11 @@ bool _gcAndCheckBlock() {
   );
   final blockRef = block.ref;
   final ptr = blockRef.pointer;
-  final count = gcAndGetRetainCount(ptr);
-  return count > 0;
+  // Use callGCNowFromNative (non-leaf safepoint) to trigger GC, then check
+  // the retain count via blockRetainCount, which reads the block ABI flags
+  // field — the correct location for block retain counts on all architectures.
+  callGCNowFromNative();
+  return blockRetainCount(ptr) > 0;
 }
 
 void main() {

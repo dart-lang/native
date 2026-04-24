@@ -112,12 +112,3 @@ external bool gcNowAvailableFromNative();
 @Native<Void Function()>(symbol: 'callGCNowFromNative')
 external void callGCNowFromNative();
 
-// Forces a Dart GC at a non-leaf FFI safepoint and returns the raw ObjC
-// block retain count. Must NOT be isLeaf so the Dart thread enters native
-// mode and the JIT's precise stack map is snapshotted at the call site.
-// See gc_inject.m:gcAndGetRetainCount for the full protocol.
-@Native<Int Function(Pointer<Void>)>(symbol: 'gcAndGetRetainCount')
-external int _gcAndGetRetainCount(Pointer<Void> block);
-
-int gcAndGetRetainCount(Pointer<c.ObjCBlockImpl> block) =>
-    _gcAndGetRetainCount(block.cast());

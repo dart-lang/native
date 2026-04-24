@@ -21,6 +21,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+// From util.c — reads the block ABI flags field for the retain count.
+extern uint64_t getBlockRetainCount(void*);
+
 typedef void* (*DartGCNow_t)(const char*, void*);
 static DartGCNow_t g_dart_gc_now = NULL;
 
@@ -30,12 +33,6 @@ static bool g_swizzle_active = false;
 // plain bool is safe.
 static bool g_block_freed_before_retain = false;
 
-// Retain count occupies the lower 16 bits of flags, shifted left by 1.
-typedef struct {
-  void* isa;
-  int flags;
-} BlockHeader;
-
 // Replacement for -[DOBJCDartProtocolBuilder implementMethod:withBlock:...].
 // Forces GC before calling the original, then checks the retain count.
 static void gc_inject_imp(
@@ -43,7 +40,8 @@ static void gc_inject_imp(
     void* trampoline, const char* signature) {
   if (g_swizzle_active && g_dart_gc_now != NULL) {
     g_dart_gc_now("gc-now", NULL);
-    int count = (((BlockHeader*)block)->flags & 0xFFFF) >> 1;
+    // Use the same util as the Dart side (util.c:getBlockRetainCount).
+    int count = (int)getBlockRetainCount(block);
     if (count == 0) {
       g_block_freed_before_retain = true;
     }
@@ -69,16 +67,6 @@ void callGCNowFromNative(void) {
   if (g_dart_gc_now != NULL) {
     g_dart_gc_now("gc-now", NULL);
   }
-}
-
-// Forces GC at a non-leaf FFI safepoint and returns the block's retain count.
-// Must be called from a non-leaf @Native binding so the Dart thread enters
-// native mode and the JIT's precise stack map is snapshotted at the call site.
-int gcAndGetRetainCount(void* block) {
-  if (g_dart_gc_now != NULL) {
-    g_dart_gc_now("gc-now", NULL);
-  }
-  return (((BlockHeader*)block)->flags & 0xFFFF) >> 1;
 }
 
 void installGCInjectSwizzle(void) {
