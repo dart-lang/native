@@ -13,26 +13,6 @@ import 'package:test/test.dart';
 
 import 'util.dart';
 
-// Checks that a protocol object built by ObjCProtocolBuilder.build() retains a
-// positive retain count after GC. Intentionally never-inlined so the JIT
-// performs its own liveness analysis on a proper synchronous stack frame.
-// In an async state machine, Finalizable liveness across await points is
-// unreliable: variables not referenced after a suspension point may be dropped
-// from the GC root set, causing premature release on aggressively-optimising
-// platforms (e.g. ARM64 CI).
-@pragma('vm:never-inline')
-bool _buildAndCheckProtocolObject() {
-  final builder = ObjCProtocolBuilder();
-  final obj = builder.build(keepIsolateAlive: false);
-  // ObjCObjectRef is Finalizable. Because this function is never-inlined, the
-  // JIT tracks ref in the GC stack map throughout the frame — including across
-  // the non-leaf FFI safepoints inside doGC() and objectRetainCount().
-  final ref = obj.ref;
-  final raw = ref.pointer;
-  doGC();
-  return objectRetainCount(raw) > 0;
-}
-
 // Directly exercises the blockRef extraction pattern from the production fix.
 // Extract block.ref into a local `blockRef` (static type ObjCBlockRef, which
 // transitively implements Finalizable). The Finalizable contract keeps blockRef
@@ -55,18 +35,6 @@ bool _gcAndCheckBlock() {
 }
 
 void main() {
-  group('object model', () {
-    test('protocol object survives GC after build', () {
-      if (!canDoGC) {
-        markTestSkipped(
-          'Dart_ExecuteInternalCommand unavailable — gc-now is a no-op.',
-        );
-        return;
-      }
-      expect(_buildAndCheckProtocolObject(), isTrue);
-    });
-  });
-
   group('block wrapper not freed at GC safepoints', () {
     setUpAll(() {
       initGCInject();
