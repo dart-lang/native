@@ -32,7 +32,6 @@ implementMethod(sel, ptr, trampoline, signature); // NON-LEAF FFI call
 | `test/finalizable_test.dart` | Regression tests — type checks, GC-pressure, and the swizzle-based reproduction |
 | `test/util.dart` | Dart bindings for the native test helpers |
 | `hook/build.dart` | Compiles `gc_inject.m` into the test dylib |
-| `test/desymbolize.py` | Script to symbolize AOT crash dumps using `atos` |
 
 ---
 
@@ -135,16 +134,6 @@ si_signo=Segmentation fault: 11(11), si_code=SEGV_ACCERR(2)
   [Optimized] ObjCProtocolMethod.implementWithBlock
   [Optimized] main.<anonymous closure>.<anonymous closure>
 ```
-
-### Step 4 — Desymbolize (optional)
-
-The crash contains raw addresses for Dart AOT frames. The `desymbolize.py` script resolves them using `atos`:
-
-```bash
-python3 test/desymbolize.py /tmp/ft/crash.txt /tmp/ft/finalizable_test
-```
-
-The script computes the ASLR slide automatically — first from the `Dart_UnloadMachODylib` annotation (present in `dart compile exe` output), with a fallback to the `(in binary_name)` format used by macOS crash reporter. Architecture is auto-detected from the binary via `lipo`. Already-annotated frames (`objc_retain`, `[Optimized] ...`) are passed through unchanged; only `Unknown symbol` frames are sent to `atos`.
 
 Note: `Dart_ExecuteInternalCommand` must be exported by the running Dart VM. Standard release builds of the Dart SDK include it. If the symbol is absent (stripped build), the GC injection swizzle becomes a no-op and the crash will not trigger.
 
