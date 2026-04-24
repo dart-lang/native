@@ -1,4 +1,10 @@
 ## 9.4.0-wip
+- Fix a [bug](https://github.com/dart-lang/native/issues/3209) where a Dart GC
+  safepoint during a native FFI call could prematurely finalize an ObjC block
+  before ObjC retained it, causing an EXC_BAD_ACCESS crash. Fixed by making
+  `_ObjCRefHolder` (and thus `ObjCObject` and `ObjCBlockBase`) implement
+  `Finalizable`, so the Dart compiler keeps block/object arguments alive across
+  FFI boundaries.
 - Fix (https://github.com/dart-lang/native/issues/2877) such that all
   occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and
   returns `false` when input is`null`
