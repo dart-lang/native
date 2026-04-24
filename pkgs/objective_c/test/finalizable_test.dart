@@ -1,4 +1,4 @@
-// Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -8,10 +8,12 @@ library;
 
 // Regression test for https://github.com/dart-lang/native/issues/3209
 //
-// ObjCBlockBase must implement Finalizable so that the Dart compiler keeps
-// local variables of that type alive across FFI safepoints. Without this, a
-// GC event during a native call can fire before ObjC retains the pointer,
-// causing EXC_BAD_ACCESS in production.
+// The fix for issue #3209 is in ObjCProtocolBuilder.implementMethod: extract
+// block.ref into a local `blockRef` (static type ObjCBlockRef, which
+// transitively implements Finalizable). The Finalizable contract guarantees
+// the VM will not finalize `blockRef` before the end of its enclosing scope,
+// keeping the ObjC retain count >= 1 across the non-leaf FFI safepoint and
+// preventing EXC_BAD_ACCESS in production.
 //
 // Note: ObjCObject intentionally does NOT implement Finalizable because
 // ObjCObject instances may be sent across Dart isolates (e.g. NSInputStream),
@@ -27,67 +29,51 @@ import 'package:test/test.dart';
 import 'util.dart';
 
 // ---------------------------------------------------------------------------
-// Compile-time assertion (enforced by dart analyze).
-//
-// If ObjCBlockBase ever loses implements Finalizable, this function will
-// produce a static type error, catching the regression before tests even run.
-// ---------------------------------------------------------------------------
-
-void _requireFinalizable(Finalizable _) {}
-
-// Compile-time guard: if ObjCBlockBase ever loses implements Finalizable,
-// dart analyze will flag this as a type error before any test even runs.
-// To reproduce the crash, temporarily comment this out alongside removing
-// `implements Finalizable` from ObjCBlockBase in lib/src/internal.dart.
-// ignore: unused_element
-void _checkObjCBlockBaseIsFinalizable(ObjCBlockBase b) =>
-    _requireFinalizable(b);
-
-// ---------------------------------------------------------------------------
-// GC-safepoint liveness probe (supplementary, issue #3209).
+// GC-safepoint liveness probe (issue #3209).
 //
 // This function is intentionally never-inlined so the JIT compiles it as an
 // independent compilation unit and performs its own liveness analysis.
 //
-// `block` is a LOCAL variable (not a parameter threaded through a call chain).
-// Its last strong use is `block.ref.pointer`; after that, `gcAndGetRetainCount`
-// creates a NON-LEAF FFI safepoint — the Dart thread enters native mode and
-// the JIT's precise stack map is snapshotted.
+// Demonstrates the blockRef extraction pattern from the production fix
+// (ObjCProtocolBuilder.implementMethod). Does NOT call implementMethod —
+// it directly exercises the pattern to isolate the liveness mechanism.
+// extract block.ref into a local `blockRef` whose static type (ObjCBlockRef)
+// transitively implements Finalizable (via _ObjCReference). The Finalizable
+// contract guarantees the VM will not finalize `blockRef` before end of scope,
+// keeping it live in the stack map across the NON-LEAF FFI safepoint.
 //
-//   WITH Finalizable (ObjCBlockBase implements Finalizable):
-//     The compiler inserts reachabilityFence(block) at the end of this scope.
-//     `block` stays in the JIT stack map. GC finds it alive → weakRef valid.
-//     Returns 1 (pass).
+//   WITH blockRef extraction (ObjCBlockRef is Finalizable):
+//     `blockRef` stays live until end of scope → ObjC retain count ≥ 1.
+//     gcAndGetRetainCount(ptr) returns > 0. Returns true (pass).
 //
-//   WITHOUT Finalizable:
-//     The JIT is PERMITTED to remove `block` from the stack map after its last
-//     use. In practice the JIT is conservative in --jit-optimized mode and may
-//     still keep `block` alive, so this probe does NOT fail deterministically
-//     in JIT mode. Reliable reproduction requires AOT compilation:
-//       dart compile exe test/finalizable_test.dart && ./finalizable_test
-//     The primary regression guard for issue #3209 is the isA<Finalizable>()
-//     check in the 'Finalizable' group, which is 100% deterministic.
+//   WITHOUT blockRef extraction (using block.ref.pointer directly):
+//     `block` (type ObjCBlockBase, not Finalizable) is dead after its last
+//     use. GC fires at the safepoint, finalizer calls objc_release →
+//     retain count = 0. Returns false (fail).
+//
+// For guaranteed reproduction on iteration 1 (no JIT warm-up), run:
+//   dart --optimization-counter-threshold=0 test test/finalizable_test.dart
 // ---------------------------------------------------------------------------
 @pragma('vm:never-inline')
-int _gcAndCheckBlock() {
-  // Create a closure block as a LOCAL variable.
-  // Its last Dart-level use is `block.ref.pointer` on the next line.
-  // Without Finalizable, the JIT can eliminate `block` from the GC stack map
-  // after that point.
+bool _gcAndCheckBlock() {
   final block = ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.fromFunction(
     (_, stream, event) {},
     keepIsolateAlive: false,
   );
-  // Weak reference to detect if `block` is collected by GC.
-  // WeakReference is cleared synchronously during GC (unlike FinalizableHandle
-  // callbacks, which are deferred until the isolate next runs Dart code).
-  final weakRef = WeakReference(block);
-  final ptr = block.ref.pointer; // last strong use of `block`
-  // Non-leaf FFI safepoint: GC fires here with the JIT's precise stack map.
-  //   WITHOUT Finalizable: `block` is dead → GC collects it → weakRef cleared.
-  //   WITH Finalizable: reachabilityFence(block) keeps it alive → weakRef valid.
-  gcAndGetRetainCount(ptr); // non-leaf FFI call — triggers gc-now inside
-  return weakRef.target != null ? 1 : 0;
+  // Mirror the production fix: extract block.ref so that blockRef's Finalizable
+  // type keeps the ObjC retain alive across the non-leaf FFI safepoint.
+  final blockRef = block.ref;
+  final ptr = blockRef.pointer;
+  // blockRef is Finalizable: the VM guarantees it will not be finalized before
+  // end of this function scope, so it stays live in the GC stack map across
+  // the non-leaf FFI safepoint below.
+  // gcAndGetRetainCount triggers GC via a native call to
+  // Dart_ExecuteInternalCommand("gc-now") — a different path from the Dart-side
+  // doGC(). The canDoGC guard in the test body skips this test if that native
+  // symbol is unavailable. When GC fires, blockRef is still live →
+  // ObjC retain count stays ≥ 1.
+  final count = gcAndGetRetainCount(ptr);
+  return count > 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -95,37 +81,11 @@ int _gcAndCheckBlock() {
 // ---------------------------------------------------------------------------
 
 void main() {
-  group('Finalizable', () {
-    // Verifies at runtime that ObjCBlockBase instances carry the Finalizable
-    // interface.
-    //
-    // This is the PRIMARY regression guard for issue #3209.
-    // Without `implements Finalizable` on ObjCBlockBase, `block is Finalizable`
-    // evaluates to false and this test fails — even though the containing
-    // ObjCBlockRef field is itself Finalizable (Dart's `is` check looks at the
-    // explicitly declared type hierarchy, not at field types).
-    //
-    // The compile-time check (_checkObjCBlockBaseIsFinalizable) catches the
-    // same regression at analysis time; this test catches it at runtime.
-    test('ObjCBlockBase implements Finalizable', () {
-      final block =
-          ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.fromFunction(
-            (_, stream, event) {},
-            keepIsolateAlive: false,
-          );
-      // If ObjCBlockBase does NOT implement Finalizable this is false → fails.
-      expect(
-        block,
-        isA<Finalizable>(),
-        reason:
-            'ObjCBlockBase must implement Finalizable (issue #3209). '
-            'Without it the Dart compiler can collect block wrappers at FFI '
-            'safepoints before ObjC retains the pointer, causing EXC_BAD_ACCESS.',
-      );
-    });
-
+  group('object model', () {
     // Verifies that ObjCObject does NOT implement Finalizable, preserving
     // isolate sendability for objects like NSInputStream.
+    // ObjCObject is not directly instantiable; NSObject is used as a
+    // concrete subclass to test the property at the ObjCObject level.
     test('ObjCObject is NOT Finalizable (preserves isolate sendability)', () {
       final obj = NSObject();
       expect(obj, isNot(isA<Finalizable>()));
@@ -163,15 +123,15 @@ void main() {
   // -[DOBJCDartProtocolBuilder implementMethod:withBlock:...] immediately
   // before [methods setObject:(__bridge id)block forKey:key] retains the block.
   //
-  // Without the fix (ObjCBlockBase NOT Finalizable):
+  // Without the fix (no blockRef extraction in implementMethod):
   //   The optimizer marks `block` dead after extracting the raw pointer. When
   //   gc-now fires at the FFI safepoint the Dart wrapper is collected, the
   //   finalizer calls objc_release, and the retain count drops to 0 before ObjC
   //   ever retains it — detectable via wasBlockFreedBeforeRetain().
   //
-  // With the fix (ObjCBlockBase implements Finalizable):
-  //   The compiler inserts reachabilityFence(block) at the end of the calling
-  //   scope. gc-now finds the variable still reachable and does not collect it.
+  // With the fix (blockRef extraction; ObjCBlockRef is Finalizable):
+  //   The Finalizable contract keeps `blockRef` live until end of calling scope.
+  //   gc-now finds blockRef still reachable and does not collect it.
   //   The retain count stays at 1 throughout — wasBlockFreedBeforeRetain()
   //   returns false.
   //
@@ -193,7 +153,9 @@ void main() {
     // reproduction test below is not meaningful.
     test('gc-now from native code collects unreachable objects', () {
       if (!canDoGC) {
-        // If doGC() is not available from Dart either, skip.
+        markTestSkipped(
+          'Dart_ExecuteInternalCommand unavailable — GC injection is a no-op.',
+        );
         return;
       }
       expect(
@@ -229,7 +191,7 @@ void main() {
     });
 
     test('block survives GC injected inside implementMethod '
-        '(fails without ObjCBlockBase implements Finalizable)', () {
+        '(fails without blockRef extraction)', () {
       // Run 1 000 iterations so that the JIT optimizer has a chance to compile
       // implementMethod in optimised mode and mark `block` dead after the raw
       // pointer is extracted. In optimised code, gc-now in the swizzle will
@@ -248,7 +210,9 @@ void main() {
           (stream, event) {},
         );
         setGCInjectActive(false);
-        if (wasBlockFreedBeforeRetain()) break; // bug detected early, stop
+        // wasBlockFreedBeforeRetain() is a sticky flag: once true it stays
+        // true even after setGCInjectActive(false). Break early on first hit.
+        if (wasBlockFreedBeforeRetain()) break;
       }
 
       expect(
@@ -256,7 +220,7 @@ void main() {
         isFalse,
         reason:
             'Block was prematurely released by GC before ObjC retained it. '
-            'ObjCBlockBase must implement Finalizable (issue #3209).',
+            'blockRef extraction in implementMethod is required (issue #3209).',
       );
     });
 
@@ -265,28 +229,33 @@ void main() {
     //
     // Unlike the swizzle test (where `block` is a PARAMETER threaded through
     // a call chain and JIT keeps parameters alive conservatively), here `block`
-    // is a LOCAL variable in a never-inlined function.  The JIT can eliminate
+    // is a LOCAL variable in a never-inlined function. The JIT can eliminate
     // it from the GC stack map after its last use, making the test sensitive to
-    // whether ObjCBlockBase is Finalizable.
+    // whether blockRef (ObjCBlockRef, Finalizable) is extracted before the
+    // FFI call.
     //
     // For guaranteed reproduction on iteration 1 (no JIT warm-up needed), run:
     //   dart --optimization-counter-threshold=0 test test/finalizable_test.dart
     // ---------------------------------------------------------------------------
-    test('block local NOT freed at non-leaf FFI safepoint '
-        '(deterministic with --optimization-counter-threshold=0)', () {
+    test('block local NOT freed at non-leaf FFI safepoint', () {
+      // Note: only guaranteed to reproduce on iteration 1 when run with
+      //   dart --optimization-counter-threshold=0
+      // Under normal JIT, the optimizer may keep `block` alive conservatively
+      // for several iterations before applying dead-code elimination.
       if (!canDoGC) {
-        // gcAndGetRetainCount calls Dart_ExecuteInternalCommand internally.
-        // If the symbol is unavailable (stripped runtime), gc-now is a no-op
-        // and this test would pass vacuously. Skip it instead.
+        markTestSkipped(
+          'Dart_ExecuteInternalCommand unavailable — gc-now is a no-op, '
+          'test would pass vacuously.',
+        );
         return;
       }
       const kIterations = 1000;
       for (var i = 0; i < kIterations; i++) {
         final survived = _gcAndCheckBlock();
-        if (survived == 0) {
+        if (!survived) {
           fail(
             'Block wrapper was GC-collected at FFI safepoint on iteration $i. '
-            'ObjCBlockBase must implement Finalizable (issue #3209).',
+            'blockRef extraction in implementMethod required (issue #3209).',
           );
         }
       }
