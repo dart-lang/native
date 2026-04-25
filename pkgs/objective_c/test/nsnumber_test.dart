@@ -51,4 +51,12 @@ void main() {
       expect(m.numValue, 0x7fffffffffffffff);
     });
   });
+
+  test('from bool', () {
+    final t = true.toNSNumber();
+    final f = false.toNSNumber();
+
+    expect(t.boolValue, isTrue);
+    expect(f.boolValue, isFalse);
+  });
 }

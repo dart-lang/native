@@ -27,6 +27,7 @@ ObjCObject toObjCObject(
 }) => switch (dartObject) {
   null => NSNull.null$(),
   ObjCObject() => dartObject,
+  bool() => dartObject.toNSNumber(),
   num() => dartObject.toNSNumber(),
   String() => dartObject.toNSString(),
   DateTime() => dartObject.toNSDate(),
