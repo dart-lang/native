@@ -138,6 +138,6 @@ const objCBuiltInCategories = {
   'NSExtendedOrderedSet',
   'NSExtendedSet',
   'NSNumberCreation',
-  'NSNumberIsFloat',
+  'NSNumberTypeCheck',
   'NSStringExtensionMethods',
 };

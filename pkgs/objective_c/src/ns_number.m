@@ -4,9 +4,13 @@
 
 #import "ns_number.h"
 
-@implementation NSNumber (NSNumberIsFloat)
--(bool)isFloat {
-  const char *t = [self objCType];
-  return strcmp(t, @encode(float)) == 0 || strcmp(t, @encode(double)) == 0;
+@implementation NSNumber (NSNumberTypeCheck)
+- (bool)isFloat {
+  return CFNumberIsFloatType((__bridge CFNumberRef)self);
 }
+
+- (bool)isBool {
+  return CFGetTypeID((__bridge CFTypeRef)self) == CFBooleanGetTypeID();
+}
+
 @end

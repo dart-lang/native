@@ -133,7 +133,7 @@ export 'objective_c_bindings_generated.dart'
         NSNumber,
         NSNumber$Methods,
         NSNumberCreation,
-        NSNumberIsFloat,
+        NSNumberTypeCheck,
         NSObject,
         NSObject$Methods,
         NSObjectProtocol,

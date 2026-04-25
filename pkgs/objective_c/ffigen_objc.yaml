@@ -120,7 +120,7 @@ objc-categories:
     - NSExtendedOrderedSet
     - NSExtendedSet
     - NSNumberCreation
-    - NSNumberIsFloat
+    - NSNumberTypeCheck
     - NSStringExtensionMethods
 structs:
   include:
