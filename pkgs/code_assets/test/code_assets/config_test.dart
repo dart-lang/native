@@ -23,7 +23,9 @@ void main() async {
   late Uri fakeVcVars;
 
   setUp(() async {
-    final tempUri = Directory.systemTemp.uri;
+    final tempUri =
+        (await Directory.systemTemp.createTemp('code assets config temp '))
+            .uri;
     outFile = tempUri.resolve('output.json');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';

@@ -52,7 +52,7 @@ Future<void> testBuildHook({
   linkingEnabled ??= false;
   const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
-  final tempDir = await Directory.systemTemp.createTemp();
+  final tempDir = await Directory.systemTemp.createTemp('hooks test ');
 
   try {
     // Deal with Windows temp folder aliases.
