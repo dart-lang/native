@@ -16,7 +16,8 @@ import 'util.dart';
 void main() {
   group('typedef', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Regression test for #386', () {
       // https://github.com/dart-lang/ffigen/issues/386

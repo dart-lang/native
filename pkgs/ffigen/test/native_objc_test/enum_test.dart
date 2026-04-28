@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('enum', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('NS_ENUM generates a Dart enum', () {
       expect(Fruit.FruitOrange.value, 2);

@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('global using @Native', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Global string', () {
       expect(globalString.toDartString(), 'Hello World');

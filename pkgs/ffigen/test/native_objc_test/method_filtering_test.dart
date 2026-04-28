@@ -24,12 +24,14 @@ void main() {
     group('no version info', () {
       late final String bindings;
       setUpAll(() {
-        final config = testConfigFromPath(path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'method_filtering_config.yaml',
-        ));
+        final config = testConfigFromPath(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'method_filtering_config.yaml',
+          ),
+        );
         bindings = parse(testContext(config)).generate();
       });
 

@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('log_test', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Duplicate method log spam', () {
       final logs = <String>[];

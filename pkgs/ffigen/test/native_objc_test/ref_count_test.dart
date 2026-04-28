@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('Reference counting', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('objectRetainCount edge cases', () {
       expect(objectRetainCount(nullptr), 0);

@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('isInstance', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Unrelated classes', () {
       final base = NSObject.as(IsInstanceBaseClass());

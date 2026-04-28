@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('string', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {
       test('NSString to/from Dart string [$s]', () {

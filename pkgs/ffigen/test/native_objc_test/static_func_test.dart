@@ -23,7 +23,8 @@ typedef IntBlock = ObjCBlock_Int32_Int32;
 void main() {
   group('static functions', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     Pointer<Int32> staticFuncOfObjectRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();

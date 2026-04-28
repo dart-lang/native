@@ -27,7 +27,8 @@ typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
 void main() {
   group('protocol', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     group('ObjC implementation', () {
       test('Method implementation', () {

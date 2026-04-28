@@ -51,7 +51,8 @@ void main() {
   late String sel;
   group('Blocks', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester

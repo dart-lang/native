@@ -12,14 +12,14 @@ import '../test_utils.dart';
 import '_expected_native_test_bindings.dart';
 
 @Native<Void Function()>(
-    symbol: 'Function1Bool', assetId: 'package:ffigen/native_test')
+  symbol: 'Function1Bool',
+  assetId: 'package:ffigen/native_test',
+)
 external void loadLibrary();
 
 void main() {
   group('native_test', () {
-    setUpAll(() {
-      loadLibrary();
-    });
+    setUpAll(loadLibrary);
 
     test('generate_bindings', () {
       final context = testContext(
@@ -28,12 +28,11 @@ void main() {
         ),
       );
 
-      matchLibraryWithExpected(
-        context,
-        parse(context),
-        'native_test_dart',
-        ['test', 'native_test', '_expected_native_test_bindings.dart'],
-      );
+      matchLibraryWithExpected(context, parse(context), 'native_test_dart', [
+        'test',
+        'native_test',
+        '_expected_native_test_bindings.dart',
+      ]);
     });
 
     test('bool', () {
@@ -53,28 +52,16 @@ void main() {
       expect(Function1Uint64(pow(2, 64).toInt()), 42);
     });
     test('int8_t', () {
-      expect(
-        Function1Int8(pow(2, 7).toInt()),
-        -pow(2, 7).toInt() + 42,
-      );
+      expect(Function1Int8(pow(2, 7).toInt()), -pow(2, 7).toInt() + 42);
     });
     test('int16_t', () {
-      expect(
-        Function1Int16(pow(2, 15).toInt()),
-        -pow(2, 15).toInt() + 42,
-      );
+      expect(Function1Int16(pow(2, 15).toInt()), -pow(2, 15).toInt() + 42);
     });
     test('int32_t', () {
-      expect(
-        Function1Int32(pow(2, 31).toInt()),
-        -pow(2, 31).toInt() + 42,
-      );
+      expect(Function1Int32(pow(2, 31).toInt()), -pow(2, 31).toInt() + 42);
     });
     test('int64_t', () {
-      expect(
-        Function1Int64(pow(2, 63).toInt()),
-        -pow(2, 63).toInt() + 42,
-      );
+      expect(Function1Int64(pow(2, 63).toInt()), -pow(2, 63).toInt() + 42);
     });
     test('intptr_t', () {
       expect(Function1IntPtr(0), 42);

@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('Block inheritance', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('BlockInheritTestBase', () {
       final BlockInheritTestBase baseObj = BlockInheritTestBase();

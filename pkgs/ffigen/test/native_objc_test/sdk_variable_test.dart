@@ -18,12 +18,14 @@ void main() {
   group('SDK variable', () {
     late final String bindings;
     setUpAll(() {
-      final config = testConfigFromPath(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'sdk_variable_config.yaml',
-      ));
+      final config = testConfigFromPath(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'sdk_variable_config.yaml',
+        ),
+      );
       bindings = parse(testContext(config)).generate();
     });
 

@@ -33,7 +33,8 @@ void main() {
     // correct block type.
 
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     void objectProducerTest(EmptyObject producer()) {
       final pool = objc_autoreleasePoolPush();

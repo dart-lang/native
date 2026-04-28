@@ -44,7 +44,6 @@ void main() {
       });
     });
 
-
     group('Child', () {
       test('Nullable arguments, changed to non-null', () {
         expect(nullableChild.nullableArg(obj), false);

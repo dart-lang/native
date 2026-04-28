@@ -17,7 +17,8 @@ import 'util.dart';
 void main() {
   group('rename_test', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Renamed class', () {
       final renamed = Renamed();

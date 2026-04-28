@@ -20,7 +20,8 @@ import 'util.dart';
 void main() {
   group('isolate', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     // Runs on other isolate (can't use expect function).
     void sendingObjectTest(SendPort sendPort) async {

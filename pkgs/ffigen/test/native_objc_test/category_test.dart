@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('categories', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Category methods', () {
       final thing = Thing();

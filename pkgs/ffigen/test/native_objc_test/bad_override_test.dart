@@ -18,7 +18,8 @@ import 'util.dart';
 void main() {
   group('bad overrides', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Method vs getter', () {
       // In ObjC, supertypes and subtypes can have a method that's an ordinary

@@ -17,7 +17,8 @@ import 'util.dart';
 void main() {
   group('native_objc_test', () {
     setUpAll(() {
-      loadLibrary();});
+      loadLibrary();
+    });
 
     test('Basic types', () {
       final foo = Foo();
