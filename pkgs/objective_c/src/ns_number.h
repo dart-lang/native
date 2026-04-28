@@ -7,8 +7,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSNumber (NSNumberTypeCheck)
+@interface NSNumber (NSNumberIsFloat)
 @property(readonly) bool isFloat;
+@end
+
+@interface NSNumber (NSNumberIsBool)
 @property(readonly) bool isBool;
 @end
 

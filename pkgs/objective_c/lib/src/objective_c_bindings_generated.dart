@@ -14059,13 +14059,16 @@ extension NSNumberCreation on NSNumber {
   }
 }
 
-/// NSNumberTypeCheck
-extension NSNumberTypeCheck on NSNumber {
+/// NSNumberIsBool
+extension NSNumberIsBool on NSNumber {
   /// isBool
   bool get isBool {
     return _objc_msgSend_91o635(object$.ref.pointer, _sel_isBool);
   }
+}
 
+/// NSNumberIsFloat
+extension NSNumberIsFloat on NSNumber {
   /// isFloat
   bool get isFloat {
     return _objc_msgSend_91o635(object$.ref.pointer, _sel_isFloat);

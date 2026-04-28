@@ -4,13 +4,14 @@
 
 #import "ns_number.h"
 
-@implementation NSNumber (NSNumberTypeCheck)
+@implementation NSNumber (NSNumberIsFloat)
 - (bool)isFloat {
   return CFNumberIsFloatType((__bridge CFNumberRef)self);
 }
+@end
 
+@implementation NSNumber (NSNumberIsBool)
 - (bool)isBool {
   return CFGetTypeID((__bridge CFTypeRef)self) == CFBooleanGetTypeID();
 }
-
 @end
