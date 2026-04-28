@@ -59,6 +59,7 @@ void main(List<String> args) async {
         input.userDefines['include_test_utils'] as bool? ?? false;
     if (includeTestUtils) {
       cFiles.add(input.packageRoot.resolve('test/util.c').toFilePath());
+      mFiles.add(input.packageRoot.resolve('test/gc_inject.m').toFilePath());
     }
 
     final sysroot = sdkPath(codeConfig);
