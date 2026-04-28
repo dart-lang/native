@@ -52,3 +52,8 @@ dependency_overrides:
     path: ../native_toolchain_c
   objective_c:
     path: ../objective_c
+
+hooks:
+  user_defines:
+    objective_c:
+      include_test_utils: true
