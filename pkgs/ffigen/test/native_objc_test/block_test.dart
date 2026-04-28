@@ -48,23 +48,10 @@ void setCurrentThreadOwnsIsolate() =>
     )();
 
 void main() {
-  late final BlockTestObjCLibrary lib;
-
+  late String sel;
   group('Blocks', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-
-      BlockTester.setup(NativeApi.initializeApiDLData);
-    });
+      loadLibrary();});
 
     test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
@@ -243,7 +230,6 @@ void main() {
     });
 
     test('Selector block', () {
-      late String sel;
       final block = SelectorBlock.fromFunction((Pointer<ObjCSelector> x) {
         sel = x.toDartString();
       });
@@ -501,7 +487,7 @@ void main() {
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
     blockBlockDartCallRefCountTest() {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
@@ -514,7 +500,7 @@ void main() {
       });
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 15);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       doGC();
 
       // One reference held by inputBlock object, another bound to the
@@ -575,7 +561,7 @@ void main() {
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
     blockBlockObjCCallRefCountTest() {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
@@ -587,7 +573,7 @@ void main() {
       });
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       expect(outputBlock(1), 6);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       doGC();
 
       expect(blockRetainCount(inputBlock), 1);
@@ -639,14 +625,14 @@ void main() {
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
     nativeBlockBlockDartCallRefCountTest() {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final blockBlock = BlockTester.newBlockBlock(7);
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 35);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       doGC();
 
       // One reference held by inputBlock object, another held internally by the
@@ -700,7 +686,7 @@ void main() {
     );
 
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
       final outputCounter = alloc<Int32>();
       inputCounter.value = 0;
@@ -715,7 +701,7 @@ void main() {
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       return (inputCounter, outputCounter);
     }
 
@@ -735,7 +721,7 @@ void main() {
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
       Allocator alloc,
     ) {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
       final outputCounter = alloc<Int32>();
       inputCounter.value = 0;
@@ -750,7 +736,7 @@ void main() {
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       return (inputCounter, outputCounter);
     }
 

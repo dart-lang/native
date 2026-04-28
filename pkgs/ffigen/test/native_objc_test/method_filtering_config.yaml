@@ -28,6 +28,8 @@ objc-protocols:
       include:
         - includedProtocolMethod
       # If include is non-empty, everything else is excluded.
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'method_filtering_test.m'

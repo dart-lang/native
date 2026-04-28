@@ -18,17 +18,7 @@ import 'util.dart';
 void main() {
   group('enum', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-    });
+      loadLibrary();});
 
     test('NS_ENUM generates a Dart enum', () {
       expect(Fruit.FruitOrange.value, 2);

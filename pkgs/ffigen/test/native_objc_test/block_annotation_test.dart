@@ -21,8 +21,6 @@ import 'block_annotation_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late final BlockAnnotationTestLibrary lib;
-
   group('Block annotations', () {
     // Due to https://github.com/dart-lang/native/issues/1490 we can't directly
     // codegen blocks that return retain or consume args. Instead we create them
@@ -35,25 +33,13 @@ void main() {
     // correct block type.
 
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      lib = BlockAnnotationTestLibrary(
-        DynamicLibrary.open(dylib.absolute.path),
-      );
-    });
+      loadLibrary();});
 
     void objectProducerTest(EmptyObject producer()) {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       EmptyObject? obj = producer();
       final ptr = obj.ref.pointer;
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       doGC();
       expect(objectRetainCount(ptr), 1);
       expect(obj, isNotNull);
@@ -200,12 +186,12 @@ void main() {
     Future<void> objectListenerTest(
       void Function(Completer<EmptyObject>) producer,
     ) async {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       Completer<EmptyObject>? completer = Completer<EmptyObject>();
       producer(completer);
       EmptyObject? obj = await completer.future;
       final ptr = obj.ref.pointer;
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       doGC();
       expect(objectRetainCount(ptr), 1);
       expect(obj, isNotNull);
@@ -292,10 +278,10 @@ void main() {
     }, skip: !canDoGC);
 
     void blockProducerTest(DartEmptyBlock producer()) {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       DartEmptyBlock? obj = producer();
       final ptr = obj.ref.pointer;
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       doGC();
       expect(blockRetainCount(ptr), 1);
       expect(obj, isNotNull);

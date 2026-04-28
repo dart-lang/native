@@ -18,17 +18,7 @@ import 'util.dart';
 void main() {
   group('Block inheritance', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-    });
+      loadLibrary();});
 
     test('BlockInheritTestBase', () {
       final BlockInheritTestBase baseObj = BlockInheritTestBase();

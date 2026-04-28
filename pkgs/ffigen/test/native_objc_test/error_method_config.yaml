@@ -14,6 +14,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - 'ErrorMethodTestObject'
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'error_method_test.m'

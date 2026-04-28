@@ -77,48 +77,19 @@ id  _13hhotk_protocolTrampoline_1s2pox8(id target, void * sel, id arg1, double a
   return ((_ProtocolTrampoline_3)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
 }
 
-typedef void  (^_ListenerTrampoline)(void * arg0, int32_t arg1);
+typedef void  (^_ListenerTrampoline)(void * arg0, int32_t * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _13hhotk_wrapListenerBlock_1pbq496(_ListenerTrampoline block) NS_RETURNS_RETAINED {
-  return ^void(void * arg0, int32_t arg1) {
-    objc_retainBlock(block);
-    block(arg0, arg1);
-  };
-}
-
-typedef void  (^_BlockingTrampoline)(void * waiter, void * arg0, int32_t arg1);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _13hhotk_wrapBlockingBlock_1pbq496(
-    _BlockingTrampoline block, _BlockingTrampoline listenerBlock,
-    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, int32_t arg1), {
-    objc_retainBlock(block);
-    block(nil, arg0, arg1);
-  }, {
-    objc_retainBlock(listenerBlock);
-    listenerBlock(waiter, arg0, arg1);
-  });
-}
-
-typedef void  (^_ProtocolTrampoline_4)(void * sel, int32_t arg1);
-__attribute__((visibility("default"))) __attribute__((used))
-void  _13hhotk_protocolTrampoline_1pbq496(id target, void * sel, int32_t arg1) {
-  return ((_ProtocolTrampoline_4)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
-}
-
-typedef void  (^_ListenerTrampoline_1)(void * arg0, int32_t * arg1);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_1 _13hhotk_wrapListenerBlock_8r9qkg(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline _13hhotk_wrapListenerBlock_8r9qkg(_ListenerTrampoline block) NS_RETURNS_RETAINED {
   return ^void(void * arg0, int32_t * arg1) {
     objc_retainBlock(block);
     block(arg0, arg1);
   };
 }
 
-typedef void  (^_BlockingTrampoline_1)(void * waiter, void * arg0, int32_t * arg1);
+typedef void  (^_BlockingTrampoline)(void * waiter, void * arg0, int32_t * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_1 _13hhotk_wrapBlockingBlock_8r9qkg(
-    _BlockingTrampoline_1 block, _BlockingTrampoline_1 listenerBlock,
+_ListenerTrampoline _13hhotk_wrapBlockingBlock_8r9qkg(
+    _BlockingTrampoline block, _BlockingTrampoline listenerBlock,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, int32_t * arg1), {
     objc_retainBlock(block);
@@ -129,9 +100,38 @@ _ListenerTrampoline_1 _13hhotk_wrapBlockingBlock_8r9qkg(
   });
 }
 
-typedef void  (^_ProtocolTrampoline_5)(void * sel, int32_t * arg1);
+typedef void  (^_ProtocolTrampoline_4)(void * sel, int32_t * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 void  _13hhotk_protocolTrampoline_8r9qkg(id target, void * sel, int32_t * arg1) {
+  return ((_ProtocolTrampoline_4)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+}
+
+typedef void  (^_ListenerTrampoline_1)(void * arg0, int32_t arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_1 _13hhotk_wrapListenerBlock_1pbq496(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
+  return ^void(void * arg0, int32_t arg1) {
+    objc_retainBlock(block);
+    block(arg0, arg1);
+  };
+}
+
+typedef void  (^_BlockingTrampoline_1)(void * waiter, void * arg0, int32_t arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_1 _13hhotk_wrapBlockingBlock_1pbq496(
+    _BlockingTrampoline_1 block, _BlockingTrampoline_1 listenerBlock,
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, int32_t arg1), {
+    objc_retainBlock(block);
+    block(nil, arg0, arg1);
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0, arg1);
+  });
+}
+
+typedef void  (^_ProtocolTrampoline_5)(void * sel, int32_t arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+void  _13hhotk_protocolTrampoline_1pbq496(id target, void * sel, int32_t arg1) {
   return ((_ProtocolTrampoline_5)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 

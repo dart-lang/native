@@ -17,17 +17,7 @@ import 'util.dart';
 void main() {
   group('inheritedInstancetype', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-    });
+      loadLibrary();});
 
     test('Ordinary init method', () {
       final ChildClass child = ChildClass.alloc().init();

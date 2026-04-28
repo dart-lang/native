@@ -20,6 +20,8 @@ objc-protocols:
 typedefs:
   include:
     - EmptyBlock
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'block_annotation_test.h'

@@ -119,3 +119,11 @@ int objectRetainCount(Pointer<ObjCObjectImpl> object) {
 
 bool isValidClass(Pointer<Void> clazz) =>
     internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);
+
+@Native<Void Function()>(
+    symbol: 'ffigen_load_objc_test', assetId: 'package:ffigen/objc_test')
+external void loadLibrary();
+
+@Native<Void Function()>(
+    symbol: 'ffigen_load_swift_test', assetId: 'package:ffigen/swift_class_test')
+external void loadSwiftLibrary();
