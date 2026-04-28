@@ -2106,8 +2106,7 @@ enum NSAttributedStringMarkdownParsingFailurePolicy {
 /// macOS: introduced 12.0.0
 extension type NSAttributedStringMarkdownParsingOptions._(
   objc.ObjCObject object$
-)
-    implements objc.ObjCObject, NSObject, NSCopying {
+) implements objc.ObjCObject, NSObject, NSCopying {
   /// Constructs a [NSAttributedStringMarkdownParsingOptions] that points to the same underlying object as [other].
   NSAttributedStringMarkdownParsingOptions.as(objc.ObjCObject other)
     : object$ = other {
@@ -14057,6 +14056,14 @@ extension NSNumberCreation on NSNumber {
       value,
     );
     return NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+}
+
+/// NSNumberIsBool
+extension NSNumberIsBool on NSNumber {
+  /// isBool
+  bool get isBool {
+    return _objc_msgSend_91o635(object$.ref.pointer, _sel_isBool);
   }
 }
 
@@ -40867,6 +40874,7 @@ late final _sel_invocationWithMethodSignature_ = objc.registerName(
 late final _sel_invoke = objc.registerName("invoke");
 late final _sel_invokeUsingIMP_ = objc.registerName("invokeUsingIMP:");
 late final _sel_invokeWithTarget_ = objc.registerName("invokeWithTarget:");
+late final _sel_isBool = objc.registerName("isBool");
 late final _sel_isCancellable = objc.registerName("isCancellable");
 late final _sel_isCancelled = objc.registerName("isCancelled");
 late final _sel_isEqualToArray_ = objc.registerName("isEqualToArray:");

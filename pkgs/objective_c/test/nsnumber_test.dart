@@ -19,6 +19,7 @@ void main() {
       expect(n.doubleValue, 1.23);
       expect(n.numValue, isA<double>());
       expect(n.numValue, 1.23);
+      expect(n.isFloat, isTrue);
     });
 
     test('from int', () {
@@ -29,6 +30,7 @@ void main() {
       expect(n.doubleValue, 0x7ffffffffffffff0);
       expect(n.numValue, isA<int>());
       expect(n.numValue, 0x7fffffffffffffff);
+      expect(n.isFloat, isFalse);
     });
 
     test('from num', () {
@@ -50,5 +52,13 @@ void main() {
       expect(m.numValue, isA<int>());
       expect(m.numValue, 0x7fffffffffffffff);
     });
+  });
+
+  test('from bool', () {
+    final t = true.toNSNumber();
+    final f = false.toNSNumber();
+
+    expect(t.boolValue, isTrue);
+    expect(f.boolValue, isFalse);
   });
 }
