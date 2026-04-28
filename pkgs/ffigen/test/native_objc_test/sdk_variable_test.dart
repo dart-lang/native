@@ -7,6 +7,8 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -14,27 +16,17 @@ import 'util.dart';
 
 void main() {
   group('SDK variable', () {
-    late String bindings;
-
+    late final String bindings;
     setUpAll(() {
-      final dylib = File(
+      final config = testConfigFromPath(
         path.join(
           packagePathForTests,
           'test',
           'native_objc_test',
-          'objc_test.dylib',
+          'sdk_variable_config.yaml',
         ),
       );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'sdk_variable_test_bindings.dart',
-        ),
-      ).readAsStringSync();
+      bindings = parse(testContext(config)).generate();
     });
 
     test('XCODE', () {

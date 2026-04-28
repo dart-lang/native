@@ -16,20 +16,9 @@ import 'ref_count_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late RefCountTestObjCLibrary lib;
-
   group('Reference counting', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      lib = RefCountTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      loadLibrary();
     });
 
     test('objectRetainCount edge cases', () {
@@ -131,7 +120,7 @@ void main() {
       Pointer<ObjCObjectImpl>,
     )
     copyMethodsInner(Pointer<Int32> counter) {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final obj1 = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
       final obj2 = obj1.copyMe();
@@ -171,7 +160,7 @@ void main() {
       expect(objectRetainCount(obj8raw), greaterThan(0));
       expect(objectRetainCount(obj9raw), greaterThan(0));
 
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       expect(objectRetainCount(obj1raw), greaterThan(0));
       expect(objectRetainCount(obj2raw), greaterThan(0));
       expect(objectRetainCount(obj3raw), greaterThan(0));
@@ -238,17 +227,17 @@ void main() {
       final counter = calloc<Int32>();
       counter.value = 0;
 
-      final pool1 = lib.objc_autoreleasePoolPush();
+      final pool1 = objc_autoreleasePoolPush();
       final obj1raw = autoreleaseMethodsInner(counter);
       doGC();
       // The autorelease pool is still holding a reference to the object.
       expect(counter.value, 1);
       expect(objectRetainCount(obj1raw), greaterThan(0));
-      lib.objc_autoreleasePoolPop(pool1);
+      objc_autoreleasePoolPop(pool1);
       expect(counter.value, 0);
       expect(objectRetainCount(obj1raw), 0);
 
-      final pool2 = lib.objc_autoreleasePoolPush();
+      final pool2 = objc_autoreleasePoolPush();
       final obj2 = RefCountTestObject.makeAndAutorelease(counter);
       final obj2raw = obj2.ref.pointer;
       expect(counter.value, 1);
@@ -256,7 +245,7 @@ void main() {
       doGC();
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), greaterThan(0));
-      lib.objc_autoreleasePoolPop(pool2);
+      objc_autoreleasePoolPop(pool2);
       // The obj2 variable still holds a reference to the object.
       expect(counter.value, 1);
       expect(objectRetainCount(obj2raw), greaterThan(0));
@@ -351,13 +340,13 @@ void main() {
       counter.value = 0;
       // The getters of retain properties retain+autorelease the value. So we
       // need an autorelease pool.
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final (outerObjRaw, retainObjRaw) = retainPropertiesInner(counter);
       doGC();
       expect(objectRetainCount(retainObjRaw), greaterThan(0));
       expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 1);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       expect(objectRetainCount(retainObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 0);
@@ -397,7 +386,7 @@ void main() {
       counter.value = 0;
       // The getters of copy properties retain+autorelease the value. So we need
       // an autorelease pool.
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final (outerObjRaw, copyObjRaw, anotherCopyRaw) = copyPropertiesInner(
         counter,
       );
@@ -406,7 +395,7 @@ void main() {
       expect(objectRetainCount(outerObjRaw), 0);
       expect(objectRetainCount(copyObjRaw), 0);
       expect(objectRetainCount(anotherCopyRaw), greaterThan(0));
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
       expect(counter.value, 0);
       expect(objectRetainCount(outerObjRaw), 0);
       expect(objectRetainCount(copyObjRaw), 0);

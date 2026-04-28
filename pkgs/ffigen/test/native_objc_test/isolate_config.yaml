@@ -8,6 +8,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - Sendable
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'isolate_test.h'

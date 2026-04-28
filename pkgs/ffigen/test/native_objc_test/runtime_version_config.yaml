@@ -10,6 +10,8 @@ objc-interfaces:
 objc-categories:
   include:
     - FutureAPICategoryMethods
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'runtime_version_test.m'

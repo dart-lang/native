@@ -6,6 +6,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - Castaway
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'cast_test.m'

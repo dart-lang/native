@@ -26,7 +26,7 @@ String generate({
           packagePathForTests,
           'test',
           'native_objc_test',
-          'transitive_test_bindings.dart',
+          'transitive_test_dart',
         ),
       ),
       format: false,
@@ -74,7 +74,7 @@ String generate({
       packagePathForTests,
       'test',
       'native_objc_test',
-      'transitive_test_bindings.dart',
+      'transitive_test_dart',
     ),
   ).readAsStringSync();
 }
@@ -84,7 +84,6 @@ enum Inclusion { omitted, stubbed, included }
 void main() {
   group('transitive', () {
     late String bindings;
-
     Inclusion incItf(String name) {
       final classDef = bindings.contains(
         'extension type $name._(objc.ObjCObject ',

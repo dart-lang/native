@@ -9,6 +9,7 @@ library;
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 

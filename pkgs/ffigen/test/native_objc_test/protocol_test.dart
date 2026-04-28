@@ -16,7 +16,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'protocol_test_bindings.dart';
+import 'protocol_test_bindings.dart' hide getClass;
 import 'util.dart';
 
 typedef InstanceMethodBlock = ObjCBlock_NSString_ffiVoid_NSString_ffiDouble;
@@ -25,20 +25,9 @@ typedef VoidMethodBlock = ObjCBlock_ffiVoid_ffiVoid_Int32;
 typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
 
 void main() {
-  late ProtocolTestObjCLibrary lib;
-
   group('protocol', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      loadLibrary();
     });
 
     group('ObjC implementation', () {
@@ -484,7 +473,7 @@ void main() {
     });
 
     (NSObject, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       final protocolBuilder = ObjCProtocolBuilder();
 
       final block = InstanceMethodBlock.fromFunction(
@@ -495,7 +484,7 @@ void main() {
         block,
       );
       final protocol = protocolBuilder.build();
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
 
       final blockPtr = block.ref.pointer;
 
@@ -598,19 +587,19 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, builder first', () {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(
         debugName: 'Foo',
       );
 
       NSObject? protocol = protocolBuilder.build();
-      final clazz = lib.getClass(protocol);
+      final clazz = getClass(protocol);
       expect(
-        lib.getClassName(clazz).cast<Utf8>().toDartString(),
+        getClassName(clazz).cast<Utf8>().toDartString(),
         startsWith('Foo'),
       );
       expect(isValidClass(clazz), isTrue);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();
@@ -622,19 +611,19 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, instance first', () {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(
         debugName: 'Foo',
       );
 
       NSObject? protocol = protocolBuilder.build();
-      final clazz = lib.getClass(protocol);
+      final clazz = getClass(protocol);
       expect(
-        lib.getClassName(clazz).cast<Utf8>().toDartString(),
+        getClassName(clazz).cast<Utf8>().toDartString(),
         startsWith('Foo'),
       );
       expect(isValidClass(clazz), isTrue);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();

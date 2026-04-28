@@ -15,6 +15,8 @@ typedefs:
     - ReturnPlatypus
     - AcceptMammal
     - AcceptPlatypus
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'block_inherit_test.h'

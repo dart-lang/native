@@ -21,20 +21,9 @@ import 'util.dart';
 typedef IntBlock = ObjCBlock_Int32_Int32;
 
 void main() {
-  late StaticFuncTestObjCLibrary lib;
-
   group('static functions', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      lib = StaticFuncTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      loadLibrary();
     });
 
     Pointer<Int32> staticFuncOfObjectRefCountTest(Allocator alloc) {
@@ -44,9 +33,9 @@ void main() {
       final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
-      final pool = lib.objc_autoreleasePoolPush();
-      final outputObj = lib.staticFuncOfObject(obj);
-      lib.objc_autoreleasePoolPop(pool);
+      final pool = objc_autoreleasePoolPush();
+      final outputObj = staticFuncOfObject(obj);
+      objc_autoreleasePoolPop(pool);
       expect(obj, outputObj);
       expect(counter.value, 1);
 
@@ -72,9 +61,9 @@ void main() {
       final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
-      final pool = lib.objc_autoreleasePoolPush();
-      final outputObj = lib.staticFuncOfNullableObject(obj);
-      lib.objc_autoreleasePoolPop(pool);
+      final pool = objc_autoreleasePoolPush();
+      final outputObj = staticFuncOfNullableObject(obj);
+      objc_autoreleasePoolPop(pool);
       expect(obj, outputObj);
       expect(counter.value, 1);
 
@@ -89,7 +78,7 @@ void main() {
           doGC();
           expect(counter.value, 0);
 
-          expect(lib.staticFuncOfNullableObject(null), isNull);
+          expect(staticFuncOfNullableObject(null), isNull);
         });
       },
       skip: !canDoGC,
@@ -99,9 +88,9 @@ void main() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
       expect(blockRetainCount(block.ref.pointer.cast()), 1);
 
-      final pool = lib.objc_autoreleasePoolPush();
-      final outputBlock = lib.staticFuncOfBlock(block);
-      lib.objc_autoreleasePoolPop(pool);
+      final pool = objc_autoreleasePoolPush();
+      final outputBlock = staticFuncOfBlock(block);
+      objc_autoreleasePoolPop(pool);
       expect(block, outputBlock);
       expect(blockRetainCount(block.ref.pointer.cast()), 2);
 
@@ -122,7 +111,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final outputObj = lib.staticFuncReturnsRetained(counter);
+      final outputObj = staticFuncReturnsRetained(counter);
       expect(counter.value, 1);
 
       return counter;
@@ -146,7 +135,7 @@ void main() {
       final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
-      final outputObj = lib.staticFuncReturnsRetainedArg(obj);
+      final outputObj = staticFuncReturnsRetainedArg(obj);
       expect(obj, outputObj);
       expect(counter.value, 1);
 
@@ -171,7 +160,7 @@ void main() {
       expect(objectRetainCount(obj1raw), 1);
       expect(counter.value, 1);
 
-      lib.staticFuncConsumesArg(obj1);
+      staticFuncConsumesArg(obj1);
 
       expect(objectRetainCount(obj1raw), 1);
       expect(counter.value, 1);
@@ -185,8 +174,8 @@ void main() {
 
     test('Internal variable conflict resolution', () {
       // Regression test for https://github.com/dart-lang/native/issues/2760
-      expect(lib.foo(123), 1230);
-      expect(lib.fooPtr(123), 12300);
+      expect(foo(123), 1230);
+      expect(fooPtr(123), 12300);
     });
   });
 }

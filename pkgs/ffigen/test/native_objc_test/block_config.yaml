@@ -31,6 +31,8 @@ functions:
   include:
     - objc_autoreleasePoolPop
     - objc_autoreleasePoolPush
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'block_test.h'

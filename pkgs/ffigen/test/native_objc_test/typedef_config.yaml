@@ -10,6 +10,8 @@ objc-interfaces:
 typedefs:
   include:
     - SomeClassPtr
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'typedef_test.m'

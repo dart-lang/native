@@ -20,16 +20,7 @@ import 'util.dart';
 void main() {
   group('isolate', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      loadLibrary();
     });
 
     // Runs on other isolate (can't use expect function).
