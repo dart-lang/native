@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: ffigen
-version: 21.0.0-wip
+version: 21.0.0-dev.0
 description: >
   Generator for FFI bindings, using LibClang to parse C, Objective-C, and Swift
   files.
@@ -60,3 +60,8 @@ dependency_overrides:
     path: ../native_toolchain_c
   objective_c:
     path: ../objective_c
+
+hooks:
+  user_defines:
+    objective_c:
+      include_test_utils: true
