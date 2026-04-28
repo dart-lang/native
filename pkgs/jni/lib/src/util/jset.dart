@@ -30,7 +30,8 @@ final class _JSetAdapter<E extends JObject?> with SetBase<E> {
 
   @override
   E? lookup(Object? element) => throw UnsupportedError(
-      "Java's Set class has no equivalent of Dart's Set.lookup method.");
+    "Java's Set class has no equivalent of Dart's Set.lookup method.",
+  );
 
   @override
   Iterator<E> get iterator => JIteratorAdapter<E>(_jset.iterator()!);

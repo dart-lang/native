@@ -24,8 +24,9 @@ extension type JBooleanArray._(JObject _$this) implements JObject {
   factory JBooleanArray(int length) {
     RangeError.checkNotNegative(length);
     return JObject.fromReference(
-      JGlobalReference(Jni.env.NewBooleanArray(length)),
-    ) as JBooleanArray;
+          JGlobalReference(Jni.env.NewBooleanArray(length)),
+        )
+        as JBooleanArray;
   }
 
   /// Creates a [JBooleanArray] from `elements`.
@@ -51,13 +52,21 @@ extension type JBooleanArray._(JObject _$this) implements JObject {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     final buffer = allocator<Uint8>(rangeLength);
-    Jni.env
-        .GetBooleanArrayRegion(reference.pointer, start, rangeLength, buffer);
+    Jni.env.GetBooleanArrayRegion(
+      reference.pointer,
+      start,
+      rangeLength,
+      buffer,
+    );
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<bool> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<bool> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Uint8>(sizeOf<Uint8>() * rangeLength, (ptr) {
@@ -119,9 +128,8 @@ extension type JByteArray._(JObject _$this) implements JObject {
   /// The [length] must be a non-negative integer.
   factory JByteArray(int length) {
     RangeError.checkNotNegative(length);
-    return JObject.fromReference(
-      JGlobalReference(Jni.env.NewByteArray(length)),
-    ) as JByteArray;
+    return JObject.fromReference(JGlobalReference(Jni.env.NewByteArray(length)))
+        as JByteArray;
   }
 
   /// Creates a [JByteArray] from `elements`.
@@ -151,8 +159,12 @@ extension type JByteArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Int8>(sizeOf<Int8>() * rangeLength, (ptr) {
@@ -213,9 +225,8 @@ extension type JCharArray._(JObject _$this) implements JObject {
   /// The [length] must be a non-negative integer.
   factory JCharArray(int length) {
     RangeError.checkNotNegative(length);
-    return JObject.fromReference(
-      JGlobalReference(Jni.env.NewCharArray(length)),
-    ) as JCharArray;
+    return JObject.fromReference(JGlobalReference(Jni.env.NewCharArray(length)))
+        as JCharArray;
   }
 
   /// Creates a [JCharArray] from `elements`.
@@ -245,8 +256,12 @@ extension type JCharArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Uint16>(sizeOf<Uint16>() * rangeLength, (ptr) {
@@ -308,8 +323,9 @@ extension type JShortArray._(JObject _$this) implements JObject {
   factory JShortArray(int length) {
     RangeError.checkNotNegative(length);
     return JObject.fromReference(
-      JGlobalReference(Jni.env.NewShortArray(length)),
-    ) as JShortArray;
+          JGlobalReference(Jni.env.NewShortArray(length)),
+        )
+        as JShortArray;
   }
 
   /// Creates a [JShortArray] from `elements`.
@@ -339,8 +355,12 @@ extension type JShortArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Int16>(sizeOf<Int16>() * rangeLength, (ptr) {
@@ -402,9 +422,8 @@ extension type JIntArray._(JObject _$this) implements JObject {
   /// The [length] must be a non-negative integer.
   factory JIntArray(int length) {
     RangeError.checkNotNegative(length);
-    return JObject.fromReference(
-      JGlobalReference(Jni.env.NewIntArray(length)),
-    ) as JIntArray;
+    return JObject.fromReference(JGlobalReference(Jni.env.NewIntArray(length)))
+        as JIntArray;
   }
 
   /// Creates a [JIntArray] from `elements`.
@@ -434,8 +453,12 @@ extension type JIntArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Int32>(sizeOf<Int32>() * rangeLength, (ptr) {
@@ -496,9 +519,8 @@ extension type JLongArray._(JObject _$this) implements JObject {
   /// The [length] must be a non-negative integer.
   factory JLongArray(int length) {
     RangeError.checkNotNegative(length);
-    return JObject.fromReference(
-      JGlobalReference(Jni.env.NewLongArray(length)),
-    ) as JLongArray;
+    return JObject.fromReference(JGlobalReference(Jni.env.NewLongArray(length)))
+        as JLongArray;
   }
 
   /// Creates a [JLongArray] from `elements`.
@@ -528,8 +550,12 @@ extension type JLongArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Int64>(sizeOf<Int64>() * rangeLength, (ptr) {
@@ -587,8 +613,9 @@ extension type JFloatArray._(JObject _$this) implements JObject {
   factory JFloatArray(int length) {
     RangeError.checkNotNegative(length);
     return JObject.fromReference(
-      JGlobalReference(Jni.env.NewFloatArray(length)),
-    ) as JFloatArray;
+          JGlobalReference(Jni.env.NewFloatArray(length)),
+        )
+        as JFloatArray;
   }
 
   /// Creates a [JFloatArray] from `elements`.
@@ -618,8 +645,12 @@ extension type JFloatArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<double> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<double> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Float>(sizeOf<Float>() * rangeLength, (ptr) {
@@ -678,8 +709,9 @@ extension type JDoubleArray._(JObject _$this) implements JObject {
   factory JDoubleArray(int length) {
     RangeError.checkNotNegative(length);
     return JObject.fromReference(
-      JGlobalReference(Jni.env.NewDoubleArray(length)),
-    ) as JDoubleArray;
+          JGlobalReference(Jni.env.NewDoubleArray(length)),
+        )
+        as JDoubleArray;
   }
 
   /// Creates a [JDoubleArray] from `elements`.
@@ -709,8 +741,12 @@ extension type JDoubleArray._(JObject _$this) implements JObject {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<double> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<double> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<Double>(sizeOf<Double>() * rangeLength, (ptr) {

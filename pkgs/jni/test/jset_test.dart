@@ -24,8 +24,7 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena),
-    }.toJSet()
-      ..releasedBy(arena);
+    }.toJSet()..releasedBy(arena);
   }
 
   JSet<JString?> testNullableDataSet(Arena arena) {
@@ -33,8 +32,7 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       null,
-    }.toJSet()
-      ..releasedBy(arena);
+    }.toJSet()..releasedBy(arena);
   }
 
   testRunner('length', () {
@@ -171,8 +169,7 @@ void run({required TestRunnerCallback testRunner}) {
       final toRemoveInclusive = {
         '1'.toJString()..releasedBy(arena),
         '4'.toJString()..releasedBy(arena),
-      }.toJSet()
-        ..releasedBy(arena);
+      }.toJSet()..releasedBy(arena);
       set.removeAll(toRemoveInclusive.asDart());
       expect(set.length, 2);
       set.removeAll(['2'.toJString()..releasedBy(arena)]);

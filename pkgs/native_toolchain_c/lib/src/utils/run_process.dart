@@ -27,7 +27,12 @@ Future<RunProcessResult> runProcess({
       workingDirectory != null && workingDirectory != Directory.current.uri;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
-    ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
+    ...?environment?.entries.map((entry) {
+      final value = entry.value.contains(' ')
+          ? '"${entry.value}"'
+          : entry.value;
+      return '${entry.key}=$value';
+    }),
     executable.toFilePath(),
     ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
     if (printWorkingDir) ')',
@@ -36,12 +41,20 @@ Future<RunProcessResult> runProcess({
 
   final stdoutBuffer = StringBuffer();
   final stderrBuffer = StringBuffer();
+  final runInShell = Platform.isWindows && workingDirectory != null;
+  final executablePath = executable.toFilePath();
+  // When running in shell on Windows, cmd.exe splits unquoted paths on spaces.
+  // Quote the executable path if it contains spaces to prevent this.
+  final shellExecutablePath = runInShell && executablePath.contains(' ')
+      ? '"$executablePath"'
+      : executablePath;
+
   final process = await Process.start(
-    executable.toFilePath(),
+    shellExecutablePath,
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: Platform.isWindows && workingDirectory != null,
+    runInShell: runInShell,
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {

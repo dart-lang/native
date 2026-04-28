@@ -58,8 +58,9 @@ import 'package:jni/jni.dart' as jni$_;
 /// Enumeration for basic token types used for returning results
 /// of parsing JSON content.
 extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
+  static final _class = jni$_.JClass.forName(
+    r'com/fasterxml/jackson/core/JsonToken',
+  );
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonToken> type = $JsonToken$Type$();
@@ -256,23 +257,29 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     r'()[Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _values = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _values =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonToken?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
-        .object<jni$_.JArray<JsonToken?>?>();
+    return _values(
+      _class.reference.pointer,
+      _id_values.pointer,
+    ).object<jni$_.JArray<JsonToken?>?>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -280,46 +287,54 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
-  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _valueOf =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JsonToken? valueOf(
-    jni$_.JString? name,
-  ) {
+  static JsonToken? valueOf(jni$_.JString? name) {
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
-        .object<JsonToken?>();
+      _class.reference.pointer,
+      _id_valueOf.pointer,
+      _$name.pointer,
+    ).object<JsonToken?>();
   }
 }
 
 extension JsonToken$$Methods on JsonToken {
-  static final _id_id = JsonToken._class.instanceMethodId(
-    r'id',
-    r'()I',
-  );
+  static final _id_id = JsonToken._class.instanceMethodId(r'id', r'()I');
 
-  static final _id = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _id =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final int id()`
   core$_.int id() {
@@ -331,23 +346,29 @@ extension JsonToken$$Methods on JsonToken {
     r'()Ljava/lang/String;',
   );
 
-  static final _asString = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _asString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? asString() {
-    return _asString(reference.pointer, _id_asString.pointer)
-        .object<jni$_.JString?>();
+    return _asString(
+      reference.pointer,
+      _id_asString.pointer,
+    ).object<jni$_.JString?>();
   }
 
   static final _id_asCharArray = JsonToken._class.instanceMethodId(
@@ -355,23 +376,29 @@ extension JsonToken$$Methods on JsonToken {
     r'()[C',
   );
 
-  static final _asCharArray = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _asCharArray =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray? asCharArray() {
-    return _asCharArray(reference.pointer, _id_asCharArray.pointer)
-        .object<jni$_.JCharArray?>();
+    return _asCharArray(
+      reference.pointer,
+      _id_asCharArray.pointer,
+    ).object<jni$_.JCharArray?>();
   }
 
   static final _id_asByteArray = JsonToken._class.instanceMethodId(
@@ -379,23 +406,29 @@ extension JsonToken$$Methods on JsonToken {
     r'()[B',
   );
 
-  static final _asByteArray = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _asByteArray =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? asByteArray() {
-    return _asByteArray(reference.pointer, _id_asByteArray.pointer)
-        .object<jni$_.JByteArray?>();
+    return _asByteArray(
+      reference.pointer,
+      _id_asByteArray.pointer,
+    ).object<jni$_.JByteArray?>();
   }
 
   static final _id_get$isNumeric = JsonToken._class.instanceMethodId(
@@ -403,17 +436,21 @@ extension JsonToken$$Methods on JsonToken {
     r'()Z',
   );
 
-  static final _get$isNumeric = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isNumeric =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final boolean isNumeric()`
   ///
@@ -428,17 +465,21 @@ extension JsonToken$$Methods on JsonToken {
     r'()Z',
   );
 
-  static final _get$isStructStart = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isStructStart =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final boolean isStructStart()`
   ///
@@ -450,8 +491,10 @@ extension JsonToken$$Methods on JsonToken {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool get isStructStart {
-    return _get$isStructStart(reference.pointer, _id_get$isStructStart.pointer)
-        .boolean;
+    return _get$isStructStart(
+      reference.pointer,
+      _id_get$isStructStart.pointer,
+    ).boolean;
   }
 
   static final _id_get$isStructEnd = JsonToken._class.instanceMethodId(
@@ -459,17 +502,21 @@ extension JsonToken$$Methods on JsonToken {
     r'()Z',
   );
 
-  static final _get$isStructEnd = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isStructEnd =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final boolean isStructEnd()`
   ///
@@ -481,8 +528,10 @@ extension JsonToken$$Methods on JsonToken {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool get isStructEnd {
-    return _get$isStructEnd(reference.pointer, _id_get$isStructEnd.pointer)
-        .boolean;
+    return _get$isStructEnd(
+      reference.pointer,
+      _id_get$isStructEnd.pointer,
+    ).boolean;
   }
 
   static final _id_get$isScalarValue = JsonToken._class.instanceMethodId(
@@ -490,17 +539,21 @@ extension JsonToken$$Methods on JsonToken {
     r'()Z',
   );
 
-  static final _get$isScalarValue = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isScalarValue =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final boolean isScalarValue()`
   ///
@@ -511,8 +564,10 @@ extension JsonToken$$Methods on JsonToken {
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   core$_.bool get isScalarValue {
-    return _get$isScalarValue(reference.pointer, _id_get$isScalarValue.pointer)
-        .boolean;
+    return _get$isScalarValue(
+      reference.pointer,
+      _id_get$isScalarValue.pointer,
+    ).boolean;
   }
 
   static final _id_get$isBoolean = JsonToken._class.instanceMethodId(
@@ -520,17 +575,21 @@ extension JsonToken$$Methods on JsonToken {
     r'()Z',
   );
 
-  static final _get$isBoolean = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isBoolean =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public final boolean isBoolean()`
   ///

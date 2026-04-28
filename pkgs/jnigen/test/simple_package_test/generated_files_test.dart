@@ -16,9 +16,12 @@ void main() async {
     getConfig(),
   );
 
-  test('Generate and analyze bindings for simple_package java files - doclet',
-      () async {
-    await generateAndAnalyzeBindings(
-        getConfig(backend: SummarizerBackend.doclet));
-  });
+  test(
+    'Generate and analyze bindings for simple_package java files - doclet',
+    () async {
+      await generateAndAnalyzeBindings(
+        getConfig(backend: SummarizerBackend.doclet),
+      );
+    },
+  );
 }

@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/env_from_bat.dart';
+import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -179,4 +180,38 @@ void main() {
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
+
+  test(
+    'runProcess with executable in path containing spaces and workingDirectory',
+    () async {
+      // When runInShell: true is set, Process.start wraps the call in
+      // cmd.exe /c <executable>. If the executable path contains spaces
+      // (e.g. cl.exe lives in C:\Program Files (x86)\...), cmd.exe splits
+      // on the space and tries to run "C:\Program" as a command, failing
+      // with a non-zero exit code.
+      final tempUri = await tempDirForTest();
+
+      // Create a batch script inside a directory whose path contains spaces.
+      final dirWithSpaces = Directory(
+        '${tempUri.toFilePath()}path with spaces',
+      );
+      await dirWithSpaces.create();
+      final script = File('${dirWithSpaces.path}\\hello.bat');
+      await script.writeAsString('@echo hello');
+
+      final workDir = await tempDirForTest();
+
+      final result = await runProcess(
+        executable: script.uri,
+        arguments: [],
+        workingDirectory: workDir,
+        environment: Platform.environment,
+        logger: logger,
+        captureOutput: true,
+      );
+
+      expect(result.exitCode, 0);
+      expect(result.stdout.trim(), 'hello');
+    },
+  );
 }

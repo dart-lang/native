@@ -20,10 +20,9 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
       final isAbstract = node.abstractKeyword != null;
       final isInterface = node.interfaceKeyword != null;
       final extendedClass = node.extendsClause?.superclass.toSource();
-      final interfaces =
-          node.implementsClause?.interfaces
-              .map((type) => type.toSource())
-              .toList();
+      final interfaces = node.implementsClause?.interfaces
+          .map((type) => type.toSource())
+          .toList();
       _classes[className] = Class(
         className,
         isAbstract,
@@ -37,10 +36,9 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
 
   @override
   void visitFieldDeclaration(FieldDeclaration node) {
-    final className =
-        (node.parent is ClassDeclaration)
-            ? (node.parent as ClassDeclaration).name.lexeme
-            : '';
+    final className = (node.parent is ClassDeclaration)
+        ? (node.parent as ClassDeclaration).name.lexeme
+        : '';
 
     if (className.isEmpty || !_isPublic(className)) return;
 
@@ -60,10 +58,9 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
 
   @override
   void visitMethodDeclaration(MethodDeclaration node) {
-    final className =
-        (node.parent is ClassDeclaration)
-            ? (node.parent as ClassDeclaration).name.lexeme
-            : '';
+    final className = (node.parent is ClassDeclaration)
+        ? (node.parent as ClassDeclaration).name.lexeme
+        : '';
 
     final methodName = node.name.lexeme;
 
@@ -109,10 +106,9 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
 
   @override
   void visitConstructorDeclaration(ConstructorDeclaration node) {
-    final className =
-        (node.parent is ClassDeclaration)
-            ? (node.parent as ClassDeclaration).name.lexeme
-            : '';
+    final className = (node.parent is ClassDeclaration)
+        ? (node.parent as ClassDeclaration).name.lexeme
+        : '';
 
     final constructorName = node.name?.lexeme ?? '';
 

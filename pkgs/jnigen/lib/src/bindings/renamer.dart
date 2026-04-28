@@ -128,7 +128,10 @@ String _keywordRename(String name, _ElementKind kind) =>
     kind.isAllowed(name) ? name : '$name\$';
 
 String _renameConflict(
-    Map<String, int> counts, String name, _ElementKind kind) {
+  Map<String, int> counts,
+  String name,
+  _ElementKind kind,
+) {
   if (counts.containsKey(name)) {
     final count = counts[name]!;
     final renamed = '$name\$$count';
@@ -163,9 +166,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Map<String, int> topLevelNameCounts = {};
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
-  _ClassRenamer(
-    this.config,
-  ) : renamed = {...config.importedClasses.values};
+  _ClassRenamer(this.config) : renamed = {...config.importedClasses.values};
 
   @override
   void visit(ClassDecl node) {
@@ -188,8 +189,9 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
       outerClass.accept(this);
     }
 
-    final outerClassName =
-        node.outerClass == null ? '' : '${node.outerClass!.finalName}\$';
+    final outerClassName = node.outerClass == null
+        ? ''
+        : '${node.outerClass!.finalName}\$';
     final className =
         '$outerClassName${_preprocess(node.userDefinedName ?? node.name)}';
 
@@ -205,8 +207,10 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
         node.userDefinedName == node.finalName) {
       log.fine('Class ${node.binaryName} is named ${node.finalName}');
     } else {
-      log.warning('Renaming Class ${node.binaryName} to ${node.userDefinedName}'
-          ' causes a name collision. Renamed to ${node.finalName} instead.');
+      log.warning(
+        'Renaming Class ${node.binaryName} to ${node.userDefinedName}'
+        ' causes a name collision. Renamed to ${node.finalName} instead.',
+      );
     }
 
     // Rename fields before renaming methods. In case a method and a field have
@@ -281,7 +285,8 @@ class _MethodRenamer implements Visitor<Method, void> {
   }
 
   ({String rawName, bool skipRenaming, String? propertySig}) _planRenaming(
-      Method node) {
+    Method node,
+  ) {
     if (node.userDefinedName != null) {
       return (
         rawName: node.userDefinedName!,
@@ -341,8 +346,9 @@ class _MethodRenamer implements Visitor<Method, void> {
         // Don't rename if superNum == 0
         // Unless the node name is a keyword.
         final superNumText = superNum == 0 ? '' : '$superNum';
-        final methodName =
-            superNum == 0 ? _keywordRename(name, _ElementKind.method) : name;
+        final methodName = superNum == 0
+            ? _keywordRename(name, _ElementKind.method)
+            : name;
         node.finalName = '$methodName$superNumText';
         node.classDecl.methodNumsAfterRenaming[sig] = superNum;
       } else {
@@ -357,12 +363,16 @@ class _MethodRenamer implements Visitor<Method, void> {
 
     if (node.userDefinedName == null ||
         node.userDefinedName == node.finalName) {
-      log.fine('Method ${node.classDecl.binaryName}#${node.name}'
-          ' is named ${node.finalName}');
+      log.fine(
+        'Method ${node.classDecl.binaryName}#${node.name}'
+        ' is named ${node.finalName}',
+      );
     } else {
-      log.warning('Renaming Method ${node.classDecl.binaryName}#'
-          '${node.name} to ${node.userDefinedName} cause a name collision. '
-          'Renamed to ${node.finalName} instead.');
+      log.warning(
+        'Renaming Method ${node.classDecl.binaryName}#'
+        '${node.name} to ${node.userDefinedName} cause a name collision. '
+        'Renamed to ${node.finalName} instead.',
+      );
     }
 
     final paramRenamer = _ParamRenamer(config);
@@ -385,12 +395,16 @@ class _FieldRenamer implements Visitor<Field, void> {
 
     if (node.userDefinedName == null ||
         node.userDefinedName == node.finalName) {
-      log.fine('Field ${node.classDecl.binaryName}#${node.name}'
-          ' is named ${node.finalName}');
+      log.fine(
+        'Field ${node.classDecl.binaryName}#${node.name}'
+        ' is named ${node.finalName}',
+      );
     } else {
-      log.warning('Renaming Field ${node.classDecl.binaryName}#${node.name}'
-          ' to ${node.userDefinedName} cause a name collision. '
-          'Renamed to ${node.finalName} instead.');
+      log.warning(
+        'Renaming Field ${node.classDecl.binaryName}#${node.name}'
+        ' to ${node.userDefinedName} cause a name collision. '
+        'Renamed to ${node.finalName} instead.',
+      );
     }
   }
 }
@@ -402,7 +416,9 @@ class _ParamRenamer implements Visitor<Param, void> {
 
   @override
   void visit(Param node) {
-    node.finalName =
-        _keywordRename(node.userDefinedName ?? node.name, _ElementKind.field);
+    node.finalName = _keywordRename(
+      node.userDefinedName ?? node.name,
+      _ElementKind.field,
+    );
   }
 }

@@ -130,31 +130,26 @@ class Context {
       packageSummary.classesSummaries.add(
         LibraryClassSummary(
           classDeclerationDisplay: classInstance.displayString(),
-          methodsDeclerationDisplay:
-              classInstance.methods
-                  .where((m) => m.isPublic)
-                  .map((m) => m.displayString())
-                  .toList(),
-          fieldsDeclerationDisplay:
-              classInstance.fields
-                  .where((f) => f.isPublic)
-                  .map((f) => f.displayString())
-                  .toList(),
-          gettersDeclerationDisplay:
-              classInstance.getters
-                  .where((g) => g.isPublic)
-                  .map((g) => g.displayString())
-                  .toList(),
-          settersDeclerationDisplay:
-              classInstance.setters
-                  .where((s) => s.isPublic)
-                  .map((s) => s.displayString())
-                  .toList(),
-          constructorsDeclerationDisplay:
-              classInstance.constructors
-                  .where((c) => c.isPublic)
-                  .map((c) => c.displayString())
-                  .toList(),
+          methodsDeclerationDisplay: classInstance.methods
+              .where((m) => m.isPublic)
+              .map((m) => m.displayString())
+              .toList(),
+          fieldsDeclerationDisplay: classInstance.fields
+              .where((f) => f.isPublic)
+              .map((f) => f.displayString())
+              .toList(),
+          gettersDeclerationDisplay: classInstance.getters
+              .where((g) => g.isPublic)
+              .map((g) => g.displayString())
+              .toList(),
+          settersDeclerationDisplay: classInstance.setters
+              .where((s) => s.isPublic)
+              .map((s) => s.displayString())
+              .toList(),
+          constructorsDeclerationDisplay: classInstance.constructors
+              .where((c) => c.isPublic)
+              .map((c) => c.displayString())
+              .toList(),
         ),
       );
     }

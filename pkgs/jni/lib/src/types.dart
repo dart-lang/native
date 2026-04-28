@@ -26,13 +26,25 @@ sealed class JTypeBase<JavaT> {
 /// Able to be a return type of a method that can be called.
 mixin JCallable<JavaT, DartT> on JTypeBase<JavaT> {
   DartT _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  );
   DartT? _staticCallNullable(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  );
   DartT _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args);
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  );
   DartT? _instanceCallNullable(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args);
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  );
 }
 
 /// Able to be the type of a field that can be get and set.
@@ -62,7 +74,10 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
 
   @override
   T? _staticCallNullable(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     final result = Jni.env.CallStaticObjectMethodA(clazz, methodID, args);
     return result == nullptr
         ? null
@@ -77,7 +92,10 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
 
   @override
   T? _instanceCallNullable(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     final result = Jni.env.CallObjectMethodA(obj, methodID, args);
     return result == nullptr
         ? null

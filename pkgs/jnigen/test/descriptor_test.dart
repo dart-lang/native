@@ -20,27 +20,31 @@ void main() {
     ('kotlin', kotlin_test.getConfig),
     ('jackson_core', jackson_core_test.getConfig),
   ]) {
-    test('Method descriptor generation for $name',
-        timeout: const Timeout.factor(3), () async {
-      final config = getConfig();
-      config.summarizerOptions =
-          SummarizerOptions(backend: SummarizerBackend.asm);
-      final classes = await getSummary(config);
-      final methodDescriptorsPreLinking = <Method, String?>{};
-      for (final decl in classes.decls.values) {
-        for (final method in decl.methods) {
-          methodDescriptorsPreLinking[method] = method.descriptor;
-        }
-      }
-      await classes.accept(Linker(config));
-      for (final decl in classes.decls.values) {
-        for (final method in decl.methods) {
-          if (methodDescriptorsPreLinking[method]
-              case final preLinkingDescriptor?) {
-            expect(method.descriptor, preLinkingDescriptor);
+    test(
+      'Method descriptor generation for $name',
+      timeout: const Timeout.factor(3),
+      () async {
+        final config = getConfig();
+        config.summarizerOptions = SummarizerOptions(
+          backend: SummarizerBackend.asm,
+        );
+        final classes = await getSummary(config);
+        final methodDescriptorsPreLinking = <Method, String?>{};
+        for (final decl in classes.decls.values) {
+          for (final method in decl.methods) {
+            methodDescriptorsPreLinking[method] = method.descriptor;
           }
         }
-      }
-    });
+        await classes.accept(Linker(config));
+        for (final decl in classes.decls.values) {
+          for (final method in decl.methods) {
+            if (methodDescriptorsPreLinking[method]
+                case final preLinkingDescriptor?) {
+              expect(method.descriptor, preLinkingDescriptor);
+            }
+          }
+        }
+      },
+    );
   }
 }

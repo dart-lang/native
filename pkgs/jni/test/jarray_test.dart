@@ -111,8 +111,10 @@ void run({required TestRunnerCallback testRunner}) {
       expect(JByteArray.of([1]).asDart(), containsAllInOrder([1]));
       expect(JByteArray.of([1, 2]).asDart(), containsAllInOrder([1, 2]));
       expect(JByteArray.of([-1, -2]).asDart(), containsAllInOrder([-1, -2]));
-      expect(JByteArray.of([127, 128, 129]).asDart(),
-          containsAllInOrder([127, -128, -127]));
+      expect(
+        JByteArray.of([127, 128, 129]).asDart(),
+        containsAllInOrder([127, -128, -127]),
+      );
 
       final array = JByteArray(3)..releasedBy(arena);
       var counter = 0;
@@ -381,17 +383,12 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0]!.toDartString(releaseOriginal: true), 'حس');
       expect(array[1]!.toDartString(releaseOriginal: true), '\$');
       expect(array[2]!.toDartString(releaseOriginal: true), '33');
-      array.setRange(
-        0,
-        3,
-        [
-          '44'.toJString()..releasedBy(arena),
-          '55'.toJString()..releasedBy(arena),
-          '66'.toJString()..releasedBy(arena),
-          '77'.toJString()..releasedBy(arena),
-        ],
-        1,
-      );
+      array.setRange(0, 3, [
+        '44'.toJString()..releasedBy(arena),
+        '55'.toJString()..releasedBy(arena),
+        '66'.toJString()..releasedBy(arena),
+        '77'.toJString()..releasedBy(arena),
+      ], 1);
       expect(array[0]!.toDartString(releaseOriginal: true), '55');
       expect(array[1]!.toDartString(releaseOriginal: true), '66');
       expect(array[2]!.toDartString(releaseOriginal: true), '77');
@@ -460,9 +457,8 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array1 = JArray.of(JString.type, [
         'apple'.toJString()..releasedBy(arena),
-        'banana'.toJString()..releasedBy(arena)
-      ])
-        ..releasedBy(arena);
+        'banana'.toJString()..releasedBy(arena),
+      ])..releasedBy(arena);
       expect(array1.length, 2);
       expect(array1[0].toDartString(releaseOriginal: true), 'apple');
       expect(array1[1].toDartString(releaseOriginal: true), 'banana');
@@ -470,7 +466,7 @@ void run({required TestRunnerCallback testRunner}) {
       final array2 = JArray.of(JString.type, [
         'apple'.toJString()..releasedBy(arena),
         null,
-        'banana'.toJString()..releasedBy(arena)
+        'banana'.toJString()..releasedBy(arena),
       ]);
       expect(array2.length, 3);
       expect(array2[0]!.toDartString(releaseOriginal: true), 'apple');

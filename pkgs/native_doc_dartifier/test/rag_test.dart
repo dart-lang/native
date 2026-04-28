@@ -22,11 +22,10 @@ Future<void> main() async {
 
   final abstractor = PublicAbstractor();
   parseString(content: bindings).unit.visitChildren(abstractor);
-  final classesSummary =
-      abstractor
-          .getBindingsClassesSummary()
-          .map((c) => c.toDartLikeRepresentation())
-          .toList();
+  final classesSummary = abstractor
+      .getBindingsClassesSummary()
+      .map((c) => c.toDartLikeRepresentation())
+      .toList();
 
   print('Total Number of Classes: ${classesSummary.length}');
 

@@ -79,11 +79,11 @@ Future<void> runCommand(
 
 class Options {
   Options(ArgResults arg)
-      : buildPath = arg[_buildPath] as String?,
-        sources = arg[_srcPath] as List<String>,
-        packages = arg[_packageName] as List<String>,
-        cmakeArgs = arg[_cmakeArgs] as List<String>,
-        verbose = (arg[_verbose] as bool?) ?? false;
+    : buildPath = arg[_buildPath] as String?,
+      sources = arg[_srcPath] as List<String>,
+      packages = arg[_packageName] as List<String>,
+      cmakeArgs = arg[_cmakeArgs] as List<String>,
+      verbose = (arg[_verbose] as bool?) ?? false;
 
   String? buildPath;
   List<String> sources;
@@ -165,7 +165,8 @@ void main(List<String> arguments) async {
     ..addMultiOption(
       _packageName,
       abbr: 'p',
-      help: 'package for which native'
+      help:
+          'package for which native'
           'library should be built',
     )
     ..addFlag(_verbose, abbr: 'v', help: 'Enable verbose output')
@@ -208,7 +209,8 @@ void main(List<String> arguments) async {
   }
 
   final currentDirUri = Uri.directory('.');
-  final buildPath = options.buildPath ??
+  final buildPath =
+      options.buildPath ??
       currentDirUri.resolve(_defaultRelativeBuildPath).toFilePath();
   final buildDir = Directory(buildPath);
   await buildDir.create(recursive: true);
@@ -230,13 +232,10 @@ void main(List<String> arguments) async {
     stderr.writeln('Target newer than source, skipping build.');
   } else {
     verboseLog('Running gradle task for building jni sources to $buildPath.');
-    await runCommand(
-        gradleWExecutable.toFilePath(windows: isWin),
-        [
-          'jar',
-          '-Pjni.targetDir=${buildDir.absolute.uri.toFilePath(windows: isWin)}',
-        ],
-        await findSources('jni', 'java'));
+    await runCommand(gradleWExecutable.toFilePath(windows: isWin), [
+      'jar',
+      '-Pjni.targetDir=${buildDir.absolute.uri.toFilePath(windows: isWin)}',
+    ], await findSources('jni', 'java'));
   }
 
   for (var srcPath in sources) {
@@ -278,16 +277,17 @@ void main(List<String> arguments) async {
     cmakeArgs.add(srcDir.absolute.path);
     await runCommand('cmake', cmakeArgs, tempDir.path);
     await runCommand('cmake', ['--build', '.'], tempDir.path);
-    final dllDirUri =
-        Platform.isWindows ? tempDir.uri.resolve('Debug') : tempDir.uri;
+    final dllDirUri = Platform.isWindows
+        ? tempDir.uri.resolve('Debug')
+        : tempDir.uri;
     final dllDir = Directory.fromUri(dllDirUri);
     for (var entry in dllDir.listSync()) {
       verboseLog(entry.toString());
       final dllSuffix = Platform.isWindows
           ? 'dll'
           : Platform.isMacOS
-              ? 'dylib'
-              : 'so';
+          ? 'dylib'
+          : 'so';
       if (entry.path.endsWith(dllSuffix)) {
         final dllName = entry.uri.pathSegments.last;
         final target = buildDir.uri.resolve(dllName);

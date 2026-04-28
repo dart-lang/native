@@ -65,12 +65,13 @@ void main() {
       // ignore: avoid_catching_errors
     } on UseAfterReleaseError catch (e) {
       expect(
-          e.toString(),
-          stringContainsInOrder([
-            'Object was released at:',
-            'Object was registered to be released',
-            'Object was registered to be released'
-          ]));
+        e.toString(),
+        stringContainsInOrder([
+          'Object was released at:',
+          'Object was registered to be released',
+          'Object was registered to be released',
+        ]),
+      );
       expect(e.toString(), contains('debug_release_test.dart'));
     }
     try {
@@ -78,12 +79,13 @@ void main() {
       // ignore: avoid_catching_errors
     } on DoubleReleaseError catch (e) {
       expect(
-          e.toString(),
-          stringContainsInOrder([
-            'Object was released at:',
-            'Object was registered to be released',
-            'Object was registered to be released'
-          ]));
+        e.toString(),
+        stringContainsInOrder([
+          'Object was released at:',
+          'Object was registered to be released',
+          'Object was registered to be released',
+        ]),
+      );
       expect(e.toString(), contains('debug_release_test.dart'));
     }
   });
@@ -98,8 +100,10 @@ void main() {
       s.release();
       // ignore: avoid_catching_errors
     } on DoubleReleaseError catch (e) {
-      expect(e.toString(),
-          contains('set `Jni.captureStackTraceOnRelease = true`'));
+      expect(
+        e.toString(),
+        contains('set `Jni.captureStackTraceOnRelease = true`'),
+      );
     }
   });
 
@@ -144,8 +148,7 @@ void main() {
     });
   });
 
-  test(
-      'Debug mode captures stack trace from another isolate'
+  test('Debug mode captures stack trace from another isolate'
       ' (cross-isolate release)', () async {
     Jni.captureStackTraceOnRelease = true;
     addTearDown(() {
@@ -156,8 +159,11 @@ void main() {
 
     s.release();
 
-    final (isReleased, doubleReleaseError, useAfterReleaseError) =
-        await Isolate.run(() {
+    final (
+      isReleased,
+      doubleReleaseError,
+      useAfterReleaseError,
+    ) = await Isolate.run(() {
       String? doubleReleaseError;
       String? useAfterReleaseError;
       try {

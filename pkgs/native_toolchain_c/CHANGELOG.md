@@ -1,3 +1,7 @@
+## 0.18.1
+
+- Quote executable paths containing spaces when running in shell on Windows to prevent cmd.exe from splitting on spaces in paths such as `C:\Program Files (x86)\...`.
+
 ## 0.18.0
 
 - Made `CLinker.run` `Logger` argument optional. It now defaults to a logger

@@ -48,8 +48,9 @@ void registerCommonTests(Classes classes) {
     expect(example.getField('codename').modifiers, notContainsStatic);
     final nested = classes.getClassBySimpleName('Example\$Nested');
     expect(nested.modifiers, containsStatic);
-    final nonStaticNested =
-        classes.getClassBySimpleName('Example\$NonStaticNested');
+    final nonStaticNested = classes.getClassBySimpleName(
+      'Example\$NonStaticNested',
+    );
     expect(nonStaticNested.modifiers, notContainsStatic);
   });
 
@@ -59,8 +60,11 @@ void registerCommonTests(Classes classes) {
     final hasProtected = contains('protected');
     final hasPublic = contains('public');
     final isPrivate = allOf(hasPrivate, isNot(hasProtected), isNot(hasPublic));
-    final isProtected =
-        allOf(isNot(hasPrivate), hasProtected, isNot(hasPublic));
+    final isProtected = allOf(
+      isNot(hasPrivate),
+      hasProtected,
+      isNot(hasPublic),
+    );
     final isPublic = allOf(isNot(hasPrivate), isNot(hasProtected), hasPublic);
     expect(example.getMethod('getNumber').modifiers, isPublic);
     expect(example.getMethod('privateMethod').modifiers, isPrivate);
@@ -92,10 +96,14 @@ void registerCommonTests(Classes classes) {
   test('return types', () {
     final example = classes.getExampleClass();
     expect(example.getMethod('getNumber').returnType.name, equals('int'));
-    expect(example.getMethod('getName').returnType.name,
-        equals('java.lang.String'));
-    expect(example.getMethod('getNestedInstance').returnType.name,
-        equals('$simplePackage.Example\$Nested'));
+    expect(
+      example.getMethod('getName').returnType.name,
+      equals('java.lang.String'),
+    );
+    expect(
+      example.getMethod('getNestedInstance').returnType.name,
+      equals('$simplePackage.Example\$Nested'),
+    );
     final listType = example.getMethod('getList').returnType;
     assertToBeStringListType(listType);
   });
@@ -123,8 +131,10 @@ void registerCommonTests(Classes classes) {
 
     final stringParam = method.params[1];
     expect(stringParam.type, isA<DeclaredType>());
-    expect((stringParam.type as DeclaredType).binaryName,
-        equals('java.lang.String'));
+    expect(
+      (stringParam.type as DeclaredType).binaryName,
+      equals('java.lang.String'),
+    );
 
     final arrayParam = method.params[2];
     expect(arrayParam.type, isA<ArrayType>());
@@ -152,8 +162,10 @@ void registerCommonTests(Classes classes) {
     expect(strType.name, 'java.lang.String');
     final wildcardType = mapType.params[1];
     expect(wildcardType, isA<Wildcard>());
-    expect((wildcardType as Wildcard).extendsBound?.name,
-        equals('java.lang.CharSequence'));
+    expect(
+      (wildcardType as Wildcard).extendsBound?.name,
+      equals('java.lang.CharSequence'),
+    );
   });
 
   test('typeParameters', () {
@@ -169,8 +181,9 @@ void registerCommonTests(Classes classes) {
     final baseClass = classes.getClass('inheritance', 'BaseClass');
     expect(baseClass.typeParams, hasLength(1));
     final typeParam = baseClass.typeParams.single;
-    expect(typeParam.bounds.map((b) => b.name).toList(),
-        ['java.lang.CharSequence']);
+    expect(typeParam.bounds.map((b) => b.name).toList(), [
+      'java.lang.CharSequence',
+    ]);
 
     final specific = classes.getClass('inheritance', 'SpecificDerivedClass');
     expect(specific.typeParams, hasLength(0));
@@ -182,8 +195,9 @@ void registerCommonTests(Classes classes) {
     final generic = classes.getClass('inheritance', 'GenericDerivedClass');
     expect(generic.typeParams, hasLength(1));
     expect(generic.typeParams[0].name, equals('T'));
-    expect(generic.typeParams[0].bounds.map((b) => b.name).toList(),
-        ['java.lang.CharSequence']);
+    expect(generic.typeParams[0].bounds.map((b) => b.name).toList(), [
+      'java.lang.CharSequence',
+    ]);
     expect(generic.superclass, isNotNull);
     final genericSuper = generic.superclass! as DeclaredType;
     expect(genericSuper.params[0], isA<TypeVar>());
@@ -195,7 +209,8 @@ void registerCommonTests(Classes classes) {
     void assertOneCtorExistsWithArity(List<String> paramTypes) {
       final arityCtors = example.methods
           .where(
-              (m) => m.name == '<init>' && m.params.length == paramTypes.length)
+            (m) => m.name == '<init>' && m.params.length == paramTypes.length,
+          )
           .toList();
       expect(arityCtors, hasLength(1));
       final ctor = arityCtors[0];
@@ -214,8 +229,9 @@ void registerCommonTests(Classes classes) {
         .methods
         .where((m) => m.name == 'overloaded')
         .toList();
-    final signatures =
-        methods.map((m) => m.params.map((p) => p.type.name).toList()).toSet();
+    final signatures = methods
+        .map((m) => m.params.map((p) => p.type.name).toList())
+        .toSet();
     expect(
       signatures,
       equals({
@@ -251,7 +267,9 @@ void registerCommonTests(Classes classes) {
     expect(example.getField('OFF').defaultValue, equals(0));
     expect(example.getField('PI').defaultValue, closeTo(3.14159, 0.001));
     expect(
-        example.getField('SEMICOLON').defaultValue, equals(';'.codeUnitAt(0)));
+      example.getField('SEMICOLON').defaultValue,
+      equals(';'.codeUnitAt(0)),
+    );
     expect(example.getField('SEMICOLON_STRING').defaultValue, equals(';'));
   });
 
@@ -263,8 +281,10 @@ void registerCommonTests(Classes classes) {
     expect(typeParams[1].name, equals('K'));
     final selfBound = typeParams[1].bounds[0];
     expect(selfBound, isA<DeclaredType>());
-    expect(selfBound.name,
-        equals('com.github.dart_lang.jnigen.generics.GenericTypeParams'));
+    expect(
+      selfBound.name,
+      equals('com.github.dart_lang.jnigen.generics.GenericTypeParams'),
+    );
     final selfBoundType = selfBound as DeclaredType;
     expect(selfBoundType.params, hasLength(2));
     expect(selfBoundType.params.map((e) => e.name), ['S', 'K']);
@@ -278,8 +298,9 @@ void main() async {
 
   final tempDir = getTempDir('jnigen_summary_tests_');
 
-  final sourceConfig =
-      getSummaryGenerationConfig(sourcePath: [simplePackagePath]);
+  final sourceConfig = getSummaryGenerationConfig(
+    sourcePath: [simplePackagePath],
+  );
   final parsedFromSource = await getSummary(sourceConfig);
 
   final targetDir = tempDir.createTempSync('compiled_classes_test_');
@@ -300,19 +321,30 @@ void main() async {
     test('Parameter names', () {
       final example = classes.getExampleClass();
       final joinStrings = example.getMethod('joinStrings');
-      expect(
-          joinStrings.params.map((p) => p.name).toList(), ['values', 'delim']);
-      final methodWithSeveralParams =
-          example.getMethod('methodWithSeveralParams');
-      expect(methodWithSeveralParams.params.map((p) => p.name).toList(),
-          ['ch', 's', 'a', 't', 'lt', 'wm']);
+      expect(joinStrings.params.map((p) => p.name).toList(), [
+        'values',
+        'delim',
+      ]);
+      final methodWithSeveralParams = example.getMethod(
+        'methodWithSeveralParams',
+      );
+      expect(methodWithSeveralParams.params.map((p) => p.name).toList(), [
+        'ch',
+        's',
+        'a',
+        't',
+        'lt',
+        'wm',
+      ]);
     });
 
     test('Javadoc comment', () {
       final example = classes.getExampleClass();
       final joinStrings = example.getMethod('joinStrings');
-      expect(joinStrings.javadoc?.comment,
-          contains('Joins the strings in the list using the given delimiter.'));
+      expect(
+        joinStrings.javadoc?.comment,
+        contains('Joins the strings in the list using the given delimiter.'),
+      );
     });
   });
 

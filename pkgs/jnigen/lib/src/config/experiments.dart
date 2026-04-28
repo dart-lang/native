@@ -13,7 +13,8 @@ class Experiment {
   @Deprecated('The experiment is enabled by default')
   static const interfaceImplementation = Experiment(
     name: 'interface_implementation',
-    description: 'Enables generation of machinery for '
+    description:
+        'Enables generation of machinery for '
         'implementing Java interfaces in Dart.',
     expired: 'The experiment is enabled by default',
   );
@@ -35,8 +36,10 @@ class Experiment {
     }
     final result = search.single;
     if (result.expired != null) {
-      log.fatal('The experiment $s can no longer be used in this version: '
-          '${result.expired}.');
+      log.fatal(
+        'The experiment $s can no longer be used in this version: '
+        '${result.expired}.',
+      );
     }
     return result;
   }

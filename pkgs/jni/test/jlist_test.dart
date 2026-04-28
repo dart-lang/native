@@ -24,8 +24,7 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena),
-    ].toJList()
-      ..releasedBy(arena);
+    ].toJList()..releasedBy(arena);
   }
 
   JList<JString?> testNullableDataList(Arena arena) {
@@ -33,8 +32,7 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       null,
-    ].toJList()
-      ..releasedBy(arena);
+    ].toJList()..releasedBy(arena);
   }
 
   testRunner('length get', () {
@@ -50,9 +48,7 @@ void run({required TestRunnerCallback testRunner}) {
         '1'.toJString()..releasedBy(arena),
         '2'.toJString()..releasedBy(arena),
         '3'.toJString()..releasedBy(arena),
-      ].toJList()
-            ..releasedBy(arena))
-          .asDart();
+      ].toJList()..releasedBy(arena)).asDart();
       list.length = 2;
       expect(list.length, 2);
       list.length = 3;

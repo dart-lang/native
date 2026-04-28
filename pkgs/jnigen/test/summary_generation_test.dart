@@ -34,8 +34,9 @@ void expectSummaryHasAllClasses(Classes? classes) {
   final decls = classes!.decls;
   expect(decls.entries.length, greaterThanOrEqualTo(javaFiles.length));
   final declNames = decls.keys.toSet();
-  final expectedClasses =
-      javaClasses.where((name) => !name.contains('annotations.')).toList();
+  final expectedClasses = javaClasses
+      .where((name) => !name.contains('annotations.'))
+      .toList();
   // Nested classes should be included automatically with parent class.
   // change this part if you change this behavior intentionally.
   expectedClasses.addAll(nestedClasses);
@@ -49,11 +50,11 @@ Future<void> createJar({
   required List<String> artifacts,
   required String jarPath,
 }) async {
-  await runCommand(
-    'jar',
-    ['cf', relative(jarPath, from: artifactDir), ...artifacts],
-    workingDirectory: artifactDir,
-  );
+  await runCommand('jar', [
+    'cf',
+    relative(jarPath, from: artifactDir),
+    ...artifacts,
+  ], workingDirectory: artifactDir);
 }
 
 final random = Random.secure();
@@ -67,10 +68,14 @@ void testSuccessCase(String description, Config config) {
 }
 
 void testFailureCase(
-    String description, Config config, String nonExistingClass) {
+  String description,
+  Config config,
+  String nonExistingClass,
+) {
   test(description, () async {
     final insertPosition = random.nextInt(config.classes.length + 1);
-    config.classes = summarizerClassesSpec.sublist(0, insertPosition) +
+    config.classes =
+        summarizerClassesSpec.sublist(0, insertPosition) +
         [nonExistingClass] +
         summarizerClassesSpec.sublist(insertPosition);
     try {
@@ -84,10 +89,7 @@ void testFailureCase(
   });
 }
 
-void testAllCases({
-  List<String>? sourcePath,
-  List<String>? classPath,
-}) {
+void testAllCases({List<String>? sourcePath, List<String>? classPath}) {
   testSuccessCase(
     '- valid config',
     getSummaryGenerationConfig(sourcePath: sourcePath, classPath: classPath),
@@ -115,7 +117,10 @@ void main() async {
       await compileJavaFiles(simplePackageDir, targetDir);
       final classFiles = findFilesWithSuffix(targetDir, '.class');
       await createJar(
-          artifactDir: targetDir.path, artifacts: classFiles, jarPath: jarPath);
+        artifactDir: targetDir.path,
+        artifacts: classFiles,
+        jarPath: jarPath,
+      );
     });
     testAllCases(classPath: [jarPath]);
   });
@@ -125,9 +130,10 @@ void main() async {
     final jarPath = join(targetDir.path, 'sources.jar');
     setUpAll(() async {
       await createJar(
-          artifactDir: simplePackageDir.path,
-          artifacts: javaFiles,
-          jarPath: jarPath);
+        artifactDir: simplePackageDir.path,
+        artifacts: javaFiles,
+        jarPath: jarPath,
+      );
     });
     testAllCases(sourcePath: [jarPath]);
   });
@@ -169,22 +175,24 @@ void main() async {
       classFile.writeAsBytesSync(classFileBytes, flush: true);
     });
 
-    test('- should provide actionable guidance for unsupported versions',
-        () async {
-      final config = getSummaryGenerationConfig(classPath: [classesDir.path]);
-      config.classes = ['com.example.Hello'];
+    test(
+      '- should provide actionable guidance for unsupported versions',
+      () async {
+        final config = getSummaryGenerationConfig(classPath: [classesDir.path]);
+        config.classes = ['com.example.Hello'];
 
-      try {
-        await getSummary(config);
-      } on SummaryParseException catch (e) {
-        expect(e.message, contains('Java class file version 74'));
-        expect(e.message, contains('supported JDK version (11 to 17)'));
-        expect(e.message, contains('javac --release 17'));
-        expect(e.message, isNot(contains('FormatException')));
-        return;
-      }
-      throw AssertionError('No exception was caught');
-    });
+        try {
+          await getSummary(config);
+        } on SummaryParseException catch (e) {
+          expect(e.message, contains('Java class file version 74'));
+          expect(e.message, contains('supported JDK version (11 to 17)'));
+          expect(e.message, contains('javac --release 17'));
+          expect(e.message, isNot(contains('FormatException')));
+          return;
+        }
+        throw AssertionError('No exception was caught');
+      },
+    );
   });
 
   // Test summary generation from combination of a source and class path
@@ -195,8 +203,9 @@ void main() async {
     // Remove com/github/dart_lang/jnigen/pkg2/Example.java.
     // Instead we expect the summary to find this class from the
     // [classesJarPath].
-    sourceFiles.removeWhere((element) =>
-        element.contains('pkg2') && element.contains('Example.java'));
+    sourceFiles.removeWhere(
+      (element) => element.contains('pkg2') && element.contains('Example.java'),
+    );
     final sourceJarPath = join(targetDir.path, 'sources.jar');
     setUpAll(() async {
       await createJar(
@@ -213,27 +222,27 @@ void main() async {
         jarPath: classesJarPath,
       );
     });
-    testAllCases(
-      classPath: [classesJarPath],
-      sourcePath: [sourceJarPath],
-    );
+    testAllCases(classPath: [classesJarPath], sourcePath: [sourceJarPath]);
     test('Prefer source over bytecode for generation', () async {
       final config = getSummaryGenerationConfig(
-          sourcePath: [sourceJarPath], classPath: [classesJarPath]);
+        sourcePath: [sourceJarPath],
+        classPath: [classesJarPath],
+      );
       final classes = await getSummary(config);
       // Fully qualified name for a class that exists both in .class and in
       // .java formats.
       const binaryName = 'com.github.dart_lang.jnigen.simple_package.Example';
-      final addIntsMethod = classes.decls[binaryName]!.methods
-          .firstWhere((method) => method.name == 'addInts');
+      final addIntsMethod = classes.decls[binaryName]!.methods.firstWhere(
+        (method) => method.name == 'addInts',
+      );
       // No method parameter name remains in the bytecode. Instead generic names
       // are used. [addInts] method has two parameters named `a` and `b`.
       // Checking if these two names are preserved, which means that the source
       // is used for summary when both source and the bytecode exist.
-      expect(
-        addIntsMethod.params.map((param) => param.name).toList(),
-        ['a', 'b'],
-      );
+      expect(addIntsMethod.params.map((param) => param.name).toList(), [
+        'a',
+        'b',
+      ]);
     });
   });
 

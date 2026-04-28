@@ -44,21 +44,23 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example> type = $Example$Type$();
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -73,16 +75,23 @@ extension Example$$Methods on Example {
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
-  static final _thinkBeforeAnswering = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _thinkBeforeAnswering =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public suspend fun thinkBeforeAnswering(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
@@ -90,31 +99,33 @@ extension Example$$Methods on Example {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _thinkBeforeAnswering(reference.pointer,
-            _id_thinkBeforeAnswering.pointer, _$continuation.pointer)
-        .object<jni$_.JObject>();
+    final $r = _thinkBeforeAnswering(
+      reference.pointer,
+      _id_thinkBeforeAnswering.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
-          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
       if ($o.isInstanceOf(jni$_.result$Class)) {
         $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
       } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
-        final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
     } else {
       $o = $r;
     }
-    return $o.as<jni$_.JString>(
-      jni$_.JString.type,
-      releaseOriginal: true,
-    );
+    return $o.as<jni$_.JString>(jni$_.JString.type, releaseOriginal: true);
   }
 }
 
