@@ -10,6 +10,7 @@ import 'package:meta/meta.dart';
 import '../config/config.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
+import '../util/dart_executable.dart';
 import '../util/string_util.dart';
 import 'resolver.dart';
 import 'visitor.dart';
@@ -190,7 +191,7 @@ const _\$jniVersionCheck =
   /// Run dart format command on [path].
   Future<void> _runDartFormat(String path) async {
     log.info('Running dart format...');
-    final formatRes = await Process.run('dart', ['format', path]);
+    final formatRes = await Process.run(dartExecutable, ['format', path]);
     // if negative exit code, likely due to an interrupt.
     if (formatRes.exitCode > 0) {
       log.fatal(
