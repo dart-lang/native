@@ -2106,7 +2106,8 @@ enum NSAttributedStringMarkdownParsingFailurePolicy {
 /// macOS: introduced 12.0.0
 extension type NSAttributedStringMarkdownParsingOptions._(
   objc.ObjCObject object$
-) implements objc.ObjCObject, NSObject, NSCopying {
+)
+    implements objc.ObjCObject, NSObject, NSCopying {
   /// Constructs a [NSAttributedStringMarkdownParsingOptions] that points to the same underlying object as [other].
   NSAttributedStringMarkdownParsingOptions.as(objc.ObjCObject other)
     : object$ = other {
