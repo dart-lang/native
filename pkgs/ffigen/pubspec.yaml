@@ -38,11 +38,6 @@ dependencies:
   yaml: ^3.0.0
   yaml_edit: ^2.0.3
 
-hooks:
-  user_defines:
-    ffigen:
-      include_test_utils: true
-
 dev_dependencies:
   async: ^2.11.0
   dart_flutter_team_lints: ^3.5.2
@@ -63,5 +58,7 @@ dependency_overrides:
 
 hooks:
   user_defines:
+    ffigen:
+      include_test_utils: true
     objective_c:
       include_test_utils: true
