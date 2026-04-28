@@ -33,6 +33,19 @@ void main() {
     expect(messages.join('\n'), contains('FOO=BAR'));
   });
 
+  test('log quotes env values with spaces', () async {
+    final messages = <String>[];
+    await runProcess(
+      executable: whichUri,
+      environment: {'FOO': 'C:/Program Files/Visual Studio'},
+      logger: createCapturingLogger(messages),
+    );
+    expect(
+      messages.join('\n'),
+      contains('FOO="C:/Program Files/Visual Studio"'),
+    );
+  });
+
   test('stderr', () async {
     final messages = <String>[];
     const filePath = 'a/dart/file/which/does/not/exist.dart';
