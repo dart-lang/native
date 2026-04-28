@@ -13,11 +13,6 @@ const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
 const assetName = 'objective_c.dylib';
 
-// TODO(https://github.com/dart-lang/native/issues/2272): Remove this from the
-// main build.
-const testFiles = ['test/util.c'];
-const testMFiles = ['test/gc_inject.m'];
-
 final logger = Logger('')
   ..level = Level.INFO
   ..onRecord.listen((record) {
@@ -60,16 +55,11 @@ void main(List<String> args) async {
       }
     }
 
-    // Only include the test utils on mac OS. They use memory functions that
-    // aren't supported on iOS, like mach_vm_region. We don't need them on iOS
-    // anyway since we only run memory tests on mac.
-    if (os == OS.macOS) {
-      cFiles.addAll(
-        testFiles.map((f) => input.packageRoot.resolve(f).toFilePath()),
-      );
-      mFiles.addAll(
-        testMFiles.map((f) => input.packageRoot.resolve(f).toFilePath()),
-      );
+    final includeTestUtils =
+        input.userDefines['include_test_utils'] as bool? ?? false;
+    if (includeTestUtils) {
+      cFiles.add(input.packageRoot.resolve('test/util.c').toFilePath());
+      mFiles.add(input.packageRoot.resolve('test/gc_inject.m').toFilePath());
     }
 
     final sysroot = sdkPath(codeConfig);

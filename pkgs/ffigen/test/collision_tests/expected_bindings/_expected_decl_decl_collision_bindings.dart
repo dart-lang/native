@@ -29,13 +29,12 @@ class Bindings {
   late final _ffi$1 = _ffi$1Ptr.asFunction<void Function()>();
 
   void testCrossDecl$1() {
-    return _testCrossDecl$1();
+    return _testCrossDecl();
   }
 
   late final _testCrossDecl$1Ptr =
       _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>('testCrossDecl');
-  late final _testCrossDecl$1 = _testCrossDecl$1Ptr
-      .asFunction<void Function()>();
+  late final _testCrossDecl = _testCrossDecl$1Ptr.asFunction<void Function()>();
 
   void testFunc() {
     return _testFunc();

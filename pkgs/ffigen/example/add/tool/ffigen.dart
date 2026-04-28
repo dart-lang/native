@@ -5,11 +5,14 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 
-void main() {
-  final packageRoot = Platform.script.resolve('../');
-  FfiGenerator(
+FfiGenerator getConfig(Uri packageRoot) {
+  return FfiGenerator(
     output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
     headers: Headers(entryPoints: [packageRoot.resolve('src/add.h')]),
     functions: Functions.includeSet({'add'}),
-  ).generate();
+  );
+}
+
+void main() {
+  getConfig(Platform.script.resolve('../')).generate();
 }

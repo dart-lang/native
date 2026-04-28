@@ -19,17 +19,49 @@ class ApiAvailability {
   final bool alwaysUnavailable;
   final PlatformAvailability? ios;
   final PlatformAvailability? macos;
+  final String deprecationMessage;
 
   late final Availability availability;
 
   ApiAvailability({
     this.alwaysDeprecated = false,
     this.alwaysUnavailable = false,
+    this.deprecationMessage = '',
     this.ios,
     this.macos,
     required ExternalVersions? externalVersions,
   }) {
     availability = _getAvailability(externalVersions);
+  }
+
+  /// Whether this symbol is deprecated via `API_DEPRECATED` on any platform.
+  bool get _isPlatformDeprecated =>
+      (ios?.deprecated != null) || (macos?.deprecated != null);
+
+  /// Whether this symbol is deprecated in any way.
+  bool get isDeprecated => alwaysDeprecated || _isPlatformDeprecated;
+
+  String? get deprecatedAnnotation {
+    if (!isDeprecated) return null;
+    final escaped = escapeDartString(_effectiveDeprecationMessage);
+    return "@Deprecated('$escaped')";
+  }
+
+  String get _effectiveDeprecationMessage {
+    if (deprecationMessage.isNotEmpty) return deprecationMessage;
+    final iosMsg = ios?.message ?? '';
+    final macosMsg = macos?.message ?? '';
+    final iosNonEmpty = iosMsg.isNotEmpty;
+    final macosNonEmpty = macosMsg.isNotEmpty;
+    if (iosNonEmpty && macosNonEmpty) {
+      if (iosMsg != macosMsg) {
+        return 'iOS: $iosMsg, macOS: $macosMsg';
+      }
+      return iosMsg;
+    }
+    if (iosNonEmpty) return iosMsg;
+    if (macosNonEmpty) return macosMsg;
+    return 'Deprecated';
   }
 
   static ApiAvailability fromCursor(
@@ -47,6 +79,7 @@ class ApiAvailability {
     );
 
     final alwaysDeprecated = calloc<Int>();
+    final deprecatedMessagePtr = calloc<clang_types.CXString>();
     final alwaysUnavailable = calloc<Int>();
     final platforms = calloc<clang_types.CXPlatformAvailability>(
       platformsLength,
@@ -55,7 +88,7 @@ class ApiAvailability {
     clang.clang_getCursorPlatformAvailability(
       cursor,
       alwaysDeprecated,
-      nullptr,
+      deprecatedMessagePtr,
       alwaysUnavailable,
       nullptr,
       platforms,
@@ -68,11 +101,13 @@ class ApiAvailability {
 
     for (var i = 0; i < platformsLength; ++i) {
       final platform = platforms[i];
+      final msg = platform.Message.string();
       final platformAvailability = PlatformAvailability(
         introduced: platform.Introduced.triple,
         deprecated: platform.Deprecated.triple,
         obsoleted: platform.Obsoleted.triple,
         unavailable: platform.Unavailable != 0,
+        message: msg,
       );
       switch (platform.Platform.string()) {
         case 'ios':
@@ -90,9 +125,11 @@ class ApiAvailability {
       }
     }
 
+    final deprecatedMsg = deprecatedMessagePtr.ref.string();
     final api = ApiAvailability(
       alwaysDeprecated: alwaysDeprecated.value != 0,
       alwaysUnavailable: alwaysUnavailable.value != 0 || swiftIsUnavailable,
+      deprecationMessage: deprecatedMsg,
       ios: ios,
       macos: macos,
       externalVersions: context.config.objectiveC?.externalVersions,
@@ -101,7 +138,9 @@ class ApiAvailability {
     for (var i = 0; i < platformsLength; ++i) {
       clang.clang_disposeCXPlatformAvailability(platforms + i);
     }
+    clang.clang_disposeString(deprecatedMessagePtr.ref);
     calloc.free(alwaysDeprecated);
+    calloc.free(deprecatedMessagePtr);
     calloc.free(alwaysUnavailable);
     calloc.free(platforms);
 
@@ -196,6 +235,7 @@ class PlatformAvailability {
   Version? deprecated;
   Version? obsoleted;
   bool unavailable;
+  String message;
 
   PlatformAvailability({
     this.name,
@@ -203,6 +243,7 @@ class PlatformAvailability {
     this.deprecated,
     this.obsoleted,
     this.unavailable = false,
+    this.message = '',
   });
 
   @visibleForTesting

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
@@ -29,6 +30,8 @@ class Constant extends NoLookUpBinding {
   /// Put quotes if type is a string.
   final String rawValue;
 
+  final ApiAvailability? apiAvailability;
+
   Constant({
     super.usr,
     super.originalName,
@@ -36,6 +39,7 @@ class Constant extends NoLookUpBinding {
     super.dartDoc,
     required this.rawType,
     required this.rawValue,
+    this.apiAvailability,
   }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override
@@ -44,6 +48,10 @@ class Constant extends NoLookUpBinding {
     final constantName = name;
 
     s.write(makeDartDoc(dartDoc));
+    final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
+    if (deprecatedAnnotation != null) {
+      s.write('$deprecatedAnnotation\n');
+    }
     s.write('\nconst $rawType $constantName = $rawValue;\n\n');
 
     return BindingString(
@@ -65,6 +73,7 @@ class UnnamedEnumConstant extends Constant {
     super.dartDoc,
     required super.rawType,
     required super.rawValue,
+    super.apiAvailability,
   });
 
   @override
@@ -81,6 +90,7 @@ class MacroConstant extends Constant {
     super.dartDoc,
     required super.rawType,
     required super.rawValue,
+    super.apiAvailability,
   });
 
   @override

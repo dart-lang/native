@@ -139,5 +139,7 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Gemini
+# AI related
+.agents/rules/personal-*
+.agents/skills/personal-*
 gemini.md

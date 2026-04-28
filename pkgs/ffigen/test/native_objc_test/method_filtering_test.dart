@@ -24,13 +24,12 @@ void main() {
     group('no version info', () {
       late final String bindings;
       setUpAll(() {
-        generateBindingsForCoverage('method_filtering');
         bindings = File(
           path.join(
             packagePathForTests,
             'test',
             'native_objc_test',
-            'method_filtering_bindings.dart',
+            'method_filtering_test_bindings.dart',
           ),
         ).readAsStringSync();
       });

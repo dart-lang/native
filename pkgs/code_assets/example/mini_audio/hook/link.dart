@@ -2,9 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:hooks/hooks.dart';
 import 'package:mini_audio/src/c_library.dart';
 import 'package:mini_audio/src/third_party/record_use_mapping.dart';
@@ -17,23 +14,11 @@ void main(List<String> arguments) async {
       input: input,
       output: output,
       linkerOptions: LinkerOptions.treeshake(
-        symbolsToKeep: input.usages?.calls.keys
-            .cast<Method>()
-            .map((e) => recordUseMapping[e.name])
-            .nonNulls,
+        // ignore: experimental_member_use
+        symbolsToKeep: input.recordedUses?.calls.keys.cast<Method>().map(
+          (e) => recordUseMapping[e.name]!,
+        ),
       ),
     );
   });
-}
-
-extension on LinkInput {
-  Recordings? get usages {
-    // ignore: experimental_member_use
-    final usagesFile = recordedUsagesFile;
-    if (usagesFile == null) return null;
-    final usagesContent = File.fromUri(usagesFile).readAsStringSync();
-    final usagesJson = jsonDecode(usagesContent) as Map<String, Object?>;
-    final usages = Recordings.fromJson(usagesJson);
-    return usages;
-  }
 }

@@ -518,7 +518,7 @@ class DefinitionSyntax extends JsonObjectSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_uriPattern.pattern}.',
+        'Value does not satisfy pattern: ${_uriPattern.pattern}.',
       );
     }
     json.setOrRemove('uri', value);
@@ -1984,7 +1984,7 @@ class SymbolConstantSyntax extends ConstantSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_libraryUriPattern.pattern}.',
+        'Value does not satisfy pattern: ${_libraryUriPattern.pattern}.',
       );
     }
     json.setOrRemove('libraryUri', value);

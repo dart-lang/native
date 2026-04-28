@@ -1,3 +1,7 @@
+## 0.6.1-wip
+
+- Nothing yet.
+
 ## 0.6.0
 
 - **Breaking Change**: Changed the JSON format and Dart API in various ways.

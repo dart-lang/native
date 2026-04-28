@@ -37,12 +37,17 @@ void doGC() {
   calloc.free(gcNow);
 }
 
-@Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
+@Native<Int Function(Pointer<Void>)>(
+  isLeaf: true,
+  symbol: 'isReadableMemory',
+  assetId: 'package:objective_c/objective_c.dylib',
+)
 external int _isReadableMemory(Pointer<Void> ptr);
 
 @Native<Uint64 Function(Pointer<Void>)>(
   isLeaf: true,
   symbol: 'getObjectRetainCount',
+  assetId: 'package:objective_c/objective_c.dylib',
 )
 external int _getObjectRetainCount(Pointer<Void> object);
 

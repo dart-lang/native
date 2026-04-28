@@ -35,28 +35,42 @@ void main() {
       final result = await process.exitCode;
       expect(result, 0);
 
-      final config = testConfigFromPath(
-        path.join(packagePathForTests, 'example', 'swift', 'config.yaml'),
-      );
-      final output = parse(testContext(config)).generate();
-
-      // Verify that the output contains all the methods and classes that the
-      // example app uses.
-      expect(output, contains('extension type SwiftClass._(objc.ObjCObject '));
-      expect(output, contains('static SwiftClass new\$() {'));
-      expect(output, contains('NSString sayHello() {'));
-      expect(output, contains('int get someField {'));
-      expect(output, contains('set someField(int value) {'));
-
-      // Verify that SwiftClass is loaded using the swift_module prefix.
-      expect(
-        output,
-        contains(
-          RegExp(
-            r'late final _class_SwiftClass.* = '
-            r'objc.getClass.*\("swift_module\.SwiftClass"\)',
-          ),
+      final context = testContext(
+        testConfigFromPath(
+          path.join(packagePathForTests, 'example', 'swift', 'config.yaml'),
         ),
+      );
+
+      matchLibraryWithExpected(
+        context,
+        parse(context),
+        'swift_example.dart',
+        ['example', 'swift', 'swift_api_bindings.dart'],
+        verify: (expected, actual) {
+          // Verify that the output contains all the methods and classes that
+          // the example app uses.
+          expect(
+            actual,
+            contains('extension type SwiftClass._(objc.ObjCObject '),
+          );
+          expect(actual, contains('static SwiftClass new\$() {'));
+          expect(actual, contains('NSString sayHello() {'));
+          expect(actual, contains('int get someField {'));
+          expect(actual, contains('set someField(int value) {'));
+
+          // Verify that SwiftClass is loaded using the swift_module prefix.
+          expect(
+            actual,
+            contains(
+              RegExp(
+                r'late final _class_SwiftClass.* = '
+                r'objc.getClass.*\("swift_module\.SwiftClass"\)',
+              ),
+            ),
+          );
+
+          return true;
+        },
       );
     });
   });

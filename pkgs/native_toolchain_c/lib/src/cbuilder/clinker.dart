@@ -76,6 +76,12 @@ class CLinker extends CTool implements Linker {
     Map<String, String?>? defines,
   }) async {
     logger ??= createDefaultLogger();
+    final effectiveLinkerOptions = linkerOptions ?? this.linkerOptions;
+    if (effectiveLinkerOptions != null &&
+        effectiveLinkerOptions.skipWholeLibrary) {
+      logger.info('Skipping linking as no symbols are to be kept.');
+      return;
+    }
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);

@@ -57,9 +57,9 @@ jobs:
         with:
           working-directory: ./pkgs/jnigen
       - id: install
-        name: Install dependencies
+        name: pub get
         run: dart pub get
-      - name: install dependencies for android test runner
+      - name: pub get android_test_runner
         run: flutter pub get
         working-directory: ./pkgs/jnigen/android_test_runner
       - name: Check formatting
@@ -92,13 +92,12 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
           cache: maven
-      - name: Install dependencies
-        run: dart pub get
-      - name: build in_app_java APK
-        run: flutter build apk --target-platform=android-arm64
+      - run: dart pub get
+      - name: pub get in_app_java example
+        run: flutter pub get
         working-directory: ./pkgs/jnigen/example/in_app_java
-      - name: build notification_plugin example APK
-        run: flutter build apk --target-platform=android-arm64
+      - name: pub get notification_plugin example
+        run: flutter pub get
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Run summarizer tests
         run: ./gradlew test
@@ -107,6 +106,12 @@ jobs:
         run: dart run jnigen:setup
       - name: Run VM tests
         run: dart test --test-randomize-ordering-seed random
+      - name: build in_app_java APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/in_app_java
+      - name: build notification_plugin example APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Collect coverage
@@ -133,8 +138,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - name: Install dependencies
-        run: dart pub get
+      - run: dart pub get
       - name: Enable KVM group perms
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -168,7 +172,7 @@ jobs:
         with:
           working-directory: ./pkgs/jni_flutter
       - run: flutter pub get
-      - name: install dependencies for android test runner
+      - name: pub get android_test_runner
         run: flutter pub get
         working-directory: ./pkgs/jni_flutter/android_test_runner
       - name: Check formatting
@@ -189,10 +193,7 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - name: Install dependencies
-        run: flutter pub get
-      - name: building the test runner project succeeds
-        run: flutter build apk
+      - run: flutter pub get
       - name: regenerate & compare jni_flutter bindings
         working-directory: ./pkgs/jni_flutter
         run: |
@@ -287,16 +288,18 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
-      - name: building the example project succeeds
+      - name: pub get example
         working-directory: ./pkgs/jni/example/
-        run: |
-          flutter build apk
+        run: flutter pub get
       - name: regenerate & compare jnigen bindings
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src/plugin
           dart run tool/generate_primitive_arrays.dart
           git diff --exit-code -- lib/src/primitive_jarrays.dart
+      - name: building the example project succeeds
+        working-directory: ./pkgs/jni/example/
+        run: flutter build apk
       # TODO(https://github.com/dart-lang/ffigen/issues/555): FFIgen generated
       # on my machine has macOS specific stuff and CI does not.
       # We should just generate the struct as opaque, but we currently can't.

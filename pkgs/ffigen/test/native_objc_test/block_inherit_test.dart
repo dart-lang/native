@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'block_inherit_bindings.dart';
+import 'block_inherit_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -28,8 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-
-      generateBindingsForCoverage('block_inherit');
     });
 
     test('BlockInheritTestBase', () {

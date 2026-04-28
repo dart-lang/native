@@ -1,7 +1,7 @@
 name: TypedefTestObjCLibrary
 description: 'Tests typedef'
 language: objc
-output: 'typedef_bindings.dart'
+output: 'typedef_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

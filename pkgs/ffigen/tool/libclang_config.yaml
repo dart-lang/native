@@ -138,3 +138,8 @@ functions:
     - clang_getClangVersion
     - clang_Type_getNumObjCProtocolRefs
     - clang_Type_getObjCProtocolDecl
+
+# time_t typedef varies between platforms, and we don't need it anyway.
+typedefs:
+  exclude:
+    - .*time(64)?_t

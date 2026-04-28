@@ -12,7 +12,7 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'ref_count_bindings.dart';
+import 'ref_count_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -30,8 +30,6 @@ void main() {
       );
       verifySetupFile(dylib);
       lib = RefCountTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-
-      generateBindingsForCoverage('ref_count');
     });
 
     test('objectRetainCount edge cases', () {

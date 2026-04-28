@@ -12,6 +12,7 @@ import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/visitor/ast.dart';
+import 'package:ffigen/src/visitor/visitor.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
@@ -20,10 +21,16 @@ import 'package:yaml/yaml.dart' as yaml;
 
 export 'package:ffigen/src/config_provider/utils.dart';
 
-Context testContext([FfiGenerator? generator]) => Context(
-  createTestLogger(),
-  generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
-);
+Context testContext([FfiGenerator? generator]) {
+  final tmpDir = (Directory(
+    absPath(path.join('test', '.temp test output')),
+  )..createSync(recursive: true)).createTempSync();
+  return Context(
+    createTestLogger(),
+    generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
+    tmpDir: tmpDir.path,
+  );
+}
 
 Logger createTestLogger({
   List<String>? capturedMessages,
@@ -116,15 +123,15 @@ void matchLibraryWithExpected(
   List<String> pathToExpected, {
   String Function(String)? codeNormalizer,
   bool format = true,
+  bool Function(String, String)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) =>
-        library.generateFile(file, format: format),
+    fileWriter: (File file) => library.generateFile(file, format: format),
     codeNormalizer: codeNormalizer,
+    verify: verify,
   );
 }
 
@@ -136,17 +143,37 @@ void matchLibrarySymbolFileWithExpected(
   Library library,
   String pathForActual,
   List<String> pathToExpected,
-  String importPath,
-) {
-  _matchFileWithExpected(
+  String importPath, {
+  bool Function(String, String)? verify,
+}) {
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) {
+    fileWriter: (File file) {
       if (!library.writer.canGenerateSymbolOutput) library.generate();
       library.generateSymbolOutputFile(file, importPath);
     },
+    verify: verify,
+  );
+}
+
+/// Generates ObjC file using library and tests using [expect] with expected.
+///
+/// This will not delete the actual ObjC file incase [expect] throws an error.
+void matchObjCFileWithExpected(
+  Context context,
+  Library library,
+  String pathForActual,
+  List<String> pathToExpected, {
+  bool Function(String, String)? verify,
+}) {
+  matchFileWithExpected(
+    context: context,
+    pathForActual: pathForActual,
+    pathToExpected: pathToExpected,
+    fileWriter: (File file) => library.generateObjCFile(file),
+    verify: verify,
   );
 }
 
@@ -161,19 +188,20 @@ void matchRecordUseMappingWithExpected(
   List<String> pathToExpected, {
   String Function(String)? codeNormalizer,
   bool format = true,
+  bool Function(String, String)? verify,
 }) {
-  _matchFileWithExpected(
+  matchFileWithExpected(
     context: context,
-    library: library,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: ({required Library library, required File file}) =>
+    fileWriter: (File file) =>
         library.generateRecordUseMappingFile(file, format: format),
     codeNormalizer: codeNormalizer,
+    verify: verify,
   );
 }
 
-const bool updateExpectations = false;
+final updateExpectations = Platform.environment['UPDATE'] == 'true';
 
 /// Transforms a repo relative path to an absolute path.
 String absPath(String p) => path.join(packagePathForTests, p);
@@ -182,48 +210,116 @@ String absPath(String p) => path.join(packagePathForTests, p);
 String configPath(String directory, String file) =>
     absPath(configPathForTest(directory, file));
 
-/// Generates actual file using library and tests using [expect] with expected.
+/// Generates actual file using [fileWriter] and compares it with the expected
+/// file content at [pathToExpected].
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
-void _matchFileWithExpected({
+void matchFileWithExpected({
   required Context context,
-  required Library library,
   required String pathForActual,
   required List<String> pathToExpected,
-  required void Function({required Library library, required File file})
-  fileWriter,
+  required void Function(File file) fileWriter,
   String Function(String)? codeNormalizer,
+  bool Function(String expected, String actual)? verify,
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
-  final tmpDirPath = context.tmpDir;
-  final file = File(path.join(tmpDirPath, pathForActual));
+  final expectedFile = File(expectedPath);
 
-  fileWriter(library: library, file: file);
+  final tmpDirPath = context.tmpDir;
+  final actualPath = path.join(tmpDirPath, pathForActual);
+  final actualFile = File(actualPath);
+
+  verify ??= (expected, actual) => expected == actual;
+
+  // Generate the actual file in the expected location so that the generated
+  // relative import paths are correct. In case the expected and actual files
+  // have the same name, move the expected file to a backup location first.
+  final backupFile = File(path.join(tmpDirPath, '$pathForActual.backup'));
+  if (expectedFile.existsSync()) {
+    expectedFile.renameSync(backupFile.path);
+  }
+  fileWriter(expectedFile);
+
+  // Move the expected and actual files to their correct locations.
+  if (expectedFile.existsSync()) {
+    expectedFile.renameSync(actualPath);
+  }
+  if (backupFile.existsSync()) {
+    backupFile.renameSync(expectedPath);
+  }
+
+  if (updateExpectations) {
+    print('Updating expectations: ${path.relative(expectedPath)}');
+    if (actualFile.existsSync()) {
+      actualFile.copySync(expectedPath);
+    } else if (expectedFile.existsSync()) {
+      expectedFile.deleteSync();
+    }
+  }
+
+  final actualFileExists = actualFile.existsSync();
+  final actualContent = actualFileExists
+      ? _normalizeGeneratedCode(actualFile.readAsStringSync(), codeNormalizer)
+      : null;
+
+  final expectedFileExists = expectedFile.existsSync();
+  final expectedContent = expectedFileExists
+      ? _normalizeGeneratedCode(expectedFile.readAsStringSync(), codeNormalizer)
+      : null;
+
+  var matches = false;
+  Object? verifyException;
   try {
-    final actual = _normalizeGeneratedCode(
-      file.readAsStringSync(),
-      codeNormalizer,
-    );
-    final expected = _normalizeGeneratedCode(
-      File(expectedPath).readAsStringSync(),
-      codeNormalizer,
-    );
-    expect(actual.split('\n'), expected.split('\n'));
-    _expectNoAnalysisErrors(expectedPath);
-    if (file.existsSync()) {
-      file.delete();
-    }
+    matches = ((expectedContent == null) && (actualContent == null))
+        ? true
+        : ((expectedContent == null) || (actualContent == null))
+        ? false
+        : verify(expectedContent, actualContent);
   } catch (e) {
-    print('Failed test: Debug generated file: ${file.absolute.path}');
-    if (updateExpectations) {
-      print('Updating expectations. Check the diffs!');
-      file.copySync(expectedPath);
+    verifyException = e;
+  }
+
+  if (!matches) {
+    final String diff;
+    if (expectedFileExists && actualFileExists) {
+      diff = Process.runSync('git', [
+        'diff',
+        '--no-index',
+        '--color=always',
+        expectedPath,
+        actualPath,
+      ]).stdout.toString();
+    } else if (expectedFileExists) {
+      diff = "Expected file exists, but actual file doesn't";
+    } else {
+      diff = "Expected file doesn't exist, but actual file does";
     }
-    rethrow;
+
+    final message = verifyException != null
+        ? 'Verification failed: $verifyException\n'
+        : 'Expected output does not match actual output:';
+
+    fail('''
+$diff
+
+$message
+  ${path.relative(expectedPath)}
+      vs
+  ${path.relative(actualPath)}
+
+If the diffs are expected, rerun with UPDATE=true
+''');
+  }
+
+  _expectNoAnalysisErrors(expectedPath);
+
+  if (actualFileExists) {
+    actualFile.deleteSync();
   }
 }
 
 void _expectNoAnalysisErrors(String file) {
+  if (!file.endsWith('.dart')) return;
   Process.runSync(dartExecutable, [
     'pub',
     'get',

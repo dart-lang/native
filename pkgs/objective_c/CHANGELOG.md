@@ -10,6 +10,7 @@
   Objective-C.
 - Fix a [bug](https://github.com/dart-lang/native/issues/3290) where missing
   debug symbols caused app store valiadtion warnings.
+- Removed some test-only utilities from the release dylib (fixes [#2999](https://github.com/dart-lang/native/issues/2999)).
 
 ## 9.3.0
 - `autoReleasePool` now returns the value produced by its callback.

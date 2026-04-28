@@ -2,8 +2,8 @@ name: BlockAnnotationTestLibrary
 description: 'Tests block annotations'
 language: objc
 output:
-  bindings: 'block_annotation_bindings.dart'
-  objc-bindings: 'block_annotation_bindings.m'
+  bindings: 'block_annotation_test_bindings.dart'
+  objc-bindings: 'block_annotation_test_bindings.m'
 exclude-all-by-default: true
 functions:
   include:

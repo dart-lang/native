@@ -10,32 +10,6 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-final class AudioStreamBasicDescription extends ffi.Opaque {}
-
-final class AudioChannelLayout extends ffi.Opaque {}
-
-final class opaqueCMFormatDescription extends ffi.Opaque {}
-
-enum AVAudioCommonFormat {
-  AVAudioOtherFormat(0),
-  AVAudioPCMFormatFloat32(1),
-  AVAudioPCMFormatFloat64(2),
-  AVAudioPCMFormatInt16(3),
-  AVAudioPCMFormatInt32(4);
-
-  final int value;
-  const AVAudioCommonFormat(this.value);
-
-  static AVAudioCommonFormat fromValue(int value) => switch (value) {
-    0 => AVAudioOtherFormat,
-    1 => AVAudioPCMFormatFloat32,
-    2 => AVAudioPCMFormatFloat64,
-    3 => AVAudioPCMFormatInt16,
-    4 => AVAudioPCMFormatInt32,
-    _ => throw ArgumentError('Unknown value for AVAudioCommonFormat: $value'),
-  };
-}
-
 /// WARNING: AVAudioFormat is a stub. To generate bindings for this class, include
 /// AVAudioFormat in your config's objc-interfaces list.
 ///
@@ -64,476 +38,6 @@ extension type AVAudioFormat._(objc.ObjCObject object$)
     );
   }
 }
-
-late final _class_AVAudioPlayer = objc.getClass("AVAudioPlayer");
-late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-final _objc_msgSend_19nvye5 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
-typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
-typedef Dartinstancetype = objc.ObjCObject;
-late final _sel_initWithContentsOfURL_error_ = objc.registerName(
-  "initWithContentsOfURL:error:",
-);
-final _objc_msgSend_1lhpu4m = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-      )
-    >();
-late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
-late final _sel_initWithContentsOfURL_fileTypeHint_error_ = objc.registerName(
-  "initWithContentsOfURL:fileTypeHint:error:",
-);
-final _objc_msgSend_1pnyuds = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-      )
-    >();
-late final _sel_initWithData_fileTypeHint_error_ = objc.registerName(
-  "initWithData:fileTypeHint:error:",
-);
-late final _sel_prepareToPlay = objc.registerName("prepareToPlay");
-final _objc_msgSend_91o635 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_play = objc.registerName("play");
-late final _sel_playAtTime_ = objc.registerName("playAtTime:");
-final _objc_msgSend_18chyc = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Double,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-      )
-    >();
-late final _sel_pause = objc.registerName("pause");
-final _objc_msgSend_1pl9qdv = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_stop = objc.registerName("stop");
-late final _sel_isPlaying = objc.registerName("isPlaying");
-late final _sel_numberOfChannels = objc.registerName("numberOfChannels");
-final _objc_msgSend_xw2lbc = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.UnsignedLong Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      int Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_duration = objc.registerName("duration");
-final _objc_msgSend_1ukqyt8 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Double Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Double Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_currentDevice = objc.registerName("currentDevice");
-final _objc_msgSend_151sglz = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_setCurrentDevice_ = objc.registerName("setCurrentDevice:");
-final _objc_msgSend_xtuoz7 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
-
-/// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
-/// AVAudioPlayerDelegate in your config's objc-protocols list.
-///
-/// AVAudioPlayerDelegate
-extension type AVAudioPlayerDelegate._(objc.ObjCProtocol object$)
-    implements objc.ObjCProtocol, objc.NSObjectProtocol {
-  /// Constructs a [AVAudioPlayerDelegate] that points to the same underlying object as [other].
-  AVAudioPlayerDelegate.as(objc.ObjCObject other) : object$ = other;
-
-  /// Constructs a [AVAudioPlayerDelegate] that wraps the given raw object pointer.
-  AVAudioPlayerDelegate.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
-}
-
-late final _sel_delegate = objc.registerName("delegate");
-late final _sel_setDelegate_ = objc.registerName("setDelegate:");
-late final _sel_url = objc.registerName("url");
-late final _sel_data = objc.registerName("data");
-late final _sel_pan = objc.registerName("pan");
-final _objc_msgSend_2cgrxl = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_2cgrxlFpret = objc.msgSendFpretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_setPan_ = objc.registerName("setPan:");
-final _objc_msgSend_v5hmet = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Float,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-      )
-    >();
-late final _sel_volume = objc.registerName("volume");
-late final _sel_setVolume_ = objc.registerName("setVolume:");
-late final _sel_setVolume_fadeDuration_ = objc.registerName(
-  "setVolume:fadeDuration:",
-);
-final _objc_msgSend_1p4uk9e = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Float,
-          ffi.Double,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-        double,
-      )
-    >();
-late final _sel_enableRate = objc.registerName("enableRate");
-late final _sel_setEnableRate_ = objc.registerName("setEnableRate:");
-final _objc_msgSend_1s56lr9 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Bool,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        bool,
-      )
-    >();
-late final _sel_rate = objc.registerName("rate");
-late final _sel_setRate_ = objc.registerName("setRate:");
-late final _sel_currentTime = objc.registerName("currentTime");
-late final _sel_setCurrentTime_ = objc.registerName("setCurrentTime:");
-final _objc_msgSend_hwm8nu = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Double,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-      )
-    >();
-late final _sel_deviceCurrentTime = objc.registerName("deviceCurrentTime");
-late final _sel_numberOfLoops = objc.registerName("numberOfLoops");
-final _objc_msgSend_1hz7y9r = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Long Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      int Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_setNumberOfLoops_ = objc.registerName("setNumberOfLoops:");
-final _objc_msgSend_4sp4xj = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Long,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
-late final _sel_settings = objc.registerName("settings");
-late final _sel_format = objc.registerName("format");
-late final _sel_isMeteringEnabled = objc.registerName("isMeteringEnabled");
-late final _sel_setMeteringEnabled_ = objc.registerName("setMeteringEnabled:");
-late final _sel_updateMeters = objc.registerName("updateMeters");
-late final _sel_peakPowerForChannel_ = objc.registerName(
-  "peakPowerForChannel:",
-);
-final _objc_msgSend_65s5yw = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.UnsignedLong,
-        )
-      >
-    >()
-    .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
-final _objc_msgSend_65s5ywFpret = objc.msgSendFpretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.UnsignedLong,
-        )
-      >
-    >()
-    .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
-late final _sel_averagePowerForChannel_ = objc.registerName(
-  "averagePowerForChannel:",
-);
-late final _sel_channelAssignments = objc.registerName("channelAssignments");
-late final _sel_setChannelAssignments_ = objc.registerName(
-  "setChannelAssignments:",
-);
-
-/// WARNING: CASpatialAudioExperience is a stub. To generate bindings for this class, include
-/// CASpatialAudioExperience in your config's objc-interfaces list.
-///
-/// CASpatialAudioExperience
-extension type CASpatialAudioExperience._(objc.ObjCObject object$)
-    implements objc.ObjCObject {
-  /// Constructs a [CASpatialAudioExperience] that points to the same underlying object as [other].
-  CASpatialAudioExperience.as(objc.ObjCObject other) : object$ = other {}
-
-  /// Constructs a [CASpatialAudioExperience] that wraps the given raw object pointer.
-  CASpatialAudioExperience.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
-}
-
-late final _sel_intendedSpatialExperience = objc.registerName(
-  "intendedSpatialExperience",
-);
-late final _sel_setIntendedSpatialExperience_ = objc.registerName(
-  "setIntendedSpatialExperience:",
-);
-late final _sel_init = objc.registerName("init");
-late final _sel_new = objc.registerName("new");
-late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
-final _objc_msgSend_1cwp428 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.NSZone>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.NSZone>,
-      )
-    >();
-late final _sel_alloc = objc.registerName("alloc");
 
 /// AVAudioPlayer
 extension type AVAudioPlayer._(objc.ObjCObject object$)
@@ -1190,3 +694,471 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
         : _objc_msgSend_2cgrxl(object$.ref.pointer, _sel_volume);
   }
 }
+
+/// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
+/// AVAudioPlayerDelegate in your config's objc-protocols list.
+///
+/// AVAudioPlayerDelegate
+extension type AVAudioPlayerDelegate._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol, objc.NSObjectProtocol {
+  /// Constructs a [AVAudioPlayerDelegate] that points to the same underlying object as [other].
+  AVAudioPlayerDelegate.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [AVAudioPlayerDelegate] that wraps the given raw object pointer.
+  AVAudioPlayerDelegate.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: CASpatialAudioExperience is a stub. To generate bindings for this class, include
+/// CASpatialAudioExperience in your config's objc-interfaces list.
+///
+/// CASpatialAudioExperience
+extension type CASpatialAudioExperience._(objc.ObjCObject object$)
+    implements objc.ObjCObject {
+  /// Constructs a [CASpatialAudioExperience] that points to the same underlying object as [other].
+  CASpatialAudioExperience.as(objc.ObjCObject other) : object$ = other {}
+
+  /// Constructs a [CASpatialAudioExperience] that wraps the given raw object pointer.
+  CASpatialAudioExperience.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
+}
+
+late final _class_AVAudioPlayer = objc.getClass("AVAudioPlayer");
+final _objc_msgSend_151sglz = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_18chyc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Double,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+      )
+    >();
+final _objc_msgSend_19nvye5 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_1cwp428 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.NSZone>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.NSZone>,
+      )
+    >();
+final _objc_msgSend_1hz7y9r = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Long Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_1lhpu4m = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
+      )
+    >();
+final _objc_msgSend_1p4uk9e = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Float,
+          ffi.Double,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+        double,
+      )
+    >();
+final _objc_msgSend_1pl9qdv = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_1pnyuds = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
+      )
+    >();
+final _objc_msgSend_1s56lr9 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Bool,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        bool,
+      )
+    >();
+final _objc_msgSend_1ukqyt8 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Double Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Double Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_2cgrxl = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Float Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_2cgrxlFpret = objc.msgSendFpretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Float Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_4sp4xj = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Long,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
+    >();
+final _objc_msgSend_65s5yw = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Float Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.UnsignedLong,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
+    >();
+final _objc_msgSend_65s5ywFpret = objc.msgSendFpretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Float Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.UnsignedLong,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
+    >();
+final _objc_msgSend_91o635 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_hwm8nu = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Double,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+      )
+    >();
+final _objc_msgSend_v5hmet = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Float,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+      )
+    >();
+final _objc_msgSend_xtuoz7 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_xw2lbc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.UnsignedLong Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+late final _sel_alloc = objc.registerName("alloc");
+late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _sel_averagePowerForChannel_ = objc.registerName(
+  "averagePowerForChannel:",
+);
+late final _sel_channelAssignments = objc.registerName("channelAssignments");
+late final _sel_currentDevice = objc.registerName("currentDevice");
+late final _sel_currentTime = objc.registerName("currentTime");
+late final _sel_data = objc.registerName("data");
+late final _sel_delegate = objc.registerName("delegate");
+late final _sel_deviceCurrentTime = objc.registerName("deviceCurrentTime");
+late final _sel_duration = objc.registerName("duration");
+late final _sel_enableRate = objc.registerName("enableRate");
+late final _sel_format = objc.registerName("format");
+late final _sel_init = objc.registerName("init");
+late final _sel_initWithContentsOfURL_error_ = objc.registerName(
+  "initWithContentsOfURL:error:",
+);
+late final _sel_initWithContentsOfURL_fileTypeHint_error_ = objc.registerName(
+  "initWithContentsOfURL:fileTypeHint:error:",
+);
+late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
+late final _sel_initWithData_fileTypeHint_error_ = objc.registerName(
+  "initWithData:fileTypeHint:error:",
+);
+late final _sel_intendedSpatialExperience = objc.registerName(
+  "intendedSpatialExperience",
+);
+late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_isMeteringEnabled = objc.registerName("isMeteringEnabled");
+late final _sel_isPlaying = objc.registerName("isPlaying");
+late final _sel_new = objc.registerName("new");
+late final _sel_numberOfChannels = objc.registerName("numberOfChannels");
+late final _sel_numberOfLoops = objc.registerName("numberOfLoops");
+late final _sel_pan = objc.registerName("pan");
+late final _sel_pause = objc.registerName("pause");
+late final _sel_peakPowerForChannel_ = objc.registerName(
+  "peakPowerForChannel:",
+);
+late final _sel_play = objc.registerName("play");
+late final _sel_playAtTime_ = objc.registerName("playAtTime:");
+late final _sel_prepareToPlay = objc.registerName("prepareToPlay");
+late final _sel_rate = objc.registerName("rate");
+late final _sel_setChannelAssignments_ = objc.registerName(
+  "setChannelAssignments:",
+);
+late final _sel_setCurrentDevice_ = objc.registerName("setCurrentDevice:");
+late final _sel_setCurrentTime_ = objc.registerName("setCurrentTime:");
+late final _sel_setDelegate_ = objc.registerName("setDelegate:");
+late final _sel_setEnableRate_ = objc.registerName("setEnableRate:");
+late final _sel_setIntendedSpatialExperience_ = objc.registerName(
+  "setIntendedSpatialExperience:",
+);
+late final _sel_setMeteringEnabled_ = objc.registerName("setMeteringEnabled:");
+late final _sel_setNumberOfLoops_ = objc.registerName("setNumberOfLoops:");
+late final _sel_setPan_ = objc.registerName("setPan:");
+late final _sel_setRate_ = objc.registerName("setRate:");
+late final _sel_setVolume_ = objc.registerName("setVolume:");
+late final _sel_setVolume_fadeDuration_ = objc.registerName(
+  "setVolume:fadeDuration:",
+);
+late final _sel_settings = objc.registerName("settings");
+late final _sel_stop = objc.registerName("stop");
+late final _sel_updateMeters = objc.registerName("updateMeters");
+late final _sel_url = objc.registerName("url");
+late final _sel_volume = objc.registerName("volume");
+typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef Dartinstancetype = objc.ObjCObject;

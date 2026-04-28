@@ -12,7 +12,7 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'enum_bindings.dart';
+import 'enum_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -28,7 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('enum');
     });
 
     test('NS_ENUM generates a Dart enum', () {
@@ -51,7 +50,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'enum_bindings.dart',
+          'enum_test_bindings.dart',
         ),
       ).readAsStringSync();
 

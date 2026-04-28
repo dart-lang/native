@@ -24,8 +24,8 @@ encounter any issues running the commands below, check the
 [Requirements](#requirements) section below for additional platform-specific
 instructions.
 
-1. Run `flutter build apk` at least once to build an APK for your app. This is 
-   necessary so that JNIgen can get the classpaths of Android Gradle
+1. Run `flutter pub get` at least once to get the dependencies of your app.
+   This is necessary so that JNIgen can get the classpaths of Android Gradle
    libraries.
 
 2. Add the helper package `package:jni` as a dependency and the bindings

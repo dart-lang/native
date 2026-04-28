@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'typedef_bindings.dart';
+import 'typedef_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -26,7 +26,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('typedef');
     });
 
     test('Regression test for #386', () {

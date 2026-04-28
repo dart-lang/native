@@ -11,7 +11,7 @@ import 'package:ffi/ffi.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'method_bindings.dart';
+import 'method_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -30,7 +30,6 @@ void main() {
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = MethodInterface();
-      generateBindingsForCoverage('method');
     });
 
     group('Instance methods', () {

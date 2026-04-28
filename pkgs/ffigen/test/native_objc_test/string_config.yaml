@@ -1,7 +1,7 @@
 name: StringTestObjCLibrary
 description: 'Tests calling Objective-C string methods'
 language: objc
-output: 'string_bindings.dart'
+output: 'string_test_bindings.dart'
 exclude-all-by-default: true
 objc-interfaces:
   include:

@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'scope.dart';
@@ -18,6 +19,8 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
 
   final protocols = <ObjCProtocol>[];
 
+  final ApiAvailability apiAvailability;
+
   ObjCCategory({
     super.usr,
     required String super.originalName,
@@ -25,6 +28,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
     required this.parent,
     super.dartDoc,
     required this.context,
+    required this.apiAvailability,
   }) : classObject = parent.classObject,
        super(symbol: Symbol(name ?? originalName, SymbolKind.klass));
 
@@ -46,6 +50,10 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
     final s = StringBuffer();
     s.write('\n');
     s.write(makeDartDoc(dartDoc));
+    final deprecatedAnnotation = apiAvailability.deprecatedAnnotation;
+    if (deprecatedAnnotation != null) {
+      s.write('$deprecatedAnnotation\n');
+    }
     s.write('''
 extension $name on ${parent.getDartType(context)} {
 ${generateMethodBindings(w, parent)}

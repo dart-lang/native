@@ -26,7 +26,7 @@ String generate({
           packagePathForTests,
           'test',
           'native_objc_test',
-          'transitive_bindings.dart',
+          'transitive_test_bindings.dart',
         ),
       ),
       format: false,
@@ -74,7 +74,7 @@ String generate({
       packagePathForTests,
       'test',
       'native_objc_test',
-      'transitive_bindings.dart',
+      'transitive_test_bindings.dart',
     ),
   ).readAsStringSync();
 }
