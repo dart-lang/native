@@ -120,6 +120,7 @@ int objectRetainCount(Pointer<ObjCObjectImpl> object) {
 bool isValidClass(Pointer<Void> clazz) =>
     internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);
 
+// TODO(https://github.com/dart-lang/native/issues/3338): Remove these.
 @Native<Void Function()>(
   symbol: 'ffigen_load_objc_test',
   assetId: 'package:ffigen/objc_test',

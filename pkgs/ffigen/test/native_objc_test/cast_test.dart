@@ -21,7 +21,7 @@ void main() {
   group('cast', () {
     setUpAll(() {
       loadLibrary();
-      testInstance = Castaway.alloc().init();
+      testInstance = Castaway();
     });
 
     test('as', () {

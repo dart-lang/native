@@ -680,7 +680,7 @@ void main() {
       late final String bindings;
       setUpAll(() {
         bindings = bindingsForVersion(
-          iosVers: Versions(min: null, max: Version(1, 5, 0)),
+          iosVers: Versions(max: Version(1, 5, 0)),
           macosVers: Versions(min: Version(1, 5, 0)),
         );
       });

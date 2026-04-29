@@ -28,7 +28,7 @@ void main() {
         ),
       );
 
-      matchLibraryWithExpected(context, parse(context), 'native_test_dart', [
+      matchLibraryWithExpected(context, parse(context), 'native_test_bindings.dart', [
         'test',
         'native_test',
         '_expected_native_test_bindings.dart',
