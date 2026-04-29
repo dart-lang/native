@@ -6,8 +6,8 @@ package com.github.dart_lang.jnigen.apisummarizer.elements;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kotlinx.metadata.KmClass;
-import kotlinx.metadata.jvm.JvmExtensionsKt;
+import kotlin.metadata.KmClass;
+import kotlin.metadata.jvm.JvmExtensionsKt;
 
 public class KotlinClass {
   public String name;
@@ -24,8 +24,6 @@ public class KotlinClass {
   public String companionObject;
   public String inlineClassUnderlyingPropertyName;
   public KotlinType inlineClassUnderlyingType;
-  public int flags;
-  public int jvmFlags;
 
   public static KotlinClass fromKmClass(KmClass c) {
     var klass = new KotlinClass();
@@ -50,8 +48,6 @@ public class KotlinClass {
     klass.superTypes =
         c.getSupertypes().stream().map(KotlinType::fromKmType).collect(Collectors.toList());
     klass.enumEntries = c.getEnumEntries();
-    klass.flags = c.getFlags();
-    klass.jvmFlags = JvmExtensionsKt.getJvmFlags(c);
     klass.nestedClasses = c.getNestedClasses();
     klass.companionObject = c.getCompanionObject();
     klass.inlineClassUnderlyingPropertyName = c.getInlineClassUnderlyingPropertyName();

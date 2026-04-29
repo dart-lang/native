@@ -1,3 +1,9 @@
+## 1.0.3
+
+- Deprecated `recordedUsagesFile` in `LinkInput`.
+- Added `recordedUses` getter to `LinkInput`.
+- Added dependency on `package:record_use`.
+
 ## 1.0.2
 
 - Update documentation about `CCACHE_` environment variables.

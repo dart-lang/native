@@ -1,7 +1,7 @@
 name: EnumTestObjCLibrary
 description: 'Tests NS_ENUM vs NS_OPTIONS'
 language: objc
-output: 'enum_bindings.dart'
+output: 'enum_test_bindings.dart'
 exclude-all-by-default: true
 enums:
   include:

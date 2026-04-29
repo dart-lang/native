@@ -6,13 +6,12 @@ package com.github.dart_lang.jnigen.apisummarizer.elements;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kotlinx.metadata.KmTypeParameter;
-import kotlinx.metadata.KmVariance;
+import kotlin.metadata.KmTypeParameter;
+import kotlin.metadata.KmVariance;
 
 public class KotlinTypeParameter {
   public String name;
   public int id;
-  public int flags;
   public List<KotlinType> upperBounds;
   public KmVariance variance;
 
@@ -20,7 +19,6 @@ public class KotlinTypeParameter {
     var typeParam = new KotlinTypeParameter();
     typeParam.name = t.getName();
     typeParam.id = t.getId();
-    typeParam.flags = t.getFlags();
     typeParam.upperBounds =
         t.getUpperBounds().stream().map(KotlinType::fromKmType).collect(Collectors.toList());
     typeParam.variance = t.getVariance();

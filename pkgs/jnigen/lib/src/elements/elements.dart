@@ -1098,8 +1098,6 @@ class KotlinClass implements Element<KotlinClass> {
     required this.companionObject,
     required this.inlineClassUnderlyingPropertyName,
     required this.inlineClassUnderlyingType,
-    required this.flags,
-    required this.jvmFlags,
   });
 
   final String name;
@@ -1116,8 +1114,6 @@ class KotlinClass implements Element<KotlinClass> {
   final String? companionObject;
   final String? inlineClassUnderlyingPropertyName;
   final KotlinType? inlineClassUnderlyingType;
-  final int flags;
-  final int jvmFlags;
 
   factory KotlinClass.fromJson(Map<String, dynamic> json) =>
       _$KotlinClassFromJson(json);
@@ -1155,7 +1151,6 @@ class KotlinFunction {
     this.receiverParameterType,
     this.contextReceiverTypes = const [],
     this.typeParameters = const [],
-    required this.flags,
     required this.isSuspend,
     required this.isOperator,
     required this.isPublic,
@@ -1176,7 +1171,6 @@ class KotlinFunction {
   final KotlinType? receiverParameterType;
   final List<KotlinType> contextReceiverTypes;
   final List<KotlinTypeParameter> typeParameters;
-  final int flags;
   final bool isSuspend;
   final bool isOperator;
   final bool isPublic;
@@ -1194,13 +1188,11 @@ class KotlinConstructor implements Element<KotlinConstructor> {
     required this.name,
     required this.descriptor,
     this.valueParameters = const [],
-    required this.flags,
   });
 
   final String name;
   final String descriptor;
   final List<KotlinValueParameter> valueParameters;
-  final int flags;
 
   factory KotlinConstructor.fromJson(Map<String, dynamic> json) =>
       _$KotlinConstructorFromJson(json);
@@ -1224,10 +1216,6 @@ class KotlinProperty implements Element<KotlinProperty> {
     required this.returnType,
     required this.receiverParameterType,
     this.contextReceiverTypes = const [],
-    required this.jvmFlags,
-    required this.flags,
-    required this.setterFlags,
-    required this.getterFlags,
     this.typeParameters = const [],
     required this.setterParameter,
   });
@@ -1249,10 +1237,6 @@ class KotlinProperty implements Element<KotlinProperty> {
   final KotlinType returnType;
   final KotlinType? receiverParameterType;
   final List<KotlinType> contextReceiverTypes;
-  final int jvmFlags;
-  final int flags;
-  final int setterFlags;
-  final int getterFlags;
   final List<KotlinTypeParameter> typeParameters;
   final KotlinValueParameter? setterParameter;
 
@@ -1268,7 +1252,6 @@ class KotlinProperty implements Element<KotlinProperty> {
 @JsonSerializable(createToJson: false)
 class KotlinType implements Element<KotlinType> {
   KotlinType({
-    required this.flags,
     required this.kind,
     required this.name,
     required this.id,
@@ -1276,7 +1259,6 @@ class KotlinType implements Element<KotlinType> {
     this.arguments = const [],
   });
 
-  final int flags;
   final String kind;
   final String? name;
   final int id;
@@ -1320,14 +1302,12 @@ class KotlinTypeParameter implements Element<KotlinTypeParameter> {
   KotlinTypeParameter({
     required this.name,
     required this.id,
-    required this.flags,
     this.upperBounds = const [],
     required this.variance,
   });
 
   final String name;
   final int id;
-  final int flags;
   final List<KotlinType> upperBounds;
   final KmVariance variance;
 
@@ -1344,13 +1324,11 @@ class KotlinTypeParameter implements Element<KotlinTypeParameter> {
 class KotlinValueParameter implements Element<KotlinValueParameter> {
   KotlinValueParameter({
     required this.name,
-    required this.flags,
     required this.type,
     required this.varargElementType,
   });
 
   final String name;
-  final int flags;
   final KotlinType type;
   final KotlinType? varargElementType;
 

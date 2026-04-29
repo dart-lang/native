@@ -12,7 +12,7 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'bad_override_bindings.dart';
+import 'bad_override_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -28,7 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('bad_override');
     });
 
     test('Method vs getter', () {

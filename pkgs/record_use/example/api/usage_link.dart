@@ -5,9 +5,6 @@
 // ignore_for_file: experimental_member_use
 // ignore_for_file: depend_on_referenced_packages
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
@@ -27,12 +24,8 @@ const classId = Class(
 // snippet-start#link
 void main(List<String> arguments) {
   link(arguments, (input, output) async {
-    final usesUri = input.recordedUsagesFile;
-    if (usesUri == null) return;
-    final usesJson = await File.fromUri(usesUri).readAsString();
-    final uses = Recordings.fromJson(
-      jsonDecode(usesJson) as Map<String, Object?>,
-    );
+    final uses = input.recordedUses;
+    if (uses == null) return;
 
     // snippet-start#static-call
     final calls = uses.calls[methodId] ?? [];

@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'string_bindings.dart';
+import 'string_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -28,7 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('string');
     });
 
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {

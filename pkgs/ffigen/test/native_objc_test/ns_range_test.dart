@@ -25,7 +25,7 @@ void main() {
               packagePathForTests,
               'test',
               'native_objc_test',
-              'ns_range_bindings.dart',
+              'ns_range_test_bindings.dart',
             ),
           ),
           format: false,
@@ -57,7 +57,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'ns_range_bindings.dart',
+          'ns_range_test_bindings.dart',
         ),
       ).readAsStringSync();
     });

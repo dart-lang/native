@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
+import 'package:yaml/yaml.dart';
 
 import '../logging/logging.dart';
 
@@ -58,8 +59,7 @@ class AndroidSdkTools {
     return null;
   }
 
-  static const _gradleCannotFindJars = 'Gradle stub cannot find JAR libraries. '
-      'This might be because no APK build has happened yet.';
+  static const _gradleCannotFindJars = 'Gradle stub cannot find JAR libraries.';
 
   static const _leftOverStubWarning = 'If you are seeing this error in '
       '`flutter build` output, it is likely that JNIgen left some stubs in '
@@ -75,84 +75,254 @@ class AndroidSdkTools {
 
   static const _gradleGetClasspathStub = '''
 // Gradle stub for listing dependencies in JNIgen. If found in
-// android/build.gradle, please delete the following function.
-task $_gradleGetClasspathTaskName(type: Copy) {
-  project.afterEvaluate {
+// android/build.gradle, please delete the following task.
+tasks.register("$_gradleGetClasspathTaskName") {
+  // Tell Gradle to complete the configuration phase of all subprojects (eg
+  // Flutter plugins) before continuing configuration of this project.
+  allprojects { project ->
+    if (project != rootProject) {
+      evaluationDependsOn(project.path)
+    }
+  }
+
+  // Fetch all the dependencies and extract the JARs.
+  allprojects { project ->
+    def config = project.configurations.findByName("releaseCompileClasspath")
+    if (config == null) return
     try {
-      def app = project(':app')
-      def android = app.android
-      def cp = [android.getBootClasspath()[0]]
-      android.applicationVariants.each { variant ->
-        if (variant.name.equals('release')) {
-          cp += variant.javaCompile.classpath.getFiles()
+      // Find all JARs.
+      def jarView = config.incoming.artifactView {
+        attributes {
+          attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
         }
+        lenient = true
       }
-      cp.each { println it }
+      inputs.files(jarView.files)
+
+      // Also find all JARs stored in AARs.
+      def aarView = config.incoming.artifactView {
+        attributes {
+          attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
+        }
+        lenient = true
+      }
+      inputs.files(aarView.files)
+    } catch (Exception e) {}
+  }
+
+  // Find all the JARs and print their paths.
+  doLast {
+    try {
+      def cp = []
+
+      // JNIgen uses the first version of a class it finds, so the order we list
+      // the JARs in is important.
+      def mainProject = allprojects.find { project ->
+        project.plugins.hasPlugin("com.android.application")
+      } ?: project
+
+      // Start with the android bootClasspath. This contains things like java.*
+      // and android.*.
+      def android = mainProject.extensions.findByName("android")
+      if (android != null && android.hasProperty("bootClasspath")) {
+        cp.addAll(android.bootClasspath)
+      }
+
+      // Next, add the main project's JARs, followed by all the other project's
+      // JARs.
+      def projects = ([mainProject] + allprojects).unique()
+      projects.each { project ->
+        def config = project.configurations.findByName("releaseCompileClasspath")
+        if (config == null) return
+        try {
+          // Add all JARs.
+          cp += config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+            }
+            lenient = true
+          }.files
+
+          // Add all JARs that were contained in AARs.
+          cp += config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "android-classes-jar")
+            }
+            lenient = true
+          }.files
+        } catch (Exception e) {}
+      }
+
+      // Dedupe and print the absolute paths to all the JARs.
+      cp.collect { file -> file.absolutePath }.unique().each { path ->
+        println path
+      }
     } catch (Exception e) {
       System.err.println("$_gradleCannotFindJars")
-      System.err.println("$_leftOverStubWarning")
       throw e
     }
   }
+  System.err.println("$_leftOverStubWarning")
 }
 ''';
 
   static const _gradleGetClasspathStubKt = '''
 // Gradle stub for listing dependencies in JNIgen. If found in
-// android/build.gradle.kts, please delete the following function.
+// android/build.gradle.kts, please delete the following task.
 tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
-    doLast {
-        try {
-            val app = project(":app")
-            val android = app.android
-            val classPaths = mutableListOf(android.bootClasspath.first()) // Access the first element directly
-            for (variant in android.applicationVariants) {
-                if (variant.name == "release") {
-                    val javaCompile = variant.javaCompileProvider.get()
-                    classPaths.addAll(javaCompile.classpath.files)
-                }
-            }
-            for (classPath in classPaths) {
-                println(classPath)
-            }
-        } catch (e: Exception) {
-            System.err.println("$_gradleCannotFindJars")
-            throw e
-        }
+  // Tell Gradle to complete the configuration phase of all subprojects (eg
+  // Flutter plugins) before continuing configuration of this project.
+  allprojects {
+    if (this != rootProject) {
+      evaluationDependsOn(path)
     }
-    System.err.println("$_leftOverStubWarning")
+  }
+
+  // Fetch all the dependencies and extract the JARs.
+  allprojects {
+    val config = configurations.findByName("releaseCompileClasspath") ?: return@allprojects
+    try {
+      // Find all JARs.
+      val jarView = config.incoming.artifactView {
+        attributes {
+          attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+        }
+        lenient(true)
+      }
+      inputs.files(jarView.files)
+
+      // Also find all JARs stored in AARs.
+      val aarView = config.incoming.artifactView {
+        attributes {
+          attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
+        }
+        lenient(true)
+      }
+      inputs.files(aarView.files)
+    } catch (e: Exception) {}
+  }
+
+  // Find all the JARs and print their paths.
+  doLast {
+    try {
+      val cp = mutableListOf<File>()
+
+      // JNIgen uses the first version of a class it finds, so the order we list
+      // the JARs in is important.
+      val mainProject = allprojects.find { project ->
+        project.plugins.hasPlugin("com.android.application")
+      } ?: project
+
+      // Start with the android bootClasspath. This contains things like java.*
+      // and android.*.
+      val android = mainProject.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+      android?.bootClasspath?.let { file -> cp.addAll(file) }
+
+      // Next, add the main project's JARs, followed by all the other project's
+      // JARs.
+      val projects = (listOf(mainProject) + allprojects).distinct()
+      projects.forEach { project ->
+        val config = project.configurations.findByName("releaseCompileClasspath") ?: return@forEach
+        try {
+          // Add all JARs.
+          cp.addAll(config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+            }
+            lenient(true)
+          }.files)
+
+          // Add all JARs that were contained in AARs.
+          cp.addAll(config.incoming.artifactView {
+            attributes {
+              attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "android-classes-jar")
+            }
+            lenient(true)
+          }.files)
+        } catch (e: Exception) {}
+      }
+
+      // Dedupe and print the absolute paths to all the JARs.
+      cp.map { file -> file.absolutePath }.distinct().forEach {
+        path -> println(path)
+      }
+    } catch (e: Exception) {
+      System.err.println("$_gradleCannotFindJars")
+      throw e
+    }
+  }
+  System.err.println("$_leftOverStubWarning")
 }
 ''';
 
   static const _gradleGetSourcesTaskName = 'getSources';
-  // adapted from https://stackoverflow.com/questions/39975780/how-can-i-use-gradle-to-download-dependencies-and-their-source-files-and-place-t/39981143#39981143
-  // Although it appears we can use this same code for getting JAR artifacts,
-  // there is no JAR equivalent for `org.gradle.language.base.Artifact`.
-  // So it appears different methods should be used for JAR artifacts.
   static const _gradleGetSourcesStub = '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
-// android/build.gradle, please delete the following function.
-task $_gradleGetSourcesTaskName(type: Copy) {
-  project.afterEvaluate {
-    def componentIds = project(':app').configurations.releaseCompileClasspath.incoming
-      .resolutionResult.allDependencies.collect { it.selected.id }
+// android/build.gradle, please delete the following task.
+tasks.register("$_gradleGetSourcesTaskName") {
+  // Tell Gradle to complete the configuration phase of all subprojects (eg
+  // Flutter plugins) before continuing configuration of this project.
+  allprojects { project ->
+    if (project != rootProject) {
+      evaluationDependsOn(project.path)
+    }
+  }
 
-    ArtifactResolutionResult result = dependencies.createArtifactResolutionQuery()
-      .forComponents(componentIds)
-      .withArtifacts(JvmLibrary, SourcesArtifact)
-      .execute()
+  // Fetch all the dependencies and extract the JARs.
+  allprojects { project ->
+    def config = project.configurations.findByName("releaseCompileClasspath")
+    if (config == null) return
+    try {
+      // Find all JARs.
+      def jarView = config.incoming.artifactView {
+        attributes {
+          attribute(org.gradle.api.attributes.Attribute.of("artifactType", String.class), "jar")
+        }
+        lenient = true
+      }
+      inputs.files(jarView.files)
+    } catch (Exception e) {}
+  }
 
-    def sourceArtifacts = []
+  // Find all the sources and print their paths.
+  doLast {
+    // JNIgen uses the first version of a class it finds, so the order we list
+    // the sources in is important. So list the main project's sources before
+    // the other projects.
+    def mainProject = allprojects.find { project ->
+      project.plugins.hasPlugin("com.android.application")
+    } ?: project
+    def projects = ([mainProject] + allprojects).unique()
 
-    result.resolvedComponents.each { ComponentArtifactsResult component ->
-      Set<ArtifactResult> sources = component.getArtifacts(SourcesArtifact)
-      sources.each { ArtifactResult ar ->
-        if (ar instanceof ResolvedArtifactResult) {
-          sourceArtifacts << ar.file
+    projects.each { project ->
+      def config = project.configurations.findByName("releaseCompileClasspath")
+      if (config == null) return
+
+      // Find all dependency artifacts.
+      def componentIds = config.incoming.resolutionResult.allDependencies.collect { dependency ->
+        dependency.selected.id
+      }
+      ArtifactResolutionResult result = dependencies.createArtifactResolutionQuery()
+        .forComponents(componentIds)
+        .withArtifacts(JvmLibrary, SourcesArtifact)
+        .execute()
+
+      // Find the sources in each artifact.
+      def sourceArtifacts = []
+      result.resolvedComponents.each { ComponentArtifactsResult component ->
+        Set<ArtifactResult> sources = component.getArtifacts(SourcesArtifact)
+        sources.each { ArtifactResult artifactResult ->
+          if (artifactResult instanceof ResolvedArtifactResult) {
+            sourceArtifacts << artifactResult.file
+          }
         }
       }
+
+      // Dedupe and print the absolute paths to all the sources.
+      sourceArtifacts.collect { file -> file.absolutePath }.unique().each { path ->
+        println path
+      }
     }
-    sourceArtifacts.forEach { println it }
   }
   System.err.println("$_leftOverStubWarning")
 }
@@ -160,38 +330,73 @@ task $_gradleGetSourcesTaskName(type: Copy) {
 
   static const _gradleGetSourcesStubKt = '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
-// android/build.gradle.kts, please delete the following function.
-
+// android/build.gradle.kts, please delete the following task.
 tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
-    doLast {
-        val app = project(":app")
-        val releaseCompileClasspath = app.configurations.getByName("releaseCompileClasspath")
-
-        val componentIds =
-            releaseCompileClasspath.incoming.resolutionResult.allDependencies.map { it.from.id }
-
-        val result = dependencies.createArtifactResolutionQuery()
-            .forComponents(componentIds)
-            .withArtifacts(JvmLibrary::class, SourcesArtifact::class)
-            .execute()
-
-        val sourceArtifacts = mutableListOf<File>()
-
-        for (component in result.resolvedComponents) {
-            val sourcesArtifactsResult = component.getArtifacts(SourcesArtifact::class)
-            for (artifactResult in sourcesArtifactsResult) {
-                if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
-                    sourceArtifacts.add(artifactResult.file)
-                }
-            }
-        }
-        for (sourceArtifact in sourceArtifacts) {
-            println(sourceArtifact)
-        }
+  // Tell Gradle to complete the configuration phase of all subprojects (eg
+  // Flutter plugins) before continuing configuration of this project.
+  allprojects {
+    if (this != rootProject) {
+      evaluationDependsOn(path)
     }
-    System.err.println("$_leftOverStubWarning")
-}
+  }
 
+  // Fetch all the dependencies and extract the JARs.
+  allprojects {
+    val config = configurations.findByName("releaseCompileClasspath") ?: return@allprojects
+    try {
+      // Find all JARs.
+      val jarView = config.incoming.artifactView {
+        attributes {
+          attribute(org.gradle.api.attributes.Attribute.of("artifactType", String::class.java), "jar")
+        }
+        lenient(true)
+      }
+      inputs.files(jarView.files)
+    } catch (e: Exception) {}
+  }
+
+  // Find all the sources and print their paths.
+  doLast {
+    // JNIgen uses the first version of a class it finds, so the order we list
+    // the sources in is important. So list the main project's sources before
+    // the other projects.
+    val mainProject = allprojects.find { project ->
+      project.plugins.hasPlugin("com.android.application")
+    } ?: project
+    val projects = (listOf(mainProject) + allprojects).distinct()
+
+    projects.forEach { project ->
+      val config = project.configurations.findByName("releaseCompileClasspath")
+      if (config == null) return@forEach
+
+      // Find all dependency artifacts.
+      val componentIds =
+        config.incoming.resolutionResult.allDependencies
+          .filterIsInstance<org.gradle.api.artifacts.result.ResolvedDependencyResult>()
+          .map { dependency -> dependency.selected.id }
+      val result = dependencies.createArtifactResolutionQuery()
+        .forComponents(componentIds)
+        .withArtifacts(org.gradle.api.artifacts.result.JvmLibrary::class, org.gradle.api.artifacts.result.SourcesArtifact::class)
+        .execute()
+
+      val sourceArtifacts = mutableListOf<File>()
+      for (component in result.resolvedComponents) {
+        val sourcesArtifactsResult = component.getArtifacts(org.gradle.api.artifacts.result.SourcesArtifact::class)
+        for (artifactResult in sourcesArtifactsResult) {
+          if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
+            sourceArtifacts.add(artifactResult.file)
+          }
+        }
+      }
+
+      // Dedupe and print the absolute paths to all the sources.
+      sourceArtifacts.map { file -> file.absolutePath }.distinct().forEach {
+        path -> println(path)
+      }
+    }
+  }
+  System.err.println("$_leftOverStubWarning")
+}
 ''';
 
   /// Get release compile classpath used by Gradle for android build.
@@ -228,6 +433,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     return script.contains(stub) ? script : script + stub;
   }
 
+  static String _inAndroidProject(String androidProject) =>
+      (androidProject == '') ? '' : ' in $androidProject';
+
   static List<String> _runGradleStub({
     required bool isSource,
     Uri? configRoot,
@@ -239,6 +447,11 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     if (configRoot != null) {
       androidProject = configRoot.resolve(androidProject).toFilePath();
     }
+
+    if (_isFlutterProject(androidProject)) {
+      _runFlutterConfigOnly(androidProject);
+    }
+
     final android = join(androidProject, 'android');
     var buildGradle = join(android, 'build.gradle');
     final usesKotlinScript = !File.fromUri(Uri.file(buildGradle)).existsSync();
@@ -263,11 +476,12 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     origBuild.createSync();
     log.finer('Writing temporary gradle script with stub "$stubName"...');
     origBuild.writeAsStringSync(_appendStub(script, stubCode));
-    log.finer('Running gradle wrapper...');
+    log.info('Running gradle wrapper...');
     final gradleCommand = Platform.isWindows ? '.\\gradlew.bat' : './gradlew';
+    final taskPath = usesKotlinScript ? ':app:$stubName' : stubName;
     ProcessResult procRes;
     try {
-      procRes = Process.runSync(gradleCommand, ['-q', stubName],
+      procRes = Process.runSync(gradleCommand, ['-q', taskPath],
           workingDirectory: android, runInShell: true);
     } finally {
       log.info('Restoring build scripts');
@@ -279,15 +493,22 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
       File(buildGradleOld).deleteSync();
     }
     if (procRes.exitCode != 0) {
-      final inAndroidProject =
-          (androidProject == '') ? '' : ' in $androidProject';
+      final inAndroidProject = _inAndroidProject(androidProject);
       throw GradleException('''\n\nGradle execution failed.
 
-1. The most likely cause is that the Android build is not yet cached.
+1. The most likely cause is that the Flutter metadata files are not yet cached.
 
-Run `flutter build apk`$inAndroidProject and try again.
+Run `flutter pub get`$inAndroidProject and try again.
 
-2. If the Gradle output includes text like this:
+2. If the Gradle output says "./gradlew: not found", the Flutter Gradle wrapper
+  script is missing.
+
+Run `flutter build apk --config-only`$inAndroidProject and try again.
+
+This is commonly seen in a fresh clone of a git repo. You can also consider
+adjusting your .gitignore rules to check these files in to your git repo.
+
+3. If the Gradle output includes text like this:
 
 * What went wrong:
 Execution failed for task ':gradle:compileGroovy'.
@@ -318,5 +539,44 @@ ${procRes.stderr}
         .split(Platform.isWindows ? '\r\n' : '\n');
     log.fine('Found ${paths.length} entries');
     return paths;
+  }
+
+  static bool _isFlutterProject(String projectPath) {
+    try {
+      final pubspecFile = File(join(projectPath, 'pubspec.yaml'));
+      final pubspec = loadYaml(pubspecFile.readAsStringSync());
+      return pubspec is Map && pubspec.containsKey('flutter');
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static void _runFlutterConfigOnly(String androidProject) {
+    final inAndroidProject = _inAndroidProject(androidProject);
+    log.info('Running "flutter build apk --config-only"$inAndroidProject...');
+    var success = false;
+    try {
+      final result = Process.runSync(
+        'flutter',
+        ['build', 'apk', '--config-only'],
+        workingDirectory: androidProject,
+        runInShell: true,
+      );
+      if (result.exitCode == 0) {
+        success = true;
+      } else {
+        log.warning(result.stderr);
+      }
+    } catch (e) {
+      log.warning('Error: $e');
+    }
+
+    if (!success) {
+      log.warning(
+        'Flutter configuration failed. Failure may be legitimate if this '
+        'project uses a non-standard structure, so attempting to continue '
+        'with JNIgen anyway...',
+      );
+    }
   }
 }

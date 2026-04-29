@@ -106,6 +106,7 @@ Compound? _parseCompoundDeclaration(
     String? dartDoc,
     required Context context,
     String? nativeType,
+    ApiAvailability? apiAvailability,
   })
   constructor,
 ) {
@@ -149,6 +150,7 @@ Compound? _parseCompoundDeclaration(
       ),
       context: context,
       nativeType: cursor.type().spelling(),
+      apiAvailability: apiAvailability,
     );
   } else {
     cursor = context.cursorIndex.getDefinition(cursor);
@@ -166,6 +168,7 @@ Compound? _parseCompoundDeclaration(
       ),
       context: context,
       nativeType: cursor.type().spelling(),
+      apiAvailability: apiAvailability,
     );
   }
   context.bindingsIndex.addCompoundToSeen(usr, compound);

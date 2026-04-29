@@ -4,8 +4,8 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.elements;
 
-import kotlinx.metadata.KmTypeProjection;
-import kotlinx.metadata.KmVariance;
+import kotlin.metadata.KmTypeProjection;
+import kotlin.metadata.KmVariance;
 
 public class KotlinTypeProjection {
   public KotlinType type;

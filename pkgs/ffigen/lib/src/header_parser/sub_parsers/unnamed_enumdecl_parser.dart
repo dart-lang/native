@@ -74,6 +74,7 @@ Constant? _addUnNamedEnumConstant(
     dartDoc: apiAvailability.dartDoc,
     rawType: 'int',
     rawValue: clang.clang_getEnumConstantDeclValue(cursor).toString(),
+    apiAvailability: apiAvailability,
   );
   bindingsIndex.addUnnamedEnumConstantToSeen(cursor.usr(), constant);
   unnamedEnumConstants.add(constant);

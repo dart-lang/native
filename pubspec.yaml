@@ -100,6 +100,10 @@ workspace:
   # - pkgs/jnigen/example/in_app_java  # TODO
   # - pkgs/jnigen/example/kotlin_plugin # TODO
   # - pkgs/jnigen/example/kotlin_plugin/example  # TODO
+  # - pkgs/jnigen/example/maven_libs # TODO
+  # - pkgs/jnigen/example/maven_libs/example  # TODO
+  # - pkgs/jnigen/example/maven_libs_groovy # TODO
+  # - pkgs/jnigen/example/maven_libs_groovy/example  # TODO
   # - pkgs/jnigen/example/notification_plugin  # TODO
   # - pkgs/jnigen/example/notification_plugin/example  # TODO
   # - pkgs/jnigen/example/pdfbox_plugin  # TODO

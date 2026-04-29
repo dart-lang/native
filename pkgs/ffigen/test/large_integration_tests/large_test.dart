@@ -214,5 +214,21 @@ void main() {
         '_expected_sqlite_bindings.dart',
       ]);
     });
+
+    test('Libclang config test', () {
+      final config = testConfigFromPath(
+        path.join(packagePathForTests, 'tool', 'libclang_config.yaml'),
+      );
+      final context = testContext(config);
+      final library = parse(context);
+
+      matchLibraryWithExpected(context, library, 'libclang_config.dart', [
+        'lib',
+        'src',
+        'header_parser',
+        'clang_bindings',
+        'clang_bindings.dart',
+      ]);
+    });
   });
 }

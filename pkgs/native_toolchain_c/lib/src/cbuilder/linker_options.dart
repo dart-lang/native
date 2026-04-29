@@ -55,7 +55,8 @@ class LinkerOptions {
   /// Create linking options to tree-shake symbols from the input files.
   ///
   /// The [symbolsToKeep] specify the symbols which should be kept. Passing
-  /// `null` implies that all symbols should be kept.
+  /// `null` implies that all symbols should be kept. Passing an empty list
+  /// implies that no library will be output at all.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbolsToKeep,
@@ -67,6 +68,9 @@ class LinkerOptions {
        _linkerScriptMode = symbolsToKeep != null
            ? GenerateLinkerScript()
            : null;
+
+  /// Whether to skip linking because no symbols are to be kept.
+  bool get skipWholeLibrary => !_keepAllSymbols && _symbols.isEmpty;
 
   Iterable<String> _toLinkerSyntax(Tool linker, Iterable<String> flagList) {
     if (linker.isClangLike) {

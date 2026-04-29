@@ -1,7 +1,6 @@
 # Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
-
 name: objective_c
 description: 'A library to access Objective C from Flutter that acts as a support library for package:ffigen.'
 version: 9.4.0-wip
@@ -45,3 +44,8 @@ dependency_overrides:
     path: ../hooks
   native_toolchain_c:
     path: ../native_toolchain_c
+
+hooks:
+  user_defines:
+    objective_c:
+      include_test_utils: true

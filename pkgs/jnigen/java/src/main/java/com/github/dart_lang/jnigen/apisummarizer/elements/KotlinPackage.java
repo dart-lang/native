@@ -2,7 +2,7 @@ package com.github.dart_lang.jnigen.apisummarizer.elements;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kotlinx.metadata.KmPackage;
+import kotlin.metadata.KmPackage;
 
 public class KotlinPackage {
   public List<KotlinFunction> functions;

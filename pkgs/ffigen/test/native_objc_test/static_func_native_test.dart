@@ -15,7 +15,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'static_func_native_bindings.dart';
+import 'static_func_native_test_bindings.dart';
 import 'util.dart';
 
 typedef IntBlock = ObjCBlock_Int32_Int32;
@@ -33,8 +33,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-
-      generateBindingsForCoverage('static_func');
     });
 
     Pointer<Int32> staticFuncOfObjectRefCountTest(Allocator alloc) {

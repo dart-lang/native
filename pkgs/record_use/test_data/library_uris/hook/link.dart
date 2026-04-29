@@ -6,22 +6,17 @@
 // the link hook.
 // This test is run on CI by executing `dart build cli` in this package.
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:hooks/hooks.dart';
-import 'package:record_use/record_use.dart';
 
 void main(List<String> arguments) async {
   await link(
     arguments,
     (input, output) async {
       // ignore: experimental_member_use
-      final recordedUsagesFile = input.recordedUsagesFile;
-      if (recordedUsagesFile == null) {
+      final recordings = input.recordedUses;
+      if (recordings == null) {
         throw UnsupportedError('Run with --enable-experiment=record-use.');
       }
-      final recordings = await readUsagesFile(recordedUsagesFile);
 
       // This package.
       final myMethodDefinition = recordings.calls.keys.firstWhere(
@@ -61,13 +56,4 @@ void expect(String actual, String expected) {
       'Expected "$expected" got "$actual"',
     );
   }
-}
-
-Future<Recordings> readUsagesFile(Uri recordedUsagesFile) async {
-  final file = File.fromUri(recordedUsagesFile);
-  final string = await file.readAsString();
-  final usages = Recordings.fromJson(
-    jsonDecode(string) as Map<String, Object?>,
-  );
-  return usages;
 }

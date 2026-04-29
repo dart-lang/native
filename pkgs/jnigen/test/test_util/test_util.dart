@@ -6,7 +6,8 @@ import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
-import 'package:jnigen/src/util/find_package.dart' hide findPackageRoot;
+import 'package:jnigen/src/util/dart_executable.dart';
+import 'package:jnigen/src/util/find_package.dart';
 import 'package:logging/logging.dart' show Level;
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' hide equals;
@@ -91,7 +92,7 @@ void comparePaths(String path1, String path2) {
     final originalDiff = diffProc.stdout;
     log.warning(
         'Paths $path1 and $path2 differ, Running dart format on $path1.');
-    Process.runSync('dart', ['format', path1]);
+    Process.runSync(dartExecutable, ['format', path1]);
     final fallbackDiffProc =
         Process.runSync('git', [...diffCommand, path1, path2]);
     if (fallbackDiffProc.exitCode != 0) {
@@ -139,7 +140,8 @@ Future<void> generateAndAnalyzeBindings(Config config,
   final tempDir = Directory.current.createTempSync('jnigen_test_temp');
   try {
     await _generateTempBindings(config, tempDir);
-    final analyzeResult = Process.runSync('dart', ['analyze', tempDir.path]);
+    final analyzeResult =
+        Process.runSync(dartExecutable, ['analyze', tempDir.path]);
     if (analyzeResult.exitCode != 0) {
       stderr.write(analyzeResult.stdout);
       fail('Analyzer exited with non-zero status (${analyzeResult.exitCode})');

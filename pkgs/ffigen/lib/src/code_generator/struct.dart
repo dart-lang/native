@@ -42,6 +42,7 @@ class Struct extends Compound {
     super.isInternal,
     required super.context,
     super.nativeType,
+    super.apiAvailability,
   });
 
   @override

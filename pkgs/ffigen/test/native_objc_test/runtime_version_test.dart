@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'runtime_version_bindings.dart';
+import 'runtime_version_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -28,7 +28,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('runtime_version');
     });
 
     test('Interface', () {

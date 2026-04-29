@@ -43,10 +43,6 @@ class Writer {
 
   final bool silenceEnumWarning;
 
-  /// Holds the mapping from Dart function name to native symbol name for
-  /// functions annotated with `@RecordUse()`.
-  Map<String, String> _recordUseMappings = {};
-
   Writer({
     required this.lookUpBindings,
     required this.ffiNativeBindings,
@@ -65,11 +61,6 @@ class Writer {
   String generate() {
     final s = StringBuffer();
 
-    _recordUseMappings = {
-      ...lookUpBindings.whereType<Func>(),
-      ...ffiNativeBindings.whereType<Func>(),
-    }.toRecordUseMap();
-
     // We write the source first to determine which imports are actually
     // referenced. Headers and [s] are then combined into the final result.
     final result = StringBuffer();
@@ -86,7 +77,9 @@ class Writer {
       ),
     );
 
-    final anyFuncHasRecordUse = _recordUseMappings.isNotEmpty;
+    final anyFuncHasRecordUse =
+        lookUpBindings.whereType<Func>().any((f) => f.recordUse) ||
+        ffiNativeBindings.whereType<Func>().any((f) => f.recordUse);
 
     // Write lint ignore if not specified by user already.
     final ignores = <String>[
@@ -209,6 +202,7 @@ class Writer {
     }
 
     _canGenerateSymbolOutput = true;
+
     return result.toString();
   }
 
@@ -287,7 +281,12 @@ class Writer {
   }
 
   String? generateRecordUseMapping() {
-    if (_recordUseMappings.isEmpty) {
+    final recordUseMappings = {
+      ...lookUpBindings.whereType<Func>(),
+      ...ffiNativeBindings.whereType<Func>(),
+    }.toRecordUseMap();
+
+    if (recordUseMappings.isEmpty) {
       return null;
     }
 
@@ -309,7 +308,7 @@ class Writer {
     s.writeln();
     s.writeln('/// Mapping from Dart function name to native symbol name.');
     s.writeln('const recordUseMapping = {');
-    for (final entry in _recordUseMappings.entries) {
+    for (final entry in recordUseMappings.entries) {
       s.writeln("  '${entry.key}': '${entry.value}',");
     }
     s.writeln('};');

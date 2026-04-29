@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator/binding.dart';
+import '../code_generator/func.dart';
 import '../code_generator/func_type.dart';
 import '../code_generator/objc_built_in_functions.dart';
 import '../code_generator/objc_category.dart';
@@ -40,6 +41,12 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitSymbol(Symbol node) => currentScope.add(node);
+
+  @override
+  void visitFunc(Func node) {
+    context.rootScope.add(node.funcVarSymbol);
+    visitBinding(node);
+  }
 
   @override
   void visitBinding(Binding node) {

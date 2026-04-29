@@ -68,6 +68,7 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
       name: config.enums.rename(decl),
       nativeType: nativeType,
       context: context,
+      apiAvailability: apiAvailability,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
       try {
@@ -128,5 +129,6 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         nativeType: nativeType,
         context: context,
         isAnonymous: true,
+        apiAvailability: apiAvailability,
       );
 }

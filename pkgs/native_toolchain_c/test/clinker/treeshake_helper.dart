@@ -69,6 +69,15 @@ void runTreeshakeTests(
     (name: 'manual', linker: linkerManual),
     (name: 'auto', linker: linkerAuto),
     (name: 'autoEmpty', linker: linkerAutoKeepAll),
+    (
+      name: 'autoEmptyList',
+      linker: (List<String> sources) => CLinker.library(
+        name: 'mylibname',
+        assetName: '',
+        sources: sources,
+        linkerOptions: LinkerOptions.treeshake(symbolsToKeep: []),
+      ),
+    ),
   ]) {
     test('link test with CLinker ${clinker.name}', () async {
       final tempUri = await tempDirForTest();
@@ -123,6 +132,16 @@ void runTreeshakeTests(
           .run(input: linkInput, output: linkOutputBuilder, logger: logger);
 
       final linkOutput = linkOutputBuilder.build();
+
+      if (clinker.name == 'autoEmptyList') {
+        expect(linkOutput.assets.code, isEmpty);
+        final libUri = linkInput.outputDirectory.resolve(
+          targetOS.libraryFileName('mylibname', DynamicLoadingBundled()),
+        );
+        expect(File.fromUri(libUri).existsSync(), isFalse);
+        return;
+      }
+
       final asset = linkOutput.assets.code.first;
 
       await expectMachineArchitecture(

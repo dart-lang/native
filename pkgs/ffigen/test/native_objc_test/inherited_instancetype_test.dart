@@ -11,7 +11,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'inherited_instancetype_bindings.dart';
+import 'inherited_instancetype_test_bindings.dart';
 import 'util.dart';
 
 void main() {
@@ -27,7 +27,6 @@ void main() {
       );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('inherited_instancetype');
     });
 
     test('Ordinary init method', () {

@@ -26,7 +26,7 @@ void main() {
               packagePathForTests,
               'test',
               'native_objc_test',
-              'swift_unavailable_bindings.dart',
+              'swift_unavailable_test_bindings.dart',
             ),
           ),
           format: false,
@@ -59,7 +59,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'swift_unavailable_bindings.dart',
+          'swift_unavailable_test_bindings.dart',
         ),
       ).readAsStringSync();
     });
