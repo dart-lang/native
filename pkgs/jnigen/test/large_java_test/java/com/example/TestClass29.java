@@ -1,10 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.native, MemberName: MemberName.isFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.string
-public final class TestClass29<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public native String[] isFoo(String[] p1, int p2);
-  public static interface Nested {}
+// Generics: Generics.none, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.memberTypeParam
+public interface TestClass29  extends Runnable, Cloneable {
+  <S> S[] setFoo(S[] p1) throws Exception;
+  public enum NestedEnum { V1 }
 
 }

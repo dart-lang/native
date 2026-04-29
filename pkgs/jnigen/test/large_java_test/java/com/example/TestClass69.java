@@ -1,10 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.getFoo, NestedKind: NestedKind.class_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customInterface
-public final class TestClass69<T extends Number>  implements Runnable, Cloneable {
+// Generics: Generics.none, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customRecord
+public class TestClass69  implements DagA, DagD, DagE {
   public void run() {}
-  public static Runnable getFoo(Runnable p1) { return null; }
-  public static class Nested {}
-
+  public <S, V> CoreRecord setFoo() throws Exception { return new CoreRecord(0, ""); }
 }

@@ -1,9 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.isFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.map
-public enum TestClass58  implements Runnable {
-  VALUE1, VALUE2;
-  public void run() {}
-  public <S, V> Map<S, S>[] isFoo(Map<S, S>[] p1, int p2) { return null; }
+// Generics: Generics.twoParams, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customInterface
+public interface TestClass58<T, U>  extends Cloneable {
+  <S, V> Runnable myMethod(Runnable p1, int p2);
+  public enum NestedEnum { V1 }
+
 }

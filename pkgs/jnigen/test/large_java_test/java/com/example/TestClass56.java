@@ -1,9 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.static_, MemberName: MemberName.any, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.string
-public interface TestClass56<T extends Number>  extends DiamondLeft, DiamondRight {
-  static <S> String myMethod(String p1, int p2) { return null; }
-  public static interface Nested {}
+// Generics: Generics.oneParam, Inheritance: Inheritance.extends_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.setFoo, NestedKind: NestedKind.record, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.object
+public final class TestClass56<T>  extends Object {
+  public void run() {}
+  public synchronized Object setFoo(Object p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
 
 }

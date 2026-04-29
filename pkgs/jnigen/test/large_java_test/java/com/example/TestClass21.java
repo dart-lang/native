@@ -1,11 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.setFoo, NestedKind: NestedKind.class_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.int_
-public enum TestClass21  implements Runnable {
-  VALUE1, VALUE2;
+// Generics: Generics.oneParam, Inheritance: Inheritance.diamond, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.setFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.set
+public final class TestClass21<T>  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public <S extends Number> int[] setFoo(int[] p1, int p2) { return null; }
-  public static class Nested {}
+  public Set<T> setFoo(Set<T> p1) { return null; }
+  public enum NestedEnum { V1 }
 
 }

@@ -1,9 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.extends_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.default_, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.set
-public interface TestClass14<T, U>  extends Runnable {
-  default Set<T> myMethod(Set<T> p1) { return null; }
-  public static record NestedRecord(int x) {}
-
+// Generics: Generics.oneParam, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.set
+public final class TestClass14<T>  implements Runnable {
+  public void run() {}
+  public <S, V> Set<S>[] setFoo(Set<S>[] p1, int p2) { return null; }
 }

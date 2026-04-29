@@ -10,9 +10,9 @@ enum TopLevelKind { class_, interface, enum_, record }
 
 enum Member { field, method, constructor, initializer }
 
-enum NestedKind { none, class_, interface, enum_, record }
+enum NestedKind { none, innerClass, staticClass, interface, enum_, record }
 
-enum TopLevelModifier { none, final_ }
+enum TopLevelModifier { none, final_, sealed }
 
 enum MemberModifier {
   none,
@@ -94,18 +94,17 @@ Future<void> main() async {
     },
     interactionGroups: [
       {TopLevelKind, Member},
-      {TopLevelKind, NestedKind},
-      {TopLevelKind, TopLevelModifier, Inheritance, Generics},
+      {TopLevelKind, NestedKind, TopLevelModifier, Inheritance, Generics},
       {TopLevelKind, Generics, MemberGenerics},
       {Member, MemberModifier, MemberName, MemberGenerics},
       {Member, ParamCount},
-      {Member, TypeKind},
       {TypeKind, IsArray},
       {Member, MemberGenerics, TypeKind},
     ],
     isValid: (tc) {
       final top = tc.get<TopLevelKind>();
       final member = tc.get<Member>();
+      final nested = tc.get<NestedKind>();
       final modifier = tc.get<TopLevelModifier>();
       final mod = tc.get<MemberModifier>();
       final name = tc.get<MemberName>();
@@ -146,7 +145,8 @@ Future<void> main() async {
             inheritance != Inheritance.implements_) {
           return false;
         }
-        if (modifier == TopLevelModifier.final_) {
+        if (modifier == TopLevelModifier.final_ ||
+            modifier == TopLevelModifier.sealed) {
           return false;
         }
       }
@@ -155,6 +155,30 @@ Future<void> main() async {
           return false;
         }
         if (generics != Generics.none) {
+          return false;
+        }
+      }
+
+      if (modifier == TopLevelModifier.sealed) {
+        if (mod == MemberModifier.abstract_) {
+          return false;
+        }
+        if (top == TopLevelKind.interface && member == Member.method) {
+          // Abstract methods in interface.
+          if (mod != MemberModifier.default_ && mod != MemberModifier.static_) {
+            return false;
+          }
+        }
+        if (member == Member.constructor && paramCount != ParamCount.zero) {
+          // Subclass must call super(...)
+          return false;
+        }
+        if (inheritance != Inheritance.none) {
+          // Runnable, List, etc require overrides.
+          return false;
+        }
+        if (memberGenerics != MemberGenerics.none) {
+          // Subclass might need to handle generic methods.
           return false;
         }
       }
@@ -171,6 +195,20 @@ Future<void> main() async {
 
       if (top == TopLevelKind.record) {
         if (member == Member.initializer || memberGenerics != MemberGenerics.none) {
+          return false;
+        }
+      }
+
+      // Nested types constraints
+      if (nested == NestedKind.innerClass) {
+        if (top == TopLevelKind.interface ||
+            top == TopLevelKind.enum_ ||
+            top == TopLevelKind.record) {
+          return false;
+        }
+      }
+      if (nested == NestedKind.staticClass) {
+        if (top != TopLevelKind.class_ && top != TopLevelKind.enum_) {
           return false;
         }
       }
@@ -226,7 +264,10 @@ Future<void> main() async {
       if (mod == MemberModifier.static_) {
         // If the type is forced to use the class scope 'T' (or is T itself),
         // and the class is generic, it's invalid in a static context.
-        final useMemberScope = memberGenerics != MemberGenerics.none;
+        final useMemberScope = memberGenerics != MemberGenerics.none &&
+            (type == TypeKind.memberTypeParam ||
+                memberGenerics == MemberGenerics.lowerBound ||
+                memberGenerics == MemberGenerics.wildcard);
 
         if (!useMemberScope) {
           if (type == TypeKind.typeParam || generics != Generics.none) {
@@ -254,6 +295,23 @@ Future<void> main() async {
           return false;
         }
       }
+
+      // Interfaces vs Static Fields
+      if (top == TopLevelKind.interface && member == Member.field) {
+        if (generics != Generics.none) {
+          const genericTypes = {
+            TypeKind.list,
+            TypeKind.set,
+            TypeKind.map,
+            TypeKind.customObject,
+            TypeKind.nestedCustom,
+          };
+          if (genericTypes.contains(type)) {
+            return false;
+          }
+        }
+      }
+
       if (type == TypeKind.memberTypeParam) {
         if (memberGenerics == MemberGenerics.none) {
           return false;
@@ -375,6 +433,7 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
       getJavaType(typeKind, isArray == IsArray.yes, generics, memberGenerics);
   final inheritanceStr = getInheritanceStr(inheritance, top);
   final genStr = getGenericsStr(generics);
+  final typeParamsStr = getTypeParamsStr(generics);
   final memberGenStr = getMemberGenericsStr(memberGenerics);
   final topModStr = getTopLevelModifierStr(modifier, mod);
   final kind = getTopLevelKindStr(top);
@@ -412,6 +471,11 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
 
   if (nested != NestedKind.none) {
     sb.writeln(getNestedStr(nested));
+  }
+
+  if (modifier == TopLevelModifier.sealed) {
+    final keyword = top == TopLevelKind.interface ? 'implements' : 'extends';
+    sb.writeln('  public static final class Sub$genStr $keyword $className$typeParamsStr {}');
   }
 
   sb.writeln('}');
@@ -465,6 +529,15 @@ String getGenericsStr(Generics generics) {
   };
 }
 
+String getTypeParamsStr(Generics generics) {
+  return switch (generics) {
+    Generics.none => '',
+    Generics.oneParam => '<T>',
+    Generics.twoParams => '<T, U>',
+    _ => '<T>',
+  };
+}
+
 String getMemberGenericsStr(MemberGenerics memberGenerics) {
   return switch (memberGenerics) {
     MemberGenerics.none => '',
@@ -480,6 +553,7 @@ String getTopLevelModifierStr(TopLevelModifier modifier, MemberModifier mod) {
   var s = switch (modifier) {
     TopLevelModifier.none => '',
     TopLevelModifier.final_ => 'final ',
+    TopLevelModifier.sealed => 'sealed ',
   };
   if (mod == MemberModifier.abstract_) {
     s += 'abstract ';
@@ -577,7 +651,7 @@ String getInitializerStr(MemberModifier mod) {
 
 String getNestedStr(NestedKind nested) {
   final nKind = switch (nested) {
-    NestedKind.class_ => 'class',
+    NestedKind.innerClass || NestedKind.staticClass => 'class',
     NestedKind.interface => 'interface',
     NestedKind.enum_ => 'enum',
     NestedKind.record => 'record',
@@ -589,7 +663,8 @@ String getNestedStr(NestedKind nested) {
   if (nested == NestedKind.enum_) {
     return '  public enum NestedEnum { V1 }\n';
   }
-  return '  public static $nKind Nested {}\n';
+  final staticStr = nested == NestedKind.innerClass ? '' : 'static ';
+  return '  public $staticStr$nKind Nested {}\n';
 }
 
 bool hasRunMethod(Inheritance inheritance) {

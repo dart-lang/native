@@ -12,8 +12,8 @@ import '../test_util/test_util.dart';
 void main() {
   test('Generated JNIgen bindings should pass dart analyze', () async {
     // 1. Generate Java code (gated by environment variable).
-    final regenerate =
-        Platform.environment['REGENERATE_LARGE_TEST_JAVA'] == 'true';
+    final regenerate = true;
+    // Platform.environment['REGENERATE_LARGE_TEST_JAVA'] == 'true';
     if (regenerate) {
       final genResult = await Process.run(
           'dart', ['test/large_java_test/generate_java.dart'],
