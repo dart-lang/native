@@ -18,8 +18,6 @@ functions:
 objc-interfaces:
   include:
     - StaticFuncTestObj
-ffi-native:
-  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'static_func_test.m'

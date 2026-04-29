@@ -120,6 +120,15 @@ int objectRetainCount(Pointer<ObjCObjectImpl> object) {
 bool isValidClass(Pointer<Void> clazz) =>
     internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);
 
+String findDylib(String name) {
+  final dylibName = Platform.isMacOS
+      ? '$name.dylib'
+      : Platform.isWindows
+          ? '$name.dll'
+          : 'lib$name.so';
+  return p.join(packagePathForTests, '.dart_tool', 'lib', dylibName);
+}
+
 // TODO(https://github.com/dart-lang/native/issues/3338): Remove these.
 @Native<Void Function()>(
   symbol: 'ffigen_load_objc_test',

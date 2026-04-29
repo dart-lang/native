@@ -8,8 +8,6 @@ globals:
     - globalString
     - globalObject
     - globalBlock
-ffi-native:
-  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'global_test.h'
