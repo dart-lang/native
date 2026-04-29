@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'scope.dart';
 
@@ -132,6 +133,9 @@ abstract class Type extends AstNode {
   /// that default values aren't supported for this type, eg void.
   String? getDefaultValue(Context context) => null;
 
+  /// Returns the availability of this type and all its nested types.
+  ApiAvailability get computeAvailability => ApiAvailability.alwaysAvailable;
+
   @override
   void visit(Visitation visitation) => visitation.visitType(this);
 
@@ -241,6 +245,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   bool get isObjCImport => false;
+
+  @override
+  ApiAvailability get computeAvailability => ApiAvailability.alwaysAvailable;
 
   @override
   void visit(Visitation visitation) => visitation.visitBindingType(this);
