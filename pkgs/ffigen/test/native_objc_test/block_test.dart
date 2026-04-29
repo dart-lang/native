@@ -52,6 +52,7 @@ void main() {
   group('Blocks', () {
     setUpAll(() {
       loadLibrary();
+      BlockTester.setup(NativeApi.initializeApiDLData);
     });
 
     test('BlockTester is working', () {
@@ -966,6 +967,8 @@ void main() {
 
       final isolate = Isolate.spawn(
         (sendPort) {
+          loadLibrary();
+          BlockTester.setup(NativeApi.initializeApiDLData);
           final blkKeepAlive = VoidBlock.fromFunction(
             () {},
             keepIsolateAlive: true,
@@ -1036,6 +1039,8 @@ void main() {
 
       final isolate = Isolate.spawn(
         (sendPort) {
+          loadLibrary();
+          BlockTester.setup(NativeApi.initializeApiDLData);
           final blkKeepAlive = VoidBlock.listener(
             () {},
             keepIsolateAlive: true,
@@ -1106,6 +1111,8 @@ void main() {
 
       final isolate = Isolate.spawn(
         (sendPort) {
+          loadLibrary();
+          BlockTester.setup(NativeApi.initializeApiDLData);
           final blkKeepAlive = VoidBlock.blocking(
             () {},
             keepIsolateAlive: true,
@@ -1157,6 +1164,8 @@ void main() {
       // Regression test for https://github.com/dart-lang/native/issues/1967
       // Run the test on a new isolate so we can safely claim ownership of it.
       final value = await Isolate.run(() {
+        loadLibrary();
+        BlockTester.setup(NativeApi.initializeApiDLData);
         setCurrentThreadOwnsIsolate();
 
         var innerValue = 0;

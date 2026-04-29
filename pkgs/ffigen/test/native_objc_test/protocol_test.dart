@@ -10,13 +10,13 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:objective_c/objective_c.dart' hide ObjCProtocolImpl;
+import 'package:objective_c/objective_c.dart' hide ObjCProtocolImpl, getClass;
 import 'package:objective_c/src/internal.dart' show getProtocol;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'protocol_test_bindings.dart' hide getClass;
+import 'protocol_test_bindings.dart';
 import 'util.dart';
 
 typedef InstanceMethodBlock = ObjCBlock_NSString_ffiVoid_NSString_ffiDouble;
@@ -541,6 +541,7 @@ void main() {
 
       final isolate = Isolate.spawn(
         (sendPort) {
+          loadLibrary();
           final protoKeepAlive = ObjCProtocolBuilder().build(
             keepIsolateAlive: true,
           );

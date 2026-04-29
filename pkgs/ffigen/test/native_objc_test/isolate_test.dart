@@ -25,6 +25,7 @@ void main() {
 
     // Runs on other isolate (can't use expect function).
     void sendingObjectTest(SendPort sendPort) async {
+      loadLibrary();
       final port = ReceivePort();
       final queue = StreamQueue(port);
       sendPort.send(port.sendPort);
@@ -72,6 +73,7 @@ void main() {
       sendable.value = 123;
 
       final oldValue = await Isolate.run(() {
+        loadLibrary();
         final oldValue = sendable!.value;
         sendable!.value = 456;
         return oldValue;
@@ -90,6 +92,7 @@ void main() {
 
     // Runs on other isolate (can't use expect function).
     void sendingBlockTest(SendPort sendPort) async {
+      loadLibrary();
       final port = ReceivePort();
       final queue = StreamQueue(port);
       sendPort.send(port.sendPort);
@@ -145,6 +148,7 @@ void main() {
       ObjCBlock<Void Function(Int32)>? block = makeBlock(completer);
 
       await Isolate.run(() {
+        loadLibrary();
         block!(123);
       });
       final value = await completer.future;
@@ -166,6 +170,7 @@ void main() {
       expect(sendable.ref.isReleased, isFalse);
 
       final (oldIsReleased, newIsReleased) = await Isolate.run(() {
+        loadLibrary();
         final oldIsReleased = sendable.ref.isReleased;
         sendable!.ref.release();
         return (oldIsReleased, sendable.ref.isReleased);
@@ -186,6 +191,7 @@ void main() {
       expect(sendable.ref.isReleased, isFalse);
 
       await Isolate.run(() {
+        loadLibrary();
         sendable!.ref.release();
       });
 
