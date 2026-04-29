@@ -33,10 +33,10 @@ void main(List<String> args) async {
     await CBuilder.library(
       name: 'native_test',
       assetName: 'native_test',
-      sources: ['test/native_test/native_test.c'],
-      flags: [
+      sources: [
+        'test/native_test/native_test.c',
         if (input.config.code.targetOS == OS.windows)
-          '-Wl,/DEF:${input.packageRoot.resolve('test/native_test/native_test.def').toFilePath()}',
+          'test/native_test/native_test.def',
       ],
     ).run(input: input, output: output, logger: logger);
 
