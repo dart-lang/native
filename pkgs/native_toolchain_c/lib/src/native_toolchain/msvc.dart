@@ -38,7 +38,12 @@ final Tool vswhere = Tool(
   ),
 );
 
-/// Visual Studio.
+/// A Visual Studio installation that ships the MSVC tools for x86/x64.
+///
+/// Resolved via [vswhere] requiring
+/// `Microsoft.VisualStudio.Component.VC.Tools.x86.x64`, which filters out
+/// installs that lack the C++ toolchain (e.g. SSMS) even when their
+/// `installationVersion` would otherwise win `vswhere -latest`.
 ///
 /// https://visualstudio.microsoft.com/
 final Tool visualStudio = Tool(
@@ -46,13 +51,44 @@ final Tool visualStudio = Tool(
   defaultResolver: VisualStudioResolver(),
 );
 
-/// The C/C++ Optimizing Compiler.
+/// A Visual Studio installation that ships the MSVC tools for arm64.
+///
+/// Resolved via [vswhere] requiring
+/// `Microsoft.VisualStudio.Component.VC.Tools.arm64`. May resolve a
+/// different installation than [visualStudio] when not every VS instance on
+/// the machine has the arm64 cross toolchain installed.
+///
+/// https://visualstudio.microsoft.com/
+final Tool visualStudioArm64 = Tool(
+  name: 'Visual Studio',
+  defaultResolver: VisualStudioResolverArm64(),
+);
+
+/// The C/C++ Optimizing Compiler installation for targeting x86/x64.
+///
+/// Resolved relative to [visualStudio].
 final Tool msvc = Tool(
   name: 'MSVC',
   defaultResolver: PathVersionResolver(
     wrappedResolver: RelativeToolResolver(
       toolName: 'MSVC',
       wrappedResolver: visualStudio.defaultResolver!,
+      relativePath: Uri(path: './VC/Tools/MSVC/*/'),
+    ),
+  ),
+);
+
+/// The C/C++ Optimizing Compiler installation for targeting arm64.
+///
+/// Resolved relative to [visualStudioArm64], which may point at a different
+/// VS installation than [msvc] when only some installs have the arm64
+/// cross toolchain.
+final Tool msvcArm64 = Tool(
+  name: 'MSVC',
+  defaultResolver: PathVersionResolver(
+    wrappedResolver: RelativeToolResolver(
+      toolName: 'MSVC',
+      wrappedResolver: visualStudioArm64.defaultResolver!,
       relativePath: Uri(path: './VC/Tools/MSVC/*/'),
     ),
   ),
@@ -241,7 +277,10 @@ Tool _msvcTool({
   final targetArchName = _msvcArchNames[targetArchitecture]!;
   ToolResolver resolver = RelativeToolResolver(
     toolName: executableName,
-    wrappedResolver: msvc.defaultResolver!,
+    wrappedResolver: switch (targetArchitecture) {
+      .arm64 => msvcArm64.defaultResolver!,
+      _ => msvc.defaultResolver!,
+    },
     relativePath: Uri(
       path: 'bin/Host$hostArchName/$targetArchName/$executableName',
     ),
@@ -256,9 +295,34 @@ Tool _msvcTool({
   return Tool(name: executableName, defaultResolver: resolver);
 }
 
+/// Resolves Visual Studio installations that ship the arm64 MSVC tools.
+///
+/// Same as [VisualStudioResolver] but requires the
+/// `Microsoft.VisualStudio.Component.VC.Tools.arm64` component. On machines
+/// with multiple VS installations these resolvers may pick different
+/// installs.
+class VisualStudioResolverArm64 extends VisualStudioResolver {
+  @override
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async =>
+      resolveArch(context, 'arm64');
+}
+
+/// Resolves Visual Studio installations that ship the x86/x64 MSVC tools.
+///
+/// Runs [vswhere] with `-latest -requires
+/// Microsoft.VisualStudio.Component.VC.Tools.x86.x64`. The `-requires`
+/// filter is necessary because tools like SSMS share the VS installer and
+/// can outrank Visual Studio under `-latest` when sorted by version alone
+/// (see https://github.com/dart-lang/native/issues/3327).
 class VisualStudioResolver implements ToolResolver {
   @override
-  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async =>
+      resolveArch(context, 'x86.x64');
+
+  Future<List<ToolInstance>> resolveArch(
+    ToolResolvingContext context,
+    String pkgArchSuffix,
+  ) async {
     final vswhereInstances = await vswhere.defaultResolver!.resolve(context);
     final logger = context.logger;
 
@@ -266,7 +330,7 @@ class VisualStudioResolver implements ToolResolver {
     for (final vswhereInstance in vswhereInstances.take(1)) {
       final vswhereResult = await runProcess(
         executable: vswhereInstance.uri,
-        arguments: const [
+        arguments: [
           '-format',
           'json',
           '-utf8',
@@ -274,12 +338,31 @@ class VisualStudioResolver implements ToolResolver {
           '-products',
           '*',
           '-requires',
-          'Microsoft.VisualStudio.Component.VC.Tools.x86.x64',
+          'Microsoft.VisualStudio.Component.VC.Tools.$pkgArchSuffix',
         ],
         logger: logger,
       );
       final instances = parseVswhere(vswhereResult.stdout, logger);
       result.addAll(instances);
+    }
+    if (result.isEmpty) {
+      logger?.warning(
+        'No Visual Studio installation found with the requested '
+        'Microsoft.VisualStudio.Component.VC.Tools.$pkgArchSuffix component.',
+      );
+      logger?.info('You can install the missing package via');
+      for (final vsWhere in vswhereInstances) {
+        final vsInstallerUri = vsWhere.uri
+            .resolve('../vs_installer.exe')
+            .toFilePath();
+        logger?.warning( // highlight command for user
+          '`  $vsInstallerUri install --add ',
+          'Microsoft.VisualStudio.Component.VC.Tools.x86.x64`',
+        ); 
+        if (vswhereInstances.length > 1 && vswhereInstances.last != vsWhere) {
+          logger?.info('or');
+        }
+      }
     }
     return result;
   }
