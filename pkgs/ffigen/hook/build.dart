@@ -11,6 +11,9 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:path/path.dart' as p;
 
+// All ObjC source files are compiled with ARC enabled except these.
+const arcDisabledFiles = <String>{'ref_count_test.m'};
+
 final logger = Logger('')
   ..level = Level.INFO
   ..onRecord.listen((record) {
@@ -29,7 +32,7 @@ void main(List<String> args) async {
 
     final packageName = input.packageName;
 
-    // 1. Build native_test
+    // Build native_test.c. This is an ordinary build, so we can use CBuilder.
     await CBuilder.library(
       name: 'native_test',
       assetName: 'native_test',
@@ -46,76 +49,62 @@ void main(List<String> args) async {
         input.packageRoot.toFilePath(),
       );
 
-      // 2. Build Swift test
-      final swiftFile = 'test/native_objc_test/swift_class_test.swift';
-      final swiftHeader = 'test/native_objc_test/swift_class_test-Swift.h';
-      final swiftLib = input.outputDirectory.resolve('swift_class_test.dylib');
+      // Build swift_class_test.swift. There's no swift compilation package, so
+      // we have to use a custom Builder.
+      final objcTestDir = input.packageRoot.resolve('test/native_objc_test/');
+      const swiftModule = 'swift_class_test';
+      final swiftFile = objcTestDir.resolve('swift_class_test.swift');
+      final swiftHeader = objcTestDir.resolve('swift_class_test-Swift.h');
+      final swiftLib = input.outputDirectory.resolve('$swiftModule.dylib');
 
-      await builder.buildSwift(
-        input.packageRoot.resolve(swiftFile).toFilePath(),
-        input.packageRoot.resolve(swiftHeader).toFilePath(),
-        swiftLib.toFilePath(),
-      );
+      await builder.buildSwift(swiftFile, swiftModule, swiftHeader, swiftLib);
       output.assets.code.add(
         CodeAsset(
           package: packageName,
-          name: 'swift_class_test',
+          name: swiftModule,
           file: swiftLib,
           linkMode: DynamicLoadingBundled(),
         ),
       );
 
-      // 3. Build objc_test
-      final testNames = _getTestNames(
-        input.packageRoot.resolve('test/native_objc_test/'),
-      );
-      final mFiles = <String>[];
-      for (final name in testNames) {
-        final mFile = 'test/native_objc_test/${name}_test.m';
-        if (File.fromUri(input.packageRoot.resolve(mFile)).existsSync()) {
-          mFiles.add(mFile);
-        }
-        final bindingMFile = 'test/native_objc_test/${name}_test_bindings.m';
-        if (File.fromUri(
-          input.packageRoot.resolve(bindingMFile),
-        ).existsSync()) {
-          mFiles.add(bindingMFile);
-        }
-      }
+      // Build all the ObjC files. Some of the files have different compile
+      // flags, so we need to use the custom Builder again.
+      final mFiles = _findFiles(objcTestDir, '.m');
+      final hFiles = _findFiles(objcTestDir, '.h');
 
       final objFiles = <String>[];
       for (final mFile in mFiles) {
-        final useArc = !mFile.endsWith('ref_count_test.m');
+        final useArc = !arcDisabledFiles.contains(mFile.pathSegments.last);
         objFiles.add(
-          await builder
-              .buildObject(input.packageRoot.resolve(mFile).toFilePath(), [
-                '-x',
-                'objective-c',
-                if (useArc) '-fobjc-arc',
-                '-Wno-nullability-completeness',
-              ]),
+          await builder.buildObject(mFile, [
+            '-x',
+            'objective-c',
+            if (useArc) '-fobjc-arc',
+            '-Wno-nullability-completeness',
+          ]),
         );
       }
 
-      // Add dart_api_dl.c from objective_c package
-      final objectiveCRoot = input.packageRoot.resolve('../objective_c/');
-      objFiles.add(
-        await builder.buildObject(
-          objectiveCRoot.resolve('src/include/dart_api_dl.c').toFilePath(),
-          [],
-        ),
+      // Add dart_api_dl.c from objective_c package.
+      final dartApiDl = input.packageRoot.resolve(
+        '../objective_c/src/include/dart_api_dl.c',
       );
+      objFiles.add(await builder.buildObject(dartApiDl, []));
 
-      final objcLib = input.outputDirectory.resolve('objc_test.dylib');
-      await builder.linkLib(objFiles, objcLib.toFilePath(), [
-        '-framework',
-        'Foundation',
-      ]);
+      const objcAsset = 'objc_test';
+      final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
+      await builder.linkLib(objFiles, objcLib, ['-framework', 'Foundation']);
+
+      output.dependencies
+        ..addAll(mFiles)
+        ..addAll(hFiles)
+        ..add(swiftFile)
+        ..add(dartApiDl);
 
       output.assets.code.add(
         CodeAsset(
           package: packageName,
-          name: 'objc_test',
+          name: objcAsset,
           file: objcLib,
           linkMode: DynamicLoadingBundled(),
         ),
@@ -124,20 +113,12 @@ void main(List<String> args) async {
   });
 }
 
-List<String> _getTestNames(Uri dir) {
-  const configSuffix = '_config.yaml';
-  final names = <String>[];
-  final directory = Directory.fromUri(dir);
-  if (directory.existsSync()) {
-    for (final entity in directory.listSync()) {
-      final filename = entity.uri.pathSegments.last;
-      if (filename.endsWith(configSuffix)) {
-        names.add(filename.substring(0, filename.length - configSuffix.length));
-      }
-    }
-  }
-  return names;
-}
+List<Uri> _findFiles(Uri dir, String suffix) => Directory.fromUri(dir)
+    .listSync()
+    .whereType<File>()
+    .map((f) => f.uri)
+    .where((uri) => uri.pathSegments.last.endsWith(suffix))
+    .toList();
 
 class Builder {
   final String _comp;
@@ -157,56 +138,52 @@ class Builder {
     );
   }
 
-  Future<String> buildObject(String input, List<String> flags) async {
-    final relativeInput = p.relative(input, from: _rootDir);
+  Future<String> buildObject(Uri input, List<String> flags) async {
+    assert(input.toFilePath().startsWith(_rootDir));
+    final relativeInput = p.relative(input.toFilePath(), from: _rootDir);
     final output = '${_tempOutDir.resolve(relativeInput).toFilePath()}.o';
     File(output).parent.createSync(recursive: true);
-    await _compile([
+    await _runClang([
       ...flags,
       '-c',
-      input,
+      input.toFilePath(),
       '-fpic',
       '-gline-tables-only',
     ], output);
     return output;
   }
 
-  Future<void> linkLib(
-    List<String> objects,
-    String output,
-    List<String> flags,
-  ) => _compile(['-shared', ...flags, ...objects], output);
+  Future<void> linkLib(List<String> objects, Uri output, List<String> flags) =>
+      _runClang(['-shared', ...flags, ...objects], output.toFilePath());
+
+  Future<void> _runClang(List<String> flags, String output) =>
+      _run(_comp, [...flags, '-o', output]);
 
   Future<void> buildSwift(
-    String input,
-    String outputHeader,
-    String outputLib, {
-    List<String> extraObjects = const [],
-  }) async {
+    Uri input,
+    String moduleName,
+    Uri outputHeader,
+    Uri outputLib,
+  ) async {
     final args = [
+      '-c',
+      input.toFilePath(),
       '-module-name',
-      'swift_class_test',
+      moduleName,
       '-emit-library',
-      input,
-      ...extraObjects,
       '-emit-objc-header-path',
-      outputHeader,
+      outputHeader.toFilePath(),
       '-o',
-      outputLib,
+      outputLib.toFilePath(),
     ];
-    final process = await Process.start('swiftc', args);
-    final exitCode = await process.exitCode;
-    if (exitCode != 0) {
-      throw Exception('swiftc failed: $exitCode');
-    }
+    await _run('swiftc', args);
   }
 
-  Future<void> _compile(List<String> flags, String output) async {
-    final args = [...flags, '-o', output];
-    final proc = await Process.run(_comp, args);
+  Future<void> _run(String cmd, List<String> args) async {
+    final proc = await Process.run(cmd, args);
     if (proc.exitCode != 0) {
       throw Exception(
-        'Command failed: $_comp ${args.join(" ")}\n'
+        'Command failed: $cmd ${args.join(" ")}\n'
         '${proc.stdout}\n${proc.stderr}',
       );
     }

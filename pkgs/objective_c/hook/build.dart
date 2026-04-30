@@ -55,9 +55,7 @@ void main(List<String> args) async {
       }
     }
 
-    final includeTestUtils =
-        input.userDefines['include_test_utils'] as bool? ?? false;
-    if (includeTestUtils) {
+    if (input.userDefines['include_test_utils'] == true) {
       cFiles.add(input.packageRoot.resolve('test/util.c').toFilePath());
     }
 
