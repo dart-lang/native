@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.abstract_, MemberName: MemberName.getFoo, NestedKind: NestedKind.record, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.void_
-public abstract class TestClass254<T extends Number>  implements DiamondLeft, DiamondRight {
+// Generics: Generics.oneParam, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.double_
+public final class TestClass254<T>  implements Runnable {
   public void run() {}
-  public abstract <S, V> void getFoo();
-  public static record NestedRecord(int x) {}
+  public TestClass254(double p1) {}
+  public static class Nested {}
 
 }

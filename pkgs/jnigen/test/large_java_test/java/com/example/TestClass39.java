@@ -1,11 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.isFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.map
-public enum TestClass39  implements Runnable {
-  VALUE1, VALUE2;
+// Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.setFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.set
+public class TestClass39<T, U>  implements DagA, DagD, DagE {
   public void run() {}
-  public <S, V> Map<S, S>[] isFoo(Map<S, S>[] p1, int p2) { return null; }
+  public synchronized Set<T>[] setFoo(Set<T>[] p1) { return null; }
   public static interface Nested {}
 
 }

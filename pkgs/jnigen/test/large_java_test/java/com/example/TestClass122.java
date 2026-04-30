@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.setFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customObject
-public class TestClass122<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public ArrayList<T> setFoo(ArrayList<T> p1, int p2) { return null; }
+// Generics: Generics.upperBound, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.getFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.sealed, TypeKind: TypeKind.customEnum
+public sealed interface TestClass122<T extends Number>  {
+  static java.lang.Thread.State getFoo() { return java.lang.Thread.State.NEW; }
   public enum NestedEnum { V1 }
 
+  public static final class Sub<T extends Number> implements TestClass122<T> {}
 }

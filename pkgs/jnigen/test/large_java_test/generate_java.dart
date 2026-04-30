@@ -54,6 +54,8 @@ enum MemberGenerics {
 
 enum TypeKind {
   void_,
+  boolean_,
+  char_,
   int_,
   long_,
   short_,
@@ -695,6 +697,8 @@ String getJavaType(
 
   var t = switch (kind) {
     TypeKind.void_ => 'void',
+    TypeKind.boolean_ => 'boolean',
+    TypeKind.char_ => 'char',
     TypeKind.int_ => 'int',
     TypeKind.long_ => 'long',
     TypeKind.short_ => 'short',

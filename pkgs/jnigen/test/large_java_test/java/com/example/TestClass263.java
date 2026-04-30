@@ -1,10 +1,11 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.map
-public final class TestClass263<T extends Number>  implements DiamondLeft, DiamondRight {
+// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customRecord
+public enum TestClass263  implements Runnable {
+  VALUE1, VALUE2;
   public void run() {}
-  public <S> TestClass263(Map<S, S>[] p1, int p2) {}
-  public static interface Nested {}
+  public static CoreRecord myField;
+  public static class Nested {}
 
 }

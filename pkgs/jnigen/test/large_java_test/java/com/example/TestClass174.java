@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.native, MemberName: MemberName.isFoo, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.sealed, TypeKind: TypeKind.typeParam
-public sealed class TestClass174<T extends Number>  {
-  public native T[] isFoo(T[] p1);
-  public class Nested {}
+// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.record, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customEnum
+public final class TestClass174<T extends Number>  implements Runnable, Cloneable {
+  public void run() {}
+  public <S> java.lang.Thread.State[] setFoo(java.lang.Thread.State[] p1, int p2) throws Exception { return null; }
+  public static record NestedRecord(int x) {}
 
-  public static final class Sub<T extends Number> extends TestClass174<T> {}
 }

@@ -1,11 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.getFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.nestedCustom
-public enum TestClass211  implements Runnable {
-  VALUE1, VALUE2;
+// Generics: Generics.upperBound, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.set
+public final class TestClass211<T extends Number>  implements DagA, DagD, DagE {
   public void run() {}
-  public <S extends Number> Map.Entry<S, S> getFoo(Map.Entry<S, S> p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+  public <S extends Number> Set<S> setFoo() throws Exception { return null; }
+  public class Nested {}
 
 }

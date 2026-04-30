@@ -11,18 +11,20 @@ import '../test_util/test_util.dart';
 
 void main() {
   test('Generated JNIgen bindings should pass dart analyze', () async {
-    // 1. Generate Java code (gated by environment variable).
-    final regenerate = true;
-    // Platform.environment['REGENERATE_LARGE_TEST_JAVA'] == 'true';
-    if (regenerate) {
+    final update = Platform.environment['UPDATE'] == 'true';
+
+    // 1. Generate Java code.
+    if (update) {
       final genResult = await Process.run(
           'dart', ['test/large_java_test/generate_java.dart'],
           workingDirectory: pkgDir);
       expect(genResult.exitCode, 0,
-          reason: 'Java generation failed: ${genResult.stderr}');
+          reason: 'Java generation failed:\n'
+              'STDOUT: ${genResult.stdout}\n'
+              'STDERR: ${genResult.stderr}');
     } else {
-      print('Skipping Java code gen. Set REGENERATE_LARGE_TEST_JAVA=true to '
-        'regenerate the .java files.');
+      print('Skipping Java code gen. Set UPDATE=true to '
+          'regenerate the .java files.');
     }
 
     // 2. Compile Java code.
@@ -33,17 +35,27 @@ void main() {
         .where((f) => f.path.endsWith('.java'))
         .map((f) => p.relative(f.path, from: pkgDir))
         .toList();
+    if (javaFiles.isEmpty) {
+      fail('No Java files found. Run with UPDATE=true first.');
+    }
+
     final javacResult = await Process.run('javac', [...javaFiles],
         workingDirectory: pkgDir);
     expect(javacResult.exitCode, 0,
-        reason: 'Java compilation failed: ${javacResult.stderr}');
+        reason: 'Java compilation failed:\n'
+            'STDOUT: ${javacResult.stdout}\n'
+            'STDERR: ${javacResult.stderr}');
 
     // 3. Run JNIgen.
-    final jnigenResult = await Process.run(
-        'dart', ['test/large_java_test/generate_bindings.dart'],
-        workingDirectory: pkgDir);
-    expect(jnigenResult.exitCode, 0,
-        reason: 'JNIgen failed: ${jnigenResult.stderr}');
+    if (update) {
+      final jnigenResult = await Process.run(
+          'dart', ['test/large_java_test/generate_bindings.dart'],
+          workingDirectory: pkgDir);
+      expect(jnigenResult.exitCode, 0,
+          reason: 'JNIgen failed:\n'
+              'STDOUT: ${jnigenResult.stdout}\n'
+              'STDERR: ${jnigenResult.stderr}');
+    }
 
     // 4. Run dart analyze.
     final analyzeResult = await Process.run(
@@ -51,6 +63,7 @@ void main() {
         workingDirectory: pkgDir);
     expect(analyzeResult.exitCode, 0,
         reason: 'Dart analysis failed:\n'
-            '${analyzeResult.stdout}\n${analyzeResult.stderr}');
-  });
+            'STDOUT: ${analyzeResult.stdout}\n'
+            'STDERR: ${analyzeResult.stderr}');
+  }, timeout: const Timeout(Duration(minutes: 5)));
 }
