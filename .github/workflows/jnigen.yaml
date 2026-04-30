@@ -56,6 +56,7 @@ jobs:
       - uses: ./.github/actions/java-format-check
         with:
           working-directory: ./pkgs/jnigen
+          exclude-path: './pkgs/jnigen/test/large_java_test/java/*'
       - id: install
         name: pub get
         run: dart pub get
