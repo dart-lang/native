@@ -6,6 +6,12 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:test_case_selector/test_case_selector.dart';
 
+const _copyrightHeader = '''
+// Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+''';
+
 enum TopLevelKind { class_, interface, enum_, record }
 
 enum Member { field, method, constructor, initializer }
@@ -366,10 +372,11 @@ Future<void> main() async {
     final tc = testCases[i];
     final className = 'TestClass$i';
     final sb = StringBuffer();
+    sb.writeln(_copyrightHeader);
     sb.writeln('package com.example;');
     sb.writeln('import java.util.*;');
     sb.writeln();
-    sb.writeln('// $tc');
+    sb.writeln('// ${tc.toString().split(', ').join('\n// ')}');
     generateTestCase(sb, className, tc);
 
     final file = File(p.join(outputDir.path, '$className.java'));
@@ -462,6 +469,7 @@ public class NestedCustom<T, U> {
   for (final entry in coreClasses.entries) {
     final file = File('${outputDir.path}/${entry.key}.java');
     file.writeAsStringSync('''
+$_copyrightHeader
 package com.example;
 
 ${entry.value.trim()}
