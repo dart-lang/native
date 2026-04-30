@@ -19,6 +19,15 @@ void main() {
       expect(toObjCObject(null), NSNull.null$());
       expect(toNullableDartObject(NSNull.null$()), null);
 
+      expect(toObjCObject(false), isA<NSNumber>());
+      expect((toObjCObject(false) as NSNumber).boolValue, isFalse);
+
+      expect(toObjCObject(true), isA<NSNumber>());
+      expect((toObjCObject(true) as NSNumber).boolValue, isTrue);
+
+      expect(toDartObject(toObjCObject(false)), isFalse);
+      expect(toDartObject(toObjCObject(true)), isTrue);
+
       expect(toObjCObject(123), isA<NSNumber>());
       expect((toObjCObject(123) as NSNumber).longLongValue, 123);
       expect(toDartObject(toObjCObject(123)), isA<int>());
