@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.any
+// MemberType: MemberType.object
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.float_
-public final class TestClass13<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass13<T extends Number>  extends Object {
   public void run() {}
-  public final <S extends Number> float[] isFoo() { return null; }
-  public static class Nested {}
+  public static <S extends Number> Object[] myMethod(Object[] p1) { return null; }
+  public class Nested {}
 
 }

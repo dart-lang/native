@@ -5,19 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
-// Member: Member.initializer
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.any
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.map
-public sealed class TestClass264<T>  {
-  { }
-  public static final class Sub<T> extends TestClass264<T> {}
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass264<T extends Number>  implements DagA, DagD, DagE {
+  public void run() {}
+  public native <S extends Number> CustomRecord<S>[] myMethod(CustomRecord<S>[] p1);
+  public enum NestedEnum { V1 }
+
 }

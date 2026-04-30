@@ -9,15 +9,17 @@ import java.util.*;
 // Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.set
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.nestedCustom
 public final class TestClass239<T extends Number>  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public <S extends Number> NestedCustom<S, S>.Nested<S>[] getFoo() { return null; }
+  public <S, V> Set<S>[] setFoo(Set<S>[] p1) { return null; }
+  public static record NestedRecord(int x) {}
+
 }

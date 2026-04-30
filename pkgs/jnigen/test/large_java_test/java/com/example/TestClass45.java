@@ -10,14 +10,16 @@ import java.util.*;
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.typeParam
 public final class TestClass45<T extends Number>  implements Runnable, Cloneable {
   public void run() {}
-  public native <S> T getFoo(T p1);
+  public final <S> CustomRecord<S> setFoo(CustomRecord<S> p1, int p2) { return null; }
+  public static interface Nested {}
+
 }

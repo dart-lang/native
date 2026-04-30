@@ -9,16 +9,16 @@ import java.util.*;
 // Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.throws
 // MemberName: MemberName.getFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
 public interface TestClass90<T>  extends List<String> {
-  <S> CustomInterface<S> getFoo(CustomInterface<S> p1) throws Exception;
-  public static interface Nested {}
+  <S extends Number> int getFoo(int p1, int p2) throws Exception;
+  public enum NestedEnum { V1 }
 
 }

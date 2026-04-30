@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.map
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customEnum
-public final class TestClass179<T, U>  implements DagA, DagD, DagE {
-  public void run() {}
-  public synchronized <S, V> CustomEnum myMethod() { return null; }
-  public static record NestedRecord(int x) {}
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass179<T, U>  {
+  public final Map<T, T> isFoo(Map<T, T> p1, int p2) { return null; }
+  public static class Nested {}
 
+  public static final class Sub<T, U> extends TestClass179<T, U> {}
 }

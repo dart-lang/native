@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
-// Member: Member.field
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.customInterface
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.object
-public final class TestClass260<T extends Number>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass260<T extends Number>  implements DagA, DagD, DagE {
   public void run() {}
-  public volatile Object[] myField;
-  public static record NestedRecord(int x) {}
+  public CustomInterface<T> isFoo(CustomInterface<T> p1) { return null; }
+  public enum NestedEnum { V1 }
 
 }

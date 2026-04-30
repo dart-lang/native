@@ -6,19 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.default_
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.string
-public interface TestClass212<T extends Number>  extends DagA, DagD, DagE {
-  static String isFoo(String p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
+public interface TestClass212<T extends Number>  extends Runnable, Cloneable {
+  default <S> byte isFoo() { return 0; }
+  public enum NestedEnum { V1 }
 
 }

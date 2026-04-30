@@ -6,18 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
-// Member: Member.initializer
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.yes
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.none
+// MemberType: MemberType.set
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass249<T extends Number>  extends ArrayList {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass249<T extends Number>  implements DiamondLeft, DiamondRight {
   public void run() {}
-  static { }
+  public <S extends Number> TestClass249() {}
+  public enum NestedEnum { V1 }
+
 }

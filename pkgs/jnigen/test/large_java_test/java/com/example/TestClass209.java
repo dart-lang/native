@@ -6,19 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public abstract interface TestClass209<T extends Number>  extends Runnable {
-  <S> CustomEnum isFoo(CustomEnum p1, int p2);
-  public enum NestedEnum { V1 }
+public class TestClass209<T extends Number>  extends ArrayList {
+  public void run() {}
+  public native <S extends Number> CustomEnum setFoo();
+  public static class Nested {}
 
 }

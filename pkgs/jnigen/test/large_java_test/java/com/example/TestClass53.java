@@ -5,21 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
+// Generics: Generics.none
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.interface
+// MemberType: MemberType.object
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public class TestClass53<T, U>  implements Runnable {
+public class TestClass53  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public native <S, V> CustomInterface<S> isFoo();
-  public static interface Nested {}
+  public final <S> Object isFoo() { return null; }
+  public static record NestedRecord(int x) {}
 
 }

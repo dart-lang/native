@@ -6,18 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.int_
-public final class TestClass196<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public int[] setFoo(int[] p1, int p2) throws Exception { return null; }
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass196<T, U>  extends List {
+  default <S extends Number> long[] isFoo(long[] p1) { return null; }
+  public static interface Nested {}
+
 }

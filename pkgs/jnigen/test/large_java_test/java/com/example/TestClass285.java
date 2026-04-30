@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.none
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// MemberType: MemberType.string
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass285  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass285  implements Runnable, Cloneable {
   public void run() {}
-  public TestClass285(byte p1, int p2) {}
-  public static record NestedRecord(int x) {}
+  public <S> TestClass285(String[] p1) {}
+  public enum NestedEnum { V1 }
 
 }

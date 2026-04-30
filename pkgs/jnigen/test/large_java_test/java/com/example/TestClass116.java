@@ -6,19 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.getFoo
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass116<T, U>  {
-  public native <S extends Number> NestedCustom<S, S>.Nested<S>[] setFoo(NestedCustom<S, S>.Nested<S>[] p1);
-  public class Nested {}
+public interface TestClass116<T, U>  extends DiamondLeft, DiamondRight {
+  default <S extends Number> CustomRecord<S> getFoo(CustomRecord<S> p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
 
 }

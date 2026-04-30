@@ -5,18 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
-// Member: Member.initializer
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
+// MemberType: MemberType.memberTypeParam
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public class TestClass282<T, U>  {
-  static { }
+public class TestClass282<T extends Number>  implements DiamondLeft, DiamondRight {
+  public void run() {}
+  public <S> TestClass282(S[] p1, int p2) {}
 }

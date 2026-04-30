@@ -59,7 +59,7 @@ enum MemberGenerics {
   wildcard
 }
 
-enum TypeKind {
+enum MemberType {
   void_,
   boolean_,
   char_,
@@ -98,7 +98,7 @@ Future<void> main() async {
       Inheritance: Inheritance.values,
       Generics: Generics.values,
       MemberGenerics: MemberGenerics.values,
-      TypeKind: TypeKind.values,
+      MemberType: MemberType.values,
       IsArray: IsArray.values,
     },
     interactionGroups: [
@@ -107,8 +107,8 @@ Future<void> main() async {
       {TopLevelKind, Generics, MemberGenerics},
       {Member, MemberModifier, MemberName, MemberGenerics},
       {Member, ParamCount},
-      {TypeKind, IsArray},
-      {Member, MemberGenerics, TypeKind},
+      {MemberType, IsArray},
+      {Member, MemberGenerics, MemberType},
     ],
     isValid: (tc) {
       final top = tc.get<TopLevelKind>();
@@ -120,12 +120,12 @@ Future<void> main() async {
       final inheritance = tc.get<Inheritance>();
       final generics = tc.get<Generics>();
       final memberGenerics = tc.get<MemberGenerics>();
-      final type = tc.get<TypeKind>();
+      final type = tc.get<MemberType>();
       final paramCount = tc.get<ParamCount>();
       final isArray = tc.get<IsArray>();
 
       // Basic Java constraints
-      if (type == TypeKind.void_ && isArray == IsArray.yes) {
+      if (type == MemberType.void_ && isArray == IsArray.yes) {
         return false;
       }
       if (memberGenerics != MemberGenerics.none) {
@@ -280,13 +280,13 @@ Future<void> main() async {
       }
 
       // Types
-      if (type == TypeKind.void_ && member != Member.method) {
+      if (type == MemberType.void_ && member != Member.method) {
         return false;
       }
-      if (top == TopLevelKind.record && type == TypeKind.void_) {
+      if (top == TopLevelKind.record && type == MemberType.void_) {
         return false;
       }
-      if (type == TypeKind.void_ && (paramCount != ParamCount.zero)) {
+      if (type == MemberType.void_ && paramCount != ParamCount.zero) {
         return false;
       }
 
@@ -295,21 +295,23 @@ Future<void> main() async {
         // If the type is forced to use the class scope 'T' (or is T itself),
         // and the class is generic, it's invalid in a static context.
         final useMemberScope = memberGenerics != MemberGenerics.none &&
-            (type == TypeKind.memberTypeParam ||
+            (type == MemberType.memberTypeParam ||
                 memberGenerics == MemberGenerics.lowerBound ||
                 memberGenerics == MemberGenerics.wildcard);
 
         if (!useMemberScope) {
-          if (type == TypeKind.typeParam || generics != Generics.none) {
-            // Some TypeKind like list/set/map/etc will use 'T' if top-level is
-            // generic.
+          if (generics != Generics.none) {
+            // Some MemberType like list/set/map/etc will use 'T' if top-level
+            // is generic.
             const genericTypes = {
-              TypeKind.list,
-              TypeKind.set,
-              TypeKind.map,
-              TypeKind.customObject,
-              TypeKind.nestedCustom,
-              TypeKind.typeParam,
+              MemberType.list,
+              MemberType.set,
+              MemberType.map,
+              MemberType.customObject,
+              MemberType.customInterface,
+              MemberType.customRecord,
+              MemberType.nestedCustom,
+              MemberType.typeParam,
             };
             if (genericTypes.contains(type)) {
               return false;
@@ -318,7 +320,7 @@ Future<void> main() async {
         }
       }
 
-      if (type == TypeKind.typeParam) {
+      if (type == MemberType.typeParam) {
         if (generics == Generics.none) {
           return false;
         }
@@ -331,11 +333,11 @@ Future<void> main() async {
       if (top == TopLevelKind.interface && member == Member.field) {
         if (generics != Generics.none) {
           const genericTypes = {
-            TypeKind.list,
-            TypeKind.set,
-            TypeKind.map,
-            TypeKind.customObject,
-            TypeKind.nestedCustom,
+            MemberType.list,
+            MemberType.set,
+            MemberType.map,
+            MemberType.customObject,
+            MemberType.nestedCustom,
           };
           if (genericTypes.contains(type)) {
             return false;
@@ -343,7 +345,7 @@ Future<void> main() async {
         }
       }
 
-      if (type == TypeKind.memberTypeParam) {
+      if (type == MemberType.memberTypeParam) {
         if (memberGenerics == MemberGenerics.none) {
           return false;
         }
@@ -488,7 +490,7 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   final inheritance = tc.get<Inheritance>();
   final generics = tc.get<Generics>();
   final memberGenerics = tc.get<MemberGenerics>();
-  final typeKind = tc.get<TypeKind>();
+  final typeKind = tc.get<MemberType>();
   final isArray = tc.get<IsArray>();
 
   final typeStr =
@@ -695,7 +697,7 @@ String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
   default $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
 ''',
       MemberModifier.static_ => '''
-  static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
+  static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }  // HI
 ''',
       _ => '''
   $memberGenStr$typeStr $methodName($params)$throwsStr;
@@ -766,8 +768,8 @@ bool hasRunMethod(Inheritance inheritance) {
       inheritance == Inheritance.complexDag;
 }
 
-String getJavaType(
-    TypeKind kind, bool isArray, Generics generics, MemberGenerics mGenerics) {
+String getJavaType(MemberType kind, bool isArray, Generics generics,
+    MemberGenerics mGenerics) {
   final useMemberScope = mGenerics != MemberGenerics.none;
 
   final scopeVar = useMemberScope ? 'S' : 'T';
@@ -783,27 +785,27 @@ String getJavaType(
   };
 
   var t = switch (kind) {
-    TypeKind.void_ => 'void',
-    TypeKind.boolean_ => 'boolean',
-    TypeKind.char_ => 'char',
-    TypeKind.int_ => 'int',
-    TypeKind.long_ => 'long',
-    TypeKind.short_ => 'short',
-    TypeKind.float_ => 'float',
-    TypeKind.double_ => 'double',
-    TypeKind.byte_ => 'byte',
-    TypeKind.object => 'Object',
-    TypeKind.string => 'String',
-    TypeKind.typeParam => 'T',
-    TypeKind.memberTypeParam => 'S',
-    TypeKind.list => 'List<$g>',
-    TypeKind.set => 'Set<$g>',
-    TypeKind.map => 'Map<$g, $g>',
-    TypeKind.customObject => 'CustomObject<$g>',
-    TypeKind.customInterface => 'CustomInterface<$g>',
-    TypeKind.customEnum => 'CustomEnum',
-    TypeKind.customRecord => 'CustomRecord<$g>',
-    TypeKind.nestedCustom => 'NestedCustom<$g, $g>.Nested<$g>',
+    MemberType.void_ => 'void',
+    MemberType.boolean_ => 'boolean',
+    MemberType.char_ => 'char',
+    MemberType.int_ => 'int',
+    MemberType.long_ => 'long',
+    MemberType.short_ => 'short',
+    MemberType.float_ => 'float',
+    MemberType.double_ => 'double',
+    MemberType.byte_ => 'byte',
+    MemberType.object => 'Object',
+    MemberType.string => 'String',
+    MemberType.typeParam => 'T',
+    MemberType.memberTypeParam => 'S',
+    MemberType.list => 'List<$g>',
+    MemberType.set => 'Set<$g>',
+    MemberType.map => 'Map<$g, $g>',
+    MemberType.customObject => 'CustomObject<$g>',
+    MemberType.customInterface => 'CustomInterface<$g>',
+    MemberType.customEnum => 'CustomEnum',
+    MemberType.customRecord => 'CustomRecord<$g>',
+    MemberType.nestedCustom => 'NestedCustom<$g, $g>.Nested<$g>',
   };
   if (isArray) t += '[]';
   return t;

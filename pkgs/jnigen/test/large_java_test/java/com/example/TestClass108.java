@@ -5,18 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.default_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// MemberName: MemberName.any
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.int_
-public interface TestClass108<T extends Number>  extends List {
-  default <S> int[] getFoo() { return null; }
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed interface TestClass108<T, U>  {
+  default byte[] myMethod(byte[] p1) { return null; }
+  public static interface Nested {}
+
+  public static final class Sub<T, U> implements TestClass108<T, U> {}
 }

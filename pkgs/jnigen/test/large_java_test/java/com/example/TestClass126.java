@@ -5,21 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// Generics: Generics.none
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.innerClass
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass126<T, U>  implements Runnable {
-  public void run() {}
-  public native NestedCustom<T, T>.Nested<T> isFoo(NestedCustom<T, T>.Nested<T> p1, int p2);
-  public class Nested {}
+public abstract interface TestClass126  extends DagA, DagD, DagE {
+  <S> S[] isFoo(S[] p1, int p2);
+  public enum NestedEnum { V1 }
 
 }

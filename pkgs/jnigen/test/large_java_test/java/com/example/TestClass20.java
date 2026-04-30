@@ -5,19 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.any
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.string
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass20  extends ArrayList<String> {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass20<T extends Number>  extends ArrayList<String> {
   public void run() {}
-  public native <S> NestedCustom<S, S>.Nested<S> myMethod();
+  public <S, V> String[] setFoo(String[] p1) { return null; }
+  public static interface Nested {}
+
 }

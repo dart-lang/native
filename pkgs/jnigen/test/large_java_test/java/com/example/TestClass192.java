@@ -5,20 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Generics: Generics.none
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.setFoo
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.any
+// MemberType: MemberType.object
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.boolean_
-public abstract interface TestClass192<T, U>  extends List {
-  <S, V> boolean[] setFoo(boolean[] p1);
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass192  implements Runnable, Cloneable {
+  public void run() {}
+  public final Object[] myField = null;
   public enum NestedEnum { V1 }
 
 }

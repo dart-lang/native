@@ -5,18 +5,17 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
-// Member: Member.method
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
+// MemberName: MemberName.any
+// MemberType: MemberType.float_
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.long_
-public interface TestClass155<T extends Number>  extends Runnable, Cloneable {
-  long[] getFoo(long[] p1, int p2);
+public record TestClass155<T, U>(float field)  {
 }

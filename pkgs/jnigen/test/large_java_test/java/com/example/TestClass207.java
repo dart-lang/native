@@ -5,21 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
+// Member: Member.method
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customObject
-public final class TestClass207<T, U>  implements DagA, DagD, DagE {
+public final class TestClass207<T extends Number>  implements Runnable, Cloneable {
   public void run() {}
-  public <S, V> TestClass207(CustomObject<S>[] p1, int p2) {}
-  public class Nested {}
-
+  public <S> int[] isFoo(int[] p1) { return null; }
 }

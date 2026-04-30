@@ -5,20 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
+// Generics: Generics.none
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.any
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass244<T extends Number>  extends Runnable, Cloneable {
-  <S, V> CustomInterface<S> myMethod(CustomInterface<S> p1, int p2);
-  public static interface Nested {}
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass244  {
+  public final CustomEnum myField = null;
+  public class Nested {}
 
+  public static final class Sub extends TestClass244 {}
 }

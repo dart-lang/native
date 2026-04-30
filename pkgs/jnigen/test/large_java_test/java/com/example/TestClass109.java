@@ -12,11 +12,12 @@ import java.util.*;
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.setFoo
+// MemberType: MemberType.float_
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.float_
-public abstract interface TestClass109<T, U>  extends List<String> {
-  float setFoo();
+public abstract class TestClass109<T, U>  extends ArrayList<String> {
+  public void run() {}
+  public abstract float setFoo(float p1, int p2);
 }

@@ -5,18 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.implements_
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.synchronized
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.record
+// MemberType: MemberType.string
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.map
-public record TestClass132(Map<String, String>[] field)  implements Runnable {
-  public void run() {}
+public class TestClass132<T, U>  {
+  public synchronized <S, V> String[] isFoo(String[] p1, int p2) { return null; }
+  public class Nested {}
+
 }

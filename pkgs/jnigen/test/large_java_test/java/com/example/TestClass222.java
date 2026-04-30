@@ -5,20 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.typeParam
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass222<T extends Number>  {
-  public final Object getFoo(Object p1) { return null; }
-  public static record NestedRecord(int x) {}
+public class TestClass222<T, U>  extends ArrayList {
+  public void run() {}
+  public synchronized <S extends Number> T[] isFoo(T[] p1, int p2) { return null; }
+  public class Nested {}
 
 }

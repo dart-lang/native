@@ -7,19 +7,19 @@ import java.util.*;
 
 // Generics: Generics.none
 // Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.long_
-public final class TestClass7  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass7  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public synchronized <S extends Number> long myMethod(long p1, int p2) { return 0; }
-  public enum NestedEnum { V1 }
+  public final <S extends Number> CustomEnum[] setFoo() { return null; }
+  public static interface Nested {}
 
 }

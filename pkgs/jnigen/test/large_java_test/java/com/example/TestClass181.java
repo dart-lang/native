@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
-// Member: Member.field
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.no
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// NestedKind: NestedKind.interface
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.getFoo
+// MemberType: MemberType.char_
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public class TestClass181<T, U>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass181<T, U>  extends ArrayList {
   public void run() {}
-  public volatile short[] myField;
-  public static interface Nested {}
+  public char getFoo(char p1, int p2) { return ' '; }
+  public class Nested {}
 
 }

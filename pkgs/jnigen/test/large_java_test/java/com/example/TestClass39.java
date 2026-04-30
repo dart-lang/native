@@ -6,21 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.none
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.final_
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.isFoo
+// MemberType: MemberType.customEnum
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.long_
-public enum TestClass39  implements Runnable {
-  VALUE1, VALUE2;
-  public void run() {}
-  public final <S, V> long[] isFoo(long[] p1, int p2) { return null; }
+public interface TestClass39  extends List<String> {
+  static <S> CustomEnum[] isFoo(CustomEnum[] p1) { return null; }  // HI
   public static interface Nested {}
 
 }

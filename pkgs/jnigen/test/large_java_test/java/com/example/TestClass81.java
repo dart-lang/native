@@ -5,21 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
+// Generics: Generics.oneParam
 // Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.record
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.map
-public final class TestClass81  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass81<T>  implements DagA, DagD, DagE {
   public void run() {}
-  public <S extends Number> Map<S, S>[] myMethod(Map<S, S>[] p1) { return null; }
-  public static record NestedRecord(int x) {}
+  public TestClass81(short[] p1) {}
+  public class Nested {}
 
 }

@@ -6,20 +6,16 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
+// MemberModifier: MemberModifier.volatile
 // MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// MemberType: MemberType.list
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass236<T extends Number>  implements Runnable {
-  public void run() {}
-  public transient NestedCustom<T, T>.Nested<T>[] myField;
-  public static class Nested {}
-
+public record TestClass236<T extends Number>(List<T> field)  {
 }

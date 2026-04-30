@@ -5,19 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberType: MemberType.float_
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.memberTypeParam
-public class TestClass169<T, U>  implements DiamondLeft, DiamondRight {
+public class TestClass169<T extends Number>  extends ArrayList<String> {
   public void run() {}
-  public synchronized <S, V> S[] isFoo(S[] p1, int p2) { return null; }
+  public <S extends Number> float isFoo() throws Exception { return 0.0f; }
+  public class Nested {}
+
 }

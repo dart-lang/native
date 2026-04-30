@@ -6,19 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.getFoo
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.double_
-public abstract interface TestClass62<T extends Number>  extends List<String> {
-  <S> double isFoo(double p1, int p2);
-  public enum NestedEnum { V1 }
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass62<T extends Number>  implements Runnable, Cloneable {
+  public void run() {}
+  public native <S> short getFoo(short p1, int p2);
+  public class Nested {}
 
 }

@@ -5,21 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
-// Member: Member.field
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// MemberType: MemberType.list
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass147<T extends Number>  extends ArrayList<String> {
+public final class TestClass147<T, U>  extends ArrayList<String> {
   public void run() {}
-  public volatile byte myField;
-  public enum NestedEnum { V1 }
+  public TestClass147(List<T> p1, int p2) {}
+  public static record NestedRecord(int x) {}
 
 }

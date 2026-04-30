@@ -7,18 +7,18 @@ import java.util.*;
 
 // Generics: Generics.oneParam
 // Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.static_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass38<T>  {
-  public static <S> boolean[] isFoo() { return null; }
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass38<T>  {
+  public static boolean setFoo(boolean p1, int p2) { return false; }
+  public static record NestedRecord(int x) {}
 
 }

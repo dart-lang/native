@@ -5,20 +5,18 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.set
-public interface TestClass166<T, U>  {
-  Set<T> isFoo(Set<T> p1, int p2);
-  public static interface Nested {}
-
+public abstract interface TestClass166<T>  extends DagA, DagD, DagE {
+  <S, V> CustomRecord<S>[] isFoo(CustomRecord<S>[] p1);
 }

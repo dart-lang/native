@@ -5,20 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
+// Generics: Generics.none
 // Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.native
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.set
-public final class TestClass82<T>  {
-  public native <S extends Number> Set<S>[] isFoo();
-  public class Nested {}
-
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.enum_
+// TopLevelModifier: TopLevelModifier.none
+public enum TestClass82  {
+  VALUE1, VALUE2;
+  public native long[] isFoo(long[] p1, int p2);
 }

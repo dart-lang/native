@@ -5,21 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
+// Member: Member.method
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.byte_
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.float_
-public final class TestClass187<T, U>  implements DagA, DagD, DagE {
-  public void run() {}
-  public volatile float myField;
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass187<T extends Number>  {
+  public final <S> byte setFoo(byte p1, int p2) { return 0; }
   public static class Nested {}
 
 }

@@ -5,18 +5,18 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.list
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.float_
-public abstract interface TestClass73<T, U>  extends Cloneable {
-  float getFoo(float p1);
+public record TestClass73<T extends Number>(List<T>[] field)  implements Runnable {
+  public void run() {}
 }

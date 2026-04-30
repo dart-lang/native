@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
-// Member: Member.method
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
+// Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customObject
-public final class TestClass44<T>  extends Object {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass44<T>  implements Runnable, Cloneable {
   public void run() {}
-  public CustomObject<T>[] setFoo(CustomObject<T>[] p1) throws Exception { return null; }
-  public static class Nested {}
+  { }
+  public static record NestedRecord(int x) {}
 
 }

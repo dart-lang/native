@@ -43,15 +43,13 @@ void main() {
             'STDERR: ${javacResult.stderr}');
 
     // 3. Run JNIgen.
-    if (update) {
-      final jnigenResult = await Process.run(
-          'dart', ['test/large_java_test/generate_bindings.dart'],
-          workingDirectory: pkgDir);
-      expect(jnigenResult.exitCode, 0,
-          reason: 'JNIgen failed:\n'
-              'STDOUT: ${jnigenResult.stdout}\n'
-              'STDERR: ${jnigenResult.stderr}');
-    }
+    final jnigenResult = await Process.run(
+        'dart', ['test/large_java_test/generate_bindings.dart'],
+        workingDirectory: pkgDir);
+    expect(jnigenResult.exitCode, 0,
+        reason: 'JNIgen failed:\n'
+            'STDOUT: ${jnigenResult.stdout}\n'
+            'STDERR: ${jnigenResult.stderr}');
 
     // 4. Run dart analyze.
     final analyzeResult = await Process.run(

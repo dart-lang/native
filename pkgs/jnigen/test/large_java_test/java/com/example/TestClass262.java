@@ -9,17 +9,15 @@ import java.util.*;
 // Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.list
 public final class TestClass262<T extends Number>  implements DagA, DagD, DagE {
   public void run() {}
-  public native <S extends Number> List<S>[] myMethod(List<S>[] p1);
-  public enum NestedEnum { V1 }
-
+  public synchronized short[] isFoo(short[] p1, int p2) { return null; }
 }

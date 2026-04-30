@@ -5,21 +5,17 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
+// Member: Member.method
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.short_
-public final class TestClass9<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S extends Number> TestClass9(short[] p1) {}
-  public static class Nested {}
-
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.record
+// TopLevelModifier: TopLevelModifier.none
+public record TestClass9<T>(long[] field)  {
 }

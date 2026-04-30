@@ -7,18 +7,19 @@ import java.util.*;
 
 // Generics: Generics.twoParams
 // Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.none
+// IsArray: IsArray.no
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
+// MemberName: MemberName.any
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass229<T, U>  extends DagA, DagD, DagE {
-  CustomInterface<T>[] isFoo();
-  public static record NestedRecord(int x) {}
+public class TestClass229<T, U>  implements DagA, DagD, DagE {
+  public void run() {}
+  public <S extends Number> TestClass229(short p1) {}
+  public enum NestedEnum { V1 }
 
 }

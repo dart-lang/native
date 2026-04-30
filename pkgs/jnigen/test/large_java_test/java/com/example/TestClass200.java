@@ -5,20 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.char_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.boolean_
-public interface TestClass200<T extends Number>  {
-  <S> boolean[] getFoo(boolean[] p1, int p2) throws Exception;
-  public enum NestedEnum { V1 }
-
+public abstract class TestClass200<T, U>  implements DagA, DagD, DagE {
+  public void run() {}
+  public abstract char isFoo(char p1);
 }

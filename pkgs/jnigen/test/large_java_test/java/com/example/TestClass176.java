@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.any
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customObject
-public final class TestClass176<T, U>  extends Object {
-  public void run() {}
-  public <S extends Number> CustomObject<S>[] getFoo() { return null; }
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass176<T, U>  {
+  public final CustomRecord<T> myField = null;
+  public static record NestedRecord(int x) {}
 
+  public static final class Sub<T, U> extends TestClass176<T, U> {}
 }

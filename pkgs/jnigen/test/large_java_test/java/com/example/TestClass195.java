@@ -6,20 +6,18 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
-// Member: Member.method
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// MemberModifier: MemberModifier.volatile
+// MemberName: MemberName.any
+// MemberType: MemberType.string
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.string
-public class TestClass195<T extends Number>  extends ArrayList {
+public class TestClass195<T extends Number>  implements Runnable, Cloneable {
   public void run() {}
-  public String setFoo(String p1, int p2) throws Exception { return null; }
-  public static record NestedRecord(int x) {}
-
+  public volatile String myField;
 }

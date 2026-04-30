@@ -5,21 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.int_
-public sealed interface TestClass97<T, U>  {
-  default int[] getFoo() { return null; }
-  public enum NestedEnum { V1 }
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass97<T>  extends ArrayList {
+  public void run() {}
+  public final <S, V> NestedCustom<S, S>.Nested<S>[] setFoo() { return null; }
+  public static record NestedRecord(int x) {}
 
-  public static final class Sub<T, U> implements TestClass97<T, U> {}
 }

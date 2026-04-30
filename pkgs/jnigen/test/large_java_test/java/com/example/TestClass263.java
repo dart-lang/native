@@ -5,19 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.no
-// Member: Member.constructor
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
+// Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.typeParam
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.double_
-public class TestClass263<T, U>  extends Object {
+public class TestClass263<T extends Number>  implements DagA, DagD, DagE {
   public void run() {}
-  public <S, V> TestClass263(double p1, int p2) {}
+  public final <S, V> T[] isFoo(T[] p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
+
 }

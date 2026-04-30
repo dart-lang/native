@@ -5,20 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.set
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customObject
-public abstract interface TestClass114<T, U>  extends Runnable, Cloneable {
-  <S> CustomObject<S>[] myMethod(CustomObject<S>[] p1, int p2);
-  public enum NestedEnum { V1 }
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass114<T extends Number>  extends Object {
+  public void run() {}
+  public synchronized <S> Set<S>[] setFoo(Set<S>[] p1, int p2) { return null; }
+  public class Nested {}
 
 }

@@ -5,17 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.none
 // IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.any
-// NestedKind: NestedKind.none
+// MemberType: MemberType.list
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.record
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public record TestClass17<T extends Number>(CustomInterface<T>[] field)  {
+public class TestClass17<T, U>  {
+  public <S, V> List<S>[] myMethod(List<S>[] p1) throws Exception { return null; }
+  public static class Nested {}
+
 }

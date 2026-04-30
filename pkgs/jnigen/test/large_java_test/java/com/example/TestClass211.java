@@ -6,18 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.getFoo
+// MemberType: MemberType.object
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass211<T extends Number>  extends ArrayList<String> {
-  public void run() {}
-  public boolean[] isFoo() { return null; }
+public final class TestClass211<T extends Number>  {
+  public static Object[] getFoo(Object[] p1, int p2) { return null; }
+  public static class Nested {}
+
 }

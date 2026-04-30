@@ -5,21 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// Generics: Generics.none
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.transient
+// MemberName: MemberName.any
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.set
-public final class TestClass223<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass223  implements Runnable, Cloneable {
   public void run() {}
-  public native <S extends Number> Set<S> setFoo();
-  public class Nested {}
+  public transient NestedCustom<String, String>.Nested<String>[] myField;
+  public static record NestedRecord(int x) {}
 
 }

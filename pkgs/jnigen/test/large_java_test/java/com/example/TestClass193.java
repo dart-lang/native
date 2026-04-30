@@ -6,17 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
+// MemberType: MemberType.set
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customObject
-public interface TestClass193<T extends Number>  extends Cloneable {
-  <S, V> CustomObject<S> setFoo(CustomObject<S> p1) throws Exception;
+public interface TestClass193<T extends Number>  extends DagA, DagD, DagE {
+  <S, V> Set<S> myMethod(Set<S> p1, int p2);
+  public static interface Nested {}
+
 }

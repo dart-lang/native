@@ -11,14 +11,13 @@ import java.util.*;
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// NestedKind: NestedKind.interface
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.set
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass185<T extends Number>  {
-  public synchronized byte[] myMethod(byte[] p1) { return null; }
-  public static interface Nested {}
-
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass185<T extends Number>  {
+  public synchronized Set<T>[] isFoo(Set<T>[] p1) { return null; }
+  public static final class Sub<T extends Number> extends TestClass185<T> {}
 }

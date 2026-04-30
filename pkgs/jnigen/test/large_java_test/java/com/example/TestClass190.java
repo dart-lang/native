@@ -9,17 +9,17 @@ import java.util.*;
 // Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.string
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
 public class TestClass190<T, U>  extends ArrayList {
   public void run() {}
-  public final <S> Object myMethod() { return null; }
+  public native <S, V> String setFoo(String p1, int p2);
   public static record NestedRecord(int x) {}
 
 }

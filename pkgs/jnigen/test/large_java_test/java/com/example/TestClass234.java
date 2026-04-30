@@ -6,20 +6,18 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
+// MemberType: MemberType.double_
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.nestedCustom
-public sealed class TestClass234<T extends Number>  {
-  public volatile NestedCustom<T, T>.Nested<T> myField;
-  public static class Nested {}
-
-  public static final class Sub<T extends Number> extends TestClass234<T> {}
+// TopLevelModifier: TopLevelModifier.none
+public abstract class TestClass234<T extends Number>  implements Runnable {
+  public void run() {}
+  public abstract <S extends Number> double[] myMethod(double[] p1);
 }

@@ -10,15 +10,12 @@ import java.util.*;
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
+// MemberType: MemberType.customInterface
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass167<T, U>  {
-  public byte[] isFoo() throws Exception { return null; }
-  public static record NestedRecord(int x) {}
-
+// TopLevelKind: TopLevelKind.record
+// TopLevelModifier: TopLevelModifier.none
+public record TestClass167<T, U>(CustomInterface<T>[] field)  {
 }

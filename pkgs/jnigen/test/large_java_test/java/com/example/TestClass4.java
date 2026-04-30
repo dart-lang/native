@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.throws
 // MemberName: MemberName.any
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.int_
-public sealed class TestClass4<T, U>  {
-  public int[] myMethod(int[] p1, int p2) throws Exception { return null; }
-  public class Nested {}
+// MemberType: MemberType.set
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass4<T, U>  extends Runnable, Cloneable {
+  Set<T>[] myMethod() throws Exception;
+  public static interface Nested {}
 
-  public static final class Sub<T, U> extends TestClass4<T, U> {}
 }

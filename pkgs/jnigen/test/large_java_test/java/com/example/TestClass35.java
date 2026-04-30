@@ -5,20 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.getFoo
+// MemberType: MemberType.nestedCustom
 // NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.byte_
-public abstract interface TestClass35<T, U>  extends List<String> {
-  <S extends Number> byte getFoo(byte p1, int p2);
+public abstract interface TestClass35<T>  extends DiamondLeft, DiamondRight {
+  NestedCustom<T, T>.Nested<T>[] getFoo(NestedCustom<T, T>.Nested<T>[] p1, int p2);
   public static interface Nested {}
 
 }

@@ -6,18 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.final_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.float_
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public class TestClass173<T extends Number>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public final <S> short isFoo(short p1) { return 0; }
+public class TestClass173<T extends Number>  {
+  public final float[] setFoo(float[] p1) { return null; }
+  public enum NestedEnum { V1 }
+
 }

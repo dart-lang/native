@@ -6,17 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public abstract interface TestClass241<T extends Number>  extends DagA, DagD, DagE {
-  short[] isFoo(short[] p1, int p2);
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.any
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass241<T extends Number>  {
+  public byte[] myMethod(byte[] p1) throws Exception { return null; }
+  public static interface Nested {}
+
+  public static final class Sub<T extends Number> extends TestClass241<T> {}
 }

@@ -6,20 +6,17 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.short_
 // NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.object
-public final class TestClass227<T extends Number>  implements Runnable, Cloneable {
+// TopLevelKind: TopLevelKind.record
+// TopLevelModifier: TopLevelModifier.none
+public record TestClass227<T extends Number>(short field)  implements Runnable {
   public void run() {}
-  public Object[] isFoo(Object[] p1) { return null; }
-  public enum NestedEnum { V1 }
-
 }

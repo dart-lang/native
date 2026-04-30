@@ -5,19 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.default_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.customObject
-public sealed interface TestClass203  {
-  default CustomObject<String> setFoo(CustomObject<String> p1, int p2) { return null; }
-  public static final class Sub implements TestClass203 {}
+// MemberType: MemberType.list
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass203<T extends Number>  implements Runnable {
+  public void run() {}
+  public <S, V> List<S> setFoo() throws Exception { return null; }
+  public enum NestedEnum { V1 }
+
 }

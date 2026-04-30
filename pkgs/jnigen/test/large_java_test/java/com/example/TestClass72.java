@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
+// Member: Member.method
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.any
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.set
-public class TestClass72<T>  implements DagA, DagD, DagE {
-  public void run() {}
-  public volatile Set<T>[] myField;
-  public class Nested {}
+public abstract interface TestClass72<T>  extends Runnable, Cloneable {
+  <S> CustomObject<S>[] myMethod();
+  public static record NestedRecord(int x) {}
 
 }

@@ -5,21 +5,18 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.enum_
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.getFoo
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.float_
-public enum TestClass76  {
-  VALUE1, VALUE2;
-  public static <S, V> float setFoo(float p1, int p2) { return 0.0f; }
-  public static class Nested {}
-
+public interface TestClass76<T, U>  extends DagA, DagD, DagE {
+  <S, V> int getFoo(int p1) throws Exception;
 }

@@ -5,21 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Generics: Generics.none
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberType: MemberType.nestedCustom
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.char_
-public final class TestClass12<T>  extends ArrayList<String> {
+public final class TestClass12  implements Runnable, Cloneable {
   public void run() {}
-  public synchronized char isFoo(char p1) { return ' '; }
+  public <S, V> TestClass12() {}
   public static class Nested {}
 
 }

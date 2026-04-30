@@ -9,14 +9,16 @@ import java.util.*;
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass86<T, U>  {
-  public static <S, V> byte getFoo(byte p1, int p2) { return 0; }
+// TopLevelModifier: TopLevelModifier.none
+public abstract class TestClass86<T, U>  {
+  public abstract <S extends Number> S getFoo(S p1, int p2);
+  public static record NestedRecord(int x) {}
+
 }

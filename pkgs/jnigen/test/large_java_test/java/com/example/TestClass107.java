@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.setFoo
+// MemberName: MemberName.isFoo
+// MemberType: MemberType.nestedCustom
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customObject
-public abstract class TestClass107<T extends Number>  implements DiamondLeft, DiamondRight {
+public abstract class TestClass107<T extends Number>  extends Object {
   public void run() {}
-  public abstract <S, V> CustomObject<S> setFoo(CustomObject<S> p1);
+  public abstract <S extends Number> NestedCustom<S, S>.Nested<S>[] isFoo(NestedCustom<S, S>.Nested<S>[] p1, int p2);
   public enum NestedEnum { V1 }
 
 }

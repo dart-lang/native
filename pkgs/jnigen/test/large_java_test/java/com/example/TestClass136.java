@@ -5,21 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.list
-public class TestClass136<T, U>  extends ArrayList {
-  public void run() {}
-  public <S extends Number> List<S>[] setFoo(List<S>[] p1, int p2) throws Exception { return null; }
-  public static interface Nested {}
-
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.getFoo
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed interface TestClass136<T extends Number>  {
+  default short getFoo() { return 0; }
+  public static final class Sub<T extends Number> implements TestClass136<T> {}
 }

@@ -6,20 +6,18 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// Member: Member.method
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.setFoo
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass237<T extends Number>  implements DagA, DagD, DagE {
+public class TestClass237<T extends Number>  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public <S extends Number> TestClass237(Object p1) {}
-  public static record NestedRecord(int x) {}
-
+  public synchronized <S> NestedCustom<S, S>.Nested<S> setFoo() { return null; }
 }

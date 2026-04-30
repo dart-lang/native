@@ -6,20 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.static_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// MemberName: MemberName.getFoo
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public class TestClass186<T, U>  implements DagA, DagD, DagE {
+public class TestClass186<T, U>  extends ArrayList<String> {
   public void run() {}
-  public static <S> CustomEnum isFoo(CustomEnum p1) { return null; }
-  public static record NestedRecord(int x) {}
+  public static long getFoo(long p1, int p2) { return 0; }
+  public enum NestedEnum { V1 }
 
 }

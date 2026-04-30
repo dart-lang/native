@@ -6,21 +6,20 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.none
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.no
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.enum_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public enum TestClass266  implements Runnable {
-  VALUE1(null, 0), VALUE2(null, 0);
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass266  extends ArrayList {
   public void run() {}
-  private TestClass266(NestedCustom<String, String>.Nested<String>[] p1, int p2) {}
-  public static record NestedRecord(int x) {}
+  public <S, V> TestClass266() {}
+  public static class Nested {}
 
 }

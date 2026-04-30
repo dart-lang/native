@@ -7,19 +7,19 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customRecord
-public final class TestClass220<T extends Number>  extends Object {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass220<T extends Number>  extends Object {
   public void run() {}
-  public static <S, V> CustomRecord<S>[] setFoo() { return null; }
-  public static class Nested {}
+  public <S extends Number> short setFoo(short p1, int p2) throws Exception { return 0; }
+  public static record NestedRecord(int x) {}
 
 }
