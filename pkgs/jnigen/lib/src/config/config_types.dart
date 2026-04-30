@@ -272,6 +272,7 @@ class Config {
       this.dumpJsonTo,
       this.imports,
       this.hide,
+      this.generateStubs = false,
       this.visitors}) {
     for (final className in classes) {
       _validateClassName(className);
@@ -323,6 +324,9 @@ class Config {
 
   /// Hide concrete classes from the imports
   final List<String>? hide;
+
+  /// Whether to generate stubs for excluded classes.
+  final bool generateStubs;
 
   /// Call [importClasses] before using this.
   late final Map<String, ClassDecl> importedClasses;
@@ -558,6 +562,7 @@ class Config {
           _levels.keys.toSet(),
         ),
       ),
+      generateStubs: prov.getBool(_Props.generateStubs) ?? false,
     );
     if (missingValues.isNotEmpty) {
       stderr.write('Following config values are required but not provided\n'
@@ -597,6 +602,7 @@ class _Props {
   static const outputStructure = '$dartCodeOutputConfig.structure';
   static const preamble = 'preamble';
   static const logLevel = 'log_level';
+  static const generateStubs = 'generate_stubs';
 
   static const nonNullAnnotations = 'non_null_annotations';
   static const nullableAnnotations = 'nullable_annotations';

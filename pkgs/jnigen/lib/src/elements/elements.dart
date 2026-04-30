@@ -23,6 +23,7 @@ enum GenerationStage {
   excluder,
   kotlinProcessor,
   linker,
+  stubCollector,
   renamer,
   dartGenerator;
 
@@ -76,6 +77,7 @@ class Classes implements Element<Classes> {
 class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ClassDecl({
     this.isExcluded = false,
+    this.isStub = false,
     this.annotations,
     this.javadoc,
     required this.declKind,
@@ -94,6 +96,9 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
 
   @JsonKey(includeFromJson: false)
   bool isExcluded;
+
+  @JsonKey(includeFromJson: false)
+  bool isStub;
 
   @JsonKey(includeFromJson: false)
   String? userDefinedName;
@@ -769,6 +774,9 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.renamer:
         cloned.finalName = finalName;
         cloned.methodKind = methodKind;
+        continue stubCollector;
+      stubCollector:
+      case GenerationStage.stubCollector:
         continue linker;
       linker:
       case GenerationStage.linker:

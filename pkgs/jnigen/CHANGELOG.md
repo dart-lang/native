@@ -7,6 +7,8 @@
   a Flutter project.
 - Fix directory-dependent `dart format` failures by explicitly searching for the
   correct Dart executable to run.
+- Generate minimal Dart stubs for referenced but excluded Java classes, instead
+  of falling back to `JObject` (behind a `generateStubs` config flag).
 
 ## 0.16.0
 

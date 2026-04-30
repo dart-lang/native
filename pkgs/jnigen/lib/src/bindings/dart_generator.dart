@@ -375,6 +375,10 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
 
   @override
   void visit(ClassDecl node) {
+    if (node.isStub) {
+      _writeStub(node);
+      return;
+    }
     if (node.isTopLevel) {
       // If the class is top-level, only generate its methods and fields.
       final classRef = writeClassRef(node);
@@ -606,10 +610,61 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
       }
       s.writeln('}');
     }
-    // TypeClass definition.
-    final signature = node.signature;
+
+    _writeTypeClass(node);
+
+    log.finest('Generated bindings for class ${node.binaryName}');
+  }
+
+  void _writeStub(ClassDecl node) {
+    final name = node.finalName;
+    final javaName = node.binaryName;
     s.write('''
-final class $typeClassName extends $_jType<$name> {
+/// WARNING: $name is a stub. To generate bindings for this class, include
+/// $javaName in your config's classes list.
+///
+''');
+    node.javadoc?.accept(_DocGenerator(s, depth: 0));
+
+    final superName = node.superclass!.accept(
+      _TypeGenerator(resolver, includeNullability: false),
+    );
+    final interfaces = node.interfaces.map(
+      (interface) => interface.accept(
+        _TypeGenerator(resolver, includeNullability: false),
+      ),
+    );
+    final implementsClause = {superName, ...interfaces}.join(', ');
+
+    s.write('''
+extension type $name._($_jObject _\$this) implements $implementsClause {
+  static const $_jType<$name> type = ${node.typeClassName}();
+}
+
+''');
+    _writeTypeClass(node);
+  }
+
+  void _writeTypeClass(ClassDecl node) {
+    final name = node.finalName;
+    final typeClassName = node.typeClassName;
+    final isInterface = node.declKind == DeclKind.interfaceKind;
+    final typeParamsDef = isInterface
+        ? node.allTypeParams
+            .accept(const _TypeParamDef())
+            .join(', ')
+            .encloseIfNotEmpty('<', '>')
+        : '';
+    final typeParamsCall = isInterface
+        ? node.allTypeParams
+            .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
+            .join(', ')
+            .encloseIfNotEmpty('<', '>')
+        : '';
+    final signature = node.signature;
+
+    s.write('''
+final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
   $_internal
   const $typeClassName();
 
@@ -619,8 +674,6 @@ final class $typeClassName extends $_jType<$name> {
 }
 
 ''');
-
-    log.finest('Generated bindings for class ${node.binaryName}');
   }
 }
 
@@ -710,7 +763,8 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject) {
+    if (node.classDecl.isObject ||
+        (node.classDecl.isExcluded && !node.classDecl.isStub)) {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }
@@ -857,7 +911,8 @@ class _TypeClassGenerator extends TypeVisitor<String> {
 
   @override
   String visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject) {
+    if (node.classDecl.isObject ||
+        (node.classDecl.isExcluded && !node.classDecl.isStub)) {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }

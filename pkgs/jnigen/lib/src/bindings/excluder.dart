@@ -36,18 +36,36 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
 
   @override
   void visit(Classes node) {
-    node.decls.removeWhere((_, classDecl) {
-      final excluded = classDecl.isPrivate || classDecl.isExcluded;
-      if (excluded) {
-        log.fine('Excluded class ${classDecl.binaryName}');
+    if (config.generateStubs) {
+      for (final classDecl in node.decls.values) {
+        final isExcluded = classDecl.isPrivate || classDecl.isExcluded;
+        if (isExcluded) {
+          log.fine('Excluded class ${classDecl.binaryName}');
+        }
+        if (classDecl.name.isInvalidDartIdentifier) {
+          log.warning(
+              'Excluded class ${classDecl.binaryName}: the name is not a'
+              ' valid Dart identifer');
+          classDecl.isExcluded = true;
+        } else {
+          classDecl.isExcluded = isExcluded;
+        }
       }
-      if (classDecl.name.isInvalidDartIdentifier) {
-        log.warning('Excluded class ${classDecl.binaryName}: the name is not a'
-            ' valid Dart identifer');
-        return true;
-      }
-      return excluded;
-    });
+    } else {
+      node.decls.removeWhere((_, classDecl) {
+        final excluded = classDecl.isPrivate || classDecl.isExcluded;
+        if (excluded) {
+          log.fine('Excluded class ${classDecl.binaryName}');
+        }
+        if (classDecl.name.isInvalidDartIdentifier) {
+          log.warning(
+              'Excluded class ${classDecl.binaryName}: the name is not a'
+              ' valid Dart identifer');
+          return true;
+        }
+        return excluded;
+      });
+    }
     final classExcluder = _ClassExcluder(config);
     for (final classDecl in node.decls.values) {
       classDecl.accept(classExcluder);

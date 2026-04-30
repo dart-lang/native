@@ -4434,7 +4434,8 @@ final class _$GenericInterface<$T extends jni$_.JObject?>
   }
 }
 
-final class $GenericInterface$Type$ extends jni$_.JType<GenericInterface> {
+final class $GenericInterface$Type$<$T extends jni$_.JObject?>
+    extends jni$_.JType<GenericInterface<$T>> {
   @jni$_.internal
   const $GenericInterface$Type$();
 
@@ -5194,7 +5195,8 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
   }
 }
 
-final class $MyInterface$Type$ extends jni$_.JType<MyInterface> {
+final class $MyInterface$Type$<$T extends jni$_.JObject?>
+    extends jni$_.JType<MyInterface<$T>> {
   @jni$_.internal
   const $MyInterface$Type$();
 
@@ -6302,8 +6304,8 @@ final class _$BaseGenericInterface<$T extends jni$_.JObject?>
   }
 }
 
-final class $BaseGenericInterface$Type$
-    extends jni$_.JType<BaseGenericInterface> {
+final class $BaseGenericInterface$Type$<$T extends jni$_.JObject?>
+    extends jni$_.JType<BaseGenericInterface<$T>> {
   @jni$_.internal
   const $BaseGenericInterface$Type$();
 
@@ -10398,7 +10400,8 @@ final class _$R2250<$T extends jni$_.JObject?> with $R2250<$T> {
   }
 }
 
-final class $R2250$Type$ extends jni$_.JType<R2250> {
+final class $R2250$Type$<$T extends jni$_.JObject?>
+    extends jni$_.JType<R2250<$T>> {
   @jni$_.internal
   const $R2250$Type$();
 

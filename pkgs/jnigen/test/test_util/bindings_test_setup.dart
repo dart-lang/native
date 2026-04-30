@@ -55,14 +55,18 @@ Future<void> bindingsTestSetup() async {
       join(kotlinTestKotlin, 'target', 'kotlin_test-jar-with-dependencies.jar');
 
   if (!Platform.isAndroid) {
-    Jni.spawn(dylibDir: join('build', 'jni_libs'), classPath: [
-      jniJar,
-      tempClassDir.path,
-      ...jacksonJars,
-      kotlinTestJar,
-    ], jvmOptions: [
-      '-Xcheck:jni',
-    ]);
+    Jni.spawnIfNotExists(
+      dylibDir: join('build', 'jni_libs'),
+      classPath: [
+        jniJar,
+        tempClassDir.path,
+        ...jacksonJars,
+        kotlinTestJar,
+      ],
+      jvmOptions: [
+        '-Xcheck:jni',
+      ],
+    );
   }
 }
 
