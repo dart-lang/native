@@ -1,8 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.native, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.nestedCustom
-public enum TestClass140  {
-  VALUE1, VALUE2;
-  public native <S extends Number> Map.Entry<S, S> setFoo(Map.Entry<S, S> p1);
+// Generics: Generics.twoParams, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.boolean_
+public interface TestClass140<T, U>  extends List<String> {
+  <S, V> boolean myMethod(boolean p1, int p2);
+  public enum NestedEnum { V1 }
+
 }

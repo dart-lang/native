@@ -1,9 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.extendsGenericUnspecialized, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.isFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.float_
-public interface TestClass130<T, U>  extends List {
-  <S, V> float isFoo(float p1);
-  public enum NestedEnum { V1 }
+// Generics: Generics.twoParams, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.final_, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.sealed, TypeKind: TypeKind.set
+public sealed class TestClass130<T, U>  {
+  public final Set<T> myMethod() { return null; }
+  public static class Nested {}
 
+  public static final class Sub<T, U> extends TestClass130<T, U> {}
 }

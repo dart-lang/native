@@ -1,8 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.getFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.typeParam
-public final class TestClass51<T extends Number>  implements Runnable, Cloneable {
+// Generics: Generics.none, Inheritance: Inheritance.diamond, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.final_, MemberName: MemberName.getFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
+public class TestClass51  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public synchronized <S extends Number> T getFoo(T p1) { return null; }
+  public final java.lang.Thread.State getFoo() { return java.lang.Thread.State.NEW; }
 }

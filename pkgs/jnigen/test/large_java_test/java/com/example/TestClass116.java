@@ -1,10 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.abstract_, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customObject
-public abstract class TestClass116<T, U>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public abstract <S extends Number> ArrayList<S>[] myMethod();
-  public static record NestedRecord(int x) {}
+// Generics: Generics.twoParams, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.native, MemberName: MemberName.setFoo, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.nestedCustom
+public class TestClass116<T, U>  {
+  public native <S extends Number> Map.Entry<S, S>[] setFoo(Map.Entry<S, S>[] p1);
+  public class Nested {}
 
 }

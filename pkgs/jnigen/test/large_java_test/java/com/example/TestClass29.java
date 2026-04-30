@@ -1,9 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
-public interface TestClass29  extends Runnable, Cloneable {
-  <S> java.lang.Thread.State setFoo(java.lang.Thread.State p1) throws Exception;
-  public enum NestedEnum { V1 }
+// Generics: Generics.upperBound, Inheritance: Inheritance.extends_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.final_, MemberName: MemberName.setFoo, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.float_
+public class TestClass29<T extends Number>  extends Object {
+  public void run() {}
+  public final <S> float setFoo(float p1, int p2) { return 0.0f; }
+  public static class Nested {}
 
 }

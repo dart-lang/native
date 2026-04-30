@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.abstract_, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.byte_
-public abstract class TestClass78  implements DagA, DagD, DagE {
+// Generics: Generics.oneParam, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.getFoo, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.string
+public class TestClass78<T>  extends Object {
   public void run() {}
-  public abstract <S, V> byte myMethod(byte p1, int p2);
-  public static class Nested {}
+  public static String[] getFoo(String[] p1, int p2) { return null; }
+  public class Nested {}
 
 }

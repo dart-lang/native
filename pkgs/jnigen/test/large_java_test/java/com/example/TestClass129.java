@@ -1,10 +1,7 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.getFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.nestedCustom
-public class TestClass129<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S extends Number> Map.Entry<S, S>[] getFoo() { return null; }
-  public static interface Nested {}
-
+// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.default_, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.object
+public interface TestClass129<T extends Number>  extends DiamondLeft, DiamondRight {
+  default <S, V> Object[] setFoo(Object[] p1, int p2) { return null; }
 }

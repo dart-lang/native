@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.extendsGenericUnspecialized, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.isFoo, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.double_
-public class TestClass230<T extends Number>  extends ArrayList {
+// Generics: Generics.upperBound, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.abstract_, MemberName: MemberName.any, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.short_
+public abstract class TestClass230<T extends Number>  extends Object {
   public void run() {}
-  public synchronized <S> double[] isFoo() { return null; }
-  public static class Nested {}
+  public abstract <S extends Number> short[] myMethod();
+  public class Nested {}
 
 }

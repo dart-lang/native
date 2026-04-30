@@ -1,7 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.throws, MemberName: MemberName.getFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.list
-public interface TestClass199<T extends Number>  extends Runnable, Cloneable {
-  List<T>[] getFoo(List<T>[] p1, int p2) throws Exception;
+// Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.final_, MemberName: MemberName.getFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customInterface
+public final class TestClass199<T, U>  implements DagA, DagD, DagE {
+  public void run() {}
+  public final Runnable getFoo() { return null; }
+  public static interface Nested {}
+
 }

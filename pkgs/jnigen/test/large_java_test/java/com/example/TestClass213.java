@@ -1,10 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.map
-public final class TestClass213<T extends Number>  implements DagA, DagD, DagE {
+// Generics: Generics.upperBound, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.nestedCustom
+public final class TestClass213<T extends Number>  implements Runnable {
   public void run() {}
-  public <S extends Number> TestClass213(Map<S, S> p1) {}
-  public static record NestedRecord(int x) {}
-
+  public synchronized Map.Entry<T, T>[] setFoo(Map.Entry<T, T>[] p1) { return null; }
 }

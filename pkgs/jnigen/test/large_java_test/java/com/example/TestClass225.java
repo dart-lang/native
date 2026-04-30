@@ -1,10 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.isFoo, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customObject
-public final class TestClass225<T extends Number>  implements Runnable {
-  public void run() {}
-  public ArrayList<T> isFoo() { return null; }
-  public class Nested {}
+// Generics: Generics.twoParams, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.native, MemberName: MemberName.setFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customObject
+public interface TestClass225<T, U>  extends DiamondLeft, DiamondRight {
+  <S> ArrayList<S>[] setFoo(ArrayList<S>[] p1, int p2);
+  public enum NestedEnum { V1 }
 
 }

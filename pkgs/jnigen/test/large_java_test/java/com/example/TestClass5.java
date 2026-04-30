@@ -1,8 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.native, MemberName: MemberName.getFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.char_
-public final class TestClass5  implements Runnable, Cloneable {
+// Generics: Generics.oneParam, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.static_, MemberName: MemberName.isFoo, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.double_
+public final class TestClass5<T>  implements Runnable, Cloneable {
   public void run() {}
-  public native char[] getFoo(char[] p1, int p2);
+  public static <S extends Number> double isFoo(double p1) { return 0.0; }
+  public static class Nested {}
+
 }

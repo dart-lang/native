@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.native, MemberName: MemberName.setFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customObject
-public enum TestClass139  {
-  VALUE1, VALUE2;
-  public native <S> ArrayList<S>[] setFoo(ArrayList<S>[] p1, int p2);
-  public enum NestedEnum { V1 }
+// Generics: Generics.twoParams, Inheritance: Inheritance.extendsGenericUnspecialized, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.getFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.set
+public final class TestClass139<T, U>  extends ArrayList {
+  public void run() {}
+  public <S, V> Set<S> getFoo(Set<S> p1) { return null; }
+  public static interface Nested {}
 
 }

@@ -1,7 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.record, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
-public record TestClass58<T, U>(java.lang.Thread.State field)  implements Runnable {
+// Generics: Generics.upperBound, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.list
+public final class TestClass58<T extends Number>  implements Runnable {
   public void run() {}
+  public <S, V> TestClass58() {}
+  public static class Nested {}
+
 }

@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customRecord
-public final class TestClass97<T, U>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public <S extends Number> CoreRecord[] myMethod(CoreRecord[] p1) { return null; }
-  public static record NestedRecord(int x) {}
+// Generics: Generics.twoParams, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.default_, MemberName: MemberName.getFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.sealed, TypeKind: TypeKind.int_
+public sealed interface TestClass97<T, U>  {
+  default int[] getFoo() { return null; }
+  public enum NestedEnum { V1 }
 
+  public static final class Sub<T, U> implements TestClass97<T, U> {}
 }

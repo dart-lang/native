@@ -1,8 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.float_
-public class TestClass9  implements DiamondLeft, DiamondRight {
+// Generics: Generics.twoParams, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.short_
+public final class TestClass9<T, U>  implements Runnable, Cloneable {
   public void run() {}
-  public <S extends Number> float[] setFoo() throws Exception { return null; }
+  public <S extends Number> TestClass9(short[] p1) {}
+  public static class Nested {}
+
 }

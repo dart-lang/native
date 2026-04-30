@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.throws, MemberName: MemberName.isFoo, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.double_
-public final class TestClass4<T>  implements Runnable {
-  public void run() {}
-  public double isFoo() throws Exception { return 0.0; }
-  public static class Nested {}
+// Generics: Generics.twoParams, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.throws, MemberName: MemberName.any, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.sealed, TypeKind: TypeKind.int_
+public sealed class TestClass4<T, U>  {
+  public int[] myMethod(int[] p1, int p2) throws Exception { return null; }
+  public class Nested {}
 
+  public static final class Sub<T, U> extends TestClass4<T, U> {}
 }

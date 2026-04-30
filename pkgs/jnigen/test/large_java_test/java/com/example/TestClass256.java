@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.object
-public class TestClass256<T>  implements Runnable, Cloneable {
+// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.setFoo, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.string
+public final class TestClass256<T extends Number>  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public <S extends Number> TestClass256() {}
-  public static class Nested {}
+  public synchronized String[] setFoo(String[] p1, int p2) { return null; }
+  public class Nested {}
 
 }

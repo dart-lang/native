@@ -1,8 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.getFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.nestedCustom
-public final class TestClass220<T extends Number>  implements DiamondLeft, DiamondRight {
+// Generics: Generics.upperBound, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.static_, MemberName: MemberName.setFoo, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customRecord
+public final class TestClass220<T extends Number>  extends Object {
   public void run() {}
-  public synchronized <S extends Number> Map.Entry<S, S>[] getFoo() { return null; }
+  public static <S, V> CoreRecord[] setFoo() { return null; }
+  public static class Nested {}
+
 }

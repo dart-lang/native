@@ -1,10 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.throws, MemberName: MemberName.getFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
-public class TestClass83<T extends Number>  extends Object {
+// Generics: Generics.upperBound, Inheritance: Inheritance.extendsGenericUnspecialized, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.short_
+public final class TestClass83<T extends Number>  extends ArrayList {
   public void run() {}
-  public java.lang.Thread.State[] getFoo(java.lang.Thread.State[] p1) throws Exception { return null; }
-  public enum NestedEnum { V1 }
-
+  public synchronized <S> short[] setFoo(short[] p1, int p2) { return null; }
 }

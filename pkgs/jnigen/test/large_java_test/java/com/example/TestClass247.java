@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.object
-public final class TestClass247  implements Runnable, Cloneable {
+// Generics: Generics.upperBound, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.native, MemberName: MemberName.setFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.int_
+public final class TestClass247<T extends Number>  implements DagA, DagD, DagE {
   public void run() {}
-  public TestClass247() {}
-  public class Nested {}
+  public native <S> int setFoo(int p1);
+  public static interface Nested {}
 
 }

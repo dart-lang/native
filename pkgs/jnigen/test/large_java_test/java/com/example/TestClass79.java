@@ -1,9 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.static_, MemberName: MemberName.getFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.memberTypeParam
-public interface TestClass79<T, U>  extends DagA, DagD, DagE {
-  static <S, V> S getFoo(S p1) { return null; }
-  public enum NestedEnum { V1 }
+// Generics: Generics.upperBound, Inheritance: Inheritance.extendsGenericUnspecialized, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.getFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customObject
+public class TestClass79<T extends Number>  extends ArrayList {
+  public void run() {}
+  public <S extends Number> ArrayList<S> getFoo(ArrayList<S> p1, int p2) { return null; }
+  public static interface Nested {}
 
 }

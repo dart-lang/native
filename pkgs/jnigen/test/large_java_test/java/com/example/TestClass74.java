@@ -1,10 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.static_, MemberName: MemberName.isFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.void_
-public final class TestClass74<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public static <S, V> void isFoo() {  }
-  public enum NestedEnum { V1 }
+// Generics: Generics.twoParams, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.final_, MemberName: MemberName.any, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.short_
+public final class TestClass74<T, U>  {
+  public final <S, V> short myMethod(short p1, int p2) { return 0; }
+  public class Nested {}
 
 }

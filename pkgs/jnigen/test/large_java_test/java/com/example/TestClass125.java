@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.int_
-public final class TestClass125<T, U>  implements Runnable {
+// Generics: Generics.oneParam, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.throws, MemberName: MemberName.any, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.map
+public class TestClass125<T>  extends ArrayList<String> {
   public void run() {}
-  public <S extends Number> TestClass125(int p1) {}
+  public <S> Map<S, S>[] myMethod(Map<S, S>[] p1) throws Exception { return null; }
   public class Nested {}
 
 }

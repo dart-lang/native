@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.long_
-public final class TestClass8<T>  implements Runnable {
+// Generics: Generics.none, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.transient, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customObject
+public final class TestClass8  implements DagA, DagD, DagE {
   public void run() {}
-  public <S extends Number> TestClass8() {}
-  public enum NestedEnum { V1 }
+  public transient ArrayList<String> myField;
+  public static class Nested {}
 
 }

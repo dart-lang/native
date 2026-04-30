@@ -1,9 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.native, MemberName: MemberName.getFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.double_
-public interface TestClass185<T extends Number>  extends Runnable, Cloneable {
-  <S> double[] getFoo(double[] p1, int p2);
-  public enum NestedEnum { V1 }
+// Generics: Generics.upperBound, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.any, NestedKind: NestedKind.interface, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.byte_
+public final class TestClass185<T extends Number>  {
+  public synchronized byte[] myMethod(byte[] p1) { return null; }
+  public static interface Nested {}
 
 }

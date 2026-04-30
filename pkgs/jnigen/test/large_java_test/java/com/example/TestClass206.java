@@ -1,7 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.record, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.list
-public record TestClass206<T extends Number>(List<T> field)  implements Runnable {
-  public void run() {}
+// Generics: Generics.upperBound, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.sealed, TypeKind: TypeKind.customEnum
+public sealed class TestClass206<T extends Number>  {
+  public synchronized java.lang.Thread.State myMethod(java.lang.Thread.State p1) { return java.lang.Thread.State.NEW; }
+  public enum NestedEnum { V1 }
+
+  public static final class Sub<T extends Number> extends TestClass206<T> {}
 }

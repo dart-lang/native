@@ -1,9 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.setFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
-public interface TestClass18<T, U>  extends Runnable {
-  <S, V> java.lang.Thread.State[] setFoo();
+// Generics: Generics.twoParams, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.throws, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customEnum
+public final class TestClass18<T, U>  {
+  public <S> java.lang.Thread.State[] myMethod(java.lang.Thread.State[] p1, int p2) throws Exception { return null; }
   public enum NestedEnum { V1 }
 
 }

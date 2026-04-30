@@ -1,10 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.map
-public class TestClass239  implements DiamondLeft, DiamondRight {
+// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.getFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.nestedCustom
+public final class TestClass239<T extends Number>  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public <S, V> TestClass239(Map<S, S>[] p1, int p2) {}
-  public static interface Nested {}
-
+  public <S extends Number> Map.Entry<S, S>[] getFoo() { return null; }
 }

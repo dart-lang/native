@@ -1,7 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.extendsGenericSpecialized, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.default_, MemberName: MemberName.any, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
-public interface TestClass128<T extends Number>  extends List<String> {
-  default <S extends Number> java.lang.Thread.State[] myMethod(java.lang.Thread.State[] p1, int p2) { return null; }
+// Generics: Generics.twoParams, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.memberTypeParam
+public class TestClass128<T, U>  implements Runnable, Cloneable {
+  public void run() {}
+  public <S> TestClass128(S p1) {}
 }

@@ -1,9 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.static_, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customInterface
-public interface TestClass146<T extends Number>  extends Cloneable {
-  static <S> Runnable myMethod(Runnable p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
-
+// Generics: Generics.upperBound, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.sealed, TypeKind: TypeKind.double_
+public sealed class TestClass146<T extends Number>  {
+  public double myField;
+  public static final class Sub<T extends Number> extends TestClass146<T> {}
 }

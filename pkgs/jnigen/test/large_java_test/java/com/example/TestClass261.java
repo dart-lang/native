@@ -1,9 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.map
-public class TestClass261<T, U>  {
-  public Map<T, T> myField;
-  public static class Nested {}
+// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.isFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.nestedCustom
+public final class TestClass261<T extends Number>  implements DiamondLeft, DiamondRight {
+  public void run() {}
+  public synchronized <S> Map.Entry<S, S>[] isFoo(Map.Entry<S, S>[] p1, int p2) { return null; }
+  public enum NestedEnum { V1 }
 
 }

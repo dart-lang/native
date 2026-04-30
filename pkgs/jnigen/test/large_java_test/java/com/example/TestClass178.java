@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.native, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customEnum
-public final class TestClass178<T, U>  implements DagA, DagD, DagE {
-  public void run() {}
-  public native <S, V> java.lang.Thread.State myMethod();
+// Generics: Generics.none, Inheritance: Inheritance.none, IsArray: IsArray.yes, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.final_, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.list
+public enum TestClass178  {
+  VALUE1, VALUE2;
+  public final List<String>[] myField = null;
   public static record NestedRecord(int x) {}
 
 }

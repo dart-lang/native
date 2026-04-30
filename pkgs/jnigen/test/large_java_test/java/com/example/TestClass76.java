@@ -1,8 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.none, MemberName: MemberName.isFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.object
-public class TestClass76<T, U>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public <S> Object[] isFoo(Object[] p1, int p2) { return null; }
+// Generics: Generics.none, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.static_, MemberName: MemberName.setFoo, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.float_
+public enum TestClass76  {
+  VALUE1, VALUE2;
+  public static <S, V> float setFoo(float p1, int p2) { return 0.0f; }
+  public static class Nested {}
+
 }

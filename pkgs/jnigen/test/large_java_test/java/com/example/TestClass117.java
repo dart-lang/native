@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customRecord
-public final class TestClass117<T extends Number>  extends Object {
+// Generics: Generics.oneParam, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.final_, MemberName: MemberName.setFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.list
+public final class TestClass117<T>  implements DagA, DagD, DagE {
   public void run() {}
-  public <S> CoreRecord[] setFoo(CoreRecord[] p1) throws Exception { return null; }
-  public static record NestedRecord(int x) {}
+  public final List<T> setFoo(List<T> p1, int p2) { return null; }
+  public static interface Nested {}
 
 }

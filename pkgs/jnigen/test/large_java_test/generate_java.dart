@@ -17,6 +17,7 @@ enum TopLevelModifier { none, final_, sealed }
 enum MemberModifier {
   none,
   static_,
+  final_,
   abstract_,
   default_,
   synchronized,
@@ -217,6 +218,14 @@ Future<void> main() async {
 
       // Member modifiers
       if (mod != MemberModifier.none) {
+        if (mod == MemberModifier.final_) {
+          if (member == Member.constructor || member == Member.initializer) {
+            return false;
+          }
+          if (top == TopLevelKind.interface && member == Member.method) {
+            return false;
+          }
+        }
         if (mod == MemberModifier.transient || mod == MemberModifier.volatile) {
           if (member != Member.field || top == TopLevelKind.interface) {
             return false;
@@ -227,8 +236,19 @@ Future<void> main() async {
             return false;
           }
         }
-        if (member != Member.method && member != Member.constructor) {
-          if (mod != MemberModifier.static_ || member != Member.field) {
+        if (member == Member.field) {
+          const fieldModifiers = {
+            MemberModifier.static_,
+            MemberModifier.final_,
+            MemberModifier.transient,
+            MemberModifier.volatile,
+          };
+          if (!fieldModifiers.contains(mod)) {
+            return false;
+          }
+        }
+        if (member == Member.initializer) {
+          if (mod != MemberModifier.static_) {
             return false;
           }
         }
@@ -238,7 +258,8 @@ Future<void> main() async {
                 mod == MemberModifier.default_ ||
                 mod == MemberModifier.static_ ||
                 mod == MemberModifier.synchronized ||
-                mod == MemberModifier.throws)) {
+                mod == MemberModifier.throws ||
+                mod == MemberModifier.final_)) {
           return false;
         }
       }
@@ -575,6 +596,7 @@ String getTopLevelKindStr(TopLevelKind top) {
 String getMemberModifierStr(MemberModifier mod) {
   return switch (mod) {
     MemberModifier.static_ => 'static ',
+    MemberModifier.final_ => 'final ',
     MemberModifier.synchronized => 'synchronized ',
     MemberModifier.native => 'native ',
     MemberModifier.abstract_ => 'abstract ',
@@ -605,11 +627,13 @@ String getEnumConstantsStr(Member member, ParamCount paramCount, String typeStr)
 }
 
 String getFieldStr(TopLevelKind top, MemberModifier mod, String typeStr) {
-  if (top == TopLevelKind.interface) {
-    return '  $typeStr myField = ${getJavaDefaultValue(typeStr)};\n';
-  }
   final modStr = getMemberModifierStr(mod);
-  return '  public $modStr$typeStr myField;\n';
+  final defaultValue = getJavaDefaultValue(typeStr);
+  if (top == TopLevelKind.interface) {
+    return '  $modStr$typeStr myField = $defaultValue;\n';
+  }
+  final init = mod == MemberModifier.final_ ? ' = $defaultValue' : '';
+  return '  public $modStr$typeStr myField$init;\n';
 }
 
 String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,

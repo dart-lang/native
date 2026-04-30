@@ -1,7 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.native, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customObject
-public interface TestClass186<T extends Number>  extends Cloneable {
-  <S, V> ArrayList<S> setFoo(ArrayList<S> p1);
+// Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.static_, MemberName: MemberName.isFoo, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
+public class TestClass186<T, U>  implements DagA, DagD, DagE {
+  public void run() {}
+  public static <S> java.lang.Thread.State isFoo(java.lang.Thread.State p1) { return java.lang.Thread.State.NEW; }
+  public static record NestedRecord(int x) {}
+
 }

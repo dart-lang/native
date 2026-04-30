@@ -1,8 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam, Inheritance: Inheritance.diamond, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.getFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
-public class TestClass57<T>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public <S extends Number> java.lang.Thread.State getFoo() { return java.lang.Thread.State.NEW; }
+// Generics: Generics.twoParams, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.native, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.string
+public interface TestClass57<T, U>  extends Cloneable {
+  <S, V> String myMethod(String p1);
+  public enum NestedEnum { V1 }
+
 }

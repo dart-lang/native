@@ -1,10 +1,7 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam, Inheritance: Inheritance.extends_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.record, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.int_
-public final class TestClass56<T>  extends Object {
+// Generics: Generics.oneParam, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.native, MemberName: MemberName.isFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.record, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.long_
+public record TestClass56<T>(long[] field)  implements Runnable {
   public void run() {}
-  public <S, V> int setFoo(int p1, int p2) throws Exception { return 0; }
-  public static record NestedRecord(int x) {}
-
 }

@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.throws, MemberName: MemberName.isFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.nestedCustom
-public final class TestClass245<T extends Number>  implements DiamondLeft, DiamondRight {
+// Generics: Generics.upperBound, Inheritance: Inheritance.implements_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.isFoo, NestedKind: NestedKind.innerClass, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customObject
+public final class TestClass245<T extends Number>  implements Runnable {
   public void run() {}
-  public <S> Map.Entry<S, S>[] isFoo(Map.Entry<S, S>[] p1, int p2) throws Exception { return null; }
-  public enum NestedEnum { V1 }
+  public ArrayList<T> isFoo() { return null; }
+  public class Nested {}
 
 }

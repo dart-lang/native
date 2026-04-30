@@ -1,10 +1,7 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.extends_, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.setFoo, NestedKind: NestedKind.staticClass, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.float_
-public class TestClass30<T extends Number>  extends Object {
-  public void run() {}
-  public synchronized <S> float setFoo(float p1, int p2) { return 0.0f; }
-  public static class Nested {}
-
+// Generics: Generics.oneParam, Inheritance: Inheritance.diamond, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.throws, MemberName: MemberName.setFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
+public interface TestClass30<T>  extends DiamondLeft, DiamondRight {
+  <S extends Number> java.lang.Thread.State setFoo(java.lang.Thread.State p1, int p2) throws Exception;
 }

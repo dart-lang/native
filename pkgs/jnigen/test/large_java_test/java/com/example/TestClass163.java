@@ -1,10 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams, Inheritance: Inheritance.extendsGenericUnspecialized, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.memberTypeParam
-public class TestClass163<T, U>  extends ArrayList {
+// Generics: Generics.none, Inheritance: Inheritance.extends_, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customEnum
+public final class TestClass163  extends Object {
   public void run() {}
-  public <S, V> TestClass163() {}
-  public static interface Nested {}
+  public TestClass163() {}
+  public static record NestedRecord(int x) {}
 
 }

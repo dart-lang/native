@@ -1,9 +1,8 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.diamond, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.twoParams, MemberModifier: MemberModifier.default_, MemberName: MemberName.isFoo, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.interface, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
-public interface TestClass197<T extends Number>  extends DiamondLeft, DiamondRight {
-  default <S, V> java.lang.Thread.State isFoo(java.lang.Thread.State p1, int p2) { return java.lang.Thread.State.NEW; }
-  public enum NestedEnum { V1 }
-
+// Generics: Generics.upperBound, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.none, MemberName: MemberName.isFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.double_
+public class TestClass197<T extends Number>  implements Runnable, Cloneable {
+  public void run() {}
+  public <S> double[] isFoo() { return null; }
 }

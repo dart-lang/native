@@ -1,0 +1,10 @@
+package com.example;
+import java.util.*;
+
+// Generics: Generics.twoParams, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.float_
+public final class TestClass291<T, U>  extends Object {
+  public void run() {}
+  public TestClass291(float[] p1) {}
+  public enum NestedEnum { V1 }
+
+}

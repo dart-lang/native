@@ -1,9 +1,10 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none, Inheritance: Inheritance.implements_, IsArray: IsArray.yes, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.isFoo, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.enum_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.map
-public enum TestClass134  implements Runnable {
-  VALUE1, VALUE2;
+// Generics: Generics.twoParams, Inheritance: Inheritance.multipleImplements, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.setFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.memberTypeParam
+public class TestClass134<T, U>  implements Runnable, Cloneable {
   public void run() {}
-  public static Map<String, String>[] isFoo(Map<String, String>[] p1) { return null; }
+  public <S extends Number> S setFoo() { return null; }
+  public static interface Nested {}
+
 }

@@ -1,8 +1,9 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound, Inheritance: Inheritance.extends_, IsArray: IsArray.yes, Member: Member.field, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.static_, MemberName: MemberName.any, NestedKind: NestedKind.none, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.float_
-public class TestClass267<T extends Number>  extends Object {
-  public void run() {}
-  public static float[] myField;
+// Generics: Generics.oneParam, Inheritance: Inheritance.none, IsArray: IsArray.no, Member: Member.constructor, MemberGenerics: MemberGenerics.upperBound, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.none, TypeKind: TypeKind.customEnum
+public class TestClass267<T>  {
+  public <S extends Number> TestClass267(java.lang.Thread.State p1) {}
+  public static record NestedRecord(int x) {}
+
 }
