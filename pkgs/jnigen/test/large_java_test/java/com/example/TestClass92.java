@@ -5,7 +5,7 @@ import java.util.*;
 public enum TestClass92  implements Runnable {
   VALUE1, VALUE2;
   public void run() {}
-  public <S, V> Map.Entry<S, S> isFoo(Map.Entry<S, S> p1) throws Exception { return null; }
+  public <S, V> NestedCustom<S, S>.Nested<S> isFoo(NestedCustom<S, S>.Nested<S> p1) throws Exception { return null; }
   public static interface Nested {}
 
 }

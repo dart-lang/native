@@ -181,6 +181,290 @@ final class $BaseInterface$Type$ extends jni$_.JType<BaseInterface> {
   String get signature => r'Lcom/example/BaseInterface;';
 }
 
+/// from: `com.example.CustomEnum`
+extension type CustomEnum._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'com/example/CustomEnum');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<CustomEnum> type = $CustomEnum$Type$();
+  static final _id_V1 = _class.staticFieldId(
+    r'V1',
+    r'Lcom/example/CustomEnum;',
+  );
+
+  /// from: `static public final com.example.CustomEnum V1`
+  /// The returned object must be released after use, by calling the [release] method.
+  static CustomEnum get V1 => _id_V1.get(_class, CustomEnum.type) as CustomEnum;
+
+  static final _id_V2 = _class.staticFieldId(
+    r'V2',
+    r'Lcom/example/CustomEnum;',
+  );
+
+  /// from: `static public final com.example.CustomEnum V2`
+  /// The returned object must be released after use, by calling the [release] method.
+  static CustomEnum get V2 => _id_V2.get(_class, CustomEnum.type) as CustomEnum;
+
+  static final _id_values = _class.staticMethodId(
+    r'values',
+    r'()[Lcom/example/CustomEnum;',
+  );
+
+  static final _values = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public com.example.CustomEnum[] values()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JArray<CustomEnum?>? values() {
+    return _values(_class.reference.pointer, _id_values.pointer)
+        .object<jni$_.JArray<CustomEnum?>?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Lcom/example/CustomEnum;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public com.example.CustomEnum valueOf(java.lang.String name)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static CustomEnum? valueOf(
+    jni$_.JString? name,
+  ) {
+    final _$name = name?.reference ?? jni$_.jNullReference;
+    return _valueOf(
+            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+        .object<CustomEnum?>();
+  }
+}
+
+final class $CustomEnum$Type$ extends jni$_.JType<CustomEnum> {
+  @jni$_.internal
+  const $CustomEnum$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/CustomEnum;';
+}
+
+/// from: `com.example.CustomInterface`
+extension type CustomInterface<$T extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'com/example/CustomInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<CustomInterface> type = $CustomInterface$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<core$_.int, $CustomInterface> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    core$_.int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    core$_.int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'getValue()Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.getValue();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn<$T extends jni$_.JObject?>(
+    jni$_.JImplementer implementer,
+    $CustomInterface<$T> $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.example.CustomInterface',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory CustomInterface.implement(
+    $CustomInterface<$T> $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<CustomInterface<$T>>();
+  }
+}
+
+extension CustomInterface$$Methods<$T extends jni$_.JObject?>
+    on CustomInterface<$T> {
+  static final _id_getValue = CustomInterface._class.instanceMethodId(
+    r'getValue',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract T getValue()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? getValue() {
+    return _getValue(reference.pointer, _id_getValue.pointer).object<$T?>();
+  }
+}
+
+abstract base mixin class $CustomInterface<$T extends jni$_.JObject?> {
+  factory $CustomInterface({
+    required $T? Function() getValue,
+  }) = _$CustomInterface<$T>;
+
+  $T? getValue();
+}
+
+final class _$CustomInterface<$T extends jni$_.JObject?>
+    with $CustomInterface<$T> {
+  _$CustomInterface({
+    required $T? Function() getValue,
+  }) : _getValue = getValue;
+
+  final $T? Function() _getValue;
+
+  $T? getValue() {
+    return _getValue();
+  }
+}
+
+final class $CustomInterface$Type$ extends jni$_.JType<CustomInterface> {
+  @jni$_.internal
+  const $CustomInterface$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/CustomInterface;';
+}
+
+/// from: `com.example.CustomObject`
+extension type CustomObject<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'com/example/CustomObject');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<CustomObject> type = $CustomObject$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(T value)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory CustomObject(
+    $T? value,
+  ) {
+    final _$value = value?.reference ?? jni$_.jNullReference;
+    return _new$(_class.reference.pointer, _id_new$.pointer, _$value.pointer)
+        .object<CustomObject<$T>>();
+  }
+}
+
+extension CustomObject$$Methods<$T extends jni$_.JObject?> on CustomObject<$T> {
+  static final _id_value = CustomObject._class.instanceFieldId(
+    r'value',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? get value => _id_value.getNullable(this, jni$_.JObject.type) as $T?;
+
+  /// from: `public T value`
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($T? value) => _id_value.set(this, jni$_.JObject.type, value);
+}
+
+final class $CustomObject$Type$ extends jni$_.JType<CustomObject> {
+  @jni$_.internal
+  const $CustomObject$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/CustomObject;';
+}
+
 /// from: `com.example.DagA`
 extension type DagA._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(r'com/example/DagA');
@@ -1667,6 +1951,138 @@ final class $DiamondRight$Type$ extends jni$_.JType<DiamondRight> {
   String get signature => r'Lcom/example/DiamondRight;';
 }
 
+/// from: `com.example.NestedCustom`
+extension type NestedCustom<$T extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'com/example/NestedCustom');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<NestedCustom> type = $NestedCustom$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory NestedCustom() {
+    return _new$(_class.reference.pointer, _id_new$.pointer)
+        .object<NestedCustom<$T, $U>>();
+  }
+}
+
+final class $NestedCustom$Type$ extends jni$_.JType<NestedCustom> {
+  @jni$_.internal
+  const $NestedCustom$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/NestedCustom;';
+}
+
+/// from: `com.example.NestedCustom$Nested`
+extension type NestedCustom$Nested<$T extends jni$_.JObject?,
+        $U extends jni$_.JObject?, $V extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class =
+      jni$_.JClass.forName(r'com/example/NestedCustom$Nested');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<NestedCustom$Nested> type =
+      $NestedCustom$Nested$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/example/NestedCustom;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(com.example.NestedCustom<T, U> $outerClass)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory NestedCustom$Nested(
+    NestedCustom<$T?, $U?> $outerClass,
+  ) {
+    final _$$outerClass = $outerClass.reference;
+    return _new$(
+            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+        .object<NestedCustom$Nested<$T, $U, $V>>();
+  }
+}
+
+extension NestedCustom$Nested$$Methods<
+    $T extends jni$_.JObject?,
+    $U extends jni$_.JObject?,
+    $V extends jni$_.JObject?> on NestedCustom$Nested<$T, $U, $V> {
+  static final _id_t = NestedCustom$Nested._class.instanceFieldId(
+    r't',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T t`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? get t => _id_t.getNullable(this, jni$_.JObject.type) as $T?;
+
+  /// from: `public T t`
+  /// The returned object must be released after use, by calling the [release] method.
+  set t($T? value) => _id_t.set(this, jni$_.JObject.type, value);
+
+  static final _id_u = NestedCustom$Nested._class.instanceFieldId(
+    r'u',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public U u`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? get u => _id_u.getNullable(this, jni$_.JObject.type) as $U?;
+
+  /// from: `public U u`
+  /// The returned object must be released after use, by calling the [release] method.
+  set u($U? value) => _id_u.set(this, jni$_.JObject.type, value);
+
+  static final _id_v = NestedCustom$Nested._class.instanceFieldId(
+    r'v',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public V v`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? get v => _id_v.getNullable(this, jni$_.JObject.type) as $V?;
+
+  /// from: `public V v`
+  /// The returned object must be released after use, by calling the [release] method.
+  set v($V? value) => _id_v.set(this, jni$_.JObject.type, value);
+}
+
+final class $NestedCustom$Nested$Type$
+    extends jni$_.JType<NestedCustom$Nested> {
+  @jni$_.internal
+  const $NestedCustom$Nested$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/NestedCustom$Nested;';
+}
+
 /// from: `com.example.TestClass0`
 extension type TestClass0<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     implements jni$_.JObject {
@@ -2311,7 +2727,7 @@ extension TestClass100$$Methods<$T extends jni$_.JObject?,
 
   static final _id_getFoo = TestClass100._class.instanceMethodId(
     r'getFoo',
-    r'()[Ljava/util/ArrayList;',
+    r'()[Lcom/example/CustomObject;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -2326,12 +2742,12 @@ extension TestClass100$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final java.util.ArrayList[] getFoo()`
+  /// from: `public final com.example.CustomObject[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>?
+  jni$_.JArray<CustomObject<$S?>?>?
       getFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
     return _getFoo(reference.pointer, _id_getFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$S?>?>?>();
   }
 }
 
@@ -2430,9 +2846,11 @@ extension type TestClass101<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'getFoo(Ljava/util/Map$Entry;)Ljava/util/Map$Entry;') {
+      if ($d ==
+          r'getFoo(Lcom/example/NestedCustom$Nested;)Lcom/example/NestedCustom$Nested;') {
         final $r = _$impls[$p]!.getFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?,
+              jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -2484,7 +2902,7 @@ extension TestClass101$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass101<$T, $U> {
   static final _id_getFoo = TestClass101._class.instanceMethodId(
     r'getFoo',
-    r'(Ljava/util/Map$Entry;)Ljava/util/Map$Entry;',
+    r'(Lcom/example/NestedCustom$Nested;)Lcom/example/NestedCustom$Nested;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -2498,35 +2916,45 @@ extension TestClass101$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `default public java.util.Map$Entry<S, S> getFoo(java.util.Map$Entry<S, S> p1)`
+  /// from: `default public com.example.NestedCustom$Nested<S, S, S> getFoo(com.example.NestedCustom$Nested<S, S, S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  NestedCustom$Nested<$S?, $S?, $S?>? getFoo<$S extends jni$_.JObject?>(
+    NestedCustom$Nested<$S?, $S?, $S?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<NestedCustom$Nested<$S?, $S?, $S?>?>();
   }
 }
 
 abstract base mixin class $TestClass101<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass101({
-    required jni$_.JObject? Function(jni$_.JObject? p1) getFoo,
+    required NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>? Function(
+            NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>?
+                p1)
+        getFoo,
   }) = _$TestClass101<$T, $U>;
 
-  jni$_.JObject? getFoo(jni$_.JObject? p1);
+  NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>? getFoo(
+      NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>? p1);
 }
 
 final class _$TestClass101<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass101<$T, $U> {
   _$TestClass101({
-    required jni$_.JObject? Function(jni$_.JObject? p1) getFoo,
+    required NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>? Function(
+            NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>?
+                p1)
+        getFoo,
   }) : _getFoo = getFoo;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1) _getFoo;
+  final NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>? Function(
+      NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>?
+          p1) _getFoo;
 
-  jni$_.JObject? getFoo(jni$_.JObject? p1) {
+  NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>? getFoo(
+      NestedCustom$Nested<jni$_.JObject?, jni$_.JObject?, jni$_.JObject?>? p1) {
     return _getFoo(p1);
   }
 }
@@ -3453,7 +3881,7 @@ extension TestClass107$$Methods<$T extends jni$_.JObject?> on TestClass107<$T> {
 
   static final _id_setFoo = TestClass107._class.instanceMethodId(
     r'setFoo',
-    r'(Ljava/util/ArrayList;)Ljava/util/ArrayList;',
+    r'(Lcom/example/CustomObject;)Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -3467,14 +3895,15 @@ extension TestClass107$$Methods<$T extends jni$_.JObject?> on TestClass107<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract java.util.ArrayList<S> setFoo(java.util.ArrayList<S> p1)`
+  /// from: `public abstract com.example.CustomObject<S> setFoo(com.example.CustomObject<S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomObject<$S?>?
+      setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
+    CustomObject<$S?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<$S?>?>();
   }
 
   static final _id_leftMethod = TestClass107._class.instanceMethodId(
@@ -4597,7 +5026,7 @@ extension TestClass113$$Methods<$T extends jni$_.JObject?> on TestClass113<$T> {
 
   static final _id_myMethod = TestClass113._class.instanceMethodId(
     r'myMethod',
-    r'([Lcom/example/CoreRecord;)[Lcom/example/CoreRecord;',
+    r'([Lcom/example/CustomRecord;)[Lcom/example/CustomRecord;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -4611,7 +5040,7 @@ extension TestClass113$$Methods<$T extends jni$_.JObject?> on TestClass113<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `synchronized public com.example.CoreRecord[] myMethod(com.example.CoreRecord[] p1)`
+  /// from: `synchronized public com.example.CustomRecord[] myMethod(com.example.CustomRecord[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? myMethod<$S extends jni$_.JObject?>(
     jni$_.JArray<jni$_.JObject?>? p1,
@@ -4670,9 +5099,10 @@ extension type TestClass114<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'myMethod([Ljava/util/ArrayList;I)[Ljava/util/ArrayList;') {
+      if ($d ==
+          r'myMethod([Lcom/example/CustomObject;I)[Lcom/example/CustomObject;') {
         final $r = _$impls[$p]!.myMethod(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<CustomObject?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -4725,7 +5155,7 @@ extension TestClass114$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass114<$T, $U> {
   static final _id_myMethod = TestClass114._class.instanceMethodId(
     r'myMethod',
-    r'([Ljava/util/ArrayList;I)[Ljava/util/ArrayList;',
+    r'([Lcom/example/CustomObject;I)[Lcom/example/CustomObject;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -4740,43 +5170,43 @@ extension TestClass114$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.util.ArrayList[] myMethod(java.util.ArrayList[] p1, int p2)`
+  /// from: `public abstract com.example.CustomObject[] myMethod(com.example.CustomObject[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? myMethod<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomObject<$S?>?>? myMethod<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomObject<$S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$S?>?>?>();
   }
 }
 
 abstract base mixin class $TestClass114<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass114({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomObject?>? Function(
+            jni$_.JArray<CustomObject?>? p1, core$_.int p2)
         myMethod,
   }) = _$TestClass114<$T, $U>;
 
-  jni$_.JArray<jni$_.JObject?>? myMethod(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2);
+  jni$_.JArray<CustomObject?>? myMethod(
+      jni$_.JArray<CustomObject?>? p1, core$_.int p2);
 }
 
 final class _$TestClass114<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass114<$T, $U> {
   _$TestClass114({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomObject?>? Function(
+            jni$_.JArray<CustomObject?>? p1, core$_.int p2)
         myMethod,
   }) : _myMethod = myMethod;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) _myMethod;
+  final jni$_.JArray<CustomObject?>? Function(
+      jni$_.JArray<CustomObject?>? p1, core$_.int p2) _myMethod;
 
-  jni$_.JArray<jni$_.JObject?>? myMethod(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) {
+  jni$_.JArray<CustomObject?>? myMethod(
+      jni$_.JArray<CustomObject?>? p1, core$_.int p2) {
     return _myMethod(p1, p2);
   }
 }
@@ -5251,7 +5681,7 @@ extension TestClass116$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass116<$T, $U> {
   static final _id_setFoo = TestClass116._class.instanceMethodId(
     r'setFoo',
-    r'([Ljava/util/Map$Entry;)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -5265,14 +5695,15 @@ extension TestClass116$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public native java.util.Map$Entry[] setFoo(java.util.Map$Entry[] p1)`
+  /// from: `public native com.example.NestedCustom$Nested[] setFoo(com.example.NestedCustom$Nested[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? setFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      setFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 }
 
@@ -6291,7 +6722,7 @@ extension type TestClass121<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   static const jni$_.JType<TestClass121> type = $TestClass121$Type$();
   static final _id_setFoo = _class.staticMethodId(
     r'setFoo',
-    r'()Ljava/lang/Thread$State;',
+    r'()Lcom/example/CustomEnum;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -6306,11 +6737,11 @@ extension type TestClass121<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public java.lang.Thread$State setFoo()`
+  /// from: `static public com.example.CustomEnum setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? setFoo() {
+  static CustomEnum? setFoo() {
     return _setFoo(_class.reference.pointer, _id_setFoo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -6343,7 +6774,7 @@ extension type TestClass121<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo()Ljava/lang/Thread$State;') {
+      if ($d == r'setFoo()Lcom/example/CustomEnum;') {
         final $r = _$impls[$p]!.setFoo();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -6393,20 +6824,20 @@ extension type TestClass121<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
 abstract base mixin class $TestClass121<$T extends jni$_.JObject?> {
   factory $TestClass121({
-    required jni$_.JObject? Function() setFoo,
+    required CustomEnum? Function() setFoo,
   }) = _$TestClass121<$T>;
 
-  jni$_.JObject? setFoo();
+  CustomEnum? setFoo();
 }
 
 final class _$TestClass121<$T extends jni$_.JObject?> with $TestClass121<$T> {
   _$TestClass121({
-    required jni$_.JObject? Function() setFoo,
+    required CustomEnum? Function() setFoo,
   }) : _setFoo = setFoo;
 
-  final jni$_.JObject? Function() _setFoo;
+  final CustomEnum? Function() _setFoo;
 
-  jni$_.JObject? setFoo() {
+  CustomEnum? setFoo() {
     return _setFoo();
   }
 }
@@ -6452,7 +6883,7 @@ extension type TestClass121$Sub<$T extends jni$_.JObject?>._(
 
   static final _id_setFoo = _class.staticMethodId(
     r'setFoo',
-    r'()Ljava/lang/Thread$State;',
+    r'()Lcom/example/CustomEnum;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -6467,11 +6898,11 @@ extension type TestClass121$Sub<$T extends jni$_.JObject?>._(
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public java.lang.Thread$State setFoo()`
+  /// from: `static public com.example.CustomEnum setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? setFoo() {
+  static CustomEnum? setFoo() {
     return _setFoo(_class.reference.pointer, _id_setFoo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 }
 
@@ -6715,7 +7146,7 @@ extension TestClass123$$Methods<$T extends jni$_.JObject?> on TestClass123<$T> {
 
   static final _id_setFoo = TestClass123._class.instanceMethodId(
     r'setFoo',
-    r'([Ljava/util/ArrayList;I)[Ljava/util/ArrayList;',
+    r'([Lcom/example/CustomObject;I)[Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -6730,16 +7161,16 @@ extension TestClass123$$Methods<$T extends jni$_.JObject?> on TestClass123<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public final java.util.ArrayList[] setFoo(java.util.ArrayList[] p1, int p2)`
+  /// from: `public final com.example.CustomObject[] setFoo(com.example.CustomObject[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>?
+  jni$_.JArray<CustomObject<$S?>?>?
       setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+    jni$_.JArray<CustomObject<$S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$S?>?>?>();
   }
 }
 
@@ -7180,7 +7611,7 @@ extension TestClass126$$Methods<$T extends jni$_.JObject?,
 
   static final _id_isFoo = TestClass126._class.instanceMethodId(
     r'isFoo',
-    r'(Ljava/util/Map$Entry;I)Ljava/util/Map$Entry;',
+    r'(Lcom/example/NestedCustom$Nested;I)Lcom/example/NestedCustom$Nested;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -7195,15 +7626,15 @@ extension TestClass126$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public native java.util.Map$Entry<T, T> isFoo(java.util.Map$Entry<T, T> p1, int p2)`
+  /// from: `public native com.example.NestedCustom$Nested<T, T, T> isFoo(com.example.NestedCustom$Nested<T, T, T> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo(
-    jni$_.JObject? p1,
+  NestedCustom$Nested<$T?, $T?, $T?>? isFoo(
+    NestedCustom$Nested<$T?, $T?, $T?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<NestedCustom$Nested<$T?, $T?, $T?>?>();
   }
 }
 
@@ -7302,9 +7733,9 @@ extension type TestClass127<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
       if ($d ==
-          r'myMethod([Ljava/lang/Thread$State;I)[Ljava/lang/Thread$State;') {
+          r'myMethod([Lcom/example/CustomEnum;I)[Lcom/example/CustomEnum;') {
         final $r = _$impls[$p]!.myMethod(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<CustomEnum?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -7356,7 +7787,7 @@ extension type TestClass127<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass127$$Methods<$T extends jni$_.JObject?> on TestClass127<$T> {
   static final _id_myMethod = TestClass127._class.instanceMethodId(
     r'myMethod',
-    r'([Ljava/lang/Thread$State;I)[Ljava/lang/Thread$State;',
+    r'([Lcom/example/CustomEnum;I)[Lcom/example/CustomEnum;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -7371,41 +7802,41 @@ extension TestClass127$$Methods<$T extends jni$_.JObject?> on TestClass127<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `default public java.lang.Thread$State[] myMethod(java.lang.Thread$State[] p1, int p2)`
+  /// from: `default public com.example.CustomEnum[] myMethod(com.example.CustomEnum[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? myMethod(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomEnum?>? myMethod(
+    jni$_.JArray<CustomEnum?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomEnum?>?>();
   }
 }
 
 abstract base mixin class $TestClass127<$T extends jni$_.JObject?> {
   factory $TestClass127({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomEnum?>? Function(
+            jni$_.JArray<CustomEnum?>? p1, core$_.int p2)
         myMethod,
   }) = _$TestClass127<$T>;
 
-  jni$_.JArray<jni$_.JObject?>? myMethod(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2);
+  jni$_.JArray<CustomEnum?>? myMethod(
+      jni$_.JArray<CustomEnum?>? p1, core$_.int p2);
 }
 
 final class _$TestClass127<$T extends jni$_.JObject?> with $TestClass127<$T> {
   _$TestClass127({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomEnum?>? Function(
+            jni$_.JArray<CustomEnum?>? p1, core$_.int p2)
         myMethod,
   }) : _myMethod = myMethod;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) _myMethod;
+  final jni$_.JArray<CustomEnum?>? Function(
+      jni$_.JArray<CustomEnum?>? p1, core$_.int p2) _myMethod;
 
-  jni$_.JArray<jni$_.JObject?>? myMethod(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) {
+  jni$_.JArray<CustomEnum?>? myMethod(
+      jni$_.JArray<CustomEnum?>? p1, core$_.int p2) {
     return _myMethod(p1, p2);
   }
 }
@@ -8188,7 +8619,7 @@ extension type TestClass131<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   static final _id_setFoo = _class.staticMethodId(
     r'setFoo',
-    r'([Ljava/lang/Thread$State;)[Ljava/lang/Thread$State;',
+    r'([Lcom/example/CustomEnum;)[Lcom/example/CustomEnum;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -8202,15 +8633,15 @@ extension type TestClass131<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public java.lang.Thread$State[] setFoo(java.lang.Thread$State[] p1)`
+  /// from: `static public com.example.CustomEnum[] setFoo(com.example.CustomEnum[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<jni$_.JObject?>?
+  static jni$_.JArray<CustomEnum?>?
       setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+    jni$_.JArray<CustomEnum?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(_class.reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomEnum?>?>();
   }
 }
 
@@ -8706,9 +9137,10 @@ extension type TestClass135<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'getFoo([Ljava/util/Map$Entry;)[Ljava/util/Map$Entry;') {
+      if ($d ==
+          r'getFoo([Lcom/example/NestedCustom$Nested;)[Lcom/example/NestedCustom$Nested;') {
         final $r = _$impls[$p]!.getFoo(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<NestedCustom$Nested?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8760,7 +9192,7 @@ extension TestClass135$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass135<$T, $U> {
   static final _id_getFoo = TestClass135._class.instanceMethodId(
     r'getFoo',
-    r'([Ljava/util/Map$Entry;)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -8774,40 +9206,43 @@ extension TestClass135$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract java.util.Map$Entry[] getFoo(java.util.Map$Entry[] p1)`
+  /// from: `public abstract com.example.NestedCustom$Nested[] getFoo(com.example.NestedCustom$Nested[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      getFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 }
 
 abstract base mixin class $TestClass135<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass135({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1)
+    required jni$_.JArray<NestedCustom$Nested?>? Function(
+            jni$_.JArray<NestedCustom$Nested?>? p1)
         getFoo,
   }) = _$TestClass135<$T, $U>;
 
-  jni$_.JArray<jni$_.JObject?>? getFoo(jni$_.JArray<jni$_.JObject?>? p1);
+  jni$_.JArray<NestedCustom$Nested?>? getFoo(
+      jni$_.JArray<NestedCustom$Nested?>? p1);
 }
 
 final class _$TestClass135<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass135<$T, $U> {
   _$TestClass135({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1)
+    required jni$_.JArray<NestedCustom$Nested?>? Function(
+            jni$_.JArray<NestedCustom$Nested?>? p1)
         getFoo,
   }) : _getFoo = getFoo;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(jni$_.JArray<jni$_.JObject?>? p1)
-      _getFoo;
+  final jni$_.JArray<NestedCustom$Nested?>? Function(
+      jni$_.JArray<NestedCustom$Nested?>? p1) _getFoo;
 
-  jni$_.JArray<jni$_.JObject?>? getFoo(jni$_.JArray<jni$_.JObject?>? p1) {
+  jni$_.JArray<NestedCustom$Nested?>? getFoo(
+      jni$_.JArray<NestedCustom$Nested?>? p1) {
     return _getFoo(p1);
   }
 }
@@ -9213,7 +9648,7 @@ extension TestClass138$$Methods<$T extends jni$_.JObject?> on TestClass138<$T> {
 
   static final _id_setFoo = TestClass138._class.instanceMethodId(
     r'setFoo',
-    r'([Ljava/lang/Thread$State;)[Ljava/lang/Thread$State;',
+    r'([Lcom/example/CustomEnum;)[Lcom/example/CustomEnum;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -9227,14 +9662,14 @@ extension TestClass138$$Methods<$T extends jni$_.JObject?> on TestClass138<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public native java.lang.Thread$State[] setFoo(java.lang.Thread$State[] p1)`
+  /// from: `public native com.example.CustomEnum[] setFoo(com.example.CustomEnum[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? setFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomEnum?>? setFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomEnum?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomEnum?>?>();
   }
 
   static final _id_aMethod = TestClass138._class.instanceMethodId(
@@ -9939,7 +10374,7 @@ extension type TestClass141._(jni$_.JObject _$this) implements jni$_.JObject {
 
   static final _id_myMethod = _class.staticMethodId(
     r'myMethod',
-    r'(Ljava/util/ArrayList;I)Ljava/util/ArrayList;',
+    r'(Lcom/example/CustomObject;I)Lcom/example/CustomObject;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -9954,16 +10389,16 @@ extension type TestClass141._(jni$_.JObject _$this) implements jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `static public java.util.ArrayList<S> myMethod(java.util.ArrayList<S> p1, int p2)`
+  /// from: `static public com.example.CustomObject<S> myMethod(com.example.CustomObject<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? myMethod<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  static CustomObject<$S?>? myMethod<$S extends jni$_.JObject?>(
+    CustomObject<$S?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(
             _class.reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<$S?>?>();
   }
 }
 
@@ -10231,7 +10666,7 @@ extension TestClass143$$Methods<$T extends jni$_.JObject?,
 
   static final _id_isFoo = TestClass143._class.instanceMethodId(
     r'isFoo',
-    r'(Ljava/lang/Thread$State;)Ljava/lang/Thread$State;',
+    r'(Lcom/example/CustomEnum;)Lcom/example/CustomEnum;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -10245,14 +10680,14 @@ extension TestClass143$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.lang.Thread$State isFoo(java.lang.Thread$State p1)`
+  /// from: `public com.example.CustomEnum isFoo(com.example.CustomEnum p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo(
-    jni$_.JObject? p1,
+  CustomEnum? isFoo(
+    CustomEnum? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 }
 
@@ -10385,9 +10820,10 @@ extension type TestClass144<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'myMethod(Ljava/lang/Runnable;I)Ljava/lang/Runnable;') {
+      if ($d ==
+          r'myMethod(Lcom/example/CustomInterface;I)Lcom/example/CustomInterface;') {
         final $r = _$impls[$p]!.myMethod(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomInterface<jni$_.JObject?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -10439,7 +10875,7 @@ extension type TestClass144<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass144$$Methods<$T extends jni$_.JObject?> on TestClass144<$T> {
   static final _id_myMethod = TestClass144._class.instanceMethodId(
     r'myMethod',
-    r'(Ljava/lang/Runnable;I)Ljava/lang/Runnable;',
+    r'(Lcom/example/CustomInterface;I)Lcom/example/CustomInterface;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -10454,34 +10890,41 @@ extension TestClass144$$Methods<$T extends jni$_.JObject?> on TestClass144<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `default public java.lang.Runnable myMethod(java.lang.Runnable p1, int p2)`
+  /// from: `default public com.example.CustomInterface<S> myMethod(com.example.CustomInterface<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? myMethod<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomInterface<$S?>? myMethod<$S extends jni$_.JObject?>(
+    CustomInterface<$S?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 }
 
 abstract base mixin class $TestClass144<$T extends jni$_.JObject?> {
   factory $TestClass144({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) myMethod,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1, core$_.int p2)
+        myMethod,
   }) = _$TestClass144<$T>;
 
-  jni$_.JObject? myMethod(jni$_.JObject? p1, core$_.int p2);
+  CustomInterface<jni$_.JObject?>? myMethod(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2);
 }
 
 final class _$TestClass144<$T extends jni$_.JObject?> with $TestClass144<$T> {
   _$TestClass144({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) myMethod,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1, core$_.int p2)
+        myMethod,
   }) : _myMethod = myMethod;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) _myMethod;
+  final CustomInterface<jni$_.JObject?>? Function(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2) _myMethod;
 
-  jni$_.JObject? myMethod(jni$_.JObject? p1, core$_.int p2) {
+  CustomInterface<jni$_.JObject?>? myMethod(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2) {
     return _myMethod(p1, p2);
   }
 }
@@ -10534,7 +10977,7 @@ extension type TestClass145<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'myMethod()[Ljava/util/Map$Entry;') {
+      if ($d == r'myMethod()[Lcom/example/NestedCustom$Nested;') {
         final $r = _$impls[$p]!.myMethod();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -10586,7 +11029,7 @@ extension TestClass145$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass145<$T, $U> {
   static final _id_myMethod = TestClass145._class.instanceMethodId(
     r'myMethod',
-    r'()[Ljava/util/Map$Entry;',
+    r'()[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -10601,32 +11044,33 @@ extension TestClass145$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract java.util.Map$Entry[] myMethod()`
+  /// from: `public abstract com.example.NestedCustom$Nested[] myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? myMethod<$S extends jni$_.JObject?>() {
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      myMethod<$S extends jni$_.JObject?>() {
     return _myMethod(reference.pointer, _id_myMethod.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 }
 
 abstract base mixin class $TestClass145<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass145({
-    required jni$_.JArray<jni$_.JObject?>? Function() myMethod,
+    required jni$_.JArray<NestedCustom$Nested?>? Function() myMethod,
   }) = _$TestClass145<$T, $U>;
 
-  jni$_.JArray<jni$_.JObject?>? myMethod();
+  jni$_.JArray<NestedCustom$Nested?>? myMethod();
 }
 
 final class _$TestClass145<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass145<$T, $U> {
   _$TestClass145({
-    required jni$_.JArray<jni$_.JObject?>? Function() myMethod,
+    required jni$_.JArray<NestedCustom$Nested?>? Function() myMethod,
   }) : _myMethod = myMethod;
 
-  final jni$_.JArray<jni$_.JObject?>? Function() _myMethod;
+  final jni$_.JArray<NestedCustom$Nested?>? Function() _myMethod;
 
-  jni$_.JArray<jni$_.JObject?>? myMethod() {
+  jni$_.JArray<NestedCustom$Nested?>? myMethod() {
     return _myMethod();
   }
 }
@@ -11034,7 +11478,7 @@ extension TestClass148$$Methods<$T extends jni$_.JObject?,
 
   static final _id_setFoo = TestClass148._class.instanceMethodId(
     r'setFoo',
-    r'(Ljava/lang/Runnable;I)Ljava/lang/Runnable;',
+    r'(Lcom/example/CustomInterface;I)Lcom/example/CustomInterface;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -11049,15 +11493,16 @@ extension TestClass148$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public java.lang.Runnable setFoo(java.lang.Runnable p1, int p2)`
+  /// from: `public com.example.CustomInterface<S> setFoo(com.example.CustomInterface<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomInterface<$S?>?
+      setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
+    CustomInterface<$S?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 }
 
@@ -11565,7 +12010,7 @@ extension TestClass151$$Methods<$T extends jni$_.JObject?,
 
   static final _id_myMethod = TestClass151._class.instanceMethodId(
     r'myMethod',
-    r'(Ljava/util/ArrayList;I)Ljava/util/ArrayList;',
+    r'(Lcom/example/CustomObject;I)Lcom/example/CustomObject;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -11580,15 +12025,15 @@ extension TestClass151$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `synchronized public java.util.ArrayList<T> myMethod(java.util.ArrayList<T> p1, int p2)`
+  /// from: `synchronized public com.example.CustomObject<T> myMethod(com.example.CustomObject<T> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? myMethod(
-    jni$_.JObject? p1,
+  CustomObject<$T?>? myMethod(
+    CustomObject<$T?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<$T?>?>();
   }
 
   static final _id_aMethod = TestClass151._class.instanceMethodId(
@@ -12922,7 +13367,7 @@ extension TestClass157$$Methods<$T extends jni$_.JObject?> on TestClass157<$T> {
 
   static final _id_isFoo = TestClass157._class.instanceMethodId(
     r'isFoo',
-    r'()[Ljava/util/Map$Entry;',
+    r'()[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -12937,12 +13382,12 @@ extension TestClass157$$Methods<$T extends jni$_.JObject?> on TestClass157<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract java.util.Map$Entry[] isFoo()`
+  /// from: `public abstract com.example.NestedCustom$Nested[] isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>?
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
       isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
     return _isFoo(reference.pointer, _id_isFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 
   static final _id_aMethod = TestClass157._class.instanceMethodId(
@@ -13861,7 +14306,7 @@ extension TestClass161$$Methods<$T extends jni$_.JObject?,
 
   static final _id_myMethod = TestClass161._class.instanceMethodId(
     r'myMethod',
-    r'()Ljava/lang/Runnable;',
+    r'()Lcom/example/CustomInterface;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -13876,11 +14321,11 @@ extension TestClass161$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final java.lang.Runnable myMethod()`
+  /// from: `public final com.example.CustomInterface<S> myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? myMethod<$S extends jni$_.JObject?>() {
+  CustomInterface<$S?>? myMethod<$S extends jni$_.JObject?>() {
     return _myMethod(reference.pointer, _id_myMethod.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 
   static final _id_leftMethod = TestClass161._class.instanceMethodId(
@@ -14077,7 +14522,7 @@ extension TestClass162$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass162<$T, $U> {
   static final _id_myMethod = TestClass162._class.instanceMethodId(
     r'myMethod',
-    r'()[Ljava/util/ArrayList;',
+    r'()[Lcom/example/CustomObject;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -14092,11 +14537,11 @@ extension TestClass162$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `synchronized public java.util.ArrayList[] myMethod()`
+  /// from: `synchronized public com.example.CustomObject[] myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? myMethod<$S extends jni$_.JObject?>() {
+  jni$_.JArray<CustomObject<$S?>?>? myMethod<$S extends jni$_.JObject?>() {
     return _myMethod(reference.pointer, _id_myMethod.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$S?>?>?>();
   }
 }
 
@@ -14388,7 +14833,7 @@ extension TestClass165$$Methods<$T extends jni$_.JObject?> on TestClass165<$T> {
 
   static final _id_getFoo = TestClass165._class.instanceMethodId(
     r'getFoo',
-    r'()[Ljava/lang/Thread$State;',
+    r'()[Lcom/example/CustomEnum;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -14403,11 +14848,11 @@ extension TestClass165$$Methods<$T extends jni$_.JObject?> on TestClass165<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract java.lang.Thread$State[] getFoo()`
+  /// from: `public abstract com.example.CustomEnum[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>() {
+  jni$_.JArray<CustomEnum?>? getFoo<$S extends jni$_.JObject?>() {
     return _getFoo(reference.pointer, _id_getFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomEnum?>?>();
   }
 }
 
@@ -15387,9 +15832,10 @@ extension type TestClass171<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'getFoo([Ljava/lang/Runnable;I)[Ljava/lang/Runnable;') {
+      if ($d ==
+          r'getFoo([Lcom/example/CustomInterface;I)[Lcom/example/CustomInterface;') {
         final $r = _$impls[$p]!.getFoo(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<CustomInterface?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -15458,7 +15904,7 @@ extension TestClass171$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass171<$T, $U> {
   static final _id_getFoo = TestClass171._class.instanceMethodId(
     r'getFoo',
-    r'([Ljava/lang/Runnable;I)[Ljava/lang/Runnable;',
+    r'([Lcom/example/CustomInterface;I)[Lcom/example/CustomInterface;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -15473,15 +15919,15 @@ extension TestClass171$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.lang.Runnable[] getFoo(java.lang.Runnable[] p1, int p2)`
+  /// from: `public abstract com.example.CustomInterface[] getFoo(com.example.CustomInterface[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomInterface<$T?>?>? getFoo(
+    jni$_.JArray<CustomInterface<$T?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomInterface<$T?>?>?>();
   }
 
   static final _id_leftMethod = TestClass171._class.instanceMethodId(
@@ -15554,8 +16000,8 @@ extension TestClass171$$Methods<$T extends jni$_.JObject?,
 abstract base mixin class $TestClass171<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass171({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomInterface?>? Function(
+            jni$_.JArray<CustomInterface?>? p1, core$_.int p2)
         getFoo,
     required void Function() leftMethod,
     core$_.bool leftMethod$async,
@@ -15565,8 +16011,8 @@ abstract base mixin class $TestClass171<$T extends jni$_.JObject?,
     core$_.bool rightMethod$async,
   }) = _$TestClass171<$T, $U>;
 
-  jni$_.JArray<jni$_.JObject?>? getFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2);
+  jni$_.JArray<CustomInterface?>? getFoo(
+      jni$_.JArray<CustomInterface?>? p1, core$_.int p2);
   void leftMethod();
   core$_.bool get leftMethod$async => false;
   void baseMethod();
@@ -15578,8 +16024,8 @@ abstract base mixin class $TestClass171<$T extends jni$_.JObject?,
 final class _$TestClass171<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass171<$T, $U> {
   _$TestClass171({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomInterface?>? Function(
+            jni$_.JArray<CustomInterface?>? p1, core$_.int p2)
         getFoo,
     required void Function() leftMethod,
     this.leftMethod$async = false,
@@ -15592,8 +16038,8 @@ final class _$TestClass171<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
         _baseMethod = baseMethod,
         _rightMethod = rightMethod;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) _getFoo;
+  final jni$_.JArray<CustomInterface?>? Function(
+      jni$_.JArray<CustomInterface?>? p1, core$_.int p2) _getFoo;
   final void Function() _leftMethod;
   final core$_.bool leftMethod$async;
   final void Function() _baseMethod;
@@ -15601,8 +16047,8 @@ final class _$TestClass171<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
   final void Function() _rightMethod;
   final core$_.bool rightMethod$async;
 
-  jni$_.JArray<jni$_.JObject?>? getFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) {
+  jni$_.JArray<CustomInterface?>? getFoo(
+      jni$_.JArray<CustomInterface?>? p1, core$_.int p2) {
     return _getFoo(p1, p2);
   }
 
@@ -16354,7 +16800,7 @@ extension TestClass176$$Methods<$T extends jni$_.JObject?,
 
   static final _id_getFoo = TestClass176._class.instanceMethodId(
     r'getFoo',
-    r'()[Ljava/util/ArrayList;',
+    r'()[Lcom/example/CustomObject;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -16369,11 +16815,11 @@ extension TestClass176$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.ArrayList[] getFoo()`
+  /// from: `public com.example.CustomObject[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>() {
+  jni$_.JArray<CustomObject<$S?>?>? getFoo<$S extends jni$_.JObject?>() {
     return _getFoo(reference.pointer, _id_getFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$S?>?>?>();
   }
 }
 
@@ -16776,7 +17222,7 @@ extension TestClass179$$Methods<$T extends jni$_.JObject?,
 
   static final _id_myMethod = TestClass179._class.instanceMethodId(
     r'myMethod',
-    r'()Ljava/lang/Thread$State;',
+    r'()Lcom/example/CustomEnum;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -16791,12 +17237,11 @@ extension TestClass179$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `synchronized public java.lang.Thread$State myMethod()`
+  /// from: `synchronized public com.example.CustomEnum myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject?
-      myMethod<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
+  CustomEnum? myMethod<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
     return _myMethod(reference.pointer, _id_myMethod.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 
   static final _id_aMethod = TestClass179._class.instanceMethodId(
@@ -16955,7 +17400,7 @@ extension TestClass18$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass18<$T, $U> {
   static final _id_myMethod = TestClass18._class.instanceMethodId(
     r'myMethod',
-    r'([Ljava/lang/Thread$State;I)[Ljava/lang/Thread$State;',
+    r'([Lcom/example/CustomEnum;I)[Lcom/example/CustomEnum;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -16970,15 +17415,15 @@ extension TestClass18$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public java.lang.Thread$State[] myMethod(java.lang.Thread$State[] p1, int p2)`
+  /// from: `public com.example.CustomEnum[] myMethod(com.example.CustomEnum[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? myMethod<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomEnum?>? myMethod<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomEnum?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomEnum?>?>();
   }
 }
 
@@ -17540,7 +17985,7 @@ extension type TestClass182<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass182$$Methods<$T extends jni$_.JObject?> on TestClass182<$T> {
   static final _id_get$foo = TestClass182._class.instanceMethodId(
     r'getFoo',
-    r'()[Lcom/example/CoreRecord;',
+    r'()[Lcom/example/CustomRecord;',
   );
 
   static final _get$foo = jni$_.ProtectedJniExtensions.lookup<
@@ -17555,7 +18000,7 @@ extension TestClass182$$Methods<$T extends jni$_.JObject?> on TestClass182<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final com.example.CoreRecord[] getFoo()`
+  /// from: `public final com.example.CustomRecord[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? get foo {
     return _get$foo(reference.pointer, _id_get$foo.pointer)
@@ -17663,7 +18108,7 @@ extension type TestClass183<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   static const jni$_.JType<TestClass183> type = $TestClass183$Type$();
   static final _id_setFoo = _class.staticMethodId(
     r'setFoo',
-    r'(Ljava/lang/Runnable;)Ljava/lang/Runnable;',
+    r'(Lcom/example/CustomInterface;)Lcom/example/CustomInterface;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -17677,15 +18122,15 @@ extension type TestClass183<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public java.lang.Runnable setFoo(java.lang.Runnable p1)`
+  /// from: `static public com.example.CustomInterface<S> setFoo(com.example.CustomInterface<S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject?
+  static CustomInterface<$S?>?
       setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+    CustomInterface<$S?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(_class.reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -17718,9 +18163,10 @@ extension type TestClass183<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo(Ljava/lang/Runnable;)Ljava/lang/Runnable;') {
+      if ($d ==
+          r'setFoo(Lcom/example/CustomInterface;)Lcom/example/CustomInterface;') {
         final $r = _$impls[$p]!.setFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomInterface<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -17770,20 +18216,25 @@ extension type TestClass183<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
 abstract base mixin class $TestClass183<$T extends jni$_.JObject?> {
   factory $TestClass183({
-    required jni$_.JObject? Function(jni$_.JObject? p1) setFoo,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1)
+        setFoo,
   }) = _$TestClass183<$T>;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1);
+  CustomInterface<jni$_.JObject?>? setFoo(CustomInterface<jni$_.JObject?>? p1);
 }
 
 final class _$TestClass183<$T extends jni$_.JObject?> with $TestClass183<$T> {
   _$TestClass183({
-    required jni$_.JObject? Function(jni$_.JObject? p1) setFoo,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1)
+        setFoo,
   }) : _setFoo = setFoo;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1) _setFoo;
+  final CustomInterface<jni$_.JObject?>? Function(
+      CustomInterface<jni$_.JObject?>? p1) _setFoo;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1) {
+  CustomInterface<jni$_.JObject?>? setFoo(CustomInterface<jni$_.JObject?>? p1) {
     return _setFoo(p1);
   }
 }
@@ -18228,7 +18679,7 @@ extension type TestClass186<$T extends jni$_.JObject?,
 
   static final _id_isFoo = _class.staticMethodId(
     r'isFoo',
-    r'(Ljava/lang/Thread$State;)Ljava/lang/Thread$State;',
+    r'(Lcom/example/CustomEnum;)Lcom/example/CustomEnum;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -18242,14 +18693,14 @@ extension type TestClass186<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public java.lang.Thread$State isFoo(java.lang.Thread$State p1)`
+  /// from: `static public com.example.CustomEnum isFoo(com.example.CustomEnum p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? isFoo<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  static CustomEnum? isFoo<$S extends jni$_.JObject?>(
+    CustomEnum? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(_class.reference.pointer, _id_isFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 }
 
@@ -18938,7 +19389,7 @@ extension TestClass19$$Methods<$T extends jni$_.JObject?> on TestClass19<$T> {
 
   static final _id_setFoo = TestClass19._class.instanceMethodId(
     r'setFoo',
-    r'()Lcom/example/CoreRecord;',
+    r'()Lcom/example/CustomRecord;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -18953,7 +19404,7 @@ extension TestClass19$$Methods<$T extends jni$_.JObject?> on TestClass19<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public com.example.CoreRecord setFoo()`
+  /// from: `public com.example.CustomRecord<S> setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject?
       setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
@@ -19770,9 +20221,10 @@ extension type TestClass193<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo(Ljava/util/ArrayList;)Ljava/util/ArrayList;') {
+      if ($d ==
+          r'setFoo(Lcom/example/CustomObject;)Lcom/example/CustomObject;') {
         final $r = _$impls[$p]!.setFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomObject<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -19823,7 +20275,7 @@ extension type TestClass193<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass193$$Methods<$T extends jni$_.JObject?> on TestClass193<$T> {
   static final _id_setFoo = TestClass193._class.instanceMethodId(
     r'setFoo',
-    r'(Ljava/util/ArrayList;)Ljava/util/ArrayList;',
+    r'(Lcom/example/CustomObject;)Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -19837,33 +20289,39 @@ extension TestClass193$$Methods<$T extends jni$_.JObject?> on TestClass193<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract java.util.ArrayList<S> setFoo(java.util.ArrayList<S> p1)`
+  /// from: `public abstract com.example.CustomObject<S> setFoo(com.example.CustomObject<S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomObject<$S?>?
+      setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
+    CustomObject<$S?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<$S?>?>();
   }
 }
 
 abstract base mixin class $TestClass193<$T extends jni$_.JObject?> {
   factory $TestClass193({
-    required jni$_.JObject? Function(jni$_.JObject? p1) setFoo,
+    required CustomObject<jni$_.JObject?>? Function(
+            CustomObject<jni$_.JObject?>? p1)
+        setFoo,
   }) = _$TestClass193<$T>;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1);
+  CustomObject<jni$_.JObject?>? setFoo(CustomObject<jni$_.JObject?>? p1);
 }
 
 final class _$TestClass193<$T extends jni$_.JObject?> with $TestClass193<$T> {
   _$TestClass193({
-    required jni$_.JObject? Function(jni$_.JObject? p1) setFoo,
+    required CustomObject<jni$_.JObject?>? Function(
+            CustomObject<jni$_.JObject?>? p1)
+        setFoo,
   }) : _setFoo = setFoo;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1) _setFoo;
+  final CustomObject<jni$_.JObject?>? Function(CustomObject<jni$_.JObject?>? p1)
+      _setFoo;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1) {
+  CustomObject<jni$_.JObject?>? setFoo(CustomObject<jni$_.JObject?>? p1) {
     return _setFoo(p1);
   }
 }
@@ -19933,7 +20391,7 @@ extension TestClass194$$Methods<$T extends jni$_.JObject?> on TestClass194<$T> {
 
   static final _id_getFoo = TestClass194._class.instanceMethodId(
     r'getFoo',
-    r'([Ljava/util/Map$Entry;)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -19947,14 +20405,15 @@ extension TestClass194$$Methods<$T extends jni$_.JObject?> on TestClass194<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.util.Map$Entry[] getFoo(java.util.Map$Entry[] p1)`
+  /// from: `public final com.example.NestedCustom$Nested[] getFoo(com.example.NestedCustom$Nested[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      getFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 }
 
@@ -20431,7 +20890,7 @@ extension TestClass199$$Methods<$T extends jni$_.JObject?,
 
   static final _id_get$foo = TestClass199._class.instanceMethodId(
     r'getFoo',
-    r'()Ljava/lang/Runnable;',
+    r'()Lcom/example/CustomInterface;',
   );
 
   static final _get$foo = jni$_.ProtectedJniExtensions.lookup<
@@ -20446,11 +20905,11 @@ extension TestClass199$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final java.lang.Runnable getFoo()`
+  /// from: `public final com.example.CustomInterface<T> getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get foo {
+  CustomInterface<$T?>? get foo {
     return _get$foo(reference.pointer, _id_get$foo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$T?>?>();
   }
 
   static final _id_aMethod = TestClass199._class.instanceMethodId(
@@ -20921,7 +21380,7 @@ extension TestClass20$$Methods on TestClass20 {
 
   static final _id_myMethod = TestClass20._class.instanceMethodId(
     r'myMethod',
-    r'()Ljava/util/Map$Entry;',
+    r'()Lcom/example/NestedCustom$Nested;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -20936,11 +21395,11 @@ extension TestClass20$$Methods on TestClass20 {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public native java.util.Map$Entry<S, S> myMethod()`
+  /// from: `public native com.example.NestedCustom$Nested<S, S, S> myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? myMethod<$S extends jni$_.JObject?>() {
+  NestedCustom$Nested<$S?, $S?, $S?>? myMethod<$S extends jni$_.JObject?>() {
     return _myMethod(reference.pointer, _id_myMethod.pointer)
-        .object<jni$_.JObject?>();
+        .object<NestedCustom$Nested<$S?, $S?, $S?>?>();
   }
 }
 
@@ -21562,9 +22021,10 @@ extension type TestClass203._(jni$_.JObject _$this) implements jni$_.JObject {
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo(Ljava/util/ArrayList;I)Ljava/util/ArrayList;') {
+      if ($d ==
+          r'setFoo(Lcom/example/CustomObject;I)Lcom/example/CustomObject;') {
         final $r = _$impls[$p]!.setFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomObject<jni$_.JString?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -21616,7 +22076,7 @@ extension type TestClass203._(jni$_.JObject _$this) implements jni$_.JObject {
 extension TestClass203$$Methods on TestClass203 {
   static final _id_setFoo = TestClass203._class.instanceMethodId(
     r'setFoo',
-    r'(Ljava/util/ArrayList;I)Ljava/util/ArrayList;',
+    r'(Lcom/example/CustomObject;I)Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -21631,34 +22091,41 @@ extension TestClass203$$Methods on TestClass203 {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `default public java.util.ArrayList<java.lang.String> setFoo(java.util.ArrayList<java.lang.String> p1, int p2)`
+  /// from: `default public com.example.CustomObject<java.lang.String> setFoo(com.example.CustomObject<java.lang.String> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo(
-    jni$_.JObject? p1,
+  CustomObject<jni$_.JString?>? setFoo(
+    CustomObject<jni$_.JString?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<jni$_.JString?>?>();
   }
 }
 
 abstract base mixin class $TestClass203 {
   factory $TestClass203({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) setFoo,
+    required CustomObject<jni$_.JString?>? Function(
+            CustomObject<jni$_.JString?>? p1, core$_.int p2)
+        setFoo,
   }) = _$TestClass203;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1, core$_.int p2);
+  CustomObject<jni$_.JString?>? setFoo(
+      CustomObject<jni$_.JString?>? p1, core$_.int p2);
 }
 
 final class _$TestClass203 with $TestClass203 {
   _$TestClass203({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) setFoo,
+    required CustomObject<jni$_.JString?>? Function(
+            CustomObject<jni$_.JString?>? p1, core$_.int p2)
+        setFoo,
   }) : _setFoo = setFoo;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) _setFoo;
+  final CustomObject<jni$_.JString?>? Function(
+      CustomObject<jni$_.JString?>? p1, core$_.int p2) _setFoo;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1, core$_.int p2) {
+  CustomObject<jni$_.JString?>? setFoo(
+      CustomObject<jni$_.JString?>? p1, core$_.int p2) {
     return _setFoo(p1, p2);
   }
 }
@@ -21706,7 +22173,7 @@ extension type TestClass203$Sub._(jni$_.JObject _$this)
 extension TestClass203$Sub$$Methods on TestClass203$Sub {
   static final _id_setFoo = TestClass203$Sub._class.instanceMethodId(
     r'setFoo',
-    r'(Ljava/util/ArrayList;I)Ljava/util/ArrayList;',
+    r'(Lcom/example/CustomObject;I)Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -21721,15 +22188,15 @@ extension TestClass203$Sub$$Methods on TestClass203$Sub {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `default public java.util.ArrayList<java.lang.String> setFoo(java.util.ArrayList<java.lang.String> p1, int p2)`
+  /// from: `default public com.example.CustomObject<java.lang.String> setFoo(com.example.CustomObject<java.lang.String> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo(
-    jni$_.JObject? p1,
+  CustomObject<jni$_.JString?>? setFoo(
+    CustomObject<jni$_.JString?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<jni$_.JString?>?>();
   }
 }
 
@@ -21781,9 +22248,10 @@ extension type TestClass204<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'isFoo(Ljava/lang/Runnable;I)Ljava/lang/Runnable;') {
+      if ($d ==
+          r'isFoo(Lcom/example/CustomInterface;I)Lcom/example/CustomInterface;') {
         final $r = _$impls[$p]!.isFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomInterface<jni$_.JObject?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -21862,7 +22330,7 @@ extension TestClass204$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass204<$T, $U> {
   static final _id_isFoo = TestClass204._class.instanceMethodId(
     r'isFoo',
-    r'(Ljava/lang/Runnable;I)Ljava/lang/Runnable;',
+    r'(Lcom/example/CustomInterface;I)Lcom/example/CustomInterface;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -21877,15 +22345,16 @@ extension TestClass204$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `default public java.lang.Runnable isFoo(java.lang.Runnable p1, int p2)`
+  /// from: `default public com.example.CustomInterface<S> isFoo(com.example.CustomInterface<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomInterface<$S?>?
+      isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
+    CustomInterface<$S?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 
   static final _id_aMethod = TestClass204._class.instanceMethodId(
@@ -22002,7 +22471,9 @@ extension TestClass204$$Methods<$T extends jni$_.JObject?,
 abstract base mixin class $TestClass204<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass204({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) isFoo,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1, core$_.int p2)
+        isFoo,
     required void Function() aMethod,
     core$_.bool aMethod$async,
     required void Function() dMethod,
@@ -22015,7 +22486,8 @@ abstract base mixin class $TestClass204<$T extends jni$_.JObject?,
     core$_.bool eMethod$async,
   }) = _$TestClass204<$T, $U>;
 
-  jni$_.JObject? isFoo(jni$_.JObject? p1, core$_.int p2);
+  CustomInterface<jni$_.JObject?>? isFoo(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2);
   void aMethod();
   core$_.bool get aMethod$async => false;
   void dMethod();
@@ -22031,7 +22503,9 @@ abstract base mixin class $TestClass204<$T extends jni$_.JObject?,
 final class _$TestClass204<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass204<$T, $U> {
   _$TestClass204({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) isFoo,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1, core$_.int p2)
+        isFoo,
     required void Function() aMethod,
     this.aMethod$async = false,
     required void Function() dMethod,
@@ -22049,7 +22523,8 @@ final class _$TestClass204<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
         _cMethod = cMethod,
         _eMethod = eMethod;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) _isFoo;
+  final CustomInterface<jni$_.JObject?>? Function(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2) _isFoo;
   final void Function() _aMethod;
   final core$_.bool aMethod$async;
   final void Function() _dMethod;
@@ -22061,7 +22536,8 @@ final class _$TestClass204<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
   final void Function() _eMethod;
   final core$_.bool eMethod$async;
 
-  jni$_.JObject? isFoo(jni$_.JObject? p1, core$_.int p2) {
+  CustomInterface<jni$_.JObject?>? isFoo(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2) {
     return _isFoo(p1, p2);
   }
 
@@ -22299,7 +22775,7 @@ extension type TestClass206<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass206$$Methods<$T extends jni$_.JObject?> on TestClass206<$T> {
   static final _id_myMethod = TestClass206._class.instanceMethodId(
     r'myMethod',
-    r'(Ljava/lang/Thread$State;)Ljava/lang/Thread$State;',
+    r'(Lcom/example/CustomEnum;)Lcom/example/CustomEnum;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -22313,14 +22789,14 @@ extension TestClass206$$Methods<$T extends jni$_.JObject?> on TestClass206<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `synchronized public java.lang.Thread$State myMethod(java.lang.Thread$State p1)`
+  /// from: `synchronized public com.example.CustomEnum myMethod(com.example.CustomEnum p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? myMethod(
-    jni$_.JObject? p1,
+  CustomEnum? myMethod(
+    CustomEnum? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 }
 
@@ -22464,7 +22940,7 @@ extension type TestClass207<$T extends jni$_.JObject?,
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<TestClass207> type = $TestClass207$Type$();
   static final _id_create = _class.constructorId(
-    r'([Ljava/util/ArrayList;I)V',
+    r'([Lcom/example/CustomObject;I)V',
   );
 
   static final _create = jni$_.ProtectedJniExtensions.lookup<
@@ -22479,14 +22955,14 @@ extension type TestClass207<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public void <init>(java.util.ArrayList[] p1, int p2)`
+  /// from: `public void <init>(com.example.CustomObject[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
   static TestClass207<$T, $U> create<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject?,
       $S extends jni$_.JObject?,
       $V extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+    jni$_.JArray<CustomObject<$S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
@@ -22813,9 +23289,9 @@ extension type TestClass209<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'isFoo(Ljava/lang/Thread$State;I)Ljava/lang/Thread$State;') {
+      if ($d == r'isFoo(Lcom/example/CustomEnum;I)Lcom/example/CustomEnum;') {
         final $r = _$impls[$p]!.isFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomEnum?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -22867,7 +23343,7 @@ extension type TestClass209<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass209$$Methods<$T extends jni$_.JObject?> on TestClass209<$T> {
   static final _id_isFoo = TestClass209._class.instanceMethodId(
     r'isFoo',
-    r'(Ljava/lang/Thread$State;I)Ljava/lang/Thread$State;',
+    r'(Lcom/example/CustomEnum;I)Lcom/example/CustomEnum;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -22882,34 +23358,34 @@ extension TestClass209$$Methods<$T extends jni$_.JObject?> on TestClass209<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.lang.Thread$State isFoo(java.lang.Thread$State p1, int p2)`
+  /// from: `public abstract com.example.CustomEnum isFoo(com.example.CustomEnum p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomEnum? isFoo<$S extends jni$_.JObject?>(
+    CustomEnum? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 }
 
 abstract base mixin class $TestClass209<$T extends jni$_.JObject?> {
   factory $TestClass209({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) isFoo,
+    required CustomEnum? Function(CustomEnum? p1, core$_.int p2) isFoo,
   }) = _$TestClass209<$T>;
 
-  jni$_.JObject? isFoo(jni$_.JObject? p1, core$_.int p2);
+  CustomEnum? isFoo(CustomEnum? p1, core$_.int p2);
 }
 
 final class _$TestClass209<$T extends jni$_.JObject?> with $TestClass209<$T> {
   _$TestClass209({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) isFoo,
+    required CustomEnum? Function(CustomEnum? p1, core$_.int p2) isFoo,
   }) : _isFoo = isFoo;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) _isFoo;
+  final CustomEnum? Function(CustomEnum? p1, core$_.int p2) _isFoo;
 
-  jni$_.JObject? isFoo(jni$_.JObject? p1, core$_.int p2) {
+  CustomEnum? isFoo(CustomEnum? p1, core$_.int p2) {
     return _isFoo(p1, p2);
   }
 }
@@ -23794,7 +24270,7 @@ extension TestClass213$$Methods<$T extends jni$_.JObject?> on TestClass213<$T> {
 
   static final _id_setFoo = TestClass213._class.instanceMethodId(
     r'setFoo',
-    r'([Ljava/util/Map$Entry;)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -23808,14 +24284,14 @@ extension TestClass213$$Methods<$T extends jni$_.JObject?> on TestClass213<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `synchronized public java.util.Map$Entry[] setFoo(java.util.Map$Entry[] p1)`
+  /// from: `synchronized public com.example.NestedCustom$Nested[] setFoo(com.example.NestedCustom$Nested[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? setFoo(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>? setFoo(
+    jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>?>();
   }
 }
 
@@ -23866,7 +24342,7 @@ extension type TestClass214<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'isFoo()[Lcom/example/CoreRecord;') {
+      if ($d == r'isFoo()[Lcom/example/CustomRecord;') {
         final $r = _$impls[$p]!.isFoo();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -23933,7 +24409,7 @@ extension type TestClass214<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass214$$Methods<$T extends jni$_.JObject?> on TestClass214<$T> {
   static final _id_isFoo = TestClass214._class.instanceMethodId(
     r'isFoo',
-    r'()[Lcom/example/CoreRecord;',
+    r'()[Lcom/example/CustomRecord;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -23948,7 +24424,7 @@ extension TestClass214$$Methods<$T extends jni$_.JObject?> on TestClass214<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract com.example.CoreRecord[] isFoo()`
+  /// from: `public abstract com.example.CustomRecord[] isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? isFoo() {
     return _isFoo(reference.pointer, _id_isFoo.pointer)
@@ -24353,15 +24829,15 @@ extension TestClass217$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass217<$T, $U> {
   static final _id_myField = TestClass217._class.instanceFieldId(
     r'myField',
-    r'Lcom/example/CoreRecord;',
+    r'Lcom/example/CustomRecord;',
   );
 
-  /// from: `public transient com.example.CoreRecord myField`
+  /// from: `public transient com.example.CustomRecord<T> myField`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get myField =>
       _id_myField.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
 
-  /// from: `public transient com.example.CoreRecord myField`
+  /// from: `public transient com.example.CustomRecord<T> myField`
   /// The returned object must be released after use, by calling the [release] method.
   set myField(jni$_.JObject? value) =>
       _id_myField.set(this, jni$_.JObject.type, value);
@@ -24488,7 +24964,7 @@ extension type TestClass218<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<TestClass218> type = $TestClass218$Type$();
   static final _id_create = _class.constructorId(
-    r'([Ljava/util/Map$Entry;)V',
+    r'([Lcom/example/NestedCustom$Nested;)V',
   );
 
   static final _create = jni$_.ProtectedJniExtensions.lookup<
@@ -24502,11 +24978,11 @@ extension type TestClass218<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(java.util.Map$Entry[] p1)`
+  /// from: `public void <init>(com.example.NestedCustom$Nested[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
   static TestClass218<$T> create<$T extends jni$_.JObject?,
       $S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _create(_class.reference.pointer, _id_create.pointer, _$p1.pointer)
@@ -24622,7 +25098,7 @@ extension TestClass219$$Methods<$T extends jni$_.JObject?> on TestClass219<$T> {
 
   static final _id_setFoo = TestClass219._class.instanceMethodId(
     r'setFoo',
-    r'(Ljava/lang/Thread$State;)Ljava/lang/Thread$State;',
+    r'(Lcom/example/CustomEnum;)Lcom/example/CustomEnum;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -24636,14 +25112,14 @@ extension TestClass219$$Methods<$T extends jni$_.JObject?> on TestClass219<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.lang.Thread$State setFoo(java.lang.Thread$State p1)`
+  /// from: `public com.example.CustomEnum setFoo(com.example.CustomEnum p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo(
-    jni$_.JObject? p1,
+  CustomEnum? setFoo(
+    CustomEnum? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 }
 
@@ -24817,7 +25293,7 @@ extension type TestClass220<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   static final _id_setFoo = _class.staticMethodId(
     r'setFoo',
-    r'()[Lcom/example/CoreRecord;',
+    r'()[Lcom/example/CustomRecord;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -24832,7 +25308,7 @@ extension type TestClass220<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public com.example.CoreRecord[] setFoo()`
+  /// from: `static public com.example.CustomRecord[] setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JObject?>?
       setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
@@ -25422,7 +25898,7 @@ extension TestClass224$$Methods<$T extends jni$_.JObject?,
 
   static final _id_setFoo = TestClass224._class.instanceMethodId(
     r'setFoo',
-    r'()Ljava/lang/Runnable;',
+    r'()Lcom/example/CustomInterface;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -25437,11 +25913,11 @@ extension TestClass224$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.lang.Runnable setFoo()`
+  /// from: `public com.example.CustomInterface<T> setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo() {
+  CustomInterface<$T?>? setFoo() {
     return _setFoo(reference.pointer, _id_setFoo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$T?>?>();
   }
 
   static final _id_aMethod = TestClass224._class.instanceMethodId(
@@ -25646,9 +26122,10 @@ extension type TestClass225<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo([Ljava/util/ArrayList;I)[Ljava/util/ArrayList;') {
+      if ($d ==
+          r'setFoo([Lcom/example/CustomObject;I)[Lcom/example/CustomObject;') {
         final $r = _$impls[$p]!.setFoo(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<CustomObject?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -25717,7 +26194,7 @@ extension TestClass225$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass225<$T, $U> {
   static final _id_setFoo = TestClass225._class.instanceMethodId(
     r'setFoo',
-    r'([Ljava/util/ArrayList;I)[Ljava/util/ArrayList;',
+    r'([Lcom/example/CustomObject;I)[Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -25732,15 +26209,15 @@ extension TestClass225$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.util.ArrayList[] setFoo(java.util.ArrayList[] p1, int p2)`
+  /// from: `public abstract com.example.CustomObject[] setFoo(com.example.CustomObject[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? setFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomObject<$S?>?>? setFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomObject<$S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$S?>?>?>();
   }
 
   static final _id_leftMethod = TestClass225._class.instanceMethodId(
@@ -25813,8 +26290,8 @@ extension TestClass225$$Methods<$T extends jni$_.JObject?,
 abstract base mixin class $TestClass225<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass225({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomObject?>? Function(
+            jni$_.JArray<CustomObject?>? p1, core$_.int p2)
         setFoo,
     required void Function() leftMethod,
     core$_.bool leftMethod$async,
@@ -25824,8 +26301,8 @@ abstract base mixin class $TestClass225<$T extends jni$_.JObject?,
     core$_.bool rightMethod$async,
   }) = _$TestClass225<$T, $U>;
 
-  jni$_.JArray<jni$_.JObject?>? setFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2);
+  jni$_.JArray<CustomObject?>? setFoo(
+      jni$_.JArray<CustomObject?>? p1, core$_.int p2);
   void leftMethod();
   core$_.bool get leftMethod$async => false;
   void baseMethod();
@@ -25837,8 +26314,8 @@ abstract base mixin class $TestClass225<$T extends jni$_.JObject?,
 final class _$TestClass225<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass225<$T, $U> {
   _$TestClass225({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<CustomObject?>? Function(
+            jni$_.JArray<CustomObject?>? p1, core$_.int p2)
         setFoo,
     required void Function() leftMethod,
     this.leftMethod$async = false,
@@ -25851,8 +26328,8 @@ final class _$TestClass225<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
         _baseMethod = baseMethod,
         _rightMethod = rightMethod;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) _setFoo;
+  final jni$_.JArray<CustomObject?>? Function(
+      jni$_.JArray<CustomObject?>? p1, core$_.int p2) _setFoo;
   final void Function() _leftMethod;
   final core$_.bool leftMethod$async;
   final void Function() _baseMethod;
@@ -25860,8 +26337,8 @@ final class _$TestClass225<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
   final void Function() _rightMethod;
   final core$_.bool rightMethod$async;
 
-  jni$_.JArray<jni$_.JObject?>? setFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) {
+  jni$_.JArray<CustomObject?>? setFoo(
+      jni$_.JArray<CustomObject?>? p1, core$_.int p2) {
     return _setFoo(p1, p2);
   }
 
@@ -26351,19 +26828,19 @@ extension type TestClass228._(jni$_.JObject _$this) implements jni$_.JObject {
 extension TestClass228$$Methods on TestClass228 {
   static final _id_myField = TestClass228._class.instanceFieldId(
     r'myField',
-    r'[Ljava/lang/Thread$State;',
+    r'[Lcom/example/CustomEnum;',
   );
 
-  /// from: `public transient java.lang.Thread$State[] myField`
+  /// from: `public transient com.example.CustomEnum[] myField`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? get myField => _id_myField.getNullable(
-          this, jni$_.JArray.type<jni$_.JObject?>(const jni$_.$JObject$Type$()))
-      as jni$_.JArray<jni$_.JObject?>?;
+  jni$_.JArray<CustomEnum?>? get myField => _id_myField.getNullable(
+          this, jni$_.JArray.type<CustomEnum?>(CustomEnum.type))
+      as jni$_.JArray<CustomEnum?>?;
 
-  /// from: `public transient java.lang.Thread$State[] myField`
+  /// from: `public transient com.example.CustomEnum[] myField`
   /// The returned object must be released after use, by calling the [release] method.
-  set myField(jni$_.JArray<jni$_.JObject?>? value) => _id_myField.set(this,
-      jni$_.JArray.type<jni$_.JObject?>(const jni$_.$JObject$Type$()), value);
+  set myField(jni$_.JArray<CustomEnum?>? value) => _id_myField.set(
+      this, jni$_.JArray.type<CustomEnum?>(CustomEnum.type), value);
 
   static final _id_run = TestClass228._class.instanceMethodId(
     r'run',
@@ -26436,7 +26913,7 @@ extension type TestClass229<$T extends jni$_.JObject?,
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'isFoo()[Ljava/lang/Runnable;') {
+      if ($d == r'isFoo()[Lcom/example/CustomInterface;') {
         final $r = _$impls[$p]!.isFoo();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -26514,7 +26991,7 @@ extension TestClass229$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> on TestClass229<$T, $U> {
   static final _id_isFoo = TestClass229._class.instanceMethodId(
     r'isFoo',
-    r'()[Ljava/lang/Runnable;',
+    r'()[Lcom/example/CustomInterface;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -26529,11 +27006,11 @@ extension TestClass229$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract java.lang.Runnable[] isFoo()`
+  /// from: `public abstract com.example.CustomInterface[] isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? isFoo() {
+  jni$_.JArray<CustomInterface<$T?>?>? isFoo() {
     return _isFoo(reference.pointer, _id_isFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomInterface<$T?>?>?>();
   }
 
   static final _id_aMethod = TestClass229._class.instanceMethodId(
@@ -26650,7 +27127,7 @@ extension TestClass229$$Methods<$T extends jni$_.JObject?,
 abstract base mixin class $TestClass229<$T extends jni$_.JObject?,
     $U extends jni$_.JObject?> {
   factory $TestClass229({
-    required jni$_.JArray<jni$_.JObject?>? Function() isFoo,
+    required jni$_.JArray<CustomInterface?>? Function() isFoo,
     required void Function() aMethod,
     core$_.bool aMethod$async,
     required void Function() dMethod,
@@ -26663,7 +27140,7 @@ abstract base mixin class $TestClass229<$T extends jni$_.JObject?,
     core$_.bool eMethod$async,
   }) = _$TestClass229<$T, $U>;
 
-  jni$_.JArray<jni$_.JObject?>? isFoo();
+  jni$_.JArray<CustomInterface?>? isFoo();
   void aMethod();
   core$_.bool get aMethod$async => false;
   void dMethod();
@@ -26679,7 +27156,7 @@ abstract base mixin class $TestClass229<$T extends jni$_.JObject?,
 final class _$TestClass229<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
     with $TestClass229<$T, $U> {
   _$TestClass229({
-    required jni$_.JArray<jni$_.JObject?>? Function() isFoo,
+    required jni$_.JArray<CustomInterface?>? Function() isFoo,
     required void Function() aMethod,
     this.aMethod$async = false,
     required void Function() dMethod,
@@ -26697,7 +27174,7 @@ final class _$TestClass229<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
         _cMethod = cMethod,
         _eMethod = eMethod;
 
-  final jni$_.JArray<jni$_.JObject?>? Function() _isFoo;
+  final jni$_.JArray<CustomInterface?>? Function() _isFoo;
   final void Function() _aMethod;
   final core$_.bool aMethod$async;
   final void Function() _dMethod;
@@ -26709,7 +27186,7 @@ final class _$TestClass229<$T extends jni$_.JObject?, $U extends jni$_.JObject?>
   final void Function() _eMethod;
   final core$_.bool eMethod$async;
 
-  jni$_.JArray<jni$_.JObject?>? isFoo() {
+  jni$_.JArray<CustomInterface?>? isFoo() {
     return _isFoo();
   }
 
@@ -27192,9 +27669,10 @@ extension type TestClass232<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'getFoo([Ljava/util/Map$Entry;I)[Ljava/util/Map$Entry;') {
+      if ($d ==
+          r'getFoo([Lcom/example/NestedCustom$Nested;I)[Lcom/example/NestedCustom$Nested;') {
         final $r = _$impls[$p]!.getFoo(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<NestedCustom$Nested?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -27272,7 +27750,7 @@ extension type TestClass232<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass232$$Methods<$T extends jni$_.JObject?> on TestClass232<$T> {
   static final _id_getFoo = TestClass232._class.instanceMethodId(
     r'getFoo',
-    r'([Ljava/util/Map$Entry;I)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;I)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -27287,15 +27765,16 @@ extension TestClass232$$Methods<$T extends jni$_.JObject?> on TestClass232<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.util.Map$Entry[] getFoo(java.util.Map$Entry[] p1, int p2)`
+  /// from: `public abstract com.example.NestedCustom$Nested[] getFoo(com.example.NestedCustom$Nested[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      getFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 
   static final _id_aMethod = TestClass232._class.instanceMethodId(
@@ -27411,8 +27890,8 @@ extension TestClass232$$Methods<$T extends jni$_.JObject?> on TestClass232<$T> {
 
 abstract base mixin class $TestClass232<$T extends jni$_.JObject?> {
   factory $TestClass232({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<NestedCustom$Nested?>? Function(
+            jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2)
         getFoo,
     required void Function() aMethod,
     core$_.bool aMethod$async,
@@ -27426,8 +27905,8 @@ abstract base mixin class $TestClass232<$T extends jni$_.JObject?> {
     core$_.bool eMethod$async,
   }) = _$TestClass232<$T>;
 
-  jni$_.JArray<jni$_.JObject?>? getFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2);
+  jni$_.JArray<NestedCustom$Nested?>? getFoo(
+      jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2);
   void aMethod();
   core$_.bool get aMethod$async => false;
   void dMethod();
@@ -27442,8 +27921,8 @@ abstract base mixin class $TestClass232<$T extends jni$_.JObject?> {
 
 final class _$TestClass232<$T extends jni$_.JObject?> with $TestClass232<$T> {
   _$TestClass232({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<NestedCustom$Nested?>? Function(
+            jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2)
         getFoo,
     required void Function() aMethod,
     this.aMethod$async = false,
@@ -27462,8 +27941,8 @@ final class _$TestClass232<$T extends jni$_.JObject?> with $TestClass232<$T> {
         _cMethod = cMethod,
         _eMethod = eMethod;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) _getFoo;
+  final jni$_.JArray<NestedCustom$Nested?>? Function(
+      jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2) _getFoo;
   final void Function() _aMethod;
   final core$_.bool aMethod$async;
   final void Function() _dMethod;
@@ -27475,8 +27954,8 @@ final class _$TestClass232<$T extends jni$_.JObject?> with $TestClass232<$T> {
   final void Function() _eMethod;
   final core$_.bool eMethod$async;
 
-  jni$_.JArray<jni$_.JObject?>? getFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) {
+  jni$_.JArray<NestedCustom$Nested?>? getFoo(
+      jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2) {
     return _getFoo(p1, p2);
   }
 
@@ -27812,18 +28291,19 @@ extension type TestClass234<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass234$$Methods<$T extends jni$_.JObject?> on TestClass234<$T> {
   static final _id_myField = TestClass234._class.instanceFieldId(
     r'myField',
-    r'Ljava/util/Map$Entry;',
+    r'Lcom/example/NestedCustom$Nested;',
   );
 
-  /// from: `public volatile java.util.Map$Entry<T, T> myField`
+  /// from: `public volatile com.example.NestedCustom$Nested<T, T, T> myField`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get myField =>
-      _id_myField.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
+  NestedCustom$Nested<$T?, $T?, $T?>? get myField =>
+      _id_myField.getNullable(this, NestedCustom$Nested.type)
+          as NestedCustom$Nested<$T?, $T?, $T?>?;
 
-  /// from: `public volatile java.util.Map$Entry<T, T> myField`
+  /// from: `public volatile com.example.NestedCustom$Nested<T, T, T> myField`
   /// The returned object must be released after use, by calling the [release] method.
-  set myField(jni$_.JObject? value) =>
-      _id_myField.set(this, jni$_.JObject.type, value);
+  set myField(NestedCustom$Nested<$T?, $T?, $T?>? value) =>
+      _id_myField.set(this, NestedCustom$Nested.type, value);
 }
 
 final class $TestClass234$Type$ extends jni$_.JType<TestClass234> {
@@ -28099,19 +28579,26 @@ extension type TestClass236<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass236$$Methods<$T extends jni$_.JObject?> on TestClass236<$T> {
   static final _id_myField = TestClass236._class.instanceFieldId(
     r'myField',
-    r'[Ljava/util/Map$Entry;',
+    r'[Lcom/example/NestedCustom$Nested;',
   );
 
-  /// from: `public transient java.util.Map$Entry[] myField`
+  /// from: `public transient com.example.NestedCustom$Nested[] myField`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? get myField => _id_myField.getNullable(
-          this, jni$_.JArray.type<jni$_.JObject?>(const jni$_.$JObject$Type$()))
-      as jni$_.JArray<jni$_.JObject?>?;
+  jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>? get myField =>
+      _id_myField.getNullable(
+              this,
+              jni$_.JArray.type<NestedCustom$Nested<$T?, $T?, $T?>?>(
+                  NestedCustom$Nested.type))
+          as jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>?;
 
-  /// from: `public transient java.util.Map$Entry[] myField`
+  /// from: `public transient com.example.NestedCustom$Nested[] myField`
   /// The returned object must be released after use, by calling the [release] method.
-  set myField(jni$_.JArray<jni$_.JObject?>? value) => _id_myField.set(this,
-      jni$_.JArray.type<jni$_.JObject?>(const jni$_.$JObject$Type$()), value);
+  set myField(jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>? value) =>
+      _id_myField.set(
+          this,
+          jni$_.JArray.type<NestedCustom$Nested<$T?, $T?, $T?>?>(
+              NestedCustom$Nested.type),
+          value);
 
   static final _id_run = TestClass236._class.instanceMethodId(
     r'run',
@@ -28421,7 +28908,7 @@ extension TestClass238$$Methods<$T extends jni$_.JObject?> on TestClass238<$T> {
 
   static final _id_setFoo = TestClass238._class.instanceMethodId(
     r'setFoo',
-    r'()Ljava/util/ArrayList;',
+    r'()Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -28436,12 +28923,12 @@ extension TestClass238$$Methods<$T extends jni$_.JObject?> on TestClass238<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public native java.util.ArrayList<S> setFoo()`
+  /// from: `public native com.example.CustomObject<S> setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject?
+  CustomObject<$S?>?
       setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
     return _setFoo(reference.pointer, _id_setFoo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<$S?>?>();
   }
 }
 
@@ -28592,7 +29079,7 @@ extension TestClass239$$Methods<$T extends jni$_.JObject?> on TestClass239<$T> {
 
   static final _id_getFoo = TestClass239._class.instanceMethodId(
     r'getFoo',
-    r'()[Ljava/util/Map$Entry;',
+    r'()[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -28607,11 +29094,12 @@ extension TestClass239$$Methods<$T extends jni$_.JObject?> on TestClass239<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.Map$Entry[] getFoo()`
+  /// from: `public com.example.NestedCustom$Nested[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>() {
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      getFoo<$S extends jni$_.JObject?>() {
     return _getFoo(reference.pointer, _id_getFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 
   static final _id_leftMethod = TestClass239._class.instanceMethodId(
@@ -28748,7 +29236,7 @@ extension TestClass24$$Methods<$T extends jni$_.JObject?,
 
   static final _id_getFoo = TestClass24._class.instanceMethodId(
     r'getFoo',
-    r'([Ljava/util/Map$Entry;I)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;I)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -28763,15 +29251,15 @@ extension TestClass24$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public java.util.Map$Entry[] getFoo(java.util.Map$Entry[] p1, int p2)`
+  /// from: `public com.example.NestedCustom$Nested[] getFoo(com.example.NestedCustom$Nested[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>? getFoo(
+    jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>?>();
   }
 }
 
@@ -29614,9 +30102,10 @@ extension type TestClass244<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'myMethod(Ljava/lang/Runnable;I)Ljava/lang/Runnable;') {
+      if ($d ==
+          r'myMethod(Lcom/example/CustomInterface;I)Lcom/example/CustomInterface;') {
         final $r = _$impls[$p]!.myMethod(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomInterface<jni$_.JObject?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -29668,7 +30157,7 @@ extension type TestClass244<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass244$$Methods<$T extends jni$_.JObject?> on TestClass244<$T> {
   static final _id_myMethod = TestClass244._class.instanceMethodId(
     r'myMethod',
-    r'(Ljava/lang/Runnable;I)Ljava/lang/Runnable;',
+    r'(Lcom/example/CustomInterface;I)Lcom/example/CustomInterface;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -29683,34 +30172,42 @@ extension TestClass244$$Methods<$T extends jni$_.JObject?> on TestClass244<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.lang.Runnable myMethod(java.lang.Runnable p1, int p2)`
+  /// from: `public abstract com.example.CustomInterface<S> myMethod(com.example.CustomInterface<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? myMethod<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomInterface<$S?>?
+      myMethod<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
+    CustomInterface<$S?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 }
 
 abstract base mixin class $TestClass244<$T extends jni$_.JObject?> {
   factory $TestClass244({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) myMethod,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1, core$_.int p2)
+        myMethod,
   }) = _$TestClass244<$T>;
 
-  jni$_.JObject? myMethod(jni$_.JObject? p1, core$_.int p2);
+  CustomInterface<jni$_.JObject?>? myMethod(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2);
 }
 
 final class _$TestClass244<$T extends jni$_.JObject?> with $TestClass244<$T> {
   _$TestClass244({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) myMethod,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1, core$_.int p2)
+        myMethod,
   }) : _myMethod = myMethod;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) _myMethod;
+  final CustomInterface<jni$_.JObject?>? Function(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2) _myMethod;
 
-  jni$_.JObject? myMethod(jni$_.JObject? p1, core$_.int p2) {
+  CustomInterface<jni$_.JObject?>? myMethod(
+      CustomInterface<jni$_.JObject?>? p1, core$_.int p2) {
     return _myMethod(p1, p2);
   }
 }
@@ -29878,7 +30375,7 @@ extension TestClass245$$Methods<$T extends jni$_.JObject?> on TestClass245<$T> {
 
   static final _id_isFoo = TestClass245._class.instanceMethodId(
     r'isFoo',
-    r'()Ljava/util/ArrayList;',
+    r'()Lcom/example/CustomObject;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -29893,11 +30390,11 @@ extension TestClass245$$Methods<$T extends jni$_.JObject?> on TestClass245<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.ArrayList<T> isFoo()`
+  /// from: `public com.example.CustomObject<T> isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo() {
+  CustomObject<$T?>? isFoo() {
     return _isFoo(reference.pointer, _id_isFoo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<$T?>?>();
   }
 }
 
@@ -31047,9 +31544,10 @@ extension type TestClass251<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'isFoo([Ljava/util/Map$Entry;I)[Ljava/util/Map$Entry;') {
+      if ($d ==
+          r'isFoo([Lcom/example/NestedCustom$Nested;I)[Lcom/example/NestedCustom$Nested;') {
         final $r = _$impls[$p]!.isFoo(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<NestedCustom$Nested?>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -31101,7 +31599,7 @@ extension type TestClass251<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass251$$Methods<$T extends jni$_.JObject?> on TestClass251<$T> {
   static final _id_isFoo = TestClass251._class.instanceMethodId(
     r'isFoo',
-    r'([Ljava/util/Map$Entry;I)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;I)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -31116,41 +31614,42 @@ extension TestClass251$$Methods<$T extends jni$_.JObject?> on TestClass251<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.util.Map$Entry[] isFoo(java.util.Map$Entry[] p1, int p2)`
+  /// from: `public abstract com.example.NestedCustom$Nested[] isFoo(com.example.NestedCustom$Nested[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? isFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      isFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 }
 
 abstract base mixin class $TestClass251<$T extends jni$_.JObject?> {
   factory $TestClass251({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<NestedCustom$Nested?>? Function(
+            jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2)
         isFoo,
   }) = _$TestClass251<$T>;
 
-  jni$_.JArray<jni$_.JObject?>? isFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2);
+  jni$_.JArray<NestedCustom$Nested?>? isFoo(
+      jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2);
 }
 
 final class _$TestClass251<$T extends jni$_.JObject?> with $TestClass251<$T> {
   _$TestClass251({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<NestedCustom$Nested?>? Function(
+            jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2)
         isFoo,
   }) : _isFoo = isFoo;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) _isFoo;
+  final jni$_.JArray<NestedCustom$Nested?>? Function(
+      jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2) _isFoo;
 
-  jni$_.JArray<jni$_.JObject?>? isFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) {
+  jni$_.JArray<NestedCustom$Nested?>? isFoo(
+      jni$_.JArray<NestedCustom$Nested?>? p1, core$_.int p2) {
     return _isFoo(p1, p2);
   }
 }
@@ -31309,7 +31808,7 @@ extension type TestClass253<$T extends jni$_.JObject?,
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<TestClass253> type = $TestClass253$Type$();
   static final _id_create = _class.constructorId(
-    r'([Ljava/lang/Runnable;)V',
+    r'([Lcom/example/CustomInterface;)V',
   );
 
   static final _create = jni$_.ProtectedJniExtensions.lookup<
@@ -31323,14 +31822,14 @@ extension type TestClass253<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(java.lang.Runnable[] p1)`
+  /// from: `public void <init>(com.example.CustomInterface[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
   static TestClass253<$T, $U> create<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject?,
       $S extends jni$_.JObject?,
       $V extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+    jni$_.JArray<CustomInterface<$S?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _create(_class.reference.pointer, _id_create.pointer, _$p1.pointer)
@@ -31386,7 +31885,7 @@ extension type TestClass254<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
       if ($d ==
-          r'myMethod([Lcom/example/CoreRecord;)[Lcom/example/CoreRecord;') {
+          r'myMethod([Lcom/example/CustomRecord;)[Lcom/example/CustomRecord;') {
         final $r = _$impls[$p]!.myMethod(
           ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
@@ -31439,7 +31938,7 @@ extension type TestClass254<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass254$$Methods<$T extends jni$_.JObject?> on TestClass254<$T> {
   static final _id_myMethod = TestClass254._class.instanceMethodId(
     r'myMethod',
-    r'([Lcom/example/CoreRecord;)[Lcom/example/CoreRecord;',
+    r'([Lcom/example/CustomRecord;)[Lcom/example/CustomRecord;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -31453,7 +31952,7 @@ extension TestClass254$$Methods<$T extends jni$_.JObject?> on TestClass254<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract com.example.CoreRecord[] myMethod(com.example.CoreRecord[] p1)`
+  /// from: `public abstract com.example.CustomRecord[] myMethod(com.example.CustomRecord[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? myMethod<$S extends jni$_.JObject?>(
     jni$_.JArray<jni$_.JObject?>? p1,
@@ -32195,7 +32694,7 @@ extension TestClass257$$Methods<$T extends jni$_.JObject?> on TestClass257<$T> {
 
   static final _id_getFoo = TestClass257._class.instanceMethodId(
     r'getFoo',
-    r'()[Lcom/example/CoreRecord;',
+    r'()[Lcom/example/CustomRecord;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -32210,7 +32709,7 @@ extension TestClass257$$Methods<$T extends jni$_.JObject?> on TestClass257<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `synchronized public com.example.CoreRecord[] getFoo()`
+  /// from: `synchronized public com.example.CustomRecord[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>?
       getFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
@@ -33097,7 +33596,7 @@ extension TestClass261$$Methods<$T extends jni$_.JObject?> on TestClass261<$T> {
 
   static final _id_isFoo = TestClass261._class.instanceMethodId(
     r'isFoo',
-    r'([Ljava/util/Map$Entry;I)[Ljava/util/Map$Entry;',
+    r'([Lcom/example/NestedCustom$Nested;I)[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -33112,15 +33611,16 @@ extension TestClass261$$Methods<$T extends jni$_.JObject?> on TestClass261<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `synchronized public java.util.Map$Entry[] isFoo(java.util.Map$Entry[] p1, int p2)`
+  /// from: `synchronized public com.example.NestedCustom$Nested[] isFoo(com.example.NestedCustom$Nested[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? isFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      isFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 
   static final _id_leftMethod = TestClass261._class.instanceMethodId(
@@ -33900,7 +34400,7 @@ extension type TestClass267<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<TestClass267> type = $TestClass267$Type$();
   static final _id_create = _class.constructorId(
-    r'(Ljava/lang/Thread$State;)V',
+    r'(Lcom/example/CustomEnum;)V',
   );
 
   static final _create = jni$_.ProtectedJniExtensions.lookup<
@@ -33914,11 +34414,11 @@ extension type TestClass267<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(java.lang.Thread$State p1)`
+  /// from: `public void <init>(com.example.CustomEnum p1)`
   /// The returned object must be released after use, by calling the [release] method.
   static TestClass267<$T>
       create<$T extends jni$_.JObject?, $S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+    CustomEnum? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _create(_class.reference.pointer, _id_create.pointer, _$p1.pointer)
@@ -34662,7 +35162,7 @@ extension type TestClass273<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<TestClass273> type = $TestClass273$Type$();
   static final _id_new$ = _class.constructorId(
-    r'(Ljava/lang/Runnable;)V',
+    r'(Lcom/example/CustomInterface;)V',
   );
 
   static final _new$ = jni$_.ProtectedJniExtensions.lookup<
@@ -34676,10 +35176,10 @@ extension type TestClass273<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(java.lang.Runnable p1)`
+  /// from: `public void <init>(com.example.CustomInterface<T> p1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass273(
-    jni$_.JObject? p1,
+    CustomInterface<$T?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _new$(_class.reference.pointer, _id_new$.pointer, _$p1.pointer)
@@ -35139,7 +35639,7 @@ extension type TestClass277._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<TestClass277> type = $TestClass277$Type$();
   static final _id_create = _class.constructorId(
-    r'([Ljava/util/Map$Entry;I)V',
+    r'([Lcom/example/NestedCustom$Nested;I)V',
   );
 
   static final _create = jni$_.ProtectedJniExtensions.lookup<
@@ -35154,10 +35654,10 @@ extension type TestClass277._(jni$_.JObject _$this) implements jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public void <init>(java.util.Map$Entry[] p1, int p2)`
+  /// from: `public void <init>(com.example.NestedCustom$Nested[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
   static TestClass277 create<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+    jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
@@ -37457,9 +37957,9 @@ extension type TestClass30<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo(Ljava/lang/Thread$State;I)Ljava/lang/Thread$State;') {
+      if ($d == r'setFoo(Lcom/example/CustomEnum;I)Lcom/example/CustomEnum;') {
         final $r = _$impls[$p]!.setFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomEnum?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -37527,7 +38027,7 @@ extension type TestClass30<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass30$$Methods<$T extends jni$_.JObject?> on TestClass30<$T> {
   static final _id_setFoo = TestClass30._class.instanceMethodId(
     r'setFoo',
-    r'(Ljava/lang/Thread$State;I)Ljava/lang/Thread$State;',
+    r'(Lcom/example/CustomEnum;I)Lcom/example/CustomEnum;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -37542,15 +38042,15 @@ extension TestClass30$$Methods<$T extends jni$_.JObject?> on TestClass30<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.lang.Thread$State setFoo(java.lang.Thread$State p1, int p2)`
+  /// from: `public abstract com.example.CustomEnum setFoo(com.example.CustomEnum p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomEnum? setFoo<$S extends jni$_.JObject?>(
+    CustomEnum? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 
   static final _id_leftMethod = TestClass30._class.instanceMethodId(
@@ -37622,7 +38122,7 @@ extension TestClass30$$Methods<$T extends jni$_.JObject?> on TestClass30<$T> {
 
 abstract base mixin class $TestClass30<$T extends jni$_.JObject?> {
   factory $TestClass30({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) setFoo,
+    required CustomEnum? Function(CustomEnum? p1, core$_.int p2) setFoo,
     required void Function() leftMethod,
     core$_.bool leftMethod$async,
     required void Function() baseMethod,
@@ -37631,7 +38131,7 @@ abstract base mixin class $TestClass30<$T extends jni$_.JObject?> {
     core$_.bool rightMethod$async,
   }) = _$TestClass30<$T>;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1, core$_.int p2);
+  CustomEnum? setFoo(CustomEnum? p1, core$_.int p2);
   void leftMethod();
   core$_.bool get leftMethod$async => false;
   void baseMethod();
@@ -37642,7 +38142,7 @@ abstract base mixin class $TestClass30<$T extends jni$_.JObject?> {
 
 final class _$TestClass30<$T extends jni$_.JObject?> with $TestClass30<$T> {
   _$TestClass30({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) setFoo,
+    required CustomEnum? Function(CustomEnum? p1, core$_.int p2) setFoo,
     required void Function() leftMethod,
     this.leftMethod$async = false,
     required void Function() baseMethod,
@@ -37654,7 +38154,7 @@ final class _$TestClass30<$T extends jni$_.JObject?> with $TestClass30<$T> {
         _baseMethod = baseMethod,
         _rightMethod = rightMethod;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) _setFoo;
+  final CustomEnum? Function(CustomEnum? p1, core$_.int p2) _setFoo;
   final void Function() _leftMethod;
   final core$_.bool leftMethod$async;
   final void Function() _baseMethod;
@@ -37662,7 +38162,7 @@ final class _$TestClass30<$T extends jni$_.JObject?> with $TestClass30<$T> {
   final void Function() _rightMethod;
   final core$_.bool rightMethod$async;
 
-  jni$_.JObject? setFoo(jni$_.JObject? p1, core$_.int p2) {
+  CustomEnum? setFoo(CustomEnum? p1, core$_.int p2) {
     return _setFoo(p1, p2);
   }
 
@@ -37850,7 +38350,7 @@ extension type TestClass32._(jni$_.JObject _$this) implements jni$_.JObject {
 
   static final _id_isFoo = _class.staticMethodId(
     r'isFoo',
-    r'()Ljava/lang/Runnable;',
+    r'()Lcom/example/CustomInterface;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -37865,11 +38365,11 @@ extension type TestClass32._(jni$_.JObject _$this) implements jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public java.lang.Runnable isFoo()`
+  /// from: `static public com.example.CustomInterface<java.lang.String> isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? isFoo() {
+  static CustomInterface<jni$_.JString?>? isFoo() {
     return _isFoo(_class.reference.pointer, _id_isFoo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<jni$_.JString?>?>();
   }
 }
 
@@ -37964,7 +38464,7 @@ extension TestClass33$$Methods<$T extends jni$_.JObject?,
 
   static final _id_isFoo = TestClass33._class.instanceMethodId(
     r'isFoo',
-    r'([Lcom/example/CoreRecord;)[Lcom/example/CoreRecord;',
+    r'([Lcom/example/CustomRecord;)[Lcom/example/CustomRecord;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -37978,7 +38478,7 @@ extension TestClass33$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.example.CoreRecord[] isFoo(com.example.CoreRecord[] p1)`
+  /// from: `public com.example.CustomRecord[] isFoo(com.example.CustomRecord[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? isFoo<$S extends jni$_.JObject?>(
     jni$_.JArray<jni$_.JObject?>? p1,
@@ -38423,7 +38923,8 @@ extension type TestClass36._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'myMethod(Lcom/example/CoreRecord;)Lcom/example/CoreRecord;') {
+      if ($d ==
+          r'myMethod(Lcom/example/CustomRecord;)Lcom/example/CustomRecord;') {
         final $r = _$impls[$p]!.myMethod(
           ($a![0] as jni$_.JObject?),
         );
@@ -38502,7 +39003,7 @@ extension type TestClass36._(jni$_.JObject _$this)
 extension TestClass36$$Methods on TestClass36 {
   static final _id_myMethod = TestClass36._class.instanceMethodId(
     r'myMethod',
-    r'(Lcom/example/CoreRecord;)Lcom/example/CoreRecord;',
+    r'(Lcom/example/CustomRecord;)Lcom/example/CustomRecord;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -38516,7 +39017,7 @@ extension TestClass36$$Methods on TestClass36 {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract com.example.CoreRecord myMethod(com.example.CoreRecord p1)`
+  /// from: `public abstract com.example.CustomRecord<S> myMethod(com.example.CustomRecord<S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? myMethod<$S extends jni$_.JObject?>(
     jni$_.JObject? p1,
@@ -40271,7 +40772,7 @@ extension TestClass44$$Methods<$T extends jni$_.JObject?> on TestClass44<$T> {
 
   static final _id_setFoo = TestClass44._class.instanceMethodId(
     r'setFoo',
-    r'([Ljava/util/ArrayList;)[Ljava/util/ArrayList;',
+    r'([Lcom/example/CustomObject;)[Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -40285,14 +40786,14 @@ extension TestClass44$$Methods<$T extends jni$_.JObject?> on TestClass44<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.util.ArrayList[] setFoo(java.util.ArrayList[] p1)`
+  /// from: `public com.example.CustomObject[] setFoo(com.example.CustomObject[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? setFoo(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomObject<$T?>?>? setFoo(
+    jni$_.JArray<CustomObject<$T?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$T?>?>?>();
   }
 }
 
@@ -41361,7 +41862,7 @@ extension TestClass51$$Methods on TestClass51 {
 
   static final _id_get$foo = TestClass51._class.instanceMethodId(
     r'getFoo',
-    r'()Ljava/lang/Thread$State;',
+    r'()Lcom/example/CustomEnum;',
   );
 
   static final _get$foo = jni$_.ProtectedJniExtensions.lookup<
@@ -41376,11 +41877,11 @@ extension TestClass51$$Methods on TestClass51 {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final java.lang.Thread$State getFoo()`
+  /// from: `public final com.example.CustomEnum getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get foo {
+  CustomEnum? get foo {
     return _get$foo(reference.pointer, _id_get$foo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 
   static final _id_leftMethod = TestClass51._class.instanceMethodId(
@@ -41498,9 +41999,9 @@ extension type TestClass52<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
       if ($d ==
-          r'myMethod(Ljava/lang/Thread$State;I)Ljava/lang/Thread$State;') {
+          r'myMethod(Lcom/example/CustomEnum;I)Lcom/example/CustomEnum;') {
         final $r = _$impls[$p]!.myMethod(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomEnum?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -41552,7 +42053,7 @@ extension type TestClass52<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass52$$Methods<$T extends jni$_.JObject?> on TestClass52<$T> {
   static final _id_myMethod = TestClass52._class.instanceMethodId(
     r'myMethod',
-    r'(Ljava/lang/Thread$State;I)Ljava/lang/Thread$State;',
+    r'(Lcom/example/CustomEnum;I)Lcom/example/CustomEnum;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -41567,34 +42068,34 @@ extension TestClass52$$Methods<$T extends jni$_.JObject?> on TestClass52<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public abstract java.lang.Thread$State myMethod(java.lang.Thread$State p1, int p2)`
+  /// from: `public abstract com.example.CustomEnum myMethod(com.example.CustomEnum p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? myMethod<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomEnum? myMethod<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
+    CustomEnum? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomEnum?>();
   }
 }
 
 abstract base mixin class $TestClass52<$T extends jni$_.JObject?> {
   factory $TestClass52({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) myMethod,
+    required CustomEnum? Function(CustomEnum? p1, core$_.int p2) myMethod,
   }) = _$TestClass52<$T>;
 
-  jni$_.JObject? myMethod(jni$_.JObject? p1, core$_.int p2);
+  CustomEnum? myMethod(CustomEnum? p1, core$_.int p2);
 }
 
 final class _$TestClass52<$T extends jni$_.JObject?> with $TestClass52<$T> {
   _$TestClass52({
-    required jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) myMethod,
+    required CustomEnum? Function(CustomEnum? p1, core$_.int p2) myMethod,
   }) : _myMethod = myMethod;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1, core$_.int p2) _myMethod;
+  final CustomEnum? Function(CustomEnum? p1, core$_.int p2) _myMethod;
 
-  jni$_.JObject? myMethod(jni$_.JObject? p1, core$_.int p2) {
+  CustomEnum? myMethod(CustomEnum? p1, core$_.int p2) {
     return _myMethod(p1, p2);
   }
 }
@@ -41747,7 +42248,7 @@ extension TestClass53$$Methods<$T extends jni$_.JObject?,
 
   static final _id_isFoo = TestClass53._class.instanceMethodId(
     r'isFoo',
-    r'()Ljava/lang/Runnable;',
+    r'()Lcom/example/CustomInterface;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -41762,11 +42263,12 @@ extension TestClass53$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public native java.lang.Runnable isFoo()`
+  /// from: `public native com.example.CustomInterface<S> isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
+  CustomInterface<$S?>?
+      isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
     return _isFoo(reference.pointer, _id_isFoo.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 }
 
@@ -43563,7 +44065,7 @@ extension type TestClass63._(jni$_.JObject _$this)
   static const jni$_.JType<TestClass63> type = $TestClass63$Type$();
   static final _id_setFoo = _class.staticMethodId(
     r'setFoo',
-    r'([Ljava/util/ArrayList;)[Ljava/util/ArrayList;',
+    r'([Lcom/example/CustomObject;)[Lcom/example/CustomObject;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -43577,14 +44079,14 @@ extension type TestClass63._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public java.util.ArrayList[] setFoo(java.util.ArrayList[] p1)`
+  /// from: `static public com.example.CustomObject[] setFoo(com.example.CustomObject[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<jni$_.JObject?>? setFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  static jni$_.JArray<CustomObject<$S?>?>? setFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomObject<$S?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(_class.reference.pointer, _id_setFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomObject<$S?>?>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -43617,9 +44119,10 @@ extension type TestClass63._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo([Ljava/util/ArrayList;)[Ljava/util/ArrayList;') {
+      if ($d ==
+          r'setFoo([Lcom/example/CustomObject;)[Lcom/example/CustomObject;') {
         final $r = _$impls[$p]!.setFoo(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<CustomObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -43669,25 +44172,25 @@ extension type TestClass63._(jni$_.JObject _$this)
 
 abstract base mixin class $TestClass63 {
   factory $TestClass63({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1)
+    required jni$_.JArray<CustomObject?>? Function(
+            jni$_.JArray<CustomObject?>? p1)
         setFoo,
   }) = _$TestClass63;
 
-  jni$_.JArray<jni$_.JObject?>? setFoo(jni$_.JArray<jni$_.JObject?>? p1);
+  jni$_.JArray<CustomObject?>? setFoo(jni$_.JArray<CustomObject?>? p1);
 }
 
 final class _$TestClass63 with $TestClass63 {
   _$TestClass63({
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1)
+    required jni$_.JArray<CustomObject?>? Function(
+            jni$_.JArray<CustomObject?>? p1)
         setFoo,
   }) : _setFoo = setFoo;
 
-  final jni$_.JArray<jni$_.JObject?>? Function(jni$_.JArray<jni$_.JObject?>? p1)
+  final jni$_.JArray<CustomObject?>? Function(jni$_.JArray<CustomObject?>? p1)
       _setFoo;
 
-  jni$_.JArray<jni$_.JObject?>? setFoo(jni$_.JArray<jni$_.JObject?>? p1) {
+  jni$_.JArray<CustomObject?>? setFoo(jni$_.JArray<CustomObject?>? p1) {
     return _setFoo(p1);
   }
 }
@@ -44278,7 +44781,7 @@ extension TestClass66$$Methods<$T extends jni$_.JObject?> on TestClass66<$T> {
 
   static final _id_setFoo = TestClass66._class.instanceMethodId(
     r'setFoo',
-    r'()[Ljava/lang/Runnable;',
+    r'()[Lcom/example/CustomInterface;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -44293,11 +44796,11 @@ extension TestClass66$$Methods<$T extends jni$_.JObject?> on TestClass66<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract java.lang.Runnable[] setFoo()`
+  /// from: `public abstract com.example.CustomInterface[] setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? setFoo<$S extends jni$_.JObject?>() {
+  jni$_.JArray<CustomInterface<$S?>?>? setFoo<$S extends jni$_.JObject?>() {
     return _setFoo(reference.pointer, _id_setFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomInterface<$S?>?>?>();
   }
 }
 
@@ -44761,7 +45264,7 @@ extension TestClass69$$Methods<$T extends jni$_.JObject?,
 
   static final _id_isFoo = TestClass69._class.instanceMethodId(
     r'isFoo',
-    r'()Lcom/example/CoreRecord;',
+    r'()Lcom/example/CustomRecord;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -44776,7 +45279,7 @@ extension TestClass69$$Methods<$T extends jni$_.JObject?,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public com.example.CoreRecord isFoo()`
+  /// from: `public com.example.CustomRecord<T> isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? isFoo() {
     return _isFoo(reference.pointer, _id_isFoo.pointer)
@@ -46745,7 +47248,7 @@ extension TestClass79$$Methods<$T extends jni$_.JObject?> on TestClass79<$T> {
 
   static final _id_getFoo = TestClass79._class.instanceMethodId(
     r'getFoo',
-    r'(Ljava/util/ArrayList;I)Ljava/util/ArrayList;',
+    r'(Lcom/example/CustomObject;I)Lcom/example/CustomObject;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -46760,15 +47263,15 @@ extension TestClass79$$Methods<$T extends jni$_.JObject?> on TestClass79<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public java.util.ArrayList<S> getFoo(java.util.ArrayList<S> p1, int p2)`
+  /// from: `public com.example.CustomObject<S> getFoo(com.example.CustomObject<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomObject<$S?>? getFoo<$S extends jni$_.JObject?>(
+    CustomObject<$S?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomObject<$S?>?>();
   }
 }
 
@@ -46911,18 +47414,19 @@ extension type TestClass8._(jni$_.JObject _$this)
 extension TestClass8$$Methods on TestClass8 {
   static final _id_myField = TestClass8._class.instanceFieldId(
     r'myField',
-    r'Ljava/util/ArrayList;',
+    r'Lcom/example/CustomObject;',
   );
 
-  /// from: `public transient java.util.ArrayList<java.lang.String> myField`
+  /// from: `public transient com.example.CustomObject<java.lang.String> myField`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get myField =>
-      _id_myField.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
+  CustomObject<jni$_.JString?>? get myField =>
+      _id_myField.getNullable(this, CustomObject.type)
+          as CustomObject<jni$_.JString?>?;
 
-  /// from: `public transient java.util.ArrayList<java.lang.String> myField`
+  /// from: `public transient com.example.CustomObject<java.lang.String> myField`
   /// The returned object must be released after use, by calling the [release] method.
-  set myField(jni$_.JObject? value) =>
-      _id_myField.set(this, jni$_.JObject.type, value);
+  set myField(CustomObject<jni$_.JString?>? value) =>
+      _id_myField.set(this, CustomObject.type, value);
 
   static final _id_run = TestClass8._class.instanceMethodId(
     r'run',
@@ -47138,7 +47642,7 @@ extension type TestClass80<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   static final _id_getFoo = _class.staticMethodId(
     r'getFoo',
-    r'([Ljava/lang/Thread$State;)[Ljava/lang/Thread$State;',
+    r'([Lcom/example/CustomEnum;)[Lcom/example/CustomEnum;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -47152,14 +47656,14 @@ extension type TestClass80<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public java.lang.Thread$State[] getFoo(java.lang.Thread$State[] p1)`
+  /// from: `static public com.example.CustomEnum[] getFoo(com.example.CustomEnum[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  static jni$_.JArray<CustomEnum?>? getFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomEnum?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(_class.reference.pointer, _id_getFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomEnum?>?>();
   }
 }
 
@@ -48447,7 +48951,8 @@ extension type TestClass89<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'setFoo(Lcom/example/CoreRecord;)Lcom/example/CoreRecord;') {
+      if ($d ==
+          r'setFoo(Lcom/example/CustomRecord;)Lcom/example/CustomRecord;') {
         final $r = _$impls[$p]!.setFoo(
           ($a![0] as jni$_.JObject?),
         );
@@ -48500,7 +49005,7 @@ extension type TestClass89<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass89$$Methods<$T extends jni$_.JObject?> on TestClass89<$T> {
   static final _id_setFoo = TestClass89._class.instanceMethodId(
     r'setFoo',
-    r'(Lcom/example/CoreRecord;)Lcom/example/CoreRecord;',
+    r'(Lcom/example/CustomRecord;)Lcom/example/CustomRecord;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -48514,7 +49019,7 @@ extension TestClass89$$Methods<$T extends jni$_.JObject?> on TestClass89<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract com.example.CoreRecord setFoo(com.example.CoreRecord p1)`
+  /// from: `public abstract com.example.CustomRecord<T> setFoo(com.example.CustomRecord<T> p1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? setFoo(
     jni$_.JObject? p1,
@@ -48701,9 +49206,10 @@ extension type TestClass90<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'getFoo(Ljava/lang/Runnable;)Ljava/lang/Runnable;') {
+      if ($d ==
+          r'getFoo(Lcom/example/CustomInterface;)Lcom/example/CustomInterface;') {
         final $r = _$impls[$p]!.getFoo(
-          ($a![0] as jni$_.JObject?),
+          ($a![0] as CustomInterface<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -48754,7 +49260,7 @@ extension type TestClass90<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 extension TestClass90$$Methods<$T extends jni$_.JObject?> on TestClass90<$T> {
   static final _id_getFoo = TestClass90._class.instanceMethodId(
     r'getFoo',
-    r'(Ljava/lang/Runnable;)Ljava/lang/Runnable;',
+    r'(Lcom/example/CustomInterface;)Lcom/example/CustomInterface;',
   );
 
   static final _getFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -48768,33 +49274,38 @@ extension TestClass90$$Methods<$T extends jni$_.JObject?> on TestClass90<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract java.lang.Runnable getFoo(java.lang.Runnable p1)`
+  /// from: `public abstract com.example.CustomInterface<S> getFoo(com.example.CustomInterface<S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomInterface<$S?>? getFoo<$S extends jni$_.JObject?>(
+    CustomInterface<$S?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomInterface<$S?>?>();
   }
 }
 
 abstract base mixin class $TestClass90<$T extends jni$_.JObject?> {
   factory $TestClass90({
-    required jni$_.JObject? Function(jni$_.JObject? p1) getFoo,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1)
+        getFoo,
   }) = _$TestClass90<$T>;
 
-  jni$_.JObject? getFoo(jni$_.JObject? p1);
+  CustomInterface<jni$_.JObject?>? getFoo(CustomInterface<jni$_.JObject?>? p1);
 }
 
 final class _$TestClass90<$T extends jni$_.JObject?> with $TestClass90<$T> {
   _$TestClass90({
-    required jni$_.JObject? Function(jni$_.JObject? p1) getFoo,
+    required CustomInterface<jni$_.JObject?>? Function(
+            CustomInterface<jni$_.JObject?>? p1)
+        getFoo,
   }) : _getFoo = getFoo;
 
-  final jni$_.JObject? Function(jni$_.JObject? p1) _getFoo;
+  final CustomInterface<jni$_.JObject?>? Function(
+      CustomInterface<jni$_.JObject?>? p1) _getFoo;
 
-  jni$_.JObject? getFoo(jni$_.JObject? p1) {
+  CustomInterface<jni$_.JObject?>? getFoo(CustomInterface<jni$_.JObject?>? p1) {
     return _getFoo(p1);
   }
 }
@@ -49232,7 +49743,7 @@ extension TestClass92$$Methods on TestClass92 {
 
   static final _id_isFoo = TestClass92._class.instanceMethodId(
     r'isFoo',
-    r'(Ljava/util/Map$Entry;)Ljava/util/Map$Entry;',
+    r'(Lcom/example/NestedCustom$Nested;)Lcom/example/NestedCustom$Nested;',
   );
 
   static final _isFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -49246,14 +49757,15 @@ extension TestClass92$$Methods on TestClass92 {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.util.Map$Entry<S, S> isFoo(java.util.Map$Entry<S, S> p1)`
+  /// from: `public com.example.NestedCustom$Nested<S, S, S> isFoo(com.example.NestedCustom$Nested<S, S, S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  NestedCustom$Nested<$S?, $S?, $S?>?
+      isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
+    NestedCustom$Nested<$S?, $S?, $S?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<NestedCustom$Nested<$S?, $S?, $S?>?>();
   }
 }
 
@@ -49370,7 +49882,7 @@ extension type TestClass93<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<TestClass93> type = $TestClass93$Type$();
   static final _id_create = _class.constructorId(
-    r'([Ljava/lang/Runnable;)V',
+    r'([Lcom/example/CustomInterface;)V',
   );
 
   static final _create = jni$_.ProtectedJniExtensions.lookup<
@@ -49384,11 +49896,11 @@ extension type TestClass93<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(java.lang.Runnable[] p1)`
+  /// from: `public void <init>(com.example.CustomInterface[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
   static TestClass93<$T>
       create<$T extends jni$_.JObject?, $S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+    jni$_.JArray<CustomInterface<$S?>?>? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _create(_class.reference.pointer, _id_create.pointer, _$p1.pointer)
@@ -49551,7 +50063,7 @@ extension TestClass94$$Methods<$T extends jni$_.JObject?> on TestClass94<$T> {
 
   static final _id_setFoo = TestClass94._class.instanceMethodId(
     r'setFoo',
-    r'()[Ljava/util/Map$Entry;',
+    r'()[Lcom/example/NestedCustom$Nested;',
   );
 
   static final _setFoo = jni$_.ProtectedJniExtensions.lookup<
@@ -49566,11 +50078,12 @@ extension TestClass94$$Methods<$T extends jni$_.JObject?> on TestClass94<$T> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final java.util.Map$Entry[] setFoo()`
+  /// from: `public final com.example.NestedCustom$Nested[] setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? setFoo<$S extends jni$_.JObject?>() {
+  jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?
+      setFoo<$S extends jni$_.JObject?>() {
     return _setFoo(reference.pointer, _id_setFoo.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S?, $S?, $S?>?>?>();
   }
 }
 
@@ -50314,7 +50827,7 @@ extension TestClass99$$Methods<$T extends jni$_.JObject?> on TestClass99<$T> {
 
   static final _id_myMethod = TestClass99._class.instanceMethodId(
     r'myMethod',
-    r'([Ljava/lang/Runnable;I)[Ljava/lang/Runnable;',
+    r'([Lcom/example/CustomInterface;I)[Lcom/example/CustomInterface;',
   );
 
   static final _myMethod = jni$_.ProtectedJniExtensions.lookup<
@@ -50329,15 +50842,15 @@ extension TestClass99$$Methods<$T extends jni$_.JObject?> on TestClass99<$T> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
-  /// from: `public final java.lang.Runnable[] myMethod(java.lang.Runnable[] p1, int p2)`
+  /// from: `public final com.example.CustomInterface[] myMethod(com.example.CustomInterface[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? myMethod<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomInterface<$S?>?>? myMethod<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomInterface<$S?>?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomInterface<$S?>?>?>();
   }
 }
 

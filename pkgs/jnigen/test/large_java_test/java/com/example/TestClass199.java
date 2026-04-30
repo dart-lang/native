@@ -4,7 +4,7 @@ import java.util.*;
 // Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.final_, MemberName: MemberName.getFoo, NestedKind: NestedKind.interface, ParamCount: ParamCount.zero, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customInterface
 public final class TestClass199<T, U>  implements DagA, DagD, DagE {
   public void run() {}
-  public final Runnable getFoo() { return null; }
+  public final CustomInterface<T> getFoo() { return null; }
   public static interface Nested {}
 
 }

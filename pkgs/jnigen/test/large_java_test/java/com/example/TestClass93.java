@@ -4,7 +4,7 @@ import java.util.*;
 // Generics: Generics.oneParam, Inheritance: Inheritance.diamond, IsArray: IsArray.yes, Member: Member.constructor, MemberGenerics: MemberGenerics.oneParam, MemberModifier: MemberModifier.none, MemberName: MemberName.any, NestedKind: NestedKind.record, ParamCount: ParamCount.one, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customInterface
 public final class TestClass93<T>  implements DiamondLeft, DiamondRight {
   public void run() {}
-  public <S> TestClass93(Runnable[] p1) {}
+  public <S> TestClass93(CustomInterface<S>[] p1) {}
   public static record NestedRecord(int x) {}
 
 }

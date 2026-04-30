@@ -4,7 +4,7 @@ import java.util.*;
 // Generics: Generics.twoParams, Inheritance: Inheritance.complexDag, IsArray: IsArray.no, Member: Member.method, MemberGenerics: MemberGenerics.none, MemberModifier: MemberModifier.synchronized, MemberName: MemberName.any, NestedKind: NestedKind.enum_, ParamCount: ParamCount.two, TopLevelKind: TopLevelKind.class_, TopLevelModifier: TopLevelModifier.final_, TypeKind: TypeKind.customObject
 public final class TestClass151<T, U>  implements DagA, DagD, DagE {
   public void run() {}
-  public synchronized ArrayList<T> myMethod(ArrayList<T> p1, int p2) { return null; }
+  public synchronized CustomObject<T> myMethod(CustomObject<T> p1, int p2) { return null; }
   public enum NestedEnum { V1 }
 
 }

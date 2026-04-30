@@ -197,7 +197,8 @@ Future<void> main() async {
       }
 
       if (top == TopLevelKind.record) {
-        if (member == Member.initializer || memberGenerics != MemberGenerics.none) {
+        if (member == Member.initializer ||
+            memberGenerics != MemberGenerics.none) {
           return false;
         }
       }
@@ -294,7 +295,8 @@ Future<void> main() async {
 
         if (!useMemberScope) {
           if (type == TypeKind.typeParam || generics != Generics.none) {
-            // Some TypeKind like list/set/map/etc will use 'T' if top-level is generic.
+            // Some TypeKind like list/set/map/etc will use 'T' if top-level is
+            // generic.
             const genericTypes = {
               TypeKind.list,
               TypeKind.set,
@@ -427,14 +429,43 @@ public interface DagE extends DagB, DagD {
   default void eMethod() {}
 }
 ''',
-    'CoreRecord': '''
-public record CoreRecord(int x, String y) {}
+    'CustomRecord': '''
+public record CustomRecord<T>(T x, String y) {}
+''',
+    'CustomObject': '''
+public class CustomObject<T> {
+  public T value;
+  public CustomObject(T value) { this.value = value; }
+}
+''',
+    'CustomInterface': '''
+public interface CustomInterface<T> {
+  T getValue();
+}
+''',
+    'CustomEnum': '''
+public enum CustomEnum {
+  V1, V2
+}
+''',
+    'NestedCustom': '''
+public class NestedCustom<T, U> {
+  public class Nested<V> {
+    public T t;
+    public U u;
+    public V v;
+  }
+}
 ''',
   };
 
   for (final entry in coreClasses.entries) {
     final file = File('${outputDir.path}/${entry.key}.java');
-    file.writeAsStringSync('package com.example;\n\n${entry.value.trim()}\n');
+    file.writeAsStringSync('''
+package com.example;
+
+${entry.value.trim()}
+''');
   }
 }
 
@@ -463,16 +494,16 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   final params = getParamsStr(paramCount, typeStr);
 
   if (top == TopLevelKind.record) {
-    sb.writeln(
-        'public record $className$genStr($typeStr field) $inheritanceStr {');
-    if (hasRunMethod(inheritance)) {
-      sb.writeln('  public void run() {}');
-    }
-    sb.writeln('}');
+    sb.write('''
+public record $className$genStr($typeStr field) $inheritanceStr {
+${hasRunMethod(inheritance) ? '  public void run() {}\n' : ''}}
+''');
     return;
   }
 
-  sb.writeln('public $topModStr$kind $className$genStr $inheritanceStr {');
+  sb.write('''
+public $topModStr$kind $className$genStr $inheritanceStr {
+''');
 
   if (top == TopLevelKind.enum_) {
     sb.writeln(getEnumConstantsStr(member, paramCount, typeStr));
@@ -487,8 +518,10 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
 
   sb.write(switch (member) {
     Member.field => getFieldStr(top, mod, typeStr),
-    Member.method => getMethodStr(top, mod, memberGenStr, typeStr, name, params),
-    Member.constructor => getConstructorStr(top, memberGenStr, className, params),
+    Member.method =>
+      getMethodStr(top, mod, memberGenStr, typeStr, name, params),
+    Member.constructor =>
+      getConstructorStr(top, memberGenStr, className, params),
     Member.initializer => getInitializerStr(mod),
   });
 
@@ -498,7 +531,9 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
 
   if (modifier == TopLevelModifier.sealed) {
     final keyword = top == TopLevelKind.interface ? 'implements' : 'extends';
-    sb.writeln('  public static final class Sub$genStr $keyword $className$typeParamsStr {}');
+    sb.write('''
+  public static final class Sub$genStr $keyword $className$typeParamsStr {}
+''');
   }
 
   sb.writeln('}');
@@ -536,8 +571,6 @@ String getInheritanceStr(Inheritance inheritance, TopLevelKind top) {
         return ' extends DagA, DagD, DagE';
       }
       return ' implements DagA, DagD, DagE';
-    default:
-      return '';
   }
 }
 
@@ -614,7 +647,8 @@ String getParamsStr(ParamCount paramCount, String typeStr) {
   };
 }
 
-String getEnumConstantsStr(Member member, ParamCount paramCount, String typeStr) {
+String getEnumConstantsStr(
+    Member member, ParamCount paramCount, String typeStr) {
   if (member == Member.constructor) {
     final args = switch (paramCount) {
       ParamCount.zero => '',
@@ -630,10 +664,14 @@ String getFieldStr(TopLevelKind top, MemberModifier mod, String typeStr) {
   final modStr = getMemberModifierStr(mod);
   final defaultValue = getJavaDefaultValue(typeStr);
   if (top == TopLevelKind.interface) {
-    return '  $modStr$typeStr myField = $defaultValue;\n';
+    return '''
+  $modStr$typeStr myField = $defaultValue;
+''';
   }
   final init = mod == MemberModifier.final_ ? ' = $defaultValue' : '';
-  return '  public $modStr$typeStr myField$init;\n';
+  return '''
+  public $modStr$typeStr myField$init;
+''';
 }
 
 String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
@@ -645,34 +683,45 @@ String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
 
   if (top == TopLevelKind.interface) {
     return switch (mod) {
-      MemberModifier.default_ =>
-        '  default $memberGenStr$typeStr $methodName($params)$throwsStr { $body }\n',
-      MemberModifier.static_ =>
-        '  static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }\n',
-      _ => '  $memberGenStr$typeStr $methodName($params)$throwsStr;\n',
+      MemberModifier.default_ => '''
+  default $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
+''',
+      MemberModifier.static_ => '''
+  static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
+''',
+      _ => '''
+  $memberGenStr$typeStr $methodName($params)$throwsStr;
+''',
     };
   }
 
   final modStr = getMemberModifierStr(mod);
   return switch (mod) {
-    MemberModifier.abstract_ =>
-      '  public abstract $memberGenStr$typeStr $methodName($params)$throwsStr;\n',
-    MemberModifier.native =>
-      '  public native $memberGenStr$typeStr $methodName($params)$throwsStr;\n',
-    _ =>
-      '  public $modStr$memberGenStr$typeStr $methodName($params)$throwsStr { $body }\n',
+    MemberModifier.abstract_ => '''
+  public abstract $memberGenStr$typeStr $methodName($params)$throwsStr;
+''',
+    MemberModifier.native => '''
+  public native $memberGenStr$typeStr $methodName($params)$throwsStr;
+''',
+    _ => '''
+  public $modStr$memberGenStr$typeStr $methodName($params)$throwsStr { $body }
+''',
   };
 }
 
 String getConstructorStr(
     TopLevelKind top, String memberGenStr, String className, String params) {
   final visibility = top == TopLevelKind.enum_ ? 'private' : 'public';
-  return '  $visibility $memberGenStr$className($params) {}\n';
+  return '''
+  $visibility $memberGenStr$className($params) {}
+''';
 }
 
 String getInitializerStr(MemberModifier mod) {
   final staticStr = mod == MemberModifier.static_ ? 'static ' : '';
-  return '  $staticStr{ }\n';
+  return '''
+  $staticStr{ }
+''';
 }
 
 String getNestedStr(NestedKind nested) {
@@ -684,13 +733,19 @@ String getNestedStr(NestedKind nested) {
     _ => 'class',
   };
   if (nested == NestedKind.record) {
-    return '  public static record NestedRecord(int x) {}\n';
+    return '''
+  public static record NestedRecord(int x) {}
+''';
   }
   if (nested == NestedKind.enum_) {
-    return '  public enum NestedEnum { V1 }\n';
+    return '''
+  public enum NestedEnum { V1 }
+''';
   }
   final staticStr = nested == NestedKind.innerClass ? '' : 'static ';
-  return '  public $staticStr$nKind Nested {}\n';
+  return '''
+  public $staticStr$nKind Nested {}
+''';
 }
 
 bool hasRunMethod(Inheritance inheritance) {
@@ -736,11 +791,11 @@ String getJavaType(
     TypeKind.list => 'List<$g>',
     TypeKind.set => 'Set<$g>',
     TypeKind.map => 'Map<$g, $g>',
-    TypeKind.customObject => 'ArrayList<$g>',
-    TypeKind.customInterface => 'Runnable',
-    TypeKind.customEnum => 'java.lang.Thread.State',
-    TypeKind.customRecord => 'CoreRecord',
-    TypeKind.nestedCustom => 'Map.Entry<$g, $g>',
+    TypeKind.customObject => 'CustomObject<$g>',
+    TypeKind.customInterface => 'CustomInterface<$g>',
+    TypeKind.customEnum => 'CustomEnum',
+    TypeKind.customRecord => 'CustomRecord<$g>',
+    TypeKind.nestedCustom => 'NestedCustom<$g, $g>.Nested<$g>',
   };
   if (isArray) t += '[]';
   return t;
@@ -767,10 +822,6 @@ String getJavaDefaultValue(String type) {
       return 'false';
     case 'char':
       return "' '";
-    case 'CoreRecord':
-      return 'new CoreRecord(0, "")';
-    case 'java.lang.Thread.State':
-      return 'java.lang.Thread.State.NEW';
     default:
       return 'null';
   }

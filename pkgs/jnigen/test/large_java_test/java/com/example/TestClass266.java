@@ -5,7 +5,7 @@ import java.util.*;
 public enum TestClass266  implements Runnable {
   VALUE1(null, 0), VALUE2(null, 0);
   public void run() {}
-  private TestClass266(Map.Entry<String, String>[] p1, int p2) {}
+  private TestClass266(NestedCustom<String, String>.Nested<String>[] p1, int p2) {}
   public static record NestedRecord(int x) {}
 
 }
