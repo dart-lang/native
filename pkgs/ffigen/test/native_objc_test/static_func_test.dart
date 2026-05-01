@@ -24,7 +24,9 @@ void main() {
   late StaticFuncTestObjCLibrary lib;
   group('static functions', () {
     setUpAll(() {
-      lib = StaticFuncTestObjCLibrary(DynamicLibrary.open(findDylib("objc_test")));
+      lib = StaticFuncTestObjCLibrary(
+        DynamicLibrary.open(findDylib("objc_test")),
+      );
     });
 
     Pointer<Int32> staticFuncOfObjectRefCountTest(Allocator alloc) {

@@ -74,15 +74,16 @@ void main(List<String> args) async {
 
       final objFiles = <String>[];
       for (final mFile in mFiles) {
-        final useArc = !arcDisabledFiles.contains(mFile.pathSegments.last);
-        objFiles.add(
-          await builder.buildObject(mFile, [
-            '-x',
-            'objective-c',
-            if (useArc) '-fobjc-arc',
-            '-Wno-nullability-completeness',
-          ]),
-        );
+        final filename = mFile.pathSegments.last;
+        final useArc = !arcDisabledFiles.contains(filename);
+        final flags = [
+          '-x',
+          'objective-c',
+          if (useArc) '-fobjc-arc',
+          '-Wno-nullability-completeness',
+          if (filename.startsWith('protocol_test')) '-DDISABLE_METHOD',
+        ];
+        objFiles.add(await builder.buildObject(mFile, flags));
       }
 
       // Add dart_api_dl.c from objective_c package.

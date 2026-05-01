@@ -124,8 +124,8 @@ String findDylib(String name) {
   final dylibName = Platform.isMacOS
       ? '$name.dylib'
       : Platform.isWindows
-          ? '$name.dll'
-          : 'lib$name.so';
+      ? '$name.dll'
+      : 'lib$name.so';
   return p.join(packagePathForTests, '.dart_tool', 'lib', dylibName);
 }
 
