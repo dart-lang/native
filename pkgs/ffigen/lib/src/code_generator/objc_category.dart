@@ -15,7 +15,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final ObjCInterface parent;
-  final ObjCInternalGlobal classObject;
+  final NoLookUpBinding classObject;
 
   final protocols = <ObjCProtocol>[];
 

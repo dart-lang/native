@@ -314,8 +314,16 @@ extension ObjCBlock_instancetype_ffiVoid$CallExtension
   );
 }
 
-late final _class_MethodFilteringTestInterface = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_MethodFilteringTestInterface',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_MethodFilteringTestInterface_raw;
+final _class_MethodFilteringTestInterface = objc.getClass(
   "MethodFilteringTestInterface",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_MethodFilteringTestInterface_raw,
+  ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
@@ -385,8 +393,14 @@ final _objc_msgSend_e3qsqz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCProtocolImpl>,
       )
     >();
-late final _protocol_MethodFilteringTestProtocol = objc.getProtocol(
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_n85dd5_MethodFilteringTestProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_MethodFilteringTestProtocol_raw();
+final _protocol_MethodFilteringTestProtocol = objc.getProtocol(
   "MethodFilteringTestProtocol",
+  _protocol_MethodFilteringTestProtocol_raw,
 );
 late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
 late final _sel_includedInstanceMethod_with_ = objc.registerName(

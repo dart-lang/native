@@ -371,8 +371,26 @@ extension RefCounted$Methods on RefCounted {
   }
 }
 
-late final _class_RefCountTestObject = objc.getClass("RefCountTestObject");
-late final _class_RefCounted = objc.getClass("RefCounted");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_RefCountTestObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_RefCountTestObject_raw;
+final _class_RefCountTestObject = objc.getClass(
+  "RefCountTestObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_RefCountTestObject_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_RefCounted',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_RefCounted_raw;
+final _class_RefCounted = objc.getClass(
+  "RefCounted",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_RefCounted_raw,
+  ).cast(),
+);
 final _objc_msgSend_129vhbw = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

@@ -2106,8 +2106,7 @@ enum NSAttributedStringMarkdownParsingFailurePolicy {
 /// macOS: introduced 12.0.0
 extension type NSAttributedStringMarkdownParsingOptions._(
   objc.ObjCObject object$
-)
-    implements objc.ObjCObject, NSObject, NSCopying {
+) implements objc.ObjCObject, NSObject, NSCopying {
   /// Constructs a [NSAttributedStringMarkdownParsingOptions] that points to the same underlying object as [other].
   NSAttributedStringMarkdownParsingOptions.as(objc.ObjCObject other)
     : object$ = other {
@@ -35480,67 +35479,462 @@ extension type Protocol._(objc.ObjCObject object$) implements objc.ObjCObject {
 
 extension Protocol$Methods on Protocol {}
 
-late final _class_DOBJCDartInputStreamAdapter = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartInputStreamAdapter',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_DOBJCDartInputStreamAdapter_raw;
+final _class_DOBJCDartInputStreamAdapter = objc.getClass(
   "DOBJCDartInputStreamAdapter",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DOBJCDartInputStreamAdapter_raw,
+  ).cast(),
 );
-late final _class_DOBJCDartInputStreamAdapterWeakHolder = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartInputStreamAdapterWeakHolder',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_DOBJCDartInputStreamAdapterWeakHolder_raw;
+final _class_DOBJCDartInputStreamAdapterWeakHolder = objc.getClass(
   "DOBJCDartInputStreamAdapterWeakHolder",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DOBJCDartInputStreamAdapterWeakHolder_raw,
+  ).cast(),
 );
-late final _class_DOBJCDartProtocol = objc.getClass("DOBJCDartProtocol");
-late final _class_DOBJCDartProtocolBuilder = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartProtocol',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_DOBJCDartProtocol_raw;
+final _class_DOBJCDartProtocol = objc.getClass(
+  "DOBJCDartProtocol",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DOBJCDartProtocol_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartProtocolBuilder',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_DOBJCDartProtocolBuilder_raw;
+final _class_DOBJCDartProtocolBuilder = objc.getClass(
   "DOBJCDartProtocolBuilder",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DOBJCDartProtocolBuilder_raw,
+  ).cast(),
 );
-late final _class_DOBJCObservation = objc.getClass("DOBJCObservation");
-late final _class_NSArray = objc.getClass("NSArray");
-late final _class_NSAttributedString = objc.getClass("NSAttributedString");
-late final _class_NSAttributedStringMarkdownParsingOptions = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCObservation',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_DOBJCObservation_raw;
+final _class_DOBJCObservation = objc.getClass(
+  "DOBJCObservation",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DOBJCObservation_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSArray')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSArray_raw;
+final _class_NSArray = objc.getClass(
+  "NSArray",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSArray_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSAttributedString',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSAttributedString_raw;
+final _class_NSAttributedString = objc.getClass(
+  "NSAttributedString",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSAttributedString_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSAttributedStringMarkdownParsingOptions',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_NSAttributedStringMarkdownParsingOptions_raw;
+final _class_NSAttributedStringMarkdownParsingOptions = objc.getClass(
   "NSAttributedStringMarkdownParsingOptions",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSAttributedStringMarkdownParsingOptions_raw,
+  ).cast(),
 );
-late final _class_NSBundle = objc.getClass("NSBundle");
-late final _class_NSCharacterSet = objc.getClass("NSCharacterSet");
-late final _class_NSCoder = objc.getClass("NSCoder");
-late final _class_NSData = objc.getClass("NSData");
-late final _class_NSDate = objc.getClass("NSDate");
-late final _class_NSDictionary = objc.getClass("NSDictionary");
-late final _class_NSEnumerator = objc.getClass("NSEnumerator");
-late final _class_NSError = objc.getClass("NSError");
-late final _class_NSIndexSet = objc.getClass("NSIndexSet");
-late final _class_NSInputStream = objc.getClass("NSInputStream");
-late final _class_NSInvocation = objc.getClass("NSInvocation");
-late final _class_NSItemProvider = objc.getClass("NSItemProvider");
-late final _class_NSLocale = objc.getClass("NSLocale");
-late final _class_NSMethodSignature = objc.getClass("NSMethodSignature");
-late final _class_NSMutableArray = objc.getClass("NSMutableArray");
-late final _class_NSMutableData = objc.getClass("NSMutableData");
-late final _class_NSMutableDictionary = objc.getClass("NSMutableDictionary");
-late final _class_NSMutableIndexSet = objc.getClass("NSMutableIndexSet");
-late final _class_NSMutableOrderedSet = objc.getClass("NSMutableOrderedSet");
-late final _class_NSMutableSet = objc.getClass("NSMutableSet");
-late final _class_NSMutableString = objc.getClass("NSMutableString");
-late final _class_NSNotification = objc.getClass("NSNotification");
-late final _class_NSNull = objc.getClass("NSNull");
-late final _class_NSNumber = objc.getClass("NSNumber");
-late final _class_NSObject = objc.getClass("NSObject");
-late final _class_NSOrderedCollectionChange = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSBundle')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSBundle_raw;
+final _class_NSBundle = objc.getClass(
+  "NSBundle",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSBundle_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSCharacterSet',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSCharacterSet_raw;
+final _class_NSCharacterSet = objc.getClass(
+  "NSCharacterSet",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSCharacterSet_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSCoder')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSCoder_raw;
+final _class_NSCoder = objc.getClass(
+  "NSCoder",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSCoder_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSData')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSData_raw;
+final _class_NSData = objc.getClass(
+  "NSData",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSData_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSDate')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSDate_raw;
+final _class_NSDate = objc.getClass(
+  "NSDate",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSDate_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSDictionary',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSDictionary_raw;
+final _class_NSDictionary = objc.getClass(
+  "NSDictionary",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSDictionary_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSEnumerator',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSEnumerator_raw;
+final _class_NSEnumerator = objc.getClass(
+  "NSEnumerator",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSEnumerator_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSError')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSError_raw;
+final _class_NSError = objc.getClass(
+  "NSError",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSError_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSIndexSet',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSIndexSet_raw;
+final _class_NSIndexSet = objc.getClass(
+  "NSIndexSet",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSIndexSet_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSInputStream',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSInputStream_raw;
+final _class_NSInputStream = objc.getClass(
+  "NSInputStream",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSInputStream_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSInvocation',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSInvocation_raw;
+final _class_NSInvocation = objc.getClass(
+  "NSInvocation",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSInvocation_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSItemProvider',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSItemProvider_raw;
+final _class_NSItemProvider = objc.getClass(
+  "NSItemProvider",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSItemProvider_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSLocale')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSLocale_raw;
+final _class_NSLocale = objc.getClass(
+  "NSLocale",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSLocale_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMethodSignature',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMethodSignature_raw;
+final _class_NSMethodSignature = objc.getClass(
+  "NSMethodSignature",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMethodSignature_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMutableArray',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMutableArray_raw;
+final _class_NSMutableArray = objc.getClass(
+  "NSMutableArray",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMutableArray_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMutableData',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMutableData_raw;
+final _class_NSMutableData = objc.getClass(
+  "NSMutableData",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMutableData_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMutableDictionary',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMutableDictionary_raw;
+final _class_NSMutableDictionary = objc.getClass(
+  "NSMutableDictionary",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMutableDictionary_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMutableIndexSet',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMutableIndexSet_raw;
+final _class_NSMutableIndexSet = objc.getClass(
+  "NSMutableIndexSet",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMutableIndexSet_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMutableOrderedSet',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMutableOrderedSet_raw;
+final _class_NSMutableOrderedSet = objc.getClass(
+  "NSMutableOrderedSet",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMutableOrderedSet_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMutableSet',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMutableSet_raw;
+final _class_NSMutableSet = objc.getClass(
+  "NSMutableSet",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMutableSet_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSMutableString',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSMutableString_raw;
+final _class_NSMutableString = objc.getClass(
+  "NSMutableString",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSMutableString_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSNotification',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSNotification_raw;
+final _class_NSNotification = objc.getClass(
+  "NSNotification",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSNotification_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSNull')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSNull_raw;
+final _class_NSNull = objc.getClass(
+  "NSNull",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSNull_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSNumber')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSNumber_raw;
+final _class_NSNumber = objc.getClass(
+  "NSNumber",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSNumber_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSObject')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSObject_raw;
+final _class_NSObject = objc.getClass(
+  "NSObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSObject_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSOrderedCollectionChange',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSOrderedCollectionChange_raw;
+final _class_NSOrderedCollectionChange = objc.getClass(
   "NSOrderedCollectionChange",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSOrderedCollectionChange_raw,
+  ).cast(),
 );
-late final _class_NSOrderedCollectionDifference = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSOrderedCollectionDifference',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_NSOrderedCollectionDifference_raw;
+final _class_NSOrderedCollectionDifference = objc.getClass(
   "NSOrderedCollectionDifference",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSOrderedCollectionDifference_raw,
+  ).cast(),
 );
-late final _class_NSOrderedSet = objc.getClass("NSOrderedSet");
-late final _class_NSOutputStream = objc.getClass("NSOutputStream");
-late final _class_NSPort = objc.getClass("NSPort");
-late final _class_NSPortMessage = objc.getClass("NSPortMessage");
-late final _class_NSProgress = objc.getClass("NSProgress");
-late final _class_NSRunLoop = objc.getClass("NSRunLoop");
-late final _class_NSSet = objc.getClass("NSSet");
-late final _class_NSStream = objc.getClass("NSStream");
-late final _class_NSString = objc.getClass("NSString");
-late final _class_NSTimer = objc.getClass("NSTimer");
-late final _class_NSURL = objc.getClass("NSURL");
-late final _class_NSURLHandle = objc.getClass("NSURLHandle");
-late final _class_NSValue = objc.getClass("NSValue");
-late final _class_Protocol = objc.getClass("Protocol");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSOrderedSet',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSOrderedSet_raw;
+final _class_NSOrderedSet = objc.getClass(
+  "NSOrderedSet",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSOrderedSet_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSOutputStream',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSOutputStream_raw;
+final _class_NSOutputStream = objc.getClass(
+  "NSOutputStream",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSOutputStream_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSPort')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSPort_raw;
+final _class_NSPort = objc.getClass(
+  "NSPort",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSPort_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSPortMessage',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSPortMessage_raw;
+final _class_NSPortMessage = objc.getClass(
+  "NSPortMessage",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSPortMessage_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSProgress',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSProgress_raw;
+final _class_NSProgress = objc.getClass(
+  "NSProgress",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSProgress_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSRunLoop')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSRunLoop_raw;
+final _class_NSRunLoop = objc.getClass(
+  "NSRunLoop",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSRunLoop_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSSet')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSSet_raw;
+final _class_NSSet = objc.getClass(
+  "NSSet",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSSet_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSStream')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSStream_raw;
+final _class_NSStream = objc.getClass(
+  "NSStream",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSStream_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSString')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSString_raw;
+final _class_NSString = objc.getClass(
+  "NSString",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSString_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSTimer')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSTimer_raw;
+final _class_NSTimer = objc.getClass(
+  "NSTimer",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSTimer_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSURL')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSURL_raw;
+final _class_NSURL = objc.getClass(
+  "NSURL",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSURL_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSURLHandle',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSURLHandle_raw;
+final _class_NSURLHandle = objc.getClass(
+  "NSURLHandle",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSURLHandle_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSValue')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSValue_raw;
+final _class_NSValue = objc.getClass(
+  "NSValue",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSValue_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Protocol')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Protocol_raw;
+final _class_Protocol = objc.getClass(
+  "Protocol",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Protocol_raw,
+  ).cast(),
+);
 final _objc_msgSend_102xxo4 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -39961,21 +40355,87 @@ final _objc_msgSend_zug4wi = objc.msgSendPointer
         NSRange,
       )
     >();
-late final _protocol_NSCoding = objc.getProtocol("NSCoding");
-late final _protocol_NSCopying = objc.getProtocol("NSCopying");
-late final _protocol_NSFastEnumeration = objc.getProtocol("NSFastEnumeration");
-late final _protocol_NSItemProviderReading = objc.getProtocol(
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSCoding',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSCoding_raw();
+final _protocol_NSCoding = objc.getProtocol("NSCoding", _protocol_NSCoding_raw);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSCopying',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSCopying_raw();
+final _protocol_NSCopying = objc.getProtocol(
+  "NSCopying",
+  _protocol_NSCopying_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSFastEnumeration',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSFastEnumeration_raw();
+final _protocol_NSFastEnumeration = objc.getProtocol(
+  "NSFastEnumeration",
+  _protocol_NSFastEnumeration_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSItemProviderReading',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_NSItemProviderReading_raw();
+final _protocol_NSItemProviderReading = objc.getProtocol(
   "NSItemProviderReading",
+  _protocol_NSItemProviderReading_raw,
 );
-late final _protocol_NSItemProviderWriting = objc.getProtocol(
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSItemProviderWriting',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_NSItemProviderWriting_raw();
+final _protocol_NSItemProviderWriting = objc.getProtocol(
   "NSItemProviderWriting",
+  _protocol_NSItemProviderWriting_raw,
 );
-late final _protocol_NSMutableCopying = objc.getProtocol("NSMutableCopying");
-late final _protocol_NSObject = objc.getProtocol("NSObject");
-late final _protocol_NSPortDelegate = objc.getProtocol("NSPortDelegate");
-late final _protocol_NSSecureCoding = objc.getProtocol("NSSecureCoding");
-late final _protocol_NSStreamDelegate = objc.getProtocol("NSStreamDelegate");
-late final _protocol_Observer = objc.getProtocol("Observer");
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSMutableCopying',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSMutableCopying_raw();
+final _protocol_NSMutableCopying = objc.getProtocol(
+  "NSMutableCopying",
+  _protocol_NSMutableCopying_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSObject',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSObject_raw();
+final _protocol_NSObject = objc.getProtocol("NSObject", _protocol_NSObject_raw);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSPortDelegate',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSPortDelegate_raw();
+final _protocol_NSPortDelegate = objc.getProtocol(
+  "NSPortDelegate",
+  _protocol_NSPortDelegate_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSSecureCoding',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSSecureCoding_raw();
+final _protocol_NSSecureCoding = objc.getProtocol(
+  "NSSecureCoding",
+  _protocol_NSSecureCoding_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSStreamDelegate',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSStreamDelegate_raw();
+final _protocol_NSStreamDelegate = objc.getProtocol(
+  "NSStreamDelegate",
+  _protocol_NSStreamDelegate_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_Observer',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_Observer_raw();
+final _protocol_Observer = objc.getProtocol("Observer", _protocol_Observer_raw);
 late final _sel_URLByResolvingAliasFileAtURL_options_error_ = objc.registerName(
   "URLByResolvingAliasFileAtURL:options:error:",
 );

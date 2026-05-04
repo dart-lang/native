@@ -85,7 +85,14 @@ extension Castaway$Methods on Castaway {
   }
 }
 
-late final _class_Castaway = objc.getClass("Castaway");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Castaway')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Castaway_raw;
+final _class_Castaway = objc.getClass(
+  "Castaway",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Castaway_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

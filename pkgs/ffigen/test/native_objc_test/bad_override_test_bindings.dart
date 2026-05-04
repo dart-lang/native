@@ -879,21 +879,108 @@ extension Triangle$Methods on Triangle {
   }
 }
 
-late final _class_BadOverrideAunt = objc.getClass("BadOverrideAunt");
-late final _class_BadOverrideChild = objc.getClass("BadOverrideChild");
-late final _class_BadOverrideGrandchild = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadOverrideAunt',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadOverrideAunt_raw;
+final _class_BadOverrideAunt = objc.getClass(
+  "BadOverrideAunt",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadOverrideAunt_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadOverrideChild',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadOverrideChild_raw;
+final _class_BadOverrideChild = objc.getClass(
+  "BadOverrideChild",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadOverrideChild_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadOverrideGrandchild',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadOverrideGrandchild_raw;
+final _class_BadOverrideGrandchild = objc.getClass(
   "BadOverrideGrandchild",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadOverrideGrandchild_raw,
+  ).cast(),
 );
-late final _class_BadOverrideGrandparent = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadOverrideGrandparent',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadOverrideGrandparent_raw;
+final _class_BadOverrideGrandparent = objc.getClass(
   "BadOverrideGrandparent",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadOverrideGrandparent_raw,
+  ).cast(),
 );
-late final _class_BadOverrideParent = objc.getClass("BadOverrideParent");
-late final _class_BadOverrideSibbling = objc.getClass("BadOverrideSibbling");
-late final _class_BadOverrideUncle = objc.getClass("BadOverrideUncle");
-late final _class_Polygon = objc.getClass("Polygon");
-late final _class_Rectangle = objc.getClass("Rectangle");
-late final _class_Square = objc.getClass("Square");
-late final _class_Triangle = objc.getClass("Triangle");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadOverrideParent',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadOverrideParent_raw;
+final _class_BadOverrideParent = objc.getClass(
+  "BadOverrideParent",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadOverrideParent_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadOverrideSibbling',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadOverrideSibbling_raw;
+final _class_BadOverrideSibbling = objc.getClass(
+  "BadOverrideSibbling",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadOverrideSibbling_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadOverrideUncle',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadOverrideUncle_raw;
+final _class_BadOverrideUncle = objc.getClass(
+  "BadOverrideUncle",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadOverrideUncle_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Polygon')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Polygon_raw;
+final _class_Polygon = objc.getClass(
+  "Polygon",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Polygon_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Rectangle')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Rectangle_raw;
+final _class_Rectangle = objc.getClass(
+  "Rectangle",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Rectangle_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Square')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Square_raw;
+final _class_Square = objc.getClass(
+  "Square",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Square_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Triangle')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Triangle_raw;
+final _class_Triangle = objc.getClass(
+  "Triangle",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Triangle_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

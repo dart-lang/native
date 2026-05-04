@@ -94,7 +94,16 @@ extension SwiftClass$Methods on SwiftClass {
   }
 }
 
-late final _class_SwiftClass = objc.getClass("swift_module.SwiftClass");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_swift_module.SwiftClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_SwiftClass_raw;
+final _class_SwiftClass = objc.getClass(
+  "swift_module.SwiftClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_SwiftClass_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

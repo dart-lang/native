@@ -268,15 +268,24 @@ class ObjCProtocolMethodTrampoline extends AstNode {
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.
-class ObjCImport {
+class ObjCImport extends AstNode {
   final String name;
 
   const ObjCImport(this.name);
 
   String gen(Context context) => '${context.libs.prefix(objcPkgImport)}.$name';
+
+  @override
+  void visit(Visitation visitation) => visitation.visitAstNode(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(objcPkgImport);
+  }
 }
 
-/// Globals only used internally by ObjC bindings, such as classes and SELs.
+/// Globals only used internally by ObjC bindings, such as selectors.
 class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function() makeValue;
 
@@ -291,6 +300,83 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = 'late final $name = ${makeValue()};\n';
     return BindingString(type: BindingStringType.global, string: s);
+  }
+}
+
+/// A global variable for an ObjC class, loaded via @Native.
+class ObjCClassGlobal extends NoLookUpBinding {
+  final String lookupName;
+  final Symbol rawSymbol;
+  ObjCClassGlobal(String name, this.lookupName)
+    : rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+      super(
+        originalName: name,
+        symbol: Symbol(name, SymbolKind.field),
+        isInternal: true,
+      );
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final context = w.context;
+    final ffi = context.libs.prefix(ffiImport);
+    final type = PointerType(objCObjectType).getCType(context);
+    final symbol = Namer.stringLiteral('OBJC_CLASS_\$_$lookupName');
+    final s =
+        '''
+@$ffi.Native<$type>(symbol: '$symbol')
+external $type ${rawSymbol.name};
+final $name = ${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName", () => $ffi.Native.addressOf<$type>(${rawSymbol.name}).cast());
+''';
+    return BindingString(type: BindingStringType.global, string: s);
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
+    visitor.visit(objCObjectType);
+    visitor.visit(ObjCBuiltInFunctions.getClass);
+    visitor.visit(rawSymbol);
+  }
+}
+
+/// A global variable for an ObjC protocol, loaded via @Native.
+class ObjCProtocolGlobal extends NoLookUpBinding {
+  final String lookupName;
+  final Symbol rawSymbol;
+  ObjCProtocolGlobal(String name, this.lookupName)
+    : rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+      super(
+        originalName: name,
+        symbol: Symbol(name, SymbolKind.field),
+        isInternal: true,
+      );
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final context = w.context;
+    final ffi = context.libs.prefix(ffiImport);
+    final libraryId = context.objCBuiltInFunctions.libraryId;
+    final ptrType = PointerType(objCProtocolType).getCType(context);
+    final symbol = '_${libraryId}_$lookupName';
+    final s =
+        '''
+@$ffi.Native<$ptrType Function()>(symbol: '$symbol')
+external $ptrType ${rawSymbol.name}();
+final $name = ${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName", ${rawSymbol.name});
+''';
+    return BindingString(type: BindingStringType.global, string: s);
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
+    visitor.visit(objCProtocolType);
+    visitor.visit(ObjCBuiltInFunctions.getProtocol);
+    visitor.visit(rawSymbol);
   }
 }
 

@@ -18,6 +18,7 @@ typedef struct _ObjCProtocolImpl ObjCProtocolImpl;
 ObjCSelector *sel_registerName(const char *name);
 const char * sel_getName(ObjCSelector* sel);
 ObjCObjectImpl *objc_getClass(const char *name);
+const char *class_getName(ObjCObjectImpl* cls);
 ObjCObjectImpl *objc_retain(ObjCObjectImpl *object);
 ObjCObjectImpl *objc_retainBlock(const ObjCObjectImpl *object);
 void objc_release(ObjCObjectImpl *object);
@@ -26,6 +27,7 @@ ObjCObjectImpl *object_getClass(ObjCObjectImpl *object);
 ObjCObjectImpl** objc_copyClassList(unsigned int* count);
 void *objc_autoreleasePoolPush(void);
 void objc_autoreleasePoolPop(void *pool);
+bool class_isMetaClass(ObjCObjectImpl *cls);
 
 // The signature of this function is just a placeholder. This function is used
 // by every method invocation, and is cast to every signature we need.

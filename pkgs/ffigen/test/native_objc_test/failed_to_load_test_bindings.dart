@@ -101,8 +101,15 @@ extension ClassThatWillFailToLoad$Methods on ClassThatWillFailToLoad {
   }
 }
 
-late final _class_ClassThatWillFailToLoad = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ClassThatWillFailToLoad',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ClassThatWillFailToLoad_raw;
+final _class_ClassThatWillFailToLoad = objc.getClass(
   "ClassThatWillFailToLoad",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ClassThatWillFailToLoad_raw,
+  ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<

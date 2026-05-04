@@ -364,8 +364,26 @@ extension ArcTestObject$Methods on ArcTestObject {
   }
 }
 
-late final _class_ArcDtorTestObject = objc.getClass("ArcDtorTestObject");
-late final _class_ArcTestObject = objc.getClass("ArcTestObject");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ArcDtorTestObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ArcDtorTestObject_raw;
+final _class_ArcDtorTestObject = objc.getClass(
+  "ArcDtorTestObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ArcDtorTestObject_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ArcTestObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ArcTestObject_raw;
+final _class_ArcTestObject = objc.getClass(
+  "ArcTestObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ArcTestObject_raw,
+  ).cast(),
+);
 final _objc_msgSend_129vhbw = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

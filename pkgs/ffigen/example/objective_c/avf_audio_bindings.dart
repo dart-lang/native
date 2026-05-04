@@ -729,7 +729,16 @@ extension type CASpatialAudioExperience._(objc.ObjCObject object$)
   }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
 }
 
-late final _class_AVAudioPlayer = objc.getClass("AVAudioPlayer");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_AVAudioPlayer',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_AVAudioPlayer_raw;
+final _class_AVAudioPlayer = objc.getClass(
+  "AVAudioPlayer",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_AVAudioPlayer_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

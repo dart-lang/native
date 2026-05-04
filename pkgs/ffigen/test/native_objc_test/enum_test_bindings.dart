@@ -121,7 +121,16 @@ const int SOME_MACRO = 123;
 
 const int UnnamedEnumValue = 0;
 
-late final _class_EnumTestInterface = objc.getClass("EnumTestInterface");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_EnumTestInterface',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_EnumTestInterface_raw;
+final _class_EnumTestInterface = objc.getClass(
+  "EnumTestInterface",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_EnumTestInterface_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

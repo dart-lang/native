@@ -88,7 +88,16 @@ extension StringUtil$Methods on StringUtil {
   }
 }
 
-late final _class_StringUtil = objc.getClass("StringUtil");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_StringUtil',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_StringUtil_raw;
+final _class_StringUtil = objc.getClass(
+  "StringUtil",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_StringUtil_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

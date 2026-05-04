@@ -333,7 +333,14 @@ extension Sendable$Methods on Sendable {
   }
 }
 
-late final _class_Sendable = objc.getClass("Sendable");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Sendable')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Sendable_raw;
+final _class_Sendable = objc.getClass(
+  "Sendable",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Sendable_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

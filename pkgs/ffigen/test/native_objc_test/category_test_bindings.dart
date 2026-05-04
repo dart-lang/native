@@ -1274,11 +1274,50 @@ extension Thing$Methods on Thing {
   }
 }
 
-late final _class_ChildOfNSString = objc.getClass("ChildOfNSString");
-late final _class_ChildOfThing = objc.getClass("ChildOfThing");
-late final _class_NSString = objc.getClass("NSString");
-late final _class_NSURL = objc.getClass("NSURL");
-late final _class_Thing = objc.getClass("Thing");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ChildOfNSString',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ChildOfNSString_raw;
+final _class_ChildOfNSString = objc.getClass(
+  "ChildOfNSString",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ChildOfNSString_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ChildOfThing',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ChildOfThing_raw;
+final _class_ChildOfThing = objc.getClass(
+  "ChildOfThing",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ChildOfThing_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSString')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSString_raw;
+final _class_NSString = objc.getClass(
+  "NSString",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSString_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSURL')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSURL_raw;
+final _class_NSURL = objc.getClass(
+  "NSURL",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSURL_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Thing')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Thing_raw;
+final _class_Thing = objc.getClass(
+  "Thing",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Thing_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

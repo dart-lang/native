@@ -159,8 +159,24 @@ extension SomeClass$Methods on SomeClass {
 
 typedef SomeClassPtr = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef DartSomeClassPtr = SomeClass;
-late final _class_AnotherClass = objc.getClass("AnotherClass");
-late final _class_SomeClass = objc.getClass("SomeClass");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_AnotherClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_AnotherClass_raw;
+final _class_AnotherClass = objc.getClass(
+  "AnotherClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_AnotherClass_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_SomeClass')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_SomeClass_raw;
+final _class_SomeClass = objc.getClass(
+  "SomeClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_SomeClass_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

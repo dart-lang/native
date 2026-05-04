@@ -4533,9 +4533,34 @@ typedef Vec4Block = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartVec4Block = objc.ObjCBlock<Vec4 Function(Vec4)>;
 typedef VoidBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartVoidBlock = objc.ObjCBlock<ffi.Void Function()>;
-late final _class_BlockTester = objc.getClass("BlockTester");
-late final _class_DummyObject = objc.getClass("DummyObject");
-late final _class_NSThread = objc.getClass("NSThread");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BlockTester',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BlockTester_raw;
+final _class_BlockTester = objc.getClass(
+  "BlockTester",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BlockTester_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DummyObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_DummyObject_raw;
+final _class_DummyObject = objc.getClass(
+  "DummyObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DummyObject_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSThread')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSThread_raw;
+final _class_NSThread = objc.getClass(
+  "NSThread",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSThread_raw,
+  ).cast(),
+);
 final _objc_msgSend_129vhbw = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

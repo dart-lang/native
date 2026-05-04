@@ -79,7 +79,16 @@ extension ForwardDeclaredClass$Methods on ForwardDeclaredClass {
   }
 }
 
-late final _class_ForwardDeclaredClass = objc.getClass("ForwardDeclaredClass");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ForwardDeclaredClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ForwardDeclaredClass_raw;
+final _class_ForwardDeclaredClass = objc.getClass(
+  "ForwardDeclaredClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ForwardDeclaredClass_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

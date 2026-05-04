@@ -18,7 +18,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   bool filled = false;
 
   final String lookupName;
-  late final ObjCInternalGlobal classObject;
+  late final NoLookUpBinding classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
@@ -46,10 +46,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    classObject = ObjCInternalGlobal(
-      '_class_$originalName',
-      () => '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
-    );
+    classObject = ObjCClassGlobal('_class_$originalName', this.lookupName);
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );

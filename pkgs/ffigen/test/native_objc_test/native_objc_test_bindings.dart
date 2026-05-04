@@ -162,7 +162,14 @@ extension Foo$Methods on Foo {
   }
 }
 
-late final _class_Foo = objc.getClass("Foo");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Foo')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Foo_raw;
+final _class_Foo = objc.getClass(
+  "Foo",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Foo_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

@@ -3011,11 +3011,37 @@ interface class UnusedProtocol$Builder {
   );
 }
 
-late final _class_ObjCProtocolImpl = objc.getClass("ObjCProtocolImpl");
-late final _class_ObjCProtocolImplMissingMethod = objc.getClass(
-  "ObjCProtocolImplMissingMethod",
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ObjCProtocolImpl',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ObjCProtocolImpl_raw;
+final _class_ObjCProtocolImpl = objc.getClass(
+  "ObjCProtocolImpl",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ObjCProtocolImpl_raw,
+  ).cast(),
 );
-late final _class_ProtocolConsumer = objc.getClass("ProtocolConsumer");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ObjCProtocolImplMissingMethod',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_ObjCProtocolImplMissingMethod_raw;
+final _class_ObjCProtocolImplMissingMethod = objc.getClass(
+  "ObjCProtocolImplMissingMethod",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ObjCProtocolImplMissingMethod_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ProtocolConsumer',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ProtocolConsumer_raw;
+final _class_ProtocolConsumer = objc.getClass(
+  "ProtocolConsumer",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ProtocolConsumer_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -3241,10 +3267,38 @@ final _objc_msgSend_yhkuco = objc.msgSendPointer
         ffi.Pointer<ffi.Int32>,
       )
     >();
-late final _protocol_EmptyProtocol = objc.getProtocol("EmptyProtocol");
-late final _protocol_MyProtocol = objc.getProtocol("MyProtocol");
-late final _protocol_SecondaryProtocol = objc.getProtocol("SecondaryProtocol");
-late final _protocol_UnusedProtocol = objc.getProtocol("UnusedProtocol");
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_13hhotk_EmptyProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_EmptyProtocol_raw();
+final _protocol_EmptyProtocol = objc.getProtocol(
+  "EmptyProtocol",
+  _protocol_EmptyProtocol_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_13hhotk_MyProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_MyProtocol_raw();
+final _protocol_MyProtocol = objc.getProtocol(
+  "MyProtocol",
+  _protocol_MyProtocol_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_13hhotk_SecondaryProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_SecondaryProtocol_raw();
+final _protocol_SecondaryProtocol = objc.getProtocol(
+  "SecondaryProtocol",
+  _protocol_SecondaryProtocol_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_13hhotk_UnusedProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_UnusedProtocol_raw();
+final _protocol_UnusedProtocol = objc.getProtocol(
+  "UnusedProtocol",
+  _protocol_UnusedProtocol_raw,
+);
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_callBlockingMethodOnRandomThread_ = objc.registerName(

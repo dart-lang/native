@@ -92,6 +92,12 @@ external ffi.Pointer<ffi.Pointer<ObjCObjectImpl>> copyClassList(
 )
 external ffi.Pointer<ObjCObjectImpl> getClass(ffi.Pointer<ffi.Char> name);
 
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'class_getName',
+  isLeaf: true,
+)
+external ffi.Pointer<ffi.Char> getClassName(ffi.Pointer<ObjCObjectImpl> cls);
+
 @ffi.Native<
   ObjCMethodDesc Function(
     ffi.Pointer<ObjCProtocolImpl>,
@@ -134,6 +140,12 @@ external ffi.Pointer<ObjCProtocolImpl> getProtocol(ffi.Pointer<ffi.Char> name);
 external ffi.Pointer<ffi.Char> getProtocolName(
   ffi.Pointer<ObjCProtocolImpl> proto,
 );
+
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'class_isMetaClass',
+  isLeaf: true,
+)
+external bool isMetaClass(ffi.Pointer<ObjCObjectImpl> cls);
 
 @ffi.Native<ffi.Void Function()>(symbol: 'objc_msgSend')
 external void msgSend();
