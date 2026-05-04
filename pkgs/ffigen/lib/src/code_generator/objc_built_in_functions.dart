@@ -268,21 +268,12 @@ class ObjCProtocolMethodTrampoline extends AstNode {
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.
-class ObjCImport extends AstNode {
+class ObjCImport {
   final String name;
 
   const ObjCImport(this.name);
 
   String gen(Context context) => '${context.libs.prefix(objcPkgImport)}.$name';
-
-  @override
-  void visit(Visitation visitation) => visitation.visitAstNode(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
-    super.visitChildren(visitor);
-    visitor.visit(objcPkgImport);
-  }
 }
 
 /// Globals only used internally by ObjC bindings, such as selectors.
@@ -321,11 +312,13 @@ class ObjCClassGlobal extends NoLookUpBinding {
     final ffi = context.libs.prefix(ffiImport);
     final type = PointerType(objCObjectType).getCType(context);
     final symbol = Namer.stringLiteral('OBJC_CLASS_\$_$lookupName');
+    final getClass = ObjCBuiltInFunctions.getClass.gen(context);
+    final address = '$ffi.Native.addressOf<$type>(${rawSymbol.name})';
     final s =
         '''
 @$ffi.Native<$type>(symbol: '$symbol')
 external $type ${rawSymbol.name};
-final $name = ${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName", () => $ffi.Native.addressOf<$type>(${rawSymbol.name}).cast());
+final $name = $getClass("$lookupName", () => $address.cast());
 ''';
     return BindingString(type: BindingStringType.global, string: s);
   }
@@ -336,16 +329,16 @@ final $name = ${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName", () =>
     visitor.visit(ffiImport);
     visitor.visit(objcPkgImport);
     visitor.visit(objCObjectType);
-    visitor.visit(ObjCBuiltInFunctions.getClass);
     visitor.visit(rawSymbol);
   }
 }
 
 /// A global variable for an ObjC protocol, loaded via @Native.
 class ObjCProtocolGlobal extends NoLookUpBinding {
+  final String loaderName;
   final String lookupName;
   final Symbol rawSymbol;
-  ObjCProtocolGlobal(String name, this.lookupName)
+  ObjCProtocolGlobal(String name, this.lookupName, this.loaderName)
     : rawSymbol = Symbol('${name}_raw', SymbolKind.field),
       super(
         originalName: name,
@@ -357,14 +350,13 @@ class ObjCProtocolGlobal extends NoLookUpBinding {
   BindingString toBindingString(Writer w) {
     final context = w.context;
     final ffi = context.libs.prefix(ffiImport);
-    final libraryId = context.objCBuiltInFunctions.libraryId;
     final ptrType = PointerType(objCProtocolType).getCType(context);
-    final symbol = '_${libraryId}_$lookupName';
+    final getProtocol = ObjCBuiltInFunctions.getProtocol.gen(context);
     final s =
         '''
-@$ffi.Native<$ptrType Function()>(symbol: '$symbol')
+@$ffi.Native<$ptrType Function()>(symbol: '$loaderName')
 external $ptrType ${rawSymbol.name}();
-final $name = ${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName", ${rawSymbol.name});
+final $name = $getProtocol("$lookupName", ${rawSymbol.name});
 ''';
     return BindingString(type: BindingStringType.global, string: s);
   }
@@ -375,7 +367,6 @@ final $name = ${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName", ${
     visitor.visit(ffiImport);
     visitor.visit(objcPkgImport);
     visitor.visit(objCProtocolType);
-    visitor.visit(ObjCBuiltInFunctions.getProtocol);
     visitor.visit(rawSymbol);
   }
 }

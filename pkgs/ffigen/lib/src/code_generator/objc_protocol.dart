@@ -36,6 +36,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
        _protocolPointer = ObjCProtocolGlobal(
          '_protocol_$originalName',
          lookupName ?? originalName,
+         '_${context.objCBuiltInFunctions.libraryId}_$originalName',
        ),
        super(
          name:

@@ -1810,7 +1810,7 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
       )
     >();
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
-  symbol: '_1yx5rho_protocols.TestAsyncProtocol',
+  symbol: '_1yx5rho_TestAsyncProtocol',
 )
 external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_TestAsyncProtocol_raw();
 final _protocol_TestAsyncProtocol = objc.getProtocol(
@@ -1818,7 +1818,7 @@ final _protocol_TestAsyncProtocol = objc.getProtocol(
   _protocol_TestAsyncProtocol_raw,
 );
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
-  symbol: '_1yx5rho_protocols.TestWeatherServiceDelegate',
+  symbol: '_1yx5rho_TestWeatherServiceDelegate',
 )
 external ffi.Pointer<objc.ObjCProtocolImpl>
 _protocol_TestWeatherServiceDelegate_raw();

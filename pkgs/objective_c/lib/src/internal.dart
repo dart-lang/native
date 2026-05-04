@@ -129,7 +129,7 @@ ObjectPtr getClass(String name, [ObjectPtr Function()? loader]) {
   if (loader != null) {
     try {
       return loader();
-    } catch (InvalidArgument) {
+    } on ArgumentError {
       // The class is not in the user's dylib. This means the class is probably
       // part of a built-in framework. Try to load it by name instead.
     }
