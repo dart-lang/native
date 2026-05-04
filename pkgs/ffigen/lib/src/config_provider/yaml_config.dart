@@ -194,17 +194,23 @@ final class YamlConfig {
 
   /// Holds config for how struct packing should be overriden.
   PackingValue? structPackingOverride(Declaration declaration) =>
-      _structPackingOverride.getOverridenPackValue(declaration.originalName);
+      declaration.originalName == null
+          ? null
+          : _structPackingOverride.getOverridenPackValue(declaration.originalName!);
   late StructPackingOverride _structPackingOverride;
 
   /// The module that the ObjC interface belongs to.
   String? interfaceModule(Declaration declaration) =>
-      _objcInterfaceModules.getModule(declaration.originalName);
+      declaration.originalName == null
+          ? null
+          : _objcInterfaceModules.getModule(declaration.originalName!);
   late ObjCModules _objcInterfaceModules;
 
   /// The module that the ObjC protocols belongs to.
   String? protocolModule(Declaration declaration) =>
-      _objcProtocolModules.getModule(declaration.originalName);
+      declaration.originalName == null
+          ? null
+          : _objcProtocolModules.getModule(declaration.originalName!);
   late ObjCModules _objcProtocolModules;
 
   /// Name of the wrapper class.
@@ -225,24 +231,32 @@ final class YamlConfig {
 
   /// Whether to expose the function typedef for a given function.
   bool shouldExposeFunctionTypedef(Declaration declaration) =>
-      _exposeFunctionTypedefs.shouldInclude(declaration.originalName);
+      declaration.originalName == null
+          ? false
+          : _exposeFunctionTypedefs.shouldInclude(declaration.originalName!);
   late YamlIncluder _exposeFunctionTypedefs;
 
   /// Whether the given function is a leaf function.
   bool isLeafFunction(Declaration declaration) =>
-      _leafFunctions.shouldInclude(declaration.originalName);
+      declaration.originalName == null
+          ? false
+          : _leafFunctions.shouldInclude(declaration.originalName!);
   late YamlIncluder _leafFunctions;
 
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
   bool enumShouldBeInt(Declaration declaration) =>
-      _enumsAsInt.shouldInclude(declaration.originalName);
+      declaration.originalName == null
+          ? false
+          : _enumsAsInt.shouldInclude(declaration.originalName!);
   late YamlIncluder _enumsAsInt;
 
   /// Whether to generate the given unnamed enum as a series of int constants,
   /// rather than a real Dart enum.
   bool unnamedEnumsShouldBeInt(Declaration declaration) =>
-      _unnamedEnumsAsInt.shouldInclude(declaration.originalName);
+      declaration.originalName == null
+          ? false
+          : _unnamedEnumsAsInt.shouldInclude(declaration.originalName!);
   late YamlIncluder _unnamedEnumsAsInt;
 
   FfiNativeConfig get ffiNativeConfig => _ffiNativeConfig;
@@ -1261,8 +1275,7 @@ final class YamlConfig {
       rename: _structDecl.rename,
       renameMember: _structDecl.renameMember,
       dependencies: _structDependencies,
-      packingOverride: (decl) =>
-          _structPackingOverride.getOverridenPackValue(decl.originalName),
+      packingOverride: structPackingOverride,
       // ignore: deprecated_member_use_from_same_package
       imported: structTypeMappings.values.toList(),
     ),

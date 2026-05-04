@@ -20,7 +20,10 @@ const largeTestTag = 'large_test';
 const summarizerTestTag = 'summarizer_test';
 
 Directory getTempDir(String prefix) {
-  return _currentDirectory.createTempSync(prefix);
+  final basePrefix = prefix.isEmpty ? 'jnigen_test_temp' : prefix;
+  final effectivePrefix =
+      basePrefix.contains(' ') ? basePrefix : '$basePrefix with spaces ';
+  return _currentDirectory.createTempSync(effectivePrefix);
 }
 
 Future<bool> isEmptyOrNotExistDir(String path) async {
@@ -118,7 +121,8 @@ Future<void> generateAndCompareBindings(Config config) async {
   final dartReferenceBindings =
       config.outputConfig.dartConfig.path.toFilePath();
   final currentDir = Directory.current;
-  final tempDir = currentDir.createTempSync('jnigen_test_temp');
+  final tempDir =
+      currentDir.createTempSync('jnigen_test_temp with spaces ');
   final singleFile =
       config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
   final tempLib = singleFile
@@ -134,7 +138,8 @@ Future<void> generateAndCompareBindings(Config config) async {
 
 Future<void> generateAndAnalyzeBindings(Config config,
     {Iterable<String> confirmExists = const []}) async {
-  final tempDir = Directory.current.createTempSync('jnigen_test_temp');
+  final tempDir =
+      Directory.current.createTempSync('jnigen_test_temp with spaces ');
   try {
     await _generateTempBindings(config, tempDir);
     final analyzeResult =
