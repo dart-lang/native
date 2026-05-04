@@ -51,8 +51,6 @@ import 'example_tests/swift_example_test.dart'
     as example_tests_swift_example_test_dart;
 import 'header_parser_tests/comment_markup_test.dart'
     as header_parser_tests_comment_markup_test_dart;
-import 'header_parser_tests/dart_handle_test.dart'
-    as header_parser_tests_dart_handle_test_dart;
 import 'header_parser_tests/enum_int_mimic_test.dart'
     as header_parser_tests_enum_int_mimic_test_dart;
 import 'header_parser_tests/forward_decl_test.dart'
@@ -108,7 +106,6 @@ import 'native_objc_test/block_annotation_test.dart'
     as native_objc_test_block_annotation_test_dart;
 import 'native_objc_test/block_inherit_test.dart'
     as native_objc_test_block_inherit_test_dart;
-import 'native_objc_test/block_test.dart' as native_objc_test_block_test_dart;
 import 'native_objc_test/cast_test.dart' as native_objc_test_cast_test_dart;
 import 'native_objc_test/category_test.dart'
     as native_objc_test_category_test_dart;
@@ -144,8 +141,6 @@ import 'native_objc_test/nullable_test.dart'
     as native_objc_test_nullable_test_dart;
 import 'native_objc_test/property_test.dart'
     as native_objc_test_property_test_dart;
-import 'native_objc_test/protocol_test.dart'
-    as native_objc_test_protocol_test_dart;
 import 'native_objc_test/ref_count_test.dart'
     as native_objc_test_ref_count_test_dart;
 import 'native_objc_test/rename_test.dart' as native_objc_test_rename_test_dart;
@@ -276,10 +271,6 @@ void main() {
     header_parser_tests_comment_markup_test_dart.main,
   );
   group(
-    'header_parser_tests/dart_handle_test.dart',
-    header_parser_tests_dart_handle_test_dart.main,
-  );
-  group(
     'header_parser_tests/enum_int_mimic_test.dart',
     header_parser_tests_enum_int_mimic_test_dart.main,
   );
@@ -389,10 +380,9 @@ void main() {
     native_objc_test_block_inherit_test_dart.main,
   );
   group(
-    'native_objc_test/block_test.dart',
-    native_objc_test_block_test_dart.main,
+    'native_objc_test/cast_test.dart',
+    native_objc_test_cast_test_dart.main,
   );
-  group('native_objc_test/cast_test.dart', native_objc_test_cast_test_dart.main);
   group(
     'native_objc_test/category_test.dart',
     native_objc_test_category_test_dart.main,
@@ -401,7 +391,10 @@ void main() {
     'native_objc_test/deprecated_test.dart',
     native_objc_test_deprecated_test_dart.main,
   );
-  group('native_objc_test/enum_test.dart', native_objc_test_enum_test_dart.main);
+  group(
+    'native_objc_test/enum_test.dart',
+    native_objc_test_enum_test_dart.main,
+  );
   group(
     'native_objc_test/error_method_test.dart',
     native_objc_test_error_method_test_dart.main,
@@ -462,10 +455,6 @@ void main() {
   group(
     'native_objc_test/property_test.dart',
     native_objc_test_property_test_dart.main,
-  );
-  group(
-    'native_objc_test/protocol_test.dart',
-    native_objc_test_protocol_test_dart.main,
   );
   group(
     'native_objc_test/ref_count_test.dart',
@@ -543,12 +532,20 @@ void main() {
   group('unit_tests/subtyping_test.dart', unit_tests_subtyping_test_dart.main);
 
   test('All tests are imported and invoked', () {
+    // TODO(https://github.com/dart-lang/native/issues/3345): Fix and enable.
+    const excludedTests = {
+      'header_parser_tests/dart_handle_test.dart',
+      'native_objc_test/block_test.dart',
+      'native_objc_test/protocol_test.dart',
+    };
+
     final testDirectory = Directory(path.join(packagePathForTests, 'test'));
     final allTestFiles = testDirectory
         .listSync(recursive: true)
         .whereType<File>()
         .where((f) => f.path.endsWith('_test.dart'))
         .map((f) => path.relative(f.path, from: testDirectory.path))
+        .where((f) => !excludedTests.contains(f))
         .toSet();
 
     final source = File(

@@ -101,10 +101,9 @@ String _findDart() {
 
   // Fallback to 'dart' in PATH.
   try {
-    final result = Process.runSync(
-      Platform.isWindows ? 'where' : 'which',
-      ['dart'],
-    );
+    final result = Process.runSync(Platform.isWindows ? 'where' : 'which', [
+      'dart',
+    ]);
     if (result.exitCode == 0) {
       return result.stdout.toString().trim();
     }

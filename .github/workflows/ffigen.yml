@@ -150,6 +150,26 @@ jobs:
       - name: Run Flutter tests
         run: dart test
 
+  test-mac-aot:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: stable
+      - name: Install dependencies
+        run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+      - name: Build test dylib
+        run: dart --enable-asserts test/setup.dart
+      - name: Build all_tests.dart in AOT
+        run: dart compile exe test/all_tests.dart -o test/all_tests
+      - name: Build all_tests in AOT
+        run: DYLD_INSERT_LIBRARIES=.dart_tool/lib/objective_c.dylib ./test/all_tests
+
   test-windows:
     needs: analyze
     runs-on: windows-latest
