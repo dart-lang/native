@@ -62,33 +62,28 @@ String configPathForTest(String directory, String file) =>
 /// https://github.com/dart-lang/test/issues/110
 Uri _findPackageRoot(String packageName) {
   final script = Platform.script;
-  final fileName = script.name;
-  if (fileName.endsWith('.dart')) {
-    // We're likely running from source in the package somewhere.
-    var directory = script.resolve('.');
-    while (true) {
-      final dirName = directory.name;
-      if (dirName == packageName) {
+
+  // We're likely running from source or an executable in the package somewhere.
+  var directory = script.resolve('.');
+  while (true) {
+    final pubspec = File.fromUri(directory.resolve('pubspec.yaml'));
+    if (pubspec.existsSync()) {
+      if (pubspec.readAsStringSync().contains('name: $packageName')) {
         return directory;
       }
-      final parent = directory.resolve('..');
-      if (parent == directory) break;
-      directory = parent;
     }
-  } else if (fileName.endsWith('.dill')) {
-    // Probably from the package root.
-    final cwd = Directory.current.uri;
-    final dirName = cwd.name;
-    if (dirName == packageName) {
-      return cwd;
-    }
+    final parent = directory.resolve('..');
+    if (parent == directory) break;
+    directory = parent;
   }
+
   // Or the workspace root.
   final cwd = Directory.current.uri;
   final candidate = cwd.resolve('pkgs/$packageName/');
   if (Directory.fromUri(candidate).existsSync()) {
     return candidate;
   }
+
   throw StateError(
     "Could not find package root for package '$packageName'. "
     'Tried finding the package root via Platform.script '
