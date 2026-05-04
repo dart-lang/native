@@ -638,8 +638,15 @@ extension TestMessageService$Methods on TestMessageService {
   }
 }
 
-late final _class_TestMessageService = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_callbacks.TestMessageService',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_TestMessageService_raw;
+final _class_TestMessageService = objc.getClass(
   "callbacks.TestMessageService",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_TestMessageService_raw,
+  ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<

@@ -59,15 +59,7 @@ void main() {
           expect(actual, contains('set someField(int value) {'));
 
           // Verify that SwiftClass is loaded using the swift_module prefix.
-          expect(
-            actual,
-            contains(
-              RegExp(
-                r'late final _class_SwiftClass.* = '
-                r'objc.getClass.*\("swift_module\.SwiftClass"\)',
-              ),
-            ),
-          );
+          expect(actual, contains(r'OBJC_CLASS_\$_swift_module.SwiftClass'));
 
           return true;
         },

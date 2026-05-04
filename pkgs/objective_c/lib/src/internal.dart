@@ -122,20 +122,6 @@ Pointer<r.ObjCSelector> registerName(String name) {
   return sel;
 }
 
-@Native<Pointer<r.ObjCObjectImpl>>(
-  symbol: 'OBJC_METACLASS_\$_DOBJCDartInputStreamAdapter',
-  assetId: 'package:objective_c/objective_c.dylib',
-)
-external Pointer<r.ObjCObjectImpl>
-_metaclass_DOBJCDartInputStreamAdapter_raw;
-
-@Native<Pointer<Pointer<r.ObjCObjectImpl>>>(
-  symbol: 'OBJC_CLASS_\$_DOBJCDartInputStreamAdapter',
-  assetId: 'package:objective_c/objective_c.dylib',
-)
-external Pointer<Pointer<r.ObjCObjectImpl>>
-_class_DOBJCDartInputStreamAdapter_raw;
-
 /// Only for use by FFIgen bindings.
 ObjectPtr getClass(String name, [ObjectPtr Function()? loader]) {
   _ensureDartAPI();
