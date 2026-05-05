@@ -5,6 +5,8 @@
   These are now generated as static `create` methods.
 - It's no longer necessary to run `flutter build apk` before running JNIgen in
   a Flutter project.
+- Fix directory-dependent `dart format` failures by explicitly searching for the
+  correct Dart executable to run.
 
 ## 0.16.0
 

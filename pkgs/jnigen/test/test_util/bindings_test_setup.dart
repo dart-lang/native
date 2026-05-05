@@ -12,6 +12,7 @@
 import 'dart:io';
 
 import 'package:jni/jni.dart';
+import 'package:jnigen/src/util/dart_executable.dart';
 import 'package:path/path.dart' hide equals;
 
 import 'test_util.dart';
@@ -27,14 +28,14 @@ final kotlinTestKotlin = join(kotlinTest, 'kotlin');
 late Directory tempClassDir;
 
 Future<void> bindingsTestSetup() async {
-  await runCommand('dart', [
+  await runCommand(dartExecutable, [
     'run',
     'jni:setup',
   ]);
   tempClassDir =
       Directory.current.createTempSync('jnigen_runtime_test_classpath_');
   await compileJavaFiles(Directory(simplePackageTestJava), tempClassDir);
-  await runCommand('dart', [
+  await runCommand(dartExecutable, [
     'run',
     'jnigen:download_maven_jars',
     '--config',

@@ -8,6 +8,8 @@
 
 import 'dart:io';
 
+import 'package:jnigen/src/util/dart_executable.dart';
+
 import 'command_runner.dart';
 
 const scripts = [
@@ -28,13 +30,14 @@ void main() async {
   final current = Directory.current.uri;
   for (var script in scripts) {
     runners.add(Runner('Run generate script: $script', current)
-      ..chainCommand('dart', ['run', script]));
+      ..chainCommand(dartExecutable, ['run', script]));
   }
 
   for (var yamlDir in yamlBasedExamples) {
     runners.add(
         Runner('Regenerate bindings in $yamlDir', current.resolve(yamlDir))
-          ..chainCommand('dart', ['run', 'jnigen', '--config', 'jnigen.yaml']));
+          ..chainCommand(
+              dartExecutable, ['run', 'jnigen', '--config', 'jnigen.yaml']));
   }
 
   await Future.wait(runners.map((runner) => runner.run()).toList());

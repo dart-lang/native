@@ -1,4 +1,7 @@
 ## 9.4.0-wip
+- Fix a [bug](https://github.com/dart-lang/native/issues/3209) where a Dart GC
+  safepoint during a non-leaf FFI call could prematurely release an ObjC block
+  before ObjC retained it, causing an EXC_BAD_ACCESS crash.
 - Fix (https://github.com/dart-lang/native/issues/2877) such that all
   occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and
   returns `false` when input is`null`
@@ -8,6 +11,8 @@
 - Fix a [bug](https://github.com/dart-lang/native/issues/3290) where missing
   debug symbols caused app store valiadtion warnings.
 - Removed some test-only utilities from the release dylib (fixes [#2999](https://github.com/dart-lang/native/issues/2999)).
+- Added `bool.toNSNumber()` extension method, `NSNumber.isBool` check and
+  converter support for bool.
 
 ## 9.3.0
 - `autoReleasePool` now returns the value produced by its callback.
@@ -15,7 +20,7 @@
 ## 9.2.5
 - Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
   minimum OS version flags to the build script.
- 
+
 ## 9.2.4
 
 - Fix a [bug](https://github.com/dart-lang/native/issues/2990) build hook path
