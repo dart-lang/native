@@ -272,7 +272,7 @@ class Config {
       this.dumpJsonTo,
       this.imports,
       this.hide,
-      this.generateStubs = false,
+      this.generateStubs = true,
       this.visitors}) {
     for (final className in classes) {
       _validateClassName(className);
@@ -562,7 +562,7 @@ class Config {
           _levels.keys.toSet(),
         ),
       ),
-      generateStubs: prov.getBool(_Props.generateStubs) ?? false,
+      generateStubs: prov.getBool(_Props.generateStubs) ?? true,
     );
     if (missingValues.isNotEmpty) {
       stderr.write('Following config values are required but not provided\n'

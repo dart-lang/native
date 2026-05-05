@@ -2,6 +2,8 @@ android_sdk_config:
   add_gradle_deps: true
   android_example: 'example/'
 
+generate_stubs: false
+
 preamble: |
   // Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
