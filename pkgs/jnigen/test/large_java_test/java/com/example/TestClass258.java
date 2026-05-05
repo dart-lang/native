@@ -12,14 +12,19 @@ import java.util.*;
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.volatile
 // MemberName: MemberName.any
-// MemberType: MemberType.nestedCustom
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass258<T extends Number>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public volatile NestedCustom<T, T>.Nested<T>[] myField;
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.object
+public final class TestClass258<T extends Number>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public volatile Object[] myField;
+  public static record NestedRecord(int x) {}
 
 }

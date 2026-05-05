@@ -5,21 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.string
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass89<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public static <S> String setFoo() { return null; }
-  public enum NestedEnum { V1 }
-
+// TypeKind: TypeKind.customRecord
+public interface TestClass89<T>  extends GenericInterface<String> {
+  @Override
+  default String genericInterfaceMethod(String t)  { return t; }
+  CustomRecord<T> setFoo(CustomRecord<T> p1);
 }

@@ -5,21 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.int_
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.enum_
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-public enum TestClass56  {
-  VALUE1, VALUE2;
-  public final int getFoo() { return 0; }
-  public static interface Nested {}
-
+// TypeKind: TypeKind.long_
+public record TestClass56<T>(long[] field)  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
 }

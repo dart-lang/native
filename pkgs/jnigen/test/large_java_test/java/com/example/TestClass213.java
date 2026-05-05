@@ -8,15 +8,18 @@ import java.util.*;
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
-// Member: Member.method
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
+// MemberModifier: MemberModifier.transient
 // MemberName: MemberName.any
-// MemberType: MemberType.customObject
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass213<T extends Number>  {
-  CustomObject<T> myMethod(CustomObject<T> p1, int p2);
-}
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.typeParam
+public sealed class TestClass213<T extends Number>  {
+  public transient T myField;
+  public class Nested {}
+
+  public static final class Sub<T extends Number> extends TestClass213<T> {}
+  }

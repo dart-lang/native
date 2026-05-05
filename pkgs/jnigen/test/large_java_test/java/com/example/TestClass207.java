@@ -6,18 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.int_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass207<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S> int[] isFoo(int[] p1) { return null; }
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customEnum
+public abstract interface TestClass207<T extends Number>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  <S> CustomEnum isFoo(CustomEnum p1, int p2);
+  public enum NestedEnum { V1 }
+
 }

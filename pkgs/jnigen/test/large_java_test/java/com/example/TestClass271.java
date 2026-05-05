@@ -5,20 +5,23 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
-// Member: Member.constructor
+// Generics: Generics.none
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
+// Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// MemberType: MemberType.set
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass271<T>  {
-  public TestClass271() {}
-  public static record NestedRecord(int x) {}
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.enum_
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customRecord
+public enum TestClass271  implements OtherInterface {
+  VALUE1, VALUE2;
+  @Override
+  public void otherInterfaceMethod() {}
+  static { }
+  public static class Nested {}
 
 }

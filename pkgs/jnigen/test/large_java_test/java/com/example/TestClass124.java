@@ -5,21 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.float_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass124<T extends Number>  extends Object {
-  public void run() {}
-  public synchronized float myMethod(float p1) { return 0.0f; }
-  public static interface Nested {}
-
+// TypeKind: TypeKind.boolean_
+public final class TestClass124<T>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public native <S> boolean setFoo();
 }

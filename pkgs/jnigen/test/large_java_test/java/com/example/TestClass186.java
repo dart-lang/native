@@ -6,20 +6,29 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
-// Member: Member.method
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// MemberModifier: MemberModifier.volatile
+// MemberName: MemberName.any
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass186<T, U>  extends ArrayList<String> {
-  public void run() {}
-  public static long getFoo(long p1, int p2) { return 0; }
-  public enum NestedEnum { V1 }
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.float_
+public final class TestClass186<T, U>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public volatile float myField;
+  public static class Nested {}
 
 }

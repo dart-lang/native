@@ -5,21 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.object
-// NestedKind: NestedKind.record
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass205<T extends Number>  extends ArrayList {
-  public void run() {}
-  public final Object[] setFoo(Object[] p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customObject
+public final class TestClass205<T, U>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public <S, V> TestClass205(CustomObject<S>[] p1, int p2) {}
+  public class Nested {}
 
 }

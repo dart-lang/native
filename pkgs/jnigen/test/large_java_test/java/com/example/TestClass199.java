@@ -7,19 +7,18 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.any
-// MemberType: MemberType.map
 // NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed class TestClass199<T extends Number>  {
-  public synchronized Map<T, T>[] myMethod(Map<T, T>[] p1) { return null; }
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.object
+public abstract class TestClass199<T extends Number>  {
+  public abstract <S> Object myMethod(Object p1, int p2);
   public class Nested {}
 
-  public static final class Sub<T extends Number> extends TestClass199<T> {}
 }

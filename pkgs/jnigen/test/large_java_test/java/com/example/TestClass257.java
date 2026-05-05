@@ -6,20 +6,29 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass257<T extends Number>  extends ArrayList {
-  public void run() {}
-  public synchronized <S> char getFoo(char p1, int p2) { return ' '; }
-  public class Nested {}
+// TypeKind: TypeKind.int_
+public abstract class TestClass257<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public abstract <S> int[] getFoo(int[] p1);
+  public enum NestedEnum { V1 }
 
 }

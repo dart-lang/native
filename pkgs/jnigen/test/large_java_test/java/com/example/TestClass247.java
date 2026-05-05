@@ -6,19 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.object
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass247<T extends Number>  extends Cloneable {
-  Object setFoo();
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.map
+public final class TestClass247<T extends Number>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public synchronized Map<T, T> myMethod(Map<T, T> p1, int p2) { return null; }
   public static interface Nested {}
 
 }

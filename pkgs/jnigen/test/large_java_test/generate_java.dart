@@ -59,7 +59,7 @@ enum MemberGenerics {
   wildcard
 }
 
-enum MemberType {
+enum TypeKind {
   void_,
   boolean_,
   char_,
@@ -98,7 +98,7 @@ Future<void> main() async {
       Inheritance: Inheritance.values,
       Generics: Generics.values,
       MemberGenerics: MemberGenerics.values,
-      MemberType: MemberType.values,
+      TypeKind: TypeKind.values,
       IsArray: IsArray.values,
     },
     interactionGroups: [
@@ -107,8 +107,8 @@ Future<void> main() async {
       {TopLevelKind, Generics, MemberGenerics},
       {Member, MemberModifier, MemberName, MemberGenerics},
       {Member, ParamCount},
-      {MemberType, IsArray},
-      {Member, MemberGenerics, MemberType},
+      {TypeKind, IsArray},
+      {Member, MemberGenerics, TypeKind},
     ],
     isValid: (tc) {
       final top = tc.get<TopLevelKind>();
@@ -120,12 +120,12 @@ Future<void> main() async {
       final inheritance = tc.get<Inheritance>();
       final generics = tc.get<Generics>();
       final memberGenerics = tc.get<MemberGenerics>();
-      final type = tc.get<MemberType>();
+      final type = tc.get<TypeKind>();
       final paramCount = tc.get<ParamCount>();
       final isArray = tc.get<IsArray>();
 
       // Basic Java constraints
-      if (type == MemberType.void_ && isArray == IsArray.yes) {
+      if (type == TypeKind.void_ && isArray == IsArray.yes) {
         return false;
       }
       if (memberGenerics != MemberGenerics.none) {
@@ -280,13 +280,13 @@ Future<void> main() async {
       }
 
       // Types
-      if (type == MemberType.void_ && member != Member.method) {
+      if (type == TypeKind.void_ && member != Member.method) {
         return false;
       }
-      if (top == TopLevelKind.record && type == MemberType.void_) {
+      if (top == TopLevelKind.record && type == TypeKind.void_) {
         return false;
       }
-      if (type == MemberType.void_ && paramCount != ParamCount.zero) {
+      if (type == TypeKind.void_ && paramCount != ParamCount.zero) {
         return false;
       }
 
@@ -295,23 +295,23 @@ Future<void> main() async {
         // If the type is forced to use the class scope 'T' (or is T itself),
         // and the class is generic, it's invalid in a static context.
         final useMemberScope = memberGenerics != MemberGenerics.none &&
-            (type == MemberType.memberTypeParam ||
+            (type == TypeKind.memberTypeParam ||
                 memberGenerics == MemberGenerics.lowerBound ||
                 memberGenerics == MemberGenerics.wildcard);
 
         if (!useMemberScope) {
           if (generics != Generics.none) {
-            // Some MemberType like list/set/map/etc will use 'T' if top-level
+            // Some TypeKind like list/set/map/etc will use 'T' if top-level
             // is generic.
             const genericTypes = {
-              MemberType.list,
-              MemberType.set,
-              MemberType.map,
-              MemberType.customObject,
-              MemberType.customInterface,
-              MemberType.customRecord,
-              MemberType.nestedCustom,
-              MemberType.typeParam,
+              TypeKind.list,
+              TypeKind.set,
+              TypeKind.map,
+              TypeKind.customObject,
+              TypeKind.customInterface,
+              TypeKind.customRecord,
+              TypeKind.nestedCustom,
+              TypeKind.typeParam,
             };
             if (genericTypes.contains(type)) {
               return false;
@@ -320,7 +320,7 @@ Future<void> main() async {
         }
       }
 
-      if (type == MemberType.typeParam) {
+      if (type == TypeKind.typeParam) {
         if (generics == Generics.none) {
           return false;
         }
@@ -333,11 +333,11 @@ Future<void> main() async {
       if (top == TopLevelKind.interface && member == Member.field) {
         if (generics != Generics.none) {
           const genericTypes = {
-            MemberType.list,
-            MemberType.set,
-            MemberType.map,
-            MemberType.customObject,
-            MemberType.nestedCustom,
+            TypeKind.list,
+            TypeKind.set,
+            TypeKind.map,
+            TypeKind.customObject,
+            TypeKind.nestedCustom,
           };
           if (genericTypes.contains(type)) {
             return false;
@@ -345,7 +345,7 @@ Future<void> main() async {
         }
       }
 
-      if (type == MemberType.memberTypeParam) {
+      if (type == TypeKind.memberTypeParam) {
         if (memberGenerics == MemberGenerics.none) {
           return false;
         }
@@ -390,52 +390,76 @@ Future<void> main() async {
 
 void writeCoreClasses(Directory outputDir) {
   final coreClasses = {
+    'GrandParent': '''
+public class GrandParent {
+  public void grandParentMethod() {}
+}
+''',
+    'OtherInterface': '''
+public interface OtherInterface {
+  void otherInterfaceMethod();
+}
+''',
+    'GenericParent': '''
+public class GenericParent<T> {
+  public void genericParentMethod(T t) {}
+}
+''',
+    'GenericInterface': '''
+public interface GenericInterface<T> {
+  T genericInterfaceMethod(T t);
+}
+''',
     'BaseInterface': '''
 public interface BaseInterface {
   int BASE_FIELD = 0;
-  default void baseMethod() {}
+  void baseMethod();
 }
 ''',
     'DiamondLeft': '''
 public interface DiamondLeft extends BaseInterface {
   int LEFT_FIELD = 1;
-  default void leftMethod() {}
+  void leftMethod();
+  @Override
+  default void baseMethod() {}
 }
 ''',
     'DiamondRight': '''
 public interface DiamondRight extends BaseInterface {
   int RIGHT_FIELD = 2;
-  default void rightMethod() {}
+  void rightMethod();
+  @Override
+  default void baseMethod() {}
 }
 ''',
     'DagA': '''
 public interface DagA {
   int A_FIELD = 3;
-  default void aMethod() {}
+  void aMethod();
 }
 ''',
     'DagB': '''
 public interface DagB extends DagA {
   int B_FIELD = 4;
-  default void bMethod() {}
+  void bMethod();
 }
 ''',
     'DagC': '''
 public interface DagC extends DagA, DagB {
   int C_FIELD = 5;
-  default void cMethod() {}
+  void cMethod();
 }
 ''',
     'DagD': '''
 public interface DagD extends DagA, DagB, DagC {
   int D_FIELD = 6;
-  default void dMethod() {}
+  void dMethod();
 }
 ''',
     'DagE': '''
 public interface DagE extends DagB, DagD {
   int E_FIELD = 7;
-  default void eMethod() {}
+  void eMethod();
 }
 ''',
     'CustomRecord': '''
@@ -490,7 +514,7 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   final inheritance = tc.get<Inheritance>();
   final generics = tc.get<Generics>();
   final memberGenerics = tc.get<MemberGenerics>();
-  final typeKind = tc.get<MemberType>();
+  final typeKind = tc.get<TypeKind>();
   final isArray = tc.get<IsArray>();
 
   final typeStr =
@@ -506,7 +530,7 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   if (top == TopLevelKind.record) {
     sb.write('''
 public record $className$genStr($typeStr field) $inheritanceStr {
-${hasRunMethod(inheritance) ? '  public void run() {}\n' : ''}}
+${getInheritanceMethodsStr(inheritance, top)}}
 ''');
     return;
   }
@@ -517,19 +541,13 @@ public $topModStr$kind $className$genStr $inheritanceStr {
 
   if (top == TopLevelKind.enum_) {
     sb.writeln(getEnumConstantsStr(member, paramCount, typeStr));
-    if (hasRunMethod(inheritance)) {
-      sb.writeln('  public void run() {}');
-    }
   }
 
-  if (hasRunMethod(inheritance) && top == TopLevelKind.class_) {
-    sb.writeln('  public void run() {}');
-  }
+  sb.write(getInheritanceMethodsStr(inheritance, top));
 
   sb.write(switch (member) {
     Member.field => getFieldStr(top, mod, typeStr),
-    Member.method =>
-      getMethodStr(top, mod, memberGenStr, typeStr, name, params),
+    Member.method => getMethodStr(top, mod, memberGenStr, typeStr, name, params),
     Member.constructor =>
       getConstructorStr(top, memberGenStr, className, params),
     Member.initializer => getInitializerStr(mod),
@@ -543,7 +561,7 @@ public $topModStr$kind $className$genStr $inheritanceStr {
     final keyword = top == TopLevelKind.interface ? 'implements' : 'extends';
     sb.write('''
   public static final class Sub$genStr $keyword $className$typeParamsStr {}
-''');
+  ''');
   }
 
   sb.writeln('}');
@@ -554,23 +572,27 @@ String getInheritanceStr(Inheritance inheritance, TopLevelKind top) {
     case Inheritance.none:
       return '';
     case Inheritance.extends_:
-      if (top == TopLevelKind.interface) return ' extends Runnable';
+      if (top == TopLevelKind.interface) return ' extends OtherInterface';
       if (top == TopLevelKind.record) return '';
-      return ' extends Object';
+      return ' extends GrandParent';
     case Inheritance.implements_:
-      if (top == TopLevelKind.interface) return ' extends Cloneable';
-      return ' implements Runnable';
+      if (top == TopLevelKind.interface) return ' extends OtherInterface';
+      return ' implements OtherInterface';
     case Inheritance.multipleImplements:
-      if (top == TopLevelKind.interface) return ' extends Runnable, Cloneable';
-      return ' implements Runnable, Cloneable';
+      if (top == TopLevelKind.interface) {
+        return ' extends OtherInterface, BaseInterface';
+      }
+      return ' implements OtherInterface, BaseInterface';
     case Inheritance.extendsGenericSpecialized:
-      if (top == TopLevelKind.interface) return ' extends List<String>';
-      if (top == TopLevelKind.record) return ' implements List<String>';
-      return ' extends ArrayList<String>';
+      if (top == TopLevelKind.interface) {
+        return ' extends GenericInterface<String>';
+      }
+      if (top == TopLevelKind.record) return ' implements GenericInterface<String>';
+      return ' extends GenericParent<String>';
     case Inheritance.extendsGenericUnspecialized:
-      if (top == TopLevelKind.interface) return ' extends List';
-      if (top == TopLevelKind.record) return ' implements List';
-      return ' extends ArrayList';
+      if (top == TopLevelKind.interface) return ' extends GenericInterface';
+      if (top == TopLevelKind.record) return ' implements GenericInterface';
+      return ' extends GenericParent';
     case Inheritance.diamond:
       if (top == TopLevelKind.interface) {
         return ' extends DiamondLeft, DiamondRight';
@@ -582,6 +604,71 @@ String getInheritanceStr(Inheritance inheritance, TopLevelKind top) {
       }
       return ' implements DagA, DagD, DagE';
   }
+}
+
+String getInheritanceMethodsStr(Inheritance inheritance, TopLevelKind top) {
+  final sb = StringBuffer();
+  final isInterface = top == TopLevelKind.interface;
+
+  void add(String decl, [String body = '{}']) {
+    if (isInterface) {
+      sb.write('''
+  @Override
+  default $decl $body
+''');
+    } else {
+      sb.write('''
+  @Override
+  public $decl $body
+''');
+    }
+  }
+
+  switch (inheritance) {
+    case Inheritance.none:
+      break;
+    case Inheritance.extends_:
+      if (top == TopLevelKind.interface) {
+        add('void otherInterfaceMethod()');
+      } else if (top != TopLevelKind.record) {
+        add('void grandParentMethod()');
+      }
+      break;
+    case Inheritance.implements_:
+      add('void otherInterfaceMethod()');
+      break;
+    case Inheritance.multipleImplements:
+      add('void otherInterfaceMethod()');
+      add('void baseMethod()');
+      break;
+    case Inheritance.extendsGenericSpecialized:
+      if (top == TopLevelKind.interface || top == TopLevelKind.record) {
+        add('String genericInterfaceMethod(String t)', ' { return t; }');
+      } else {
+        add('void genericParentMethod(String t)');
+      }
+      break;
+    case Inheritance.extendsGenericUnspecialized:
+      if (top == TopLevelKind.interface || top == TopLevelKind.record) {
+        add('Object genericInterfaceMethod(Object t)', ' { return t; }');
+      } else {
+        add('void genericParentMethod(Object t)');
+      }
+      break;
+    case Inheritance.diamond:
+      add('void baseMethod()');
+      add('void leftMethod()');
+      add('void rightMethod()');
+      break;
+    case Inheritance.complexDag:
+      add('void aMethod()');
+      add('void bMethod()');
+      add('void cMethod()');
+      add('void dMethod()');
+      add('void eMethod()');
+      break;
+  }
+  return sb.toString();
 }
 
 String getGenericsStr(Generics generics) {
@@ -758,17 +845,7 @@ String getNestedStr(NestedKind nested) {
 ''';
 }
 
-bool hasRunMethod(Inheritance inheritance) {
-  return inheritance == Inheritance.extends_ ||
-      inheritance == Inheritance.implements_ ||
-      inheritance == Inheritance.multipleImplements ||
-      inheritance == Inheritance.extendsGenericSpecialized ||
-      inheritance == Inheritance.extendsGenericUnspecialized ||
-      inheritance == Inheritance.diamond ||
-      inheritance == Inheritance.complexDag;
-}
-
-String getJavaType(MemberType kind, bool isArray, Generics generics,
+String getJavaType(TypeKind kind, bool isArray, Generics generics,
     MemberGenerics mGenerics) {
   final useMemberScope = mGenerics != MemberGenerics.none;
 
@@ -785,40 +862,39 @@ String getJavaType(MemberType kind, bool isArray, Generics generics,
   };
 
   var t = switch (kind) {
-    MemberType.void_ => 'void',
-    MemberType.boolean_ => 'boolean',
-    MemberType.char_ => 'char',
-    MemberType.int_ => 'int',
-    MemberType.long_ => 'long',
-    MemberType.short_ => 'short',
-    MemberType.float_ => 'float',
-    MemberType.double_ => 'double',
-    MemberType.byte_ => 'byte',
-    MemberType.object => 'Object',
-    MemberType.string => 'String',
-    MemberType.typeParam => 'T',
-    MemberType.memberTypeParam => 'S',
-    MemberType.list => 'List<$g>',
-    MemberType.set => 'Set<$g>',
-    MemberType.map => 'Map<$g, $g>',
-    MemberType.customObject => 'CustomObject<$g>',
-    MemberType.customInterface => 'CustomInterface<$g>',
-    MemberType.customEnum => 'CustomEnum',
-    MemberType.customRecord => 'CustomRecord<$g>',
-    MemberType.nestedCustom => 'NestedCustom<$g, $g>.Nested<$g>',
+    TypeKind.void_ => 'void',
+    TypeKind.boolean_ => 'boolean',
+    TypeKind.char_ => 'char',
+    TypeKind.int_ => 'int',
+    TypeKind.long_ => 'long',
+    TypeKind.short_ => 'short',
+    TypeKind.float_ => 'float',
+    TypeKind.double_ => 'double',
+    TypeKind.byte_ => 'byte',
+    TypeKind.object => 'Object',
+    TypeKind.string => 'String',
+    TypeKind.typeParam => 'T',
+    TypeKind.memberTypeParam => 'S',
+    TypeKind.list => 'List<$g>',
+    TypeKind.set => 'Set<$g>',
+    TypeKind.map => 'Map<$g, $g>',
+    TypeKind.customObject => 'CustomObject<$g>',
+    TypeKind.customInterface => 'CustomInterface<$g>',
+    TypeKind.customEnum => 'CustomEnum',
+    TypeKind.customRecord => 'CustomRecord<$g>',
+    TypeKind.nestedCustom => 'NestedCustom<$g, $g>.Nested<$g>',
   };
   if (isArray) t += '[]';
   return t;
 }
 
 String getJavaDefaultValue(String type) {
-  if (type == 'void') {
-    return '';
-  }
   if (type.endsWith('[]')) {
     return 'null';
   }
   switch (type) {
+    case 'void':
+      return '';
     case 'int':
     case 'long':
     case 'byte':
@@ -832,6 +908,8 @@ String getJavaDefaultValue(String type) {
       return 'false';
     case 'char':
       return "' '";
+    case 'CustomEnum':
+      return 'CustomEnum.V1';
     default:
       return 'null';
   }

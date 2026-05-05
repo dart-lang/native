@@ -5,21 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.nestedCustom
 // NestedKind: NestedKind.record
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass223  implements Runnable, Cloneable {
-  public void run() {}
-  public transient NestedCustom<String, String>.Nested<String>[] myField;
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.map
+public final class TestClass223<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public <S extends Number> TestClass223(Map<S, S> p1) {}
   public static record NestedRecord(int x) {}
 
 }

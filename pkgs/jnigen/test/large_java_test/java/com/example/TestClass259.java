@@ -6,19 +6,25 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.boolean_
-// NestedKind: NestedKind.record
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass259<T extends Number>  extends List<String> {
-  default <S> boolean setFoo(boolean p1, int p2) { return false; }
-  public static record NestedRecord(int x) {}
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.nestedCustom
+public final class TestClass259<T extends Number>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public synchronized <S> NestedCustom<S, S>.Nested<S>[] isFoo(NestedCustom<S, S>.Nested<S>[] p1, int p2) { return null; }
+  public enum NestedEnum { V1 }
 
 }

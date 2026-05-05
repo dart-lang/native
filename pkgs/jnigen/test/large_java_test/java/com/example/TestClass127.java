@@ -5,20 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.abstract_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.default_
 // MemberName: MemberName.any
-// MemberType: MemberType.memberTypeParam
-// NestedKind: NestedKind.record
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public abstract interface TestClass127<T>  extends List<String> {
-  <S extends Number> S[] myMethod(S[] p1, int p2);
-  public static record NestedRecord(int x) {}
-
+// TypeKind: TypeKind.customEnum
+public interface TestClass127<T extends Number>  extends GenericInterface<String> {
+  @Override
+  default String genericInterfaceMethod(String t)  { return t; }
+  default CustomEnum[] myMethod(CustomEnum[] p1, int p2) { return null; }
 }

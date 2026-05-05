@@ -6,19 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.record
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.transient
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass215<T, U>  extends Runnable, Cloneable {
-  <S> T setFoo(T p1, int p2);
-  public static record NestedRecord(int x) {}
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customRecord
+public final class TestClass215<T, U>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public transient CustomRecord<T> myField;
+  public enum NestedEnum { V1 }
 
 }

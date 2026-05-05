@@ -6,17 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.string
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass250<T extends Number>  extends Runnable, Cloneable {
-  default <S extends Number> String setFoo() { return null; }
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.byte_
+public final class TestClass250<T extends Number>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public final <S extends Number> byte[] myMethod(byte[] p1) { return null; }
+  public class Nested {}
+
 }

@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.native
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass118<T>  extends ArrayList {
-  public void run() {}
-  public native <S, V> byte getFoo(byte p1, int p2);
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.long_
+public class TestClass118<T, U>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public native <S, V> long getFoo();
+  public static class Nested {}
 
 }

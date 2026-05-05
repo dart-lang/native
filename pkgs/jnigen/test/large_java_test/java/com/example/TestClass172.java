@@ -6,18 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// MemberType: MemberType.list
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass172<T, U>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public native <S extends Number> List<S> myMethod();
+// TypeKind: TypeKind.boolean_
+public class TestClass172<T, U>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public static <S> boolean[] myMethod(boolean[] p1, int p2) { return null; }
+  public static interface Nested {}
+
 }

@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
+// Member: Member.method
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.any
-// MemberType: MemberType.list
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass99<T, U>  {
-  public <S, V> TestClass99(List<S>[] p1) {}
+// TypeKind: TypeKind.customInterface
+public class TestClass99<T>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public final <S> CustomInterface<S>[] myMethod(CustomInterface<S>[] p1, int p2) { return null; }
   public enum NestedEnum { V1 }
 
 }

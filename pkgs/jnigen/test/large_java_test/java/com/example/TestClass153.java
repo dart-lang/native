@@ -5,19 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass153<T extends Number>  extends ArrayList<String> {
-  public void run() {}
-  public synchronized <S> byte[] myMethod(byte[] p1) { return null; }
+// TypeKind: TypeKind.set
+public interface TestClass153<T>  extends DagA, DagD, DagE {
+  @Override
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  default <S extends Number> Set<S>[] setFoo(Set<S>[] p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
+
 }

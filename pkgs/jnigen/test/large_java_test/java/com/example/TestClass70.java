@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass70<T>  implements Runnable, Cloneable {
-  public void run() {}
-  public final <S> long getFoo(long p1, int p2) { return 0; }
-  public class Nested {}
+// TypeKind: TypeKind.boolean_
+public final class TestClass70<T>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public boolean[] myField;
+  public static record NestedRecord(int x) {}
 
 }

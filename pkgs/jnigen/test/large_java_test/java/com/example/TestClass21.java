@@ -5,21 +5,26 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
+// Generics: Generics.oneParam
 // Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.any
-// MemberType: MemberType.void_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass21  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public native <S> void myMethod();
-  public class Nested {}
+// TypeKind: TypeKind.int_
+public final class TestClass21<T>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <S, V> int setFoo(int p1) throws Exception { return 0; }
+  public enum NestedEnum { V1 }
 
 }

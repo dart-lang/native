@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
-// Member: Member.initializer
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.string
-// NestedKind: NestedKind.interface
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed class TestClass288<T>  {
-  { }
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.float_
+public final class TestClass288<T, U>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public TestClass288(float[] p1) {}
+  public enum NestedEnum { V1 }
 
-  public static final class Sub<T> extends TestClass288<T> {}
 }

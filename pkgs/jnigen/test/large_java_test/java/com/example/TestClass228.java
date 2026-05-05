@@ -6,17 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.native
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.none
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass228<T extends Number>  extends DagA, DagD, DagE {
-  <S extends Number> CustomRecord<S> setFoo();
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.short_
+public final class TestClass228<T extends Number>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public native <S, V> short setFoo();
+  public static class Nested {}
+
 }

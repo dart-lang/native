@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.yes
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.any
-// MemberType: MemberType.customObject
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass217<T, U>  extends List<String> {
-  default <S extends Number> CustomObject<S>[] myMethod() { return null; }
-  public static interface Nested {}
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customEnum
+public final class TestClass217<T extends Number>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public CustomEnum setFoo(CustomEnum p1) { return CustomEnum.V1; }
+  public static record NestedRecord(int x) {}
 
 }

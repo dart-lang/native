@@ -5,17 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
-// Member: Member.constructor
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// MemberType: MemberType.float_
+// MemberName: MemberName.getFoo
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.record
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public record TestClass155<T, U>(float field)  {
+// TypeKind: TypeKind.long_
+public interface TestClass155<T extends Number>  extends OtherInterface, BaseInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  long[] getFoo(long[] p1, int p2);
 }

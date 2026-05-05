@@ -5,17 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.static_
-// MemberName: MemberName.any
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.interface
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.record
-// TopLevelModifier: TopLevelModifier.none
-public record TestClass121(CustomRecord<String> field)  {
-}
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.customEnum
+public sealed interface TestClass121<T extends Number>  {
+  static CustomEnum setFoo() { return CustomEnum.V1; }  // HI
+  public enum NestedEnum { V1 }
+
+  public static final class Sub<T extends Number> implements TestClass121<T> {}
+  }

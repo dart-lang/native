@@ -6,17 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass232<T extends Number>  extends Runnable {
-  <S, V> char[] isFoo(char[] p1);
+// TypeKind: TypeKind.float_
+public class TestClass232<T extends Number>  {
+  public <S, V> float myMethod() throws Exception { return 0.0f; }
+  public enum NestedEnum { V1 }
+
 }

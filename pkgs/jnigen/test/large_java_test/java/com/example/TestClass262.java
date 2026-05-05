@@ -5,19 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
-// Member: Member.method
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
+// Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.short_
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass262<T extends Number>  implements DagA, DagD, DagE {
-  public void run() {}
-  public synchronized short[] isFoo(short[] p1, int p2) { return null; }
-}
+// TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.map
+public sealed class TestClass262<T>  {
+  { }
+  public static final class Sub<T> extends TestClass262<T> {}
+  }

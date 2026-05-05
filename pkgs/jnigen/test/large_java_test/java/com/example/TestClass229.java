@@ -5,21 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.upperBound
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// MemberType: MemberType.short_
+// MemberName: MemberName.getFoo
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass229<T, U>  implements DagA, DagD, DagE {
-  public void run() {}
-  public <S extends Number> TestClass229(short p1) {}
+// TypeKind: TypeKind.nestedCustom
+public interface TestClass229<T extends Number>  extends DagA, DagD, DagE {
+  @Override
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  <S> NestedCustom<S, S>.Nested<S>[] getFoo(NestedCustom<S, S>.Nested<S>[] p1, int p2);
   public enum NestedEnum { V1 }
 
 }

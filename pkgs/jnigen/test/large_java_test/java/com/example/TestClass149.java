@@ -6,20 +6,17 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.enum_
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass149<T, U>  extends Object {
-  public void run() {}
-  public final double setFoo() { return 0.0; }
-  public enum NestedEnum { V1 }
-
+// TypeKind: TypeKind.memberTypeParam
+public class TestClass149<T, U>  {
+  public <S, V> TestClass149() {}
 }

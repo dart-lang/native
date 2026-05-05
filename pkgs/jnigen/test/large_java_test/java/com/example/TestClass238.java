@@ -9,15 +9,16 @@ import java.util.*;
 // Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.double_
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass238<T extends Number>  extends Object {
-  public void run() {}
-  public static <S> double[] isFoo(double[] p1, int p2) { return null; }
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.short_
+public abstract interface TestClass238<T extends Number>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  short[] isFoo(short[] p1, int p2);
 }

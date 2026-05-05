@@ -6,18 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.char_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass148<T, U>  extends Object {
-  public void run() {}
-  public final <S extends Number> char[] isFoo() { return null; }
+// TypeKind: TypeKind.customInterface
+public final class TestClass148<T, U>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public <S, V> CustomInterface<S> setFoo(CustomInterface<S> p1, int p2) throws Exception { return null; }
 }

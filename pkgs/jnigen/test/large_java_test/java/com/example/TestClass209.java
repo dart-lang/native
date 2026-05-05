@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.staticClass
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass209<T extends Number>  extends ArrayList {
-  public void run() {}
-  public native <S extends Number> CustomEnum setFoo();
-  public static class Nested {}
-
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.boolean_
+public final class TestClass209<T extends Number>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public boolean[] isFoo() { return null; }
 }

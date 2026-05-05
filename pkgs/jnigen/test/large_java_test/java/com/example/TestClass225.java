@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Generics: Generics.none
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
-// Member: Member.method
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
+// MemberModifier: MemberModifier.transient
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass225<T extends Number>  implements DagA, DagD, DagE {
-  public void run() {}
-  public double[] isFoo(double[] p1, int p2) throws Exception { return null; }
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customEnum
+public final class TestClass225  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public transient CustomEnum[] myField;
+  public static record NestedRecord(int x) {}
 
 }

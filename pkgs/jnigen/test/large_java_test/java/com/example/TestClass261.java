@@ -5,21 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.innerClass
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass261  implements Runnable, Cloneable {
-  public void run() {}
-  public TestClass261(char[] p1, int p2) {}
-  public class Nested {}
-
+// TypeKind: TypeKind.double_
+public class TestClass261<T, U>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public <S, V> TestClass261(double p1, int p2) {}
 }

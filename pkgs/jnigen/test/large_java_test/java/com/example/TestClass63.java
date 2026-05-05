@@ -9,16 +9,16 @@ import java.util.*;
 // Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass63  extends List {
-  byte[] getFoo(byte[] p1, int p2);
-  public static record NestedRecord(int x) {}
-
+// TypeKind: TypeKind.customObject
+public interface TestClass63  extends GenericInterface {
+  @Override
+  default Object genericInterfaceMethod(Object t)  { return t; }
+  static <S> CustomObject<S>[] setFoo(CustomObject<S>[] p1) { return null; }  // HI
 }

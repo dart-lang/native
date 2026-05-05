@@ -6,16 +6,23 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// MemberType: MemberType.list
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.record
-// TopLevelModifier: TopLevelModifier.none
-public record TestClass236<T extends Number>(List<T> field)  {
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.nestedCustom
+public final class TestClass236<T extends Number>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <S extends Number> NestedCustom<S, S>.Nested<S>[] getFoo() { return null; }
 }

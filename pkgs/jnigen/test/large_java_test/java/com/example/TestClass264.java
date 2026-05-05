@@ -5,21 +5,23 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Generics: Generics.none
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass264<T extends Number>  implements DagA, DagD, DagE {
-  public void run() {}
-  public native <S extends Number> CustomRecord<S>[] myMethod(CustomRecord<S>[] p1);
-  public enum NestedEnum { V1 }
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.enum_
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.nestedCustom
+public enum TestClass264  implements OtherInterface {
+  VALUE1(null, 0), VALUE2(null, 0);
+  @Override
+  public void otherInterfaceMethod() {}
+  private TestClass264(NestedCustom<String, String>.Nested<String>[] p1, int p2) {}
+  public static record NestedRecord(int x) {}
 
 }

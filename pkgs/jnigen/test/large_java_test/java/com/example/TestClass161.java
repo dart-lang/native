@@ -6,20 +6,25 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass161<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public CustomEnum[] getFoo(CustomEnum[] p1, int p2) { return null; }
-  public static class Nested {}
+// TypeKind: TypeKind.customInterface
+public final class TestClass161<T, U>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public final <S extends Number> CustomInterface<S> myMethod() { return null; }
+  public enum NestedEnum { V1 }
 
 }

@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extends_
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
-// Member: Member.initializer
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.volatile
 // MemberName: MemberName.any
-// MemberType: MemberType.map
-// NestedKind: NestedKind.interface
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass95<T>  extends Object {
-  public void run() {}
-  { }
-  public static interface Nested {}
+// TypeKind: TypeKind.map
+public class TestClass95<T extends Number>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public volatile Map<T, T> myField;
+  public static class Nested {}
 
 }

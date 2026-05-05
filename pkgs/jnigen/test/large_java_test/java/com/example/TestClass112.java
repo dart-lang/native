@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.any
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public abstract class TestClass112<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public abstract <S extends Number> char setFoo(char p1);
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.long_
+public final class TestClass112<T, U>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public <S, V> long[] myMethod() throws Exception { return null; }
+  public static interface Nested {}
 
 }

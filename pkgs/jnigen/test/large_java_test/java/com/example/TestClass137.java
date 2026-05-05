@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.double_
 // NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass137<T extends Number>  {
-  public <S> double[] isFoo(double[] p1, int p2) throws Exception { return null; }
+// TypeKind: TypeKind.int_
+public interface TestClass137<T, U>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  int isFoo(int p1, int p2);
   public static record NestedRecord(int x) {}
 
 }

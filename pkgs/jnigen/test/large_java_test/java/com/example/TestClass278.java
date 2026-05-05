@@ -5,19 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extends_
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.memberTypeParam
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass278<T>  extends Object {
-  public void run() {}
-  public <S, V> TestClass278(S p1) {}
+// TypeKind: TypeKind.float_
+public final class TestClass278<T, U>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <S> TestClass278() {}
 }

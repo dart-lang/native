@@ -5,21 +5,19 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
-// Member: Member.method
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass60<T>  implements DagA, DagD, DagE {
-  public void run() {}
-  public final char setFoo(char p1) { return ' '; }
-  public static record NestedRecord(int x) {}
-
+// TypeKind: TypeKind.short_
+public record TestClass60<T, U>(short[] field)  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
 }

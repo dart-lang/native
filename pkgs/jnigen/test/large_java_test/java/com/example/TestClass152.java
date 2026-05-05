@@ -5,19 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.any
-// MemberType: MemberType.customObject
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public abstract class TestClass152<T, U>  implements Runnable {
-  public void run() {}
-  public abstract CustomObject<T>[] myMethod(CustomObject<T>[] p1, int p2);
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.int_
+public final class TestClass152<T extends Number>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public final <S extends Number> int[] getFoo(int[] p1) { return null; }
+  public class Nested {}
+
 }

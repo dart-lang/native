@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
-// Member: Member.field
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
-// MemberType: MemberType.boolean_
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.getFoo
 // NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass78<T, U>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public final boolean myField = false;
+// TypeKind: TypeKind.string
+public class TestClass78<T>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public static String[] getFoo(String[] p1, int p2) { return null; }
   public class Nested {}
 
 }

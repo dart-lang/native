@@ -5,21 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.list
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass203<T extends Number>  implements Runnable {
-  public void run() {}
-  public <S, V> List<S> setFoo() throws Exception { return null; }
-  public enum NestedEnum { V1 }
-
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.boolean_
+public class TestClass203<T, U>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <S> TestClass203(boolean[] p1, int p2) {}
 }

@@ -5,20 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
+// Generics: Generics.none
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.boolean_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.enum_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass178<T extends Number>  extends Runnable, Cloneable {
-  <S> boolean[] getFoo(boolean[] p1, int p2);
-  public static interface Nested {}
+// TypeKind: TypeKind.list
+public enum TestClass178  {
+  VALUE1, VALUE2;
+  public final List<String>[] myField = null;
+  public static record NestedRecord(int x) {}
 
 }

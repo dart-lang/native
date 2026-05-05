@@ -5,18 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.customInterface
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass165<T, U>  extends List {
-  default <S> CustomInterface<S>[] setFoo(CustomInterface<S>[] p1, int p2) { return null; }
+// TypeKind: TypeKind.customEnum
+public abstract class TestClass165<T extends Number>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public abstract <S> CustomEnum[] getFoo();
+  public enum NestedEnum { V1 }
+
 }

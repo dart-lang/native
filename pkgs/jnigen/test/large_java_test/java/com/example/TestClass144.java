@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.float_
-// NestedKind: NestedKind.enum_
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass144<T>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public synchronized <S extends Number> float isFoo(float p1, int p2) { return 0.0f; }
-  public enum NestedEnum { V1 }
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customInterface
+public interface TestClass144<T extends Number>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  default <S> CustomInterface<S> myMethod(CustomInterface<S> p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
 
 }

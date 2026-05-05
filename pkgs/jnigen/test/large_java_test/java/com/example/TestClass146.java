@@ -6,18 +6,18 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.list
+// MemberName: MemberName.any
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass146<T extends Number>  implements Runnable {
-  public void run() {}
-  public <S, V> List<S> isFoo(List<S> p1) { return null; }
-}
+// TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.double_
+public sealed class TestClass146<T extends Number>  {
+  public double myField;
+  public static final class Sub<T extends Number> extends TestClass146<T> {}
+  }

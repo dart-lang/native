@@ -6,19 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass275<T extends Number>  {
-  public <S> TestClass275(byte p1, int p2) {}
-  public static interface Nested {}
-
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.object
+public class TestClass275<T extends Number>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <S, V> TestClass275(Object[] p1) {}
 }

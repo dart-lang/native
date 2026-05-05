@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.map
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass135<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S extends Number> Map<S, S> setFoo() { return null; }
-  public static interface Nested {}
-
+// TypeKind: TypeKind.nestedCustom
+public interface TestClass135<T, U>  extends GenericInterface {
+  @Override
+  default Object genericInterfaceMethod(Object t)  { return t; }
+  <S extends Number> NestedCustom<S, S>.Nested<S>[] getFoo(NestedCustom<S, S>.Nested<S>[] p1) throws Exception;
 }

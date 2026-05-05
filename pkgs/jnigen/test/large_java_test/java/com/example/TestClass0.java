@@ -12,14 +12,15 @@ import java.util.*;
 // MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.innerClass
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public abstract class TestClass0<T>  extends Object {
-  public void run() {}
-  public abstract <S, V> CustomRecord<S>[] getFoo(CustomRecord<S>[] p1);
-  public class Nested {}
+// TypeKind: TypeKind.object
+public abstract interface TestClass0<T>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  <S, V> Object[] getFoo(Object[] p1);
+  public enum NestedEnum { V1 }
 
 }

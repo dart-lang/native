@@ -6,18 +6,25 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.object
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.volatile
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass111<T, U>  implements Runnable {
-  public void run() {}
-  public <S, V> Object[] setFoo(Object[] p1, int p2) throws Exception { return null; }
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.char_
+public class TestClass111<T, U>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public volatile char[] myField;
+  public static record NestedRecord(int x) {}
+
 }

@@ -5,20 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.boolean_
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.enum_
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public enum TestClass3  implements Runnable {
-  VALUE1, VALUE2;
-  public void run() {}
-  public native <S extends Number> boolean[] setFoo(boolean[] p1, int p2);
+// TypeKind: TypeKind.void_
+public class TestClass3<T, U>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public native <S> void isFoo();
 }

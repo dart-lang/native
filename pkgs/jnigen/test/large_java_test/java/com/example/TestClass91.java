@@ -12,13 +12,22 @@ import java.util.*;
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.set
 // NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.set
 public abstract class TestClass91<T, U>  implements DagA, DagD, DagE {
-  public void run() {}
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
   public abstract <S> Set<S> setFoo(Set<S> p1);
   public class Nested {}
 

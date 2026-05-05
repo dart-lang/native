@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass120<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S, V> CustomRecord<S>[] myMethod() { return null; }
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.boolean_
+public class TestClass120<T, U>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public <S, V> boolean[] setFoo(boolean[] p1) { return null; }
+  public enum NestedEnum { V1 }
 
 }

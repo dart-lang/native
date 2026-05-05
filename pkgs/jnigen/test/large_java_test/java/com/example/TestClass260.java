@@ -7,19 +7,28 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.customInterface
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
 // NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass260<T extends Number>  implements DagA, DagD, DagE {
-  public void run() {}
-  public CustomInterface<T> isFoo(CustomInterface<T> p1) { return null; }
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.list
+public final class TestClass260<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public native <S extends Number> List<S>[] myMethod(List<S>[] p1);
   public enum NestedEnum { V1 }
 
 }

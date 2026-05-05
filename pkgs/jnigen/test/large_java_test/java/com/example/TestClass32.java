@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// Generics: Generics.none
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.byte_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass32<T>  extends DiamondLeft, DiamondRight {
-  <S> byte[] myMethod(byte[] p1, int p2);
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customInterface
+public final class TestClass32  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public static CustomInterface<String> isFoo() { return null; }
   public static record NestedRecord(int x) {}
 
 }

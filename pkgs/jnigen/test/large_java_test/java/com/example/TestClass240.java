@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.multipleImplements
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
-// Member: Member.field
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// MemberType: MemberType.map
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass240  implements Runnable, Cloneable {
-  public void run() {}
-  public volatile Map<String, String> myField;
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.string
+public class TestClass240<T extends Number>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public static String getFoo() { return null; }
+  public enum NestedEnum { V1 }
 
 }

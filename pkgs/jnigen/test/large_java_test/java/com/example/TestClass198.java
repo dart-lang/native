@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.list
+// MemberName: MemberName.getFoo
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass198<T extends Number>  extends ArrayList<String> {
-  public void run() {}
-  public <S> List<S>[] setFoo(List<S>[] p1) throws Exception { return null; }
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.boolean_
+public interface TestClass198<T extends Number>  {
+  <S> boolean[] getFoo(boolean[] p1, int p2) throws Exception;
   public enum NestedEnum { V1 }
 
 }

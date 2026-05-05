@@ -5,19 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
-// Member: Member.field
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
-// MemberName: MemberName.any
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass88<T, U>  extends ArrayList {
-  public void run() {}
-  public transient long myField;
+// TypeKind: TypeKind.set
+public abstract interface TestClass88<T extends Number>  extends OtherInterface, BaseInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  Set<T>[] isFoo();
+  public static record NestedRecord(int x) {}
+
 }

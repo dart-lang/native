@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass23<T>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public double setFoo(double p1) throws Exception { return 0.0; }
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.char_
+public final class TestClass23<T>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public static <S, V> char[] myMethod() { return null; }
+  public enum NestedEnum { V1 }
 
 }

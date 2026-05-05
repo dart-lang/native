@@ -10,13 +10,17 @@ import java.util.*;
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.default_
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.any
-// MemberType: MemberType.list
-// NestedKind: NestedKind.none
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass125<T>  extends List<String> {
-  default <S> List<S>[] myMethod(List<S>[] p1) { return null; }
+// TypeKind: TypeKind.map
+public class TestClass125<T>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <S> Map<S, S>[] myMethod(Map<S, S>[] p1) throws Exception { return null; }
+  public class Nested {}
+
 }

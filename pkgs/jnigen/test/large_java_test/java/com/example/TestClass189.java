@@ -7,17 +7,20 @@ import java.util.*;
 
 // Generics: Generics.twoParams
 // Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.object
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass189<T, U>  extends ArrayList {
-  public void run() {}
-  public Object[] getFoo(Object[] p1, int p2) { return null; }
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.object
+public class TestClass189<T, U>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public final <S> Object myMethod() { return null; }
+  public static record NestedRecord(int x) {}
+
 }

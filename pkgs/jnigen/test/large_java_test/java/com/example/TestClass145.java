@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.memberTypeParam
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass145<T, U>  extends ArrayList<String> {
-  public void run() {}
-  public native <S, V> S getFoo(S p1, int p2);
-  public static record NestedRecord(int x) {}
+// TypeKind: TypeKind.nestedCustom
+public abstract interface TestClass145<T, U>  {
+  <S extends Number> NestedCustom<S, S>.Nested<S>[] myMethod();
+  public enum NestedEnum { V1 }
 
 }

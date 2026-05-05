@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.string
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass252<T extends Number>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public synchronized String[] setFoo(String[] p1, int p2) { return null; }
-  public static class Nested {}
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customRecord
+public interface TestClass252<T extends Number>  extends GenericInterface<String> {
+  @Override
+  default String genericInterfaceMethod(String t)  { return t; }
+  <S extends Number> CustomRecord<S>[] myMethod(CustomRecord<S>[] p1);
+  public static record NestedRecord(int x) {}
 
 }

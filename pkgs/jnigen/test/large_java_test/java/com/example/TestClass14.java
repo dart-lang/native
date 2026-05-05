@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.native
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.innerClass
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass14<T>  extends ArrayList<String> {
-  public void run() {}
-  public native T getFoo(T p1, int p2);
-  public class Nested {}
-
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.byte_
+public final class TestClass14<T>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public native <S> byte setFoo(byte p1, int p2);
 }

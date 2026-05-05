@@ -5,18 +5,23 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
+// Generics: Generics.none
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.map
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.enum_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass92<T, U>  extends Cloneable {
-  <S> Map<S, S>[] isFoo(Map<S, S>[] p1, int p2);
+// TypeKind: TypeKind.nestedCustom
+public enum TestClass92  implements OtherInterface {
+  VALUE1, VALUE2;
+  @Override
+  public void otherInterfaceMethod() {}
+  public <S, V> NestedCustom<S, S>.Nested<S> isFoo(NestedCustom<S, S>.Nested<S> p1) throws Exception { return null; }
+  public static interface Nested {}
+
 }

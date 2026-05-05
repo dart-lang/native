@@ -5,20 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass221<T extends Number>  {
-  CustomEnum[] myMethod(CustomEnum[] p1);
-  public enum NestedEnum { V1 }
+// TypeKind: TypeKind.customInterface
+public class TestClass221<T, U>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public CustomInterface<T> setFoo() { return null; }
+  public static class Nested {}
 
 }

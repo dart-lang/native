@@ -9,16 +9,16 @@ import java.util.*;
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.customEnum
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass68<T>  {
-  public <S, V> CustomEnum getFoo(CustomEnum p1) { return null; }
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.map
+public final class TestClass68<T>  {
+  public <S> Map<S, S> getFoo() { return null; }
   public static interface Nested {}
 
 }

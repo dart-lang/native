@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.none
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.short_
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed interface TestClass1<T extends Number>  {
-  default short isFoo() { return 0; }
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.boolean_
+public final class TestClass1<T extends Number>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public boolean setFoo(boolean p1, int p2) { return false; }
   public static record NestedRecord(int x) {}
 
-  public static final class Sub<T extends Number> implements TestClass1<T> {}
 }

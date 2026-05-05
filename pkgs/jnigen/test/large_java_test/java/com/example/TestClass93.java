@@ -6,20 +6,25 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass93<T>  extends ArrayList {
-  public void run() {}
-  public <S extends Number> CustomRecord<S>[] isFoo() { return null; }
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customInterface
+public final class TestClass93<T>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <S> TestClass93(CustomInterface<S>[] p1) {}
+  public static record NestedRecord(int x) {}
 
 }

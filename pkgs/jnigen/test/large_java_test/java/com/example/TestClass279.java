@@ -6,20 +6,17 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
+// Member: Member.initializer
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass279<T, U>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public <S extends Number> TestClass279(byte p1, int p2) {}
-  public enum NestedEnum { V1 }
-
+// TypeKind: TypeKind.customEnum
+public class TestClass279<T, U>  {
+  static { }
 }

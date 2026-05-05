@@ -12,12 +12,15 @@ import java.util.*;
 // MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.native
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.none
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass235<T extends Number>  extends ArrayList {
-  public void run() {}
-  public native <S, V> T setFoo();
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customObject
+public final class TestClass235<T extends Number>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public native <S, V> CustomObject<S> setFoo();
+  public enum NestedEnum { V1 }
+
 }

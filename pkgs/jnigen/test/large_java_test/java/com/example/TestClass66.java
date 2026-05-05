@@ -5,17 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.string
-// NestedKind: NestedKind.record
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.record
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public record TestClass66<T, U>(String[] field)  {
+// TypeKind: TypeKind.customInterface
+public abstract class TestClass66<T>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public abstract <S extends Number> CustomInterface<S>[] setFoo();
+  public enum NestedEnum { V1 }
+
 }

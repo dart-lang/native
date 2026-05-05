@@ -7,19 +7,20 @@ import java.util.*;
 
 // Generics: Generics.none
 // Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.constructor
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.set
-// NestedKind: NestedKind.innerClass
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass274  extends ArrayList<String> {
-  public void run() {}
-  public <S> TestClass274(Set<S> p1, int p2) {}
-  public class Nested {}
+// TypeKind: TypeKind.nestedCustom
+public final class TestClass274  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <S> TestClass274(NestedCustom<S, S>.Nested<S>[] p1, int p2) {}
+  public static class Nested {}
 
 }

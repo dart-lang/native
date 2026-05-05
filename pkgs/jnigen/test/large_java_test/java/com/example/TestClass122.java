@@ -5,21 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
+// Generics: Generics.oneParam
 // Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.synchronized
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.nestedCustom
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass122<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S> NestedCustom<S, S>.Nested<S>[] getFoo() throws Exception { return null; }
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.boolean_
+public final class TestClass122<T>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public synchronized <S, V> boolean[] getFoo(boolean[] p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
 
 }

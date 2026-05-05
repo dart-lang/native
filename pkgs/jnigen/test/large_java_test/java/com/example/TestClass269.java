@@ -6,18 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.multipleImplements
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.constructor
 // MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.customInterface
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass269<T>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S extends Number> TestClass269() {}
+// TypeKind: TypeKind.typeParam
+public class TestClass269<T>  {
+  public <S extends Number> TestClass269(T[] p1, int p2) {}
+  public static class Nested {}
+
 }

@@ -5,19 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.transient
+// MemberName: MemberName.any
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass150<T, U>  extends Object {
-  public void run() {}
-  public synchronized <S, V> CustomEnum[] getFoo() { return null; }
-}
+// TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.long_
+public sealed class TestClass150<T extends Number>  {
+  public transient long[] myField;
+  public static record NestedRecord(int x) {}
+
+  public static final class Sub<T extends Number> extends TestClass150<T> {}
+  }

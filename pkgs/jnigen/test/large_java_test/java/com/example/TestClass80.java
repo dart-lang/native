@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.static_
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.innerClass
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass80<T, U>  extends Object {
-  public void run() {}
-  public static <S, V> double[] getFoo(double[] p1) { return null; }
-  public class Nested {}
+// TypeKind: TypeKind.customEnum
+public class TestClass80<T extends Number>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public static <S extends Number> CustomEnum[] getFoo(CustomEnum[] p1) { return null; }
+  public enum NestedEnum { V1 }
 
 }

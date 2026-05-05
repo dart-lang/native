@@ -6,20 +6,29 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.field
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.transient
 // MemberName: MemberName.any
-// MemberType: MemberType.byte_
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass8  extends ArrayList {
-  public void run() {}
-  public transient byte myField;
+// TypeKind: TypeKind.customObject
+public final class TestClass8  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public transient CustomObject<String> myField;
   public static class Nested {}
 
 }

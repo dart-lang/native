@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.any
-// MemberType: MemberType.customEnum
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass22<T>  {
-  public final CustomEnum myMethod(CustomEnum p1, int p2) { return null; }
+// TypeKind: TypeKind.short_
+public final class TestClass22<T, U>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <S extends Number> short myMethod() throws Exception { return 0; }
   public static class Nested {}
 
 }

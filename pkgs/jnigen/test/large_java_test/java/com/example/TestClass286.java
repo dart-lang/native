@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
 // Member: Member.constructor
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.list
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.enum_
-// TopLevelModifier: TopLevelModifier.none
-public enum TestClass286  {
-  VALUE1(null), VALUE2(null);
-  private <S> TestClass286(List<S> p1) {}
-  public static record NestedRecord(int x) {}
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.short_
+public final class TestClass286<T extends Number>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public <S> TestClass286(short[] p1, int p2) {}
+  public static class Nested {}
 
 }

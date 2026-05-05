@@ -7,19 +7,20 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.short_
-// NestedKind: NestedKind.staticClass
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass242<T extends Number>  implements Runnable {
-  public void run() {}
-  public static <S extends Number> short[] getFoo() { return null; }
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customObject
+public final class TestClass242<T extends Number>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public CustomObject<T> isFoo() { return null; }
+  public class Nested {}
 
 }

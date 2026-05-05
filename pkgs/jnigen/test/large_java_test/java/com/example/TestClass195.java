@@ -7,17 +7,20 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// MemberType: MemberType.string
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass195<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public volatile String myField;
+// TypeKind: TypeKind.double_
+public class TestClass195<T extends Number>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public <S> double[] isFoo() { return null; }
 }

@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.customInterface
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass18<T, U>  implements Runnable {
-  public void run() {}
-  public <S extends Number> CustomInterface<S>[] getFoo() { return null; }
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customEnum
+public final class TestClass18<T, U>  {
+  public <S> CustomEnum[] myMethod(CustomEnum[] p1, int p2) throws Exception { return null; }
+  public enum NestedEnum { V1 }
 
 }

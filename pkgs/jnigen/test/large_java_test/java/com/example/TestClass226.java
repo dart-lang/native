@@ -5,21 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.void_
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.record
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass226<T extends Number>  implements Runnable {
-  public void run() {}
-  public static void setFoo() {  }
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customInterface
+public interface TestClass226<T, U>  extends DagA, DagD, DagE {
+  @Override
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  CustomInterface<T>[] isFoo();
   public static record NestedRecord(int x) {}
 
 }

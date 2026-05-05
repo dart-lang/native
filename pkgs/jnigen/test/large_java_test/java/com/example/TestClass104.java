@@ -9,14 +9,16 @@ import java.util.*;
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.string
 public final class TestClass104<T extends Number>  {
-  public synchronized <S, V> char myMethod(char p1, int p2) { return ' '; }
+  public synchronized <S extends Number> String isFoo(String p1) { return null; }
+  public class Nested {}
+
 }

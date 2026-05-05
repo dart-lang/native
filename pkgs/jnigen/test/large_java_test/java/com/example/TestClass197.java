@@ -9,16 +9,26 @@ import java.util.*;
 // Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.float_
-// NestedKind: NestedKind.record
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass197<T, U>  extends DagA, DagD, DagE {
-  <S> float myMethod();
-  public static record NestedRecord(int x) {}
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customInterface
+public final class TestClass197<T, U>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public final CustomInterface<T> getFoo() { return null; }
+  public static interface Nested {}
 
 }

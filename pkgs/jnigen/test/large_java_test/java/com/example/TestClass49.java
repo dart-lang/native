@@ -5,18 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.synchronized
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.none
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass49<T>  extends Runnable, Cloneable {
-  <S extends Number> long getFoo(long p1, int p2);
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.boolean_
+public final class TestClass49<T extends Number>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public synchronized <S extends Number> boolean[] getFoo(boolean[] p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
+
 }

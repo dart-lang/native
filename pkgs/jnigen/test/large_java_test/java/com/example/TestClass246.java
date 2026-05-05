@@ -6,20 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.set
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// Member: Member.initializer
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass246<T extends Number>  implements Runnable {
-  public void run() {}
-  public final <S, V> Set<S> setFoo(Set<S> p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
-
+// TypeKind: TypeKind.object
+public class TestClass246<T extends Number>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  static { }
 }

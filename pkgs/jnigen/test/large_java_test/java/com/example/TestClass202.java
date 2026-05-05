@@ -5,21 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
-// MemberName: MemberName.any
-// MemberType: MemberType.customObject
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass202<T extends Number>  implements Runnable {
-  public void run() {}
-  public transient CustomObject<T> myField;
-  public class Nested {}
+// TypeKind: TypeKind.customInterface
+public interface TestClass202<T, U>  extends DagA, DagD, DagE {
+  @Override
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  default <S, V> CustomInterface<S> isFoo(CustomInterface<S> p1, int p2) { return null; }
+  public static interface Nested {}
 
 }

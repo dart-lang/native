@@ -5,20 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.default_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass196<T, U>  extends List {
-  default <S extends Number> long[] isFoo(long[] p1) { return null; }
-  public static interface Nested {}
+// TypeKind: TypeKind.float_
+public class TestClass196<T extends Number>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public static <S, V> float isFoo(float p1, int p2) { return 0.0f; }
+  public static class Nested {}
 
 }

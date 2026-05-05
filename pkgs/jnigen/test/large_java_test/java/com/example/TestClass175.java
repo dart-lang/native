@@ -6,19 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass175<T, U>  {
-  public synchronized <S> byte[] myMethod() { return null; }
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.float_
+public class TestClass175<T, U>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public native <S, V> float setFoo(float p1, int p2);
+  public class Nested {}
 
 }

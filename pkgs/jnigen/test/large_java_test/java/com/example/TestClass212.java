@@ -6,19 +6,25 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.default_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.enum_
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass212<T extends Number>  extends Runnable, Cloneable {
-  default <S> byte isFoo() { return 0; }
-  public enum NestedEnum { V1 }
+// TypeKind: TypeKind.customRecord
+public abstract interface TestClass212<T extends Number>  extends DiamondLeft, DiamondRight {
+  @Override
+  default void baseMethod() {}
+  @Override
+  default void leftMethod() {}
+  @Override
+  default void rightMethod() {}
+  CustomRecord<T>[] isFoo();
+  public static record NestedRecord(int x) {}
 
 }

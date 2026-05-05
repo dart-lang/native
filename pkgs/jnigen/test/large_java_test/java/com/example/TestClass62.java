@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.short_
-// NestedKind: NestedKind.innerClass
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass62<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public native <S> short getFoo(short p1, int p2);
-  public class Nested {}
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.double_
+public abstract interface TestClass62<T extends Number>  extends GenericInterface<String> {
+  @Override
+  default String genericInterfaceMethod(String t)  { return t; }
+  <S> double isFoo(double p1, int p2);
+  public enum NestedEnum { V1 }
 
 }

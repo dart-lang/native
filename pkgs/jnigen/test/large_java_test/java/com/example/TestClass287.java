@@ -5,20 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
-// Member: Member.constructor
+// Generics: Generics.none
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
+// Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.enum_
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass287<T>  {
-  public TestClass287() {}
-  public enum NestedEnum { V1 }
+// TypeKind: TypeKind.short_
+public final class TestClass287  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  { }
+  public static interface Nested {}
 
 }

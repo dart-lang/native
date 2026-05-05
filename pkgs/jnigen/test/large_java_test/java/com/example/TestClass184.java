@@ -6,18 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.void_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public abstract class TestClass184<T extends Number>  implements DagA, DagD, DagE {
-  public void run() {}
-  public abstract void setFoo();
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.byte_
+public final class TestClass184<T extends Number>  {
+  public synchronized byte[] myMethod(byte[] p1) { return null; }
+  public static interface Nested {}
+
 }

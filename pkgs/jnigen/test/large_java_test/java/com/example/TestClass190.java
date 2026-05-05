@@ -5,21 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.string
-// NestedKind: NestedKind.record
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass190<T, U>  extends ArrayList {
-  public void run() {}
-  public native <S, V> String setFoo(String p1, int p2);
-  public static record NestedRecord(int x) {}
+// TypeKind: TypeKind.double_
+public interface TestClass190<T extends Number>  extends OtherInterface, BaseInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  <S> double[] getFoo(double[] p1, int p2);
+  public enum NestedEnum { V1 }
 
 }

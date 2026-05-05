@@ -6,19 +6,27 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.default_
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass160<T extends Number>  extends List {
-  default <S extends Number> long setFoo() { return 0; }
-  public static record NestedRecord(int x) {}
-
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.set
+public final class TestClass160<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public native <S> Set<S>[] setFoo(Set<S>[] p1, int p2);
 }

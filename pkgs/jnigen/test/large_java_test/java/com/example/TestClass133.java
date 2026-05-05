@@ -5,18 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.float_
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.record
-// TopLevelModifier: TopLevelModifier.none
-public record TestClass133<T, U>(float[] field)  implements Runnable {
-  public void run() {}
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.object
+public final class TestClass133<T extends Number>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public Object isFoo(Object p1, int p2) { return null; }
+  public static interface Nested {}
+
 }

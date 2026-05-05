@@ -6,20 +6,23 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
-// Member: Member.initializer
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// MemberType: MemberType.list
-// NestedKind: NestedKind.enum_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass248<T extends Number>  extends Object {
-  public void run() {}
-  { }
-  public enum NestedEnum { V1 }
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customRecord
+public interface TestClass248<T extends Number>  extends OtherInterface, BaseInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  CustomRecord<T> getFoo(CustomRecord<T> p1, int p2);
+  public static interface Nested {}
 
 }

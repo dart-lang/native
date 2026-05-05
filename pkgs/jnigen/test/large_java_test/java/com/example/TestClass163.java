@@ -5,19 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
-// Member: Member.initializer
+// Generics: Generics.none
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.nestedCustom
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass163<T extends Number>  extends ArrayList {
-  public void run() {}
-  { }
+// TypeKind: TypeKind.customEnum
+public final class TestClass163  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public TestClass163() {}
+  public static record NestedRecord(int x) {}
+
 }

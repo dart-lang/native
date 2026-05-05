@@ -5,20 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.boolean_
-// NestedKind: NestedKind.record
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass206<T extends Number>  extends DagA, DagD, DagE {
-  default boolean[] setFoo(boolean[] p1) { return null; }
-  public static record NestedRecord(int x) {}
-
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.short_
+public final class TestClass206<T, U>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public native short myMethod(short p1);
 }

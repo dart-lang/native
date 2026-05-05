@@ -5,19 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.set
-// NestedKind: NestedKind.none
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed class TestClass185<T extends Number>  {
-  public synchronized Set<T>[] isFoo(Set<T>[] p1) { return null; }
-  public static final class Sub<T extends Number> extends TestClass185<T> {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customEnum
+public class TestClass185<T, U>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public static <S> CustomEnum isFoo(CustomEnum p1) { return CustomEnum.V1; }
+  public static record NestedRecord(int x) {}
+
 }

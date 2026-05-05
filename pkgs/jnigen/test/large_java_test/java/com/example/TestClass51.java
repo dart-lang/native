@@ -6,21 +6,23 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.none
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.customInterface
-// NestedKind: NestedKind.interface
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.enum_
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public enum TestClass51  implements Runnable {
-  VALUE1, VALUE2;
-  public void run() {}
-  public static CustomInterface<String>[] isFoo() { return null; }
-  public static interface Nested {}
-
+// TypeKind: TypeKind.customEnum
+public class TestClass51  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public final CustomEnum getFoo() { return CustomEnum.V1; }
 }

@@ -5,20 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.boolean_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass151<T extends Number>  {
-  public boolean isFoo() { return false; }
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customObject
+public final class TestClass151<T, U>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public synchronized CustomObject<T> myMethod(CustomObject<T> p1, int p2) { return null; }
+  public enum NestedEnum { V1 }
 
 }

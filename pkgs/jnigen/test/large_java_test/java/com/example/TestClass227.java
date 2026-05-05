@@ -6,17 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.short_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.record
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.any
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public record TestClass227<T extends Number>(short field)  implements Runnable {
-  public void run() {}
+// TypeKind: TypeKind.short_
+public abstract class TestClass227<T extends Number>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public abstract <S extends Number> short[] myMethod();
+  public class Nested {}
+
 }

@@ -5,22 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.implements_
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.void_
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.enum_
-// TopLevelModifier: TopLevelModifier.none
-public enum TestClass71  implements Runnable {
-  VALUE1, VALUE2;
-  public void run() {}
-  public static void getFoo() {  }
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.short_
+public final class TestClass71<T extends Number>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public final short isFoo(short p1, int p2) { return 0; }
   public enum NestedEnum { V1 }
 
 }

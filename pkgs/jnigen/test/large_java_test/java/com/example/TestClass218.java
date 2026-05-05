@@ -5,20 +5,18 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.default_
-// MemberName: MemberName.any
-// MemberType: MemberType.int_
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass218<T, U>  extends List {
-  default <S> int[] myMethod(int[] p1) { return null; }
-  public static record NestedRecord(int x) {}
-
+// TypeKind: TypeKind.byte_
+public interface TestClass218<T extends Number>  {
+  default <S extends Number> byte setFoo() { return 0; }
 }

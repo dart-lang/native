@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.memberTypeParam
-// NestedKind: NestedKind.enum_
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public abstract interface TestClass126  extends DagA, DagD, DagE {
-  <S> S[] isFoo(S[] p1, int p2);
-  public enum NestedEnum { V1 }
+// TypeKind: TypeKind.nestedCustom
+public class TestClass126<T, U>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public native NestedCustom<T, T>.Nested<T> isFoo(NestedCustom<T, T>.Nested<T> p1, int p2);
+  public class Nested {}
 
 }

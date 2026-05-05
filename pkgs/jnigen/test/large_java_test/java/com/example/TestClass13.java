@@ -6,20 +6,29 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.any
-// MemberType: MemberType.object
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass13<T extends Number>  extends Object {
-  public void run() {}
-  public static <S extends Number> Object[] myMethod(Object[] p1) { return null; }
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.float_
+public final class TestClass13<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public final <S extends Number> float[] isFoo() { return null; }
+  public static class Nested {}
 
 }

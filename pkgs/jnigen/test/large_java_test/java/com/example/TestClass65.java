@@ -5,21 +5,26 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// Generics: Generics.none
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.byte_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass65<T>  extends ArrayList<String> {
-  public void run() {}
-  public native <S, V> byte getFoo(byte p1, int p2);
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.char_
+public abstract interface TestClass65  extends DiamondLeft, DiamondRight {
+  @Override
+  default void baseMethod() {}
+  @Override
+  default void leftMethod() {}
+  @Override
+  default void rightMethod() {}
+  <S extends Number> char[] isFoo(char[] p1);
   public enum NestedEnum { V1 }
 
 }

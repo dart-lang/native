@@ -5,19 +5,26 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
-// Member: Member.initializer
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.float_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed class TestClass272<T>  {
-  static { }
-  public static final class Sub<T> extends TestClass272<T> {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.float_
+public class TestClass272<T, U>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <S extends Number> TestClass272(float p1) {}
+  public static record NestedRecord(int x) {}
+
 }

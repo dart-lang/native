@@ -5,21 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
-// MemberType: MemberType.object
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass192  implements Runnable, Cloneable {
-  public void run() {}
-  public final Object[] myField = null;
-  public enum NestedEnum { V1 }
-
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customObject
+public interface TestClass192<T extends Number>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  <S, V> CustomObject<S> setFoo(CustomObject<S> p1) throws Exception;
 }

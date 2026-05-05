@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.enum_
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass268<T>  implements Runnable {
-  public void run() {}
-  { }
-  public enum NestedEnum { V1 }
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.string
+public class TestClass268<T>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  static { }
+  public static interface Nested {}
 
 }

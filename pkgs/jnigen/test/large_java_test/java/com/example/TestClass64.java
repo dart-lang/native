@@ -5,18 +5,28 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// Generics: Generics.none
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.char_
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass64<T, U>  extends Runnable {
-  <S> char[] getFoo(char[] p1);
+// TypeKind: TypeKind.long_
+public class TestClass64  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public <S> long setFoo() throws Exception { return 0; }
 }

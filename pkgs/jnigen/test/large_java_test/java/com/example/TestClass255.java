@@ -7,19 +7,24 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.short_
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass255<T extends Number>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public <S extends Number> short setFoo(short p1, int p2) { return 0; }
-  public static record NestedRecord(int x) {}
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.customRecord
+public final class TestClass255<T extends Number>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public synchronized <S, V> CustomRecord<S>[] getFoo() { return null; }
+  public static interface Nested {}
 
 }

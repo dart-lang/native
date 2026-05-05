@@ -6,20 +6,23 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.nestedCustom
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.getFoo
 // NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed class TestClass180<T, U>  {
-  public NestedCustom<T, T>.Nested<T>[] isFoo() throws Exception { return null; }
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.byte_
+public final class TestClass180<T, U>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public <S> byte[] getFoo() { return null; }
   public static interface Nested {}
 
-  public static final class Sub<T, U> extends TestClass180<T, U> {}
 }

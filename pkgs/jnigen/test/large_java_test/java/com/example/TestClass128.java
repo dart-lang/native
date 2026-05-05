@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.constructor
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.enum_
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass128<T extends Number>  implements Runnable, Cloneable {
-  public void run() {}
-  public <S> TestClass128(CustomEnum p1) {}
-  public enum NestedEnum { V1 }
-
+// TypeKind: TypeKind.memberTypeParam
+public class TestClass128<T, U>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public <S> TestClass128(S p1) {}
 }

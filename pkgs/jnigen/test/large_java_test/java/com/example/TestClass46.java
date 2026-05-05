@@ -5,20 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
+// Generics: Generics.oneParam
 // Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.any
-// MemberType: MemberType.map
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass46<T, U>  {
-  <S extends Number> Map<S, S>[] myMethod(Map<S, S>[] p1) throws Exception;
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.typeParam
+public sealed interface TestClass46<T>  {
+  default T isFoo() { return null; }
+  public static record NestedRecord(int x) {}
 
-}
+  public static final class Sub<T> implements TestClass46<T> {}
+  }

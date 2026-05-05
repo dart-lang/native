@@ -6,18 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.isFoo
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public abstract class TestClass200<T, U>  implements DagA, DagD, DagE {
-  public void run() {}
-  public abstract char isFoo(char p1);
+// TypeKind: TypeKind.byte_
+public interface TestClass200<T, U>  extends GenericInterface {
+  @Override
+  default Object genericInterfaceMethod(Object t)  { return t; }
+  <S> byte[] isFoo() throws Exception;
+  public static interface Nested {}
+
 }

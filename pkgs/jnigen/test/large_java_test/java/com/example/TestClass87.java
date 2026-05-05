@@ -5,20 +5,21 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.field
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// MemberType: MemberType.int_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass87<T>  extends DagA, DagD, DagE {
-  static int[] myField = null;
-  public enum NestedEnum { V1 }
+// TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.int_
+public sealed interface TestClass87<T, U>  {
+  static int myField = 0;
+  public static record NestedRecord(int x) {}
 
-}
+  public static final class Sub<T, U> implements TestClass87<T, U> {}
+  }

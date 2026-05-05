@@ -6,20 +6,23 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.customInterface
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass47<T>  extends Object {
-  public void run() {}
-  public <S, V> CustomInterface<S>[] setFoo(CustomInterface<S>[] p1, int p2) throws Exception { return null; }
-  public class Nested {}
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.object
+public interface TestClass47<T>  extends OtherInterface, BaseInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  <S> Object getFoo();
+  public enum NestedEnum { V1 }
 
 }

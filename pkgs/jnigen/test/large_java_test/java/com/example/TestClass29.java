@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.complexDag
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.memberTypeParam
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass29  implements DagA, DagD, DagE {
-  public void run() {}
-  public native <S, V> S setFoo(S p1);
-  public static record NestedRecord(int x) {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.float_
+public class TestClass29<T extends Number>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public final <S> float setFoo(float p1, int p2) { return 0.0f; }
+  public static class Nested {}
 
 }

@@ -6,17 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.none
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.set
-// NestedKind: NestedKind.none
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass50<T>  {
-  public synchronized <S, V> Set<S> getFoo(Set<S> p1, int p2) { return null; }
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.boolean_
+public final class TestClass50<T>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public synchronized <S, V> boolean setFoo(boolean p1, int p2) { return false; }
+  public static record NestedRecord(int x) {}
+
 }

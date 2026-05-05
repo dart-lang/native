@@ -6,17 +6,23 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass224<T extends Number>  extends List {
-  <S> CustomEnum[] setFoo();
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.object
+public final class TestClass224<T extends Number>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public Object[] isFoo(Object[] p1) { return null; }
+  public enum NestedEnum { V1 }
+
 }

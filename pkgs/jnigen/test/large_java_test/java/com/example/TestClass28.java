@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.field
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass28<T, U>  implements Runnable {
-  public void run() {}
-  public volatile T[] myField;
-  public static interface Nested {}
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.map
+public interface TestClass28<T extends Number>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  Map<T, T> getFoo(Map<T, T> p1);
+  public static record NestedRecord(int x) {}
 
 }

@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.object
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass191<T, U>  extends ArrayList<String> {
-  public void run() {}
-  public native <S> Object setFoo();
-  public static interface Nested {}
+// TypeKind: TypeKind.boolean_
+public abstract interface TestClass191<T, U>  extends GenericInterface {
+  @Override
+  default Object genericInterfaceMethod(Object t)  { return t; }
+  <S, V> boolean[] setFoo(boolean[] p1);
+  public enum NestedEnum { V1 }
 
 }

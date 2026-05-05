@@ -5,19 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.object
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass138<T>  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public synchronized <S> Object setFoo() { return null; }
+// TypeKind: TypeKind.customEnum
+public class TestClass138<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public native <S extends Number> CustomEnum[] setFoo(CustomEnum[] p1);
+  public class Nested {}
+
 }

@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// MemberType: MemberType.float_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass100<T>  implements Runnable, Cloneable {
-  public void run() {}
-  public float myField;
-  public enum NestedEnum { V1 }
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.customObject
+public class TestClass100<T, U>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public final <S, V> CustomObject<S>[] getFoo() { return null; }
+  public class Nested {}
 
 }

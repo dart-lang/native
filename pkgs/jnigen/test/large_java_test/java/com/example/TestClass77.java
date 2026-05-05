@@ -5,21 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.getFoo
-// MemberType: MemberType.customObject
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass77  extends Object {
-  public void run() {}
-  public static <S extends Number> CustomObject<S>[] getFoo() { return null; }
-  public static record NestedRecord(int x) {}
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.double_
+public interface TestClass77<T, U>  extends DagA, DagD, DagE {
+  @Override
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  <S, V> double getFoo(double p1) throws Exception;
+  public enum NestedEnum { V1 }
 
 }

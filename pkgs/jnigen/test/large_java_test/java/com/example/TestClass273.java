@@ -10,16 +10,16 @@ import java.util.*;
 // IsArray: IsArray.yes
 // Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.sealed
+// TypeKind: TypeKind.boolean_
 public sealed class TestClass273<T, U>  {
-  { }
-  public enum NestedEnum { V1 }
+  static { }
+  public static class Nested {}
 
   public static final class Sub<T, U> extends TestClass273<T, U> {}
-}
+  }

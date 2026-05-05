@@ -5,17 +5,24 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.native
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.record
-// TopLevelModifier: TopLevelModifier.none
-public record TestClass9<T>(long[] field)  {
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.short_
+public final class TestClass9<T, U>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public <S extends Number> TestClass9(short[] p1) {}
+  public static class Nested {}
+
 }

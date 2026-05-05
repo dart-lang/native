@@ -6,18 +6,29 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.method
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.abstract_
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.none
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public abstract class TestClass234<T extends Number>  implements Runnable {
-  public void run() {}
-  public abstract <S extends Number> double[] myMethod(double[] p1);
+// TypeKind: TypeKind.object
+public class TestClass234<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public <S extends Number> TestClass234(Object p1) {}
+  public static record NestedRecord(int x) {}
+
 }

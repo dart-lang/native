@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.default_
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.int_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass183<T extends Number>  extends DiamondLeft, DiamondRight {
-  default <S, V> int[] setFoo(int[] p1, int p2) { return null; }
-  public static interface Nested {}
+// TypeKind: TypeKind.string
+public interface TestClass183<T>  extends GenericInterface<String> {
+  @Override
+  default String genericInterfaceMethod(String t)  { return t; }
+  default <S> String[] setFoo(String[] p1) { return null; }
+  public enum NestedEnum { V1 }
 
 }

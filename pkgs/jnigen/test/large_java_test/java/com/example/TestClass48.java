@@ -5,21 +5,23 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
+// Generics: Generics.none
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass48<T>  implements DagA, DagD, DagE {
-  public void run() {}
-  public synchronized <S> T[] getFoo(T[] p1) { return null; }
-  public enum NestedEnum { V1 }
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.enum_
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.int_
+public enum TestClass48  implements OtherInterface {
+  VALUE1, VALUE2;
+  @Override
+  public void otherInterfaceMethod() {}
+  public final <S> int[] isFoo() { return null; }
+  public static record NestedRecord(int x) {}
 
 }

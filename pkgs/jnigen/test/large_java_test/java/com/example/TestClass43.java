@@ -5,21 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.map
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass43  extends ArrayList<String> {
-  public void run() {}
-  public static <S, V> Map<S, S> isFoo(Map<S, S> p1, int p2) { return null; }
-  public static class Nested {}
-
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.set
+public interface TestClass43<T, U>  extends OtherInterface, BaseInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  <S> Set<S>[] myMethod();
 }

@@ -5,20 +5,22 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.any
-// MemberType: MemberType.long_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.setFoo
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass96<T, U>  extends DagA, DagD, DagE {
-  static <S> long[] myMethod(long[] p1, int p2) { return null; }  // HI
-  public enum NestedEnum { V1 }
+// TypeKind: TypeKind.byte_
+public class TestClass96<T>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public synchronized byte setFoo() { return 0; }
+  public static class Nested {}
 
 }

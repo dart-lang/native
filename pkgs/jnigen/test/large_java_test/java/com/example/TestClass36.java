@@ -6,20 +6,29 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// MemberType: MemberType.object
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass36  extends ArrayList<String> {
-  public void run() {}
-  public Object setFoo() { return null; }
-  public static class Nested {}
+// TypeKind: TypeKind.customRecord
+public interface TestClass36  extends DagA, DagD, DagE {
+  @Override
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  <S extends Number> CustomRecord<S> myMethod(CustomRecord<S> p1);
+  public enum NestedEnum { V1 }
 
 }

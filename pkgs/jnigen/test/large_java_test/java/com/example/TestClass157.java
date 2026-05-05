@@ -5,21 +5,30 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.oneParam
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.long_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.isFoo
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass157<T>  implements DagA, DagD, DagE {
-  public void run() {}
-  public synchronized long myMethod(long p1, int p2) { return 0; }
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.nestedCustom
+public abstract class TestClass157<T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public abstract <S, V> NestedCustom<S, S>.Nested<S>[] isFoo();
   public static class Nested {}
 
 }

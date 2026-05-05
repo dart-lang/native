@@ -6,19 +6,29 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass277<T, U>  {
-  { }
-  public static class Nested {}
+// TypeKind: TypeKind.byte_
+public class TestClass277<T, U>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  static { }
+  public static interface Nested {}
 
 }

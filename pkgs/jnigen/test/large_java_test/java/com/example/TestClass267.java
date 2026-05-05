@@ -5,21 +5,26 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.none
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.string
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass267  implements DiamondLeft, DiamondRight {
-  public void run() {}
-  public <S, V> TestClass267(String p1) {}
-  public class Nested {}
+// TypeKind: TypeKind.boolean_
+public final class TestClass267<T extends Number>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public TestClass267(boolean[] p1, int p2) {}
+  public static interface Nested {}
 
 }

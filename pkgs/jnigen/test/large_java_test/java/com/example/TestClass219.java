@@ -7,19 +7,18 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.any
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.interface
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed interface TestClass219<T extends Number>  {
-  default CustomEnum[] myMethod(CustomEnum[] p1) { return null; }
-  public static interface Nested {}
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.object
+public class TestClass219<T extends Number>  {
+  public final Object getFoo(Object p1) { return null; }
+  public static record NestedRecord(int x) {}
 
-  public static final class Sub<T extends Number> implements TestClass219<T> {}
 }

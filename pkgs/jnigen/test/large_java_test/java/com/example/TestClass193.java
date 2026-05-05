@@ -6,19 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// MemberType: MemberType.set
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass193<T extends Number>  extends DagA, DagD, DagE {
-  <S, V> Set<S> myMethod(Set<S> p1, int p2);
-  public static interface Nested {}
-
+// TypeKind: TypeKind.nestedCustom
+public class TestClass193<T extends Number>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public final <S> NestedCustom<S, S>.Nested<S>[] getFoo(NestedCustom<S, S>.Nested<S>[] p1) { return null; }
 }

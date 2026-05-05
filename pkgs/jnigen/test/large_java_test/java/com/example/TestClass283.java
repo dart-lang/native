@@ -12,12 +12,15 @@ import java.util.*;
 // MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// MemberType: MemberType.nestedCustom
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass283<T extends Number>  extends ArrayList {
-  public void run() {}
-  public <S extends Number> TestClass283(NestedCustom<S, S>.Nested<S> p1, int p2) {}
+// TypeKind: TypeKind.memberTypeParam
+public class TestClass283<T extends Number>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public <S extends Number> TestClass283() {}
+  public static class Nested {}
+
 }

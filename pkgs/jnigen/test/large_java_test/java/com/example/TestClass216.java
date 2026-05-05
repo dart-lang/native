@@ -6,19 +6,19 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.no
-// Member: Member.method
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass216<T extends Number>  extends Runnable {
-  default <S, V> T isFoo() { return null; }
-  public static interface Nested {}
+// TypeKind: TypeKind.nestedCustom
+public class TestClass216<T extends Number>  {
+  public <S, V> TestClass216(NestedCustom<S, S>.Nested<S>[] p1) {}
+  public static class Nested {}
 
 }

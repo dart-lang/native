@@ -6,20 +6,21 @@ package com.example;
 import java.util.*;
 
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// MemberType: MemberType.int_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass27<T, U>  extends Object {
-  public void run() {}
-  public <S> int[] isFoo(int[] p1) { return null; }
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.byte_
+public class TestClass27<T, U>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public native byte[] myMethod();
+  public static class Nested {}
 
 }

@@ -5,21 +5,20 @@
 package com.example;
 import java.util.*;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.default_
-// MemberName: MemberName.any
-// MemberType: MemberType.byte_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// MemberName: MemberName.getFoo
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-public sealed interface TestClass108<T, U>  {
-  default byte[] myMethod(byte[] p1) { return null; }
-  public static interface Nested {}
-
-  public static final class Sub<T, U> implements TestClass108<T, U> {}
+// TopLevelModifier: TopLevelModifier.none
+// TypeKind: TypeKind.int_
+public interface TestClass108<T extends Number>  extends GenericInterface {
+  @Override
+  default Object genericInterfaceMethod(Object t)  { return t; }
+  default <S> int[] getFoo() { return null; }
 }

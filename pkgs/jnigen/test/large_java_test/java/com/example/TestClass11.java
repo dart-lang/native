@@ -7,16 +7,18 @@ import java.util.*;
 
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.setFoo
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.none
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass11<T extends Number>  {
-  public <S> double[] setFoo() { return null; }
+// TopLevelModifier: TopLevelModifier.final_
+// TypeKind: TypeKind.memberTypeParam
+public final class TestClass11<T extends Number>  {
+  public <S> S setFoo() { return null; }
+  public static class Nested {}
+
 }
