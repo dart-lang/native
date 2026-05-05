@@ -503,16 +503,16 @@ public class NestedCustom<T, U> {
 
   for (final entry in coreClasses.entries) {
     final content = entry.value.trim();
-    final isOrgJetbrains = content.startsWith('package org.jetbrains.annotations;');
+    final isOrgJetbrains =
+        content.startsWith('package org.jetbrains.annotations;');
     final relativePath = isOrgJetbrains
         ? 'org/jetbrains/annotations/${entry.key}.java'
         : 'com/example/${entry.key}.java';
     final file = File(p.join(baseDir.path, relativePath));
     file.parent.createSync(recursive: true);
 
-    final packageLine = content.startsWith('package ')
-        ? ''
-        : 'package com.example;\n\n';
+    final packageLine =
+        content.startsWith('package ') ? '' : 'package com.example;\n\n';
     file.writeAsStringSync('''
 $_copyrightHeader
 $packageLine$content
@@ -538,7 +538,8 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
 
   final typeStr = getJavaType(typeKind, isArray == IsArray.yes, generics,
       memberGenerics, memberNullability, genericNullability);
-  final inheritanceStr = getInheritanceStr(inheritance, top, genericNullability);
+  final inheritanceStr =
+      getInheritanceStr(inheritance, top, genericNullability);
   final genStr = getGenericsStr(generics, genericNullability);
   final typeParamsStr = getTypeParamsStr(generics);
   final memberGenStr = getMemberGenericsStr(memberGenerics, genericNullability);
@@ -566,7 +567,8 @@ public $topModStr$kind $className$genStr $inheritanceStr {
 
   sb.write(switch (member) {
     Member.field => getFieldStr(top, mod, typeStr),
-    Member.method => getMethodStr(top, mod, memberGenStr, typeStr, name, params),
+    Member.method =>
+      getMethodStr(top, mod, memberGenStr, typeStr, name, params),
     Member.constructor =>
       getConstructorStr(top, memberGenStr, className, params),
     Member.initializer => getInitializerStr(mod),
@@ -918,7 +920,7 @@ String getJavaType(MemberType kind, bool isArray, Generics generics,
     _ => '${mmn}String',
   };
 
-  var t = switch (kind) {
+  final t = switch (kind) {
     MemberType.void_ => 'void',
     MemberType.boolean_ => 'boolean',
     MemberType.char_ => 'char',
@@ -954,25 +956,17 @@ String getJavaDefaultValue(String type) {
   if (type.endsWith('[]')) {
     return 'null';
   }
-  switch (type) {
-    case 'void':
-      return '';
-    case 'int':
-    case 'long':
-    case 'byte':
-    case 'short':
-      return '0';
-    case 'float':
-      return '0.0f';
-    case 'double':
-      return '0.0';
-    case 'boolean':
-      return 'false';
-    case 'char':
-      return "' '";
-    case 'CustomEnum':
-      return 'CustomEnum.V1';
-    default:
-      return 'null';
-  }
+  return switch (type) {
+    'void' => '',
+    'int' => '0',
+    'long' => '0',
+    'byte' => '0',
+    'short' => '0',
+    'float' => '0.0f',
+    'double' => '0.0',
+    'boolean' => 'false',
+    'char' => "' '",
+    'CustomEnum' => 'CustomEnum.V1',
+    _ => 'null',
+  };
 }
