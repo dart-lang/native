@@ -21,7 +21,12 @@ import 'package:path/path.dart' as p;
 
 import '../test_utils.dart';
 
-void verifyBindings(String testName, [Logger? logger]) {
+void verifyBindings(
+  String testName, {
+  Logger? logger,
+  bool Function(String expected, String actual)? dartVerify,
+  bool Function(String expected, String actual)? objCVerify,
+}) {
   final thisDir = p.join(packagePathForTests, 'test', 'native_objc_test');
   final configFile = p.join(thisDir, '${testName}_config.yaml');
 
@@ -30,18 +35,22 @@ void verifyBindings(String testName, [Logger? logger]) {
   final library = parse(context);
 
   final bindingsName = context.config.output.dartFile.pathSegments.last;
-  matchLibraryWithExpected(context, library, bindingsName, [
-    'test',
-    'native_objc_test',
+  matchLibraryWithExpected(
+    context,
+    library,
     bindingsName,
-  ]);
+    ['test', 'native_objc_test', bindingsName],
+    verify: dartVerify,
+  );
 
   final mFileName = context.config.output.objCFile.pathSegments.last;
-  matchObjCFileWithExpected(context, library, mFileName, [
-    'test',
-    'native_objc_test',
+  matchObjCFileWithExpected(
+    context,
+    library,
     mFileName,
-  ]);
+    ['test', 'native_objc_test', mFileName],
+    verify: objCVerify,
+  );
 }
 
 final _executeInternalCommand = () {
