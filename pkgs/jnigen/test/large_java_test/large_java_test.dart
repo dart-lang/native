@@ -53,7 +53,7 @@ void main() {
 
     // 4. Run dart analyze.
     final analyzeResult = await Process.run(
-        'dart', ['analyze', 'test/large_java_test/lib/large_test.dart'],
+        'dart', ['analyze', 'test/large_java_test/lib/large_bindings.dart'],
         workingDirectory: pkgDir);
     expect(analyzeResult.exitCode, 0,
         reason: 'Dart analysis failed:\n'
