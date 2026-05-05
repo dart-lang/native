@@ -27,7 +27,7 @@ void main() {
         capturedMessages: logs,
         level: Level.SEVERE,
       );
-      verifyBindings('log', logger);
+      verifyBindings('log', logger: logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));
     });

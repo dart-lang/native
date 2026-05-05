@@ -35,22 +35,18 @@ void verifyBindings(
   final library = parse(context);
 
   final bindingsName = context.config.output.dartFile.pathSegments.last;
-  matchLibraryWithExpected(
-    context,
-    library,
+  matchLibraryWithExpected(context, library, bindingsName, [
+    'test',
+    'native_objc_test',
     bindingsName,
-    ['test', 'native_objc_test', bindingsName],
-    verify: dartVerify,
-  );
+  ], verify: dartVerify);
 
   final mFileName = context.config.output.objCFile.pathSegments.last;
-  matchObjCFileWithExpected(
-    context,
-    library,
+  matchObjCFileWithExpected(context, library, mFileName, [
+    'test',
+    'native_objc_test',
     mFileName,
-    ['test', 'native_objc_test', mFileName],
-    verify: objCVerify,
-  );
+  ], verify: objCVerify);
 }
 
 final _executeInternalCommand = () {
