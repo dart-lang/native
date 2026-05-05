@@ -12,7 +12,7 @@ Future<void> main() async {
     Config(
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
-          path: testRoot.resolve('lib/large_bindings.dart'),
+          path: testRoot.resolve('temp/large_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),
       ),

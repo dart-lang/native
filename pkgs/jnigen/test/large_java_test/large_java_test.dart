@@ -13,7 +13,7 @@ void main() {
   test('Generated JNIgen bindings should pass dart analyze', () async {
     final update = Platform.environment['UPDATE'] == 'true';
 
-    // 1. Generate Java code.
+    // Generate Java code.
     if (update) {
       final genResult = await Process.run(
           'dart', ['test/large_java_test/generate_java.dart'],
@@ -27,7 +27,7 @@ void main() {
           'regenerate the .java files.');
     }
 
-    // 2. Compile Java code.
+    // Compile Java code.
     final javaFiles =
         Directory(p.join(pkgDir, 'test', 'large_java_test', 'java'))
             .listSync(recursive: true)
@@ -42,7 +42,7 @@ void main() {
             'STDOUT: ${javacResult.stdout}\n'
             'STDERR: ${javacResult.stderr}');
 
-    // 3. Run JNIgen.
+    // Run JNIgen.
     final jnigenResult = await Process.run(
         'dart', ['test/large_java_test/generate_bindings.dart'],
         workingDirectory: pkgDir);
@@ -51,7 +51,18 @@ void main() {
             'STDOUT: ${jnigenResult.stdout}\n'
             'STDERR: ${jnigenResult.stderr}');
 
-    // 4. Run dart analyze.
+    // Check for diffs.
+    final expPath = p.join(pkgDir, 'test', 'large_java_test', 'lib', 'large_bindings.dart');
+    final actPath = p.join(pkgDir, 'test', 'large_java_test', 'temp', 'large_bindings.dart');
+    if (update) {
+      print("Updating $expPath");
+      File(actPath).renameSync(expPath);
+    } else {
+      comparePaths(expPath, actPath);
+      File(actPath).deleteSync();
+    }
+
+    // Run dart analyze.
     final analyzeResult = await Process.run(
         'dart', ['analyze', 'test/large_java_test/lib/large_bindings.dart'],
         workingDirectory: pkgDir);
