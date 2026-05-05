@@ -954,9 +954,6 @@ String getJavaDefaultValue(String type) {
   if (type.endsWith('[]')) {
     return 'null';
   }
-  if (type.startsWith('CustomObject<')) {
-    return 'new CustomObject<>(null)';
-  }
   switch (type) {
     case 'void':
       return '';
@@ -976,9 +973,6 @@ String getJavaDefaultValue(String type) {
     case 'CustomEnum':
       return 'CustomEnum.V1';
     default:
-      if (type.startsWith('CustomRecord<')) {
-        return 'new CustomRecord<>(null, "")';
-      }
       return 'null';
   }
 }

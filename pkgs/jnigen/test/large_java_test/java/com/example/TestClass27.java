@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 public final class TestClass27<@Nullable T, @Nullable U>  extends GrandParent {
   @Override
   public void grandParentMethod() {}
-  public <@Nullable S> CustomRecord<@Nullable S> getFoo(CustomRecord<@Nullable S> p1) { return new CustomRecord<>(null, ""); }
+  public <@Nullable S> CustomRecord<@Nullable S> getFoo(CustomRecord<@Nullable S> p1) { return null; }
   public static interface Nested {}
 
 }

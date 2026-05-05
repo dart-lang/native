@@ -32,7 +32,7 @@ public class TestClass259<@Nullable T extends Number>  implements DagA, DagD, Da
   public void dMethod() {}
   @Override
   public void eMethod() {}
-  public CustomRecord<@Nullable T> getFoo() { return new CustomRecord<>(null, ""); }
+  public CustomRecord<@Nullable T> getFoo() { return null; }
   public static record NestedRecord(int x) {}
 
 }
