@@ -4,21 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.set
 // NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.short_
-public final class TestClass74<T, U>  {
-  public final <S, V> short myMethod(short p1, int p2) { return 0; }
+public final class TestClass74<T>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public final <S, V> @Nullable Set<S>[] getFoo(@Nullable Set<S>[] p1, int p2) { return null; }
   public class Nested {}
 
 }

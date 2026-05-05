@@ -4,27 +4,24 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.none
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customInterface
-public final class TestClass161<T, U>  implements DiamondLeft, DiamondRight {
-  @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public final <S extends Number> CustomInterface<S> myMethod() { return null; }
-  public enum NestedEnum { V1 }
-
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.map
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.enum_
+// TopLevelModifier: TopLevelModifier.none
+public enum TestClass161  {
+  VALUE1, VALUE2;
+  public @Nullable Map<@Nullable String, @Nullable String>[] isFoo(@Nullable Map<@Nullable String, @Nullable String>[] p1) { return null; }
 }

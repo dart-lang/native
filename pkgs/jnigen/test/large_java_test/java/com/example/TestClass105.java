@@ -4,23 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.isFoo
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.object
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.byte_
-public class TestClass105<T, U>  extends GenericParent {
+public class TestClass105<@NotNull T extends Number>  implements OtherInterface, BaseInterface {
   @Override
-  public void genericParentMethod(Object t) {}
-  public <S extends Number> byte isFoo(byte p1, int p2) throws Exception { return 0; }
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public TestClass105(@NotNull Object[] p1) {}
   public enum NestedEnum { V1 }
 
 }

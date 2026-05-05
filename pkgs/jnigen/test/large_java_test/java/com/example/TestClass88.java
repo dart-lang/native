@@ -4,25 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.yes
-// Member: Member.method
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.set
-public abstract interface TestClass88<T extends Number>  extends OtherInterface, BaseInterface {
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass88<T, U>  implements OtherInterface, BaseInterface {
   @Override
-  default void otherInterfaceMethod() {}
+  public void otherInterfaceMethod() {}
   @Override
-  default void baseMethod() {}
-  Set<T>[] isFoo();
-  public static record NestedRecord(int x) {}
+  public void baseMethod() {}
+  public TestClass88(CustomEnum[] p1, int p2) {}
+  public class Nested {}
 
 }

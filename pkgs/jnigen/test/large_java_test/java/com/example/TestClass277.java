@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.none
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.yes
-// Member: Member.initializer
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.float_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.byte_
-public class TestClass277<T, U>  implements DagA, DagD, DagE {
+public class TestClass277  extends GenericParent<@NotNull String> {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  static { }
-  public static interface Nested {}
+  public void genericParentMethod(String t) {}
+  public TestClass277() {}
+  public enum NestedEnum { V1 }
 
 }

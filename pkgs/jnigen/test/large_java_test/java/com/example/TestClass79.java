@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.map
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customObject
-public class TestClass79<T extends Number>  extends GenericParent {
+public class TestClass79<T, U>  implements OtherInterface {
   @Override
-  public void genericParentMethod(Object t) {}
-  public <S extends Number> CustomObject<S> getFoo(CustomObject<S> p1, int p2) { return null; }
+  public void otherInterfaceMethod() {}
+  public final <S> Map<S, S>[] isFoo() { return null; }
   public static interface Nested {}
 
 }

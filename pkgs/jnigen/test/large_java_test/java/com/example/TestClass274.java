@@ -4,23 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.transient
 // MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.nestedCustom
-public final class TestClass274  extends GenericParent<String> {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass274<@Nullable T>  implements DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(String t) {}
-  public <S> TestClass274(NestedCustom<S, S>.Nested<S>[] p1, int p2) {}
-  public static class Nested {}
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public transient CustomObject<@Nullable T> myField;
+  public static record NestedRecord(int x) {}
 
 }

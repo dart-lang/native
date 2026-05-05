@@ -4,20 +4,24 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
-// Member: Member.method
+// IsArray: IsArray.no
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.object
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.list
-public final class TestClass260<T extends Number>  implements DagA, DagD, DagE {
+public final class TestClass260<@Nullable T extends Number>  implements DagA, DagD, DagE {
   @Override
   public void aMethod() {}
   @Override
@@ -28,7 +32,7 @@ public final class TestClass260<T extends Number>  implements DagA, DagD, DagE {
   public void dMethod() {}
   @Override
   public void eMethod() {}
-  public native <S extends Number> List<S>[] myMethod(List<S>[] p1);
-  public enum NestedEnum { V1 }
+  public <@Nullable S extends Number> TestClass260() {}
+  public static interface Nested {}
 
 }

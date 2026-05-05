@@ -4,25 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.final_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public class TestClass173<T extends Number>  implements DiamondLeft, DiamondRight {
+public abstract class TestClass173<@Nullable T, @Nullable U>  implements DiamondLeft, DiamondRight {
   @Override
   public void baseMethod() {}
   @Override
   public void leftMethod() {}
   @Override
   public void rightMethod() {}
-  public final <S> short isFoo(short p1) { return 0; }
+  public abstract CustomEnum[] isFoo();
+  public enum NestedEnum { V1 }
+
 }

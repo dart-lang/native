@@ -4,20 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.record
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public record TestClass60<T, U>(short[] field)  implements OtherInterface {
+public abstract interface TestClass60<@NotNull T, @NotNull U>  extends DiamondLeft, DiamondRight {
   @Override
-  public void otherInterfaceMethod() {}
+  default void baseMethod() {}
+  @Override
+  default void leftMethod() {}
+  @Override
+  default void rightMethod() {}
+  <@NotNull S extends Number> NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S> getFoo(NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S> p1);
 }

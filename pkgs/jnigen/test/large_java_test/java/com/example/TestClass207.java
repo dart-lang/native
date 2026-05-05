@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.no
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public abstract interface TestClass207<T extends Number>  extends OtherInterface {
+public class TestClass207<@Nullable T extends Number>  implements DiamondLeft, DiamondRight {
   @Override
-  default void otherInterfaceMethod() {}
-  <S> CustomEnum isFoo(CustomEnum p1, int p2);
-  public enum NestedEnum { V1 }
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <@Nullable S extends Number> boolean @Nullable [] getFoo(boolean @Nullable [] p1, int p2) throws Exception { return null; }
+  public static interface Nested {}
 
 }

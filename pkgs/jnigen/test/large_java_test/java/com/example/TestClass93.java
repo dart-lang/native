@@ -4,27 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
-// Member: Member.constructor
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
+// Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.string
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customInterface
-public final class TestClass93<T>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass93<@Nullable T, @Nullable U>  extends GrandParent {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public <S> TestClass93(CustomInterface<S>[] p1) {}
-  public static record NestedRecord(int x) {}
-
+  public void grandParentMethod() {}
+  public <@Nullable S> @Nullable String isFoo(@Nullable String p1, int p2) throws Exception { return null; }
 }

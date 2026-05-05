@@ -4,21 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.final_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.set
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass193<T extends Number>  extends GrandParent {
+public class TestClass193<T, U>  implements DiamondLeft, DiamondRight {
   @Override
-  public void grandParentMethod() {}
-  public final <S> NestedCustom<S, S>.Nested<S>[] getFoo(NestedCustom<S, S>.Nested<S>[] p1) { return null; }
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public native <S extends Number> @Nullable Set<S> getFoo();
 }

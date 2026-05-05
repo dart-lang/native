@@ -4,23 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.isFoo
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.memberTypeParam
 // NestedKind: NestedKind.interface
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.float_
-public class TestClass159<T extends Number>  extends GenericParent<String> {
+public class TestClass159<@Nullable T, @Nullable U>  implements DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(String t) {}
-  public float isFoo(float p1) throws Exception { return 0.0f; }
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public synchronized <@Nullable S, @Nullable V> @Nullable S getFoo(@Nullable S p1) { return null; }
   public static interface Nested {}
 
 }

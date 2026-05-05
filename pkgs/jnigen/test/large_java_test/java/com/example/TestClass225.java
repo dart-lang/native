@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customEnum
-public final class TestClass225  implements OtherInterface {
+public final class TestClass225<@NotNull T, @NotNull U>  implements DiamondLeft, DiamondRight {
   @Override
-  public void otherInterfaceMethod() {}
-  public transient CustomEnum[] myField;
-  public static record NestedRecord(int x) {}
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <@NotNull S extends Number> @Nullable NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S> setFoo() { return null; }
+  public class Nested {}
 
 }

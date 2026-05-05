@@ -4,21 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.twoParams
 // Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.abstract_
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public abstract interface TestClass145<T, U>  {
-  <S extends Number> NestedCustom<S, S>.Nested<S>[] myMethod();
-  public enum NestedEnum { V1 }
+public class TestClass145<@Nullable T, @Nullable U>  {
+  public <@Nullable S extends Number> @NotNull CustomRecord<@Nullable S> myMethod(@NotNull CustomRecord<@Nullable S> p1, int p2) throws Exception { return null; }
+  public static interface Nested {}
 
 }

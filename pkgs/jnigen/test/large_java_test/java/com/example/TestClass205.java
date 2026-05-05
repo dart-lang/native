@@ -4,31 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.innerClass
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
+// Member: Member.method
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customObject
-public final class TestClass205<T, U>  implements DagA, DagD, DagE {
-  @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public <S, V> TestClass205(CustomObject<S>[] p1, int p2) {}
-  public class Nested {}
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass205<@NotNull T extends Number>  {
+  static int setFoo(int p1, int p2) { return 0; }
+  public static class Nested {}
 
 }

@@ -4,27 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.nestedCustom
-public final class TestClass259<T extends Number>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass259<@Nullable T extends Number>  implements DagA, DagD, DagE {
   @Override
-  public void baseMethod() {}
+  public void aMethod() {}
   @Override
-  public void leftMethod() {}
+  public void bMethod() {}
   @Override
-  public void rightMethod() {}
-  public synchronized <S> NestedCustom<S, S>.Nested<S>[] isFoo(NestedCustom<S, S>.Nested<S>[] p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public CustomRecord<@Nullable T> getFoo() { return new CustomRecord<>(null, ""); }
+  public static record NestedRecord(int x) {}
 
 }

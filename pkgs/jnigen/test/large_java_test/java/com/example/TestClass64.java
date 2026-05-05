@@ -4,29 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// Member: Member.initializer
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.long_
-public class TestClass64  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass64<T, U>  extends GrandParent {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public <S> long setFoo() throws Exception { return 0; }
+  public void grandParentMethod() {}
+  { }
+  public static record NestedRecord(int x) {}
+
 }

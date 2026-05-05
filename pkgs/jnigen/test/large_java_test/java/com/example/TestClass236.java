@@ -4,25 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.nestedCustom
-public final class TestClass236<T extends Number>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass236<@NotNull T extends Number>  extends GrandParent {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public <S extends Number> NestedCustom<S, S>.Nested<S>[] getFoo() { return null; }
+  public void grandParentMethod() {}
+  public native @NotNull CustomRecord<@NotNull T> getFoo();
+  public class Nested {}
+
 }

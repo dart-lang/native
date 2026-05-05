@@ -4,20 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.any
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.nestedCustom
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.int_
-public sealed interface TestClass119<T extends Number>  {
-  static int[] myMethod(int[] p1, int p2) { return null; }  // HI
-  public static final class Sub<T extends Number> implements TestClass119<T> {}
-  }
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass119<T>  implements DiamondLeft, DiamondRight {
+  @Override
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public native @Nullable NestedCustom<T, T>.Nested<T> setFoo();
+}

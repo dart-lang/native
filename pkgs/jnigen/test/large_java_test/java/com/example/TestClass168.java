@@ -4,22 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.long_
-public sealed class TestClass168<T, U>  {
-  public long getFoo(long p1) { return 0; }
-  public static record NestedRecord(int x) {}
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.float_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public abstract interface TestClass168<@NotNull T, @NotNull U>  extends OtherInterface, BaseInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  float @Nullable [] setFoo();
+  public static interface Nested {}
 
-  public static final class Sub<T, U> extends TestClass168<T, U> {}
-  }
+}

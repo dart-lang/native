@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass14<T>  implements OtherInterface {
+// TopLevelModifier: TopLevelModifier.none
+public abstract class TestClass14<@NotNull T extends Number>  implements OtherInterface {
   @Override
   public void otherInterfaceMethod() {}
-  public native <S> byte setFoo(byte p1, int p2);
+  public abstract <@NotNull S, @NotNull V> byte [] getFoo(byte [] p1);
+  public enum NestedEnum { V1 }
+
 }

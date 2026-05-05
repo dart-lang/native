@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customInterface
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customObject
-public final class TestClass151<T, U>  implements DagA, DagD, DagE {
+public final class TestClass151<@Nullable T, @Nullable U>  extends GenericParent {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public synchronized CustomObject<T> myMethod(CustomObject<T> p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+  public void genericParentMethod(Object t) {}
+  public <@Nullable S, @Nullable V> CustomInterface<@Nullable S>[] getFoo(CustomInterface<@Nullable S>[] p1, int p2) { return null; }
+  public static interface Nested {}
 
 }

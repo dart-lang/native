@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.memberTypeParam
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customRecord
-public interface TestClass89<T>  extends GenericInterface<String> {
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass89<@Nullable T>  implements OtherInterface, BaseInterface {
   @Override
-  default String genericInterfaceMethod(String t)  { return t; }
-  CustomRecord<T> setFoo(CustomRecord<T> p1);
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public synchronized <@Nullable S, @Nullable V> S isFoo() { return null; }
 }

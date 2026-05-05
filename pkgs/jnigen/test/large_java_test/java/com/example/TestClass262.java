@@ -4,20 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.none
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
-// Member: Member.initializer
-// MemberGenerics: MemberGenerics.none
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.list
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.map
-public sealed class TestClass262<T>  {
-  { }
-  public static final class Sub<T> extends TestClass262<T> {}
-  }
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass262<T>  extends GenericParent<String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <S, V> TestClass262() {}
+  public static record NestedRecord(int x) {}
+
+}

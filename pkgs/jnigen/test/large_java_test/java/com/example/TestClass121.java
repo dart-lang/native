@@ -4,22 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.customEnum
-public sealed interface TestClass121<T extends Number>  {
-  static CustomEnum setFoo() { return CustomEnum.V1; }  // HI
-  public enum NestedEnum { V1 }
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass121<@Nullable T extends Number>  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  public <@Nullable S, @Nullable V> @Nullable CustomEnum[] isFoo(@Nullable CustomEnum[] p1) throws Exception { return null; }
+  public class Nested {}
 
-  public static final class Sub<T extends Number> implements TestClass121<T> {}
-  }
+}

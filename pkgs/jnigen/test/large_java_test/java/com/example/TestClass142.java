@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass142<T, U>  extends GrandParent {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass142<@NotNull T extends Number>  extends GenericParent {
   @Override
-  public void grandParentMethod() {}
-  public synchronized <S, V> Object[] isFoo() { return null; }
+  public void genericParentMethod(Object t) {}
+  public <@NotNull S, @NotNull V> NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S>[] setFoo(NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S>[] p1) { return null; }
+  public enum NestedEnum { V1 }
+
 }

@@ -4,22 +4,26 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.none
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.string
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.nestedCustom
-public sealed class TestClass231<T extends Number>  {
-  public volatile NestedCustom<T, T>.Nested<T> myField;
-  public static class Nested {}
+// TopLevelKind: TopLevelKind.enum_
+// TopLevelModifier: TopLevelModifier.none
+public enum TestClass231  {
+  VALUE1, VALUE2;
+  public synchronized <@Nullable S, @Nullable V> String isFoo(String p1) { return null; }
+  public class Nested {}
 
-  public static final class Sub<T extends Number> extends TestClass231<T> {}
-  }
+}

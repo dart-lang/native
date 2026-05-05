@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.double_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public abstract class TestClass157<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass157<@Nullable T, @Nullable U>  implements OtherInterface {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public abstract <S, V> NestedCustom<S, S>.Nested<S>[] isFoo();
-  public static class Nested {}
+  public void otherInterfaceMethod() {}
+  public synchronized <@Nullable S, @Nullable V> double getFoo(double p1, int p2) { return 0.0; }
+  public static interface Nested {}
 
 }

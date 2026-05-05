@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.implements_
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customInterface
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.typeParam
-public class TestClass40<T>  implements OtherInterface {
+public class TestClass40<@Nullable T>  extends GrandParent {
   @Override
-  public void otherInterfaceMethod() {}
-  public synchronized <S extends Number> T[] setFoo(T[] p1, int p2) { return null; }
-  public static interface Nested {}
+  public void grandParentMethod() {}
+  public <@Nullable S, @Nullable V> CustomInterface<@Nullable S>[] myMethod() { return null; }
+  public class Nested {}
 
 }

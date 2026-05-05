@@ -4,21 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.native
-// MemberName: MemberName.any
-// NestedKind: NestedKind.none
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass20  extends GenericParent<String> {
+public interface TestClass20  extends DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(String t) {}
-  public native <S> NestedCustom<S, S>.Nested<S> myMethod();
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  <@NotNull S> @Nullable NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S> isFoo();
+  public enum NestedEnum { V1 }
+
 }

@@ -4,23 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public interface TestClass101<T, U>  extends OtherInterface {
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass101<@NotNull T>  implements OtherInterface, BaseInterface {
   @Override
-  default void otherInterfaceMethod() {}
-  default <S extends Number> NestedCustom<S, S>.Nested<S> getFoo(NestedCustom<S, S>.Nested<S> p1) { return null; }
-  public enum NestedEnum { V1 }
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public synchronized <@NotNull S, @NotNull V> @Nullable CustomObject<@NotNull S> setFoo(@Nullable CustomObject<@NotNull S> p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
 
 }

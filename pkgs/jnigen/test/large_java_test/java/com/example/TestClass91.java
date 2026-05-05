@@ -4,31 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.innerClass
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.typeParam
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.set
-public abstract class TestClass91<T, U>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass91<@NotNull T extends Number>  implements OtherInterface, BaseInterface {
   @Override
-  public void aMethod() {}
+  public void otherInterfaceMethod() {}
   @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public abstract <S> Set<S> setFoo(Set<S> p1);
-  public class Nested {}
+  public void baseMethod() {}
+  public native <@NotNull S extends Number> T myMethod(T p1);
+  public static class Nested {}
 
 }

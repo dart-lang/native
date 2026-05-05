@@ -4,23 +4,23 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.interface
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.byte_
-public class TestClass103<T>  extends GenericParent {
-  @Override
-  public void genericParentMethod(Object t) {}
-  public static <S, V> byte isFoo(byte p1) { return 0; }
-  public static interface Nested {}
-
+public interface TestClass103<@Nullable T, @Nullable U>  {
+  default <@Nullable S> @NotNull CustomEnum[] setFoo(@NotNull CustomEnum[] p1) { return null; }
 }

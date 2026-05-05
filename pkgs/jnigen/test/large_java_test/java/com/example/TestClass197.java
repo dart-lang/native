@@ -4,31 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.final_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.interface
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customInterface
-public final class TestClass197<T, U>  implements DagA, DagD, DagE {
+public final class TestClass197<T, U>  implements DiamondLeft, DiamondRight {
   @Override
-  public void aMethod() {}
+  public void baseMethod() {}
   @Override
-  public void bMethod() {}
+  public void leftMethod() {}
   @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public final CustomInterface<T> getFoo() { return null; }
-  public static interface Nested {}
+  public void rightMethod() {}
+  public final <S, V> @Nullable CustomRecord<S> isFoo() { return null; }
+  public static class Nested {}
 
 }

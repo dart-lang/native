@@ -4,23 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// NestedKind: NestedKind.interface
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.boolean_
-public class TestClass172<T, U>  extends GenericParent<String> {
-  @Override
-  public void genericParentMethod(String t) {}
-  public static <S> boolean[] myMethod(boolean[] p1, int p2) { return null; }
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass172<T, U>  {
+  public static <S> byte myMethod(byte p1, int p2) { return 0; }
+  public class Nested {}
 
 }

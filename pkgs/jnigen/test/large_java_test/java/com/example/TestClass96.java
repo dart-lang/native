@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.staticClass
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customInterface
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.byte_
-public class TestClass96<T>  extends GenericParent<String> {
+public class TestClass96<T>  implements DiamondLeft, DiamondRight {
   @Override
-  public void genericParentMethod(String t) {}
-  public synchronized byte setFoo() { return 0; }
-  public static class Nested {}
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public synchronized @NotNull CustomInterface<T> myMethod() { return null; }
+  public static interface Nested {}
 
 }

@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.boolean_
-public interface TestClass140<T, U>  extends GenericInterface<String> {
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass140<T extends Number>  extends GrandParent {
   @Override
-  default String genericInterfaceMethod(String t)  { return t; }
-  <S, V> boolean myMethod(boolean p1, int p2);
-  public enum NestedEnum { V1 }
+  public void grandParentMethod() {}
+  public <S extends Number> int myMethod(int p1, int p2) throws Exception { return 0; }
+  public static record NestedRecord(int x) {}
 
 }

@@ -4,21 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.none
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.synchronized
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customInterface
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.string
-public final class TestClass104<T extends Number>  {
-  public synchronized <S extends Number> String isFoo(String p1) { return null; }
-  public class Nested {}
+public final class TestClass104<@NotNull T extends Number>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public synchronized <@NotNull S> CustomInterface<@NotNull S> isFoo() { return null; }
+  public static class Nested {}
 
 }

@@ -4,25 +4,26 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.none
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.memberTypeParam
-public class TestClass169<T, U>  implements DiamondLeft, DiamondRight {
-  @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public synchronized <S, V> S[] isFoo(S[] p1, int p2) { return null; }
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass169<T extends Number>  {
+  public boolean @Nullable [] setFoo(boolean @Nullable [] p1, int p2) throws Exception { return null; }
+  public static interface Nested {}
+
+  public static final class Sub<T extends Number> extends TestClass169<T> {}
 }

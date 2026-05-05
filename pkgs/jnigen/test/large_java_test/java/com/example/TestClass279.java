@@ -4,19 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
-// Member: Member.initializer
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.char_
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public class TestClass279<T, U>  {
-  static { }
+public class TestClass279<@Nullable T>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public TestClass279(char @Nullable [] p1, int p2) {}
 }

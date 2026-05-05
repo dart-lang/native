@@ -4,21 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
 // IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.object
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass216<T extends Number>  {
-  public <S, V> TestClass216(NestedCustom<S, S>.Nested<S>[] p1) {}
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass216<@Nullable T extends Number>  {
+  public <@Nullable S extends Number> Object[] isFoo(Object[] p1, int p2) { return null; }
+  public enum NestedEnum { V1 }
 
 }

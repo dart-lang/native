@@ -4,23 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
 // Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.double_
-public abstract interface TestClass62<T extends Number>  extends GenericInterface<String> {
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.string
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass62<@NotNull T>  extends GenericParent<@NotNull String> {
   @Override
-  default String genericInterfaceMethod(String t)  { return t; }
-  <S> double isFoo(double p1, int p2);
-  public enum NestedEnum { V1 }
-
+  public void genericParentMethod(String t) {}
+  public String[] setFoo() { return null; }
 }

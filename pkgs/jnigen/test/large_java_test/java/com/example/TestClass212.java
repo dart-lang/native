@@ -4,27 +4,33 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customRecord
-public abstract interface TestClass212<T extends Number>  extends DiamondLeft, DiamondRight {
+public interface TestClass212<@NotNull T extends Number>  extends DagA, DagD, DagE {
   @Override
-  default void baseMethod() {}
+  default void aMethod() {}
   @Override
-  default void leftMethod() {}
+  default void bMethod() {}
   @Override
-  default void rightMethod() {}
-  CustomRecord<T>[] isFoo();
-  public static record NestedRecord(int x) {}
-
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  <@NotNull S extends Number> S getFoo();
 }

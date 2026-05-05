@@ -4,19 +4,26 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.list
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass86<T, U>  {
-  public static <S, V> byte getFoo(byte p1, int p2) { return 0; }
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass86<@NotNull T extends Number>  {
+  public final @Nullable List<@NotNull T> myMethod(@Nullable List<@NotNull T> p1) { return null; }
+  public static record NestedRecord(int x) {}
+
+  public static final class Sub<@NotNull T extends Number> extends TestClass86<T> {}
 }

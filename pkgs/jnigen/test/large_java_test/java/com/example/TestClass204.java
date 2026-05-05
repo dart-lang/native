@@ -4,22 +4,22 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.customEnum
-public sealed class TestClass204<T extends Number>  {
-  public synchronized CustomEnum myMethod(CustomEnum p1) { return CustomEnum.V1; }
-  public enum NestedEnum { V1 }
-
-  public static final class Sub<T extends Number> extends TestClass204<T> {}
-  }
+// TopLevelKind: TopLevelKind.record
+// TopLevelModifier: TopLevelModifier.none
+public record TestClass204<T extends Number>(@Nullable CustomRecord<T> field)  {
+}

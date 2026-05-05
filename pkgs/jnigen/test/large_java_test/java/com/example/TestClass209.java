@@ -4,21 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.object
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass209<T extends Number>  extends GenericParent<String> {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass209<@NotNull T extends Number>  implements OtherInterface {
   @Override
-  public void genericParentMethod(String t) {}
-  public boolean[] isFoo() { return null; }
+  public void otherInterfaceMethod() {}
+  public <@NotNull S, @NotNull V> @Nullable Object[] setFoo(@Nullable Object[] p1, int p2) throws Exception { return null; }
 }

@@ -4,21 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public interface TestClass135<T, U>  extends GenericInterface {
-  @Override
-  default Object genericInterfaceMethod(Object t)  { return t; }
-  <S extends Number> NestedCustom<S, S>.Nested<S>[] getFoo(NestedCustom<S, S>.Nested<S>[] p1) throws Exception;
+public interface TestClass135<T, U>  {
+  default boolean setFoo(boolean p1, int p2) { return false; }
+  public static record NestedRecord(int x) {}
+
 }

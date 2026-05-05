@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericSpecialized
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass90<T>  extends GenericInterface<String> {
+public interface TestClass90<T, U>  extends DiamondLeft, DiamondRight {
   @Override
-  default String genericInterfaceMethod(String t)  { return t; }
-  <S> CustomInterface<S> getFoo(CustomInterface<S> p1) throws Exception;
-  public static interface Nested {}
+  default void baseMethod() {}
+  @Override
+  default void leftMethod() {}
+  @Override
+  default void rightMethod() {}
+  <S extends Number> byte setFoo(byte p1, int p2);
+  public class Nested {}
 
 }

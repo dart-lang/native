@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
-// Member: Member.constructor
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
+// Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.any
-// NestedKind: NestedKind.record
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass234<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass234<T extends Number>  implements OtherInterface, BaseInterface {
   @Override
-  public void aMethod() {}
+  public void otherInterfaceMethod() {}
   @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public <S extends Number> TestClass234(Object p1) {}
-  public static record NestedRecord(int x) {}
-
+  public void baseMethod() {}
+  public static <S extends Number> S[] myMethod(S[] p1) { return null; }
 }

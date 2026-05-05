@@ -4,27 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.enum_
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customObject
-public interface TestClass222<T, U>  extends DiamondLeft, DiamondRight {
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass222<@Nullable T extends Number>  implements OtherInterface {
   @Override
-  default void baseMethod() {}
-  @Override
-  default void leftMethod() {}
-  @Override
-  default void rightMethod() {}
-  <S> CustomObject<S>[] setFoo(CustomObject<S>[] p1, int p2);
-  public enum NestedEnum { V1 }
+  public void otherInterfaceMethod() {}
+  public long @Nullable [] setFoo(long @Nullable [] p1, int p2) { return null; }
+  public static class Nested {}
 
 }

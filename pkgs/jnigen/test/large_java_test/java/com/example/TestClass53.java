@@ -4,23 +4,22 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.float_
 // NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public class TestClass53<T, U>  implements OtherInterface {
-  @Override
-  public void otherInterfaceMethod() {}
-  public native <S, V> CustomInterface<S> isFoo();
-  public static interface Nested {}
-
+public record TestClass53<@Nullable T, @Nullable U>(float @NotNull [] field)  {
 }

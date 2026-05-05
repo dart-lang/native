@@ -4,31 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.char_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass226<T, U>  extends DagA, DagD, DagE {
+public class TestClass226<@Nullable T extends Number>  implements DagA, DagD, DagE {
   @Override
-  default void aMethod() {}
+  public void aMethod() {}
   @Override
-  default void bMethod() {}
+  public void bMethod() {}
   @Override
-  default void cMethod() {}
+  public void cMethod() {}
   @Override
-  default void dMethod() {}
+  public void dMethod() {}
   @Override
-  default void eMethod() {}
-  CustomInterface<T>[] isFoo();
-  public static record NestedRecord(int x) {}
+  public void eMethod() {}
+  public final <@Nullable S, @Nullable V> char @NotNull [] getFoo(char @NotNull [] p1) { return null; }
+  public static interface Nested {}
 
 }

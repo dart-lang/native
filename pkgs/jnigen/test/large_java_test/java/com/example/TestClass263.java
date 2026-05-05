@@ -4,23 +4,33 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// Member: Member.method
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.list
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass263  extends GenericParent {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass263<@Nullable T extends Number>  implements DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(Object t) {}
-  public <S, V> TestClass263(boolean p1, int p2) {}
-  public static record NestedRecord(int x) {}
-
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public @NotNull List<@Nullable T> isFoo(@NotNull List<@Nullable T> p1) throws Exception { return null; }
 }

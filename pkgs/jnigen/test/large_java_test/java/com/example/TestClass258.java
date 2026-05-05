@@ -4,27 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.none
+// Generics: Generics.none
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.record
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.object
-public final class TestClass258<T extends Number>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass258  implements OtherInterface {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public volatile Object[] myField;
-  public static record NestedRecord(int x) {}
+  public void otherInterfaceMethod() {}
+  public <S> TestClass258() {}
+  public static interface Nested {}
 
 }

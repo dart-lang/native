@@ -4,31 +4,22 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.volatile
 // MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customRecord
-public interface TestClass36  extends DagA, DagD, DagE {
-  @Override
-  default void aMethod() {}
-  @Override
-  default void bMethod() {}
-  @Override
-  default void cMethod() {}
-  @Override
-  default void dMethod() {}
-  @Override
-  default void eMethod() {}
-  <S extends Number> CustomRecord<S> myMethod(CustomRecord<S> p1);
-  public enum NestedEnum { V1 }
-
+public record TestClass36<T>(boolean @Nullable [] field)  {
 }

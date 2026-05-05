@@ -4,25 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.multipleImplements
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
-// Member: Member.initializer
-// MemberGenerics: MemberGenerics.none
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.oneParam
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.map
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.short_
-public final class TestClass287  implements OtherInterface, BaseInterface {
-  @Override
-  public void otherInterfaceMethod() {}
+public final class TestClass287<T, U>  implements DiamondLeft, DiamondRight {
   @Override
   public void baseMethod() {}
-  { }
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <S> TestClass287(@NotNull Map<S, S> p1) {}
   public static interface Nested {}
 
 }

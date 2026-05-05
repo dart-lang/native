@@ -4,25 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.typeParam
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.map
-public class TestClass16<T, U>  implements OtherInterface, BaseInterface {
-  @Override
-  public void otherInterfaceMethod() {}
-  @Override
-  public void baseMethod() {}
-  public <S, V> Map<S, S>[] isFoo(Map<S, S>[] p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass16<T>  {
+  public synchronized <S> T[] getFoo() { return null; }
+  public static class Nested {}
 
 }

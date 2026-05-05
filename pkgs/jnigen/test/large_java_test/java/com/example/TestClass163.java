@@ -4,23 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.no
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customEnum
-public final class TestClass163  extends GrandParent {
-  @Override
-  public void grandParentMethod() {}
-  public TestClass163() {}
-  public static record NestedRecord(int x) {}
+public final class TestClass163<T extends Number>  {
+  public final <S, V> boolean [] setFoo() { return null; }
+  public static class Nested {}
 
 }

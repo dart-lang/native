@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
-// Member: Member.constructor
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customRecord
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.byte_
-public final class TestClass282  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass282<T>  extends GenericParent<String> {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public TestClass282(byte p1, int p2) {}
+  public void genericParentMethod(String t) {}
+  public final @Nullable CustomRecord<T>[] myField = null;
   public static record NestedRecord(int x) {}
 
 }

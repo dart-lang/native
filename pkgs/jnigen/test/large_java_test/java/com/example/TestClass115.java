@@ -4,27 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.none
+// Generics: Generics.none
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.float_
-public interface TestClass115<T extends Number>  extends DiamondLeft, DiamondRight {
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass115  extends GenericParent {
   @Override
-  default void baseMethod() {}
-  @Override
-  default void leftMethod() {}
-  @Override
-  default void rightMethod() {}
-  default <S, V> float getFoo(float p1, int p2) { return 0.0f; }
-  public enum NestedEnum { V1 }
-
+  public void genericParentMethod(Object t) {}
+  public static <S extends Number> @Nullable CustomRecord<S> setFoo() { return null; }
 }

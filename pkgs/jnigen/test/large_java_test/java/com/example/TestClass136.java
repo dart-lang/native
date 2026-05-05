@@ -4,23 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.void_
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.list
-public class TestClass136<T, U>  extends GenericParent {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass136<@NotNull T, @NotNull U>  implements DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(Object t) {}
-  public <S extends Number> List<S>[] setFoo(List<S>[] p1, int p2) throws Exception { return null; }
-  public static interface Nested {}
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public synchronized <@NotNull S extends Number> void myMethod() {  }
+  public class Nested {}
 
 }

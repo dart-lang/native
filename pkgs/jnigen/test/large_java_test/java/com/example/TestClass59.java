@@ -4,23 +4,23 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.char_
-public interface TestClass59<T extends Number>  extends GenericInterface<String> {
-  @Override
-  default String genericInterfaceMethod(String t)  { return t; }
-  <S> char[] isFoo() throws Exception;
-  public static interface Nested {}
-
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.char_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass59<@NotNull T>  {
+  public native <@NotNull S> char [] myMethod(char [] p1);
 }

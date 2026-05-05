@@ -4,23 +4,33 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.boolean_
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.string
-public class TestClass240<T extends Number>  extends GenericParent<String> {
+public abstract interface TestClass240<T, U>  extends DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(String t) {}
-  public static String getFoo() { return null; }
-  public enum NestedEnum { V1 }
-
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  boolean @NotNull [] getFoo();
 }

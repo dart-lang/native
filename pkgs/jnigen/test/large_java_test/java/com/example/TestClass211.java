@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.method
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.setFoo
+// MemberModifier: MemberModifier.volatile
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.typeParam
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.nestedCustom
-public final class TestClass211<T extends Number>  implements OtherInterface {
+public final class TestClass211<T, U>  implements OtherInterface, BaseInterface {
   @Override
   public void otherInterfaceMethod() {}
-  public synchronized NestedCustom<T, T>.Nested<T>[] setFoo(NestedCustom<T, T>.Nested<T>[] p1) { return null; }
+  @Override
+  public void baseMethod() {}
+  public volatile @NotNull T myField;
 }

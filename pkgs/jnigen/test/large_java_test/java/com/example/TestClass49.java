@@ -4,23 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
+// GenericNullability: GenericNullability.none
+// Generics: Generics.none
 // Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.record
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass49<T extends Number>  extends GenericParent {
+public final class TestClass49  extends GenericParent {
   @Override
   public void genericParentMethod(Object t) {}
-  public synchronized <S extends Number> boolean[] getFoo(boolean[] p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
-
+  public native <S, V> CustomEnum myMethod(CustomEnum p1, int p2);
 }

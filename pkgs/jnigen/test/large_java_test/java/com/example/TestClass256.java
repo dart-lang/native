@@ -4,27 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public class TestClass256<T extends Number>  implements DiamondLeft, DiamondRight {
+public interface TestClass256<@Nullable T extends Number>  extends DagA, DagD, DagE {
   @Override
-  public void baseMethod() {}
+  default void aMethod() {}
   @Override
-  public void leftMethod() {}
+  default void bMethod() {}
   @Override
-  public void rightMethod() {}
-  public static <S extends Number> short setFoo(short p1, int p2) { return 0; }
-  public static record NestedRecord(int x) {}
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  CustomObject<@Nullable T>[] setFoo();
+  public class Nested {}
 
 }

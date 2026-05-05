@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
-// MemberName: MemberName.any
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customInterface
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass233<T extends Number>  implements OtherInterface {
+public class TestClass233<@NotNull T, @NotNull U>  implements DiamondLeft, DiamondRight {
   @Override
-  public void otherInterfaceMethod() {}
-  public transient NestedCustom<T, T>.Nested<T>[] myField;
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public final <@NotNull S extends Number> @Nullable CustomInterface<@NotNull S> setFoo() { return null; }
   public static class Nested {}
 
 }

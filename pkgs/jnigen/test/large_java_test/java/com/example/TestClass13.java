@@ -4,31 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.double_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.float_
-public final class TestClass13<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass13<@NotNull T extends Number>  extends GrandParent {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public final <S extends Number> float[] isFoo() { return null; }
-  public static class Nested {}
-
+  public void grandParentMethod() {}
+  public native <@NotNull S> double [] setFoo(double [] p1, int p2);
 }

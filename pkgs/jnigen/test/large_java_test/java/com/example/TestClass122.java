@@ -4,25 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.record
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass122<T>  implements OtherInterface, BaseInterface {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass122<@Nullable T extends Number>  extends GenericParent {
   @Override
-  public void otherInterfaceMethod() {}
-  @Override
-  public void baseMethod() {}
-  public synchronized <S, V> boolean[] getFoo(boolean[] p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
+  public void genericParentMethod(Object t) {}
+  public <@Nullable S extends Number> @NotNull S setFoo(@NotNull S p1, int p2) throws Exception { return null; }
+  public enum NestedEnum { V1 }
 
 }

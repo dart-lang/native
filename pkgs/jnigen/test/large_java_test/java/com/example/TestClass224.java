@@ -4,25 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.synchronized
 // MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.char_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.object
-public final class TestClass224<T extends Number>  implements OtherInterface, BaseInterface {
+public final class TestClass224<T, U>  implements DagA, DagD, DagE {
   @Override
-  public void otherInterfaceMethod() {}
+  public void aMethod() {}
   @Override
-  public void baseMethod() {}
-  public Object[] isFoo(Object[] p1) { return null; }
-  public enum NestedEnum { V1 }
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public synchronized <S extends Number> char @Nullable [] isFoo() { return null; }
+  public static interface Nested {}
 
 }

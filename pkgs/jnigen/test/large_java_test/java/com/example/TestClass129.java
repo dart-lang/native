@@ -4,25 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
-// Member: Member.method
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public interface TestClass129<T extends Number>  extends DiamondLeft, DiamondRight {
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass129<@Nullable T, @Nullable U>  implements DagA, DagD, DagE {
   @Override
-  default void baseMethod() {}
+  public void aMethod() {}
   @Override
-  default void leftMethod() {}
+  public void bMethod() {}
   @Override
-  default void rightMethod() {}
-  default <S, V> Object[] setFoo(Object[] p1, int p2) { return null; }
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public <@Nullable S, @Nullable V> TestClass129(short @Nullable [] p1) {}
+  public static class Nested {}
+
 }

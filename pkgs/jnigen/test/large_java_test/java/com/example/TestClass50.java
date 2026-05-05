@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.oneParam
 // Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.setFoo
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.int_
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass50<T>  extends GrandParent {
+public final class TestClass50<@NotNull T>  extends GrandParent {
   @Override
   public void grandParentMethod() {}
-  public synchronized <S, V> boolean setFoo(boolean p1, int p2) { return false; }
+  public <@NotNull S extends Number> int myMethod() { return 0; }
   public static record NestedRecord(int x) {}
 
 }

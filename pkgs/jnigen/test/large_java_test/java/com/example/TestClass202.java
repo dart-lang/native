@@ -4,31 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.isFoo
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.long_
 // NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass202<T, U>  extends DagA, DagD, DagE {
+public class TestClass202<@Nullable T, @Nullable U>  implements DiamondLeft, DiamondRight {
   @Override
-  default void aMethod() {}
+  public void baseMethod() {}
   @Override
-  default void bMethod() {}
+  public void leftMethod() {}
   @Override
-  default void cMethod() {}
-  @Override
-  default void dMethod() {}
-  @Override
-  default void eMethod() {}
-  default <S, V> CustomInterface<S> isFoo(CustomInterface<S> p1, int p2) { return null; }
+  public void rightMethod() {}
+  public <@Nullable S extends Number> TestClass202(long p1, int p2) {}
   public static interface Nested {}
 
 }

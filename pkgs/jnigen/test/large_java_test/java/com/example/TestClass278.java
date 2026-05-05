@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.none
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.float_
-public final class TestClass278<T, U>  extends GenericParent<String> {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass278<T, U>  extends GrandParent {
   @Override
-  public void genericParentMethod(String t) {}
-  public <S> TestClass278() {}
+  public void grandParentMethod() {}
+  public TestClass278() {}
+  public enum NestedEnum { V1 }
+
 }

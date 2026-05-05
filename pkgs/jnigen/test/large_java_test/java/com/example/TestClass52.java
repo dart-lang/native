@@ -4,23 +4,33 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.none
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public abstract interface TestClass52<T extends Number>  extends OtherInterface {
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass52  implements DagA, DagD, DagE {
   @Override
-  default void otherInterfaceMethod() {}
-  <S, V> CustomEnum myMethod(CustomEnum p1, int p2);
-  public enum NestedEnum { V1 }
-
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public final <@Nullable S, @Nullable V> long @Nullable [] isFoo() { return null; }
 }

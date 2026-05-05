@@ -4,27 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.object
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.long_
-public final class TestClass7  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass7<@Nullable T>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
   @Override
   public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public synchronized <S extends Number> long myMethod(long p1, int p2) { return 0; }
-  public enum NestedEnum { V1 }
+  public native @NotNull Object getFoo(@NotNull Object p1, int p2);
+  public class Nested {}
 
 }

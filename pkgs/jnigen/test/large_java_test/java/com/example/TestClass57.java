@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.oneParam
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.map
 // NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.string
-public interface TestClass57<T, U>  extends OtherInterface {
+public interface TestClass57<@Nullable T>  extends OtherInterface {
   @Override
   default void otherInterfaceMethod() {}
-  <S, V> String myMethod(String p1);
+  @Nullable Map<@Nullable T, @Nullable T>[] myMethod(@Nullable Map<@Nullable T, @Nullable T>[] p1);
   public enum NestedEnum { V1 }
 
 }

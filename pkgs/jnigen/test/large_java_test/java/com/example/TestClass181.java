@@ -4,27 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// NestedKind: NestedKind.interface
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.object
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public class TestClass181<T, U>  implements DiamondLeft, DiamondRight {
+public interface TestClass181<@Nullable T extends Number>  extends DiamondLeft, DiamondRight {
   @Override
-  public void baseMethod() {}
+  default void baseMethod() {}
   @Override
-  public void leftMethod() {}
+  default void leftMethod() {}
   @Override
-  public void rightMethod() {}
-  public volatile short[] myField;
-  public static interface Nested {}
+  default void rightMethod() {}
+  <@Nullable S extends Number> @Nullable Object[] getFoo(@Nullable Object[] p1, int p2);
+  public static record NestedRecord(int x) {}
 
 }

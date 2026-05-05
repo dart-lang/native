@@ -4,21 +4,26 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.twoParams
 // Inheritance: Inheritance.none
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.getFoo
+// Member: Member.initializer
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.long_
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.double_
-public final class TestClass106<T, U>  {
-  public <S extends Number> double getFoo(double p1, int p2) throws Exception { return 0.0; }
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass106<@NotNull T, @NotNull U>  {
+  { }
   public static interface Nested {}
 
+  public static final class Sub<@NotNull T, @NotNull U> extends TestClass106<T, U> {}
 }

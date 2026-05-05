@@ -4,21 +4,22 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.oneParam
 // Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.map
 // NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.typeParam
-public class TestClass269<T>  {
-  public <S extends Number> TestClass269(T[] p1, int p2) {}
-  public static class Nested {}
-
+public record TestClass269<@NotNull T>(@NotNull Map<@NotNull T, @NotNull T>[] field)  {
 }

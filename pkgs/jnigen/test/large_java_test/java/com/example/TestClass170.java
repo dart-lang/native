@@ -4,27 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customEnum
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.int_
-public class TestClass170<T extends Number>  implements DiamondLeft, DiamondRight {
+public class TestClass170<@NotNull T, @NotNull U>  extends GenericParent<@NotNull String> {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public <S, V> int[] setFoo() { return null; }
+  public void genericParentMethod(String t) {}
+  public synchronized <@NotNull S extends Number> @Nullable CustomEnum myMethod(@Nullable CustomEnum p1, int p2) { return null; }
   public static interface Nested {}
 
 }

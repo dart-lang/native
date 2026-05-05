@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.char_
 // NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.set
-public final class TestClass220<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public abstract interface TestClass220<@NotNull T extends Number>  extends OtherInterface {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public native <S extends Number> Set<S> setFoo();
+  default void otherInterfaceMethod() {}
+  char @NotNull [] isFoo();
   public class Nested {}
 
 }

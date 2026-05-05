@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
-// Member: Member.initializer
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.char_
-public final class TestClass280  extends GenericParent<String> {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass280  extends GenericParent {
   @Override
-  public void genericParentMethod(String t) {}
-  { }
-  public class Nested {}
+  public void genericParentMethod(Object t) {}
+  public @Nullable NestedCustom<@Nullable String, @Nullable String>.Nested<@Nullable String>[] myField;
+  public static record NestedRecord(int x) {}
 
 }

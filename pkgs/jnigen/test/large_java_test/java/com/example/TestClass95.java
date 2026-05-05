@@ -4,23 +4,23 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.map
-public class TestClass95<T extends Number>  extends GenericParent {
-  @Override
-  public void genericParentMethod(Object t) {}
-  public volatile Map<T, T> myField;
-  public static class Nested {}
-
+public class TestClass95<@NotNull T>  {
+  public final <@NotNull S extends Number> @NotNull S[] isFoo() { return null; }
 }

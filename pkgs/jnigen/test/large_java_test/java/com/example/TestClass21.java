@@ -4,27 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.none
+// Generics: Generics.none
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.enum_
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.map
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.int_
-public final class TestClass21<T>  implements DiamondLeft, DiamondRight {
+public final class TestClass21  implements OtherInterface {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public <S, V> int setFoo(int p1) throws Exception { return 0; }
-  public enum NestedEnum { V1 }
-
+  public void otherInterfaceMethod() {}
+  public native <S extends Number> Map<S, S> setFoo(Map<S, S> p1);
 }

@@ -4,21 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.isFoo
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.byte_
 // NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.set
-public final class TestClass82<T>  {
-  public native <S extends Number> Set<S>[] isFoo();
+// TopLevelModifier: TopLevelModifier.none
+public abstract class TestClass82<@NotNull T extends Number>  {
+  public abstract <@NotNull S> byte @NotNull [] getFoo(byte @NotNull [] p1, int p2);
   public class Nested {}
 
 }

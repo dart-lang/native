@@ -4,23 +4,33 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericSpecialized
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.short_
-public final class TestClass22<T, U>  extends GenericParent<String> {
+public final class TestClass22<@NotNull T, @NotNull U>  implements DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(String t) {}
-  public <S extends Number> short myMethod() throws Exception { return 0; }
-  public static class Nested {}
-
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public <@NotNull S, @NotNull V> short isFoo(short p1, int p2) { return 0; }
 }

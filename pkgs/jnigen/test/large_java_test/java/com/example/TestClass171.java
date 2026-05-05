@@ -4,25 +4,24 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass171<T, U>  extends DiamondLeft, DiamondRight {
+public record TestClass171<@Nullable T, @Nullable U>(@NotNull NestedCustom<@Nullable T, @Nullable T>.Nested<@Nullable T> field)  implements OtherInterface {
   @Override
-  default void baseMethod() {}
-  @Override
-  default void leftMethod() {}
-  @Override
-  default void rightMethod() {}
-  CustomInterface<T>[] getFoo(CustomInterface<T>[] p1, int p2);
+  public void otherInterfaceMethod() {}
 }

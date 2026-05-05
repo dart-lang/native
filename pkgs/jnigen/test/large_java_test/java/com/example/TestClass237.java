@@ -4,22 +4,22 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
-// IsArray: IsArray.no
-// Member: Member.method
+// IsArray: IsArray.yes
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
+// MemberModifier: MemberModifier.volatile
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.char_
 // NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.byte_
-public sealed class TestClass237<T extends Number>  {
-  public byte setFoo() throws Exception { return 0; }
-  public static interface Nested {}
-
-  public static final class Sub<T extends Number> extends TestClass237<T> {}
-  }
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.record
+// TopLevelModifier: TopLevelModifier.none
+public record TestClass237<@NotNull T extends Number>(char @NotNull [] field)  {
+}

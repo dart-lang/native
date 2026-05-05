@@ -4,23 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.synchronized
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customEnum
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.char_
-public final class TestClass12<T>  extends GenericParent<String> {
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public abstract interface TestClass12<@NotNull T, @NotNull U>  extends OtherInterface, BaseInterface {
   @Override
-  public void genericParentMethod(String t) {}
-  public synchronized char isFoo(char p1) { return ' '; }
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  <@NotNull S extends Number> @Nullable CustomEnum[] isFoo(@Nullable CustomEnum[] p1, int p2);
   public static class Nested {}
 
 }

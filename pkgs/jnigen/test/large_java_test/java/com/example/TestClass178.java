@@ -4,22 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.none
-// IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.enum_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.list
-public enum TestClass178  {
-  VALUE1, VALUE2;
-  public final List<String>[] myField = null;
-  public static record NestedRecord(int x) {}
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.void_
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass178<@Nullable T, @Nullable U>  extends GrandParent {
+  @Override
+  public void grandParentMethod() {}
+  public <@Nullable S, @Nullable V> void isFoo() {  }
+  public static class Nested {}
 
 }

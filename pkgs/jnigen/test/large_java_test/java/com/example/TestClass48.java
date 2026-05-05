@@ -4,24 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.enum_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.int_
-public enum TestClass48  implements OtherInterface {
-  VALUE1, VALUE2;
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass48<@NotNull T>  implements DiamondLeft, DiamondRight {
   @Override
-  public void otherInterfaceMethod() {}
-  public final <S> int[] isFoo() { return null; }
-  public static record NestedRecord(int x) {}
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public native @Nullable CustomEnum myMethod();
+  public class Nested {}
 
 }

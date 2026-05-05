@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.initializer
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.no
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customObject
 // NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.double_
-public final class TestClass34<T, U>  implements OtherInterface {
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass34<@Nullable T extends Number>  extends GenericInterface<@Nullable String> {
   @Override
-  public void otherInterfaceMethod() {}
-  { }
+  default String genericInterfaceMethod(String t)  { return t; }
+  <@Nullable S extends Number> CustomObject<@Nullable S> isFoo(CustomObject<@Nullable S> p1, int p2);
   public enum NestedEnum { V1 }
 
 }

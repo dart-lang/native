@@ -4,31 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
-// Member: Member.method
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.double_
-public interface TestClass253<T extends Number>  extends DagA, DagD, DagE {
+public class TestClass253<@NotNull T, @NotNull U>  implements DiamondLeft, DiamondRight {
   @Override
-  default void aMethod() {}
+  public void baseMethod() {}
   @Override
-  default void bMethod() {}
+  public void leftMethod() {}
   @Override
-  default void cMethod() {}
-  @Override
-  default void dMethod() {}
-  @Override
-  default void eMethod() {}
-  default <S, V> double getFoo(double p1) { return 0.0; }
-  public static interface Nested {}
+  public void rightMethod() {}
+  public <@NotNull S, @NotNull V> TestClass253() {}
+  public static record NestedRecord(int x) {}
 
 }

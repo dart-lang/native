@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.short_
-public final class TestClass228<T extends Number>  extends GenericParent {
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass228<@NotNull T extends Number>  extends OtherInterface {
   @Override
-  public void genericParentMethod(Object t) {}
-  public native <S, V> short setFoo();
-  public static class Nested {}
+  default void otherInterfaceMethod() {}
+  default <@NotNull S> @Nullable NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S>[] isFoo(@Nullable NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S>[] p1) { return null; }
+  public static interface Nested {}
 
 }

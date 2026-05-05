@@ -4,23 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
-// Member: Member.method
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.none
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.string
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public interface TestClass249<T extends Number>  extends GenericInterface {
+public class TestClass249  implements OtherInterface, BaseInterface {
   @Override
-  default Object genericInterfaceMethod(Object t)  { return t; }
-  <S extends Number> NestedCustom<S, S>.Nested<S>[] isFoo(NestedCustom<S, S>.Nested<S>[] p1, int p2);
-  public static record NestedRecord(int x) {}
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public <@Nullable S extends Number> TestClass249(@NotNull String p1) {}
+  public enum NestedEnum { V1 }
 
 }

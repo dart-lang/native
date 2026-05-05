@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.default_
+// MemberModifier: MemberModifier.synchronized
 // MemberName: MemberName.any
-// NestedKind: NestedKind.record
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass144<T extends Number>  extends OtherInterface {
+public interface TestClass144<@Nullable T, @Nullable U>  extends GenericInterface {
   @Override
-  default void otherInterfaceMethod() {}
-  default <S> CustomInterface<S> myMethod(CustomInterface<S> p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
+  default Object genericInterfaceMethod(Object t)  { return t; }
+  <@Nullable S> NestedCustom<@Nullable S, @Nullable S>.Nested<@Nullable S>[] myMethod(NestedCustom<@Nullable S, @Nullable S>.Nested<@Nullable S>[] p1, int p2);
+  public class Nested {}
 
 }

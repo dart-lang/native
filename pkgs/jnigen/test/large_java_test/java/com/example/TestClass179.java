@@ -4,31 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.any
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.int_
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customEnum
-public final class TestClass179<T, U>  implements DagA, DagD, DagE {
-  @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public synchronized <S, V> CustomEnum myMethod() { return CustomEnum.V1; }
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass179<@Nullable T, @Nullable U>  {
+  public static <@Nullable S extends Number> int @NotNull [] getFoo(int @NotNull [] p1, int p2) { return null; }
   public static record NestedRecord(int x) {}
 
 }

@@ -4,25 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.multipleImplements
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customRecord
-public final class TestClass69<T, U>  implements OtherInterface, BaseInterface {
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.set
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass69<T extends Number>  extends GenericInterface<String> {
   @Override
-  public void otherInterfaceMethod() {}
-  @Override
-  public void baseMethod() {}
-  public CustomRecord<T> isFoo() { return null; }
-  public enum NestedEnum { V1 }
+  default String genericInterfaceMethod(String t)  { return t; }
+  default <S> Set<S> myMethod(Set<S> p1, int p2) { return null; }
+  public static class Nested {}
 
 }

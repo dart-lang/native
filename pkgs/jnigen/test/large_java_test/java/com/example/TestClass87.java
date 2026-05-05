@@ -4,22 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
+// Member: Member.method
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.typeParam
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.int_
-public sealed interface TestClass87<T, U>  {
-  static int myField = 0;
-  public static record NestedRecord(int x) {}
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass87<T>  extends DagA, DagD, DagE {
+  @Override
+  default void aMethod() {}
+  @Override
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  <S extends Number> @NotNull T[] isFoo(@NotNull T[] p1, int p2) throws Exception;
+  public static class Nested {}
 
-  public static final class Sub<T, U> implements TestClass87<T, U> {}
-  }
+}

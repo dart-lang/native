@@ -28,13 +28,13 @@ void main() {
     }
 
     // 2. Compile Java code.
-    final javaFiles = Directory(
-            p.join(pkgDir, 'test', 'large_java_test', 'java', 'com', 'example'))
-        .listSync()
-        .whereType<File>()
-        .where((f) => f.path.endsWith('.java'))
-        .map((f) => p.relative(f.path, from: pkgDir))
-        .toList();
+    final javaFiles =
+        Directory(p.join(pkgDir, 'test', 'large_java_test', 'java'))
+            .listSync(recursive: true)
+            .whereType<File>()
+            .where((f) => f.path.endsWith('.java'))
+            .map((f) => p.relative(f.path, from: pkgDir))
+            .toList();
     final javacResult =
         await Process.run('javac', [...javaFiles], workingDirectory: pkgDir);
     expect(javacResult.exitCode, 0,

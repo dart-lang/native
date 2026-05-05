@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public interface TestClass229<T extends Number>  extends DagA, DagD, DagE {
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.set
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass229<T, U>  extends GenericParent {
   @Override
-  default void aMethod() {}
-  @Override
-  default void bMethod() {}
-  @Override
-  default void cMethod() {}
-  @Override
-  default void dMethod() {}
-  @Override
-  default void eMethod() {}
-  <S> NestedCustom<S, S>.Nested<S>[] getFoo(NestedCustom<S, S>.Nested<S>[] p1, int p2);
-  public enum NestedEnum { V1 }
+  public void genericParentMethod(Object t) {}
+  public native <S> @Nullable Set<S>[] myMethod(@Nullable Set<S>[] p1);
+  public static record NestedRecord(int x) {}
 
 }

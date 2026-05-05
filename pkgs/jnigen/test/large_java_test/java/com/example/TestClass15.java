@@ -4,31 +4,26 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.none
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.list
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.list
-public class TestClass15  implements DagA, DagD, DagE {
-  @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public native <S, V> List<S>[] setFoo();
-  public static interface Nested {}
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass15  {
+  public final List<String> getFoo(List<String> p1, int p2) { return null; }
+  public class Nested {}
 
+  public static final class Sub extends TestClass15 {}
 }

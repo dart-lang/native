@@ -4,27 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customRecord
-public final class TestClass255<T extends Number>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public abstract class TestClass255<T extends Number>  extends GenericParent {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public synchronized <S, V> CustomRecord<S>[] getFoo() { return null; }
-  public static interface Nested {}
+  public void genericParentMethod(Object t) {}
+  public abstract <S, V> @NotNull NestedCustom<S, S>.Nested<S>[] isFoo(@NotNull NestedCustom<S, S>.Nested<S>[] p1);
+  public class Nested {}
 
 }

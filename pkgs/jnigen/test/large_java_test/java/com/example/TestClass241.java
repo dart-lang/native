@@ -4,29 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.set
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customInterface
-public interface TestClass241<T extends Number>  extends DagA, DagD, DagE {
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass241<T extends Number>  extends GenericParent {
   @Override
-  default void aMethod() {}
-  @Override
-  default void bMethod() {}
-  @Override
-  default void cMethod() {}
-  @Override
-  default void dMethod() {}
-  @Override
-  default void eMethod() {}
-  <S, V> CustomInterface<S> myMethod(CustomInterface<S> p1, int p2);
+  public void genericParentMethod(Object t) {}
+  public synchronized <S> @Nullable Set<S> getFoo(@Nullable Set<S> p1, int p2) { return null; }
 }

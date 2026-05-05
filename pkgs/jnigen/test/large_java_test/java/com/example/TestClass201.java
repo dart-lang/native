@@ -4,20 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.customObject
-public sealed interface TestClass201  {
-  default CustomObject<String> setFoo(CustomObject<String> p1, int p2) { return null; }
-  public static final class Sub implements TestClass201 {}
-  }
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.map
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass201<@NotNull T extends Number>  extends GenericParent<@NotNull String> {
+  @Override
+  public void genericParentMethod(String t) {}
+  public <@NotNull S, @NotNull V> @Nullable Map<@NotNull S, @NotNull S> getFoo() { return null; }
+  public static interface Nested {}
+
+}

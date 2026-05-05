@@ -4,31 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.none
 // Inheritance: Inheritance.complexDag
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.object
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.map
-public final class TestClass81  implements DagA, DagD, DagE {
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass81  extends DagA, DagD, DagE {
   @Override
-  public void aMethod() {}
+  default void aMethod() {}
   @Override
-  public void bMethod() {}
+  default void bMethod() {}
   @Override
-  public void cMethod() {}
+  default void cMethod() {}
   @Override
-  public void dMethod() {}
+  default void dMethod() {}
   @Override
-  public void eMethod() {}
-  public <S extends Number> Map<S, S>[] myMethod(Map<S, S>[] p1) { return null; }
+  default void eMethod() {}
+  default <@Nullable S extends Number> @Nullable Object getFoo(@Nullable Object p1, int p2) { return null; }
   public static record NestedRecord(int x) {}
 
 }

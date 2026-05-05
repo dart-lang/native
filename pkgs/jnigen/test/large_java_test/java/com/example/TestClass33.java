@@ -4,21 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.none
+// Generics: Generics.none
+// Inheritance: Inheritance.implements_
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.none
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.static_
 // MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.long_
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customRecord
-public final class TestClass33<T, U>  extends GrandParent {
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass33  extends OtherInterface {
   @Override
-  public void grandParentMethod() {}
-  public <S> CustomRecord<S>[] isFoo(CustomRecord<S>[] p1) { return null; }
+  default void otherInterfaceMethod() {}
+  static <S extends Number> long isFoo(long p1) { return 0; }
 }

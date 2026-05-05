@@ -59,7 +59,7 @@ enum MemberGenerics {
   wildcard
 }
 
-enum TypeKind {
+enum MemberType {
   void_,
   boolean_,
   char_,
@@ -85,6 +85,10 @@ enum TypeKind {
 
 enum IsArray { no, yes }
 
+enum MemberNullability { none, nullable, nonnull }
+
+enum GenericNullability { none, nullable, nonnull }
+
 Future<void> main() async {
   final selector = TestCaseSelector(
     dimensions: {
@@ -98,8 +102,10 @@ Future<void> main() async {
       Inheritance: Inheritance.values,
       Generics: Generics.values,
       MemberGenerics: MemberGenerics.values,
-      TypeKind: TypeKind.values,
+      MemberType: MemberType.values,
       IsArray: IsArray.values,
+      MemberNullability: MemberNullability.values,
+      GenericNullability: GenericNullability.values,
     },
     interactionGroups: [
       {TopLevelKind, Member},
@@ -107,27 +113,48 @@ Future<void> main() async {
       {TopLevelKind, Generics, MemberGenerics},
       {Member, MemberModifier, MemberName, MemberGenerics},
       {Member, ParamCount},
-      {TypeKind, IsArray},
-      {Member, MemberGenerics, TypeKind},
+      {MemberType, IsArray, MemberNullability},
+      {Member, MemberGenerics, MemberType},
+      {Generics, MemberGenerics, GenericNullability},
     ],
     isValid: (tc) {
       final top = tc.get<TopLevelKind>();
       final member = tc.get<Member>();
-      final nested = tc.get<NestedKind>();
       final modifier = tc.get<TopLevelModifier>();
       final mod = tc.get<MemberModifier>();
       final name = tc.get<MemberName>();
       final inheritance = tc.get<Inheritance>();
       final generics = tc.get<Generics>();
       final memberGenerics = tc.get<MemberGenerics>();
-      final type = tc.get<TypeKind>();
+      final type = tc.get<MemberType>();
       final paramCount = tc.get<ParamCount>();
       final isArray = tc.get<IsArray>();
+      final memberNullability = tc.get<MemberNullability>();
+      final genericNullability = tc.get<GenericNullability>();
 
       // Basic Java constraints
-      if (type == TypeKind.void_ && isArray == IsArray.yes) {
+      if (type == MemberType.void_ && isArray == IsArray.yes) {
         return false;
       }
+      if (type == MemberType.void_ &&
+          memberNullability != MemberNullability.none) {
+        return false;
+      }
+      if (isArray == IsArray.no &&
+          memberNullability != MemberNullability.none &&
+          isPrimitive(type)) {
+        return false;
+      }
+
+      if (genericNullability != GenericNullability.none) {
+        if (generics == Generics.none &&
+            memberGenerics == MemberGenerics.none &&
+            inheritance != Inheritance.extendsGenericSpecialized &&
+            inheritance != Inheritance.extendsGenericUnspecialized) {
+          return false;
+        }
+      }
+
       if (memberGenerics != MemberGenerics.none) {
         if (member != Member.method && member != Member.constructor) {
           return false;
@@ -135,10 +162,7 @@ Future<void> main() async {
       }
 
       if (top == TopLevelKind.interface) {
-        if (member == Member.constructor) {
-          return false;
-        }
-        if (member == Member.initializer) {
+        if (member == Member.constructor || member == Member.initializer) {
           return false;
         }
         if (modifier == TopLevelModifier.final_) {
@@ -160,10 +184,7 @@ Future<void> main() async {
         }
       }
       if (top == TopLevelKind.enum_) {
-        if (mod == MemberModifier.abstract_) {
-          return false;
-        }
-        if (generics != Generics.none) {
+        if (mod == MemberModifier.abstract_ || generics != Generics.none) {
           return false;
         }
       }
@@ -173,27 +194,21 @@ Future<void> main() async {
           return false;
         }
         if (top == TopLevelKind.interface && member == Member.method) {
-          // Abstract methods in interface.
           if (mod != MemberModifier.default_ && mod != MemberModifier.static_) {
             return false;
           }
         }
         if (member == Member.constructor && paramCount != ParamCount.zero) {
-          // Subclass must call super(...)
           return false;
         }
         if (inheritance != Inheritance.none) {
-          // Runnable, List, etc require overrides.
           return false;
         }
         if (memberGenerics != MemberGenerics.none) {
-          // Subclass might need to handle generic methods.
           return false;
         }
       }
 
-      // Generics constraints
-      // Declaration-site bounds
       if (generics == Generics.lowerBound || generics == Generics.wildcard) {
         return false;
       }
@@ -209,21 +224,6 @@ Future<void> main() async {
         }
       }
 
-      // Nested types constraints
-      if (nested == NestedKind.innerClass) {
-        if (top == TopLevelKind.interface ||
-            top == TopLevelKind.enum_ ||
-            top == TopLevelKind.record) {
-          return false;
-        }
-      }
-      if (nested == NestedKind.staticClass) {
-        if (top != TopLevelKind.class_ && top != TopLevelKind.enum_) {
-          return false;
-        }
-      }
-
-      // Member modifiers
       if (mod != MemberModifier.none) {
         if (mod == MemberModifier.final_) {
           if (member == Member.constructor || member == Member.initializer) {
@@ -238,10 +238,8 @@ Future<void> main() async {
             return false;
           }
         }
-        if (mod == MemberModifier.throws) {
-          if (member != Member.method) {
-            return false;
-          }
+        if (mod == MemberModifier.throws && member != Member.method) {
+          return false;
         }
         if (member == Member.field) {
           const fieldModifiers = {
@@ -254,19 +252,19 @@ Future<void> main() async {
             return false;
           }
         }
-        if (member == Member.initializer) {
-          if (mod != MemberModifier.static_) {
-            return false;
-          }
+        if (member == Member.initializer && mod != MemberModifier.static_) {
+          return false;
         }
         if (member == Member.constructor &&
-            (mod == MemberModifier.abstract_ ||
-                mod == MemberModifier.native ||
-                mod == MemberModifier.default_ ||
-                mod == MemberModifier.static_ ||
-                mod == MemberModifier.synchronized ||
-                mod == MemberModifier.throws ||
-                mod == MemberModifier.final_)) {
+            {
+              MemberModifier.abstract_,
+              MemberModifier.native,
+              MemberModifier.default_,
+              MemberModifier.static_,
+              MemberModifier.synchronized,
+              MemberModifier.throws,
+              MemberModifier.final_,
+            }.contains(mod)) {
           return false;
         }
       }
@@ -274,53 +272,44 @@ Future<void> main() async {
         return false;
       }
 
-      // Special names
       if (name != MemberName.any && member != Member.method) {
         return false;
       }
 
-      // Types
-      if (type == TypeKind.void_ && member != Member.method) {
+      if (type == MemberType.void_ && member != Member.method) {
         return false;
       }
-      if (top == TopLevelKind.record && type == TypeKind.void_) {
+      if (top == TopLevelKind.record && type == MemberType.void_) {
         return false;
       }
-      if (type == TypeKind.void_ && paramCount != ParamCount.zero) {
+      if (type == MemberType.void_ && paramCount != ParamCount.zero) {
         return false;
       }
 
-      // Generics vs Static
       if (mod == MemberModifier.static_) {
-        // If the type is forced to use the class scope 'T' (or is T itself),
-        // and the class is generic, it's invalid in a static context.
         final useMemberScope = memberGenerics != MemberGenerics.none &&
-            (type == TypeKind.memberTypeParam ||
+            (type == MemberType.memberTypeParam ||
                 memberGenerics == MemberGenerics.lowerBound ||
                 memberGenerics == MemberGenerics.wildcard);
 
-        if (!useMemberScope) {
-          if (generics != Generics.none) {
-            // Some TypeKind like list/set/map/etc will use 'T' if top-level
-            // is generic.
-            const genericTypes = {
-              TypeKind.list,
-              TypeKind.set,
-              TypeKind.map,
-              TypeKind.customObject,
-              TypeKind.customInterface,
-              TypeKind.customRecord,
-              TypeKind.nestedCustom,
-              TypeKind.typeParam,
-            };
-            if (genericTypes.contains(type)) {
-              return false;
-            }
+        if (!useMemberScope && generics != Generics.none) {
+          const genericTypes = {
+            MemberType.list,
+            MemberType.set,
+            MemberType.map,
+            MemberType.customObject,
+            MemberType.customInterface,
+            MemberType.customRecord,
+            MemberType.nestedCustom,
+            MemberType.typeParam,
+          };
+          if (genericTypes.contains(type)) {
+            return false;
           }
         }
       }
 
-      if (type == TypeKind.typeParam) {
+      if (type == MemberType.typeParam) {
         if (generics == Generics.none) {
           return false;
         }
@@ -329,15 +318,14 @@ Future<void> main() async {
         }
       }
 
-      // Interfaces vs Static Fields
       if (top == TopLevelKind.interface && member == Member.field) {
         if (generics != Generics.none) {
           const genericTypes = {
-            TypeKind.list,
-            TypeKind.set,
-            TypeKind.map,
-            TypeKind.customObject,
-            TypeKind.nestedCustom,
+            MemberType.list,
+            MemberType.set,
+            MemberType.map,
+            MemberType.customObject,
+            MemberType.nestedCustom,
           };
           if (genericTypes.contains(type)) {
             return false;
@@ -345,7 +333,7 @@ Future<void> main() async {
         }
       }
 
-      if (type == TypeKind.memberTypeParam) {
+      if (type == MemberType.memberTypeParam) {
         if (memberGenerics == MemberGenerics.none) {
           return false;
         }
@@ -362,13 +350,16 @@ Future<void> main() async {
   print('Generated ${testCases.length} test cases.');
 
   final scriptDir = p.dirname(p.fromUri(Platform.script));
-  final outputDir = Directory(p.join(scriptDir, 'java', 'com', 'example'));
-  if (outputDir.existsSync()) {
-    outputDir.deleteSync(recursive: true);
+  final javaDir = Directory(p.join(scriptDir, 'java'));
+  if (javaDir.existsSync()) {
+    javaDir.deleteSync(recursive: true);
   }
-  outputDir.createSync(recursive: true);
+  javaDir.createSync(recursive: true);
 
-  writeCoreClasses(outputDir);
+  writeCoreClasses(javaDir);
+
+  final outputDir = Directory(p.join(javaDir.path, 'com', 'example'));
+  outputDir.createSync(recursive: true);
 
   for (var i = 0; i < testCases.length; i++) {
     final tc = testCases[i];
@@ -377,8 +368,12 @@ Future<void> main() async {
     sb.writeln(_copyrightHeader);
     sb.writeln('package com.example;');
     sb.writeln('import java.util.*;');
+    sb.writeln('import org.jetbrains.annotations.Nullable;');
+    sb.writeln('import org.jetbrains.annotations.NotNull;');
     sb.writeln();
-    sb.writeln('// ${tc.toString().split(', ').join('\n// ')}');
+    for (final line in tc.toString().split(', ')) {
+      sb.writeln('// $line');
+    }
     generateTestCase(sb, className, tc);
 
     final file = File(p.join(outputDir.path, '$className.java'));
@@ -388,8 +383,22 @@ Future<void> main() async {
   print('Wrote files to ${outputDir.path}');
 }
 
-void writeCoreClasses(Directory outputDir) {
+void writeCoreClasses(Directory baseDir) {
   final coreClasses = {
+    'Nullable': '''
+package org.jetbrains.annotations;
+import java.lang.annotation.*;
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
+public @interface Nullable {}
+''',
+    'NotNull': '''
+package org.jetbrains.annotations;
+import java.lang.annotation.*;
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.TYPE_USE})
+public @interface NotNull {}
+''',
     'GrandParent': '''
 public class GrandParent {
   public void grandParentMethod() {}
@@ -493,12 +502,20 @@ public class NestedCustom<T, U> {
   };
 
   for (final entry in coreClasses.entries) {
-    final file = File('${outputDir.path}/${entry.key}.java');
+    final content = entry.value.trim();
+    final isOrgJetbrains = content.startsWith('package org.jetbrains.annotations;');
+    final relativePath = isOrgJetbrains
+        ? 'org/jetbrains/annotations/${entry.key}.java'
+        : 'com/example/${entry.key}.java';
+    final file = File(p.join(baseDir.path, relativePath));
+    file.parent.createSync(recursive: true);
+
+    final packageLine = content.startsWith('package ')
+        ? ''
+        : 'package com.example;\n\n';
     file.writeAsStringSync('''
 $_copyrightHeader
-package com.example;
-
-${entry.value.trim()}
+$packageLine$content
 ''');
   }
 }
@@ -514,15 +531,17 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   final inheritance = tc.get<Inheritance>();
   final generics = tc.get<Generics>();
   final memberGenerics = tc.get<MemberGenerics>();
-  final typeKind = tc.get<TypeKind>();
+  final typeKind = tc.get<MemberType>();
   final isArray = tc.get<IsArray>();
+  final memberNullability = tc.get<MemberNullability>();
+  final genericNullability = tc.get<GenericNullability>();
 
-  final typeStr =
-      getJavaType(typeKind, isArray == IsArray.yes, generics, memberGenerics);
-  final inheritanceStr = getInheritanceStr(inheritance, top);
-  final genStr = getGenericsStr(generics);
+  final typeStr = getJavaType(typeKind, isArray == IsArray.yes, generics,
+      memberGenerics, memberNullability, genericNullability);
+  final inheritanceStr = getInheritanceStr(inheritance, top, genericNullability);
+  final genStr = getGenericsStr(generics, genericNullability);
   final typeParamsStr = getTypeParamsStr(generics);
-  final memberGenStr = getMemberGenericsStr(memberGenerics);
+  final memberGenStr = getMemberGenericsStr(memberGenerics, genericNullability);
   final topModStr = getTopLevelModifierStr(modifier, mod);
   final kind = getTopLevelKindStr(top);
   final params = getParamsStr(paramCount, typeStr);
@@ -561,13 +580,15 @@ public $topModStr$kind $className$genStr $inheritanceStr {
     final keyword = top == TopLevelKind.interface ? 'implements' : 'extends';
     sb.write('''
   public static final class Sub$genStr $keyword $className$typeParamsStr {}
-  ''');
+''');
   }
 
   sb.writeln('}');
 }
 
-String getInheritanceStr(Inheritance inheritance, TopLevelKind top) {
+String getInheritanceStr(
+    Inheritance inheritance, TopLevelKind top, GenericNullability gn) {
+  final g = getGenericNullabilityStr(gn);
   switch (inheritance) {
     case Inheritance.none:
       return '';
@@ -585,10 +606,12 @@ String getInheritanceStr(Inheritance inheritance, TopLevelKind top) {
       return ' implements OtherInterface, BaseInterface';
     case Inheritance.extendsGenericSpecialized:
       if (top == TopLevelKind.interface) {
-        return ' extends GenericInterface<String>';
+        return ' extends GenericInterface<${g}String>';
       }
-      if (top == TopLevelKind.record) return ' implements GenericInterface<String>';
-      return ' extends GenericParent<String>';
+      if (top == TopLevelKind.record) {
+        return ' implements GenericInterface<${g}String>';
+      }
+      return ' extends GenericParent<${g}String>';
     case Inheritance.extendsGenericUnspecialized:
       if (top == TopLevelKind.interface) return ' extends GenericInterface';
       if (top == TopLevelKind.record) return ' implements GenericInterface';
@@ -671,14 +694,31 @@ String getInheritanceMethodsStr(Inheritance inheritance, TopLevelKind top) {
   return sb.toString();
 }
 
-String getGenericsStr(Generics generics) {
+String getGenericNullabilityStr(GenericNullability gn) {
+  return switch (gn) {
+    GenericNullability.none => '',
+    GenericNullability.nullable => '@Nullable ',
+    GenericNullability.nonnull => '@NotNull ',
+  };
+}
+
+String getMemberNullabilityStr(MemberNullability mn) {
+  return switch (mn) {
+    MemberNullability.none => '',
+    MemberNullability.nullable => '@Nullable ',
+    MemberNullability.nonnull => '@NotNull ',
+  };
+}
+
+String getGenericsStr(Generics generics, GenericNullability gn) {
+  final g = getGenericNullabilityStr(gn);
   return switch (generics) {
     Generics.none => '',
-    Generics.oneParam => '<T>',
-    Generics.twoParams => '<T, U>',
-    Generics.upperBound => '<T extends Number>',
-    Generics.lowerBound => '<T>',
-    Generics.wildcard => '<T>',
+    Generics.oneParam => '<${g}T>',
+    Generics.twoParams => '<${g}T, ${g}U>',
+    Generics.upperBound => '<${g}T extends Number>',
+    Generics.lowerBound => '<${g}T>',
+    Generics.wildcard => '<${g}T>',
   };
 }
 
@@ -691,14 +731,16 @@ String getTypeParamsStr(Generics generics) {
   };
 }
 
-String getMemberGenericsStr(MemberGenerics memberGenerics) {
+String getMemberGenericsStr(
+    MemberGenerics memberGenerics, GenericNullability gn) {
+  final g = getGenericNullabilityStr(gn);
   return switch (memberGenerics) {
     MemberGenerics.none => '',
-    MemberGenerics.oneParam => '<S> ',
-    MemberGenerics.twoParams => '<S, V> ',
-    MemberGenerics.upperBound => '<S extends Number> ',
-    MemberGenerics.lowerBound => '<S> ',
-    MemberGenerics.wildcard => '<S> ',
+    MemberGenerics.oneParam => '<${g}S> ',
+    MemberGenerics.twoParams => '<${g}S, ${g}V> ',
+    MemberGenerics.upperBound => '<${g}S extends Number> ',
+    MemberGenerics.lowerBound => '<${g}S> ',
+    MemberGenerics.wildcard => '<${g}S> ',
   };
 }
 
@@ -784,7 +826,7 @@ String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
   default $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
 ''',
       MemberModifier.static_ => '''
-  static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }  // HI
+  static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
 ''',
       _ => '''
   $memberGenStr$typeStr $methodName($params)$throwsStr;
@@ -845,52 +887,75 @@ String getNestedStr(NestedKind nested) {
 ''';
 }
 
-String getJavaType(TypeKind kind, bool isArray, Generics generics,
-    MemberGenerics mGenerics) {
+bool isPrimitive(MemberType type) {
+  return type == MemberType.int_ ||
+      type == MemberType.long_ ||
+      type == MemberType.short_ ||
+      type == MemberType.float_ ||
+      type == MemberType.double_ ||
+      type == MemberType.byte_ ||
+      type == MemberType.boolean_ ||
+      type == MemberType.char_ ||
+      type == MemberType.void_;
+}
+
+String getJavaType(MemberType kind, bool isArray, Generics generics,
+    MemberGenerics mGenerics, MemberNullability mn, GenericNullability gn) {
   final useMemberScope = mGenerics != MemberGenerics.none;
 
   final scopeVar = useMemberScope ? 'S' : 'T';
   final scopeEnum = useMemberScope ? mGenerics : generics;
 
+  final ggn = getGenericNullabilityStr(gn);
+  final mmn = getMemberNullabilityStr(mn);
+
   final g = switch (scopeEnum) {
-    Generics.oneParam || MemberGenerics.oneParam => scopeVar,
-    Generics.twoParams || MemberGenerics.twoParams => scopeVar,
-    Generics.upperBound || MemberGenerics.upperBound => scopeVar,
-    Generics.lowerBound || MemberGenerics.lowerBound => '? super $scopeVar',
+    Generics.oneParam || MemberGenerics.oneParam => '$ggn$scopeVar',
+    Generics.twoParams || MemberGenerics.twoParams => '$ggn$scopeVar',
+    Generics.upperBound || MemberGenerics.upperBound => '$ggn$scopeVar',
+    Generics.lowerBound || MemberGenerics.lowerBound => '? super $ggn$scopeVar',
     Generics.wildcard || MemberGenerics.wildcard => '?',
-    _ => 'String',
+    _ => '${mmn}String',
   };
 
   var t = switch (kind) {
-    TypeKind.void_ => 'void',
-    TypeKind.boolean_ => 'boolean',
-    TypeKind.char_ => 'char',
-    TypeKind.int_ => 'int',
-    TypeKind.long_ => 'long',
-    TypeKind.short_ => 'short',
-    TypeKind.float_ => 'float',
-    TypeKind.double_ => 'double',
-    TypeKind.byte_ => 'byte',
-    TypeKind.object => 'Object',
-    TypeKind.string => 'String',
-    TypeKind.typeParam => 'T',
-    TypeKind.memberTypeParam => 'S',
-    TypeKind.list => 'List<$g>',
-    TypeKind.set => 'Set<$g>',
-    TypeKind.map => 'Map<$g, $g>',
-    TypeKind.customObject => 'CustomObject<$g>',
-    TypeKind.customInterface => 'CustomInterface<$g>',
-    TypeKind.customEnum => 'CustomEnum',
-    TypeKind.customRecord => 'CustomRecord<$g>',
-    TypeKind.nestedCustom => 'NestedCustom<$g, $g>.Nested<$g>',
+    MemberType.void_ => 'void',
+    MemberType.boolean_ => 'boolean',
+    MemberType.char_ => 'char',
+    MemberType.int_ => 'int',
+    MemberType.long_ => 'long',
+    MemberType.short_ => 'short',
+    MemberType.float_ => 'float',
+    MemberType.double_ => 'double',
+    MemberType.byte_ => 'byte',
+    MemberType.object => 'Object',
+    MemberType.string => 'String',
+    MemberType.typeParam => 'T',
+    MemberType.memberTypeParam => 'S',
+    MemberType.list => 'List<$g>',
+    MemberType.set => 'Set<$g>',
+    MemberType.map => 'Map<$g, $g>',
+    MemberType.customObject => 'CustomObject<$g>',
+    MemberType.customInterface => 'CustomInterface<$g>',
+    MemberType.customEnum => 'CustomEnum',
+    MemberType.customRecord => 'CustomRecord<$g>',
+    MemberType.nestedCustom => 'NestedCustom<$g, $g>.Nested<$g>',
   };
-  if (isArray) t += '[]';
-  return t;
+  if (isArray) {
+    if (isPrimitive(kind)) {
+      return '$t $mmn[]';
+    }
+    return '$mmn$t[]';
+  }
+  return isPrimitive(kind) ? t : '$mmn$t';
 }
 
 String getJavaDefaultValue(String type) {
   if (type.endsWith('[]')) {
     return 'null';
+  }
+  if (type.startsWith('CustomObject<')) {
+    return 'new CustomObject<>(null)';
   }
   switch (type) {
     case 'void':
@@ -911,6 +976,9 @@ String getJavaDefaultValue(String type) {
     case 'CustomEnum':
       return 'CustomEnum.V1';
     default:
+      if (type.startsWith('CustomRecord<')) {
+        return 'new CustomRecord<>(null, "")';
+      }
       return 'null';
   }
 }

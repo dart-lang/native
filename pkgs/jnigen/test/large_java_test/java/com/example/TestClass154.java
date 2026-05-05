@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.default_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.list
-public interface TestClass154<T extends Number>  extends GenericInterface {
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass154<@Nullable T, @Nullable U>  implements DiamondLeft, DiamondRight {
   @Override
-  default Object genericInterfaceMethod(Object t)  { return t; }
-  default <S extends Number> List<S> isFoo(List<S> p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public final <@Nullable S extends Number> S getFoo() { return null; }
+  public static interface Nested {}
 
 }

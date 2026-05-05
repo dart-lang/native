@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.default_
 // MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.float_
-public class TestClass232<T extends Number>  {
-  public <S, V> float myMethod() throws Exception { return 0.0f; }
-  public enum NestedEnum { V1 }
+public interface TestClass232<T>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  default byte @Nullable [] myMethod() { return null; }
+  public static interface Nested {}
 
 }

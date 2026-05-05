@@ -4,22 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.none
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.default_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.typeParam
-public sealed interface TestClass46<T>  {
-  default T isFoo() { return null; }
-  public static record NestedRecord(int x) {}
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass46  extends GenericInterface<@Nullable String> {
+  @Override
+  default String genericInterfaceMethod(String t)  { return t; }
+  default @Nullable NestedCustom<@Nullable String, @Nullable String>.Nested<@Nullable String>[] getFoo(@Nullable NestedCustom<@Nullable String, @Nullable String>.Nested<@Nullable String>[] p1, int p2) { return null; }
+  public enum NestedEnum { V1 }
 
-  public static final class Sub<T> implements TestClass46<T> {}
-  }
+}

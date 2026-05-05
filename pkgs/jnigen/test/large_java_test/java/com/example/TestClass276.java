@@ -4,27 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.set
-public final class TestClass276  implements DiamondLeft, DiamondRight {
+public final class TestClass276<T extends Number>  implements DiamondLeft, DiamondRight {
   @Override
   public void baseMethod() {}
   @Override
   public void leftMethod() {}
   @Override
   public void rightMethod() {}
-  public <S> TestClass276(Set<S>[] p1, int p2) {}
-  public static interface Nested {}
+  public <S extends Number> TestClass276(S p1) {}
+  public static record NestedRecord(int x) {}
 
 }

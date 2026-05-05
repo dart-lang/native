@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.double_
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customRecord
-public final class TestClass182<T extends Number>  {
-  public final CustomRecord<T>[] getFoo() { return null; }
-  public enum NestedEnum { V1 }
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass182<@Nullable T, @Nullable U>  extends OtherInterface {
+  @Override
+  default void otherInterfaceMethod() {}
+  <@Nullable S> double @NotNull [] setFoo() throws Exception;
+  public static record NestedRecord(int x) {}
 
 }

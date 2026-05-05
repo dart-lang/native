@@ -4,23 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericSpecialized
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.object
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass189<T, U>  extends GenericParent {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass189<T extends Number>  extends GenericParent<String> {
   @Override
-  public void genericParentMethod(Object t) {}
-  public final <S> Object myMethod() { return null; }
-  public static record NestedRecord(int x) {}
-
+  public void genericParentMethod(String t) {}
+  public native <S> Object[] getFoo();
 }

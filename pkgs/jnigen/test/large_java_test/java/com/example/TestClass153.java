@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.default_
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.record
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.set
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.set
-public interface TestClass153<T>  extends DagA, DagD, DagE {
+public class TestClass153<@NotNull T extends Number>  implements OtherInterface {
   @Override
-  default void aMethod() {}
-  @Override
-  default void bMethod() {}
-  @Override
-  default void cMethod() {}
-  @Override
-  default void dMethod() {}
-  @Override
-  default void eMethod() {}
-  default <S extends Number> Set<S>[] setFoo(Set<S>[] p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
+  public void otherInterfaceMethod() {}
+  public <@NotNull S extends Number> @NotNull Set<@NotNull S>[] setFoo(@NotNull Set<@NotNull S>[] p1, int p2) throws Exception { return null; }
+  public static interface Nested {}
 
 }

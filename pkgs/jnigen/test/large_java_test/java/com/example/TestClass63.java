@@ -4,21 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.static_
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customInterface
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customObject
-public interface TestClass63  extends GenericInterface {
-  @Override
-  default Object genericInterfaceMethod(Object t)  { return t; }
-  static <S> CustomObject<S>[] setFoo(CustomObject<S>[] p1) { return null; }  // HI
+public class TestClass63<@Nullable T>  {
+  public final @Nullable CustomInterface<@Nullable T> setFoo() { return null; }
+  public class Nested {}
+
 }

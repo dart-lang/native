@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.float_
-public final class TestClass186<T, U>  implements DagA, DagD, DagE {
+public final class TestClass186<@Nullable T, @Nullable U>  extends GrandParent {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public volatile float myField;
-  public static class Nested {}
+  public void grandParentMethod() {}
+  public <@Nullable S extends Number> TestClass186(CustomObject<@Nullable S> p1) {}
+  public enum NestedEnum { V1 }
 
 }

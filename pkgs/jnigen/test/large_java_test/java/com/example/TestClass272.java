@@ -4,27 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.no
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.none
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.byte_
 // NestedKind: NestedKind.record
-// ParamCount: ParamCount.one
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.float_
-public class TestClass272<T, U>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass272<T, U>  extends GrandParent {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public <S extends Number> TestClass272(float p1) {}
+  public void grandParentMethod() {}
+  public final byte myField = 0;
   public static record NestedRecord(int x) {}
 
 }

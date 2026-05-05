@@ -4,22 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.abstract_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.set
-public sealed class TestClass130<T, U>  {
-  public final Set<T> myMethod() { return null; }
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.none
+public abstract class TestClass130<@NotNull T>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public abstract <@NotNull S, @NotNull V> @Nullable CustomObject<@NotNull S> setFoo(@Nullable CustomObject<@NotNull S> p1, int p2);
+  public static interface Nested {}
 
-  public static final class Sub<T, U> extends TestClass130<T, U> {}
-  }
+}

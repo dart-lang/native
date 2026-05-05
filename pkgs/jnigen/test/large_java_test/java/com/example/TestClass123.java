@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customObject
-public final class TestClass123<T extends Number>  implements OtherInterface {
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.throws
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass123<@Nullable T>  extends DiamondLeft, DiamondRight {
   @Override
-  public void otherInterfaceMethod() {}
-  public final <S, V> CustomObject<S>[] setFoo(CustomObject<S>[] p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+  default void baseMethod() {}
+  @Override
+  default void leftMethod() {}
+  @Override
+  default void rightMethod() {}
+  <@Nullable S> short @Nullable [] getFoo() throws Exception;
+  public class Nested {}
 
 }

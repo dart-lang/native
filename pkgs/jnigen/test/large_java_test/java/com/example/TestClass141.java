@@ -4,23 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.implements_
 // IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.volatile
 // MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.object
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customObject
-public class TestClass141  implements OtherInterface {
+public class TestClass141<T extends Number>  implements OtherInterface {
   @Override
   public void otherInterfaceMethod() {}
-  public static <S extends Number> CustomObject<S> myMethod(CustomObject<S> p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+  public volatile @NotNull Object myField;
+  public static class Nested {}
 
 }

@@ -4,31 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.int_
-public abstract class TestClass257<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass257<@Nullable T extends Number>  implements DiamondLeft, DiamondRight {
   @Override
-  public void aMethod() {}
+  public void baseMethod() {}
   @Override
-  public void bMethod() {}
+  public void leftMethod() {}
   @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public abstract <S> int[] getFoo(int[] p1);
-  public enum NestedEnum { V1 }
+  public void rightMethod() {}
+  public native <@Nullable S, @Nullable V> CustomObject<@Nullable S>[] isFoo(CustomObject<@Nullable S>[] p1, int p2);
+  public class Nested {}
 
 }

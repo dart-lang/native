@@ -4,23 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.extends_
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.none
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.nestedCustom
-public final class TestClass24<T, U>  extends GrandParent {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass24  implements DagA, DagD, DagE {
   @Override
-  public void grandParentMethod() {}
-  public NestedCustom<T, T>.Nested<T>[] getFoo(NestedCustom<T, T>.Nested<T>[] p1, int p2) throws Exception { return null; }
-  public static record NestedRecord(int x) {}
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public static <@NotNull S, @NotNull V> int [] myMethod() { return null; }
+  public enum NestedEnum { V1 }
 
 }

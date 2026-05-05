@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.implements_
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.final_
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.innerClass
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.nestedCustom
-public final class TestClass94<T>  implements OtherInterface {
+public final class TestClass94<@Nullable T extends Number>  implements DiamondLeft, DiamondRight {
   @Override
-  public void otherInterfaceMethod() {}
-  public final <S extends Number> NestedCustom<S, S>.Nested<S>[] setFoo() { return null; }
-  public class Nested {}
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public final <@Nullable S, @Nullable V> CustomRecord<@Nullable S>[] setFoo() { return null; }
+  public static interface Nested {}
 
 }

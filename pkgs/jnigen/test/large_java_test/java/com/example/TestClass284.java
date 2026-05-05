@@ -4,21 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.constructor
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.memberTypeParam
 // NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass284<T, U>  {
-  public <S> TestClass284(Object p1, int p2) {}
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass284<T extends Number>  implements OtherInterface, BaseInterface {
+  @Override
+  public void otherInterfaceMethod() {}
+  @Override
+  public void baseMethod() {}
+  public <S, V> TestClass284() {}
   public class Nested {}
 
 }

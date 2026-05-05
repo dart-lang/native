@@ -4,25 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.no
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.getFoo
-// NestedKind: NestedKind.interface
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.map
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customRecord
-public interface TestClass248<T extends Number>  extends OtherInterface, BaseInterface {
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass248<T extends Number>  implements DagA, DagD, DagE {
   @Override
-  default void otherInterfaceMethod() {}
+  public void aMethod() {}
   @Override
-  default void baseMethod() {}
-  CustomRecord<T> getFoo(CustomRecord<T> p1, int p2);
-  public static interface Nested {}
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public final Map<T, T>[] getFoo(Map<T, T>[] p1, int p2) { return null; }
+  public static record NestedRecord(int x) {}
 
 }

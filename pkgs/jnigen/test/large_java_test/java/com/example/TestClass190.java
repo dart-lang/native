@@ -4,25 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.double_
-public interface TestClass190<T extends Number>  extends OtherInterface, BaseInterface {
+public interface TestClass190<@Nullable T, @Nullable U>  extends DagA, DagD, DagE {
   @Override
-  default void otherInterfaceMethod() {}
+  default void aMethod() {}
   @Override
-  default void baseMethod() {}
-  <S> double[] getFoo(double[] p1, int p2);
-  public enum NestedEnum { V1 }
+  default void bMethod() {}
+  @Override
+  default void cMethod() {}
+  @Override
+  default void dMethod() {}
+  @Override
+  default void eMethod() {}
+  default <@Nullable S extends Number> int @NotNull [] myMethod(int @NotNull [] p1) { return null; }
+  public static interface Nested {}
 
 }

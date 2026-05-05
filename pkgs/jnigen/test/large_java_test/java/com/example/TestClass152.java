@@ -4,23 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.diamond
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.final_
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.default_
 // MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.nestedCustom
 // NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.int_
-public final class TestClass152<T extends Number>  extends GenericParent {
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass152<@Nullable T extends Number>  extends DiamondLeft, DiamondRight {
   @Override
-  public void genericParentMethod(Object t) {}
-  public final <S extends Number> int[] getFoo(int[] p1) { return null; }
+  default void baseMethod() {}
+  @Override
+  default void leftMethod() {}
+  @Override
+  default void rightMethod() {}
+  default <@Nullable S> @Nullable NestedCustom<@Nullable S, @Nullable S>.Nested<@Nullable S> getFoo(@Nullable NestedCustom<@Nullable S, @Nullable S>.Nested<@Nullable S> p1) { return null; }
   public class Nested {}
 
 }

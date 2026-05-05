@@ -4,23 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.twoParams
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.byte_
-public interface TestClass200<T, U>  extends GenericInterface {
+public interface TestClass200<@NotNull T, @NotNull U>  extends OtherInterface, BaseInterface {
   @Override
-  default Object genericInterfaceMethod(Object t)  { return t; }
-  <S> byte[] isFoo() throws Exception;
-  public static interface Nested {}
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  <@NotNull S> byte myMethod(byte p1);
+  public class Nested {}
 
 }

@@ -4,29 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.native
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.two
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.set
-public final class TestClass160<T extends Number>  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass160<@Nullable T, @Nullable U>  implements OtherInterface {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public native <S> Set<S>[] setFoo(Set<S>[] p1, int p2);
+  public void otherInterfaceMethod() {}
+  public native short @NotNull [] getFoo(short @NotNull [] p1);
+  public class Nested {}
+
 }

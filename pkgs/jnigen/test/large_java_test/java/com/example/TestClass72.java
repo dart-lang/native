@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.extendsGenericSpecialized
 // IsArray: IsArray.yes
-// Member: Member.field
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// Member: Member.method
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.memberTypeParam
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.set
-public class TestClass72<T>  implements DagA, DagD, DagE {
+public interface TestClass72<@Nullable T>  extends GenericInterface<@Nullable String> {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public volatile Set<T>[] myField;
-  public class Nested {}
+  default String genericInterfaceMethod(String t)  { return t; }
+  <@Nullable S, @Nullable V> @Nullable S[] getFoo();
+  public static class Nested {}
 
 }

@@ -4,31 +4,31 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.final_
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.list
-public final class TestClass117<T>  implements DagA, DagD, DagE {
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass117<T>  extends DiamondLeft, DiamondRight {
   @Override
-  public void aMethod() {}
+  default void baseMethod() {}
   @Override
-  public void bMethod() {}
+  default void leftMethod() {}
   @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public final List<T> setFoo(List<T> p1, int p2) { return null; }
-  public static interface Nested {}
+  default void rightMethod() {}
+  @NotNull CustomRecord<T> setFoo() throws Exception;
+  public enum NestedEnum { V1 }
 
 }

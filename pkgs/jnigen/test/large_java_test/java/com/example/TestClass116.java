@@ -4,21 +4,24 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.native
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.setFoo
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.nestedCustom
-public class TestClass116<T, U>  {
-  public native <S extends Number> NestedCustom<S, S>.Nested<S>[] setFoo(NestedCustom<S, S>.Nested<S>[] p1);
-  public class Nested {}
-
+public record TestClass116<@NotNull T extends Number>(@NotNull CustomRecord<@NotNull T>[] field)  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
 }

@@ -4,23 +4,26 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.record
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.set
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass1<T extends Number>  extends GenericParent<String> {
-  @Override
-  public void genericParentMethod(String t) {}
-  public boolean setFoo(boolean p1, int p2) { return false; }
-  public static record NestedRecord(int x) {}
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed interface TestClass1<@NotNull T>  {
+  default @Nullable Set<@NotNull T> isFoo(@Nullable Set<@NotNull T> p1, int p2) { return null; }
+  public static interface Nested {}
 
+  public static final class Sub<@NotNull T> implements TestClass1<T> {}
 }

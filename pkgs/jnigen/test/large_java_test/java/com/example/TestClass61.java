@@ -4,27 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.none
-// MemberName: MemberName.any
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.void_
-public interface TestClass61  extends DiamondLeft, DiamondRight {
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass61<@NotNull T>  implements DagA, DagD, DagE {
   @Override
-  default void baseMethod() {}
+  public void aMethod() {}
   @Override
-  default void leftMethod() {}
+  public void bMethod() {}
   @Override
-  default void rightMethod() {}
-  void myMethod();
-  public static interface Nested {}
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public native <@NotNull S, @NotNull V> @NotNull NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S>[] isFoo(@NotNull NestedCustom<@NotNull S, @NotNull S>.Nested<@NotNull S>[] p1);
+  public static class Nested {}
 
 }

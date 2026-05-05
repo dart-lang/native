@@ -4,27 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
-// Member: Member.field
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericUnspecialized
+// IsArray: IsArray.no
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.volatile
-// MemberName: MemberName.any
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.map
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.char_
-public class TestClass111<T, U>  implements DiamondLeft, DiamondRight {
+public interface TestClass111<T>  extends GenericInterface {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public volatile char[] myField;
-  public static record NestedRecord(int x) {}
+  default Object genericInterfaceMethod(Object t)  { return t; }
+  @NotNull Map<T, T> isFoo(@NotNull Map<T, T> p1);
+  public static class Nested {}
 
 }

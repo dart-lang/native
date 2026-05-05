@@ -4,25 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.multipleImplements
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.synchronized
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public interface TestClass47<T>  extends OtherInterface, BaseInterface {
+public class TestClass47<@NotNull T, @NotNull U>  extends GenericParent {
   @Override
-  default void otherInterfaceMethod() {}
-  @Override
-  default void baseMethod() {}
-  <S> Object getFoo();
-  public enum NestedEnum { V1 }
-
+  public void genericParentMethod(Object t) {}
+  public <@NotNull S, @NotNull V> @NotNull CustomRecord<@NotNull S> setFoo(@NotNull CustomRecord<@NotNull S> p1, int p2) { return null; }
 }

@@ -4,21 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
-// Member: Member.initializer
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.yes
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// MemberModifier: MemberModifier.final_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.nestedCustom
+// NestedKind: NestedKind.innerClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public class TestClass246<T extends Number>  extends GenericParent {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass246<@NotNull T extends Number>  extends GrandParent {
   @Override
-  public void genericParentMethod(Object t) {}
-  static { }
+  public void grandParentMethod() {}
+  public final @NotNull NestedCustom<@NotNull T, @NotNull T>.Nested<@NotNull T>[] setFoo(@NotNull NestedCustom<@NotNull T, @NotNull T>.Nested<@NotNull T>[] p1) { return null; }
+  public class Nested {}
+
 }

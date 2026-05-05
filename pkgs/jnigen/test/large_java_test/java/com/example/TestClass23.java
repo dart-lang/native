@@ -4,23 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.any
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.char_
-public final class TestClass23<T>  extends GenericParent {
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.none
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.interface
+// TopLevelModifier: TopLevelModifier.none
+public interface TestClass23<@NotNull T>  extends DiamondLeft, DiamondRight {
   @Override
-  public void genericParentMethod(Object t) {}
-  public static <S, V> char[] myMethod() { return null; }
-  public enum NestedEnum { V1 }
-
+  default void baseMethod() {}
+  @Override
+  default void leftMethod() {}
+  @Override
+  default void rightMethod() {}
+  <@NotNull S> @NotNull CustomObject<@NotNull S>[] getFoo(@NotNull CustomObject<@NotNull S>[] p1, int p2);
 }

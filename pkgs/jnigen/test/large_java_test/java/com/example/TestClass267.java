@@ -4,27 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
-// Member: Member.constructor
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.interface
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.boolean_
-public final class TestClass267<T extends Number>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass267<@Nullable T>  implements OtherInterface {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public TestClass267(boolean[] p1, int p2) {}
-  public static interface Nested {}
+  public void otherInterfaceMethod() {}
+  public @Nullable CustomEnum[] myField;
+  public enum NestedEnum { V1 }
 
 }

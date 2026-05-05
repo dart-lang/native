@@ -4,23 +4,26 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extends_
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public class TestClass80<T extends Number>  extends GrandParent {
-  @Override
-  public void grandParentMethod() {}
-  public static <S extends Number> CustomEnum[] getFoo(CustomEnum[] p1) { return null; }
-  public enum NestedEnum { V1 }
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass80<@Nullable T extends Number>  {
+  public synchronized CustomObject<@Nullable T>[] setFoo(CustomObject<@Nullable T>[] p1, int p2) { return null; }
+  public static class Nested {}
 
+  public static final class Sub<@Nullable T extends Number> extends TestClass80<T> {}
 }

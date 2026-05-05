@@ -4,22 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.default_
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.native
 // MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.int_
-public sealed interface TestClass97<T, U>  {
-  default int[] getFoo() { return null; }
-  public enum NestedEnum { V1 }
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.object
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.class_
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass97<@NotNull T>  extends GenericParent {
+  @Override
+  public void genericParentMethod(Object t) {}
+  public native <@NotNull S extends Number> @Nullable Object[] getFoo(@Nullable Object[] p1, int p2);
+  public static interface Nested {}
 
-  public static final class Sub<T, U> implements TestClass97<T, U> {}
-  }
+}

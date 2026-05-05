@@ -4,31 +4,25 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.complexDag
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.none
-// MemberName: MemberName.setFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.zero
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.customRecord
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customRecord
-public class TestClass19<T extends Number>  implements DagA, DagD, DagE {
-  @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public <S, V> CustomRecord<S> setFoo() { return null; }
-  public static interface Nested {}
+public class TestClass19<T>  {
+  public <S extends Number> @Nullable CustomRecord<S>[] getFoo(@Nullable CustomRecord<S>[] p1, int p2) { return null; }
+  public static class Nested {}
 
 }

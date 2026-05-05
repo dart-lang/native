@@ -4,23 +4,22 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.nullable
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
-// IsArray: IsArray.no
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.record
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customEnum
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.short_
-public class TestClass214<T extends Number>  extends GenericParent<String> {
-  @Override
-  public void genericParentMethod(String t) {}
-  public final <S> short isFoo(short p1) { return 0; }
-  public static record NestedRecord(int x) {}
-
+public record TestClass214<@Nullable T extends Number>(@NotNull CustomEnum[] field)  {
 }

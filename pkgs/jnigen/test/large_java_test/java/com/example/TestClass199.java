@@ -4,21 +4,22 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.upperBound
 // Inheritance: Inheritance.none
-// IsArray: IsArray.no
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.any
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.native
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.byte_
 // NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.object
-public abstract class TestClass199<T extends Number>  {
-  public abstract <S> Object myMethod(Object p1, int p2);
-  public class Nested {}
-
+public record TestClass199<T extends Number>(byte @Nullable [] field)  {
 }

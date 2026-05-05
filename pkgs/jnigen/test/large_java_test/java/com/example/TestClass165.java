@@ -4,25 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.multipleImplements
-// IsArray: IsArray.yes
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.getFoo
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.object
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customEnum
-public abstract class TestClass165<T extends Number>  implements OtherInterface, BaseInterface {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass165<T extends Number>  extends GrandParent {
   @Override
-  public void otherInterfaceMethod() {}
-  @Override
-  public void baseMethod() {}
-  public abstract <S> CustomEnum[] getFoo();
-  public enum NestedEnum { V1 }
+  public void grandParentMethod() {}
+  public synchronized <S extends Number> @NotNull Object myMethod(@NotNull Object p1) { return null; }
+  public static class Nested {}
 
 }

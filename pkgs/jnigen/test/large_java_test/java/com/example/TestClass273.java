@@ -4,22 +4,35 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.twoParams
-// Inheritance: Inheritance.none
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
 // Member: Member.initializer
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.byte_
+// NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.sealed
-// TypeKind: TypeKind.boolean_
-public sealed class TestClass273<T, U>  {
-  static { }
-  public static class Nested {}
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass273<@NotNull T>  implements DagA, DagD, DagE {
+  @Override
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  { }
+  public static record NestedRecord(int x) {}
 
-  public static final class Sub<T, U> extends TestClass273<T, U> {}
-  }
+}

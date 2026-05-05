@@ -4,31 +4,27 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.extendsGenericUnspecialized
 // IsArray: IsArray.no
-// Member: Member.field
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.any
-// NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.two
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.void_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-// TypeKind: TypeKind.customObject
-public final class TestClass8  implements DagA, DagD, DagE {
+// TopLevelModifier: TopLevelModifier.none
+public abstract class TestClass8<@NotNull T extends Number>  extends GenericParent {
   @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public transient CustomObject<String> myField;
-  public static class Nested {}
+  public void genericParentMethod(Object t) {}
+  public abstract void myMethod();
+  public static interface Nested {}
 
 }

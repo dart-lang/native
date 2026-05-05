@@ -4,24 +4,28 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+// GenericNullability: GenericNullability.none
 // Generics: Generics.none
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.no
-// Member: Member.initializer
+// IsArray: IsArray.yes
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
+// MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.customInterface
 // NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.enum_
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.customRecord
 public enum TestClass271  implements OtherInterface {
   VALUE1, VALUE2;
   @Override
   public void otherInterfaceMethod() {}
-  static { }
+  public @NotNull CustomInterface<@NotNull String>[] myField;
   public static class Nested {}
 
 }

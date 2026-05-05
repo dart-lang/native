@@ -4,24 +4,29 @@
 
 package com.example;
 import java.util.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-// Generics: Generics.none
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.none
+// Generics: Generics.upperBound
+// Inheritance: Inheritance.multipleImplements
+// IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.isFoo
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.enum_
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.float_
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-// TypeKind: TypeKind.long_
-public enum TestClass39  implements OtherInterface {
-  VALUE1, VALUE2;
+public interface TestClass39<T extends Number>  extends OtherInterface, BaseInterface {
   @Override
-  public void otherInterfaceMethod() {}
-  public final <S, V> long[] isFoo(long[] p1, int p2) { return null; }
-  public static interface Nested {}
+  default void otherInterfaceMethod() {}
+  @Override
+  default void baseMethod() {}
+  <S, V> float getFoo();
+  public static class Nested {}
 
 }
