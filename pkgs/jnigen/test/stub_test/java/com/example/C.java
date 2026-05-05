@@ -1,4 +1,3 @@
 package com.example;
 
-public class C extends D {
-}
+public class C extends D {}

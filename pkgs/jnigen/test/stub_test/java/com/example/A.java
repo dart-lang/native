@@ -5,9 +5,7 @@ public class A {
     return new B();
   }
 
-  public void takeB(B b) {
-  }
+  public void takeB(B b) {}
 
-  public void takeD(D d) {
-  }
+  public void takeD(D d) {}
 }
