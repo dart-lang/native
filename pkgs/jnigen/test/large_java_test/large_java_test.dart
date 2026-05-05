@@ -52,10 +52,12 @@ void main() {
             'STDERR: ${jnigenResult.stderr}');
 
     // Check for diffs.
-    final expPath = p.join(pkgDir, 'test', 'large_java_test', 'lib', 'large_bindings.dart');
-    final actPath = p.join(pkgDir, 'test', 'large_java_test', 'temp', 'large_bindings.dart');
+    final expPath =
+        p.join(pkgDir, 'test', 'large_java_test', 'lib', 'large_bindings.dart');
+    final actPath = p.join(
+        pkgDir, 'test', 'large_java_test', 'temp', 'large_bindings.dart');
     if (update) {
-      print("Updating $expPath");
+      print('Updating $expPath');
       File(actPath).renameSync(expPath);
     } else {
       comparePaths(expPath, actPath);
