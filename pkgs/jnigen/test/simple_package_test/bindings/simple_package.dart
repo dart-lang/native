@@ -1463,12 +1463,12 @@ extension Example$$Methods on Example {
         .check();
   }
 
-  static final _id_bool$1 = Example._class.instanceMethodId(
+  static final _id_bool = Example._class.instanceMethodId(
     r'bool',
     r'(Z)Z',
   );
 
-  static final _bool$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _bool = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -1480,18 +1480,18 @@ extension Example$$Methods on Example {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public boolean bool(boolean z)`
-  core$_.bool bool$1(
+  core$_.bool bool(
     core$_.bool z,
   ) {
-    return _bool$1(reference.pointer, _id_bool$1.pointer, z ? 1 : 0).boolean;
+    return _bool(reference.pointer, _id_bool.pointer, z ? 1 : 0).boolean;
   }
 
-  static final _id_num$1 = Example._class.instanceMethodId(
+  static final _id_num = Example._class.instanceMethodId(
     r'num',
     r'(D)D',
   );
 
-  static final _num$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _num = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -1503,10 +1503,10 @@ extension Example$$Methods on Example {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public double num(double d)`
-  core$_.double num$1(
+  core$_.double num(
     core$_.double d,
   ) {
-    return _num$1(reference.pointer, _id_num$1.pointer, d).doubleFloat;
+    return _num(reference.pointer, _id_num.pointer, d).doubleFloat;
   }
 }
 

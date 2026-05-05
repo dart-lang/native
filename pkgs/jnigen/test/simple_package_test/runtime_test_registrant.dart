@@ -149,8 +149,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Regress #2903', () {
       // Regression test for https://github.com/dart-lang/native/issues/2903
       final e = Example();
-      expect(e.bool$1(true), true);
-      expect(e.num$1(123), 123);
+      expect(e.bool(true), true);
+      expect(e.num(123), 123);
       e.release();
     });
 
@@ -749,9 +749,20 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
 
       group('throw Java exceptions', () {
-        for (final (threading, consume) in [
-          ('another thread', StringConverterConsumer.consumeOnAnotherThread),
-          ('the same thread', StringConverterConsumer.consumeOnSameThread),
+        for (final (
+              threading,
+              JObject? Function(StringConverter?, JString?) consume
+            ) in [
+          (
+            'another thread',
+            StringConverterConsumer.consumeOnAnotherThread as JObject? Function(
+                StringConverter?, JString?)
+          ),
+          (
+            'the same thread',
+            StringConverterConsumer.consumeOnSameThread as JObject? Function(
+                StringConverter?, JString?)
+          ),
         ]) {
           test('StringConverter.implement on $threading ', () async {
             final stringConverter = StringConverter.implement(

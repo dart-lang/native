@@ -104,6 +104,11 @@ const Map<String, int> _definedSyms = {
   'releasedBy': 1,
   'jClass': 1,
   'type': 1,
+};
+
+/// Names that should not be used as top-level class names to avoid shadowing
+/// common Dart types.
+const Map<String, int> _reservedTopLevelNames = {
   // Types from dart:core
   'Object': 1,
   'String': 1,
@@ -174,7 +179,10 @@ class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
   final Set<ClassDecl> renamed;
-  final Map<String, int> topLevelNameCounts = {..._definedSyms};
+  final Map<String, int> topLevelNameCounts = {
+    ..._definedSyms,
+    ..._reservedTopLevelNames,
+  };
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
