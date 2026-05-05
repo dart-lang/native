@@ -17,6 +17,8 @@ const scripts = [
   'test/simple_package_test/generate.dart',
   'test/kotlin_test/generate.dart',
   'example/in_app_java/tool/jnigen.dart',
+  'example/maven_libs/tool/generate_bindings.dart',
+  'example/maven_libs_groovy/tool/generate_bindings.dart',
 ];
 
 const yamlBasedExamples = [

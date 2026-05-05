@@ -104,6 +104,20 @@ const Map<String, int> _definedSyms = {
   'releasedBy': 1,
   'jClass': 1,
   'type': 1,
+  // Types from dart:core
+  'Object': 1,
+  'String': 1,
+  'bool': 1,
+  'int': 1,
+  'double': 1,
+  'num': 1,
+  'Iterable': 1,
+  'List': 1,
+  'Map': 1,
+  'Set': 1,
+  // Types from dart:async
+  'Future': 1,
+  'Stream': 1,
 };
 
 String _preprocess(String name) {
@@ -160,7 +174,7 @@ class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
   final Set<ClassDecl> renamed;
-  final Map<String, int> topLevelNameCounts = {};
+  final Map<String, int> topLevelNameCounts = {..._definedSyms};
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(

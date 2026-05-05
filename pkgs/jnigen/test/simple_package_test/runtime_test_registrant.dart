@@ -149,8 +149,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Regress #2903', () {
       // Regression test for https://github.com/dart-lang/native/issues/2903
       final e = Example();
-      expect(e.bool(true), true);
-      expect(e.num(123), 123);
+      expect(e.bool$1(true), true);
+      expect(e.num$1(123), 123);
       e.release();
     });
 

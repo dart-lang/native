@@ -19765,8 +19765,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
   }
 }
 
-final class $JCollection$Type$<$E extends jni$_.JObject?>
-    extends jni$_.JType<JCollection<$E>> {
+final class $JCollection$Type$ extends jni$_.JType<JCollection> {
   @jni$_.internal
   const $JCollection$Type$();
 
@@ -23125,8 +23124,7 @@ final class _$JIterator<$E extends jni$_.JObject?> with $JIterator<$E> {
   }
 }
 
-final class $JIterator$Type$<$E extends jni$_.JObject?>
-    extends jni$_.JType<JIterator<$E>> {
+final class $JIterator$Type$ extends jni$_.JType<JIterator> {
   @jni$_.internal
   const $JIterator$Type$();
 
@@ -26059,8 +26057,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   }
 }
 
-final class $JList$Type$<$E extends jni$_.JObject?>
-    extends jni$_.JType<JList<$E>> {
+final class $JList$Type$ extends jni$_.JType<JList> {
   @jni$_.internal
   const $JList$Type$();
 
@@ -26602,8 +26599,7 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   }
 }
 
-final class $JMap$JEntry$Type$<$K extends jni$_.JObject?,
-    $V extends jni$_.JObject?> extends jni$_.JType<JMap$JEntry<$K, $V>> {
+final class $JMap$JEntry$Type$ extends jni$_.JType<JMap$JEntry> {
   @jni$_.internal
   const $JMap$JEntry$Type$();
 
@@ -29880,8 +29876,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   }
 }
 
-final class $JMap$Type$<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
-    extends jni$_.JType<JMap<$K, $V>> {
+final class $JMap$Type$ extends jni$_.JType<JMap> {
   @jni$_.internal
   const $JMap$Type$();
 
@@ -31990,8 +31985,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
   }
 }
 
-final class $JSet$Type$<$E extends jni$_.JObject?>
-    extends jni$_.JType<JSet<$E>> {
+final class $JSet$Type$ extends jni$_.JType<JSet> {
   @jni$_.internal
   const $JSet$Type$();
 

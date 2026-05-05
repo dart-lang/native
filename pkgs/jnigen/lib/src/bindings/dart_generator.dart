@@ -648,23 +648,10 @@ extension type $name._($_jObject _\$this) implements $implementsClause {
   void _writeTypeClass(ClassDecl node) {
     final name = node.finalName;
     final typeClassName = node.typeClassName;
-    final isInterface = node.declKind == DeclKind.interfaceKind;
-    final typeParamsDef = isInterface
-        ? node.allTypeParams
-            .accept(const _TypeParamDef())
-            .join(', ')
-            .encloseIfNotEmpty('<', '>')
-        : '';
-    final typeParamsCall = isInterface
-        ? node.allTypeParams
-            .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
-            .join(', ')
-            .encloseIfNotEmpty('<', '>')
-        : '';
     final signature = node.signature;
 
     s.write('''
-final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
+final class $typeClassName extends $_jType<$name> {
   $_internal
   const $typeClassName();
 

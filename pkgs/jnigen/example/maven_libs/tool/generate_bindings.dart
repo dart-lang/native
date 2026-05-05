@@ -8,7 +8,7 @@ import 'package:jnigen/jnigen.dart';
 import 'package:logging/logging.dart';
 
 void main() async {
-  final packageRoot = Directory.current.uri;
+  final packageRoot = Platform.script.resolve('../');
   await generateJniBindings(
     Config(
       androidSdkConfig: AndroidSdkConfig(

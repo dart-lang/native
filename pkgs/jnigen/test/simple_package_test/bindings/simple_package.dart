@@ -1463,12 +1463,12 @@ extension Example$$Methods on Example {
         .check();
   }
 
-  static final _id_bool = Example._class.instanceMethodId(
+  static final _id_bool$1 = Example._class.instanceMethodId(
     r'bool',
     r'(Z)Z',
   );
 
-  static final _bool = jni$_.ProtectedJniExtensions.lookup<
+  static final _bool$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -1480,18 +1480,18 @@ extension Example$$Methods on Example {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public boolean bool(boolean z)`
-  core$_.bool bool(
+  core$_.bool bool$1(
     core$_.bool z,
   ) {
-    return _bool(reference.pointer, _id_bool.pointer, z ? 1 : 0).boolean;
+    return _bool$1(reference.pointer, _id_bool$1.pointer, z ? 1 : 0).boolean;
   }
 
-  static final _id_num = Example._class.instanceMethodId(
+  static final _id_num$1 = Example._class.instanceMethodId(
     r'num',
     r'(D)D',
   );
 
-  static final _num = jni$_.ProtectedJniExtensions.lookup<
+  static final _num$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -1503,10 +1503,10 @@ extension Example$$Methods on Example {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public double num(double d)`
-  core$_.double num(
+  core$_.double num$1(
     core$_.double d,
   ) {
-    return _num(reference.pointer, _id_num.pointer, d).doubleFloat;
+    return _num$1(reference.pointer, _id_num$1.pointer, d).doubleFloat;
   }
 }
 
@@ -4431,8 +4431,7 @@ final class _$GenericInterface<$T extends jni$_.JObject?>
   }
 }
 
-final class $GenericInterface$Type$<$T extends jni$_.JObject?>
-    extends jni$_.JType<GenericInterface<$T>> {
+final class $GenericInterface$Type$ extends jni$_.JType<GenericInterface> {
   @jni$_.internal
   const $GenericInterface$Type$();
 
@@ -5192,8 +5191,7 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
   }
 }
 
-final class $MyInterface$Type$<$T extends jni$_.JObject?>
-    extends jni$_.JType<MyInterface<$T>> {
+final class $MyInterface$Type$ extends jni$_.JType<MyInterface> {
   @jni$_.internal
   const $MyInterface$Type$();
 
@@ -5922,7 +5920,7 @@ extension type StringConverterConsumer._(jni$_.JObject _$this)
 
   /// from: `static public java.util.concurrent.Future<java.lang.Integer> consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  static Future? consumeOnAnotherThread(
+  static Future$1? consumeOnAnotherThread(
     StringConverter? stringConverter,
     jni$_.JString? string,
   ) {
@@ -5934,7 +5932,7 @@ extension type StringConverterConsumer._(jni$_.JObject _$this)
             _id_consumeOnAnotherThread.pointer,
             _$stringConverter.pointer,
             _$string.pointer)
-        .object<Future?>();
+        .object<Future$1?>();
   }
 }
 
@@ -6300,8 +6298,8 @@ final class _$BaseGenericInterface<$T extends jni$_.JObject?>
   }
 }
 
-final class $BaseGenericInterface$Type$<$T extends jni$_.JObject?>
-    extends jni$_.JType<BaseGenericInterface<$T>> {
+final class $BaseGenericInterface$Type$
+    extends jni$_.JType<BaseGenericInterface> {
   @jni$_.internal
   const $BaseGenericInterface$Type$();
 
@@ -10397,8 +10395,7 @@ final class _$R2250<$T extends jni$_.JObject?> with $R2250<$T> {
   }
 }
 
-final class $R2250$Type$<$T extends jni$_.JObject?>
-    extends jni$_.JType<R2250<$T>> {
+final class $R2250$Type$ extends jni$_.JType<R2250> {
   @jni$_.internal
   const $R2250$Type$();
 
@@ -10618,16 +10615,16 @@ final class $Exception$Type$ extends jni$_.JType<Exception> {
   String get signature => r'Ljava/lang/Exception;';
 }
 
-/// WARNING: Future is a stub. To generate bindings for this class, include
+/// WARNING: Future$1 is a stub. To generate bindings for this class, include
 /// java.util.concurrent.Future in your config's classes list.
 ///
-extension type Future._(jni$_.JObject _$this) implements jni$_.JObject {
-  static const jni$_.JType<Future> type = $Future$Type$();
+extension type Future$1._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Future$1> type = $Future$1$Type$();
 }
 
-final class $Future$Type$ extends jni$_.JType<Future> {
+final class $Future$1$Type$ extends jni$_.JType<Future$1> {
   @jni$_.internal
-  const $Future$Type$();
+  const $Future$1$Type$();
 
   @jni$_.internal
   @core$_.override
