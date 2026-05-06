@@ -16,32 +16,23 @@ import 'nullable_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late NullableInterface nullableInterface;
   late NSObject obj;
+  late NullableInterface testInterface;
   group('Nullability', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      nullableInterface = NullableInterface();
-      obj = NSObject();
+      loadLibrary();
+      obj = NSObject.alloc().init();
+      testInterface = NullableInterface.alloc().init();
     });
 
     group('Nullable property', () {
       test('Not null', () {
-        nullableInterface.nullableObjectProperty = obj;
-        expect(nullableInterface.nullableObjectProperty, obj);
+        testInterface.nullableObjectProperty = obj;
+        expect(testInterface.nullableObjectProperty, obj);
       });
       test('Null', () {
-        nullableInterface.nullableObjectProperty = null;
-        expect(nullableInterface.nullableObjectProperty, null);
+        testInterface.nullableObjectProperty = null;
+        expect(testInterface.nullableObjectProperty, null);
       });
     });
 

@@ -16,31 +16,21 @@ import 'property_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late PropertyInterface testInstance;
-
   group('properties', () {
+    late PropertyInterface testInterface;
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      testInstance = PropertyInterface();
+      loadLibrary();
+      testInterface = PropertyInterface.alloc().init();
     });
 
     group('instance properties', () {
       test('read-only property', () {
-        expect(testInstance.readOnlyProperty, 7);
+        expect(testInterface.readOnlyProperty, 7);
       });
 
       test('read-write property', () {
-        testInstance.readWriteProperty = 23;
-        expect(testInstance.readWriteProperty, 23);
+        testInterface.readWriteProperty = 23;
+        expect(testInterface.readWriteProperty, 23);
       });
     });
 
@@ -65,8 +55,8 @@ void main() {
         input.z = 5.6;
         input.w = 7.8;
 
-        testInstance.structProperty = input;
-        final result = testInstance.structProperty;
+        testInterface.structProperty = input;
+        final result = testInterface.structProperty;
         expect(result.x, 1.2);
         expect(result.y, 3.4);
         expect(result.z, 5.6);
@@ -76,19 +66,19 @@ void main() {
       });
 
       test('Floats', () {
-        testInstance.floatProperty = 1.23;
-        expect(testInstance.floatProperty, closeTo(1.23, 1e-6));
+        testInterface.floatProperty = 1.23;
+        expect(testInterface.floatProperty, closeTo(1.23, 1e-6));
       });
 
       test('Doubles', () {
-        testInstance.doubleProperty = 1.23;
-        expect(testInstance.doubleProperty, 1.23);
+        testInterface.doubleProperty = 1.23;
+        expect(testInterface.doubleProperty, 1.23);
       });
     });
 
     test('Instance and static properties with same name', () {
       // Test for https://github.com/dart-lang/native/issues/1136
-      expect(testInstance.instStaticSameName, 123);
+      expect(testInterface.instStaticSameName, 123);
       expect(PropertyInterface.getInstStaticSameName$1(), 456);
     });
 

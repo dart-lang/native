@@ -4,8 +4,6 @@
 
 #import <dispatch/dispatch.h>
 
-#define DISABLE_METHOD 1
-
 #include "protocol_test.h"
 
 const char* class_getName(Class cls);

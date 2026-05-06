@@ -11,6 +11,8 @@ objc-interfaces:
   include:
     - RefCountTestObject
     - RefCounted
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'ref_count_test.m'
