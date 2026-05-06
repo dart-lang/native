@@ -377,8 +377,16 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
   void visit(ClassDecl node) {
     if (node.isStub) {
       _writeStub(node);
-      return;
+    } else {
+      _writeClass(node);
     }
+
+    _writeTypeClass(node);
+
+    log.finest('Generated bindings for class ${node.binaryName}');
+  }
+
+  void _writeClass(ClassDecl node) {
     if (node.isTopLevel) {
       // If the class is top-level, only generate its methods and fields.
       final classRef = writeClassRef(node);
@@ -610,10 +618,6 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
       }
       s.writeln('}');
     }
-
-    _writeTypeClass(node);
-
-    log.finest('Generated bindings for class ${node.binaryName}');
   }
 
   void _writeStub(ClassDecl node) {
@@ -642,7 +646,6 @@ extension type $name._($_jObject _\$this) implements $implementsClause {
 }
 
 ''');
-    _writeTypeClass(node);
   }
 
   void _writeTypeClass(ClassDecl node) {
