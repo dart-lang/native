@@ -37,13 +37,12 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
   @override
   void visit(Classes node) {
     for (final classDecl in node.decls.values) {
-      final isExcluded = classDecl.isPrivate || classDecl.isExcluded;
       if (classDecl.name.isInvalidDartIdentifier) {
         log.warning('Excluded class ${classDecl.binaryName}: the name is not a'
             ' valid Dart identifer');
         classDecl.isExcluded = true;
-      } else {
-        classDecl.isExcluded = isExcluded;
+      } else if (classDecl.isPrivate) {
+        classDecl.isExcluded = true;
       }
       if (classDecl.isExcluded) {
         log.fine('Excluded class ${classDecl.binaryName}');

@@ -36,6 +36,7 @@ class StubCollector extends Visitor<Classes, void> with TopLevelVisitor {
       if (classDecl.isExcluded) {
         if (stubFinder.referencedExcludedClasses.contains(classDecl)) {
           classDecl.isStub = true;
+          classDecl.isExcluded = false;
           return false;
         }
         return true;

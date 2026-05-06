@@ -756,8 +756,7 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject ||
-        (node.classDecl.isExcluded && !node.classDecl.isStub)) {
+    if (node.classDecl.isObject || node.classDecl.isExcluded) {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }
@@ -904,8 +903,7 @@ class _TypeClassGenerator extends TypeVisitor<String> {
 
   @override
   String visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject ||
-        (node.classDecl.isExcluded && !node.classDecl.isStub)) {
+    if (node.classDecl.isObject || node.classDecl.isExcluded) {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }
