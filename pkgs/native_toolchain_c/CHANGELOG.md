@@ -1,3 +1,10 @@
+## 0.18.1
+
+- Fix Windows environment variable handling in `runProcess`: no longer launch
+  the subprocess through a shell (which mangled values containing spaces or
+  quotes), and properly quote environment values when echoing the command to
+  the log. ([#3321](https://github.com/dart-lang/native/issues/3321))
+
 ## 0.18.0
 
 - Made `CLinker.run` `Logger` argument optional. It now defaults to a logger

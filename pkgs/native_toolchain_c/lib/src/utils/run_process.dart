@@ -27,7 +27,9 @@ Future<RunProcessResult> runProcess({
       workingDirectory != null && workingDirectory != Directory.current.uri;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
-    ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
+    ...?environment?.entries.map(
+      (entry) => '${entry.key}=${_quoteForCommandLog(entry.value)}',
+    ),
     executable.toFilePath(),
     ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
     if (printWorkingDir) ')',
@@ -41,7 +43,7 @@ Future<RunProcessResult> runProcess({
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: Platform.isWindows && workingDirectory != null,
+    runInShell: false,
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {
@@ -91,6 +93,13 @@ Future<RunProcessResult> runProcess({
     );
   }
   return result;
+}
+
+String _quoteForCommandLog(String value) {
+  if (value.isEmpty || value.contains(RegExp(r'[\s"]'))) {
+    return '"${value.replaceAll('"', '\\"')}"';
+  }
+  return value;
 }
 
 /// Drop in replacement of [ProcessResult].
