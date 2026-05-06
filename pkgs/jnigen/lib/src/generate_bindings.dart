@@ -47,7 +47,7 @@ Future<void> generateJniBindings(Config config) async {
   // Keep the order in sync with `elements/elements.dart`.
   var stage = GenerationStage.userVisitors;
   R runStage<R>(TopLevelVisitor<R> visitor) {
-    assert(visitor.stage.index > stage.index);
+    assert(visitor.stage.index == stage.index + 1);
     stage = visitor.stage;
     return classes.accept(visitor);
   }
@@ -55,9 +55,7 @@ Future<void> generateJniBindings(Config config) async {
   runStage(Excluder(config));
   runStage(KotlinProcessor());
   await runStage(Linker(config));
-  if (config.generateStubs) {
-    runStage(StubCollector());
-  }
+  runStage(StubCollector(config));
   runStage(Renamer(config));
   // classes.accept(const Printer());
 

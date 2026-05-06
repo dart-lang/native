@@ -70,7 +70,11 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
       if (imported != null) return imported;
 
       final decl = node.decls[binaryName];
-      if (decl != null) return decl;
+      if (decl != null) {
+        if (config.generateStubs || !decl.isExcluded) {
+          return decl;
+        }
+      }
 
       if (config.generateStubs) {
         log.fine('Class $binaryName not found. Creating a stub.');

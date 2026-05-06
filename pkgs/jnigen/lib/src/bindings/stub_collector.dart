@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../config/config.dart';
 import '../elements/elements.dart';
 import 'visitor.dart';
 
@@ -13,10 +14,16 @@ class StubCollector extends Visitor<Classes, void> with TopLevelVisitor {
   @override
   final GenerationStage stage = GenerationStage.stubCollector;
 
-  StubCollector();
+  final Config config;
+
+  StubCollector(this.config);
 
   @override
   void visit(Classes node) {
+    if (!config.generateStubs) {
+      node.decls.removeWhere((binaryName, classDecl) => classDecl.isExcluded);
+      return;
+    }
     final stubFinder = _StubFinder();
     for (final classDecl in node.decls.values) {
       if (!classDecl.isExcluded) {
