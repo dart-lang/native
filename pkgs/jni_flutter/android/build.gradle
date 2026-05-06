@@ -1,7 +1,7 @@
 // The Android Gradle Plugin builds the native code with the Android NDK.
 
-group 'com.github.dart_lang.jni_flutter'
-version '1.0'
+group = 'com.github.dart_lang.jni_flutter'
+version = '1.0'
 
 buildscript {
     repositories {
@@ -21,13 +21,13 @@ apply plugin: 'com.android.library'
 
 android {
     if (project.android.hasProperty("namespace")) {
-        namespace 'com.github.dart_lang.jni_flutter'
+        namespace = 'com.github.dart_lang.jni_flutter'
     }
 
-    compileSdk 35
+    compileSdk = 35
 
     defaultConfig {
-        minSdk 21
+        minSdk = 21
         consumerProguardFiles 'consumer-rules.pro'
     }
 
