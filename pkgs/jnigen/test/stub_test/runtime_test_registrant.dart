@@ -4,28 +4,18 @@
 
 import 'dart:io';
 
-import 'package:jni/jni.dart';
-import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
+import '../test_util/callback_types.dart';
 import 'bindings.dart';
 
-void main() {
-  if (!Platform.isAndroid && !Platform.isLinux && !Platform.isMacOS) {
-    return;
-  }
-
-  setUpAll(() {
-    if (!Platform.isAndroid) {
-      Jni.spawnIfNotExists(
-        dylibDir: join('build', 'jni_libs'),
-        classPath: [join('test', 'stub_test', 'java')],
-      );
+void registerTests(String groupName, TestRunnerCallback test) {
+  group(groupName, () {
+    if (!Platform.isAndroid && !Platform.isLinux && !Platform.isMacOS) {
+      return;
     }
-  });
 
-  test('Stub inheritance and polymorphism', () {
-    using((arena) {
+    test('Stub inheritance and polymorphism', () {
       final c = C();
       final a = A();
 
@@ -40,10 +30,8 @@ void main() {
       expect(c.isA(D.type), isTrue);
       expect(c.isA(C.type), isTrue);
     });
-  });
 
-  test('Stub method params and returns', () {
-    using((arena) {
+    test('Stub method params and returns', () {
       final a = A();
       final b = a.b;
 

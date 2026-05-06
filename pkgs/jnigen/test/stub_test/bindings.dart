@@ -146,7 +146,7 @@ final class $A$Type$ extends jni$_.JType<A> {
 
   @jni$_.internal
   @core$_.override
-  core$_.String get signature => r'Lcom/example/A;';
+  String get signature => r'Lcom/example/A;';
 }
 
 /// from: `com.example.C`
@@ -184,7 +184,7 @@ final class $C$Type$ extends jni$_.JType<C> {
 
   @jni$_.internal
   @core$_.override
-  core$_.String get signature => r'Lcom/example/C;';
+  String get signature => r'Lcom/example/C;';
 }
 
 /// WARNING: B is a stub. To generate bindings for this class, include
@@ -200,7 +200,7 @@ final class $B$Type$ extends jni$_.JType<B> {
 
   @jni$_.internal
   @core$_.override
-  core$_.String get signature => r'Lcom/example/B;';
+  String get signature => r'Lcom/example/B;';
 }
 
 /// WARNING: D is a stub. To generate bindings for this class, include
@@ -216,5 +216,5 @@ final class $D$Type$ extends jni$_.JType<D> {
 
   @jni$_.internal
   @core$_.override
-  core$_.String get signature => r'Lcom/example/D;';
+  String get signature => r'Lcom/example/D;';
 }

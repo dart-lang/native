@@ -10,6 +10,7 @@ import 'jackson_core_test/runtime_test_registrant.dart' as jackson_core_test;
 import 'kotlin_test/runtime_test_registrant.dart' as kotlin_test;
 import 'simple_package_test/runtime_test_registrant.dart'
     as simple_package_test;
+import 'stub_test/runtime_test_registrant.dart' as stub_test;
 import 'test_util/bindings_test_setup.dart' as setup;
 
 void main() {
@@ -17,5 +18,6 @@ void main() {
   kotlin_test.registerTests('kotlin_test', test);
   jackson_core_test.registerTests('jackson_core_test', test);
   simple_package_test.registerTests('simple_package_test', test);
+  stub_test.registerTests('stub_test', test);
   tearDownAll(setup.bindingsTestTeardown);
 }
