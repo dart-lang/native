@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
-Config _getConfig({required bool generateStubs, required Uri outputPath}) {
+Config _getConfig(Uri output, bool generateStubs) {
   final testRoot = join('test', 'stub_test');
   final javaPath = join(testRoot, 'java');
   return Config(
@@ -20,7 +20,7 @@ Config _getConfig({required bool generateStubs, required Uri outputPath}) {
     classes: ['com.example.A', 'com.example.C'],
     outputConfig: OutputConfig(
       dartConfig: DartCodeOutputConfig(
-        path: outputPath,
+        path: output,
         structure: OutputStructure.singleFile,
       ),
     ),
@@ -41,58 +41,51 @@ void main() async {
       tempDir.deleteSync(recursive: true);
     });
 
-    Future<void> generateAndVerify(bool stubsEnabled) async {
-      final suffix = stubsEnabled ? 'enabled' : 'disabled';
-      final output = tempDir.uri.resolve('bindings_$suffix.dart');
-      final config =
-          _getConfig(generateStubs: stubsEnabled, outputPath: output);
-      await generateJniBindings(config);
-
+    test('Generate bindings with stubs disabled', () async {
+      final output = tempDir.uri.resolve('bindings_no_stubs.dart');
+      await generateJniBindings(_getConfig(output, false));
       final analyzeResult =
           Process.runSync(dartExecutable, ['analyze', output.toFilePath()]);
-      if (analyzeResult.exitCode != 0) {
-        stderr.write(analyzeResult.stdout);
-        fail(
-            'Analyzer exited with non-zero status (${analyzeResult.exitCode})');
-      }
+      expect(analyzeResult.exitCode, 0, reason: analyzeResult.stdout as String);
 
       final content = File.fromUri(output).readAsStringSync();
-      if (stubsEnabled) {
-        // When stubs are enabled, we should see specific stub types.
-        expect(content, contains('B? get b'));
-        expect(content, contains('void takeB('));
-        expect(content, contains('B? b,'));
-        expect(content, contains('void takeD('));
-        expect(content, contains('D? d,'));
 
-        // Stub classes should exist with warnings.
-        expect(content, contains('extension type B'));
-        expect(content, contains('WARNING: B is a stub'));
-        expect(content, contains('extension type D'));
-        expect(content, contains('WARNING: D is a stub'));
+      // When stubs are disabled, we should see JObject for excluded types.
+      expect(content, contains(r'jni$_.JObject? get b'));
+      expect(content, contains(r'void takeB('));
+      expect(content, contains(r'jni$_.JObject? b,'));
+      expect(content, contains(r'void takeD('));
+      expect(content, contains(r'jni$_.JObject? d,'));
 
-        // Transitive dependencies (E) shouldn't be generated if not referenced.
-        expect(content, isNot(contains('extension type E')));
-      } else {
-        // When stubs are disabled, we should see JObject for excluded types.
-        expect(content, contains(r'jni$_.JObject? get b'));
-        expect(content, contains(r'void takeB('));
-        expect(content, contains(r'jni$_.JObject? b,'));
-        expect(content, contains(r'void takeD('));
-        expect(content, contains(r'jni$_.JObject? d,'));
-
-        // Stub classes should NOT exist.
-        expect(content, isNot(contains('extension type B')));
-        expect(content, isNot(contains('extension type D')));
-      }
-    }
-
-    test('Generate bindings with stubs disabled', () async {
-      await generateAndVerify(false);
+      // Stub classes should NOT exist.
+      expect(content, isNot(contains('extension type B')));
+      expect(content, isNot(contains('extension type D')));
     });
 
     test('Generate bindings with stubs enabled', () async {
-      await generateAndVerify(true);
+      final output = tempDir.uri.resolve('bindings_stubs.dart');
+      await generateJniBindings(_getConfig(output, true));
+      final analyzeResult =
+          Process.runSync(dartExecutable, ['analyze', output.toFilePath()]);
+      expect(analyzeResult.exitCode, 0, reason: analyzeResult.stdout as String);
+
+      final content = File.fromUri(output).readAsStringSync();
+
+      // When stubs are enabled, we should see specific stub types.
+      expect(content, contains('B? get b'));
+      expect(content, contains('void takeB('));
+      expect(content, contains('B? b,'));
+      expect(content, contains('void takeD('));
+      expect(content, contains('D? d,'));
+
+      // Stub classes should exist with warnings.
+      expect(content, contains('extension type B'));
+      expect(content, contains('WARNING: B is a stub'));
+      expect(content, contains('extension type D'));
+      expect(content, contains('WARNING: D is a stub'));
+
+      // Transitive dependencies (E) shouldn't be generated if not referenced.
+      expect(content, isNot(contains('extension type E')));
     });
   });
 }
