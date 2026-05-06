@@ -44,13 +44,13 @@ void main(List<String> args) async {
     ).run(input: input, output: output, logger: logger);
 
     if (input.config.code.targetOS == OS.macOS) {
-      final builder = await Builder.create(
+      final builder = await CustomBuilder.create(
         input,
         input.packageRoot.toFilePath(),
       );
 
       // Build swift_class_test.swift. There's no swift compilation package, so
-      // we have to use a custom Builder.
+      // we have to use a CustomBuilder.
       final objcTestDir = input.packageRoot.resolve('test/native_objc_test/');
       const swiftModule = 'swift_class_test';
       final swiftFile = objcTestDir.resolve('swift_class_test.swift');
@@ -68,7 +68,7 @@ void main(List<String> args) async {
       );
 
       // Build all the ObjC files. Some of the files have different compile
-      // flags, so we need to use the custom Builder again.
+      // flags, so we need to use the CustomBuilder again.
       final mFiles = _findFiles(objcTestDir, '.m');
       final hFiles = _findFiles(objcTestDir, '.h');
 
@@ -96,11 +96,7 @@ void main(List<String> args) async {
       final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
       await builder.linkLib(objFiles, objcLib, ['-framework', 'Foundation']);
 
-      output.dependencies
-        ..addAll(mFiles)
-        ..addAll(hFiles)
-        ..add(swiftFile)
-        ..add(dartApiDl);
+      output.dependencies.addAll([...mFiles, ...hFiles, swiftFile, dartApiDl]);
 
       output.assets.code.add(
         CodeAsset(
@@ -121,18 +117,18 @@ List<Uri> _findFiles(Uri dir, String suffix) => Directory.fromUri(dir)
     .where((uri) => uri.pathSegments.last.endsWith(suffix))
     .toList();
 
-class Builder {
+class CustomBuilder {
   final String _comp;
   final String _rootDir;
   final Uri _tempOutDir;
-  Builder._(this._comp, this._rootDir, this._tempOutDir);
+  CustomBuilder._(this._comp, this._rootDir, this._tempOutDir);
 
-  static Future<Builder> create(BuildInput input, String rootDir) async {
+  static Future<CustomBuilder> create(BuildInput input, String rootDir) async {
     final resolver = CompilerResolver(
       codeConfig: input.config.code,
       logger: logger,
     );
-    return Builder._(
+    return CustomBuilder._(
       (await resolver.resolveCompiler()).uri.toFilePath(),
       rootDir,
       input.outputDirectory.resolve('obj/'),
