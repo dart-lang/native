@@ -7,24 +7,24 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.none
-// Generics: Generics.oneParam
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.upperBound
 // Inheritance: Inheritance.extends_
-// IsArray: IsArray.yes
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.getFoo
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.float_
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.class_
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.default_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.typeParam
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.zero
+// TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass108<T>  extends GrandParent {
+public interface TestClass108<@NotNull T extends Number>  extends OtherInterface {
   @Override
-  public void grandParentMethod() {}
-  public static <S extends Number> float @Nullable [] getFoo(float @Nullable [] p1) { return null; }
-  public static interface Nested {}
+  default void otherInterfaceMethod() {}
+  default <@NotNull S, @NotNull V> @NotNull T setFoo() { return null; }
+  public static record NestedRecord(int x) {}
 
 }

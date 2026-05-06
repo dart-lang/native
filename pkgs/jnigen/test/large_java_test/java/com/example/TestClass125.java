@@ -8,21 +8,22 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.none
-// Generics: Generics.twoParams
+// Generics: Generics.oneParam
 // Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.getFoo
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.record
-// ParamCount: ParamCount.two
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.short_
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass125<T, U>  {
-  public static double @Nullable [] getFoo(double @Nullable [] p1, int p2) { return null; }
-  public static record NestedRecord(int x) {}
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass125<T>  {
+  public short [] myMethod() { return null; }
+  public enum NestedEnum { V1 }
 
+  public static final class Sub<T> extends TestClass125<T> {}
 }

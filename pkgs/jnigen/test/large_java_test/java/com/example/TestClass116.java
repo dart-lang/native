@@ -7,21 +7,24 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.nonnull
-// Generics: Generics.upperBound
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
 // Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.method
+// IsArray: IsArray.no
+// Member: Member.field
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.setFoo
+// MemberModifier: MemberModifier.volatile
+// MemberName: MemberName.any
 // MemberNullability: MemberNullability.nonnull
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.interface
+// MemberType: MemberType.typeParam
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.record
+// TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public record TestClass116<@NotNull T extends Number>(@NotNull CustomRecord<@NotNull T>[] field)  implements OtherInterface {
+public class TestClass116<T, U>  implements OtherInterface {
   @Override
   public void otherInterfaceMethod() {}
+  public volatile @NotNull T myField;
+  public static class Nested {}
+
 }

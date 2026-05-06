@@ -8,23 +8,23 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.nullable
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.implements_
-// IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.isFoo
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.innerClass
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
+// IsArray: IsArray.no
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.customObject
+// NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass121<@Nullable T extends Number>  implements OtherInterface {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass121<@Nullable T, @Nullable U>  extends GrandParent {
   @Override
-  public void otherInterfaceMethod() {}
-  public <@Nullable S, @Nullable V> @Nullable CustomEnum[] isFoo(@Nullable CustomEnum[] p1) throws Exception { return null; }
-  public class Nested {}
+  public void grandParentMethod() {}
+  public <@Nullable S extends Number> TestClass121(CustomObject<@Nullable S> p1) {}
+  public enum NestedEnum { V1 }
 
 }

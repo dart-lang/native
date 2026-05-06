@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.nonnull
-// Generics: Generics.oneParam
+// Generics: Generics.none
 // Inheritance: Inheritance.multipleImplements
 // IsArray: IsArray.no
 // Member: Member.method
@@ -16,17 +16,17 @@ import org.jetbrains.annotations.NotNull;
 // MemberModifier: MemberModifier.synchronized
 // MemberName: MemberName.setFoo
 // MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.customObject
+// MemberType: MemberType.customRecord
 // NestedKind: NestedKind.record
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass101<@NotNull T>  implements OtherInterface, BaseInterface {
+public final class TestClass101  implements OtherInterface, BaseInterface {
   @Override
   public void otherInterfaceMethod() {}
   @Override
   public void baseMethod() {}
-  public synchronized <@NotNull S, @NotNull V> @Nullable CustomObject<@NotNull S> setFoo(@Nullable CustomObject<@NotNull S> p1, int p2) { return null; }
+  public synchronized <@NotNull S, @NotNull V> @Nullable CustomRecord<@NotNull S> setFoo(@Nullable CustomRecord<@NotNull S> p1, int p2) { return null; }
   public static record NestedRecord(int x) {}
 
 }

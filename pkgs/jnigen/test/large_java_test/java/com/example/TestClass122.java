@@ -8,23 +8,27 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.nullable
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Generics: Generics.none
+// Inheritance: Inheritance.diamond
 // IsArray: IsArray.no
-// Member: Member.method
+// Member: Member.constructor
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// MemberNullability: MemberNullability.nonnull
-// MemberType: MemberType.memberTypeParam
-// NestedKind: NestedKind.enum_
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.interface
 // ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass122<@Nullable T extends Number>  extends GenericParent {
+public class TestClass122  implements DiamondLeft, DiamondRight {
   @Override
-  public void genericParentMethod(Object t) {}
-  public <@Nullable S extends Number> @NotNull S setFoo(@NotNull S p1, int p2) throws Exception { return null; }
-  public enum NestedEnum { V1 }
+  public void baseMethod() {}
+  @Override
+  public void leftMethod() {}
+  @Override
+  public void rightMethod() {}
+  public <@Nullable S extends Number> TestClass122(long p1, int p2) {}
+  public static interface Nested {}
 
 }

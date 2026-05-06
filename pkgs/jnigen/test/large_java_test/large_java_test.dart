@@ -4,24 +4,20 @@
 
 import 'dart:io';
 
+import 'package:jnigen/jnigen.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../test_util/test_util.dart';
+import 'generate_java.dart';
 
-void main() {
+Future<void> main() async {
   test('Generated JNIgen bindings should pass dart analyze', () async {
     final update = Platform.environment['UPDATE'] == 'true';
 
     // Generate Java code.
     if (update) {
-      final genResult = await Process.run(
-          'dart', ['test/large_java_test/generate_java.dart'],
-          workingDirectory: pkgDir);
-      expect(genResult.exitCode, 0,
-          reason: 'Java generation failed:\n'
-              'STDOUT: ${genResult.stdout}\n'
-              'STDERR: ${genResult.stderr}');
+      generateJava();
     } else {
       print('Skipping Java code gen. Set UPDATE=true to '
           'regenerate the .java files.');
@@ -43,13 +39,19 @@ void main() {
             'STDERR: ${javacResult.stderr}');
 
     // Run JNIgen.
-    final jnigenResult = await Process.run(
-        'dart', ['test/large_java_test/generate_bindings.dart'],
-        workingDirectory: pkgDir);
-    expect(jnigenResult.exitCode, 0,
-        reason: 'JNIgen failed:\n'
-            'STDOUT: ${jnigenResult.stdout}\n'
-            'STDERR: ${jnigenResult.stderr}');
+    final thisDir = Uri.directory(p.join(pkgDir, 'test', 'large_java_test'));
+    await generateJniBindings(
+      Config(
+        outputConfig: OutputConfig(
+          dartConfig: DartCodeOutputConfig(
+            path: thisDir.resolve('temp/large_bindings.dart'),
+            structure: OutputStructure.singleFile,
+          ),
+        ),
+        sourcePath: [thisDir.resolve('java/')],
+        classes: ['com.example'],
+      ),
+    );
 
     // Check for diffs.
     final expPath =

@@ -8,25 +8,20 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.none
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.no
+// Generics: Generics.none
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.native
+// MemberModifier: MemberModifier.throws
 // MemberName: MemberName.setFoo
 // MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.nestedCustom
+// MemberType: MemberType.boolean_
 // NestedKind: NestedKind.none
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass119<T>  implements DiamondLeft, DiamondRight {
-  @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public native @Nullable NestedCustom<T, T>.Nested<T> setFoo();
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed class TestClass119  {
+  public boolean @Nullable [] setFoo(boolean @Nullable [] p1, int p2) throws Exception { return null; }
+  public static final class Sub extends TestClass119 {}
 }

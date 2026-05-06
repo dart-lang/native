@@ -7,22 +7,32 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.none
+// GenericNullability: GenericNullability.nonnull
 // Generics: Generics.none
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.no
 // Member: Member.method
 // MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.static_
-// MemberName: MemberName.setFoo
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.customRecord
-// NestedKind: NestedKind.none
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.void_
+// NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass115  extends GenericParent {
+public final class TestClass115  implements DagA, DagD, DagE {
   @Override
-  public void genericParentMethod(Object t) {}
-  public static <S extends Number> @Nullable CustomRecord<S> setFoo() { return null; }
+  public void aMethod() {}
+  @Override
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public synchronized <@NotNull S extends Number> void myMethod() {  }
+  public class Nested {}
+
 }

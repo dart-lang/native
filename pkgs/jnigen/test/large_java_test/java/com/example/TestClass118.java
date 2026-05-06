@@ -7,24 +7,21 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.nonnull
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
+// GenericNullability: GenericNullability.none
+// Generics: Generics.none
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.any
-// MemberNullability: MemberNullability.nonnull
-// MemberType: MemberType.typeParam
-// NestedKind: NestedKind.innerClass
+// MemberGenerics: MemberGenerics.upperBound
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.map
+// NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
-// TopLevelKind: TopLevelKind.interface
+// TopLevelKind: TopLevelKind.enum_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass118<@NotNull T>  extends GenericInterface {
-  @Override
-  default Object genericInterfaceMethod(Object t)  { return t; }
-  @NotNull T myMethod(@NotNull T p1) throws Exception;
-  public class Nested {}
-
+public enum TestClass118  {
+  VALUE1, VALUE2;
+  public <S extends Number> @Nullable Map<S, S>[] isFoo(@Nullable Map<S, S>[] p1) { return null; }
 }

@@ -7,28 +7,23 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.nullable
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
-// IsArray: IsArray.yes
+// GenericNullability: GenericNullability.nonnull
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.none
+// IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.getFoo
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.short_
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.static_
+// MemberName: MemberName.setFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.int_
+// NestedKind: NestedKind.staticClass
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.interface
-// TopLevelModifier: TopLevelModifier.none
-public interface TestClass123<@Nullable T>  extends DiamondLeft, DiamondRight {
-  @Override
-  default void baseMethod() {}
-  @Override
-  default void leftMethod() {}
-  @Override
-  default void rightMethod() {}
-  <@Nullable S> short @Nullable [] getFoo() throws Exception;
-  public class Nested {}
+// TopLevelModifier: TopLevelModifier.sealed
+public sealed interface TestClass123<@NotNull T, @NotNull U>  {
+  static int setFoo(int p1, int p2) { return 0; }
+  public static class Nested {}
 
+  public static final class Sub<@NotNull T, @NotNull U> implements TestClass123<T, U> {}
 }

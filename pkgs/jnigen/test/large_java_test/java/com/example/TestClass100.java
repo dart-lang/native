@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 // MemberModifier: MemberModifier.final_
 // MemberName: MemberName.any
 // MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.map
+// MemberType: MemberType.set
 // NestedKind: NestedKind.innerClass
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 public class TestClass100<@NotNull T extends Number>  extends GenericParent<@NotNull String> {
   @Override
   public void genericParentMethod(String t) {}
-  public final @Nullable Map<@NotNull T, @NotNull T> myField = null;
+  public final @Nullable Set<@NotNull T> myField = null;
   public class Nested {}
 
 }

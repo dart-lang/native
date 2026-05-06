@@ -7,28 +7,23 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.none
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.none
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
+// MemberName: MemberName.any
 // MemberNullability: MemberNullability.nonnull
 // MemberType: MemberType.customRecord
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.zero
-// TopLevelKind: TopLevelKind.interface
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.two
+// TopLevelKind: TopLevelKind.enum_
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass117<T>  extends DiamondLeft, DiamondRight {
-  @Override
-  default void baseMethod() {}
-  @Override
-  default void leftMethod() {}
-  @Override
-  default void rightMethod() {}
-  @NotNull CustomRecord<T> setFoo() throws Exception;
-  public enum NestedEnum { V1 }
+public enum TestClass117  {
+  VALUE1, VALUE2;
+  public <@Nullable S extends Number> @NotNull CustomRecord<@Nullable S> myMethod(@NotNull CustomRecord<@Nullable S> p1, int p2) throws Exception { return null; }
+  public static interface Nested {}
 
 }

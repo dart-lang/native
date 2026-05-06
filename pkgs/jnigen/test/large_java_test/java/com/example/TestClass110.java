@@ -9,22 +9,20 @@ import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.nonnull
 // Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericUnspecialized
-// IsArray: IsArray.no
-// Member: Member.method
-// MemberGenerics: MemberGenerics.upperBound
-// MemberModifier: MemberModifier.final_
-// MemberName: MemberName.getFoo
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.customEnum
-// NestedKind: NestedKind.innerClass
-// ParamCount: ParamCount.zero
+// Inheritance: Inheritance.none
+// IsArray: IsArray.yes
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.transient
+// MemberName: MemberName.any
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.object
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.two
 // TopLevelKind: TopLevelKind.class_
 // TopLevelModifier: TopLevelModifier.final_
-public final class TestClass110<@NotNull T extends Number>  extends GenericParent {
-  @Override
-  public void genericParentMethod(Object t) {}
-  public final <@NotNull S extends Number> @Nullable CustomEnum getFoo() { return null; }
-  public class Nested {}
+public final class TestClass110<@NotNull T extends Number>  {
+  public transient @NotNull Object[] myField;
+  public static record NestedRecord(int x) {}
 
 }

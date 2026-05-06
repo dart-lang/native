@@ -7,26 +7,32 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.none
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.multipleImplements
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.none
+// Inheritance: Inheritance.complexDag
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
-// MemberModifier: MemberModifier.abstract_
-// MemberName: MemberName.isFoo
+// Member: Member.constructor
+// MemberGenerics: MemberGenerics.twoParams
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.any
 // MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.customObject
+// MemberType: MemberType.short_
 // NestedKind: NestedKind.staticClass
-// ParamCount: ParamCount.zero
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public abstract class TestClass113<T>  implements OtherInterface, BaseInterface {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass113  implements DagA, DagD, DagE {
   @Override
-  public void otherInterfaceMethod() {}
+  public void aMethod() {}
   @Override
-  public void baseMethod() {}
-  public abstract <S> @Nullable CustomObject<S>[] isFoo();
+  public void bMethod() {}
+  @Override
+  public void cMethod() {}
+  @Override
+  public void dMethod() {}
+  @Override
+  public void eMethod() {}
+  public <@Nullable S, @Nullable V> TestClass113(short @Nullable [] p1) {}
   public static class Nested {}
 
 }

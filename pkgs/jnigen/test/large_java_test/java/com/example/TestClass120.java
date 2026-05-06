@@ -7,24 +7,24 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.nonnull
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.extendsGenericSpecialized
+// GenericNullability: GenericNullability.none
+// Generics: Generics.twoParams
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
-// Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
+// Member: Member.field
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.final_
 // MemberName: MemberName.any
-// MemberNullability: MemberNullability.nonnull
-// MemberType: MemberType.char_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.one
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.long_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.zero
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.none
-public class TestClass120<@NotNull T extends Number>  extends GenericParent<@NotNull String> {
+// TopLevelModifier: TopLevelModifier.final_
+public final class TestClass120<T, U>  extends GrandParent {
   @Override
-  public void genericParentMethod(String t) {}
-  public <@NotNull S, @NotNull V> char @NotNull [] myMethod(char @NotNull [] p1) throws Exception { return null; }
-  public enum NestedEnum { V1 }
+  public void grandParentMethod() {}
+  public final long @Nullable [] myField = null;
+  public static interface Nested {}
 
 }

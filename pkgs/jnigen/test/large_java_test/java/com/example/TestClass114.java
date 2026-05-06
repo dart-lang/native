@@ -7,24 +7,19 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.nonnull
+// GenericNullability: GenericNullability.none
 // Generics: Generics.oneParam
-// Inheritance: Inheritance.extendsGenericUnspecialized
+// Inheritance: Inheritance.none
 // IsArray: IsArray.yes
-// Member: Member.constructor
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.none
+// Member: Member.method
+// MemberGenerics: MemberGenerics.none
+// MemberModifier: MemberModifier.abstract_
 // MemberName: MemberName.any
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.object
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
+// MemberNullability: MemberNullability.nonnull
+// MemberType: MemberType.float_
+// NestedKind: NestedKind.record
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.record
 // TopLevelModifier: TopLevelModifier.none
-public class TestClass114<@NotNull T>  extends GenericParent {
-  @Override
-  public void genericParentMethod(Object t) {}
-  public <@NotNull S, @NotNull V> TestClass114(@Nullable Object[] p1, int p2) {}
-  public enum NestedEnum { V1 }
-
+public record TestClass114<T>(float @NotNull [] field)  {
 }

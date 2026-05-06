@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 // MemberModifier: MemberModifier.none
 // MemberName: MemberName.any
 // MemberNullability: MemberNullability.nonnull
-// MemberType: MemberType.object
+// MemberType: MemberType.customInterface
 // NestedKind: NestedKind.enum_
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
@@ -26,7 +26,7 @@ public class TestClass105<@NotNull T extends Number>  implements OtherInterface,
   public void otherInterfaceMethod() {}
   @Override
   public void baseMethod() {}
-  public TestClass105(@NotNull Object[] p1) {}
+  public TestClass105(@NotNull CustomInterface<@NotNull T>[] p1) {}
   public enum NestedEnum { V1 }
 
 }

@@ -7,32 +7,23 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-// GenericNullability: GenericNullability.none
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.complexDag
+// GenericNullability: GenericNullability.nullable
+// Generics: Generics.none
+// Inheritance: Inheritance.none
 // IsArray: IsArray.no
 // Member: Member.method
-// MemberGenerics: MemberGenerics.twoParams
-// MemberModifier: MemberModifier.throws
-// MemberName: MemberName.setFoo
-// MemberNullability: MemberNullability.nullable
-// MemberType: MemberType.set
-// NestedKind: NestedKind.interface
-// ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass124<T>  implements DagA, DagD, DagE {
-  @Override
-  public void aMethod() {}
-  @Override
-  public void bMethod() {}
-  @Override
-  public void cMethod() {}
-  @Override
-  public void dMethod() {}
-  @Override
-  public void eMethod() {}
-  public <S, V> @Nullable Set<S> setFoo(@Nullable Set<S> p1, int p2) throws Exception { return null; }
-  public static interface Nested {}
+// MemberGenerics: MemberGenerics.oneParam
+// MemberModifier: MemberModifier.synchronized
+// MemberName: MemberName.isFoo
+// MemberNullability: MemberNullability.none
+// MemberType: MemberType.string
+// NestedKind: NestedKind.enum_
+// ParamCount: ParamCount.one
+// TopLevelKind: TopLevelKind.enum_
+// TopLevelModifier: TopLevelModifier.none
+public enum TestClass124  {
+  VALUE1, VALUE2;
+  public synchronized <@Nullable S> String isFoo(String p1) { return null; }
+  public enum NestedEnum { V1 }
 
 }

@@ -8,21 +8,20 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.nonnull
-// Generics: Generics.upperBound
-// Inheritance: Inheritance.none
+// Generics: Generics.oneParam
+// Inheritance: Inheritance.implements_
 // IsArray: IsArray.yes
-// Member: Member.field
+// Member: Member.method
 // MemberGenerics: MemberGenerics.none
-// MemberModifier: MemberModifier.transient
-// MemberName: MemberName.any
+// MemberModifier: MemberModifier.none
+// MemberName: MemberName.setFoo
 // MemberNullability: MemberNullability.nonnull
-// MemberType: MemberType.set
-// NestedKind: NestedKind.record
+// MemberType: MemberType.map
+// NestedKind: NestedKind.staticClass
 // ParamCount: ParamCount.two
-// TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass112<@NotNull T extends Number>  {
-  public transient @NotNull Set<@NotNull T>[] myField;
-  public static record NestedRecord(int x) {}
-
+// TopLevelKind: TopLevelKind.record
+// TopLevelModifier: TopLevelModifier.none
+public record TestClass112<@NotNull T>(@NotNull Map<@NotNull T, @NotNull T>[] field)  implements OtherInterface {
+  @Override
+  public void otherInterfaceMethod() {}
 }

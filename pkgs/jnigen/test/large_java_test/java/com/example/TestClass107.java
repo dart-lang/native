@@ -8,27 +8,23 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.none
-// Generics: Generics.oneParam
-// Inheritance: Inheritance.diamond
+// Generics: Generics.none
+// Inheritance: Inheritance.extends_
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.none
+// MemberGenerics: MemberGenerics.twoParams
 // MemberModifier: MemberModifier.static_
-// MemberName: MemberName.isFoo
-// MemberNullability: MemberNullability.none
-// MemberType: MemberType.double_
-// NestedKind: NestedKind.enum_
-// ParamCount: ParamCount.two
+// MemberName: MemberName.getFoo
+// MemberNullability: MemberNullability.nullable
+// MemberType: MemberType.float_
+// NestedKind: NestedKind.interface
+// ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.class_
-// TopLevelModifier: TopLevelModifier.final_
-public final class TestClass107<T>  implements DiamondLeft, DiamondRight {
+// TopLevelModifier: TopLevelModifier.none
+public class TestClass107  extends GrandParent {
   @Override
-  public void baseMethod() {}
-  @Override
-  public void leftMethod() {}
-  @Override
-  public void rightMethod() {}
-  public static double [] isFoo(double [] p1, int p2) { return null; }
-  public enum NestedEnum { V1 }
+  public void grandParentMethod() {}
+  public static <S, V> float @Nullable [] getFoo(float @Nullable [] p1) { return null; }
+  public static interface Nested {}
 
 }

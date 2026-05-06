@@ -8,19 +8,19 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 // GenericNullability: GenericNullability.nullable
-// Generics: Generics.twoParams
+// Generics: Generics.none
 // Inheritance: Inheritance.none
 // IsArray: IsArray.yes
 // Member: Member.method
-// MemberGenerics: MemberGenerics.oneParam
+// MemberGenerics: MemberGenerics.upperBound
 // MemberModifier: MemberModifier.default_
 // MemberName: MemberName.setFoo
-// MemberNullability: MemberNullability.nonnull
+// MemberNullability: MemberNullability.nullable
 // MemberType: MemberType.customEnum
 // NestedKind: NestedKind.none
 // ParamCount: ParamCount.one
 // TopLevelKind: TopLevelKind.interface
 // TopLevelModifier: TopLevelModifier.none
-public interface TestClass103<@Nullable T, @Nullable U>  {
-  default <@Nullable S> @NotNull CustomEnum[] setFoo(@NotNull CustomEnum[] p1) { return null; }
+public interface TestClass103  {
+  default <@Nullable S extends Number> @Nullable CustomEnum[] setFoo(@Nullable CustomEnum[] p1) { return null; }
 }

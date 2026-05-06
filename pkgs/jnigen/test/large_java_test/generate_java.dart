@@ -3,8 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+
 import 'package:path/path.dart' as p;
 import 'package:test_case_selector/test_case_selector.dart';
+
+import '../test_util/test_util.dart';
 
 const _copyrightHeader = '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
@@ -12,14 +15,21 @@ const _copyrightHeader = '''
 // BSD-style license that can be found in the LICENSE file.
 ''';
 
+// The kind of top level type under test.
 enum TopLevelKind { class_, interface, enum_, record }
 
+// The member inside the top level declaration.
 enum Member { field, method, constructor, initializer }
 
+// Java supports nesting types inside other types. These are all the nestable
+// types. Nested classes can either be static or non-static. The nested type is
+// pretty standalone, and not affected by any of the below enums.
 enum NestedKind { none, innerClass, staticClass, interface, enum_, record }
 
+// Modifier applied to the top level type.
 enum TopLevelModifier { none, final_, sealed }
 
+// Modifier applied to the member.
 enum MemberModifier {
   none,
   static_,
@@ -33,10 +43,13 @@ enum MemberModifier {
   native
 }
 
+// For members with params, test different numbers of params.
 enum ParamCount { zero, one, two }
 
+// Some member names are special cased inside JNIgen, so test those.
 enum MemberName { any, getFoo, setFoo, isFoo }
 
+// Affects what the top level type declaration inherits from.
 enum Inheritance {
   none,
   extends_,
@@ -48,8 +61,10 @@ enum Inheritance {
   complexDag
 }
 
+// The generic type params of the top level type.
 enum Generics { none, oneParam, twoParams, upperBound, lowerBound, wildcard }
 
+// The generic type params of the member.
 enum MemberGenerics {
   none,
   oneParam,
@@ -59,6 +74,8 @@ enum MemberGenerics {
   wildcard
 }
 
+// The type of the member. For constructors this is the type of the first arg,
+// and for methods this is the type of the first arg and the return type.
 enum MemberType {
   void_,
   boolean_,
@@ -83,13 +100,16 @@ enum MemberType {
   nestedCustom
 }
 
+// Whether the MemberType is also an array.
 enum IsArray { no, yes }
 
+// Whether the MemberType is nullable.
 enum MemberNullability { none, nullable, nonnull }
 
+// Whether the Generics and MemberGenerics are nullable.
 enum GenericNullability { none, nullable, nonnull }
 
-Future<void> main() async {
+void generateJava() {
   final selector = TestCaseSelector(
     dimensions: {
       TopLevelKind: TopLevelKind.values,
@@ -108,13 +128,23 @@ Future<void> main() async {
       GenericNullability: GenericNullability.values,
     },
     interactionGroups: [
+      // Test that each member works in each top level type.
       {TopLevelKind, Member},
-      {TopLevelKind, NestedKind, TopLevelModifier, Inheritance, Generics},
+      // The top level type and modifier affect what kind of nesting is allowed.
+      {TopLevelKind, NestedKind, TopLevelModifier},
+      // Inheritance and generics can interact in weird ways.
+      {TopLevelKind, Inheritance, Generics},
+      // So can top level generics and member generics.
       {TopLevelKind, Generics, MemberGenerics},
+      // The member name special casing is affected by modifiers and generics.
       {Member, MemberModifier, MemberName, MemberGenerics},
+      // All member kinds should work with all param counts.
       {Member, ParamCount},
+      // All member types should all be array-able and nullable-able.
       {MemberType, IsArray, MemberNullability},
+      // Make sure MemberType.memberTypeParam touches all members and generics.
       {Member, MemberGenerics, MemberType},
+      // Test that generics nullability works with both kinds of generics.
       {Generics, MemberGenerics, GenericNullability},
     ],
     isValid: (tc) {
@@ -349,8 +379,7 @@ Future<void> main() async {
   final testCases = selector.select();
   print('Generated ${testCases.length} test cases.');
 
-  final scriptDir = p.dirname(p.fromUri(Platform.script));
-  final javaDir = Directory(p.join(scriptDir, 'java'));
+  final javaDir = Directory(p.join(pkgDir, 'test', 'large_java_test', 'java'));
   if (javaDir.existsSync()) {
     javaDir.deleteSync(recursive: true);
   }
@@ -363,7 +392,7 @@ Future<void> main() async {
 
   for (var i = 0; i < testCases.length; i++) {
     final tc = testCases[i];
-    final className = 'TestClass$i';
+    final className = 'TestClass${i.toString().padLeft(3, '0')}';
     final sb = StringBuffer();
     sb.writeln(_copyrightHeader);
     sb.writeln('package com.example;');
