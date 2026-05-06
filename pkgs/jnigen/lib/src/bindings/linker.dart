@@ -63,29 +63,24 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
     }
 
     ClassDecl resolve(String? binaryName) {
-      if (binaryName == null) {
-        return resolve(DeclaredType.object.name);
-      }
-      final imported = config.importedClasses[binaryName];
-      if (imported != null) return imported;
+      if (binaryName != null) {
+        final decl =
+            config.importedClasses[binaryName] ?? node.decls[binaryName];
+        if (decl != null) return decl;
 
-      final decl = node.decls[binaryName];
-      if (decl != null) {
-        if (config.generateStubs || !decl.isExcluded) {
-          return decl;
+        if (config.generateStubs) {
+          log.fine('Class $binaryName not found. Creating a stub.');
+          // Create a synthetic stub. Mark it excluded for now. StubCollector
+          // will mark it as a stub later.
+          final stub = ClassDecl(
+            declKind: DeclKind.classKind,
+            binaryName: binaryName,
+            isExcluded: true,
+          );
+          assignPath(stub);
+          node.decls[binaryName] = stub;
+          return stub;
         }
-      }
-
-      if (config.generateStubs) {
-        log.fine('Class $binaryName not found. Creating a stub.');
-        final stub = ClassDecl(
-          declKind: DeclKind.classKind,
-          binaryName: binaryName,
-          isExcluded: true,
-        );
-        assignPath(stub);
-        node.decls[binaryName] = stub;
-        return stub;
       }
       return resolve(DeclaredType.object.name);
     }
