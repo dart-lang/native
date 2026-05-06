@@ -163,8 +163,15 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
   }
 }
 
-late final _class_ErrorMethodTestObject = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ErrorMethodTestObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ErrorMethodTestObject_raw;
+final _class_ErrorMethodTestObject = objc.getClass(
   "ErrorMethodTestObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ErrorMethodTestObject_raw,
+  ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<

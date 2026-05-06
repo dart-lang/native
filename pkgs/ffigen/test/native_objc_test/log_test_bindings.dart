@@ -170,8 +170,26 @@ extension LogSpamChildClass$Methods on LogSpamChildClass {
   }
 }
 
-late final _class_LogSpamBaseClass = objc.getClass("LogSpamBaseClass");
-late final _class_LogSpamChildClass = objc.getClass("LogSpamChildClass");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_LogSpamBaseClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_LogSpamBaseClass_raw;
+final _class_LogSpamBaseClass = objc.getClass(
+  "LogSpamBaseClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_LogSpamBaseClass_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_LogSpamChildClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_LogSpamChildClass_raw;
+final _class_LogSpamChildClass = objc.getClass(
+  "LogSpamChildClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_LogSpamChildClass_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

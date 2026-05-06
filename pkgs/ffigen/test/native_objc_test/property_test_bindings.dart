@@ -241,7 +241,16 @@ final class Vec4 extends ffi.Struct {
     ..ref.w = w;
 }
 
-late final _class_PropertyInterface = objc.getClass("PropertyInterface");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_PropertyInterface',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_PropertyInterface_raw;
+final _class_PropertyInterface = objc.getClass(
+  "PropertyInterface",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_PropertyInterface_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

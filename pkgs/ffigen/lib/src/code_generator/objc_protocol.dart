@@ -16,7 +16,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   final Context context;
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
-  final ObjCInternalGlobal _protocolPointer;
+  final NoLookUpBinding _protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
   final ApiAvailability apiAvailability;
@@ -33,10 +33,10 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     required this.apiAvailability,
     required this.context,
   }) : lookupName = lookupName ?? originalName,
-       _protocolPointer = ObjCInternalGlobal(
+       _protocolPointer = ObjCProtocolGlobal(
          '_protocol_$originalName',
-         () =>
-             '${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName")',
+         lookupName ?? originalName,
+         '_${context.objCBuiltInFunctions.libraryId}_$originalName',
        ),
        super(
          name:
@@ -337,6 +337,7 @@ ${generateInstanceMethodBindings(w, this)}
     final mainString =
         '''
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
 ''';
 

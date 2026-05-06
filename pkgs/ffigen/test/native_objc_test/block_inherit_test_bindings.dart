@@ -812,12 +812,42 @@ typedef ReturnMammal = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartReturnMammal = objc.ObjCBlock<Mammal Function()>;
 typedef ReturnPlatypus = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartReturnPlatypus = objc.ObjCBlock<Platypus Function()>;
-late final _class_BlockInheritTestBase = objc.getClass("BlockInheritTestBase");
-late final _class_BlockInheritTestChild = objc.getClass(
-  "BlockInheritTestChild",
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BlockInheritTestBase',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BlockInheritTestBase_raw;
+final _class_BlockInheritTestBase = objc.getClass(
+  "BlockInheritTestBase",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BlockInheritTestBase_raw,
+  ).cast(),
 );
-late final _class_Mammal = objc.getClass("Mammal");
-late final _class_Platypus = objc.getClass("Platypus");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BlockInheritTestChild',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BlockInheritTestChild_raw;
+final _class_BlockInheritTestChild = objc.getClass(
+  "BlockInheritTestChild",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BlockInheritTestChild_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Mammal')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Mammal_raw;
+final _class_Mammal = objc.getClass(
+  "Mammal",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Mammal_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_Platypus')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Platypus_raw;
+final _class_Platypus = objc.getClass(
+  "Platypus",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_Platypus_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

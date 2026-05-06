@@ -11,6 +11,8 @@ generate-for-package-objective-c: true
 sort: true
 functions:
   include:
+    - 'class_getName'
+    - 'class_isMetaClass'
     - 'objc_.*'
     - 'object_getClass'
     - 'sel_registerName'
@@ -23,6 +25,8 @@ functions:
     exclude:
       - 'objc_msgSend.*'
   rename:
+    'class_getName': 'getClassName'
+    'class_isMetaClass': 'isMetaClass'
     'sel_registerName': 'registerName'
     'sel_getName': 'getName'
     'objc_getClass': 'getClass'

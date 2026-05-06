@@ -117,7 +117,14 @@ extension Renamed$Methods on Renamed {
   }
 }
 
-late final _class__Renamed = objc.getClass("_Renamed");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$__Renamed')
+external ffi.Pointer<objc.ObjCObjectImpl> _class__Renamed_raw;
+final _class__Renamed = objc.getClass(
+  "_Renamed",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__Renamed_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

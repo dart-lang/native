@@ -369,7 +369,16 @@ extension StaticFuncTestObj$Methods on StaticFuncTestObj {
   }
 }
 
-late final _class_StaticFuncTestObj = objc.getClass("StaticFuncTestObj");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_StaticFuncTestObj',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_StaticFuncTestObj_raw;
+final _class_StaticFuncTestObj = objc.getClass(
+  "StaticFuncTestObj",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_StaticFuncTestObj_raw,
+  ).cast(),
+);
 final _objc_msgSend_129vhbw = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

@@ -130,9 +130,25 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
   }
 }
 
-late final _class_TestClassWrapper = objc.getClass("classes.TestClassWrapper");
-late final _class_TestOtherClassWrapper = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_classes.TestClassWrapper',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_TestClassWrapper_raw;
+final _class_TestClassWrapper = objc.getClass(
+  "classes.TestClassWrapper",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_TestClassWrapper_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_classes.TestOtherClassWrapper',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_TestOtherClassWrapper_raw;
+final _class_TestOtherClassWrapper = objc.getClass(
   "classes.TestOtherClassWrapper",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_TestOtherClassWrapper_raw,
+  ).cast(),
 );
 final _objc_msgSend_12hwf9n = objc.msgSendPointer
     .cast<

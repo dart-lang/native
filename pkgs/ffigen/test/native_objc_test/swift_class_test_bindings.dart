@@ -84,7 +84,16 @@ extension MySwiftClass$Methods on MySwiftClass {
   }
 }
 
-late final _class_MySwiftClass = objc.getClass("swift_class_test.MySwiftClass");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_swift_class_test.MySwiftClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_MySwiftClass_raw;
+final _class_MySwiftClass = objc.getClass(
+  "swift_class_test.MySwiftClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_MySwiftClass_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

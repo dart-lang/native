@@ -1026,9 +1026,36 @@ extension type UIPickerViewDelegate._(objc.ObjCProtocol object$)
   }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
 }
 
-late final _class_NSColorPicker = objc.getClass("NSColorPicker");
-late final _class_NSTextList = objc.getClass("NSTextList");
-late final _class_UIPickerView = objc.getClass("UIPickerView");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSColorPicker',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSColorPicker_raw;
+final _class_NSColorPicker = objc.getClass(
+  "NSColorPicker",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSColorPicker_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSTextList',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSTextList_raw;
+final _class_NSTextList = objc.getClass(
+  "NSTextList",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSTextList_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_UIPickerView',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_UIPickerView_raw;
+final _class_UIPickerView = objc.getClass(
+  "UIPickerView",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_UIPickerView_raw,
+  ).cast(),
+);
 final _objc_msgSend_12hwf9n = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

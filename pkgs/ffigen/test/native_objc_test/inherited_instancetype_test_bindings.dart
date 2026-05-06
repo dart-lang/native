@@ -176,8 +176,24 @@ extension ChildClass$Methods on ChildClass {
   }
 }
 
-late final _class_BaseClass = objc.getClass("BaseClass");
-late final _class_ChildClass = objc.getClass("ChildClass");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_BaseClass')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BaseClass_raw;
+final _class_BaseClass = objc.getClass(
+  "BaseClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BaseClass_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_ChildClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_ChildClass_raw;
+final _class_ChildClass = objc.getClass(
+  "ChildClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_ChildClass_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

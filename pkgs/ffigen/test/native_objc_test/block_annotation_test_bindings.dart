@@ -3163,9 +3163,34 @@ extension ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1$CallExtension
       >()(ref.pointer, arg0, arg1.ref.retainAndReturnPointer());
 }
 
-late final _class_BlockAnnotationTest = objc.getClass("BlockAnnotationTest");
-late final _class_EmptyObject = objc.getClass("EmptyObject");
-late final _class_NSThread = objc.getClass("NSThread");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BlockAnnotationTest',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BlockAnnotationTest_raw;
+final _class_BlockAnnotationTest = objc.getClass(
+  "BlockAnnotationTest",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BlockAnnotationTest_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_EmptyObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_EmptyObject_raw;
+final _class_EmptyObject = objc.getClass(
+  "EmptyObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_EmptyObject_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSThread')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSThread_raw;
+final _class_NSThread = objc.getClass(
+  "NSThread",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSThread_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -3566,8 +3591,14 @@ final _objc_msgSend_xw2lbc = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _protocol_BlockAnnotationTestProtocol = objc.getProtocol(
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_z0xonr_BlockAnnotationTestProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_BlockAnnotationTestProtocol_raw();
+final _protocol_BlockAnnotationTestProtocol = objc.getProtocol(
   "BlockAnnotationTestProtocol",
+  _protocol_BlockAnnotationTestProtocol_raw,
 );
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");

@@ -163,7 +163,16 @@ extension NullableInterface$Methods on NullableInterface {
   }
 }
 
-late final _class_NullableInterface = objc.getClass("NullableInterface");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NullableInterface',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NullableInterface_raw;
+final _class_NullableInterface = objc.getClass(
+  "NullableInterface",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NullableInterface_raw,
+  ).cast(),
+);
 final _objc_msgSend_11spmsz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

@@ -23,6 +23,6 @@ int main() {
   ASSERT_SYMBOL("OBJC_CLASS_$_DOBJCDartProtocol");    // protocol.m
   ASSERT_SYMBOL("OBJC_CLASS_$_DOBJCObservation");     // observer.m
   // objective_c_bindings_generated.m
-  ASSERT_SYMBOL("_ObjectiveCBindings_wrapListenerBlock_ovsamd");
+  ASSERT_SYMBOL("_1wx624s_Observer");
   return 0;
 }

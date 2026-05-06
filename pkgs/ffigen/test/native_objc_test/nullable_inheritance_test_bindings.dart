@@ -284,9 +284,36 @@ extension NullableIntermediate$Methods on NullableIntermediate {
   }
 }
 
-late final _class_NullableBase = objc.getClass("NullableBase");
-late final _class_NullableChild = objc.getClass("NullableChild");
-late final _class_NullableIntermediate = objc.getClass("NullableIntermediate");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NullableBase',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NullableBase_raw;
+final _class_NullableBase = objc.getClass(
+  "NullableBase",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NullableBase_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NullableChild',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NullableChild_raw;
+final _class_NullableChild = objc.getClass(
+  "NullableChild",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NullableChild_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NullableIntermediate',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NullableIntermediate_raw;
+final _class_NullableIntermediate = objc.getClass(
+  "NullableIntermediate",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NullableIntermediate_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

@@ -232,10 +232,35 @@ extension IsInstanceUnrelatedClass$Methods on IsInstanceUnrelatedClass {
   }
 }
 
-late final _class_IsInstanceBaseClass = objc.getClass("IsInstanceBaseClass");
-late final _class_IsInstanceChildClass = objc.getClass("IsInstanceChildClass");
-late final _class_IsInstanceUnrelatedClass = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_IsInstanceBaseClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_IsInstanceBaseClass_raw;
+final _class_IsInstanceBaseClass = objc.getClass(
+  "IsInstanceBaseClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_IsInstanceBaseClass_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_IsInstanceChildClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_IsInstanceChildClass_raw;
+final _class_IsInstanceChildClass = objc.getClass(
+  "IsInstanceChildClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_IsInstanceChildClass_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_IsInstanceUnrelatedClass',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_IsInstanceUnrelatedClass_raw;
+final _class_IsInstanceUnrelatedClass = objc.getClass(
   "IsInstanceUnrelatedClass",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_IsInstanceUnrelatedClass_raw,
+  ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<

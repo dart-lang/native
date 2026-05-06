@@ -112,7 +112,16 @@ final class BitField extends ffi.Opaque {}
 
 final class IncompleteStruct extends ffi.Opaque {}
 
-late final _class_BadMethodTestObject = objc.getClass("BadMethodTestObject");
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_BadMethodTestObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_BadMethodTestObject_raw;
+final _class_BadMethodTestObject = objc.getClass(
+  "BadMethodTestObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_BadMethodTestObject_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
