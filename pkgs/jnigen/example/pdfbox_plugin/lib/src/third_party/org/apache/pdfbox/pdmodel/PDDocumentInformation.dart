@@ -54,6 +54,12 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+import '../../../../java/util/Calendar.dart' as calendar$_;
+
+import '../cos/COSDictionary.dart' as cosdictionary$_;
+
+import 'common/COSObjectable.dart' as cosobjectable$_;
+
 /// from: `org.apache.pdfbox.pdmodel.PDDocumentInformation`
 ///
 /// This is the document metadata.  Each getXXX method will return the entry if
@@ -62,7 +68,7 @@ import 'package:jni/jni.dart' as jni$_;
 ///@author Ben Litchfield
 ///@author Gerardo Ortiz
 extension type PDDocumentInformation._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, cosobjectable$_.COSObjectable {
   static final _class =
       jni$_.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocumentInformation');
 
@@ -115,7 +121,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
   factory PDDocumentInformation.new$1(
-    jni$_.JObject? dic,
+    cosdictionary$_.COSDictionary? dic,
   ) {
     final _$dic = dic?.reference ?? jni$_.jNullReference;
     return _new$1(_class.reference.pointer, _id_new$1.pointer, _$dic.pointer)
@@ -147,9 +153,9 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
-  jni$_.JObject? get cOSObject {
+  cosdictionary$_.COSDictionary? get cOSObject {
     return _get$cOSObject(reference.pointer, _id_get$cOSObject.pointer)
-        .object<jni$_.JObject?>();
+        .object<cosdictionary$_.COSDictionary?>();
   }
 
   static final _id_getPropertyStringValue =
@@ -532,9 +538,9 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
-  jni$_.JObject? get creationDate {
+  calendar$_.Calendar? get creationDate {
     return _get$creationDate(reference.pointer, _id_get$creationDate.pointer)
-        .object<jni$_.JObject?>();
+        .object<calendar$_.Calendar?>();
   }
 
   static final _id_set$creationDate =
@@ -558,7 +564,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the creation date of the document.
   ///@param date The new creation date for the document.
-  set creationDate(jni$_.JObject? date) {
+  set creationDate(calendar$_.Calendar? date) {
     final _$date = date?.reference ?? jni$_.jNullReference;
     _set$creationDate(
             reference.pointer, _id_set$creationDate.pointer, _$date.pointer)
@@ -588,10 +594,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will get the modification date of the document.  This will return null if no modification date exists.
   ///@return The modification date of the document.
-  jni$_.JObject? get modificationDate {
+  calendar$_.Calendar? get modificationDate {
     return _get$modificationDate(
             reference.pointer, _id_get$modificationDate.pointer)
-        .object<jni$_.JObject?>();
+        .object<calendar$_.Calendar?>();
   }
 
   static final _id_set$modificationDate =
@@ -615,7 +621,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the modification date of the document.
   ///@param date The new modification date for the document.
-  set modificationDate(jni$_.JObject? date) {
+  set modificationDate(calendar$_.Calendar? date) {
     final _$date = date?.reference ?? jni$_.jNullReference;
     _set$modificationDate(
             reference.pointer, _id_set$modificationDate.pointer, _$date.pointer)

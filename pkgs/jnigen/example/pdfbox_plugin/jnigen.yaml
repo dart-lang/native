@@ -1,5 +1,4 @@
 ## String to be pasted verbatim into generated bindings
-generate_stubs: false
 preamble: |
   // Generated from Apache PDFBox library which is licensed under the Apache License 2.0.
   // The following copyright from the original authors applies.

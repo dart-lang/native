@@ -54,7 +54,16 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+import '../../../../java/io/Writer.dart' as writer$_;
+
 import '../pdmodel/PDDocument.dart' as pddocument$_;
+
+import '../pdmodel/PDPage.dart' as pdpage$_;
+
+import '../pdmodel/interactive/documentnavigation/outline/PDOutlineItem.dart'
+    as pdoutlineitem$_;
+
+import 'LegacyPDFStreamEngine.dart' as legacypdfstreamengine$_;
 
 /// from: `org.apache.pdfbox.text.PDFTextStripper`
 ///
@@ -66,7 +75,7 @@ import '../pdmodel/PDDocument.dart' as pddocument$_;
 /// smaller and smaller chunks of the page. Eventually, we fully process each page and then print it.
 ///@author Ben Litchfield
 extension type PDFTextStripper._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements legacypdfstreamengine$_.LegacyPDFStreamEngine {
   static final _class =
       jni$_.JClass.forName(r'org/apache/pdfbox/text/PDFTextStripper');
 
@@ -167,7 +176,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///@throws IOException If the doc is in an invalid state.
   void writeText(
     pddocument$_.PDDocument? doc,
-    jni$_.JObject? outputStream,
+    writer$_.Writer? outputStream,
   ) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$outputStream = outputStream?.reference ?? jni$_.jNullReference;
@@ -198,7 +207,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///@param page The page to process.
   ///@throws IOException If there is an error processing the page.
   void processPage(
-    jni$_.JObject? page,
+    pdpage$_.PDPage? page,
   ) {
     final _$page = page?.reference ?? jni$_.jNullReference;
     _processPage(reference.pointer, _id_processPage.pointer, _$page.pointer)
@@ -556,9 +565,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
   ///@return The ending bookmark.
-  jni$_.JObject? get endBookmark {
+  pdoutlineitem$_.PDOutlineItem? get endBookmark {
     return _get$endBookmark(reference.pointer, _id_get$endBookmark.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdoutlineitem$_.PDOutlineItem?>();
   }
 
   static final _id_set$endBookmark = PDFTextStripper._class.instanceMethodId(
@@ -581,7 +590,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
-  set endBookmark(jni$_.JObject? aEndBookmark) {
+  set endBookmark(pdoutlineitem$_.PDOutlineItem? aEndBookmark) {
     final _$aEndBookmark = aEndBookmark?.reference ?? jni$_.jNullReference;
     _set$endBookmark(reference.pointer, _id_set$endBookmark.pointer,
             _$aEndBookmark.pointer)
@@ -610,9 +619,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
   ///@return The starting bookmark.
-  jni$_.JObject? get startBookmark {
+  pdoutlineitem$_.PDOutlineItem? get startBookmark {
     return _get$startBookmark(reference.pointer, _id_get$startBookmark.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdoutlineitem$_.PDOutlineItem?>();
   }
 
   static final _id_set$startBookmark = PDFTextStripper._class.instanceMethodId(
@@ -635,7 +644,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
-  set startBookmark(jni$_.JObject? aStartBookmark) {
+  set startBookmark(pdoutlineitem$_.PDOutlineItem? aStartBookmark) {
     final _$aStartBookmark = aStartBookmark?.reference ?? jni$_.jNullReference;
     _set$startBookmark(reference.pointer, _id_set$startBookmark.pointer,
             _$aStartBookmark.pointer)

@@ -24,7 +24,6 @@ void main(List<String> args) {
         'android.os.Build', // from gradle's compile classpath
         'java.util.HashMap', // from gradle's compile classpath
       ],
-      generateStubs: false,
     ),
   );
 }
