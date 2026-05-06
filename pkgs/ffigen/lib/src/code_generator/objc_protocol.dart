@@ -66,6 +66,9 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override
+  ApiAvailability get computeAvailability => apiAvailability;
+
+  @override
   BindingString toBindingString(Writer w) {
     final protocolClass = ObjCBuiltInFunctions.protocolClass.gen(context);
     final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(context);
