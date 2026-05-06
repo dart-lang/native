@@ -16,16 +16,8 @@ import 'util.dart';
 void main() {
   group('swift_class_test', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'swift_class_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      loadLibrary();
+      loadSwiftLibrary();
     });
 
     test('Renamed class', () {

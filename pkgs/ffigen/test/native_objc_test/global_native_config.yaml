@@ -4,6 +4,7 @@ language: objc
 output: 'global_native_test_bindings.dart'
 exclude-all-by-default: true
 ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 globals:
   include:
     - globalString

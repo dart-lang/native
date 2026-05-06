@@ -21,13 +21,16 @@ environment:
 dependencies:
   args: ^2.6.0
   cli_util: ^0.4.2
+  code_assets: ^1.0.0
   collection: ^1.18.0
   dart_style: ^3.0.0
   ffi: ^2.0.1
   file: ^7.0.0
   glob: ^2.0.0
+  hooks: ^1.0.0
   logging: ^1.0.0
   meta: ^1.11.0
+  native_toolchain_c: ^0.17.4
   package_config: ^2.1.0
   path: ^1.8.0
   pub_semver: ^2.1.4
@@ -55,5 +58,7 @@ dependency_overrides:
 
 hooks:
   user_defines:
+    ffigen:
+      include_test_utils: true
     objective_c:
       include_test_utils: true

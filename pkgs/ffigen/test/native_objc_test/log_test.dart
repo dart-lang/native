@@ -18,16 +18,7 @@ import 'util.dart';
 void main() {
   group('log_test', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      loadLibrary();
     });
 
     test('Duplicate method log spam', () {
@@ -36,7 +27,7 @@ void main() {
         capturedMessages: logs,
         level: Level.SEVERE,
       );
-      verifyBindings('log', logger);
+      verifyBindings('log', logger: logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));
     });

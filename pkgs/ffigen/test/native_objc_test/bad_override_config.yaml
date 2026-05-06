@@ -16,6 +16,8 @@ objc-interfaces:
     - BadOverrideChild
     - BadOverrideSibbling
     - BadOverrideGrandchild
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'bad_override_test.m'

@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:ffigen/src/header_parser.dart' show parse;
@@ -12,20 +11,15 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 import '_expected_native_test_bindings.dart';
 
+@Native<Void Function()>(
+  symbol: 'Function1Bool',
+  assetId: 'package:ffigen/native_test',
+)
+external void loadLibrary();
+
 void main() {
-  late NativeLibrary bindings;
   group('native_test', () {
-    setUpAll(() {
-      var dylibName = 'test/native_test/native_test.so';
-      if (Platform.isMacOS) {
-        dylibName = 'test/native_test/native_test.dylib';
-      } else if (Platform.isWindows) {
-        dylibName = r'test\native_test\native_test.dll';
-      }
-      final dylib = File(path.join(packagePathForTests, dylibName));
-      verifySetupFile(dylib);
-      bindings = NativeLibrary(DynamicLibrary.open(dylib.absolute.path));
-    });
+    setUpAll(loadLibrary);
 
     test('generate_bindings', () {
       final context = testContext(
@@ -43,64 +37,52 @@ void main() {
     });
 
     test('bool', () {
-      expect(bindings.Function1Bool(true), false);
-      expect(bindings.Function1Bool(false), true);
+      expect(Function1Bool(true), false);
+      expect(Function1Bool(false), true);
     });
     test('uint8_t', () {
-      expect(bindings.Function1Uint8(pow(2, 8).toInt()), 42);
+      expect(Function1Uint8(pow(2, 8).toInt()), 42);
     });
     test('uint16_t', () {
-      expect(bindings.Function1Uint16(pow(2, 16).toInt()), 42);
+      expect(Function1Uint16(pow(2, 16).toInt()), 42);
     });
     test('uint32_t', () {
-      expect(bindings.Function1Uint32(pow(2, 32).toInt()), 42);
+      expect(Function1Uint32(pow(2, 32).toInt()), 42);
     });
     test('uint64_t', () {
-      expect(bindings.Function1Uint64(pow(2, 64).toInt()), 42);
+      expect(Function1Uint64(pow(2, 64).toInt()), 42);
     });
     test('int8_t', () {
-      expect(
-        bindings.Function1Int8(pow(2, 7).toInt()),
-        -pow(2, 7).toInt() + 42,
-      );
+      expect(Function1Int8(pow(2, 7).toInt()), -pow(2, 7).toInt() + 42);
     });
     test('int16_t', () {
-      expect(
-        bindings.Function1Int16(pow(2, 15).toInt()),
-        -pow(2, 15).toInt() + 42,
-      );
+      expect(Function1Int16(pow(2, 15).toInt()), -pow(2, 15).toInt() + 42);
     });
     test('int32_t', () {
-      expect(
-        bindings.Function1Int32(pow(2, 31).toInt()),
-        -pow(2, 31).toInt() + 42,
-      );
+      expect(Function1Int32(pow(2, 31).toInt()), -pow(2, 31).toInt() + 42);
     });
     test('int64_t', () {
-      expect(
-        bindings.Function1Int64(pow(2, 63).toInt()),
-        -pow(2, 63).toInt() + 42,
-      );
+      expect(Function1Int64(pow(2, 63).toInt()), -pow(2, 63).toInt() + 42);
     });
     test('intptr_t', () {
-      expect(bindings.Function1IntPtr(0), 42);
+      expect(Function1IntPtr(0), 42);
     });
     test('float', () {
-      expect(bindings.Function1Float(0), 42.0);
+      expect(Function1Float(0), 42.0);
     });
     test('double', () {
-      expect(bindings.Function1Double(0), 42.0);
+      expect(Function1Double(0), 42.0);
     });
     test('array global', () {
-      bindings.globalArray[0] = 1;
-      bindings.globalArray[1] = 2;
-      expect(bindings.globalArray[0], 1);
-      expect(bindings.globalArray[1], 2);
-      bindings.globalArray[1] = 3;
-      expect(bindings.globalArray[1], 3);
+      globalArray[0] = 1;
+      globalArray[1] = 2;
+      expect(globalArray[0], 1);
+      expect(globalArray[1], 2);
+      globalArray[1] = 3;
+      expect(globalArray[1], 3);
     });
     test('Array Test: Order of access', () {
-      final struct1 = bindings.getStruct1();
+      final struct1 = getStruct1();
       var expectedValue = 1;
       final dimensions = [3, 1, 2];
       for (var i = 0; i < dimensions[0]; i++) {
@@ -114,7 +96,7 @@ void main() {
     });
 
     test('Array Workaround: Range Errors', () {
-      final struct1 = bindings.getStruct1();
+      final struct1 = getStruct1();
       // Index (get) above range.
       expect(
         () => struct1.ref.data[4][0][0],
@@ -172,13 +154,13 @@ void main() {
     test('Struct By Value', () {
       final r = Random();
       final a = r.nextInt(100), b = r.nextInt(100), c = r.nextInt(100);
-      final s = bindings.Function1StructReturnByValue(a, b, c);
-      expect(bindings.Function1StructPassByValue(s), a + b + c);
+      final s = Function1StructReturnByValue(a, b, c);
+      expect(Function1StructPassByValue(s), a + b + c);
     });
 
     test('Enum1 is a Dart enum', () {
       final enum1 = Enum1.enum1Value1;
-      final result = bindings.funcWithEnum1(enum1);
+      final result = funcWithEnum1(enum1);
       expect(enum1, isA<Enum1>());
       expect(enum1.value, isA<int>());
       expect(result, enum1);
@@ -186,13 +168,13 @@ void main() {
 
     test('Enum2 is a Dart integer', () {
       final enum2 = Enum2.enum2Value1;
-      final result = bindings.funcWithEnum2(enum2);
+      final result = funcWithEnum2(enum2);
       expect(enum2, isA<int>());
       expect(result, enum2);
     });
 
     test('Enum in a struct', () {
-      final struct1 = bindings.getStructWithEnums();
+      final struct1 = getStructWithEnums();
       Enum1 enum1;
       enum1 = struct1.enum1;
       expect(enum1, Enum1.enum1Value1);
