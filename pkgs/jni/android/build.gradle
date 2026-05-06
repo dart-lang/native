@@ -1,7 +1,7 @@
 // The Android Gradle Plugin builds the native code with the Android NDK.
 
-group 'com.github.dart_lang.jni'
-version '1.0'
+group = 'com.github.dart_lang.jni'
+version = '1.0'
 
 buildscript {
     repositories {
@@ -32,7 +32,7 @@ android {
 
     // Condition for namespace compatibility in AGP 8
     if (project.android.hasProperty("namespace")) {
-        namespace 'com.github.dart_lang.jni'
+        namespace = 'com.github.dart_lang.jni'
     }
 
     // Adding [PortContinuation] and [PortProxy] classes shared between Flutter and
@@ -47,9 +47,9 @@ android {
 
     // Bumping the plugin compileSdk requires all clients of this plugin
     // to bump the version in their app.
-    compileSdk 35
+    compileSdk = 35
 
-    ndkVersion flutter.ndkVersion
+    ndkVersion = flutter.ndkVersion
 
     // Invoke the shared CMake build with the Android Gradle Plugin.
     externalNativeBuild {
@@ -72,6 +72,6 @@ android {
     }
 
     defaultConfig {
-        minSdk 21
+        minSdk = 21
     }
 }
