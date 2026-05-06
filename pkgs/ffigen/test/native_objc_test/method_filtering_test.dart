@@ -11,6 +11,7 @@ import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
@@ -20,18 +21,18 @@ import 'util.dart';
 
 void main() {
   group('method filtering', () {
-    late final String bindings;
     group('no version info', () {
       late final String bindings;
       setUpAll(() {
-        bindings = File(
+        final config = testConfigFromPath(
           path.join(
             packagePathForTests,
             'test',
             'native_objc_test',
-            'method_filtering_test_bindings.dart',
+            'method_filtering_config.yaml',
           ),
-        ).readAsStringSync();
+        );
+        bindings = parse(testContext(config)).generate();
       });
 
       test('interfaces', () {

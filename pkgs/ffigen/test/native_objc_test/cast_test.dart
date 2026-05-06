@@ -20,16 +20,7 @@ void main() {
 
   group('cast', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      loadLibrary();
       testInstance = Castaway();
     });
 

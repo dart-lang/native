@@ -18,16 +18,7 @@ import 'util.dart';
 void main() {
   group('global using @Native', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      loadLibrary();
     });
 
     test('Global string', () {

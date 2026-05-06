@@ -15,38 +15,28 @@ import 'method_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late MethodInterface testInstance;
-
   group('method calls', () {
+    late MethodInterface testInterface;
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      testInstance = MethodInterface();
+      loadLibrary();
+      testInterface = MethodInterface.alloc().init();
     });
 
     group('Instance methods', () {
       test('No arguments', () {
-        expect(testInstance.add(), 5);
+        expect(testInterface.add(), 5);
       });
 
       test('One argument', () {
-        expect(testInstance.add$1(23), 23);
+        expect(testInterface.add$1(23), 23);
       });
 
       test('Two arguments', () {
-        expect(testInstance.add$2(23, Y: 17), 40);
+        expect(testInterface.add$2(23, Y: 17), 40);
       });
 
       test('Three arguments', () {
-        expect(testInstance.add$3(23, Y: 17, Z: 60), 100);
+        expect(testInterface.add$3(23, Y: 17, Z: 60), 100);
       });
     });
 
@@ -77,7 +67,7 @@ void main() {
         input.z = 5.6;
         input.w = 7.8;
 
-        final result = testInstance.twiddleVec4Components(input);
+        final result = testInterface.twiddleVec4Components(input);
         expect(result.x, 3.4);
         expect(result.y, 5.6);
         expect(result.z, 7.8);
@@ -87,16 +77,16 @@ void main() {
       });
 
       test('Floats', () {
-        expect(testInstance.addFloats(1.23, Y: 4.56), closeTo(5.79, 1e-6));
+        expect(testInterface.addFloats(1.23, Y: 4.56), closeTo(5.79, 1e-6));
       });
 
       test('Doubles', () {
-        expect(testInstance.addDoubles(1.23, Y: 4.56), closeTo(5.79, 1e-6));
+        expect(testInterface.addDoubles(1.23, Y: 4.56), closeTo(5.79, 1e-6));
       });
 
       test('Method with same name as a type', () {
         // Test for https://github.com/dart-lang/native/issues/1007
-        final result = testInstance.Vec4$1();
+        final result = testInterface.Vec4$1();
         expect(result.x, 1);
         expect(result.y, 2);
         expect(result.z, 3);
@@ -106,7 +96,7 @@ void main() {
 
     test('Instance and static methods with same name', () {
       // Test for https://github.com/dart-lang/native/issues/1136
-      expect(testInstance.instStaticSameName(), 123);
+      expect(testInterface.instStaticSameName(), 123);
       expect(MethodInterface.instStaticSameName$1(), 456);
     });
   });

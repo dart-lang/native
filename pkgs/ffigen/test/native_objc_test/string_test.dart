@@ -18,16 +18,7 @@ import 'util.dart';
 void main() {
   group('string', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      loadLibrary();
     });
 
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {
