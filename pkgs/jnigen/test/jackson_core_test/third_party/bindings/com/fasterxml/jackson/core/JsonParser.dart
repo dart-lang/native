@@ -53,13 +53,53 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+import '../../../../java/io/Closeable.dart' as closeable$_;
+
+import '../../../../java/io/OutputStream.dart' as outputstream$_;
+
+import '../../../../java/io/Writer.dart' as writer$_;
+
+import '../../../../java/lang/Class.dart' as class$_;
+
+import '../../../../java/lang/Enum.dart' as enum$_;
+
+import '../../../../java/math/BigDecimal.dart' as bigdecimal$_;
+
+import '../../../../java/math/BigInteger.dart' as biginteger$_;
+
+import 'Base64Variant.dart' as base64variant$_;
+
+import 'FormatSchema.dart' as formatschema$_;
+
+import 'JsonLocation.dart' as jsonlocation$_;
+
+import 'JsonStreamContext.dart' as jsonstreamcontext$_;
+
 import 'JsonToken.dart' as jsontoken$_;
+
+import 'ObjectCodec.dart' as objectcodec$_;
+
+import 'SerializableString.dart' as serializablestring$_;
+
+import 'StreamReadFeature.dart' as streamreadfeature$_;
+
+import 'Version.dart' as version$_;
+
+import 'Versioned.dart' as versioned$_;
+
+import 'async/NonBlockingInputFeeder.dart' as nonblockinginputfeeder$_;
+
+import 'type/TypeReference.dart' as typereference$_;
+
+import 'util/JacksonFeatureSet.dart' as jacksonfeatureset$_;
+
+import 'util/RequestPayload.dart' as requestpayload$_;
 
 /// from: `com.fasterxml.jackson.core.JsonParser$Feature`
 ///
 /// Enumeration that defines all on/off features for parsers.
 extension type JsonParser$Feature._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements enum$_.Enum {
   static final _class =
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
 
@@ -597,7 +637,7 @@ final class $JsonParser$Feature$Type$ extends jni$_.JType<JsonParser$Feature> {
 /// Enumeration of possible "native" (optimal) types that can be
 /// used for numbers.
 extension type JsonParser$NumberType._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements enum$_.Enum {
   static final _class =
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
 
@@ -736,7 +776,8 @@ final class $JsonParser$NumberType$Type$
 /// Instances are created using factory methods of
 /// a JsonFactory instance.
 ///@author Tatu Saloranta
-extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type JsonParser._(jni$_.JObject _$this)
+    implements jni$_.JObject, closeable$_.Closeable, versioned$_.Versioned {
   static final _class =
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser');
 
@@ -769,9 +810,9 @@ extension JsonParser$$Methods on JsonParser {
   /// parser, if any. Codec is used by \#readValueAs(Class)
   /// method (and its variants).
   ///@return Codec assigned to this parser, if any; {@code null} if none
-  jni$_.JObject? get codec {
+  objectcodec$_.ObjectCodec? get codec {
     return _get$codec(reference.pointer, _id_get$codec.pointer)
-        .object<jni$_.JObject?>();
+        .object<objectcodec$_.ObjectCodec?>();
   }
 
   static final _id_set$codec = JsonParser._class.instanceMethodId(
@@ -796,7 +837,7 @@ extension JsonParser$$Methods on JsonParser {
   /// parser, if any. Codec is used by \#readValueAs(Class)
   /// method (and its variants).
   ///@param oc Codec to assign, if any; {@code null} if none
-  set codec(jni$_.JObject? oc) {
+  set codec(objectcodec$_.ObjectCodec? oc) {
     final _$oc = oc?.reference ?? jni$_.jNullReference;
     _set$codec(reference.pointer, _id_set$codec.pointer, _$oc.pointer).check();
   }
@@ -862,7 +903,7 @@ extension JsonParser$$Methods on JsonParser {
   /// Sets the payload to be passed if JsonParseException is thrown.
   ///@param payload Payload to pass
   ///@since 2.8
-  set requestPayloadOnError(jni$_.JObject? payload) {
+  set requestPayloadOnError(requestpayload$_.RequestPayload? payload) {
     final _$payload = payload?.reference ?? jni$_.jNullReference;
     _set$requestPayloadOnError(reference.pointer,
             _id_set$requestPayloadOnError.pointer, _$payload.pointer)
@@ -970,7 +1011,7 @@ extension JsonParser$$Methods on JsonParser {
   /// is thrown.
   ///@param schema Schema to use
   ///@throws UnsupportedOperationException if parser does not support schema
-  set schema(jni$_.JObject? schema) {
+  set schema(formatschema$_.FormatSchema? schema) {
     final _$schema = schema?.reference ?? jni$_.jNullReference;
     _set$schema(reference.pointer, _id_set$schema.pointer, _$schema.pointer)
         .check();
@@ -1000,9 +1041,9 @@ extension JsonParser$$Methods on JsonParser {
   /// Default implementation returns null.
   ///@return Schema in use by this parser, if any; {@code null} if none
   ///@since 2.1
-  jni$_.JObject? get schema {
+  formatschema$_.FormatSchema? get schema {
     return _get$schema(reference.pointer, _id_get$schema.pointer)
-        .object<jni$_.JObject?>();
+        .object<formatschema$_.FormatSchema?>();
   }
 
   static final _id_canUseSchema = JsonParser._class.instanceMethodId(
@@ -1028,7 +1069,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@param schema Schema to check
   ///@return True if this parser can use given schema; false if not
   core$_.bool canUseSchema(
-    jni$_.JObject? schema,
+    formatschema$_.FormatSchema? schema,
   ) {
     final _$schema = schema?.reference ?? jni$_.jNullReference;
     return _canUseSchema(
@@ -1130,10 +1171,10 @@ extension JsonParser$$Methods on JsonParser {
   /// parsers that use blocking I/O.
   ///@return Input feeder to use with non-blocking (async) parsing
   ///@since 2.9
-  jni$_.JObject? get nonBlockingInputFeeder {
+  nonblockinginputfeeder$_.NonBlockingInputFeeder? get nonBlockingInputFeeder {
     return _get$nonBlockingInputFeeder(
             reference.pointer, _id_get$nonBlockingInputFeeder.pointer)
-        .object<jni$_.JObject?>();
+        .object<nonblockinginputfeeder$_.NonBlockingInputFeeder?>();
   }
 
   static final _id_get$readCapabilities = JsonParser._class.instanceMethodId(
@@ -1160,10 +1201,10 @@ extension JsonParser$$Methods on JsonParser {
   /// underlying data format being read (directly or indirectly).
   ///@return Set of read capabilities for content to read via this parser
   ///@since 2.12
-  jni$_.JObject? get readCapabilities {
+  jacksonfeatureset$_.JacksonFeatureSet? get readCapabilities {
     return _get$readCapabilities(
             reference.pointer, _id_get$readCapabilities.pointer)
-        .object<jni$_.JObject?>();
+        .object<jacksonfeatureset$_.JacksonFeatureSet?>();
   }
 
   static final _id_version = JsonParser._class.instanceMethodId(
@@ -1190,9 +1231,9 @@ extension JsonParser$$Methods on JsonParser {
   /// Left for sub-classes to implement.
   ///@return Version of this generator (derived from version declared for
   ///   {@code jackson-core} jar that contains the class
-  jni$_.JObject? version() {
+  version$_.Version? version() {
     return _version(reference.pointer, _id_version.pointer)
-        .object<jni$_.JObject?>();
+        .object<version$_.Version?>();
   }
 
   static final _id_close = JsonParser._class.instanceMethodId(
@@ -1291,10 +1332,10 @@ extension JsonParser$$Methods on JsonParser {
   /// Contexts can also be used for simple xpath-like matching of
   /// input, if so desired.
   ///@return Stream input context (JsonStreamContext) associated with this parser
-  jni$_.JObject? get parsingContext {
+  jsonstreamcontext$_.JsonStreamContext? get parsingContext {
     return _get$parsingContext(
             reference.pointer, _id_get$parsingContext.pointer)
-        .object<jni$_.JObject?>();
+        .object<jsonstreamcontext$_.JsonStreamContext?>();
   }
 
   static final _id_currentLocation = JsonParser._class.instanceMethodId(
@@ -1329,9 +1370,9 @@ extension JsonParser$$Methods on JsonParser {
   /// to other library)
   ///@return Location of the last processed input unit (byte or character)
   ///@since 2.13
-  jni$_.JObject? currentLocation() {
+  jsonlocation$_.JsonLocation? currentLocation() {
     return _currentLocation(reference.pointer, _id_currentLocation.pointer)
-        .object<jni$_.JObject?>();
+        .object<jsonlocation$_.JsonLocation?>();
   }
 
   static final _id_currentTokenLocation = JsonParser._class.instanceMethodId(
@@ -1366,10 +1407,10 @@ extension JsonParser$$Methods on JsonParser {
   /// to other library)
   ///@return Starting location of the token parser currently points to
   ///@since 2.13 (will eventually replace \#getTokenLocation)
-  jni$_.JObject? currentTokenLocation() {
+  jsonlocation$_.JsonLocation? currentTokenLocation() {
     return _currentTokenLocation(
             reference.pointer, _id_currentTokenLocation.pointer)
-        .object<jni$_.JObject?>();
+        .object<jsonlocation$_.JsonLocation?>();
   }
 
   static final _id_get$currentLocation$1 = JsonParser._class.instanceMethodId(
@@ -1395,10 +1436,10 @@ extension JsonParser$$Methods on JsonParser {
   /// Alias for \#currentLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
-  jni$_.JObject? get currentLocation$1 {
+  jsonlocation$_.JsonLocation? get currentLocation$1 {
     return _get$currentLocation$1(
             reference.pointer, _id_get$currentLocation$1.pointer)
-        .object<jni$_.JObject?>();
+        .object<jsonlocation$_.JsonLocation?>();
   }
 
   static final _id_get$tokenLocation = JsonParser._class.instanceMethodId(
@@ -1424,9 +1465,9 @@ extension JsonParser$$Methods on JsonParser {
   /// Alias for \#currentTokenLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Starting location of the token parser currently points to
-  jni$_.JObject? get tokenLocation {
+  jsonlocation$_.JsonLocation? get tokenLocation {
     return _get$tokenLocation(reference.pointer, _id_get$tokenLocation.pointer)
-        .object<jni$_.JObject?>();
+        .object<jsonlocation$_.JsonLocation?>();
   }
 
   static final _id_currentValue = JsonParser._class.instanceMethodId(
@@ -1585,7 +1626,7 @@ extension JsonParser$$Methods on JsonParser {
   ///    otherwise number of bytes released (0 if there was nothing to release)
   ///@throws IOException if write to stream threw exception
   core$_.int releaseBuffered(
-    jni$_.JObject? out,
+    outputstream$_.OutputStream? out,
   ) {
     final _$out = out?.reference ?? jni$_.jNullReference;
     return _releaseBuffered(
@@ -1624,7 +1665,7 @@ extension JsonParser$$Methods on JsonParser {
   ///    otherwise number of chars released (0 if there was nothing to release)
   ///@throws IOException if write using Writer threw exception
   core$_.int releaseBuffered$1(
-    jni$_.JObject? w,
+    writer$_.Writer? w,
   ) {
     final _$w = w?.reference ?? jni$_.jNullReference;
     return _releaseBuffered$1(
@@ -1781,7 +1822,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@return {@code True} if feature is enabled; {@code false} otherwise
   ///@since 2.10
   core$_.bool isEnabled$1(
-    jni$_.JObject? f,
+    streamreadfeature$_.StreamReadFeature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _isEnabled$1(reference.pointer, _id_isEnabled$1.pointer, _$f.pointer)
@@ -2060,7 +2101,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.bool nextFieldName(
-    jni$_.JObject? str,
+    serializablestring$_.SerializableString? str,
   ) {
     final _$str = str?.reference ?? jni$_.jNullReference;
     return _nextFieldName(
@@ -2949,7 +2990,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.8
   core$_.int getText(
-    jni$_.JObject? writer,
+    writer$_.Writer? writer,
   ) {
     final _$writer = writer?.reference ?? jni$_.jNullReference;
     return _getText(reference.pointer, _id_getText.pointer, _$writer.pointer)
@@ -3405,10 +3446,10 @@ extension JsonParser$$Methods on JsonParser {
   ///     otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni$_.JObject? get bigIntegerValue {
+  biginteger$_.BigInteger? get bigIntegerValue {
     return _get$bigIntegerValue(
             reference.pointer, _id_get$bigIntegerValue.pointer)
-        .object<jni$_.JObject?>();
+        .object<biginteger$_.BigInteger?>();
   }
 
   static final _id_get$floatValue = JsonParser._class.instanceMethodId(
@@ -3516,9 +3557,9 @@ extension JsonParser$$Methods on JsonParser {
   ///   otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni$_.JObject? get decimalValue {
+  bigdecimal$_.BigDecimal? get decimalValue {
     return _get$decimalValue(reference.pointer, _id_get$decimalValue.pointer)
-        .object<jni$_.JObject?>();
+        .object<bigdecimal$_.BigDecimal?>();
   }
 
   static final _id_get$booleanValue = JsonParser._class.instanceMethodId(
@@ -3636,7 +3677,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JByteArray? getBinaryValue(
-    jni$_.JObject? bv,
+    base64variant$_.Base64Variant? bv,
   ) {
     final _$bv = bv?.reference ?? jni$_.jNullReference;
     return _getBinaryValue(
@@ -3705,7 +3746,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.1
   core$_.int readBinaryValue(
-    jni$_.JObject? out,
+    outputstream$_.OutputStream? out,
   ) {
     final _$out = out?.reference ?? jni$_.jNullReference;
     return _readBinaryValue(
@@ -3746,8 +3787,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.1
   core$_.int readBinaryValue$1(
-    jni$_.JObject? bv,
-    jni$_.JObject? out,
+    base64variant$_.Base64Variant? bv,
+    outputstream$_.OutputStream? out,
   ) {
     final _$bv = bv?.reference ?? jni$_.jNullReference;
     final _$out = out?.reference ?? jni$_.jNullReference;
@@ -4323,7 +4364,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   $T? readValueAs<$T extends jni$_.JObject?>(
-    jni$_.JObject? valueType,
+    class$_.Class? valueType,
   ) {
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValueAs(
@@ -4373,7 +4414,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   $T? readValueAs$1<$T extends jni$_.JObject?>(
-    jni$_.JObject? valueTypeRef,
+    typereference$_.TypeReference? valueTypeRef,
   ) {
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
     return _readValueAs$1(reference.pointer, _id_readValueAs$1.pointer,
@@ -4409,7 +4450,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   jni$_.JIterator<$T?>? readValuesAs<$T extends jni$_.JObject?>(
-    jni$_.JObject? valueType,
+    class$_.Class? valueType,
   ) {
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValuesAs(
@@ -4445,7 +4486,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   jni$_.JIterator<$T?>? readValuesAs$1<$T extends jni$_.JObject?>(
-    jni$_.JObject? valueTypeRef,
+    typereference$_.TypeReference? valueTypeRef,
   ) {
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
     return _readValuesAs$1(reference.pointer, _id_readValuesAs$1.pointer,

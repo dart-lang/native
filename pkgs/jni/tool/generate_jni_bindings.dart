@@ -95,6 +95,7 @@ Future<void> main() async {
       classes: classes,
       hide: classes,
       preamble: preamble,
+      generateStubs: false,
       visitors: [Renamer()],
     ),
   );

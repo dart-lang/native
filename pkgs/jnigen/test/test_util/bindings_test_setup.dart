@@ -20,10 +20,12 @@ import 'test_util.dart';
 final simplePackageTest = join('test', 'simple_package_test');
 final jacksonCoreTest = join('test', 'jackson_core_test');
 final kotlinTest = join('test', 'kotlin_test');
+final stubTest = join('test', 'stub_test');
 final jniJar = join('build', 'jni_libs', 'jni.jar');
 
 final simplePackageTestJava = join(simplePackageTest, 'java');
 final kotlinTestKotlin = join(kotlinTest, 'kotlin');
+final stubTestJava = join(stubTest, 'java');
 
 late Directory tempClassDir;
 
@@ -35,6 +37,7 @@ Future<void> bindingsTestSetup() async {
   tempClassDir =
       Directory.current.createTempSync('jnigen_runtime_test_classpath_');
   await compileJavaFiles(Directory(simplePackageTestJava), tempClassDir);
+  await compileJavaFiles(Directory(stubTestJava), tempClassDir);
   await runCommand(dartExecutable, [
     'run',
     'jnigen:download_maven_jars',
@@ -55,14 +58,18 @@ Future<void> bindingsTestSetup() async {
       join(kotlinTestKotlin, 'target', 'kotlin_test-jar-with-dependencies.jar');
 
   if (!Platform.isAndroid) {
-    Jni.spawn(dylibDir: join('build', 'jni_libs'), classPath: [
-      jniJar,
-      tempClassDir.path,
-      ...jacksonJars,
-      kotlinTestJar,
-    ], jvmOptions: [
-      '-Xcheck:jni',
-    ]);
+    Jni.spawnIfNotExists(
+      dylibDir: join('build', 'jni_libs'),
+      classPath: [
+        jniJar,
+        tempClassDir.path,
+        ...jacksonJars,
+        kotlinTestJar,
+      ],
+      jvmOptions: [
+        '-Xcheck:jni',
+      ],
+    );
   }
 }
 

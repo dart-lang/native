@@ -100,7 +100,7 @@ extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
-    jni$_.JObject? context,
+    Context? context,
     core$_.int notificationID,
     jni$_.JString? title,
     jni$_.JString? text,
@@ -121,4 +121,20 @@ final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/notification_plugin/Notifications;';
+}
+
+/// WARNING: Context is a stub. To generate bindings for this class, include
+/// android.content.Context in your config's classes list.
+///
+extension type Context._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Context> type = $Context$Type$();
+}
+
+final class $Context$Type$ extends jni$_.JType<Context> {
+  @jni$_.internal
+  const $Context$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/content/Context;';
 }

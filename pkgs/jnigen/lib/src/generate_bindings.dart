@@ -11,6 +11,7 @@ import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
 import 'bindings/renamer.dart';
+import 'bindings/stub_collector.dart';
 import 'bindings/visitor.dart';
 import 'config/config.dart';
 import 'elements/elements.dart';
@@ -54,6 +55,7 @@ Future<void> generateJniBindings(Config config) async {
   runStage(Excluder(config));
   runStage(KotlinProcessor());
   await runStage(Linker(config));
+  runStage(StubCollector(config));
   runStage(Renamer(config));
   // classes.accept(const Printer());
 
