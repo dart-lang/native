@@ -182,7 +182,7 @@ final class $BaseInterface$Type$ extends jni$_.JType<BaseInterface> {
 }
 
 /// from: `com.example.CustomEnum`
-extension type CustomEnum._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type CustomEnum._(jni$_.JObject _$this) implements Enum {
   static final _class = jni$_.JClass.forName(r'com/example/CustomEnum');
 
   /// The type which includes information such as the signature of this class.
@@ -3233,7 +3233,7 @@ final class $TestClass002$Type$ extends jni$_.JType<TestClass002> {
 
 /// from: `com.example.TestClass003`
 extension type TestClass003._(jni$_.JObject _$this)
-    implements jni$_.JObject, OtherInterface {
+    implements Enum, OtherInterface {
   static final _class = jni$_.JClass.forName(r'com/example/TestClass003');
 
   /// The type which includes information such as the signature of this class.
@@ -3768,8 +3768,7 @@ final class $TestClass004$Type$ extends jni$_.JType<TestClass004> {
 }
 
 /// from: `com.example.TestClass004$NestedEnum`
-extension type TestClass004$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass004$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass004$NestedEnum');
 
@@ -5049,8 +5048,7 @@ final class $TestClass014$Type$ extends jni$_.JType<TestClass014> {
 }
 
 /// from: `com.example.TestClass014$NestedEnum`
-extension type TestClass014$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass014$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass014$NestedEnum');
 
@@ -5851,8 +5849,7 @@ final class $TestClass018$Type$ extends jni$_.JType<TestClass018> {
 }
 
 /// from: `com.example.TestClass018$NestedEnum`
-extension type TestClass018$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass018$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass018$NestedEnum');
 
@@ -5983,13 +5980,13 @@ extension TestClass019$$Methods<$T extends jni$_.JObject?> on TestClass019<$T> {
 
   /// from: `public com.example.CustomRecord[] getFoo(com.example.CustomRecord[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JArray<jni$_.JObject?>? p1,
+  jni$_.JArray<CustomRecord?>? getFoo<$S extends jni$_.JObject?>(
+    jni$_.JArray<CustomRecord?>? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .object<jni$_.JArray<CustomRecord?>?>();
   }
 }
 
@@ -6919,8 +6916,7 @@ final class $TestClass024$Type$ extends jni$_.JType<TestClass024> {
 }
 
 /// from: `com.example.TestClass024$NestedEnum`
-extension type TestClass024$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass024$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass024$NestedEnum');
 
@@ -7184,8 +7180,7 @@ final class $TestClass025$Type$ extends jni$_.JType<TestClass025> {
 }
 
 /// from: `com.example.TestClass025$NestedEnum`
-extension type TestClass025$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass025$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass025$NestedEnum');
 
@@ -7422,12 +7417,12 @@ extension TestClass027$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public com.example.CustomRecord<S> getFoo(com.example.CustomRecord<S> p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getFoo<$S extends jni$_.JObject?>(
-    jni$_.JObject? p1,
+  CustomRecord? getFoo<$S extends jni$_.JObject?>(
+    CustomRecord? p1,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
-        .object<jni$_.JObject?>();
+        .object<CustomRecord?>();
   }
 }
 
@@ -8859,8 +8854,7 @@ final class $TestClass034$Type$ extends jni$_.JType<TestClass034> {
 }
 
 /// from: `com.example.TestClass034$NestedEnum`
-extension type TestClass034$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass034$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass034$NestedEnum');
 
@@ -10633,8 +10627,7 @@ final class $TestClass046$Type$ extends jni$_.JType<TestClass046> {
 }
 
 /// from: `com.example.TestClass046$NestedEnum`
-extension type TestClass046$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass046$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass046$NestedEnum');
 
@@ -10793,13 +10786,13 @@ extension TestClass047$$Methods<$T extends jni$_.JObject,
 
   /// from: `public com.example.CustomRecord<T> setFoo(com.example.CustomRecord<T> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject setFoo(
-    jni$_.JObject p1,
+  CustomRecord setFoo(
+    CustomRecord p1,
     core$_.int p2,
   ) {
     final _$p1 = p1.reference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject>();
+        .object<CustomRecord>();
   }
 }
 
@@ -11727,8 +11720,7 @@ final class $TestClass054$Type$ extends jni$_.JType<TestClass054> {
 }
 
 /// from: `com.example.TestClass054$NestedEnum`
-extension type TestClass054$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass054$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass054$NestedEnum');
 
@@ -11885,13 +11877,13 @@ extension TestClass055$$Methods<$T extends jni$_.JObject> on TestClass055<$T> {
 
   /// from: `public final com.example.CustomRecord<S> isFoo(com.example.CustomRecord<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? isFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
-    jni$_.JObject? p1,
+  CustomRecord? isFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
+    CustomRecord? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomRecord?>();
   }
 }
 
@@ -13479,7 +13471,7 @@ final class $TestClass066$Type$ extends jni$_.JType<TestClass066> {
 }
 
 /// from: `com.example.TestClass067`
-extension type TestClass067._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type TestClass067._(jni$_.JObject _$this) implements Enum {
   static final _class = jni$_.JClass.forName(r'com/example/TestClass067');
 
   /// The type which includes information such as the signature of this class.
@@ -13900,8 +13892,7 @@ final class $TestClass068$Type$ extends jni$_.JType<TestClass068> {
 }
 
 /// from: `com.example.TestClass068$NestedEnum`
-extension type TestClass068$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass068$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass068$NestedEnum');
 
@@ -14755,7 +14746,7 @@ final class $TestClass072$Nested$Type$
 }
 
 /// from: `com.example.TestClass073`
-extension type TestClass073._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type TestClass073._(jni$_.JObject _$this) implements Enum {
   static final _class = jni$_.JClass.forName(r'com/example/TestClass073');
 
   /// The type which includes information such as the signature of this class.
@@ -19429,8 +19420,7 @@ final class $TestClass098$Type$ extends jni$_.JType<TestClass098> {
 }
 
 /// from: `com.example.TestClass098$NestedEnum`
-extension type TestClass098$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass098$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass098$NestedEnum');
 
@@ -19844,13 +19834,13 @@ extension TestClass101$$Methods on TestClass101 {
 
   /// from: `synchronized public com.example.CustomRecord<S> setFoo(com.example.CustomRecord<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? setFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
-    jni$_.JObject? p1,
+  CustomRecord? setFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
+    CustomRecord? p1,
     core$_.int p2,
   ) {
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject?>();
+        .object<CustomRecord?>();
   }
 }
 
@@ -20534,8 +20524,7 @@ final class $TestClass105$Type$ extends jni$_.JType<TestClass105> {
 }
 
 /// from: `com.example.TestClass105$NestedEnum`
-extension type TestClass105$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass105$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass105$NestedEnum');
 
@@ -21435,8 +21424,7 @@ final class $TestClass111$Type$ extends jni$_.JType<TestClass111> {
 }
 
 /// from: `com.example.TestClass111$NestedEnum`
-extension type TestClass111$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass111$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass111$NestedEnum');
 
@@ -22058,7 +22046,7 @@ final class $TestClass116$Nested$Type$
 }
 
 /// from: `com.example.TestClass117`
-extension type TestClass117._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type TestClass117._(jni$_.JObject _$this) implements Enum {
   static final _class = jni$_.JClass.forName(r'com/example/TestClass117');
 
   /// The type which includes information such as the signature of this class.
@@ -22155,13 +22143,13 @@ extension TestClass117$$Methods on TestClass117 {
 
   /// from: `public com.example.CustomRecord<S> myMethod(com.example.CustomRecord<S> p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject myMethod<$S extends jni$_.JObject?>(
-    jni$_.JObject p1,
+  CustomRecord myMethod<$S extends jni$_.JObject?>(
+    CustomRecord p1,
     core$_.int p2,
   ) {
     final _$p1 = p1.reference;
     return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
-        .object<jni$_.JObject>();
+        .object<CustomRecord>();
   }
 }
 
@@ -22273,7 +22261,7 @@ final class $TestClass117$Nested$Type$
 }
 
 /// from: `com.example.TestClass118`
-extension type TestClass118._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type TestClass118._(jni$_.JObject _$this) implements Enum {
   static final _class = jni$_.JClass.forName(r'com/example/TestClass118');
 
   /// The type which includes information such as the signature of this class.
@@ -22740,8 +22728,7 @@ final class $TestClass121$Type$ extends jni$_.JType<TestClass121> {
 }
 
 /// from: `com.example.TestClass121$NestedEnum`
-extension type TestClass121$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass121$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass121$NestedEnum');
 
@@ -23279,7 +23266,7 @@ final class $TestClass123$Nested$Type$
 }
 
 /// from: `com.example.TestClass124`
-extension type TestClass124._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type TestClass124._(jni$_.JObject _$this) implements Enum {
   static final _class = jni$_.JClass.forName(r'com/example/TestClass124');
 
   /// The type which includes information such as the signature of this class.
@@ -23394,8 +23381,7 @@ final class $TestClass124$Type$ extends jni$_.JType<TestClass124> {
 }
 
 /// from: `com.example.TestClass124$NestedEnum`
-extension type TestClass124$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass124$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass124$NestedEnum');
 
@@ -23582,8 +23568,7 @@ final class $TestClass125$Sub$Type$ extends jni$_.JType<TestClass125$Sub> {
 }
 
 /// from: `com.example.TestClass125$NestedEnum`
-extension type TestClass125$NestedEnum._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type TestClass125$NestedEnum._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/example/TestClass125$NestedEnum');
 
@@ -23661,4 +23646,36 @@ final class $TestClass125$NestedEnum$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/TestClass125$NestedEnum;';
+}
+
+/// WARNING: Enum is a stub. To generate bindings for this class, include
+/// java.lang.Enum in your config's classes list.
+///
+extension type Enum._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Enum> type = $Enum$Type$();
+}
+
+final class $Enum$Type$ extends jni$_.JType<Enum> {
+  @jni$_.internal
+  const $Enum$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Enum;';
+}
+
+/// WARNING: CustomRecord is a stub. To generate bindings for this class, include
+/// com.example.CustomRecord in your config's classes list.
+///
+extension type CustomRecord._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<CustomRecord> type = $CustomRecord$Type$();
+}
+
+final class $CustomRecord$Type$ extends jni$_.JType<CustomRecord> {
+  @jni$_.internal
+  const $CustomRecord$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/CustomRecord;';
 }
