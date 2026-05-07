@@ -14060,6 +14060,14 @@ extension NSNumberCreation on NSNumber {
   }
 }
 
+/// NSNumberIsBool
+extension NSNumberIsBool on NSNumber {
+  /// isBool
+  bool get isBool {
+    return _objc_msgSend_91o635(object$.ref.pointer, _sel_isBool);
+  }
+}
+
 /// NSNumberIsFloat
 extension NSNumberIsFloat on NSNumber {
   /// isFloat
@@ -40867,6 +40875,7 @@ late final _sel_invocationWithMethodSignature_ = objc.registerName(
 late final _sel_invoke = objc.registerName("invoke");
 late final _sel_invokeUsingIMP_ = objc.registerName("invokeUsingIMP:");
 late final _sel_invokeWithTarget_ = objc.registerName("invokeWithTarget:");
+late final _sel_isBool = objc.registerName("isBool");
 late final _sel_isCancellable = objc.registerName("isCancellable");
 late final _sel_isCancelled = objc.registerName("isCancelled");
 late final _sel_isEqualToArray_ = objc.registerName("isEqualToArray:");

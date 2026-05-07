@@ -40,9 +40,10 @@ class ObjCProtocolBuilder {
     if (_built) {
       throw StateError('Protocol is already built');
     }
+    final blockRef = block.ref;
     _builder.implementMethod(
       sel,
-      withBlock: block.ref.pointer.cast(),
+      withBlock: blockRef.pointer.cast(),
       withTrampoline: trampoline,
       withSignature: signature,
     );

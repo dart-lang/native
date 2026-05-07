@@ -121,6 +121,7 @@ objc-categories:
     - NSExtendedSet
     - NSNumberCreation
     - NSNumberIsFloat
+    - NSNumberIsBool
     - NSStringExtensionMethods
 structs:
   include:

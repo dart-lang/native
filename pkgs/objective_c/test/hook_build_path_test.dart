@@ -100,9 +100,12 @@ exit 0
       }
 
       final logLines = File(compilerLog).readAsLinesSync();
-      final decodedUtil = '$symlinkPath/test/util.c';
-      expect(logLines, contains(decodedUtil));
+      final decodedSrc = '$symlinkPath/src/objective_c.c';
+      expect(logLines, contains(decodedSrc));
       expect(logLines.any((line) => line.contains('%2547')), isFalse);
+
+      final decodedUtil = '$symlinkPath/test/util.c';
+      expect(logLines, isNot(contains(decodedUtil)));
     },
     skip: !Platform.isMacOS ? 'Requires macOS' : null,
   );

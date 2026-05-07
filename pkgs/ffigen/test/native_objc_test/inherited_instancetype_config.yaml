@@ -6,6 +6,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - ChildClass
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'inherited_instancetype_test.m'

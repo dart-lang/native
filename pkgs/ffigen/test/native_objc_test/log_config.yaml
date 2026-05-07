@@ -7,6 +7,8 @@ objc-interfaces:
   include:
     - LogSpamBaseClass
     - LogSpamChildClass
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'log_test.m'

@@ -8,7 +8,11 @@
 #import <Foundation/Foundation.h>
 
 @interface NSNumber (NSNumberIsFloat)
-@property (readonly) bool isFloat;
+@property(readonly) bool isFloat;
 @end
 
-#endif  // OBJECTIVE_C_SRC_NS_NUMBER_H_
+@interface NSNumber (NSNumberIsBool)
+@property(readonly) bool isBool;
+@end
+
+#endif // OBJECTIVE_C_SRC_NS_NUMBER_H_

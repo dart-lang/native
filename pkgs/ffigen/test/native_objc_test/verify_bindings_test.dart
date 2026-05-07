@@ -28,6 +28,13 @@ void main() {
       'verify_bindings_test.dart',
     };
 
+    const customVerifiers = {
+      'protocol_test.dart': (
+        _verifyProtocolTestDartBindings,
+        _verifyProtocolTestObjCBindings,
+      ),
+    };
+
     final testFiles =
         testDir
             .listSync()
@@ -42,8 +49,61 @@ void main() {
       final configName = testFile.replaceFirst('_test.dart', '');
 
       test('verifyBindings for $testFile', () {
-        verifyBindings(configName);
+        final verifiers = customVerifiers[testFile];
+        verifyBindings(
+          configName,
+          dartVerify: verifiers?.$1,
+          objCVerify: verifiers?.$2,
+        );
       });
     }
   });
+}
+
+bool _verifyProtocolTestDartBindings(String expected, String actual) {
+  expect(
+    actual,
+    contains('extension type ProtocolConsumer._(objc.ObjCObject '),
+  );
+  expect(
+    actual,
+    contains('extension type ObjCProtocolImpl._(objc.ObjCObject '),
+  );
+  expect(actual, contains('extension type MyProtocol._(objc.ObjCProtocol '));
+  expect(
+    actual,
+    contains('extension type SecondaryProtocol._(objc.ObjCProtocol '),
+  );
+  expect(actual, contains(r'interface class MyProtocol$Builder {'));
+  expect(actual, contains(r'interface class SecondaryProtocol$Builder {'));
+  expect(
+    actual,
+    contains(
+      'objc.NSString instanceMethod('
+      'objc.NSString s, {required double withDouble})',
+    ),
+  );
+  expect(actual, contains('int optionalMethod(SomeStruct s)'));
+  expect(
+    actual,
+    contains(
+      'int otherMethod('
+      'int a, {required int b, required int c, required int d})',
+    ),
+  );
+  expect(actual, contains('int fooMethod()'));
+  expect(actual, contains('extension type EmptyProtocol._(objc.ObjCProtocol '));
+  expect(actual, isNot(contains('EmptyProtocol is a stub')));
+  expect(actual, contains('SuperProtocol is a stub'));
+  expect(actual, contains('FilteredProtocol is a stub'));
+  return true;
+}
+
+bool _verifyProtocolTestObjCBindings(String expected, String actual) {
+  expect(actual, contains('@protocol(EmptyProtocol)'));
+  expect(actual, contains('@protocol(MyProtocol)'));
+  expect(actual, contains('@protocol(SecondaryProtocol)'));
+  expect(actual, contains('@protocol(UnusedProtocol)'));
+  expect(actual, contains('BLOCKING_BLOCK_IMPL'));
+  return true;
 }
