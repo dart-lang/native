@@ -1656,7 +1656,8 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
       node.params.last.accept(_InterfaceParamCast(resolver, contArg,
           paramIndex: node.params.length - 1));
       s.write('''
-          final \$r = $_jni.KotlinContinuation.fromReference($contArg.reference)
+          final _\$\$contRef = $contArg.reference;
+          final \$r = $_jni.KotlinContinuation.fromReference(_\$\$contRef)
               .$resume($result);
           return $returnValue;
 ''');

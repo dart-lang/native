@@ -8923,8 +8923,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'noopAsync(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as jni$_.JObject).reference)
+        final _$$contRef = ($a![0] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithVoidFuture(_$impls[$p]!.noopAsync());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8934,8 +8934,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'throwFlutterErrorAsync(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as jni$_.JObject).reference)
+        final _$$contRef = ($a![0] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.throwFlutterErrorAsync());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8945,8 +8945,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNIAllTypes(Lcom/github/dart_lang/jnigen/NIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNIAllTypes(
           ($a![0] as NIAllTypes),
         ));
@@ -8958,8 +8958,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNIAllNullableTypes(Lcom/github/dart_lang/jnigen/NIAllNullableTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableNIAllNullableTypes(
           ($a![0] as NIAllNullableTypes?),
         ));
@@ -8971,8 +8971,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNIAllNullableTypesWithoutRecursion(Lcom/github/dart_lang/jnigen/NIAllNullableTypesWithoutRecursion;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!
                 .echoAsyncNullableNIAllNullableTypesWithoutRecursion(
           ($a![0] as NIAllNullableTypesWithoutRecursion?),
@@ -8985,8 +8985,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncBool(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncBool(
           ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
@@ -8998,8 +8998,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncInt(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncInt(
           ($a![0] as jni$_.JLong).toDartInt(releaseOriginal: true),
         ));
@@ -9011,8 +9011,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncDouble(DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncDouble(
           ($a![0] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
         ));
@@ -9024,8 +9024,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncString(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncString(
           ($a![0] as jni$_.JString),
         ));
@@ -9037,8 +9037,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncUint8List([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncUint8List(
           ($a![0] as jni$_.JByteArray),
         ));
@@ -9050,8 +9050,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncInt32List([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncInt32List(
           ($a![0] as jni$_.JIntArray),
         ));
@@ -9063,8 +9063,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncInt64List([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncInt64List(
           ($a![0] as jni$_.JLongArray),
         ));
@@ -9076,8 +9076,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncFloat64List([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncFloat64List(
           ($a![0] as jni$_.JDoubleArray),
         ));
@@ -9089,8 +9089,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncObject(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncObject(
           ($a![0] as jni$_.JObject),
         ));
@@ -9102,8 +9102,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncList(
           ($a![0] as jni$_.JList<jni$_.JObject?>),
         ));
@@ -9115,8 +9115,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>),
         ));
@@ -9128,8 +9128,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>),
         ));
@@ -9141,8 +9141,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNonNullEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNonNullEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>),
         ));
@@ -9154,8 +9154,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNonNullClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNonNullClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>),
         ));
@@ -9167,8 +9167,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncMap(
           ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>),
         ));
@@ -9180,8 +9180,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncStringMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncStringMap(
           ($a![0] as jni$_.JMap<jni$_.JString?, jni$_.JString?>),
         ));
@@ -9193,8 +9193,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncIntMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncIntMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>),
         ));
@@ -9206,8 +9206,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncEnumMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncEnumMap(
           ($a![0] as jni$_.JMap<NIAnEnum?, NIAnEnum?>),
         ));
@@ -9219,8 +9219,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncClassMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncClassMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>),
         ));
@@ -9232,8 +9232,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncEnum(Lcom/github/dart_lang/jnigen/NIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncEnum(
           ($a![0] as NIAnEnum),
         ));
@@ -9245,8 +9245,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAnotherAsyncEnum(Lcom/github/dart_lang/jnigen/NIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAnotherAsyncEnum(
           ($a![0] as NIAnotherEnum),
         ));
@@ -9258,8 +9258,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableBool(Ljava/lang/Boolean;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableBool(
           ($a![0] as jni$_.JBoolean?),
         ));
@@ -9271,8 +9271,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableInt(Ljava/lang/Long;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableInt(
           ($a![0] as jni$_.JLong?),
         ));
@@ -9284,8 +9284,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableDouble(Ljava/lang/Double;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableDouble(
           ($a![0] as jni$_.JDouble?),
         ));
@@ -9297,8 +9297,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableString(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableString(
           ($a![0] as jni$_.JString?),
         ));
@@ -9310,8 +9310,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableUint8List([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableUint8List(
           ($a![0] as jni$_.JByteArray?),
         ));
@@ -9323,8 +9323,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableInt32List([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableInt32List(
           ($a![0] as jni$_.JIntArray?),
         ));
@@ -9336,8 +9336,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableInt64List([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableInt64List(
           ($a![0] as jni$_.JLongArray?),
         ));
@@ -9349,8 +9349,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableFloat64List([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableFloat64List(
           ($a![0] as jni$_.JDoubleArray?),
         ));
@@ -9362,8 +9362,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableObject(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableObject(
           ($a![0] as jni$_.JObject?),
         ));
@@ -9375,8 +9375,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableList(
           ($a![0] as jni$_.JList<jni$_.JObject?>?),
         ));
@@ -9388,8 +9388,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>?),
         ));
@@ -9401,8 +9401,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>?),
         ));
@@ -9414,8 +9414,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNonNullEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableNonNullEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>?),
         ));
@@ -9427,8 +9427,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNonNullClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableNonNullClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>?),
         ));
@@ -9440,8 +9440,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableMap(
           ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?),
         ));
@@ -9453,8 +9453,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableStringMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableStringMap(
           ($a![0] as jni$_.JMap<jni$_.JString?, jni$_.JString?>?),
         ));
@@ -9466,8 +9466,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableIntMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableIntMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?),
         ));
@@ -9479,8 +9479,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableEnumMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableEnumMap(
           ($a![0] as jni$_.JMap<NIAnEnum?, NIAnEnum?>?),
         ));
@@ -9492,8 +9492,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableClassMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableClassMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?),
         ));
@@ -9505,8 +9505,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableEnum(Lcom/github/dart_lang/jnigen/NIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableEnum(
           ($a![0] as NIAnEnum?),
         ));
@@ -9518,8 +9518,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAnotherAsyncNullableEnum(Lcom/github/dart_lang/jnigen/NIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAnotherAsyncNullableEnum(
           ($a![0] as NIAnotherEnum?),
         ));
@@ -38005,8 +38005,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d ==
           r'sayHello(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as jni$_.JObject).reference)
+        final _$$contRef = ($a![0] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayHello());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -38016,8 +38016,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'sayHello(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayHello$1(
           ($a![0] as jni$_.JString),
         ));
@@ -38029,8 +38029,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableHello(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.nullableHello(
           ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
@@ -38041,8 +38041,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
             jni$_.nullptr;
       }
       if ($d == r'sayInt(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as jni$_.JObject).reference)
+        final _$$contRef = ($a![0] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayInt());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -38052,8 +38052,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'sayInt(Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayInt$1(
           ($a![0] as jni$_.JInteger),
         ));
@@ -38065,8 +38065,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableInt(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.nullableInt(
           ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
@@ -38078,8 +38078,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as jni$_.JObject).reference)
+        final _$$contRef = ($a![1] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.nullableList(
           ($a![0] as jni$_.JList<jni$_.JString?>?),
         ));
@@ -38091,8 +38091,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'noReturn(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as jni$_.JObject).reference)
+        final _$$contRef = ($a![0] as jni$_.JObject).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithVoidFuture(_$impls[$p]!.noReturn());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
