@@ -112,7 +112,8 @@ String _findDart() {
   }
 
   throw Exception(
-    "Couldn't find Dart executable near ${Platform.resolvedExecutable} or in PATH",
+    'Could not find Dart executable near ${Platform.resolvedExecutable} '
+    'or in PATH',
   );
 }
 

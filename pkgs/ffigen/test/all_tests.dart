@@ -510,7 +510,10 @@ void main() {
     'unit_tests/api_availability_test.dart',
     unit_tests_api_availability_test_dart.main,
   );
-  group('unit_tests/config_util_test.dart', unit_tests_config_util_test_dart.main);
+  group(
+    'unit_tests/config_util_test.dart',
+    unit_tests_config_util_test_dart.main,
+  );
   group(
     'unit_tests/normalize_path_test.dart',
     unit_tests_normalize_path_test_dart.main,
@@ -523,7 +526,10 @@ void main() {
     'unit_tests/objc_inheritance_edge_case_test.dart',
     unit_tests_objc_inheritance_edge_case_test_dart.main,
   );
-  group('unit_tests/record_use_test.dart', unit_tests_record_use_test_dart.main);
+  group(
+    'unit_tests/record_use_test.dart',
+    unit_tests_record_use_test_dart.main,
+  );
   group('unit_tests/scope_test.dart', unit_tests_scope_test_dart.main);
   group(
     'unit_tests/sdk_variables_test.dart',

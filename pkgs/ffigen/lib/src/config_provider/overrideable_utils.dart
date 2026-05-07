@@ -91,7 +91,3 @@ Uri _findPackageRoot(String packageName) {
     "'${Directory.current.uri.toFilePath()}'.",
   );
 }
-
-extension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
-}
