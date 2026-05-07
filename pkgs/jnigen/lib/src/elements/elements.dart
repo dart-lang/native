@@ -69,6 +69,12 @@ class Classes implements Element<Classes> {
   }
 }
 
+enum BindingMode {
+  full,
+  stub,
+  excluded,
+}
+
 // Note: We give default values in constructor, if the field is nullable in
 // JSON. this allows us to reduce JSON size by providing Include.NON_NULL
 // option in java.
@@ -76,8 +82,7 @@ class Classes implements Element<Classes> {
 @JsonSerializable(createToJson: false)
 class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ClassDecl({
-    this.isExcluded = false,
-    this.isStub = false,
+    this.bindingMode = BindingMode.full,
     this.annotations,
     this.javadoc,
     required this.declKind,
@@ -95,10 +100,10 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   });
 
   @JsonKey(includeFromJson: false)
-  bool isExcluded;
+  BindingMode bindingMode;
 
-  @JsonKey(includeFromJson: false)
-  bool isStub;
+  bool get isExcluded => bindingMode == BindingMode.excluded;
+  bool get isStub => bindingMode == BindingMode.stub;
 
   @JsonKey(includeFromJson: false)
   String? userDefinedName;

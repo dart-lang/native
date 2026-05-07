@@ -40,9 +40,9 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
       if (classDecl.name.isInvalidDartIdentifier) {
         log.warning('Excluded class ${classDecl.binaryName}: the name is not a'
             ' valid Dart identifer');
-        classDecl.isExcluded = true;
+        classDecl.bindingMode = BindingMode.excluded;
       } else if (classDecl.isPrivate) {
-        classDecl.isExcluded = true;
+        classDecl.bindingMode = BindingMode.excluded;
       }
       if (classDecl.isExcluded) {
         log.fine('Excluded class ${classDecl.binaryName}');

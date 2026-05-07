@@ -75,7 +75,7 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
           final stub = ClassDecl(
             declKind: DeclKind.classKind,
             binaryName: binaryName,
-            isExcluded: true,
+            bindingMode: BindingMode.excluded,
           );
           assignPath(stub);
           node.decls[binaryName] = stub;

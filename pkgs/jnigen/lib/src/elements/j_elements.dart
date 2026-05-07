@@ -37,7 +37,8 @@ class ClassDecl implements Element {
   String get binaryName => _classDecl.binaryName;
 
   bool get isExcluded => _classDecl.isExcluded;
-  set isExcluded(bool value) => _classDecl.isExcluded = value;
+  set isExcluded(bool value) => _classDecl.bindingMode =
+      value ? ast.BindingMode.excluded : ast.BindingMode.full;
 
   String get name => _classDecl.userDefinedName ?? _classDecl.name;
   set name(String newName) => _classDecl.userDefinedName = newName;

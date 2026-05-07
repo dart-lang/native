@@ -35,8 +35,7 @@ class StubCollector extends Visitor<Classes, void> with TopLevelVisitor {
     node.decls.removeWhere((binaryName, classDecl) {
       if (classDecl.isExcluded) {
         if (stubFinder.referencedExcludedClasses.contains(classDecl)) {
-          classDecl.isStub = true;
-          classDecl.isExcluded = false;
+          classDecl.bindingMode = BindingMode.stub;
           return false;
         }
         return true;
