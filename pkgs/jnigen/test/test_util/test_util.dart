@@ -101,10 +101,14 @@ void comparePaths(String path1, String path2) {
   if (diffProc.exitCode != 0) {
     final originalDiff = diffProc.stdout;
     log.warning(
-        'Paths $path1 and $path2 differ, Running dart format on $path1.');
+      'Paths $path1 and $path2 differ, Running dart format on $path1.',
+    );
     Process.runSync('dart', ['format', path1]);
-    final fallbackDiffProc =
-        Process.runSync('git', [...diffCommand, path1, path2]);
+    final fallbackDiffProc = Process.runSync('git', [
+      ...diffCommand,
+      path1,
+      path2,
+    ]);
     if (fallbackDiffProc.exitCode != 0) {
       stderr.writeln(originalDiff);
       throw Exception('Paths $path1 and $path2 differ');
@@ -152,8 +156,10 @@ Future<void> generateAndAnalyzeBindings(
   final tempDir = Directory.current.createTempSync('jnigen_test_temp');
   try {
     await _generateTempBindings(config, tempDir);
-    final analyzeResult =
-        Process.runSync(dartExecutable, ['analyze', tempDir.path]);
+    final analyzeResult = Process.runSync(dartExecutable, [
+      'analyze',
+      tempDir.path,
+    ]);
     if (analyzeResult.exitCode != 0) {
       stderr.write(analyzeResult.stdout);
       fail('Analyzer exited with non-zero status (${analyzeResult.exitCode})');

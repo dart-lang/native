@@ -29,15 +29,22 @@ void main() async {
   final runners = <Runner>[];
   final current = Directory.current.uri;
   for (var script in scripts) {
-    runners.add(Runner('Run generate script: $script', current)
-      ..chainCommand(dartExecutable, ['run', script]));
+    runners.add(
+      Runner('Run generate script: $script', current)
+        ..chainCommand(dartExecutable, ['run', script]),
+    );
   }
 
   for (var yamlDir in yamlBasedExamples) {
     runners.add(
-        Runner('Regenerate bindings in $yamlDir', current.resolve(yamlDir))
-          ..chainCommand(
-              dartExecutable, ['run', 'jnigen', '--config', 'jnigen.yaml']));
+      Runner('Regenerate bindings in $yamlDir', current.resolve(yamlDir))
+        ..chainCommand(dartExecutable, [
+          'run',
+          'jnigen',
+          '--config',
+          'jnigen.yaml',
+        ]),
+    );
   }
 
   await Future.wait(runners.map((runner) => runner.run()).toList());

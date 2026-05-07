@@ -28,12 +28,10 @@ final kotlinTestKotlin = join(kotlinTest, 'kotlin');
 late Directory tempClassDir;
 
 Future<void> bindingsTestSetup() async {
-  await runCommand('dart', [
-    'run',
-    'jni:setup',
-  ]);
-  tempClassDir =
-      Directory.current.createTempSync('jnigen_runtime_test_classpath_');
+  await runCommand('dart', ['run', 'jni:setup']);
+  tempClassDir = Directory.current.createTempSync(
+    'jnigen_runtime_test_classpath_',
+  );
   await compileJavaFiles(Directory(simplePackageTestJava), tempClassDir);
   await runCommand(dartExecutable, [
     'run',

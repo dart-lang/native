@@ -40,7 +40,7 @@ enum MemberModifier {
   throws,
   transient,
   volatile,
-  native
+  native,
 }
 
 // For members with params, test different numbers of params.
@@ -58,7 +58,7 @@ enum Inheritance {
   extendsGenericSpecialized,
   extendsGenericUnspecialized,
   diamond,
-  complexDag
+  complexDag,
 }
 
 // The generic type params of the top level type.
@@ -71,7 +71,7 @@ enum MemberGenerics {
   twoParams,
   upperBound,
   lowerBound,
-  wildcard
+  wildcard,
 }
 
 // The type of the member. For constructors this is the type of the first arg,
@@ -97,7 +97,7 @@ enum MemberType {
   customInterface,
   customEnum,
   customRecord,
-  nestedCustom
+  nestedCustom,
 }
 
 // Whether the MemberType is also an array.
@@ -317,7 +317,8 @@ void generateJava() {
       }
 
       if (mod == MemberModifier.static_) {
-        final useMemberScope = memberGenerics != MemberGenerics.none &&
+        final useMemberScope =
+            memberGenerics != MemberGenerics.none &&
             (type == MemberType.memberTypeParam ||
                 memberGenerics == MemberGenerics.lowerBound ||
                 memberGenerics == MemberGenerics.wildcard);
@@ -532,16 +533,18 @@ public class NestedCustom<T, U> {
 
   for (final entry in coreClasses.entries) {
     final content = entry.value.trim();
-    final isOrgJetbrains =
-        content.startsWith('package org.jetbrains.annotations;');
+    final isOrgJetbrains = content.startsWith(
+      'package org.jetbrains.annotations;',
+    );
     final relativePath = isOrgJetbrains
         ? 'org/jetbrains/annotations/${entry.key}.java'
         : 'com/example/${entry.key}.java';
     final file = File(p.join(baseDir.path, relativePath));
     file.parent.createSync(recursive: true);
 
-    final packageLine =
-        content.startsWith('package ') ? '' : 'package com.example;\n\n';
+    final packageLine = content.startsWith('package ')
+        ? ''
+        : 'package com.example;\n\n';
     file.writeAsStringSync('''
 $_copyrightHeader
 $packageLine$content
@@ -565,10 +568,19 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   final memberNullability = tc.get<MemberNullability>();
   final genericNullability = tc.get<GenericNullability>();
 
-  final typeStr = getJavaType(typeKind, isArray == IsArray.yes, generics,
-      memberGenerics, memberNullability, genericNullability);
-  final inheritanceStr =
-      getInheritanceStr(inheritance, top, genericNullability);
+  final typeStr = getJavaType(
+    typeKind,
+    isArray == IsArray.yes,
+    generics,
+    memberGenerics,
+    memberNullability,
+    genericNullability,
+  );
+  final inheritanceStr = getInheritanceStr(
+    inheritance,
+    top,
+    genericNullability,
+  );
   final genStr = getGenericsStr(generics, genericNullability);
   final typeParamsStr = getTypeParamsStr(generics);
   final memberGenStr = getMemberGenericsStr(memberGenerics, genericNullability);
@@ -596,10 +608,20 @@ public $topModStr$kind $className$genStr $inheritanceStr {
 
   sb.write(switch (member) {
     Member.field => getFieldStr(top, mod, typeStr),
-    Member.method =>
-      getMethodStr(top, mod, memberGenStr, typeStr, name, params),
-    Member.constructor =>
-      getConstructorStr(top, memberGenStr, className, params),
+    Member.method => getMethodStr(
+      top,
+      mod,
+      memberGenStr,
+      typeStr,
+      name,
+      params,
+    ),
+    Member.constructor => getConstructorStr(
+      top,
+      memberGenStr,
+      className,
+      params,
+    ),
     Member.initializer => getInitializerStr(mod),
   });
 
@@ -618,7 +640,10 @@ public $topModStr$kind $className$genStr $inheritanceStr {
 }
 
 String getInheritanceStr(
-    Inheritance inheritance, TopLevelKind top, GenericNullability gn) {
+  Inheritance inheritance,
+  TopLevelKind top,
+  GenericNullability gn,
+) {
   final g = getGenericNullabilityStr(gn);
   switch (inheritance) {
     case Inheritance.none:
@@ -763,7 +788,9 @@ String getTypeParamsStr(Generics generics) {
 }
 
 String getMemberGenericsStr(
-    MemberGenerics memberGenerics, GenericNullability gn) {
+  MemberGenerics memberGenerics,
+  GenericNullability gn,
+) {
   final g = getGenericNullabilityStr(gn);
   return switch (memberGenerics) {
     MemberGenerics.none => '',
@@ -818,7 +845,10 @@ String getParamsStr(ParamCount paramCount, String typeStr) {
 }
 
 String getEnumConstantsStr(
-    Member member, ParamCount paramCount, String typeStr) {
+  Member member,
+  ParamCount paramCount,
+  String typeStr,
+) {
   if (member == Member.constructor) {
     final args = switch (paramCount) {
       ParamCount.zero => '',
@@ -844,8 +874,14 @@ String getFieldStr(TopLevelKind top, MemberModifier mod, String typeStr) {
 ''';
 }
 
-String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
-    String typeStr, MemberName name, String params) {
+String getMethodStr(
+  TopLevelKind top,
+  MemberModifier mod,
+  String memberGenStr,
+  String typeStr,
+  MemberName name,
+  String params,
+) {
   final methodName = name == MemberName.any ? 'myMethod' : name.name;
   final defaultValue = getJavaDefaultValue(typeStr);
   final body = typeStr == 'void' ? '' : 'return $defaultValue;';
@@ -853,13 +889,16 @@ String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
 
   if (top == TopLevelKind.interface) {
     return switch (mod) {
-      MemberModifier.default_ => '''
+      MemberModifier.default_ =>
+        '''
   default $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
 ''',
-      MemberModifier.static_ => '''
+      MemberModifier.static_ =>
+        '''
   static $memberGenStr$typeStr $methodName($params)$throwsStr { $body }
 ''',
-      _ => '''
+      _ =>
+        '''
   $memberGenStr$typeStr $methodName($params)$throwsStr;
 ''',
     };
@@ -867,20 +906,27 @@ String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
 
   final modStr = getMemberModifierStr(mod);
   return switch (mod) {
-    MemberModifier.abstract_ => '''
+    MemberModifier.abstract_ =>
+      '''
   public abstract $memberGenStr$typeStr $methodName($params)$throwsStr;
 ''',
-    MemberModifier.native => '''
+    MemberModifier.native =>
+      '''
   public native $memberGenStr$typeStr $methodName($params)$throwsStr;
 ''',
-    _ => '''
+    _ =>
+      '''
   public $modStr$memberGenStr$typeStr $methodName($params)$throwsStr { $body }
 ''',
   };
 }
 
 String getConstructorStr(
-    TopLevelKind top, String memberGenStr, String className, String params) {
+  TopLevelKind top,
+  String memberGenStr,
+  String className,
+  String params,
+) {
   final visibility = top == TopLevelKind.enum_ ? 'private' : 'public';
   return '''
   $visibility $memberGenStr$className($params) {}
@@ -930,8 +976,14 @@ bool isPrimitive(MemberType type) {
       type == MemberType.void_;
 }
 
-String getJavaType(MemberType kind, bool isArray, Generics generics,
-    MemberGenerics mGenerics, MemberNullability mn, GenericNullability gn) {
+String getJavaType(
+  MemberType kind,
+  bool isArray,
+  Generics generics,
+  MemberGenerics mGenerics,
+  MemberNullability mn,
+  GenericNullability gn,
+) {
   final useMemberScope = mGenerics != MemberGenerics.none;
 
   final scopeVar = useMemberScope ? 'S' : 'T';
