@@ -144,7 +144,8 @@ extension BaseInterface$$Methods on BaseInterface {
 
   /// from: `public abstract void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -225,7 +226,8 @@ extension type CustomEnum._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.example.CustomEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<CustomEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<CustomEnum?>?>();
   }
 
@@ -250,9 +252,9 @@ extension type CustomEnum._(jni$_.JObject _$this) implements jni$_.JObject {
   static CustomEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<CustomEnum?>();
   }
 }
@@ -374,7 +376,8 @@ extension CustomInterface$$Methods<$T extends jni$_.JObject?>
   /// from: `public abstract T getValue()`
   /// The returned object must be released after use, by calling the [release] method.
   $T? getValue() {
-    return _getValue(reference.pointer, _id_getValue.pointer).object<$T?>();
+    final _$$selfRef = reference;
+    return _getValue(_$$selfRef.pointer, _id_getValue.pointer).object<$T?>();
   }
 }
 
@@ -435,8 +438,9 @@ extension type CustomObject<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   factory CustomObject(
     $T? value,
   ) {
+    final _$$classRef = _class.reference;
     final _$value = value?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer, _$value.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$value.pointer)
         .object<CustomObject<$T>>();
   }
 }
@@ -571,7 +575,8 @@ extension DagA$$Methods on DagA {
 
   /// from: `public abstract void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 }
 
@@ -719,7 +724,8 @@ extension DagB$$Methods on DagB {
 
   /// from: `public abstract void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_aMethod = DagB._class.instanceMethodId(
@@ -741,7 +747,8 @@ extension DagB$$Methods on DagB {
 
   /// from: `public abstract void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 }
 
@@ -908,7 +915,8 @@ extension DagC$$Methods on DagC {
 
   /// from: `public abstract void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_aMethod = DagC._class.instanceMethodId(
@@ -930,7 +938,8 @@ extension DagC$$Methods on DagC {
 
   /// from: `public abstract void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = DagC._class.instanceMethodId(
@@ -952,7 +961,8 @@ extension DagC$$Methods on DagC {
 
   /// from: `public abstract void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 }
 
@@ -1137,7 +1147,8 @@ extension DagD$$Methods on DagD {
 
   /// from: `public abstract void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_aMethod = DagD._class.instanceMethodId(
@@ -1159,7 +1170,8 @@ extension DagD$$Methods on DagD {
 
   /// from: `public abstract void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = DagD._class.instanceMethodId(
@@ -1181,7 +1193,8 @@ extension DagD$$Methods on DagD {
 
   /// from: `public abstract void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = DagD._class.instanceMethodId(
@@ -1203,7 +1216,8 @@ extension DagD$$Methods on DagD {
 
   /// from: `public abstract void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 }
 
@@ -1406,7 +1420,8 @@ extension DagE$$Methods on DagE {
 
   /// from: `public abstract void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_bMethod = DagE._class.instanceMethodId(
@@ -1428,7 +1443,8 @@ extension DagE$$Methods on DagE {
 
   /// from: `public abstract void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_aMethod = DagE._class.instanceMethodId(
@@ -1450,7 +1466,8 @@ extension DagE$$Methods on DagE {
 
   /// from: `public abstract void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_dMethod = DagE._class.instanceMethodId(
@@ -1472,7 +1489,8 @@ extension DagE$$Methods on DagE {
 
   /// from: `public abstract void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_cMethod = DagE._class.instanceMethodId(
@@ -1494,7 +1512,8 @@ extension DagE$$Methods on DagE {
 
   /// from: `public abstract void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 }
 
@@ -1695,7 +1714,8 @@ extension DiamondLeft$$Methods on DiamondLeft {
 
   /// from: `public abstract void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_baseMethod = DiamondLeft._class.instanceMethodId(
@@ -1717,7 +1737,8 @@ extension DiamondLeft$$Methods on DiamondLeft {
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -1879,7 +1900,8 @@ extension DiamondRight$$Methods on DiamondRight {
 
   /// from: `public abstract void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_baseMethod = DiamondRight._class.instanceMethodId(
@@ -1901,7 +1923,8 @@ extension DiamondRight$$Methods on DiamondRight {
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -2064,9 +2087,10 @@ extension GenericInterface$$Methods<$T extends jni$_.JObject?>
   $T? genericInterfaceMethod(
     $T? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<$T?>();
   }
 }
@@ -2127,7 +2151,8 @@ extension type GenericParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory GenericParent() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<GenericParent<$T>>();
   }
 }
@@ -2154,9 +2179,10 @@ extension GenericParent$$Methods<$T extends jni$_.JObject?>
   void genericParentMethod(
     $T? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 }
@@ -2195,8 +2221,8 @@ extension type GrandParent._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<GrandParent>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<GrandParent>();
   }
 }
 
@@ -2220,7 +2246,8 @@ extension GrandParent$$Methods on GrandParent {
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -2261,7 +2288,8 @@ extension type NestedCustom<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory NestedCustom() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<NestedCustom<$T, $U>>();
   }
 }
@@ -2305,9 +2333,9 @@ extension type NestedCustom$Nested<$T extends jni$_.JObject?,
   factory NestedCustom$Nested(
     NestedCustom<$T?, $U?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<NestedCustom$Nested<$T, $U, $V>>();
   }
 }
@@ -2470,7 +2498,8 @@ extension OtherInterface$$Methods on OtherInterface {
 
   /// from: `public abstract void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 }
@@ -2535,7 +2564,8 @@ extension type TestClass000<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass000() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass000<$T, $U>>();
   }
 }
@@ -2561,7 +2591,8 @@ extension TestClass000$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -2586,8 +2617,9 @@ extension TestClass000$$Methods<$T extends jni$_.JObject?,
   jni$_.JFloatArray? setFoo<$S extends jni$_.JObject?>(
     jni$_.JFloatArray? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer)
         .object<jni$_.JFloatArray?>();
   }
 }
@@ -2629,7 +2661,8 @@ extension type TestClass000$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass000$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass000$Nested>();
   }
 }
@@ -2757,8 +2790,9 @@ extension TestClass001$$Methods<$T extends jni$_.JObject> on TestClass001<$T> {
     jni$_.JSet<$T>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JSet<$T>?>();
   }
 }
@@ -2825,7 +2859,8 @@ extension type TestClass001$Sub<$T extends jni$_.JObject>._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass001$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass001$Sub<$T>>();
   }
 }
@@ -2855,8 +2890,9 @@ extension TestClass001$Sub$$Methods<$T extends jni$_.JObject>
     jni$_.JSet<$T>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JSet<$T>?>();
   }
 }
@@ -3090,7 +3126,8 @@ extension TestClass002$$Methods on TestClass002 {
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass002._class.instanceMethodId(
@@ -3112,7 +3149,8 @@ extension TestClass002$$Methods on TestClass002 {
 
   /// from: `default public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass002._class.instanceMethodId(
@@ -3134,7 +3172,8 @@ extension TestClass002$$Methods on TestClass002 {
 
   /// from: `default public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_myMethod = TestClass002._class.instanceMethodId(
@@ -3158,7 +3197,8 @@ extension TestClass002$$Methods on TestClass002 {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JMap<$S, $S>>?
       myMethod<$S extends jni$_.JObject, $V extends jni$_.JObject>() {
-    return _myMethod(reference.pointer, _id_myMethod.pointer)
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JArray<jni$_.JMap<$S, $S>>?>();
   }
 }
@@ -3278,7 +3318,8 @@ extension type TestClass003._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass003[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass003?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass003?>?>();
   }
 
@@ -3303,9 +3344,9 @@ extension type TestClass003._(jni$_.JObject _$this)
   static TestClass003? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass003?>();
   }
 }
@@ -3330,7 +3371,8 @@ extension TestClass003$$Methods on TestClass003 {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -3357,8 +3399,9 @@ extension TestClass003$$Methods on TestClass003 {
     $S? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<$S?>();
   }
 }
@@ -3401,9 +3444,9 @@ extension type TestClass003$Nested._(jni$_.JObject _$this)
   factory TestClass003$Nested(
     TestClass003 $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass003$Nested>();
   }
 }
@@ -3448,9 +3491,9 @@ extension type TestClass004<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JIntArray p1,
     core$_.int p2,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1.reference;
-    return _setFoo(
-            _class.reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$classRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JIntArray>();
   }
 
@@ -3581,7 +3624,8 @@ extension TestClass004$$Methods<$T extends jni$_.JObject?> on TestClass004<$T> {
 
   /// from: `default public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass004._class.instanceMethodId(
@@ -3603,7 +3647,8 @@ extension TestClass004$$Methods<$T extends jni$_.JObject?> on TestClass004<$T> {
 
   /// from: `default public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass004._class.instanceMethodId(
@@ -3625,7 +3670,8 @@ extension TestClass004$$Methods<$T extends jni$_.JObject?> on TestClass004<$T> {
 
   /// from: `default public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass004._class.instanceMethodId(
@@ -3647,7 +3693,8 @@ extension TestClass004$$Methods<$T extends jni$_.JObject?> on TestClass004<$T> {
 
   /// from: `default public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass004._class.instanceMethodId(
@@ -3669,7 +3716,8 @@ extension TestClass004$$Methods<$T extends jni$_.JObject?> on TestClass004<$T> {
 
   /// from: `default public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 }
 
@@ -3807,7 +3855,8 @@ extension type TestClass004$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass004$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass004$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass004$NestedEnum?>?>();
   }
 
@@ -3832,9 +3881,9 @@ extension type TestClass004$NestedEnum._(jni$_.JObject _$this)
   static TestClass004$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass004$NestedEnum?>();
   }
 }
@@ -3876,7 +3925,8 @@ extension type TestClass005<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass005() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass005<$T, $U>>();
   }
 }
@@ -3903,9 +3953,10 @@ extension TestClass005$$Methods<$T extends jni$_.JObject?,
   void genericParentMethod$1(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod$1(
-            reference.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
         .check();
   }
 
@@ -3930,8 +3981,9 @@ extension TestClass005$$Methods<$T extends jni$_.JObject?,
   jni$_.JString setFoo<$S extends jni$_.JObject?>(
     jni$_.JString p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer)
         .object<jni$_.JString>();
   }
 }
@@ -3970,8 +4022,8 @@ extension type TestClass006._(jni$_.JObject _$this) implements GrandParent {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass006() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass006>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass006>();
   }
 }
 
@@ -3995,7 +4047,8 @@ extension TestClass006$$Methods on TestClass006 {
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 
@@ -4020,8 +4073,9 @@ extension TestClass006$$Methods on TestClass006 {
   jni$_.JBooleanArray? setFoo<$S extends jni$_.JObject?>(
     jni$_.JBooleanArray? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer)
         .object<jni$_.JBooleanArray?>();
   }
 }
@@ -4064,9 +4118,9 @@ extension type TestClass006$Nested._(jni$_.JObject _$this)
   factory TestClass006$Nested(
     TestClass006 $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass006$Nested>();
   }
 }
@@ -4107,7 +4161,8 @@ extension type TestClass007<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass007() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass007<$T>>();
   }
 }
@@ -4132,7 +4187,8 @@ extension TestClass007$$Methods<$T extends jni$_.JObject?> on TestClass007<$T> {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -4155,7 +4211,8 @@ extension TestClass007$$Methods<$T extends jni$_.JObject?> on TestClass007<$T> {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_getFoo = TestClass007._class.instanceMethodId(
@@ -4181,8 +4238,9 @@ extension TestClass007$$Methods<$T extends jni$_.JObject?> on TestClass007<$T> {
     jni$_.JObject p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JObject>();
   }
 }
@@ -4225,9 +4283,9 @@ extension type TestClass007$Nested<$T extends jni$_.JObject?>._(
   factory TestClass007$Nested(
     TestClass007<$T?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass007$Nested<$T>>();
   }
 }
@@ -4272,9 +4330,10 @@ extension TestClass008$$Methods<$T extends jni$_.JObject> on TestClass008<$T> {
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -4297,7 +4356,8 @@ extension TestClass008$$Methods<$T extends jni$_.JObject> on TestClass008<$T> {
 
   /// from: `public abstract void myMethod()`
   void myMethod() {
-    _myMethod(reference.pointer, _id_myMethod.pointer).check();
+    final _$$selfRef = reference;
+    _myMethod(_$$selfRef.pointer, _id_myMethod.pointer).check();
   }
 }
 
@@ -4434,7 +4494,8 @@ extension type TestClass009<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass009() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass009<$T>>();
   }
 }
@@ -4460,9 +4521,10 @@ extension TestClass009$$Methods<$T extends jni$_.JObject> on TestClass009<$T> {
   void genericParentMethod$1(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod$1(
-            reference.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
         .check();
   }
 
@@ -4487,7 +4549,8 @@ extension TestClass009$$Methods<$T extends jni$_.JObject> on TestClass009<$T> {
     core$_.int p1,
     core$_.int p2,
   ) {
-    return _getFoo(reference.pointer, _id_getFoo.pointer, p1, p2).char;
+    final _$$selfRef = reference;
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, p1, p2).char;
   }
 }
 
@@ -4526,7 +4589,8 @@ extension type TestClass011<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass011() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass011<$T, $U>>();
   }
 }
@@ -4587,7 +4651,8 @@ extension type TestClass011$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass011$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass011$Nested>();
   }
 }
@@ -4724,7 +4789,8 @@ extension TestClass012$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -4747,7 +4813,8 @@ extension TestClass012$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_isFoo = TestClass012._class.instanceMethodId(
@@ -4773,8 +4840,9 @@ extension TestClass012$$Methods<$T extends jni$_.JObject,
     jni$_.JArray<CustomEnum?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<CustomEnum?>?>();
   }
 }
@@ -4871,7 +4939,8 @@ extension type TestClass012$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass012$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass012$Nested>();
   }
 }
@@ -4912,7 +4981,8 @@ extension type TestClass013<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass013() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass013<$T>>();
   }
 }
@@ -4937,7 +5007,8 @@ extension TestClass013$$Methods<$T extends jni$_.JObject> on TestClass013<$T> {
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 
@@ -4964,8 +5035,9 @@ extension TestClass013$$Methods<$T extends jni$_.JObject> on TestClass013<$T> {
     jni$_.JDoubleArray? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JDoubleArray?>();
   }
 }
@@ -5008,7 +5080,8 @@ extension TestClass014$$Methods<$T extends jni$_.JObject> on TestClass014<$T> {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -5033,8 +5106,9 @@ extension TestClass014$$Methods<$T extends jni$_.JObject> on TestClass014<$T> {
   jni$_.JByteArray? getFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
     jni$_.JByteArray? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer)
         .object<jni$_.JByteArray?>();
   }
 }
@@ -5088,7 +5162,8 @@ extension type TestClass014$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass014$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass014$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass014$NestedEnum?>?>();
   }
 
@@ -5113,9 +5188,9 @@ extension type TestClass014$NestedEnum._(jni$_.JObject _$this)
   static TestClass014$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass014$NestedEnum?>();
   }
 }
@@ -5155,8 +5230,8 @@ extension type TestClass015._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass015() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass015>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass015>();
   }
 }
 
@@ -5184,8 +5259,9 @@ extension TestClass015$$Methods on TestClass015 {
     jni$_.JList<jni$_.JString?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JList<jni$_.JString?>?>();
   }
 }
@@ -5225,7 +5301,8 @@ extension type TestClass015$Sub._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass015$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass015$Sub>();
   }
 }
@@ -5268,9 +5345,9 @@ extension type TestClass015$Nested._(jni$_.JObject _$this)
   factory TestClass015$Nested(
     TestClass015 $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass015$Nested>();
   }
 }
@@ -5311,7 +5388,8 @@ extension type TestClass016<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass016() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass016<$T>>();
   }
 }
@@ -5337,7 +5415,8 @@ extension TestClass016$$Methods<$T extends jni$_.JObject?> on TestClass016<$T> {
   /// from: `synchronized public T[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<$T?>? getFoo<$S extends jni$_.JObject?>() {
-    return _getFoo(reference.pointer, _id_getFoo.pointer)
+    final _$$selfRef = reference;
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 }
@@ -5573,9 +5652,10 @@ extension TestClass017$$Methods<$T extends jni$_.JObject> on TestClass017<$T> {
   jni$_.JObject? genericInterfaceMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -5602,8 +5682,9 @@ extension TestClass017$$Methods<$T extends jni$_.JObject> on TestClass017<$T> {
     CustomObject<$S> p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<CustomObject<$S>>();
   }
 }
@@ -5778,7 +5859,8 @@ extension type TestClass018<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass018() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass018<$T, $U>>();
   }
 }
@@ -5805,9 +5887,10 @@ extension TestClass018$$Methods<$T extends jni$_.JObject?,
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -5835,8 +5918,9 @@ extension TestClass018$$Methods<$T extends jni$_.JObject?,
     jni$_.JArray<CustomInterface<$S?>>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<CustomInterface<$S?>>?>();
   }
 }
@@ -5890,7 +5974,8 @@ extension type TestClass018$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass018$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass018$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass018$NestedEnum?>?>();
   }
 
@@ -5915,9 +6000,9 @@ extension type TestClass018$NestedEnum._(jni$_.JObject _$this)
   static TestClass018$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass018$NestedEnum?>();
   }
 }
@@ -5958,7 +6043,8 @@ extension type TestClass019<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass019() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass019<$T>>();
   }
 }
@@ -5987,8 +6073,9 @@ extension TestClass019$$Methods<$T extends jni$_.JObject?> on TestClass019<$T> {
     jni$_.JArray<jni$_.JObject?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<jni$_.JObject?>?>();
   }
 }
@@ -6109,7 +6196,8 @@ extension TestClass020$$Methods<$T extends jni$_.JObject> on TestClass020<$T> {
   /// from: `public abstract com.example.NestedCustom$Nested<S, S, S> isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   NestedCustom$Nested<$S, $S, $S>? isFoo<$S extends jni$_.JObject>() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer)
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer)
         .object<NestedCustom$Nested<$S, $S, $S>?>();
   }
 }
@@ -6176,7 +6264,8 @@ extension type TestClass020$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass020$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass020$Nested>();
   }
 }
@@ -6217,8 +6306,8 @@ extension type TestClass021._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass021() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass021>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass021>();
   }
 }
 
@@ -6242,7 +6331,8 @@ extension TestClass021$$Methods on TestClass021 {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -6267,8 +6357,9 @@ extension TestClass021$$Methods on TestClass021 {
   jni$_.JMap<$S?, $S?>? setFoo<$S extends jni$_.JObject?>(
     jni$_.JMap<$S?, $S?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer)
         .object<jni$_.JMap<$S?, $S?>?>();
   }
 }
@@ -6309,7 +6400,8 @@ extension type TestClass022<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass022() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass022<$T, $U>>();
   }
 }
@@ -6335,7 +6427,8 @@ extension TestClass022$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass022._class.instanceMethodId(
@@ -6357,7 +6450,8 @@ extension TestClass022$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass022._class.instanceMethodId(
@@ -6379,7 +6473,8 @@ extension TestClass022$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass022._class.instanceMethodId(
@@ -6401,7 +6496,8 @@ extension TestClass022$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass022._class.instanceMethodId(
@@ -6423,7 +6519,8 @@ extension TestClass022$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_isFoo = TestClass022._class.instanceMethodId(
@@ -6447,7 +6544,8 @@ extension TestClass022$$Methods<$T extends jni$_.JObject,
     core$_.int p1,
     core$_.int p2,
   ) {
-    return _isFoo(reference.pointer, _id_isFoo.pointer, p1, p2).short;
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, p1, p2).short;
   }
 }
 
@@ -6588,7 +6686,8 @@ extension TestClass023$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass023._class.instanceMethodId(
@@ -6610,7 +6709,8 @@ extension TestClass023$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass023._class.instanceMethodId(
@@ -6632,7 +6732,8 @@ extension TestClass023$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_getFoo = TestClass023._class.instanceMethodId(
@@ -6658,8 +6759,9 @@ extension TestClass023$$Methods<$T extends jni$_.JObject,
     jni$_.JArray<CustomObject<$S>>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<CustomObject<$S>>?>();
   }
 }
@@ -6767,8 +6869,8 @@ extension type TestClass024._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass024() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass024>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass024>();
   }
 
   static final _id_myMethod = _class.staticMethodId(
@@ -6792,7 +6894,8 @@ extension type TestClass024._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JShortArray?
       myMethod<$S extends jni$_.JObject, $V extends jni$_.JObject>() {
-    return _myMethod(_class.reference.pointer, _id_myMethod.pointer)
+    final _$$classRef = _class.reference;
+    return _myMethod(_$$classRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JShortArray?>();
   }
 }
@@ -6817,7 +6920,8 @@ extension TestClass024$$Methods on TestClass024 {
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass024._class.instanceMethodId(
@@ -6839,7 +6943,8 @@ extension TestClass024$$Methods on TestClass024 {
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass024._class.instanceMethodId(
@@ -6861,7 +6966,8 @@ extension TestClass024$$Methods on TestClass024 {
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass024._class.instanceMethodId(
@@ -6883,7 +6989,8 @@ extension TestClass024$$Methods on TestClass024 {
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass024._class.instanceMethodId(
@@ -6905,7 +7012,8 @@ extension TestClass024$$Methods on TestClass024 {
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 }
 
@@ -6958,7 +7066,8 @@ extension type TestClass024$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass024$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass024$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass024$NestedEnum?>?>();
   }
 
@@ -6983,9 +7092,9 @@ extension type TestClass024$NestedEnum._(jni$_.JObject _$this)
   static TestClass024$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass024$NestedEnum?>();
   }
 }
@@ -7112,7 +7221,8 @@ extension TestClass025$$Methods<$T extends jni$_.JObject?> on TestClass025<$T> {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -7136,7 +7246,8 @@ extension TestClass025$$Methods<$T extends jni$_.JObject?> on TestClass025<$T> {
   /// from: `public abstract java.util.Set<S> setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JSet<$S?> setFoo<$S extends jni$_.JObject?>() {
-    return _setFoo(reference.pointer, _id_setFoo.pointer)
+    final _$$selfRef = reference;
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer)
         .object<jni$_.JSet<$S?>>();
   }
 }
@@ -7223,7 +7334,8 @@ extension type TestClass025$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass025$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass025$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass025$NestedEnum?>?>();
   }
 
@@ -7248,9 +7360,9 @@ extension type TestClass025$NestedEnum._(jni$_.JObject _$this)
   static TestClass025$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass025$NestedEnum?>();
   }
 }
@@ -7291,7 +7403,8 @@ extension type TestClass026._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static TestClass026
       create<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _create(_class.reference.pointer, _id_create.pointer)
+    final _$$classRef = _class.reference;
+    return _create(_$$classRef.pointer, _id_create.pointer)
         .object<TestClass026>();
   }
 }
@@ -7333,7 +7446,8 @@ extension type TestClass026$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass026$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass026$Nested>();
   }
 }
@@ -7374,7 +7488,8 @@ extension type TestClass027<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass027() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass027<$T, $U>>();
   }
 }
@@ -7400,7 +7515,8 @@ extension TestClass027$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 
@@ -7425,8 +7541,9 @@ extension TestClass027$$Methods<$T extends jni$_.JObject?,
   jni$_.JObject? getFoo<$S extends jni$_.JObject?>(
     jni$_.JObject? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -7565,7 +7682,8 @@ extension type TestClass028<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass028() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass028<$T, $U>>();
   }
 }
@@ -7591,7 +7709,8 @@ extension TestClass028$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -7615,7 +7734,8 @@ extension TestClass028$$Methods<$T extends jni$_.JObject,
   /// from: `public final int[] myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray? myMethod<$S extends jni$_.JObject>() {
-    return _myMethod(reference.pointer, _id_myMethod.pointer)
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JIntArray?>();
   }
 }
@@ -7748,9 +7868,10 @@ extension TestClass029$$Methods on TestClass029 {
   jni$_.JString? genericInterfaceMethod(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -7775,7 +7896,8 @@ extension TestClass029$$Methods on TestClass029 {
     core$_.int p1,
     core$_.int p2,
   ) {
-    return _isFoo(reference.pointer, _id_isFoo.pointer, p1, p2).byte;
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, p1, p2).byte;
   }
 }
 
@@ -7845,7 +7967,8 @@ extension type TestClass029$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass029$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass029$Nested>();
   }
 }
@@ -7886,7 +8009,8 @@ extension type TestClass030<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass030() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass030<$T>>();
   }
 }
@@ -7912,7 +8036,8 @@ extension TestClass030$$Methods<$T extends jni$_.JObject?> on TestClass030<$T> {
   /// from: `public boolean[] myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JBooleanArray myMethod<$S extends jni$_.JObject?>() {
-    return _myMethod(reference.pointer, _id_myMethod.pointer)
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JBooleanArray>();
   }
 }
@@ -7955,9 +8080,9 @@ extension type TestClass030$Nested<$T extends jni$_.JObject?>._(
   factory TestClass030$Nested(
     TestClass030<$T?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass030$Nested<$T>>();
   }
 }
@@ -8088,7 +8213,8 @@ extension TestClass031$$Methods on TestClass031 {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -8115,8 +8241,9 @@ extension TestClass031$$Methods on TestClass031 {
     jni$_.JArray<CustomInterface<$S>?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<CustomInterface<$S>?>?>();
   }
 }
@@ -8198,7 +8325,8 @@ extension type TestClass031$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass031$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass031$Nested>();
   }
 }
@@ -8333,7 +8461,8 @@ extension TestClass032$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass032._class.instanceMethodId(
@@ -8355,7 +8484,8 @@ extension TestClass032$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass032._class.instanceMethodId(
@@ -8377,7 +8507,8 @@ extension TestClass032$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_isFoo = TestClass032._class.instanceMethodId(
@@ -8399,7 +8530,8 @@ extension TestClass032$$Methods<$T extends jni$_.JObject,
 
   /// from: `public abstract boolean isFoo()`
   core$_.bool isFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer).boolean;
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer).boolean;
   }
 }
 
@@ -8498,7 +8630,8 @@ extension type TestClass033<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   static core$_.int isFoo<$S extends jni$_.JObject?>(
     core$_.int p1,
   ) {
-    return _isFoo(_class.reference.pointer, _id_isFoo.pointer, p1).long;
+    final _$$classRef = _class.reference;
+    return _isFoo(_$$classRef.pointer, _id_isFoo.pointer, p1).long;
   }
 
   /// Maps a specific port to the implemented interface.
@@ -8603,7 +8736,8 @@ extension TestClass033$$Methods<$T extends jni$_.JObject?> on TestClass033<$T> {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 }
@@ -8776,9 +8910,10 @@ extension TestClass034$$Methods<$T extends jni$_.JObject?,
   jni$_.JString? genericInterfaceMethod(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -8805,8 +8940,9 @@ extension TestClass034$$Methods<$T extends jni$_.JObject?,
     CustomObject<$S?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<CustomObject<$S?>?>();
   }
 }
@@ -8898,7 +9034,8 @@ extension type TestClass034$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass034$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass034$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass034$NestedEnum?>?>();
   }
 
@@ -8923,9 +9060,9 @@ extension type TestClass034$NestedEnum._(jni$_.JObject _$this)
   static TestClass034$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass034$NestedEnum?>();
   }
 }
@@ -8970,7 +9107,8 @@ extension TestClass035$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 
@@ -8997,8 +9135,9 @@ extension TestClass035$$Methods<$T extends jni$_.JObject,
     jni$_.JList<$S> p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
         .object<jni$_.JList<$S>>();
   }
 }
@@ -9040,7 +9179,8 @@ extension type TestClass035$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass035$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass035$Nested>();
   }
 }
@@ -9081,7 +9221,8 @@ extension type TestClass037<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass037() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass037<$T>>();
   }
 }
@@ -9106,7 +9247,8 @@ extension TestClass037$$Methods<$T extends jni$_.JObject?> on TestClass037<$T> {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass037._class.instanceMethodId(
@@ -9128,7 +9270,8 @@ extension TestClass037$$Methods<$T extends jni$_.JObject?> on TestClass037<$T> {
 
   /// from: `public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass037._class.instanceMethodId(
@@ -9150,7 +9293,8 @@ extension TestClass037$$Methods<$T extends jni$_.JObject?> on TestClass037<$T> {
 
   /// from: `public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_get$foo = TestClass037._class.instanceMethodId(
@@ -9173,7 +9317,8 @@ extension TestClass037$$Methods<$T extends jni$_.JObject?> on TestClass037<$T> {
   /// from: `public char[] getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray get foo {
-    return _get$foo(reference.pointer, _id_get$foo.pointer)
+    final _$$selfRef = reference;
+    return _get$foo(_$$selfRef.pointer, _id_get$foo.pointer)
         .object<jni$_.JCharArray>();
   }
 }
@@ -9215,7 +9360,8 @@ extension type TestClass037$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass037$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass037$Nested>();
   }
 }
@@ -9256,7 +9402,8 @@ extension type TestClass038<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass038() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass038<$T>>();
   }
 
@@ -9281,7 +9428,8 @@ extension type TestClass038<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString>?
       isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _isFoo(_class.reference.pointer, _id_isFoo.pointer)
+    final _$$classRef = _class.reference;
+    return _isFoo(_$$classRef.pointer, _id_isFoo.pointer)
         .object<jni$_.JArray<jni$_.JString>?>();
   }
 }
@@ -9306,7 +9454,8 @@ extension TestClass038$$Methods<$T extends jni$_.JObject?> on TestClass038<$T> {
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -9433,7 +9582,8 @@ extension TestClass039$$Methods<$T extends jni$_.JObject?> on TestClass039<$T> {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -9456,7 +9606,8 @@ extension TestClass039$$Methods<$T extends jni$_.JObject?> on TestClass039<$T> {
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_getFoo = TestClass039._class.instanceMethodId(
@@ -9478,7 +9629,8 @@ extension TestClass039$$Methods<$T extends jni$_.JObject?> on TestClass039<$T> {
 
   /// from: `public abstract int getFoo()`
   core$_.int getFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _getFoo(reference.pointer, _id_getFoo.pointer).integer;
+    final _$$selfRef = reference;
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer).integer;
   }
 }
 
@@ -9565,7 +9717,8 @@ extension type TestClass039$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass039$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass039$Nested>();
   }
 }
@@ -9605,8 +9758,8 @@ extension type TestClass040._(jni$_.JObject _$this) implements GrandParent {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass040() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass040>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass040>();
   }
 }
 
@@ -9630,7 +9783,8 @@ extension TestClass040$$Methods on TestClass040 {
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 
@@ -9654,7 +9808,8 @@ extension TestClass040$$Methods on TestClass040 {
   /// from: `public com.example.CustomInterface[] myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<CustomInterface<$S?>?>? myMethod<$S extends jni$_.JObject?>() {
-    return _myMethod(reference.pointer, _id_myMethod.pointer)
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JArray<CustomInterface<$S?>?>?>();
   }
 }
@@ -9697,9 +9852,9 @@ extension type TestClass040$Nested._(jni$_.JObject _$this)
   factory TestClass040$Nested(
     TestClass040 $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass040$Nested>();
   }
 }
@@ -9834,7 +9989,8 @@ extension TestClass041$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -9857,7 +10013,8 @@ extension TestClass041$$Methods<$T extends jni$_.JObject,
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -9937,8 +10094,9 @@ extension type TestClass042<$T extends jni$_.JObject?,
       $U extends jni$_.JObject?, $S extends jni$_.JObject?>(
     CustomInterface<$S?>? p1,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _create(_class.reference.pointer, _id_create.pointer, _$p1.pointer)
+    return _create(_$$classRef.pointer, _id_create.pointer, _$p1.pointer)
         .object<TestClass042<$T, $U>>();
   }
 }
@@ -9964,7 +10122,8 @@ extension TestClass042$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -10008,9 +10167,9 @@ extension type TestClass042$Nested<$T extends jni$_.JObject?,
   factory TestClass042$Nested(
     TestClass042<$T?, $U?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass042$Nested<$T, $U>>();
   }
 }
@@ -10052,7 +10211,8 @@ extension type TestClass043<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass043() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass043<$T, $U>>();
   }
 }
@@ -10090,9 +10250,10 @@ extension TestClass043$$Methods<$T extends jni$_.JObject?,
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 }
@@ -10133,7 +10294,8 @@ extension type TestClass044<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass044() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass044<$T, $U>>();
   }
 }
@@ -10159,7 +10321,8 @@ extension TestClass044$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -10182,7 +10345,8 @@ extension TestClass044$$Methods<$T extends jni$_.JObject?,
   core$_.double isFoo<$S extends jni$_.JObject?>(
     core$_.double p1,
   ) {
-    return _isFoo(reference.pointer, _id_isFoo.pointer, p1).float;
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, p1).float;
   }
 }
 
@@ -10309,7 +10473,8 @@ extension TestClass045$$Methods<$T extends jni$_.JObject?> on TestClass045<$T> {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -10334,8 +10499,9 @@ extension TestClass045$$Methods<$T extends jni$_.JObject?> on TestClass045<$T> {
   jni$_.JArray<jni$_.JMap<$T?, $T?>?>? isFoo(
     jni$_.JArray<jni$_.JMap<$T?, $T?>?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer)
         .object<jni$_.JArray<jni$_.JMap<$T?, $T?>?>?>();
   }
 }
@@ -10413,7 +10579,8 @@ extension type TestClass045$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass045$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass045$Nested>();
   }
 }
@@ -10552,9 +10719,10 @@ extension TestClass046$$Methods<$T extends jni$_.JObject?> on TestClass046<$T> {
   jni$_.JString? genericInterfaceMethod(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -10581,8 +10749,9 @@ extension TestClass046$$Methods<$T extends jni$_.JObject?> on TestClass046<$T> {
     jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<NestedCustom$Nested<$T?, $T?, $T?>?>?>();
   }
 }
@@ -10672,7 +10841,8 @@ extension type TestClass046$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass046$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass046$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass046$NestedEnum?>?>();
   }
 
@@ -10697,9 +10867,9 @@ extension type TestClass046$NestedEnum._(jni$_.JObject _$this)
   static TestClass046$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass046$NestedEnum?>();
   }
 }
@@ -10741,7 +10911,8 @@ extension type TestClass047<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass047() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass047<$T, $U>>();
   }
 }
@@ -10768,9 +10939,10 @@ extension TestClass047$$Methods<$T extends jni$_.JObject,
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -10797,8 +10969,9 @@ extension TestClass047$$Methods<$T extends jni$_.JObject,
     jni$_.JObject p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JObject>();
   }
 }
@@ -10838,7 +11011,8 @@ extension type TestClass048<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass048() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass048<$T>>();
   }
 }
@@ -10863,7 +11037,8 @@ extension TestClass048$$Methods<$T extends jni$_.JObject> on TestClass048<$T> {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass048._class.instanceMethodId(
@@ -10885,7 +11060,8 @@ extension TestClass048$$Methods<$T extends jni$_.JObject> on TestClass048<$T> {
 
   /// from: `public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass048._class.instanceMethodId(
@@ -10907,7 +11083,8 @@ extension TestClass048$$Methods<$T extends jni$_.JObject> on TestClass048<$T> {
 
   /// from: `public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_myMethod = TestClass048._class.instanceMethodId(
@@ -10930,7 +11107,8 @@ extension TestClass048$$Methods<$T extends jni$_.JObject> on TestClass048<$T> {
   /// from: `public native com.example.CustomEnum myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   CustomEnum? myMethod() {
-    return _myMethod(reference.pointer, _id_myMethod.pointer)
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer)
         .object<CustomEnum?>();
   }
 }
@@ -10973,9 +11151,9 @@ extension type TestClass048$Nested<$T extends jni$_.JObject>._(
   factory TestClass048$Nested(
     TestClass048<$T> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass048$Nested<$T>>();
   }
 }
@@ -11017,7 +11195,8 @@ extension type TestClass049<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass049() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass049<$T, $U>>();
   }
 }
@@ -11044,9 +11223,10 @@ extension TestClass049$$Methods<$T extends jni$_.JObject?,
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -11073,8 +11253,9 @@ extension TestClass049$$Methods<$T extends jni$_.JObject?,
     CustomEnum? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
         .object<CustomEnum?>();
   }
 }
@@ -11115,7 +11296,8 @@ extension type TestClass050._(jni$_.JObject _$this) implements GrandParent {
     core$_.double p1,
     core$_.int p2,
   ) {
-    return _create(_class.reference.pointer, _id_create.pointer, p1, p2)
+    final _$$classRef = _class.reference;
+    return _create(_$$classRef.pointer, _id_create.pointer, p1, p2)
         .object<TestClass050>();
   }
 }
@@ -11140,7 +11322,8 @@ extension TestClass050$$Methods on TestClass050 {
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -11181,7 +11364,8 @@ extension type TestClass051._(jni$_.JObject _$this)
   /// from: `static public char[] myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JCharArray? myMethod<$S extends jni$_.JObject?>() {
-    return _myMethod(_class.reference.pointer, _id_myMethod.pointer)
+    final _$$classRef = _class.reference;
+    return _myMethod(_$$classRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JCharArray?>();
   }
 
@@ -11289,7 +11473,8 @@ extension TestClass051$$Methods on TestClass051 {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 }
@@ -11461,7 +11646,8 @@ extension type TestClass052<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass052() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass052<$T, $U>>();
   }
 
@@ -11485,7 +11671,8 @@ extension type TestClass052<$T extends jni$_.JObject?,
   /// from: `static public boolean[] isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JBooleanArray? isFoo() {
-    return _isFoo(_class.reference.pointer, _id_isFoo.pointer)
+    final _$$classRef = _class.reference;
+    return _isFoo(_$$classRef.pointer, _id_isFoo.pointer)
         .object<jni$_.JBooleanArray?>();
   }
 }
@@ -11511,7 +11698,8 @@ extension TestClass052$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass052._class.instanceMethodId(
@@ -11533,7 +11721,8 @@ extension TestClass052$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass052._class.instanceMethodId(
@@ -11555,7 +11744,8 @@ extension TestClass052$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass052._class.instanceMethodId(
@@ -11577,7 +11767,8 @@ extension TestClass052$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass052._class.instanceMethodId(
@@ -11599,7 +11790,8 @@ extension TestClass052$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 }
 
@@ -11639,7 +11831,8 @@ extension type TestClass054<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass054() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass054<$T, $U>>();
   }
 }
@@ -11665,7 +11858,8 @@ extension TestClass054$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -11688,7 +11882,8 @@ extension TestClass054$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_myMethod = TestClass054._class.instanceMethodId(
@@ -11712,7 +11907,8 @@ extension TestClass054$$Methods<$T extends jni$_.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDoubleArray?
       myMethod<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _myMethod(reference.pointer, _id_myMethod.pointer)
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JDoubleArray?>();
   }
 }
@@ -11766,7 +11962,8 @@ extension type TestClass054$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass054$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass054$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass054$NestedEnum?>?>();
   }
 
@@ -11791,9 +11988,9 @@ extension type TestClass054$NestedEnum._(jni$_.JObject _$this)
   static TestClass054$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass054$NestedEnum?>();
   }
 }
@@ -11834,7 +12031,8 @@ extension type TestClass055<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass055() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass055<$T>>();
   }
 }
@@ -11860,9 +12058,10 @@ extension TestClass055$$Methods<$T extends jni$_.JObject> on TestClass055<$T> {
   void genericParentMethod$1(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod$1(
-            reference.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
         .check();
   }
 
@@ -11889,8 +12088,9 @@ extension TestClass055$$Methods<$T extends jni$_.JObject> on TestClass055<$T> {
     jni$_.JObject? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JObject?>();
   }
 }
@@ -11933,9 +12133,9 @@ extension type TestClass055$Nested<$T extends jni$_.JObject>._(
   factory TestClass055$Nested(
     TestClass055<$T> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass055$Nested<$T>>();
   }
 }
@@ -11976,7 +12176,8 @@ extension type TestClass056<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass056() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass056<$T>>();
   }
 }
@@ -12001,7 +12202,8 @@ extension TestClass056$$Methods<$T extends jni$_.JObject?> on TestClass056<$T> {
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass056._class.instanceMethodId(
@@ -12023,7 +12225,8 @@ extension TestClass056$$Methods<$T extends jni$_.JObject?> on TestClass056<$T> {
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass056._class.instanceMethodId(
@@ -12045,7 +12248,8 @@ extension TestClass056$$Methods<$T extends jni$_.JObject?> on TestClass056<$T> {
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass056._class.instanceMethodId(
@@ -12067,7 +12271,8 @@ extension TestClass056$$Methods<$T extends jni$_.JObject?> on TestClass056<$T> {
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass056._class.instanceMethodId(
@@ -12089,7 +12294,8 @@ extension TestClass056$$Methods<$T extends jni$_.JObject?> on TestClass056<$T> {
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_myMethod = TestClass056._class.instanceMethodId(
@@ -12115,8 +12321,9 @@ extension TestClass056$$Methods<$T extends jni$_.JObject?> on TestClass056<$T> {
     $T? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
         .object<$T?>();
   }
 }
@@ -12245,7 +12452,8 @@ extension TestClass058$$Methods<$T extends jni$_.JObject> on TestClass058<$T> {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -12272,8 +12480,9 @@ extension TestClass058$$Methods<$T extends jni$_.JObject> on TestClass058<$T> {
     jni$_.JArray<$T?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<$T?>?>();
   }
 }
@@ -12355,7 +12564,8 @@ extension type TestClass058$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass058$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass058$Nested>();
   }
 }
@@ -12396,7 +12606,8 @@ extension type TestClass059<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass059() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass059<$T>>();
   }
 }
@@ -12423,8 +12634,9 @@ extension TestClass059$$Methods<$T extends jni$_.JObject> on TestClass059<$T> {
   jni$_.JArray<jni$_.JString?>? myMethod<$S extends jni$_.JObject>(
     jni$_.JArray<jni$_.JString?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer)
         .object<jni$_.JArray<jni$_.JString?>?>();
   }
 }
@@ -12564,7 +12776,8 @@ extension TestClass060$$Methods<$T extends jni$_.JObject> on TestClass060<$T> {
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass060._class.instanceMethodId(
@@ -12586,7 +12799,8 @@ extension TestClass060$$Methods<$T extends jni$_.JObject> on TestClass060<$T> {
 
   /// from: `default public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass060._class.instanceMethodId(
@@ -12608,7 +12822,8 @@ extension TestClass060$$Methods<$T extends jni$_.JObject> on TestClass060<$T> {
 
   /// from: `default public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_getFoo = TestClass060._class.instanceMethodId(
@@ -12632,8 +12847,9 @@ extension TestClass060$$Methods<$T extends jni$_.JObject> on TestClass060<$T> {
   NestedCustom$Nested<$S, $S, $S>? getFoo<$S extends jni$_.JObject>(
     NestedCustom$Nested<$S, $S, $S>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer)
         .object<NestedCustom$Nested<$S, $S, $S>?>();
   }
 }
@@ -12742,7 +12958,8 @@ extension type TestClass061<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass061() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass061<$T>>();
   }
 }
@@ -12767,7 +12984,8 @@ extension TestClass061$$Methods<$T extends jni$_.JObject> on TestClass061<$T> {
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass061._class.instanceMethodId(
@@ -12789,7 +13007,8 @@ extension TestClass061$$Methods<$T extends jni$_.JObject> on TestClass061<$T> {
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass061._class.instanceMethodId(
@@ -12811,7 +13030,8 @@ extension TestClass061$$Methods<$T extends jni$_.JObject> on TestClass061<$T> {
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass061._class.instanceMethodId(
@@ -12833,7 +13053,8 @@ extension TestClass061$$Methods<$T extends jni$_.JObject> on TestClass061<$T> {
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass061._class.instanceMethodId(
@@ -12855,7 +13076,8 @@ extension TestClass061$$Methods<$T extends jni$_.JObject> on TestClass061<$T> {
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_isFoo = TestClass061._class.instanceMethodId(
@@ -12880,8 +13102,9 @@ extension TestClass061$$Methods<$T extends jni$_.JObject> on TestClass061<$T> {
       isFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
     jni$_.JArray<NestedCustom$Nested<$S, $S, $S>>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer)
         .object<jni$_.JArray<NestedCustom$Nested<$S, $S, $S>>?>();
   }
 }
@@ -12923,7 +13146,8 @@ extension type TestClass061$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass061$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass061$Nested>();
   }
 }
@@ -12964,7 +13188,8 @@ extension type TestClass062<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass062() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass062<$T>>();
   }
 
@@ -12988,7 +13213,8 @@ extension type TestClass062<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `static public com.example.CustomEnum setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   static CustomEnum? setFoo<$S extends jni$_.JObject>() {
-    return _setFoo(_class.reference.pointer, _id_setFoo.pointer)
+    final _$$classRef = _class.reference;
+    return _setFoo(_$$classRef.pointer, _id_setFoo.pointer)
         .object<CustomEnum?>();
   }
 }
@@ -13014,9 +13240,10 @@ extension TestClass062$$Methods<$T extends jni$_.JObject> on TestClass062<$T> {
   void genericParentMethod$1(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod$1(
-            reference.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
         .check();
   }
 }
@@ -13055,8 +13282,8 @@ extension type TestClass063._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass063() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass063>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass063>();
   }
 
   static final _id_setFoo = _class.staticMethodId(
@@ -13078,7 +13305,8 @@ extension type TestClass063._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public void setFoo()`
   static void setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    _setFoo(_class.reference.pointer, _id_setFoo.pointer).check();
+    final _$$classRef = _class.reference;
+    _setFoo(_$$classRef.pointer, _id_setFoo.pointer).check();
   }
 }
 
@@ -13120,9 +13348,9 @@ extension type TestClass063$Nested._(jni$_.JObject _$this)
   factory TestClass063$Nested(
     TestClass063 $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass063$Nested>();
   }
 }
@@ -13163,7 +13391,8 @@ extension type TestClass064<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass064() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass064<$T, $U>>();
   }
 }
@@ -13189,7 +13418,8 @@ extension TestClass064$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -13319,9 +13549,10 @@ extension TestClass065$$Methods<$T extends jni$_.JObject?> on TestClass065<$T> {
   jni$_.JString? genericInterfaceMethod(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -13344,7 +13575,8 @@ extension TestClass065$$Methods<$T extends jni$_.JObject?> on TestClass065<$T> {
 
   /// from: `public abstract byte setFoo()`
   core$_.int setFoo<$S extends jni$_.JObject?>() {
-    return _setFoo(reference.pointer, _id_setFoo.pointer).byte;
+    final _$$selfRef = reference;
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer).byte;
   }
 }
 
@@ -13413,7 +13645,8 @@ extension type TestClass066<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass066() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass066<$T, $U>>();
   }
 }
@@ -13440,9 +13673,10 @@ extension TestClass066$$Methods<$T extends jni$_.JObject,
   void genericParentMethod$1(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod$1(
-            reference.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
         .check();
   }
 
@@ -13465,7 +13699,8 @@ extension TestClass066$$Methods<$T extends jni$_.JObject,
 
   /// from: `public native double isFoo()`
   core$_.double isFoo() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer).doubleFloat;
   }
 }
 
@@ -13524,7 +13759,8 @@ extension type TestClass067._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.example.TestClass067[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass067?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass067?>?>();
   }
 
@@ -13549,9 +13785,9 @@ extension type TestClass067._(jni$_.JObject _$this) implements jni$_.JObject {
   static TestClass067? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass067?>();
   }
 }
@@ -13577,7 +13813,8 @@ extension TestClass067$$Methods on TestClass067 {
   /// from: `public char[] isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray? isFoo<$S extends jni$_.JObject?>() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer)
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer)
         .object<jni$_.JCharArray?>();
   }
 }
@@ -13619,7 +13856,8 @@ extension type TestClass067$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass067$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass067$Nested>();
   }
 }
@@ -13662,8 +13900,9 @@ extension type TestClass068._(jni$_.JObject _$this)
   static jni$_.JLongArray? isFoo<$S extends jni$_.JObject?>(
     jni$_.JLongArray? p1,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(_class.reference.pointer, _id_isFoo.pointer, _$p1.pointer)
+    return _isFoo(_$$classRef.pointer, _id_isFoo.pointer, _$p1.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -13783,7 +14022,8 @@ extension TestClass068$$Methods on TestClass068 {
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass068._class.instanceMethodId(
@@ -13805,7 +14045,8 @@ extension TestClass068$$Methods on TestClass068 {
 
   /// from: `default public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass068._class.instanceMethodId(
@@ -13827,7 +14068,8 @@ extension TestClass068$$Methods on TestClass068 {
 
   /// from: `default public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 }
 
@@ -13939,7 +14181,8 @@ extension type TestClass068$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass068$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass068$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass068$NestedEnum?>?>();
   }
 
@@ -13964,9 +14207,9 @@ extension type TestClass068$NestedEnum._(jni$_.JObject _$this)
   static TestClass068$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass068$NestedEnum?>();
   }
 }
@@ -14100,9 +14343,10 @@ extension TestClass069$$Methods<$T extends jni$_.JObject?> on TestClass069<$T> {
   jni$_.JString? genericInterfaceMethod(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -14127,7 +14371,8 @@ extension TestClass069$$Methods<$T extends jni$_.JObject?> on TestClass069<$T> {
     core$_.int p1,
     core$_.int p2,
   ) {
-    return _myMethod(reference.pointer, _id_myMethod.pointer, p1, p2).short;
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, p1, p2).short;
   }
 }
 
@@ -14197,7 +14442,8 @@ extension type TestClass069$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass069$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass069$Nested>();
   }
 }
@@ -14239,7 +14485,8 @@ extension type TestClass070<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass070() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass070<$T, $U>>();
   }
 
@@ -14266,9 +14513,9 @@ extension type TestClass070<$T extends jni$_.JObject,
     jni$_.JIntArray? p1,
     core$_.int p2,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(
-            _class.reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$classRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JIntArray?>();
   }
 }
@@ -14294,7 +14541,8 @@ extension TestClass070$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -14317,7 +14565,8 @@ extension TestClass070$$Methods<$T extends jni$_.JObject,
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -14445,7 +14694,8 @@ extension TestClass071$$Methods<$T extends jni$_.JObject?> on TestClass071<$T> {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -14470,8 +14720,9 @@ extension TestClass071$$Methods<$T extends jni$_.JObject?> on TestClass071<$T> {
   jni$_.JArray<CustomInterface<$T?>?>? myMethod(
     jni$_.JArray<CustomInterface<$T?>?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer)
         .object<jni$_.JArray<CustomInterface<$T?>?>?>();
   }
 }
@@ -14643,9 +14894,10 @@ extension TestClass072$$Methods on TestClass072 {
   jni$_.JString? genericInterfaceMethod(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -14669,7 +14921,8 @@ extension TestClass072$$Methods on TestClass072 {
   /// from: `public abstract S getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   $S? getFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _getFoo(reference.pointer, _id_getFoo.pointer).object<$S?>();
+    final _$$selfRef = reference;
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer).object<$S?>();
   }
 }
 
@@ -14739,7 +14992,8 @@ extension type TestClass072$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass072$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass072$Nested>();
   }
 }
@@ -14800,7 +15054,8 @@ extension type TestClass073._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.example.TestClass073[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass073?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass073?>?>();
   }
 
@@ -14825,9 +15080,9 @@ extension type TestClass073._(jni$_.JObject _$this) implements jni$_.JObject {
   static TestClass073? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass073?>();
   }
 }
@@ -14867,7 +15122,8 @@ extension type TestClass074<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass074() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass074<$T>>();
   }
 }
@@ -14892,7 +15148,8 @@ extension TestClass074$$Methods<$T extends jni$_.JObject?> on TestClass074<$T> {
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass074._class.instanceMethodId(
@@ -14914,7 +15171,8 @@ extension TestClass074$$Methods<$T extends jni$_.JObject?> on TestClass074<$T> {
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass074._class.instanceMethodId(
@@ -14936,7 +15194,8 @@ extension TestClass074$$Methods<$T extends jni$_.JObject?> on TestClass074<$T> {
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass074._class.instanceMethodId(
@@ -14958,7 +15217,8 @@ extension TestClass074$$Methods<$T extends jni$_.JObject?> on TestClass074<$T> {
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass074._class.instanceMethodId(
@@ -14980,7 +15240,8 @@ extension TestClass074$$Methods<$T extends jni$_.JObject?> on TestClass074<$T> {
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_getFoo = TestClass074._class.instanceMethodId(
@@ -15007,8 +15268,9 @@ extension TestClass074$$Methods<$T extends jni$_.JObject?> on TestClass074<$T> {
     jni$_.JArray<jni$_.JSet<$S?>?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<jni$_.JSet<$S?>?>?>();
   }
 }
@@ -15051,9 +15313,9 @@ extension type TestClass074$Nested<$T extends jni$_.JObject?>._(
   factory TestClass074$Nested(
     TestClass074<$T?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass074$Nested<$T>>();
   }
 }
@@ -15174,7 +15436,8 @@ extension TestClass075$$Methods on TestClass075 {
   /// from: `default public java.util.Set[] isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JSet<$S?>?>? isFoo<$S extends jni$_.JObject?>() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer)
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer)
         .object<jni$_.JArray<jni$_.JSet<$S?>?>?>();
   }
 }
@@ -15234,7 +15497,8 @@ extension type TestClass076<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass076() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass076<$T>>();
   }
 }
@@ -15260,9 +15524,10 @@ extension TestClass076$$Methods<$T extends jni$_.JObject?> on TestClass076<$T> {
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -15287,8 +15552,9 @@ extension TestClass076$$Methods<$T extends jni$_.JObject?> on TestClass076<$T> {
   jni$_.JArray<jni$_.JString?>? myMethod(
     jni$_.JArray<jni$_.JString?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer)
         .object<jni$_.JArray<jni$_.JString?>?>();
   }
 }
@@ -15425,9 +15691,10 @@ extension TestClass077$$Methods<$T extends jni$_.JObject?> on TestClass077<$T> {
   jni$_.JObject? genericInterfaceMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -15454,8 +15721,9 @@ extension TestClass077$$Methods<$T extends jni$_.JObject?> on TestClass077<$T> {
     jni$_.JShortArray p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
         .object<jni$_.JShortArray>();
   }
 }
@@ -15529,7 +15797,8 @@ extension type TestClass077$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass077$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass077$Nested>();
   }
 }
@@ -15570,7 +15839,8 @@ extension type TestClass078<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass078() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass078<$T>>();
   }
 }
@@ -15596,9 +15866,10 @@ extension TestClass078$$Methods<$T extends jni$_.JObject> on TestClass078<$T> {
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -15624,8 +15895,9 @@ extension TestClass078$$Methods<$T extends jni$_.JObject> on TestClass078<$T> {
       getFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
     jni$_.JArray<jni$_.JList<$S>>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer)
         .object<jni$_.JArray<jni$_.JList<$S>>?>();
   }
 }
@@ -15666,7 +15938,8 @@ extension type TestClass079<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass079() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass079<$T, $U>>();
   }
 }
@@ -15692,7 +15965,8 @@ extension TestClass079$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -15716,7 +15990,8 @@ extension TestClass079$$Methods<$T extends jni$_.JObject?,
   /// from: `public native com.example.CustomObject[] setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<CustomObject<$T?>?>? setFoo() {
-    return _setFoo(reference.pointer, _id_setFoo.pointer)
+    final _$$selfRef = reference;
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer)
         .object<jni$_.JArray<CustomObject<$T?>?>?>();
   }
 }
@@ -15854,7 +16129,8 @@ extension type TestClass080<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass080() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass080<$T>>();
   }
 }
@@ -15883,8 +16159,9 @@ extension TestClass080$$Methods<$T extends jni$_.JObject?> on TestClass080<$T> {
     jni$_.JArray<CustomInterface<$T?>?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<CustomInterface<$T?>?>?>();
   }
 }
@@ -15924,7 +16201,8 @@ extension type TestClass080$Sub<$T extends jni$_.JObject?>._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass080$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass080$Sub<$T>>();
   }
 }
@@ -15966,7 +16244,8 @@ extension type TestClass080$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass080$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass080$Nested>();
   }
 }
@@ -16112,7 +16391,8 @@ extension TestClass081$$Methods on TestClass081 {
 
   /// from: `default public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass081._class.instanceMethodId(
@@ -16134,7 +16414,8 @@ extension TestClass081$$Methods on TestClass081 {
 
   /// from: `default public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass081._class.instanceMethodId(
@@ -16156,7 +16437,8 @@ extension TestClass081$$Methods on TestClass081 {
 
   /// from: `default public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass081._class.instanceMethodId(
@@ -16178,7 +16460,8 @@ extension TestClass081$$Methods on TestClass081 {
 
   /// from: `default public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass081._class.instanceMethodId(
@@ -16200,7 +16483,8 @@ extension TestClass081$$Methods on TestClass081 {
 
   /// from: `default public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_getFoo = TestClass081._class.instanceMethodId(
@@ -16224,7 +16508,8 @@ extension TestClass081$$Methods on TestClass081 {
     core$_.double p1,
     core$_.int p2,
   ) {
-    return _getFoo(reference.pointer, _id_getFoo.pointer, p1, p2).doubleFloat;
+    final _$$selfRef = reference;
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, p1, p2).doubleFloat;
   }
 }
 
@@ -16355,8 +16640,9 @@ extension TestClass082$$Methods<$T extends jni$_.JObject> on TestClass082<$T> {
     jni$_.JArray<jni$_.JObject>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<jni$_.JObject>?>();
   }
 }
@@ -16399,9 +16685,9 @@ extension type TestClass082$Nested<$T extends jni$_.JObject>._(
   factory TestClass082$Nested(
     TestClass082<$T> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass082$Nested<$T>>();
   }
 }
@@ -16531,7 +16817,8 @@ extension TestClass083$$Methods on TestClass083 {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -16558,8 +16845,9 @@ extension TestClass083$$Methods on TestClass083 {
     jni$_.JArray<jni$_.JMap<$S?, $S?>?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JArray<jni$_.JMap<$S?, $S?>?>?>();
   }
 }
@@ -16733,9 +17021,10 @@ extension TestClass084$$Methods<$T extends jni$_.JObject> on TestClass084<$T> {
   jni$_.JObject? genericInterfaceMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     return _genericInterfaceMethod(
-            reference.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericInterfaceMethod.pointer, _$t.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -16759,7 +17048,8 @@ extension TestClass084$$Methods<$T extends jni$_.JObject> on TestClass084<$T> {
   /// from: `public abstract S setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   $S? setFoo<$S extends jni$_.JObject>() {
-    return _setFoo(reference.pointer, _id_setFoo.pointer).object<$S?>();
+    final _$$selfRef = reference;
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer).object<$S?>();
   }
 }
 
@@ -16926,7 +17216,8 @@ extension type TestClass085<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass085() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass085<$T, $U>>();
   }
 }
@@ -16952,7 +17243,8 @@ extension TestClass085$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -16975,7 +17267,8 @@ extension TestClass085$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -17018,9 +17311,9 @@ extension type TestClass085$Nested<$T extends jni$_.JObject?,
   factory TestClass085$Nested(
     TestClass085<$T?, $U?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass085$Nested<$T, $U>>();
   }
 }
@@ -17061,7 +17354,8 @@ extension type TestClass086<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass086() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass086<$T>>();
   }
 }
@@ -17088,8 +17382,9 @@ extension TestClass086$$Methods<$T extends jni$_.JObject> on TestClass086<$T> {
   jni$_.JList<$T>? setFoo(
     jni$_.JList<$T>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer)
         .object<jni$_.JList<$T>?>();
   }
 }
@@ -17129,7 +17424,8 @@ extension type TestClass086$Sub<$T extends jni$_.JObject>._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass086$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass086$Sub<$T>>();
   }
 }
@@ -17278,7 +17574,8 @@ extension TestClass087$$Methods<$T extends jni$_.JObject?> on TestClass087<$T> {
 
   /// from: `default public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass087._class.instanceMethodId(
@@ -17300,7 +17597,8 @@ extension TestClass087$$Methods<$T extends jni$_.JObject?> on TestClass087<$T> {
 
   /// from: `default public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass087._class.instanceMethodId(
@@ -17322,7 +17620,8 @@ extension TestClass087$$Methods<$T extends jni$_.JObject?> on TestClass087<$T> {
 
   /// from: `default public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass087._class.instanceMethodId(
@@ -17344,7 +17643,8 @@ extension TestClass087$$Methods<$T extends jni$_.JObject?> on TestClass087<$T> {
 
   /// from: `default public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass087._class.instanceMethodId(
@@ -17366,7 +17666,8 @@ extension TestClass087$$Methods<$T extends jni$_.JObject?> on TestClass087<$T> {
 
   /// from: `default public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_isFoo = TestClass087._class.instanceMethodId(
@@ -17392,8 +17693,9 @@ extension TestClass087$$Methods<$T extends jni$_.JObject?> on TestClass087<$T> {
     jni$_.JByteArray p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JByteArray>();
   }
 }
@@ -17522,7 +17824,8 @@ extension type TestClass087$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass087$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass087$Nested>();
   }
 }
@@ -17568,9 +17871,9 @@ extension type TestClass088<$T extends jni$_.JObject?,
     jni$_.JFloatArray? p1,
     core$_.int p2,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _create(
-            _class.reference.pointer, _id_create.pointer, _$p1.pointer, p2)
+    return _create(_$$classRef.pointer, _id_create.pointer, _$p1.pointer, p2)
         .object<TestClass088<$T, $U>>();
   }
 }
@@ -17596,7 +17899,8 @@ extension TestClass088$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -17619,7 +17923,8 @@ extension TestClass088$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -17662,9 +17967,9 @@ extension type TestClass088$Nested<$T extends jni$_.JObject?,
   factory TestClass088$Nested(
     TestClass088<$T?, $U?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass088$Nested<$T, $U>>();
   }
 }
@@ -17705,8 +18010,8 @@ extension type TestClass089._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass089() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass089>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass089>();
   }
 }
 
@@ -17730,7 +18035,8 @@ extension TestClass089$$Methods on TestClass089 {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -17753,7 +18059,8 @@ extension TestClass089$$Methods on TestClass089 {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_isFoo = TestClass089._class.instanceMethodId(
@@ -17776,7 +18083,8 @@ extension TestClass089$$Methods on TestClass089 {
   /// from: `synchronized public java.lang.Object isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer)
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -17917,7 +18225,8 @@ extension TestClass090$$Methods<$T extends jni$_.JObject?,
 
   /// from: `default public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass090._class.instanceMethodId(
@@ -17939,7 +18248,8 @@ extension TestClass090$$Methods<$T extends jni$_.JObject?,
 
   /// from: `default public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass090._class.instanceMethodId(
@@ -17961,7 +18271,8 @@ extension TestClass090$$Methods<$T extends jni$_.JObject?,
 
   /// from: `default public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_setFoo = TestClass090._class.instanceMethodId(
@@ -17987,8 +18298,9 @@ extension TestClass090$$Methods<$T extends jni$_.JObject?,
     jni$_.JObject? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JObject?>();
   }
 }
@@ -18091,7 +18403,8 @@ extension type TestClass090$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass090$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass090$Nested>();
   }
 }
@@ -18132,7 +18445,8 @@ extension type TestClass091<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass091() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass091<$T>>();
   }
 }
@@ -18157,7 +18471,8 @@ extension TestClass091$$Methods<$T extends jni$_.JObject> on TestClass091<$T> {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -18180,7 +18495,8 @@ extension TestClass091$$Methods<$T extends jni$_.JObject> on TestClass091<$T> {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_myMethod = TestClass091._class.instanceMethodId(
@@ -18204,8 +18520,9 @@ extension TestClass091$$Methods<$T extends jni$_.JObject> on TestClass091<$T> {
   $T myMethod<$S extends jni$_.JObject>(
     $T p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer)
         .object<$T>();
   }
 }
@@ -18247,7 +18564,8 @@ extension type TestClass091$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass091$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass091$Nested>();
   }
 }
@@ -18376,7 +18694,8 @@ extension TestClass092$$Methods on TestClass092 {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -18401,8 +18720,9 @@ extension TestClass092$$Methods on TestClass092 {
   jni$_.JLongArray? isFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JLongArray? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer)
         .object<jni$_.JLongArray?>();
   }
 }
@@ -18573,7 +18893,8 @@ extension type TestClass093<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass093() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass093<$T, $U>>();
   }
 }
@@ -18599,7 +18920,8 @@ extension TestClass093$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 
@@ -18626,8 +18948,9 @@ extension TestClass093$$Methods<$T extends jni$_.JObject?,
     CustomObject<$S?>? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
         .object<CustomObject<$S?>?>();
   }
 }
@@ -18667,7 +18990,8 @@ extension type TestClass094<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass094() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass094<$T>>();
   }
 }
@@ -18692,7 +19016,8 @@ extension TestClass094$$Methods<$T extends jni$_.JObject?> on TestClass094<$T> {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass094._class.instanceMethodId(
@@ -18714,7 +19039,8 @@ extension TestClass094$$Methods<$T extends jni$_.JObject?> on TestClass094<$T> {
 
   /// from: `public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass094._class.instanceMethodId(
@@ -18736,7 +19062,8 @@ extension TestClass094$$Methods<$T extends jni$_.JObject?> on TestClass094<$T> {
 
   /// from: `public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 
   static final _id_setFoo = TestClass094._class.instanceMethodId(
@@ -18760,7 +19087,8 @@ extension TestClass094$$Methods<$T extends jni$_.JObject?> on TestClass094<$T> {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JFloatArray?
       setFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _setFoo(reference.pointer, _id_setFoo.pointer)
+    final _$$selfRef = reference;
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer)
         .object<jni$_.JFloatArray?>();
   }
 }
@@ -18898,7 +19226,8 @@ extension type TestClass095<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass095() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass095<$T>>();
   }
 }
@@ -18924,7 +19253,8 @@ extension TestClass095$$Methods<$T extends jni$_.JObject> on TestClass095<$T> {
   /// from: `public final java.util.List[] isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JList<$S>>? isFoo<$S extends jni$_.JObject>() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer)
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer)
         .object<jni$_.JArray<jni$_.JList<$S>>?>();
   }
 }
@@ -18964,8 +19294,8 @@ extension type TestClass096._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass096() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass096>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass096>();
   }
 }
 
@@ -18989,7 +19319,8 @@ extension TestClass096$$Methods on TestClass096 {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass096._class.instanceMethodId(
@@ -19011,7 +19342,8 @@ extension TestClass096$$Methods on TestClass096 {
 
   /// from: `public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass096._class.instanceMethodId(
@@ -19033,7 +19365,8 @@ extension TestClass096$$Methods on TestClass096 {
 
   /// from: `public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 }
 
@@ -19170,7 +19503,8 @@ extension type TestClass097<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass097() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass097<$T>>();
   }
 }
@@ -19196,9 +19530,10 @@ extension TestClass097$$Methods<$T extends jni$_.JObject> on TestClass097<$T> {
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -19225,8 +19560,9 @@ extension TestClass097$$Methods<$T extends jni$_.JObject> on TestClass097<$T> {
     jni$_.JObject? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JObject?>();
   }
 }
@@ -19364,8 +19700,8 @@ extension type TestClass098._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass098() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass098>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass098>();
   }
 }
 
@@ -19390,9 +19726,10 @@ extension TestClass098$$Methods on TestClass098 {
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -19415,7 +19752,8 @@ extension TestClass098$$Methods on TestClass098 {
 
   /// from: `public final void getFoo()`
   void getFoo<$S extends jni$_.JObject?>() {
-    _getFoo(reference.pointer, _id_getFoo.pointer).check();
+    final _$$selfRef = reference;
+    _getFoo(_$$selfRef.pointer, _id_getFoo.pointer).check();
   }
 }
 
@@ -19468,7 +19806,8 @@ extension type TestClass098$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass098$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass098$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass098$NestedEnum?>?>();
   }
 
@@ -19493,9 +19832,9 @@ extension type TestClass098$NestedEnum._(jni$_.JObject _$this)
   static TestClass098$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass098$NestedEnum?>();
   }
 }
@@ -19536,7 +19875,8 @@ extension type TestClass099<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass099() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass099<$T>>();
   }
 }
@@ -19563,8 +19903,9 @@ extension TestClass099$$Methods<$T extends jni$_.JObject?> on TestClass099<$T> {
   jni$_.JSet<$S?>? isFoo<$S extends jni$_.JObject?>(
     jni$_.JSet<$S?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer)
         .object<jni$_.JSet<$S?>?>();
   }
 }
@@ -19607,9 +19948,9 @@ extension type TestClass099$Nested<$T extends jni$_.JObject?>._(
   factory TestClass099$Nested(
     TestClass099<$T?> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass099$Nested<$T>>();
   }
 }
@@ -19650,7 +19991,8 @@ extension type TestClass100<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass100() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass100<$T>>();
   }
 }
@@ -19686,9 +20028,10 @@ extension TestClass100$$Methods<$T extends jni$_.JObject> on TestClass100<$T> {
   void genericParentMethod$1(
     jni$_.JString? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod$1(
-            reference.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod$1.pointer, _$t.pointer)
         .check();
   }
 }
@@ -19731,9 +20074,9 @@ extension type TestClass100$Nested<$T extends jni$_.JObject>._(
   factory TestClass100$Nested(
     TestClass100<$T> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass100$Nested<$T>>();
   }
 }
@@ -19774,8 +20117,8 @@ extension type TestClass101._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass101() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass101>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass101>();
   }
 }
 
@@ -19799,7 +20142,8 @@ extension TestClass101$$Methods on TestClass101 {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -19822,7 +20166,8 @@ extension TestClass101$$Methods on TestClass101 {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_setFoo = TestClass101._class.instanceMethodId(
@@ -19848,8 +20193,9 @@ extension TestClass101$$Methods on TestClass101 {
     jni$_.JObject? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JObject?>();
   }
 }
@@ -19890,7 +20236,8 @@ extension type TestClass102<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass102() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass102<$T, $U>>();
   }
 }
@@ -19916,7 +20263,8 @@ extension TestClass102$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -19939,7 +20287,8 @@ extension TestClass102$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_getFoo = TestClass102._class.instanceMethodId(
@@ -19965,8 +20314,9 @@ extension TestClass102$$Methods<$T extends jni$_.JObject?,
     jni$_.JString? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(reference.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JString?>();
   }
 }
@@ -20187,8 +20537,9 @@ extension TestClass103$$Methods on TestClass103 {
   jni$_.JArray<CustomEnum?>? setFoo<$S extends jni$_.JObject?>(
     jni$_.JArray<CustomEnum?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer)
         .object<jni$_.JArray<CustomEnum?>?>();
   }
 }
@@ -20251,7 +20602,8 @@ extension type TestClass104<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass104() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass104<$T>>();
   }
 }
@@ -20276,7 +20628,8 @@ extension TestClass104$$Methods<$T extends jni$_.JObject> on TestClass104<$T> {
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass104._class.instanceMethodId(
@@ -20298,7 +20651,8 @@ extension TestClass104$$Methods<$T extends jni$_.JObject> on TestClass104<$T> {
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass104._class.instanceMethodId(
@@ -20320,7 +20674,8 @@ extension TestClass104$$Methods<$T extends jni$_.JObject> on TestClass104<$T> {
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass104._class.instanceMethodId(
@@ -20342,7 +20697,8 @@ extension TestClass104$$Methods<$T extends jni$_.JObject> on TestClass104<$T> {
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass104._class.instanceMethodId(
@@ -20364,7 +20720,8 @@ extension TestClass104$$Methods<$T extends jni$_.JObject> on TestClass104<$T> {
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_isFoo = TestClass104._class.instanceMethodId(
@@ -20387,7 +20744,8 @@ extension TestClass104$$Methods<$T extends jni$_.JObject> on TestClass104<$T> {
   /// from: `synchronized public com.example.CustomInterface<S> isFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   CustomInterface<$S>? isFoo<$S extends jni$_.JObject>() {
-    return _isFoo(reference.pointer, _id_isFoo.pointer)
+    final _$$selfRef = reference;
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer)
         .object<CustomInterface<$S>?>();
   }
 }
@@ -20429,7 +20787,8 @@ extension type TestClass104$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass104$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass104$Nested>();
   }
 }
@@ -20471,8 +20830,9 @@ extension type TestClass105<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   factory TestClass105(
     jni$_.JArray<CustomInterface<$T>>? p1,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer, _$p1.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$p1.pointer)
         .object<TestClass105<$T>>();
   }
 }
@@ -20497,7 +20857,8 @@ extension TestClass105$$Methods<$T extends jni$_.JObject> on TestClass105<$T> {
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -20520,7 +20881,8 @@ extension TestClass105$$Methods<$T extends jni$_.JObject> on TestClass105<$T> {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 }
 
@@ -20573,7 +20935,8 @@ extension type TestClass105$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass105$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass105$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass105$NestedEnum?>?>();
   }
 
@@ -20598,9 +20961,9 @@ extension type TestClass105$NestedEnum._(jni$_.JObject _$this)
   static TestClass105$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass105$NestedEnum?>();
   }
 }
@@ -20641,7 +21004,8 @@ extension type TestClass106<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass106() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass106<$T, $U>>();
   }
 }
@@ -20682,7 +21046,8 @@ extension type TestClass106$Sub<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass106$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass106$Sub<$T, $U>>();
   }
 }
@@ -20819,8 +21184,8 @@ extension type TestClass107._(jni$_.JObject _$this) implements GrandParent {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass107() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass107>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass107>();
   }
 
   static final _id_getFoo = _class.staticMethodId(
@@ -20845,8 +21210,9 @@ extension type TestClass107._(jni$_.JObject _$this) implements GrandParent {
       getFoo<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JFloatArray? p1,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _getFoo(_class.reference.pointer, _id_getFoo.pointer, _$p1.pointer)
+    return _getFoo(_$$classRef.pointer, _id_getFoo.pointer, _$p1.pointer)
         .object<jni$_.JFloatArray?>();
   }
 }
@@ -20871,7 +21237,8 @@ extension TestClass107$$Methods on TestClass107 {
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -21095,7 +21462,8 @@ extension TestClass108$$Methods<$T extends jni$_.JObject> on TestClass108<$T> {
 
   /// from: `default public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 
@@ -21119,7 +21487,8 @@ extension TestClass108$$Methods<$T extends jni$_.JObject> on TestClass108<$T> {
   /// from: `default public T setFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   $T setFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>() {
-    return _setFoo(reference.pointer, _id_setFoo.pointer).object<$T>();
+    final _$$selfRef = reference;
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer).object<$T>();
   }
 }
 
@@ -21191,7 +21560,8 @@ extension type TestClass109<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass109() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass109<$T>>();
   }
 }
@@ -21217,9 +21587,10 @@ extension TestClass109$$Methods<$T extends jni$_.JObject> on TestClass109<$T> {
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 
@@ -21243,7 +21614,9 @@ extension TestClass109$$Methods<$T extends jni$_.JObject> on TestClass109<$T> {
   /// from: `public final com.example.CustomEnum getFoo()`
   /// The returned object must be released after use, by calling the [release] method.
   CustomEnum? getFoo<$S extends jni$_.JObject>() {
-    return _getFoo(reference.pointer, _id_getFoo.pointer).object<CustomEnum?>();
+    final _$$selfRef = reference;
+    return _getFoo(_$$selfRef.pointer, _id_getFoo.pointer)
+        .object<CustomEnum?>();
   }
 }
 
@@ -21285,9 +21658,9 @@ extension type TestClass109$Nested<$T extends jni$_.JObject>._(
   factory TestClass109$Nested(
     TestClass109<$T> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass109$Nested<$T>>();
   }
 }
@@ -21328,7 +21701,8 @@ extension type TestClass110<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass110() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass110<$T>>();
   }
 }
@@ -21390,9 +21764,9 @@ extension type TestClass111<$T extends jni$_.JObject>._(jni$_.JObject _$this)
     jni$_.JArray<jni$_.JObject?>? p1,
     core$_.int p2,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _create(
-            _class.reference.pointer, _id_create.pointer, _$p1.pointer, p2)
+    return _create(_$$classRef.pointer, _id_create.pointer, _$p1.pointer, p2)
         .object<TestClass111<$T>>();
   }
 }
@@ -21418,9 +21792,10 @@ extension TestClass111$$Methods<$T extends jni$_.JObject> on TestClass111<$T> {
   void genericParentMethod(
     jni$_.JObject? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
     _genericParentMethod(
-            reference.pointer, _id_genericParentMethod.pointer, _$t.pointer)
+            _$$selfRef.pointer, _id_genericParentMethod.pointer, _$t.pointer)
         .check();
   }
 }
@@ -21474,7 +21849,8 @@ extension type TestClass111$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass111$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass111$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass111$NestedEnum?>?>();
   }
 
@@ -21499,9 +21875,9 @@ extension type TestClass111$NestedEnum._(jni$_.JObject _$this)
   static TestClass111$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass111$NestedEnum?>();
   }
 }
@@ -21544,8 +21920,9 @@ extension type TestClass113._(jni$_.JObject _$this)
       create<$S extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JShortArray? p1,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _create(_class.reference.pointer, _id_create.pointer, _$p1.pointer)
+    return _create(_$$classRef.pointer, _id_create.pointer, _$p1.pointer)
         .object<TestClass113>();
   }
 }
@@ -21570,7 +21947,8 @@ extension TestClass113$$Methods on TestClass113 {
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass113._class.instanceMethodId(
@@ -21592,7 +21970,8 @@ extension TestClass113$$Methods on TestClass113 {
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass113._class.instanceMethodId(
@@ -21614,7 +21993,8 @@ extension TestClass113$$Methods on TestClass113 {
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass113._class.instanceMethodId(
@@ -21636,7 +22016,8 @@ extension TestClass113$$Methods on TestClass113 {
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass113._class.instanceMethodId(
@@ -21658,7 +22039,8 @@ extension TestClass113$$Methods on TestClass113 {
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 }
 
@@ -21699,7 +22081,8 @@ extension type TestClass113$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass113$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass113$Nested>();
   }
 }
@@ -21740,8 +22123,8 @@ extension type TestClass115._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass115() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass115>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass115>();
   }
 }
 
@@ -21765,7 +22148,8 @@ extension TestClass115$$Methods on TestClass115 {
 
   /// from: `public void aMethod()`
   void aMethod() {
-    _aMethod(reference.pointer, _id_aMethod.pointer).check();
+    final _$$selfRef = reference;
+    _aMethod(_$$selfRef.pointer, _id_aMethod.pointer).check();
   }
 
   static final _id_bMethod = TestClass115._class.instanceMethodId(
@@ -21787,7 +22171,8 @@ extension TestClass115$$Methods on TestClass115 {
 
   /// from: `public void bMethod()`
   void bMethod() {
-    _bMethod(reference.pointer, _id_bMethod.pointer).check();
+    final _$$selfRef = reference;
+    _bMethod(_$$selfRef.pointer, _id_bMethod.pointer).check();
   }
 
   static final _id_cMethod = TestClass115._class.instanceMethodId(
@@ -21809,7 +22194,8 @@ extension TestClass115$$Methods on TestClass115 {
 
   /// from: `public void cMethod()`
   void cMethod() {
-    _cMethod(reference.pointer, _id_cMethod.pointer).check();
+    final _$$selfRef = reference;
+    _cMethod(_$$selfRef.pointer, _id_cMethod.pointer).check();
   }
 
   static final _id_dMethod = TestClass115._class.instanceMethodId(
@@ -21831,7 +22217,8 @@ extension TestClass115$$Methods on TestClass115 {
 
   /// from: `public void dMethod()`
   void dMethod() {
-    _dMethod(reference.pointer, _id_dMethod.pointer).check();
+    final _$$selfRef = reference;
+    _dMethod(_$$selfRef.pointer, _id_dMethod.pointer).check();
   }
 
   static final _id_eMethod = TestClass115._class.instanceMethodId(
@@ -21853,7 +22240,8 @@ extension TestClass115$$Methods on TestClass115 {
 
   /// from: `public void eMethod()`
   void eMethod() {
-    _eMethod(reference.pointer, _id_eMethod.pointer).check();
+    final _$$selfRef = reference;
+    _eMethod(_$$selfRef.pointer, _id_eMethod.pointer).check();
   }
 
   static final _id_myMethod = TestClass115._class.instanceMethodId(
@@ -21875,7 +22263,8 @@ extension TestClass115$$Methods on TestClass115 {
 
   /// from: `synchronized public void myMethod()`
   void myMethod<$S extends jni$_.JObject>() {
-    _myMethod(reference.pointer, _id_myMethod.pointer).check();
+    final _$$selfRef = reference;
+    _myMethod(_$$selfRef.pointer, _id_myMethod.pointer).check();
   }
 }
 
@@ -21917,9 +22306,9 @@ extension type TestClass115$Nested._(jni$_.JObject _$this)
   factory TestClass115$Nested(
     TestClass115 $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<TestClass115$Nested>();
   }
 }
@@ -21961,7 +22350,8 @@ extension type TestClass116<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass116() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass116<$T, $U>>();
   }
 }
@@ -22000,7 +22390,8 @@ extension TestClass116$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void otherInterfaceMethod()`
   void otherInterfaceMethod() {
-    _otherInterfaceMethod(reference.pointer, _id_otherInterfaceMethod.pointer)
+    final _$$selfRef = reference;
+    _otherInterfaceMethod(_$$selfRef.pointer, _id_otherInterfaceMethod.pointer)
         .check();
   }
 }
@@ -22042,7 +22433,8 @@ extension type TestClass116$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass116$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass116$Nested>();
   }
 }
@@ -22103,7 +22495,8 @@ extension type TestClass117._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.example.TestClass117[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass117?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass117?>?>();
   }
 
@@ -22128,9 +22521,9 @@ extension type TestClass117._(jni$_.JObject _$this) implements jni$_.JObject {
   static TestClass117? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass117?>();
   }
 }
@@ -22159,8 +22552,9 @@ extension TestClass117$$Methods on TestClass117 {
     jni$_.JObject p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1.reference;
-    return _myMethod(reference.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer, _$p1.pointer, p2)
         .object<jni$_.JObject>();
   }
 }
@@ -22318,7 +22712,8 @@ extension type TestClass118._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.example.TestClass118[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass118?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass118?>?>();
   }
 
@@ -22343,9 +22738,9 @@ extension type TestClass118._(jni$_.JObject _$this) implements jni$_.JObject {
   static TestClass118? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass118?>();
   }
 }
@@ -22372,8 +22767,9 @@ extension TestClass118$$Methods on TestClass118 {
   jni$_.JArray<jni$_.JMap<$S?, $S?>?>? isFoo<$S extends jni$_.JObject?>(
     jni$_.JArray<jni$_.JMap<$S?, $S?>?>? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer)
         .object<jni$_.JArray<jni$_.JMap<$S?, $S?>?>?>();
   }
 }
@@ -22412,8 +22808,8 @@ extension type TestClass119._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass119() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<TestClass119>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<TestClass119>();
   }
 }
 
@@ -22441,8 +22837,9 @@ extension TestClass119$$Methods on TestClass119 {
     jni$_.JBooleanArray? p1,
     core$_.int p2,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _setFoo(reference.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
+    return _setFoo(_$$selfRef.pointer, _id_setFoo.pointer, _$p1.pointer, p2)
         .object<jni$_.JBooleanArray?>();
   }
 }
@@ -22482,7 +22879,8 @@ extension type TestClass119$Sub._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass119$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass119$Sub>();
   }
 }
@@ -22522,7 +22920,8 @@ extension type TestClass120<$T extends jni$_.JObject?,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass120() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass120<$T, $U>>();
   }
 }
@@ -22558,7 +22957,8 @@ extension TestClass120$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -22698,8 +23098,9 @@ extension type TestClass121<$T extends jni$_.JObject?,
       $U extends jni$_.JObject?, $S extends jni$_.JObject?>(
     CustomObject<$S?>? p1,
   ) {
+    final _$$classRef = _class.reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _create(_class.reference.pointer, _id_create.pointer, _$p1.pointer)
+    return _create(_$$classRef.pointer, _id_create.pointer, _$p1.pointer)
         .object<TestClass121<$T, $U>>();
   }
 }
@@ -22725,7 +23126,8 @@ extension TestClass121$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public void grandParentMethod()`
   void grandParentMethod() {
-    _grandParentMethod(reference.pointer, _id_grandParentMethod.pointer)
+    final _$$selfRef = reference;
+    _grandParentMethod(_$$selfRef.pointer, _id_grandParentMethod.pointer)
         .check();
   }
 }
@@ -22779,7 +23181,8 @@ extension type TestClass121$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass121$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass121$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass121$NestedEnum?>?>();
   }
 
@@ -22804,9 +23207,9 @@ extension type TestClass121$NestedEnum._(jni$_.JObject _$this)
   static TestClass121$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass121$NestedEnum?>();
   }
 }
@@ -22849,7 +23252,8 @@ extension type TestClass122._(jni$_.JObject _$this)
     core$_.int p1,
     core$_.int p2,
   ) {
-    return _create(_class.reference.pointer, _id_create.pointer, p1, p2)
+    final _$$classRef = _class.reference;
+    return _create(_$$classRef.pointer, _id_create.pointer, p1, p2)
         .object<TestClass122>();
   }
 }
@@ -22874,7 +23278,8 @@ extension TestClass122$$Methods on TestClass122 {
 
   /// from: `public void baseMethod()`
   void baseMethod() {
-    _baseMethod(reference.pointer, _id_baseMethod.pointer).check();
+    final _$$selfRef = reference;
+    _baseMethod(_$$selfRef.pointer, _id_baseMethod.pointer).check();
   }
 
   static final _id_leftMethod = TestClass122._class.instanceMethodId(
@@ -22896,7 +23301,8 @@ extension TestClass122$$Methods on TestClass122 {
 
   /// from: `public void leftMethod()`
   void leftMethod() {
-    _leftMethod(reference.pointer, _id_leftMethod.pointer).check();
+    final _$$selfRef = reference;
+    _leftMethod(_$$selfRef.pointer, _id_leftMethod.pointer).check();
   }
 
   static final _id_rightMethod = TestClass122._class.instanceMethodId(
@@ -22918,7 +23324,8 @@ extension TestClass122$$Methods on TestClass122 {
 
   /// from: `public void rightMethod()`
   void rightMethod() {
-    _rightMethod(reference.pointer, _id_rightMethod.pointer).check();
+    final _$$selfRef = reference;
+    _rightMethod(_$$selfRef.pointer, _id_rightMethod.pointer).check();
   }
 }
 
@@ -23057,8 +23464,8 @@ extension type TestClass123<$T extends jni$_.JObject,
     core$_.int p1,
     core$_.int p2,
   ) {
-    return _setFoo(_class.reference.pointer, _id_setFoo.pointer, p1, p2)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _setFoo(_$$classRef.pointer, _id_setFoo.pointer, p1, p2).integer;
   }
 
   /// Maps a specific port to the implemented interface.
@@ -23196,7 +23603,8 @@ extension type TestClass123$Sub<$T extends jni$_.JObject,
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass123$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass123$Sub<$T, $U>>();
   }
 
@@ -23221,8 +23629,8 @@ extension type TestClass123$Sub<$T extends jni$_.JObject,
     core$_.int p1,
     core$_.int p2,
   ) {
-    return _setFoo(_class.reference.pointer, _id_setFoo.pointer, p1, p2)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _setFoo(_$$classRef.pointer, _id_setFoo.pointer, p1, p2).integer;
   }
 }
 
@@ -23263,7 +23671,8 @@ extension type TestClass123$Nested._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass123$Nested() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass123$Nested>();
   }
 }
@@ -23324,7 +23733,8 @@ extension type TestClass124._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.example.TestClass124[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass124?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass124?>?>();
   }
 
@@ -23349,9 +23759,9 @@ extension type TestClass124._(jni$_.JObject _$this) implements jni$_.JObject {
   static TestClass124? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass124?>();
   }
 }
@@ -23378,8 +23788,9 @@ extension TestClass124$$Methods on TestClass124 {
   jni$_.JString? isFoo<$S extends jni$_.JObject?>(
     jni$_.JString? p1,
   ) {
+    final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
-    return _isFoo(reference.pointer, _id_isFoo.pointer, _$p1.pointer)
+    return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer)
         .object<jni$_.JString?>();
   }
 }
@@ -23433,7 +23844,8 @@ extension type TestClass124$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass124$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass124$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass124$NestedEnum?>?>();
   }
 
@@ -23458,9 +23870,9 @@ extension type TestClass124$NestedEnum._(jni$_.JObject _$this)
   static TestClass124$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass124$NestedEnum?>();
   }
 }
@@ -23501,7 +23913,8 @@ extension type TestClass125<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass125() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass125<$T>>();
   }
 }
@@ -23527,7 +23940,8 @@ extension TestClass125$$Methods<$T extends jni$_.JObject?> on TestClass125<$T> {
   /// from: `public short[] myMethod()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JShortArray? myMethod() {
-    return _myMethod(reference.pointer, _id_myMethod.pointer)
+    final _$$selfRef = reference;
+    return _myMethod(_$$selfRef.pointer, _id_myMethod.pointer)
         .object<jni$_.JShortArray?>();
   }
 }
@@ -23567,7 +23981,8 @@ extension type TestClass125$Sub<$T extends jni$_.JObject?>._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory TestClass125$Sub() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<TestClass125$Sub<$T>>();
   }
 }
@@ -23621,7 +24036,8 @@ extension type TestClass125$NestedEnum._(jni$_.JObject _$this)
   /// from: `static public com.example.TestClass125$NestedEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<TestClass125$NestedEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<TestClass125$NestedEnum?>?>();
   }
 
@@ -23646,9 +24062,9 @@ extension type TestClass125$NestedEnum._(jni$_.JObject _$this)
   static TestClass125$NestedEnum? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<TestClass125$NestedEnum?>();
   }
 }
