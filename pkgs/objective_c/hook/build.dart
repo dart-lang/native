@@ -64,11 +64,17 @@ void main(List<String> args) async {
 
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
+    final List<String> archFlags;
+    if (codeConfig.targetArchitecture == Architecture.arm64 &&
+        (os == OS.macOS || os == OS.iOS)) {
+      archFlags = ['-arch', 'arm64', '-arch', 'arm64e'];
+    } else {
+      archFlags = ['-target', target];
+    }
     final cFlags = <String>[
       '-isysroot',
       sysroot,
-      '-target',
-      target,
+      ...archFlags,
       minVersion,
     ];
     final mFlags = [...cFlags, ...objCFlags];
