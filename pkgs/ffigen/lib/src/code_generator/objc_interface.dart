@@ -227,7 +227,7 @@ ${generateInstanceMethodBindings(w, this)}
     LocalVariables localVariables,
   ) {
     if (value.contains('.') || value.contains('(')) {
-      final name = localVariables.addVariable(value: value, nameHint: 'obj');
+      final name = localVariables.addVariable(value);
       value = name;
     }
     return objCRetain

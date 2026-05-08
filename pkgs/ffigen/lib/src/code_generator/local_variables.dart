@@ -12,10 +12,8 @@ class LocalVariables {
   LocalVariables(this.scope);
 
   /// Adds a new local variable with the given [value] and returns its name.
-  ///
-  /// [nameHint] is used to generate a unique private name.
-  String addVariable({required String value, String nameHint = 'temp'}) {
-    final name = scope.addPrivate('_\$$nameHint');
+  String addVariable(String value) {
+    final name = scope.addPrivate('_\$\$');
     _declarations.add('final $name = $value;');
     return name;
   }
@@ -24,10 +22,7 @@ class LocalVariables {
   bool get isNotEmpty => _declarations.isNotEmpty;
 
   /// Generates the declarations of all local variables.
-  ///
-  /// [indent] is the string used for indentation (e.g., '  ').
-  String generateDeclarations({String indent = '  '}) {
-    if (_declarations.isEmpty) return '';
-    return '${_declarations.map((d) => '$indent$d').join('\n')}\n';
+  String generateDeclarations() {
+    return _declarations.join('  \n');
   }
 }

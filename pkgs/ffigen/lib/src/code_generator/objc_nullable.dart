@@ -63,10 +63,7 @@ class ObjCNullable extends Type {
     required LocalVariables localVariables,
   }) {
     if (value.contains('.') || value.contains('(')) {
-      final name = localVariables.addVariable(
-        value: value,
-        nameHint: 'nullableObj',
-      );
+      final name = localVariables.addVariable(value);
       value = name;
     }
     // Just appending `?` to `value` like this is a bit of a hack, but works for

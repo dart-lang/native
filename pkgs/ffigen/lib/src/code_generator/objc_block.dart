@@ -222,10 +222,11 @@ class ObjCBlock extends BindingType with HasLocalScope {
       localVariables: closureLocalVars,
     );
     final convFn =
-        '(${_helper.paramsFfiDartType}) {\n'
-        '${closureLocalVars.generateDeclarations(indent: '    ')}'
-        '    return $convFnInvocation;\n'
-        '  }';
+        '''
+(${_helper.paramsFfiDartType}) {
+  ${closureLocalVars.generateDeclarations()}
+  return $convFnInvocation;
+}''';
 
     // Write the wrapper class.
     s.write('''
@@ -284,10 +285,11 @@ abstract final class $name {
         localVariables: listenerLocalVars,
       );
       final listenerConvFn =
-          '(${_helper.paramsFfiDartType}) {\n'
-          '${listenerLocalVars.generateDeclarations(indent: '    ')}'
-          '    return $listenerConvFnInvocation;\n'
-          '  }';
+          '''
+(${_helper.paramsFfiDartType}) {
+  ${listenerLocalVars.generateDeclarations()}
+  return $listenerConvFnInvocation;
+}''';
       final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
@@ -395,7 +397,8 @@ extension $name\$CallExtension on $blockType {
         .join(', ');
 
     s.write(''' {
-${callLocalVars.generateDeclarations(indent: '    ')}    return ''');
+    ${callLocalVars.generateDeclarations()}
+    return ''');
 
     final callMethodInvocation =
         '''

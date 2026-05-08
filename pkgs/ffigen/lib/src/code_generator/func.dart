@@ -192,7 +192,8 @@ external $ffiReturnType $nativeFuncName($ffiArgDeclString);
       if (needsWrapper) {
         s.write('''
 $dartReturnType $enclosingFuncName($dartArgDeclString) {
-${localVars.generateDeclarations(indent: '  ')}  return $funcImplCall;
+  ${localVars.generateDeclarations()}
+  return $funcImplCall;
 }
 
 ''');
@@ -214,7 +215,8 @@ ${localVars.generateDeclarations(indent: '  ')}  return $funcImplCall;
       // Write enclosing function.
       s.write('''
 $dartReturnType $enclosingFuncName($dartArgDeclString) {
-${localVars.generateDeclarations(indent: '  ')}  return $funcImplCall;
+  ${localVars.generateDeclarations()}
+  return $funcImplCall;
 }
 
 ''');
