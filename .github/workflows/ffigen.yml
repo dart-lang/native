@@ -166,7 +166,7 @@ jobs:
       - name: Build all_tests.dart in AOT
         run: dart compile exe test/all_tests.dart -o test/all_tests
       - name: Run all_tests in AOT
-        run: PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen DART_EXE=$(which dart) DYLD_INSERT_LIBRARIES=.dart_tool/lib/objective_c.dylib ./test/all_tests
+        run: PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen DART_EXE=$(which dart) DYLD_INSERT_LIBRARIES=$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/objective_c.dylib ./test/all_tests
 
   test-windows:
     needs: analyze
