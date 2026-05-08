@@ -24,7 +24,11 @@ class _LazyVariable {
   final String _cmd;
   final List<String> _args;
   String? _value;
-  String get value => _value ??= firstLineOfStdout(_cmd, _args);
+  String get value {
+    final env = Platform.environment[key];
+    if (env != null) return env;
+    return _value ??= firstLineOfStdout(_cmd, _args);
+  }
 }
 
 final _xcode = _LazyVariable('XCODE', 'xcode-select', ['-p']);
@@ -41,11 +45,22 @@ final _macSdk = _LazyVariable('MACOS_SDK', 'xcrun', [
 
 String firstLineOfStdout(String cmd, List<String> args) {
   final result = Process.runSync(cmd, args);
-  assert(result.exitCode == 0);
-  return (result.stdout as String)
+  if (result.exitCode != 0) {
+    throw Exception(
+      'Command "$cmd ${args.join(' ')}" failed with exit code '
+      '${result.exitCode}.\n'
+      'STDOUT:\n${result.stdout}\n'
+      'STDERR:\n${result.stderr}',
+    );
+  }
+  final lines = (result.stdout as String)
       .split('\n')
       .where((line) => line.isNotEmpty)
-      .first;
+      .toList();
+  if (lines.isEmpty) {
+    throw Exception('Command "$cmd ${args.join(' ')}" returned empty stdout.');
+  }
+  return lines.first;
 }
 
 /// The directory where Xcode's APIs are installed.
