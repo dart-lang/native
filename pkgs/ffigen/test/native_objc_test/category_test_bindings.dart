@@ -881,21 +881,19 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
     void Function(objc.NSData?, objc.NSError?) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (
-        ffi.Pointer<objc.ObjCObjectImpl> arg0,
-        ffi.Pointer<objc.ObjCObjectImpl> arg1,
-      ) => fn(
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
         arg0.address == 0
             ? null
             : objc.NSData.fromPointer(arg0, retain: true, release: true),
         arg1.address == 0
             ? null
             : objc.NSError.fromPointer(arg1, retain: true, release: true),
-      ),
-      keepIsolateAlive,
-    ),
+      );
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -914,21 +912,19 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
     void Function(objc.NSData?, objc.NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newClosureBlock(
-      _listenerCallable.nativeFunction.cast(),
-      (
-        ffi.Pointer<objc.ObjCObjectImpl> arg0,
-        ffi.Pointer<objc.ObjCObjectImpl> arg1,
-      ) => fn(
+    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
         arg0.address == 0
             ? null
             : objc.NSData.fromPointer(arg0, retain: false, release: true),
         arg1.address == 0
             ? null
             : objc.NSError.fromPointer(arg1, retain: false, release: true),
-      ),
-      keepIsolateAlive,
-    );
+      );
+    }, keepIsolateAlive);
     final wrapper = _l3cf7j_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>(
@@ -953,34 +949,34 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
     void Function(objc.NSData?, objc.NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newClosureBlock(
-      _blockingCallable.nativeFunction.cast(),
-      (
-        ffi.Pointer<objc.ObjCObjectImpl> arg0,
-        ffi.Pointer<objc.ObjCObjectImpl> arg1,
-      ) => fn(
+    final raw = objc.newClosureBlock(_blockingCallable.nativeFunction.cast(), (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
         arg0.address == 0
             ? null
             : objc.NSData.fromPointer(arg0, retain: false, release: true),
         arg1.address == 0
             ? null
             : objc.NSError.fromPointer(arg1, retain: false, release: true),
-      ),
-      keepIsolateAlive,
-    );
+      );
+    }, keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
       _blockingListenerCallable.nativeFunction.cast(),
       (
         ffi.Pointer<objc.ObjCObjectImpl> arg0,
         ffi.Pointer<objc.ObjCObjectImpl> arg1,
-      ) => fn(
-        arg0.address == 0
-            ? null
-            : objc.NSData.fromPointer(arg0, retain: false, release: true),
-        arg1.address == 0
-            ? null
-            : objc.NSError.fromPointer(arg1, retain: false, release: true),
-      ),
+      ) {
+        return fn(
+          arg0.address == 0
+              ? null
+              : objc.NSData.fromPointer(arg0, retain: false, release: true),
+          arg1.address == 0
+              ? null
+              : objc.NSError.fromPointer(arg1, retain: false, release: true),
+        );
+      },
       keepIsolateAlive,
     );
     final wrapper = _l3cf7j_wrapBlockingBlock_pfv6jd(
@@ -1133,28 +1129,29 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>`.
 extension ObjCBlock_ffiVoid_NSData_NSError$CallExtension
     on objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)> {
-  void call(objc.NSData? arg0, objc.NSError? arg1) =>
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<objc.ObjCObjectImpl> arg0,
-                ffi.Pointer<objc.ObjCObjectImpl> arg1,
-              )
-            >
-          >()
-          .asFunction<
-            void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
+  void call(objc.NSData? arg0, objc.NSError? arg1) {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<objc.ObjCObjectImpl> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
             )
-          >()(
-        ref.pointer,
-        arg0?.ref.pointer ?? ffi.nullptr,
-        arg1?.ref.pointer ?? ffi.nullptr,
-      );
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(
+      ref.pointer,
+      arg0?.ref.pointer ?? ffi.nullptr,
+      arg1?.ref.pointer ?? ffi.nullptr,
+    );
+  }
 }
 
 /// StaticAndInstanceMethodsWithSameNameCategory

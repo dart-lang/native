@@ -84,9 +84,7 @@ class Global extends LookUpBinding with HasLocalScope {
         s.write('''set $globalVarName($dartType value) {
   $releaseOldValue.ref.release();
 ''');
-        if (localVars.isNotEmpty) {
-          s.write('  ${localVars.generateDeclarations()}\n');
-        }
+        s.write(localVars.generateDeclarations(indent: '  '));
         s.write('''  $pointerValue = $newValue;
 }''');
       }

@@ -295,25 +295,27 @@ extension ObjCBlock_instancetype_ffiVoid$CallExtension
         objc.ObjCBlock<
           ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
         > {
-  Dartinstancetype call(ffi.Pointer<ffi.Void> arg0) => objc.ObjCObject(
-    ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
+  Dartinstancetype call(ffi.Pointer<ffi.Void> arg0) {
+    return objc.ObjCObject(
+      ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              instancetype Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
             instancetype Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
             )
-          >
-        >()
-        .asFunction<
-          instancetype Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >()(ref.pointer, arg0),
-    retain: true,
-    release: true,
-  );
+          >()(ref.pointer, arg0),
+      retain: true,
+      release: true,
+    );
+  }
 }
 
 late final _class_MethodFilteringTestInterface = objc.getClass(

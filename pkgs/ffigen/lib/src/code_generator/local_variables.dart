@@ -24,7 +24,10 @@ class LocalVariables {
   bool get isNotEmpty => _declarations.isNotEmpty;
 
   /// Generates the declarations of all local variables.
-  String generateDeclarations() {
-    return _declarations.join('\n');
+  ///
+  /// [indent] is the string used for indentation (e.g., '  ').
+  String generateDeclarations({String indent = '  '}) {
+    if (_declarations.isEmpty) return '';
+    return '${_declarations.map((d) => '$indent$d').join('\n')}\n';
   }
 }

@@ -190,20 +190,12 @@ external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 
 ''');
       if (needsWrapper) {
-        if (localVars.isNotEmpty) {
-          s.write('''
+        s.write('''
 $dartReturnType $enclosingFuncName($dartArgDeclString) {
-  ${localVars.generateDeclarations()}
-  return $funcImplCall;
+${localVars.generateDeclarations(indent: '  ')}  return $funcImplCall;
 }
 
 ''');
-        } else {
-          s.write('''
-$dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
-
-''');
-        }
       }
 
       if (exposeSymbolAddress) {
@@ -222,12 +214,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
       // Write enclosing function.
       s.write('''
 $dartReturnType $enclosingFuncName($dartArgDeclString) {
-''');
-      if (localVars.isNotEmpty) {
-        s.write('  ${localVars.generateDeclarations()}\n');
-      }
-      s.write('''
-  return $funcImplCall;
+${localVars.generateDeclarations(indent: '  ')}  return $funcImplCall;
 }
 
 ''');

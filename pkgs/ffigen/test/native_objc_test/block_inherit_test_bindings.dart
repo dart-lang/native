@@ -410,23 +410,25 @@ abstract final class ObjCBlock_Mammal {
 
 /// Call operator for `objc.ObjCBlock<Mammal Function()>`.
 extension ObjCBlock_Mammal$CallExtension on objc.ObjCBlock<Mammal Function()> {
-  Mammal call() => Mammal.fromPointer(
-    ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
+  Mammal call() {
+    return Mammal.fromPointer(
+      ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Pointer<objc.ObjCObjectImpl> Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+              )
+            >
+          >()
+          .asFunction<
             ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<objc.ObjCBlockImpl>,
             )
-          >
-        >()
-        .asFunction<
-          ffi.Pointer<objc.ObjCObjectImpl> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-          )
-        >()(ref.pointer),
-    retain: true,
-    release: true,
-  );
+          >()(ref.pointer),
+      retain: true,
+      release: true,
+    );
+  }
 }
 
 /// Construction methods for `objc.ObjCBlock<Platypus Function()>`.
@@ -505,23 +507,25 @@ abstract final class ObjCBlock_Platypus {
 /// Call operator for `objc.ObjCBlock<Platypus Function()>`.
 extension ObjCBlock_Platypus$CallExtension
     on objc.ObjCBlock<Platypus Function()> {
-  Platypus call() => Platypus.fromPointer(
-    ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
+  Platypus call() {
+    return Platypus.fromPointer(
+      ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Pointer<objc.ObjCObjectImpl> Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+              )
+            >
+          >()
+          .asFunction<
             ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<objc.ObjCBlockImpl>,
             )
-          >
-        >()
-        .asFunction<
-          ffi.Pointer<objc.ObjCObjectImpl> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-          )
-        >()(ref.pointer),
-    retain: true,
-    release: true,
-  );
+          >()(ref.pointer),
+      retain: true,
+      release: true,
+    );
+  }
 }
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(Mammal)>`.
@@ -567,12 +571,11 @@ abstract final class ObjCBlock_bool_Mammal {
     bool Function(Mammal) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<ffi.Bool Function(Mammal)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(Mammal.fromPointer(arg0, retain: true, release: true)),
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    ) {
+      return fn(Mammal.fromPointer(arg0, retain: true, release: true));
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -614,21 +617,23 @@ abstract final class ObjCBlock_bool_Mammal {
 /// Call operator for `objc.ObjCBlock<ffi.Bool Function(Mammal)>`.
 extension ObjCBlock_bool_Mammal$CallExtension
     on objc.ObjCBlock<ffi.Bool Function(Mammal)> {
-  bool call(Mammal arg0) => ref.pointer.ref.invoke
-      .cast<
-        ffi.NativeFunction<
-          ffi.Bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl> block,
-            ffi.Pointer<objc.ObjCObjectImpl> arg0,
+  bool call(Mammal arg0) {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<objc.ObjCObjectImpl> arg0,
+            )
+          >
+        >()
+        .asFunction<
+          bool Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
           )
-        >
-      >()
-      .asFunction<
-        bool Function(
-          ffi.Pointer<objc.ObjCBlockImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >()(ref.pointer, arg0.ref.pointer);
+        >()(ref.pointer, arg0.ref.pointer);
+  }
 }
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(Platypus)>`.
@@ -674,12 +679,11 @@ abstract final class ObjCBlock_bool_Platypus {
     bool Function(Platypus) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<ffi.Bool Function(Platypus)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(Platypus.fromPointer(arg0, retain: true, release: true)),
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    ) {
+      return fn(Platypus.fromPointer(arg0, retain: true, release: true));
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -721,21 +725,23 @@ abstract final class ObjCBlock_bool_Platypus {
 /// Call operator for `objc.ObjCBlock<ffi.Bool Function(Platypus)>`.
 extension ObjCBlock_bool_Platypus$CallExtension
     on objc.ObjCBlock<ffi.Bool Function(Platypus)> {
-  bool call(Platypus arg0) => ref.pointer.ref.invoke
-      .cast<
-        ffi.NativeFunction<
-          ffi.Bool Function(
-            ffi.Pointer<objc.ObjCBlockImpl> block,
-            ffi.Pointer<objc.ObjCObjectImpl> arg0,
+  bool call(Platypus arg0) {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Bool Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<objc.ObjCObjectImpl> arg0,
+            )
+          >
+        >()
+        .asFunction<
+          bool Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
           )
-        >
-      >()
-      .asFunction<
-        bool Function(
-          ffi.Pointer<objc.ObjCBlockImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >()(ref.pointer, arg0.ref.pointer);
+        >()(ref.pointer, arg0.ref.pointer);
+  }
 }
 
 /// Platypus

@@ -221,12 +221,11 @@ class ObjCBlock extends BindingType with HasLocalScope {
       objCAutorelease: !returnsRetained,
       localVariables: closureLocalVars,
     );
-    final convFn = closureLocalVars.isNotEmpty
-        ? '(${_helper.paramsFfiDartType}) {\n'
-              '    ${closureLocalVars.generateDeclarations()}\n'
-              '    return $convFnInvocation;\n'
-              '  }'
-        : '(${_helper.paramsFfiDartType}) => $convFnInvocation';
+    final convFn =
+        '(${_helper.paramsFfiDartType}) {\n'
+        '${closureLocalVars.generateDeclarations(indent: '    ')}'
+        '    return $convFnInvocation;\n'
+        '  }';
 
     // Write the wrapper class.
     s.write('''
@@ -284,12 +283,11 @@ abstract final class $name {
         objCAutorelease: !returnsRetained,
         localVariables: listenerLocalVars,
       );
-      final listenerConvFn = listenerLocalVars.isNotEmpty
-          ? '(${_helper.paramsFfiDartType}) {\n'
-                '    ${listenerLocalVars.generateDeclarations()}\n'
-                '    return $listenerConvFnInvocation;\n'
-                '  }'
-          : '(${_helper.paramsFfiDartType}) => $listenerConvFnInvocation';
+      final listenerConvFn =
+          '(${_helper.paramsFfiDartType}) {\n'
+          '${listenerLocalVars.generateDeclarations(indent: '    ')}'
+          '    return $listenerConvFnInvocation;\n'
+          '  }';
       final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
@@ -396,13 +394,8 @@ extension $name\$CallExtension on $blockType {
         )
         .join(', ');
 
-    if (callLocalVars.isNotEmpty) {
-      s.write(''' {
-    ${callLocalVars.generateDeclarations()}
-    return ''');
-    } else {
-      s.write(' => ');
-    }
+    s.write(''' {
+${callLocalVars.generateDeclarations(indent: '    ')}    return ''');
 
     final callMethodInvocation =
         '''
@@ -417,9 +410,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       ),
     );
     s.write(';\n');
-    if (callLocalVars.isNotEmpty) {
-      s.write('  }\n');
-    }
+    s.write('  }\n');
 
     s.write('}\n\n');
     return BindingString(

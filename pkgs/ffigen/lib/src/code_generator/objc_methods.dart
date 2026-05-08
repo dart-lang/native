@@ -517,9 +517,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     s.write(' {\n');
 
     // Emit local variable declarations.
-    if (localVars.isNotEmpty) {
-      s.write('    ${localVars.generateDeclarations()}\n');
-    }
+    s.write(localVars.generateDeclarations(indent: '    '));
 
     // Implementation.
     final versionCheck = apiAvailability.runtimeCheck(
