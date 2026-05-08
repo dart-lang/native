@@ -214,6 +214,7 @@ ${generateInstanceMethodBindings(w, this)}
     required bool objCAutorelease,
     required LocalVariables localVariables,
   }) => ObjCInterface.generateGetId(
+    context,
     value,
     objCRetain,
     objCAutorelease,
@@ -221,20 +222,25 @@ ${generateInstanceMethodBindings(w, this)}
   );
 
   static String generateGetId(
+    Context context,
     String value,
     bool objCRetain,
     bool objCAutorelease,
-    LocalVariables localVariables,
-  ) {
-    if (value.contains('.') || value.contains('(')) {
-      final name = localVariables.addVariable(value);
-      value = name;
-    }
-    return objCRetain
+    LocalVariables localVariables, {
+    bool isNullable = false,
+  }) {
+    final dot = isNullable ? '?.' : '.';
+    final fallback = isNullable
+        ? ' ?? ${context.libs.prefix(ffiImport)}.nullptr'
+        : '';
+    final refExpr = '$value${dot}ref';
+    final refName = localVariables.addVariable(refExpr);
+    final method = objCRetain
         ? (objCAutorelease
-              ? '$value.ref.retainAndAutorelease()'
-              : '$value.ref.retainAndReturnPointer()')
-        : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
+              ? 'retainAndAutorelease()'
+              : 'retainAndReturnPointer()')
+        : (objCAutorelease ? 'autorelease()' : 'pointer');
+    return '$refName$dot$method$fallback';
   }
 
   @override

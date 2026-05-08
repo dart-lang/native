@@ -61,30 +61,27 @@ extension type NullableBase._(objc.ObjCObject object$)
 extension NullableBase$Methods on NullableBase {
   /// init
   NullableBase init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NullableBase.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return NullableBase.fromPointer($ret, retain: false, release: true);
   }
 
   /// nonNullArg:
   bool nonNullArg(objc.NSObject x) {
-    return _objc_msgSend_19nvye5(
-      object$.ref.pointer,
-      _sel_nonNullArg_,
-      x.ref.pointer,
-    );
+    final _$$ = object$.ref;
+    final _$$$1 = x.ref;
+    return _objc_msgSend_19nvye5(_$$.pointer, _sel_nonNullArg_, _$$$1.pointer);
   }
 
   /// nonNullReturn
   objc.NSObject? nonNullReturn() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_nonNullReturn);
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_nonNullReturn);
     return $ret.address == 0
         ? null
         : objc.NSObject.fromPointer($ret, retain: true, release: true);
@@ -92,20 +89,19 @@ extension NullableBase$Methods on NullableBase {
 
   /// nullableArg:
   bool nullableArg(objc.NSObject? x) {
+    final _$$ = object$.ref;
+    final _$$$1 = x?.ref;
     return _objc_msgSend_19nvye5(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_nullableArg_,
-      x?.ref.pointer ?? ffi.nullptr,
+      _$$$1?.pointer ?? ffi.nullptr,
     );
   }
 
   /// nullableReturn:
   objc.NSObject? nullableReturn(bool r) {
-    final $ret = _objc_msgSend_1t6aok9(
-      object$.ref.pointer,
-      _sel_nullableReturn_,
-      r,
-    );
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_1t6aok9(_$$.pointer, _sel_nullableReturn_, r);
     return $ret.address == 0
         ? null
         : objc.NSObject.fromPointer($ret, retain: true, release: true);
@@ -167,13 +163,14 @@ extension type NullableChild._(objc.ObjCObject object$)
 extension NullableChild$Methods on NullableChild {
   /// init
   NullableChild init() {
+    final _$$$1 = object$.ref;
     objc.checkOsVersionInternal(
       'NullableChild.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$1.retainAndReturnPointer(),
       _sel_init,
     );
     return NullableChild.fromPointer($ret, retain: false, release: true);
@@ -181,16 +178,19 @@ extension NullableChild$Methods on NullableChild {
 
   /// nonNullArg:
   bool nonNullArg(objc.NSObject? x) {
+    final _$$ = object$.ref;
+    final _$$$1 = x?.ref;
     return _objc_msgSend_19nvye5(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_nonNullArg_,
-      x?.ref.pointer ?? ffi.nullptr,
+      _$$$1?.pointer ?? ffi.nullptr,
     );
   }
 
   /// nonNullReturn
   objc.NSObject? nonNullReturn() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_nonNullReturn);
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_nonNullReturn);
     return $ret.address == 0
         ? null
         : objc.NSObject.fromPointer($ret, retain: true, release: true);
@@ -198,20 +198,15 @@ extension NullableChild$Methods on NullableChild {
 
   /// nullableArg:
   bool nullableArg(objc.NSObject x) {
-    return _objc_msgSend_19nvye5(
-      object$.ref.pointer,
-      _sel_nullableArg_,
-      x.ref.pointer,
-    );
+    final _$$ = object$.ref;
+    final _$$$1 = x.ref;
+    return _objc_msgSend_19nvye5(_$$.pointer, _sel_nullableArg_, _$$$1.pointer);
   }
 
   /// nullableReturn:
   objc.NSObject nullableReturn(bool r) {
-    final $ret = _objc_msgSend_1t6aok9(
-      object$.ref.pointer,
-      _sel_nullableReturn_,
-      r,
-    );
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_1t6aok9(_$$.pointer, _sel_nullableReturn_, r);
     return objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -271,13 +266,14 @@ extension type NullableIntermediate._(objc.ObjCObject object$)
 extension NullableIntermediate$Methods on NullableIntermediate {
   /// init
   NullableIntermediate init() {
+    final _$$$2 = object$.ref;
     objc.checkOsVersionInternal(
       'NullableIntermediate.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$2.retainAndReturnPointer(),
       _sel_init,
     );
     return NullableIntermediate.fromPointer($ret, retain: false, release: true);

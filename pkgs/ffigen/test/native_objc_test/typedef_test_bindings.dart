@@ -61,31 +61,28 @@ extension type AnotherClass._(objc.ObjCObject object$)
 extension AnotherClass$Methods on AnotherClass {
   /// init
   AnotherClass init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'AnotherClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return AnotherClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// property
   DartSomeClassPtr get property {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_property);
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_property);
     return SomeClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// setProperty:
   set property(DartSomeClassPtr value) {
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_setProperty_,
-      value.ref.pointer,
-    );
+    final _$$ = object$.ref;
+    final _$$$1 = value.ref;
+    _objc_msgSend_xtuoz7(_$$.pointer, _sel_setProperty_, _$$$1.pointer);
   }
 }
 
@@ -144,13 +141,14 @@ extension type SomeClass._(objc.ObjCObject object$)
 extension SomeClass$Methods on SomeClass {
   /// init
   SomeClass init() {
+    final _$$$1 = object$.ref;
     objc.checkOsVersionInternal(
       'SomeClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$1.retainAndReturnPointer(),
       _sel_init,
     );
     return SomeClass.fromPointer($ret, retain: false, release: true);

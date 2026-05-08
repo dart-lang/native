@@ -146,7 +146,8 @@ external ffi.Pointer<ffi.Void> _getClass(
 );
 
 ffi.Pointer<ffi.Void> getClass(objc.ObjCObject object) {
-  return _getClass(object.ref.pointer);
+  final _$$ = object.ref;
+  return _getClass(_$$.pointer);
 }
 
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>()
@@ -255,21 +256,24 @@ extension type MyProtocol._(objc.ObjCProtocol object$)
 extension MyProtocol$Methods on MyProtocol {
   /// disabledMethod
   int disabledMethod() {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_disabledMethod)) {
+    final _$$ = object$.ref;
+    if (!objc.respondsToSelector(_$$.pointer, _sel_disabledMethod)) {
       throw objc.UnimplementedOptionalMethodException(
         'MyProtocol',
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_disabledMethod);
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_disabledMethod);
   }
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
+    final _$$ = object$.ref;
+    final _$$$1 = s.ref;
     final $ret = _objc_msgSend_6plvbo(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_instanceMethod_withDouble_,
-      s.ref.pointer,
+      _$$$1.pointer,
       withDouble,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
@@ -277,35 +281,38 @@ extension MyProtocol$Methods on MyProtocol {
 
   /// intPtrMethod:
   void intPtrMethod(ffi.Pointer<ffi.Int32> ptr) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_intPtrMethod_)) {
+    final _$$ = object$.ref;
+    if (!objc.respondsToSelector(_$$.pointer, _sel_intPtrMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'MyProtocol',
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(object$.ref.pointer, _sel_intPtrMethod_, ptr);
+    _objc_msgSend_yhkuco(_$$.pointer, _sel_intPtrMethod_, ptr);
   }
 
   /// optionalMethod:
   int optionalMethod(SomeStruct s) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_optionalMethod_)) {
+    final _$$ = object$.ref;
+    if (!objc.respondsToSelector(_$$.pointer, _sel_optionalMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'MyProtocol',
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(object$.ref.pointer, _sel_optionalMethod_, s);
+    return _objc_msgSend_lacj97(_$$.pointer, _sel_optionalMethod_, s);
   }
 
   /// voidMethod:
   void voidMethod(int x) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_voidMethod_)) {
+    final _$$ = object$.ref;
+    if (!objc.respondsToSelector(_$$.pointer, _sel_voidMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'MyProtocol',
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(object$.ref.pointer, _sel_voidMethod_, x);
+    _objc_msgSend_1bqef4y(_$$.pointer, _sel_voidMethod_, x);
   }
 }
 
@@ -561,17 +568,17 @@ interface class MyProtocol$Builder {
           isInstanceMethod: true,
         ),
         (void Function(ffi.Pointer<ffi.Int32>) func) =>
-            ObjCBlock_ffiVoid_ffiVoid_Int32$1.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_Int32.fromFunction(
               (ffi.Pointer<ffi.Void> _, ffi.Pointer<ffi.Int32> arg1) =>
                   func(arg1),
             ),
         (void Function(ffi.Pointer<ffi.Int32>) func) =>
-            ObjCBlock_ffiVoid_ffiVoid_Int32$1.listener(
+            ObjCBlock_ffiVoid_ffiVoid_Int32.listener(
               (ffi.Pointer<ffi.Void> _, ffi.Pointer<ffi.Int32> arg1) =>
                   func(arg1),
             ),
         (void Function(ffi.Pointer<ffi.Int32>) func) =>
-            ObjCBlock_ffiVoid_ffiVoid_Int32$1.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_Int32.blocking(
               (ffi.Pointer<ffi.Void> _, ffi.Pointer<ffi.Int32> arg1) =>
                   func(arg1),
             ),
@@ -626,13 +633,13 @@ interface class MyProtocol$Builder {
           isInstanceMethod: true,
         ),
         (void Function(int) func) =>
-            ObjCBlock_ffiVoid_ffiVoid_Int32.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_Int32$1.fromFunction(
               (ffi.Pointer<ffi.Void> _, int arg1) => func(arg1),
             ),
-        (void Function(int) func) => ObjCBlock_ffiVoid_ffiVoid_Int32.listener(
+        (void Function(int) func) => ObjCBlock_ffiVoid_ffiVoid_Int32$1.listener(
           (ffi.Pointer<ffi.Void> _, int arg1) => func(arg1),
         ),
-        (void Function(int) func) => ObjCBlock_ffiVoid_ffiVoid_Int32.blocking(
+        (void Function(int) func) => ObjCBlock_ffiVoid_ffiVoid_Int32$1.blocking(
           (ffi.Pointer<ffi.Void> _, int arg1) => func(arg1),
         ),
       );
@@ -1141,12 +1148,12 @@ abstract final class ObjCBlock_NSString_ffiVoid_NSString_ffiDouble {
           ffi.Pointer<objc.ObjCObjectImpl> arg1,
           double arg2,
         ) {
-          final _$obj = fn(
+          final _$$ = fn(
             arg0,
             objc.NSString.fromPointer(arg1, retain: true, release: true),
             arg2,
-          );
-          return _$obj.ref.retainAndAutorelease();
+          ).ref;
+          return _$$.retainAndAutorelease();
         }, keepIsolateAlive),
         retain: false,
         release: true,
@@ -1223,6 +1230,7 @@ extension ObjCBlock_NSString_ffiVoid_NSString_ffiDouble$CallExtension
     objc.NSString arg1,
     double arg2,
   ) {
+    final _$$$1 = arg1.ref;
     return objc.NSString.fromPointer(
       ref.pointer.ref.invoke
           .cast<
@@ -1242,284 +1250,15 @@ extension ObjCBlock_NSString_ffiVoid_NSString_ffiDouble$CallExtension
               ffi.Pointer<objc.ObjCObjectImpl>,
               double,
             )
-          >()(ref.pointer, arg0, arg1.ref.pointer, arg2),
+          >()(ref.pointer, arg0, _$$$1.pointer, arg2),
       retain: true,
       release: true,
     );
   }
 }
 
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_Int32 {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
-  fromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
-    pointer,
-    retain: retain,
-    release: release,
-  );
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
-  fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Int32 arg1)
-      >
-    >
-    ptr,
-  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
-    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
-    retain: false,
-    release: true,
-  );
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
-  fromFunction(
-    void Function(ffi.Pointer<ffi.Void>, int) fn, {
-    bool keepIsolateAlive = true,
-  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
-    objc.newClosureBlock(_closureCallable, (
-      ffi.Pointer<ffi.Void> arg0,
-      int arg1,
-    ) {
-      return fn(arg0, arg1);
-    }, keepIsolateAlive),
-    retain: false,
-    release: true,
-  );
-
-  /// Creates a listener block from a Dart function.
-  ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
-  listener(
-    void Function(ffi.Pointer<ffi.Void>, int) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
-      ffi.Pointer<ffi.Void> arg0,
-      int arg1,
-    ) {
-      return fn(arg0, arg1);
-    }, keepIsolateAlive);
-    final wrapper = _13hhotk_wrapListenerBlock_1pbq496(raw);
-    objc.objectRelease(raw.cast());
-    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
-      wrapper,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// Creates a blocking block from a Dart function.
-  ///
-  /// This callback can be invoked from any native thread, and will block the
-  /// caller until the callback is handled by the Dart isolate that created
-  /// the block. Async functions are not supported.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
-  /// has shut down, and the block is invoked by native code, it may block
-  /// indefinitely, or have other undefined behavior.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
-  blocking(
-    void Function(ffi.Pointer<ffi.Void>, int) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    final raw = objc.newClosureBlock(_blockingCallable.nativeFunction.cast(), (
-      ffi.Pointer<ffi.Void> arg0,
-      int arg1,
-    ) {
-      return fn(arg0, arg1);
-    }, keepIsolateAlive);
-    final rawListener = objc.newClosureBlock(
-      _blockingListenerCallable.nativeFunction.cast(),
-      (ffi.Pointer<ffi.Void> arg0, int arg1) {
-        return fn(arg0, arg1);
-      },
-      keepIsolateAlive,
-    );
-    final wrapper = _13hhotk_wrapBlockingBlock_1pbq496(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
-    objc.objectRelease(rawListener.cast());
-    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
-      wrapper,
-      retain: false,
-      release: true,
-    );
-  }
-
-  static void _listenerTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-    int arg1,
-  ) {
-    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>, int))(
-      arg0,
-      arg1,
-    );
-    objc.objectRelease(block.cast());
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Int32,
-    )
-  >
-  _listenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Int32,
-          )
-        >.listener(_listenerTrampoline)
-        ..keepIsolateAlive = false;
-  static void _blockingTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> waiter,
-    ffi.Pointer<ffi.Void> arg0,
-    int arg1,
-  ) {
-    try {
-      (objc.getBlockClosure(block)
-          as void Function(ffi.Pointer<ffi.Void>, int))(arg0, arg1);
-    } catch (e) {
-    } finally {
-      objc.signalWaiter(waiter);
-      objc.objectRelease(block.cast());
-    }
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Int32,
-    )
-  >
-  _blockingCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Int32,
-          )
-        >.isolateLocal(_blockingTrampoline)
-        ..keepIsolateAlive = false;
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Int32,
-    )
-  >
-  _blockingListenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Int32,
-          )
-        >.listener(_blockingTrampoline)
-        ..keepIsolateAlive = false;
-  static void _fnPtrTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-    int arg1,
-  ) => block.ref.target
-      .cast<
-        ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Int32 arg1)
-        >
-      >()
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>()(arg0, arg1);
-  static ffi.Pointer<ffi.Void> _fnPtrCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Int32,
-            )
-          >(_fnPtrTrampoline)
-          .cast();
-  static void _closureTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-    int arg1,
-  ) =>
-      (objc.getBlockClosure(block)
-          as void Function(ffi.Pointer<ffi.Void>, int))(arg0, arg1);
-  static ffi.Pointer<ffi.Void> _closureCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Int32,
-            )
-          >(_closureTrampoline)
-          .cast();
-}
-
-/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_Int32$CallExtension
-    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)> {
-  void call(ffi.Pointer<ffi.Void> arg0, int arg1) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-              ffi.Int32 arg1,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            int,
-          )
-        >()(ref.pointer, arg0, arg1);
-  }
-}
-
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Int32>)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_Int32$1 {
+abstract final class ObjCBlock_ffiVoid_ffiVoid_Int32 {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Int32>)
@@ -1790,7 +1529,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_Int32$1 {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Int32>)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_Int32$1$CallExtension
+extension ObjCBlock_ffiVoid_ffiVoid_Int32$CallExtension
     on
         objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Int32>)
@@ -1811,6 +1550,275 @@ extension ObjCBlock_ffiVoid_ffiVoid_Int32$1$CallExtension
             ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<ffi.Int32>,
+          )
+        >()(ref.pointer, arg0, arg1);
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_Int32$1 {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Int32 arg1)
+      >
+    >
+    ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
+  fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, int) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<ffi.Void> arg0,
+      int arg1,
+    ) {
+      return fn(arg0, arg1);
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
+  listener(
+    void Function(ffi.Pointer<ffi.Void>, int) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      int arg1,
+    ) {
+      return fn(arg0, arg1);
+    }, keepIsolateAlive);
+    final wrapper = _13hhotk_wrapListenerBlock_1pbq496(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
+      wrapper,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>
+  blocking(
+    void Function(ffi.Pointer<ffi.Void>, int) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_blockingCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      int arg1,
+    ) {
+      return fn(arg0, arg1);
+    }, keepIsolateAlive);
+    final rawListener = objc.newClosureBlock(
+      _blockingListenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, int arg1) {
+        return fn(arg0, arg1);
+      },
+      keepIsolateAlive,
+    );
+    final wrapper = _13hhotk_wrapBlockingBlock_1pbq496(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>(
+      wrapper,
+      retain: false,
+      release: true,
+    );
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+  ) {
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>, int))(
+      arg0,
+      arg1,
+    );
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Int32,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Int32,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(ffi.Pointer<ffi.Void>, int))(arg0, arg1);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Int32,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Int32,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Int32,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Int32,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Int32 arg1)
+        >
+      >()
+      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>()(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Int32,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(ffi.Pointer<ffi.Void>, int))(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Int32,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_Int32$1$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)> {
+  void call(ffi.Pointer<ffi.Void> arg0, int arg1) {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Int32 arg1,
+            )
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            int,
           )
         >()(ref.pointer, arg0, arg1);
   }
@@ -1874,8 +1882,8 @@ abstract final class ObjCBlock_idMyProtocol_ffiVoid {
         ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
       >(
         objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
-          final _$obj = fn(arg0);
-          return _$obj.ref.retainAndAutorelease();
+          final _$$ = fn(arg0).ref;
+          return _$$.retainAndAutorelease();
         }, keepIsolateAlive),
         retain: false,
         release: true,
@@ -2004,8 +2012,8 @@ abstract final class ObjCBlock_instancetype_ffiVoid {
         ffi.Pointer<objc.ObjCObjectImpl>? Function(ffi.Pointer<ffi.Void>)
       >(
         objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
-          final _$nullableObj = fn(arg0);
-          return _$nullableObj?.ref.retainAndAutorelease() ?? ffi.nullptr;
+          final _$$ = fn(arg0)?.ref;
+          return _$$?.retainAndAutorelease() ?? ffi.nullptr;
         }, keepIsolateAlive),
         retain: false,
         release: true,
@@ -2192,40 +2200,42 @@ extension type ObjCProtocolImpl._(objc.ObjCObject object$)
 extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
   /// disabledMethod
   int disabledMethod() {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_disabledMethod)) {
+    final _$$$1 = object$.ref;
+    if (!objc.respondsToSelector(_$$$1.pointer, _sel_disabledMethod)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_disabledMethod);
+    return _objc_msgSend_1gcq84o(_$$$1.pointer, _sel_disabledMethod);
   }
 
   /// fooMethod
   int fooMethod() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_fooMethod);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_fooMethod);
   }
 
   /// init
   ObjCProtocolImpl init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'ObjCProtocolImpl.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
   }
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
+    final _$$$2 = object$.ref;
+    final _$$$3 = s.ref;
     final $ret = _objc_msgSend_6plvbo(
-      object$.ref.pointer,
+      _$$$2.pointer,
       _sel_instanceMethod_withDouble_,
-      s.ref.pointer,
+      _$$$3.pointer,
       withDouble,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
@@ -2233,30 +2243,33 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
 
   /// intPtrMethod:
   void intPtrMethod(ffi.Pointer<ffi.Int32> ptr) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_intPtrMethod_)) {
+    final _$$$1 = object$.ref;
+    if (!objc.respondsToSelector(_$$$1.pointer, _sel_intPtrMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(object$.ref.pointer, _sel_intPtrMethod_, ptr);
+    _objc_msgSend_yhkuco(_$$$1.pointer, _sel_intPtrMethod_, ptr);
   }
 
   /// optionalMethod:
   int optionalMethod(SomeStruct s) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_optionalMethod_)) {
+    final _$$$1 = object$.ref;
+    if (!objc.respondsToSelector(_$$$1.pointer, _sel_optionalMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(object$.ref.pointer, _sel_optionalMethod_, s);
+    return _objc_msgSend_lacj97(_$$$1.pointer, _sel_optionalMethod_, s);
   }
 
   /// otherMethod:b:c:d:
   int otherMethod(int a, {required int b, required int c, required int d}) {
+    final _$$ = object$.ref;
     return _objc_msgSend_hv8ra8(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_otherMethod_b_c_d_,
       a,
       b,
@@ -2267,19 +2280,14 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
 
   /// returnsInstanceType
   ObjCProtocolImpl? returnsInstanceType() {
-    if (!objc.respondsToSelector(
-      object$.ref.pointer,
-      _sel_returnsInstanceType,
-    )) {
+    final _$$ = object$.ref;
+    if (!objc.respondsToSelector(_$$.pointer, _sel_returnsInstanceType)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'returnsInstanceType',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_returnsInstanceType,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_returnsInstanceType);
     return $ret.address == 0
         ? null
         : ObjCProtocolImpl.fromPointer($ret, retain: true, release: true);
@@ -2287,28 +2295,27 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
 
   /// returnsMyProtocol
   MyProtocol returnsMyProtocol() {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_returnsMyProtocol)) {
+    final _$$ = object$.ref;
+    if (!objc.respondsToSelector(_$$.pointer, _sel_returnsMyProtocol)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'returnsMyProtocol',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_returnsMyProtocol,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_returnsMyProtocol);
     return MyProtocol.fromPointer($ret, retain: true, release: true);
   }
 
   /// voidMethod:
   void voidMethod(int x) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_voidMethod_)) {
+    final _$$$1 = object$.ref;
+    if (!objc.respondsToSelector(_$$$1.pointer, _sel_voidMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(object$.ref.pointer, _sel_voidMethod_, x);
+    _objc_msgSend_1bqef4y(_$$$1.pointer, _sel_voidMethod_, x);
   }
 }
 
@@ -2430,24 +2437,26 @@ extension ObjCProtocolImplMissingMethod$Methods
     on ObjCProtocolImplMissingMethod {
   /// disabledMethod
   int disabledMethod() {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_disabledMethod)) {
+    final _$$$2 = object$.ref;
+    if (!objc.respondsToSelector(_$$$2.pointer, _sel_disabledMethod)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_disabledMethod);
+    return _objc_msgSend_1gcq84o(_$$$2.pointer, _sel_disabledMethod);
   }
 
   /// init
   ObjCProtocolImplMissingMethod init() {
+    final _$$$1 = object$.ref;
     objc.checkOsVersionInternal(
       'ObjCProtocolImplMissingMethod.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$1.retainAndReturnPointer(),
       _sel_init,
     );
     return ObjCProtocolImplMissingMethod.fromPointer(
@@ -2459,10 +2468,12 @@ extension ObjCProtocolImplMissingMethod$Methods
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
+    final _$$$4 = object$.ref;
+    final _$$$5 = s.ref;
     final $ret = _objc_msgSend_6plvbo(
-      object$.ref.pointer,
+      _$$$4.pointer,
       _sel_instanceMethod_withDouble_,
-      s.ref.pointer,
+      _$$$5.pointer,
       withDouble,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
@@ -2470,35 +2481,38 @@ extension ObjCProtocolImplMissingMethod$Methods
 
   /// intPtrMethod:
   void intPtrMethod(ffi.Pointer<ffi.Int32> ptr) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_intPtrMethod_)) {
+    final _$$$2 = object$.ref;
+    if (!objc.respondsToSelector(_$$$2.pointer, _sel_intPtrMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(object$.ref.pointer, _sel_intPtrMethod_, ptr);
+    _objc_msgSend_yhkuco(_$$$2.pointer, _sel_intPtrMethod_, ptr);
   }
 
   /// optionalMethod:
   int optionalMethod(SomeStruct s) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_optionalMethod_)) {
+    final _$$$2 = object$.ref;
+    if (!objc.respondsToSelector(_$$$2.pointer, _sel_optionalMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(object$.ref.pointer, _sel_optionalMethod_, s);
+    return _objc_msgSend_lacj97(_$$$2.pointer, _sel_optionalMethod_, s);
   }
 
   /// voidMethod:
   void voidMethod(int x) {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_voidMethod_)) {
+    final _$$$2 = object$.ref;
+    if (!objc.respondsToSelector(_$$$2.pointer, _sel_voidMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(object$.ref.pointer, _sel_voidMethod_, x);
+    _objc_msgSend_1bqef4y(_$$$2.pointer, _sel_voidMethod_, x);
   }
 }
 
@@ -2557,68 +2571,81 @@ extension type ProtocolConsumer._(objc.ObjCObject object$)
 extension ProtocolConsumer$Methods on ProtocolConsumer {
   /// callBlockingMethodOnRandomThread:
   void callBlockingMethodOnRandomThread(MyProtocol protocol) {
+    final _$$ = object$.ref;
+    final _$$$1 = protocol.ref;
     _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_callBlockingMethodOnRandomThread_,
-      protocol.ref.pointer,
+      _$$$1.pointer,
     );
   }
 
   /// callInstanceMethod:
   objc.NSString callInstanceMethod(SuperProtocol protocol) {
+    final _$$ = object$.ref;
+    final _$$$1 = protocol.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_callInstanceMethod_,
-      protocol.ref.pointer,
+      _$$$1.pointer,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// callMethodOnRandomThread:
   void callMethodOnRandomThread(MyProtocol protocol) {
+    final _$$ = object$.ref;
+    final _$$$1 = protocol.ref;
     _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_callMethodOnRandomThread_,
-      protocol.ref.pointer,
+      _$$$1.pointer,
     );
   }
 
   /// callOptionalMethod:
   int callOptionalMethod(MyProtocol protocol) {
+    final _$$ = object$.ref;
+    final _$$$1 = protocol.ref;
     return _objc_msgSend_fd28sq(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_callOptionalMethod_,
-      protocol.ref.pointer,
+      _$$$1.pointer,
     );
   }
 
   /// callOtherMethod:
   int callOtherMethod(SecondaryProtocol protocol) {
+    final _$$ = object$.ref;
+    final _$$$1 = protocol.ref;
     return _objc_msgSend_fd28sq(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_callOtherMethod_,
-      protocol.ref.pointer,
+      _$$$1.pointer,
     );
   }
 
   /// callTwoMethods:
   int callTwoMethods(MyProtocol protocol) {
+    final _$$ = object$.ref;
+    final _$$$1 = protocol.ref;
     return _objc_msgSend_fd28sq(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_callTwoMethods_,
-      protocol.ref.pointer,
+      _$$$1.pointer,
     );
   }
 
   /// init
   ProtocolConsumer init() {
+    final _$$$2 = object$.ref;
     objc.checkOsVersionInternal(
       'ProtocolConsumer.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$2.retainAndReturnPointer(),
       _sel_init,
     );
     return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
@@ -2651,8 +2678,9 @@ extension type SecondaryProtocol._(objc.ObjCProtocol object$)
 extension SecondaryProtocol$Methods on SecondaryProtocol {
   /// otherMethod:b:c:d:
   int otherMethod(int a, {required int b, required int c, required int d}) {
+    final _$$$1 = object$.ref;
     return _objc_msgSend_hv8ra8(
-      object$.ref.pointer,
+      _$$$1.pointer,
       _sel_otherMethod_b_c_d_,
       a,
       b,
@@ -2663,19 +2691,14 @@ extension SecondaryProtocol$Methods on SecondaryProtocol {
 
   /// returnsInstanceType
   SecondaryProtocol? returnsInstanceType() {
-    if (!objc.respondsToSelector(
-      object$.ref.pointer,
-      _sel_returnsInstanceType,
-    )) {
+    final _$$$1 = object$.ref;
+    if (!objc.respondsToSelector(_$$$1.pointer, _sel_returnsInstanceType)) {
       throw objc.UnimplementedOptionalMethodException(
         'SecondaryProtocol',
         'returnsInstanceType',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_returnsInstanceType,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$$1.pointer, _sel_returnsInstanceType);
     return $ret.address == 0
         ? null
         : SecondaryProtocol.fromPointer($ret, retain: true, release: true);
@@ -2683,16 +2706,14 @@ extension SecondaryProtocol$Methods on SecondaryProtocol {
 
   /// returnsMyProtocol
   MyProtocol returnsMyProtocol() {
-    if (!objc.respondsToSelector(object$.ref.pointer, _sel_returnsMyProtocol)) {
+    final _$$$1 = object$.ref;
+    if (!objc.respondsToSelector(_$$$1.pointer, _sel_returnsMyProtocol)) {
       throw objc.UnimplementedOptionalMethodException(
         'SecondaryProtocol',
         'returnsMyProtocol',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_returnsMyProtocol,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$$1.pointer, _sel_returnsMyProtocol);
     return MyProtocol.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -2906,7 +2927,8 @@ extension type UnusedProtocol._(objc.ObjCProtocol object$)
 extension UnusedProtocol$Methods on UnusedProtocol {
   /// someMethod
   int someMethod() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_someMethod);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_someMethod);
   }
 }
 

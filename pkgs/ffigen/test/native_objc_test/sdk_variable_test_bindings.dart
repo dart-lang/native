@@ -214,71 +214,69 @@ extension type NSColorPicker._(objc.ObjCObject object$)
 extension NSColorPicker$Methods on NSColorPicker {
   /// alphaControlAddedOrRemoved:
   void alphaControlAddedOrRemoved(objc.ObjCObject? sender) {
+    final _$$ = object$.ref;
+    final _$$$1 = sender?.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.alphaControlAddedOrRemoved:',
       iOS: (true, null),
     );
     _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_alphaControlAddedOrRemoved_,
-      sender?.ref.pointer ?? ffi.nullptr,
+      _$$$1?.pointer ?? ffi.nullptr,
     );
   }
 
   /// attachColorList:
   void attachColorList(NSColorList colorList) {
+    final _$$ = object$.ref;
+    final _$$$1 = colorList.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.attachColorList:',
       iOS: (true, null),
     );
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_attachColorList_,
-      colorList.ref.pointer,
-    );
+    _objc_msgSend_xtuoz7(_$$.pointer, _sel_attachColorList_, _$$$1.pointer);
   }
 
   /// buttonToolTip
   objc.NSString get buttonToolTip {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.buttonToolTip',
       iOS: (true, null),
     );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_buttonToolTip);
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_buttonToolTip);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// colorPanel
   NSColorPanel get colorPanel {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal('NSColorPicker.colorPanel', iOS: (true, null));
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_colorPanel);
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_colorPanel);
     return NSColorPanel.fromPointer($ret, retain: true, release: true);
   }
 
   /// detachColorList:
   void detachColorList(NSColorList colorList) {
+    final _$$ = object$.ref;
+    final _$$$1 = colorList.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.detachColorList:',
       iOS: (true, null),
     );
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_detachColorList_,
-      colorList.ref.pointer,
-    );
+    _objc_msgSend_xtuoz7(_$$.pointer, _sel_detachColorList_, _$$$1.pointer);
   }
 
   /// init
   NSColorPicker init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return NSColorPicker.fromPointer($ret, retain: false, release: true);
   }
 
@@ -287,15 +285,17 @@ extension NSColorPicker$Methods on NSColorPicker {
     int mask, {
     required NSColorPanel colorPanel,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = colorPanel.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.initWithPickerMask:colorPanel:',
       iOS: (true, null),
     );
     final $ret = _objc_msgSend_vbc8p4(
-      object$.ref.retainAndReturnPointer(),
+      _$$.retainAndReturnPointer(),
       _sel_initWithPickerMask_colorPanel_,
       mask,
-      colorPanel.ref.pointer,
+      _$$$1.pointer,
     );
     return $ret.address == 0
         ? null
@@ -307,35 +307,32 @@ extension NSColorPicker$Methods on NSColorPicker {
     NSImage newButtonImage, {
     required NSButtonCell in$,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = newButtonImage.ref;
+    final _$$$2 = in$.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.insertNewButtonImage:in:',
       iOS: (true, null),
     );
     _objc_msgSend_pfv6jd(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_insertNewButtonImage_in_,
-      newButtonImage.ref.pointer,
-      in$.ref.pointer,
+      _$$$1.pointer,
+      _$$$2.pointer,
     );
   }
 
   /// minContentSize
   objc.CGSize get minContentSize {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.minContentSize',
       iOS: (true, null),
     );
     final $ptr = pkg_ffi.calloc<objc.CGSize>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_1vdfkenStret(
-            $ptr,
-            object$.ref.pointer,
-            _sel_minContentSize,
-          )
-        : $ptr.ref = _objc_msgSend_1vdfken(
-            object$.ref.pointer,
-            _sel_minContentSize,
-          );
+        ? _objc_msgSend_1vdfkenStret($ptr, _$$.pointer, _sel_minContentSize)
+        : $ptr.ref = _objc_msgSend_1vdfken(_$$.pointer, _sel_minContentSize);
     final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
       ffi.sizeOf<objc.CGSize>(),
       finalizer: pkg_ffi.calloc.nativeFree,
@@ -345,33 +342,34 @@ extension NSColorPicker$Methods on NSColorPicker {
 
   /// provideNewButtonImage
   NSImage get provideNewButtonImage {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.provideNewButtonImage',
       iOS: (true, null),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_provideNewButtonImage,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_provideNewButtonImage);
     return NSImage.fromPointer($ret, retain: true, release: true);
   }
 
   /// setMode:
   void setMode(NSColorPanelMode mode) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal('NSColorPicker.setMode:', iOS: (true, null));
-    _objc_msgSend_190ea64(object$.ref.pointer, _sel_setMode_, mode.value);
+    _objc_msgSend_190ea64(_$$.pointer, _sel_setMode_, mode.value);
   }
 
   /// viewSizeChanged:
   void viewSizeChanged(objc.ObjCObject? sender) {
+    final _$$ = object$.ref;
+    final _$$$1 = sender?.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.viewSizeChanged:',
       iOS: (true, null),
     );
     _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_viewSizeChanged_,
-      sender?.ref.pointer ?? ffi.nullptr,
+      _$$$1?.pointer ?? ffi.nullptr,
     );
   }
 }
@@ -542,22 +540,21 @@ extension type NSTextList._(objc.ObjCObject object$)
 extension NSTextList$Methods on NSTextList {
   /// encodeWithCoder:
   void encodeWithCoder(objc.NSCoder coder) {
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_encodeWithCoder_,
-      coder.ref.pointer,
-    );
+    final _$$ = object$.ref;
+    final _$$$1 = coder.ref;
+    _objc_msgSend_xtuoz7(_$$.pointer, _sel_encodeWithCoder_, _$$$1.pointer);
   }
 
   /// init
   NSTextList init() {
+    final _$$$1 = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$1.retainAndReturnPointer(),
       _sel_init,
     );
     return NSTextList.fromPointer($ret, retain: false, release: true);
@@ -565,10 +562,12 @@ extension NSTextList$Methods on NSTextList {
 
   /// initWithCoder:
   NSTextList? initWithCoder(objc.NSCoder coder) {
+    final _$$ = object$.ref;
+    final _$$$1 = coder.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.retainAndReturnPointer(),
+      _$$.retainAndReturnPointer(),
       _sel_initWithCoder_,
-      coder.ref.pointer,
+      _$$$1.pointer,
     );
     return $ret.address == 0
         ? null
@@ -580,15 +579,17 @@ extension NSTextList$Methods on NSTextList {
     objc.NSString markerFormat, {
     required int options,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = markerFormat.ref;
     objc.checkOsVersionInternal(
       'NSTextList.initWithMarkerFormat:options:',
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_1k4kd9s(
-      object$.ref.retainAndReturnPointer(),
+      _$$.retainAndReturnPointer(),
       _sel_initWithMarkerFormat_options_,
-      markerFormat.ref.pointer,
+      _$$$1.pointer,
       options,
     );
     return NSTextList.fromPointer($ret, retain: false, release: true);
@@ -600,15 +601,17 @@ extension NSTextList$Methods on NSTextList {
     required int options,
     required int startingItemNumber,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = markerFormat.ref;
     objc.checkOsVersionInternal(
       'NSTextList.initWithMarkerFormat:options:startingItemNumber:',
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
     final $ret = _objc_msgSend_1bh1vl9(
-      object$.ref.retainAndReturnPointer(),
+      _$$.retainAndReturnPointer(),
       _sel_initWithMarkerFormat_options_startingItemNumber_,
-      markerFormat.ref.pointer,
+      _$$$1.pointer,
       options,
       startingItemNumber,
     );
@@ -617,33 +620,36 @@ extension NSTextList$Methods on NSTextList {
 
   /// isOrdered
   bool get isOrdered {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.isOrdered',
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    return _objc_msgSend_91o635(object$.ref.pointer, _sel_isOrdered);
+    return _objc_msgSend_91o635(_$$.pointer, _sel_isOrdered);
   }
 
   /// listOptions
   int get listOptions {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.listOptions',
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_exovb9(object$.ref.pointer, _sel_listOptions);
+    return _objc_msgSend_exovb9(_$$.pointer, _sel_listOptions);
   }
 
   /// markerForItemNumber:
   objc.NSString markerForItemNumber(int itemNumber) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.markerForItemNumber:',
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_qugqlf(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_markerForItemNumber_,
       itemNumber,
     );
@@ -652,37 +658,36 @@ extension NSTextList$Methods on NSTextList {
 
   /// markerFormat
   objc.NSString get markerFormat {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.markerFormat',
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_markerFormat);
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_markerFormat);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// setStartingItemNumber:
   set startingItemNumber(int value) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.setStartingItemNumber:',
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    _objc_msgSend_4sp4xj(
-      object$.ref.pointer,
-      _sel_setStartingItemNumber_,
-      value,
-    );
+    _objc_msgSend_4sp4xj(_$$.pointer, _sel_setStartingItemNumber_, value);
   }
 
   /// startingItemNumber
   int get startingItemNumber {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.startingItemNumber',
       iOS: (false, (7, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_startingItemNumber);
+    return _objc_msgSend_1hz7y9r(_$$.pointer, _sel_startingItemNumber);
   }
 }
 
@@ -786,11 +791,12 @@ extension type UIPickerView._(objc.ObjCObject object$)
 extension UIPickerView$Methods on UIPickerView {
   /// dataSource
   UIPickerViewDataSource? get dataSource {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.dataSource',
       iOS: (false, (2, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_dataSource);
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_dataSource);
     return $ret.address == 0
         ? null
         : UIPickerViewDataSource.fromPointer($ret, retain: true, release: true);
@@ -798,11 +804,12 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// delegate
   UIPickerViewDelegate? get delegate {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.delegate',
       iOS: (false, (2, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_delegate);
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_delegate);
     return $ret.address == 0
         ? null
         : UIPickerViewDelegate.fromPointer($ret, retain: true, release: true);
@@ -810,19 +817,19 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// encodeWithCoder:
   void encodeWithCoder(objc.NSCoder coder) {
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_encodeWithCoder_,
-      coder.ref.pointer,
-    );
+    final _$$$2 = object$.ref;
+    final _$$$3 = coder.ref;
+    _objc_msgSend_xtuoz7(_$$$2.pointer, _sel_encodeWithCoder_, _$$$3.pointer);
   }
 
   /// initWithCoder:
   UIPickerView? initWithCoder(objc.NSCoder coder) {
+    final _$$$2 = object$.ref;
+    final _$$$3 = coder.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.retainAndReturnPointer(),
+      _$$$2.retainAndReturnPointer(),
       _sel_initWithCoder_,
-      coder.ref.pointer,
+      _$$$3.pointer,
     );
     return $ret.address == 0
         ? null
@@ -831,21 +838,23 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// numberOfComponents
   int get numberOfComponents {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.numberOfComponents',
       iOS: (false, (2, 0, 0)),
     );
-    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_numberOfComponents);
+    return _objc_msgSend_1hz7y9r(_$$.pointer, _sel_numberOfComponents);
   }
 
   /// numberOfRowsInComponent:
   int numberOfRowsInComponent(int component) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.numberOfRowsInComponent:',
       iOS: (false, (2, 0, 0)),
     );
     return _objc_msgSend_12hwf9n(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_numberOfRowsInComponent_,
       component,
     );
@@ -853,24 +862,27 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// reloadAllComponents
   void reloadAllComponents() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.reloadAllComponents',
       iOS: (false, (2, 0, 0)),
     );
-    _objc_msgSend_1pl9qdv(object$.ref.pointer, _sel_reloadAllComponents);
+    _objc_msgSend_1pl9qdv(_$$.pointer, _sel_reloadAllComponents);
   }
 
   /// reloadComponent:
   void reloadComponent(int component) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.reloadComponent:',
       iOS: (false, (2, 0, 0)),
     );
-    _objc_msgSend_4sp4xj(object$.ref.pointer, _sel_reloadComponent_, component);
+    _objc_msgSend_4sp4xj(_$$.pointer, _sel_reloadComponent_, component);
   }
 
   /// rowSizeForComponent:
   objc.CGSize rowSizeForComponent(int component) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.rowSizeForComponent:',
       iOS: (false, (2, 0, 0)),
@@ -879,12 +891,12 @@ extension UIPickerView$Methods on UIPickerView {
     objc.useMsgSendVariants
         ? _objc_msgSend_17w0i2jStret(
             $ptr,
-            object$.ref.pointer,
+            _$$.pointer,
             _sel_rowSizeForComponent_,
             component,
           )
         : $ptr.ref = _objc_msgSend_17w0i2j(
-            object$.ref.pointer,
+            _$$.pointer,
             _sel_rowSizeForComponent_,
             component,
           );
@@ -897,12 +909,13 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// selectRow:inComponent:animated:
   void selectRow(int row, {required int inComponent, required bool animated}) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.selectRow:inComponent:animated:',
       iOS: (false, (2, 0, 0)),
     );
     _objc_msgSend_cy4jud(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_selectRow_inComponent_animated_,
       row,
       inComponent,
@@ -912,12 +925,13 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// selectedRowInComponent:
   int selectedRowInComponent(int component) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.selectedRowInComponent:',
       iOS: (false, (2, 0, 0)),
     );
     return _objc_msgSend_12hwf9n(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_selectedRowInComponent_,
       component,
     );
@@ -925,65 +939,65 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// setDataSource:
   set dataSource(UIPickerViewDataSource? value) {
+    final _$$ = object$.ref;
+    final _$$$1 = value?.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.setDataSource:',
       iOS: (false, (2, 0, 0)),
     );
     _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_setDataSource_,
-      value?.ref.pointer ?? ffi.nullptr,
+      _$$$1?.pointer ?? ffi.nullptr,
     );
   }
 
   /// setDelegate:
   set delegate(UIPickerViewDelegate? value) {
+    final _$$ = object$.ref;
+    final _$$$1 = value?.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.setDelegate:',
       iOS: (false, (2, 0, 0)),
     );
     _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_setDelegate_,
-      value?.ref.pointer ?? ffi.nullptr,
+      _$$$1?.pointer ?? ffi.nullptr,
     );
   }
 
   /// setShowsSelectionIndicator:
   @Deprecated('This property has no effect on iOS 7 and later.')
   set showsSelectionIndicator(bool value) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.setShowsSelectionIndicator:',
       iOS: (false, (2, 0, 0)),
     );
-    _objc_msgSend_1s56lr9(
-      object$.ref.pointer,
-      _sel_setShowsSelectionIndicator_,
-      value,
-    );
+    _objc_msgSend_1s56lr9(_$$.pointer, _sel_setShowsSelectionIndicator_, value);
   }
 
   /// showsSelectionIndicator
   @Deprecated('This property has no effect on iOS 7 and later.')
   bool get showsSelectionIndicator {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.showsSelectionIndicator',
       iOS: (false, (2, 0, 0)),
     );
-    return _objc_msgSend_91o635(
-      object$.ref.pointer,
-      _sel_showsSelectionIndicator,
-    );
+    return _objc_msgSend_91o635(_$$.pointer, _sel_showsSelectionIndicator);
   }
 
   /// viewForRow:forComponent:
   objc.ObjCObject viewForRow(int row, {required int forComponent}) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.viewForRow:forComponent:',
       iOS: (false, (2, 0, 0)),
     );
     final $ret = _objc_msgSend_1nzyvs1(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_viewForRow_forComponent_,
       row,
       forComponent,

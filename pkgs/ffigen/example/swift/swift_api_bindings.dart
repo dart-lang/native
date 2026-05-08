@@ -65,32 +65,33 @@ extension type SwiftClass._(objc.ObjCObject object$)
 extension SwiftClass$Methods on SwiftClass {
   /// init
   SwiftClass init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'SwiftClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return SwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// sayHello
   objc.NSString sayHello() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_sayHello);
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_sayHello);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// setSomeField:
   set someField(int value) {
-    _objc_msgSend_4sp4xj(object$.ref.pointer, _sel_setSomeField_, value);
+    final _$$ = object$.ref;
+    _objc_msgSend_4sp4xj(_$$.pointer, _sel_setSomeField_, value);
   }
 
   /// someField
   int get someField {
-    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_someField);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1hz7y9r(_$$.pointer, _sel_someField);
   }
 }
 

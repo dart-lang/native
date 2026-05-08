@@ -378,6 +378,7 @@ Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
     required bool objCAutorelease,
     required LocalVariables localVariables,
   }) => ObjCInterface.generateGetId(
+    context,
     value,
     objCRetain,
     objCAutorelease,

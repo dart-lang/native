@@ -254,6 +254,7 @@ class ObjCInstanceType extends Typealias {
     required bool objCAutorelease,
     required LocalVariables localVariables,
   }) => ObjCInterface.generateGetId(
+    context,
     value,
     objCRetain,
     objCAutorelease,

@@ -41,7 +41,8 @@ class GlobalTestObjCLibrary {
             retain: false,
             release: true,
           ).ref.release();
-    _globalBlock.value = value?.ref.retainAndReturnPointer() ?? ffi.nullptr;
+    final _$$ = value?.ref;
+    _globalBlock.value = _$$?.retainAndReturnPointer() ?? ffi.nullptr;
   }
 
   late final ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> _globalObject =
@@ -63,7 +64,8 @@ class GlobalTestObjCLibrary {
             retain: false,
             release: true,
           ).ref.release();
-    _globalObject.value = value?.ref.retainAndReturnPointer() ?? ffi.nullptr;
+    final _$$ = value?.ref;
+    _globalObject.value = _$$?.retainAndReturnPointer() ?? ffi.nullptr;
   }
 
   late final ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> _globalString =
@@ -81,7 +83,8 @@ class GlobalTestObjCLibrary {
       retain: false,
       release: true,
     ).ref.release();
-    _globalString.value = value.ref.retainAndReturnPointer();
+    final _$$ = value.ref;
+    _globalString.value = _$$.retainAndReturnPointer();
   }
 }
 

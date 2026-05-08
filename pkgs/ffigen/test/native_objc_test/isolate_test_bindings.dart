@@ -314,26 +314,26 @@ extension type Sendable._(objc.ObjCObject object$)
 extension Sendable$Methods on Sendable {
   /// init
   Sendable init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'Sendable.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return Sendable.fromPointer($ret, retain: false, release: true);
   }
 
   /// setValue:
   set value(int value) {
-    _objc_msgSend_1bqef4y(object$.ref.pointer, _sel_setValue_, value);
+    final _$$ = object$.ref;
+    _objc_msgSend_1bqef4y(_$$.pointer, _sel_setValue_, value);
   }
 
   /// value
   int get value {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_value);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_value);
   }
 }
 

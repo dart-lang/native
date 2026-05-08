@@ -66,15 +66,13 @@ extension type ForwardDeclaredClass._(objc.ObjCObject object$)
 extension ForwardDeclaredClass$Methods on ForwardDeclaredClass {
   /// init
   ForwardDeclaredClass init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'ForwardDeclaredClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return ForwardDeclaredClass.fromPointer($ret, retain: false, release: true);
   }
 }

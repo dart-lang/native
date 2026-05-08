@@ -560,6 +560,7 @@ $ret $fnName(id target, $argRecv) {
     required bool objCAutorelease,
     required LocalVariables localVariables,
   }) => ObjCInterface.generateGetId(
+    context,
     value,
     objCRetain,
     objCAutorelease,

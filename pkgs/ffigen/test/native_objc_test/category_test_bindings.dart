@@ -33,7 +33,8 @@ external ffi.Pointer<objc.ObjCBlockImpl> _l3cf7j_wrapListenerBlock_pfv6jd(
 extension CatImplementsProto on Thing {
   /// protoMethod
   int protoMethod() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_protoMethod);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_protoMethod);
   }
 
   /// staticProtoMethod
@@ -122,24 +123,24 @@ extension type ChildOfNSString._(objc.ObjCObject object$)
 extension ChildOfNSString$Methods on ChildOfNSString {
   /// init
   ChildOfNSString init() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'ChildOfNSString.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
     return ChildOfNSString.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithCoder:
   ChildOfNSString? initWithCoder(objc.NSCoder coder) {
+    final _$$ = object$.ref;
+    final _$$$1 = coder.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.retainAndReturnPointer(),
+      _$$.retainAndReturnPointer(),
       _sel_initWithCoder_,
-      coder.ref.pointer,
+      _$$$1.pointer,
     );
     return $ret.address == 0
         ? null
@@ -210,13 +211,14 @@ extension type ChildOfThing._(objc.ObjCObject object$)
 extension ChildOfThing$Methods on ChildOfThing {
   /// init
   ChildOfThing init() {
+    final _$$$1 = object$.ref;
     objc.checkOsVersionInternal(
       'ChildOfThing.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$1.retainAndReturnPointer(),
       _sel_init,
     );
     return ChildOfThing.fromPointer($ret, retain: false, release: true);
@@ -224,10 +226,8 @@ extension ChildOfThing$Methods on ChildOfThing {
 
   /// instancetypeMethod
   ChildOfThing instancetypeMethod() {
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_instancetypeMethod,
-    );
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_instancetypeMethod);
     return ChildOfThing.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -239,16 +239,15 @@ extension InstanceTypeCategory on Thing {}
 extension InterfaceOnBuiltInType on objc.NSString {
   /// instancetypeMethod
   objc.NSString instancetypeMethod() {
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_instancetypeMethod,
-    );
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_instancetypeMethod);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// method
   objc.NSString method() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_method);
+    final _$$ = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_method);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
@@ -263,12 +262,14 @@ extension InterfaceOnBuiltInType on objc.NSString {
 extension Mul on Thing {
   /// mul:Y:
   int mul(int x, {required int Y}) {
-    return _objc_msgSend_1q0lyci(object$.ref.pointer, _sel_mul_Y_, x, Y);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1q0lyci(_$$.pointer, _sel_mul_Y_, x, Y);
   }
 
   /// someProperty
   int get someProperty {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_someProperty);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_someProperty);
   }
 }
 
@@ -279,13 +280,15 @@ extension NSItemProvider on objc.NSURL {
   itemProviderVisibilityForRepresentationWithTypeIdentifier(
     objc.NSString typeIdentifier,
   ) {
+    final _$$ = object$.ref;
+    final _$$$1 = typeIdentifier.ref;
     objc.checkOsVersionInternal(
       'NSURL.itemProviderVisibilityForRepresentationWithTypeIdentifier:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
     if (!objc.respondsToSelector(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
     )) {
       throw objc.UnimplementedOptionalMethodException(
@@ -294,9 +297,9 @@ extension NSItemProvider on objc.NSURL {
       );
     }
     final $ret = _objc_msgSend_16fy0up(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
-      typeIdentifier.ref.pointer,
+      _$$$1.pointer,
     );
     return objc.NSItemProviderRepresentationVisibility.fromValue($ret);
   }
@@ -307,16 +310,19 @@ extension NSItemProvider on objc.NSURL {
     required objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>
     forItemProviderCompletionHandler,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = typeIdentifier.ref;
+    final _$$$2 = forItemProviderCompletionHandler.ref;
     objc.checkOsVersionInternal(
       'NSURL.loadDataWithTypeIdentifier:forItemProviderCompletionHandler:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
     final $ret = _objc_msgSend_r0bo0s(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
-      typeIdentifier.ref.pointer,
-      forItemProviderCompletionHandler.ref.pointer,
+      _$$$1.pointer,
+      _$$$2.pointer,
     );
     return $ret.address == 0
         ? null
@@ -325,13 +331,14 @@ extension NSItemProvider on objc.NSURL {
 
   /// writableTypeIdentifiersForItemProvider
   objc.NSArray get writableTypeIdentifiersForItemProvider {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.writableTypeIdentifiersForItemProvider',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
     if (!objc.respondsToSelector(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_writableTypeIdentifiersForItemProvider,
     )) {
       throw objc.UnimplementedOptionalMethodException(
@@ -340,7 +347,7 @@ extension NSItemProvider on objc.NSURL {
       );
     }
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_writableTypeIdentifiersForItemProvider,
     );
     return objc.NSArray.fromPointer($ret, retain: true, release: true);
@@ -351,6 +358,7 @@ extension NSItemProvider on objc.NSURL {
   itemProviderVisibilityForRepresentationWithTypeIdentifier$1(
     objc.NSString typeIdentifier,
   ) {
+    final _$$ = typeIdentifier.ref;
     objc.checkOsVersionInternal(
       'NSURL.itemProviderVisibilityForRepresentationWithTypeIdentifier:',
       iOS: (false, (11, 0, 0)),
@@ -368,7 +376,7 @@ extension NSItemProvider on objc.NSURL {
     final $ret = _objc_msgSend_16fy0up(
       _class_NSURL,
       _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
-      typeIdentifier.ref.pointer,
+      _$$.pointer,
     );
     return objc.NSItemProviderRepresentationVisibility.fromValue($ret);
   }
@@ -378,6 +386,8 @@ extension NSItemProvider on objc.NSURL {
     objc.NSData data, {
     required objc.NSString typeIdentifier,
   }) {
+    final _$$ = data.ref;
+    final _$$$1 = typeIdentifier.ref;
     objc.checkOsVersionInternal(
       'NSURL.objectWithItemProviderData:typeIdentifier:error:',
       iOS: (false, (11, 0, 0)),
@@ -388,8 +398,8 @@ extension NSItemProvider on objc.NSURL {
       final $ret = _objc_msgSend_1pnyuds(
         _class_NSURL,
         _sel_objectWithItemProviderData_typeIdentifier_error_,
-        data.ref.pointer,
-        typeIdentifier.ref.pointer,
+        _$$.pointer,
+        _$$$1.pointer,
         $err,
       );
       objc.NSErrorException.checkErrorPointer($err.value);
@@ -434,6 +444,7 @@ extension NSItemProvider on objc.NSURL {
 extension NSPromisedItems on objc.NSURL {
   /// checkPromisedItemIsReachableAndReturnError:
   bool checkPromisedItemIsReachableAndReturnError() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.checkPromisedItemIsReachableAndReturnError:',
       iOS: (false, (8, 0, 0)),
@@ -442,7 +453,7 @@ extension NSPromisedItems on objc.NSURL {
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_1dom33q(
-        object$.ref.pointer,
+        _$$.pointer,
         _sel_checkPromisedItemIsReachableAndReturnError_,
         $err,
       );
@@ -458,6 +469,8 @@ extension NSPromisedItems on objc.NSURL {
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> value, {
     required objc.NSString forKey,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = forKey.ref;
     objc.checkOsVersionInternal(
       'NSURL.getPromisedItemResourceValue:forKey:error:',
       iOS: (false, (8, 0, 0)),
@@ -466,10 +479,10 @@ extension NSPromisedItems on objc.NSURL {
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_1j9bhml(
-        object$.ref.pointer,
+        _$$.pointer,
         _sel_getPromisedItemResourceValue_forKey_error_,
         value,
-        forKey.ref.pointer,
+        _$$$1.pointer,
         $err,
       );
       objc.NSErrorException.checkErrorPointer($err.value);
@@ -481,6 +494,8 @@ extension NSPromisedItems on objc.NSURL {
 
   /// promisedItemResourceValuesForKeys:error:
   objc.NSDictionary? promisedItemResourceValuesForKeys(objc.NSArray keys) {
+    final _$$ = object$.ref;
+    final _$$$1 = keys.ref;
     objc.checkOsVersionInternal(
       'NSURL.promisedItemResourceValuesForKeys:error:',
       iOS: (false, (8, 0, 0)),
@@ -489,9 +504,9 @@ extension NSPromisedItems on objc.NSURL {
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_1lhpu4m(
-        object$.ref.pointer,
+        _$$.pointer,
         _sel_promisedItemResourceValuesForKeys_error_,
-        keys.ref.pointer,
+        _$$$1.pointer,
         $err,
       );
       objc.NSErrorException.checkErrorPointer($err.value);
@@ -508,7 +523,8 @@ extension NSPromisedItems on objc.NSURL {
 extension NSString on Thing {
   /// nsStringExtension
   int nsStringExtension() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_nsStringExtension);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_nsStringExtension);
   }
 }
 
@@ -516,7 +532,8 @@ extension NSString on Thing {
 extension NSURLCategory on objc.NSURL {
   /// extensionMethod
   int extensionMethod() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_extensionMethod);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_extensionMethod);
   }
 }
 
@@ -525,13 +542,14 @@ extension NSURLLoading on objc.NSURL {
   /// URLHandleUsingCache:
   @Deprecated('Use NSURLConnection instead')
   objc.NSURLHandle? URLHandleUsingCache(bool shouldUseCache) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLHandleUsingCache:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_1t6aok9(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLHandleUsingCache_,
       shouldUseCache,
     );
@@ -546,15 +564,17 @@ extension NSURLLoading on objc.NSURL {
     objc.ObjCObject client, {
     required bool usingCache,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = client.ref;
     objc.checkOsVersionInternal(
       'NSURL.loadResourceDataNotifyingClient:usingCache:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     _objc_msgSend_6p7ndb(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_loadResourceDataNotifyingClient_usingCache_,
-      client.ref.pointer,
+      _$$$1.pointer,
       usingCache,
     );
   }
@@ -562,15 +582,17 @@ extension NSURLLoading on objc.NSURL {
   /// propertyForKey:
   @Deprecated('Use NSURLConnection instead')
   objc.ObjCObject? propertyForKey(objc.NSString propertyKey) {
+    final _$$ = object$.ref;
+    final _$$$1 = propertyKey.ref;
     objc.checkOsVersionInternal(
       'NSURL.propertyForKey:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_propertyForKey_,
-      propertyKey.ref.pointer,
+      _$$$1.pointer,
     );
     return $ret.address == 0
         ? null
@@ -580,13 +602,14 @@ extension NSURLLoading on objc.NSURL {
   /// resourceDataUsingCache:
   @Deprecated('Use NSURLConnection instead')
   objc.NSData? resourceDataUsingCache(bool shouldUseCache) {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.resourceDataUsingCache:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_1t6aok9(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_resourceDataUsingCache_,
       shouldUseCache,
     );
@@ -598,31 +621,36 @@ extension NSURLLoading on objc.NSURL {
   /// setProperty:forKey:
   @Deprecated('Use NSURLConnection instead')
   bool setProperty(objc.ObjCObject property, {required objc.NSString forKey}) {
+    final _$$ = object$.ref;
+    final _$$$1 = property.ref;
+    final _$$$2 = forKey.ref;
     objc.checkOsVersionInternal(
       'NSURL.setProperty:forKey:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     return _objc_msgSend_1lsax7n(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_setProperty_forKey_,
-      property.ref.pointer,
-      forKey.ref.pointer,
+      _$$$1.pointer,
+      _$$$2.pointer,
     );
   }
 
   /// setResourceData:
   @Deprecated('Use NSURLConnection instead')
   bool setResourceData(objc.NSData data) {
+    final _$$ = object$.ref;
+    final _$$$1 = data.ref;
     objc.checkOsVersionInternal(
       'NSURL.setResourceData:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     return _objc_msgSend_19nvye5(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_setResourceData_,
-      data.ref.pointer,
+      _$$$1.pointer,
     );
   }
 }
@@ -631,15 +659,17 @@ extension NSURLLoading on objc.NSURL {
 extension NSURLPathUtilities on objc.NSURL {
   /// URLByAppendingPathComponent:
   objc.NSURL? URLByAppendingPathComponent(objc.NSString pathComponent) {
+    final _$$ = object$.ref;
+    final _$$$1 = pathComponent.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLByAppendingPathComponent:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLByAppendingPathComponent_,
-      pathComponent.ref.pointer,
+      _$$$1.pointer,
     );
     return $ret.address == 0
         ? null
@@ -651,15 +681,17 @@ extension NSURLPathUtilities on objc.NSURL {
     objc.NSString pathComponent, {
     required bool isDirectory,
   }) {
+    final _$$ = object$.ref;
+    final _$$$1 = pathComponent.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLByAppendingPathComponent:isDirectory:',
       iOS: (false, (5, 0, 0)),
       macOS: (false, (10, 7, 0)),
     );
     final $ret = _objc_msgSend_17amj0z(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLByAppendingPathComponent_isDirectory_,
-      pathComponent.ref.pointer,
+      _$$$1.pointer,
       isDirectory,
     );
     return $ret.address == 0
@@ -669,15 +701,17 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// URLByAppendingPathExtension:
   objc.NSURL? URLByAppendingPathExtension(objc.NSString pathExtension) {
+    final _$$ = object$.ref;
+    final _$$$1 = pathExtension.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLByAppendingPathExtension:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLByAppendingPathExtension_,
-      pathExtension.ref.pointer,
+      _$$$1.pointer,
     );
     return $ret.address == 0
         ? null
@@ -686,13 +720,14 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// URLByDeletingLastPathComponent
   objc.NSURL? get URLByDeletingLastPathComponent {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLByDeletingLastPathComponent',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLByDeletingLastPathComponent,
     );
     return $ret.address == 0
@@ -702,13 +737,14 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// URLByDeletingPathExtension
   objc.NSURL? get URLByDeletingPathExtension {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLByDeletingPathExtension',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLByDeletingPathExtension,
     );
     return $ret.address == 0
@@ -718,13 +754,14 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// URLByResolvingSymlinksInPath
   objc.NSURL? get URLByResolvingSymlinksInPath {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLByResolvingSymlinksInPath',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLByResolvingSymlinksInPath,
     );
     return $ret.address == 0
@@ -734,13 +771,14 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// URLByStandardizingPath
   objc.NSURL? get URLByStandardizingPath {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.URLByStandardizingPath',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$.pointer,
       _sel_URLByStandardizingPath,
     );
     return $ret.address == 0
@@ -750,6 +788,7 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// checkResourceIsReachableAndReturnError:
   bool checkResourceIsReachableAndReturnError() {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.checkResourceIsReachableAndReturnError:',
       iOS: (false, (4, 0, 0)),
@@ -758,7 +797,7 @@ extension NSURLPathUtilities on objc.NSURL {
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_1dom33q(
-        object$.ref.pointer,
+        _$$.pointer,
         _sel_checkResourceIsReachableAndReturnError_,
         $err,
       );
@@ -771,15 +810,13 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// lastPathComponent
   objc.NSString? get lastPathComponent {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.lastPathComponent',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_lastPathComponent,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_lastPathComponent);
     return $ret.address == 0
         ? null
         : objc.NSString.fromPointer($ret, retain: true, release: true);
@@ -787,15 +824,13 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// pathComponents
   objc.NSArray? get pathComponents {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.pathComponents',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_pathComponents,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_pathComponents);
     return $ret.address == 0
         ? null
         : objc.NSArray.fromPointer($ret, retain: true, release: true);
@@ -803,12 +838,13 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// pathExtension
   objc.NSString? get pathExtension {
+    final _$$ = object$.ref;
     objc.checkOsVersionInternal(
       'NSURL.pathExtension',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_pathExtension);
+    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_pathExtension);
     return $ret.address == 0
         ? null
         : objc.NSString.fromPointer($ret, retain: true, release: true);
@@ -816,6 +852,7 @@ extension NSURLPathUtilities on objc.NSURL {
 
   /// fileURLWithPathComponents:
   static objc.NSURL? fileURLWithPathComponents(objc.NSArray components) {
+    final _$$ = components.ref;
     objc.checkOsVersionInternal(
       'NSURL.fileURLWithPathComponents:',
       iOS: (false, (4, 0, 0)),
@@ -824,7 +861,7 @@ extension NSURLPathUtilities on objc.NSURL {
     final $ret = _objc_msgSend_1sotr3r(
       _class_NSURL,
       _sel_fileURLWithPathComponents_,
-      components.ref.pointer,
+      _$$.pointer,
     );
     return $ret.address == 0
         ? null
@@ -1130,6 +1167,8 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
 extension ObjCBlock_ffiVoid_NSData_NSError$CallExtension
     on objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)> {
   void call(objc.NSData? arg0, objc.NSError? arg1) {
+    final _$$ = arg0?.ref;
+    final _$$$1 = arg1?.ref;
     return ref.pointer.ref.invoke
         .cast<
           ffi.NativeFunction<
@@ -1148,8 +1187,8 @@ extension ObjCBlock_ffiVoid_NSData_NSError$CallExtension
           )
         >()(
       ref.pointer,
-      arg0?.ref.pointer ?? ffi.nullptr,
-      arg1?.ref.pointer ?? ffi.nullptr,
+      _$$?.pointer ?? ffi.nullptr,
+      _$$$1?.pointer ?? ffi.nullptr,
     );
   }
 }
@@ -1158,7 +1197,8 @@ extension ObjCBlock_ffiVoid_NSData_NSError$CallExtension
 extension StaticAndInstanceMethodsWithSameNameCategory on Thing {
   /// sameNameMethod
   int sameNameMethod() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_sameNameMethod);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_sameNameMethod);
   }
 
   /// sameNameMethod
@@ -1171,7 +1211,8 @@ extension StaticAndInstanceMethodsWithSameNameCategory on Thing {
 extension Sub on Thing {
   /// sub:Y:
   int sub(int x, {required int Y}) {
-    return _objc_msgSend_1q0lyci(object$.ref.pointer, _sel_sub_Y_, x, Y);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1q0lyci(_$$.pointer, _sel_sub_Y_, x, Y);
   }
 
   /// staticMethod
@@ -1239,26 +1280,26 @@ extension type Thing._(objc.ObjCObject object$)
 extension Thing$Methods on Thing {
   /// add:Y:
   int add(int x, {required int Y}) {
-    return _objc_msgSend_1q0lyci(object$.ref.pointer, _sel_add_Y_, x, Y);
+    final _$$ = object$.ref;
+    return _objc_msgSend_1q0lyci(_$$.pointer, _sel_add_Y_, x, Y);
   }
 
   /// anonymousCategoryMethod
   int anonymousCategoryMethod() {
-    return _objc_msgSend_1gcq84o(
-      object$.ref.pointer,
-      _sel_anonymousCategoryMethod,
-    );
+    final _$$ = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_anonymousCategoryMethod);
   }
 
   /// init
   Thing init() {
+    final _$$$2 = object$.ref;
     objc.checkOsVersionInternal(
       'Thing.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$$2.retainAndReturnPointer(),
       _sel_init,
     );
     return Thing.fromPointer($ret, retain: false, release: true);
@@ -1266,10 +1307,8 @@ extension Thing$Methods on Thing {
 
   /// instancetypeMethod
   Thing instancetypeMethod() {
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_instancetypeMethod,
-    );
+    final _$$$1 = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$$1.pointer, _sel_instancetypeMethod);
     return Thing.fromPointer($ret, retain: true, release: true);
   }
 }

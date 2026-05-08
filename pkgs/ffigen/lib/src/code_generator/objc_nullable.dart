@@ -61,24 +61,14 @@ class ObjCNullable extends Type {
     required bool objCRetain,
     required bool objCAutorelease,
     required LocalVariables localVariables,
-  }) {
-    if (value.contains('.') || value.contains('(')) {
-      final name = localVariables.addVariable(value);
-      value = name;
-    }
-    // Just appending `?` to `value` like this is a bit of a hack, but works for
-    // all the types that are allowed to be a child type. If we add more allowed
-    // child types, we may have to start special casing each type. For example,
-    // `value.pointer` becomes `value?.pointer ?? nullptr`.
-    final convertedValue = child.convertDartTypeToFfiDartType(
-      context,
-      '$value?',
-      objCRetain: objCRetain,
-      objCAutorelease: objCAutorelease,
-      localVariables: localVariables,
-    );
-    return '$convertedValue ?? ${context.libs.prefix(ffiImport)}.nullptr';
-  }
+  }) => ObjCInterface.generateGetId(
+    context,
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+    isNullable: true,
+  );
 
   @override
   String convertFfiDartTypeToDartType(
