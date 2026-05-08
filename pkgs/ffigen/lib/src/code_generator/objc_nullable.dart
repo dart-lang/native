@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'local_variables.dart';
 
 /// An ObjC type annotated with nullable. Eg:
 /// +(nullable NSObject*) methodWithNullableResult;
@@ -59,7 +60,15 @@ class ObjCNullable extends Type {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) {
+    if (value.contains('.') || value.contains('(')) {
+      final name = localVariables.addVariable(
+        value: value,
+        nameHint: 'nullableObj',
+      );
+      value = name;
+    }
     // Just appending `?` to `value` like this is a bit of a hack, but works for
     // all the types that are allowed to be a child type. If we add more allowed
     // child types, we may have to start special casing each type. For example,
@@ -69,6 +78,7 @@ class ObjCNullable extends Type {
       '$value?',
       objCRetain: objCRetain,
       objCAutorelease: objCAutorelease,
+      localVariables: localVariables,
     );
     return '$convertedValue ?? ${context.libs.prefix(ffiImport)}.nullptr';
   }

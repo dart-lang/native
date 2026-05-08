@@ -1606,11 +1606,10 @@ abstract final class ObjCBlock_EmptyBlock_ffiVoid {
       objc.ObjCBlock<
         objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+          final _$obj = fn(arg0);
+          return _$obj.ref.retainAndAutorelease();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -1742,11 +1741,10 @@ abstract final class ObjCBlock_EmptyBlock_ffiVoid$1 {
           ffi.Pointer<ffi.Void>,
         )
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndReturnPointer(),
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+          final _$obj = fn(arg0);
+          return _$obj.ref.retainAndReturnPointer();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -1859,11 +1857,10 @@ abstract final class ObjCBlock_EmptyObject_ffiVoid {
     EmptyObject Function(ffi.Pointer<ffi.Void>) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+      final _$obj = fn(arg0);
+      return _$obj.ref.retainAndAutorelease();
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -1987,11 +1984,10 @@ abstract final class ObjCBlock_EmptyObject_ffiVoid$1 {
       objc.ObjCBlock<
         objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndReturnPointer(),
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+          final _$obj = fn(arg0);
+          return _$obj.ref.retainAndReturnPointer();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -2118,15 +2114,16 @@ abstract final class ObjCBlock_EmptyObject_ffiVoid_EmptyObject {
     bool keepIsolateAlive = true,
   }) =>
       objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>, EmptyObject)>(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) =>
-              fn(
-                arg0,
-                EmptyObject.fromPointer(arg1, retain: true, release: true),
-              ).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+        ) {
+          final _$obj = fn(
+            arg0,
+            EmptyObject.fromPointer(arg1, retain: true, release: true),
+          );
+          return _$obj.ref.retainAndAutorelease();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -2270,15 +2267,16 @@ abstract final class ObjCBlock_EmptyObject_ffiVoid_EmptyObject$1 {
       objc.ObjCBlock<
         EmptyObject Function(ffi.Pointer<ffi.Void>, objc.Consumed<EmptyObject>)
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) =>
-              fn(
-                arg0,
-                EmptyObject.fromPointer(arg1, retain: false, release: true),
-              ).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+        ) {
+          final _$obj = fn(
+            arg0,
+            EmptyObject.fromPointer(arg1, retain: false, release: true),
+          );
+          return _$obj.ref.retainAndAutorelease();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );

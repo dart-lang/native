@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'local_variables.dart';
 
 /// Represents a pointer.
 class PointerType extends Type {
@@ -142,7 +143,13 @@ class ObjCObjectPointer extends PointerType {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   @override
   String convertFfiDartTypeToDartType(

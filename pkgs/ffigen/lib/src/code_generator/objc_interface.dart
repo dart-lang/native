@@ -7,6 +7,7 @@ import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -211,17 +212,30 @@ ${generateInstanceMethodBindings(w, this)}
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   static String generateGetId(
     String value,
     bool objCRetain,
     bool objCAutorelease,
-  ) => objCRetain
-      ? (objCAutorelease
-            ? '$value.ref.retainAndAutorelease()'
-            : '$value.ref.retainAndReturnPointer()')
-      : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
+    LocalVariables localVariables,
+  ) {
+    if (value.contains('.') || value.contains('(')) {
+      final name = localVariables.addVariable(value: value, nameHint: 'obj');
+      value = name;
+    }
+    return objCRetain
+        ? (objCAutorelease
+              ? '$value.ref.retainAndAutorelease()'
+              : '$value.ref.retainAndReturnPointer()')
+        : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
+  }
 
   @override
   String convertFfiDartTypeToDartType(

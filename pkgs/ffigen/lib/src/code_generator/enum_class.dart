@@ -10,6 +10,7 @@ import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'imports.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'type.dart';
 import 'utils.dart';
@@ -275,6 +276,7 @@ class EnumClass extends BindingType with HasLocalScope {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => sameDartAndFfiDartType ? value : '$value.value';
 
   @override

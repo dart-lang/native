@@ -9,6 +9,7 @@ import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'func.dart';
 import 'imports.dart';
+import 'local_variables.dart';
 import 'native_type.dart';
 import 'objc_block.dart';
 import 'objc_built_in_functions.dart';
@@ -446,10 +447,39 @@ class ObjCMethod extends AstNode with HasLocalScope {
     const finalizableVar = '\$finalizable';
     const errVar = '\$err';
 
-    final s = StringBuffer();
     final targetType = target.getDartType(context);
     final returnTypeStr = _getConvertedReturnType(context, targetType);
     final paramStr = _joinParamStr(context, params);
+
+    final localVars = LocalVariables(localScope);
+
+    // Evaluate targetStr and msgSendParams first to populate localVars.
+    late String targetStr;
+    if (isClassMethod) {
+      targetStr = (target as ObjCInterface).classObject.name;
+    } else {
+      targetStr = target.convertDartTypeToFfiDartType(
+        context,
+        'object\$',
+        objCRetain: consumesSelf,
+        objCAutorelease: false,
+        localVariables: localVars,
+      );
+    }
+
+    final msgSendParams = [
+      for (final p in params)
+        p.type.convertDartTypeToFfiDartType(
+          context,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+          localVariables: localVars,
+        ),
+      if (throwNSError) errVar,
+    ];
+
+    final s = StringBuffer();
 
     // The method declaration.
     final deprecatedAnnotation = apiAvailability.deprecatedAnnotation;
@@ -458,9 +488,8 @@ class ObjCMethod extends AstNode with HasLocalScope {
       s.write('  $deprecatedAnnotation\n');
     }
     s.write('  ');
-    late String targetStr;
+
     if (isClassMethod) {
-      targetStr = (target as ObjCInterface).classObject.name;
       switch (kind) {
         case ObjCMethodKind.method:
           s.write('static $returnTypeStr $methodName($paramStr)');
@@ -473,12 +502,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
           break;
       }
     } else {
-      targetStr = target.convertDartTypeToFfiDartType(
-        context,
-        'object\$',
-        objCRetain: consumesSelf,
-        objCAutorelease: false,
-      );
       switch (kind) {
         case ObjCMethodKind.method:
           s.write('$returnTypeStr $methodName($paramStr)');
@@ -492,6 +515,11 @@ class ObjCMethod extends AstNode with HasLocalScope {
       }
     }
     s.write(' {\n');
+
+    // Emit local variable declarations.
+    if (localVars.isNotEmpty) {
+      s.write('    ${localVars.generateDeclarations()}\n');
+    }
 
     // Implementation.
     final versionCheck = apiAvailability.runtimeCheck(
@@ -527,16 +555,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final convertReturn =
         kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
-    final msgSendParams = [
-      for (final p in params)
-        p.type.convertDartTypeToFfiDartType(
-          context,
-          p.name,
-          objCRetain: p.objCConsumed,
-          objCAutorelease: false,
-        ),
-      if (throwNSError) errVar,
-    ];
 
     if (msgSend!.isStret) {
       assert(!convertReturn);

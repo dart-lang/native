@@ -6,8 +6,8 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'writer.dart';
 
@@ -213,13 +213,20 @@ class ObjCBlock extends BindingType with HasLocalScope {
           ),
         )
         .join(', ');
+    final closureLocalVars = LocalVariables(localScope);
     final convFnInvocation = returnType.convertDartTypeToFfiDartType(
       context,
       'fn($convertedFnArgs)',
       objCRetain: true,
       objCAutorelease: !returnsRetained,
+      localVariables: closureLocalVars,
     );
-    final convFn = '(${_helper.paramsFfiDartType}) => $convFnInvocation';
+    final convFn = closureLocalVars.isNotEmpty
+        ? '(${_helper.paramsFfiDartType}) {\n'
+              '    ${closureLocalVars.generateDeclarations()}\n'
+              '    return $convFnInvocation;\n'
+              '  }'
+        : '(${_helper.paramsFfiDartType}) => $convFnInvocation';
 
     // Write the wrapper class.
     s.write('''
@@ -269,14 +276,20 @@ abstract final class $name {
             ),
           )
           .join(', ');
+      final listenerLocalVars = LocalVariables(localScope);
       final listenerConvFnInvocation = returnType.convertDartTypeToFfiDartType(
         context,
         'fn($listenerConvertedFnArgs)',
         objCRetain: true,
         objCAutorelease: !returnsRetained,
+        localVariables: listenerLocalVars,
       );
-      final listenerConvFn =
-          '(${_helper.paramsFfiDartType}) => $listenerConvFnInvocation';
+      final listenerConvFn = listenerLocalVars.isNotEmpty
+          ? '(${_helper.paramsFfiDartType}) {\n'
+                '    ${listenerLocalVars.generateDeclarations()}\n'
+                '    return $listenerConvFnInvocation;\n'
+                '  }'
+          : '(${_helper.paramsFfiDartType}) => $listenerConvFnInvocation';
       final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
@@ -368,7 +381,9 @@ abstract final class $name {
     s.write('''
 /// Call operator for `$blockType`.
 extension $name\$CallExtension on $blockType {
-  ${returnType.getDartType(context)} call(${_helper.paramsDartType}) =>''');
+  ${returnType.getDartType(context)} call(${_helper.paramsDartType})''');
+
+    final callLocalVars = LocalVariables(localScope);
     final callMethodArgs = params
         .map(
           (p) => p.type.convertDartTypeToFfiDartType(
@@ -376,9 +391,19 @@ extension $name\$CallExtension on $blockType {
             p.name,
             objCRetain: p.objCConsumed,
             objCAutorelease: false,
+            localVariables: callLocalVars,
           ),
         )
         .join(', ');
+
+    if (callLocalVars.isNotEmpty) {
+      s.write(''' {
+    ${callLocalVars.generateDeclarations()}
+    return ''');
+    } else {
+      s.write(' => ');
+    }
+
     final callMethodInvocation =
         '''
 ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
@@ -392,6 +417,9 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       ),
     );
     s.write(';\n');
+    if (callLocalVars.isNotEmpty) {
+      s.write('  }\n');
+    }
 
     s.write('}\n\n');
     return BindingString(
@@ -536,7 +564,13 @@ $ret $fnName(id target, $argRecv) {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   @override
   String convertFfiDartTypeToDartType(

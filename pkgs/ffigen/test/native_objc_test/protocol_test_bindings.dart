@@ -1141,19 +1141,18 @@ abstract final class ObjCBlock_NSString_ffiVoid_NSString_ffiDouble {
       objc.ObjCBlock<
         objc.NSString Function(ffi.Pointer<ffi.Void>, objc.NSString, ffi.Double)
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (
-            ffi.Pointer<ffi.Void> arg0,
-            ffi.Pointer<objc.ObjCObjectImpl> arg1,
-            double arg2,
-          ) => fn(
+        objc.newClosureBlock(_closureCallable, (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          double arg2,
+        ) {
+          final _$obj = fn(
             arg0,
             objc.NSString.fromPointer(arg1, retain: true, release: true),
             arg2,
-          ).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
+          );
+          return _$obj.ref.retainAndAutorelease();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -1870,11 +1869,10 @@ abstract final class ObjCBlock_idMyProtocol_ffiVoid {
       objc.ObjCBlock<
         ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+          final _$obj = fn(arg0);
+          return _$obj.ref.retainAndAutorelease();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -1999,12 +1997,10 @@ abstract final class ObjCBlock_instancetype_ffiVoid {
       objc.ObjCBlock<
         ffi.Pointer<objc.ObjCObjectImpl>? Function(ffi.Pointer<ffi.Void>)
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) =>
-              fn(arg0)?.ref.retainAndAutorelease() ?? ffi.nullptr,
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+          final _$nullableObj = fn(arg0);
+          return _$nullableObj?.ref.retainAndAutorelease() ?? ffi.nullptr;
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );

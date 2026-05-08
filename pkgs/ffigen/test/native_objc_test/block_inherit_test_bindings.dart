@@ -374,11 +374,10 @@ abstract final class ObjCBlock_Mammal {
     Mammal Function() fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<Mammal Function()>(
-    objc.newClosureBlock(
-      _closureCallable,
-      () => fn().ref.retainAndAutorelease(),
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, () {
+      final _$obj = fn();
+      return _$obj.ref.retainAndAutorelease();
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -469,11 +468,10 @@ abstract final class ObjCBlock_Platypus {
     Platypus Function() fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<Platypus Function()>(
-    objc.newClosureBlock(
-      _closureCallable,
-      () => fn().ref.retainAndAutorelease(),
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, () {
+      final _$obj = fn();
+      return _$obj.ref.retainAndAutorelease();
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );

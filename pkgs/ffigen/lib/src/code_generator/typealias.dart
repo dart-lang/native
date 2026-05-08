@@ -7,6 +7,7 @@ import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -183,11 +184,13 @@ class Typealias extends BindingType {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => type.convertDartTypeToFfiDartType(
     context,
     value,
     objCRetain: objCRetain,
     objCAutorelease: objCAutorelease,
+    localVariables: localVariables,
   );
 
   @override
@@ -249,7 +252,13 @@ class ObjCInstanceType extends Typealias {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   @override
   String convertFfiDartTypeToDartType(

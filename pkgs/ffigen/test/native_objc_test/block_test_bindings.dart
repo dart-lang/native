@@ -1130,13 +1130,14 @@ abstract final class ObjCBlock_DummyObject_DummyObject {
     DummyObject Function(DummyObject) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<DummyObject Function(DummyObject)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) => fn(
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    ) {
+      final _$obj = fn(
         DummyObject.fromPointer(arg0, retain: true, release: true),
-      ).ref.retainAndAutorelease(),
-      keepIsolateAlive,
-    ),
+      );
+      return _$obj.ref.retainAndAutorelease();
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -1253,17 +1254,16 @@ abstract final class ObjCBlock_DummyObject_DummyObject$1 {
     DummyObject? Function(DummyObject?) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<DummyObject? Function(DummyObject?)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(
-            arg0.address == 0
-                ? null
-                : DummyObject.fromPointer(arg0, retain: true, release: true),
-          )?.ref.retainAndAutorelease() ??
-          ffi.nullptr,
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    ) {
+      final _$nullableObj = fn(
+        arg0.address == 0
+            ? null
+            : DummyObject.fromPointer(arg0, retain: true, release: true),
+      );
+      return _$nullableObj?.ref.retainAndAutorelease() ?? ffi.nullptr;
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -1505,17 +1505,16 @@ abstract final class ObjCBlock_IntBlock_IntBlock {
           objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>,
         )
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (IntBlock arg0) => fn(
+        objc.newClosureBlock(_closureCallable, (IntBlock arg0) {
+          final _$obj = fn(
             ObjCBlock_Int32_Int32.fromPointer(
               arg0,
               retain: true,
               release: true,
             ),
-          ).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
+          );
+          return _$obj.ref.retainAndAutorelease();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -1614,17 +1613,16 @@ abstract final class ObjCBlock_NSString_NSString {
     objc.NSString? Function(objc.NSString?) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<objc.NSString? Function(objc.NSString?)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(
-            arg0.address == 0
-                ? null
-                : objc.NSString.fromPointer(arg0, retain: true, release: true),
-          )?.ref.retainAndAutorelease() ??
-          ffi.nullptr,
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    ) {
+      final _$nullableObj = fn(
+        arg0.address == 0
+            ? null
+            : objc.NSString.fromPointer(arg0, retain: true, release: true),
+      );
+      return _$nullableObj?.ref.retainAndAutorelease() ?? ffi.nullptr;
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
