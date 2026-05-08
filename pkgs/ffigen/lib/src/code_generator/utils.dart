@@ -87,33 +87,19 @@ int fnvHash32(String input) {
 final String dartExecutable = _findDart();
 
 String _findDart() {
-  final pathResolved = Platform.resolvedExecutable;
-  if (p.basenameWithoutExtension(pathResolved) == 'dart') return pathResolved;
-  final dartExe = 'dart${p.extension(pathResolved)}';
-  var directory = p.dirname(pathResolved);
-  while (true) {
-    final dartPath = p.normalize(p.join(directory, dartExe));
+  final envDartExe = Platform.environment['DART_EXE'];
+  if (envDartExe != null) return envDartExe;
+
+  var path = Platform.resolvedExecutable;
+  if (p.basenameWithoutExtension(path) == 'dart') return path;
+  final dartExe = 'dart${p.extension(path)}';
+  while (path.isNotEmpty) {
+    path = p.dirname(path);
+    final dartPath = p.normalize(p.join(path, dartExe));
     if (File(dartPath).existsSync()) return dartPath;
-    final parent = p.dirname(directory);
-    if (parent == directory) break;
-    directory = parent;
   }
-
-  // Fallback to 'dart' in PATH.
-  try {
-    final result = Process.runSync(Platform.isWindows ? 'where' : 'which', [
-      'dart',
-    ]);
-    if (result.exitCode == 0) {
-      return result.stdout.toString().trim();
-    }
-  } catch (_) {
-    // Ignore and throw the exception below.
-  }
-
   throw Exception(
-    'Could not find Dart executable near ${Platform.resolvedExecutable} '
-    'or in PATH',
+    "Couldn't find Dart executable near ${Platform.resolvedExecutable}",
   );
 }
 
