@@ -24,11 +24,8 @@ class _LazyVariable {
   final String _cmd;
   final List<String> _args;
   String? _value;
-  String get value {
-    final env = Platform.environment[key];
-    if (env != null) return env;
-    return _value ??= firstLineOfStdout(_cmd, _args);
-  }
+  String get value =>
+      _value ??= Platform.environment[key] ?? firstLineOfStdout(_cmd, _args);
 }
 
 final _xcode = _LazyVariable('XCODE', 'xcode-select', ['-p']);
@@ -53,14 +50,10 @@ String firstLineOfStdout(String cmd, List<String> args) {
       'STDERR:\n${result.stderr}',
     );
   }
-  final lines = (result.stdout as String)
+  return (result.stdout as String)
       .split('\n')
       .where((line) => line.isNotEmpty)
-      .toList();
-  if (lines.isEmpty) {
-    throw Exception('Command "$cmd ${args.join(' ')}" returned empty stdout.');
-  }
-  return lines.first;
+      .first;
 }
 
 /// The directory where Xcode's APIs are installed.
