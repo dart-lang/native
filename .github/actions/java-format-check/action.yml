@@ -9,6 +9,10 @@ inputs:
   working-directory:
     description: 'The directory to search for Java files (relative to repository root)'
     required: true
+  exclude-path:
+    description: 'A path pattern to exclude from the search (passed to find -not -path)'
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
@@ -19,12 +23,19 @@ runs:
       run: |
         GJF_VERSION="${{ inputs.version }}"
         WORKING_DIR="${{ inputs.working-directory }}"
+        EXCLUDE_PATH="${{ inputs.exclude-path }}"
         
         echo "Downloading google-java-format v${GJF_VERSION}..."
         curl -L -s -o google-java-format.jar "https://github.com/google/google-java-format/releases/download/v${GJF_VERSION}/google-java-format-${GJF_VERSION}-all-deps.jar"
         
         echo "Finding all .java files in ${WORKING_DIR}..."
-        java_files=$(find "${WORKING_DIR}" -type f -name "*.java" -not -path "./.git/*")
+        FIND_CMD="find \"${WORKING_DIR}\" -type f -name \"*.java\" -not -path \"./.git/*\""
+        if [ -n "$EXCLUDE_PATH" ]; then
+          echo "  excluding ${EXCLUDE_PATH}"
+          FIND_CMD="${FIND_CMD} -not -path \"${EXCLUDE_PATH}\""
+        fi
+
+        java_files=$(eval $FIND_CMD)
         
         if [ -z "$java_files" ]; then
           echo "No Java files found in ${WORKING_DIR}"
@@ -40,7 +51,7 @@ runs:
           echo "$non_compliant_files"
           echo ""
           echo "To fix formatting issues, run:"
-          echo "find \"${WORKING_DIR}\" -name '*.java' -not -path './.git/*' | xargs java -jar google-java-format.jar --replace"
+          echo "$FIND_CMD | xargs java -jar google-java-format.jar --replace"
           exit 1
         else
           echo "✅ All Java files are properly formatted."

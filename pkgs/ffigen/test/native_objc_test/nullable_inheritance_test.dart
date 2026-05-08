@@ -7,7 +7,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/objective_c.dart' as objc;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -16,24 +16,15 @@ import 'nullable_inheritance_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late NullableBase nullableBase;
-  late NullableChild nullableChild;
-  late NSObject obj;
   group('Nullable inheritance', () {
+    late NullableChild nullableChild;
+    late NullableBase nullableBase;
+    late objc.NSObject obj;
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      nullableBase = NullableBase();
-      nullableChild = NullableChild();
-      obj = NSObject();
+      loadLibrary();
+      nullableChild = NullableChild.alloc().init();
+      nullableBase = NullableBase.alloc().init();
+      obj = objc.NSObject.alloc().init();
     });
 
     group('Base', () {
@@ -41,18 +32,15 @@ void main() {
         expect(nullableBase.nullableArg(obj), false);
         expect(nullableBase.nullableArg(null), true);
       });
-
       test('Non-null arguments', () {
         expect(nullableBase.nonNullArg(obj), false);
       });
-
       test('Nullable return', () {
-        expect(nullableBase.nullableReturn(false), isA<NSObject>());
+        expect(nullableBase.nullableReturn(false), isA<objc.NSObject>());
         expect(nullableBase.nullableReturn(true), null);
       });
-
       test('Non-null return', () {
-        expect(nullableBase.nonNullReturn(), isA<NSObject>());
+        expect(nullableBase.nonNullReturn(), isA<objc.NSObject>());
       });
     });
 
@@ -67,7 +55,7 @@ void main() {
       });
 
       test('Nullable return, changed to non-null', () {
-        expect(nullableChild.nullableReturn(false), isA<NSObject>());
+        expect(nullableChild.nullableReturn(false), isA<objc.NSObject>());
       });
 
       test('Non-null return, changed to nullable', () {

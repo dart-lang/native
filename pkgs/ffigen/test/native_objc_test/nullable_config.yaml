@@ -6,6 +6,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - NullableInterface
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'nullable_test.m'

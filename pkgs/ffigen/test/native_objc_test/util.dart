@@ -21,7 +21,12 @@ import 'package:path/path.dart' as p;
 
 import '../test_utils.dart';
 
-void verifyBindings(String testName, [Logger? logger]) {
+void verifyBindings(
+  String testName, {
+  Logger? logger,
+  bool Function(String expected, String actual)? dartVerify,
+  bool Function(String expected, String actual)? objCVerify,
+}) {
   final thisDir = p.join(packagePathForTests, 'test', 'native_objc_test');
   final configFile = p.join(thisDir, '${testName}_config.yaml');
 
@@ -34,14 +39,14 @@ void verifyBindings(String testName, [Logger? logger]) {
     'test',
     'native_objc_test',
     bindingsName,
-  ]);
+  ], verify: dartVerify);
 
   final mFileName = context.config.output.objCFile.pathSegments.last;
   matchObjCFileWithExpected(context, library, mFileName, [
     'test',
     'native_objc_test',
     mFileName,
-  ]);
+  ], verify: objCVerify);
 }
 
 final _executeInternalCommand = () {
@@ -119,3 +124,19 @@ int objectRetainCount(Pointer<ObjCObjectImpl> object) {
 
 bool isValidClass(Pointer<Void> clazz) =>
     internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);
+
+String findDylib(String name) =>
+    p.join(packagePathForTests, '.dart_tool', 'lib', '$name.dylib');
+
+// TODO(https://github.com/dart-lang/native/issues/3338): Remove these.
+@Native<Void Function()>(
+  symbol: 'ffigen_load_objc_test',
+  assetId: 'package:ffigen/objc_test',
+)
+external void loadLibrary();
+
+@Native<Void Function()>(
+  symbol: 'ffigen_load_swift_test',
+  assetId: 'package:ffigen/swift_class_test',
+)
+external void loadSwiftLibrary();

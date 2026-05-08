@@ -22,6 +22,8 @@ objc-protocols:
     - MyProtocol
     - SecondaryProtocol
     - UnusedProtocol
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'protocol_test.h'

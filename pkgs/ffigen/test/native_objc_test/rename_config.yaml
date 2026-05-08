@@ -23,6 +23,8 @@ objc-interfaces:
 structs:
   include:
     - CollidingStructName
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'rename_test.m'

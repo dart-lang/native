@@ -5,6 +5,8 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
 
+void ffigen_load_objc_test() {}
+
 @interface Foo : NSObject {
   double doubleVal;
 }
