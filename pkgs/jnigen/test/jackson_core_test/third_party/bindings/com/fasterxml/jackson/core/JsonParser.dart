@@ -452,7 +452,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonParser$Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonParser$Feature?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<JsonParser$Feature?>?>();
   }
 
@@ -477,9 +478,9 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   static JsonParser$Feature? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<JsonParser$Feature?>();
   }
 
@@ -506,8 +507,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// are enabled by default.
   ///@return Bit mask of all features that are enabled by default
   static core$_.int collectDefaults() {
-    return _collectDefaults(
-            _class.reference.pointer, _id_collectDefaults.pointer)
+    final _$$classRef = _class.reference;
+    return _collectDefaults(_$$classRef.pointer, _id_collectDefaults.pointer)
         .integer;
   }
 }
@@ -533,7 +534,8 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
 
   /// from: `public boolean enabledByDefault()`
   core$_.bool enabledByDefault() {
-    return _enabledByDefault(reference.pointer, _id_enabledByDefault.pointer)
+    final _$$selfRef = reference;
+    return _enabledByDefault(_$$selfRef.pointer, _id_enabledByDefault.pointer)
         .boolean;
   }
 
@@ -557,7 +559,8 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
   core$_.bool enabledIn(
     core$_.int flags,
   ) {
-    return _enabledIn(reference.pointer, _id_enabledIn.pointer, flags).boolean;
+    final _$$selfRef = reference;
+    return _enabledIn(_$$selfRef.pointer, _id_enabledIn.pointer, flags).boolean;
   }
 
   static final _id_get$mask = JsonParser$Feature._class.instanceMethodId(
@@ -579,7 +582,8 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
 
   /// from: `public int getMask()`
   core$_.int get mask {
-    return _get$mask(reference.pointer, _id_get$mask.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$mask(_$$selfRef.pointer, _id_get$mask.pointer).integer;
   }
 }
 
@@ -688,7 +692,8 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonParser$NumberType[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonParser$NumberType?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<JsonParser$NumberType?>?>();
   }
 
@@ -713,9 +718,9 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   static JsonParser$NumberType? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<JsonParser$NumberType?>();
   }
 }
@@ -770,7 +775,8 @@ extension JsonParser$$Methods on JsonParser {
   /// method (and its variants).
   ///@return Codec assigned to this parser, if any; {@code null} if none
   jni$_.JObject? get codec {
-    return _get$codec(reference.pointer, _id_get$codec.pointer)
+    final _$$selfRef = reference;
+    return _get$codec(_$$selfRef.pointer, _id_get$codec.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -797,8 +803,9 @@ extension JsonParser$$Methods on JsonParser {
   /// method (and its variants).
   ///@param oc Codec to assign, if any; {@code null} if none
   set codec(jni$_.JObject? oc) {
+    final _$$selfRef = reference;
     final _$oc = oc?.reference ?? jni$_.jNullReference;
-    _set$codec(reference.pointer, _id_set$codec.pointer, _$oc.pointer).check();
+    _set$codec(_$$selfRef.pointer, _id_set$codec.pointer, _$oc.pointer).check();
   }
 
   static final _id_get$inputSource = JsonParser._class.instanceMethodId(
@@ -836,7 +843,8 @@ extension JsonParser$$Methods on JsonParser {
   /// "last effort", i.e. only used if no other mechanism is applicable.
   ///@return Input source this parser was configured with
   jni$_.JObject? get inputSource {
-    return _get$inputSource(reference.pointer, _id_get$inputSource.pointer)
+    final _$$selfRef = reference;
+    return _get$inputSource(_$$selfRef.pointer, _id_get$inputSource.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -863,8 +871,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@param payload Payload to pass
   ///@since 2.8
   set requestPayloadOnError(jni$_.JObject? payload) {
+    final _$$selfRef = reference;
     final _$payload = payload?.reference ?? jni$_.jNullReference;
-    _set$requestPayloadOnError(reference.pointer,
+    _set$requestPayloadOnError(_$$selfRef.pointer,
             _id_set$requestPayloadOnError.pointer, _$payload.pointer)
         .check();
   }
@@ -902,10 +911,11 @@ extension JsonParser$$Methods on JsonParser {
     jni$_.JByteArray? payload,
     jni$_.JString? charset,
   ) {
+    final _$$selfRef = reference;
     final _$payload = payload?.reference ?? jni$_.jNullReference;
     final _$charset = charset?.reference ?? jni$_.jNullReference;
     _setRequestPayloadOnError(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_setRequestPayloadOnError.pointer,
             _$payload.pointer,
             _$charset.pointer)
@@ -936,8 +946,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@param payload Payload to pass
   ///@since 2.8
   set requestPayloadOnError$1(jni$_.JString? payload) {
+    final _$$selfRef = reference;
     final _$payload = payload?.reference ?? jni$_.jNullReference;
-    _set$requestPayloadOnError$1(reference.pointer,
+    _set$requestPayloadOnError$1(_$$selfRef.pointer,
             _id_set$requestPayloadOnError$1.pointer, _$payload.pointer)
         .check();
   }
@@ -971,8 +982,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@param schema Schema to use
   ///@throws UnsupportedOperationException if parser does not support schema
   set schema(jni$_.JObject? schema) {
+    final _$$selfRef = reference;
     final _$schema = schema?.reference ?? jni$_.jNullReference;
-    _set$schema(reference.pointer, _id_set$schema.pointer, _$schema.pointer)
+    _set$schema(_$$selfRef.pointer, _id_set$schema.pointer, _$schema.pointer)
         .check();
   }
 
@@ -1001,7 +1013,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Schema in use by this parser, if any; {@code null} if none
   ///@since 2.1
   jni$_.JObject? get schema {
-    return _get$schema(reference.pointer, _id_get$schema.pointer)
+    final _$$selfRef = reference;
+    return _get$schema(_$$selfRef.pointer, _id_get$schema.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1030,9 +1043,10 @@ extension JsonParser$$Methods on JsonParser {
   core$_.bool canUseSchema(
     jni$_.JObject? schema,
   ) {
+    final _$$selfRef = reference;
     final _$schema = schema?.reference ?? jni$_.jNullReference;
     return _canUseSchema(
-            reference.pointer, _id_canUseSchema.pointer, _$schema.pointer)
+            _$$selfRef.pointer, _id_canUseSchema.pointer, _$schema.pointer)
         .boolean;
   }
 
@@ -1064,8 +1078,9 @@ extension JsonParser$$Methods on JsonParser {
   ///   ObjectCodec is enough
   ///@since 2.1
   core$_.bool requiresCustomCodec() {
+    final _$$selfRef = reference;
     return _requiresCustomCodec(
-            reference.pointer, _id_requiresCustomCodec.pointer)
+            _$$selfRef.pointer, _id_requiresCustomCodec.pointer)
         .boolean;
   }
 
@@ -1100,7 +1115,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return True if this is a non-blocking ("asynchronous") parser
   ///@since 2.9
   core$_.bool canParseAsync() {
-    return _canParseAsync(reference.pointer, _id_canParseAsync.pointer).boolean;
+    final _$$selfRef = reference;
+    return _canParseAsync(_$$selfRef.pointer, _id_canParseAsync.pointer)
+        .boolean;
   }
 
   static final _id_get$nonBlockingInputFeeder =
@@ -1131,8 +1148,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Input feeder to use with non-blocking (async) parsing
   ///@since 2.9
   jni$_.JObject? get nonBlockingInputFeeder {
+    final _$$selfRef = reference;
     return _get$nonBlockingInputFeeder(
-            reference.pointer, _id_get$nonBlockingInputFeeder.pointer)
+            _$$selfRef.pointer, _id_get$nonBlockingInputFeeder.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1161,8 +1179,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Set of read capabilities for content to read via this parser
   ///@since 2.12
   jni$_.JObject? get readCapabilities {
+    final _$$selfRef = reference;
     return _get$readCapabilities(
-            reference.pointer, _id_get$readCapabilities.pointer)
+            _$$selfRef.pointer, _id_get$readCapabilities.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1191,7 +1210,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Version of this generator (derived from version declared for
   ///   {@code jackson-core} jar that contains the class
   jni$_.JObject? version() {
-    return _version(reference.pointer, _id_version.pointer)
+    final _$$selfRef = reference;
+    return _version(_$$selfRef.pointer, _id_version.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1229,7 +1249,8 @@ extension JsonParser$$Methods on JsonParser {
   /// stream or reader it does own them.
   ///@throws IOException if there is either an underlying I/O problem
   void close() {
-    _close(reference.pointer, _id_close.pointer).check();
+    final _$$selfRef = reference;
+    _close(_$$selfRef.pointer, _id_close.pointer).check();
   }
 
   static final _id_get$isClosed = JsonParser._class.instanceMethodId(
@@ -1259,7 +1280,8 @@ extension JsonParser$$Methods on JsonParser {
   /// end of input.
   ///@return {@code True} if this parser instance has been closed
   core$_.bool get isClosed {
-    return _get$isClosed(reference.pointer, _id_get$isClosed.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isClosed(_$$selfRef.pointer, _id_get$isClosed.pointer).boolean;
   }
 
   static final _id_get$parsingContext = JsonParser._class.instanceMethodId(
@@ -1292,8 +1314,9 @@ extension JsonParser$$Methods on JsonParser {
   /// input, if so desired.
   ///@return Stream input context (JsonStreamContext) associated with this parser
   jni$_.JObject? get parsingContext {
+    final _$$selfRef = reference;
     return _get$parsingContext(
-            reference.pointer, _id_get$parsingContext.pointer)
+            _$$selfRef.pointer, _id_get$parsingContext.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1330,7 +1353,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Location of the last processed input unit (byte or character)
   ///@since 2.13
   jni$_.JObject? currentLocation() {
-    return _currentLocation(reference.pointer, _id_currentLocation.pointer)
+    final _$$selfRef = reference;
+    return _currentLocation(_$$selfRef.pointer, _id_currentLocation.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1367,8 +1391,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Starting location of the token parser currently points to
   ///@since 2.13 (will eventually replace \#getTokenLocation)
   jni$_.JObject? currentTokenLocation() {
+    final _$$selfRef = reference;
     return _currentTokenLocation(
-            reference.pointer, _id_currentTokenLocation.pointer)
+            _$$selfRef.pointer, _id_currentTokenLocation.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1396,8 +1421,9 @@ extension JsonParser$$Methods on JsonParser {
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
   jni$_.JObject? get currentLocation$1 {
+    final _$$selfRef = reference;
     return _get$currentLocation$1(
-            reference.pointer, _id_get$currentLocation$1.pointer)
+            _$$selfRef.pointer, _id_get$currentLocation$1.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1425,7 +1451,8 @@ extension JsonParser$$Methods on JsonParser {
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Starting location of the token parser currently points to
   jni$_.JObject? get tokenLocation {
-    return _get$tokenLocation(reference.pointer, _id_get$tokenLocation.pointer)
+    final _$$selfRef = reference;
+    return _get$tokenLocation(_$$selfRef.pointer, _id_get$tokenLocation.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1461,7 +1488,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return "Current value" associated with the current input context (state) of this parser
   ///@since 2.13 (added as replacement for older \#getCurrentValue()
   jni$_.JObject? currentValue() {
-    return _currentValue(reference.pointer, _id_currentValue.pointer)
+    final _$$selfRef = reference;
+    return _currentValue(_$$selfRef.pointer, _id_currentValue.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1492,9 +1520,10 @@ extension JsonParser$$Methods on JsonParser {
   void assignCurrentValue(
     jni$_.JObject? v,
   ) {
+    final _$$selfRef = reference;
     final _$v = v?.reference ?? jni$_.jNullReference;
     _assignCurrentValue(
-            reference.pointer, _id_assignCurrentValue.pointer, _$v.pointer)
+            _$$selfRef.pointer, _id_assignCurrentValue.pointer, _$v.pointer)
         .check();
   }
 
@@ -1522,8 +1551,9 @@ extension JsonParser$$Methods on JsonParser {
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
   jni$_.JObject? get currentValue$1 {
+    final _$$selfRef = reference;
     return _get$currentValue$1(
-            reference.pointer, _id_get$currentValue$1.pointer)
+            _$$selfRef.pointer, _id_get$currentValue$1.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1549,9 +1579,10 @@ extension JsonParser$$Methods on JsonParser {
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@param v Current value to assign for the current input context of this parser
   set currentValue$1(jni$_.JObject? v) {
+    final _$$selfRef = reference;
     final _$v = v?.reference ?? jni$_.jNullReference;
     _set$currentValue$1(
-            reference.pointer, _id_set$currentValue$1.pointer, _$v.pointer)
+            _$$selfRef.pointer, _id_set$currentValue$1.pointer, _$v.pointer)
         .check();
   }
 
@@ -1587,9 +1618,10 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int releaseBuffered(
     jni$_.JObject? out,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
     return _releaseBuffered(
-            reference.pointer, _id_releaseBuffered.pointer, _$out.pointer)
+            _$$selfRef.pointer, _id_releaseBuffered.pointer, _$out.pointer)
         .integer;
   }
 
@@ -1626,9 +1658,10 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int releaseBuffered$1(
     jni$_.JObject? w,
   ) {
+    final _$$selfRef = reference;
     final _$w = w?.reference ?? jni$_.jNullReference;
     return _releaseBuffered$1(
-            reference.pointer, _id_releaseBuffered$1.pointer, _$w.pointer)
+            _$$selfRef.pointer, _id_releaseBuffered$1.pointer, _$w.pointer)
         .integer;
   }
 
@@ -1658,8 +1691,9 @@ extension JsonParser$$Methods on JsonParser {
   JsonParser? enable(
     JsonParser$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _enable(reference.pointer, _id_enable.pointer, _$f.pointer)
+    return _enable(_$$selfRef.pointer, _id_enable.pointer, _$f.pointer)
         .object<JsonParser?>();
   }
 
@@ -1689,8 +1723,9 @@ extension JsonParser$$Methods on JsonParser {
   JsonParser? disable(
     JsonParser$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _disable(reference.pointer, _id_disable.pointer, _$f.pointer)
+    return _disable(_$$selfRef.pointer, _id_disable.pointer, _$f.pointer)
         .object<JsonParser?>();
   }
 
@@ -1723,8 +1758,9 @@ extension JsonParser$$Methods on JsonParser {
     JsonParser$Feature? f,
     core$_.bool state,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _configure(reference.pointer, _id_configure.pointer, _$f.pointer,
+    return _configure(_$$selfRef.pointer, _id_configure.pointer, _$f.pointer,
             state ? 1 : 0)
         .object<JsonParser?>();
   }
@@ -1753,8 +1789,9 @@ extension JsonParser$$Methods on JsonParser {
   core$_.bool isEnabled(
     JsonParser$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _isEnabled(reference.pointer, _id_isEnabled.pointer, _$f.pointer)
+    return _isEnabled(_$$selfRef.pointer, _id_isEnabled.pointer, _$f.pointer)
         .boolean;
   }
 
@@ -1783,8 +1820,10 @@ extension JsonParser$$Methods on JsonParser {
   core$_.bool isEnabled$1(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _isEnabled$1(reference.pointer, _id_isEnabled$1.pointer, _$f.pointer)
+    return _isEnabled$1(
+            _$$selfRef.pointer, _id_isEnabled$1.pointer, _$f.pointer)
         .boolean;
   }
 
@@ -1811,7 +1850,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Bit mask that defines current states of all standard Features.
   ///@since 2.3
   core$_.int get featureMask {
-    return _get$featureMask(reference.pointer, _id_get$featureMask.pointer)
+    final _$$selfRef = reference;
+    return _get$featureMask(_$$selfRef.pointer, _id_get$featureMask.pointer)
         .integer;
   }
 
@@ -1841,7 +1881,8 @@ extension JsonParser$$Methods on JsonParser {
   JsonParser? setFeatureMask(
     core$_.int mask,
   ) {
-    return _setFeatureMask(reference.pointer, _id_setFeatureMask.pointer, mask)
+    final _$$selfRef = reference;
+    return _setFeatureMask(_$$selfRef.pointer, _id_setFeatureMask.pointer, mask)
         .object<JsonParser?>();
   }
 
@@ -1880,8 +1921,9 @@ extension JsonParser$$Methods on JsonParser {
     core$_.int values,
     core$_.int mask,
   ) {
+    final _$$selfRef = reference;
     return _overrideStdFeatures(
-            reference.pointer, _id_overrideStdFeatures.pointer, values, mask)
+            _$$selfRef.pointer, _id_overrideStdFeatures.pointer, values, mask)
         .object<JsonParser?>();
   }
 
@@ -1909,8 +1951,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Bit mask that defines current states of all standard FormatFeatures.
   ///@since 2.6
   core$_.int get formatFeatures {
+    final _$$selfRef = reference;
     return _get$formatFeatures(
-            reference.pointer, _id_get$formatFeatures.pointer)
+            _$$selfRef.pointer, _id_get$formatFeatures.pointer)
         .integer;
   }
 
@@ -1947,8 +1990,9 @@ extension JsonParser$$Methods on JsonParser {
     core$_.int values,
     core$_.int mask,
   ) {
-    return _overrideFormatFeatures(
-            reference.pointer, _id_overrideFormatFeatures.pointer, values, mask)
+    final _$$selfRef = reference;
+    return _overrideFormatFeatures(_$$selfRef.pointer,
+            _id_overrideFormatFeatures.pointer, values, mask)
         .object<JsonParser?>();
   }
 
@@ -1981,7 +2025,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jsontoken$_.JsonToken? nextToken() {
-    return _nextToken(reference.pointer, _id_nextToken.pointer)
+    final _$$selfRef = reference;
+    return _nextToken(_$$selfRef.pointer, _id_nextToken.pointer)
         .object<jsontoken$_.JsonToken?>();
   }
 
@@ -2022,7 +2067,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jsontoken$_.JsonToken? nextValue() {
-    return _nextValue(reference.pointer, _id_nextValue.pointer)
+    final _$$selfRef = reference;
+    return _nextValue(_$$selfRef.pointer, _id_nextValue.pointer)
         .object<jsontoken$_.JsonToken?>();
   }
 
@@ -2062,9 +2108,10 @@ extension JsonParser$$Methods on JsonParser {
   core$_.bool nextFieldName(
     jni$_.JObject? str,
   ) {
+    final _$$selfRef = reference;
     final _$str = str?.reference ?? jni$_.jNullReference;
     return _nextFieldName(
-            reference.pointer, _id_nextFieldName.pointer, _$str.pointer)
+            _$$selfRef.pointer, _id_nextFieldName.pointer, _$str.pointer)
         .boolean;
   }
 
@@ -2097,7 +2144,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.5
   jni$_.JString? nextFieldName$1() {
-    return _nextFieldName$1(reference.pointer, _id_nextFieldName$1.pointer)
+    final _$$selfRef = reference;
+    return _nextFieldName$1(_$$selfRef.pointer, _id_nextFieldName$1.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2135,7 +2183,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JString? nextTextValue() {
-    return _nextTextValue(reference.pointer, _id_nextTextValue.pointer)
+    final _$$selfRef = reference;
+    return _nextTextValue(_$$selfRef.pointer, _id_nextTextValue.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2176,8 +2225,9 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int nextIntValue(
     core$_.int defaultValue,
   ) {
+    final _$$selfRef = reference;
     return _nextIntValue(
-            reference.pointer, _id_nextIntValue.pointer, defaultValue)
+            _$$selfRef.pointer, _id_nextIntValue.pointer, defaultValue)
         .integer;
   }
 
@@ -2218,8 +2268,9 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int nextLongValue(
     core$_.int defaultValue,
   ) {
+    final _$$selfRef = reference;
     return _nextLongValue(
-            reference.pointer, _id_nextLongValue.pointer, defaultValue)
+            _$$selfRef.pointer, _id_nextLongValue.pointer, defaultValue)
         .long;
   }
 
@@ -2260,7 +2311,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JBoolean? nextBooleanValue() {
-    return _nextBooleanValue(reference.pointer, _id_nextBooleanValue.pointer)
+    final _$$selfRef = reference;
+    return _nextBooleanValue(_$$selfRef.pointer, _id_nextBooleanValue.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -2300,7 +2352,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   JsonParser? skipChildren() {
-    return _skipChildren(reference.pointer, _id_skipChildren.pointer)
+    final _$$selfRef = reference;
+    return _skipChildren(_$$selfRef.pointer, _id_skipChildren.pointer)
         .object<JsonParser?>();
   }
 
@@ -2337,7 +2390,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.8
   void finishToken() {
-    _finishToken(reference.pointer, _id_finishToken.pointer).check();
+    final _$$selfRef = reference;
+    _finishToken(_$$selfRef.pointer, _id_finishToken.pointer).check();
   }
 
   static final _id_currentToken = JsonParser._class.instanceMethodId(
@@ -2370,7 +2424,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   if the current token has been explicitly cleared.
   ///@since 2.8
   jsontoken$_.JsonToken? currentToken() {
-    return _currentToken(reference.pointer, _id_currentToken.pointer)
+    final _$$selfRef = reference;
+    return _currentToken(_$$selfRef.pointer, _id_currentToken.pointer)
         .object<jsontoken$_.JsonToken?>();
   }
 
@@ -2403,7 +2458,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@since 2.8
   ///@return {@code int} matching one of constants from JsonTokenId.
   core$_.int currentTokenId() {
-    return _currentTokenId(reference.pointer, _id_currentTokenId.pointer)
+    final _$$selfRef = reference;
+    return _currentTokenId(_$$selfRef.pointer, _id_currentTokenId.pointer)
         .integer;
   }
 
@@ -2432,8 +2488,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Type of the token this parser currently points to,
   ///   if any: null before any tokens have been read, and
   jsontoken$_.JsonToken? get currentToken$1 {
+    final _$$selfRef = reference;
     return _get$currentToken$1(
-            reference.pointer, _id_get$currentToken$1.pointer)
+            _$$selfRef.pointer, _id_get$currentToken$1.pointer)
         .object<jsontoken$_.JsonToken?>();
   }
 
@@ -2460,8 +2517,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return {@code int} matching one of constants from JsonTokenId.
   ///@deprecated Since 2.12 use \#currentTokenId instead
   core$_.int get currentTokenId$1 {
+    final _$$selfRef = reference;
     return _get$currentTokenId$1(
-            reference.pointer, _id_get$currentTokenId$1.pointer)
+            _$$selfRef.pointer, _id_get$currentTokenId$1.pointer)
         .integer;
   }
 
@@ -2493,7 +2551,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   and returned null from \#nextToken, or the token
   ///   has been consumed)
   core$_.bool hasCurrentToken() {
-    return _hasCurrentToken(reference.pointer, _id_hasCurrentToken.pointer)
+    final _$$selfRef = reference;
+    return _hasCurrentToken(_$$selfRef.pointer, _id_hasCurrentToken.pointer)
         .boolean;
   }
 
@@ -2530,7 +2589,8 @@ extension JsonParser$$Methods on JsonParser {
   core$_.bool hasTokenId(
     core$_.int id,
   ) {
-    return _hasTokenId(reference.pointer, _id_hasTokenId.pointer, id).boolean;
+    final _$$selfRef = reference;
+    return _hasTokenId(_$$selfRef.pointer, _id_hasTokenId.pointer, id).boolean;
   }
 
   static final _id_hasToken = JsonParser._class.instanceMethodId(
@@ -2566,8 +2626,9 @@ extension JsonParser$$Methods on JsonParser {
   core$_.bool hasToken(
     jsontoken$_.JsonToken? t,
   ) {
+    final _$$selfRef = reference;
     final _$t = t?.reference ?? jni$_.jNullReference;
-    return _hasToken(reference.pointer, _id_hasToken.pointer, _$t.pointer)
+    return _hasToken(_$$selfRef.pointer, _id_hasToken.pointer, _$t.pointer)
         .boolean;
   }
 
@@ -2609,8 +2670,9 @@ extension JsonParser$$Methods on JsonParser {
   ///   start-array marker (such JsonToken\#START_ARRAY);
   ///   {@code false} if not
   core$_.bool get isExpectedStartArrayToken {
+    final _$$selfRef = reference;
     return _get$isExpectedStartArrayToken(
-            reference.pointer, _id_get$isExpectedStartArrayToken.pointer)
+            _$$selfRef.pointer, _id_get$isExpectedStartArrayToken.pointer)
         .boolean;
   }
 
@@ -2642,8 +2704,9 @@ extension JsonParser$$Methods on JsonParser {
   ///   {@code false} if not
   ///@since 2.5
   core$_.bool get isExpectedStartObjectToken {
+    final _$$selfRef = reference;
     return _get$isExpectedStartObjectToken(
-            reference.pointer, _id_get$isExpectedStartObjectToken.pointer)
+            _$$selfRef.pointer, _id_get$isExpectedStartObjectToken.pointer)
         .boolean;
   }
 
@@ -2678,8 +2741,9 @@ extension JsonParser$$Methods on JsonParser {
   ///   {@code false} if not
   ///@since 2.12
   core$_.bool get isExpectedNumberIntToken {
+    final _$$selfRef = reference;
     return _get$isExpectedNumberIntToken(
-            reference.pointer, _id_get$isExpectedNumberIntToken.pointer)
+            _$$selfRef.pointer, _id_get$isExpectedNumberIntToken.pointer)
         .boolean;
   }
 
@@ -2715,7 +2779,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.9
   core$_.bool get isNaN {
-    return _get$isNaN(reference.pointer, _id_get$isNaN.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isNaN(_$$selfRef.pointer, _id_get$isNaN.pointer).boolean;
   }
 
   static final _id_clearCurrentToken = JsonParser._class.instanceMethodId(
@@ -2748,7 +2813,8 @@ extension JsonParser$$Methods on JsonParser {
   /// it has to be able to consume last token used for binding (so that
   /// it will not be used again).
   void clearCurrentToken() {
-    _clearCurrentToken(reference.pointer, _id_clearCurrentToken.pointer)
+    final _$$selfRef = reference;
+    _clearCurrentToken(_$$selfRef.pointer, _id_clearCurrentToken.pointer)
         .check();
   }
 
@@ -2779,8 +2845,9 @@ extension JsonParser$$Methods on JsonParser {
   /// or if parser has been closed.
   ///@return Last cleared token, if any; {@code null} otherwise
   jsontoken$_.JsonToken? get lastClearedToken {
+    final _$$selfRef = reference;
     return _get$lastClearedToken(
-            reference.pointer, _id_get$lastClearedToken.pointer)
+            _$$selfRef.pointer, _id_get$lastClearedToken.pointer)
         .object<jsontoken$_.JsonToken?>();
   }
 
@@ -2813,9 +2880,10 @@ extension JsonParser$$Methods on JsonParser {
   void overrideCurrentName(
     jni$_.JString? name,
   ) {
+    final _$$selfRef = reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
     _overrideCurrentName(
-            reference.pointer, _id_overrideCurrentName.pointer, _$name.pointer)
+            _$$selfRef.pointer, _id_overrideCurrentName.pointer, _$name.pointer)
         .check();
   }
 
@@ -2844,7 +2912,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JString? get currentName {
-    return _get$currentName(reference.pointer, _id_get$currentName.pointer)
+    final _$$selfRef = reference;
+    return _get$currentName(_$$selfRef.pointer, _id_get$currentName.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2878,7 +2947,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.10
   jni$_.JString? currentName$1() {
-    return _currentName$1(reference.pointer, _id_currentName$1.pointer)
+    final _$$selfRef = reference;
+    return _currentName$1(_$$selfRef.pointer, _id_currentName$1.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2911,7 +2981,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JString? get text {
-    return _get$text(reference.pointer, _id_get$text.pointer)
+    final _$$selfRef = reference;
+    return _get$text(_$$selfRef.pointer, _id_get$text.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2951,8 +3022,9 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int getText(
     jni$_.JObject? writer,
   ) {
+    final _$$selfRef = reference;
     final _$writer = writer?.reference ?? jni$_.jNullReference;
-    return _getText(reference.pointer, _id_getText.pointer, _$writer.pointer)
+    return _getText(_$$selfRef.pointer, _id_getText.pointer, _$writer.pointer)
         .integer;
   }
 
@@ -3004,8 +3076,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JCharArray? get textCharacters {
+    final _$$selfRef = reference;
     return _get$textCharacters(
-            reference.pointer, _id_get$textCharacters.pointer)
+            _$$selfRef.pointer, _id_get$textCharacters.pointer)
         .object<jni$_.JCharArray?>();
   }
 
@@ -3036,7 +3109,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get textLength {
-    return _get$textLength(reference.pointer, _id_get$textLength.pointer)
+    final _$$selfRef = reference;
+    return _get$textLength(_$$selfRef.pointer, _id_get$textLength.pointer)
         .integer;
   }
 
@@ -3067,7 +3141,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get textOffset {
-    return _get$textOffset(reference.pointer, _id_get$textOffset.pointer)
+    final _$$selfRef = reference;
+    return _get$textOffset(_$$selfRef.pointer, _id_get$textOffset.pointer)
         .integer;
   }
 
@@ -3105,7 +3180,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   be efficiently returned via \#getTextCharacters; false
   ///   means that it may or may not exist
   core$_.bool hasTextCharacters() {
-    return _hasTextCharacters(reference.pointer, _id_hasTextCharacters.pointer)
+    final _$$selfRef = reference;
+    return _hasTextCharacters(_$$selfRef.pointer, _id_hasTextCharacters.pointer)
         .boolean;
   }
 
@@ -3140,7 +3216,8 @@ extension JsonParser$$Methods on JsonParser {
   ///    (invalid format for numbers); plain IOException if underlying
   ///    content read fails (possible if values are extracted lazily)
   jni$_.JNumber? get numberValue {
-    return _get$numberValue(reference.pointer, _id_get$numberValue.pointer)
+    final _$$selfRef = reference;
+    return _get$numberValue(_$$selfRef.pointer, _id_get$numberValue.pointer)
         .object<jni$_.JNumber?>();
   }
 
@@ -3179,8 +3256,9 @@ extension JsonParser$$Methods on JsonParser {
   ///    content read fails (possible if values are extracted lazily)
   ///@since 2.12
   jni$_.JNumber? get numberValueExact {
+    final _$$selfRef = reference;
     return _get$numberValueExact(
-            reference.pointer, _id_get$numberValueExact.pointer)
+            _$$selfRef.pointer, _id_get$numberValueExact.pointer)
         .object<jni$_.JNumber?>();
   }
 
@@ -3212,7 +3290,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   JsonParser$NumberType? get numberType {
-    return _get$numberType(reference.pointer, _id_get$numberType.pointer)
+    final _$$selfRef = reference;
+    return _get$numberType(_$$selfRef.pointer, _id_get$numberType.pointer)
         .object<JsonParser$NumberType?>();
   }
 
@@ -3257,7 +3336,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get byteValue {
-    return _get$byteValue(reference.pointer, _id_get$byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _get$byteValue(_$$selfRef.pointer, _id_get$byteValue.pointer).byte;
   }
 
   static final _id_get$shortValue = JsonParser._class.instanceMethodId(
@@ -3295,7 +3375,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get shortValue {
-    return _get$shortValue(reference.pointer, _id_get$shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _get$shortValue(_$$selfRef.pointer, _id_get$shortValue.pointer)
+        .short;
   }
 
   static final _id_get$intValue = JsonParser._class.instanceMethodId(
@@ -3333,7 +3415,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get intValue {
-    return _get$intValue(reference.pointer, _id_get$intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$intValue(_$$selfRef.pointer, _id_get$intValue.pointer).integer;
   }
 
   static final _id_get$longValue = JsonParser._class.instanceMethodId(
@@ -3371,7 +3454,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get longValue {
-    return _get$longValue(reference.pointer, _id_get$longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _get$longValue(_$$selfRef.pointer, _id_get$longValue.pointer).long;
   }
 
   static final _id_get$bigIntegerValue = JsonParser._class.instanceMethodId(
@@ -3406,8 +3490,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JObject? get bigIntegerValue {
+    final _$$selfRef = reference;
     return _get$bigIntegerValue(
-            reference.pointer, _id_get$bigIntegerValue.pointer)
+            _$$selfRef.pointer, _id_get$bigIntegerValue.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -3446,7 +3531,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.double get floatValue {
-    return _get$floatValue(reference.pointer, _id_get$floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _get$floatValue(_$$selfRef.pointer, _id_get$floatValue.pointer)
+        .float;
   }
 
   static final _id_get$doubleValue = JsonParser._class.instanceMethodId(
@@ -3484,7 +3571,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.double get doubleValue {
-    return _get$doubleValue(reference.pointer, _id_get$doubleValue.pointer)
+    final _$$selfRef = reference;
+    return _get$doubleValue(_$$selfRef.pointer, _id_get$doubleValue.pointer)
         .doubleFloat;
   }
 
@@ -3517,7 +3605,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JObject? get decimalValue {
-    return _get$decimalValue(reference.pointer, _id_get$decimalValue.pointer)
+    final _$$selfRef = reference;
+    return _get$decimalValue(_$$selfRef.pointer, _id_get$decimalValue.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -3552,7 +3641,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.bool get booleanValue {
-    return _get$booleanValue(reference.pointer, _id_get$booleanValue.pointer)
+    final _$$selfRef = reference;
+    return _get$booleanValue(_$$selfRef.pointer, _id_get$booleanValue.pointer)
         .boolean;
   }
 
@@ -3591,8 +3681,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JObject? get embeddedObject {
+    final _$$selfRef = reference;
     return _get$embeddedObject(
-            reference.pointer, _id_get$embeddedObject.pointer)
+            _$$selfRef.pointer, _id_get$embeddedObject.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -3638,9 +3729,10 @@ extension JsonParser$$Methods on JsonParser {
   jni$_.JByteArray? getBinaryValue(
     jni$_.JObject? bv,
   ) {
+    final _$$selfRef = reference;
     final _$bv = bv?.reference ?? jni$_.jNullReference;
     return _getBinaryValue(
-            reference.pointer, _id_getBinaryValue.pointer, _$bv.pointer)
+            _$$selfRef.pointer, _id_getBinaryValue.pointer, _$bv.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -3671,7 +3763,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni$_.JByteArray? get binaryValue {
-    return _get$binaryValue(reference.pointer, _id_get$binaryValue.pointer)
+    final _$$selfRef = reference;
+    return _get$binaryValue(_$$selfRef.pointer, _id_get$binaryValue.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -3707,9 +3800,10 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int readBinaryValue(
     jni$_.JObject? out,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
     return _readBinaryValue(
-            reference.pointer, _id_readBinaryValue.pointer, _$out.pointer)
+            _$$selfRef.pointer, _id_readBinaryValue.pointer, _$out.pointer)
         .integer;
   }
 
@@ -3749,9 +3843,10 @@ extension JsonParser$$Methods on JsonParser {
     jni$_.JObject? bv,
     jni$_.JObject? out,
   ) {
+    final _$$selfRef = reference;
     final _$bv = bv?.reference ?? jni$_.jNullReference;
     final _$out = out?.reference ?? jni$_.jNullReference;
-    return _readBinaryValue$1(reference.pointer, _id_readBinaryValue$1.pointer,
+    return _readBinaryValue$1(_$$selfRef.pointer, _id_readBinaryValue$1.pointer,
             _$bv.pointer, _$out.pointer)
         .integer;
   }
@@ -3789,7 +3884,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get valueAsInt {
-    return _get$valueAsInt(reference.pointer, _id_get$valueAsInt.pointer)
+    final _$$selfRef = reference;
+    return _get$valueAsInt(_$$selfRef.pointer, _id_get$valueAsInt.pointer)
         .integer;
   }
 
@@ -3826,7 +3922,8 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int getValueAsInt(
     core$_.int def,
   ) {
-    return _getValueAsInt(reference.pointer, _id_getValueAsInt.pointer, def)
+    final _$$selfRef = reference;
+    return _getValueAsInt(_$$selfRef.pointer, _id_getValueAsInt.pointer, def)
         .integer;
   }
 
@@ -3863,7 +3960,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.int get valueAsLong {
-    return _get$valueAsLong(reference.pointer, _id_get$valueAsLong.pointer)
+    final _$$selfRef = reference;
+    return _get$valueAsLong(_$$selfRef.pointer, _id_get$valueAsLong.pointer)
         .long;
   }
 
@@ -3900,7 +3998,8 @@ extension JsonParser$$Methods on JsonParser {
   core$_.int getValueAsLong(
     core$_.int def,
   ) {
-    return _getValueAsLong(reference.pointer, _id_getValueAsLong.pointer, def)
+    final _$$selfRef = reference;
+    return _getValueAsLong(_$$selfRef.pointer, _id_getValueAsLong.pointer, def)
         .long;
   }
 
@@ -3937,7 +4036,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.double get valueAsDouble {
-    return _get$valueAsDouble(reference.pointer, _id_get$valueAsDouble.pointer)
+    final _$$selfRef = reference;
+    return _get$valueAsDouble(_$$selfRef.pointer, _id_get$valueAsDouble.pointer)
         .doubleFloat;
   }
 
@@ -3975,8 +4075,9 @@ extension JsonParser$$Methods on JsonParser {
   core$_.double getValueAsDouble(
     core$_.double def,
   ) {
+    final _$$selfRef = reference;
     return _getValueAsDouble(
-            reference.pointer, _id_getValueAsDouble.pointer, def)
+            _$$selfRef.pointer, _id_getValueAsDouble.pointer, def)
         .doubleFloat;
   }
 
@@ -4013,8 +4114,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   core$_.bool get valueAsBoolean {
+    final _$$selfRef = reference;
     return _get$valueAsBoolean(
-            reference.pointer, _id_get$valueAsBoolean.pointer)
+            _$$selfRef.pointer, _id_get$valueAsBoolean.pointer)
         .boolean;
   }
 
@@ -4052,8 +4154,9 @@ extension JsonParser$$Methods on JsonParser {
   core$_.bool getValueAsBoolean(
     core$_.bool def,
   ) {
+    final _$$selfRef = reference;
     return _getValueAsBoolean(
-            reference.pointer, _id_getValueAsBoolean.pointer, def ? 1 : 0)
+            _$$selfRef.pointer, _id_getValueAsBoolean.pointer, def ? 1 : 0)
         .boolean;
   }
 
@@ -4089,7 +4192,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.1
   jni$_.JString? get valueAsString {
-    return _get$valueAsString(reference.pointer, _id_get$valueAsString.pointer)
+    final _$$selfRef = reference;
+    return _get$valueAsString(_$$selfRef.pointer, _id_get$valueAsString.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -4127,9 +4231,10 @@ extension JsonParser$$Methods on JsonParser {
   jni$_.JString? getValueAsString(
     jni$_.JString? def,
   ) {
+    final _$$selfRef = reference;
     final _$def = def?.reference ?? jni$_.jNullReference;
     return _getValueAsString(
-            reference.pointer, _id_getValueAsString.pointer, _$def.pointer)
+            _$$selfRef.pointer, _id_getValueAsString.pointer, _$def.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -4164,7 +4269,8 @@ extension JsonParser$$Methods on JsonParser {
   ///    {@code false} if not
   ///@since 2.3
   core$_.bool canReadObjectId() {
-    return _canReadObjectId(reference.pointer, _id_canReadObjectId.pointer)
+    final _$$selfRef = reference;
+    return _canReadObjectId(_$$selfRef.pointer, _id_canReadObjectId.pointer)
         .boolean;
   }
 
@@ -4199,7 +4305,9 @@ extension JsonParser$$Methods on JsonParser {
   ///    {@code false} if not
   ///@since 2.3
   core$_.bool canReadTypeId() {
-    return _canReadTypeId(reference.pointer, _id_canReadTypeId.pointer).boolean;
+    final _$$selfRef = reference;
+    return _canReadTypeId(_$$selfRef.pointer, _id_canReadTypeId.pointer)
+        .boolean;
   }
 
   static final _id_get$objectId = JsonParser._class.instanceMethodId(
@@ -4236,7 +4344,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.3
   jni$_.JObject? get objectId {
-    return _get$objectId(reference.pointer, _id_get$objectId.pointer)
+    final _$$selfRef = reference;
+    return _get$objectId(_$$selfRef.pointer, _id_get$objectId.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -4274,7 +4383,8 @@ extension JsonParser$$Methods on JsonParser {
   ///   JsonParseException for decoding problems
   ///@since 2.3
   jni$_.JObject? get typeId {
-    return _get$typeId(reference.pointer, _id_get$typeId.pointer)
+    final _$$selfRef = reference;
+    return _get$typeId(_$$selfRef.pointer, _id_get$typeId.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -4325,9 +4435,10 @@ extension JsonParser$$Methods on JsonParser {
   $T? readValueAs<$T extends jni$_.JObject?>(
     jni$_.JObject? valueType,
   ) {
+    final _$$selfRef = reference;
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValueAs(
-            reference.pointer, _id_readValueAs.pointer, _$valueType.pointer)
+            _$$selfRef.pointer, _id_readValueAs.pointer, _$valueType.pointer)
         .object<$T?>();
   }
 
@@ -4375,8 +4486,9 @@ extension JsonParser$$Methods on JsonParser {
   $T? readValueAs$1<$T extends jni$_.JObject?>(
     jni$_.JObject? valueTypeRef,
   ) {
+    final _$$selfRef = reference;
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
-    return _readValueAs$1(reference.pointer, _id_readValueAs$1.pointer,
+    return _readValueAs$1(_$$selfRef.pointer, _id_readValueAs$1.pointer,
             _$valueTypeRef.pointer)
         .object<$T?>();
   }
@@ -4411,9 +4523,10 @@ extension JsonParser$$Methods on JsonParser {
   jni$_.JIterator<$T?>? readValuesAs<$T extends jni$_.JObject?>(
     jni$_.JObject? valueType,
   ) {
+    final _$$selfRef = reference;
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValuesAs(
-            reference.pointer, _id_readValuesAs.pointer, _$valueType.pointer)
+            _$$selfRef.pointer, _id_readValuesAs.pointer, _$valueType.pointer)
         .object<jni$_.JIterator<$T?>?>();
   }
 
@@ -4447,8 +4560,9 @@ extension JsonParser$$Methods on JsonParser {
   jni$_.JIterator<$T?>? readValuesAs$1<$T extends jni$_.JObject?>(
     jni$_.JObject? valueTypeRef,
   ) {
+    final _$$selfRef = reference;
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
-    return _readValuesAs$1(reference.pointer, _id_readValuesAs$1.pointer,
+    return _readValuesAs$1(_$$selfRef.pointer, _id_readValuesAs$1.pointer,
             _$valueTypeRef.pointer)
         .object<jni$_.JIterator<$T?>?>();
   }
@@ -4483,7 +4597,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   $T? readValueAsTree<$T extends jni$_.JObject?>() {
-    return _readValueAsTree(reference.pointer, _id_readValueAsTree.pointer)
+    final _$$selfRef = reference;
+    return _readValueAsTree(_$$selfRef.pointer, _id_readValueAsTree.pointer)
         .object<$T?>();
   }
 }
