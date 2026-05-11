@@ -179,6 +179,16 @@ class Writer {
       final path = lib.importPath(generateForPackageObjectiveC);
       result.write("import '$path' as ${context.libs.prefix(lib)};\n");
     }
+
+    if (libs.contains(objcPkgImport)) {
+      final objcPrefix = context.libs.prefix(objcPkgImport);
+      result.write('''
+
+// ignore: unused_element
+const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck($objcMajorVersion, $objcMinorVersion);
+''');
+    }
+
     result.write(s);
 
     // Warn about Enum usage in API surface.

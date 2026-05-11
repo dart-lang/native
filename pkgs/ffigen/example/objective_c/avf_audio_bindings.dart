@@ -10,6 +10,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// WARNING: AVAudioFormat is a stub. To generate bindings for this class, include
 /// AVAudioFormat in your config's objc-interfaces list.
 ///
