@@ -43,12 +43,7 @@ void main(List<String> args) async {
     } else {
       archFlags = ['-target', target];
     }
-    final cFlags = <String>[
-      '-isysroot',
-      sysroot,
-      ...archFlags,
-      minVersion,
-    ];
+    final cFlags = <String>['-isysroot', sysroot, ...archFlags, minVersion];
 
     final builder = await CustomBuilder.create(
       input,
@@ -57,10 +52,12 @@ void main(List<String> args) async {
 
     // Build native_test.c.
     final nativeTestAsset = 'native_test';
-    final nativeTestLib =
-        input.outputDirectory.resolve('$nativeTestAsset.dylib');
-    final nativeTestSource =
-        input.packageRoot.resolve('test/native_test/native_test.c');
+    final nativeTestLib = input.outputDirectory.resolve(
+      '$nativeTestAsset.dylib',
+    );
+    final nativeTestSource = input.packageRoot.resolve(
+      'test/native_test/native_test.c',
+    );
     final nativeTestObj = await builder.buildObject(nativeTestSource, cFlags);
     await builder.linkLib([nativeTestObj], nativeTestLib, cFlags);
 
@@ -126,11 +123,11 @@ void main(List<String> args) async {
 
       const objcAsset = 'objc_test';
       final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
-      await builder.linkLib(
-        objFiles,
-        objcLib,
-        [...cFlags, '-framework', 'Foundation'],
-      );
+      await builder.linkLib(objFiles, objcLib, [
+        ...cFlags,
+        '-framework',
+        'Foundation',
+      ]);
 
       output.dependencies.addAll([...mFiles, ...hFiles, swiftFile, dartApiDl]);
 
