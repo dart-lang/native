@@ -42,13 +42,17 @@ void main() {
       return counter;
     }
 
-    test('Objects passed through static functions have correct ref counts', () {
-      using((Arena arena) {
-        final (counter) = staticFuncOfObjectRefCountTest(arena);
-        doGC();
-        expect(counter.value, 0);
-      });
-    }, skip: !canDoGC);
+    test(
+      'Objects passed through static functions have correct ref counts',
+      () {
+        using((Arena arena) {
+          final (counter) = staticFuncOfObjectRefCountTest(arena);
+          doGC();
+          expect(counter.value, 0);
+        });
+      },
+      skip: !canDoGC,
+    );
 
     Pointer<Int32> staticFuncOfNullableObjectRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
@@ -93,11 +97,15 @@ void main() {
       return block.ref.pointer;
     }
 
-    test('Blocks passed through static functions have correct ref counts', () {
-      final rawBlock = staticFuncOfBlockRefCountTest();
-      doGC();
-      expect(blockRetainCount(rawBlock), 0);
-    }, skip: !canDoGC);
+    test(
+      'Blocks passed through static functions have correct ref counts',
+      () {
+        final rawBlock = staticFuncOfBlockRefCountTest();
+        doGC();
+        expect(blockRetainCount(rawBlock), 0);
+      },
+      skip: !canDoGC,
+    );
 
     Pointer<Int32> staticFuncReturnsRetainedRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();

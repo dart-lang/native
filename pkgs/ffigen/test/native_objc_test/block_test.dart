@@ -650,14 +650,18 @@ void main() {
       );
     }
 
-    test('Calling a native block block from Dart has correct ref counting', () {
-      final (inputBlock, blockBlock, outputBlock) =
-          nativeBlockBlockDartCallRefCountTest();
-      doGC();
-      expect(blockRetainCount(inputBlock), 0);
-      expect(blockRetainCount(blockBlock), 0);
-      expect(blockRetainCount(outputBlock), 0);
-    }, skip: !canDoGC);
+    test(
+      'Calling a native block block from Dart has correct ref counting',
+      () {
+        final (inputBlock, blockBlock, outputBlock) =
+            nativeBlockBlockDartCallRefCountTest();
+        doGC();
+        expect(blockRetainCount(inputBlock), 0);
+        expect(blockRetainCount(blockBlock), 0);
+        expect(blockRetainCount(outputBlock), 0);
+      },
+      skip: !canDoGC,
+    );
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
     nativeBlockBlockObjCCallRefCountTest() {
@@ -671,12 +675,17 @@ void main() {
       return (blockBlock.ref.pointer, outputBlock.ref.pointer);
     }
 
-    test('Calling a native block block from ObjC has correct ref counting', () {
-      final (blockBlock, outputBlock) = nativeBlockBlockObjCCallRefCountTest();
-      doGC();
-      expect(blockRetainCount(blockBlock), 0);
-      expect(blockRetainCount(outputBlock), 0);
-    }, skip: !canDoGC);
+    test(
+      'Calling a native block block from ObjC has correct ref counting',
+      () {
+        final (blockBlock, outputBlock) =
+            nativeBlockBlockObjCCallRefCountTest();
+        doGC();
+        expect(blockRetainCount(blockBlock), 0);
+        expect(blockRetainCount(outputBlock), 0);
+      },
+      skip: !canDoGC,
+    );
 
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
       final pool = objc_autoreleasePoolPush();
@@ -698,14 +707,18 @@ void main() {
       return (inputCounter, outputCounter);
     }
 
-    test('Objects received and returned by blocks have correct ref counts', () {
-      using((Arena arena) {
-        final (inputCounter, outputCounter) = objectBlockRefCountTest(arena);
-        doGC();
-        expect(inputCounter.value, 0);
-        expect(outputCounter.value, 0);
-      });
-    }, skip: !canDoGC);
+    test(
+      'Objects received and returned by blocks have correct ref counts',
+      () {
+        using((Arena arena) {
+          final (inputCounter, outputCounter) = objectBlockRefCountTest(arena);
+          doGC();
+          expect(inputCounter.value, 0);
+          expect(outputCounter.value, 0);
+        });
+      },
+      skip: !canDoGC,
+    );
 
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
       Allocator alloc,
