@@ -63,9 +63,9 @@ extension MethodFilteringTestInterface$Methods on MethodFilteringTestInterface {
     int arg, {
     required int with$,
   }) {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_3hao97(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_includedInstanceMethod_with_,
       arg,
       with$,
@@ -79,8 +79,8 @@ extension MethodFilteringTestInterface$Methods on MethodFilteringTestInterface {
 
   /// includedProperty
   objc.NSObject get includedProperty {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_includedProperty);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_includedProperty);
     return objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -111,9 +111,9 @@ extension type MethodFilteringTestProtocol._(objc.ObjCProtocol object$)
 extension MethodFilteringTestProtocol$Methods on MethodFilteringTestProtocol {
   /// includedProtocolMethod
   MethodFilteringTestProtocol includedProtocolMethod() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_includedProtocolMethod,
     );
     return MethodFilteringTestProtocol.fromPointer(
@@ -250,8 +250,8 @@ abstract final class ObjCBlock_instancetype_ffiVoid {
         ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
       >(
         objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
-          final _$$ = fn(arg0).ref;
-          return _$$.retainAndAutorelease();
+          final _$$ref = fn(arg0).ref;
+          return _$$ref.retainAndAutorelease();
         }, keepIsolateAlive),
         retain: false,
         release: true,

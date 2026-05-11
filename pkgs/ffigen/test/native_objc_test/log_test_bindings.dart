@@ -75,13 +75,16 @@ extension type LogSpamBaseClass._(objc.ObjCObject object$)
 extension LogSpamBaseClass$Methods on LogSpamBaseClass {
   /// init
   LogSpamBaseClass init() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'LogSpamBaseClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
     return LogSpamBaseClass.fromPointer($ret, retain: false, release: true);
   }
 }
@@ -155,14 +158,14 @@ extension type LogSpamChildClass._(objc.ObjCObject object$)
 extension LogSpamChildClass$Methods on LogSpamChildClass {
   /// init
   LogSpamChildClass init() {
-    final _$$$1 = object$.ref;
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'LogSpamChildClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$$1.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return LogSpamChildClass.fromPointer($ret, retain: false, release: true);

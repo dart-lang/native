@@ -234,7 +234,9 @@ ${generateInstanceMethodBindings(w, this)}
         ? ' ?? ${context.libs.prefix(ffiImport)}.nullptr'
         : '';
     final refExpr = '$value${dot}ref';
-    final refName = localVariables.addVariable(refExpr);
+    // We store object.ref in a local variable to work around a limitation of
+    // Finalizable. See https://dartbug.com/63348 for context.
+    final refName = localVariables.addVariable('ref', refExpr);
     final method = objCRetain
         ? (objCAutorelease
               ? 'retainAndAutorelease()'

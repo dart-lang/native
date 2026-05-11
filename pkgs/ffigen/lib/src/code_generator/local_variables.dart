@@ -12,8 +12,8 @@ class LocalVariables {
   LocalVariables(this.scope);
 
   /// Adds a new local variable with the given [value] and returns its name.
-  String addVariable(String value) {
-    final name = scope.addPrivate('_\$\$');
+  String addVariable(String nameHint, String value) {
+    final name = scope.addPrivate('_\$\$$nameHint');
     _declarations.add('final $name = $value;');
     return name;
   }

@@ -29,8 +29,8 @@ set globalBlock(objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>? value) {
           retain: false,
           release: true,
         ).ref.release();
-  final _$$ = value?.ref;
-  _globalBlock = _$$?.retainAndReturnPointer() ?? ffi.nullptr;
+  final _$$ref = value?.ref;
+  _globalBlock = _$$ref?.retainAndReturnPointer() ?? ffi.nullptr;
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'globalObject')
@@ -48,8 +48,8 @@ set globalObject(objc.NSObject? value) {
           retain: false,
           release: true,
         ).ref.release();
-  final _$$ = value?.ref;
-  _globalObject = _$$?.retainAndReturnPointer() ?? ffi.nullptr;
+  final _$$ref = value?.ref;
+  _globalObject = _$$ref?.retainAndReturnPointer() ?? ffi.nullptr;
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'globalString')
@@ -64,8 +64,8 @@ set globalString(objc.NSString value) {
     retain: false,
     release: true,
   ).ref.release();
-  final _$$ = value.ref;
-  _globalString = _$$.retainAndReturnPointer();
+  final _$$ref = value.ref;
+  _globalString = _$$ref.retainAndReturnPointer();
 }
 
 /// Construction methods for `objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>`.

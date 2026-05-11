@@ -66,19 +66,19 @@ extension type BlockInheritTestBase._(objc.ObjCObject object$)
 extension BlockInheritTestBase$Methods on BlockInheritTestBase {
   /// acceptAnimal:
   bool acceptAnimal(Platypus platypus) {
-    final _$$ = object$.ref;
-    final _$$$1 = platypus.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = platypus.ref;
     return _objc_msgSend_19nvye5(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_acceptAnimal_,
-      _$$$1.pointer,
+      _$$ref$1.pointer,
     );
   }
 
   /// getAccepter
   DartAcceptPlatypus getAccepter() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_uwvaik(_$$.pointer, _sel_getAccepter);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_getAccepter);
     return ObjCBlock_bool_Platypus.fromPointer(
       $ret,
       retain: true,
@@ -88,49 +88,52 @@ extension BlockInheritTestBase$Methods on BlockInheritTestBase {
 
   /// getAnimal
   Mammal getAnimal() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_getAnimal);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getAnimal);
     return Mammal.fromPointer($ret, retain: true, release: true);
   }
 
   /// getReturner
   DartReturnMammal getReturner() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_uwvaik(_$$.pointer, _sel_getReturner);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_getReturner);
     return ObjCBlock_Mammal.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
   BlockInheritTestBase init() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'BlockInheritTestBase.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
     return BlockInheritTestBase.fromPointer($ret, retain: false, release: true);
   }
 
   /// invokeAccepter:
   bool invokeAccepter(DartAcceptMammal accepter) {
-    final _$$ = object$.ref;
-    final _$$$1 = accepter.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = accepter.ref;
     return _objc_msgSend_z0nr1o(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_invokeAccepter_,
-      _$$$1.pointer,
+      _$$ref$1.pointer,
     );
   }
 
   /// invokeReturner:
   Mammal invokeReturner(DartReturnPlatypus returner) {
-    final _$$ = object$.ref;
-    final _$$$1 = returner.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = returner.ref;
     final $ret = _objc_msgSend_nnxkei(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_invokeReturner_,
-      _$$$1.pointer,
+      _$$ref$1.pointer,
     );
     return Mammal.fromPointer($ret, retain: true, release: true);
   }
@@ -206,46 +209,46 @@ extension type BlockInheritTestChild._(objc.ObjCObject object$)
 extension BlockInheritTestChild$Methods on BlockInheritTestChild {
   /// acceptAnimal:
   bool acceptAnimal(Mammal mammal) {
-    final _$$ = object$.ref;
-    final _$$$1 = mammal.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = mammal.ref;
     return _objc_msgSend_19nvye5(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_acceptAnimal_,
-      _$$$1.pointer,
+      _$$ref$1.pointer,
     );
   }
 
   /// getAccepter
   DartAcceptMammal getAccepter() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_uwvaik(_$$.pointer, _sel_getAccepter);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_getAccepter);
     return ObjCBlock_bool_Mammal.fromPointer($ret, retain: true, release: true);
   }
 
   /// getAnimal
   Platypus getAnimal() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_getAnimal);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getAnimal);
     return Platypus.fromPointer($ret, retain: true, release: true);
   }
 
   /// getReturner
   DartReturnPlatypus getReturner() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_uwvaik(_$$.pointer, _sel_getReturner);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_getReturner);
     return ObjCBlock_Platypus.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
   BlockInheritTestChild init() {
-    final _$$$1 = object$.ref;
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'BlockInheritTestChild.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$$1.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return BlockInheritTestChild.fromPointer(
@@ -257,23 +260,23 @@ extension BlockInheritTestChild$Methods on BlockInheritTestChild {
 
   /// invokeAccepter:
   bool invokeAccepter(DartAcceptPlatypus accepter) {
-    final _$$ = object$.ref;
-    final _$$$1 = accepter.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = accepter.ref;
     return _objc_msgSend_z0nr1o(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_invokeAccepter_,
-      _$$$1.pointer,
+      _$$ref$1.pointer,
     );
   }
 
   /// invokeReturner:
   Mammal invokeReturner(DartReturnMammal returner) {
-    final _$$ = object$.ref;
-    final _$$$1 = returner.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = returner.ref;
     final $ret = _objc_msgSend_nnxkei(
-      _$$.pointer,
+      _$$ref.pointer,
       _sel_invokeReturner_,
-      _$$$1.pointer,
+      _$$ref$1.pointer,
     );
     return Mammal.fromPointer($ret, retain: true, release: true);
   }
@@ -334,14 +337,14 @@ extension type Mammal._(objc.ObjCObject object$)
 extension Mammal$Methods on Mammal {
   /// init
   Mammal init() {
-    final _$$$2 = object$.ref;
+    final _$$ref$2 = object$.ref;
     objc.checkOsVersionInternal(
       'Mammal.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$$2.retainAndReturnPointer(),
+      _$$ref$2.retainAndReturnPointer(),
       _sel_init,
     );
     return Mammal.fromPointer($ret, retain: false, release: true);
@@ -349,8 +352,8 @@ extension Mammal$Methods on Mammal {
 
   /// laysEggs
   bool laysEggs() {
-    final _$$ = object$.ref;
-    return _objc_msgSend_91o635(_$$.pointer, _sel_laysEggs);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_laysEggs);
   }
 }
 
@@ -394,8 +397,8 @@ abstract final class ObjCBlock_Mammal {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<Mammal Function()>(
     objc.newClosureBlock(_closureCallable, () {
-      final _$$ = fn().ref;
-      return _$$.retainAndAutorelease();
+      final _$$ref = fn().ref;
+      return _$$ref.retainAndAutorelease();
     }, keepIsolateAlive),
     retain: false,
     release: true,
@@ -490,8 +493,8 @@ abstract final class ObjCBlock_Platypus {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<Platypus Function()>(
     objc.newClosureBlock(_closureCallable, () {
-      final _$$ = fn().ref;
-      return _$$.retainAndAutorelease();
+      final _$$ref = fn().ref;
+      return _$$ref.retainAndAutorelease();
     }, keepIsolateAlive),
     retain: false,
     release: true,
@@ -637,7 +640,7 @@ abstract final class ObjCBlock_bool_Mammal {
 extension ObjCBlock_bool_Mammal$CallExtension
     on objc.ObjCBlock<ffi.Bool Function(Mammal)> {
   bool call(Mammal arg0) {
-    final _$$ = arg0.ref;
+    final _$$ref = arg0.ref;
     return ref.pointer.ref.invoke
         .cast<
           ffi.NativeFunction<
@@ -652,7 +655,7 @@ extension ObjCBlock_bool_Mammal$CallExtension
             ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCObjectImpl>,
           )
-        >()(ref.pointer, _$$.pointer);
+        >()(ref.pointer, _$$ref.pointer);
   }
 }
 
@@ -746,7 +749,7 @@ abstract final class ObjCBlock_bool_Platypus {
 extension ObjCBlock_bool_Platypus$CallExtension
     on objc.ObjCBlock<ffi.Bool Function(Platypus)> {
   bool call(Platypus arg0) {
-    final _$$ = arg0.ref;
+    final _$$ref = arg0.ref;
     return ref.pointer.ref.invoke
         .cast<
           ffi.NativeFunction<
@@ -761,7 +764,7 @@ extension ObjCBlock_bool_Platypus$CallExtension
             ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCObjectImpl>,
           )
-        >()(ref.pointer, _$$.pointer);
+        >()(ref.pointer, _$$ref.pointer);
   }
 }
 
@@ -820,14 +823,14 @@ extension type Platypus._(objc.ObjCObject object$)
 extension Platypus$Methods on Platypus {
   /// init
   Platypus init() {
-    final _$$$3 = object$.ref;
+    final _$$ref$3 = object$.ref;
     objc.checkOsVersionInternal(
       'Platypus.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$$3.retainAndReturnPointer(),
+      _$$ref$3.retainAndReturnPointer(),
       _sel_init,
     );
     return Platypus.fromPointer($ret, retain: false, release: true);

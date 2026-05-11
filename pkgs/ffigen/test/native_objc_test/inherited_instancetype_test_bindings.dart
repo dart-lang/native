@@ -67,20 +67,23 @@ extension type BaseClass._(objc.ObjCObject object$)
 extension BaseClass$Methods on BaseClass {
   /// getSelf
   BaseClass getSelf() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_getSelf);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getSelf);
     return BaseClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
   BaseClass init() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'BaseClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
     return BaseClass.fromPointer($ret, retain: false, release: true);
   }
 }
@@ -146,27 +149,27 @@ extension type ChildClass._(objc.ObjCObject object$)
 extension ChildClass$Methods on ChildClass {
   /// field
   int get field {
-    final _$$ = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_field);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_field);
   }
 
   /// getSelf
   ChildClass getSelf() {
-    final _$$$1 = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$$1.pointer, _sel_getSelf);
+    final _$$ref$1 = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref$1.pointer, _sel_getSelf);
     return ChildClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
   ChildClass init() {
-    final _$$$1 = object$.ref;
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'ChildClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$$1.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return ChildClass.fromPointer($ret, retain: false, release: true);
@@ -174,8 +177,8 @@ extension ChildClass$Methods on ChildClass {
 
   /// setField:
   set field(int value) {
-    final _$$ = object$.ref;
-    _objc_msgSend_1bqef4y(_$$.pointer, _sel_setField_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setField_, value);
   }
 }
 

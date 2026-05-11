@@ -61,26 +61,29 @@ extension type MySwiftClass._(objc.ObjCObject object$)
 extension MySwiftClass$Methods on MySwiftClass {
   /// getValue
   int getValue() {
-    final _$$ = object$.ref;
-    return _objc_msgSend_1hz7y9r(_$$.pointer, _sel_getValue);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
   }
 
   /// init
   MySwiftClass init() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'MySwiftClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
     return MySwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// setValueWithX:
   void setValueWithX(int x) {
-    final _$$ = object$.ref;
-    _objc_msgSend_4sp4xj(_$$.pointer, _sel_setValueWithX_, x);
+    final _$$ref = object$.ref;
+    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setValueWithX_, x);
   }
 }
 

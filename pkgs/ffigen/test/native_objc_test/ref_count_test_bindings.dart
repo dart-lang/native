@@ -68,11 +68,11 @@ extension type RefCountTestObject._(objc.ObjCObject object$)
 
   /// consumeArg:
   static void consumeArg(RefCountTestObject arg) {
-    final _$$ = arg.ref;
+    final _$$ref = arg.ref;
     _objc_msgSend_4js6t(
       _class_RefCountTestObject,
       _sel_consumeArg_,
-      _$$.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
     );
   }
 
@@ -111,37 +111,37 @@ extension type RefCountTestObject._(objc.ObjCObject object$)
 extension RefCountTestObject$Methods on RefCountTestObject {
   /// assignedProperty
   RefCountTestObject get assignedProperty {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_assignedProperty);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_assignedProperty);
     return RefCountTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copiedProperty
   RefCountTestObject get copiedProperty {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copiedProperty);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copiedProperty);
     return RefCountTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copyMe
   RefCountTestObject copyMe() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copyMe);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMe);
     return RefCountTestObject.fromPointer($ret, retain: false, release: true);
   }
 
   /// copyMeAutorelease
   RefCountTestObject copyMeAutorelease() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copyMeAutorelease);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMeAutorelease);
     return RefCountTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copyMeConsumeSelf
   RefCountTestObject copyMeConsumeSelf() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(
-      _$$.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_copyMeConsumeSelf,
     );
     return RefCountTestObject.fromPointer($ret, retain: false, release: true);
@@ -149,41 +149,48 @@ extension RefCountTestObject$Methods on RefCountTestObject {
 
   /// copyMeNoRetain
   RefCountTestObject copyMeNoRetain() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copyMeNoRetain);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMeNoRetain);
     return RefCountTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copyWithZone:
   objc.ObjCObject copyWithZone$1(ffi.Pointer<objc.NSZone> zone) {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_1cwp428(_$$.pointer, _sel_copyWithZone_, zone);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_1cwp428(
+      _$$ref.pointer,
+      _sel_copyWithZone_,
+      zone,
+    );
     return objc.ObjCObject($ret, retain: false, release: true);
   }
 
   /// dealloc
   void dealloc() {
-    final _$$ = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$.pointer, _sel_dealloc);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
   }
 
   /// init
   RefCountTestObject init() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'RefCountTestObject.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
     return RefCountTestObject.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithCounter:
   RefCountTestObject initWithCounter(ffi.Pointer<ffi.Int32> _counter) {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_129vhbw(
-      _$$.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_initWithCounter_,
       _counter,
     );
@@ -192,56 +199,68 @@ extension RefCountTestObject$Methods on RefCountTestObject {
 
   /// mutableCopyMe
   RefCountTestObject mutableCopyMe() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_mutableCopyMe);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_mutableCopyMe);
     return RefCountTestObject.fromPointer($ret, retain: false, release: true);
   }
 
   /// retainedProperty
   RefCountTestObject get retainedProperty {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_retainedProperty);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_retainedProperty);
     return RefCountTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// returnsRetained
   RefCountTestObject returnsRetained() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_returnsRetained);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_returnsRetained);
     return RefCountTestObject.fromPointer($ret, retain: false, release: true);
   }
 
   /// setAssignedProperty:
   set assignedProperty(RefCountTestObject value) {
-    final _$$ = object$.ref;
-    final _$$$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$.pointer, _sel_setAssignedProperty_, _$$$1.pointer);
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setAssignedProperty_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// setCopiedProperty:
   set copiedProperty(RefCountTestObject value) {
-    final _$$ = object$.ref;
-    final _$$$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$.pointer, _sel_setCopiedProperty_, _$$$1.pointer);
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setCopiedProperty_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// setCounter:
   void setCounter(ffi.Pointer<ffi.Int32> _counter) {
-    final _$$ = object$.ref;
-    _objc_msgSend_yhkuco(_$$.pointer, _sel_setCounter_, _counter);
+    final _$$ref = object$.ref;
+    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_setCounter_, _counter);
   }
 
   /// setRetainedProperty:
   set retainedProperty(RefCountTestObject value) {
-    final _$$ = object$.ref;
-    final _$$$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$.pointer, _sel_setRetainedProperty_, _$$$1.pointer);
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setRetainedProperty_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// unownedReference
   RefCountTestObject unownedReference() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_unownedReference);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_unownedReference);
     return RefCountTestObject.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -301,14 +320,14 @@ extension type RefCounted._(objc.ObjCObject object$)
 extension RefCounted$Methods on RefCounted {
   /// init
   RefCounted init() {
-    final _$$$1 = object$.ref;
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'RefCounted.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$$1.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return RefCounted.fromPointer($ret, retain: false, release: true);
@@ -316,14 +335,14 @@ extension RefCounted$Methods on RefCounted {
 
   /// meAsInt
   int meAsInt() {
-    final _$$ = object$.ref;
-    return _objc_msgSend_pysgoz(_$$.pointer, _sel_meAsInt);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_meAsInt);
   }
 
   /// refCount
   int get refCount {
-    final _$$ = object$.ref;
-    return _objc_msgSend_9qbz9w(_$$.pointer, _sel_refCount);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_9qbz9w(_$$ref.pointer, _sel_refCount);
   }
 }
 

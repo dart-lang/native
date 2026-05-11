@@ -89,11 +89,11 @@ extension type MethodInterface._(objc.ObjCObject object$)
 extension MethodInterface$Methods on MethodInterface {
   /// Vec4
   Vec4 Vec4$1() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ptr = pkg_ffi.calloc<Vec4>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_o6r21bStret($ptr, _$$.pointer, _sel_Vec4)
-        : $ptr.ref = _objc_msgSend_o6r21b(_$$.pointer, _sel_Vec4);
+        ? _objc_msgSend_o6r21bStret($ptr, _$$ref.pointer, _sel_Vec4)
+        : $ptr.ref = _objc_msgSend_o6r21b(_$$ref.pointer, _sel_Vec4);
     final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
       ffi.sizeOf<Vec4>(),
       finalizer: pkg_ffi.calloc.nativeFree,
@@ -103,75 +103,78 @@ extension MethodInterface$Methods on MethodInterface {
 
   /// add
   int add() {
-    final _$$ = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_add);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_add);
   }
 
   /// add:
   int add$1(int x) {
-    final _$$ = object$.ref;
-    return _objc_msgSend_zo3bvx(_$$.pointer, _sel_add_, x);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_zo3bvx(_$$ref.pointer, _sel_add_, x);
   }
 
   /// add:Y:
   int add$2(int x, {required int Y}) {
-    final _$$ = object$.ref;
-    return _objc_msgSend_1q0lyci(_$$.pointer, _sel_add_Y_, x, Y);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_add_Y_, x, Y);
   }
 
   /// add:Y:Z:
   int add$3(int x, {required int Y, required int Z}) {
-    final _$$ = object$.ref;
-    return _objc_msgSend_b9kbqv(_$$.pointer, _sel_add_Y_Z_, x, Y, Z);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_b9kbqv(_$$ref.pointer, _sel_add_Y_Z_, x, Y, Z);
   }
 
   /// addDoubles:Y:
   double addDoubles(double x, {required double Y}) {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     return objc.useMsgSendVariants
-        ? _objc_msgSend_srsdcwFpret(_$$.pointer, _sel_addDoubles_Y_, x, Y)
-        : _objc_msgSend_srsdcw(_$$.pointer, _sel_addDoubles_Y_, x, Y);
+        ? _objc_msgSend_srsdcwFpret(_$$ref.pointer, _sel_addDoubles_Y_, x, Y)
+        : _objc_msgSend_srsdcw(_$$ref.pointer, _sel_addDoubles_Y_, x, Y);
   }
 
   /// addFloats:Y:
   double addFloats(double x, {required double Y}) {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     return objc.useMsgSendVariants
-        ? _objc_msgSend_sk7f6fFpret(_$$.pointer, _sel_addFloats_Y_, x, Y)
-        : _objc_msgSend_sk7f6f(_$$.pointer, _sel_addFloats_Y_, x, Y);
+        ? _objc_msgSend_sk7f6fFpret(_$$ref.pointer, _sel_addFloats_Y_, x, Y)
+        : _objc_msgSend_sk7f6f(_$$ref.pointer, _sel_addFloats_Y_, x, Y);
   }
 
   /// init
   MethodInterface init() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'MethodInterface.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
     return MethodInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// instStaticSameName
   int instStaticSameName() {
-    final _$$ = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$.pointer, _sel_instStaticSameName);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_instStaticSameName);
   }
 
   /// twiddleVec4Components:
   Vec4 twiddleVec4Components(Vec4 v) {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ptr = pkg_ffi.calloc<Vec4>();
     objc.useMsgSendVariants
         ? _objc_msgSend_ivr5s7Stret(
             $ptr,
-            _$$.pointer,
+            _$$ref.pointer,
             _sel_twiddleVec4Components_,
             v,
           )
         : $ptr.ref = _objc_msgSend_ivr5s7(
-            _$$.pointer,
+            _$$ref.pointer,
             _sel_twiddleVec4Components_,
             v,
           );

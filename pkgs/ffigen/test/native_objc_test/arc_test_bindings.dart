@@ -70,13 +70,16 @@ extension type ArcDtorTestObject._(objc.ObjCObject object$)
 extension ArcDtorTestObject$Methods on ArcDtorTestObject {
   /// init
   ArcDtorTestObject init() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ArcDtorTestObject.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$$.retainAndReturnPointer(), _sel_init);
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
     return ArcDtorTestObject.fromPointer($ret, retain: false, release: true);
   }
 
@@ -85,9 +88,9 @@ extension ArcDtorTestObject$Methods on ArcDtorTestObject {
     ffi.Pointer<ffi.Int32> _dtorCounter, {
     required ffi.Pointer<ffi.Int32> onMainThread,
   }) {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_b5hsh3(
-      _$$.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_initWithCounters_onMainThread_,
       _dtorCounter,
       onMainThread,
@@ -149,11 +152,11 @@ extension type ArcTestObject._(objc.ObjCObject object$)
 
   /// consumeArg:
   static void consumeArg(ArcTestObject arg) {
-    final _$$ = arg.ref;
+    final _$$ref = arg.ref;
     _objc_msgSend_4js6t(
       _class_ArcTestObject,
       _sel_consumeArg_,
-      _$$.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
     );
   }
 
@@ -190,37 +193,37 @@ extension type ArcTestObject._(objc.ObjCObject object$)
 extension ArcTestObject$Methods on ArcTestObject {
   /// assignedProperty
   ArcTestObject get assignedProperty {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_assignedProperty);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_assignedProperty);
     return ArcTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copiedProperty
   ArcTestObject get copiedProperty {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copiedProperty);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copiedProperty);
     return ArcTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copyMe
   ArcTestObject copyMe() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copyMe);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMe);
     return ArcTestObject.fromPointer($ret, retain: false, release: true);
   }
 
   /// copyMeAutorelease
   ArcTestObject copyMeAutorelease() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copyMeAutorelease);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMeAutorelease);
     return ArcTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copyMeConsumeSelf
   ArcTestObject copyMeConsumeSelf() {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(
-      _$$.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_copyMeConsumeSelf,
     );
     return ArcTestObject.fromPointer($ret, retain: false, release: true);
@@ -228,34 +231,38 @@ extension ArcTestObject$Methods on ArcTestObject {
 
   /// copyMeNoRetain
   ArcTestObject copyMeNoRetain() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_copyMeNoRetain);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_copyMeNoRetain);
     return ArcTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// copyWithZone:
   objc.ObjCObject copyWithZone$1(ffi.Pointer<objc.NSZone> zone) {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_1cwp428(_$$.pointer, _sel_copyWithZone_, zone);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_1cwp428(
+      _$$ref.pointer,
+      _sel_copyWithZone_,
+      zone,
+    );
     return objc.ObjCObject($ret, retain: false, release: true);
   }
 
   /// dealloc
   void dealloc() {
-    final _$$ = object$.ref;
-    _objc_msgSend_1pl9qdv(_$$.pointer, _sel_dealloc);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
   }
 
   /// init
   ArcTestObject init() {
-    final _$$$1 = object$.ref;
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'ArcTestObject.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$$1.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return ArcTestObject.fromPointer($ret, retain: false, release: true);
@@ -263,9 +270,9 @@ extension ArcTestObject$Methods on ArcTestObject {
 
   /// initWithCounter:
   ArcTestObject initWithCounter(ffi.Pointer<ffi.Int32> _counter) {
-    final _$$ = object$.ref;
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_129vhbw(
-      _$$.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_initWithCounter_,
       _counter,
     );
@@ -274,50 +281,62 @@ extension ArcTestObject$Methods on ArcTestObject {
 
   /// mutableCopyMe
   ArcTestObject mutableCopyMe() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_mutableCopyMe);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_mutableCopyMe);
     return ArcTestObject.fromPointer($ret, retain: false, release: true);
   }
 
   /// retainedProperty
   ArcTestObject get retainedProperty {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_retainedProperty);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_retainedProperty);
     return ArcTestObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// returnsRetained
   ArcTestObject returnsRetained() {
-    final _$$ = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$.pointer, _sel_returnsRetained);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_returnsRetained);
     return ArcTestObject.fromPointer($ret, retain: false, release: true);
   }
 
   /// setAssignedProperty:
   set assignedProperty(ArcTestObject value) {
-    final _$$ = object$.ref;
-    final _$$$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$.pointer, _sel_setAssignedProperty_, _$$$1.pointer);
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setAssignedProperty_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// setCopiedProperty:
   set copiedProperty(ArcTestObject value) {
-    final _$$ = object$.ref;
-    final _$$$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$.pointer, _sel_setCopiedProperty_, _$$$1.pointer);
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setCopiedProperty_,
+      _$$ref$1.pointer,
+    );
   }
 
   /// setCounter:
   void setCounter(ffi.Pointer<ffi.Int32> _counter) {
-    final _$$ = object$.ref;
-    _objc_msgSend_yhkuco(_$$.pointer, _sel_setCounter_, _counter);
+    final _$$ref = object$.ref;
+    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_setCounter_, _counter);
   }
 
   /// setRetainedProperty:
   set retainedProperty(ArcTestObject value) {
-    final _$$ = object$.ref;
-    final _$$$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$.pointer, _sel_setRetainedProperty_, _$$$1.pointer);
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setRetainedProperty_,
+      _$$ref$1.pointer,
+    );
   }
 }
 
