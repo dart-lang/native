@@ -1216,6 +1216,8 @@ ${modifier}final _$idName = $_protectedExtension
         .accept(const _ParamReference())
         .where((ref) => ref.isNotEmpty)
         .toList();
+    // We store object.reference in a local variable to work around a limitation
+    // of Finalizable. See https://dartbug.com/63348 for context.
     if (node.isStatic || node.isConstructor) {
       localReferences.insert(0, 'final $_classRefVar = $classRef.reference;');
     } else {
