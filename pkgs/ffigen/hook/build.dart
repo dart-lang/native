@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:path/path.dart' as p;
 
@@ -33,112 +34,129 @@ void main(List<String> args) async {
     final codeConfig = input.config.code;
     final os = codeConfig.targetOS;
 
-    final sysroot = sdkPath(codeConfig);
-    final minVersion = minOSVersion(codeConfig);
-    final target = toTargetTriple(codeConfig);
-    final List<String> archFlags;
-    if (codeConfig.targetArchitecture == Architecture.arm64 &&
-        (os == OS.macOS || os == OS.iOS)) {
-      archFlags = ['-arch', 'arm64', '-arch', 'arm64e'];
-    } else {
-      archFlags = ['-target', target];
-    }
-    final cFlags = <String>['-isysroot', sysroot, ...archFlags, minVersion];
+    if (os == OS.macOS || os == OS.iOS) {
+      final sysroot = sdkPath(codeConfig);
+      final minVersion = minOSVersion(codeConfig);
+      final target = toTargetTriple(codeConfig);
+      final List<String> archFlags;
+      if (codeConfig.targetArchitecture == Architecture.arm64) {
+        archFlags = ['-arch', 'arm64', '-arch', 'arm64e'];
+      } else {
+        archFlags = ['-target', target];
+      }
+      final cFlags = <String>['-isysroot', sysroot, ...archFlags, minVersion];
 
-    final builder = await CustomBuilder.create(
-      input,
-      input.packageRoot.toFilePath(),
-    );
-
-    // Build native_test.c.
-    final nativeTestAsset = 'native_test';
-    final nativeTestLib = input.outputDirectory.resolve(
-      '$nativeTestAsset.dylib',
-    );
-    final nativeTestSource = input.packageRoot.resolve(
-      'test/native_test/native_test.c',
-    );
-    final nativeTestObj = await builder.buildObject(nativeTestSource, cFlags);
-    await builder.linkLib([nativeTestObj], nativeTestLib, cFlags);
-
-    output.assets.code.add(
-      CodeAsset(
-        package: packageName,
-        name: nativeTestAsset,
-        file: nativeTestLib,
-        linkMode: DynamicLoadingBundled(),
-      ),
-    );
-
-    if (os == OS.macOS) {
-      // Build swift_class_test.swift. There's no swift compilation package, so
-      // we have to use a CustomBuilder.
-      final objcTestDir = input.packageRoot.resolve('test/native_objc_test/');
-      const swiftModule = 'swift_class_test';
-      final swiftFile = objcTestDir.resolve('swift_class_test.swift');
-      final swiftHeader = objcTestDir.resolve('swift_class_test-Swift.h');
-      final swiftLib = input.outputDirectory.resolve('$swiftModule.dylib');
-
-      await builder.buildSwift(
-        swiftFile,
-        moduleName: swiftModule,
-        outputHeader: swiftHeader,
-        outputLib: swiftLib,
-        archFlags: archFlags,
+      final builder = await CustomBuilder.create(
+        input,
+        input.packageRoot.toFilePath(),
       );
+
+      // Build native_test.c.
+      final nativeTestAsset = 'native_test';
+      final nativeTestLib = input.outputDirectory.resolve(
+        os.dylibFileName(nativeTestAsset),
+      );
+      final nativeTestSource = input.packageRoot.resolve(
+        'test/native_test/native_test.c',
+      );
+      final nativeTestObj = await builder.buildObject(nativeTestSource, cFlags);
+      await builder.linkLib([nativeTestObj], nativeTestLib, cFlags);
+
       output.assets.code.add(
         CodeAsset(
           package: packageName,
-          name: swiftModule,
-          file: swiftLib,
+          name: nativeTestAsset,
+          file: nativeTestLib,
           linkMode: DynamicLoadingBundled(),
         ),
       );
 
-      // Build all the ObjC files. Some of the files have different compile
-      // flags, so we need to use the CustomBuilder again.
-      final mFiles = _findFiles(objcTestDir, '.m');
-      final hFiles = _findFiles(objcTestDir, '.h');
+      if (os == OS.macOS) {
+        // Build swift_class_test.swift. There's no swift compilation
+        // package, so we have to use a CustomBuilder.
+        final objcTestDir = input.packageRoot.resolve('test/native_objc_test/');
+        const swiftModule = 'swift_class_test';
+        final swiftFile = objcTestDir.resolve('swift_class_test.swift');
+        final swiftHeader = objcTestDir.resolve('swift_class_test-Swift.h');
+        final swiftLib = input.outputDirectory.resolve('lib$swiftModule.dylib');
 
-      final objFiles = <String>[];
-      for (final mFile in mFiles) {
-        final useArc = !arcDisabledFiles.contains(mFile.pathSegments.last);
-        objFiles.add(
-          await builder.buildObject(mFile, [
-            ...cFlags,
-            '-x',
-            'objective-c',
-            if (useArc) '-fobjc-arc',
-            '-Wno-nullability-completeness',
-            '-DDISABLE_METHOD',
-          ]),
+        await builder.buildSwift(
+          swiftFile,
+          moduleName: swiftModule,
+          outputHeader: swiftHeader,
+          outputLib: swiftLib,
+          archFlags: archFlags,
+        );
+        output.assets.code.add(
+          CodeAsset(
+            package: packageName,
+            name: swiftModule,
+            file: swiftLib,
+            linkMode: DynamicLoadingBundled(),
+          ),
+        );
+
+        // Build all the ObjC files. Some of the files have different compile
+        // flags, so we need to use the CustomBuilder again.
+        final mFiles = _findFiles(objcTestDir, '.m');
+        final hFiles = _findFiles(objcTestDir, '.h');
+
+        final objFiles = <String>[];
+        for (final mFile in mFiles) {
+          final useArc = !arcDisabledFiles.contains(mFile.pathSegments.last);
+          objFiles.add(
+            await builder.buildObject(mFile, [
+              ...cFlags,
+              '-x',
+              'objective-c',
+              if (useArc) '-fobjc-arc',
+              '-Wno-nullability-completeness',
+              '-DDISABLE_METHOD',
+            ]),
+          );
+        }
+
+        // Add dart_api_dl.c from objective_c package.
+        final dartApiDl = input.packageRoot.resolve(
+          '../objective_c/src/include/dart_api_dl.c',
+        );
+        objFiles.add(await builder.buildObject(dartApiDl, cFlags));
+
+        const objcAsset = 'objc_test';
+        final objcLib = input.outputDirectory.resolve('lib$objcAsset.dylib');
+        await builder.linkLib(objFiles, objcLib, [
+          ...cFlags,
+          '-framework',
+          'Foundation',
+        ]);
+
+        output.dependencies.addAll([
+          ...mFiles,
+          ...hFiles,
+          swiftFile,
+          dartApiDl,
+        ]);
+
+        output.assets.code.add(
+          CodeAsset(
+            package: packageName,
+            name: objcAsset,
+            file: objcLib,
+            linkMode: DynamicLoadingBundled(),
+          ),
         );
       }
-
-      // Add dart_api_dl.c from objective_c package.
-      final dartApiDl = input.packageRoot.resolve(
-        '../objective_c/src/include/dart_api_dl.c',
-      );
-      objFiles.add(await builder.buildObject(dartApiDl, cFlags));
-
-      const objcAsset = 'objc_test';
-      final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
-      await builder.linkLib(objFiles, objcLib, [
-        ...cFlags,
-        '-framework',
-        'Foundation',
-      ]);
-
-      output.dependencies.addAll([...mFiles, ...hFiles, swiftFile, dartApiDl]);
-
-      output.assets.code.add(
-        CodeAsset(
-          package: packageName,
-          name: objcAsset,
-          file: objcLib,
-          linkMode: DynamicLoadingBundled(),
-        ),
-      );
+    } else {
+      // Non-Apple platform. Build native_test.c using CBuilder.
+      await CBuilder.library(
+        name: 'native_test',
+        assetName: 'native_test',
+        sources: [
+          'test/native_test/native_test.c',
+          if (input.config.code.targetOS == OS.windows)
+            'test/native_test/native_test.def',
+        ],
+      ).run(input: input, output: output, logger: logger);
     }
   });
 }
