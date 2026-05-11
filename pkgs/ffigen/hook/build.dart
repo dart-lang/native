@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
-import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:path/path.dart' as p;
 
@@ -31,24 +30,50 @@ void main(List<String> args) async {
     }
 
     final packageName = input.packageName;
+    final codeConfig = input.config.code;
+    final os = codeConfig.targetOS;
 
-    // Build native_test.c. This is an ordinary build, so we can use CBuilder.
-    await CBuilder.library(
-      name: 'native_test',
-      assetName: 'native_test',
-      sources: [
-        'test/native_test/native_test.c',
-        if (input.config.code.targetOS == OS.windows)
-          'test/native_test/native_test.def',
-      ],
-    ).run(input: input, output: output, logger: logger);
+    final sysroot = sdkPath(codeConfig);
+    final minVersion = minOSVersion(codeConfig);
+    final target = toTargetTriple(codeConfig);
+    final List<String> archFlags;
+    if (codeConfig.targetArchitecture == Architecture.arm64 &&
+        (os == OS.macOS || os == OS.iOS)) {
+      archFlags = ['-arch', 'arm64', '-arch', 'arm64e'];
+    } else {
+      archFlags = ['-target', target];
+    }
+    final cFlags = <String>[
+      '-isysroot',
+      sysroot,
+      ...archFlags,
+      minVersion,
+    ];
 
-    if (input.config.code.targetOS == OS.macOS) {
-      final builder = await CustomBuilder.create(
-        input,
-        input.packageRoot.toFilePath(),
-      );
+    final builder = await CustomBuilder.create(
+      input,
+      input.packageRoot.toFilePath(),
+    );
 
+    // Build native_test.c.
+    final nativeTestAsset = 'native_test';
+    final nativeTestLib =
+        input.outputDirectory.resolve('$nativeTestAsset.dylib');
+    final nativeTestSource =
+        input.packageRoot.resolve('test/native_test/native_test.c');
+    final nativeTestObj = await builder.buildObject(nativeTestSource, cFlags);
+    await builder.linkLib([nativeTestObj], nativeTestLib, cFlags);
+
+    output.assets.code.add(
+      CodeAsset(
+        package: packageName,
+        name: nativeTestAsset,
+        file: nativeTestLib,
+        linkMode: DynamicLoadingBundled(),
+      ),
+    );
+
+    if (os == OS.macOS) {
       // Build swift_class_test.swift. There's no swift compilation package, so
       // we have to use a CustomBuilder.
       final objcTestDir = input.packageRoot.resolve('test/native_objc_test/');
@@ -57,7 +82,13 @@ void main(List<String> args) async {
       final swiftHeader = objcTestDir.resolve('swift_class_test-Swift.h');
       final swiftLib = input.outputDirectory.resolve('$swiftModule.dylib');
 
-      await builder.buildSwift(swiftFile, swiftModule, swiftHeader, swiftLib);
+      await builder.buildSwift(
+        swiftFile,
+        moduleName: swiftModule,
+        outputHeader: swiftHeader,
+        outputLib: swiftLib,
+        archFlags: archFlags,
+      );
       output.assets.code.add(
         CodeAsset(
           package: packageName,
@@ -77,6 +108,7 @@ void main(List<String> args) async {
         final useArc = !arcDisabledFiles.contains(mFile.pathSegments.last);
         objFiles.add(
           await builder.buildObject(mFile, [
+            ...cFlags,
             '-x',
             'objective-c',
             if (useArc) '-fobjc-arc',
@@ -90,11 +122,15 @@ void main(List<String> args) async {
       final dartApiDl = input.packageRoot.resolve(
         '../objective_c/src/include/dart_api_dl.c',
       );
-      objFiles.add(await builder.buildObject(dartApiDl, []));
+      objFiles.add(await builder.buildObject(dartApiDl, cFlags));
 
       const objcAsset = 'objc_test';
       final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
-      await builder.linkLib(objFiles, objcLib, ['-framework', 'Foundation']);
+      await builder.linkLib(
+        objFiles,
+        objcLib,
+        [...cFlags, '-framework', 'Foundation'],
+      );
 
       output.dependencies.addAll([...mFiles, ...hFiles, swiftFile, dartApiDl]);
 
@@ -109,6 +145,67 @@ void main(List<String> args) async {
     }
   });
 }
+
+String sdkPath(CodeConfig codeConfig) {
+  final String target;
+  if (codeConfig.targetOS == OS.iOS) {
+    if (codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS) {
+      target = 'iphoneos';
+    } else {
+      target = 'iphonesimulator';
+    }
+  } else {
+    assert(codeConfig.targetOS == OS.macOS);
+    target = 'macosx';
+  }
+  return firstLineOfStdout('xcrun', ['--show-sdk-path', '--sdk', target]);
+}
+
+String firstLineOfStdout(String cmd, List<String> args) {
+  final result = Process.runSync(cmd, args);
+  if (result.exitCode != 0) {
+    throw Exception(
+      'Command failed: $cmd ${args.join(" ")}\n'
+      '${result.stdout}\n${result.stderr}',
+    );
+  }
+  return (result.stdout as String)
+      .split('\n')
+      .where((line) => line.isNotEmpty)
+      .first;
+}
+
+String minOSVersion(CodeConfig codeConfig) {
+  if (codeConfig.targetOS == OS.iOS) {
+    final targetVersion = codeConfig.iOS.targetVersion;
+    return '-mios-version-min=$targetVersion';
+  }
+  assert(codeConfig.targetOS == OS.macOS);
+  final targetVersion = codeConfig.macOS.targetVersion;
+  return '-mmacos-version-min=$targetVersion';
+}
+
+String toTargetTriple(CodeConfig codeConfig) {
+  final architecture = codeConfig.targetArchitecture;
+  if (codeConfig.targetOS == OS.iOS) {
+    return appleClangIosTargetFlags[architecture]![codeConfig.iOS.targetSdk]!;
+  }
+  assert(codeConfig.targetOS == OS.macOS);
+  return appleClangMacosTargetFlags[architecture]!;
+}
+
+const appleClangMacosTargetFlags = {
+  Architecture.arm64: 'arm64-apple-darwin',
+  Architecture.x64: 'x86_64-apple-darwin',
+};
+
+const appleClangIosTargetFlags = {
+  Architecture.arm64: {
+    IOSSdk.iPhoneOS: 'arm64-apple-ios',
+    IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
+  },
+  Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
+};
 
 List<Uri> _findFiles(Uri dir, String suffix) => Directory.fromUri(dir)
     .listSync()
@@ -157,12 +254,14 @@ class CustomBuilder {
       _run(_comp, [...flags, '-o', output]);
 
   Future<void> buildSwift(
-    Uri input,
-    String moduleName,
-    Uri outputHeader,
-    Uri outputLib,
-  ) async {
+    Uri input, {
+    required String moduleName,
+    required Uri outputHeader,
+    required Uri outputLib,
+    required List<String> archFlags,
+  }) async {
     final args = [
+      ...archFlags,
       '-c',
       input.toFilePath(),
       '-module-name',
