@@ -98,7 +98,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JBoolean(
     core$_.bool z,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, z ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, z ? 1 : 0)
         .object<JBoolean>();
   }
 
@@ -123,8 +124,9 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.bool z,
     core$_.bool z1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, z ? 1 : 0,
-            z1 ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _compare(
+            _$$classRef.pointer, _id_compare.pointer, z ? 1 : 0, z1 ? 1 : 0)
         .integer;
   }
 
@@ -148,9 +150,10 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool getBoolean(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _getBoolean(
-            _class.reference.pointer, _id_getBoolean.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_getBoolean.pointer, _$string.pointer)
         .boolean;
   }
 
@@ -172,8 +175,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int hashCode$2(
     core$_.bool z,
   ) {
-    return _hashCode$2(
-            _class.reference.pointer, _id_hashCode$2.pointer, z ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, z ? 1 : 0)
         .integer;
   }
 
@@ -198,8 +201,9 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.bool z,
     core$_.bool z1,
   ) {
-    return _logicalAnd(_class.reference.pointer, _id_logicalAnd.pointer,
-            z ? 1 : 0, z1 ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _logicalAnd(
+            _$$classRef.pointer, _id_logicalAnd.pointer, z ? 1 : 0, z1 ? 1 : 0)
         .boolean;
   }
 
@@ -224,8 +228,9 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.bool z,
     core$_.bool z1,
   ) {
-    return _logicalOr(_class.reference.pointer, _id_logicalOr.pointer,
-            z ? 1 : 0, z1 ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _logicalOr(
+            _$$classRef.pointer, _id_logicalOr.pointer, z ? 1 : 0, z1 ? 1 : 0)
         .boolean;
   }
 
@@ -250,8 +255,9 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.bool z,
     core$_.bool z1,
   ) {
-    return _logicalXor(_class.reference.pointer, _id_logicalXor.pointer,
-            z ? 1 : 0, z1 ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _logicalXor(
+            _$$classRef.pointer, _id_logicalXor.pointer, z ? 1 : 0, z1 ? 1 : 0)
         .boolean;
   }
 
@@ -275,9 +281,10 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool parseBoolean(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseBoolean(_class.reference.pointer, _id_parseBoolean.pointer,
-            _$string.pointer)
+    return _parseBoolean(
+            _$$classRef.pointer, _id_parseBoolean.pointer, _$string.pointer)
         .boolean;
   }
 
@@ -300,8 +307,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? toString$2(
     core$_.bool z,
   ) {
-    return _toString$2(
-            _class.reference.pointer, _id_toString$2.pointer, z ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, z ? 1 : 0)
         .object<JString?>();
   }
 
@@ -324,7 +331,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   static JBoolean? valueOf(
     core$_.bool z,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, z ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, z ? 1 : 0)
         .object<JBoolean?>();
   }
 
@@ -349,9 +357,10 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   static JBoolean? valueOf$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$1(
-            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_valueOf$1.pointer, _$string.pointer)
         .object<JBoolean?>();
   }
 }
@@ -376,7 +385,8 @@ extension JBoolean$$Methods on JBoolean {
 
   /// from: `public boolean booleanValue()`
   core$_.bool booleanValue() {
-    return _booleanValue(reference.pointer, _id_booleanValue.pointer).boolean;
+    final _$$selfRef = reference;
+    return _booleanValue(_$$selfRef.pointer, _id_booleanValue.pointer).boolean;
   }
 
   static final _id_compareTo = JBoolean._class.instanceMethodId(
@@ -399,9 +409,10 @@ extension JBoolean$$Methods on JBoolean {
   core$_.int compareTo(
     JBoolean? boolean,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     return _compareTo(
-            reference.pointer, _id_compareTo.pointer, _$boolean.pointer)
+            _$$selfRef.pointer, _id_compareTo.pointer, _$boolean.pointer)
         .integer;
   }
 
@@ -425,8 +436,9 @@ extension JBoolean$$Methods on JBoolean {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -449,7 +461,8 @@ extension JBoolean$$Methods on JBoolean {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_toString$1 = JBoolean._class.instanceMethodId(
@@ -472,7 +485,8 @@ extension JBoolean$$Methods on JBoolean {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -549,7 +563,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   factory JByte(
     core$_.int b,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, b).object<JByte>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, b).object<JByte>();
   }
 
   static final _id_compare = _class.staticMethodId(
@@ -573,8 +588,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int b,
     core$_.int b1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, b, b1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compare(_$$classRef.pointer, _id_compare.pointer, b, b1).integer;
   }
 
   static final _id_compareUnsigned = _class.staticMethodId(
@@ -598,8 +613,9 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int b,
     core$_.int b1,
   ) {
+    final _$$classRef = _class.reference;
     return _compareUnsigned(
-            _class.reference.pointer, _id_compareUnsigned.pointer, b, b1)
+            _$$classRef.pointer, _id_compareUnsigned.pointer, b, b1)
         .integer;
   }
 
@@ -624,9 +640,9 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JByte? decode(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _decode(
-            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+    return _decode(_$$classRef.pointer, _id_decode.pointer, _$string.pointer)
         .object<JByte?>();
   }
 
@@ -648,8 +664,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int hashCode$2(
     core$_.int b,
   ) {
-    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, b)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, b).integer;
   }
 
   static final _id_parseByte = _class.staticMethodId(
@@ -672,9 +688,10 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int parseByte(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseByte(
-            _class.reference.pointer, _id_parseByte.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_parseByte.pointer, _$string.pointer)
         .byte;
   }
 
@@ -700,9 +717,10 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseByte$1(_class.reference.pointer, _id_parseByte$1.pointer,
-            _$string.pointer, i)
+    return _parseByte$1(
+            _$$classRef.pointer, _id_parseByte$1.pointer, _$string.pointer, i)
         .byte;
   }
 
@@ -725,7 +743,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JString? toString$2(
     core$_.int b,
   ) {
-    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, b)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, b)
         .object<JString?>();
   }
 
@@ -747,8 +766,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int toUnsignedInt(
     core$_.int b,
   ) {
-    return _toUnsignedInt(
-            _class.reference.pointer, _id_toUnsignedInt.pointer, b)
+    final _$$classRef = _class.reference;
+    return _toUnsignedInt(_$$classRef.pointer, _id_toUnsignedInt.pointer, b)
         .integer;
   }
 
@@ -770,8 +789,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int toUnsignedLong(
     core$_.int b,
   ) {
-    return _toUnsignedLong(
-            _class.reference.pointer, _id_toUnsignedLong.pointer, b)
+    final _$$classRef = _class.reference;
+    return _toUnsignedLong(_$$classRef.pointer, _id_toUnsignedLong.pointer, b)
         .long;
   }
 
@@ -794,7 +813,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JByte? valueOf(
     core$_.int b,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, b)
+    final _$$classRef = _class.reference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, b)
         .object<JByte?>();
   }
 
@@ -819,9 +839,10 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JByte? valueOf$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$1(
-            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_valueOf$1.pointer, _$string.pointer)
         .object<JByte?>();
   }
 
@@ -848,9 +869,10 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer,
-            _$string.pointer, i)
+    return _valueOf$2(
+            _$$classRef.pointer, _id_valueOf$2.pointer, _$string.pointer, i)
         .object<JByte?>();
   }
 }
@@ -875,7 +897,8 @@ extension JByte$$Methods on JByte {
 
   /// from: `public byte byteValue()`
   core$_.int byteValue() {
-    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _byteValue(_$$selfRef.pointer, _id_byteValue.pointer).byte;
   }
 
   static final _id_compareTo = JByte._class.instanceMethodId(
@@ -898,8 +921,9 @@ extension JByte$$Methods on JByte {
   core$_.int compareTo(
     JByte? byte,
   ) {
+    final _$$selfRef = reference;
     final _$byte = byte?.reference ?? jni$_.jNullReference;
-    return _compareTo(reference.pointer, _id_compareTo.pointer, _$byte.pointer)
+    return _compareTo(_$$selfRef.pointer, _id_compareTo.pointer, _$byte.pointer)
         .integer;
   }
 
@@ -922,7 +946,9 @@ extension JByte$$Methods on JByte {
 
   /// from: `public double doubleValue()`
   core$_.double doubleValue() {
-    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _doubleValue(_$$selfRef.pointer, _id_doubleValue.pointer)
+        .doubleFloat;
   }
 
   static final _id_equals = JByte._class.instanceMethodId(
@@ -945,8 +971,9 @@ extension JByte$$Methods on JByte {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -969,7 +996,8 @@ extension JByte$$Methods on JByte {
 
   /// from: `public float floatValue()`
   core$_.double floatValue() {
-    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _floatValue(_$$selfRef.pointer, _id_floatValue.pointer).float;
   }
 
   static final _id_hashCode$1 = JByte._class.instanceMethodId(
@@ -991,7 +1019,8 @@ extension JByte$$Methods on JByte {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_intValue = JByte._class.instanceMethodId(
@@ -1013,7 +1042,8 @@ extension JByte$$Methods on JByte {
 
   /// from: `public int intValue()`
   core$_.int intValue() {
-    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _intValue(_$$selfRef.pointer, _id_intValue.pointer).integer;
   }
 
   static final _id_longValue = JByte._class.instanceMethodId(
@@ -1035,7 +1065,8 @@ extension JByte$$Methods on JByte {
 
   /// from: `public long longValue()`
   core$_.int longValue() {
-    return _longValue(reference.pointer, _id_longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _longValue(_$$selfRef.pointer, _id_longValue.pointer).long;
   }
 
   static final _id_shortValue = JByte._class.instanceMethodId(
@@ -1057,7 +1088,8 @@ extension JByte$$Methods on JByte {
 
   /// from: `public short shortValue()`
   core$_.int shortValue() {
-    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _shortValue(_$$selfRef.pointer, _id_shortValue.pointer).short;
   }
 
   static final _id_toString$1 = JByte._class.instanceMethodId(
@@ -1080,7 +1112,8 @@ extension JByte$$Methods on JByte {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -1141,8 +1174,9 @@ extension JCharacter$JSubset$$Methods on JCharacter$JSubset {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -1165,7 +1199,8 @@ extension JCharacter$JSubset$$Methods on JCharacter$JSubset {
 
   /// from: `public final int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_toString$1 = JCharacter$JSubset._class.instanceMethodId(
@@ -1188,7 +1223,8 @@ extension JCharacter$JSubset$$Methods on JCharacter$JSubset {
   /// from: `public final java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 }
@@ -4851,9 +4887,9 @@ extension type JCharacter$JUnicodeBlock._(jni$_.JObject _$this)
   static JCharacter$JUnicodeBlock? forName(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _forName(
-            _class.reference.pointer, _id_forName.pointer, _$string.pointer)
+    return _forName(_$$classRef.pointer, _id_forName.pointer, _$string.pointer)
         .object<JCharacter$JUnicodeBlock?>();
   }
 
@@ -4876,7 +4912,8 @@ extension type JCharacter$JUnicodeBlock._(jni$_.JObject _$this)
   static JCharacter$JUnicodeBlock? of(
     core$_.int c,
   ) {
-    return _of(_class.reference.pointer, _id_of.pointer, c)
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer, c)
         .object<JCharacter$JUnicodeBlock?>();
   }
 
@@ -4899,7 +4936,8 @@ extension type JCharacter$JUnicodeBlock._(jni$_.JObject _$this)
   static JCharacter$JUnicodeBlock? of$1(
     core$_.int i,
   ) {
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _of$1(_$$classRef.pointer, _id_of$1.pointer, i)
         .object<JCharacter$JUnicodeBlock?>();
   }
 }
@@ -6747,7 +6785,8 @@ extension type JCharacter$JUnicodeScript._(jni$_.JObject _$this)
   /// from: `static public java.lang.Character$UnicodeScript[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JCharacter$JUnicodeScript?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<JCharacter$JUnicodeScript?>?>();
   }
 
@@ -6772,9 +6811,10 @@ extension type JCharacter$JUnicodeScript._(jni$_.JObject _$this)
   static JCharacter$JUnicodeScript? valueOf(
     JString? synthetic,
   ) {
+    final _$$classRef = _class.reference;
     final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$synthetic.pointer)
+            _$$classRef.pointer, _id_valueOf.pointer, _$synthetic.pointer)
         .object<JCharacter$JUnicodeScript?>();
   }
 
@@ -6799,9 +6839,9 @@ extension type JCharacter$JUnicodeScript._(jni$_.JObject _$this)
   static JCharacter$JUnicodeScript? forName(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _forName(
-            _class.reference.pointer, _id_forName.pointer, _$string.pointer)
+    return _forName(_$$classRef.pointer, _id_forName.pointer, _$string.pointer)
         .object<JCharacter$JUnicodeScript?>();
   }
 
@@ -6824,7 +6864,8 @@ extension type JCharacter$JUnicodeScript._(jni$_.JObject _$this)
   static JCharacter$JUnicodeScript? of(
     core$_.int i,
   ) {
-    return _of(_class.reference.pointer, _id_of.pointer, i)
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer, i)
         .object<JCharacter$JUnicodeScript?>();
   }
 }
@@ -7080,8 +7121,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JCharacter(
     core$_.int c,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, c)
-        .object<JCharacter>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, c).object<JCharacter>();
   }
 
   static final _id_charCount = _class.staticMethodId(
@@ -7102,8 +7143,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int charCount(
     core$_.int i,
   ) {
-    return _charCount(_class.reference.pointer, _id_charCount.pointer, i)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _charCount(_$$classRef.pointer, _id_charCount.pointer, i).integer;
   }
 
   static final _id_codePointAt = _class.staticMethodId(
@@ -7128,9 +7169,10 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JCharArray? cs,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _codePointAt(
-            _class.reference.pointer, _id_codePointAt.pointer, _$cs.pointer, i)
+            _$$classRef.pointer, _id_codePointAt.pointer, _$cs.pointer, i)
         .integer;
   }
 
@@ -7164,9 +7206,10 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _codePointAt$1(_class.reference.pointer, _id_codePointAt$1.pointer,
-            _$cs.pointer, i, i1)
+    return _codePointAt$1(
+            _$$classRef.pointer, _id_codePointAt$1.pointer, _$cs.pointer, i, i1)
         .integer;
   }
 
@@ -7192,8 +7235,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject? charSequence,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _codePointAt$2(_class.reference.pointer, _id_codePointAt$2.pointer,
+    return _codePointAt$2(_$$classRef.pointer, _id_codePointAt$2.pointer,
             _$charSequence.pointer, i)
         .integer;
   }
@@ -7220,9 +7264,10 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JCharArray? cs,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _codePointBefore(_class.reference.pointer,
-            _id_codePointBefore.pointer, _$cs.pointer, i)
+    return _codePointBefore(
+            _$$classRef.pointer, _id_codePointBefore.pointer, _$cs.pointer, i)
         .integer;
   }
 
@@ -7256,8 +7301,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _codePointBefore$1(_class.reference.pointer,
+    return _codePointBefore$1(_$$classRef.pointer,
             _id_codePointBefore$1.pointer, _$cs.pointer, i, i1)
         .integer;
   }
@@ -7284,8 +7330,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject? charSequence,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _codePointBefore$2(_class.reference.pointer,
+    return _codePointBefore$2(_$$classRef.pointer,
             _id_codePointBefore$2.pointer, _$charSequence.pointer, i)
         .integer;
   }
@@ -7320,8 +7367,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _codePointCount(_class.reference.pointer, _id_codePointCount.pointer,
+    return _codePointCount(_$$classRef.pointer, _id_codePointCount.pointer,
             _$cs.pointer, i, i1)
         .integer;
   }
@@ -7356,9 +7404,10 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _codePointCount$1(_class.reference.pointer,
-            _id_codePointCount$1.pointer, _$charSequence.pointer, i, i1)
+    return _codePointCount$1(_$$classRef.pointer, _id_codePointCount$1.pointer,
+            _$charSequence.pointer, i, i1)
         .integer;
   }
 
@@ -7382,9 +7431,10 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int codePointOf(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _codePointOf(
-            _class.reference.pointer, _id_codePointOf.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_codePointOf.pointer, _$string.pointer)
         .integer;
   }
 
@@ -7409,8 +7459,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int c,
     core$_.int c1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, c, c1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compare(_$$classRef.pointer, _id_compare.pointer, c, c1).integer;
   }
 
   static final _id_digit = _class.staticMethodId(
@@ -7434,7 +7484,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int c,
     core$_.int i,
   ) {
-    return _digit(_class.reference.pointer, _id_digit.pointer, c, i).integer;
+    final _$$classRef = _class.reference;
+    return _digit(_$$classRef.pointer, _id_digit.pointer, c, i).integer;
   }
 
   static final _id_digit$1 = _class.staticMethodId(
@@ -7458,8 +7509,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _digit$1(_class.reference.pointer, _id_digit$1.pointer, i, i1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _digit$1(_$$classRef.pointer, _id_digit$1.pointer, i, i1).integer;
   }
 
   static final _id_forDigit = _class.staticMethodId(
@@ -7483,8 +7534,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _forDigit(_class.reference.pointer, _id_forDigit.pointer, i, i1)
-        .char;
+    final _$$classRef = _class.reference;
+    return _forDigit(_$$classRef.pointer, _id_forDigit.pointer, i, i1).char;
   }
 
   static final _id_getDirectionality = _class.staticMethodId(
@@ -7505,8 +7556,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int getDirectionality(
     core$_.int c,
   ) {
+    final _$$classRef = _class.reference;
     return _getDirectionality(
-            _class.reference.pointer, _id_getDirectionality.pointer, c)
+            _$$classRef.pointer, _id_getDirectionality.pointer, c)
         .byte;
   }
 
@@ -7528,8 +7580,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int getDirectionality$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _getDirectionality$1(
-            _class.reference.pointer, _id_getDirectionality$1.pointer, i)
+            _$$classRef.pointer, _id_getDirectionality$1.pointer, i)
         .byte;
   }
 
@@ -7552,7 +7605,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? getName(
     core$_.int i,
   ) {
-    return _getName(_class.reference.pointer, _id_getName.pointer, i)
+    final _$$classRef = _class.reference;
+    return _getName(_$$classRef.pointer, _id_getName.pointer, i)
         .object<JString?>();
   }
 
@@ -7574,8 +7628,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int getNumericValue(
     core$_.int c,
   ) {
-    return _getNumericValue(
-            _class.reference.pointer, _id_getNumericValue.pointer, c)
+    final _$$classRef = _class.reference;
+    return _getNumericValue(_$$classRef.pointer, _id_getNumericValue.pointer, c)
         .integer;
   }
 
@@ -7597,8 +7651,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int getNumericValue$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _getNumericValue$1(
-            _class.reference.pointer, _id_getNumericValue$1.pointer, i)
+            _$$classRef.pointer, _id_getNumericValue$1.pointer, i)
         .integer;
   }
 
@@ -7620,7 +7675,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int getType(
     core$_.int c,
   ) {
-    return _getType(_class.reference.pointer, _id_getType.pointer, c).integer;
+    final _$$classRef = _class.reference;
+    return _getType(_$$classRef.pointer, _id_getType.pointer, c).integer;
   }
 
   static final _id_getType$1 = _class.staticMethodId(
@@ -7641,8 +7697,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int getType$1(
     core$_.int i,
   ) {
-    return _getType$1(_class.reference.pointer, _id_getType$1.pointer, i)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _getType$1(_$$classRef.pointer, _id_getType$1.pointer, i).integer;
   }
 
   static final _id_hashCode$2 = _class.staticMethodId(
@@ -7663,8 +7719,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int hashCode$2(
     core$_.int c,
   ) {
-    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, c)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, c).integer;
   }
 
   static final _id_highSurrogate = _class.staticMethodId(
@@ -7685,8 +7741,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int highSurrogate(
     core$_.int i,
   ) {
-    return _highSurrogate(
-            _class.reference.pointer, _id_highSurrogate.pointer, i)
+    final _$$classRef = _class.reference;
+    return _highSurrogate(_$$classRef.pointer, _id_highSurrogate.pointer, i)
         .char;
   }
 
@@ -7708,7 +7764,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isAlphabetic(
     core$_.int i,
   ) {
-    return _isAlphabetic(_class.reference.pointer, _id_isAlphabetic.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isAlphabetic(_$$classRef.pointer, _id_isAlphabetic.pointer, i)
         .boolean;
   }
 
@@ -7730,8 +7787,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isBmpCodePoint(
     core$_.int i,
   ) {
-    return _isBmpCodePoint(
-            _class.reference.pointer, _id_isBmpCodePoint.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isBmpCodePoint(_$$classRef.pointer, _id_isBmpCodePoint.pointer, i)
         .boolean;
   }
 
@@ -7753,8 +7810,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isDefined(
     core$_.int c,
   ) {
-    return _isDefined(_class.reference.pointer, _id_isDefined.pointer, c)
-        .boolean;
+    final _$$classRef = _class.reference;
+    return _isDefined(_$$classRef.pointer, _id_isDefined.pointer, c).boolean;
   }
 
   static final _id_isDefined$1 = _class.staticMethodId(
@@ -7775,7 +7832,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isDefined$1(
     core$_.int i,
   ) {
-    return _isDefined$1(_class.reference.pointer, _id_isDefined$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isDefined$1(_$$classRef.pointer, _id_isDefined$1.pointer, i)
         .boolean;
   }
 
@@ -7797,7 +7855,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isDigit(
     core$_.int c,
   ) {
-    return _isDigit(_class.reference.pointer, _id_isDigit.pointer, c).boolean;
+    final _$$classRef = _class.reference;
+    return _isDigit(_$$classRef.pointer, _id_isDigit.pointer, c).boolean;
   }
 
   static final _id_isDigit$1 = _class.staticMethodId(
@@ -7818,8 +7877,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isDigit$1(
     core$_.int i,
   ) {
-    return _isDigit$1(_class.reference.pointer, _id_isDigit$1.pointer, i)
-        .boolean;
+    final _$$classRef = _class.reference;
+    return _isDigit$1(_$$classRef.pointer, _id_isDigit$1.pointer, i).boolean;
   }
 
   static final _id_isEmoji = _class.staticMethodId(
@@ -7840,7 +7899,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isEmoji(
     core$_.int i,
   ) {
-    return _isEmoji(_class.reference.pointer, _id_isEmoji.pointer, i).boolean;
+    final _$$classRef = _class.reference;
+    return _isEmoji(_$$classRef.pointer, _id_isEmoji.pointer, i).boolean;
   }
 
   static final _id_isEmojiComponent = _class.staticMethodId(
@@ -7861,8 +7921,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isEmojiComponent(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isEmojiComponent(
-            _class.reference.pointer, _id_isEmojiComponent.pointer, i)
+            _$$classRef.pointer, _id_isEmojiComponent.pointer, i)
         .boolean;
   }
 
@@ -7884,8 +7945,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isEmojiModifier(
     core$_.int i,
   ) {
-    return _isEmojiModifier(
-            _class.reference.pointer, _id_isEmojiModifier.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isEmojiModifier(_$$classRef.pointer, _id_isEmojiModifier.pointer, i)
         .boolean;
   }
 
@@ -7907,8 +7968,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isEmojiModifierBase(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isEmojiModifierBase(
-            _class.reference.pointer, _id_isEmojiModifierBase.pointer, i)
+            _$$classRef.pointer, _id_isEmojiModifierBase.pointer, i)
         .boolean;
   }
 
@@ -7930,8 +7992,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isEmojiPresentation(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isEmojiPresentation(
-            _class.reference.pointer, _id_isEmojiPresentation.pointer, i)
+            _$$classRef.pointer, _id_isEmojiPresentation.pointer, i)
         .boolean;
   }
 
@@ -7953,8 +8016,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isExtendedPictographic(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isExtendedPictographic(
-            _class.reference.pointer, _id_isExtendedPictographic.pointer, i)
+            _$$classRef.pointer, _id_isExtendedPictographic.pointer, i)
         .boolean;
   }
 
@@ -7976,8 +8040,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isHighSurrogate(
     core$_.int c,
   ) {
-    return _isHighSurrogate(
-            _class.reference.pointer, _id_isHighSurrogate.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isHighSurrogate(_$$classRef.pointer, _id_isHighSurrogate.pointer, c)
         .boolean;
   }
 
@@ -7999,7 +8063,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isISOControl(
     core$_.int c,
   ) {
-    return _isISOControl(_class.reference.pointer, _id_isISOControl.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isISOControl(_$$classRef.pointer, _id_isISOControl.pointer, c)
         .boolean;
   }
 
@@ -8021,8 +8086,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isISOControl$1(
     core$_.int i,
   ) {
-    return _isISOControl$1(
-            _class.reference.pointer, _id_isISOControl$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isISOControl$1(_$$classRef.pointer, _id_isISOControl$1.pointer, i)
         .boolean;
   }
 
@@ -8044,8 +8109,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isIdentifierIgnorable(
     core$_.int c,
   ) {
+    final _$$classRef = _class.reference;
     return _isIdentifierIgnorable(
-            _class.reference.pointer, _id_isIdentifierIgnorable.pointer, c)
+            _$$classRef.pointer, _id_isIdentifierIgnorable.pointer, c)
         .boolean;
   }
 
@@ -8067,8 +8133,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isIdentifierIgnorable$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isIdentifierIgnorable$1(
-            _class.reference.pointer, _id_isIdentifierIgnorable$1.pointer, i)
+            _$$classRef.pointer, _id_isIdentifierIgnorable$1.pointer, i)
         .boolean;
   }
 
@@ -8090,8 +8157,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isIdeographic(
     core$_.int i,
   ) {
-    return _isIdeographic(
-            _class.reference.pointer, _id_isIdeographic.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isIdeographic(_$$classRef.pointer, _id_isIdeographic.pointer, i)
         .boolean;
   }
 
@@ -8113,8 +8180,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isJavaIdentifierPart(
     core$_.int c,
   ) {
+    final _$$classRef = _class.reference;
     return _isJavaIdentifierPart(
-            _class.reference.pointer, _id_isJavaIdentifierPart.pointer, c)
+            _$$classRef.pointer, _id_isJavaIdentifierPart.pointer, c)
         .boolean;
   }
 
@@ -8136,8 +8204,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isJavaIdentifierPart$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isJavaIdentifierPart$1(
-            _class.reference.pointer, _id_isJavaIdentifierPart$1.pointer, i)
+            _$$classRef.pointer, _id_isJavaIdentifierPart$1.pointer, i)
         .boolean;
   }
 
@@ -8159,8 +8228,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isJavaIdentifierStart(
     core$_.int c,
   ) {
+    final _$$classRef = _class.reference;
     return _isJavaIdentifierStart(
-            _class.reference.pointer, _id_isJavaIdentifierStart.pointer, c)
+            _$$classRef.pointer, _id_isJavaIdentifierStart.pointer, c)
         .boolean;
   }
 
@@ -8182,8 +8252,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isJavaIdentifierStart$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isJavaIdentifierStart$1(
-            _class.reference.pointer, _id_isJavaIdentifierStart$1.pointer, i)
+            _$$classRef.pointer, _id_isJavaIdentifierStart$1.pointer, i)
         .boolean;
   }
 
@@ -8205,7 +8276,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isJavaLetter(
     core$_.int c,
   ) {
-    return _isJavaLetter(_class.reference.pointer, _id_isJavaLetter.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isJavaLetter(_$$classRef.pointer, _id_isJavaLetter.pointer, c)
         .boolean;
   }
 
@@ -8227,8 +8299,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isJavaLetterOrDigit(
     core$_.int c,
   ) {
+    final _$$classRef = _class.reference;
     return _isJavaLetterOrDigit(
-            _class.reference.pointer, _id_isJavaLetterOrDigit.pointer, c)
+            _$$classRef.pointer, _id_isJavaLetterOrDigit.pointer, c)
         .boolean;
   }
 
@@ -8250,7 +8323,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isLetter(
     core$_.int c,
   ) {
-    return _isLetter(_class.reference.pointer, _id_isLetter.pointer, c).boolean;
+    final _$$classRef = _class.reference;
+    return _isLetter(_$$classRef.pointer, _id_isLetter.pointer, c).boolean;
   }
 
   static final _id_isLetter$1 = _class.staticMethodId(
@@ -8271,8 +8345,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isLetter$1(
     core$_.int i,
   ) {
-    return _isLetter$1(_class.reference.pointer, _id_isLetter$1.pointer, i)
-        .boolean;
+    final _$$classRef = _class.reference;
+    return _isLetter$1(_$$classRef.pointer, _id_isLetter$1.pointer, i).boolean;
   }
 
   static final _id_isLetterOrDigit = _class.staticMethodId(
@@ -8293,8 +8367,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isLetterOrDigit(
     core$_.int c,
   ) {
-    return _isLetterOrDigit(
-            _class.reference.pointer, _id_isLetterOrDigit.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isLetterOrDigit(_$$classRef.pointer, _id_isLetterOrDigit.pointer, c)
         .boolean;
   }
 
@@ -8316,8 +8390,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isLetterOrDigit$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isLetterOrDigit$1(
-            _class.reference.pointer, _id_isLetterOrDigit$1.pointer, i)
+            _$$classRef.pointer, _id_isLetterOrDigit$1.pointer, i)
         .boolean;
   }
 
@@ -8339,8 +8414,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isLowSurrogate(
     core$_.int c,
   ) {
-    return _isLowSurrogate(
-            _class.reference.pointer, _id_isLowSurrogate.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isLowSurrogate(_$$classRef.pointer, _id_isLowSurrogate.pointer, c)
         .boolean;
   }
 
@@ -8362,7 +8437,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isLowerCase(
     core$_.int c,
   ) {
-    return _isLowerCase(_class.reference.pointer, _id_isLowerCase.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isLowerCase(_$$classRef.pointer, _id_isLowerCase.pointer, c)
         .boolean;
   }
 
@@ -8384,8 +8460,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isLowerCase$1(
     core$_.int i,
   ) {
-    return _isLowerCase$1(
-            _class.reference.pointer, _id_isLowerCase$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isLowerCase$1(_$$classRef.pointer, _id_isLowerCase$1.pointer, i)
         .boolean;
   }
 
@@ -8407,8 +8483,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isMirrored(
     core$_.int c,
   ) {
-    return _isMirrored(_class.reference.pointer, _id_isMirrored.pointer, c)
-        .boolean;
+    final _$$classRef = _class.reference;
+    return _isMirrored(_$$classRef.pointer, _id_isMirrored.pointer, c).boolean;
   }
 
   static final _id_isMirrored$1 = _class.staticMethodId(
@@ -8429,7 +8505,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isMirrored$1(
     core$_.int i,
   ) {
-    return _isMirrored$1(_class.reference.pointer, _id_isMirrored$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isMirrored$1(_$$classRef.pointer, _id_isMirrored$1.pointer, i)
         .boolean;
   }
 
@@ -8451,7 +8528,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isSpace(
     core$_.int c,
   ) {
-    return _isSpace(_class.reference.pointer, _id_isSpace.pointer, c).boolean;
+    final _$$classRef = _class.reference;
+    return _isSpace(_$$classRef.pointer, _id_isSpace.pointer, c).boolean;
   }
 
   static final _id_isSpaceChar = _class.staticMethodId(
@@ -8472,7 +8550,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isSpaceChar(
     core$_.int c,
   ) {
-    return _isSpaceChar(_class.reference.pointer, _id_isSpaceChar.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isSpaceChar(_$$classRef.pointer, _id_isSpaceChar.pointer, c)
         .boolean;
   }
 
@@ -8494,8 +8573,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isSpaceChar$1(
     core$_.int i,
   ) {
-    return _isSpaceChar$1(
-            _class.reference.pointer, _id_isSpaceChar$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isSpaceChar$1(_$$classRef.pointer, _id_isSpaceChar$1.pointer, i)
         .boolean;
   }
 
@@ -8517,8 +8596,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isSupplementaryCodePoint(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isSupplementaryCodePoint(
-            _class.reference.pointer, _id_isSupplementaryCodePoint.pointer, i)
+            _$$classRef.pointer, _id_isSupplementaryCodePoint.pointer, i)
         .boolean;
   }
 
@@ -8540,7 +8620,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isSurrogate(
     core$_.int c,
   ) {
-    return _isSurrogate(_class.reference.pointer, _id_isSurrogate.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isSurrogate(_$$classRef.pointer, _id_isSurrogate.pointer, c)
         .boolean;
   }
 
@@ -8565,8 +8646,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int c,
     core$_.int c1,
   ) {
+    final _$$classRef = _class.reference;
     return _isSurrogatePair(
-            _class.reference.pointer, _id_isSurrogatePair.pointer, c, c1)
+            _$$classRef.pointer, _id_isSurrogatePair.pointer, c, c1)
         .boolean;
   }
 
@@ -8588,7 +8670,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isTitleCase(
     core$_.int c,
   ) {
-    return _isTitleCase(_class.reference.pointer, _id_isTitleCase.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isTitleCase(_$$classRef.pointer, _id_isTitleCase.pointer, c)
         .boolean;
   }
 
@@ -8610,8 +8693,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isTitleCase$1(
     core$_.int i,
   ) {
-    return _isTitleCase$1(
-            _class.reference.pointer, _id_isTitleCase$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isTitleCase$1(_$$classRef.pointer, _id_isTitleCase$1.pointer, i)
         .boolean;
   }
 
@@ -8633,8 +8716,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isUnicodeIdentifierPart(
     core$_.int c,
   ) {
+    final _$$classRef = _class.reference;
     return _isUnicodeIdentifierPart(
-            _class.reference.pointer, _id_isUnicodeIdentifierPart.pointer, c)
+            _$$classRef.pointer, _id_isUnicodeIdentifierPart.pointer, c)
         .boolean;
   }
 
@@ -8656,8 +8740,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isUnicodeIdentifierPart$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isUnicodeIdentifierPart$1(
-            _class.reference.pointer, _id_isUnicodeIdentifierPart$1.pointer, i)
+            _$$classRef.pointer, _id_isUnicodeIdentifierPart$1.pointer, i)
         .boolean;
   }
 
@@ -8679,8 +8764,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isUnicodeIdentifierStart(
     core$_.int c,
   ) {
+    final _$$classRef = _class.reference;
     return _isUnicodeIdentifierStart(
-            _class.reference.pointer, _id_isUnicodeIdentifierStart.pointer, c)
+            _$$classRef.pointer, _id_isUnicodeIdentifierStart.pointer, c)
         .boolean;
   }
 
@@ -8703,8 +8789,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isUnicodeIdentifierStart$1(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isUnicodeIdentifierStart$1(
-            _class.reference.pointer, _id_isUnicodeIdentifierStart$1.pointer, i)
+            _$$classRef.pointer, _id_isUnicodeIdentifierStart$1.pointer, i)
         .boolean;
   }
 
@@ -8726,7 +8813,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isUpperCase(
     core$_.int c,
   ) {
-    return _isUpperCase(_class.reference.pointer, _id_isUpperCase.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isUpperCase(_$$classRef.pointer, _id_isUpperCase.pointer, c)
         .boolean;
   }
 
@@ -8748,8 +8836,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isUpperCase$1(
     core$_.int i,
   ) {
-    return _isUpperCase$1(
-            _class.reference.pointer, _id_isUpperCase$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isUpperCase$1(_$$classRef.pointer, _id_isUpperCase$1.pointer, i)
         .boolean;
   }
 
@@ -8771,8 +8859,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isValidCodePoint(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _isValidCodePoint(
-            _class.reference.pointer, _id_isValidCodePoint.pointer, i)
+            _$$classRef.pointer, _id_isValidCodePoint.pointer, i)
         .boolean;
   }
 
@@ -8794,7 +8883,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isWhitespace(
     core$_.int c,
   ) {
-    return _isWhitespace(_class.reference.pointer, _id_isWhitespace.pointer, c)
+    final _$$classRef = _class.reference;
+    return _isWhitespace(_$$classRef.pointer, _id_isWhitespace.pointer, c)
         .boolean;
   }
 
@@ -8816,8 +8906,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.bool isWhitespace$1(
     core$_.int i,
   ) {
-    return _isWhitespace$1(
-            _class.reference.pointer, _id_isWhitespace$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _isWhitespace$1(_$$classRef.pointer, _id_isWhitespace$1.pointer, i)
         .boolean;
   }
 
@@ -8839,8 +8929,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int lowSurrogate(
     core$_.int i,
   ) {
-    return _lowSurrogate(_class.reference.pointer, _id_lowSurrogate.pointer, i)
-        .char;
+    final _$$classRef = _class.reference;
+    return _lowSurrogate(_$$classRef.pointer, _id_lowSurrogate.pointer, i).char;
   }
 
   static final _id_offsetByCodePoints = _class.staticMethodId(
@@ -8879,8 +8969,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i2,
     core$_.int i3,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _offsetByCodePoints(_class.reference.pointer,
+    return _offsetByCodePoints(_$$classRef.pointer,
             _id_offsetByCodePoints.pointer, _$cs.pointer, i, i1, i2, i3)
         .integer;
   }
@@ -8915,8 +9006,9 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _offsetByCodePoints$1(_class.reference.pointer,
+    return _offsetByCodePoints$1(_$$classRef.pointer,
             _id_offsetByCodePoints$1.pointer, _$charSequence.pointer, i, i1)
         .integer;
   }
@@ -8939,8 +9031,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int reverseBytes(
     core$_.int c,
   ) {
-    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, c)
-        .char;
+    final _$$classRef = _class.reference;
+    return _reverseBytes(_$$classRef.pointer, _id_reverseBytes.pointer, c).char;
   }
 
   static final _id_toChars = _class.staticMethodId(
@@ -8962,7 +9054,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JCharArray? toChars(
     core$_.int i,
   ) {
-    return _toChars(_class.reference.pointer, _id_toChars.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toChars(_$$classRef.pointer, _id_toChars.pointer, i)
         .object<jni$_.JCharArray?>();
   }
 
@@ -8996,9 +9089,10 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JCharArray? cs,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _toChars$1(_class.reference.pointer, _id_toChars$1.pointer, i,
-            _$cs.pointer, i1)
+    return _toChars$1(
+            _$$classRef.pointer, _id_toChars$1.pointer, i, _$cs.pointer, i1)
         .integer;
   }
 
@@ -9023,8 +9117,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int c,
     core$_.int c1,
   ) {
-    return _toCodePoint(
-            _class.reference.pointer, _id_toCodePoint.pointer, c, c1)
+    final _$$classRef = _class.reference;
+    return _toCodePoint(_$$classRef.pointer, _id_toCodePoint.pointer, c, c1)
         .integer;
   }
 
@@ -9046,8 +9140,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int toLowerCase(
     core$_.int c,
   ) {
-    return _toLowerCase(_class.reference.pointer, _id_toLowerCase.pointer, c)
-        .char;
+    final _$$classRef = _class.reference;
+    return _toLowerCase(_$$classRef.pointer, _id_toLowerCase.pointer, c).char;
   }
 
   static final _id_toLowerCase$1 = _class.staticMethodId(
@@ -9068,8 +9162,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int toLowerCase$1(
     core$_.int i,
   ) {
-    return _toLowerCase$1(
-            _class.reference.pointer, _id_toLowerCase$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toLowerCase$1(_$$classRef.pointer, _id_toLowerCase$1.pointer, i)
         .integer;
   }
 
@@ -9092,7 +9186,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? toString$2(
     core$_.int c,
   ) {
-    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, c)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, c)
         .object<JString?>();
   }
 
@@ -9115,7 +9210,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? toString$3(
     core$_.int i,
   ) {
-    return _toString$3(_class.reference.pointer, _id_toString$3.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toString$3(_$$classRef.pointer, _id_toString$3.pointer, i)
         .object<JString?>();
   }
 
@@ -9137,8 +9233,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int toTitleCase(
     core$_.int c,
   ) {
-    return _toTitleCase(_class.reference.pointer, _id_toTitleCase.pointer, c)
-        .char;
+    final _$$classRef = _class.reference;
+    return _toTitleCase(_$$classRef.pointer, _id_toTitleCase.pointer, c).char;
   }
 
   static final _id_toTitleCase$1 = _class.staticMethodId(
@@ -9159,8 +9255,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int toTitleCase$1(
     core$_.int i,
   ) {
-    return _toTitleCase$1(
-            _class.reference.pointer, _id_toTitleCase$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toTitleCase$1(_$$classRef.pointer, _id_toTitleCase$1.pointer, i)
         .integer;
   }
 
@@ -9182,8 +9278,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int toUpperCase(
     core$_.int c,
   ) {
-    return _toUpperCase(_class.reference.pointer, _id_toUpperCase.pointer, c)
-        .char;
+    final _$$classRef = _class.reference;
+    return _toUpperCase(_$$classRef.pointer, _id_toUpperCase.pointer, c).char;
   }
 
   static final _id_toUpperCase$1 = _class.staticMethodId(
@@ -9204,8 +9300,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static core$_.int toUpperCase$1(
     core$_.int i,
   ) {
-    return _toUpperCase$1(
-            _class.reference.pointer, _id_toUpperCase$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toUpperCase$1(_$$classRef.pointer, _id_toUpperCase$1.pointer, i)
         .integer;
   }
 
@@ -9228,7 +9324,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
   static JCharacter? valueOf(
     core$_.int c,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, c)
+    final _$$classRef = _class.reference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, c)
         .object<JCharacter?>();
   }
 }
@@ -9253,7 +9350,8 @@ extension JCharacter$$Methods on JCharacter {
 
   /// from: `public char charValue()`
   core$_.int charValue() {
-    return _charValue(reference.pointer, _id_charValue.pointer).char;
+    final _$$selfRef = reference;
+    return _charValue(_$$selfRef.pointer, _id_charValue.pointer).char;
   }
 
   static final _id_compareTo = JCharacter._class.instanceMethodId(
@@ -9276,9 +9374,10 @@ extension JCharacter$$Methods on JCharacter {
   core$_.int compareTo(
     JCharacter? character,
   ) {
+    final _$$selfRef = reference;
     final _$character = character?.reference ?? jni$_.jNullReference;
     return _compareTo(
-            reference.pointer, _id_compareTo.pointer, _$character.pointer)
+            _$$selfRef.pointer, _id_compareTo.pointer, _$character.pointer)
         .integer;
   }
 
@@ -9302,8 +9401,9 @@ extension JCharacter$$Methods on JCharacter {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -9326,7 +9426,8 @@ extension JCharacter$$Methods on JCharacter {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_toString$1 = JCharacter._class.instanceMethodId(
@@ -9349,7 +9450,8 @@ extension JCharacter$$Methods on JCharacter {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -9467,8 +9569,8 @@ extension type JDouble._(jni$_.JObject _$this)
   factory JDouble(
     core$_.double d,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, d)
-        .object<JDouble>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, d).object<JDouble>();
   }
 
   static final _id_compare = _class.staticMethodId(
@@ -9492,8 +9594,8 @@ extension type JDouble._(jni$_.JObject _$this)
     core$_.double d,
     core$_.double d1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, d, d1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compare(_$$classRef.pointer, _id_compare.pointer, d, d1).integer;
   }
 
   static final _id_doubleToLongBits = _class.staticMethodId(
@@ -9514,8 +9616,9 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.int doubleToLongBits(
     core$_.double d,
   ) {
+    final _$$classRef = _class.reference;
     return _doubleToLongBits(
-            _class.reference.pointer, _id_doubleToLongBits.pointer, d)
+            _$$classRef.pointer, _id_doubleToLongBits.pointer, d)
         .long;
   }
 
@@ -9537,8 +9640,9 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.int doubleToRawLongBits(
     core$_.double d,
   ) {
+    final _$$classRef = _class.reference;
     return _doubleToRawLongBits(
-            _class.reference.pointer, _id_doubleToRawLongBits.pointer, d)
+            _$$classRef.pointer, _id_doubleToRawLongBits.pointer, d)
         .long;
   }
 
@@ -9560,8 +9664,8 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.int hashCode$2(
     core$_.double d,
   ) {
-    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, d)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, d).integer;
   }
 
   static final _id_isFinite = _class.staticMethodId(
@@ -9582,7 +9686,8 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.bool isFinite(
     core$_.double d,
   ) {
-    return _isFinite(_class.reference.pointer, _id_isFinite.pointer, d).boolean;
+    final _$$classRef = _class.reference;
+    return _isFinite(_$$classRef.pointer, _id_isFinite.pointer, d).boolean;
   }
 
   static final _id_isInfinite$1 = _class.staticMethodId(
@@ -9603,7 +9708,8 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.bool isInfinite$1(
     core$_.double d,
   ) {
-    return _isInfinite$1(_class.reference.pointer, _id_isInfinite$1.pointer, d)
+    final _$$classRef = _class.reference;
+    return _isInfinite$1(_$$classRef.pointer, _id_isInfinite$1.pointer, d)
         .boolean;
   }
 
@@ -9625,7 +9731,8 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.bool isNaN$1(
     core$_.double d,
   ) {
-    return _isNaN$1(_class.reference.pointer, _id_isNaN$1.pointer, d).boolean;
+    final _$$classRef = _class.reference;
+    return _isNaN$1(_$$classRef.pointer, _id_isNaN$1.pointer, d).boolean;
   }
 
   static final _id_longBitsToDouble = _class.staticMethodId(
@@ -9646,8 +9753,9 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.double longBitsToDouble(
     core$_.int j,
   ) {
+    final _$$classRef = _class.reference;
     return _longBitsToDouble(
-            _class.reference.pointer, _id_longBitsToDouble.pointer, j)
+            _$$classRef.pointer, _id_longBitsToDouble.pointer, j)
         .doubleFloat;
   }
 
@@ -9672,7 +9780,8 @@ extension type JDouble._(jni$_.JObject _$this)
     core$_.double d,
     core$_.double d1,
   ) {
-    return _max(_class.reference.pointer, _id_max.pointer, d, d1).doubleFloat;
+    final _$$classRef = _class.reference;
+    return _max(_$$classRef.pointer, _id_max.pointer, d, d1).doubleFloat;
   }
 
   static final _id_min = _class.staticMethodId(
@@ -9696,7 +9805,8 @@ extension type JDouble._(jni$_.JObject _$this)
     core$_.double d,
     core$_.double d1,
   ) {
-    return _min(_class.reference.pointer, _id_min.pointer, d, d1).doubleFloat;
+    final _$$classRef = _class.reference;
+    return _min(_$$classRef.pointer, _id_min.pointer, d, d1).doubleFloat;
   }
 
   static final _id_parseDouble = _class.staticMethodId(
@@ -9719,9 +9829,10 @@ extension type JDouble._(jni$_.JObject _$this)
   static core$_.double parseDouble(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseDouble(
-            _class.reference.pointer, _id_parseDouble.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_parseDouble.pointer, _$string.pointer)
         .doubleFloat;
   }
 
@@ -9746,7 +9857,8 @@ extension type JDouble._(jni$_.JObject _$this)
     core$_.double d,
     core$_.double d1,
   ) {
-    return _sum(_class.reference.pointer, _id_sum.pointer, d, d1).doubleFloat;
+    final _$$classRef = _class.reference;
+    return _sum(_$$classRef.pointer, _id_sum.pointer, d, d1).doubleFloat;
   }
 
   static final _id_toHexString = _class.staticMethodId(
@@ -9768,7 +9880,8 @@ extension type JDouble._(jni$_.JObject _$this)
   static JString? toHexString(
     core$_.double d,
   ) {
-    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, d)
+    final _$$classRef = _class.reference;
+    return _toHexString(_$$classRef.pointer, _id_toHexString.pointer, d)
         .object<JString?>();
   }
 
@@ -9791,7 +9904,8 @@ extension type JDouble._(jni$_.JObject _$this)
   static JString? toString$2(
     core$_.double d,
   ) {
-    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, d)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, d)
         .object<JString?>();
   }
 
@@ -9814,7 +9928,8 @@ extension type JDouble._(jni$_.JObject _$this)
   static JDouble? valueOf(
     core$_.double d,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, d)
+    final _$$classRef = _class.reference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, d)
         .object<JDouble?>();
   }
 
@@ -9839,9 +9954,10 @@ extension type JDouble._(jni$_.JObject _$this)
   static JDouble? valueOf$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$1(
-            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_valueOf$1.pointer, _$string.pointer)
         .object<JDouble?>();
   }
 }
@@ -9866,7 +9982,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public byte byteValue()`
   core$_.int byteValue() {
-    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _byteValue(_$$selfRef.pointer, _id_byteValue.pointer).byte;
   }
 
   static final _id_compareTo = JDouble._class.instanceMethodId(
@@ -9889,9 +10006,10 @@ extension JDouble$$Methods on JDouble {
   core$_.int compareTo(
     JDouble? double,
   ) {
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
     return _compareTo(
-            reference.pointer, _id_compareTo.pointer, _$double.pointer)
+            _$$selfRef.pointer, _id_compareTo.pointer, _$double.pointer)
         .integer;
   }
 
@@ -9914,7 +10032,9 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public double doubleValue()`
   core$_.double doubleValue() {
-    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _doubleValue(_$$selfRef.pointer, _id_doubleValue.pointer)
+        .doubleFloat;
   }
 
   static final _id_equals = JDouble._class.instanceMethodId(
@@ -9937,8 +10057,9 @@ extension JDouble$$Methods on JDouble {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -9961,7 +10082,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public float floatValue()`
   core$_.double floatValue() {
-    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _floatValue(_$$selfRef.pointer, _id_floatValue.pointer).float;
   }
 
   static final _id_hashCode$1 = JDouble._class.instanceMethodId(
@@ -9983,7 +10105,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_intValue = JDouble._class.instanceMethodId(
@@ -10005,7 +10128,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public int intValue()`
   core$_.int intValue() {
-    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _intValue(_$$selfRef.pointer, _id_intValue.pointer).integer;
   }
 
   static final _id_get$isInfinite = JDouble._class.instanceMethodId(
@@ -10027,7 +10151,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public boolean isInfinite()`
   core$_.bool get isInfinite {
-    return _get$isInfinite(reference.pointer, _id_get$isInfinite.pointer)
+    final _$$selfRef = reference;
+    return _get$isInfinite(_$$selfRef.pointer, _id_get$isInfinite.pointer)
         .boolean;
   }
 
@@ -10050,7 +10175,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public boolean isNaN()`
   core$_.bool get isNaN {
-    return _get$isNaN(reference.pointer, _id_get$isNaN.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isNaN(_$$selfRef.pointer, _id_get$isNaN.pointer).boolean;
   }
 
   static final _id_longValue = JDouble._class.instanceMethodId(
@@ -10072,7 +10198,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public long longValue()`
   core$_.int longValue() {
-    return _longValue(reference.pointer, _id_longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _longValue(_$$selfRef.pointer, _id_longValue.pointer).long;
   }
 
   static final _id_shortValue = JDouble._class.instanceMethodId(
@@ -10094,7 +10221,8 @@ extension JDouble$$Methods on JDouble {
 
   /// from: `public short shortValue()`
   core$_.int shortValue() {
-    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _shortValue(_$$selfRef.pointer, _id_shortValue.pointer).short;
   }
 
   static final _id_toString$1 = JDouble._class.instanceMethodId(
@@ -10117,7 +10245,8 @@ extension JDouble$$Methods on JDouble {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -10235,8 +10364,8 @@ extension type JFloat._(jni$_.JObject _$this)
   factory JFloat(
     core$_.double f,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, f)
-        .object<JFloat>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, f).object<JFloat>();
   }
 
   static final _id_compare = _class.staticMethodId(
@@ -10260,8 +10389,8 @@ extension type JFloat._(jni$_.JObject _$this)
     core$_.double f,
     core$_.double f1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, f, f1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compare(_$$classRef.pointer, _id_compare.pointer, f, f1).integer;
   }
 
   static final _id_float16ToFloat = _class.staticMethodId(
@@ -10282,8 +10411,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.double float16ToFloat(
     core$_.int s,
   ) {
-    return _float16ToFloat(
-            _class.reference.pointer, _id_float16ToFloat.pointer, s)
+    final _$$classRef = _class.reference;
+    return _float16ToFloat(_$$classRef.pointer, _id_float16ToFloat.pointer, s)
         .float;
   }
 
@@ -10305,8 +10434,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.int floatToFloat16(
     core$_.double f,
   ) {
-    return _floatToFloat16(
-            _class.reference.pointer, _id_floatToFloat16.pointer, f)
+    final _$$classRef = _class.reference;
+    return _floatToFloat16(_$$classRef.pointer, _id_floatToFloat16.pointer, f)
         .short;
   }
 
@@ -10328,8 +10457,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.int floatToIntBits(
     core$_.double f,
   ) {
-    return _floatToIntBits(
-            _class.reference.pointer, _id_floatToIntBits.pointer, f)
+    final _$$classRef = _class.reference;
+    return _floatToIntBits(_$$classRef.pointer, _id_floatToIntBits.pointer, f)
         .integer;
   }
 
@@ -10351,8 +10480,9 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.int floatToRawIntBits(
     core$_.double f,
   ) {
+    final _$$classRef = _class.reference;
     return _floatToRawIntBits(
-            _class.reference.pointer, _id_floatToRawIntBits.pointer, f)
+            _$$classRef.pointer, _id_floatToRawIntBits.pointer, f)
         .integer;
   }
 
@@ -10374,8 +10504,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.int hashCode$2(
     core$_.double f,
   ) {
-    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, f)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, f).integer;
   }
 
   static final _id_intBitsToFloat = _class.staticMethodId(
@@ -10396,8 +10526,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.double intBitsToFloat(
     core$_.int i,
   ) {
-    return _intBitsToFloat(
-            _class.reference.pointer, _id_intBitsToFloat.pointer, i)
+    final _$$classRef = _class.reference;
+    return _intBitsToFloat(_$$classRef.pointer, _id_intBitsToFloat.pointer, i)
         .float;
   }
 
@@ -10419,7 +10549,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.bool isFinite(
     core$_.double f,
   ) {
-    return _isFinite(_class.reference.pointer, _id_isFinite.pointer, f).boolean;
+    final _$$classRef = _class.reference;
+    return _isFinite(_$$classRef.pointer, _id_isFinite.pointer, f).boolean;
   }
 
   static final _id_isInfinite$1 = _class.staticMethodId(
@@ -10440,7 +10571,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.bool isInfinite$1(
     core$_.double f,
   ) {
-    return _isInfinite$1(_class.reference.pointer, _id_isInfinite$1.pointer, f)
+    final _$$classRef = _class.reference;
+    return _isInfinite$1(_$$classRef.pointer, _id_isInfinite$1.pointer, f)
         .boolean;
   }
 
@@ -10462,7 +10594,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.bool isNaN$1(
     core$_.double f,
   ) {
-    return _isNaN$1(_class.reference.pointer, _id_isNaN$1.pointer, f).boolean;
+    final _$$classRef = _class.reference;
+    return _isNaN$1(_$$classRef.pointer, _id_isNaN$1.pointer, f).boolean;
   }
 
   static final _id_max = _class.staticMethodId(
@@ -10486,7 +10619,8 @@ extension type JFloat._(jni$_.JObject _$this)
     core$_.double f,
     core$_.double f1,
   ) {
-    return _max(_class.reference.pointer, _id_max.pointer, f, f1).float;
+    final _$$classRef = _class.reference;
+    return _max(_$$classRef.pointer, _id_max.pointer, f, f1).float;
   }
 
   static final _id_min = _class.staticMethodId(
@@ -10510,7 +10644,8 @@ extension type JFloat._(jni$_.JObject _$this)
     core$_.double f,
     core$_.double f1,
   ) {
-    return _min(_class.reference.pointer, _id_min.pointer, f, f1).float;
+    final _$$classRef = _class.reference;
+    return _min(_$$classRef.pointer, _id_min.pointer, f, f1).float;
   }
 
   static final _id_parseFloat = _class.staticMethodId(
@@ -10533,9 +10668,10 @@ extension type JFloat._(jni$_.JObject _$this)
   static core$_.double parseFloat(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseFloat(
-            _class.reference.pointer, _id_parseFloat.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_parseFloat.pointer, _$string.pointer)
         .float;
   }
 
@@ -10560,7 +10696,8 @@ extension type JFloat._(jni$_.JObject _$this)
     core$_.double f,
     core$_.double f1,
   ) {
-    return _sum(_class.reference.pointer, _id_sum.pointer, f, f1).float;
+    final _$$classRef = _class.reference;
+    return _sum(_$$classRef.pointer, _id_sum.pointer, f, f1).float;
   }
 
   static final _id_toHexString = _class.staticMethodId(
@@ -10582,7 +10719,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static JString? toHexString(
     core$_.double f,
   ) {
-    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, f)
+    final _$$classRef = _class.reference;
+    return _toHexString(_$$classRef.pointer, _id_toHexString.pointer, f)
         .object<JString?>();
   }
 
@@ -10605,7 +10743,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static JString? toString$2(
     core$_.double f,
   ) {
-    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, f)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, f)
         .object<JString?>();
   }
 
@@ -10628,7 +10767,8 @@ extension type JFloat._(jni$_.JObject _$this)
   static JFloat? valueOf(
     core$_.double f,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, f)
+    final _$$classRef = _class.reference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, f)
         .object<JFloat?>();
   }
 
@@ -10653,9 +10793,10 @@ extension type JFloat._(jni$_.JObject _$this)
   static JFloat? valueOf$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$1(
-            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_valueOf$1.pointer, _$string.pointer)
         .object<JFloat?>();
   }
 }
@@ -10680,7 +10821,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public byte byteValue()`
   core$_.int byteValue() {
-    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _byteValue(_$$selfRef.pointer, _id_byteValue.pointer).byte;
   }
 
   static final _id_compareTo = JFloat._class.instanceMethodId(
@@ -10703,8 +10845,10 @@ extension JFloat$$Methods on JFloat {
   core$_.int compareTo(
     JFloat? float,
   ) {
+    final _$$selfRef = reference;
     final _$float = float?.reference ?? jni$_.jNullReference;
-    return _compareTo(reference.pointer, _id_compareTo.pointer, _$float.pointer)
+    return _compareTo(
+            _$$selfRef.pointer, _id_compareTo.pointer, _$float.pointer)
         .integer;
   }
 
@@ -10727,7 +10871,9 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public double doubleValue()`
   core$_.double doubleValue() {
-    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _doubleValue(_$$selfRef.pointer, _id_doubleValue.pointer)
+        .doubleFloat;
   }
 
   static final _id_equals = JFloat._class.instanceMethodId(
@@ -10750,8 +10896,9 @@ extension JFloat$$Methods on JFloat {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -10774,7 +10921,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public float floatValue()`
   core$_.double floatValue() {
-    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _floatValue(_$$selfRef.pointer, _id_floatValue.pointer).float;
   }
 
   static final _id_hashCode$1 = JFloat._class.instanceMethodId(
@@ -10796,7 +10944,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_intValue = JFloat._class.instanceMethodId(
@@ -10818,7 +10967,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public int intValue()`
   core$_.int intValue() {
-    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _intValue(_$$selfRef.pointer, _id_intValue.pointer).integer;
   }
 
   static final _id_get$isInfinite = JFloat._class.instanceMethodId(
@@ -10840,7 +10990,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public boolean isInfinite()`
   core$_.bool get isInfinite {
-    return _get$isInfinite(reference.pointer, _id_get$isInfinite.pointer)
+    final _$$selfRef = reference;
+    return _get$isInfinite(_$$selfRef.pointer, _id_get$isInfinite.pointer)
         .boolean;
   }
 
@@ -10863,7 +11014,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public boolean isNaN()`
   core$_.bool get isNaN {
-    return _get$isNaN(reference.pointer, _id_get$isNaN.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isNaN(_$$selfRef.pointer, _id_get$isNaN.pointer).boolean;
   }
 
   static final _id_longValue = JFloat._class.instanceMethodId(
@@ -10885,7 +11037,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public long longValue()`
   core$_.int longValue() {
-    return _longValue(reference.pointer, _id_longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _longValue(_$$selfRef.pointer, _id_longValue.pointer).long;
   }
 
   static final _id_shortValue = JFloat._class.instanceMethodId(
@@ -10907,7 +11060,8 @@ extension JFloat$$Methods on JFloat {
 
   /// from: `public short shortValue()`
   core$_.int shortValue() {
-    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _shortValue(_$$selfRef.pointer, _id_shortValue.pointer).short;
   }
 
   static final _id_toString$1 = JFloat._class.instanceMethodId(
@@ -10930,7 +11084,8 @@ extension JFloat$$Methods on JFloat {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -11008,8 +11163,8 @@ extension type JInteger._(jni$_.JObject _$this)
   factory JInteger(
     core$_.int i,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, i)
-        .object<JInteger>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, i).object<JInteger>();
   }
 
   static final _id_bitCount = _class.staticMethodId(
@@ -11030,7 +11185,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int bitCount(
     core$_.int i,
   ) {
-    return _bitCount(_class.reference.pointer, _id_bitCount.pointer, i).integer;
+    final _$$classRef = _class.reference;
+    return _bitCount(_$$classRef.pointer, _id_bitCount.pointer, i).integer;
   }
 
   static final _id_compare = _class.staticMethodId(
@@ -11054,8 +11210,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, i, i1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compare(_$$classRef.pointer, _id_compare.pointer, i, i1).integer;
   }
 
   static final _id_compareUnsigned = _class.staticMethodId(
@@ -11079,8 +11235,9 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     return _compareUnsigned(
-            _class.reference.pointer, _id_compareUnsigned.pointer, i, i1)
+            _$$classRef.pointer, _id_compareUnsigned.pointer, i, i1)
         .integer;
   }
 
@@ -11105,8 +11262,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _compress(_class.reference.pointer, _id_compress.pointer, i, i1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compress(_$$classRef.pointer, _id_compress.pointer, i, i1).integer;
   }
 
   static final _id_decode = _class.staticMethodId(
@@ -11130,9 +11287,9 @@ extension type JInteger._(jni$_.JObject _$this)
   static JInteger? decode(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _decode(
-            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+    return _decode(_$$classRef.pointer, _id_decode.pointer, _$string.pointer)
         .object<JInteger?>();
   }
 
@@ -11157,8 +11314,9 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     return _divideUnsigned(
-            _class.reference.pointer, _id_divideUnsigned.pointer, i, i1)
+            _$$classRef.pointer, _id_divideUnsigned.pointer, i, i1)
         .integer;
   }
 
@@ -11183,7 +11341,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _expand(_class.reference.pointer, _id_expand.pointer, i, i1).integer;
+    final _$$classRef = _class.reference;
+    return _expand(_$$classRef.pointer, _id_expand.pointer, i, i1).integer;
   }
 
   static final _id_getInteger = _class.staticMethodId(
@@ -11207,9 +11366,10 @@ extension type JInteger._(jni$_.JObject _$this)
   static JInteger? getInteger(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _getInteger(
-            _class.reference.pointer, _id_getInteger.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_getInteger.pointer, _$string.pointer)
         .object<JInteger?>();
   }
 
@@ -11236,9 +11396,10 @@ extension type JInteger._(jni$_.JObject _$this)
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _getInteger$1(_class.reference.pointer, _id_getInteger$1.pointer,
-            _$string.pointer, i)
+    return _getInteger$1(
+            _$$classRef.pointer, _id_getInteger$1.pointer, _$string.pointer, i)
         .object<JInteger?>();
   }
 
@@ -11270,9 +11431,10 @@ extension type JInteger._(jni$_.JObject _$this)
     JString? string,
     JInteger? integer,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$integer = integer?.reference ?? jni$_.jNullReference;
-    return _getInteger$2(_class.reference.pointer, _id_getInteger$2.pointer,
+    return _getInteger$2(_$$classRef.pointer, _id_getInteger$2.pointer,
             _$string.pointer, _$integer.pointer)
         .object<JInteger?>();
   }
@@ -11295,8 +11457,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int hashCode$2(
     core$_.int i,
   ) {
-    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, i)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, i).integer;
   }
 
   static final _id_highestOneBit = _class.staticMethodId(
@@ -11317,8 +11479,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int highestOneBit(
     core$_.int i,
   ) {
-    return _highestOneBit(
-            _class.reference.pointer, _id_highestOneBit.pointer, i)
+    final _$$classRef = _class.reference;
+    return _highestOneBit(_$$classRef.pointer, _id_highestOneBit.pointer, i)
         .integer;
   }
 
@@ -11340,7 +11502,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int lowestOneBit(
     core$_.int i,
   ) {
-    return _lowestOneBit(_class.reference.pointer, _id_lowestOneBit.pointer, i)
+    final _$$classRef = _class.reference;
+    return _lowestOneBit(_$$classRef.pointer, _id_lowestOneBit.pointer, i)
         .integer;
   }
 
@@ -11365,7 +11528,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _max(_class.reference.pointer, _id_max.pointer, i, i1).integer;
+    final _$$classRef = _class.reference;
+    return _max(_$$classRef.pointer, _id_max.pointer, i, i1).integer;
   }
 
   static final _id_min = _class.staticMethodId(
@@ -11389,7 +11553,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _min(_class.reference.pointer, _id_min.pointer, i, i1).integer;
+    final _$$classRef = _class.reference;
+    return _min(_$$classRef.pointer, _id_min.pointer, i, i1).integer;
   }
 
   static final _id_numberOfLeadingZeros = _class.staticMethodId(
@@ -11410,8 +11575,9 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int numberOfLeadingZeros(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _numberOfLeadingZeros(
-            _class.reference.pointer, _id_numberOfLeadingZeros.pointer, i)
+            _$$classRef.pointer, _id_numberOfLeadingZeros.pointer, i)
         .integer;
   }
 
@@ -11433,8 +11599,9 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int numberOfTrailingZeros(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _numberOfTrailingZeros(
-            _class.reference.pointer, _id_numberOfTrailingZeros.pointer, i)
+            _$$classRef.pointer, _id_numberOfTrailingZeros.pointer, i)
         .integer;
   }
 
@@ -11471,8 +11638,9 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i1,
     core$_.int i2,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _parseInt(_class.reference.pointer, _id_parseInt.pointer,
+    return _parseInt(_$$classRef.pointer, _id_parseInt.pointer,
             _$charSequence.pointer, i, i1, i2)
         .integer;
   }
@@ -11497,9 +11665,10 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int parseInt$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseInt$1(
-            _class.reference.pointer, _id_parseInt$1.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_parseInt$1.pointer, _$string.pointer)
         .integer;
   }
 
@@ -11525,9 +11694,10 @@ extension type JInteger._(jni$_.JObject _$this)
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseInt$2(_class.reference.pointer, _id_parseInt$2.pointer,
-            _$string.pointer, i)
+    return _parseInt$2(
+            _$$classRef.pointer, _id_parseInt$2.pointer, _$string.pointer, i)
         .integer;
   }
 
@@ -11564,9 +11734,10 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i1,
     core$_.int i2,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _parseUnsignedInt(_class.reference.pointer,
-            _id_parseUnsignedInt.pointer, _$charSequence.pointer, i, i1, i2)
+    return _parseUnsignedInt(_$$classRef.pointer, _id_parseUnsignedInt.pointer,
+            _$charSequence.pointer, i, i1, i2)
         .integer;
   }
 
@@ -11590,8 +11761,9 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int parseUnsignedInt$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseUnsignedInt$1(_class.reference.pointer,
+    return _parseUnsignedInt$1(_$$classRef.pointer,
             _id_parseUnsignedInt$1.pointer, _$string.pointer)
         .integer;
   }
@@ -11618,8 +11790,9 @@ extension type JInteger._(jni$_.JObject _$this)
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseUnsignedInt$2(_class.reference.pointer,
+    return _parseUnsignedInt$2(_$$classRef.pointer,
             _id_parseUnsignedInt$2.pointer, _$string.pointer, i)
         .integer;
   }
@@ -11645,8 +11818,9 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     return _remainderUnsigned(
-            _class.reference.pointer, _id_remainderUnsigned.pointer, i, i1)
+            _$$classRef.pointer, _id_remainderUnsigned.pointer, i, i1)
         .integer;
   }
 
@@ -11668,7 +11842,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int reverse(
     core$_.int i,
   ) {
-    return _reverse(_class.reference.pointer, _id_reverse.pointer, i).integer;
+    final _$$classRef = _class.reference;
+    return _reverse(_$$classRef.pointer, _id_reverse.pointer, i).integer;
   }
 
   static final _id_reverseBytes = _class.staticMethodId(
@@ -11689,7 +11864,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int reverseBytes(
     core$_.int i,
   ) {
-    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, i)
+    final _$$classRef = _class.reference;
+    return _reverseBytes(_$$classRef.pointer, _id_reverseBytes.pointer, i)
         .integer;
   }
 
@@ -11714,7 +11890,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _rotateLeft(_class.reference.pointer, _id_rotateLeft.pointer, i, i1)
+    final _$$classRef = _class.reference;
+    return _rotateLeft(_$$classRef.pointer, _id_rotateLeft.pointer, i, i1)
         .integer;
   }
 
@@ -11739,8 +11916,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _rotateRight(
-            _class.reference.pointer, _id_rotateRight.pointer, i, i1)
+    final _$$classRef = _class.reference;
+    return _rotateRight(_$$classRef.pointer, _id_rotateRight.pointer, i, i1)
         .integer;
   }
 
@@ -11762,7 +11939,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int signum(
     core$_.int i,
   ) {
-    return _signum(_class.reference.pointer, _id_signum.pointer, i).integer;
+    final _$$classRef = _class.reference;
+    return _signum(_$$classRef.pointer, _id_signum.pointer, i).integer;
   }
 
   static final _id_sum = _class.staticMethodId(
@@ -11786,7 +11964,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _sum(_class.reference.pointer, _id_sum.pointer, i, i1).integer;
+    final _$$classRef = _class.reference;
+    return _sum(_$$classRef.pointer, _id_sum.pointer, i, i1).integer;
   }
 
   static final _id_toBinaryString = _class.staticMethodId(
@@ -11808,8 +11987,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static JString? toBinaryString(
     core$_.int i,
   ) {
-    return _toBinaryString(
-            _class.reference.pointer, _id_toBinaryString.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toBinaryString(_$$classRef.pointer, _id_toBinaryString.pointer, i)
         .object<JString?>();
   }
 
@@ -11832,7 +12011,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static JString? toHexString(
     core$_.int i,
   ) {
-    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toHexString(_$$classRef.pointer, _id_toHexString.pointer, i)
         .object<JString?>();
   }
 
@@ -11855,8 +12035,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static JString? toOctalString(
     core$_.int i,
   ) {
-    return _toOctalString(
-            _class.reference.pointer, _id_toOctalString.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toOctalString(_$$classRef.pointer, _id_toOctalString.pointer, i)
         .object<JString?>();
   }
 
@@ -11879,7 +12059,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static JString? toString$2(
     core$_.int i,
   ) {
-    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, i)
         .object<JString?>();
   }
 
@@ -11905,7 +12086,8 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
-    return _toString$3(_class.reference.pointer, _id_toString$3.pointer, i, i1)
+    final _$$classRef = _class.reference;
+    return _toString$3(_$$classRef.pointer, _id_toString$3.pointer, i, i1)
         .object<JString?>();
   }
 
@@ -11927,8 +12109,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static core$_.int toUnsignedLong(
     core$_.int i,
   ) {
-    return _toUnsignedLong(
-            _class.reference.pointer, _id_toUnsignedLong.pointer, i)
+    final _$$classRef = _class.reference;
+    return _toUnsignedLong(_$$classRef.pointer, _id_toUnsignedLong.pointer, i)
         .long;
   }
 
@@ -11951,8 +12133,9 @@ extension type JInteger._(jni$_.JObject _$this)
   static JString? toUnsignedString(
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _toUnsignedString(
-            _class.reference.pointer, _id_toUnsignedString.pointer, i)
+            _$$classRef.pointer, _id_toUnsignedString.pointer, i)
         .object<JString?>();
   }
 
@@ -11978,8 +12161,9 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     return _toUnsignedString$1(
-            _class.reference.pointer, _id_toUnsignedString$1.pointer, i, i1)
+            _$$classRef.pointer, _id_toUnsignedString$1.pointer, i, i1)
         .object<JString?>();
   }
 
@@ -12002,7 +12186,8 @@ extension type JInteger._(jni$_.JObject _$this)
   static JInteger? valueOf(
     core$_.int i,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, i)
+    final _$$classRef = _class.reference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, i)
         .object<JInteger?>();
   }
 
@@ -12027,9 +12212,10 @@ extension type JInteger._(jni$_.JObject _$this)
   static JInteger? valueOf$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$1(
-            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_valueOf$1.pointer, _$string.pointer)
         .object<JInteger?>();
   }
 
@@ -12056,9 +12242,10 @@ extension type JInteger._(jni$_.JObject _$this)
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer,
-            _$string.pointer, i)
+    return _valueOf$2(
+            _$$classRef.pointer, _id_valueOf$2.pointer, _$string.pointer, i)
         .object<JInteger?>();
   }
 }
@@ -12083,7 +12270,8 @@ extension JInteger$$Methods on JInteger {
 
   /// from: `public byte byteValue()`
   core$_.int byteValue() {
-    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _byteValue(_$$selfRef.pointer, _id_byteValue.pointer).byte;
   }
 
   static final _id_compareTo = JInteger._class.instanceMethodId(
@@ -12106,9 +12294,10 @@ extension JInteger$$Methods on JInteger {
   core$_.int compareTo(
     JInteger? integer,
   ) {
+    final _$$selfRef = reference;
     final _$integer = integer?.reference ?? jni$_.jNullReference;
     return _compareTo(
-            reference.pointer, _id_compareTo.pointer, _$integer.pointer)
+            _$$selfRef.pointer, _id_compareTo.pointer, _$integer.pointer)
         .integer;
   }
 
@@ -12131,7 +12320,9 @@ extension JInteger$$Methods on JInteger {
 
   /// from: `public double doubleValue()`
   core$_.double doubleValue() {
-    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _doubleValue(_$$selfRef.pointer, _id_doubleValue.pointer)
+        .doubleFloat;
   }
 
   static final _id_equals = JInteger._class.instanceMethodId(
@@ -12154,8 +12345,9 @@ extension JInteger$$Methods on JInteger {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -12178,7 +12370,8 @@ extension JInteger$$Methods on JInteger {
 
   /// from: `public float floatValue()`
   core$_.double floatValue() {
-    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _floatValue(_$$selfRef.pointer, _id_floatValue.pointer).float;
   }
 
   static final _id_hashCode$1 = JInteger._class.instanceMethodId(
@@ -12200,7 +12393,8 @@ extension JInteger$$Methods on JInteger {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_intValue = JInteger._class.instanceMethodId(
@@ -12222,7 +12416,8 @@ extension JInteger$$Methods on JInteger {
 
   /// from: `public int intValue()`
   core$_.int intValue() {
-    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _intValue(_$$selfRef.pointer, _id_intValue.pointer).integer;
   }
 
   static final _id_longValue = JInteger._class.instanceMethodId(
@@ -12244,7 +12439,8 @@ extension JInteger$$Methods on JInteger {
 
   /// from: `public long longValue()`
   core$_.int longValue() {
-    return _longValue(reference.pointer, _id_longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _longValue(_$$selfRef.pointer, _id_longValue.pointer).long;
   }
 
   static final _id_shortValue = JInteger._class.instanceMethodId(
@@ -12266,7 +12462,8 @@ extension JInteger$$Methods on JInteger {
 
   /// from: `public short shortValue()`
   core$_.int shortValue() {
-    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _shortValue(_$$selfRef.pointer, _id_shortValue.pointer).short;
   }
 
   static final _id_toString$1 = JInteger._class.instanceMethodId(
@@ -12289,7 +12486,8 @@ extension JInteger$$Methods on JInteger {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -12366,7 +12564,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   factory JLong(
     core$_.int j,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, j).object<JLong>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, j).object<JLong>();
   }
 
   static final _id_bitCount = _class.staticMethodId(
@@ -12387,7 +12586,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int bitCount(
     core$_.int j,
   ) {
-    return _bitCount(_class.reference.pointer, _id_bitCount.pointer, j).integer;
+    final _$$classRef = _class.reference;
+    return _bitCount(_$$classRef.pointer, _id_bitCount.pointer, j).integer;
   }
 
   static final _id_compare = _class.staticMethodId(
@@ -12411,8 +12611,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, j, j1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compare(_$$classRef.pointer, _id_compare.pointer, j, j1).integer;
   }
 
   static final _id_compareUnsigned = _class.staticMethodId(
@@ -12436,8 +12636,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
+    final _$$classRef = _class.reference;
     return _compareUnsigned(
-            _class.reference.pointer, _id_compareUnsigned.pointer, j, j1)
+            _$$classRef.pointer, _id_compareUnsigned.pointer, j, j1)
         .integer;
   }
 
@@ -12462,8 +12663,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
-    return _compress(_class.reference.pointer, _id_compress.pointer, j, j1)
-        .long;
+    final _$$classRef = _class.reference;
+    return _compress(_$$classRef.pointer, _id_compress.pointer, j, j1).long;
   }
 
   static final _id_decode = _class.staticMethodId(
@@ -12487,9 +12688,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JLong? decode(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _decode(
-            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+    return _decode(_$$classRef.pointer, _id_decode.pointer, _$string.pointer)
         .object<JLong?>();
   }
 
@@ -12514,8 +12715,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
+    final _$$classRef = _class.reference;
     return _divideUnsigned(
-            _class.reference.pointer, _id_divideUnsigned.pointer, j, j1)
+            _$$classRef.pointer, _id_divideUnsigned.pointer, j, j1)
         .long;
   }
 
@@ -12540,7 +12742,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
-    return _expand(_class.reference.pointer, _id_expand.pointer, j, j1).long;
+    final _$$classRef = _class.reference;
+    return _expand(_$$classRef.pointer, _id_expand.pointer, j, j1).long;
   }
 
   static final _id_getLong = _class.staticMethodId(
@@ -12564,9 +12767,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JLong? getLong(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _getLong(
-            _class.reference.pointer, _id_getLong.pointer, _$string.pointer)
+    return _getLong(_$$classRef.pointer, _id_getLong.pointer, _$string.pointer)
         .object<JLong?>();
   }
 
@@ -12598,9 +12801,10 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     JString? string,
     JLong? long,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
-    return _getLong$1(_class.reference.pointer, _id_getLong$1.pointer,
+    return _getLong$1(_$$classRef.pointer, _id_getLong$1.pointer,
             _$string.pointer, _$long.pointer)
         .object<JLong?>();
   }
@@ -12628,9 +12832,10 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     JString? string,
     core$_.int j,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _getLong$2(_class.reference.pointer, _id_getLong$2.pointer,
-            _$string.pointer, j)
+    return _getLong$2(
+            _$$classRef.pointer, _id_getLong$2.pointer, _$string.pointer, j)
         .object<JLong?>();
   }
 
@@ -12652,8 +12857,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int hashCode$2(
     core$_.int j,
   ) {
-    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, j)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, j).integer;
   }
 
   static final _id_highestOneBit = _class.staticMethodId(
@@ -12674,8 +12879,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int highestOneBit(
     core$_.int j,
   ) {
-    return _highestOneBit(
-            _class.reference.pointer, _id_highestOneBit.pointer, j)
+    final _$$classRef = _class.reference;
+    return _highestOneBit(_$$classRef.pointer, _id_highestOneBit.pointer, j)
         .long;
   }
 
@@ -12697,8 +12902,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int lowestOneBit(
     core$_.int j,
   ) {
-    return _lowestOneBit(_class.reference.pointer, _id_lowestOneBit.pointer, j)
-        .long;
+    final _$$classRef = _class.reference;
+    return _lowestOneBit(_$$classRef.pointer, _id_lowestOneBit.pointer, j).long;
   }
 
   static final _id_max = _class.staticMethodId(
@@ -12722,7 +12927,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
-    return _max(_class.reference.pointer, _id_max.pointer, j, j1).long;
+    final _$$classRef = _class.reference;
+    return _max(_$$classRef.pointer, _id_max.pointer, j, j1).long;
   }
 
   static final _id_min = _class.staticMethodId(
@@ -12746,7 +12952,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
-    return _min(_class.reference.pointer, _id_min.pointer, j, j1).long;
+    final _$$classRef = _class.reference;
+    return _min(_$$classRef.pointer, _id_min.pointer, j, j1).long;
   }
 
   static final _id_numberOfLeadingZeros = _class.staticMethodId(
@@ -12767,8 +12974,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int numberOfLeadingZeros(
     core$_.int j,
   ) {
+    final _$$classRef = _class.reference;
     return _numberOfLeadingZeros(
-            _class.reference.pointer, _id_numberOfLeadingZeros.pointer, j)
+            _$$classRef.pointer, _id_numberOfLeadingZeros.pointer, j)
         .integer;
   }
 
@@ -12790,8 +12998,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int numberOfTrailingZeros(
     core$_.int j,
   ) {
+    final _$$classRef = _class.reference;
     return _numberOfTrailingZeros(
-            _class.reference.pointer, _id_numberOfTrailingZeros.pointer, j)
+            _$$classRef.pointer, _id_numberOfTrailingZeros.pointer, j)
         .integer;
   }
 
@@ -12828,8 +13037,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int i1,
     core$_.int i2,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _parseLong(_class.reference.pointer, _id_parseLong.pointer,
+    return _parseLong(_$$classRef.pointer, _id_parseLong.pointer,
             _$charSequence.pointer, i, i1, i2)
         .long;
   }
@@ -12854,9 +13064,10 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int parseLong$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseLong$1(
-            _class.reference.pointer, _id_parseLong$1.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_parseLong$1.pointer, _$string.pointer)
         .long;
   }
 
@@ -12882,9 +13093,10 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseLong$2(_class.reference.pointer, _id_parseLong$2.pointer,
-            _$string.pointer, i)
+    return _parseLong$2(
+            _$$classRef.pointer, _id_parseLong$2.pointer, _$string.pointer, i)
         .long;
   }
 
@@ -12921,8 +13133,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int i1,
     core$_.int i2,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _parseUnsignedLong(_class.reference.pointer,
+    return _parseUnsignedLong(_$$classRef.pointer,
             _id_parseUnsignedLong.pointer, _$charSequence.pointer, i, i1, i2)
         .long;
   }
@@ -12947,8 +13160,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int parseUnsignedLong$1(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseUnsignedLong$1(_class.reference.pointer,
+    return _parseUnsignedLong$1(_$$classRef.pointer,
             _id_parseUnsignedLong$1.pointer, _$string.pointer)
         .long;
   }
@@ -12975,8 +13189,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseUnsignedLong$2(_class.reference.pointer,
+    return _parseUnsignedLong$2(_$$classRef.pointer,
             _id_parseUnsignedLong$2.pointer, _$string.pointer, i)
         .long;
   }
@@ -13002,8 +13217,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
+    final _$$classRef = _class.reference;
     return _remainderUnsigned(
-            _class.reference.pointer, _id_remainderUnsigned.pointer, j, j1)
+            _$$classRef.pointer, _id_remainderUnsigned.pointer, j, j1)
         .long;
   }
 
@@ -13025,7 +13241,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int reverse(
     core$_.int j,
   ) {
-    return _reverse(_class.reference.pointer, _id_reverse.pointer, j).long;
+    final _$$classRef = _class.reference;
+    return _reverse(_$$classRef.pointer, _id_reverse.pointer, j).long;
   }
 
   static final _id_reverseBytes = _class.staticMethodId(
@@ -13046,8 +13263,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int reverseBytes(
     core$_.int j,
   ) {
-    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, j)
-        .long;
+    final _$$classRef = _class.reference;
+    return _reverseBytes(_$$classRef.pointer, _id_reverseBytes.pointer, j).long;
   }
 
   static final _id_rotateLeft = _class.staticMethodId(
@@ -13071,8 +13288,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int i,
   ) {
-    return _rotateLeft(_class.reference.pointer, _id_rotateLeft.pointer, j, i)
-        .long;
+    final _$$classRef = _class.reference;
+    return _rotateLeft(_$$classRef.pointer, _id_rotateLeft.pointer, j, i).long;
   }
 
   static final _id_rotateRight = _class.staticMethodId(
@@ -13096,7 +13313,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int i,
   ) {
-    return _rotateRight(_class.reference.pointer, _id_rotateRight.pointer, j, i)
+    final _$$classRef = _class.reference;
+    return _rotateRight(_$$classRef.pointer, _id_rotateRight.pointer, j, i)
         .long;
   }
 
@@ -13118,7 +13336,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static core$_.int signum(
     core$_.int j,
   ) {
-    return _signum(_class.reference.pointer, _id_signum.pointer, j).integer;
+    final _$$classRef = _class.reference;
+    return _signum(_$$classRef.pointer, _id_signum.pointer, j).integer;
   }
 
   static final _id_sum = _class.staticMethodId(
@@ -13142,7 +13361,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int j1,
   ) {
-    return _sum(_class.reference.pointer, _id_sum.pointer, j, j1).long;
+    final _$$classRef = _class.reference;
+    return _sum(_$$classRef.pointer, _id_sum.pointer, j, j1).long;
   }
 
   static final _id_toBinaryString = _class.staticMethodId(
@@ -13164,8 +13384,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JString? toBinaryString(
     core$_.int j,
   ) {
-    return _toBinaryString(
-            _class.reference.pointer, _id_toBinaryString.pointer, j)
+    final _$$classRef = _class.reference;
+    return _toBinaryString(_$$classRef.pointer, _id_toBinaryString.pointer, j)
         .object<JString?>();
   }
 
@@ -13188,7 +13408,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JString? toHexString(
     core$_.int j,
   ) {
-    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, j)
+    final _$$classRef = _class.reference;
+    return _toHexString(_$$classRef.pointer, _id_toHexString.pointer, j)
         .object<JString?>();
   }
 
@@ -13211,8 +13432,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JString? toOctalString(
     core$_.int j,
   ) {
-    return _toOctalString(
-            _class.reference.pointer, _id_toOctalString.pointer, j)
+    final _$$classRef = _class.reference;
+    return _toOctalString(_$$classRef.pointer, _id_toOctalString.pointer, j)
         .object<JString?>();
   }
 
@@ -13235,7 +13456,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JString? toString$2(
     core$_.int j,
   ) {
-    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, j)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, j)
         .object<JString?>();
   }
 
@@ -13261,7 +13483,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int i,
   ) {
-    return _toString$3(_class.reference.pointer, _id_toString$3.pointer, j, i)
+    final _$$classRef = _class.reference;
+    return _toString$3(_$$classRef.pointer, _id_toString$3.pointer, j, i)
         .object<JString?>();
   }
 
@@ -13284,8 +13507,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JString? toUnsignedString(
     core$_.int j,
   ) {
+    final _$$classRef = _class.reference;
     return _toUnsignedString(
-            _class.reference.pointer, _id_toUnsignedString.pointer, j)
+            _$$classRef.pointer, _id_toUnsignedString.pointer, j)
         .object<JString?>();
   }
 
@@ -13311,8 +13535,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int j,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     return _toUnsignedString$1(
-            _class.reference.pointer, _id_toUnsignedString$1.pointer, j, i)
+            _$$classRef.pointer, _id_toUnsignedString$1.pointer, j, i)
         .object<JString?>();
   }
 
@@ -13337,9 +13562,9 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JLong? valueOf(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<JLong?>();
   }
 
@@ -13366,9 +13591,10 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer,
-            _$string.pointer, i)
+    return _valueOf$1(
+            _$$classRef.pointer, _id_valueOf$1.pointer, _$string.pointer, i)
         .object<JLong?>();
   }
 
@@ -13391,7 +13617,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
   static JLong? valueOf$2(
     core$_.int j,
   ) {
-    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer, j)
+    final _$$classRef = _class.reference;
+    return _valueOf$2(_$$classRef.pointer, _id_valueOf$2.pointer, j)
         .object<JLong?>();
   }
 }
@@ -13416,7 +13643,8 @@ extension JLong$$Methods on JLong {
 
   /// from: `public byte byteValue()`
   core$_.int byteValue() {
-    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _byteValue(_$$selfRef.pointer, _id_byteValue.pointer).byte;
   }
 
   static final _id_compareTo = JLong._class.instanceMethodId(
@@ -13439,8 +13667,9 @@ extension JLong$$Methods on JLong {
   core$_.int compareTo(
     JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
-    return _compareTo(reference.pointer, _id_compareTo.pointer, _$long.pointer)
+    return _compareTo(_$$selfRef.pointer, _id_compareTo.pointer, _$long.pointer)
         .integer;
   }
 
@@ -13463,7 +13692,9 @@ extension JLong$$Methods on JLong {
 
   /// from: `public double doubleValue()`
   core$_.double doubleValue() {
-    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _doubleValue(_$$selfRef.pointer, _id_doubleValue.pointer)
+        .doubleFloat;
   }
 
   static final _id_equals = JLong._class.instanceMethodId(
@@ -13486,8 +13717,9 @@ extension JLong$$Methods on JLong {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -13510,7 +13742,8 @@ extension JLong$$Methods on JLong {
 
   /// from: `public float floatValue()`
   core$_.double floatValue() {
-    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _floatValue(_$$selfRef.pointer, _id_floatValue.pointer).float;
   }
 
   static final _id_hashCode$1 = JLong._class.instanceMethodId(
@@ -13532,7 +13765,8 @@ extension JLong$$Methods on JLong {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_intValue = JLong._class.instanceMethodId(
@@ -13554,7 +13788,8 @@ extension JLong$$Methods on JLong {
 
   /// from: `public int intValue()`
   core$_.int intValue() {
-    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _intValue(_$$selfRef.pointer, _id_intValue.pointer).integer;
   }
 
   static final _id_longValue = JLong._class.instanceMethodId(
@@ -13576,7 +13811,8 @@ extension JLong$$Methods on JLong {
 
   /// from: `public long longValue()`
   core$_.int longValue() {
-    return _longValue(reference.pointer, _id_longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _longValue(_$$selfRef.pointer, _id_longValue.pointer).long;
   }
 
   static final _id_shortValue = JLong._class.instanceMethodId(
@@ -13598,7 +13834,8 @@ extension JLong$$Methods on JLong {
 
   /// from: `public short shortValue()`
   core$_.int shortValue() {
-    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _shortValue(_$$selfRef.pointer, _id_shortValue.pointer).short;
   }
 
   static final _id_toString$1 = JLong._class.instanceMethodId(
@@ -13621,7 +13858,8 @@ extension JLong$$Methods on JLong {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -13679,7 +13917,8 @@ extension JNumber$$Methods on JNumber {
 
   /// from: `public byte byteValue()`
   core$_.int byteValue() {
-    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _byteValue(_$$selfRef.pointer, _id_byteValue.pointer).byte;
   }
 
   static final _id_doubleValue = JNumber._class.instanceMethodId(
@@ -13701,7 +13940,9 @@ extension JNumber$$Methods on JNumber {
 
   /// from: `public abstract double doubleValue()`
   core$_.double doubleValue() {
-    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _doubleValue(_$$selfRef.pointer, _id_doubleValue.pointer)
+        .doubleFloat;
   }
 
   static final _id_floatValue = JNumber._class.instanceMethodId(
@@ -13723,7 +13964,8 @@ extension JNumber$$Methods on JNumber {
 
   /// from: `public abstract float floatValue()`
   core$_.double floatValue() {
-    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _floatValue(_$$selfRef.pointer, _id_floatValue.pointer).float;
   }
 
   static final _id_intValue = JNumber._class.instanceMethodId(
@@ -13745,7 +13987,8 @@ extension JNumber$$Methods on JNumber {
 
   /// from: `public abstract int intValue()`
   core$_.int intValue() {
-    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _intValue(_$$selfRef.pointer, _id_intValue.pointer).integer;
   }
 
   static final _id_longValue = JNumber._class.instanceMethodId(
@@ -13767,7 +14010,8 @@ extension JNumber$$Methods on JNumber {
 
   /// from: `public abstract long longValue()`
   core$_.int longValue() {
-    return _longValue(reference.pointer, _id_longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _longValue(_$$selfRef.pointer, _id_longValue.pointer).long;
   }
 
   static final _id_shortValue = JNumber._class.instanceMethodId(
@@ -13789,7 +14033,8 @@ extension JNumber$$Methods on JNumber {
 
   /// from: `public short shortValue()`
   core$_.int shortValue() {
-    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _shortValue(_$$selfRef.pointer, _id_shortValue.pointer).short;
   }
 }
 
@@ -13850,8 +14095,8 @@ extension type JShort._(jni$_.JObject _$this)
   factory JShort(
     core$_.int s,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, s)
-        .object<JShort>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, s).object<JShort>();
   }
 
   static final _id_compare = _class.staticMethodId(
@@ -13875,8 +14120,8 @@ extension type JShort._(jni$_.JObject _$this)
     core$_.int s,
     core$_.int s1,
   ) {
-    return _compare(_class.reference.pointer, _id_compare.pointer, s, s1)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _compare(_$$classRef.pointer, _id_compare.pointer, s, s1).integer;
   }
 
   static final _id_compareUnsigned = _class.staticMethodId(
@@ -13900,8 +14145,9 @@ extension type JShort._(jni$_.JObject _$this)
     core$_.int s,
     core$_.int s1,
   ) {
+    final _$$classRef = _class.reference;
     return _compareUnsigned(
-            _class.reference.pointer, _id_compareUnsigned.pointer, s, s1)
+            _$$classRef.pointer, _id_compareUnsigned.pointer, s, s1)
         .integer;
   }
 
@@ -13926,9 +14172,9 @@ extension type JShort._(jni$_.JObject _$this)
   static JShort? decode(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _decode(
-            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+    return _decode(_$$classRef.pointer, _id_decode.pointer, _$string.pointer)
         .object<JShort?>();
   }
 
@@ -13950,8 +14196,8 @@ extension type JShort._(jni$_.JObject _$this)
   static core$_.int hashCode$2(
     core$_.int s,
   ) {
-    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, s)
-        .integer;
+    final _$$classRef = _class.reference;
+    return _hashCode$2(_$$classRef.pointer, _id_hashCode$2.pointer, s).integer;
   }
 
   static final _id_parseShort = _class.staticMethodId(
@@ -13974,9 +14220,10 @@ extension type JShort._(jni$_.JObject _$this)
   static core$_.int parseShort(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseShort(
-            _class.reference.pointer, _id_parseShort.pointer, _$string.pointer)
+            _$$classRef.pointer, _id_parseShort.pointer, _$string.pointer)
         .short;
   }
 
@@ -14002,9 +14249,10 @@ extension type JShort._(jni$_.JObject _$this)
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _parseShort$1(_class.reference.pointer, _id_parseShort$1.pointer,
-            _$string.pointer, i)
+    return _parseShort$1(
+            _$$classRef.pointer, _id_parseShort$1.pointer, _$string.pointer, i)
         .short;
   }
 
@@ -14026,7 +14274,8 @@ extension type JShort._(jni$_.JObject _$this)
   static core$_.int reverseBytes(
     core$_.int s,
   ) {
-    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, s)
+    final _$$classRef = _class.reference;
+    return _reverseBytes(_$$classRef.pointer, _id_reverseBytes.pointer, s)
         .short;
   }
 
@@ -14049,7 +14298,8 @@ extension type JShort._(jni$_.JObject _$this)
   static JString? toString$2(
     core$_.int s,
   ) {
-    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, s)
+    final _$$classRef = _class.reference;
+    return _toString$2(_$$classRef.pointer, _id_toString$2.pointer, s)
         .object<JString?>();
   }
 
@@ -14071,8 +14321,8 @@ extension type JShort._(jni$_.JObject _$this)
   static core$_.int toUnsignedInt(
     core$_.int s,
   ) {
-    return _toUnsignedInt(
-            _class.reference.pointer, _id_toUnsignedInt.pointer, s)
+    final _$$classRef = _class.reference;
+    return _toUnsignedInt(_$$classRef.pointer, _id_toUnsignedInt.pointer, s)
         .integer;
   }
 
@@ -14094,8 +14344,8 @@ extension type JShort._(jni$_.JObject _$this)
   static core$_.int toUnsignedLong(
     core$_.int s,
   ) {
-    return _toUnsignedLong(
-            _class.reference.pointer, _id_toUnsignedLong.pointer, s)
+    final _$$classRef = _class.reference;
+    return _toUnsignedLong(_$$classRef.pointer, _id_toUnsignedLong.pointer, s)
         .long;
   }
 
@@ -14120,9 +14370,9 @@ extension type JShort._(jni$_.JObject _$this)
   static JShort? valueOf(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<JShort?>();
   }
 
@@ -14149,9 +14399,10 @@ extension type JShort._(jni$_.JObject _$this)
     JString? string,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer,
-            _$string.pointer, i)
+    return _valueOf$1(
+            _$$classRef.pointer, _id_valueOf$1.pointer, _$string.pointer, i)
         .object<JShort?>();
   }
 
@@ -14174,7 +14425,8 @@ extension type JShort._(jni$_.JObject _$this)
   static JShort? valueOf$2(
     core$_.int s,
   ) {
-    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer, s)
+    final _$$classRef = _class.reference;
+    return _valueOf$2(_$$classRef.pointer, _id_valueOf$2.pointer, s)
         .object<JShort?>();
   }
 }
@@ -14199,7 +14451,8 @@ extension JShort$$Methods on JShort {
 
   /// from: `public byte byteValue()`
   core$_.int byteValue() {
-    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+    final _$$selfRef = reference;
+    return _byteValue(_$$selfRef.pointer, _id_byteValue.pointer).byte;
   }
 
   static final _id_compareTo = JShort._class.instanceMethodId(
@@ -14222,8 +14475,10 @@ extension JShort$$Methods on JShort {
   core$_.int compareTo(
     JShort? short,
   ) {
+    final _$$selfRef = reference;
     final _$short = short?.reference ?? jni$_.jNullReference;
-    return _compareTo(reference.pointer, _id_compareTo.pointer, _$short.pointer)
+    return _compareTo(
+            _$$selfRef.pointer, _id_compareTo.pointer, _$short.pointer)
         .integer;
   }
 
@@ -14246,7 +14501,9 @@ extension JShort$$Methods on JShort {
 
   /// from: `public double doubleValue()`
   core$_.double doubleValue() {
-    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _doubleValue(_$$selfRef.pointer, _id_doubleValue.pointer)
+        .doubleFloat;
   }
 
   static final _id_equals = JShort._class.instanceMethodId(
@@ -14269,8 +14526,9 @@ extension JShort$$Methods on JShort {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -14293,7 +14551,8 @@ extension JShort$$Methods on JShort {
 
   /// from: `public float floatValue()`
   core$_.double floatValue() {
-    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+    final _$$selfRef = reference;
+    return _floatValue(_$$selfRef.pointer, _id_floatValue.pointer).float;
   }
 
   static final _id_hashCode$1 = JShort._class.instanceMethodId(
@@ -14315,7 +14574,8 @@ extension JShort$$Methods on JShort {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_intValue = JShort._class.instanceMethodId(
@@ -14337,7 +14597,8 @@ extension JShort$$Methods on JShort {
 
   /// from: `public int intValue()`
   core$_.int intValue() {
-    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+    final _$$selfRef = reference;
+    return _intValue(_$$selfRef.pointer, _id_intValue.pointer).integer;
   }
 
   static final _id_longValue = JShort._class.instanceMethodId(
@@ -14359,7 +14620,8 @@ extension JShort$$Methods on JShort {
 
   /// from: `public long longValue()`
   core$_.int longValue() {
-    return _longValue(reference.pointer, _id_longValue.pointer).long;
+    final _$$selfRef = reference;
+    return _longValue(_$$selfRef.pointer, _id_longValue.pointer).long;
   }
 
   static final _id_shortValue = JShort._class.instanceMethodId(
@@ -14381,7 +14643,8 @@ extension JShort$$Methods on JShort {
 
   /// from: `public short shortValue()`
   core$_.int shortValue() {
-    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+    final _$$selfRef = reference;
+    return _shortValue(_$$selfRef.pointer, _id_shortValue.pointer).short;
   }
 
   static final _id_toString$1 = JShort._class.instanceMethodId(
@@ -14404,7 +14667,8 @@ extension JShort$$Methods on JShort {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -14470,7 +14734,8 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString() {
-    return _new$(_class.reference.pointer, _id_new$.pointer).object<JString>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<JString>();
   }
 
   static final _id_new$1 = _class.constructorId(
@@ -14493,8 +14758,9 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JString.new$1(
     jni$_.JByteArray? bs,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$bs.pointer)
+    return _new$1(_$$classRef.pointer, _id_new$1.pointer, _$bs.pointer)
         .object<JString>();
   }
 
@@ -14520,8 +14786,9 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JByteArray? bs,
     core$_.int i,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    return _new$2(_class.reference.pointer, _id_new$2.pointer, _$bs.pointer, i)
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer, _$bs.pointer, i)
         .object<JString>();
   }
 
@@ -14555,9 +14822,9 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    return _new$3(
-            _class.reference.pointer, _id_new$3.pointer, _$bs.pointer, i, i1)
+    return _new$3(_$$classRef.pointer, _id_new$3.pointer, _$bs.pointer, i, i1)
         .object<JString>();
   }
 
@@ -14594,9 +14861,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i1,
     core$_.int i2,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    return _new$4(_class.reference.pointer, _id_new$4.pointer, _$bs.pointer, i,
-            i1, i2)
+    return _new$4(
+            _$$classRef.pointer, _id_new$4.pointer, _$bs.pointer, i, i1, i2)
         .object<JString>();
   }
 
@@ -14633,10 +14901,11 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i1,
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$5(_class.reference.pointer, _id_new$5.pointer, _$bs.pointer, i,
-            i1, _$string.pointer)
+    return _new$5(_$$classRef.pointer, _id_new$5.pointer, _$bs.pointer, i, i1,
+            _$string.pointer)
         .object<JString>();
   }
 
@@ -14673,10 +14942,11 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i1,
     jni$_.JObject? charset,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final _$charset = charset?.reference ?? jni$_.jNullReference;
-    return _new$6(_class.reference.pointer, _id_new$6.pointer, _$bs.pointer, i,
-            i1, _$charset.pointer)
+    return _new$6(_$$classRef.pointer, _id_new$6.pointer, _$bs.pointer, i, i1,
+            _$charset.pointer)
         .object<JString>();
   }
 
@@ -14707,9 +14977,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JByteArray? bs,
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$7(_class.reference.pointer, _id_new$7.pointer, _$bs.pointer,
+    return _new$7(_$$classRef.pointer, _id_new$7.pointer, _$bs.pointer,
             _$string.pointer)
         .object<JString>();
   }
@@ -14741,9 +15012,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JByteArray? bs,
     jni$_.JObject? charset,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final _$charset = charset?.reference ?? jni$_.jNullReference;
-    return _new$8(_class.reference.pointer, _id_new$8.pointer, _$bs.pointer,
+    return _new$8(_$$classRef.pointer, _id_new$8.pointer, _$bs.pointer,
             _$charset.pointer)
         .object<JString>();
   }
@@ -14768,8 +15040,9 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JString.new$9(
     jni$_.JCharArray? cs,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _new$9(_class.reference.pointer, _id_new$9.pointer, _$cs.pointer)
+    return _new$9(_$$classRef.pointer, _id_new$9.pointer, _$cs.pointer)
         .object<JString>();
   }
 
@@ -14803,9 +15076,9 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _new$10(
-            _class.reference.pointer, _id_new$10.pointer, _$cs.pointer, i, i1)
+    return _new$10(_$$classRef.pointer, _id_new$10.pointer, _$cs.pointer, i, i1)
         .object<JString>();
   }
 
@@ -14839,9 +15112,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     return _new$11(
-            _class.reference.pointer, _id_new$11.pointer, _$is$.pointer, i, i1)
+            _$$classRef.pointer, _id_new$11.pointer, _$is$.pointer, i, i1)
         .object<JString>();
   }
 
@@ -14865,9 +15139,9 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JString.new$12(
     JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$12(
-            _class.reference.pointer, _id_new$12.pointer, _$string.pointer)
+    return _new$12(_$$classRef.pointer, _id_new$12.pointer, _$string.pointer)
         .object<JString>();
   }
 
@@ -14891,9 +15165,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JString.new$13(
     jni$_.JObject? stringBuffer,
   ) {
+    final _$$classRef = _class.reference;
     final _$stringBuffer = stringBuffer?.reference ?? jni$_.jNullReference;
-    return _new$13(_class.reference.pointer, _id_new$13.pointer,
-            _$stringBuffer.pointer)
+    return _new$13(
+            _$$classRef.pointer, _id_new$13.pointer, _$stringBuffer.pointer)
         .object<JString>();
   }
 
@@ -14917,9 +15192,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JString.new$14(
     jni$_.JObject? stringBuilder,
   ) {
+    final _$$classRef = _class.reference;
     final _$stringBuilder = stringBuilder?.reference ?? jni$_.jNullReference;
-    return _new$14(_class.reference.pointer, _id_new$14.pointer,
-            _$stringBuilder.pointer)
+    return _new$14(
+            _$$classRef.pointer, _id_new$14.pointer, _$stringBuilder.pointer)
         .object<JString>();
   }
 
@@ -14944,9 +15220,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? copyValueOf(
     jni$_.JCharArray? cs,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _copyValueOf(
-            _class.reference.pointer, _id_copyValueOf.pointer, _$cs.pointer)
+            _$$classRef.pointer, _id_copyValueOf.pointer, _$cs.pointer)
         .object<JString?>();
   }
 
@@ -14981,9 +15258,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _copyValueOf$1(_class.reference.pointer, _id_copyValueOf$1.pointer,
-            _$cs.pointer, i, i1)
+    return _copyValueOf$1(
+            _$$classRef.pointer, _id_copyValueOf$1.pointer, _$cs.pointer, i, i1)
         .object<JString?>();
   }
 
@@ -15015,10 +15293,11 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     JString? string,
     jni$_.JArray<jni$_.JObject?>? objects,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _format(_class.reference.pointer, _id_format.pointer,
-            _$string.pointer, _$objects.pointer)
+    return _format(_$$classRef.pointer, _id_format.pointer, _$string.pointer,
+            _$objects.pointer)
         .object<JString?>();
   }
 
@@ -15053,10 +15332,11 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     JString? string,
     jni$_.JArray<jni$_.JObject?>? objects,
   ) {
+    final _$$classRef = _class.reference;
     final _$locale = locale?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _format$1(_class.reference.pointer, _id_format$1.pointer,
+    return _format$1(_$$classRef.pointer, _id_format$1.pointer,
             _$locale.pointer, _$string.pointer, _$objects.pointer)
         .object<JString?>();
   }
@@ -15089,10 +15369,11 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject? charSequence,
     jni$_.JArray<jni$_.JObject?>? charSequences,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     final _$charSequences = charSequences?.reference ?? jni$_.jNullReference;
-    return _join(_class.reference.pointer, _id_join.pointer,
-            _$charSequence.pointer, _$charSequences.pointer)
+    return _join(_$$classRef.pointer, _id_join.pointer, _$charSequence.pointer,
+            _$charSequences.pointer)
         .object<JString?>();
   }
 
@@ -15124,9 +15405,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject? charSequence,
     jni$_.JObject? iterable,
   ) {
+    final _$$classRef = _class.reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     final _$iterable = iterable?.reference ?? jni$_.jNullReference;
-    return _join$1(_class.reference.pointer, _id_join$1.pointer,
+    return _join$1(_$$classRef.pointer, _id_join$1.pointer,
             _$charSequence.pointer, _$iterable.pointer)
         .object<JString?>();
   }
@@ -15150,7 +15432,8 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf(
     core$_.bool z,
   ) {
-    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, z ? 1 : 0)
+    final _$$classRef = _class.reference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, z ? 1 : 0)
         .object<JString?>();
   }
 
@@ -15173,7 +15456,8 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf$1(
     core$_.int c,
   ) {
-    return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer, c)
+    final _$$classRef = _class.reference;
+    return _valueOf$1(_$$classRef.pointer, _id_valueOf$1.pointer, c)
         .object<JString?>();
   }
 
@@ -15198,9 +15482,9 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf$2(
     jni$_.JCharArray? cs,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _valueOf$2(
-            _class.reference.pointer, _id_valueOf$2.pointer, _$cs.pointer)
+    return _valueOf$2(_$$classRef.pointer, _id_valueOf$2.pointer, _$cs.pointer)
         .object<JString?>();
   }
 
@@ -15235,9 +15519,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$classRef = _class.reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    return _valueOf$3(_class.reference.pointer, _id_valueOf$3.pointer,
-            _$cs.pointer, i, i1)
+    return _valueOf$3(
+            _$$classRef.pointer, _id_valueOf$3.pointer, _$cs.pointer, i, i1)
         .object<JString?>();
   }
 
@@ -15260,7 +15545,8 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf$4(
     core$_.double d,
   ) {
-    return _valueOf$4(_class.reference.pointer, _id_valueOf$4.pointer, d)
+    final _$$classRef = _class.reference;
+    return _valueOf$4(_$$classRef.pointer, _id_valueOf$4.pointer, d)
         .object<JString?>();
   }
 
@@ -15283,7 +15569,8 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf$5(
     core$_.double f,
   ) {
-    return _valueOf$5(_class.reference.pointer, _id_valueOf$5.pointer, f)
+    final _$$classRef = _class.reference;
+    return _valueOf$5(_$$classRef.pointer, _id_valueOf$5.pointer, f)
         .object<JString?>();
   }
 
@@ -15306,7 +15593,8 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf$6(
     core$_.int i,
   ) {
-    return _valueOf$6(_class.reference.pointer, _id_valueOf$6.pointer, i)
+    final _$$classRef = _class.reference;
+    return _valueOf$6(_$$classRef.pointer, _id_valueOf$6.pointer, i)
         .object<JString?>();
   }
 
@@ -15331,9 +15619,10 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf$7(
     jni$_.JObject? object,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _valueOf$7(
-            _class.reference.pointer, _id_valueOf$7.pointer, _$object.pointer)
+            _$$classRef.pointer, _id_valueOf$7.pointer, _$object.pointer)
         .object<JString?>();
   }
 
@@ -15356,7 +15645,8 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
   static JString? valueOf$8(
     core$_.int j,
   ) {
-    return _valueOf$8(_class.reference.pointer, _id_valueOf$8.pointer, j)
+    final _$$classRef = _class.reference;
+    return _valueOf$8(_$$classRef.pointer, _id_valueOf$8.pointer, j)
         .object<JString?>();
   }
 }
@@ -15381,7 +15671,8 @@ extension JString$$Methods on JString {
   core$_.int charAt(
     core$_.int i,
   ) {
-    return _charAt(reference.pointer, _id_charAt.pointer, i).char;
+    final _$$selfRef = reference;
+    return _charAt(_$$selfRef.pointer, _id_charAt.pointer, i).char;
   }
 
   static final _id_chars = JString._class.instanceMethodId(
@@ -15404,7 +15695,8 @@ extension JString$$Methods on JString {
   /// from: `public java.util.stream.IntStream chars()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? chars() {
-    return _chars(reference.pointer, _id_chars.pointer)
+    final _$$selfRef = reference;
+    return _chars(_$$selfRef.pointer, _id_chars.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -15427,7 +15719,8 @@ extension JString$$Methods on JString {
   core$_.int codePointAt(
     core$_.int i,
   ) {
-    return _codePointAt(reference.pointer, _id_codePointAt.pointer, i).integer;
+    final _$$selfRef = reference;
+    return _codePointAt(_$$selfRef.pointer, _id_codePointAt.pointer, i).integer;
   }
 
   static final _id_codePointBefore = JString._class.instanceMethodId(
@@ -15449,7 +15742,8 @@ extension JString$$Methods on JString {
   core$_.int codePointBefore(
     core$_.int i,
   ) {
-    return _codePointBefore(reference.pointer, _id_codePointBefore.pointer, i)
+    final _$$selfRef = reference;
+    return _codePointBefore(_$$selfRef.pointer, _id_codePointBefore.pointer, i)
         .integer;
   }
 
@@ -15474,7 +15768,9 @@ extension JString$$Methods on JString {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _codePointCount(reference.pointer, _id_codePointCount.pointer, i, i1)
+    final _$$selfRef = reference;
+    return _codePointCount(
+            _$$selfRef.pointer, _id_codePointCount.pointer, i, i1)
         .integer;
   }
 
@@ -15498,7 +15794,8 @@ extension JString$$Methods on JString {
   /// from: `public java.util.stream.IntStream codePoints()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? codePoints() {
-    return _codePoints(reference.pointer, _id_codePoints.pointer)
+    final _$$selfRef = reference;
+    return _codePoints(_$$selfRef.pointer, _id_codePoints.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -15522,9 +15819,10 @@ extension JString$$Methods on JString {
   core$_.int compareTo(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _compareTo(
-            reference.pointer, _id_compareTo.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_compareTo.pointer, _$string.pointer)
         .integer;
   }
 
@@ -15548,8 +15846,9 @@ extension JString$$Methods on JString {
   core$_.int compareToIgnoreCase(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _compareToIgnoreCase(reference.pointer,
+    return _compareToIgnoreCase(_$$selfRef.pointer,
             _id_compareToIgnoreCase.pointer, _$string.pointer)
         .integer;
   }
@@ -15575,8 +15874,9 @@ extension JString$$Methods on JString {
   JString? concat(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _concat(reference.pointer, _id_concat.pointer, _$string.pointer)
+    return _concat(_$$selfRef.pointer, _id_concat.pointer, _$string.pointer)
         .object<JString?>();
   }
 
@@ -15600,9 +15900,10 @@ extension JString$$Methods on JString {
   core$_.bool contains(
     jni$_.JObject? charSequence,
   ) {
+    final _$$selfRef = reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _contains(
-            reference.pointer, _id_contains.pointer, _$charSequence.pointer)
+            _$$selfRef.pointer, _id_contains.pointer, _$charSequence.pointer)
         .boolean;
   }
 
@@ -15626,8 +15927,9 @@ extension JString$$Methods on JString {
   core$_.bool contentEquals(
     jni$_.JObject? charSequence,
   ) {
+    final _$$selfRef = reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _contentEquals(reference.pointer, _id_contentEquals.pointer,
+    return _contentEquals(_$$selfRef.pointer, _id_contentEquals.pointer,
             _$charSequence.pointer)
         .boolean;
   }
@@ -15652,8 +15954,9 @@ extension JString$$Methods on JString {
   core$_.bool contentEquals$1(
     jni$_.JObject? stringBuffer,
   ) {
+    final _$$selfRef = reference;
     final _$stringBuffer = stringBuffer?.reference ?? jni$_.jNullReference;
-    return _contentEquals$1(reference.pointer, _id_contentEquals$1.pointer,
+    return _contentEquals$1(_$$selfRef.pointer, _id_contentEquals$1.pointer,
             _$stringBuffer.pointer)
         .boolean;
   }
@@ -15678,8 +15981,9 @@ extension JString$$Methods on JString {
   core$_.bool endsWith(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _endsWith(reference.pointer, _id_endsWith.pointer, _$string.pointer)
+    return _endsWith(_$$selfRef.pointer, _id_endsWith.pointer, _$string.pointer)
         .boolean;
   }
 
@@ -15703,8 +16007,9 @@ extension JString$$Methods on JString {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -15728,9 +16033,10 @@ extension JString$$Methods on JString {
   core$_.bool equalsIgnoreCase(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _equalsIgnoreCase(
-            reference.pointer, _id_equalsIgnoreCase.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_equalsIgnoreCase.pointer, _$string.pointer)
         .boolean;
   }
 
@@ -15755,9 +16061,10 @@ extension JString$$Methods on JString {
   JString? formatted(
     jni$_.JArray<jni$_.JObject?>? objects,
   ) {
+    final _$$selfRef = reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _formatted(
-            reference.pointer, _id_formatted.pointer, _$objects.pointer)
+            _$$selfRef.pointer, _id_formatted.pointer, _$objects.pointer)
         .object<JString?>();
   }
 
@@ -15781,7 +16088,8 @@ extension JString$$Methods on JString {
   /// from: `public byte[] getBytes()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? get bytes {
-    return _get$bytes(reference.pointer, _id_get$bytes.pointer)
+    final _$$selfRef = reference;
+    return _get$bytes(_$$selfRef.pointer, _id_get$bytes.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -15818,8 +16126,9 @@ extension JString$$Methods on JString {
     jni$_.JByteArray? bs,
     core$_.int i2,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    _getBytes(reference.pointer, _id_getBytes.pointer, i, i1, _$bs.pointer, i2)
+    _getBytes(_$$selfRef.pointer, _id_getBytes.pointer, i, i1, _$bs.pointer, i2)
         .check();
   }
 
@@ -15844,9 +16153,10 @@ extension JString$$Methods on JString {
   jni$_.JByteArray? getBytes$1(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _getBytes$1(
-            reference.pointer, _id_getBytes$1.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_getBytes$1.pointer, _$string.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -15871,9 +16181,10 @@ extension JString$$Methods on JString {
   jni$_.JByteArray? getBytes$2(
     jni$_.JObject? charset,
   ) {
+    final _$$selfRef = reference;
     final _$charset = charset?.reference ?? jni$_.jNullReference;
     return _getBytes$2(
-            reference.pointer, _id_getBytes$2.pointer, _$charset.pointer)
+            _$$selfRef.pointer, _id_getBytes$2.pointer, _$charset.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -15910,8 +16221,9 @@ extension JString$$Methods on JString {
     jni$_.JCharArray? cs,
     core$_.int i2,
   ) {
+    final _$$selfRef = reference;
     final _$cs = cs?.reference ?? jni$_.jNullReference;
-    _getChars(reference.pointer, _id_getChars.pointer, i, i1, _$cs.pointer, i2)
+    _getChars(_$$selfRef.pointer, _id_getChars.pointer, i, i1, _$cs.pointer, i2)
         .check();
   }
 
@@ -15934,7 +16246,8 @@ extension JString$$Methods on JString {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_indent = JString._class.instanceMethodId(
@@ -15957,7 +16270,9 @@ extension JString$$Methods on JString {
   JString? indent(
     core$_.int i,
   ) {
-    return _indent(reference.pointer, _id_indent.pointer, i).object<JString?>();
+    final _$$selfRef = reference;
+    return _indent(_$$selfRef.pointer, _id_indent.pointer, i)
+        .object<JString?>();
   }
 
   static final _id_indexOf = JString._class.instanceMethodId(
@@ -15979,7 +16294,8 @@ extension JString$$Methods on JString {
   core$_.int indexOf(
     core$_.int i,
   ) {
-    return _indexOf(reference.pointer, _id_indexOf.pointer, i).integer;
+    final _$$selfRef = reference;
+    return _indexOf(_$$selfRef.pointer, _id_indexOf.pointer, i).integer;
   }
 
   static final _id_indexOf$1 = JString._class.instanceMethodId(
@@ -16003,7 +16319,8 @@ extension JString$$Methods on JString {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _indexOf$1(reference.pointer, _id_indexOf$1.pointer, i, i1).integer;
+    final _$$selfRef = reference;
+    return _indexOf$1(_$$selfRef.pointer, _id_indexOf$1.pointer, i, i1).integer;
   }
 
   static final _id_indexOf$2 = JString._class.instanceMethodId(
@@ -16026,9 +16343,10 @@ extension JString$$Methods on JString {
   core$_.int indexOf$2(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _indexOf$2(
-            reference.pointer, _id_indexOf$2.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_indexOf$2.pointer, _$string.pointer)
         .integer;
   }
 
@@ -16054,9 +16372,10 @@ extension JString$$Methods on JString {
     JString? string,
     core$_.int i,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _indexOf$3(
-            reference.pointer, _id_indexOf$3.pointer, _$string.pointer, i)
+            _$$selfRef.pointer, _id_indexOf$3.pointer, _$string.pointer, i)
         .integer;
   }
 
@@ -16080,7 +16399,8 @@ extension JString$$Methods on JString {
   /// from: `public native java.lang.String intern()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? intern() {
-    return _intern(reference.pointer, _id_intern.pointer).object<JString?>();
+    final _$$selfRef = reference;
+    return _intern(_$$selfRef.pointer, _id_intern.pointer).object<JString?>();
   }
 
   static final _id_get$isBlank = JString._class.instanceMethodId(
@@ -16102,7 +16422,8 @@ extension JString$$Methods on JString {
 
   /// from: `public boolean isBlank()`
   core$_.bool get isBlank {
-    return _get$isBlank(reference.pointer, _id_get$isBlank.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isBlank(_$$selfRef.pointer, _id_get$isBlank.pointer).boolean;
   }
 
   static final _id_get$isEmpty = JString._class.instanceMethodId(
@@ -16124,7 +16445,8 @@ extension JString$$Methods on JString {
 
   /// from: `public boolean isEmpty()`
   core$_.bool get isEmpty {
-    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isEmpty(_$$selfRef.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_lastIndexOf = JString._class.instanceMethodId(
@@ -16146,7 +16468,8 @@ extension JString$$Methods on JString {
   core$_.int lastIndexOf(
     core$_.int i,
   ) {
-    return _lastIndexOf(reference.pointer, _id_lastIndexOf.pointer, i).integer;
+    final _$$selfRef = reference;
+    return _lastIndexOf(_$$selfRef.pointer, _id_lastIndexOf.pointer, i).integer;
   }
 
   static final _id_lastIndexOf$1 = JString._class.instanceMethodId(
@@ -16170,7 +16493,8 @@ extension JString$$Methods on JString {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _lastIndexOf$1(reference.pointer, _id_lastIndexOf$1.pointer, i, i1)
+    final _$$selfRef = reference;
+    return _lastIndexOf$1(_$$selfRef.pointer, _id_lastIndexOf$1.pointer, i, i1)
         .integer;
   }
 
@@ -16194,9 +16518,10 @@ extension JString$$Methods on JString {
   core$_.int lastIndexOf$2(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _lastIndexOf$2(
-            reference.pointer, _id_lastIndexOf$2.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_lastIndexOf$2.pointer, _$string.pointer)
         .integer;
   }
 
@@ -16222,9 +16547,10 @@ extension JString$$Methods on JString {
     JString? string,
     core$_.int i,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _lastIndexOf$3(
-            reference.pointer, _id_lastIndexOf$3.pointer, _$string.pointer, i)
+            _$$selfRef.pointer, _id_lastIndexOf$3.pointer, _$string.pointer, i)
         .integer;
   }
 
@@ -16247,7 +16573,8 @@ extension JString$$Methods on JString {
 
   /// from: `public int length()`
   core$_.int length() {
-    return _length(reference.pointer, _id_length.pointer).integer;
+    final _$$selfRef = reference;
+    return _length(_$$selfRef.pointer, _id_length.pointer).integer;
   }
 
   static final _id_lines = JString._class.instanceMethodId(
@@ -16270,7 +16597,8 @@ extension JString$$Methods on JString {
   /// from: `public java.util.stream.Stream<java.lang.String> lines()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? lines() {
-    return _lines(reference.pointer, _id_lines.pointer)
+    final _$$selfRef = reference;
+    return _lines(_$$selfRef.pointer, _id_lines.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -16294,8 +16622,9 @@ extension JString$$Methods on JString {
   core$_.bool matches(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _matches(reference.pointer, _id_matches.pointer, _$string.pointer)
+    return _matches(_$$selfRef.pointer, _id_matches.pointer, _$string.pointer)
         .boolean;
   }
 
@@ -16320,8 +16649,9 @@ extension JString$$Methods on JString {
     core$_.int i,
     core$_.int i1,
   ) {
+    final _$$selfRef = reference;
     return _offsetByCodePoints(
-            reference.pointer, _id_offsetByCodePoints.pointer, i, i1)
+            _$$selfRef.pointer, _id_offsetByCodePoints.pointer, i, i1)
         .integer;
   }
 
@@ -16361,8 +16691,9 @@ extension JString$$Methods on JString {
     core$_.int i1,
     core$_.int i2,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _regionMatches(reference.pointer, _id_regionMatches.pointer,
+    return _regionMatches(_$$selfRef.pointer, _id_regionMatches.pointer,
             z ? 1 : 0, i, _$string.pointer, i1, i2)
         .boolean;
   }
@@ -16400,8 +16731,9 @@ extension JString$$Methods on JString {
     core$_.int i1,
     core$_.int i2,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _regionMatches$1(reference.pointer, _id_regionMatches$1.pointer, i,
+    return _regionMatches$1(_$$selfRef.pointer, _id_regionMatches$1.pointer, i,
             _$string.pointer, i1, i2)
         .boolean;
   }
@@ -16426,7 +16758,9 @@ extension JString$$Methods on JString {
   JString? repeat(
     core$_.int i,
   ) {
-    return _repeat(reference.pointer, _id_repeat.pointer, i).object<JString?>();
+    final _$$selfRef = reference;
+    return _repeat(_$$selfRef.pointer, _id_repeat.pointer, i)
+        .object<JString?>();
   }
 
   static final _id_replace = JString._class.instanceMethodId(
@@ -16451,7 +16785,8 @@ extension JString$$Methods on JString {
     core$_.int c,
     core$_.int c1,
   ) {
-    return _replace(reference.pointer, _id_replace.pointer, c, c1)
+    final _$$selfRef = reference;
+    return _replace(_$$selfRef.pointer, _id_replace.pointer, c, c1)
         .object<JString?>();
   }
 
@@ -16483,9 +16818,10 @@ extension JString$$Methods on JString {
     jni$_.JObject? charSequence,
     jni$_.JObject? charSequence1,
   ) {
+    final _$$selfRef = reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     final _$charSequence1 = charSequence1?.reference ?? jni$_.jNullReference;
-    return _replace$1(reference.pointer, _id_replace$1.pointer,
+    return _replace$1(_$$selfRef.pointer, _id_replace$1.pointer,
             _$charSequence.pointer, _$charSequence1.pointer)
         .object<JString?>();
   }
@@ -16518,9 +16854,10 @@ extension JString$$Methods on JString {
     JString? string,
     JString? string1,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
-    return _replaceAll(reference.pointer, _id_replaceAll.pointer,
+    return _replaceAll(_$$selfRef.pointer, _id_replaceAll.pointer,
             _$string.pointer, _$string1.pointer)
         .object<JString?>();
   }
@@ -16553,9 +16890,10 @@ extension JString$$Methods on JString {
     JString? string,
     JString? string1,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
-    return _replaceFirst(reference.pointer, _id_replaceFirst.pointer,
+    return _replaceFirst(_$$selfRef.pointer, _id_replaceFirst.pointer,
             _$string.pointer, _$string1.pointer)
         .object<JString?>();
   }
@@ -16581,8 +16919,9 @@ extension JString$$Methods on JString {
   jni$_.JArray<JString?>? split(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _split(reference.pointer, _id_split.pointer, _$string.pointer)
+    return _split(_$$selfRef.pointer, _id_split.pointer, _$string.pointer)
         .object<jni$_.JArray<JString?>?>();
   }
 
@@ -16609,8 +16948,10 @@ extension JString$$Methods on JString {
     JString? string,
     core$_.int i,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _split$1(reference.pointer, _id_split$1.pointer, _$string.pointer, i)
+    return _split$1(
+            _$$selfRef.pointer, _id_split$1.pointer, _$string.pointer, i)
         .object<jni$_.JArray<JString?>?>();
   }
 
@@ -16634,9 +16975,10 @@ extension JString$$Methods on JString {
   core$_.bool startsWith(
     JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _startsWith(
-            reference.pointer, _id_startsWith.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_startsWith.pointer, _$string.pointer)
         .boolean;
   }
 
@@ -16662,9 +17004,10 @@ extension JString$$Methods on JString {
     JString? string,
     core$_.int i,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _startsWith$1(
-            reference.pointer, _id_startsWith$1.pointer, _$string.pointer, i)
+            _$$selfRef.pointer, _id_startsWith$1.pointer, _$string.pointer, i)
         .boolean;
   }
 
@@ -16688,7 +17031,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String strip()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? strip() {
-    return _strip(reference.pointer, _id_strip.pointer).object<JString?>();
+    final _$$selfRef = reference;
+    return _strip(_$$selfRef.pointer, _id_strip.pointer).object<JString?>();
   }
 
   static final _id_stripIndent = JString._class.instanceMethodId(
@@ -16711,7 +17055,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String stripIndent()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? stripIndent() {
-    return _stripIndent(reference.pointer, _id_stripIndent.pointer)
+    final _$$selfRef = reference;
+    return _stripIndent(_$$selfRef.pointer, _id_stripIndent.pointer)
         .object<JString?>();
   }
 
@@ -16735,7 +17080,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String stripLeading()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? stripLeading() {
-    return _stripLeading(reference.pointer, _id_stripLeading.pointer)
+    final _$$selfRef = reference;
+    return _stripLeading(_$$selfRef.pointer, _id_stripLeading.pointer)
         .object<JString?>();
   }
 
@@ -16759,7 +17105,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String stripTrailing()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? stripTrailing() {
-    return _stripTrailing(reference.pointer, _id_stripTrailing.pointer)
+    final _$$selfRef = reference;
+    return _stripTrailing(_$$selfRef.pointer, _id_stripTrailing.pointer)
         .object<JString?>();
   }
 
@@ -16785,7 +17132,8 @@ extension JString$$Methods on JString {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _subSequence(reference.pointer, _id_subSequence.pointer, i, i1)
+    final _$$selfRef = reference;
+    return _subSequence(_$$selfRef.pointer, _id_subSequence.pointer, i, i1)
         .object<jni$_.JObject?>();
   }
 
@@ -16809,7 +17157,8 @@ extension JString$$Methods on JString {
   JString? substring(
     core$_.int i,
   ) {
-    return _substring(reference.pointer, _id_substring.pointer, i)
+    final _$$selfRef = reference;
+    return _substring(_$$selfRef.pointer, _id_substring.pointer, i)
         .object<JString?>();
   }
 
@@ -16835,7 +17184,8 @@ extension JString$$Methods on JString {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _substring$1(reference.pointer, _id_substring$1.pointer, i, i1)
+    final _$$selfRef = reference;
+    return _substring$1(_$$selfRef.pointer, _id_substring$1.pointer, i, i1)
         .object<JString?>();
   }
 
@@ -16859,7 +17209,8 @@ extension JString$$Methods on JString {
   /// from: `public native char[] toCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray? toCharArray() {
-    return _toCharArray(reference.pointer, _id_toCharArray.pointer)
+    final _$$selfRef = reference;
+    return _toCharArray(_$$selfRef.pointer, _id_toCharArray.pointer)
         .object<jni$_.JCharArray?>();
   }
 
@@ -16883,7 +17234,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String toLowerCase()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toLowerCase() {
-    return _toLowerCase(reference.pointer, _id_toLowerCase.pointer)
+    final _$$selfRef = reference;
+    return _toLowerCase(_$$selfRef.pointer, _id_toLowerCase.pointer)
         .object<JString?>();
   }
 
@@ -16908,9 +17260,10 @@ extension JString$$Methods on JString {
   JString? toLowerCase$1(
     jni$_.JObject? locale,
   ) {
+    final _$$selfRef = reference;
     final _$locale = locale?.reference ?? jni$_.jNullReference;
     return _toLowerCase$1(
-            reference.pointer, _id_toLowerCase$1.pointer, _$locale.pointer)
+            _$$selfRef.pointer, _id_toLowerCase$1.pointer, _$locale.pointer)
         .object<JString?>();
   }
 
@@ -16934,7 +17287,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<JString?>();
   }
 
@@ -16958,7 +17312,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String toUpperCase()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? toUpperCase() {
-    return _toUpperCase(reference.pointer, _id_toUpperCase.pointer)
+    final _$$selfRef = reference;
+    return _toUpperCase(_$$selfRef.pointer, _id_toUpperCase.pointer)
         .object<JString?>();
   }
 
@@ -16983,9 +17338,10 @@ extension JString$$Methods on JString {
   JString? toUpperCase$1(
     jni$_.JObject? locale,
   ) {
+    final _$$selfRef = reference;
     final _$locale = locale?.reference ?? jni$_.jNullReference;
     return _toUpperCase$1(
-            reference.pointer, _id_toUpperCase$1.pointer, _$locale.pointer)
+            _$$selfRef.pointer, _id_toUpperCase$1.pointer, _$locale.pointer)
         .object<JString?>();
   }
 
@@ -17010,9 +17366,10 @@ extension JString$$Methods on JString {
   $R? transform<$R extends jni$_.JObject?>(
     jni$_.JObject? function,
   ) {
+    final _$$selfRef = reference;
     final _$function = function?.reference ?? jni$_.jNullReference;
     return _transform(
-            reference.pointer, _id_transform.pointer, _$function.pointer)
+            _$$selfRef.pointer, _id_transform.pointer, _$function.pointer)
         .object<$R?>();
   }
 
@@ -17036,7 +17393,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String translateEscapes()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? translateEscapes() {
-    return _translateEscapes(reference.pointer, _id_translateEscapes.pointer)
+    final _$$selfRef = reference;
+    return _translateEscapes(_$$selfRef.pointer, _id_translateEscapes.pointer)
         .object<JString?>();
   }
 
@@ -17060,7 +17418,8 @@ extension JString$$Methods on JString {
   /// from: `public java.lang.String trim()`
   /// The returned object must be released after use, by calling the [release] method.
   JString? trim() {
-    return _trim(reference.pointer, _id_trim.pointer).object<JString?>();
+    final _$$selfRef = reference;
+    return _trim(_$$selfRef.pointer, _id_trim.pointer).object<JString?>();
   }
 
   core$_.bool operator <(JString? string) {
@@ -17115,7 +17474,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JArrayList() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<JArrayList<$E>>();
   }
 
@@ -17138,7 +17498,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   factory JArrayList.new$1(
     core$_.int i,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _new$1(_$$classRef.pointer, _id_new$1.pointer, i)
         .object<JArrayList<$E>>();
   }
 
@@ -17162,9 +17523,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   factory JArrayList.new$2(
     JCollection<$E?>? collection,
   ) {
+    final _$$classRef = _class.reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _new$2(
-            _class.reference.pointer, _id_new$2.pointer, _$collection.pointer)
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer, _$collection.pointer)
         .object<JArrayList<$E>>();
   }
 
@@ -17189,9 +17550,10 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JList<$E?>? copyOf<$E extends jni$_.JObject?>(
     JCollection<$E?>? collection,
   ) {
+    final _$$classRef = _class.reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+            _$$classRef.pointer, _id_copyOf.pointer, _$collection.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -17215,7 +17577,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.List<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JList<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E?>?>();
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer).object<JList<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -17239,8 +17602,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JList<$E?>? of$1<$E extends jni$_.JObject?>(
     $E? object,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return _of$1(_$$classRef.pointer, _id_of$1.pointer, _$object.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -17272,9 +17636,10 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
     $E? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
+    return _of$2(_$$classRef.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JList<$E?>?>();
   }
@@ -17310,10 +17675,11 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object1,
     $E? object2,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
+    return _of$3(_$$classRef.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
         .object<JList<$E?>?>();
   }
@@ -17352,11 +17718,12 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object2,
     $E? object3,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
+    return _of$4(_$$classRef.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
         .object<JList<$E?>?>();
   }
@@ -17398,13 +17765,14 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object3,
     $E? object4,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     return _of$5(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -17454,6 +17822,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object4,
     $E? object5,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -17461,7 +17830,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     return _of$6(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -17515,6 +17884,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object5,
     $E? object6,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -17523,7 +17893,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     return _of$7(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -17581,6 +17951,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object6,
     $E? object7,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -17590,7 +17961,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     return _of$8(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -17652,6 +18023,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object7,
     $E? object8,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -17662,7 +18034,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     return _of$9(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -17728,6 +18100,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object8,
     $E? object9,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -17739,7 +18112,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     return _of$10(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -17775,9 +18148,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JList<$E?>? of$11<$E extends jni$_.JObject?>(
     jni$_.JArray<$E?>? objects,
   ) {
+    final _$$classRef = _class.reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return _of$11(_$$classRef.pointer, _id_of$11.pointer, _$objects.pointer)
         .object<JList<$E?>?>();
   }
 }
@@ -17803,8 +18176,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool add(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
+    return _add(_$$selfRef.pointer, _id_add.pointer, _$object.pointer).boolean;
   }
 
   static final _id_add$1 = JArrayList._class.instanceMethodId(
@@ -17829,8 +18203,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
     core$_.int i,
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _add$1(reference.pointer, _id_add$1.pointer, i, _$object.pointer).check();
+    _add$1(_$$selfRef.pointer, _id_add$1.pointer, i, _$object.pointer).check();
   }
 
   static final _id_addAll = JArrayList._class.instanceMethodId(
@@ -17855,9 +18230,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
     core$_.int i,
     JCollection<$E?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(
-            reference.pointer, _id_addAll.pointer, i, _$collection.pointer)
+            _$$selfRef.pointer, _id_addAll.pointer, i, _$collection.pointer)
         .boolean;
   }
 
@@ -17881,9 +18257,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool addAll$1(
     JCollection<$E?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll$1(
-            reference.pointer, _id_addAll$1.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_addAll$1.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -17907,8 +18284,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   void addFirst(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _addFirst(reference.pointer, _id_addFirst.pointer, _$object.pointer)
+    _addFirst(_$$selfRef.pointer, _id_addFirst.pointer, _$object.pointer)
         .check();
   }
 
@@ -17932,8 +18310,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   void addLast(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _addLast(reference.pointer, _id_addLast.pointer, _$object.pointer).check();
+    _addLast(_$$selfRef.pointer, _id_addLast.pointer, _$object.pointer).check();
   }
 
   static final _id_clear = JArrayList._class.instanceMethodId(
@@ -17955,7 +18334,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    final _$$selfRef = reference;
+    _clear(_$$selfRef.pointer, _id_clear.pointer).check();
   }
 
   static final _id_clone = JArrayList._class.instanceMethodId(
@@ -17978,7 +18358,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.lang.Object clone()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? clone() {
-    return _clone(reference.pointer, _id_clone.pointer)
+    final _$$selfRef = reference;
+    return _clone(_$$selfRef.pointer, _id_clone.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -18002,8 +18383,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool contains(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
+    return _contains(_$$selfRef.pointer, _id_contains.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -18026,7 +18408,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   void ensureCapacity(
     core$_.int i,
   ) {
-    _ensureCapacity(reference.pointer, _id_ensureCapacity.pointer, i).check();
+    final _$$selfRef = reference;
+    _ensureCapacity(_$$selfRef.pointer, _id_ensureCapacity.pointer, i).check();
   }
 
   static final _id_equals = JArrayList._class.instanceMethodId(
@@ -18049,8 +18432,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -18074,8 +18458,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   void forEach(
     jni$_.JObject? consumer,
   ) {
+    final _$$selfRef = reference;
     final _$consumer = consumer?.reference ?? jni$_.jNullReference;
-    _forEach(reference.pointer, _id_forEach.pointer, _$consumer.pointer)
+    _forEach(_$$selfRef.pointer, _id_forEach.pointer, _$consumer.pointer)
         .check();
   }
 
@@ -18099,7 +18484,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   $E? get(
     core$_.int i,
   ) {
-    return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
+    final _$$selfRef = reference;
+    return _get(_$$selfRef.pointer, _id_get.pointer, i).object<$E?>();
   }
 
   static final _id_get$first = JArrayList._class.instanceMethodId(
@@ -18122,7 +18508,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public E getFirst()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? get first {
-    return _get$first(reference.pointer, _id_get$first.pointer).object<$E?>();
+    final _$$selfRef = reference;
+    return _get$first(_$$selfRef.pointer, _id_get$first.pointer).object<$E?>();
   }
 
   static final _id_get$last = JArrayList._class.instanceMethodId(
@@ -18145,7 +18532,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public E getLast()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? get last {
-    return _get$last(reference.pointer, _id_get$last.pointer).object<$E?>();
+    final _$$selfRef = reference;
+    return _get$last(_$$selfRef.pointer, _id_get$last.pointer).object<$E?>();
   }
 
   static final _id_hashCode$1 = JArrayList._class.instanceMethodId(
@@ -18167,7 +18555,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_indexOf = JArrayList._class.instanceMethodId(
@@ -18190,8 +18579,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.int indexOf(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _indexOf(reference.pointer, _id_indexOf.pointer, _$object.pointer)
+    return _indexOf(_$$selfRef.pointer, _id_indexOf.pointer, _$object.pointer)
         .integer;
   }
 
@@ -18214,7 +18604,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public boolean isEmpty()`
   core$_.bool get isEmpty {
-    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isEmpty(_$$selfRef.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JArrayList._class.instanceMethodId(
@@ -18237,7 +18628,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
   JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
+    final _$$selfRef = reference;
+    return _iterator(_$$selfRef.pointer, _id_iterator.pointer)
         .object<JIterator<$E?>?>();
   }
 
@@ -18261,9 +18653,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.int lastIndexOf(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _lastIndexOf(
-            reference.pointer, _id_lastIndexOf.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_lastIndexOf.pointer, _$object.pointer)
         .integer;
   }
 
@@ -18287,7 +18680,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.util.ListIterator<E> listIterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? listIterator() {
-    return _listIterator(reference.pointer, _id_listIterator.pointer)
+    final _$$selfRef = reference;
+    return _listIterator(_$$selfRef.pointer, _id_listIterator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -18311,7 +18705,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   jni$_.JObject? listIterator$1(
     core$_.int i,
   ) {
-    return _listIterator$1(reference.pointer, _id_listIterator$1.pointer, i)
+    final _$$selfRef = reference;
+    return _listIterator$1(_$$selfRef.pointer, _id_listIterator$1.pointer, i)
         .object<jni$_.JObject?>();
   }
 
@@ -18335,7 +18730,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   $E? remove(
     core$_.int i,
   ) {
-    return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
+    final _$$selfRef = reference;
+    return _remove(_$$selfRef.pointer, _id_remove.pointer, i).object<$E?>();
   }
 
   static final _id_remove$1 = JArrayList._class.instanceMethodId(
@@ -18358,8 +18754,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool remove$1(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer)
+    return _remove$1(_$$selfRef.pointer, _id_remove$1.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -18383,9 +18780,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool removeAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_removeAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -18409,7 +18807,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public E removeFirst()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? removeFirst() {
-    return _removeFirst(reference.pointer, _id_removeFirst.pointer)
+    final _$$selfRef = reference;
+    return _removeFirst(_$$selfRef.pointer, _id_removeFirst.pointer)
         .object<$E?>();
   }
 
@@ -18433,9 +18832,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool removeIf(
     jni$_.JObject? predicate,
   ) {
+    final _$$selfRef = reference;
     final _$predicate = predicate?.reference ?? jni$_.jNullReference;
     return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
+            _$$selfRef.pointer, _id_removeIf.pointer, _$predicate.pointer)
         .boolean;
   }
 
@@ -18459,7 +18859,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public E removeLast()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? removeLast() {
-    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E?>();
+    final _$$selfRef = reference;
+    return _removeLast(_$$selfRef.pointer, _id_removeLast.pointer)
+        .object<$E?>();
   }
 
   static final _id_replaceAll = JArrayList._class.instanceMethodId(
@@ -18482,9 +18884,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   void replaceAll(
     jni$_.JObject? unaryOperator,
   ) {
+    final _$$selfRef = reference;
     final _$unaryOperator = unaryOperator?.reference ?? jni$_.jNullReference;
     _replaceAll(
-            reference.pointer, _id_replaceAll.pointer, _$unaryOperator.pointer)
+            _$$selfRef.pointer, _id_replaceAll.pointer, _$unaryOperator.pointer)
         .check();
   }
 
@@ -18508,9 +18911,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool retainAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_retainAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -18537,8 +18941,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
     core$_.int i,
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _set(reference.pointer, _id_set.pointer, i, _$object.pointer)
+    return _set(_$$selfRef.pointer, _id_set.pointer, i, _$object.pointer)
         .object<$E?>();
   }
 
@@ -18561,7 +18966,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public int size()`
   core$_.int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    final _$$selfRef = reference;
+    return _size(_$$selfRef.pointer, _id_size.pointer).integer;
   }
 
   static final _id_sort = JArrayList._class.instanceMethodId(
@@ -18584,8 +18990,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   void sort(
     jni$_.JObject? comparator,
   ) {
+    final _$$selfRef = reference;
     final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    _sort(reference.pointer, _id_sort.pointer, _$comparator.pointer).check();
+    _sort(_$$selfRef.pointer, _id_sort.pointer, _$comparator.pointer).check();
   }
 
   static final _id_spliterator = JArrayList._class.instanceMethodId(
@@ -18608,7 +19015,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.util.Spliterator<E> spliterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
+    final _$$selfRef = reference;
+    return _spliterator(_$$selfRef.pointer, _id_spliterator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -18634,7 +19042,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _subList(reference.pointer, _id_subList.pointer, i, i1)
+    final _$$selfRef = reference;
+    return _subList(_$$selfRef.pointer, _id_subList.pointer, i, i1)
         .object<JList<$E?>?>();
   }
 
@@ -18658,7 +19067,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.lang.Object[] toArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
+    final _$$selfRef = reference;
+    return _toArray(_$$selfRef.pointer, _id_toArray.pointer)
         .object<jni$_.JArray<jni$_.JObject?>?>();
   }
 
@@ -18683,9 +19093,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
     jni$_.JArray<$T?>? objects,
   ) {
+    final _$$selfRef = reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
+            _$$selfRef.pointer, _id_toArray$1.pointer, _$objects.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 
@@ -18708,7 +19119,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public void trimToSize()`
   void trimToSize() {
-    _trimToSize(reference.pointer, _id_trimToSize.pointer).check();
+    final _$$selfRef = reference;
+    _trimToSize(_$$selfRef.pointer, _id_trimToSize.pointer).check();
   }
 
   static final _id_containsAll = JArrayList._class.instanceMethodId(
@@ -18731,9 +19143,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   core$_.bool containsAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_containsAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -18757,7 +19170,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.util.List<E> reversed()`
   /// The returned object must be released after use, by calling the [release] method.
   JList<$E?>? reversed() {
-    return _reversed(reference.pointer, _id_reversed.pointer)
+    final _$$selfRef = reference;
+    return _reversed(_$$selfRef.pointer, _id_reversed.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -18781,7 +19195,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.util.stream.Stream<E> parallelStream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
+    final _$$selfRef = reference;
+    return _parallelStream(_$$selfRef.pointer, _id_parallelStream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -18805,7 +19220,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public java.util.stream.Stream<E> stream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
+    final _$$selfRef = reference;
+    return _stream(_$$selfRef.pointer, _id_stream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -18830,9 +19246,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
+    final _$$selfRef = reference;
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
+            _$$selfRef.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 }
@@ -19078,8 +19495,9 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool add(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
+    return _add(_$$selfRef.pointer, _id_add.pointer, _$object.pointer).boolean;
   }
 
   static final _id_addAll = JCollection._class.instanceMethodId(
@@ -19102,8 +19520,9 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool addAll(
     JCollection<$E?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
+    return _addAll(_$$selfRef.pointer, _id_addAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -19126,7 +19545,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    final _$$selfRef = reference;
+    _clear(_$$selfRef.pointer, _id_clear.pointer).check();
   }
 
   static final _id_contains = JCollection._class.instanceMethodId(
@@ -19149,8 +19569,9 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool contains(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
+    return _contains(_$$selfRef.pointer, _id_contains.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -19174,9 +19595,10 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool containsAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_containsAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -19200,8 +19622,9 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -19224,7 +19647,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_isEmpty = JCollection._class.instanceMethodId(
@@ -19246,7 +19670,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract boolean isEmpty()`
   core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _isEmpty(_$$selfRef.pointer, _id_isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JCollection._class.instanceMethodId(
@@ -19269,7 +19694,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   /// from: `public abstract java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
   JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
+    final _$$selfRef = reference;
+    return _iterator(_$$selfRef.pointer, _id_iterator.pointer)
         .object<JIterator<$E?>?>();
   }
 
@@ -19293,7 +19719,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   /// from: `public java.util.stream.Stream<E> parallelStream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
+    final _$$selfRef = reference;
+    return _parallelStream(_$$selfRef.pointer, _id_parallelStream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -19317,8 +19744,9 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool remove(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
+    return _remove(_$$selfRef.pointer, _id_remove.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -19342,9 +19770,10 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool removeAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_removeAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -19368,9 +19797,10 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool removeIf(
     jni$_.JObject? predicate,
   ) {
+    final _$$selfRef = reference;
     final _$predicate = predicate?.reference ?? jni$_.jNullReference;
     return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
+            _$$selfRef.pointer, _id_removeIf.pointer, _$predicate.pointer)
         .boolean;
   }
 
@@ -19394,9 +19824,10 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   core$_.bool retainAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_retainAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -19419,7 +19850,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract int size()`
   core$_.int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    final _$$selfRef = reference;
+    return _size(_$$selfRef.pointer, _id_size.pointer).integer;
   }
 
   static final _id_spliterator = JCollection._class.instanceMethodId(
@@ -19442,7 +19874,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   /// from: `public java.util.Spliterator<E> spliterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
+    final _$$selfRef = reference;
+    return _spliterator(_$$selfRef.pointer, _id_spliterator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -19466,7 +19899,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   /// from: `public java.util.stream.Stream<E> stream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
+    final _$$selfRef = reference;
+    return _stream(_$$selfRef.pointer, _id_stream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -19490,7 +19924,8 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   /// from: `public abstract java.lang.Object[] toArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
+    final _$$selfRef = reference;
+    return _toArray(_$$selfRef.pointer, _id_toArray.pointer)
         .object<jni$_.JArray<jni$_.JObject?>?>();
   }
 
@@ -19515,9 +19950,10 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
+    final _$$selfRef = reference;
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$intFunction.pointer)
+            _$$selfRef.pointer, _id_toArray$1.pointer, _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 
@@ -19542,9 +19978,10 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
   jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JArray<$T?>? objects,
   ) {
+    final _$$selfRef = reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$objects.pointer)
+            _$$selfRef.pointer, _id_toArray$2.pointer, _$objects.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 }
@@ -19800,7 +20237,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashMap() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<JHashMap<$K, $V>>();
   }
 
@@ -19823,7 +20261,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   factory JHashMap.new$1(
     core$_.int i,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _new$1(_$$classRef.pointer, _id_new$1.pointer, i)
         .object<JHashMap<$K, $V>>();
   }
 
@@ -19848,7 +20287,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     core$_.int i,
     core$_.double f,
   ) {
-    return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
+    final _$$classRef = _class.reference;
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer, i, f)
         .object<JHashMap<$K, $V>>();
   }
 
@@ -19872,8 +20312,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   factory JHashMap.new$3(
     JMap<$K?, $V?>? map,
   ) {
+    final _$$classRef = _class.reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _new$3(_class.reference.pointer, _id_new$3.pointer, _$map.pointer)
+    return _new$3(_$$classRef.pointer, _id_new$3.pointer, _$map.pointer)
         .object<JHashMap<$K, $V>>();
   }
 
@@ -19897,7 +20338,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     core$_.int i,
   ) {
-    return _newHashMap(_class.reference.pointer, _id_newHashMap.pointer, i)
+    final _$$classRef = _class.reference;
+    return _newHashMap(_$$classRef.pointer, _id_newHashMap.pointer, i)
         .object<JHashMap<$K?, $V?>?>();
   }
 
@@ -19923,8 +20365,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       copyOf<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     JMap<$K?, $V?>? map,
   ) {
+    final _$$classRef = _class.reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _copyOf(_class.reference.pointer, _id_copyOf.pointer, _$map.pointer)
+    return _copyOf(_$$classRef.pointer, _id_copyOf.pointer, _$map.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -19957,9 +20400,10 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object,
     $V? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _entry(_class.reference.pointer, _id_entry.pointer, _$object.pointer,
+    return _entry(_$$classRef.pointer, _id_entry.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JMap$JEntry<$K?, $V?>?>();
   }
@@ -19985,8 +20429,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// The returned object must be released after use, by calling the [release] method.
   static JMap<$K?, $V?>?
       of<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer)
-        .object<JMap<$K?, $V?>?>();
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer).object<JMap<$K?, $V?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -20018,9 +20462,10 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object,
     $V? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer,
+    return _of$1(_$$classRef.pointer, _id_of$1.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JMap<$K?, $V?>?>();
   }
@@ -20060,11 +20505,12 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object2,
     $V? object3,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
+    return _of$2(_$$classRef.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
         .object<JMap<$K?, $V?>?>();
   }
@@ -20110,6 +20556,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object4,
     $V? object5,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20117,7 +20564,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     return _of$3(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$3.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20175,6 +20622,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object6,
     $V? object7,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20184,7 +20632,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     return _of$4(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$4.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20250,6 +20698,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object8,
     $V? object9,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20261,7 +20710,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     return _of$5(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20335,6 +20784,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object10,
     $V? object11,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20348,7 +20798,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object10 = object10?.reference ?? jni$_.jNullReference;
     final _$object11 = object11?.reference ?? jni$_.jNullReference;
     return _of$6(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20430,6 +20880,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object12,
     $V? object13,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20445,7 +20896,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object12 = object12?.reference ?? jni$_.jNullReference;
     final _$object13 = object13?.reference ?? jni$_.jNullReference;
     return _of$7(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20535,6 +20986,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object14,
     $V? object15,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20552,7 +21004,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object14 = object14?.reference ?? jni$_.jNullReference;
     final _$object15 = object15?.reference ?? jni$_.jNullReference;
     return _of$8(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20650,6 +21102,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object16,
     $V? object17,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20669,7 +21122,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object16 = object16?.reference ?? jni$_.jNullReference;
     final _$object17 = object17?.reference ?? jni$_.jNullReference;
     return _of$9(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20775,6 +21228,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object18,
     $V? object19,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -20796,7 +21250,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object18 = object18?.reference ?? jni$_.jNullReference;
     final _$object19 = object19?.reference ?? jni$_.jNullReference;
     return _of$10(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -20843,9 +21297,10 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       ofEntries<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JArray<JMap$JEntry<$K?, $V?>?>? entrys,
   ) {
+    final _$$classRef = _class.reference;
     final _$entrys = entrys?.reference ?? jni$_.jNullReference;
     return _ofEntries(
-            _class.reference.pointer, _id_ofEntries.pointer, _$entrys.pointer)
+            _$$classRef.pointer, _id_ofEntries.pointer, _$entrys.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 }
@@ -20871,7 +21326,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    final _$$selfRef = reference;
+    _clear(_$$selfRef.pointer, _id_clear.pointer).check();
   }
 
   static final _id_clone = JHashMap._class.instanceMethodId(
@@ -20894,7 +21350,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   /// from: `public java.lang.Object clone()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? clone() {
-    return _clone(reference.pointer, _id_clone.pointer)
+    final _$$selfRef = reference;
+    return _clone(_$$selfRef.pointer, _id_clone.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -20926,9 +21383,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $K? object,
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
+    return _compute(_$$selfRef.pointer, _id_compute.pointer, _$object.pointer,
             _$biFunction.pointer)
         .object<$V?>();
   }
@@ -20961,9 +21419,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $K? object,
     jni$_.JObject? function,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$function = function?.reference ?? jni$_.jNullReference;
-    return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
+    return _computeIfAbsent(_$$selfRef.pointer, _id_computeIfAbsent.pointer,
             _$object.pointer, _$function.pointer)
         .object<$V?>();
   }
@@ -20996,9 +21455,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $K? object,
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
+    return _computeIfPresent(_$$selfRef.pointer, _id_computeIfPresent.pointer,
             _$object.pointer, _$biFunction.pointer)
         .object<$V?>();
   }
@@ -21023,9 +21483,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   core$_.bool containsKey(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _containsKey(
-            reference.pointer, _id_containsKey.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_containsKey.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -21049,9 +21510,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   core$_.bool containsValue(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _containsValue(
-            reference.pointer, _id_containsValue.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_containsValue.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -21075,7 +21537,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   /// from: `public java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
   JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
-    return _entrySet(reference.pointer, _id_entrySet.pointer)
+    final _$$selfRef = reference;
+    return _entrySet(_$$selfRef.pointer, _id_entrySet.pointer)
         .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
   }
 
@@ -21099,8 +21562,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   void forEach(
     jni$_.JObject? biConsumer,
   ) {
+    final _$$selfRef = reference;
     final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
-    _forEach(reference.pointer, _id_forEach.pointer, _$biConsumer.pointer)
+    _forEach(_$$selfRef.pointer, _id_forEach.pointer, _$biConsumer.pointer)
         .check();
   }
 
@@ -21125,8 +21589,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   $V? get(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _get(reference.pointer, _id_get.pointer, _$object.pointer)
+    return _get(_$$selfRef.pointer, _id_get.pointer, _$object.pointer)
         .object<$V?>();
   }
 
@@ -21158,9 +21623,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     jni$_.JObject? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
+    return _getOrDefault(_$$selfRef.pointer, _id_getOrDefault.pointer,
             _$object.pointer, _$object1.pointer)
         .object<$V?>();
   }
@@ -21184,7 +21650,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public boolean isEmpty()`
   core$_.bool get isEmpty {
-    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isEmpty(_$$selfRef.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_keySet = JHashMap._class.instanceMethodId(
@@ -21207,7 +21674,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   /// from: `public java.util.Set<K> keySet()`
   /// The returned object must be released after use, by calling the [release] method.
   JSet<$K?>? keySet() {
-    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
+    final _$$selfRef = reference;
+    return _keySet(_$$selfRef.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
   }
 
   static final _id_merge = JHashMap._class.instanceMethodId(
@@ -21241,10 +21709,11 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $V? object1,
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
+    return _merge(_$$selfRef.pointer, _id_merge.pointer, _$object.pointer,
             _$object1.pointer, _$biFunction.pointer)
         .object<$V?>();
   }
@@ -21277,9 +21746,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $K? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _put(reference.pointer, _id_put.pointer, _$object.pointer,
+    return _put(_$$selfRef.pointer, _id_put.pointer, _$object.pointer,
             _$object1.pointer)
         .object<$V?>();
   }
@@ -21304,8 +21774,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   void putAll(
     JMap<$K?, $V?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
+    _putAll(_$$selfRef.pointer, _id_putAll.pointer, _$map.pointer).check();
   }
 
   static final _id_putIfAbsent = JHashMap._class.instanceMethodId(
@@ -21336,9 +21807,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $K? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
+    return _putIfAbsent(_$$selfRef.pointer, _id_putIfAbsent.pointer,
             _$object.pointer, _$object1.pointer)
         .object<$V?>();
   }
@@ -21364,8 +21836,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   $V? remove(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
+    return _remove(_$$selfRef.pointer, _id_remove.pointer, _$object.pointer)
         .object<$V?>();
   }
 
@@ -21396,9 +21869,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     jni$_.JObject? object,
     jni$_.JObject? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer,
+    return _remove$1(_$$selfRef.pointer, _id_remove$1.pointer, _$object.pointer,
             _$object1.pointer)
         .boolean;
   }
@@ -21431,9 +21905,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $K? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
+    return _replace(_$$selfRef.pointer, _id_replace.pointer, _$object.pointer,
             _$object1.pointer)
         .object<$V?>();
   }
@@ -21468,10 +21943,11 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     $V? object1,
     $V? object2,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _replace$1(reference.pointer, _id_replace$1.pointer,
+    return _replace$1(_$$selfRef.pointer, _id_replace$1.pointer,
             _$object.pointer, _$object1.pointer, _$object2.pointer)
         .boolean;
   }
@@ -21496,8 +21972,10 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   void replaceAll(
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    _replaceAll(reference.pointer, _id_replaceAll.pointer, _$biFunction.pointer)
+    _replaceAll(
+            _$$selfRef.pointer, _id_replaceAll.pointer, _$biFunction.pointer)
         .check();
   }
 
@@ -21520,7 +21998,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public int size()`
   core$_.int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    final _$$selfRef = reference;
+    return _size(_$$selfRef.pointer, _id_size.pointer).integer;
   }
 
   static final _id_values = JHashMap._class.instanceMethodId(
@@ -21543,7 +22022,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   /// from: `public java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
   JCollection<$V?>? values() {
-    return _values(reference.pointer, _id_values.pointer)
+    final _$$selfRef = reference;
+    return _values(_$$selfRef.pointer, _id_values.pointer)
         .object<JCollection<$V?>?>();
   }
 
@@ -21567,8 +22047,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -21591,7 +22072,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public abstract int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 }
 
@@ -21630,8 +22112,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashSet() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<JHashSet<$E>>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<JHashSet<$E>>();
   }
 
   static final _id_new$1 = _class.constructorId(
@@ -21653,7 +22135,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   factory JHashSet.new$1(
     core$_.int i,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
+    final _$$classRef = _class.reference;
+    return _new$1(_$$classRef.pointer, _id_new$1.pointer, i)
         .object<JHashSet<$E>>();
   }
 
@@ -21678,7 +22161,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     core$_.int i,
     core$_.double f,
   ) {
-    return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
+    final _$$classRef = _class.reference;
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer, i, f)
         .object<JHashSet<$E>>();
   }
 
@@ -21702,9 +22186,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   factory JHashSet.new$3(
     JCollection<$E?>? collection,
   ) {
+    final _$$classRef = _class.reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _new$3(
-            _class.reference.pointer, _id_new$3.pointer, _$collection.pointer)
+    return _new$3(_$$classRef.pointer, _id_new$3.pointer, _$collection.pointer)
         .object<JHashSet<$E>>();
   }
 
@@ -21727,7 +22211,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JHashSet<$T?>? newHashSet<$T extends jni$_.JObject?>(
     core$_.int i,
   ) {
-    return _newHashSet(_class.reference.pointer, _id_newHashSet.pointer, i)
+    final _$$classRef = _class.reference;
+    return _newHashSet(_$$classRef.pointer, _id_newHashSet.pointer, i)
         .object<JHashSet<$T?>?>();
   }
 
@@ -21752,9 +22237,10 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JSet<$E?>? copyOf<$E extends jni$_.JObject?>(
     JCollection<$E?>? collection,
   ) {
+    final _$$classRef = _class.reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+            _$$classRef.pointer, _id_copyOf.pointer, _$collection.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -21778,7 +22264,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.Set<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JSet<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E?>?>();
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer).object<JSet<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -21802,8 +22289,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JSet<$E?>? of$1<$E extends jni$_.JObject?>(
     $E? object,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return _of$1(_$$classRef.pointer, _id_of$1.pointer, _$object.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -21835,9 +22323,10 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
     $E? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
+    return _of$2(_$$classRef.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JSet<$E?>?>();
   }
@@ -21873,10 +22362,11 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object1,
     $E? object2,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
+    return _of$3(_$$classRef.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
         .object<JSet<$E?>?>();
   }
@@ -21915,11 +22405,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object2,
     $E? object3,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
+    return _of$4(_$$classRef.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
         .object<JSet<$E?>?>();
   }
@@ -21961,13 +22452,14 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object3,
     $E? object4,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     return _of$5(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -22017,6 +22509,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object4,
     $E? object5,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -22024,7 +22517,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     return _of$6(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -22078,6 +22571,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object5,
     $E? object6,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -22086,7 +22580,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     return _of$7(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -22144,6 +22638,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object6,
     $E? object7,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -22153,7 +22648,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     return _of$8(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -22215,6 +22710,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object7,
     $E? object8,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -22225,7 +22721,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     return _of$9(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -22291,6 +22787,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object8,
     $E? object9,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -22302,7 +22799,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     return _of$10(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -22338,9 +22835,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JSet<$E?>? of$11<$E extends jni$_.JObject?>(
     jni$_.JArray<$E?>? objects,
   ) {
+    final _$$classRef = _class.reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return _of$11(_$$classRef.pointer, _id_of$11.pointer, _$objects.pointer)
         .object<JSet<$E?>?>();
   }
 }
@@ -22366,8 +22863,9 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool add(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
+    return _add(_$$selfRef.pointer, _id_add.pointer, _$object.pointer).boolean;
   }
 
   static final _id_clear = JHashSet._class.instanceMethodId(
@@ -22389,7 +22887,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    final _$$selfRef = reference;
+    _clear(_$$selfRef.pointer, _id_clear.pointer).check();
   }
 
   static final _id_clone = JHashSet._class.instanceMethodId(
@@ -22412,7 +22911,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   /// from: `public java.lang.Object clone()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? clone() {
-    return _clone(reference.pointer, _id_clone.pointer)
+    final _$$selfRef = reference;
+    return _clone(_$$selfRef.pointer, _id_clone.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -22436,8 +22936,9 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool contains(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
+    return _contains(_$$selfRef.pointer, _id_contains.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -22460,7 +22961,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public boolean isEmpty()`
   core$_.bool get isEmpty {
-    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isEmpty(_$$selfRef.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JHashSet._class.instanceMethodId(
@@ -22483,7 +22985,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   /// from: `public java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
   JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
+    final _$$selfRef = reference;
+    return _iterator(_$$selfRef.pointer, _id_iterator.pointer)
         .object<JIterator<$E?>?>();
   }
 
@@ -22507,8 +23010,9 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool remove(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
+    return _remove(_$$selfRef.pointer, _id_remove.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -22531,7 +23035,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public int size()`
   core$_.int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    final _$$selfRef = reference;
+    return _size(_$$selfRef.pointer, _id_size.pointer).integer;
   }
 
   static final _id_spliterator = JHashSet._class.instanceMethodId(
@@ -22554,7 +23059,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   /// from: `public java.util.Spliterator<E> spliterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
+    final _$$selfRef = reference;
+    return _spliterator(_$$selfRef.pointer, _id_spliterator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -22578,7 +23084,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   /// from: `public java.lang.Object[] toArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
+    final _$$selfRef = reference;
+    return _toArray(_$$selfRef.pointer, _id_toArray.pointer)
         .object<jni$_.JArray<jni$_.JObject?>?>();
   }
 
@@ -22603,9 +23110,10 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
     jni$_.JArray<$T?>? objects,
   ) {
+    final _$$selfRef = reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
+            _$$selfRef.pointer, _id_toArray$1.pointer, _$objects.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 
@@ -22629,8 +23137,9 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool addAll(
     JCollection<$E?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
+    return _addAll(_$$selfRef.pointer, _id_addAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -22654,9 +23163,10 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool containsAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_containsAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -22680,8 +23190,9 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -22704,7 +23215,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public abstract int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_removeAll = JHashSet._class.instanceMethodId(
@@ -22727,9 +23239,10 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool removeAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_removeAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -22753,9 +23266,10 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool retainAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_retainAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -22779,7 +23293,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   /// from: `public java.util.stream.Stream<E> parallelStream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
+    final _$$selfRef = reference;
+    return _parallelStream(_$$selfRef.pointer, _id_parallelStream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -22803,9 +23318,10 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   core$_.bool removeIf(
     jni$_.JObject? predicate,
   ) {
+    final _$$selfRef = reference;
     final _$predicate = predicate?.reference ?? jni$_.jNullReference;
     return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
+            _$$selfRef.pointer, _id_removeIf.pointer, _$predicate.pointer)
         .boolean;
   }
 
@@ -22829,7 +23345,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   /// from: `public java.util.stream.Stream<E> stream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
+    final _$$selfRef = reference;
+    return _stream(_$$selfRef.pointer, _id_stream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -22854,9 +23371,10 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
   jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
+    final _$$selfRef = reference;
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
+            _$$selfRef.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 }
@@ -22995,9 +23513,10 @@ extension JIterator$$Methods<$E extends jni$_.JObject?> on JIterator<$E> {
   void forEachRemaining(
     jni$_.JObject? consumer,
   ) {
+    final _$$selfRef = reference;
     final _$consumer = consumer?.reference ?? jni$_.jNullReference;
-    _forEachRemaining(
-            reference.pointer, _id_forEachRemaining.pointer, _$consumer.pointer)
+    _forEachRemaining(_$$selfRef.pointer, _id_forEachRemaining.pointer,
+            _$consumer.pointer)
         .check();
   }
 
@@ -23020,7 +23539,8 @@ extension JIterator$$Methods<$E extends jni$_.JObject?> on JIterator<$E> {
 
   /// from: `public abstract boolean hasNext()`
   core$_.bool hasNext() {
-    return _hasNext(reference.pointer, _id_hasNext.pointer).boolean;
+    final _$$selfRef = reference;
+    return _hasNext(_$$selfRef.pointer, _id_hasNext.pointer).boolean;
   }
 
   static final _id_next = JIterator._class.instanceMethodId(
@@ -23043,7 +23563,8 @@ extension JIterator$$Methods<$E extends jni$_.JObject?> on JIterator<$E> {
   /// from: `public abstract E next()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? next() {
-    return _next(reference.pointer, _id_next.pointer).object<$E?>();
+    final _$$selfRef = reference;
+    return _next(_$$selfRef.pointer, _id_next.pointer).object<$E?>();
   }
 
   static final _id_remove = JIterator._class.instanceMethodId(
@@ -23065,7 +23586,8 @@ extension JIterator$$Methods<$E extends jni$_.JObject?> on JIterator<$E> {
 
   /// from: `public void remove()`
   void remove() {
-    _remove(reference.pointer, _id_remove.pointer).check();
+    final _$$selfRef = reference;
+    _remove(_$$selfRef.pointer, _id_remove.pointer).check();
   }
 }
 
@@ -23161,9 +23683,10 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JList<$E?>? copyOf<$E extends jni$_.JObject?>(
     JCollection<$E?>? collection,
   ) {
+    final _$$classRef = _class.reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+            _$$classRef.pointer, _id_copyOf.pointer, _$collection.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -23187,7 +23710,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.List<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JList<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E?>?>();
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer).object<JList<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -23211,8 +23735,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JList<$E?>? of$1<$E extends jni$_.JObject?>(
     $E? object,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return _of$1(_$$classRef.pointer, _id_of$1.pointer, _$object.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -23244,9 +23769,10 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
     $E? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
+    return _of$2(_$$classRef.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JList<$E?>?>();
   }
@@ -23282,10 +23808,11 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object1,
     $E? object2,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
+    return _of$3(_$$classRef.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
         .object<JList<$E?>?>();
   }
@@ -23324,11 +23851,12 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object2,
     $E? object3,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
+    return _of$4(_$$classRef.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
         .object<JList<$E?>?>();
   }
@@ -23370,13 +23898,14 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object3,
     $E? object4,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     return _of$5(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -23426,6 +23955,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object4,
     $E? object5,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -23433,7 +23963,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     return _of$6(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -23487,6 +24017,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object5,
     $E? object6,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -23495,7 +24026,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     return _of$7(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -23553,6 +24084,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object6,
     $E? object7,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -23562,7 +24094,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     return _of$8(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -23624,6 +24156,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object7,
     $E? object8,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -23634,7 +24167,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     return _of$9(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -23700,6 +24233,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object8,
     $E? object9,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -23711,7 +24245,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     return _of$10(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -23747,9 +24281,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JList<$E?>? of$11<$E extends jni$_.JObject?>(
     jni$_.JArray<$E?>? objects,
   ) {
+    final _$$classRef = _class.reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return _of$11(_$$classRef.pointer, _id_of$11.pointer, _$objects.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -24314,8 +24848,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool add(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
+    return _add(_$$selfRef.pointer, _id_add.pointer, _$object.pointer).boolean;
   }
 
   static final _id_add$1 = JList._class.instanceMethodId(
@@ -24340,8 +24875,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
     core$_.int i,
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _add$1(reference.pointer, _id_add$1.pointer, i, _$object.pointer).check();
+    _add$1(_$$selfRef.pointer, _id_add$1.pointer, i, _$object.pointer).check();
   }
 
   static final _id_addAll = JList._class.instanceMethodId(
@@ -24366,9 +24902,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
     core$_.int i,
     JCollection<$E?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(
-            reference.pointer, _id_addAll.pointer, i, _$collection.pointer)
+            _$$selfRef.pointer, _id_addAll.pointer, i, _$collection.pointer)
         .boolean;
   }
 
@@ -24392,9 +24929,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool addAll$1(
     JCollection<$E?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll$1(
-            reference.pointer, _id_addAll$1.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_addAll$1.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -24418,8 +24956,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   void addFirst(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _addFirst(reference.pointer, _id_addFirst.pointer, _$object.pointer)
+    _addFirst(_$$selfRef.pointer, _id_addFirst.pointer, _$object.pointer)
         .check();
   }
 
@@ -24443,8 +24982,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   void addLast(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _addLast(reference.pointer, _id_addLast.pointer, _$object.pointer).check();
+    _addLast(_$$selfRef.pointer, _id_addLast.pointer, _$object.pointer).check();
   }
 
   static final _id_clear = JList._class.instanceMethodId(
@@ -24466,7 +25006,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    final _$$selfRef = reference;
+    _clear(_$$selfRef.pointer, _id_clear.pointer).check();
   }
 
   static final _id_contains = JList._class.instanceMethodId(
@@ -24489,8 +25030,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool contains(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
+    return _contains(_$$selfRef.pointer, _id_contains.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -24514,9 +25056,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool containsAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_containsAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -24540,8 +25083,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -24565,7 +25109,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   $E? get(
     core$_.int i,
   ) {
-    return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
+    final _$$selfRef = reference;
+    return _get(_$$selfRef.pointer, _id_get.pointer, i).object<$E?>();
   }
 
   static final _id_getFirst = JList._class.instanceMethodId(
@@ -24588,7 +25133,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public E getFirst()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? getFirst() {
-    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E?>();
+    final _$$selfRef = reference;
+    return _getFirst(_$$selfRef.pointer, _id_getFirst.pointer).object<$E?>();
   }
 
   static final _id_getLast = JList._class.instanceMethodId(
@@ -24611,7 +25157,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public E getLast()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? getLast() {
-    return _getLast(reference.pointer, _id_getLast.pointer).object<$E?>();
+    final _$$selfRef = reference;
+    return _getLast(_$$selfRef.pointer, _id_getLast.pointer).object<$E?>();
   }
 
   static final _id_hashCode$1 = JList._class.instanceMethodId(
@@ -24633,7 +25180,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_indexOf = JList._class.instanceMethodId(
@@ -24656,8 +25204,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.int indexOf(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _indexOf(reference.pointer, _id_indexOf.pointer, _$object.pointer)
+    return _indexOf(_$$selfRef.pointer, _id_indexOf.pointer, _$object.pointer)
         .integer;
   }
 
@@ -24680,7 +25229,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract boolean isEmpty()`
   core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _isEmpty(_$$selfRef.pointer, _id_isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JList._class.instanceMethodId(
@@ -24703,7 +25253,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public abstract java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
   JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
+    final _$$selfRef = reference;
+    return _iterator(_$$selfRef.pointer, _id_iterator.pointer)
         .object<JIterator<$E?>?>();
   }
 
@@ -24727,9 +25278,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.int lastIndexOf(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _lastIndexOf(
-            reference.pointer, _id_lastIndexOf.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_lastIndexOf.pointer, _$object.pointer)
         .integer;
   }
 
@@ -24753,7 +25305,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public abstract java.util.ListIterator<E> listIterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? listIterator() {
-    return _listIterator(reference.pointer, _id_listIterator.pointer)
+    final _$$selfRef = reference;
+    return _listIterator(_$$selfRef.pointer, _id_listIterator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -24777,7 +25330,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   jni$_.JObject? listIterator$1(
     core$_.int i,
   ) {
-    return _listIterator$1(reference.pointer, _id_listIterator$1.pointer, i)
+    final _$$selfRef = reference;
+    return _listIterator$1(_$$selfRef.pointer, _id_listIterator$1.pointer, i)
         .object<jni$_.JObject?>();
   }
 
@@ -24801,7 +25355,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   $E? remove(
     core$_.int i,
   ) {
-    return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
+    final _$$selfRef = reference;
+    return _remove(_$$selfRef.pointer, _id_remove.pointer, i).object<$E?>();
   }
 
   static final _id_remove$1 = JList._class.instanceMethodId(
@@ -24824,8 +25379,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool remove$1(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer)
+    return _remove$1(_$$selfRef.pointer, _id_remove$1.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -24849,9 +25405,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool removeAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_removeAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -24875,7 +25432,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public E removeFirst()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? removeFirst() {
-    return _removeFirst(reference.pointer, _id_removeFirst.pointer)
+    final _$$selfRef = reference;
+    return _removeFirst(_$$selfRef.pointer, _id_removeFirst.pointer)
         .object<$E?>();
   }
 
@@ -24899,7 +25457,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public E removeLast()`
   /// The returned object must be released after use, by calling the [release] method.
   $E? removeLast() {
-    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E?>();
+    final _$$selfRef = reference;
+    return _removeLast(_$$selfRef.pointer, _id_removeLast.pointer)
+        .object<$E?>();
   }
 
   static final _id_replaceAll = JList._class.instanceMethodId(
@@ -24922,9 +25482,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   void replaceAll(
     jni$_.JObject? unaryOperator,
   ) {
+    final _$$selfRef = reference;
     final _$unaryOperator = unaryOperator?.reference ?? jni$_.jNullReference;
     _replaceAll(
-            reference.pointer, _id_replaceAll.pointer, _$unaryOperator.pointer)
+            _$$selfRef.pointer, _id_replaceAll.pointer, _$unaryOperator.pointer)
         .check();
   }
 
@@ -24948,9 +25509,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool retainAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_retainAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -24974,7 +25536,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public java.util.List<E> reversed()`
   /// The returned object must be released after use, by calling the [release] method.
   JList<$E?>? reversed() {
-    return _reversed(reference.pointer, _id_reversed.pointer)
+    final _$$selfRef = reference;
+    return _reversed(_$$selfRef.pointer, _id_reversed.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -25001,8 +25564,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
     core$_.int i,
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _set(reference.pointer, _id_set.pointer, i, _$object.pointer)
+    return _set(_$$selfRef.pointer, _id_set.pointer, i, _$object.pointer)
         .object<$E?>();
   }
 
@@ -25025,7 +25589,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract int size()`
   core$_.int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    final _$$selfRef = reference;
+    return _size(_$$selfRef.pointer, _id_size.pointer).integer;
   }
 
   static final _id_sort = JList._class.instanceMethodId(
@@ -25048,8 +25613,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   void sort(
     jni$_.JObject? comparator,
   ) {
+    final _$$selfRef = reference;
     final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    _sort(reference.pointer, _id_sort.pointer, _$comparator.pointer).check();
+    _sort(_$$selfRef.pointer, _id_sort.pointer, _$comparator.pointer).check();
   }
 
   static final _id_spliterator = JList._class.instanceMethodId(
@@ -25072,7 +25638,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public java.util.Spliterator<E> spliterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
+    final _$$selfRef = reference;
+    return _spliterator(_$$selfRef.pointer, _id_spliterator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -25098,7 +25665,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
     core$_.int i,
     core$_.int i1,
   ) {
-    return _subList(reference.pointer, _id_subList.pointer, i, i1)
+    final _$$selfRef = reference;
+    return _subList(_$$selfRef.pointer, _id_subList.pointer, i, i1)
         .object<JList<$E?>?>();
   }
 
@@ -25122,7 +25690,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public abstract java.lang.Object[] toArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
+    final _$$selfRef = reference;
+    return _toArray(_$$selfRef.pointer, _id_toArray.pointer)
         .object<jni$_.JArray<jni$_.JObject?>?>();
   }
 
@@ -25147,9 +25716,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
     jni$_.JArray<$T?>? objects,
   ) {
+    final _$$selfRef = reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
+            _$$selfRef.pointer, _id_toArray$1.pointer, _$objects.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 
@@ -25173,7 +25743,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public java.util.stream.Stream<E> parallelStream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
+    final _$$selfRef = reference;
+    return _parallelStream(_$$selfRef.pointer, _id_parallelStream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -25197,9 +25768,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   core$_.bool removeIf(
     jni$_.JObject? predicate,
   ) {
+    final _$$selfRef = reference;
     final _$predicate = predicate?.reference ?? jni$_.jNullReference;
     return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
+            _$$selfRef.pointer, _id_removeIf.pointer, _$predicate.pointer)
         .boolean;
   }
 
@@ -25223,7 +25795,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public java.util.stream.Stream<E> stream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
+    final _$$selfRef = reference;
+    return _stream(_$$selfRef.pointer, _id_stream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -25248,9 +25821,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
+    final _$$selfRef = reference;
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
+            _$$selfRef.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 }
@@ -26095,7 +26669,8 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject?
       comparingByKey<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _comparingByKey(_class.reference.pointer, _id_comparingByKey.pointer)
+    final _$$classRef = _class.reference;
+    return _comparingByKey(_$$classRef.pointer, _id_comparingByKey.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -26121,9 +26696,10 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       comparingByKey$1<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JObject? comparator,
   ) {
+    final _$$classRef = _class.reference;
     final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    return _comparingByKey$1(_class.reference.pointer,
-            _id_comparingByKey$1.pointer, _$comparator.pointer)
+    return _comparingByKey$1(_$$classRef.pointer, _id_comparingByKey$1.pointer,
+            _$comparator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -26148,8 +26724,8 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject?
       comparingByValue<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _comparingByValue(
-            _class.reference.pointer, _id_comparingByValue.pointer)
+    final _$$classRef = _class.reference;
+    return _comparingByValue(_$$classRef.pointer, _id_comparingByValue.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -26175,8 +26751,9 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       comparingByValue$1<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JObject? comparator,
   ) {
+    final _$$classRef = _class.reference;
     final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    return _comparingByValue$1(_class.reference.pointer,
+    return _comparingByValue$1(_$$classRef.pointer,
             _id_comparingByValue$1.pointer, _$comparator.pointer)
         .object<jni$_.JObject?>();
   }
@@ -26203,9 +26780,9 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       copyOf<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     JMap$JEntry<$K?, $V?>? entry,
   ) {
+    final _$$classRef = _class.reference;
     final _$entry = entry?.reference ?? jni$_.jNullReference;
-    return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$entry.pointer)
+    return _copyOf(_$$classRef.pointer, _id_copyOf.pointer, _$entry.pointer)
         .object<JMap$JEntry<$K?, $V?>?>();
   }
 
@@ -26385,8 +26962,9 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -26410,7 +26988,8 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
   /// from: `public abstract K getKey()`
   /// The returned object must be released after use, by calling the [release] method.
   $K? getKey() {
-    return _getKey(reference.pointer, _id_getKey.pointer).object<$K?>();
+    final _$$selfRef = reference;
+    return _getKey(_$$selfRef.pointer, _id_getKey.pointer).object<$K?>();
   }
 
   static final _id_getValue = JMap$JEntry._class.instanceMethodId(
@@ -26433,7 +27012,8 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
   /// from: `public abstract V getValue()`
   /// The returned object must be released after use, by calling the [release] method.
   $V? getValue() {
-    return _getValue(reference.pointer, _id_getValue.pointer).object<$V?>();
+    final _$$selfRef = reference;
+    return _getValue(_$$selfRef.pointer, _id_getValue.pointer).object<$V?>();
   }
 
   static final _id_hashCode$1 = JMap$JEntry._class.instanceMethodId(
@@ -26455,7 +27035,8 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public abstract int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_setValue = JMap$JEntry._class.instanceMethodId(
@@ -26479,8 +27060,9 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
   $V? setValue(
     $V? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _setValue(reference.pointer, _id_setValue.pointer, _$object.pointer)
+    return _setValue(_$$selfRef.pointer, _id_setValue.pointer, _$object.pointer)
         .object<$V?>();
   }
 }
@@ -26637,8 +27219,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       copyOf<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     JMap<$K?, $V?>? map,
   ) {
+    final _$$classRef = _class.reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _copyOf(_class.reference.pointer, _id_copyOf.pointer, _$map.pointer)
+    return _copyOf(_$$classRef.pointer, _id_copyOf.pointer, _$map.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -26671,9 +27254,10 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object,
     $V? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _entry(_class.reference.pointer, _id_entry.pointer, _$object.pointer,
+    return _entry(_$$classRef.pointer, _id_entry.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JMap$JEntry<$K?, $V?>?>();
   }
@@ -26699,8 +27283,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// The returned object must be released after use, by calling the [release] method.
   static JMap<$K?, $V?>?
       of<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer)
-        .object<JMap<$K?, $V?>?>();
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer).object<JMap<$K?, $V?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -26732,9 +27316,10 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object,
     $V? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer,
+    return _of$1(_$$classRef.pointer, _id_of$1.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JMap<$K?, $V?>?>();
   }
@@ -26774,11 +27359,12 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object2,
     $V? object3,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
+    return _of$2(_$$classRef.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
         .object<JMap<$K?, $V?>?>();
   }
@@ -26824,6 +27410,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object4,
     $V? object5,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -26831,7 +27418,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     return _of$3(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$3.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -26889,6 +27476,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object6,
     $V? object7,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -26898,7 +27486,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     return _of$4(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$4.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -26964,6 +27552,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object8,
     $V? object9,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -26975,7 +27564,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     return _of$5(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -27049,6 +27638,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object10,
     $V? object11,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -27062,7 +27652,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object10 = object10?.reference ?? jni$_.jNullReference;
     final _$object11 = object11?.reference ?? jni$_.jNullReference;
     return _of$6(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -27144,6 +27734,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object12,
     $V? object13,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -27159,7 +27750,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object12 = object12?.reference ?? jni$_.jNullReference;
     final _$object13 = object13?.reference ?? jni$_.jNullReference;
     return _of$7(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -27249,6 +27840,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object14,
     $V? object15,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -27266,7 +27858,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object14 = object14?.reference ?? jni$_.jNullReference;
     final _$object15 = object15?.reference ?? jni$_.jNullReference;
     return _of$8(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -27364,6 +27956,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object16,
     $V? object17,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -27383,7 +27976,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object16 = object16?.reference ?? jni$_.jNullReference;
     final _$object17 = object17?.reference ?? jni$_.jNullReference;
     return _of$9(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -27489,6 +28082,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     $K? object18,
     $V? object19,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -27510,7 +28104,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object18 = object18?.reference ?? jni$_.jNullReference;
     final _$object19 = object19?.reference ?? jni$_.jNullReference;
     return _of$10(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -27557,9 +28151,10 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       ofEntries<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     jni$_.JArray<JMap$JEntry<$K?, $V?>?>? entrys,
   ) {
+    final _$$classRef = _class.reference;
     final _$entrys = entrys?.reference ?? jni$_.jNullReference;
     return _ofEntries(
-            _class.reference.pointer, _id_ofEntries.pointer, _$entrys.pointer)
+            _$$classRef.pointer, _id_ofEntries.pointer, _$entrys.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -28118,7 +28713,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    final _$$selfRef = reference;
+    _clear(_$$selfRef.pointer, _id_clear.pointer).check();
   }
 
   static final _id_compute = JMap._class.instanceMethodId(
@@ -28149,9 +28745,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $K? object,
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
+    return _compute(_$$selfRef.pointer, _id_compute.pointer, _$object.pointer,
             _$biFunction.pointer)
         .object<$V?>();
   }
@@ -28184,9 +28781,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $K? object,
     jni$_.JObject? function,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$function = function?.reference ?? jni$_.jNullReference;
-    return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
+    return _computeIfAbsent(_$$selfRef.pointer, _id_computeIfAbsent.pointer,
             _$object.pointer, _$function.pointer)
         .object<$V?>();
   }
@@ -28219,9 +28817,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $K? object,
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
+    return _computeIfPresent(_$$selfRef.pointer, _id_computeIfPresent.pointer,
             _$object.pointer, _$biFunction.pointer)
         .object<$V?>();
   }
@@ -28246,9 +28845,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   core$_.bool containsKey(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _containsKey(
-            reference.pointer, _id_containsKey.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_containsKey.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -28272,9 +28872,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   core$_.bool containsValue(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _containsValue(
-            reference.pointer, _id_containsValue.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_containsValue.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -28298,7 +28899,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   /// from: `public abstract java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
   JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
-    return _entrySet(reference.pointer, _id_entrySet.pointer)
+    final _$$selfRef = reference;
+    return _entrySet(_$$selfRef.pointer, _id_entrySet.pointer)
         .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
   }
 
@@ -28322,8 +28924,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -28347,8 +28950,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   void forEach(
     jni$_.JObject? biConsumer,
   ) {
+    final _$$selfRef = reference;
     final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
-    _forEach(reference.pointer, _id_forEach.pointer, _$biConsumer.pointer)
+    _forEach(_$$selfRef.pointer, _id_forEach.pointer, _$biConsumer.pointer)
         .check();
   }
 
@@ -28373,8 +28977,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   $V? get(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _get(reference.pointer, _id_get.pointer, _$object.pointer)
+    return _get(_$$selfRef.pointer, _id_get.pointer, _$object.pointer)
         .object<$V?>();
   }
 
@@ -28406,9 +29011,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     jni$_.JObject? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
+    return _getOrDefault(_$$selfRef.pointer, _id_getOrDefault.pointer,
             _$object.pointer, _$object1.pointer)
         .object<$V?>();
   }
@@ -28432,7 +29038,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_isEmpty = JMap._class.instanceMethodId(
@@ -28454,7 +29061,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract boolean isEmpty()`
   core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _isEmpty(_$$selfRef.pointer, _id_isEmpty.pointer).boolean;
   }
 
   static final _id_keySet = JMap._class.instanceMethodId(
@@ -28477,7 +29085,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   /// from: `public abstract java.util.Set<K> keySet()`
   /// The returned object must be released after use, by calling the [release] method.
   JSet<$K?>? keySet() {
-    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
+    final _$$selfRef = reference;
+    return _keySet(_$$selfRef.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
   }
 
   static final _id_merge = JMap._class.instanceMethodId(
@@ -28511,10 +29120,11 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $V? object1,
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
+    return _merge(_$$selfRef.pointer, _id_merge.pointer, _$object.pointer,
             _$object1.pointer, _$biFunction.pointer)
         .object<$V?>();
   }
@@ -28547,9 +29157,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $K? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _put(reference.pointer, _id_put.pointer, _$object.pointer,
+    return _put(_$$selfRef.pointer, _id_put.pointer, _$object.pointer,
             _$object1.pointer)
         .object<$V?>();
   }
@@ -28574,8 +29185,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   void putAll(
     JMap<$K?, $V?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
+    _putAll(_$$selfRef.pointer, _id_putAll.pointer, _$map.pointer).check();
   }
 
   static final _id_putIfAbsent = JMap._class.instanceMethodId(
@@ -28606,9 +29218,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $K? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
+    return _putIfAbsent(_$$selfRef.pointer, _id_putIfAbsent.pointer,
             _$object.pointer, _$object1.pointer)
         .object<$V?>();
   }
@@ -28634,8 +29247,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   $V? remove(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
+    return _remove(_$$selfRef.pointer, _id_remove.pointer, _$object.pointer)
         .object<$V?>();
   }
 
@@ -28666,9 +29280,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     jni$_.JObject? object,
     jni$_.JObject? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer,
+    return _remove$1(_$$selfRef.pointer, _id_remove$1.pointer, _$object.pointer,
             _$object1.pointer)
         .boolean;
   }
@@ -28701,9 +29316,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $K? object,
     $V? object1,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
+    return _replace(_$$selfRef.pointer, _id_replace.pointer, _$object.pointer,
             _$object1.pointer)
         .object<$V?>();
   }
@@ -28738,10 +29354,11 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     $V? object1,
     $V? object2,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _replace$1(reference.pointer, _id_replace$1.pointer,
+    return _replace$1(_$$selfRef.pointer, _id_replace$1.pointer,
             _$object.pointer, _$object1.pointer, _$object2.pointer)
         .boolean;
   }
@@ -28766,8 +29383,10 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   void replaceAll(
     jni$_.JObject? biFunction,
   ) {
+    final _$$selfRef = reference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    _replaceAll(reference.pointer, _id_replaceAll.pointer, _$biFunction.pointer)
+    _replaceAll(
+            _$$selfRef.pointer, _id_replaceAll.pointer, _$biFunction.pointer)
         .check();
   }
 
@@ -28790,7 +29409,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract int size()`
   core$_.int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    final _$$selfRef = reference;
+    return _size(_$$selfRef.pointer, _id_size.pointer).integer;
   }
 
   static final _id_values = JMap._class.instanceMethodId(
@@ -28813,7 +29433,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   /// from: `public abstract java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
   JCollection<$V?>? values() {
-    return _values(reference.pointer, _id_values.pointer)
+    final _$$selfRef = reference;
+    return _values(_$$selfRef.pointer, _id_values.pointer)
         .object<JCollection<$V?>?>();
   }
 }
@@ -29913,9 +30534,10 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JSet<$E?>? copyOf<$E extends jni$_.JObject?>(
     JCollection<$E?>? collection,
   ) {
+    final _$$classRef = _class.reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+            _$$classRef.pointer, _id_copyOf.pointer, _$collection.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -29939,7 +30561,8 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.Set<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JSet<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E?>?>();
+    final _$$classRef = _class.reference;
+    return _of(_$$classRef.pointer, _id_of.pointer).object<JSet<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -29963,8 +30586,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JSet<$E?>? of$1<$E extends jni$_.JObject?>(
     $E? object,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return _of$1(_$$classRef.pointer, _id_of$1.pointer, _$object.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -29996,9 +30620,10 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
     $E? object1,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
+    return _of$2(_$$classRef.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
         .object<JSet<$E?>?>();
   }
@@ -30034,10 +30659,11 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object1,
     $E? object2,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
+    return _of$3(_$$classRef.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
         .object<JSet<$E?>?>();
   }
@@ -30076,11 +30702,12 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object2,
     $E? object3,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
+    return _of$4(_$$classRef.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
         .object<JSet<$E?>?>();
   }
@@ -30122,13 +30749,14 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object3,
     $E? object4,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     return _of$5(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -30178,6 +30806,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object4,
     $E? object5,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -30185,7 +30814,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     return _of$6(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -30239,6 +30868,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object5,
     $E? object6,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -30247,7 +30877,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     return _of$7(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -30305,6 +30935,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object6,
     $E? object7,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -30314,7 +30945,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     return _of$8(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -30376,6 +31007,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object7,
     $E? object8,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -30386,7 +31018,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     return _of$9(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -30452,6 +31084,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object8,
     $E? object9,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -30463,7 +31096,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     return _of$10(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
@@ -30499,9 +31132,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JSet<$E?>? of$11<$E extends jni$_.JObject?>(
     jni$_.JArray<$E?>? objects,
   ) {
+    final _$$classRef = _class.reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return _of$11(_$$classRef.pointer, _id_of$11.pointer, _$objects.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -30910,8 +31543,9 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool add(
     $E? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
+    return _add(_$$selfRef.pointer, _id_add.pointer, _$object.pointer).boolean;
   }
 
   static final _id_addAll = JSet._class.instanceMethodId(
@@ -30934,8 +31568,9 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool addAll(
     JCollection<$E?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
+    return _addAll(_$$selfRef.pointer, _id_addAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -30958,7 +31593,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    final _$$selfRef = reference;
+    _clear(_$$selfRef.pointer, _id_clear.pointer).check();
   }
 
   static final _id_contains = JSet._class.instanceMethodId(
@@ -30981,8 +31617,9 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool contains(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
+    return _contains(_$$selfRef.pointer, _id_contains.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -31006,9 +31643,10 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool containsAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_containsAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -31032,8 +31670,9 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -31056,7 +31695,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract int hashCode()`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_isEmpty = JSet._class.instanceMethodId(
@@ -31078,7 +31718,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract boolean isEmpty()`
   core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+    final _$$selfRef = reference;
+    return _isEmpty(_$$selfRef.pointer, _id_isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JSet._class.instanceMethodId(
@@ -31101,7 +31742,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   /// from: `public abstract java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
   JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
+    final _$$selfRef = reference;
+    return _iterator(_$$selfRef.pointer, _id_iterator.pointer)
         .object<JIterator<$E?>?>();
   }
 
@@ -31125,8 +31767,9 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool remove(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
+    return _remove(_$$selfRef.pointer, _id_remove.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -31150,9 +31793,10 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool removeAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_removeAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -31176,9 +31820,10 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool retainAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
+    final _$$selfRef = reference;
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
+            _$$selfRef.pointer, _id_retainAll.pointer, _$collection.pointer)
         .boolean;
   }
 
@@ -31201,7 +31846,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract int size()`
   core$_.int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    final _$$selfRef = reference;
+    return _size(_$$selfRef.pointer, _id_size.pointer).integer;
   }
 
   static final _id_spliterator = JSet._class.instanceMethodId(
@@ -31224,7 +31870,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   /// from: `public java.util.Spliterator<E> spliterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
+    final _$$selfRef = reference;
+    return _spliterator(_$$selfRef.pointer, _id_spliterator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -31248,7 +31895,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   /// from: `public abstract java.lang.Object[] toArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
+    final _$$selfRef = reference;
+    return _toArray(_$$selfRef.pointer, _id_toArray.pointer)
         .object<jni$_.JArray<jni$_.JObject?>?>();
   }
 
@@ -31273,9 +31921,10 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
     jni$_.JArray<$T?>? objects,
   ) {
+    final _$$selfRef = reference;
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
+            _$$selfRef.pointer, _id_toArray$1.pointer, _$objects.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 
@@ -31299,7 +31948,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   /// from: `public java.util.stream.Stream<E> parallelStream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
+    final _$$selfRef = reference;
+    return _parallelStream(_$$selfRef.pointer, _id_parallelStream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -31323,9 +31973,10 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   core$_.bool removeIf(
     jni$_.JObject? predicate,
   ) {
+    final _$$selfRef = reference;
     final _$predicate = predicate?.reference ?? jni$_.jNullReference;
     return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
+            _$$selfRef.pointer, _id_removeIf.pointer, _$predicate.pointer)
         .boolean;
   }
 
@@ -31349,7 +32000,8 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   /// from: `public java.util.stream.Stream<E> stream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
+    final _$$selfRef = reference;
+    return _stream(_$$selfRef.pointer, _id_stream.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -31374,9 +32026,10 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
   jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
+    final _$$selfRef = reference;
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
+            _$$selfRef.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 }
