@@ -36,6 +36,8 @@
   generating runtime-crashing no-arg constructors.
 - Fix a bug where methods marked with `__attribute__((unavailable))` were
   incorrectly included in bindings when no platform version info was configured.
+- Add compile time version checks to verify consistency of package:objective_c's
+  versions vs FFIgen's generated code.
   
 ## 20.1.1
 
