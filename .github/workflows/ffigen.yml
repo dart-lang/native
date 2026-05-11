@@ -158,8 +158,14 @@ jobs:
       - name: Build all_tests.dart in AOT
         run: dart compile exe test/all_tests.dart -o test/all_tests
       - name: Run all_tests in AOT
-        run: PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen DART_EXE=$(which dart) XCODE=$(xcode-select -p) IOS_SDK=$(xcrun --show-sdk-path --sdk iphoneos) MACOS_SDK=$(xcrun --show-sdk-path --sdk macosx) DYLD_INSERT_LIBRARIES=$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/libnative_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/objc_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/objective_c.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/swift_class_test.dylib ./test/all_tests
-
+        run: >
+          PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
+          DART_EXE=$(which dart)
+          XCODE=$(xcode-select -p)
+          IOS_SDK=$(xcrun --show-sdk-path --sdk iphoneos)
+          MACOS_SDK=$(xcrun --show-sdk-path --sdk macosx)
+          DYLD_INSERT_LIBRARIES=$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/native_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/objc_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/objective_c.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/swift_class_test.dylib
+          ./test/all_tests
 
   test-windows:
     needs: analyze
