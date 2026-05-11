@@ -158,7 +158,11 @@ jobs:
       - name: Build all_tests.dart in AOT
         run: dart compile exe test/all_tests.dart -o test/all_tests
       - name: debug
-        run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib
+        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/
+      - name: debug
+        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/
+      - name: debug
+        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/
       - name: Run all_tests in AOT
         run: >
           PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
