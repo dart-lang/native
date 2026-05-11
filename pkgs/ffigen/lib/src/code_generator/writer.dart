@@ -86,7 +86,7 @@ class Writer {
 
     // Write lint ignore if not specified by user already.
     final ignores = <String>[
-      if (!hasLintIgnore('type\s*=\s*lint')) 'type=lint',
+      if (!hasLintIgnore(r'type\s*=\s*lint')) 'type=lint',
       // TODO(https://github.com/dart-lang/native/issues/2748): Remove the
       //   unused_import ignore once we can guarantee that we don't generate
       //   unused imports.
