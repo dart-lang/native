@@ -162,7 +162,7 @@ jobs:
       - name: debug
         run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/
       - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/
+        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/
       - name: Run all_tests in AOT
         run: >
           PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
@@ -170,7 +170,7 @@ jobs:
           XCODE=$(xcode-select -p)
           IOS_SDK=$(xcrun --show-sdk-path --sdk iphoneos)
           MACOS_SDK=$(xcrun --show-sdk-path --sdk macosx)
-          DYLD_INSERT_LIBRARIES=$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/native_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/objc_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/objective_c.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/swift_class_test.dylib
+          DYLD_INSERT_LIBRARIES=$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/lib/native_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/lib/objc_test.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/lib/objective_c.dylib:$GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/lib/swift_class_test.dylib
           ./test/all_tests
 
   test-windows:

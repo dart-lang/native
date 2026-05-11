@@ -85,7 +85,6 @@ void main(List<String> args) async {
           moduleName: swiftModule,
           outputHeader: swiftHeader,
           outputLib: swiftLib,
-          archFlags: archFlags,
         );
         output.assets.code.add(
           CodeAsset(
@@ -273,10 +272,8 @@ class CustomBuilder {
     required String moduleName,
     required Uri outputHeader,
     required Uri outputLib,
-    required List<String> archFlags,
   }) async {
     final args = [
-      ...archFlags,
       '-c',
       input.toFilePath(),
       '-module-name',
