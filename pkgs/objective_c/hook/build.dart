@@ -69,12 +69,7 @@ void main(List<String> args) async {
     } else {
       archFlags = ['-target', target];
     }
-    final cFlags = <String>[
-      '-isysroot',
-      sysroot,
-      ...archFlags,
-      minVersion,
-    ];
+    final cFlags = <String>['-isysroot', sysroot, ...archFlags, minVersion];
     final mFlags = [...cFlags, ...objCFlags];
     final linkFlags = cFlags;
 
