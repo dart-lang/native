@@ -57,6 +57,9 @@ class Writer {
     required this.context,
   }) : symbolAddressWriter = SymbolAddressWriter(context);
 
+  bool hasLintIgnore(String ignore) =>
+      RegExp('ignore_for_file:\\s*$ignore').hasMatch(header ?? '');
+
   /// Writes all bindings to a String.
   String generate() {
     final s = StringBuffer();
@@ -83,17 +86,13 @@ class Writer {
 
     // Write lint ignore if not specified by user already.
     final ignores = <String>[
-      if (!RegExp(r'ignore_for_file:\s*type\s*=\s*lint').hasMatch(header ?? ''))
-        'type=lint',
+      if (!hasLintIgnore('type\s*=\s*lint')) 'type=lint',
       // TODO(https://github.com/dart-lang/native/issues/2748): Remove the
       //   unused_import ignore once we can guarantee that we don't generate
       //   unused imports.
-      if (!RegExp(r'ignore_for_file:\s*unused_import').hasMatch(header ?? ''))
-        'unused_import',
-      if (anyFuncHasRecordUse &&
-          !RegExp(
-            r'ignore_for_file:\s*experimental_member_use',
-          ).hasMatch(header ?? ''))
+      if (!hasLintIgnore('unused_import')) 'unused_import',
+      if (!hasLintIgnore('unused_element')) 'unused_element',
+      if (anyFuncHasRecordUse && !hasLintIgnore('experimental_member_use'))
         'experimental_member_use',
     ];
     if (ignores.isNotEmpty) {
@@ -184,8 +183,8 @@ class Writer {
       final objcPrefix = context.libs.prefix(objcPkgImport);
       result.write('''
 
-// ignore: unused_element
-const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck($objcMajorVersion, $objcMinorVersion);
+const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
+    $objcMajorVersion, $objcMinorVersion);
 ''');
     }
 

@@ -8,6 +8,8 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// FutureAPICategoryMethods
 extension FutureAPICategoryMethods on objc.NSObject {
   /// catFutureMethodBoth
