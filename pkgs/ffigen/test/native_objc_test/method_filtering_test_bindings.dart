@@ -63,8 +63,9 @@ extension MethodFilteringTestInterface$Methods on MethodFilteringTestInterface {
     int arg, {
     required int with$,
   }) {
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_3hao97(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_includedInstanceMethod_with_,
       arg,
       with$,
@@ -78,10 +79,8 @@ extension MethodFilteringTestInterface$Methods on MethodFilteringTestInterface {
 
   /// includedProperty
   objc.NSObject get includedProperty {
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_includedProperty,
-    );
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_includedProperty);
     return objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -112,8 +111,9 @@ extension type MethodFilteringTestProtocol._(objc.ObjCProtocol object$)
 extension MethodFilteringTestProtocol$Methods on MethodFilteringTestProtocol {
   /// includedProtocolMethod
   MethodFilteringTestProtocol includedProtocolMethod() {
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_includedProtocolMethod,
     );
     return MethodFilteringTestProtocol.fromPointer(
@@ -249,11 +249,10 @@ abstract final class ObjCBlock_instancetype_ffiVoid {
       objc.ObjCBlock<
         ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
       >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
+        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+          final _$$ref = fn(arg0).ref;
+          return _$$ref.retainAndAutorelease();
+        }, keepIsolateAlive),
         retain: false,
         release: true,
       );
@@ -296,25 +295,27 @@ extension ObjCBlock_instancetype_ffiVoid$CallExtension
         objc.ObjCBlock<
           ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
         > {
-  Dartinstancetype call(ffi.Pointer<ffi.Void> arg0) => objc.ObjCObject(
-    ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
+  Dartinstancetype call(ffi.Pointer<ffi.Void> arg0) {
+    return objc.ObjCObject(
+      ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              instancetype Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
             instancetype Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
             )
-          >
-        >()
-        .asFunction<
-          instancetype Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >()(ref.pointer, arg0),
-    retain: true,
-    release: true,
-  );
+          >()(ref.pointer, arg0),
+      retain: true,
+      release: true,
+    );
+  }
 }
 
 late final _class_MethodFilteringTestInterface = objc.getClass(

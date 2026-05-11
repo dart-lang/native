@@ -55,8 +55,9 @@ external int Function1UintPtr(int x);
 @ffi.Native<ffi.UnsignedInt Function(ffi.UnsignedInt)>(symbol: 'funcWithEnum1')
 external int _funcWithEnum1(int value);
 
-Enum1 funcWithEnum1(Enum1 value) =>
-    Enum1.fromValue(_funcWithEnum1(value.value));
+Enum1 funcWithEnum1(Enum1 value) {
+  return Enum1.fromValue(_funcWithEnum1(value.value));
+}
 
 @ffi.Native<ffi.UnsignedInt Function(ffi.UnsignedInt)>()
 external int funcWithEnum2(int value);

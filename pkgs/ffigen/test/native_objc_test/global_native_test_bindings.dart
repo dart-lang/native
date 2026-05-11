@@ -29,7 +29,8 @@ set globalBlock(objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>? value) {
           retain: false,
           release: true,
         ).ref.release();
-  _globalBlock = value?.ref.retainAndReturnPointer() ?? ffi.nullptr;
+  final _$$ref = value?.ref;
+  _globalBlock = _$$ref?.retainAndReturnPointer() ?? ffi.nullptr;
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'globalObject')
@@ -47,7 +48,8 @@ set globalObject(objc.NSObject? value) {
           retain: false,
           release: true,
         ).ref.release();
-  _globalObject = value?.ref.retainAndReturnPointer() ?? ffi.nullptr;
+  final _$$ref = value?.ref;
+  _globalObject = _$$ref?.retainAndReturnPointer() ?? ffi.nullptr;
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'globalString')
@@ -62,7 +64,8 @@ set globalString(objc.NSString value) {
     retain: false,
     release: true,
   ).ref.release();
-  _globalString = value.ref.retainAndReturnPointer();
+  final _$$ref = value.ref;
+  _globalString = _$$ref.retainAndReturnPointer();
 }
 
 /// Construction methods for `objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>`.
@@ -103,11 +106,9 @@ abstract final class ObjCBlock_Int32_Int32 {
     int Function(int) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (int arg0) => fn(arg0),
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, (int arg0) {
+      return fn(arg0);
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -137,18 +138,19 @@ abstract final class ObjCBlock_Int32_Int32 {
 /// Call operator for `objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>`.
 extension ObjCBlock_Int32_Int32$CallExtension
     on objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> {
-  int call(int arg0) =>
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Int32 arg0,
-              )
-            >
-          >()
-          .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
-        ref.pointer,
-        arg0,
-      );
+  int call(int arg0) {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Int32 Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Int32 arg0,
+            )
+          >
+        >()
+        .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
+      ref.pointer,
+      arg0,
+    );
+  }
 }

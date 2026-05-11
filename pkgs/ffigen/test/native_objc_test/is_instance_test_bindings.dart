@@ -61,13 +61,14 @@ extension type IsInstanceBaseClass._(objc.ObjCObject object$)
 extension IsInstanceBaseClass$Methods on IsInstanceBaseClass {
   /// init
   IsInstanceBaseClass init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'IsInstanceBaseClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
@@ -129,13 +130,14 @@ extension type IsInstanceChildClass._(objc.ObjCObject object$)
 extension IsInstanceChildClass$Methods on IsInstanceChildClass {
   /// init
   IsInstanceChildClass init() {
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'IsInstanceChildClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return IsInstanceChildClass.fromPointer($ret, retain: false, release: true);
@@ -215,13 +217,14 @@ extension type IsInstanceUnrelatedClass._(objc.ObjCObject object$)
 extension IsInstanceUnrelatedClass$Methods on IsInstanceUnrelatedClass {
   /// init
   IsInstanceUnrelatedClass init() {
+    final _$$ref$2 = object$.ref;
     objc.checkOsVersionInternal(
       'IsInstanceUnrelatedClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$2.retainAndReturnPointer(),
       _sel_init,
     );
     return IsInstanceUnrelatedClass.fromPointer(

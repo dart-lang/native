@@ -59,30 +59,34 @@ extension type Foo._(objc.ObjCObject object$)
 extension Foo$Methods on Foo {
   /// boolVal
   bool get boolVal {
-    return _objc_msgSend_91o635(object$.ref.pointer, _sel_boolVal);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_boolVal);
   }
 
   /// classVal
   objc.ObjCObject get classVal {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_classVal);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_classVal);
     return objc.ObjCObject($ret, retain: true, release: true);
   }
 
   /// idVal
   objc.ObjCObject get idVal {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_idVal);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_idVal);
     return objc.ObjCObject($ret, retain: true, release: true);
   }
 
   /// init
   Foo init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'Foo.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return Foo.fromPointer($ret, retain: false, release: true);
@@ -90,75 +94,78 @@ extension Foo$Methods on Foo {
 
   /// intVal
   int get intVal {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_intVal);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_intVal);
   }
 
   /// multiply:withOtherFoo:
   int multiply(bool useIntVals, {required Foo withOtherFoo}) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = withOtherFoo.ref;
     return _objc_msgSend_1t47e0u(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_multiply_withOtherFoo_,
       useIntVals,
-      withOtherFoo.ref.pointer,
+      _$$ref$1.pointer,
     );
   }
 
   /// objVal
   objc.NSObject get objVal {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_objVal);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_objVal);
     return objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 
   /// selVal
   ffi.Pointer<objc.ObjCSelector> get selVal {
-    return _objc_msgSend_1ovaulg(object$.ref.pointer, _sel_selVal);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1ovaulg(_$$ref.pointer, _sel_selVal);
   }
 
   /// setBoolVal:
   set boolVal(bool value) {
-    _objc_msgSend_1s56lr9(object$.ref.pointer, _sel_setBoolVal_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setBoolVal_, value);
   }
 
   /// setClassVal:
   set classVal(objc.ObjCObject value) {
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_setClassVal_,
-      value.ref.pointer,
-    );
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setClassVal_, _$$ref$1.pointer);
   }
 
   /// setDoubleVal:
   void setDoubleVal(double x) {
-    _objc_msgSend_hwm8nu(object$.ref.pointer, _sel_setDoubleVal_, x);
+    final _$$ref = object$.ref;
+    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleVal_, x);
   }
 
   /// setIdVal:
   set idVal(objc.ObjCObject value) {
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_setIdVal_,
-      value.ref.pointer,
-    );
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setIdVal_, _$$ref$1.pointer);
   }
 
   /// setIntVal:
   set intVal(int value) {
-    _objc_msgSend_1bqef4y(object$.ref.pointer, _sel_setIntVal_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setIntVal_, value);
   }
 
   /// setObjVal:
   set objVal(objc.NSObject value) {
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_setObjVal_,
-      value.ref.pointer,
-    );
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setObjVal_, _$$ref$1.pointer);
   }
 
   /// setSelVal:
   set selVal(ffi.Pointer<objc.ObjCSelector> value) {
-    _objc_msgSend_1d9e4oe(object$.ref.pointer, _sel_setSelVal_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1d9e4oe(_$$ref.pointer, _sel_setSelVal_, value);
   }
 }
 

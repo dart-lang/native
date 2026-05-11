@@ -76,10 +76,11 @@ extension type ErrorMethodTestObject._(objc.ObjCObject object$)
 extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
   /// errorMethodReturningBool:error:
   bool errorMethodReturningBool(bool isOk) {
+    final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_164wts2(
-        object$.ref.pointer,
+        _$$ref.pointer,
         _sel_errorMethodReturningBool_error_,
         isOk,
         $err,
@@ -93,10 +94,11 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
 
   /// errorMethodReturningNullable:error:
   objc.NSObject? errorMethodReturningNullable(bool isOk) {
+    final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_28eabw(
-        object$.ref.pointer,
+        _$$ref.pointer,
         _sel_errorMethodReturningNullable_error_,
         isOk,
         $err,
@@ -112,13 +114,14 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
 
   /// init
   ErrorMethodTestObject init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ErrorMethodTestObject.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return ErrorMethodTestObject.fromPointer(
@@ -130,10 +133,11 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
 
   /// nullableErrorMethod:error:
   bool nullableErrorMethod(bool isOk) {
+    final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_164wts2(
-        object$.ref.pointer,
+        _$$ref.pointer,
         _sel_nullableErrorMethod_error_,
         isOk,
         $err,
@@ -147,10 +151,11 @@ extension ErrorMethodTestObject$Methods on ErrorMethodTestObject {
 
   /// outErrorMethod:outError:
   bool outErrorMethod(bool isOk) {
+    final _$$ref = object$.ref;
     final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
     try {
       final $ret = _objc_msgSend_164wts2(
-        object$.ref.pointer,
+        _$$ref.pointer,
         _sel_outErrorMethod_outError_,
         isOk,
         $err,

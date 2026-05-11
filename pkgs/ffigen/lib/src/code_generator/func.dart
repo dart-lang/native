@@ -5,8 +5,8 @@
 import '../code_generator.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -136,6 +136,8 @@ class Func extends LookUpBinding with HasLocalScope {
     final String dartReturnType;
     final String dartArgDeclString;
     final String funcImplCall;
+    final localVars = LocalVariables(localScope);
+
     if (needsWrapper) {
       dartReturnType = functionType.returnType.getDartType(context);
       dartArgDeclString = functionType.dartTypeParameters
@@ -149,6 +151,7 @@ class Func extends LookUpBinding with HasLocalScope {
               p.name,
               objCRetain: p.objCConsumed,
               objCAutorelease: false,
+              localVariables: localVars,
             );
             return '$type,\n';
           })
@@ -188,7 +191,10 @@ external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 ''');
       if (needsWrapper) {
         s.write('''
-$dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
+$dartReturnType $enclosingFuncName($dartArgDeclString) {
+  ${localVars.generateDeclarations()}
+  return $funcImplCall;
+}
 
 ''');
       }
@@ -209,6 +215,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
       // Write enclosing function.
       s.write('''
 $dartReturnType $enclosingFuncName($dartArgDeclString) {
+  ${localVars.generateDeclarations()}
   return $funcImplCall;
 }
 
