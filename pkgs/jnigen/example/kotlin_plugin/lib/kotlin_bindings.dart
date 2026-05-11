@@ -63,7 +63,8 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
-    return _new$(_class.reference.pointer, _id_new$.pointer).object<Example>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<Example>();
   }
 }
 
@@ -89,8 +90,8 @@ extension Example$$Methods on Example {
   core$_.Future<jni$_.JString> thinkBeforeAnswering() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _thinkBeforeAnswering(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _thinkBeforeAnswering(_$$selfRef.pointer,
             _id_thinkBeforeAnswering.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();

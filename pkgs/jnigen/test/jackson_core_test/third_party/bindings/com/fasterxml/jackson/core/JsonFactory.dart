@@ -177,7 +177,8 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonFactory$Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonFactory$Feature?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<JsonFactory$Feature?>?>();
   }
 
@@ -202,9 +203,9 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   static JsonFactory$Feature? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<JsonFactory$Feature?>();
   }
 
@@ -231,8 +232,8 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   /// are enabled by default.
   ///@return Bit field of features enabled by default
   static core$_.int collectDefaults() {
-    return _collectDefaults(
-            _class.reference.pointer, _id_collectDefaults.pointer)
+    final _$$classRef = _class.reference;
+    return _collectDefaults(_$$classRef.pointer, _id_collectDefaults.pointer)
         .integer;
   }
 }
@@ -258,7 +259,8 @@ extension JsonFactory$Feature$$Methods on JsonFactory$Feature {
 
   /// from: `public boolean enabledByDefault()`
   core$_.bool enabledByDefault() {
-    return _enabledByDefault(reference.pointer, _id_enabledByDefault.pointer)
+    final _$$selfRef = reference;
+    return _enabledByDefault(_$$selfRef.pointer, _id_enabledByDefault.pointer)
         .boolean;
   }
 
@@ -282,7 +284,8 @@ extension JsonFactory$Feature$$Methods on JsonFactory$Feature {
   core$_.bool enabledIn(
     core$_.int flags,
   ) {
-    return _enabledIn(reference.pointer, _id_enabledIn.pointer, flags).boolean;
+    final _$$selfRef = reference;
+    return _enabledIn(_$$selfRef.pointer, _id_enabledIn.pointer, flags).boolean;
   }
 
   static final _id_get$mask = JsonFactory$Feature._class.instanceMethodId(
@@ -304,7 +307,8 @@ extension JsonFactory$Feature$$Methods on JsonFactory$Feature {
 
   /// from: `public int getMask()`
   core$_.int get mask {
-    return _get$mask(reference.pointer, _id_get$mask.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$mask(_$$selfRef.pointer, _id_get$mask.pointer).integer;
   }
 }
 
@@ -400,8 +404,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
   /// and this reuse only works within context of a single
   /// factory instance.
   factory JsonFactory() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<JsonFactory>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<JsonFactory>();
   }
 
   static final _id_new$1 = _class.constructorId(
@@ -424,8 +428,9 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JsonFactory.new$1(
     jni$_.JObject? oc,
   ) {
+    final _$$classRef = _class.reference;
     final _$oc = oc?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$oc.pointer)
+    return _new$1(_$$classRef.pointer, _id_new$1.pointer, _$oc.pointer)
         .object<JsonFactory>();
   }
 
@@ -453,8 +458,9 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
   factory JsonFactory.new$2(
     jni$_.JObject? b,
   ) {
+    final _$$classRef = _class.reference;
     final _$b = b?.reference ?? jni$_.jNullReference;
-    return _new$2(_class.reference.pointer, _id_new$2.pointer, _$b.pointer)
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer, _$b.pointer)
         .object<JsonFactory>();
   }
 
@@ -487,7 +493,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
   /// will be fixed in 3.0.
   ///@return Builder instance to use
   static jni$_.JObject? builder() {
-    return _builder(_class.reference.pointer, _id_builder.pointer)
+    final _$$classRef = _class.reference;
+    return _builder(_$$classRef.pointer, _id_builder.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -518,7 +525,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@return Builder instance to use
   ///@since 2.10
   jni$_.JObject? rebuild() {
-    return _rebuild(reference.pointer, _id_rebuild.pointer)
+    final _$$selfRef = reference;
+    return _rebuild(_$$selfRef.pointer, _id_rebuild.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -555,7 +563,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@return Copy of this factory instance
   ///@since 2.1
   JsonFactory? copy() {
-    return _copy(reference.pointer, _id_copy.pointer).object<JsonFactory?>();
+    final _$$selfRef = reference;
+    return _copy(_$$selfRef.pointer, _id_copy.pointer).object<JsonFactory?>();
   }
 
   static final _id_requiresPropertyOrdering =
@@ -593,8 +602,9 @@ extension JsonFactory$$Methods on JsonFactory {
   ///   requires Object properties to be ordered.
   ///@since 2.3
   core$_.bool requiresPropertyOrdering() {
+    final _$$selfRef = reference;
     return _requiresPropertyOrdering(
-            reference.pointer, _id_requiresPropertyOrdering.pointer)
+            _$$selfRef.pointer, _id_requiresPropertyOrdering.pointer)
         .boolean;
   }
 
@@ -630,8 +640,9 @@ extension JsonFactory$$Methods on JsonFactory {
   ///    supports native binary content
   ///@since 2.3
   core$_.bool canHandleBinaryNatively() {
+    final _$$selfRef = reference;
     return _canHandleBinaryNatively(
-            reference.pointer, _id_canHandleBinaryNatively.pointer)
+            _$$selfRef.pointer, _id_canHandleBinaryNatively.pointer)
         .boolean;
   }
 
@@ -666,7 +677,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///   accessed using parser method {@code getTextCharacters()}.
   ///@since 2.4
   core$_.bool canUseCharArrays() {
-    return _canUseCharArrays(reference.pointer, _id_canUseCharArrays.pointer)
+    final _$$selfRef = reference;
+    return _canUseCharArrays(_$$selfRef.pointer, _id_canUseCharArrays.pointer)
         .boolean;
   }
 
@@ -697,7 +709,9 @@ extension JsonFactory$$Methods on JsonFactory {
   ///    not (and consequently whether {@code createNonBlockingXxx()} method(s) work)
   ///@since 2.9
   core$_.bool canParseAsync() {
-    return _canParseAsync(reference.pointer, _id_canParseAsync.pointer).boolean;
+    final _$$selfRef = reference;
+    return _canParseAsync(_$$selfRef.pointer, _id_canParseAsync.pointer)
+        .boolean;
   }
 
   static final _id_get$formatReadFeatureType =
@@ -721,8 +735,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get formatReadFeatureType {
+    final _$$selfRef = reference;
     return _get$formatReadFeatureType(
-            reference.pointer, _id_get$formatReadFeatureType.pointer)
+            _$$selfRef.pointer, _id_get$formatReadFeatureType.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -748,8 +763,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get formatWriteFeatureType {
+    final _$$selfRef = reference;
     return _get$formatWriteFeatureType(
-            reference.pointer, _id_get$formatWriteFeatureType.pointer)
+            _$$selfRef.pointer, _id_get$formatWriteFeatureType.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -783,9 +799,10 @@ extension JsonFactory$$Methods on JsonFactory {
   core$_.bool canUseSchema(
     jni$_.JObject? schema,
   ) {
+    final _$$selfRef = reference;
     final _$schema = schema?.reference ?? jni$_.jNullReference;
     return _canUseSchema(
-            reference.pointer, _id_canUseSchema.pointer, _$schema.pointer)
+            _$$selfRef.pointer, _id_canUseSchema.pointer, _$schema.pointer)
         .boolean;
   }
 
@@ -816,7 +833,8 @@ extension JsonFactory$$Methods on JsonFactory {
   /// implementation will return null for all sub-classes
   ///@return Name of the format handled by parsers, generators this factory creates
   jni$_.JString? get formatName {
-    return _get$formatName(reference.pointer, _id_get$formatName.pointer)
+    final _$$selfRef = reference;
+    return _get$formatName(_$$selfRef.pointer, _id_get$formatName.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -841,8 +859,9 @@ extension JsonFactory$$Methods on JsonFactory {
   jni$_.JObject? hasFormat(
     jni$_.JObject? acc,
   ) {
+    final _$$selfRef = reference;
     final _$acc = acc?.reference ?? jni$_.jNullReference;
-    return _hasFormat(reference.pointer, _id_hasFormat.pointer, _$acc.pointer)
+    return _hasFormat(_$$selfRef.pointer, _id_hasFormat.pointer, _$acc.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -875,8 +894,9 @@ extension JsonFactory$$Methods on JsonFactory {
   ///   ObjectCodec is enough
   ///@since 2.1
   core$_.bool requiresCustomCodec() {
+    final _$$selfRef = reference;
     return _requiresCustomCodec(
-            reference.pointer, _id_requiresCustomCodec.pointer)
+            _$$selfRef.pointer, _id_requiresCustomCodec.pointer)
         .boolean;
   }
 
@@ -900,7 +920,8 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public com.fasterxml.jackson.core.Version version()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? version() {
-    return _version(reference.pointer, _id_version.pointer)
+    final _$$selfRef = reference;
+    return _version(_$$selfRef.pointer, _id_version.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -934,8 +955,9 @@ extension JsonFactory$$Methods on JsonFactory {
     JsonFactory$Feature? f,
     core$_.bool state,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _configure(reference.pointer, _id_configure.pointer, _$f.pointer,
+    return _configure(_$$selfRef.pointer, _id_configure.pointer, _$f.pointer,
             state ? 1 : 0)
         .object<JsonFactory?>();
   }
@@ -967,8 +989,9 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? enable(
     JsonFactory$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _enable(reference.pointer, _id_enable.pointer, _$f.pointer)
+    return _enable(_$$selfRef.pointer, _id_enable.pointer, _$f.pointer)
         .object<JsonFactory?>();
   }
 
@@ -999,8 +1022,9 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? disable(
     JsonFactory$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _disable(reference.pointer, _id_disable.pointer, _$f.pointer)
+    return _disable(_$$selfRef.pointer, _id_disable.pointer, _$f.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1028,8 +1052,9 @@ extension JsonFactory$$Methods on JsonFactory {
   core$_.bool isEnabled(
     JsonFactory$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _isEnabled(reference.pointer, _id_isEnabled.pointer, _$f.pointer)
+    return _isEnabled(_$$selfRef.pointer, _id_isEnabled.pointer, _$f.pointer)
         .boolean;
   }
 
@@ -1052,8 +1077,9 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public final int getParserFeatures()`
   core$_.int get parserFeatures {
+    final _$$selfRef = reference;
     return _get$parserFeatures(
-            reference.pointer, _id_get$parserFeatures.pointer)
+            _$$selfRef.pointer, _id_get$parserFeatures.pointer)
         .integer;
   }
 
@@ -1076,8 +1102,9 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public final int getGeneratorFeatures()`
   core$_.int get generatorFeatures {
+    final _$$selfRef = reference;
     return _get$generatorFeatures(
-            reference.pointer, _id_get$generatorFeatures.pointer)
+            _$$selfRef.pointer, _id_get$generatorFeatures.pointer)
         .integer;
   }
 
@@ -1101,8 +1128,9 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public int getFormatParserFeatures()`
   core$_.int get formatParserFeatures {
+    final _$$selfRef = reference;
     return _get$formatParserFeatures(
-            reference.pointer, _id_get$formatParserFeatures.pointer)
+            _$$selfRef.pointer, _id_get$formatParserFeatures.pointer)
         .integer;
   }
 
@@ -1127,8 +1155,9 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public int getFormatGeneratorFeatures()`
   core$_.int get formatGeneratorFeatures {
+    final _$$selfRef = reference;
     return _get$formatGeneratorFeatures(
-            reference.pointer, _id_get$formatGeneratorFeatures.pointer)
+            _$$selfRef.pointer, _id_get$formatGeneratorFeatures.pointer)
         .integer;
   }
 
@@ -1161,9 +1190,10 @@ extension JsonFactory$$Methods on JsonFactory {
     jsonparser$_.JsonParser$Feature? f,
     core$_.bool state,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _configure$1(reference.pointer, _id_configure$1.pointer, _$f.pointer,
-            state ? 1 : 0)
+    return _configure$1(_$$selfRef.pointer, _id_configure$1.pointer,
+            _$f.pointer, state ? 1 : 0)
         .object<JsonFactory?>();
   }
 
@@ -1193,8 +1223,9 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? enable$1(
     jsonparser$_.JsonParser$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _enable$1(reference.pointer, _id_enable$1.pointer, _$f.pointer)
+    return _enable$1(_$$selfRef.pointer, _id_enable$1.pointer, _$f.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1224,8 +1255,9 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? disable$1(
     jsonparser$_.JsonParser$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _disable$1(reference.pointer, _id_disable$1.pointer, _$f.pointer)
+    return _disable$1(_$$selfRef.pointer, _id_disable$1.pointer, _$f.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1253,8 +1285,10 @@ extension JsonFactory$$Methods on JsonFactory {
   core$_.bool isEnabled$1(
     jsonparser$_.JsonParser$Feature? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _isEnabled$1(reference.pointer, _id_isEnabled$1.pointer, _$f.pointer)
+    return _isEnabled$1(
+            _$$selfRef.pointer, _id_isEnabled$1.pointer, _$f.pointer)
         .boolean;
   }
 
@@ -1283,8 +1317,10 @@ extension JsonFactory$$Methods on JsonFactory {
   core$_.bool isEnabled$2(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _isEnabled$2(reference.pointer, _id_isEnabled$2.pointer, _$f.pointer)
+    return _isEnabled$2(
+            _$$selfRef.pointer, _id_isEnabled$2.pointer, _$f.pointer)
         .boolean;
   }
 
@@ -1312,8 +1348,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// there is no default decorator).
   ///@return InputDecorator configured, if any
   jni$_.JObject? get inputDecorator {
+    final _$$selfRef = reference;
     return _get$inputDecorator(
-            reference.pointer, _id_get$inputDecorator.pointer)
+            _$$selfRef.pointer, _id_get$inputDecorator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1343,9 +1380,10 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? setInputDecorator(
     jni$_.JObject? d,
   ) {
+    final _$$selfRef = reference;
     final _$d = d?.reference ?? jni$_.jNullReference;
     return _setInputDecorator(
-            reference.pointer, _id_setInputDecorator.pointer, _$d.pointer)
+            _$$selfRef.pointer, _id_setInputDecorator.pointer, _$d.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1378,9 +1416,10 @@ extension JsonFactory$$Methods on JsonFactory {
     jni$_.JObject? f,
     core$_.bool state,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _configure$2(reference.pointer, _id_configure$2.pointer, _$f.pointer,
-            state ? 1 : 0)
+    return _configure$2(_$$selfRef.pointer, _id_configure$2.pointer,
+            _$f.pointer, state ? 1 : 0)
         .object<JsonFactory?>();
   }
 
@@ -1410,8 +1449,9 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? enable$2(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _enable$2(reference.pointer, _id_enable$2.pointer, _$f.pointer)
+    return _enable$2(_$$selfRef.pointer, _id_enable$2.pointer, _$f.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1441,8 +1481,9 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? disable$2(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _disable$2(reference.pointer, _id_disable$2.pointer, _$f.pointer)
+    return _disable$2(_$$selfRef.pointer, _id_disable$2.pointer, _$f.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1470,8 +1511,10 @@ extension JsonFactory$$Methods on JsonFactory {
   core$_.bool isEnabled$3(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _isEnabled$3(reference.pointer, _id_isEnabled$3.pointer, _$f.pointer)
+    return _isEnabled$3(
+            _$$selfRef.pointer, _id_isEnabled$3.pointer, _$f.pointer)
         .boolean;
   }
 
@@ -1500,8 +1543,10 @@ extension JsonFactory$$Methods on JsonFactory {
   core$_.bool isEnabled$4(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
-    return _isEnabled$4(reference.pointer, _id_isEnabled$4.pointer, _$f.pointer)
+    return _isEnabled$4(
+            _$$selfRef.pointer, _id_isEnabled$4.pointer, _$f.pointer)
         .boolean;
   }
 
@@ -1529,8 +1574,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// it creates.
   ///@return Configured {@code CharacterEscapes}, if any; {@code null} if none
   jni$_.JObject? get characterEscapes {
+    final _$$selfRef = reference;
     return _get$characterEscapes(
-            reference.pointer, _id_get$characterEscapes.pointer)
+            _$$selfRef.pointer, _id_get$characterEscapes.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1560,9 +1606,10 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? setCharacterEscapes(
     jni$_.JObject? esc,
   ) {
+    final _$$selfRef = reference;
     final _$esc = esc?.reference ?? jni$_.jNullReference;
     return _setCharacterEscapes(
-            reference.pointer, _id_setCharacterEscapes.pointer, _$esc.pointer)
+            _$$selfRef.pointer, _id_setCharacterEscapes.pointer, _$esc.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1591,8 +1638,9 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@return OutputDecorator configured for generators factory creates, if any;
   ///    {@code null} if none.
   jni$_.JObject? get outputDecorator {
+    final _$$selfRef = reference;
     return _get$outputDecorator(
-            reference.pointer, _id_get$outputDecorator.pointer)
+            _$$selfRef.pointer, _id_get$outputDecorator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1622,9 +1670,10 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? setOutputDecorator(
     jni$_.JObject? d,
   ) {
+    final _$$selfRef = reference;
     final _$d = d?.reference ?? jni$_.jNullReference;
     return _setOutputDecorator(
-            reference.pointer, _id_setOutputDecorator.pointer, _$d.pointer)
+            _$$selfRef.pointer, _id_setOutputDecorator.pointer, _$d.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1655,9 +1704,10 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? setRootValueSeparator(
     jni$_.JString? sep,
   ) {
+    final _$$selfRef = reference;
     final _$sep = sep?.reference ?? jni$_.jNullReference;
-    return _setRootValueSeparator(
-            reference.pointer, _id_setRootValueSeparator.pointer, _$sep.pointer)
+    return _setRootValueSeparator(_$$selfRef.pointer,
+            _id_setRootValueSeparator.pointer, _$sep.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1683,8 +1733,9 @@ extension JsonFactory$$Methods on JsonFactory {
   ///
   /// @return Root value separator configured, if any
   jni$_.JString? get rootValueSeparator {
+    final _$$selfRef = reference;
     return _get$rootValueSeparator(
-            reference.pointer, _id_get$rootValueSeparator.pointer)
+            _$$selfRef.pointer, _id_get$rootValueSeparator.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1717,8 +1768,9 @@ extension JsonFactory$$Methods on JsonFactory {
   JsonFactory? setCodec(
     jni$_.JObject? oc,
   ) {
+    final _$$selfRef = reference;
     final _$oc = oc?.reference ?? jni$_.jNullReference;
-    return _setCodec(reference.pointer, _id_setCodec.pointer, _$oc.pointer)
+    return _setCodec(_$$selfRef.pointer, _id_setCodec.pointer, _$oc.pointer)
         .object<JsonFactory?>();
   }
 
@@ -1742,7 +1794,8 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public com.fasterxml.jackson.core.ObjectCodec getCodec()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get codec {
-    return _get$codec(reference.pointer, _id_get$codec.pointer)
+    final _$$selfRef = reference;
+    return _get$codec(_$$selfRef.pointer, _id_get$codec.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1784,9 +1837,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _createParser(
-            reference.pointer, _id_createParser.pointer, _$f.pointer)
+            _$$selfRef.pointer, _id_createParser.pointer, _$f.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -1826,9 +1880,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser$1(
     jni$_.JObject? url,
   ) {
+    final _$$selfRef = reference;
     final _$url = url?.reference ?? jni$_.jNullReference;
     return _createParser$1(
-            reference.pointer, _id_createParser$1.pointer, _$url.pointer)
+            _$$selfRef.pointer, _id_createParser$1.pointer, _$url.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -1871,9 +1926,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser$2(
     jni$_.JObject? in$,
   ) {
+    final _$$selfRef = reference;
     final _$in$ = in$?.reference ?? jni$_.jNullReference;
     return _createParser$2(
-            reference.pointer, _id_createParser$2.pointer, _$in$.pointer)
+            _$$selfRef.pointer, _id_createParser$2.pointer, _$in$.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -1909,9 +1965,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser$3(
     jni$_.JObject? r,
   ) {
+    final _$$selfRef = reference;
     final _$r = r?.reference ?? jni$_.jNullReference;
     return _createParser$3(
-            reference.pointer, _id_createParser$3.pointer, _$r.pointer)
+            _$$selfRef.pointer, _id_createParser$3.pointer, _$r.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -1940,9 +1997,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser$4(
     jni$_.JByteArray? data,
   ) {
+    final _$$selfRef = reference;
     final _$data = data?.reference ?? jni$_.jNullReference;
     return _createParser$4(
-            reference.pointer, _id_createParser$4.pointer, _$data.pointer)
+            _$$selfRef.pointer, _id_createParser$4.pointer, _$data.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -1984,8 +2042,9 @@ extension JsonFactory$$Methods on JsonFactory {
     core$_.int offset,
     core$_.int len,
   ) {
+    final _$$selfRef = reference;
     final _$data = data?.reference ?? jni$_.jNullReference;
-    return _createParser$5(reference.pointer, _id_createParser$5.pointer,
+    return _createParser$5(_$$selfRef.pointer, _id_createParser$5.pointer,
             _$data.pointer, offset, len)
         .object<jsonparser$_.JsonParser?>();
   }
@@ -2015,9 +2074,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser$6(
     jni$_.JString? content,
   ) {
+    final _$$selfRef = reference;
     final _$content = content?.reference ?? jni$_.jNullReference;
     return _createParser$6(
-            reference.pointer, _id_createParser$6.pointer, _$content.pointer)
+            _$$selfRef.pointer, _id_createParser$6.pointer, _$content.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2046,9 +2106,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser$7(
     jni$_.JCharArray? content,
   ) {
+    final _$$selfRef = reference;
     final _$content = content?.reference ?? jni$_.jNullReference;
     return _createParser$7(
-            reference.pointer, _id_createParser$7.pointer, _$content.pointer)
+            _$$selfRef.pointer, _id_createParser$7.pointer, _$content.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2086,8 +2147,9 @@ extension JsonFactory$$Methods on JsonFactory {
     core$_.int offset,
     core$_.int len,
   ) {
+    final _$$selfRef = reference;
     final _$content = content?.reference ?? jni$_.jNullReference;
-    return _createParser$8(reference.pointer, _id_createParser$8.pointer,
+    return _createParser$8(_$$selfRef.pointer, _id_createParser$8.pointer,
             _$content.pointer, offset, len)
         .object<jsonparser$_.JsonParser?>();
   }
@@ -2120,9 +2182,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createParser$9(
     jni$_.JObject? in$,
   ) {
+    final _$$selfRef = reference;
     final _$in$ = in$?.reference ?? jni$_.jNullReference;
     return _createParser$9(
-            reference.pointer, _id_createParser$9.pointer, _$in$.pointer)
+            _$$selfRef.pointer, _id_createParser$9.pointer, _$in$.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2162,8 +2225,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// at this point.
   ///@since 2.9
   jsonparser$_.JsonParser? createNonBlockingByteArrayParser() {
+    final _$$selfRef = reference;
     return _createNonBlockingByteArrayParser(
-            reference.pointer, _id_createNonBlockingByteArrayParser.pointer)
+            _$$selfRef.pointer, _id_createNonBlockingByteArrayParser.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2214,9 +2278,10 @@ extension JsonFactory$$Methods on JsonFactory {
     jni$_.JObject? out,
     jni$_.JObject? enc,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
     final _$enc = enc?.reference ?? jni$_.jNullReference;
-    return _createGenerator(reference.pointer, _id_createGenerator.pointer,
+    return _createGenerator(_$$selfRef.pointer, _id_createGenerator.pointer,
             _$out.pointer, _$enc.pointer)
         .object<jni$_.JObject?>();
   }
@@ -2248,9 +2313,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jni$_.JObject? createGenerator$1(
     jni$_.JObject? out,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
     return _createGenerator$1(
-            reference.pointer, _id_createGenerator$1.pointer, _$out.pointer)
+            _$$selfRef.pointer, _id_createGenerator$1.pointer, _$out.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2287,9 +2353,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jni$_.JObject? createGenerator$2(
     jni$_.JObject? w,
   ) {
+    final _$$selfRef = reference;
     final _$w = w?.reference ?? jni$_.jNullReference;
     return _createGenerator$2(
-            reference.pointer, _id_createGenerator$2.pointer, _$w.pointer)
+            _$$selfRef.pointer, _id_createGenerator$2.pointer, _$w.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2334,9 +2401,10 @@ extension JsonFactory$$Methods on JsonFactory {
     jni$_.JObject? f,
     jni$_.JObject? enc,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
     final _$enc = enc?.reference ?? jni$_.jNullReference;
-    return _createGenerator$3(reference.pointer, _id_createGenerator$3.pointer,
+    return _createGenerator$3(_$$selfRef.pointer, _id_createGenerator$3.pointer,
             _$f.pointer, _$enc.pointer)
         .object<jni$_.JObject?>();
   }
@@ -2373,9 +2441,10 @@ extension JsonFactory$$Methods on JsonFactory {
     jni$_.JObject? out,
     jni$_.JObject? enc,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
     final _$enc = enc?.reference ?? jni$_.jNullReference;
-    return _createGenerator$4(reference.pointer, _id_createGenerator$4.pointer,
+    return _createGenerator$4(_$$selfRef.pointer, _id_createGenerator$4.pointer,
             _$out.pointer, _$enc.pointer)
         .object<jni$_.JObject?>();
   }
@@ -2407,9 +2476,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jni$_.JObject? createGenerator$5(
     jni$_.JObject? out,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
     return _createGenerator$5(
-            reference.pointer, _id_createGenerator$5.pointer, _$out.pointer)
+            _$$selfRef.pointer, _id_createGenerator$5.pointer, _$out.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2453,9 +2523,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createJsonParser(
     jni$_.JObject? f,
   ) {
+    final _$$selfRef = reference;
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _createJsonParser(
-            reference.pointer, _id_createJsonParser.pointer, _$f.pointer)
+            _$$selfRef.pointer, _id_createJsonParser.pointer, _$f.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2498,9 +2569,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createJsonParser$1(
     jni$_.JObject? url,
   ) {
+    final _$$selfRef = reference;
     final _$url = url?.reference ?? jni$_.jNullReference;
     return _createJsonParser$1(
-            reference.pointer, _id_createJsonParser$1.pointer, _$url.pointer)
+            _$$selfRef.pointer, _id_createJsonParser$1.pointer, _$url.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2546,9 +2618,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createJsonParser$2(
     jni$_.JObject? in$,
   ) {
+    final _$$selfRef = reference;
     final _$in$ = in$?.reference ?? jni$_.jNullReference;
     return _createJsonParser$2(
-            reference.pointer, _id_createJsonParser$2.pointer, _$in$.pointer)
+            _$$selfRef.pointer, _id_createJsonParser$2.pointer, _$in$.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2587,9 +2660,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createJsonParser$3(
     jni$_.JObject? r,
   ) {
+    final _$$selfRef = reference;
     final _$r = r?.reference ?? jni$_.jNullReference;
     return _createJsonParser$3(
-            reference.pointer, _id_createJsonParser$3.pointer, _$r.pointer)
+            _$$selfRef.pointer, _id_createJsonParser$3.pointer, _$r.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2621,9 +2695,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createJsonParser$4(
     jni$_.JByteArray? data,
   ) {
+    final _$$selfRef = reference;
     final _$data = data?.reference ?? jni$_.jNullReference;
     return _createJsonParser$4(
-            reference.pointer, _id_createJsonParser$4.pointer, _$data.pointer)
+            _$$selfRef.pointer, _id_createJsonParser$4.pointer, _$data.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
 
@@ -2668,8 +2743,9 @@ extension JsonFactory$$Methods on JsonFactory {
     core$_.int offset,
     core$_.int len,
   ) {
+    final _$$selfRef = reference;
     final _$data = data?.reference ?? jni$_.jNullReference;
-    return _createJsonParser$5(reference.pointer,
+    return _createJsonParser$5(_$$selfRef.pointer,
             _id_createJsonParser$5.pointer, _$data.pointer, offset, len)
         .object<jsonparser$_.JsonParser?>();
   }
@@ -2703,8 +2779,9 @@ extension JsonFactory$$Methods on JsonFactory {
   jsonparser$_.JsonParser? createJsonParser$6(
     jni$_.JString? content,
   ) {
+    final _$$selfRef = reference;
     final _$content = content?.reference ?? jni$_.jNullReference;
-    return _createJsonParser$6(reference.pointer,
+    return _createJsonParser$6(_$$selfRef.pointer,
             _id_createJsonParser$6.pointer, _$content.pointer)
         .object<jsonparser$_.JsonParser?>();
   }
@@ -2758,9 +2835,10 @@ extension JsonFactory$$Methods on JsonFactory {
     jni$_.JObject? out,
     jni$_.JObject? enc,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
     final _$enc = enc?.reference ?? jni$_.jNullReference;
-    return _createJsonGenerator(reference.pointer,
+    return _createJsonGenerator(_$$selfRef.pointer,
             _id_createJsonGenerator.pointer, _$out.pointer, _$enc.pointer)
         .object<jni$_.JObject?>();
   }
@@ -2800,9 +2878,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jni$_.JObject? createJsonGenerator$1(
     jni$_.JObject? out,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
-    return _createJsonGenerator$1(
-            reference.pointer, _id_createJsonGenerator$1.pointer, _$out.pointer)
+    return _createJsonGenerator$1(_$$selfRef.pointer,
+            _id_createJsonGenerator$1.pointer, _$out.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2836,9 +2915,10 @@ extension JsonFactory$$Methods on JsonFactory {
   jni$_.JObject? createJsonGenerator$2(
     jni$_.JObject? out,
   ) {
+    final _$$selfRef = reference;
     final _$out = out?.reference ?? jni$_.jNullReference;
-    return _createJsonGenerator$2(
-            reference.pointer, _id_createJsonGenerator$2.pointer, _$out.pointer)
+    return _createJsonGenerator$2(_$$selfRef.pointer,
+            _id_createJsonGenerator$2.pointer, _$out.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2868,8 +2948,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// Note: only public to give access for {@code ObjectMapper}
   ///@return Buffer recycler instance to use
   jni$_.JObject? $_getBufferRecycler() {
+    final _$$selfRef = reference;
     return _$_getBufferRecycler(
-            reference.pointer, _id_$_getBufferRecycler.pointer)
+            _$$selfRef.pointer, _id_$_getBufferRecycler.pointer)
         .object<jni$_.JObject?>();
   }
 }

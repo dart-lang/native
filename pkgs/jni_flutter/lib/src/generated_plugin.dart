@@ -70,7 +70,8 @@ extension type JniFlutterPlugin._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JniFlutterPlugin() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<JniFlutterPlugin>();
   }
 
@@ -94,8 +95,9 @@ extension type JniFlutterPlugin._(jni$_.JObject _$this)
   /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject get applicationContext {
+    final _$$classRef = _class.reference;
     return _get$applicationContext(
-            _class.reference.pointer, _id_get$applicationContext.pointer)
+            _$$classRef.pointer, _id_get$applicationContext.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -118,7 +120,8 @@ extension type JniFlutterPlugin._(jni$_.JObject _$this)
   static jni$_.JObject? getActivity(
     core$_.int j,
   ) {
-    return _getActivity(_class.reference.pointer, _id_getActivity.pointer, j)
+    final _$$classRef = _class.reference;
+    return _getActivity(_$$classRef.pointer, _id_getActivity.pointer, j)
         .object<jni$_.JObject?>();
   }
 }
@@ -145,8 +148,9 @@ extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
   void onAttachedToEngine(
     jni$_.JObject flutterPluginBinding,
   ) {
+    final _$$selfRef = reference;
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    _onAttachedToEngine(reference.pointer, _id_onAttachedToEngine.pointer,
+    _onAttachedToEngine(_$$selfRef.pointer, _id_onAttachedToEngine.pointer,
             _$flutterPluginBinding.pointer)
         .check();
   }
@@ -172,8 +176,9 @@ extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
   void onDetachedFromEngine(
     jni$_.JObject flutterPluginBinding,
   ) {
+    final _$$selfRef = reference;
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    _onDetachedFromEngine(reference.pointer, _id_onDetachedFromEngine.pointer,
+    _onDetachedFromEngine(_$$selfRef.pointer, _id_onDetachedFromEngine.pointer,
             _$flutterPluginBinding.pointer)
         .check();
   }
@@ -199,8 +204,9 @@ extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
   void onAttachedToActivity(
     jni$_.JObject activityPluginBinding,
   ) {
+    final _$$selfRef = reference;
     final _$activityPluginBinding = activityPluginBinding.reference;
-    _onAttachedToActivity(reference.pointer, _id_onAttachedToActivity.pointer,
+    _onAttachedToActivity(_$$selfRef.pointer, _id_onAttachedToActivity.pointer,
             _$activityPluginBinding.pointer)
         .check();
   }
@@ -226,7 +232,8 @@ extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
 
   /// from: `public void onDetachedFromActivityForConfigChanges()`
   void onDetachedFromActivityForConfigChanges() {
-    _onDetachedFromActivityForConfigChanges(reference.pointer,
+    final _$$selfRef = reference;
+    _onDetachedFromActivityForConfigChanges(_$$selfRef.pointer,
             _id_onDetachedFromActivityForConfigChanges.pointer)
         .check();
   }
@@ -253,9 +260,10 @@ extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
   void onReattachedToActivityForConfigChanges(
     jni$_.JObject activityPluginBinding,
   ) {
+    final _$$selfRef = reference;
     final _$activityPluginBinding = activityPluginBinding.reference;
     _onReattachedToActivityForConfigChanges(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_onReattachedToActivityForConfigChanges.pointer,
             _$activityPluginBinding.pointer)
         .check();
@@ -281,8 +289,9 @@ extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
 
   /// from: `public void onDetachedFromActivity()`
   void onDetachedFromActivity() {
+    final _$$selfRef = reference;
     _onDetachedFromActivity(
-            reference.pointer, _id_onDetachedFromActivity.pointer)
+            _$$selfRef.pointer, _id_onDetachedFromActivity.pointer)
         .check();
   }
 }
