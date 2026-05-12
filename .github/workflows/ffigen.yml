@@ -159,6 +159,10 @@ jobs:
         run: dart compile exe test/all_tests.dart -o test/all_tests
       - name: Copy dylibs to expected location
         run: cp $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib
+      - name: debug
+        run: echo "$GITHUB_WORKSPACE"
+      - name: debug
+        run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib
       - name: Run all_tests in AOT
         run: >
           PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
