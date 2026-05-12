@@ -48,7 +48,7 @@ List<Binding> parseToBindings(Context context) {
   final config = context.config;
 
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
-  final compilerOpts = <String>[
+  final compilerOpts = overrideCompilerOpts(<String>[
     // Add compiler opt for comment parsing for clang based on config.
     if (config.output.commentType.length != CommentLength.none &&
         config.output.commentType.style == CommentStyle.any)
@@ -62,12 +62,11 @@ List<Binding> parseToBindings(Context context) {
 
     // Add the user options last so they can override any other options.
     ...context.compilerOpts,
-  ];
+  ]);
 
-  final finalCompilerOpts = overrideCompilerOpts(compilerOpts);
-  context.logger.fine('CompilerOpts used: $finalCompilerOpts');
-  clangCmdArgs = createDynamicStringArray(finalCompilerOpts);
-  final cmdLen = finalCompilerOpts.length;
+  context.logger.fine('CompilerOpts used: $compilerOpts');
+  clangCmdArgs = createDynamicStringArray(compilerOpts);
+  final cmdLen = compilerOpts.length;
 
   // Contains all bindings. A set ensures we never have duplicates.
   final bindings = <Binding>{};
