@@ -184,7 +184,7 @@ jobs:
           XCODE=$(xcode-select -p)
           IOS_SDK=$(xcrun --show-sdk-path --sdk iphoneos)
           MACOS_SDK=$(xcrun --show-sdk-path --sdk macosx)
-          DYLD_INSERT_LIBRARIES=$(ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib | tr '\n' ':')
+          DYLD_INSERT_LIBRARIES=$(ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib | paste -sd ':' -)
           ./test/all_tests
 
   test-windows:
