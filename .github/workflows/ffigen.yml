@@ -170,9 +170,13 @@ jobs:
       - name: debug
         run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/objective_c/build
       - name: debug
+        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622
+      - name: debug
         run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/**
       - name: debug
         run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/**.dylib | tr '\n' ':'
+      - name: debug
+        run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib | tr '\n' ':'
       - name: Run all_tests in AOT
         run: >
           PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
