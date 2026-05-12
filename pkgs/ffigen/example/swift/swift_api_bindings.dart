@@ -10,6 +10,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// SwiftClass
 extension type SwiftClass._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -65,13 +68,14 @@ extension type SwiftClass._(objc.ObjCObject object$)
 extension SwiftClass$Methods on SwiftClass {
   /// init
   SwiftClass init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'SwiftClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return SwiftClass.fromPointer($ret, retain: false, release: true);
@@ -79,18 +83,21 @@ extension SwiftClass$Methods on SwiftClass {
 
   /// sayHello
   objc.NSString sayHello() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_sayHello);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_sayHello);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// setSomeField:
   set someField(int value) {
-    _objc_msgSend_4sp4xj(object$.ref.pointer, _sel_setSomeField_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setSomeField_, value);
   }
 
   /// someField
   int get someField {
-    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_someField);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_someField);
   }
 }
 

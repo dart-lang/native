@@ -41,3 +41,4 @@ export 'src/runtime_bindings_generated.dart'
         objectRelease,
         objectRetain;
 export 'src/selector.dart';
+export 'src/version_check.dart';

@@ -6,6 +6,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// Castaway
 extension type Castaway._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -61,13 +64,14 @@ extension type Castaway._(objc.ObjCObject object$)
 extension Castaway$Methods on Castaway {
   /// init
   Castaway init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'Castaway.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return Castaway.fromPointer($ret, retain: false, release: true);
@@ -75,12 +79,14 @@ extension Castaway$Methods on Castaway {
 
   /// meAsInt
   int meAsInt() {
-    return _objc_msgSend_pysgoz(object$.ref.pointer, _sel_meAsInt);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_meAsInt);
   }
 
   /// meAsNSObject
   objc.NSObject meAsNSObject() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_meAsNSObject);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_meAsNSObject);
     return objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 }

@@ -12,6 +12,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// TestClassWrapper
 extension type TestClassWrapper._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -64,7 +67,8 @@ extension type TestClassWrapper._(objc.ObjCObject object$)
 extension TestClassWrapper$Methods on TestClassWrapper {
   /// myMethod
   TestOtherClassWrapper myMethod() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_myMethod);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_myMethod);
     return TestOtherClassWrapper.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -126,7 +130,8 @@ extension type TestOtherClassWrapper._(objc.ObjCObject object$)
 extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
   /// times10WithX:
   int times10WithX(int x) {
-    return _objc_msgSend_12hwf9n(object$.ref.pointer, _sel_times10WithX_, x);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_12hwf9n(_$$ref.pointer, _sel_times10WithX_, x);
   }
 }
 

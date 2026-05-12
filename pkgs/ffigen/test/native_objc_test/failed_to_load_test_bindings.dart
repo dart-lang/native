@@ -6,6 +6,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// ClassThatWillFailToLoad
 extension type ClassThatWillFailToLoad._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -79,18 +82,20 @@ extension type ClassThatWillFailToLoad._(objc.ObjCObject object$)
 extension ClassThatWillFailToLoad$Methods on ClassThatWillFailToLoad {
   /// get123
   int get123() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_get123);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_get123);
   }
 
   /// init
   ClassThatWillFailToLoad init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ClassThatWillFailToLoad.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return ClassThatWillFailToLoad.fromPointer(
