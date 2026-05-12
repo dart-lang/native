@@ -64,25 +64,21 @@ extension type BadMethodTestObject._(objc.ObjCObject object$)
 extension BadMethodTestObject$Methods on BadMethodTestObject {
   /// bitFieldPointerParam:
   int bitFieldPointerParam(ffi.Pointer<BitField> x) {
-    return _objc_msgSend_zol7v(
-      object$.ref.pointer,
-      _sel_bitFieldPointerParam_,
-      x,
-    );
+    final _$$ref = object$.ref;
+    return _objc_msgSend_zol7v(_$$ref.pointer, _sel_bitFieldPointerParam_, x);
   }
 
   /// bitFieldPointerReturn
   ffi.Pointer<BitField> bitFieldPointerReturn() {
-    return _objc_msgSend_hic16b(
-      object$.ref.pointer,
-      _sel_bitFieldPointerReturn,
-    );
+    final _$$ref = object$.ref;
+    return _objc_msgSend_hic16b(_$$ref.pointer, _sel_bitFieldPointerReturn);
   }
 
   /// incompletePointerParam:
   int incompletePointerParam(ffi.Pointer<IncompleteStruct> x) {
+    final _$$ref = object$.ref;
     return _objc_msgSend_1onbdcj(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_incompletePointerParam_,
       x,
     );
@@ -90,21 +86,20 @@ extension BadMethodTestObject$Methods on BadMethodTestObject {
 
   /// incompletePointerReturn
   ffi.Pointer<IncompleteStruct> incompletePointerReturn() {
-    return _objc_msgSend_17u7wb(
-      object$.ref.pointer,
-      _sel_incompletePointerReturn,
-    );
+    final _$$ref = object$.ref;
+    return _objc_msgSend_17u7wb(_$$ref.pointer, _sel_incompletePointerReturn);
   }
 
   /// init
   BadMethodTestObject init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'BadMethodTestObject.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return BadMethodTestObject.fromPointer($ret, retain: false, release: true);

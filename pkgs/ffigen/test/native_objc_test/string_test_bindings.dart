@@ -62,11 +62,13 @@ extension type StringUtil._(objc.ObjCObject object$)
     objc.NSString a, {
     required objc.NSString with$,
   }) {
+    final _$$ref = a.ref;
+    final _$$ref$1 = with$.ref;
     final $ret = _objc_msgSend_15qeuct(
       _class_StringUtil,
       _sel_strConcat_with_,
-      a.ref.pointer,
-      with$.ref.pointer,
+      _$$ref.pointer,
+      _$$ref$1.pointer,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
@@ -78,13 +80,14 @@ extension type StringUtil._(objc.ObjCObject object$)
 extension StringUtil$Methods on StringUtil {
   /// init
   StringUtil init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'StringUtil.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return StringUtil.fromPointer($ret, retain: false, release: true);

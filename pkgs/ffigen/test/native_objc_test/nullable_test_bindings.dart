@@ -53,28 +53,31 @@ extension type NullableInterface._(objc.ObjCObject object$)
 
   /// isNullWithExplicitNonNullableNSObjectPtrArg:
   static bool isNullWithExplicitNonNullableNSObjectPtrArg(objc.NSObject x) {
+    final _$$ref = x.ref;
     return _objc_msgSend_19nvye5(
       _class_NullableInterface,
       _sel_isNullWithExplicitNonNullableNSObjectPtrArg_,
-      x.ref.pointer,
+      _$$ref.pointer,
     );
   }
 
   /// isNullWithNotNullableNSObjectPtrArg:
   static bool isNullWithNotNullableNSObjectPtrArg(objc.NSObject x) {
+    final _$$ref = x.ref;
     return _objc_msgSend_19nvye5(
       _class_NullableInterface,
       _sel_isNullWithNotNullableNSObjectPtrArg_,
-      x.ref.pointer,
+      _$$ref.pointer,
     );
   }
 
   /// isNullWithNullableNSObjectArg:
   static bool isNullWithNullableNSObjectArg(objc.NSObject? x) {
+    final _$$ref = x?.ref;
     return _objc_msgSend_19nvye5(
       _class_NullableInterface,
       _sel_isNullWithNullableNSObjectArg_,
-      x?.ref.pointer ?? ffi.nullptr,
+      _$$ref?.pointer ?? ffi.nullptr,
     );
   }
 
@@ -84,12 +87,15 @@ extension type NullableInterface._(objc.ObjCObject object$)
     objc.NSObject? y,
     objc.NSObject? z,
   }) {
+    final _$$ref = x?.ref;
+    final _$$ref$1 = y?.ref;
+    final _$$ref$2 = z?.ref;
     final $ret = _objc_msgSend_11spmsz(
       _class_NullableInterface,
       _sel_multipleNullableArgs_y_z_,
-      x?.ref.pointer ?? ffi.nullptr,
-      y?.ref.pointer ?? ffi.nullptr,
-      z?.ref.pointer ?? ffi.nullptr,
+      _$$ref?.pointer ?? ffi.nullptr,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+      _$$ref$2?.pointer ?? ffi.nullptr,
     );
     return $ret.address == 0
         ? null
@@ -133,13 +139,14 @@ extension type NullableInterface._(objc.ObjCObject object$)
 extension NullableInterface$Methods on NullableInterface {
   /// init
   NullableInterface init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NullableInterface.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return NullableInterface.fromPointer($ret, retain: false, release: true);
@@ -147,8 +154,9 @@ extension NullableInterface$Methods on NullableInterface {
 
   /// nullableObjectProperty
   objc.NSObject? get nullableObjectProperty {
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_nullableObjectProperty,
     );
     return $ret.address == 0
@@ -158,10 +166,12 @@ extension NullableInterface$Methods on NullableInterface {
 
   /// setNullableObjectProperty:
   set nullableObjectProperty(objc.NSObject? value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value?.ref;
     _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_setNullableObjectProperty_,
-      value?.ref.pointer ?? ffi.nullptr,
+      _$$ref$1?.pointer ?? ffi.nullptr,
     );
   }
 }

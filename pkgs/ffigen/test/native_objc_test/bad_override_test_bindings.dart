@@ -64,13 +64,14 @@ extension type BadOverrideAunt._(objc.ObjCObject object$)
 extension BadOverrideAunt$Methods on BadOverrideAunt {
   /// init
   BadOverrideAunt init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'BadOverrideAunt.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return BadOverrideAunt.fromPointer($ret, retain: false, release: true);
@@ -132,8 +133,9 @@ extension type BadOverrideChild._(objc.ObjCObject object$)
 extension BadOverrideChild$Methods on BadOverrideChild {
   /// contravariantReturn
   Polygon contravariantReturn() {
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_contravariantReturn,
     );
     return Polygon.fromPointer($ret, retain: true, release: true);
@@ -141,23 +143,26 @@ extension BadOverrideChild$Methods on BadOverrideChild {
 
   /// covariantArg:
   objc.NSString covariantArg(Rectangle rect) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = rect.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_covariantArg_,
-      rect.ref.pointer,
+      _$$ref$1.pointer,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
   BadOverrideChild init() {
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'BadOverrideChild.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return BadOverrideChild.fromPointer($ret, retain: false, release: true);
@@ -165,7 +170,8 @@ extension BadOverrideChild$Methods on BadOverrideChild {
 
   /// methodVsGetter
   int get methodVsGetter {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_methodVsGetter);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
   }
 }
 
@@ -239,13 +245,14 @@ extension type BadOverrideGrandchild._(objc.ObjCObject object$)
 extension BadOverrideGrandchild$Methods on BadOverrideGrandchild {
   /// init
   BadOverrideGrandchild init() {
+    final _$$ref$2 = object$.ref;
     objc.checkOsVersionInternal(
       'BadOverrideGrandchild.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$2.retainAndReturnPointer(),
       _sel_init,
     );
     return BadOverrideGrandchild.fromPointer(
@@ -257,7 +264,8 @@ extension BadOverrideGrandchild$Methods on BadOverrideGrandchild {
 
   /// methodVsGetter
   int get methodVsGetter {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_methodVsGetter);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
   }
 }
 
@@ -331,13 +339,14 @@ extension type BadOverrideGrandparent._(objc.ObjCObject object$)
 extension BadOverrideGrandparent$Methods on BadOverrideGrandparent {
   /// init
   BadOverrideGrandparent init() {
+    final _$$ref$3 = object$.ref;
     objc.checkOsVersionInternal(
       'BadOverrideGrandparent.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$3.retainAndReturnPointer(),
       _sel_init,
     );
     return BadOverrideGrandparent.fromPointer(
@@ -403,8 +412,9 @@ extension type BadOverrideParent._(objc.ObjCObject object$)
 extension BadOverrideParent$Methods on BadOverrideParent {
   /// contravariantReturn
   Polygon contravariantReturn() {
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_contravariantReturn,
     );
     return Polygon.fromPointer($ret, retain: true, release: true);
@@ -412,23 +422,26 @@ extension BadOverrideParent$Methods on BadOverrideParent {
 
   /// covariantArg:
   objc.NSString covariantArg(Polygon poly) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = poly.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_covariantArg_,
-      poly.ref.pointer,
+      _$$ref$1.pointer,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
   BadOverrideParent init() {
+    final _$$ref$4 = object$.ref;
     objc.checkOsVersionInternal(
       'BadOverrideParent.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$4.retainAndReturnPointer(),
       _sel_init,
     );
     return BadOverrideParent.fromPointer($ret, retain: false, release: true);
@@ -436,7 +449,8 @@ extension BadOverrideParent$Methods on BadOverrideParent {
 
   /// methodVsGetter
   int get methodVsGetter {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_methodVsGetter);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
   }
 }
 
@@ -495,13 +509,14 @@ extension type BadOverrideSibbling._(objc.ObjCObject object$)
 extension BadOverrideSibbling$Methods on BadOverrideSibbling {
   /// init
   BadOverrideSibbling init() {
+    final _$$ref$5 = object$.ref;
     objc.checkOsVersionInternal(
       'BadOverrideSibbling.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$5.retainAndReturnPointer(),
       _sel_init,
     );
     return BadOverrideSibbling.fromPointer($ret, retain: false, release: true);
@@ -509,7 +524,8 @@ extension BadOverrideSibbling$Methods on BadOverrideSibbling {
 
   /// methodVsGetter
   int get methodVsGetter {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_methodVsGetter);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
   }
 }
 
@@ -568,13 +584,14 @@ extension type BadOverrideUncle._(objc.ObjCObject object$)
 extension BadOverrideUncle$Methods on BadOverrideUncle {
   /// init
   BadOverrideUncle init() {
+    final _$$ref$6 = object$.ref;
     objc.checkOsVersionInternal(
       'BadOverrideUncle.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$6.retainAndReturnPointer(),
       _sel_init,
     );
     return BadOverrideUncle.fromPointer($ret, retain: false, release: true);
@@ -582,7 +599,8 @@ extension BadOverrideUncle$Methods on BadOverrideUncle {
 
   /// methodVsGetter
   int methodVsGetter() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_methodVsGetter);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_methodVsGetter);
   }
 }
 
@@ -641,13 +659,14 @@ extension type Polygon._(objc.ObjCObject object$)
 extension Polygon$Methods on Polygon {
   /// init
   Polygon init() {
+    final _$$ref$7 = object$.ref;
     objc.checkOsVersionInternal(
       'Polygon.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$7.retainAndReturnPointer(),
       _sel_init,
     );
     return Polygon.fromPointer($ret, retain: false, release: true);
@@ -655,7 +674,8 @@ extension Polygon$Methods on Polygon {
 
   /// name
   objc.NSString name() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_name);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -715,13 +735,14 @@ extension type Rectangle._(objc.ObjCObject object$)
 extension Rectangle$Methods on Rectangle {
   /// init
   Rectangle init() {
+    final _$$ref$8 = object$.ref;
     objc.checkOsVersionInternal(
       'Rectangle.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$8.retainAndReturnPointer(),
       _sel_init,
     );
     return Rectangle.fromPointer($ret, retain: false, release: true);
@@ -729,7 +750,8 @@ extension Rectangle$Methods on Rectangle {
 
   /// name
   objc.NSString name() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_name);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -789,13 +811,14 @@ extension type Square._(objc.ObjCObject object$)
 extension Square$Methods on Square {
   /// init
   Square init() {
+    final _$$ref$9 = object$.ref;
     objc.checkOsVersionInternal(
       'Square.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$9.retainAndReturnPointer(),
       _sel_init,
     );
     return Square.fromPointer($ret, retain: false, release: true);
@@ -803,7 +826,8 @@ extension Square$Methods on Square {
 
   /// name
   objc.NSString name() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_name);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
@@ -863,13 +887,14 @@ extension type Triangle._(objc.ObjCObject object$)
 extension Triangle$Methods on Triangle {
   /// init
   Triangle init() {
+    final _$$ref$10 = object$.ref;
     objc.checkOsVersionInternal(
       'Triangle.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$10.retainAndReturnPointer(),
       _sel_init,
     );
     return Triangle.fromPointer($ret, retain: false, release: true);
@@ -877,7 +902,8 @@ extension Triangle$Methods on Triangle {
 
   /// name
   objc.NSString name() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_name);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
