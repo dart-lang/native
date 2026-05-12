@@ -64,9 +64,10 @@ List<Binding> parseToBindings(Context context) {
     ...context.compilerOpts,
   ];
 
-  context.logger.fine('CompilerOpts used: $compilerOpts');
-  clangCmdArgs = createDynamicStringArray(compilerOpts);
-  final cmdLen = compilerOpts.length;
+  final finalCompilerOpts = overrideCompilerOpts(compilerOpts);
+  context.logger.fine('CompilerOpts used: $finalCompilerOpts');
+  clangCmdArgs = createDynamicStringArray(finalCompilerOpts);
+  final cmdLen = finalCompilerOpts.length;
 
   // Contains all bindings. A set ensures we never have duplicates.
   final bindings = <Binding>{};

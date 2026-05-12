@@ -17,7 +17,6 @@ import 'config.dart';
 import 'config_spec.dart';
 import 'config_types.dart';
 import 'spec_utils.dart';
-import 'utils.dart';
 
 /// Provides configurations to other modules.
 ///
@@ -424,8 +423,7 @@ final class YamlConfig {
             transform: (node) => compilerOptsExtractor(node.value),
           ),
           defaultValue: (node) => <String>[],
-          resultOrDefault: (node) =>
-              _compilerOpts = overrideCompilerOpts(node.value as List<String>),
+          resultOrDefault: (node) => _compilerOpts = node.value as List<String>,
         ),
         HeterogeneousMapEntry(
           key: strings.compilerOptsAuto,
