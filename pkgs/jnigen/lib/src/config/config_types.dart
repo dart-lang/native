@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:path/path.dart' as p;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
@@ -324,9 +325,6 @@ class Config {
   /// Hide concrete classes from the imports
   final List<String>? hide;
 
-  /// Call [importClasses] before using this.
-  late final Map<String, ClassDecl> importedClasses;
-
   /// Annotations specifying that this type is nullable.
   final List<String>? nullableAnnotations;
 
@@ -342,6 +340,11 @@ class Config {
   // User custom visitors.
   List<j_ast.Visitor>? visitors;
 
+  /// Call [importClasses] before using this.
+  @internal
+  late final Map<String, ClassDecl> importedClasses;
+
+  @internal
   Future<void> importClasses() async {
     importedClasses = {};
     for (final import in [
