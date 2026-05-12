@@ -8,9 +8,7 @@ import '../helpers.dart';
 import 'objects_helper.dart';
 
 void main() {
-  runObjectsTests(
-    OS.current,
-    [Architecture.current],
-    macOSTargetVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
-  );
+  runObjectsTests(OS.current, [
+    Architecture.current,
+  ], macOSTargetVersion: OS.current == OS.macOS ? defaultMacOSVersion : null);
 }

@@ -1,3 +1,8 @@
+## 1.3.0-wip
+
+- Resolved caching abstraction violation by delegating generated output file identification to `ProtocolExtension.outputFiles`.
+- Bumped dependency on `package:hooks` to `^2.0.0-wip`.
+
 ## 1.2.1
 
 - Add `PROCESSOR_ARCHITECTURE` to environment variables allowlist.

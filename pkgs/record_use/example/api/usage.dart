@@ -17,6 +17,7 @@ abstract class PirateTranslator {
   @RecordUse()
   static String speak(String english) => 'Ahoy $english';
 }
+
 // snippet-end#static-call
 
 // snippet-start#const-instance
