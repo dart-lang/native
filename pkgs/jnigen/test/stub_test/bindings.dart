@@ -67,7 +67,8 @@ extension type A._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory A() {
-    return _new$(_class.reference.pointer, _id_new$.pointer).object<A>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<A>();
   }
 }
 
@@ -92,7 +93,8 @@ extension A$$Methods on A {
   /// from: `public com.example.B getB()`
   /// The returned object must be released after use, by calling the [release] method.
   B? get b {
-    return _get$b(reference.pointer, _id_get$b.pointer).object<B?>();
+    final _$$selfRef = reference;
+    return _get$b(_$$selfRef.pointer, _id_get$b.pointer).object<B?>();
   }
 
   static final _id_takeB = A._class.instanceMethodId(
@@ -115,8 +117,9 @@ extension A$$Methods on A {
   void takeB(
     B? b,
   ) {
+    final _$$selfRef = reference;
     final _$b = b?.reference ?? jni$_.jNullReference;
-    _takeB(reference.pointer, _id_takeB.pointer, _$b.pointer).check();
+    _takeB(_$$selfRef.pointer, _id_takeB.pointer, _$b.pointer).check();
   }
 
   static final _id_takeD = A._class.instanceMethodId(
@@ -139,8 +142,9 @@ extension A$$Methods on A {
   void takeD(
     D? d,
   ) {
+    final _$$selfRef = reference;
     final _$d = d?.reference ?? jni$_.jNullReference;
-    _takeD(reference.pointer, _id_takeD.pointer, _$d.pointer).check();
+    _takeD(_$$selfRef.pointer, _id_takeD.pointer, _$d.pointer).check();
   }
 }
 
@@ -178,7 +182,8 @@ extension type C._(jni$_.JObject _$this) implements D {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory C() {
-    return _new$(_class.reference.pointer, _id_new$.pointer).object<C>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<C>();
   }
 }
 

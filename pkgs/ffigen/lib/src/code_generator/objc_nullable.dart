@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'local_variables.dart';
 
 /// An ObjC type annotated with nullable. Eg:
 /// +(nullable NSObject*) methodWithNullableResult;
@@ -59,19 +60,15 @@ class ObjCNullable extends Type {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) {
-    // Just appending `?` to `value` like this is a bit of a hack, but works for
-    // all the types that are allowed to be a child type. If we add more allowed
-    // child types, we may have to start special casing each type. For example,
-    // `value.pointer` becomes `value?.pointer ?? nullptr`.
-    final convertedValue = child.convertDartTypeToFfiDartType(
-      context,
-      '$value?',
-      objCRetain: objCRetain,
-      objCAutorelease: objCAutorelease,
-    );
-    return '$convertedValue ?? ${context.libs.prefix(ffiImport)}.nullptr';
-  }
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    context,
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+    isNullable: true,
+  );
 
   @override
   String convertFfiDartTypeToDartType(

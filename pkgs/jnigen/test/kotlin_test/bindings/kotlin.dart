@@ -146,7 +146,8 @@ extension CanDoA$$Methods on CanDoA {
 
   /// from: `public fun doA(): kotlin.Unit`
   void doA() {
-    _doA(reference.pointer, _id_doA.pointer).check();
+    final _$$selfRef = reference;
+    _doA(_$$selfRef.pointer, _id_doA.pointer).check();
   }
 }
 
@@ -287,7 +288,8 @@ extension CanDoB$$Methods on CanDoB {
 
   /// from: `public fun doB(): kotlin.Unit`
   void doB() {
-    _doB(reference.pointer, _id_doB.pointer).check();
+    final _$$selfRef = reference;
+    _doB(_$$selfRef.pointer, _id_doB.pointer).check();
   }
 }
 
@@ -354,7 +356,8 @@ extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
 
   /// from: `public float getValue()`
   core$_.double get value {
-    return _get$value(reference.pointer, _id_get$value.pointer).float;
+    final _$$selfRef = reference;
+    return _get$value(_$$selfRef.pointer, _id_get$value.pointer).float;
   }
 
   static final _id_get$unit = Measure._class.instanceMethodId(
@@ -377,7 +380,8 @@ extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
   /// from: `public T getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
   $T get unit {
-    return _get$unit(reference.pointer, _id_get$unit.pointer).object<$T>();
+    final _$$selfRef = reference;
+    return _get$unit(_$$selfRef.pointer, _id_get$unit.pointer).object<$T>();
   }
 
   static final _id_convertValue = Measure._class.instanceMethodId(
@@ -400,9 +404,10 @@ extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
   core$_.double convertValue(
     $T measureUnit,
   ) {
+    final _$$selfRef = reference;
     final _$measureUnit = measureUnit.reference;
     return _convertValue(
-            reference.pointer, _id_convertValue.pointer, _$measureUnit.pointer)
+            _$$selfRef.pointer, _id_convertValue.pointer, _$measureUnit.pointer)
         .float;
   }
 }
@@ -527,7 +532,8 @@ extension MeasureUnit$$Methods on MeasureUnit {
   /// from: `public abstract java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString getSign() {
-    return _getSign(reference.pointer, _id_getSign.pointer)
+    final _$$selfRef = reference;
+    return _getSign(_$$selfRef.pointer, _id_getSign.pointer)
         .object<jni$_.JString>();
   }
 
@@ -550,7 +556,9 @@ extension MeasureUnit$$Methods on MeasureUnit {
 
   /// from: `public abstract float getCoefficient()`
   core$_.double getCoefficient() {
-    return _getCoefficient(reference.pointer, _id_getCoefficient.pointer).float;
+    final _$$selfRef = reference;
+    return _getCoefficient(_$$selfRef.pointer, _id_getCoefficient.pointer)
+        .float;
   }
 }
 
@@ -621,9 +629,10 @@ extension type NIAllClassesWrapper$Companion._(jni$_.JObject _$this)
   factory NIAllClassesWrapper$Companion(
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer,
             _$defaultConstructorMarker.pointer)
         .object<NIAllClassesWrapper$Companion>();
   }
@@ -653,8 +662,9 @@ extension NIAllClassesWrapper$Companion$$Methods
   NIAllClassesWrapper fromList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _fromList(reference.pointer, _id_fromList.pointer, _$list.pointer)
+    return _fromList(_$$selfRef.pointer, _id_fromList.pointer, _$list.pointer)
         .object<NIAllClassesWrapper>();
   }
 }
@@ -732,6 +742,7 @@ extension type NIAllClassesWrapper._(jni$_.JObject _$this)
     jni$_.JMap<jni$_.JLong?, NIAllTypes?> map,
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypesWithoutRecursion?>? map1,
   ) {
+    final _$$classRef = _class.reference;
     final _$nIAllNullableTypes = nIAllNullableTypes.reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
@@ -741,7 +752,7 @@ extension type NIAllClassesWrapper._(jni$_.JObject _$this)
     final _$map = map.reference;
     final _$map1 = map1?.reference ?? jni$_.jNullReference;
     return _new$(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$.pointer,
             _$nIAllNullableTypes.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
@@ -801,6 +812,7 @@ extension type NIAllClassesWrapper._(jni$_.JObject _$this)
     core$_.int i,
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     final _$nIAllNullableTypesWithoutRecursion =
@@ -813,7 +825,7 @@ extension type NIAllClassesWrapper._(jni$_.JObject _$this)
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
     return _new$1(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$1.pointer,
             _$nIAllNullableTypes.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
@@ -850,8 +862,9 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public final com.github.dart_lang.jnigen.NIAllNullableTypes getAllNullableTypes()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllNullableTypes get allNullableTypes {
+    final _$$selfRef = reference;
     return _get$allNullableTypes(
-            reference.pointer, _id_get$allNullableTypes.pointer)
+            _$$selfRef.pointer, _id_get$allNullableTypes.pointer)
         .object<NIAllNullableTypes>();
   }
 
@@ -877,8 +890,9 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public final com.github.dart_lang.jnigen.NIAllNullableTypesWithoutRecursion getAllNullableTypesWithoutRecursion()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllNullableTypesWithoutRecursion? get allNullableTypesWithoutRecursion {
-    return _get$allNullableTypesWithoutRecursion(
-            reference.pointer, _id_get$allNullableTypesWithoutRecursion.pointer)
+    final _$$selfRef = reference;
+    return _get$allNullableTypesWithoutRecursion(_$$selfRef.pointer,
+            _id_get$allNullableTypesWithoutRecursion.pointer)
         .object<NIAllNullableTypesWithoutRecursion?>();
   }
 
@@ -902,7 +916,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public final com.github.dart_lang.jnigen.NIAllTypes getAllTypes()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllTypes? get allTypes {
-    return _get$allTypes(reference.pointer, _id_get$allTypes.pointer)
+    final _$$selfRef = reference;
+    return _get$allTypes(_$$selfRef.pointer, _id_get$allTypes.pointer)
         .object<NIAllTypes?>();
   }
 
@@ -926,7 +941,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public final java.util.List<com.github.dart_lang.jnigen.NIAllTypes> getClassList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAllTypes?> get classList {
-    return _get$classList(reference.pointer, _id_get$classList.pointer)
+    final _$$selfRef = reference;
+    return _get$classList(_$$selfRef.pointer, _id_get$classList.pointer)
         .object<jni$_.JList<NIAllTypes?>>();
   }
 
@@ -951,8 +967,9 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public final java.util.List<com.github.dart_lang.jnigen.NIAllNullableTypesWithoutRecursion> getNullableClassList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAllNullableTypesWithoutRecursion?>? get nullableClassList {
+    final _$$selfRef = reference;
     return _get$nullableClassList(
-            reference.pointer, _id_get$nullableClassList.pointer)
+            _$$selfRef.pointer, _id_get$nullableClassList.pointer)
         .object<jni$_.JList<NIAllNullableTypesWithoutRecursion?>?>();
   }
 
@@ -976,7 +993,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public final java.util.Map<java.lang.Long, com.github.dart_lang.jnigen.NIAllTypes> getClassMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, NIAllTypes?> get classMap {
-    return _get$classMap(reference.pointer, _id_get$classMap.pointer)
+    final _$$selfRef = reference;
+    return _get$classMap(_$$selfRef.pointer, _id_get$classMap.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllTypes?>>();
   }
 
@@ -1002,8 +1020,9 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypesWithoutRecursion?>?
       get nullableClassMap {
+    final _$$selfRef = reference;
     return _get$nullableClassMap(
-            reference.pointer, _id_get$nullableClassMap.pointer)
+            _$$selfRef.pointer, _id_get$nullableClassMap.pointer)
         .object<
             jni$_.JMap<jni$_.JLong?, NIAllNullableTypesWithoutRecursion?>?>();
   }
@@ -1028,7 +1047,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public fun toList(): kotlin.collections.List<kotlin.Any?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> toList() {
-    return _toList(reference.pointer, _id_toList.pointer)
+    final _$$selfRef = reference;
+    return _toList(_$$selfRef.pointer, _id_toList.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -1052,8 +1072,9 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -1076,7 +1097,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
 
   /// from: `public fun hashCode(): kotlin.Int`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_component1 = NIAllClassesWrapper._class.instanceMethodId(
@@ -1099,7 +1121,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public operator fun component1(): com.github.dart_lang.jnigen.NIAllNullableTypes`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllNullableTypes component1() {
-    return _component1(reference.pointer, _id_component1.pointer)
+    final _$$selfRef = reference;
+    return _component1(_$$selfRef.pointer, _id_component1.pointer)
         .object<NIAllNullableTypes>();
   }
 
@@ -1123,7 +1146,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public operator fun component2(): com.github.dart_lang.jnigen.NIAllNullableTypesWithoutRecursion?`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllNullableTypesWithoutRecursion? component2() {
-    return _component2(reference.pointer, _id_component2.pointer)
+    final _$$selfRef = reference;
+    return _component2(_$$selfRef.pointer, _id_component2.pointer)
         .object<NIAllNullableTypesWithoutRecursion?>();
   }
 
@@ -1147,7 +1171,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public operator fun component3(): com.github.dart_lang.jnigen.NIAllTypes?`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllTypes? component3() {
-    return _component3(reference.pointer, _id_component3.pointer)
+    final _$$selfRef = reference;
+    return _component3(_$$selfRef.pointer, _id_component3.pointer)
         .object<NIAllTypes?>();
   }
 
@@ -1171,7 +1196,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public operator fun component4(): kotlin.collections.List<com.github.dart_lang.jnigen.NIAllTypes?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAllTypes?> component4() {
-    return _component4(reference.pointer, _id_component4.pointer)
+    final _$$selfRef = reference;
+    return _component4(_$$selfRef.pointer, _id_component4.pointer)
         .object<jni$_.JList<NIAllTypes?>>();
   }
 
@@ -1195,7 +1221,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public operator fun component5(): kotlin.collections.List<com.github.dart_lang.jnigen.NIAllNullableTypesWithoutRecursion?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAllNullableTypesWithoutRecursion?>? component5() {
-    return _component5(reference.pointer, _id_component5.pointer)
+    final _$$selfRef = reference;
+    return _component5(_$$selfRef.pointer, _id_component5.pointer)
         .object<jni$_.JList<NIAllNullableTypesWithoutRecursion?>?>();
   }
 
@@ -1219,7 +1246,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public operator fun component6(): kotlin.collections.Map<kotlin.Long?, com.github.dart_lang.jnigen.NIAllTypes?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, NIAllTypes?> component6() {
-    return _component6(reference.pointer, _id_component6.pointer)
+    final _$$selfRef = reference;
+    return _component6(_$$selfRef.pointer, _id_component6.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllTypes?>>();
   }
 
@@ -1243,7 +1271,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public operator fun component7(): kotlin.collections.Map<kotlin.Long?, com.github.dart_lang.jnigen.NIAllNullableTypesWithoutRecursion?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypesWithoutRecursion?>? component7() {
-    return _component7(reference.pointer, _id_component7.pointer).object<
+    final _$$selfRef = reference;
+    return _component7(_$$selfRef.pointer, _id_component7.pointer).object<
         jni$_.JMap<jni$_.JLong?, NIAllNullableTypesWithoutRecursion?>?>();
   }
 
@@ -1290,6 +1319,7 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
     jni$_.JMap<jni$_.JLong?, NIAllTypes?> map,
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypesWithoutRecursion?>? map1,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes = nIAllNullableTypes.reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
@@ -1299,7 +1329,7 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
     final _$map = map.reference;
     final _$map1 = map1?.reference ?? jni$_.jNullReference;
     return _copy(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_copy.pointer,
             _$nIAllNullableTypes.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
@@ -1331,7 +1361,8 @@ extension NIAllClassesWrapper$$Methods on NIAllClassesWrapper {
   /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<jni$_.JString>();
   }
 }
@@ -1375,9 +1406,10 @@ extension type NIAllNullableTypes$Companion._(jni$_.JObject _$this)
   factory NIAllNullableTypes$Companion(
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer,
             _$defaultConstructorMarker.pointer)
         .object<NIAllNullableTypes$Companion>();
   }
@@ -1407,8 +1439,9 @@ extension NIAllNullableTypes$Companion$$Methods
   NIAllNullableTypes fromList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _fromList(reference.pointer, _id_fromList.pointer, _$list.pointer)
+    return _fromList(_$$selfRef.pointer, _id_fromList.pointer, _$list.pointer)
         .object<NIAllNullableTypes>();
   }
 }
@@ -1558,6 +1591,7 @@ extension type NIAllNullableTypes._(jni$_.JObject _$this)
     jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? map6,
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map7,
   ) {
+    final _$$classRef = _class.reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$long1 = long1?.reference ?? jni$_.jNullReference;
@@ -1591,7 +1625,7 @@ extension type NIAllNullableTypes._(jni$_.JObject _$this)
     final _$map6 = map6?.reference ?? jni$_.jNullReference;
     final _$map7 = map7?.reference ?? jni$_.jNullReference;
     return _new$(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -1747,6 +1781,7 @@ extension type NIAllNullableTypes._(jni$_.JObject _$this)
     core$_.int i,
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$long1 = long1?.reference ?? jni$_.jNullReference;
@@ -1782,7 +1817,7 @@ extension type NIAllNullableTypes._(jni$_.JObject _$this)
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
     return _new$1(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$1.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -1839,7 +1874,8 @@ extension type NIAllNullableTypes._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory NIAllNullableTypes.new$2() {
-    return _new$2(_class.reference.pointer, _id_new$2.pointer)
+    final _$$classRef = _class.reference;
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer)
         .object<NIAllNullableTypes>();
   }
 }
@@ -1866,7 +1902,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.lang.Boolean getANullableBool()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JBoolean? get aNullableBool {
-    return _get$aNullableBool(reference.pointer, _id_get$aNullableBool.pointer)
+    final _$$selfRef = reference;
+    return _get$aNullableBool(_$$selfRef.pointer, _id_get$aNullableBool.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -1891,7 +1928,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.lang.Long getANullableInt()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? get aNullableInt {
-    return _get$aNullableInt(reference.pointer, _id_get$aNullableInt.pointer)
+    final _$$selfRef = reference;
+    return _get$aNullableInt(_$$selfRef.pointer, _id_get$aNullableInt.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -1916,8 +1954,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.lang.Long getANullableInt64()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? get aNullableInt64 {
+    final _$$selfRef = reference;
     return _get$aNullableInt64(
-            reference.pointer, _id_get$aNullableInt64.pointer)
+            _$$selfRef.pointer, _id_get$aNullableInt64.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -1942,8 +1981,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.lang.Double getANullableDouble()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDouble? get aNullableDouble {
+    final _$$selfRef = reference;
     return _get$aNullableDouble(
-            reference.pointer, _id_get$aNullableDouble.pointer)
+            _$$selfRef.pointer, _id_get$aNullableDouble.pointer)
         .object<jni$_.JDouble?>();
   }
 
@@ -1968,8 +2008,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final byte[] getANullableByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? get aNullableByteArray {
+    final _$$selfRef = reference;
     return _get$aNullableByteArray(
-            reference.pointer, _id_get$aNullableByteArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullableByteArray.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -1994,8 +2035,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final int[] getANullable4ByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray? get aNullable4ByteArray {
+    final _$$selfRef = reference;
     return _get$aNullable4ByteArray(
-            reference.pointer, _id_get$aNullable4ByteArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullable4ByteArray.pointer)
         .object<jni$_.JIntArray?>();
   }
 
@@ -2020,8 +2062,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final long[] getANullable8ByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLongArray? get aNullable8ByteArray {
+    final _$$selfRef = reference;
     return _get$aNullable8ByteArray(
-            reference.pointer, _id_get$aNullable8ByteArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullable8ByteArray.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -2046,8 +2089,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final double[] getANullableFloatArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDoubleArray? get aNullableFloatArray {
+    final _$$selfRef = reference;
     return _get$aNullableFloatArray(
-            reference.pointer, _id_get$aNullableFloatArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullableFloatArray.pointer)
         .object<jni$_.JDoubleArray?>();
   }
 
@@ -2072,7 +2116,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final com.github.dart_lang.jnigen.NIAnEnum getANullableEnum()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnEnum? get aNullableEnum {
-    return _get$aNullableEnum(reference.pointer, _id_get$aNullableEnum.pointer)
+    final _$$selfRef = reference;
+    return _get$aNullableEnum(_$$selfRef.pointer, _id_get$aNullableEnum.pointer)
         .object<NIAnEnum?>();
   }
 
@@ -2097,8 +2142,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final com.github.dart_lang.jnigen.NIAnotherEnum getAnotherNullableEnum()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnotherEnum? get anotherNullableEnum {
+    final _$$selfRef = reference;
     return _get$anotherNullableEnum(
-            reference.pointer, _id_get$anotherNullableEnum.pointer)
+            _$$selfRef.pointer, _id_get$anotherNullableEnum.pointer)
         .object<NIAnotherEnum?>();
   }
 
@@ -2123,8 +2169,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.lang.String getANullableString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get aNullableString {
+    final _$$selfRef = reference;
     return _get$aNullableString(
-            reference.pointer, _id_get$aNullableString.pointer)
+            _$$selfRef.pointer, _id_get$aNullableString.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2149,8 +2196,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.lang.Object getANullableObject()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get aNullableObject {
+    final _$$selfRef = reference;
     return _get$aNullableObject(
-            reference.pointer, _id_get$aNullableObject.pointer)
+            _$$selfRef.pointer, _id_get$aNullableObject.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2175,8 +2223,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final com.github.dart_lang.jnigen.NIAllNullableTypes getAllNullableTypes()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllNullableTypes? get allNullableTypes {
+    final _$$selfRef = reference;
     return _get$allNullableTypes(
-            reference.pointer, _id_get$allNullableTypes.pointer)
+            _$$selfRef.pointer, _id_get$allNullableTypes.pointer)
         .object<NIAllNullableTypes?>();
   }
 
@@ -2200,7 +2249,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.lang.Object> getList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? get list {
-    return _get$list(reference.pointer, _id_get$list.pointer)
+    final _$$selfRef = reference;
+    return _get$list(_$$selfRef.pointer, _id_get$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -2224,7 +2274,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.lang.String> getStringList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? get stringList {
-    return _get$stringList(reference.pointer, _id_get$stringList.pointer)
+    final _$$selfRef = reference;
+    return _get$stringList(_$$selfRef.pointer, _id_get$stringList.pointer)
         .object<jni$_.JList<jni$_.JString?>?>();
   }
 
@@ -2248,7 +2299,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.lang.Long> getIntList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JLong?>? get intList {
-    return _get$intList(reference.pointer, _id_get$intList.pointer)
+    final _$$selfRef = reference;
+    return _get$intList(_$$selfRef.pointer, _id_get$intList.pointer)
         .object<jni$_.JList<jni$_.JLong?>?>();
   }
 
@@ -2272,7 +2324,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.lang.Double> getDoubleList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JDouble?>? get doubleList {
-    return _get$doubleList(reference.pointer, _id_get$doubleList.pointer)
+    final _$$selfRef = reference;
+    return _get$doubleList(_$$selfRef.pointer, _id_get$doubleList.pointer)
         .object<jni$_.JList<jni$_.JDouble?>?>();
   }
 
@@ -2296,7 +2349,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.lang.Boolean> getBoolList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JBoolean?>? get boolList {
-    return _get$boolList(reference.pointer, _id_get$boolList.pointer)
+    final _$$selfRef = reference;
+    return _get$boolList(_$$selfRef.pointer, _id_get$boolList.pointer)
         .object<jni$_.JList<jni$_.JBoolean?>?>();
   }
 
@@ -2320,7 +2374,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<com.github.dart_lang.jnigen.NIAnEnum> getEnumList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAnEnum?>? get enumList {
-    return _get$enumList(reference.pointer, _id_get$enumList.pointer)
+    final _$$selfRef = reference;
+    return _get$enumList(_$$selfRef.pointer, _id_get$enumList.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
 
@@ -2344,7 +2399,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.lang.Object> getObjectList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? get objectList {
-    return _get$objectList(reference.pointer, _id_get$objectList.pointer)
+    final _$$selfRef = reference;
+    return _get$objectList(_$$selfRef.pointer, _id_get$objectList.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -2368,7 +2424,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.util.List<java.lang.Object>> getListList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JObject?>?>? get listList {
-    return _get$listList(reference.pointer, _id_get$listList.pointer)
+    final _$$selfRef = reference;
+    return _get$listList(_$$selfRef.pointer, _id_get$listList.pointer)
         .object<jni$_.JList<jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -2392,7 +2449,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<java.util.Map<java.lang.Object, java.lang.Object>> getMapList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? get mapList {
-    return _get$mapList(reference.pointer, _id_get$mapList.pointer)
+    final _$$selfRef = reference;
+    return _get$mapList(_$$selfRef.pointer, _id_get$mapList.pointer)
         .object<jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
 
@@ -2417,8 +2475,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.List<com.github.dart_lang.jnigen.NIAllNullableTypes> getRecursiveClassList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAllNullableTypes?>? get recursiveClassList {
+    final _$$selfRef = reference;
     return _get$recursiveClassList(
-            reference.pointer, _id_get$recursiveClassList.pointer)
+            _$$selfRef.pointer, _id_get$recursiveClassList.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>?>();
   }
 
@@ -2442,7 +2501,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.Map<java.lang.Object, java.lang.Object> getMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject?>? get map {
-    return _get$map(reference.pointer, _id_get$map.pointer)
+    final _$$selfRef = reference;
+    return _get$map(_$$selfRef.pointer, _id_get$map.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject?>?>();
   }
 
@@ -2466,7 +2526,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.Map<java.lang.String, java.lang.String> getStringMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? get stringMap {
-    return _get$stringMap(reference.pointer, _id_get$stringMap.pointer)
+    final _$$selfRef = reference;
+    return _get$stringMap(_$$selfRef.pointer, _id_get$stringMap.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
 
@@ -2490,7 +2551,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.Map<java.lang.Long, java.lang.Long> getIntMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? get intMap {
-    return _get$intMap(reference.pointer, _id_get$intMap.pointer)
+    final _$$selfRef = reference;
+    return _get$intMap(_$$selfRef.pointer, _id_get$intMap.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
 
@@ -2514,7 +2576,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.Map<com.github.dart_lang.jnigen.NIAnEnum, com.github.dart_lang.jnigen.NIAnEnum> getEnumMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? get enumMap {
-    return _get$enumMap(reference.pointer, _id_get$enumMap.pointer)
+    final _$$selfRef = reference;
+    return _get$enumMap(_$$selfRef.pointer, _id_get$enumMap.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
 
@@ -2538,7 +2601,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.Map<java.lang.Object, java.lang.Object> getObjectMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? get objectMap {
-    return _get$objectMap(reference.pointer, _id_get$objectMap.pointer)
+    final _$$selfRef = reference;
+    return _get$objectMap(_$$selfRef.pointer, _id_get$objectMap.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
 
@@ -2562,7 +2626,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.Map<java.lang.Long, java.util.List<java.lang.Object>> getListMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>? get listMap {
-    return _get$listMap(reference.pointer, _id_get$listMap.pointer)
+    final _$$selfRef = reference;
+    return _get$listMap(_$$selfRef.pointer, _id_get$listMap.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -2587,7 +2652,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?
       get mapMap {
-    return _get$mapMap(reference.pointer, _id_get$mapMap.pointer).object<
+    final _$$selfRef = reference;
+    return _get$mapMap(_$$selfRef.pointer, _id_get$mapMap.pointer).object<
         jni$_
         .JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
@@ -2613,8 +2679,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public final java.util.Map<java.lang.Long, com.github.dart_lang.jnigen.NIAllNullableTypes> getRecursiveClassMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? get recursiveClassMap {
+    final _$$selfRef = reference;
     return _get$recursiveClassMap(
-            reference.pointer, _id_get$recursiveClassMap.pointer)
+            _$$selfRef.pointer, _id_get$recursiveClassMap.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>();
   }
 
@@ -2638,7 +2705,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public fun toList(): kotlin.collections.List<kotlin.Any?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> toList() {
-    return _toList(reference.pointer, _id_toList.pointer)
+    final _$$selfRef = reference;
+    return _toList(_$$selfRef.pointer, _id_toList.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -2662,8 +2730,9 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -2686,7 +2755,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
 
   /// from: `public fun hashCode(): kotlin.Int`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_component1 = NIAllNullableTypes._class.instanceMethodId(
@@ -2709,7 +2779,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component1(): kotlin.Boolean?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JBoolean? component1() {
-    return _component1(reference.pointer, _id_component1.pointer)
+    final _$$selfRef = reference;
+    return _component1(_$$selfRef.pointer, _id_component1.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -2733,7 +2804,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component2(): kotlin.Long?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? component2() {
-    return _component2(reference.pointer, _id_component2.pointer)
+    final _$$selfRef = reference;
+    return _component2(_$$selfRef.pointer, _id_component2.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -2757,7 +2829,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component3(): kotlin.Long?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? component3() {
-    return _component3(reference.pointer, _id_component3.pointer)
+    final _$$selfRef = reference;
+    return _component3(_$$selfRef.pointer, _id_component3.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -2781,7 +2854,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component4(): kotlin.Double?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDouble? component4() {
-    return _component4(reference.pointer, _id_component4.pointer)
+    final _$$selfRef = reference;
+    return _component4(_$$selfRef.pointer, _id_component4.pointer)
         .object<jni$_.JDouble?>();
   }
 
@@ -2805,7 +2879,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component5(): kotlin.ByteArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? component5() {
-    return _component5(reference.pointer, _id_component5.pointer)
+    final _$$selfRef = reference;
+    return _component5(_$$selfRef.pointer, _id_component5.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -2829,7 +2904,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component6(): kotlin.IntArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray? component6() {
-    return _component6(reference.pointer, _id_component6.pointer)
+    final _$$selfRef = reference;
+    return _component6(_$$selfRef.pointer, _id_component6.pointer)
         .object<jni$_.JIntArray?>();
   }
 
@@ -2853,7 +2929,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component7(): kotlin.LongArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLongArray? component7() {
-    return _component7(reference.pointer, _id_component7.pointer)
+    final _$$selfRef = reference;
+    return _component7(_$$selfRef.pointer, _id_component7.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -2877,7 +2954,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component8(): kotlin.DoubleArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDoubleArray? component8() {
-    return _component8(reference.pointer, _id_component8.pointer)
+    final _$$selfRef = reference;
+    return _component8(_$$selfRef.pointer, _id_component8.pointer)
         .object<jni$_.JDoubleArray?>();
   }
 
@@ -2901,7 +2979,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component9(): com.github.dart_lang.jnigen.NIAnEnum?`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnEnum? component9() {
-    return _component9(reference.pointer, _id_component9.pointer)
+    final _$$selfRef = reference;
+    return _component9(_$$selfRef.pointer, _id_component9.pointer)
         .object<NIAnEnum?>();
   }
 
@@ -2925,7 +3004,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component10(): com.github.dart_lang.jnigen.NIAnotherEnum?`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnotherEnum? component10() {
-    return _component10(reference.pointer, _id_component10.pointer)
+    final _$$selfRef = reference;
+    return _component10(_$$selfRef.pointer, _id_component10.pointer)
         .object<NIAnotherEnum?>();
   }
 
@@ -2949,7 +3029,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component11(): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? component11() {
-    return _component11(reference.pointer, _id_component11.pointer)
+    final _$$selfRef = reference;
+    return _component11(_$$selfRef.pointer, _id_component11.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2973,7 +3054,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component12(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? component12() {
-    return _component12(reference.pointer, _id_component12.pointer)
+    final _$$selfRef = reference;
+    return _component12(_$$selfRef.pointer, _id_component12.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2997,7 +3079,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component13(): com.github.dart_lang.jnigen.NIAllNullableTypes?`
   /// The returned object must be released after use, by calling the [release] method.
   NIAllNullableTypes? component13() {
-    return _component13(reference.pointer, _id_component13.pointer)
+    final _$$selfRef = reference;
+    return _component13(_$$selfRef.pointer, _id_component13.pointer)
         .object<NIAllNullableTypes?>();
   }
 
@@ -3021,7 +3104,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component14(): kotlin.collections.List<kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? component14() {
-    return _component14(reference.pointer, _id_component14.pointer)
+    final _$$selfRef = reference;
+    return _component14(_$$selfRef.pointer, _id_component14.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -3045,7 +3129,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component15(): kotlin.collections.List<kotlin.String?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? component15() {
-    return _component15(reference.pointer, _id_component15.pointer)
+    final _$$selfRef = reference;
+    return _component15(_$$selfRef.pointer, _id_component15.pointer)
         .object<jni$_.JList<jni$_.JString?>?>();
   }
 
@@ -3069,7 +3154,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component16(): kotlin.collections.List<kotlin.Long?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JLong?>? component16() {
-    return _component16(reference.pointer, _id_component16.pointer)
+    final _$$selfRef = reference;
+    return _component16(_$$selfRef.pointer, _id_component16.pointer)
         .object<jni$_.JList<jni$_.JLong?>?>();
   }
 
@@ -3093,7 +3179,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component17(): kotlin.collections.List<kotlin.Double?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JDouble?>? component17() {
-    return _component17(reference.pointer, _id_component17.pointer)
+    final _$$selfRef = reference;
+    return _component17(_$$selfRef.pointer, _id_component17.pointer)
         .object<jni$_.JList<jni$_.JDouble?>?>();
   }
 
@@ -3117,7 +3204,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component18(): kotlin.collections.List<kotlin.Boolean?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JBoolean?>? component18() {
-    return _component18(reference.pointer, _id_component18.pointer)
+    final _$$selfRef = reference;
+    return _component18(_$$selfRef.pointer, _id_component18.pointer)
         .object<jni$_.JList<jni$_.JBoolean?>?>();
   }
 
@@ -3141,7 +3229,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component19(): kotlin.collections.List<com.github.dart_lang.jnigen.NIAnEnum?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAnEnum?>? component19() {
-    return _component19(reference.pointer, _id_component19.pointer)
+    final _$$selfRef = reference;
+    return _component19(_$$selfRef.pointer, _id_component19.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
 
@@ -3165,7 +3254,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component20(): kotlin.collections.List<kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? component20() {
-    return _component20(reference.pointer, _id_component20.pointer)
+    final _$$selfRef = reference;
+    return _component20(_$$selfRef.pointer, _id_component20.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -3189,7 +3279,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component21(): kotlin.collections.List<kotlin.collections.List<kotlin.Any?>?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JObject?>?>? component21() {
-    return _component21(reference.pointer, _id_component21.pointer)
+    final _$$selfRef = reference;
+    return _component21(_$$selfRef.pointer, _id_component21.pointer)
         .object<jni$_.JList<jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -3213,7 +3304,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component22(): kotlin.collections.List<kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? component22() {
-    return _component22(reference.pointer, _id_component22.pointer)
+    final _$$selfRef = reference;
+    return _component22(_$$selfRef.pointer, _id_component22.pointer)
         .object<jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
 
@@ -3237,7 +3329,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component23(): kotlin.collections.List<com.github.dart_lang.jnigen.NIAllNullableTypes?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAllNullableTypes?>? component23() {
-    return _component23(reference.pointer, _id_component23.pointer)
+    final _$$selfRef = reference;
+    return _component23(_$$selfRef.pointer, _id_component23.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>?>();
   }
 
@@ -3261,7 +3354,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component24(): kotlin.collections.Map<kotlin.Any, kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject?>? component24() {
-    return _component24(reference.pointer, _id_component24.pointer)
+    final _$$selfRef = reference;
+    return _component24(_$$selfRef.pointer, _id_component24.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject?>?>();
   }
 
@@ -3285,7 +3379,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component25(): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? component25() {
-    return _component25(reference.pointer, _id_component25.pointer)
+    final _$$selfRef = reference;
+    return _component25(_$$selfRef.pointer, _id_component25.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
 
@@ -3309,7 +3404,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component26(): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? component26() {
-    return _component26(reference.pointer, _id_component26.pointer)
+    final _$$selfRef = reference;
+    return _component26(_$$selfRef.pointer, _id_component26.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
 
@@ -3333,7 +3429,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component27(): kotlin.collections.Map<com.github.dart_lang.jnigen.NIAnEnum?, com.github.dart_lang.jnigen.NIAnEnum?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? component27() {
-    return _component27(reference.pointer, _id_component27.pointer)
+    final _$$selfRef = reference;
+    return _component27(_$$selfRef.pointer, _id_component27.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
 
@@ -3357,7 +3454,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component28(): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? component28() {
-    return _component28(reference.pointer, _id_component28.pointer)
+    final _$$selfRef = reference;
+    return _component28(_$$selfRef.pointer, _id_component28.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
 
@@ -3381,7 +3479,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component29(): kotlin.collections.Map<kotlin.Long?, kotlin.collections.List<kotlin.Any?>?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>? component29() {
-    return _component29(reference.pointer, _id_component29.pointer)
+    final _$$selfRef = reference;
+    return _component29(_$$selfRef.pointer, _id_component29.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -3406,7 +3505,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?
       component30() {
-    return _component30(reference.pointer, _id_component30.pointer).object<
+    final _$$selfRef = reference;
+    return _component30(_$$selfRef.pointer, _id_component30.pointer).object<
         jni$_
         .JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
@@ -3431,7 +3531,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public operator fun component31(): kotlin.collections.Map<kotlin.Long?, com.github.dart_lang.jnigen.NIAllNullableTypes?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? component31() {
-    return _component31(reference.pointer, _id_component31.pointer)
+    final _$$selfRef = reference;
+    return _component31(_$$selfRef.pointer, _id_component31.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>();
   }
 
@@ -3550,6 +3651,7 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
     jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? map6,
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map7,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$long1 = long1?.reference ?? jni$_.jNullReference;
@@ -3583,7 +3685,7 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
     final _$map6 = map6?.reference ?? jni$_.jNullReference;
     final _$map7 = map7?.reference ?? jni$_.jNullReference;
     return _copy(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_copy.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -3639,7 +3741,8 @@ extension NIAllNullableTypes$$Methods on NIAllNullableTypes {
   /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<jni$_.JString>();
   }
 }
@@ -3682,9 +3785,10 @@ extension type NIAllNullableTypesWithoutRecursion$Companion._(
   factory NIAllNullableTypesWithoutRecursion$Companion(
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer,
             _$defaultConstructorMarker.pointer)
         .object<NIAllNullableTypesWithoutRecursion$Companion>();
   }
@@ -3714,8 +3818,9 @@ extension NIAllNullableTypesWithoutRecursion$Companion$$Methods
   NIAllNullableTypesWithoutRecursion fromList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _fromList(reference.pointer, _id_fromList.pointer, _$list.pointer)
+    return _fromList(_$$selfRef.pointer, _id_fromList.pointer, _$list.pointer)
         .object<NIAllNullableTypesWithoutRecursion>();
   }
 }
@@ -3857,6 +3962,7 @@ extension type NIAllNullableTypesWithoutRecursion._(jni$_.JObject _$this)
     jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>? map5,
     jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? map6,
   ) {
+    final _$$classRef = _class.reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$long1 = long1?.reference ?? jni$_.jNullReference;
@@ -3886,7 +3992,7 @@ extension type NIAllNullableTypesWithoutRecursion._(jni$_.JObject _$this)
     final _$map5 = map5?.reference ?? jni$_.jNullReference;
     final _$map6 = map6?.reference ?? jni$_.jNullReference;
     return _new$(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -4030,6 +4136,7 @@ extension type NIAllNullableTypesWithoutRecursion._(jni$_.JObject _$this)
     core$_.int i,
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$long1 = long1?.reference ?? jni$_.jNullReference;
@@ -4061,7 +4168,7 @@ extension type NIAllNullableTypesWithoutRecursion._(jni$_.JObject _$this)
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
     return _new$1(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$1.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -4115,7 +4222,8 @@ extension type NIAllNullableTypesWithoutRecursion._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory NIAllNullableTypesWithoutRecursion.new$2() {
-    return _new$2(_class.reference.pointer, _id_new$2.pointer)
+    final _$$classRef = _class.reference;
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer)
         .object<NIAllNullableTypesWithoutRecursion>();
   }
 }
@@ -4143,7 +4251,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.lang.Boolean getANullableBool()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JBoolean? get aNullableBool {
-    return _get$aNullableBool(reference.pointer, _id_get$aNullableBool.pointer)
+    final _$$selfRef = reference;
+    return _get$aNullableBool(_$$selfRef.pointer, _id_get$aNullableBool.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -4168,7 +4277,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.lang.Long getANullableInt()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? get aNullableInt {
-    return _get$aNullableInt(reference.pointer, _id_get$aNullableInt.pointer)
+    final _$$selfRef = reference;
+    return _get$aNullableInt(_$$selfRef.pointer, _id_get$aNullableInt.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -4193,8 +4303,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.lang.Long getANullableInt64()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? get aNullableInt64 {
+    final _$$selfRef = reference;
     return _get$aNullableInt64(
-            reference.pointer, _id_get$aNullableInt64.pointer)
+            _$$selfRef.pointer, _id_get$aNullableInt64.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -4219,8 +4330,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.lang.Double getANullableDouble()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDouble? get aNullableDouble {
+    final _$$selfRef = reference;
     return _get$aNullableDouble(
-            reference.pointer, _id_get$aNullableDouble.pointer)
+            _$$selfRef.pointer, _id_get$aNullableDouble.pointer)
         .object<jni$_.JDouble?>();
   }
 
@@ -4245,8 +4357,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final byte[] getANullableByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? get aNullableByteArray {
+    final _$$selfRef = reference;
     return _get$aNullableByteArray(
-            reference.pointer, _id_get$aNullableByteArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullableByteArray.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -4271,8 +4384,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final int[] getANullable4ByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray? get aNullable4ByteArray {
+    final _$$selfRef = reference;
     return _get$aNullable4ByteArray(
-            reference.pointer, _id_get$aNullable4ByteArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullable4ByteArray.pointer)
         .object<jni$_.JIntArray?>();
   }
 
@@ -4297,8 +4411,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final long[] getANullable8ByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLongArray? get aNullable8ByteArray {
+    final _$$selfRef = reference;
     return _get$aNullable8ByteArray(
-            reference.pointer, _id_get$aNullable8ByteArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullable8ByteArray.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -4323,8 +4438,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final double[] getANullableFloatArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDoubleArray? get aNullableFloatArray {
+    final _$$selfRef = reference;
     return _get$aNullableFloatArray(
-            reference.pointer, _id_get$aNullableFloatArray.pointer)
+            _$$selfRef.pointer, _id_get$aNullableFloatArray.pointer)
         .object<jni$_.JDoubleArray?>();
   }
 
@@ -4349,7 +4465,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final com.github.dart_lang.jnigen.NIAnEnum getANullableEnum()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnEnum? get aNullableEnum {
-    return _get$aNullableEnum(reference.pointer, _id_get$aNullableEnum.pointer)
+    final _$$selfRef = reference;
+    return _get$aNullableEnum(_$$selfRef.pointer, _id_get$aNullableEnum.pointer)
         .object<NIAnEnum?>();
   }
 
@@ -4374,8 +4491,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final com.github.dart_lang.jnigen.NIAnotherEnum getAnotherNullableEnum()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnotherEnum? get anotherNullableEnum {
+    final _$$selfRef = reference;
     return _get$anotherNullableEnum(
-            reference.pointer, _id_get$anotherNullableEnum.pointer)
+            _$$selfRef.pointer, _id_get$anotherNullableEnum.pointer)
         .object<NIAnotherEnum?>();
   }
 
@@ -4400,8 +4518,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.lang.String getANullableString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get aNullableString {
+    final _$$selfRef = reference;
     return _get$aNullableString(
-            reference.pointer, _id_get$aNullableString.pointer)
+            _$$selfRef.pointer, _id_get$aNullableString.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -4426,8 +4545,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.lang.Object getANullableObject()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get aNullableObject {
+    final _$$selfRef = reference;
     return _get$aNullableObject(
-            reference.pointer, _id_get$aNullableObject.pointer)
+            _$$selfRef.pointer, _id_get$aNullableObject.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -4452,7 +4572,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.lang.Object> getList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? get list {
-    return _get$list(reference.pointer, _id_get$list.pointer)
+    final _$$selfRef = reference;
+    return _get$list(_$$selfRef.pointer, _id_get$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -4477,7 +4598,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.lang.String> getStringList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? get stringList {
-    return _get$stringList(reference.pointer, _id_get$stringList.pointer)
+    final _$$selfRef = reference;
+    return _get$stringList(_$$selfRef.pointer, _id_get$stringList.pointer)
         .object<jni$_.JList<jni$_.JString?>?>();
   }
 
@@ -4502,7 +4624,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.lang.Long> getIntList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JLong?>? get intList {
-    return _get$intList(reference.pointer, _id_get$intList.pointer)
+    final _$$selfRef = reference;
+    return _get$intList(_$$selfRef.pointer, _id_get$intList.pointer)
         .object<jni$_.JList<jni$_.JLong?>?>();
   }
 
@@ -4527,7 +4650,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.lang.Double> getDoubleList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JDouble?>? get doubleList {
-    return _get$doubleList(reference.pointer, _id_get$doubleList.pointer)
+    final _$$selfRef = reference;
+    return _get$doubleList(_$$selfRef.pointer, _id_get$doubleList.pointer)
         .object<jni$_.JList<jni$_.JDouble?>?>();
   }
 
@@ -4552,7 +4676,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.lang.Boolean> getBoolList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JBoolean?>? get boolList {
-    return _get$boolList(reference.pointer, _id_get$boolList.pointer)
+    final _$$selfRef = reference;
+    return _get$boolList(_$$selfRef.pointer, _id_get$boolList.pointer)
         .object<jni$_.JList<jni$_.JBoolean?>?>();
   }
 
@@ -4577,7 +4702,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<com.github.dart_lang.jnigen.NIAnEnum> getEnumList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAnEnum?>? get enumList {
-    return _get$enumList(reference.pointer, _id_get$enumList.pointer)
+    final _$$selfRef = reference;
+    return _get$enumList(_$$selfRef.pointer, _id_get$enumList.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
 
@@ -4602,7 +4728,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.lang.Object> getObjectList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? get objectList {
-    return _get$objectList(reference.pointer, _id_get$objectList.pointer)
+    final _$$selfRef = reference;
+    return _get$objectList(_$$selfRef.pointer, _id_get$objectList.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -4627,7 +4754,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.util.List<java.lang.Object>> getListList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JObject?>?>? get listList {
-    return _get$listList(reference.pointer, _id_get$listList.pointer)
+    final _$$selfRef = reference;
+    return _get$listList(_$$selfRef.pointer, _id_get$listList.pointer)
         .object<jni$_.JList<jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -4652,7 +4780,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.List<java.util.Map<java.lang.Object, java.lang.Object>> getMapList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? get mapList {
-    return _get$mapList(reference.pointer, _id_get$mapList.pointer)
+    final _$$selfRef = reference;
+    return _get$mapList(_$$selfRef.pointer, _id_get$mapList.pointer)
         .object<jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
 
@@ -4677,7 +4806,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.Map<java.lang.Object, java.lang.Object> getMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject?>? get map {
-    return _get$map(reference.pointer, _id_get$map.pointer)
+    final _$$selfRef = reference;
+    return _get$map(_$$selfRef.pointer, _id_get$map.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject?>?>();
   }
 
@@ -4702,7 +4832,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.Map<java.lang.String, java.lang.String> getStringMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? get stringMap {
-    return _get$stringMap(reference.pointer, _id_get$stringMap.pointer)
+    final _$$selfRef = reference;
+    return _get$stringMap(_$$selfRef.pointer, _id_get$stringMap.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
 
@@ -4727,7 +4858,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.Map<java.lang.Long, java.lang.Long> getIntMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? get intMap {
-    return _get$intMap(reference.pointer, _id_get$intMap.pointer)
+    final _$$selfRef = reference;
+    return _get$intMap(_$$selfRef.pointer, _id_get$intMap.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
 
@@ -4752,7 +4884,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.Map<com.github.dart_lang.jnigen.NIAnEnum, com.github.dart_lang.jnigen.NIAnEnum> getEnumMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? get enumMap {
-    return _get$enumMap(reference.pointer, _id_get$enumMap.pointer)
+    final _$$selfRef = reference;
+    return _get$enumMap(_$$selfRef.pointer, _id_get$enumMap.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
 
@@ -4777,7 +4910,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.Map<java.lang.Object, java.lang.Object> getObjectMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? get objectMap {
-    return _get$objectMap(reference.pointer, _id_get$objectMap.pointer)
+    final _$$selfRef = reference;
+    return _get$objectMap(_$$selfRef.pointer, _id_get$objectMap.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
 
@@ -4802,7 +4936,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public final java.util.Map<java.lang.Long, java.util.List<java.lang.Object>> getListMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>? get listMap {
-    return _get$listMap(reference.pointer, _id_get$listMap.pointer)
+    final _$$selfRef = reference;
+    return _get$listMap(_$$selfRef.pointer, _id_get$listMap.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -4828,7 +4963,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?
       get mapMap {
-    return _get$mapMap(reference.pointer, _id_get$mapMap.pointer).object<
+    final _$$selfRef = reference;
+    return _get$mapMap(_$$selfRef.pointer, _id_get$mapMap.pointer).object<
         jni$_
         .JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
@@ -4854,7 +4990,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public fun toList(): kotlin.collections.List<kotlin.Any?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> toList() {
-    return _toList(reference.pointer, _id_toList.pointer)
+    final _$$selfRef = reference;
+    return _toList(_$$selfRef.pointer, _id_toList.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -4879,8 +5016,9 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -4904,7 +5042,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
 
   /// from: `public fun hashCode(): kotlin.Int`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_component1 =
@@ -4928,7 +5067,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component1(): kotlin.Boolean?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JBoolean? component1() {
-    return _component1(reference.pointer, _id_component1.pointer)
+    final _$$selfRef = reference;
+    return _component1(_$$selfRef.pointer, _id_component1.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -4953,7 +5093,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component2(): kotlin.Long?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? component2() {
-    return _component2(reference.pointer, _id_component2.pointer)
+    final _$$selfRef = reference;
+    return _component2(_$$selfRef.pointer, _id_component2.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -4978,7 +5119,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component3(): kotlin.Long?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLong? component3() {
-    return _component3(reference.pointer, _id_component3.pointer)
+    final _$$selfRef = reference;
+    return _component3(_$$selfRef.pointer, _id_component3.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -5003,7 +5145,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component4(): kotlin.Double?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDouble? component4() {
-    return _component4(reference.pointer, _id_component4.pointer)
+    final _$$selfRef = reference;
+    return _component4(_$$selfRef.pointer, _id_component4.pointer)
         .object<jni$_.JDouble?>();
   }
 
@@ -5028,7 +5171,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component5(): kotlin.ByteArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? component5() {
-    return _component5(reference.pointer, _id_component5.pointer)
+    final _$$selfRef = reference;
+    return _component5(_$$selfRef.pointer, _id_component5.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -5053,7 +5197,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component6(): kotlin.IntArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray? component6() {
-    return _component6(reference.pointer, _id_component6.pointer)
+    final _$$selfRef = reference;
+    return _component6(_$$selfRef.pointer, _id_component6.pointer)
         .object<jni$_.JIntArray?>();
   }
 
@@ -5078,7 +5223,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component7(): kotlin.LongArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLongArray? component7() {
-    return _component7(reference.pointer, _id_component7.pointer)
+    final _$$selfRef = reference;
+    return _component7(_$$selfRef.pointer, _id_component7.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -5103,7 +5249,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component8(): kotlin.DoubleArray?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDoubleArray? component8() {
-    return _component8(reference.pointer, _id_component8.pointer)
+    final _$$selfRef = reference;
+    return _component8(_$$selfRef.pointer, _id_component8.pointer)
         .object<jni$_.JDoubleArray?>();
   }
 
@@ -5128,7 +5275,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component9(): com.github.dart_lang.jnigen.NIAnEnum?`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnEnum? component9() {
-    return _component9(reference.pointer, _id_component9.pointer)
+    final _$$selfRef = reference;
+    return _component9(_$$selfRef.pointer, _id_component9.pointer)
         .object<NIAnEnum?>();
   }
 
@@ -5153,7 +5301,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component10(): com.github.dart_lang.jnigen.NIAnotherEnum?`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnotherEnum? component10() {
-    return _component10(reference.pointer, _id_component10.pointer)
+    final _$$selfRef = reference;
+    return _component10(_$$selfRef.pointer, _id_component10.pointer)
         .object<NIAnotherEnum?>();
   }
 
@@ -5178,7 +5327,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component11(): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? component11() {
-    return _component11(reference.pointer, _id_component11.pointer)
+    final _$$selfRef = reference;
+    return _component11(_$$selfRef.pointer, _id_component11.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -5203,7 +5353,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component12(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? component12() {
-    return _component12(reference.pointer, _id_component12.pointer)
+    final _$$selfRef = reference;
+    return _component12(_$$selfRef.pointer, _id_component12.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -5228,7 +5379,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component13(): kotlin.collections.List<kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? component13() {
-    return _component13(reference.pointer, _id_component13.pointer)
+    final _$$selfRef = reference;
+    return _component13(_$$selfRef.pointer, _id_component13.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -5253,7 +5405,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component14(): kotlin.collections.List<kotlin.String?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? component14() {
-    return _component14(reference.pointer, _id_component14.pointer)
+    final _$$selfRef = reference;
+    return _component14(_$$selfRef.pointer, _id_component14.pointer)
         .object<jni$_.JList<jni$_.JString?>?>();
   }
 
@@ -5278,7 +5431,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component15(): kotlin.collections.List<kotlin.Long?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JLong?>? component15() {
-    return _component15(reference.pointer, _id_component15.pointer)
+    final _$$selfRef = reference;
+    return _component15(_$$selfRef.pointer, _id_component15.pointer)
         .object<jni$_.JList<jni$_.JLong?>?>();
   }
 
@@ -5303,7 +5457,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component16(): kotlin.collections.List<kotlin.Double?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JDouble?>? component16() {
-    return _component16(reference.pointer, _id_component16.pointer)
+    final _$$selfRef = reference;
+    return _component16(_$$selfRef.pointer, _id_component16.pointer)
         .object<jni$_.JList<jni$_.JDouble?>?>();
   }
 
@@ -5328,7 +5483,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component17(): kotlin.collections.List<kotlin.Boolean?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JBoolean?>? component17() {
-    return _component17(reference.pointer, _id_component17.pointer)
+    final _$$selfRef = reference;
+    return _component17(_$$selfRef.pointer, _id_component17.pointer)
         .object<jni$_.JList<jni$_.JBoolean?>?>();
   }
 
@@ -5353,7 +5509,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component18(): kotlin.collections.List<com.github.dart_lang.jnigen.NIAnEnum?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAnEnum?>? component18() {
-    return _component18(reference.pointer, _id_component18.pointer)
+    final _$$selfRef = reference;
+    return _component18(_$$selfRef.pointer, _id_component18.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
 
@@ -5378,7 +5535,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component19(): kotlin.collections.List<kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?>? component19() {
-    return _component19(reference.pointer, _id_component19.pointer)
+    final _$$selfRef = reference;
+    return _component19(_$$selfRef.pointer, _id_component19.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -5403,7 +5561,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component20(): kotlin.collections.List<kotlin.collections.List<kotlin.Any?>?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JObject?>?>? component20() {
-    return _component20(reference.pointer, _id_component20.pointer)
+    final _$$selfRef = reference;
+    return _component20(_$$selfRef.pointer, _id_component20.pointer)
         .object<jni$_.JList<jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -5428,7 +5587,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component21(): kotlin.collections.List<kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? component21() {
-    return _component21(reference.pointer, _id_component21.pointer)
+    final _$$selfRef = reference;
+    return _component21(_$$selfRef.pointer, _id_component21.pointer)
         .object<jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
 
@@ -5453,7 +5613,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component22(): kotlin.collections.Map<kotlin.Any, kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject?>? component22() {
-    return _component22(reference.pointer, _id_component22.pointer)
+    final _$$selfRef = reference;
+    return _component22(_$$selfRef.pointer, _id_component22.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject?>?>();
   }
 
@@ -5478,7 +5639,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component23(): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? component23() {
-    return _component23(reference.pointer, _id_component23.pointer)
+    final _$$selfRef = reference;
+    return _component23(_$$selfRef.pointer, _id_component23.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
 
@@ -5503,7 +5665,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component24(): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? component24() {
-    return _component24(reference.pointer, _id_component24.pointer)
+    final _$$selfRef = reference;
+    return _component24(_$$selfRef.pointer, _id_component24.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
 
@@ -5528,7 +5691,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component25(): kotlin.collections.Map<com.github.dart_lang.jnigen.NIAnEnum?, com.github.dart_lang.jnigen.NIAnEnum?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? component25() {
-    return _component25(reference.pointer, _id_component25.pointer)
+    final _$$selfRef = reference;
+    return _component25(_$$selfRef.pointer, _id_component25.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
 
@@ -5553,7 +5717,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component26(): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? component26() {
-    return _component26(reference.pointer, _id_component26.pointer)
+    final _$$selfRef = reference;
+    return _component26(_$$selfRef.pointer, _id_component26.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
 
@@ -5578,7 +5743,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public operator fun component27(): kotlin.collections.Map<kotlin.Long?, kotlin.collections.List<kotlin.Any?>?>?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>? component27() {
-    return _component27(reference.pointer, _id_component27.pointer)
+    final _$$selfRef = reference;
+    return _component27(_$$selfRef.pointer, _id_component27.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>?>();
   }
 
@@ -5604,7 +5770,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?
       component28() {
-    return _component28(reference.pointer, _id_component28.pointer).object<
+    final _$$selfRef = reference;
+    return _component28(_$$selfRef.pointer, _id_component28.pointer).object<
         jni$_
         .JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>?>();
   }
@@ -5716,6 +5883,7 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
     jni$_.JMap<jni$_.JLong?, jni$_.JList<jni$_.JObject?>?>? map5,
     jni$_.JMap<jni$_.JLong?, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>? map6,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$long1 = long1?.reference ?? jni$_.jNullReference;
@@ -5745,7 +5913,7 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
     final _$map5 = map5?.reference ?? jni$_.jNullReference;
     final _$map6 = map6?.reference ?? jni$_.jNullReference;
     return _copy(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_copy.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -5799,7 +5967,8 @@ extension NIAllNullableTypesWithoutRecursion$$Methods
   /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<jni$_.JString>();
   }
 }
@@ -5844,9 +6013,10 @@ extension type NIAllTypes$Companion._(jni$_.JObject _$this)
   factory NIAllTypes$Companion(
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer,
             _$defaultConstructorMarker.pointer)
         .object<NIAllTypes$Companion>();
   }
@@ -5874,8 +6044,9 @@ extension NIAllTypes$Companion$$Methods on NIAllTypes$Companion {
   NIAllTypes fromList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _fromList(reference.pointer, _id_fromList.pointer, _$list.pointer)
+    return _fromList(_$$selfRef.pointer, _id_fromList.pointer, _$list.pointer)
         .object<NIAllTypes>();
   }
 }
@@ -6013,6 +6184,7 @@ extension type NIAllTypes._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JMap<jni$_.JLong, jni$_.JList<jni$_.JObject?>> map5,
     jni$_.JMap<jni$_.JLong, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> map6,
   ) {
+    final _$$classRef = _class.reference;
     final _$bs = bs.reference;
     final _$is$ = is$.reference;
     final _$js = js.reference;
@@ -6038,7 +6210,7 @@ extension type NIAllTypes._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$map5 = map5.reference;
     final _$map6 = map6.reference;
     return _new$(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$.pointer,
             z ? 1 : 0,
             j,
@@ -6092,7 +6264,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public final boolean getABool()`
   core$_.bool get aBool {
-    return _get$aBool(reference.pointer, _id_get$aBool.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$aBool(_$$selfRef.pointer, _id_get$aBool.pointer).boolean;
   }
 
   static final _id_get$anInt = NIAllTypes._class.instanceMethodId(
@@ -6114,7 +6287,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public final long getAnInt()`
   core$_.int get anInt {
-    return _get$anInt(reference.pointer, _id_get$anInt.pointer).long;
+    final _$$selfRef = reference;
+    return _get$anInt(_$$selfRef.pointer, _id_get$anInt.pointer).long;
   }
 
   static final _id_get$anInt64 = NIAllTypes._class.instanceMethodId(
@@ -6136,7 +6310,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public final long getAnInt64()`
   core$_.int get anInt64 {
-    return _get$anInt64(reference.pointer, _id_get$anInt64.pointer).long;
+    final _$$selfRef = reference;
+    return _get$anInt64(_$$selfRef.pointer, _id_get$anInt64.pointer).long;
   }
 
   static final _id_get$aDouble = NIAllTypes._class.instanceMethodId(
@@ -6158,7 +6333,9 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public final double getADouble()`
   core$_.double get aDouble {
-    return _get$aDouble(reference.pointer, _id_get$aDouble.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _get$aDouble(_$$selfRef.pointer, _id_get$aDouble.pointer)
+        .doubleFloat;
   }
 
   static final _id_get$aByteArray = NIAllTypes._class.instanceMethodId(
@@ -6181,7 +6358,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final byte[] getAByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray get aByteArray {
-    return _get$aByteArray(reference.pointer, _id_get$aByteArray.pointer)
+    final _$$selfRef = reference;
+    return _get$aByteArray(_$$selfRef.pointer, _id_get$aByteArray.pointer)
         .object<jni$_.JByteArray>();
   }
 
@@ -6205,7 +6383,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final int[] getA4ByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray get a4ByteArray {
-    return _get$a4ByteArray(reference.pointer, _id_get$a4ByteArray.pointer)
+    final _$$selfRef = reference;
+    return _get$a4ByteArray(_$$selfRef.pointer, _id_get$a4ByteArray.pointer)
         .object<jni$_.JIntArray>();
   }
 
@@ -6229,7 +6408,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final long[] getA8ByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLongArray get a8ByteArray {
-    return _get$a8ByteArray(reference.pointer, _id_get$a8ByteArray.pointer)
+    final _$$selfRef = reference;
+    return _get$a8ByteArray(_$$selfRef.pointer, _id_get$a8ByteArray.pointer)
         .object<jni$_.JLongArray>();
   }
 
@@ -6253,7 +6433,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final double[] getAFloatArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDoubleArray get aFloatArray {
-    return _get$aFloatArray(reference.pointer, _id_get$aFloatArray.pointer)
+    final _$$selfRef = reference;
+    return _get$aFloatArray(_$$selfRef.pointer, _id_get$aFloatArray.pointer)
         .object<jni$_.JDoubleArray>();
   }
 
@@ -6277,7 +6458,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final com.github.dart_lang.jnigen.NIAnEnum getAnEnum()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnEnum get anEnum {
-    return _get$anEnum(reference.pointer, _id_get$anEnum.pointer)
+    final _$$selfRef = reference;
+    return _get$anEnum(_$$selfRef.pointer, _id_get$anEnum.pointer)
         .object<NIAnEnum>();
   }
 
@@ -6301,7 +6483,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final com.github.dart_lang.jnigen.NIAnotherEnum getAnotherEnum()`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnotherEnum get anotherEnum {
-    return _get$anotherEnum(reference.pointer, _id_get$anotherEnum.pointer)
+    final _$$selfRef = reference;
+    return _get$anotherEnum(_$$selfRef.pointer, _id_get$anotherEnum.pointer)
         .object<NIAnotherEnum>();
   }
 
@@ -6325,7 +6508,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.lang.String getAString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString get aString {
-    return _get$aString(reference.pointer, _id_get$aString.pointer)
+    final _$$selfRef = reference;
+    return _get$aString(_$$selfRef.pointer, _id_get$aString.pointer)
         .object<jni$_.JString>();
   }
 
@@ -6349,7 +6533,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.lang.Object getAnObject()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject get anObject {
-    return _get$anObject(reference.pointer, _id_get$anObject.pointer)
+    final _$$selfRef = reference;
+    return _get$anObject(_$$selfRef.pointer, _id_get$anObject.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -6373,7 +6558,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.lang.Object> getList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> get list {
-    return _get$list(reference.pointer, _id_get$list.pointer)
+    final _$$selfRef = reference;
+    return _get$list(_$$selfRef.pointer, _id_get$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -6397,7 +6583,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.lang.String> getStringList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString> get stringList {
-    return _get$stringList(reference.pointer, _id_get$stringList.pointer)
+    final _$$selfRef = reference;
+    return _get$stringList(_$$selfRef.pointer, _id_get$stringList.pointer)
         .object<jni$_.JList<jni$_.JString>>();
   }
 
@@ -6421,7 +6608,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.lang.Long> getIntList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JLong> get intList {
-    return _get$intList(reference.pointer, _id_get$intList.pointer)
+    final _$$selfRef = reference;
+    return _get$intList(_$$selfRef.pointer, _id_get$intList.pointer)
         .object<jni$_.JList<jni$_.JLong>>();
   }
 
@@ -6445,7 +6633,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.lang.Double> getDoubleList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JDouble> get doubleList {
-    return _get$doubleList(reference.pointer, _id_get$doubleList.pointer)
+    final _$$selfRef = reference;
+    return _get$doubleList(_$$selfRef.pointer, _id_get$doubleList.pointer)
         .object<jni$_.JList<jni$_.JDouble>>();
   }
 
@@ -6469,7 +6658,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.lang.Boolean> getBoolList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JBoolean> get boolList {
-    return _get$boolList(reference.pointer, _id_get$boolList.pointer)
+    final _$$selfRef = reference;
+    return _get$boolList(_$$selfRef.pointer, _id_get$boolList.pointer)
         .object<jni$_.JList<jni$_.JBoolean>>();
   }
 
@@ -6493,7 +6683,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<com.github.dart_lang.jnigen.NIAnEnum> getEnumList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAnEnum> get enumList {
-    return _get$enumList(reference.pointer, _id_get$enumList.pointer)
+    final _$$selfRef = reference;
+    return _get$enumList(_$$selfRef.pointer, _id_get$enumList.pointer)
         .object<jni$_.JList<NIAnEnum>>();
   }
 
@@ -6517,7 +6708,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.lang.Object> getObjectList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject> get objectList {
-    return _get$objectList(reference.pointer, _id_get$objectList.pointer)
+    final _$$selfRef = reference;
+    return _get$objectList(_$$selfRef.pointer, _id_get$objectList.pointer)
         .object<jni$_.JList<jni$_.JObject>>();
   }
 
@@ -6541,7 +6733,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.util.List<java.lang.Object>> getListList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JObject?>> get listList {
-    return _get$listList(reference.pointer, _id_get$listList.pointer)
+    final _$$selfRef = reference;
+    return _get$listList(_$$selfRef.pointer, _id_get$listList.pointer)
         .object<jni$_.JList<jni$_.JList<jni$_.JObject?>>>();
   }
 
@@ -6565,7 +6758,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.List<java.util.Map<java.lang.Object, java.lang.Object>> getMapList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> get mapList {
-    return _get$mapList(reference.pointer, _id_get$mapList.pointer)
+    final _$$selfRef = reference;
+    return _get$mapList(_$$selfRef.pointer, _id_get$mapList.pointer)
         .object<jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>>();
   }
 
@@ -6589,7 +6783,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.Map<java.lang.Object, java.lang.Object> getMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject?> get map {
-    return _get$map(reference.pointer, _id_get$map.pointer)
+    final _$$selfRef = reference;
+    return _get$map(_$$selfRef.pointer, _id_get$map.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject?>>();
   }
 
@@ -6613,7 +6808,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.Map<java.lang.String, java.lang.String> getStringMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JString, jni$_.JString> get stringMap {
-    return _get$stringMap(reference.pointer, _id_get$stringMap.pointer)
+    final _$$selfRef = reference;
+    return _get$stringMap(_$$selfRef.pointer, _id_get$stringMap.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>>();
   }
 
@@ -6637,7 +6833,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.Map<java.lang.Long, java.lang.Long> getIntMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong, jni$_.JLong> get intMap {
-    return _get$intMap(reference.pointer, _id_get$intMap.pointer)
+    final _$$selfRef = reference;
+    return _get$intMap(_$$selfRef.pointer, _id_get$intMap.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>>();
   }
 
@@ -6661,7 +6858,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.Map<com.github.dart_lang.jnigen.NIAnEnum, com.github.dart_lang.jnigen.NIAnEnum> getEnumMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<NIAnEnum, NIAnEnum> get enumMap {
-    return _get$enumMap(reference.pointer, _id_get$enumMap.pointer)
+    final _$$selfRef = reference;
+    return _get$enumMap(_$$selfRef.pointer, _id_get$enumMap.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>>();
   }
 
@@ -6685,7 +6883,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.Map<java.lang.Object, java.lang.Object> getObjectMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject> get objectMap {
-    return _get$objectMap(reference.pointer, _id_get$objectMap.pointer)
+    final _$$selfRef = reference;
+    return _get$objectMap(_$$selfRef.pointer, _id_get$objectMap.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject>>();
   }
 
@@ -6709,7 +6908,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public final java.util.Map<java.lang.Long, java.util.List<java.lang.Object>> getListMap()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong, jni$_.JList<jni$_.JObject?>> get listMap {
-    return _get$listMap(reference.pointer, _id_get$listMap.pointer)
+    final _$$selfRef = reference;
+    return _get$listMap(_$$selfRef.pointer, _id_get$listMap.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JList<jni$_.JObject?>>>();
   }
 
@@ -6734,7 +6934,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>
       get mapMap {
-    return _get$mapMap(reference.pointer, _id_get$mapMap.pointer).object<
+    final _$$selfRef = reference;
+    return _get$mapMap(_$$selfRef.pointer, _id_get$mapMap.pointer).object<
         jni$_.JMap<jni$_.JLong, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>>();
   }
 
@@ -6758,7 +6959,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public fun toList(): kotlin.collections.List<kotlin.Any?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> toList() {
-    return _toList(reference.pointer, _id_toList.pointer)
+    final _$$selfRef = reference;
+    return _toList(_$$selfRef.pointer, _id_toList.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -6782,8 +6984,9 @@ extension NIAllTypes$$Methods on NIAllTypes {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -6806,7 +7009,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public fun hashCode(): kotlin.Int`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_component1 = NIAllTypes._class.instanceMethodId(
@@ -6828,7 +7032,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public operator fun component1(): kotlin.Boolean`
   core$_.bool component1() {
-    return _component1(reference.pointer, _id_component1.pointer).boolean;
+    final _$$selfRef = reference;
+    return _component1(_$$selfRef.pointer, _id_component1.pointer).boolean;
   }
 
   static final _id_component2 = NIAllTypes._class.instanceMethodId(
@@ -6850,7 +7055,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public operator fun component2(): kotlin.Long`
   core$_.int component2() {
-    return _component2(reference.pointer, _id_component2.pointer).long;
+    final _$$selfRef = reference;
+    return _component2(_$$selfRef.pointer, _id_component2.pointer).long;
   }
 
   static final _id_component3 = NIAllTypes._class.instanceMethodId(
@@ -6872,7 +7078,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public operator fun component3(): kotlin.Long`
   core$_.int component3() {
-    return _component3(reference.pointer, _id_component3.pointer).long;
+    final _$$selfRef = reference;
+    return _component3(_$$selfRef.pointer, _id_component3.pointer).long;
   }
 
   static final _id_component4 = NIAllTypes._class.instanceMethodId(
@@ -6894,7 +7101,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
 
   /// from: `public operator fun component4(): kotlin.Double`
   core$_.double component4() {
-    return _component4(reference.pointer, _id_component4.pointer).doubleFloat;
+    final _$$selfRef = reference;
+    return _component4(_$$selfRef.pointer, _id_component4.pointer).doubleFloat;
   }
 
   static final _id_component5 = NIAllTypes._class.instanceMethodId(
@@ -6917,7 +7125,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component5(): kotlin.ByteArray`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray component5() {
-    return _component5(reference.pointer, _id_component5.pointer)
+    final _$$selfRef = reference;
+    return _component5(_$$selfRef.pointer, _id_component5.pointer)
         .object<jni$_.JByteArray>();
   }
 
@@ -6941,7 +7150,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component6(): kotlin.IntArray`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray component6() {
-    return _component6(reference.pointer, _id_component6.pointer)
+    final _$$selfRef = reference;
+    return _component6(_$$selfRef.pointer, _id_component6.pointer)
         .object<jni$_.JIntArray>();
   }
 
@@ -6965,7 +7175,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component7(): kotlin.LongArray`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JLongArray component7() {
-    return _component7(reference.pointer, _id_component7.pointer)
+    final _$$selfRef = reference;
+    return _component7(_$$selfRef.pointer, _id_component7.pointer)
         .object<jni$_.JLongArray>();
   }
 
@@ -6989,7 +7200,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component8(): kotlin.DoubleArray`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JDoubleArray component8() {
-    return _component8(reference.pointer, _id_component8.pointer)
+    final _$$selfRef = reference;
+    return _component8(_$$selfRef.pointer, _id_component8.pointer)
         .object<jni$_.JDoubleArray>();
   }
 
@@ -7013,7 +7225,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component9(): com.github.dart_lang.jnigen.NIAnEnum`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnEnum component9() {
-    return _component9(reference.pointer, _id_component9.pointer)
+    final _$$selfRef = reference;
+    return _component9(_$$selfRef.pointer, _id_component9.pointer)
         .object<NIAnEnum>();
   }
 
@@ -7037,7 +7250,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component10(): com.github.dart_lang.jnigen.NIAnotherEnum`
   /// The returned object must be released after use, by calling the [release] method.
   NIAnotherEnum component10() {
-    return _component10(reference.pointer, _id_component10.pointer)
+    final _$$selfRef = reference;
+    return _component10(_$$selfRef.pointer, _id_component10.pointer)
         .object<NIAnotherEnum>();
   }
 
@@ -7061,7 +7275,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component11(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString component11() {
-    return _component11(reference.pointer, _id_component11.pointer)
+    final _$$selfRef = reference;
+    return _component11(_$$selfRef.pointer, _id_component11.pointer)
         .object<jni$_.JString>();
   }
 
@@ -7085,7 +7300,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component12(): kotlin.Any`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject component12() {
-    return _component12(reference.pointer, _id_component12.pointer)
+    final _$$selfRef = reference;
+    return _component12(_$$selfRef.pointer, _id_component12.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -7109,7 +7325,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component13(): kotlin.collections.List<kotlin.Any?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> component13() {
-    return _component13(reference.pointer, _id_component13.pointer)
+    final _$$selfRef = reference;
+    return _component13(_$$selfRef.pointer, _id_component13.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -7133,7 +7350,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component14(): kotlin.collections.List<kotlin.String>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString> component14() {
-    return _component14(reference.pointer, _id_component14.pointer)
+    final _$$selfRef = reference;
+    return _component14(_$$selfRef.pointer, _id_component14.pointer)
         .object<jni$_.JList<jni$_.JString>>();
   }
 
@@ -7157,7 +7375,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component15(): kotlin.collections.List<kotlin.Long>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JLong> component15() {
-    return _component15(reference.pointer, _id_component15.pointer)
+    final _$$selfRef = reference;
+    return _component15(_$$selfRef.pointer, _id_component15.pointer)
         .object<jni$_.JList<jni$_.JLong>>();
   }
 
@@ -7181,7 +7400,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component16(): kotlin.collections.List<kotlin.Double>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JDouble> component16() {
-    return _component16(reference.pointer, _id_component16.pointer)
+    final _$$selfRef = reference;
+    return _component16(_$$selfRef.pointer, _id_component16.pointer)
         .object<jni$_.JList<jni$_.JDouble>>();
   }
 
@@ -7205,7 +7425,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component17(): kotlin.collections.List<kotlin.Boolean>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JBoolean> component17() {
-    return _component17(reference.pointer, _id_component17.pointer)
+    final _$$selfRef = reference;
+    return _component17(_$$selfRef.pointer, _id_component17.pointer)
         .object<jni$_.JList<jni$_.JBoolean>>();
   }
 
@@ -7229,7 +7450,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component18(): kotlin.collections.List<com.github.dart_lang.jnigen.NIAnEnum>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<NIAnEnum> component18() {
-    return _component18(reference.pointer, _id_component18.pointer)
+    final _$$selfRef = reference;
+    return _component18(_$$selfRef.pointer, _id_component18.pointer)
         .object<jni$_.JList<NIAnEnum>>();
   }
 
@@ -7253,7 +7475,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component19(): kotlin.collections.List<kotlin.Any>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject> component19() {
-    return _component19(reference.pointer, _id_component19.pointer)
+    final _$$selfRef = reference;
+    return _component19(_$$selfRef.pointer, _id_component19.pointer)
         .object<jni$_.JList<jni$_.JObject>>();
   }
 
@@ -7277,7 +7500,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component20(): kotlin.collections.List<kotlin.collections.List<kotlin.Any?>>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JObject?>> component20() {
-    return _component20(reference.pointer, _id_component20.pointer)
+    final _$$selfRef = reference;
+    return _component20(_$$selfRef.pointer, _id_component20.pointer)
         .object<jni$_.JList<jni$_.JList<jni$_.JObject?>>>();
   }
 
@@ -7301,7 +7525,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component21(): kotlin.collections.List<kotlin.collections.Map<kotlin.Any?, kotlin.Any?>>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> component21() {
-    return _component21(reference.pointer, _id_component21.pointer)
+    final _$$selfRef = reference;
+    return _component21(_$$selfRef.pointer, _id_component21.pointer)
         .object<jni$_.JList<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>>();
   }
 
@@ -7325,7 +7550,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component22(): kotlin.collections.Map<kotlin.Any, kotlin.Any?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject?> component22() {
-    return _component22(reference.pointer, _id_component22.pointer)
+    final _$$selfRef = reference;
+    return _component22(_$$selfRef.pointer, _id_component22.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject?>>();
   }
 
@@ -7349,7 +7575,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component23(): kotlin.collections.Map<kotlin.String, kotlin.String>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JString, jni$_.JString> component23() {
-    return _component23(reference.pointer, _id_component23.pointer)
+    final _$$selfRef = reference;
+    return _component23(_$$selfRef.pointer, _id_component23.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>>();
   }
 
@@ -7373,7 +7600,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component24(): kotlin.collections.Map<kotlin.Long, kotlin.Long>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong, jni$_.JLong> component24() {
-    return _component24(reference.pointer, _id_component24.pointer)
+    final _$$selfRef = reference;
+    return _component24(_$$selfRef.pointer, _id_component24.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>>();
   }
 
@@ -7397,7 +7625,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component25(): kotlin.collections.Map<com.github.dart_lang.jnigen.NIAnEnum, com.github.dart_lang.jnigen.NIAnEnum>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<NIAnEnum, NIAnEnum> component25() {
-    return _component25(reference.pointer, _id_component25.pointer)
+    final _$$selfRef = reference;
+    return _component25(_$$selfRef.pointer, _id_component25.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>>();
   }
 
@@ -7421,7 +7650,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component26(): kotlin.collections.Map<kotlin.Any, kotlin.Any>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JObject, jni$_.JObject> component26() {
-    return _component26(reference.pointer, _id_component26.pointer)
+    final _$$selfRef = reference;
+    return _component26(_$$selfRef.pointer, _id_component26.pointer)
         .object<jni$_.JMap<jni$_.JObject, jni$_.JObject>>();
   }
 
@@ -7445,7 +7675,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public operator fun component27(): kotlin.collections.Map<kotlin.Long, kotlin.collections.List<kotlin.Any?>>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong, jni$_.JList<jni$_.JObject?>> component27() {
-    return _component27(reference.pointer, _id_component27.pointer)
+    final _$$selfRef = reference;
+    return _component27(_$$selfRef.pointer, _id_component27.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JList<jni$_.JObject?>>>();
   }
 
@@ -7470,7 +7701,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<jni$_.JLong, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>
       component28() {
-    return _component28(reference.pointer, _id_component28.pointer).object<
+    final _$$selfRef = reference;
+    return _component28(_$$selfRef.pointer, _id_component28.pointer).object<
         jni$_.JMap<jni$_.JLong, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>>();
   }
 
@@ -7580,6 +7812,7 @@ extension NIAllTypes$$Methods on NIAllTypes {
     jni$_.JMap<jni$_.JLong, jni$_.JList<jni$_.JObject?>> map5,
     jni$_.JMap<jni$_.JLong, jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> map6,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     final _$is$ = is$.reference;
     final _$js = js.reference;
@@ -7605,7 +7838,7 @@ extension NIAllTypes$$Methods on NIAllTypes {
     final _$map5 = map5.reference;
     final _$map6 = map6.reference;
     return _copy(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_copy.pointer,
             z ? 1 : 0,
             j,
@@ -7658,7 +7891,8 @@ extension NIAllTypes$$Methods on NIAllTypes {
   /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<jni$_.JString>();
   }
 }
@@ -7701,9 +7935,10 @@ extension type NIAnEnum$Companion._(jni$_.JObject _$this)
   factory NIAnEnum$Companion(
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer,
             _$defaultConstructorMarker.pointer)
         .object<NIAnEnum$Companion>();
   }
@@ -7730,7 +7965,8 @@ extension NIAnEnum$Companion$$Methods on NIAnEnum$Companion {
   NIAnEnum? ofRaw(
     core$_.int i,
   ) {
-    return _ofRaw(reference.pointer, _id_ofRaw.pointer, i).object<NIAnEnum?>();
+    final _$$selfRef = reference;
+    return _ofRaw(_$$selfRef.pointer, _id_ofRaw.pointer, i).object<NIAnEnum?>();
   }
 }
 
@@ -7827,7 +8063,8 @@ extension type NIAnEnum._(jni$_.JObject _$this) implements Enum {
   /// from: `static public com.github.dart_lang.jnigen.NIAnEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<NIAnEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<NIAnEnum?>?>();
   }
 
@@ -7852,9 +8089,9 @@ extension type NIAnEnum._(jni$_.JObject _$this) implements Enum {
   static NIAnEnum? valueOf(
     jni$_.JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<NIAnEnum?>();
   }
 }
@@ -7879,7 +8116,8 @@ extension NIAnEnum$$Methods on NIAnEnum {
 
   /// from: `public final int getRaw()`
   core$_.int get raw {
-    return _get$raw(reference.pointer, _id_get$raw.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$raw(_$$selfRef.pointer, _id_get$raw.pointer).integer;
   }
 }
 
@@ -7921,9 +8159,10 @@ extension type NIAnotherEnum$Companion._(jni$_.JObject _$this)
   factory NIAnotherEnum$Companion(
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer,
             _$defaultConstructorMarker.pointer)
         .object<NIAnotherEnum$Companion>();
   }
@@ -7950,7 +8189,8 @@ extension NIAnotherEnum$Companion$$Methods on NIAnotherEnum$Companion {
   NIAnotherEnum? ofRaw(
     core$_.int i,
   ) {
-    return _ofRaw(reference.pointer, _id_ofRaw.pointer, i)
+    final _$$selfRef = reference;
+    return _ofRaw(_$$selfRef.pointer, _id_ofRaw.pointer, i)
         .object<NIAnotherEnum?>();
   }
 }
@@ -8014,7 +8254,8 @@ extension type NIAnotherEnum._(jni$_.JObject _$this) implements Enum {
   /// from: `static public com.github.dart_lang.jnigen.NIAnotherEnum[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<NIAnotherEnum?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<NIAnotherEnum?>?>();
   }
 
@@ -8039,9 +8280,9 @@ extension type NIAnotherEnum._(jni$_.JObject _$this) implements Enum {
   static NIAnotherEnum? valueOf(
     jni$_.JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<NIAnotherEnum?>();
   }
 }
@@ -8066,7 +8307,8 @@ extension NIAnotherEnum$$Methods on NIAnotherEnum {
 
   /// from: `public final int getRaw()`
   core$_.int get raw {
-    return _get$raw(reference.pointer, _id_get$raw.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$raw(_$$selfRef.pointer, _id_get$raw.pointer).integer;
   }
 }
 
@@ -8681,8 +8923,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'noopAsync(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as Continuation).reference)
+        final _$$contRef = ($a![0] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithVoidFuture(_$impls[$p]!.noopAsync());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8692,8 +8934,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'throwFlutterErrorAsync(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as Continuation).reference)
+        final _$$contRef = ($a![0] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.throwFlutterErrorAsync());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8703,8 +8945,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNIAllTypes(Lcom/github/dart_lang/jnigen/NIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNIAllTypes(
           ($a![0] as NIAllTypes),
         ));
@@ -8716,8 +8958,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNIAllNullableTypes(Lcom/github/dart_lang/jnigen/NIAllNullableTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableNIAllNullableTypes(
           ($a![0] as NIAllNullableTypes?),
         ));
@@ -8729,8 +8971,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNIAllNullableTypesWithoutRecursion(Lcom/github/dart_lang/jnigen/NIAllNullableTypesWithoutRecursion;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!
                 .echoAsyncNullableNIAllNullableTypesWithoutRecursion(
           ($a![0] as NIAllNullableTypesWithoutRecursion?),
@@ -8743,8 +8985,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncBool(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncBool(
           ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
@@ -8756,8 +8998,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncInt(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncInt(
           ($a![0] as jni$_.JLong).toDartInt(releaseOriginal: true),
         ));
@@ -8769,8 +9011,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncDouble(DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncDouble(
           ($a![0] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
         ));
@@ -8782,8 +9024,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncString(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncString(
           ($a![0] as jni$_.JString),
         ));
@@ -8795,8 +9037,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncUint8List([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncUint8List(
           ($a![0] as jni$_.JByteArray),
         ));
@@ -8808,8 +9050,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncInt32List([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncInt32List(
           ($a![0] as jni$_.JIntArray),
         ));
@@ -8821,8 +9063,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncInt64List([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncInt64List(
           ($a![0] as jni$_.JLongArray),
         ));
@@ -8834,8 +9076,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncFloat64List([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncFloat64List(
           ($a![0] as jni$_.JDoubleArray),
         ));
@@ -8847,8 +9089,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncObject(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncObject(
           ($a![0] as jni$_.JObject),
         ));
@@ -8860,8 +9102,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncList(
           ($a![0] as jni$_.JList<jni$_.JObject?>),
         ));
@@ -8873,8 +9115,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>),
         ));
@@ -8886,8 +9128,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>),
         ));
@@ -8899,8 +9141,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNonNullEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNonNullEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>),
         ));
@@ -8912,8 +9154,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNonNullClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNonNullClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>),
         ));
@@ -8925,8 +9167,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncMap(
           ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>),
         ));
@@ -8938,8 +9180,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncStringMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncStringMap(
           ($a![0] as jni$_.JMap<jni$_.JString?, jni$_.JString?>),
         ));
@@ -8951,8 +9193,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncIntMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncIntMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>),
         ));
@@ -8964,8 +9206,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncEnumMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncEnumMap(
           ($a![0] as jni$_.JMap<NIAnEnum?, NIAnEnum?>),
         ));
@@ -8977,8 +9219,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncClassMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncClassMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>),
         ));
@@ -8990,8 +9232,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncEnum(Lcom/github/dart_lang/jnigen/NIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncEnum(
           ($a![0] as NIAnEnum),
         ));
@@ -9003,8 +9245,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAnotherAsyncEnum(Lcom/github/dart_lang/jnigen/NIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAnotherAsyncEnum(
           ($a![0] as NIAnotherEnum),
         ));
@@ -9016,8 +9258,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableBool(Ljava/lang/Boolean;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableBool(
           ($a![0] as jni$_.JBoolean?),
         ));
@@ -9029,8 +9271,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableInt(Ljava/lang/Long;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableInt(
           ($a![0] as jni$_.JLong?),
         ));
@@ -9042,8 +9284,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableDouble(Ljava/lang/Double;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableDouble(
           ($a![0] as jni$_.JDouble?),
         ));
@@ -9055,8 +9297,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableString(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableString(
           ($a![0] as jni$_.JString?),
         ));
@@ -9068,8 +9310,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableUint8List([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableUint8List(
           ($a![0] as jni$_.JByteArray?),
         ));
@@ -9081,8 +9323,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableInt32List([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableInt32List(
           ($a![0] as jni$_.JIntArray?),
         ));
@@ -9094,8 +9336,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableInt64List([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableInt64List(
           ($a![0] as jni$_.JLongArray?),
         ));
@@ -9107,8 +9349,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableFloat64List([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableFloat64List(
           ($a![0] as jni$_.JDoubleArray?),
         ));
@@ -9120,8 +9362,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableObject(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableObject(
           ($a![0] as jni$_.JObject?),
         ));
@@ -9133,8 +9375,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableList(
           ($a![0] as jni$_.JList<jni$_.JObject?>?),
         ));
@@ -9146,8 +9388,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>?),
         ));
@@ -9159,8 +9401,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>?),
         ));
@@ -9172,8 +9414,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNonNullEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableNonNullEnumList(
           ($a![0] as jni$_.JList<NIAnEnum?>?),
         ));
@@ -9185,8 +9427,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableNonNullClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableNonNullClassList(
           ($a![0] as jni$_.JList<NIAllNullableTypes?>?),
         ));
@@ -9198,8 +9440,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableMap(
           ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?),
         ));
@@ -9211,8 +9453,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableStringMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableStringMap(
           ($a![0] as jni$_.JMap<jni$_.JString?, jni$_.JString?>?),
         ));
@@ -9224,8 +9466,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableIntMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableIntMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?),
         ));
@@ -9237,8 +9479,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableEnumMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableEnumMap(
           ($a![0] as jni$_.JMap<NIAnEnum?, NIAnEnum?>?),
         ));
@@ -9250,8 +9492,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableClassMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableClassMap(
           ($a![0] as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?),
         ));
@@ -9263,8 +9505,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAsyncNullableEnum(Lcom/github/dart_lang/jnigen/NIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAsyncNullableEnum(
           ($a![0] as NIAnEnum?),
         ));
@@ -9276,8 +9518,8 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       if ($d ==
           r'echoAnotherAsyncNullableEnum(Lcom/github/dart_lang/jnigen/NIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.echoAnotherAsyncNullableEnum(
           ($a![0] as NIAnotherEnum?),
         ));
@@ -9350,7 +9592,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
 
   /// from: `public fun noop(): kotlin.Unit`
   void noop() {
-    _noop(reference.pointer, _id_noop.pointer).check();
+    final _$$selfRef = reference;
+    _noop(_$$selfRef.pointer, _id_noop.pointer).check();
   }
 
   static final _id_throwFlutterError =
@@ -9374,7 +9617,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   /// from: `public fun throwFlutterError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? throwFlutterError() {
-    return _throwFlutterError(reference.pointer, _id_throwFlutterError.pointer)
+    final _$$selfRef = reference;
+    return _throwFlutterError(_$$selfRef.pointer, _id_throwFlutterError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -9399,7 +9643,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   /// from: `public fun throwError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? throwError() {
-    return _throwError(reference.pointer, _id_throwError.pointer)
+    final _$$selfRef = reference;
+    return _throwError(_$$selfRef.pointer, _id_throwError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -9423,7 +9668,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
 
   /// from: `public fun throwErrorFromVoid(): kotlin.Unit`
   void throwErrorFromVoid() {
-    _throwErrorFromVoid(reference.pointer, _id_throwErrorFromVoid.pointer)
+    final _$$selfRef = reference;
+    _throwErrorFromVoid(_$$selfRef.pointer, _id_throwErrorFromVoid.pointer)
         .check();
   }
 
@@ -9449,9 +9695,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   NIAllTypes echoNIAllTypes(
     NIAllTypes nIAllTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
-    return _echoNIAllTypes(
-            reference.pointer, _id_echoNIAllTypes.pointer, _$nIAllTypes.pointer)
+    return _echoNIAllTypes(_$$selfRef.pointer, _id_echoNIAllTypes.pointer,
+            _$nIAllTypes.pointer)
         .object<NIAllTypes>();
   }
 
@@ -9477,9 +9724,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   NIAllNullableTypes? echoNIAllNullableTypes(
     NIAllNullableTypes? nIAllNullableTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
-    return _echoNIAllNullableTypes(reference.pointer,
+    return _echoNIAllNullableTypes(_$$selfRef.pointer,
             _id_echoNIAllNullableTypes.pointer, _$nIAllNullableTypes.pointer)
         .object<NIAllNullableTypes?>();
   }
@@ -9516,11 +9764,12 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _sendMultipleNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_sendMultipleNullableTypes.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -9551,10 +9800,11 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   NIAllNullableTypesWithoutRecursion? echoNIAllNullableTypesWithoutRecursion(
     NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     return _echoNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoNIAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer)
         .object<NIAllNullableTypesWithoutRecursion?>();
@@ -9593,11 +9843,12 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _sendMultipleNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_sendMultipleNullableTypesWithoutRecursion.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -9626,7 +9877,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   core$_.bool echoBool(
     core$_.bool z,
   ) {
-    return _echoBool(reference.pointer, _id_echoBool.pointer, z ? 1 : 0)
+    final _$$selfRef = reference;
+    return _echoBool(_$$selfRef.pointer, _id_echoBool.pointer, z ? 1 : 0)
         .boolean;
   }
 
@@ -9650,7 +9902,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   core$_.int echoInt(
     core$_.int j,
   ) {
-    return _echoInt(reference.pointer, _id_echoInt.pointer, j).long;
+    final _$$selfRef = reference;
+    return _echoInt(_$$selfRef.pointer, _id_echoInt.pointer, j).long;
   }
 
   static final _id_echoDouble =
@@ -9674,7 +9927,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   core$_.double echoDouble(
     core$_.double d,
   ) {
-    return _echoDouble(reference.pointer, _id_echoDouble.pointer, d)
+    final _$$selfRef = reference;
+    return _echoDouble(_$$selfRef.pointer, _id_echoDouble.pointer, d)
         .doubleFloat;
   }
 
@@ -9700,9 +9954,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JString echoString(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
     return _echoString(
-            reference.pointer, _id_echoString.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_echoString.pointer, _$string.pointer)
         .object<jni$_.JString>();
   }
 
@@ -9728,9 +9983,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JByteArray echoUint8List(
     jni$_.JByteArray bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     return _echoUint8List(
-            reference.pointer, _id_echoUint8List.pointer, _$bs.pointer)
+            _$$selfRef.pointer, _id_echoUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray>();
   }
 
@@ -9756,9 +10012,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JIntArray echoInt32List(
     jni$_.JIntArray is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     return _echoInt32List(
-            reference.pointer, _id_echoInt32List.pointer, _$is$.pointer)
+            _$$selfRef.pointer, _id_echoInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray>();
   }
 
@@ -9784,9 +10041,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JLongArray echoInt64List(
     jni$_.JLongArray js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js.reference;
     return _echoInt64List(
-            reference.pointer, _id_echoInt64List.pointer, _$js.pointer)
+            _$$selfRef.pointer, _id_echoInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray>();
   }
 
@@ -9812,9 +10070,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JDoubleArray echoFloat64List(
     jni$_.JDoubleArray ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     return _echoFloat64List(
-            reference.pointer, _id_echoFloat64List.pointer, _$ds.pointer)
+            _$$selfRef.pointer, _id_echoFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray>();
   }
 
@@ -9840,8 +10099,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<jni$_.JObject?> echoList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _echoList(reference.pointer, _id_echoList.pointer, _$list.pointer)
+    return _echoList(_$$selfRef.pointer, _id_echoList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -9867,9 +10127,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAnEnum?> echoEnumList(
     jni$_.JList<NIAnEnum?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoEnumList(
-            reference.pointer, _id_echoEnumList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>>();
   }
 
@@ -9895,9 +10156,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes?> echoClassList(
     jni$_.JList<NIAllNullableTypes?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoClassList(
-            reference.pointer, _id_echoClassList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>>();
   }
 
@@ -9923,9 +10185,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAnEnum> echoNonNullEnumList(
     jni$_.JList<NIAnEnum> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoNonNullEnumList(
-            reference.pointer, _id_echoNonNullEnumList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>>();
   }
 
@@ -9951,9 +10214,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes> echoNonNullClassList(
     jni$_.JList<NIAllNullableTypes> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _echoNonNullClassList(
-            reference.pointer, _id_echoNonNullClassList.pointer, _$list.pointer)
+    return _echoNonNullClassList(_$$selfRef.pointer,
+            _id_echoNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>>();
   }
 
@@ -9979,8 +10243,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?> echoMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _echoMap(reference.pointer, _id_echoMap.pointer, _$map.pointer)
+    return _echoMap(_$$selfRef.pointer, _id_echoMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>();
   }
 
@@ -10006,9 +10271,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JString?, jni$_.JString?> echoStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoStringMap(
-            reference.pointer, _id_echoStringMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>>();
   }
 
@@ -10034,8 +10300,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?> echoIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _echoIntMap(reference.pointer, _id_echoIntMap.pointer, _$map.pointer)
+    return _echoIntMap(
+            _$$selfRef.pointer, _id_echoIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>();
   }
 
@@ -10061,9 +10329,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<NIAnEnum?, NIAnEnum?> echoEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoEnumMap(
-            reference.pointer, _id_echoEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>>();
   }
 
@@ -10089,9 +10358,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> echoClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoClassMap(
-            reference.pointer, _id_echoClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>();
   }
 
@@ -10117,9 +10387,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JString, jni$_.JString> echoNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullStringMap(
-            reference.pointer, _id_echoNonNullStringMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>>();
   }
 
@@ -10145,9 +10416,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, jni$_.JLong> echoNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullIntMap(
-            reference.pointer, _id_echoNonNullIntMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>>();
   }
 
@@ -10173,9 +10445,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<NIAnEnum, NIAnEnum> echoNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullEnumMap(
-            reference.pointer, _id_echoNonNullEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>>();
   }
 
@@ -10201,9 +10474,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes> echoNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullClassMap(
-            reference.pointer, _id_echoNonNullClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>>();
   }
 
@@ -10229,9 +10503,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   NIAnEnum echoEnum(
     NIAnEnum nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
     return _echoEnum(
-            reference.pointer, _id_echoEnum.pointer, _$nIAnEnum.pointer)
+            _$$selfRef.pointer, _id_echoEnum.pointer, _$nIAnEnum.pointer)
         .object<NIAnEnum>();
   }
 
@@ -10257,8 +10532,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   NIAnotherEnum echoNIAnotherEnum(
     NIAnotherEnum nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
-    return _echoNIAnotherEnum(reference.pointer, _id_echoNIAnotherEnum.pointer,
+    return _echoNIAnotherEnum(_$$selfRef.pointer, _id_echoNIAnotherEnum.pointer,
             _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum>();
   }
@@ -10285,9 +10561,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JBoolean? echoNullableBool(
     jni$_.JBoolean? boolean,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     return _echoNullableBool(
-            reference.pointer, _id_echoNullableBool.pointer, _$boolean.pointer)
+            _$$selfRef.pointer, _id_echoNullableBool.pointer, _$boolean.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -10313,9 +10590,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JLong? echoNullableInt(
     jni$_.JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     return _echoNullableInt(
-            reference.pointer, _id_echoNullableInt.pointer, _$long.pointer)
+            _$$selfRef.pointer, _id_echoNullableInt.pointer, _$long.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -10341,9 +10619,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JDouble? echoNullableDouble(
     jni$_.JDouble? double,
   ) {
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
-    return _echoNullableDouble(
-            reference.pointer, _id_echoNullableDouble.pointer, _$double.pointer)
+    return _echoNullableDouble(_$$selfRef.pointer,
+            _id_echoNullableDouble.pointer, _$double.pointer)
         .object<jni$_.JDouble?>();
   }
 
@@ -10369,9 +10648,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JString? echoNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _echoNullableString(
-            reference.pointer, _id_echoNullableString.pointer, _$string.pointer)
+    return _echoNullableString(_$$selfRef.pointer,
+            _id_echoNullableString.pointer, _$string.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -10397,9 +10677,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JByteArray? echoNullableUint8List(
     jni$_.JByteArray? bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _echoNullableUint8List(
-            reference.pointer, _id_echoNullableUint8List.pointer, _$bs.pointer)
+            _$$selfRef.pointer, _id_echoNullableUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -10425,9 +10706,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JIntArray? echoNullableInt32List(
     jni$_.JIntArray? is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
-    return _echoNullableInt32List(
-            reference.pointer, _id_echoNullableInt32List.pointer, _$is$.pointer)
+    return _echoNullableInt32List(_$$selfRef.pointer,
+            _id_echoNullableInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray?>();
   }
 
@@ -10453,9 +10735,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JLongArray? echoNullableInt64List(
     jni$_.JLongArray? js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     return _echoNullableInt64List(
-            reference.pointer, _id_echoNullableInt64List.pointer, _$js.pointer)
+            _$$selfRef.pointer, _id_echoNullableInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -10481,8 +10764,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JDoubleArray? echoNullableFloat64List(
     jni$_.JDoubleArray? ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
-    return _echoNullableFloat64List(reference.pointer,
+    return _echoNullableFloat64List(_$$selfRef.pointer,
             _id_echoNullableFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray?>();
   }
@@ -10509,9 +10793,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<jni$_.JObject?>? echoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     return _echoNullableList(
-            reference.pointer, _id_echoNullableList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoNullableList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -10537,9 +10822,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAnEnum?>? echoNullableEnumList(
     jni$_.JList<NIAnEnum?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableEnumList(
-            reference.pointer, _id_echoNullableEnumList.pointer, _$list.pointer)
+    return _echoNullableEnumList(_$$selfRef.pointer,
+            _id_echoNullableEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
 
@@ -10565,8 +10851,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes?>? echoNullableClassList(
     jni$_.JList<NIAllNullableTypes?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableClassList(reference.pointer,
+    return _echoNullableClassList(_$$selfRef.pointer,
             _id_echoNullableClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>?>();
   }
@@ -10594,8 +10881,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAnEnum>? echoNullableNonNullEnumList(
     jni$_.JList<NIAnEnum>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullEnumList(reference.pointer,
+    return _echoNullableNonNullEnumList(_$$selfRef.pointer,
             _id_echoNullableNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>?>();
   }
@@ -10623,8 +10911,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes>? echoNullableNonNullClassList(
     jni$_.JList<NIAllNullableTypes>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullClassList(reference.pointer,
+    return _echoNullableNonNullClassList(_$$selfRef.pointer,
             _id_echoNullableNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>?>();
   }
@@ -10651,9 +10940,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? echoNullableMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableMap(
-            reference.pointer, _id_echoNullableMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
 
@@ -10679,9 +10969,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? echoNullableStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableStringMap(
-            reference.pointer, _id_echoNullableStringMap.pointer, _$map.pointer)
+    return _echoNullableStringMap(_$$selfRef.pointer,
+            _id_echoNullableStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
 
@@ -10707,9 +10998,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? echoNullableIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableIntMap(
-            reference.pointer, _id_echoNullableIntMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
 
@@ -10735,9 +11027,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableEnumMap(
-            reference.pointer, _id_echoNullableEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
 
@@ -10763,9 +11056,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? echoNullableClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableClassMap(
-            reference.pointer, _id_echoNullableClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>();
   }
 
@@ -10792,8 +11086,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JString, jni$_.JString>? echoNullableNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullStringMap(reference.pointer,
+    return _echoNullableNonNullStringMap(_$$selfRef.pointer,
             _id_echoNullableNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>?>();
   }
@@ -10820,8 +11115,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, jni$_.JLong>? echoNullableNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullIntMap(reference.pointer,
+    return _echoNullableNonNullIntMap(_$$selfRef.pointer,
             _id_echoNullableNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>();
   }
@@ -10849,8 +11145,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullEnumMap(reference.pointer,
+    return _echoNullableNonNullEnumMap(_$$selfRef.pointer,
             _id_echoNullableNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>?>();
   }
@@ -10878,8 +11175,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? echoNullableNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullClassMap(reference.pointer,
+    return _echoNullableNonNullClassMap(_$$selfRef.pointer,
             _id_echoNullableNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>();
   }
@@ -10906,9 +11204,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   NIAnEnum? echoNullableEnum(
     NIAnEnum? nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
-    return _echoNullableEnum(
-            reference.pointer, _id_echoNullableEnum.pointer, _$nIAnEnum.pointer)
+    return _echoNullableEnum(_$$selfRef.pointer, _id_echoNullableEnum.pointer,
+            _$nIAnEnum.pointer)
         .object<NIAnEnum?>();
   }
 
@@ -10934,8 +11233,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   NIAnotherEnum? echoAnotherNullableEnum(
     NIAnotherEnum? nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
-    return _echoAnotherNullableEnum(reference.pointer,
+    return _echoAnotherNullableEnum(_$$selfRef.pointer,
             _id_echoAnotherNullableEnum.pointer, _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum?>();
   }
@@ -10962,9 +11262,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   core$_.Future<void> noopAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _noopAsync(
-            reference.pointer, _id_noopAsync.pointer, _$continuation.pointer)
+            _$$selfRef.pointer, _id_noopAsync.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -11009,8 +11309,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   core$_.Future<jni$_.JObject?> throwFlutterErrorAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _throwFlutterErrorAsync(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _throwFlutterErrorAsync(_$$selfRef.pointer,
             _id_throwFlutterErrorAsync.pointer, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -11069,9 +11369,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
     final $r = _echoAsyncNIAllTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNIAllTypes.pointer,
             _$nIAllTypes.pointer,
             _$continuation.pointer)
@@ -11131,10 +11432,11 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNIAllNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNIAllNullableTypes.pointer,
             _$nIAllNullableTypes.pointer,
             _$continuation.pointer)
@@ -11197,10 +11499,11 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNIAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
             _$continuation.pointer)
@@ -11256,8 +11559,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncBool(reference.pointer, _id_echoAsyncBool.pointer,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncBool(_$$selfRef.pointer, _id_echoAsyncBool.pointer,
             z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -11309,8 +11612,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncInt(reference.pointer, _id_echoAsyncInt.pointer, j,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncInt(_$$selfRef.pointer, _id_echoAsyncInt.pointer, j,
             _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -11364,8 +11667,8 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncDouble(reference.pointer, _id_echoAsyncDouble.pointer,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncDouble(_$$selfRef.pointer, _id_echoAsyncDouble.pointer,
             d, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -11422,8 +11725,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    final $r = _echoAsyncString(reference.pointer, _id_echoAsyncString.pointer,
+    final $r = _echoAsyncString(_$$selfRef.pointer, _id_echoAsyncString.pointer,
             _$string.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -11480,9 +11784,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     final $r = _echoAsyncUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -11541,9 +11846,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     final $r = _echoAsyncInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -11602,9 +11908,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js.reference;
     final $r = _echoAsyncInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -11663,9 +11970,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     final $r = _echoAsyncFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -11724,8 +12032,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object.reference;
-    final $r = _echoAsyncObject(reference.pointer, _id_echoAsyncObject.pointer,
+    final $r = _echoAsyncObject(_$$selfRef.pointer, _id_echoAsyncObject.pointer,
             _$object.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -11782,8 +12091,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    final $r = _echoAsyncList(reference.pointer, _id_echoAsyncList.pointer,
+    final $r = _echoAsyncList(_$$selfRef.pointer, _id_echoAsyncList.pointer,
             _$list.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -11840,9 +12150,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -11901,9 +12212,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -11962,9 +12274,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncNonNullEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNonNullEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -12023,9 +12336,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncNonNullClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNonNullClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -12084,8 +12398,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncMap(reference.pointer, _id_echoAsyncMap.pointer,
+    final $r = _echoAsyncMap(_$$selfRef.pointer, _id_echoAsyncMap.pointer,
             _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -12142,9 +12457,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _echoAsyncStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -12203,8 +12519,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncIntMap(reference.pointer, _id_echoAsyncIntMap.pointer,
+    final $r = _echoAsyncIntMap(_$$selfRef.pointer, _id_echoAsyncIntMap.pointer,
             _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -12261,8 +12578,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncEnumMap(reference.pointer,
+    final $r = _echoAsyncEnumMap(_$$selfRef.pointer,
             _id_echoAsyncEnumMap.pointer, _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -12320,9 +12638,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _echoAsyncClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -12381,8 +12700,9 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
-    final $r = _echoAsyncEnum(reference.pointer, _id_echoAsyncEnum.pointer,
+    final $r = _echoAsyncEnum(_$$selfRef.pointer, _id_echoAsyncEnum.pointer,
             _$nIAnEnum.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -12439,9 +12759,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
     final $r = _echoAnotherAsyncEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAnotherAsyncEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -12500,9 +12821,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableBool(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableBool.pointer,
             _$boolean.pointer,
             _$continuation.pointer)
@@ -12563,9 +12885,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt.pointer,
             _$long.pointer,
             _$continuation.pointer)
@@ -12626,9 +12949,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableDouble(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableDouble.pointer,
             _$double.pointer,
             _$continuation.pointer)
@@ -12689,9 +13013,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableString.pointer,
             _$string.pointer,
             _$continuation.pointer)
@@ -12753,9 +13078,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -12817,9 +13143,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -12881,9 +13208,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -12945,9 +13273,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -13008,9 +13337,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableObject(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableObject.pointer,
             _$object.pointer,
             _$continuation.pointer)
@@ -13071,9 +13401,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -13134,9 +13465,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -13198,9 +13530,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -13262,9 +13595,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNonNullEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNonNullEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -13327,9 +13661,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNonNullClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNonNullClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -13391,9 +13726,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -13456,9 +13792,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -13520,9 +13857,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableIntMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableIntMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -13583,9 +13921,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnumMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnumMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -13647,9 +13986,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -13710,9 +14050,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnum.pointer,
             _$nIAnEnum.pointer,
             _$continuation.pointer)
@@ -13774,9 +14115,10 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
     final $r = _echoAnotherAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAnotherAsyncNullableEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -15286,7 +15628,8 @@ extension type NIFlutterIntegrationCoreApiRegistrar._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory NIFlutterIntegrationCoreApiRegistrar() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<NIFlutterIntegrationCoreApiRegistrar>();
   }
 }
@@ -15321,9 +15664,10 @@ extension NIFlutterIntegrationCoreApiRegistrar$$Methods
     NIFlutterIntegrationCoreApi nIFlutterIntegrationCoreApi,
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$nIFlutterIntegrationCoreApi = nIFlutterIntegrationCoreApi.reference;
     final _$string = string.reference;
-    _registerInstance(reference.pointer, _id_registerInstance.pointer,
+    _registerInstance(_$$selfRef.pointer, _id_registerInstance.pointer,
             _$nIFlutterIntegrationCoreApi.pointer, _$string.pointer)
         .check();
   }
@@ -15350,9 +15694,10 @@ extension NIFlutterIntegrationCoreApiRegistrar$$Methods
   NIFlutterIntegrationCoreApi? getInstance(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
     return _getInstance(
-            reference.pointer, _id_getInstance.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_getInstance.pointer, _$string.pointer)
         .object<NIFlutterIntegrationCoreApi?>();
   }
 }
@@ -15399,7 +15744,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
 
   /// from: `public fun noop(): kotlin.Unit`
   void noop() {
-    _noop(reference.pointer, _id_noop.pointer).check();
+    final _$$selfRef = reference;
+    _noop(_$$selfRef.pointer, _id_noop.pointer).check();
   }
 
   static final _id_echoAllTypes =
@@ -15424,9 +15770,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAllTypes echoAllTypes(
     NIAllTypes nIAllTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
     return _echoAllTypes(
-            reference.pointer, _id_echoAllTypes.pointer, _$nIAllTypes.pointer)
+            _$$selfRef.pointer, _id_echoAllTypes.pointer, _$nIAllTypes.pointer)
         .object<NIAllTypes>();
   }
 
@@ -15451,7 +15798,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   /// from: `public fun throwError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? throwError() {
-    return _throwError(reference.pointer, _id_throwError.pointer)
+    final _$$selfRef = reference;
+    return _throwError(_$$selfRef.pointer, _id_throwError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -15475,7 +15823,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
 
   /// from: `public fun throwErrorFromVoid(): kotlin.Unit`
   void throwErrorFromVoid() {
-    _throwErrorFromVoid(reference.pointer, _id_throwErrorFromVoid.pointer)
+    final _$$selfRef = reference;
+    _throwErrorFromVoid(_$$selfRef.pointer, _id_throwErrorFromVoid.pointer)
         .check();
   }
 
@@ -15500,7 +15849,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   /// from: `public fun throwFlutterError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? throwFlutterError() {
-    return _throwFlutterError(reference.pointer, _id_throwFlutterError.pointer)
+    final _$$selfRef = reference;
+    return _throwFlutterError(_$$selfRef.pointer, _id_throwFlutterError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -15523,7 +15873,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.int echoInt(
     core$_.int j,
   ) {
-    return _echoInt(reference.pointer, _id_echoInt.pointer, j).long;
+    final _$$selfRef = reference;
+    return _echoInt(_$$selfRef.pointer, _id_echoInt.pointer, j).long;
   }
 
   static final _id_echoDouble =
@@ -15547,7 +15898,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.double echoDouble(
     core$_.double d,
   ) {
-    return _echoDouble(reference.pointer, _id_echoDouble.pointer, d)
+    final _$$selfRef = reference;
+    return _echoDouble(_$$selfRef.pointer, _id_echoDouble.pointer, d)
         .doubleFloat;
   }
 
@@ -15571,7 +15923,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.bool echoBool(
     core$_.bool z,
   ) {
-    return _echoBool(reference.pointer, _id_echoBool.pointer, z ? 1 : 0)
+    final _$$selfRef = reference;
+    return _echoBool(_$$selfRef.pointer, _id_echoBool.pointer, z ? 1 : 0)
         .boolean;
   }
 
@@ -15597,9 +15950,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JString echoString(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
     return _echoString(
-            reference.pointer, _id_echoString.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_echoString.pointer, _$string.pointer)
         .object<jni$_.JString>();
   }
 
@@ -15625,9 +15979,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JByteArray echoUint8List(
     jni$_.JByteArray bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     return _echoUint8List(
-            reference.pointer, _id_echoUint8List.pointer, _$bs.pointer)
+            _$$selfRef.pointer, _id_echoUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray>();
   }
 
@@ -15653,9 +16008,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JIntArray echoInt32List(
     jni$_.JIntArray is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     return _echoInt32List(
-            reference.pointer, _id_echoInt32List.pointer, _$is$.pointer)
+            _$$selfRef.pointer, _id_echoInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray>();
   }
 
@@ -15681,9 +16037,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JLongArray echoInt64List(
     jni$_.JLongArray js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js.reference;
     return _echoInt64List(
-            reference.pointer, _id_echoInt64List.pointer, _$js.pointer)
+            _$$selfRef.pointer, _id_echoInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray>();
   }
 
@@ -15709,9 +16066,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JDoubleArray echoFloat64List(
     jni$_.JDoubleArray ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     return _echoFloat64List(
-            reference.pointer, _id_echoFloat64List.pointer, _$ds.pointer)
+            _$$selfRef.pointer, _id_echoFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray>();
   }
 
@@ -15737,9 +16095,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JObject echoObject(
     jni$_.JObject object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object.reference;
     return _echoObject(
-            reference.pointer, _id_echoObject.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_echoObject.pointer, _$object.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -15764,8 +16123,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JObject?> echoList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _echoList(reference.pointer, _id_echoList.pointer, _$list.pointer)
+    return _echoList(_$$selfRef.pointer, _id_echoList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -15791,9 +16151,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JString?> echoStringList(
     jni$_.JList<jni$_.JString?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoStringList(
-            reference.pointer, _id_echoStringList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoStringList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JString?>>();
   }
 
@@ -15819,9 +16180,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JLong?> echoIntList(
     jni$_.JList<jni$_.JLong?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoIntList(
-            reference.pointer, _id_echoIntList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoIntList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JLong?>>();
   }
 
@@ -15847,9 +16209,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JDouble?> echoDoubleList(
     jni$_.JList<jni$_.JDouble?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoDoubleList(
-            reference.pointer, _id_echoDoubleList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoDoubleList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JDouble?>>();
   }
 
@@ -15875,9 +16238,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JBoolean?> echoBoolList(
     jni$_.JList<jni$_.JBoolean?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoBoolList(
-            reference.pointer, _id_echoBoolList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoBoolList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JBoolean?>>();
   }
 
@@ -15903,9 +16267,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum?> echoEnumList(
     jni$_.JList<NIAnEnum?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoEnumList(
-            reference.pointer, _id_echoEnumList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>>();
   }
 
@@ -15931,9 +16296,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes?> echoClassList(
     jni$_.JList<NIAllNullableTypes?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoClassList(
-            reference.pointer, _id_echoClassList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>>();
   }
 
@@ -15959,9 +16325,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum> echoNonNullEnumList(
     jni$_.JList<NIAnEnum> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoNonNullEnumList(
-            reference.pointer, _id_echoNonNullEnumList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>>();
   }
 
@@ -15987,9 +16354,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes> echoNonNullClassList(
     jni$_.JList<NIAllNullableTypes> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _echoNonNullClassList(
-            reference.pointer, _id_echoNonNullClassList.pointer, _$list.pointer)
+    return _echoNonNullClassList(_$$selfRef.pointer,
+            _id_echoNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>>();
   }
 
@@ -16014,8 +16382,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?> echoMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _echoMap(reference.pointer, _id_echoMap.pointer, _$map.pointer)
+    return _echoMap(_$$selfRef.pointer, _id_echoMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>();
   }
 
@@ -16041,9 +16410,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JString?, jni$_.JString?> echoStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoStringMap(
-            reference.pointer, _id_echoStringMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>>();
   }
 
@@ -16069,8 +16439,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?> echoIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _echoIntMap(reference.pointer, _id_echoIntMap.pointer, _$map.pointer)
+    return _echoIntMap(
+            _$$selfRef.pointer, _id_echoIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>();
   }
 
@@ -16096,9 +16468,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum?, NIAnEnum?> echoEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoEnumMap(
-            reference.pointer, _id_echoEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>>();
   }
 
@@ -16124,9 +16497,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> echoClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoClassMap(
-            reference.pointer, _id_echoClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>();
   }
 
@@ -16152,9 +16526,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JString, jni$_.JString> echoNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullStringMap(
-            reference.pointer, _id_echoNonNullStringMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>>();
   }
 
@@ -16180,9 +16555,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, jni$_.JLong> echoNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullIntMap(
-            reference.pointer, _id_echoNonNullIntMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>>();
   }
 
@@ -16208,9 +16584,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum, NIAnEnum> echoNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullEnumMap(
-            reference.pointer, _id_echoNonNullEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>>();
   }
 
@@ -16236,9 +16613,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes> echoNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullClassMap(
-            reference.pointer, _id_echoNonNullClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>>();
   }
 
@@ -16264,8 +16642,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAllClassesWrapper echoClassWrapper(
     NIAllClassesWrapper nIAllClassesWrapper,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllClassesWrapper = nIAllClassesWrapper.reference;
-    return _echoClassWrapper(reference.pointer, _id_echoClassWrapper.pointer,
+    return _echoClassWrapper(_$$selfRef.pointer, _id_echoClassWrapper.pointer,
             _$nIAllClassesWrapper.pointer)
         .object<NIAllClassesWrapper>();
   }
@@ -16291,9 +16670,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnEnum echoEnum(
     NIAnEnum nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
     return _echoEnum(
-            reference.pointer, _id_echoEnum.pointer, _$nIAnEnum.pointer)
+            _$$selfRef.pointer, _id_echoEnum.pointer, _$nIAnEnum.pointer)
         .object<NIAnEnum>();
   }
 
@@ -16319,8 +16699,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnotherEnum echoAnotherEnum(
     NIAnotherEnum nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
-    return _echoAnotherEnum(reference.pointer, _id_echoAnotherEnum.pointer,
+    return _echoAnotherEnum(_$$selfRef.pointer, _id_echoAnotherEnum.pointer,
             _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum>();
   }
@@ -16347,8 +16728,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JString echoNamedDefaultString(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    return _echoNamedDefaultString(reference.pointer,
+    return _echoNamedDefaultString(_$$selfRef.pointer,
             _id_echoNamedDefaultString.pointer, _$string.pointer)
         .object<jni$_.JString>();
   }
@@ -16374,8 +16756,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.double echoOptionalDefaultDouble(
     core$_.double d,
   ) {
+    final _$$selfRef = reference;
     return _echoOptionalDefaultDouble(
-            reference.pointer, _id_echoOptionalDefaultDouble.pointer, d)
+            _$$selfRef.pointer, _id_echoOptionalDefaultDouble.pointer, d)
         .doubleFloat;
   }
 
@@ -16399,7 +16782,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.int echoRequiredInt(
     core$_.int j,
   ) {
-    return _echoRequiredInt(reference.pointer, _id_echoRequiredInt.pointer, j)
+    final _$$selfRef = reference;
+    return _echoRequiredInt(_$$selfRef.pointer, _id_echoRequiredInt.pointer, j)
         .long;
   }
 
@@ -16425,9 +16809,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAllNullableTypes? echoAllNullableTypes(
     NIAllNullableTypes? nIAllNullableTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
-    return _echoAllNullableTypes(reference.pointer,
+    return _echoAllNullableTypes(_$$selfRef.pointer,
             _id_echoAllNullableTypes.pointer, _$nIAllNullableTypes.pointer)
         .object<NIAllNullableTypes?>();
   }
@@ -16455,10 +16840,11 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAllNullableTypesWithoutRecursion? echoAllNullableTypesWithoutRecursion(
     NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     return _echoAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer)
         .object<NIAllNullableTypesWithoutRecursion?>();
@@ -16487,9 +16873,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JString? extractNestedNullableString(
     NIAllClassesWrapper nIAllClassesWrapper,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllClassesWrapper = nIAllClassesWrapper.reference;
     return _extractNestedNullableString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_extractNestedNullableString.pointer,
             _$nIAllClassesWrapper.pointer)
         .object<jni$_.JString?>();
@@ -16518,8 +16905,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAllClassesWrapper createNestedNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _createNestedNullableString(reference.pointer,
+    return _createNestedNullableString(_$$selfRef.pointer,
             _id_createNestedNullableString.pointer, _$string.pointer)
         .object<NIAllClassesWrapper>();
   }
@@ -16556,11 +16944,12 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _sendMultipleNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_sendMultipleNullableTypes.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -16601,11 +16990,12 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _sendMultipleNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_sendMultipleNullableTypesWithoutRecursion.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -16635,9 +17025,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JLong? echoNullableInt(
     jni$_.JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     return _echoNullableInt(
-            reference.pointer, _id_echoNullableInt.pointer, _$long.pointer)
+            _$$selfRef.pointer, _id_echoNullableInt.pointer, _$long.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -16663,9 +17054,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JDouble? echoNullableDouble(
     jni$_.JDouble? double,
   ) {
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
-    return _echoNullableDouble(
-            reference.pointer, _id_echoNullableDouble.pointer, _$double.pointer)
+    return _echoNullableDouble(_$$selfRef.pointer,
+            _id_echoNullableDouble.pointer, _$double.pointer)
         .object<jni$_.JDouble?>();
   }
 
@@ -16691,9 +17083,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JBoolean? echoNullableBool(
     jni$_.JBoolean? boolean,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     return _echoNullableBool(
-            reference.pointer, _id_echoNullableBool.pointer, _$boolean.pointer)
+            _$$selfRef.pointer, _id_echoNullableBool.pointer, _$boolean.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -16719,9 +17112,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JString? echoNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _echoNullableString(
-            reference.pointer, _id_echoNullableString.pointer, _$string.pointer)
+    return _echoNullableString(_$$selfRef.pointer,
+            _id_echoNullableString.pointer, _$string.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -16747,9 +17141,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JByteArray? echoNullableUint8List(
     jni$_.JByteArray? bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _echoNullableUint8List(
-            reference.pointer, _id_echoNullableUint8List.pointer, _$bs.pointer)
+            _$$selfRef.pointer, _id_echoNullableUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -16775,9 +17170,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JIntArray? echoNullableInt32List(
     jni$_.JIntArray? is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
-    return _echoNullableInt32List(
-            reference.pointer, _id_echoNullableInt32List.pointer, _$is$.pointer)
+    return _echoNullableInt32List(_$$selfRef.pointer,
+            _id_echoNullableInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray?>();
   }
 
@@ -16803,9 +17199,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JLongArray? echoNullableInt64List(
     jni$_.JLongArray? js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     return _echoNullableInt64List(
-            reference.pointer, _id_echoNullableInt64List.pointer, _$js.pointer)
+            _$$selfRef.pointer, _id_echoNullableInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -16831,8 +17228,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JDoubleArray? echoNullableFloat64List(
     jni$_.JDoubleArray? ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
-    return _echoNullableFloat64List(reference.pointer,
+    return _echoNullableFloat64List(_$$selfRef.pointer,
             _id_echoNullableFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray?>();
   }
@@ -16859,9 +17257,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JObject? echoNullableObject(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _echoNullableObject(
-            reference.pointer, _id_echoNullableObject.pointer, _$object.pointer)
+    return _echoNullableObject(_$$selfRef.pointer,
+            _id_echoNullableObject.pointer, _$object.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -16887,9 +17286,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JObject?>? echoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     return _echoNullableList(
-            reference.pointer, _id_echoNullableList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoNullableList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -16915,9 +17315,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum?>? echoNullableEnumList(
     jni$_.JList<NIAnEnum?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableEnumList(
-            reference.pointer, _id_echoNullableEnumList.pointer, _$list.pointer)
+    return _echoNullableEnumList(_$$selfRef.pointer,
+            _id_echoNullableEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
 
@@ -16943,8 +17344,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes?>? echoNullableClassList(
     jni$_.JList<NIAllNullableTypes?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableClassList(reference.pointer,
+    return _echoNullableClassList(_$$selfRef.pointer,
             _id_echoNullableClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>?>();
   }
@@ -16972,8 +17374,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum>? echoNullableNonNullEnumList(
     jni$_.JList<NIAnEnum>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullEnumList(reference.pointer,
+    return _echoNullableNonNullEnumList(_$$selfRef.pointer,
             _id_echoNullableNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>?>();
   }
@@ -17001,8 +17404,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes>? echoNullableNonNullClassList(
     jni$_.JList<NIAllNullableTypes>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullClassList(reference.pointer,
+    return _echoNullableNonNullClassList(_$$selfRef.pointer,
             _id_echoNullableNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>?>();
   }
@@ -17029,9 +17433,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? echoNullableMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableMap(
-            reference.pointer, _id_echoNullableMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
 
@@ -17057,9 +17462,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? echoNullableStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableStringMap(
-            reference.pointer, _id_echoNullableStringMap.pointer, _$map.pointer)
+    return _echoNullableStringMap(_$$selfRef.pointer,
+            _id_echoNullableStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
 
@@ -17085,9 +17491,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? echoNullableIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableIntMap(
-            reference.pointer, _id_echoNullableIntMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
 
@@ -17113,9 +17520,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableEnumMap(
-            reference.pointer, _id_echoNullableEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
 
@@ -17141,9 +17549,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? echoNullableClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableClassMap(
-            reference.pointer, _id_echoNullableClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>();
   }
 
@@ -17170,8 +17579,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JString, jni$_.JString>? echoNullableNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullStringMap(reference.pointer,
+    return _echoNullableNonNullStringMap(_$$selfRef.pointer,
             _id_echoNullableNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>?>();
   }
@@ -17198,8 +17608,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, jni$_.JLong>? echoNullableNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullIntMap(reference.pointer,
+    return _echoNullableNonNullIntMap(_$$selfRef.pointer,
             _id_echoNullableNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>();
   }
@@ -17227,8 +17638,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullEnumMap(reference.pointer,
+    return _echoNullableNonNullEnumMap(_$$selfRef.pointer,
             _id_echoNullableNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>?>();
   }
@@ -17256,8 +17668,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? echoNullableNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullClassMap(reference.pointer,
+    return _echoNullableNonNullClassMap(_$$selfRef.pointer,
             _id_echoNullableNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>();
   }
@@ -17284,9 +17697,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnEnum? echoNullableEnum(
     NIAnEnum? nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
-    return _echoNullableEnum(
-            reference.pointer, _id_echoNullableEnum.pointer, _$nIAnEnum.pointer)
+    return _echoNullableEnum(_$$selfRef.pointer, _id_echoNullableEnum.pointer,
+            _$nIAnEnum.pointer)
         .object<NIAnEnum?>();
   }
 
@@ -17312,8 +17726,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnotherEnum? echoAnotherNullableEnum(
     NIAnotherEnum? nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
-    return _echoAnotherNullableEnum(reference.pointer,
+    return _echoAnotherNullableEnum(_$$selfRef.pointer,
             _id_echoAnotherNullableEnum.pointer, _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum?>();
   }
@@ -17340,8 +17755,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JLong? echoOptionalNullableInt(
     jni$_.JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
-    return _echoOptionalNullableInt(reference.pointer,
+    return _echoOptionalNullableInt(_$$selfRef.pointer,
             _id_echoOptionalNullableInt.pointer, _$long.pointer)
         .object<jni$_.JLong?>();
   }
@@ -17368,8 +17784,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JString? echoNamedNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _echoNamedNullableString(reference.pointer,
+    return _echoNamedNullableString(_$$selfRef.pointer,
             _id_echoNamedNullableString.pointer, _$string.pointer)
         .object<jni$_.JString?>();
   }
@@ -17395,9 +17812,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.Future<void> noopAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _noopAsync(
-            reference.pointer, _id_noopAsync.pointer, _$continuation.pointer)
+            _$$selfRef.pointer, _id_noopAsync.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -17445,8 +17862,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncInt(reference.pointer, _id_echoAsyncInt.pointer, j,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncInt(_$$selfRef.pointer, _id_echoAsyncInt.pointer, j,
             _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -17500,8 +17917,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncDouble(reference.pointer, _id_echoAsyncDouble.pointer,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncDouble(_$$selfRef.pointer, _id_echoAsyncDouble.pointer,
             d, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -17553,8 +17970,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncBool(reference.pointer, _id_echoAsyncBool.pointer,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncBool(_$$selfRef.pointer, _id_echoAsyncBool.pointer,
             z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -17611,8 +18028,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    final $r = _echoAsyncString(reference.pointer, _id_echoAsyncString.pointer,
+    final $r = _echoAsyncString(_$$selfRef.pointer, _id_echoAsyncString.pointer,
             _$string.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -17669,9 +18087,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     final $r = _echoAsyncUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -17730,9 +18149,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     final $r = _echoAsyncInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -17791,9 +18211,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js.reference;
     final $r = _echoAsyncInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -17852,9 +18273,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     final $r = _echoAsyncFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -17913,8 +18335,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object.reference;
-    final $r = _echoAsyncObject(reference.pointer, _id_echoAsyncObject.pointer,
+    final $r = _echoAsyncObject(_$$selfRef.pointer, _id_echoAsyncObject.pointer,
             _$object.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -17971,8 +18394,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    final $r = _echoAsyncList(reference.pointer, _id_echoAsyncList.pointer,
+    final $r = _echoAsyncList(_$$selfRef.pointer, _id_echoAsyncList.pointer,
             _$list.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -18029,9 +18453,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -18090,9 +18515,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -18151,8 +18577,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncMap(reference.pointer, _id_echoAsyncMap.pointer,
+    final $r = _echoAsyncMap(_$$selfRef.pointer, _id_echoAsyncMap.pointer,
             _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -18209,9 +18636,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _echoAsyncStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -18270,8 +18698,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncIntMap(reference.pointer, _id_echoAsyncIntMap.pointer,
+    final $r = _echoAsyncIntMap(_$$selfRef.pointer, _id_echoAsyncIntMap.pointer,
             _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -18328,8 +18757,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncEnumMap(reference.pointer,
+    final $r = _echoAsyncEnumMap(_$$selfRef.pointer,
             _id_echoAsyncEnumMap.pointer, _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -18387,9 +18817,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _echoAsyncClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -18448,8 +18879,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
-    final $r = _echoAsyncEnum(reference.pointer, _id_echoAsyncEnum.pointer,
+    final $r = _echoAsyncEnum(_$$selfRef.pointer, _id_echoAsyncEnum.pointer,
             _$nIAnEnum.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -18506,9 +18938,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
     final $r = _echoAnotherAsyncEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAnotherAsyncEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -18559,8 +18992,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.Future<jni$_.JObject?> throwAsyncError() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _throwAsyncError(reference.pointer, _id_throwAsyncError.pointer,
+    final _$$selfRef = reference;
+    final $r = _throwAsyncError(_$$selfRef.pointer, _id_throwAsyncError.pointer,
             _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -18611,8 +19044,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.Future<void> throwAsyncErrorFromVoid() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _throwAsyncErrorFromVoid(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _throwAsyncErrorFromVoid(_$$selfRef.pointer,
             _id_throwAsyncErrorFromVoid.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -18658,8 +19091,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.Future<jni$_.JObject?> throwAsyncFlutterError() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _throwAsyncFlutterError(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _throwAsyncFlutterError(_$$selfRef.pointer,
             _id_throwAsyncFlutterError.pointer, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -18718,9 +19151,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
     final $r = _echoAsyncNIAllTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNIAllTypes.pointer,
             _$nIAllTypes.pointer,
             _$continuation.pointer)
@@ -18780,10 +19214,11 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNIAllNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNIAllNullableTypes.pointer,
             _$nIAllNullableTypes.pointer,
             _$continuation.pointer)
@@ -18846,10 +19281,11 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNIAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
             _$continuation.pointer)
@@ -18910,9 +19346,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt.pointer,
             _$long.pointer,
             _$continuation.pointer)
@@ -18973,9 +19410,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableDouble(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableDouble.pointer,
             _$double.pointer,
             _$continuation.pointer)
@@ -19036,9 +19474,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableBool(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableBool.pointer,
             _$boolean.pointer,
             _$continuation.pointer)
@@ -19099,9 +19538,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableString.pointer,
             _$string.pointer,
             _$continuation.pointer)
@@ -19163,9 +19603,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -19227,9 +19668,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -19291,9 +19733,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -19355,9 +19798,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -19418,9 +19862,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableObject(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableObject.pointer,
             _$object.pointer,
             _$continuation.pointer)
@@ -19481,9 +19926,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -19544,9 +19990,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -19608,9 +20055,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -19672,9 +20120,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -19737,9 +20186,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -19801,9 +20251,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableIntMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableIntMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -19864,9 +20315,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnumMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnumMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -19928,9 +20380,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -19991,9 +20444,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnum.pointer,
             _$nIAnEnum.pointer,
             _$continuation.pointer)
@@ -20055,9 +20509,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
     final $r = _echoAnotherAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAnotherAsyncNullableEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -20108,7 +20563,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
 
   /// from: `public fun callFlutterNoop(): kotlin.Unit`
   void callFlutterNoop() {
-    _callFlutterNoop(reference.pointer, _id_callFlutterNoop.pointer).check();
+    final _$$selfRef = reference;
+    _callFlutterNoop(_$$selfRef.pointer, _id_callFlutterNoop.pointer).check();
   }
 
   static final _id_callFlutterThrowError =
@@ -20132,8 +20588,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   /// from: `public fun callFlutterThrowError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? callFlutterThrowError() {
+    final _$$selfRef = reference;
     return _callFlutterThrowError(
-            reference.pointer, _id_callFlutterThrowError.pointer)
+            _$$selfRef.pointer, _id_callFlutterThrowError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -20158,8 +20615,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
 
   /// from: `public fun callFlutterThrowErrorFromVoid(): kotlin.Unit`
   void callFlutterThrowErrorFromVoid() {
+    final _$$selfRef = reference;
     _callFlutterThrowErrorFromVoid(
-            reference.pointer, _id_callFlutterThrowErrorFromVoid.pointer)
+            _$$selfRef.pointer, _id_callFlutterThrowErrorFromVoid.pointer)
         .check();
   }
 
@@ -20185,8 +20643,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAllTypes callFlutterEchoNIAllTypes(
     NIAllTypes nIAllTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
-    return _callFlutterEchoNIAllTypes(reference.pointer,
+    return _callFlutterEchoNIAllTypes(_$$selfRef.pointer,
             _id_callFlutterEchoNIAllTypes.pointer, _$nIAllTypes.pointer)
         .object<NIAllTypes>();
   }
@@ -20214,10 +20673,11 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAllNullableTypes? callFlutterEchoNIAllNullableTypes(
     NIAllNullableTypes? nIAllNullableTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     return _callFlutterEchoNIAllNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoNIAllNullableTypes.pointer,
             _$nIAllNullableTypes.pointer)
         .object<NIAllNullableTypes?>();
@@ -20256,11 +20716,12 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _callFlutterSendMultipleNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterSendMultipleNullableTypes.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -20292,10 +20753,11 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       callFlutterEchoNIAllNullableTypesWithoutRecursion(
     NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     return _callFlutterEchoNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoNIAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer)
         .object<NIAllNullableTypesWithoutRecursion?>();
@@ -20335,11 +20797,12 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _callFlutterSendMultipleNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterSendMultipleNullableTypesWithoutRecursion.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -20368,8 +20831,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.bool callFlutterEchoBool(
     core$_.bool z,
   ) {
+    final _$$selfRef = reference;
     return _callFlutterEchoBool(
-            reference.pointer, _id_callFlutterEchoBool.pointer, z ? 1 : 0)
+            _$$selfRef.pointer, _id_callFlutterEchoBool.pointer, z ? 1 : 0)
         .boolean;
   }
 
@@ -20393,8 +20857,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.int callFlutterEchoInt(
     core$_.int j,
   ) {
+    final _$$selfRef = reference;
     return _callFlutterEchoInt(
-            reference.pointer, _id_callFlutterEchoInt.pointer, j)
+            _$$selfRef.pointer, _id_callFlutterEchoInt.pointer, j)
         .long;
   }
 
@@ -20419,8 +20884,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.double callFlutterEchoDouble(
     core$_.double d,
   ) {
+    final _$$selfRef = reference;
     return _callFlutterEchoDouble(
-            reference.pointer, _id_callFlutterEchoDouble.pointer, d)
+            _$$selfRef.pointer, _id_callFlutterEchoDouble.pointer, d)
         .doubleFloat;
   }
 
@@ -20446,8 +20912,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JString callFlutterEchoString(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    return _callFlutterEchoString(reference.pointer,
+    return _callFlutterEchoString(_$$selfRef.pointer,
             _id_callFlutterEchoString.pointer, _$string.pointer)
         .object<jni$_.JString>();
   }
@@ -20474,8 +20941,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JByteArray callFlutterEchoUint8List(
     jni$_.JByteArray bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
-    return _callFlutterEchoUint8List(reference.pointer,
+    return _callFlutterEchoUint8List(_$$selfRef.pointer,
             _id_callFlutterEchoUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray>();
   }
@@ -20502,8 +20970,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JIntArray callFlutterEchoInt32List(
     jni$_.JIntArray is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
-    return _callFlutterEchoInt32List(reference.pointer,
+    return _callFlutterEchoInt32List(_$$selfRef.pointer,
             _id_callFlutterEchoInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray>();
   }
@@ -20530,8 +20999,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JLongArray callFlutterEchoInt64List(
     jni$_.JLongArray js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js.reference;
-    return _callFlutterEchoInt64List(reference.pointer,
+    return _callFlutterEchoInt64List(_$$selfRef.pointer,
             _id_callFlutterEchoInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray>();
   }
@@ -20559,8 +21029,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JDoubleArray callFlutterEchoFloat64List(
     jni$_.JDoubleArray ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
-    return _callFlutterEchoFloat64List(reference.pointer,
+    return _callFlutterEchoFloat64List(_$$selfRef.pointer,
             _id_callFlutterEchoFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray>();
   }
@@ -20587,9 +21058,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JObject?> callFlutterEchoList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _callFlutterEchoList(
-            reference.pointer, _id_callFlutterEchoList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_callFlutterEchoList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -20615,8 +21087,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum?> callFlutterEchoEnumList(
     jni$_.JList<NIAnEnum?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoEnumList(reference.pointer,
+    return _callFlutterEchoEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>>();
   }
@@ -20643,8 +21116,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes?> callFlutterEchoClassList(
     jni$_.JList<NIAllNullableTypes?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoClassList(reference.pointer,
+    return _callFlutterEchoClassList(_$$selfRef.pointer,
             _id_callFlutterEchoClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>>();
   }
@@ -20672,8 +21146,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum> callFlutterEchoNonNullEnumList(
     jni$_.JList<NIAnEnum> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoNonNullEnumList(reference.pointer,
+    return _callFlutterEchoNonNullEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>>();
   }
@@ -20701,8 +21176,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes> callFlutterEchoNonNullClassList(
     jni$_.JList<NIAllNullableTypes> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoNonNullClassList(reference.pointer,
+    return _callFlutterEchoNonNullClassList(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>>();
   }
@@ -20729,9 +21205,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?> callFlutterEchoMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _callFlutterEchoMap(
-            reference.pointer, _id_callFlutterEchoMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_callFlutterEchoMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>();
   }
 
@@ -20757,8 +21234,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JString?, jni$_.JString?> callFlutterEchoStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoStringMap(reference.pointer,
+    return _callFlutterEchoStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>>();
   }
@@ -20785,9 +21263,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?> callFlutterEchoIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoIntMap(
-            reference.pointer, _id_callFlutterEchoIntMap.pointer, _$map.pointer)
+    return _callFlutterEchoIntMap(_$$selfRef.pointer,
+            _id_callFlutterEchoIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>();
   }
 
@@ -20813,8 +21292,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum?, NIAnEnum?> callFlutterEchoEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoEnumMap(reference.pointer,
+    return _callFlutterEchoEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>>();
   }
@@ -20841,8 +21321,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> callFlutterEchoClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoClassMap(reference.pointer,
+    return _callFlutterEchoClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>();
   }
@@ -20870,8 +21351,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JString, jni$_.JString> callFlutterEchoNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullStringMap(reference.pointer,
+    return _callFlutterEchoNonNullStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>>();
   }
@@ -20899,8 +21381,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, jni$_.JLong> callFlutterEchoNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullIntMap(reference.pointer,
+    return _callFlutterEchoNonNullIntMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>>();
   }
@@ -20928,8 +21411,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum, NIAnEnum> callFlutterEchoNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullEnumMap(reference.pointer,
+    return _callFlutterEchoNonNullEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>>();
   }
@@ -20957,8 +21441,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes> callFlutterEchoNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullClassMap(reference.pointer,
+    return _callFlutterEchoNonNullClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>>();
   }
@@ -20985,8 +21470,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnEnum callFlutterEchoEnum(
     NIAnEnum nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
-    return _callFlutterEchoEnum(reference.pointer,
+    return _callFlutterEchoEnum(_$$selfRef.pointer,
             _id_callFlutterEchoEnum.pointer, _$nIAnEnum.pointer)
         .object<NIAnEnum>();
   }
@@ -21014,8 +21500,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnotherEnum callFlutterEchoNIAnotherEnum(
     NIAnotherEnum nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
-    return _callFlutterEchoNIAnotherEnum(reference.pointer,
+    return _callFlutterEchoNIAnotherEnum(_$$selfRef.pointer,
             _id_callFlutterEchoNIAnotherEnum.pointer, _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum>();
   }
@@ -21043,8 +21530,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JBoolean? callFlutterEchoNullableBool(
     jni$_.JBoolean? boolean,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableBool(reference.pointer,
+    return _callFlutterEchoNullableBool(_$$selfRef.pointer,
             _id_callFlutterEchoNullableBool.pointer, _$boolean.pointer)
         .object<jni$_.JBoolean?>();
   }
@@ -21072,8 +21560,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JLong? callFlutterEchoNullableInt(
     jni$_.JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableInt(reference.pointer,
+    return _callFlutterEchoNullableInt(_$$selfRef.pointer,
             _id_callFlutterEchoNullableInt.pointer, _$long.pointer)
         .object<jni$_.JLong?>();
   }
@@ -21101,8 +21590,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JDouble? callFlutterEchoNullableDouble(
     jni$_.JDouble? double,
   ) {
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableDouble(reference.pointer,
+    return _callFlutterEchoNullableDouble(_$$selfRef.pointer,
             _id_callFlutterEchoNullableDouble.pointer, _$double.pointer)
         .object<jni$_.JDouble?>();
   }
@@ -21130,8 +21620,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JString? callFlutterEchoNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableString(reference.pointer,
+    return _callFlutterEchoNullableString(_$$selfRef.pointer,
             _id_callFlutterEchoNullableString.pointer, _$string.pointer)
         .object<jni$_.JString?>();
   }
@@ -21159,8 +21650,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JByteArray? callFlutterEchoNullableUint8List(
     jni$_.JByteArray? bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableUint8List(reference.pointer,
+    return _callFlutterEchoNullableUint8List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray?>();
   }
@@ -21188,8 +21680,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JIntArray? callFlutterEchoNullableInt32List(
     jni$_.JIntArray? is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableInt32List(reference.pointer,
+    return _callFlutterEchoNullableInt32List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray?>();
   }
@@ -21217,8 +21710,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JLongArray? callFlutterEchoNullableInt64List(
     jni$_.JLongArray? js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableInt64List(reference.pointer,
+    return _callFlutterEchoNullableInt64List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray?>();
   }
@@ -21246,8 +21740,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JDoubleArray? callFlutterEchoNullableFloat64List(
     jni$_.JDoubleArray? ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableFloat64List(reference.pointer,
+    return _callFlutterEchoNullableFloat64List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray?>();
   }
@@ -21275,8 +21770,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<jni$_.JObject?>? callFlutterEchoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableList(reference.pointer,
+    return _callFlutterEchoNullableList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
@@ -21304,8 +21800,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum?>? callFlutterEchoNullableEnumList(
     jni$_.JList<NIAnEnum?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableEnumList(reference.pointer,
+    return _callFlutterEchoNullableEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
@@ -21333,8 +21830,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes?>? callFlutterEchoNullableClassList(
     jni$_.JList<NIAllNullableTypes?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableClassList(reference.pointer,
+    return _callFlutterEchoNullableClassList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>?>();
   }
@@ -21362,8 +21860,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAnEnum>? callFlutterEchoNullableNonNullEnumList(
     jni$_.JList<NIAnEnum>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullEnumList(reference.pointer,
+    return _callFlutterEchoNullableNonNullEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>?>();
   }
@@ -21391,8 +21890,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JList<NIAllNullableTypes>? callFlutterEchoNullableNonNullClassList(
     jni$_.JList<NIAllNullableTypes>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullClassList(reference.pointer,
+    return _callFlutterEchoNullableNonNullClassList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>?>();
   }
@@ -21420,8 +21920,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? callFlutterEchoNullableMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableMap(reference.pointer,
+    return _callFlutterEchoNullableMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
@@ -21449,8 +21950,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? callFlutterEchoNullableStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableStringMap(reference.pointer,
+    return _callFlutterEchoNullableStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
@@ -21478,8 +21980,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? callFlutterEchoNullableIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableIntMap(reference.pointer,
+    return _callFlutterEchoNullableIntMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
@@ -21507,8 +22010,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? callFlutterEchoNullableEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableEnumMap(reference.pointer,
+    return _callFlutterEchoNullableEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
@@ -21537,8 +22041,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       callFlutterEchoNullableClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableClassMap(reference.pointer,
+    return _callFlutterEchoNullableClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>();
   }
@@ -21567,8 +22072,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       callFlutterEchoNullableNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullStringMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>?>();
   }
@@ -21596,8 +22102,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<jni$_.JLong, jni$_.JLong>? callFlutterEchoNullableNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullIntMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullIntMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>();
   }
@@ -21625,8 +22132,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   jni$_.JMap<NIAnEnum, NIAnEnum>? callFlutterEchoNullableNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullEnumMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>?>();
   }
@@ -21655,8 +22163,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       callFlutterEchoNullableNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullClassMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>();
   }
@@ -21684,8 +22193,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnEnum? callFlutterEchoNullableEnum(
     NIAnEnum? nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableEnum(reference.pointer,
+    return _callFlutterEchoNullableEnum(_$$selfRef.pointer,
             _id_callFlutterEchoNullableEnum.pointer, _$nIAnEnum.pointer)
         .object<NIAnEnum?>();
   }
@@ -21713,9 +22223,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   NIAnotherEnum? callFlutterEchoAnotherNullableEnum(
     NIAnotherEnum? nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
     return _callFlutterEchoAnotherNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAnotherNullableEnum.pointer,
             _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum?>();
@@ -21743,8 +22254,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.Future<void> callFlutterNoopAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _callFlutterNoopAsync(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _callFlutterNoopAsync(_$$selfRef.pointer,
             _id_callFlutterNoopAsync.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -21799,9 +22310,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
     final $r = _callFlutterEchoAsyncNIAllTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNIAllTypes.pointer,
             _$nIAllTypes.pointer,
             _$continuation.pointer)
@@ -21862,10 +22374,11 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNIAllNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNIAllNullableTypes.pointer,
             _$nIAllNullableTypes.pointer,
             _$continuation.pointer)
@@ -21928,10 +22441,11 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion
                 .pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
@@ -21988,9 +22502,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _callFlutterEchoAsyncBool(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncBool.pointer,
             z ? 1 : 0,
             _$continuation.pointer)
@@ -22044,8 +22558,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _callFlutterEchoAsyncInt(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _callFlutterEchoAsyncInt(_$$selfRef.pointer,
             _id_callFlutterEchoAsyncInt.pointer, j, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -22103,8 +22617,8 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _callFlutterEchoAsyncDouble(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _callFlutterEchoAsyncDouble(_$$selfRef.pointer,
             _id_callFlutterEchoAsyncDouble.pointer, d, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -22162,9 +22676,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string.reference;
     final $r = _callFlutterEchoAsyncString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncString.pointer,
             _$string.pointer,
             _$continuation.pointer)
@@ -22224,9 +22739,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     final $r = _callFlutterEchoAsyncUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -22286,9 +22802,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     final $r = _callFlutterEchoAsyncInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -22348,9 +22865,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js.reference;
     final $r = _callFlutterEchoAsyncInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -22410,9 +22928,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     final $r = _callFlutterEchoAsyncFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -22472,9 +22991,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object.reference;
     final $r = _callFlutterEchoAsyncObject(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncObject.pointer,
             _$object.pointer,
             _$continuation.pointer)
@@ -22533,9 +23053,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -22595,9 +23116,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -22657,9 +23179,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -22719,9 +23242,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncNonNullEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNonNullEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -22782,9 +23306,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncNonNullClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNonNullClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -22844,9 +23369,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -22907,9 +23433,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -22970,9 +23497,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncIntMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncIntMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -23032,9 +23560,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncEnumMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncEnumMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -23095,9 +23624,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -23156,9 +23686,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
     final $r = _callFlutterEchoAsyncEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncEnum.pointer,
             _$nIAnEnum.pointer,
             _$continuation.pointer)
@@ -23218,9 +23749,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
     final $r = _callFlutterEchoAnotherAsyncEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAnotherAsyncEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -23280,9 +23812,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableBool(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableBool.pointer,
             _$boolean.pointer,
             _$continuation.pointer)
@@ -23344,9 +23877,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableInt(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableInt.pointer,
             _$long.pointer,
             _$continuation.pointer)
@@ -23408,9 +23942,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableDouble(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableDouble.pointer,
             _$double.pointer,
             _$continuation.pointer)
@@ -23472,9 +24007,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableString.pointer,
             _$string.pointer,
             _$continuation.pointer)
@@ -23536,9 +24072,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -23600,9 +24137,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -23664,9 +24202,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -23728,9 +24267,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -23784,9 +24324,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.Future<jni$_.JObject?> callFlutterThrowFlutterErrorAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _callFlutterThrowFlutterErrorAsync(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterThrowFlutterErrorAsync.pointer,
             _$continuation.pointer)
         .object<jni$_.JObject?>();
@@ -23847,9 +24387,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableObject(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableObject.pointer,
             _$object.pointer,
             _$continuation.pointer)
@@ -23911,9 +24452,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -23975,9 +24517,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -24040,9 +24583,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -24105,9 +24649,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNonNullEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNonNullEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -24170,9 +24715,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNonNullClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNonNullClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -24235,9 +24781,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -24300,9 +24847,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -24365,9 +24913,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableIntMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableIntMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -24430,9 +24979,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableEnumMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableEnumMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -24495,9 +25045,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -24559,9 +25110,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableEnum.pointer,
             _$nIAnEnum.pointer,
             _$continuation.pointer)
@@ -24623,9 +25175,10 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAnotherAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAnotherAsyncNullableEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -24676,8 +25229,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
 
   /// from: `public fun defaultIsMainThread(): kotlin.Boolean`
   core$_.bool defaultIsMainThread() {
+    final _$$selfRef = reference;
     return _defaultIsMainThread(
-            reference.pointer, _id_defaultIsMainThread.pointer)
+            _$$selfRef.pointer, _id_defaultIsMainThread.pointer)
         .boolean;
   }
 
@@ -24704,9 +25258,9 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
   core$_.Future<jni$_.JBoolean> callFlutterNoopOnBackgroundThread() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _callFlutterNoopOnBackgroundThread(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterNoopOnBackgroundThread.pointer,
             _$continuation.pointer)
         .object<jni$_.JObject>();
@@ -24774,7 +25328,8 @@ extension type NIHostIntegrationCoreApiRegistrar._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory NIHostIntegrationCoreApiRegistrar() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<NIHostIntegrationCoreApiRegistrar>();
   }
 }
@@ -24802,7 +25357,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   /// from: `public final com.github.dart_lang.jnigen.NIHostIntegrationCoreApi getApi()`
   /// The returned object must be released after use, by calling the [release] method.
   NIHostIntegrationCoreApi? get api {
-    return _get$api(reference.pointer, _id_get$api.pointer)
+    final _$$selfRef = reference;
+    return _get$api(_$$selfRef.pointer, _id_get$api.pointer)
         .object<NIHostIntegrationCoreApi?>();
   }
 
@@ -24825,9 +25381,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
 
   /// from: `public final void setApi(com.github.dart_lang.jnigen.NIHostIntegrationCoreApi nIHostIntegrationCoreApi)`
   set api(NIHostIntegrationCoreApi? nIHostIntegrationCoreApi) {
+    final _$$selfRef = reference;
     final _$nIHostIntegrationCoreApi =
         nIHostIntegrationCoreApi?.reference ?? jni$_.jNullReference;
-    _set$api(reference.pointer, _id_set$api.pointer,
+    _set$api(_$$selfRef.pointer, _id_set$api.pointer,
             _$nIHostIntegrationCoreApi.pointer)
         .check();
   }
@@ -24861,9 +25418,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     NIHostIntegrationCoreApi nIHostIntegrationCoreApi,
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$nIHostIntegrationCoreApi = nIHostIntegrationCoreApi.reference;
     final _$string = string.reference;
-    return _register(reference.pointer, _id_register.pointer,
+    return _register(_$$selfRef.pointer, _id_register.pointer,
             _$nIHostIntegrationCoreApi.pointer, _$string.pointer)
         .object<NIHostIntegrationCoreApiRegistrar>();
   }
@@ -24890,9 +25448,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIHostIntegrationCoreApiRegistrar? getInstance(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
     return _getInstance(
-            reference.pointer, _id_getInstance.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_getInstance.pointer, _$string.pointer)
         .object<NIHostIntegrationCoreApiRegistrar?>();
   }
 
@@ -24916,7 +25475,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
 
   /// from: `public fun noop(): kotlin.Unit`
   void noop() {
-    _noop(reference.pointer, _id_noop.pointer).check();
+    final _$$selfRef = reference;
+    _noop(_$$selfRef.pointer, _id_noop.pointer).check();
   }
 
   static final _id_echoAllTypes =
@@ -24941,9 +25501,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAllTypes echoAllTypes(
     NIAllTypes nIAllTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
     return _echoAllTypes(
-            reference.pointer, _id_echoAllTypes.pointer, _$nIAllTypes.pointer)
+            _$$selfRef.pointer, _id_echoAllTypes.pointer, _$nIAllTypes.pointer)
         .object<NIAllTypes>();
   }
 
@@ -24968,7 +25529,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   /// from: `public fun throwError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? throwError() {
-    return _throwError(reference.pointer, _id_throwError.pointer)
+    final _$$selfRef = reference;
+    return _throwError(_$$selfRef.pointer, _id_throwError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -24992,7 +25554,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
 
   /// from: `public fun throwErrorFromVoid(): kotlin.Unit`
   void throwErrorFromVoid() {
-    _throwErrorFromVoid(reference.pointer, _id_throwErrorFromVoid.pointer)
+    final _$$selfRef = reference;
+    _throwErrorFromVoid(_$$selfRef.pointer, _id_throwErrorFromVoid.pointer)
         .check();
   }
 
@@ -25017,7 +25580,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   /// from: `public fun throwFlutterError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? throwFlutterError() {
-    return _throwFlutterError(reference.pointer, _id_throwFlutterError.pointer)
+    final _$$selfRef = reference;
+    return _throwFlutterError(_$$selfRef.pointer, _id_throwFlutterError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -25041,7 +25605,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.int echoInt(
     core$_.int j,
   ) {
-    return _echoInt(reference.pointer, _id_echoInt.pointer, j).long;
+    final _$$selfRef = reference;
+    return _echoInt(_$$selfRef.pointer, _id_echoInt.pointer, j).long;
   }
 
   static final _id_echoDouble =
@@ -25065,7 +25630,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.double echoDouble(
     core$_.double d,
   ) {
-    return _echoDouble(reference.pointer, _id_echoDouble.pointer, d)
+    final _$$selfRef = reference;
+    return _echoDouble(_$$selfRef.pointer, _id_echoDouble.pointer, d)
         .doubleFloat;
   }
 
@@ -25090,7 +25656,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.bool echoBool(
     core$_.bool z,
   ) {
-    return _echoBool(reference.pointer, _id_echoBool.pointer, z ? 1 : 0)
+    final _$$selfRef = reference;
+    return _echoBool(_$$selfRef.pointer, _id_echoBool.pointer, z ? 1 : 0)
         .boolean;
   }
 
@@ -25116,9 +25683,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JString echoString(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
     return _echoString(
-            reference.pointer, _id_echoString.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_echoString.pointer, _$string.pointer)
         .object<jni$_.JString>();
   }
 
@@ -25144,9 +25712,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JByteArray echoUint8List(
     jni$_.JByteArray bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     return _echoUint8List(
-            reference.pointer, _id_echoUint8List.pointer, _$bs.pointer)
+            _$$selfRef.pointer, _id_echoUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray>();
   }
 
@@ -25172,9 +25741,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JIntArray echoInt32List(
     jni$_.JIntArray is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     return _echoInt32List(
-            reference.pointer, _id_echoInt32List.pointer, _$is$.pointer)
+            _$$selfRef.pointer, _id_echoInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray>();
   }
 
@@ -25200,9 +25770,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JLongArray echoInt64List(
     jni$_.JLongArray js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js.reference;
     return _echoInt64List(
-            reference.pointer, _id_echoInt64List.pointer, _$js.pointer)
+            _$$selfRef.pointer, _id_echoInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray>();
   }
 
@@ -25228,9 +25799,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JDoubleArray echoFloat64List(
     jni$_.JDoubleArray ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     return _echoFloat64List(
-            reference.pointer, _id_echoFloat64List.pointer, _$ds.pointer)
+            _$$selfRef.pointer, _id_echoFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray>();
   }
 
@@ -25256,9 +25828,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JObject echoObject(
     jni$_.JObject object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object.reference;
     return _echoObject(
-            reference.pointer, _id_echoObject.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_echoObject.pointer, _$object.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -25284,8 +25857,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JObject?> echoList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _echoList(reference.pointer, _id_echoList.pointer, _$list.pointer)
+    return _echoList(_$$selfRef.pointer, _id_echoList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -25311,9 +25885,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JString?> echoStringList(
     jni$_.JList<jni$_.JString?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoStringList(
-            reference.pointer, _id_echoStringList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoStringList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JString?>>();
   }
 
@@ -25339,9 +25914,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JLong?> echoIntList(
     jni$_.JList<jni$_.JLong?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoIntList(
-            reference.pointer, _id_echoIntList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoIntList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JLong?>>();
   }
 
@@ -25367,9 +25943,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JDouble?> echoDoubleList(
     jni$_.JList<jni$_.JDouble?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoDoubleList(
-            reference.pointer, _id_echoDoubleList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoDoubleList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JDouble?>>();
   }
 
@@ -25395,9 +25972,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JBoolean?> echoBoolList(
     jni$_.JList<jni$_.JBoolean?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoBoolList(
-            reference.pointer, _id_echoBoolList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoBoolList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JBoolean?>>();
   }
 
@@ -25423,9 +26001,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum?> echoEnumList(
     jni$_.JList<NIAnEnum?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoEnumList(
-            reference.pointer, _id_echoEnumList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>>();
   }
 
@@ -25451,9 +26030,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes?> echoClassList(
     jni$_.JList<NIAllNullableTypes?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoClassList(
-            reference.pointer, _id_echoClassList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>>();
   }
 
@@ -25479,9 +26059,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum> echoNonNullEnumList(
     jni$_.JList<NIAnEnum> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _echoNonNullEnumList(
-            reference.pointer, _id_echoNonNullEnumList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>>();
   }
 
@@ -25507,9 +26088,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes> echoNonNullClassList(
     jni$_.JList<NIAllNullableTypes> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _echoNonNullClassList(
-            reference.pointer, _id_echoNonNullClassList.pointer, _$list.pointer)
+    return _echoNonNullClassList(_$$selfRef.pointer,
+            _id_echoNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>>();
   }
 
@@ -25535,8 +26117,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?> echoMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _echoMap(reference.pointer, _id_echoMap.pointer, _$map.pointer)
+    return _echoMap(_$$selfRef.pointer, _id_echoMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>();
   }
 
@@ -25562,9 +26145,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JString?, jni$_.JString?> echoStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoStringMap(
-            reference.pointer, _id_echoStringMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>>();
   }
 
@@ -25590,8 +26174,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?> echoIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _echoIntMap(reference.pointer, _id_echoIntMap.pointer, _$map.pointer)
+    return _echoIntMap(
+            _$$selfRef.pointer, _id_echoIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>();
   }
 
@@ -25617,9 +26203,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum?, NIAnEnum?> echoEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoEnumMap(
-            reference.pointer, _id_echoEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>>();
   }
 
@@ -25645,9 +26232,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> echoClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoClassMap(
-            reference.pointer, _id_echoClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>();
   }
 
@@ -25673,9 +26261,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JString, jni$_.JString> echoNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullStringMap(
-            reference.pointer, _id_echoNonNullStringMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>>();
   }
 
@@ -25701,9 +26290,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong, jni$_.JLong> echoNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullIntMap(
-            reference.pointer, _id_echoNonNullIntMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>>();
   }
 
@@ -25729,9 +26319,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum, NIAnEnum> echoNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullEnumMap(
-            reference.pointer, _id_echoNonNullEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>>();
   }
 
@@ -25757,9 +26348,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes> echoNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _echoNonNullClassMap(
-            reference.pointer, _id_echoNonNullClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>>();
   }
 
@@ -25785,8 +26377,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAllClassesWrapper echoClassWrapper(
     NIAllClassesWrapper nIAllClassesWrapper,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllClassesWrapper = nIAllClassesWrapper.reference;
-    return _echoClassWrapper(reference.pointer, _id_echoClassWrapper.pointer,
+    return _echoClassWrapper(_$$selfRef.pointer, _id_echoClassWrapper.pointer,
             _$nIAllClassesWrapper.pointer)
         .object<NIAllClassesWrapper>();
   }
@@ -25813,9 +26406,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnEnum echoEnum(
     NIAnEnum nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
     return _echoEnum(
-            reference.pointer, _id_echoEnum.pointer, _$nIAnEnum.pointer)
+            _$$selfRef.pointer, _id_echoEnum.pointer, _$nIAnEnum.pointer)
         .object<NIAnEnum>();
   }
 
@@ -25841,8 +26435,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnotherEnum echoAnotherEnum(
     NIAnotherEnum nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
-    return _echoAnotherEnum(reference.pointer, _id_echoAnotherEnum.pointer,
+    return _echoAnotherEnum(_$$selfRef.pointer, _id_echoAnotherEnum.pointer,
             _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum>();
   }
@@ -25869,8 +26464,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JString echoNamedDefaultString(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    return _echoNamedDefaultString(reference.pointer,
+    return _echoNamedDefaultString(_$$selfRef.pointer,
             _id_echoNamedDefaultString.pointer, _$string.pointer)
         .object<jni$_.JString>();
   }
@@ -25896,8 +26492,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.double echoOptionalDefaultDouble(
     core$_.double d,
   ) {
+    final _$$selfRef = reference;
     return _echoOptionalDefaultDouble(
-            reference.pointer, _id_echoOptionalDefaultDouble.pointer, d)
+            _$$selfRef.pointer, _id_echoOptionalDefaultDouble.pointer, d)
         .doubleFloat;
   }
 
@@ -25921,7 +26518,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.int echoRequiredInt(
     core$_.int j,
   ) {
-    return _echoRequiredInt(reference.pointer, _id_echoRequiredInt.pointer, j)
+    final _$$selfRef = reference;
+    return _echoRequiredInt(_$$selfRef.pointer, _id_echoRequiredInt.pointer, j)
         .long;
   }
 
@@ -25947,9 +26545,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAllNullableTypes? echoAllNullableTypes(
     NIAllNullableTypes? nIAllNullableTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
-    return _echoAllNullableTypes(reference.pointer,
+    return _echoAllNullableTypes(_$$selfRef.pointer,
             _id_echoAllNullableTypes.pointer, _$nIAllNullableTypes.pointer)
         .object<NIAllNullableTypes?>();
   }
@@ -25977,10 +26576,11 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAllNullableTypesWithoutRecursion? echoAllNullableTypesWithoutRecursion(
     NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     return _echoAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer)
         .object<NIAllNullableTypesWithoutRecursion?>();
@@ -26009,9 +26609,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JString? extractNestedNullableString(
     NIAllClassesWrapper nIAllClassesWrapper,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllClassesWrapper = nIAllClassesWrapper.reference;
     return _extractNestedNullableString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_extractNestedNullableString.pointer,
             _$nIAllClassesWrapper.pointer)
         .object<jni$_.JString?>();
@@ -26040,8 +26641,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAllClassesWrapper createNestedNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _createNestedNullableString(reference.pointer,
+    return _createNestedNullableString(_$$selfRef.pointer,
             _id_createNestedNullableString.pointer, _$string.pointer)
         .object<NIAllClassesWrapper>();
   }
@@ -26078,11 +26680,12 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _sendMultipleNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_sendMultipleNullableTypes.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -26123,11 +26726,12 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _sendMultipleNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_sendMultipleNullableTypesWithoutRecursion.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -26157,9 +26761,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JLong? echoNullableInt(
     jni$_.JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     return _echoNullableInt(
-            reference.pointer, _id_echoNullableInt.pointer, _$long.pointer)
+            _$$selfRef.pointer, _id_echoNullableInt.pointer, _$long.pointer)
         .object<jni$_.JLong?>();
   }
 
@@ -26185,9 +26790,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JDouble? echoNullableDouble(
     jni$_.JDouble? double,
   ) {
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
-    return _echoNullableDouble(
-            reference.pointer, _id_echoNullableDouble.pointer, _$double.pointer)
+    return _echoNullableDouble(_$$selfRef.pointer,
+            _id_echoNullableDouble.pointer, _$double.pointer)
         .object<jni$_.JDouble?>();
   }
 
@@ -26213,9 +26819,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JBoolean? echoNullableBool(
     jni$_.JBoolean? boolean,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     return _echoNullableBool(
-            reference.pointer, _id_echoNullableBool.pointer, _$boolean.pointer)
+            _$$selfRef.pointer, _id_echoNullableBool.pointer, _$boolean.pointer)
         .object<jni$_.JBoolean?>();
   }
 
@@ -26241,9 +26848,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JString? echoNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _echoNullableString(
-            reference.pointer, _id_echoNullableString.pointer, _$string.pointer)
+    return _echoNullableString(_$$selfRef.pointer,
+            _id_echoNullableString.pointer, _$string.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -26269,9 +26877,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JByteArray? echoNullableUint8List(
     jni$_.JByteArray? bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _echoNullableUint8List(
-            reference.pointer, _id_echoNullableUint8List.pointer, _$bs.pointer)
+            _$$selfRef.pointer, _id_echoNullableUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -26297,9 +26906,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JIntArray? echoNullableInt32List(
     jni$_.JIntArray? is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
-    return _echoNullableInt32List(
-            reference.pointer, _id_echoNullableInt32List.pointer, _$is$.pointer)
+    return _echoNullableInt32List(_$$selfRef.pointer,
+            _id_echoNullableInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray?>();
   }
 
@@ -26325,9 +26935,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JLongArray? echoNullableInt64List(
     jni$_.JLongArray? js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     return _echoNullableInt64List(
-            reference.pointer, _id_echoNullableInt64List.pointer, _$js.pointer)
+            _$$selfRef.pointer, _id_echoNullableInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray?>();
   }
 
@@ -26353,8 +26964,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JDoubleArray? echoNullableFloat64List(
     jni$_.JDoubleArray? ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
-    return _echoNullableFloat64List(reference.pointer,
+    return _echoNullableFloat64List(_$$selfRef.pointer,
             _id_echoNullableFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray?>();
   }
@@ -26381,9 +26993,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JObject? echoNullableObject(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _echoNullableObject(
-            reference.pointer, _id_echoNullableObject.pointer, _$object.pointer)
+    return _echoNullableObject(_$$selfRef.pointer,
+            _id_echoNullableObject.pointer, _$object.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -26409,9 +27022,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JObject?>? echoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     return _echoNullableList(
-            reference.pointer, _id_echoNullableList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_echoNullableList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
 
@@ -26437,9 +27051,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum?>? echoNullableEnumList(
     jni$_.JList<NIAnEnum?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableEnumList(
-            reference.pointer, _id_echoNullableEnumList.pointer, _$list.pointer)
+    return _echoNullableEnumList(_$$selfRef.pointer,
+            _id_echoNullableEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
 
@@ -26465,8 +27080,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes?>? echoNullableClassList(
     jni$_.JList<NIAllNullableTypes?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableClassList(reference.pointer,
+    return _echoNullableClassList(_$$selfRef.pointer,
             _id_echoNullableClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>?>();
   }
@@ -26494,8 +27110,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum>? echoNullableNonNullEnumList(
     jni$_.JList<NIAnEnum>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullEnumList(reference.pointer,
+    return _echoNullableNonNullEnumList(_$$selfRef.pointer,
             _id_echoNullableNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>?>();
   }
@@ -26523,8 +27140,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes>? echoNullableNonNullClassList(
     jni$_.JList<NIAllNullableTypes>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullClassList(reference.pointer,
+    return _echoNullableNonNullClassList(_$$selfRef.pointer,
             _id_echoNullableNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>?>();
   }
@@ -26551,9 +27169,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? echoNullableMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableMap(
-            reference.pointer, _id_echoNullableMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
 
@@ -26579,9 +27198,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? echoNullableStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableStringMap(
-            reference.pointer, _id_echoNullableStringMap.pointer, _$map.pointer)
+    return _echoNullableStringMap(_$$selfRef.pointer,
+            _id_echoNullableStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
 
@@ -26607,9 +27227,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? echoNullableIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableIntMap(
-            reference.pointer, _id_echoNullableIntMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
 
@@ -26635,9 +27256,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableEnumMap(
-            reference.pointer, _id_echoNullableEnumMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
 
@@ -26663,9 +27285,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? echoNullableClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _echoNullableClassMap(
-            reference.pointer, _id_echoNullableClassMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_echoNullableClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>();
   }
 
@@ -26692,8 +27315,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JString, jni$_.JString>? echoNullableNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullStringMap(reference.pointer,
+    return _echoNullableNonNullStringMap(_$$selfRef.pointer,
             _id_echoNullableNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>?>();
   }
@@ -26720,8 +27344,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong, jni$_.JLong>? echoNullableNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullIntMap(reference.pointer,
+    return _echoNullableNonNullIntMap(_$$selfRef.pointer,
             _id_echoNullableNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>();
   }
@@ -26749,8 +27374,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullEnumMap(reference.pointer,
+    return _echoNullableNonNullEnumMap(_$$selfRef.pointer,
             _id_echoNullableNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>?>();
   }
@@ -26778,8 +27404,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? echoNullableNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _echoNullableNonNullClassMap(reference.pointer,
+    return _echoNullableNonNullClassMap(_$$selfRef.pointer,
             _id_echoNullableNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>();
   }
@@ -26806,9 +27433,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnEnum? echoNullableEnum(
     NIAnEnum? nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
-    return _echoNullableEnum(
-            reference.pointer, _id_echoNullableEnum.pointer, _$nIAnEnum.pointer)
+    return _echoNullableEnum(_$$selfRef.pointer, _id_echoNullableEnum.pointer,
+            _$nIAnEnum.pointer)
         .object<NIAnEnum?>();
   }
 
@@ -26834,8 +27462,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnotherEnum? echoAnotherNullableEnum(
     NIAnotherEnum? nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
-    return _echoAnotherNullableEnum(reference.pointer,
+    return _echoAnotherNullableEnum(_$$selfRef.pointer,
             _id_echoAnotherNullableEnum.pointer, _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum?>();
   }
@@ -26862,8 +27491,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JLong? echoOptionalNullableInt(
     jni$_.JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
-    return _echoOptionalNullableInt(reference.pointer,
+    return _echoOptionalNullableInt(_$$selfRef.pointer,
             _id_echoOptionalNullableInt.pointer, _$long.pointer)
         .object<jni$_.JLong?>();
   }
@@ -26890,8 +27520,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JString? echoNamedNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _echoNamedNullableString(reference.pointer,
+    return _echoNamedNullableString(_$$selfRef.pointer,
             _id_echoNamedNullableString.pointer, _$string.pointer)
         .object<jni$_.JString?>();
   }
@@ -26918,9 +27549,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.Future<void> noopAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _noopAsync(
-            reference.pointer, _id_noopAsync.pointer, _$continuation.pointer)
+            _$$selfRef.pointer, _id_noopAsync.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -26968,8 +27599,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncInt(reference.pointer, _id_echoAsyncInt.pointer, j,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncInt(_$$selfRef.pointer, _id_echoAsyncInt.pointer, j,
             _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27023,8 +27654,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncDouble(reference.pointer, _id_echoAsyncDouble.pointer,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncDouble(_$$selfRef.pointer, _id_echoAsyncDouble.pointer,
             d, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27076,8 +27707,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _echoAsyncBool(reference.pointer, _id_echoAsyncBool.pointer,
+    final _$$selfRef = reference;
+    final $r = _echoAsyncBool(_$$selfRef.pointer, _id_echoAsyncBool.pointer,
             z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27134,8 +27765,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    final $r = _echoAsyncString(reference.pointer, _id_echoAsyncString.pointer,
+    final $r = _echoAsyncString(_$$selfRef.pointer, _id_echoAsyncString.pointer,
             _$string.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27192,9 +27824,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     final $r = _echoAsyncUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -27253,9 +27886,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     final $r = _echoAsyncInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -27314,9 +27948,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js.reference;
     final $r = _echoAsyncInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -27375,9 +28010,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     final $r = _echoAsyncFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -27436,8 +28072,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object.reference;
-    final $r = _echoAsyncObject(reference.pointer, _id_echoAsyncObject.pointer,
+    final $r = _echoAsyncObject(_$$selfRef.pointer, _id_echoAsyncObject.pointer,
             _$object.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27494,8 +28131,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    final $r = _echoAsyncList(reference.pointer, _id_echoAsyncList.pointer,
+    final $r = _echoAsyncList(_$$selfRef.pointer, _id_echoAsyncList.pointer,
             _$list.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27552,9 +28190,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -27613,9 +28252,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _echoAsyncClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -27674,8 +28314,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncMap(reference.pointer, _id_echoAsyncMap.pointer,
+    final $r = _echoAsyncMap(_$$selfRef.pointer, _id_echoAsyncMap.pointer,
             _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27732,9 +28373,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _echoAsyncStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -27793,8 +28435,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncIntMap(reference.pointer, _id_echoAsyncIntMap.pointer,
+    final $r = _echoAsyncIntMap(_$$selfRef.pointer, _id_echoAsyncIntMap.pointer,
             _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27851,8 +28494,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    final $r = _echoAsyncEnumMap(reference.pointer,
+    final $r = _echoAsyncEnumMap(_$$selfRef.pointer,
             _id_echoAsyncEnumMap.pointer, _$map.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -27910,9 +28554,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _echoAsyncClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -27971,8 +28616,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
-    final $r = _echoAsyncEnum(reference.pointer, _id_echoAsyncEnum.pointer,
+    final $r = _echoAsyncEnum(_$$selfRef.pointer, _id_echoAsyncEnum.pointer,
             _$nIAnEnum.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -28029,9 +28675,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
     final $r = _echoAnotherAsyncEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAnotherAsyncEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -28082,8 +28729,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.Future<jni$_.JObject?> throwAsyncError() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _throwAsyncError(reference.pointer, _id_throwAsyncError.pointer,
+    final _$$selfRef = reference;
+    final $r = _throwAsyncError(_$$selfRef.pointer, _id_throwAsyncError.pointer,
             _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -28134,8 +28781,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.Future<void> throwAsyncErrorFromVoid() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _throwAsyncErrorFromVoid(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _throwAsyncErrorFromVoid(_$$selfRef.pointer,
             _id_throwAsyncErrorFromVoid.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -28181,8 +28828,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.Future<jni$_.JObject?> throwAsyncFlutterError() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _throwAsyncFlutterError(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _throwAsyncFlutterError(_$$selfRef.pointer,
             _id_throwAsyncFlutterError.pointer, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -28241,9 +28888,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
     final $r = _echoAsyncNIAllTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNIAllTypes.pointer,
             _$nIAllTypes.pointer,
             _$continuation.pointer)
@@ -28303,10 +28951,11 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNIAllNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNIAllNullableTypes.pointer,
             _$nIAllNullableTypes.pointer,
             _$continuation.pointer)
@@ -28369,10 +29018,11 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableNIAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
             _$continuation.pointer)
@@ -28433,9 +29083,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt.pointer,
             _$long.pointer,
             _$continuation.pointer)
@@ -28496,9 +29147,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableDouble(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableDouble.pointer,
             _$double.pointer,
             _$continuation.pointer)
@@ -28559,9 +29211,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableBool(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableBool.pointer,
             _$boolean.pointer,
             _$continuation.pointer)
@@ -28622,9 +29275,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableString.pointer,
             _$string.pointer,
             _$continuation.pointer)
@@ -28686,9 +29340,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -28750,9 +29405,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -28814,9 +29470,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -28878,9 +29535,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -28941,9 +29599,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableObject(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableObject.pointer,
             _$object.pointer,
             _$continuation.pointer)
@@ -29004,9 +29663,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -29067,9 +29727,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -29131,9 +29792,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -29195,9 +29857,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -29260,9 +29923,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -29324,9 +29988,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableIntMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableIntMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -29387,9 +30052,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnumMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnumMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -29451,9 +30117,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -29514,9 +30181,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
     final $r = _echoAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAsyncNullableEnum.pointer,
             _$nIAnEnum.pointer,
             _$continuation.pointer)
@@ -29578,9 +30246,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
     final $r = _echoAnotherAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_echoAnotherAsyncNullableEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -29631,7 +30300,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
 
   /// from: `public fun callFlutterNoop(): kotlin.Unit`
   void callFlutterNoop() {
-    _callFlutterNoop(reference.pointer, _id_callFlutterNoop.pointer).check();
+    final _$$selfRef = reference;
+    _callFlutterNoop(_$$selfRef.pointer, _id_callFlutterNoop.pointer).check();
   }
 
   static final _id_callFlutterThrowError =
@@ -29655,8 +30325,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   /// from: `public fun callFlutterThrowError(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? callFlutterThrowError() {
+    final _$$selfRef = reference;
     return _callFlutterThrowError(
-            reference.pointer, _id_callFlutterThrowError.pointer)
+            _$$selfRef.pointer, _id_callFlutterThrowError.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -29681,8 +30352,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
 
   /// from: `public fun callFlutterThrowErrorFromVoid(): kotlin.Unit`
   void callFlutterThrowErrorFromVoid() {
+    final _$$selfRef = reference;
     _callFlutterThrowErrorFromVoid(
-            reference.pointer, _id_callFlutterThrowErrorFromVoid.pointer)
+            _$$selfRef.pointer, _id_callFlutterThrowErrorFromVoid.pointer)
         .check();
   }
 
@@ -29708,8 +30380,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAllTypes callFlutterEchoNIAllTypes(
     NIAllTypes nIAllTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
-    return _callFlutterEchoNIAllTypes(reference.pointer,
+    return _callFlutterEchoNIAllTypes(_$$selfRef.pointer,
             _id_callFlutterEchoNIAllTypes.pointer, _$nIAllTypes.pointer)
         .object<NIAllTypes>();
   }
@@ -29737,10 +30410,11 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAllNullableTypes? callFlutterEchoNIAllNullableTypes(
     NIAllNullableTypes? nIAllNullableTypes,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     return _callFlutterEchoNIAllNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoNIAllNullableTypes.pointer,
             _$nIAllNullableTypes.pointer)
         .object<NIAllNullableTypes?>();
@@ -29779,11 +30453,12 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _callFlutterSendMultipleNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterSendMultipleNullableTypes.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -29815,10 +30490,11 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       callFlutterEchoNIAllNullableTypesWithoutRecursion(
     NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
   ) {
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     return _callFlutterEchoNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoNIAllNullableTypesWithoutRecursion.pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer)
         .object<NIAllNullableTypesWithoutRecursion?>();
@@ -29858,11 +30534,12 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     jni$_.JLong? long,
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _callFlutterSendMultipleNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterSendMultipleNullableTypesWithoutRecursion.pointer,
             _$boolean.pointer,
             _$long.pointer,
@@ -29891,8 +30568,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.bool callFlutterEchoBool(
     core$_.bool z,
   ) {
+    final _$$selfRef = reference;
     return _callFlutterEchoBool(
-            reference.pointer, _id_callFlutterEchoBool.pointer, z ? 1 : 0)
+            _$$selfRef.pointer, _id_callFlutterEchoBool.pointer, z ? 1 : 0)
         .boolean;
   }
 
@@ -29916,8 +30594,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.int callFlutterEchoInt(
     core$_.int j,
   ) {
+    final _$$selfRef = reference;
     return _callFlutterEchoInt(
-            reference.pointer, _id_callFlutterEchoInt.pointer, j)
+            _$$selfRef.pointer, _id_callFlutterEchoInt.pointer, j)
         .long;
   }
 
@@ -29942,8 +30621,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.double callFlutterEchoDouble(
     core$_.double d,
   ) {
+    final _$$selfRef = reference;
     return _callFlutterEchoDouble(
-            reference.pointer, _id_callFlutterEchoDouble.pointer, d)
+            _$$selfRef.pointer, _id_callFlutterEchoDouble.pointer, d)
         .doubleFloat;
   }
 
@@ -29969,8 +30649,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JString callFlutterEchoString(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    return _callFlutterEchoString(reference.pointer,
+    return _callFlutterEchoString(_$$selfRef.pointer,
             _id_callFlutterEchoString.pointer, _$string.pointer)
         .object<jni$_.JString>();
   }
@@ -29997,8 +30678,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JByteArray callFlutterEchoUint8List(
     jni$_.JByteArray bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
-    return _callFlutterEchoUint8List(reference.pointer,
+    return _callFlutterEchoUint8List(_$$selfRef.pointer,
             _id_callFlutterEchoUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray>();
   }
@@ -30025,8 +30707,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JIntArray callFlutterEchoInt32List(
     jni$_.JIntArray is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
-    return _callFlutterEchoInt32List(reference.pointer,
+    return _callFlutterEchoInt32List(_$$selfRef.pointer,
             _id_callFlutterEchoInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray>();
   }
@@ -30053,8 +30736,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JLongArray callFlutterEchoInt64List(
     jni$_.JLongArray js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js.reference;
-    return _callFlutterEchoInt64List(reference.pointer,
+    return _callFlutterEchoInt64List(_$$selfRef.pointer,
             _id_callFlutterEchoInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray>();
   }
@@ -30082,8 +30766,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JDoubleArray callFlutterEchoFloat64List(
     jni$_.JDoubleArray ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
-    return _callFlutterEchoFloat64List(reference.pointer,
+    return _callFlutterEchoFloat64List(_$$selfRef.pointer,
             _id_callFlutterEchoFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray>();
   }
@@ -30110,9 +30795,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JObject?> callFlutterEchoList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _callFlutterEchoList(
-            reference.pointer, _id_callFlutterEchoList.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_callFlutterEchoList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -30138,8 +30824,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum?> callFlutterEchoEnumList(
     jni$_.JList<NIAnEnum?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoEnumList(reference.pointer,
+    return _callFlutterEchoEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>>();
   }
@@ -30166,8 +30853,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes?> callFlutterEchoClassList(
     jni$_.JList<NIAllNullableTypes?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoClassList(reference.pointer,
+    return _callFlutterEchoClassList(_$$selfRef.pointer,
             _id_callFlutterEchoClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>>();
   }
@@ -30195,8 +30883,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum> callFlutterEchoNonNullEnumList(
     jni$_.JList<NIAnEnum> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoNonNullEnumList(reference.pointer,
+    return _callFlutterEchoNonNullEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>>();
   }
@@ -30224,8 +30913,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes> callFlutterEchoNonNullClassList(
     jni$_.JList<NIAllNullableTypes> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _callFlutterEchoNonNullClassList(reference.pointer,
+    return _callFlutterEchoNonNullClassList(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>>();
   }
@@ -30252,9 +30942,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?> callFlutterEchoMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
     return _callFlutterEchoMap(
-            reference.pointer, _id_callFlutterEchoMap.pointer, _$map.pointer)
+            _$$selfRef.pointer, _id_callFlutterEchoMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>();
   }
 
@@ -30280,8 +30971,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JString?, jni$_.JString?> callFlutterEchoStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoStringMap(reference.pointer,
+    return _callFlutterEchoStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>>();
   }
@@ -30308,9 +31000,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?> callFlutterEchoIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoIntMap(
-            reference.pointer, _id_callFlutterEchoIntMap.pointer, _$map.pointer)
+    return _callFlutterEchoIntMap(_$$selfRef.pointer,
+            _id_callFlutterEchoIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>();
   }
 
@@ -30336,8 +31029,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum?, NIAnEnum?> callFlutterEchoEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoEnumMap(reference.pointer,
+    return _callFlutterEchoEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>>();
   }
@@ -30364,8 +31058,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> callFlutterEchoClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoClassMap(reference.pointer,
+    return _callFlutterEchoClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>();
   }
@@ -30393,8 +31088,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JString, jni$_.JString> callFlutterEchoNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullStringMap(reference.pointer,
+    return _callFlutterEchoNonNullStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>>();
   }
@@ -30422,8 +31118,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong, jni$_.JLong> callFlutterEchoNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullIntMap(reference.pointer,
+    return _callFlutterEchoNonNullIntMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>>();
   }
@@ -30451,8 +31148,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum, NIAnEnum> callFlutterEchoNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullEnumMap(reference.pointer,
+    return _callFlutterEchoNonNullEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>>();
   }
@@ -30480,8 +31178,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong, NIAllNullableTypes> callFlutterEchoNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes> map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map.reference;
-    return _callFlutterEchoNonNullClassMap(reference.pointer,
+    return _callFlutterEchoNonNullClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>>();
   }
@@ -30508,8 +31207,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnEnum callFlutterEchoEnum(
     NIAnEnum nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
-    return _callFlutterEchoEnum(reference.pointer,
+    return _callFlutterEchoEnum(_$$selfRef.pointer,
             _id_callFlutterEchoEnum.pointer, _$nIAnEnum.pointer)
         .object<NIAnEnum>();
   }
@@ -30537,8 +31237,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnotherEnum callFlutterEchoNIAnotherEnum(
     NIAnotherEnum nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
-    return _callFlutterEchoNIAnotherEnum(reference.pointer,
+    return _callFlutterEchoNIAnotherEnum(_$$selfRef.pointer,
             _id_callFlutterEchoNIAnotherEnum.pointer, _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum>();
   }
@@ -30566,8 +31267,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JBoolean? callFlutterEchoNullableBool(
     jni$_.JBoolean? boolean,
   ) {
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableBool(reference.pointer,
+    return _callFlutterEchoNullableBool(_$$selfRef.pointer,
             _id_callFlutterEchoNullableBool.pointer, _$boolean.pointer)
         .object<jni$_.JBoolean?>();
   }
@@ -30595,8 +31297,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JLong? callFlutterEchoNullableInt(
     jni$_.JLong? long,
   ) {
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableInt(reference.pointer,
+    return _callFlutterEchoNullableInt(_$$selfRef.pointer,
             _id_callFlutterEchoNullableInt.pointer, _$long.pointer)
         .object<jni$_.JLong?>();
   }
@@ -30624,8 +31327,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JDouble? callFlutterEchoNullableDouble(
     jni$_.JDouble? double,
   ) {
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableDouble(reference.pointer,
+    return _callFlutterEchoNullableDouble(_$$selfRef.pointer,
             _id_callFlutterEchoNullableDouble.pointer, _$double.pointer)
         .object<jni$_.JDouble?>();
   }
@@ -30653,8 +31357,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JString? callFlutterEchoNullableString(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableString(reference.pointer,
+    return _callFlutterEchoNullableString(_$$selfRef.pointer,
             _id_callFlutterEchoNullableString.pointer, _$string.pointer)
         .object<jni$_.JString?>();
   }
@@ -30682,8 +31387,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JByteArray? callFlutterEchoNullableUint8List(
     jni$_.JByteArray? bs,
   ) {
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableUint8List(reference.pointer,
+    return _callFlutterEchoNullableUint8List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableUint8List.pointer, _$bs.pointer)
         .object<jni$_.JByteArray?>();
   }
@@ -30711,8 +31417,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JIntArray? callFlutterEchoNullableInt32List(
     jni$_.JIntArray? is$,
   ) {
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableInt32List(reference.pointer,
+    return _callFlutterEchoNullableInt32List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableInt32List.pointer, _$is$.pointer)
         .object<jni$_.JIntArray?>();
   }
@@ -30740,8 +31447,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JLongArray? callFlutterEchoNullableInt64List(
     jni$_.JLongArray? js,
   ) {
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableInt64List(reference.pointer,
+    return _callFlutterEchoNullableInt64List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableInt64List.pointer, _$js.pointer)
         .object<jni$_.JLongArray?>();
   }
@@ -30769,8 +31477,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JDoubleArray? callFlutterEchoNullableFloat64List(
     jni$_.JDoubleArray? ds,
   ) {
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableFloat64List(reference.pointer,
+    return _callFlutterEchoNullableFloat64List(_$$selfRef.pointer,
             _id_callFlutterEchoNullableFloat64List.pointer, _$ds.pointer)
         .object<jni$_.JDoubleArray?>();
   }
@@ -30798,8 +31507,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<jni$_.JObject?>? callFlutterEchoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableList(reference.pointer,
+    return _callFlutterEchoNullableList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableList.pointer, _$list.pointer)
         .object<jni$_.JList<jni$_.JObject?>?>();
   }
@@ -30827,8 +31537,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum?>? callFlutterEchoNullableEnumList(
     jni$_.JList<NIAnEnum?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableEnumList(reference.pointer,
+    return _callFlutterEchoNullableEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum?>?>();
   }
@@ -30856,8 +31567,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes?>? callFlutterEchoNullableClassList(
     jni$_.JList<NIAllNullableTypes?>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableClassList(reference.pointer,
+    return _callFlutterEchoNullableClassList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes?>?>();
   }
@@ -30885,8 +31597,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAnEnum>? callFlutterEchoNullableNonNullEnumList(
     jni$_.JList<NIAnEnum>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullEnumList(reference.pointer,
+    return _callFlutterEchoNullableNonNullEnumList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullEnumList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAnEnum>?>();
   }
@@ -30914,8 +31627,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JList<NIAllNullableTypes>? callFlutterEchoNullableNonNullClassList(
     jni$_.JList<NIAllNullableTypes>? list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullClassList(reference.pointer,
+    return _callFlutterEchoNullableNonNullClassList(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullClassList.pointer, _$list.pointer)
         .object<jni$_.JList<NIAllNullableTypes>?>();
   }
@@ -30943,8 +31657,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? callFlutterEchoNullableMap(
     jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableMap(reference.pointer,
+    return _callFlutterEchoNullableMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>();
   }
@@ -30972,8 +31687,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JString?, jni$_.JString?>? callFlutterEchoNullableStringMap(
     jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableStringMap(reference.pointer,
+    return _callFlutterEchoNullableStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>();
   }
@@ -31001,8 +31717,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? callFlutterEchoNullableIntMap(
     jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableIntMap(reference.pointer,
+    return _callFlutterEchoNullableIntMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>();
   }
@@ -31030,8 +31747,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum?, NIAnEnum?>? callFlutterEchoNullableEnumMap(
     jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableEnumMap(reference.pointer,
+    return _callFlutterEchoNullableEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>();
   }
@@ -31060,8 +31778,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       callFlutterEchoNullableClassMap(
     jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableClassMap(reference.pointer,
+    return _callFlutterEchoNullableClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>();
   }
@@ -31090,8 +31809,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       callFlutterEchoNullableNonNullStringMap(
     jni$_.JMap<jni$_.JString, jni$_.JString>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullStringMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullStringMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullStringMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JString, jni$_.JString>?>();
   }
@@ -31119,8 +31839,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<jni$_.JLong, jni$_.JLong>? callFlutterEchoNullableNonNullIntMap(
     jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullIntMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullIntMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullIntMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>();
   }
@@ -31148,8 +31869,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   jni$_.JMap<NIAnEnum, NIAnEnum>? callFlutterEchoNullableNonNullEnumMap(
     jni$_.JMap<NIAnEnum, NIAnEnum>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullEnumMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullEnumMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullEnumMap.pointer, _$map.pointer)
         .object<jni$_.JMap<NIAnEnum, NIAnEnum>?>();
   }
@@ -31178,8 +31900,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       callFlutterEchoNullableNonNullClassMap(
     jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
   ) {
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableNonNullClassMap(reference.pointer,
+    return _callFlutterEchoNullableNonNullClassMap(_$$selfRef.pointer,
             _id_callFlutterEchoNullableNonNullClassMap.pointer, _$map.pointer)
         .object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>();
   }
@@ -31207,8 +31930,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnEnum? callFlutterEchoNullableEnum(
     NIAnEnum? nIAnEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
-    return _callFlutterEchoNullableEnum(reference.pointer,
+    return _callFlutterEchoNullableEnum(_$$selfRef.pointer,
             _id_callFlutterEchoNullableEnum.pointer, _$nIAnEnum.pointer)
         .object<NIAnEnum?>();
   }
@@ -31236,9 +31960,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   NIAnotherEnum? callFlutterEchoAnotherNullableEnum(
     NIAnotherEnum? nIAnotherEnum,
   ) {
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
     return _callFlutterEchoAnotherNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAnotherNullableEnum.pointer,
             _$nIAnotherEnum.pointer)
         .object<NIAnotherEnum?>();
@@ -31266,8 +31991,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.Future<void> callFlutterNoopAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _callFlutterNoopAsync(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _callFlutterNoopAsync(_$$selfRef.pointer,
             _id_callFlutterNoopAsync.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -31322,9 +32047,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllTypes = nIAllTypes.reference;
     final $r = _callFlutterEchoAsyncNIAllTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNIAllTypes.pointer,
             _$nIAllTypes.pointer,
             _$continuation.pointer)
@@ -31385,10 +32111,11 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypes =
         nIAllNullableTypes?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNIAllNullableTypes(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNIAllNullableTypes.pointer,
             _$nIAllNullableTypes.pointer,
             _$continuation.pointer)
@@ -31451,10 +32178,11 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAllNullableTypesWithoutRecursion =
         nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion
                 .pointer,
             _$nIAllNullableTypesWithoutRecursion.pointer,
@@ -31511,9 +32239,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _callFlutterEchoAsyncBool(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncBool.pointer,
             z ? 1 : 0,
             _$continuation.pointer)
@@ -31567,8 +32295,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _callFlutterEchoAsyncInt(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _callFlutterEchoAsyncInt(_$$selfRef.pointer,
             _id_callFlutterEchoAsyncInt.pointer, j, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -31626,8 +32354,8 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _callFlutterEchoAsyncDouble(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _callFlutterEchoAsyncDouble(_$$selfRef.pointer,
             _id_callFlutterEchoAsyncDouble.pointer, d, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -31685,9 +32413,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string.reference;
     final $r = _callFlutterEchoAsyncString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncString.pointer,
             _$string.pointer,
             _$continuation.pointer)
@@ -31747,9 +32476,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs.reference;
     final $r = _callFlutterEchoAsyncUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -31809,9 +32539,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$.reference;
     final $r = _callFlutterEchoAsyncInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -31871,9 +32602,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js.reference;
     final $r = _callFlutterEchoAsyncInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -31933,9 +32665,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds.reference;
     final $r = _callFlutterEchoAsyncFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -31995,9 +32728,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object.reference;
     final $r = _callFlutterEchoAsyncObject(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncObject.pointer,
             _$object.pointer,
             _$continuation.pointer)
@@ -32056,9 +32790,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -32118,9 +32853,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -32180,9 +32916,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -32242,9 +32979,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncNonNullEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNonNullEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -32305,9 +33043,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list.reference;
     final $r = _callFlutterEchoAsyncNonNullClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNonNullClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -32367,9 +33106,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -32430,9 +33170,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -32493,9 +33234,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncIntMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncIntMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -32555,9 +33297,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncEnumMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncEnumMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -32618,9 +33361,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map.reference;
     final $r = _callFlutterEchoAsyncClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -32679,9 +33423,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum.reference;
     final $r = _callFlutterEchoAsyncEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncEnum.pointer,
             _$nIAnEnum.pointer,
             _$continuation.pointer)
@@ -32741,9 +33486,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum.reference;
     final $r = _callFlutterEchoAnotherAsyncEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAnotherAsyncEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -32803,9 +33549,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableBool(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableBool.pointer,
             _$boolean.pointer,
             _$continuation.pointer)
@@ -32867,9 +33614,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$long = long?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableInt(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableInt.pointer,
             _$long.pointer,
             _$continuation.pointer)
@@ -32931,9 +33679,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$double = double?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableDouble(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableDouble.pointer,
             _$double.pointer,
             _$continuation.pointer)
@@ -32995,9 +33744,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableString(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableString.pointer,
             _$string.pointer,
             _$continuation.pointer)
@@ -33059,9 +33809,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableUint8List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableUint8List.pointer,
             _$bs.pointer,
             _$continuation.pointer)
@@ -33123,9 +33874,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableInt32List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableInt32List.pointer,
             _$is$.pointer,
             _$continuation.pointer)
@@ -33187,9 +33939,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$js = js?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableInt64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableInt64List.pointer,
             _$js.pointer,
             _$continuation.pointer)
@@ -33251,9 +34004,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$ds = ds?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableFloat64List(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableFloat64List.pointer,
             _$ds.pointer,
             _$continuation.pointer)
@@ -33307,9 +34061,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.Future<jni$_.JObject?> callFlutterThrowFlutterErrorAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _callFlutterThrowFlutterErrorAsync(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterThrowFlutterErrorAsync.pointer,
             _$continuation.pointer)
         .object<jni$_.JObject?>();
@@ -33370,9 +34124,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableObject(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableObject.pointer,
             _$object.pointer,
             _$continuation.pointer)
@@ -33434,9 +34189,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -33498,9 +34254,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -33563,9 +34320,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -33628,9 +34386,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNonNullEnumList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNonNullEnumList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -33693,9 +34452,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableNonNullClassList(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableNonNullClassList.pointer,
             _$list.pointer,
             _$continuation.pointer)
@@ -33758,9 +34518,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -33823,9 +34584,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableStringMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableStringMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -33888,9 +34650,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableIntMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableIntMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -33953,9 +34716,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableEnumMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableEnumMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -34018,9 +34782,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$map = map?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableClassMap(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableClassMap.pointer,
             _$map.pointer,
             _$continuation.pointer)
@@ -34082,9 +34847,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAsyncNullableEnum.pointer,
             _$nIAnEnum.pointer,
             _$continuation.pointer)
@@ -34146,9 +34912,10 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
     final $r = _callFlutterEchoAnotherAsyncNullableEnum(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterEchoAnotherAsyncNullableEnum.pointer,
             _$nIAnotherEnum.pointer,
             _$continuation.pointer)
@@ -34199,8 +34966,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
 
   /// from: `public fun defaultIsMainThread(): kotlin.Boolean`
   core$_.bool defaultIsMainThread() {
+    final _$$selfRef = reference;
     return _defaultIsMainThread(
-            reference.pointer, _id_defaultIsMainThread.pointer)
+            _$$selfRef.pointer, _id_defaultIsMainThread.pointer)
         .boolean;
   }
 
@@ -34227,9 +34995,9 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
   core$_.Future<jni$_.JBoolean> callFlutterNoopOnBackgroundThread() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _callFlutterNoopOnBackgroundThread(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_callFlutterNoopOnBackgroundThread.pointer,
             _$continuation.pointer)
         .object<jni$_.JObject>();
@@ -34298,9 +35066,10 @@ extension type NIUnusedClass$Companion._(jni$_.JObject _$this)
   factory NIUnusedClass$Companion(
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer,
             _$defaultConstructorMarker.pointer)
         .object<NIUnusedClass$Companion>();
   }
@@ -34328,8 +35097,9 @@ extension NIUnusedClass$Companion$$Methods on NIUnusedClass$Companion {
   NIUnusedClass fromList(
     jni$_.JList<jni$_.JObject?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _fromList(reference.pointer, _id_fromList.pointer, _$list.pointer)
+    return _fromList(_$$selfRef.pointer, _id_fromList.pointer, _$list.pointer)
         .object<NIUnusedClass>();
   }
 }
@@ -34383,8 +35153,9 @@ extension type NIUnusedClass._(jni$_.JObject _$this) implements jni$_.JObject {
   factory NIUnusedClass(
     jni$_.JObject? object,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer, _$object.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$object.pointer)
         .object<NIUnusedClass>();
   }
 
@@ -34418,11 +35189,12 @@ extension type NIUnusedClass._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int i,
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$object.pointer,
-            i, _$defaultConstructorMarker.pointer)
+    return _new$1(_$$classRef.pointer, _id_new$1.pointer, _$object.pointer, i,
+            _$defaultConstructorMarker.pointer)
         .object<NIUnusedClass>();
   }
 
@@ -34445,7 +35217,8 @@ extension type NIUnusedClass._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory NIUnusedClass.new$2() {
-    return _new$2(_class.reference.pointer, _id_new$2.pointer)
+    final _$$classRef = _class.reference;
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer)
         .object<NIUnusedClass>();
   }
 }
@@ -34471,7 +35244,8 @@ extension NIUnusedClass$$Methods on NIUnusedClass {
   /// from: `public final java.lang.Object getAField()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get aField {
-    return _get$aField(reference.pointer, _id_get$aField.pointer)
+    final _$$selfRef = reference;
+    return _get$aField(_$$selfRef.pointer, _id_get$aField.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -34495,7 +35269,8 @@ extension NIUnusedClass$$Methods on NIUnusedClass {
   /// from: `public fun toList(): kotlin.collections.List<kotlin.Any?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> toList() {
-    return _toList(reference.pointer, _id_toList.pointer)
+    final _$$selfRef = reference;
+    return _toList(_$$selfRef.pointer, _id_toList.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -34519,8 +35294,9 @@ extension NIUnusedClass$$Methods on NIUnusedClass {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -34543,7 +35319,8 @@ extension NIUnusedClass$$Methods on NIUnusedClass {
 
   /// from: `public fun hashCode(): kotlin.Int`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_component1 = NIUnusedClass._class.instanceMethodId(
@@ -34566,7 +35343,8 @@ extension NIUnusedClass$$Methods on NIUnusedClass {
   /// from: `public operator fun component1(): kotlin.Any?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? component1() {
-    return _component1(reference.pointer, _id_component1.pointer)
+    final _$$selfRef = reference;
+    return _component1(_$$selfRef.pointer, _id_component1.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -34591,8 +35369,9 @@ extension NIUnusedClass$$Methods on NIUnusedClass {
   NIUnusedClass copy(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _copy(reference.pointer, _id_copy.pointer, _$object.pointer)
+    return _copy(_$$selfRef.pointer, _id_copy.pointer, _$object.pointer)
         .object<NIUnusedClass>();
   }
 
@@ -34616,7 +35395,8 @@ extension NIUnusedClass$$Methods on NIUnusedClass {
   /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<jni$_.JString>();
   }
 }
@@ -34667,10 +35447,11 @@ extension type NiTestsError._(jni$_.JObject _$this) implements Throwable {
     jni$_.JString? string1,
     jni$_.JObject? object,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string.reference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer, _$string.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$string.pointer,
             _$string1.pointer, _$object.pointer)
         .object<NiTestsError>();
   }
@@ -34711,13 +35492,14 @@ extension type NiTestsError._(jni$_.JObject _$this) implements Throwable {
     core$_.int i,
     DefaultConstructorMarker? defaultConstructorMarker,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     final _$string1 = string1?.reference ?? jni$_.jNullReference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$defaultConstructorMarker =
         defaultConstructorMarker?.reference ?? jni$_.jNullReference;
     return _new$1(
-            _class.reference.pointer,
+            _$$classRef.pointer,
             _id_new$1.pointer,
             _$string.pointer,
             _$string1.pointer,
@@ -34749,7 +35531,8 @@ extension NiTestsError$$Methods on NiTestsError {
   /// from: `public final java.lang.String getCode()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString get code {
-    return _get$code(reference.pointer, _id_get$code.pointer)
+    final _$$selfRef = reference;
+    return _get$code(_$$selfRef.pointer, _id_get$code.pointer)
         .object<jni$_.JString>();
   }
 
@@ -34773,7 +35556,8 @@ extension NiTestsError$$Methods on NiTestsError {
   /// from: `public java.lang.String getMessage()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get message {
-    return _get$message(reference.pointer, _id_get$message.pointer)
+    final _$$selfRef = reference;
+    return _get$message(_$$selfRef.pointer, _id_get$message.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -34797,7 +35581,8 @@ extension NiTestsError$$Methods on NiTestsError {
   /// from: `public final java.lang.Object getDetails()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get details {
-    return _get$details(reference.pointer, _id_get$details.pointer)
+    final _$$selfRef = reference;
+    return _get$details(_$$selfRef.pointer, _id_get$details.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -34841,9 +35626,9 @@ extension type Nullability$InnerClass<$T extends jni$_.JObject?,
   factory Nullability$InnerClass(
     Nullability<$T?, $U> $outerClass,
   ) {
+    final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<Nullability$InnerClass<$T, $U, $V>>();
   }
 }
@@ -34882,10 +35667,11 @@ extension Nullability$InnerClass$$Methods<
     $U object1,
     $V? object2,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1.reference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    _f(reference.pointer, _id_f.pointer, _$object.pointer, _$object1.pointer,
+    _f(_$$selfRef.pointer, _id_f.pointer, _$object.pointer, _$object1.pointer,
             _$object2.pointer)
         .check();
   }
@@ -34940,10 +35726,11 @@ extension type Nullability<$T extends jni$_.JObject?,
     $U object1,
     $U? object2,
   ) {
+    final _$$classRef = _class.reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1.reference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer, _$object.pointer,
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
         .object<Nullability<$T, $U>>();
   }
@@ -34971,7 +35758,8 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   /// from: `public final T getT()`
   /// The returned object must be released after use, by calling the [release] method.
   $T? get t {
-    return _get$t(reference.pointer, _id_get$t.pointer).object<$T?>();
+    final _$$selfRef = reference;
+    return _get$t(_$$selfRef.pointer, _id_get$t.pointer).object<$T?>();
   }
 
   static final _id_get$u = Nullability._class.instanceMethodId(
@@ -34994,7 +35782,8 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   /// from: `public final U getU()`
   /// The returned object must be released after use, by calling the [release] method.
   $U get u {
-    return _get$u(reference.pointer, _id_get$u.pointer).object<$U>();
+    final _$$selfRef = reference;
+    return _get$u(_$$selfRef.pointer, _id_get$u.pointer).object<$U>();
   }
 
   static final _id_get$nullableU = Nullability._class.instanceMethodId(
@@ -35017,7 +35806,8 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   /// from: `public final U getNullableU()`
   /// The returned object must be released after use, by calling the [release] method.
   $U? get nullableU {
-    return _get$nullableU(reference.pointer, _id_get$nullableU.pointer)
+    final _$$selfRef = reference;
+    return _get$nullableU(_$$selfRef.pointer, _id_get$nullableU.pointer)
         .object<$U?>();
   }
 
@@ -35039,9 +35829,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public final void setNullableU(U object)`
   set nullableU($U? object) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     _set$nullableU(
-            reference.pointer, _id_set$nullableU.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_set$nullableU.pointer, _$object.pointer)
         .check();
   }
 
@@ -35065,7 +35856,8 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   /// from: `public fun self(): com.github.dart_lang.jnigen.Nullability<*, *>`
   /// The returned object must be released after use, by calling the [release] method.
   Nullability<jni$_.JObject?, jni$_.JObject> self() {
-    return _self(reference.pointer, _id_self.pointer)
+    final _$$selfRef = reference;
+    return _self(_$$selfRef.pointer, _id_self.pointer)
         .object<Nullability<jni$_.JObject?, jni$_.JObject>>();
   }
 
@@ -35089,7 +35881,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   /// from: `public fun hello(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString hello() {
-    return _hello(reference.pointer, _id_hello.pointer).object<jni$_.JString>();
+    final _$$selfRef = reference;
+    return _hello(_$$selfRef.pointer, _id_hello.pointer)
+        .object<jni$_.JString>();
   }
 
   static final _id_nullableHello = Nullability._class.instanceMethodId(
@@ -35112,8 +35906,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JString? nullableHello(
     core$_.bool z,
   ) {
+    final _$$selfRef = reference;
     return _nullableHello(
-            reference.pointer, _id_nullableHello.pointer, z ? 1 : 0)
+            _$$selfRef.pointer, _id_nullableHello.pointer, z ? 1 : 0)
         .object<jni$_.JString?>();
   }
 
@@ -35137,7 +35932,8 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   /// from: `public fun list(): kotlin.collections.List<*>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> list() {
-    return _list(reference.pointer, _id_list.pointer)
+    final _$$selfRef = reference;
+    return _list(_$$selfRef.pointer, _id_list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -35162,9 +35958,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $V methodGenericEcho<$V extends jni$_.JObject>(
     $V object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object.reference;
     return _methodGenericEcho(
-            reference.pointer, _id_methodGenericEcho.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_methodGenericEcho.pointer, _$object.pointer)
         .object<$V>();
   }
 
@@ -35190,8 +35987,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $V? methodGenericNullableEcho<$V extends jni$_.JObject?>(
     $V? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _methodGenericNullableEcho(reference.pointer,
+    return _methodGenericNullableEcho(_$$selfRef.pointer,
             _id_methodGenericNullableEcho.pointer, _$object.pointer)
         .object<$V?>();
   }
@@ -35217,9 +36015,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $U classGenericEcho(
     $U object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object.reference;
     return _classGenericEcho(
-            reference.pointer, _id_classGenericEcho.pointer, _$object.pointer)
+            _$$selfRef.pointer, _id_classGenericEcho.pointer, _$object.pointer)
         .object<$U>();
   }
 
@@ -35245,8 +36044,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $T? classGenericNullableEcho(
     $T? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _classGenericNullableEcho(reference.pointer,
+    return _classGenericNullableEcho(_$$selfRef.pointer,
             _id_classGenericNullableEcho.pointer, _$object.pointer)
         .object<$T?>();
   }
@@ -35272,8 +36072,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JString firstOf(
     jni$_.JList<jni$_.JString> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _firstOf(reference.pointer, _id_firstOf.pointer, _$list.pointer)
+    return _firstOf(_$$selfRef.pointer, _id_firstOf.pointer, _$list.pointer)
         .object<jni$_.JString>();
   }
 
@@ -35298,9 +36099,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JString? firstOfNullable(
     jni$_.JList<jni$_.JString?> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _firstOfNullable(
-            reference.pointer, _id_firstOfNullable.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_firstOfNullable.pointer, _$list.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -35325,9 +36127,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $U classGenericFirstOf(
     jni$_.JList<$U> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
     return _classGenericFirstOf(
-            reference.pointer, _id_classGenericFirstOf.pointer, _$list.pointer)
+            _$$selfRef.pointer, _id_classGenericFirstOf.pointer, _$list.pointer)
         .object<$U>();
   }
 
@@ -35354,8 +36157,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $T? classGenericFirstOfNullable(
     jni$_.JList<$T> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _classGenericFirstOfNullable(reference.pointer,
+    return _classGenericFirstOfNullable(_$$selfRef.pointer,
             _id_classGenericFirstOfNullable.pointer, _$list.pointer)
         .object<$T?>();
   }
@@ -35381,9 +36185,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $V methodGenericFirstOf<$V extends jni$_.JObject>(
     jni$_.JList<$V> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _methodGenericFirstOf(
-            reference.pointer, _id_methodGenericFirstOf.pointer, _$list.pointer)
+    return _methodGenericFirstOf(_$$selfRef.pointer,
+            _id_methodGenericFirstOf.pointer, _$list.pointer)
         .object<$V>();
   }
 
@@ -35410,8 +36215,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   $V? methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list,
   ) {
+    final _$$selfRef = reference;
     final _$list = list.reference;
-    return _methodGenericFirstOfNullable(reference.pointer,
+    return _methodGenericFirstOfNullable(_$$selfRef.pointer,
             _id_methodGenericFirstOfNullable.pointer, _$list.pointer)
         .object<$V?>();
   }
@@ -35437,9 +36243,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JList<jni$_.JString> stringListOf(
     jni$_.JString string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string.reference;
     return _stringListOf(
-            reference.pointer, _id_stringListOf.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_stringListOf.pointer, _$string.pointer)
         .object<jni$_.JList<jni$_.JString>>();
   }
 
@@ -35464,9 +36271,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JList<jni$_.JString?> nullableListOf(
     jni$_.JString? string,
   ) {
+    final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _nullableListOf(
-            reference.pointer, _id_nullableListOf.pointer, _$string.pointer)
+            _$$selfRef.pointer, _id_nullableListOf.pointer, _$string.pointer)
         .object<jni$_.JList<jni$_.JString?>>();
   }
 
@@ -35491,9 +36299,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JList<$U> classGenericListOf(
     $U object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object.reference;
-    return _classGenericListOf(
-            reference.pointer, _id_classGenericListOf.pointer, _$object.pointer)
+    return _classGenericListOf(_$$selfRef.pointer,
+            _id_classGenericListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$U>>();
   }
 
@@ -35520,8 +36329,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JList<$T?> classGenericNullableListOf(
     $T? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _classGenericNullableListOf(reference.pointer,
+    return _classGenericNullableListOf(_$$selfRef.pointer,
             _id_classGenericNullableListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$T?>>();
   }
@@ -35547,8 +36357,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JList<$V> methodGenericListOf<$V extends jni$_.JObject>(
     $V object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object.reference;
-    return _methodGenericListOf(reference.pointer,
+    return _methodGenericListOf(_$$selfRef.pointer,
             _id_methodGenericListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$V>>();
   }
@@ -35576,8 +36387,9 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   jni$_.JList<$V?> methodGenericNullableListOf<$V extends jni$_.JObject?>(
     $V? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _methodGenericNullableListOf(reference.pointer,
+    return _methodGenericNullableListOf(_$$selfRef.pointer,
             _id_methodGenericNullableListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$V?>>();
   }
@@ -35602,9 +36414,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   core$_.int methodWithVarArgs(
     jni$_.JArray<jni$_.JString> strings,
   ) {
+    final _$$selfRef = reference;
     final _$strings = strings.reference;
-    return _methodWithVarArgs(
-            reference.pointer, _id_methodWithVarArgs.pointer, _$strings.pointer)
+    return _methodWithVarArgs(_$$selfRef.pointer, _id_methodWithVarArgs.pointer,
+            _$strings.pointer)
         .integer;
   }
 
@@ -35628,9 +36441,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
   core$_.int methodWithWhere<$V extends jni$_.JObject>(
     $V canDoA,
   ) {
+    final _$$selfRef = reference;
     final _$canDoA = canDoA.reference;
     return _methodWithWhere(
-            reference.pointer, _id_methodWithWhere.pointer, _$canDoA.pointer)
+            _$$selfRef.pointer, _id_methodWithWhere.pointer, _$canDoA.pointer)
         .integer;
   }
 }
@@ -35670,8 +36484,8 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
   factory Operators(
     core$_.int i,
   ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, i)
-        .object<Operators>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, i).object<Operators>();
   }
 }
 
@@ -35695,7 +36509,8 @@ extension Operators$$Methods on Operators {
 
   /// from: `public final int getValue()`
   core$_.int get value {
-    return _get$value(reference.pointer, _id_get$value.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$value(_$$selfRef.pointer, _id_get$value.pointer).integer;
   }
 
   static final _id_set$value = Operators._class.instanceMethodId(
@@ -35715,7 +36530,8 @@ extension Operators$$Methods on Operators {
 
   /// from: `public final void setValue(int i)`
   set value(core$_.int i) {
-    _set$value(reference.pointer, _id_set$value.pointer, i).check();
+    final _$$selfRef = reference;
+    _set$value(_$$selfRef.pointer, _id_set$value.pointer, i).check();
   }
 
   static final _id_plus = Operators._class.instanceMethodId(
@@ -35739,8 +36555,9 @@ extension Operators$$Methods on Operators {
   Operators plus(
     Operators operators,
   ) {
+    final _$$selfRef = reference;
     final _$operators = operators.reference;
-    return _plus(reference.pointer, _id_plus.pointer, _$operators.pointer)
+    return _plus(_$$selfRef.pointer, _id_plus.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -35764,7 +36581,8 @@ extension Operators$$Methods on Operators {
   Operators plus$1(
     core$_.int i,
   ) {
-    return _plus$1(reference.pointer, _id_plus$1.pointer, i)
+    final _$$selfRef = reference;
+    return _plus$1(_$$selfRef.pointer, _id_plus$1.pointer, i)
         .object<Operators>();
   }
 
@@ -35789,8 +36607,9 @@ extension Operators$$Methods on Operators {
   Operators minus(
     Operators operators,
   ) {
+    final _$$selfRef = reference;
     final _$operators = operators.reference;
-    return _minus(reference.pointer, _id_minus.pointer, _$operators.pointer)
+    return _minus(_$$selfRef.pointer, _id_minus.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -35815,8 +36634,9 @@ extension Operators$$Methods on Operators {
   Operators times(
     Operators operators,
   ) {
+    final _$$selfRef = reference;
     final _$operators = operators.reference;
-    return _times(reference.pointer, _id_times.pointer, _$operators.pointer)
+    return _times(_$$selfRef.pointer, _id_times.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -35841,8 +36661,9 @@ extension Operators$$Methods on Operators {
   Operators div(
     Operators operators,
   ) {
+    final _$$selfRef = reference;
     final _$operators = operators.reference;
-    return _div(reference.pointer, _id_div.pointer, _$operators.pointer)
+    return _div(_$$selfRef.pointer, _id_div.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -35867,8 +36688,9 @@ extension Operators$$Methods on Operators {
   Operators rem(
     Operators operators,
   ) {
+    final _$$selfRef = reference;
     final _$operators = operators.reference;
-    return _rem(reference.pointer, _id_rem.pointer, _$operators.pointer)
+    return _rem(_$$selfRef.pointer, _id_rem.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -35892,7 +36714,8 @@ extension Operators$$Methods on Operators {
   core$_.bool get(
     core$_.int i,
   ) {
-    return _get(reference.pointer, _id_get.pointer, i).boolean;
+    final _$$selfRef = reference;
+    return _get(_$$selfRef.pointer, _id_get.pointer, i).boolean;
   }
 
   static final _id_set = Operators._class.instanceMethodId(
@@ -35916,7 +36739,8 @@ extension Operators$$Methods on Operators {
     core$_.int i,
     core$_.bool z,
   ) {
-    _set(reference.pointer, _id_set.pointer, i, z ? 1 : 0).check();
+    final _$$selfRef = reference;
+    _set(_$$selfRef.pointer, _id_set.pointer, i, z ? 1 : 0).check();
   }
 
   static final _id_compareTo = Operators._class.instanceMethodId(
@@ -35939,9 +36763,10 @@ extension Operators$$Methods on Operators {
   core$_.int compareTo(
     Operators operators,
   ) {
+    final _$$selfRef = reference;
     final _$operators = operators.reference;
     return _compareTo(
-            reference.pointer, _id_compareTo.pointer, _$operators.pointer)
+            _$$selfRef.pointer, _id_compareTo.pointer, _$operators.pointer)
         .integer;
   }
 
@@ -36036,8 +36861,8 @@ final _get$nIHostIntegrationCoreApiInstances =
 /// The returned object must be released after use, by calling the [release] method.
 jni$_.JMap<jni$_.JString, NIHostIntegrationCoreApiRegistrar>
     get nIHostIntegrationCoreApiInstances {
-  return _get$nIHostIntegrationCoreApiInstances(
-          _Regress3235KtClass.reference.pointer,
+  final _$$classRef = _Regress3235KtClass.reference;
+  return _get$nIHostIntegrationCoreApiInstances(_$$classRef.pointer,
           _id_get$nIHostIntegrationCoreApiInstances.pointer)
       .object<jni$_.JMap<jni$_.JString, NIHostIntegrationCoreApiRegistrar>>();
 }
@@ -36065,8 +36890,8 @@ final _get$registeredNIFlutterIntegrationCoreApi =
 /// The returned object must be released after use, by calling the [release] method.
 jni$_.JMap<jni$_.JString, NIFlutterIntegrationCoreApi>
     get registeredNIFlutterIntegrationCoreApi {
-  return _get$registeredNIFlutterIntegrationCoreApi(
-          _Regress3235KtClass.reference.pointer,
+  final _$$classRef = _Regress3235KtClass.reference;
+  return _get$registeredNIFlutterIntegrationCoreApi(_$$classRef.pointer,
           _id_get$registeredNIFlutterIntegrationCoreApi.pointer)
       .object<jni$_.JMap<jni$_.JString, NIFlutterIntegrationCoreApi>>();
 }
@@ -36102,9 +36927,9 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
     core$_.double f,
     SpeedUnit speedUnit,
   ) {
+    final _$$classRef = _class.reference;
     final _$speedUnit = speedUnit.reference;
-    return _new$(
-            _class.reference.pointer, _id_new$.pointer, f, _$speedUnit.pointer)
+    return _new$(_$$classRef.pointer, _id_new$.pointer, f, _$speedUnit.pointer)
         .object<Speed>();
   }
 }
@@ -36129,7 +36954,8 @@ extension Speed$$Methods on Speed {
 
   /// from: `public float getValue()`
   core$_.double get value {
-    return _get$value(reference.pointer, _id_get$value.pointer).float;
+    final _$$selfRef = reference;
+    return _get$value(_$$selfRef.pointer, _id_get$value.pointer).float;
   }
 
   static final _id_get$unit$1 = Speed._class.instanceMethodId(
@@ -36152,7 +36978,8 @@ extension Speed$$Methods on Speed {
   /// from: `public com.github.dart_lang.jnigen.SpeedUnit getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit get unit$1 {
-    return _get$unit$1(reference.pointer, _id_get$unit$1.pointer)
+    final _$$selfRef = reference;
+    return _get$unit$1(_$$selfRef.pointer, _id_get$unit$1.pointer)
         .object<SpeedUnit>();
   }
 
@@ -36176,7 +37003,8 @@ extension Speed$$Methods on Speed {
   /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1.pointer)
+    final _$$selfRef = reference;
+    return _toString$1(_$$selfRef.pointer, _id_toString$1.pointer)
         .object<jni$_.JString>();
   }
 
@@ -36199,7 +37027,8 @@ extension Speed$$Methods on Speed {
 
   /// from: `public operator fun component1(): kotlin.Float`
   core$_.double component1() {
-    return _component1(reference.pointer, _id_component1.pointer).float;
+    final _$$selfRef = reference;
+    return _component1(_$$selfRef.pointer, _id_component1.pointer).float;
   }
 
   static final _id_component2 = Speed._class.instanceMethodId(
@@ -36222,7 +37051,8 @@ extension Speed$$Methods on Speed {
   /// from: `public operator fun component2(): com.github.dart_lang.jnigen.SpeedUnit`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit component2() {
-    return _component2(reference.pointer, _id_component2.pointer)
+    final _$$selfRef = reference;
+    return _component2(_$$selfRef.pointer, _id_component2.pointer)
         .object<SpeedUnit>();
   }
 
@@ -36251,8 +37081,9 @@ extension Speed$$Methods on Speed {
     core$_.double f,
     SpeedUnit speedUnit,
   ) {
+    final _$$selfRef = reference;
     final _$speedUnit = speedUnit.reference;
-    return _copy(reference.pointer, _id_copy.pointer, f, _$speedUnit.pointer)
+    return _copy(_$$selfRef.pointer, _id_copy.pointer, f, _$speedUnit.pointer)
         .object<Speed>();
   }
 
@@ -36275,7 +37106,8 @@ extension Speed$$Methods on Speed {
 
   /// from: `public fun hashCode(): kotlin.Int`
   core$_.int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    final _$$selfRef = reference;
+    return _hashCode$1(_$$selfRef.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_equals = Speed._class.instanceMethodId(
@@ -36298,8 +37130,9 @@ extension Speed$$Methods on Speed {
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
+    final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return _equals(_$$selfRef.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 }
@@ -36360,7 +37193,8 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements Enum, MeasureUnit {
   /// from: `static public com.github.dart_lang.jnigen.SpeedUnit[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<SpeedUnit?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<SpeedUnit?>?>();
   }
 
@@ -36385,9 +37219,9 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements Enum, MeasureUnit {
   static SpeedUnit? valueOf(
     jni$_.JString? string,
   ) {
+    final _$$classRef = _class.reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<SpeedUnit?>();
   }
 }
@@ -36413,7 +37247,8 @@ extension SpeedUnit$$Methods on SpeedUnit {
   /// from: `public java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString get sign {
-    return _get$sign(reference.pointer, _id_get$sign.pointer)
+    final _$$selfRef = reference;
+    return _get$sign(_$$selfRef.pointer, _id_get$sign.pointer)
         .object<jni$_.JString>();
   }
 
@@ -36436,7 +37271,8 @@ extension SpeedUnit$$Methods on SpeedUnit {
 
   /// from: `public float getCoefficient()`
   core$_.double get coefficient {
-    return _get$coefficient(reference.pointer, _id_get$coefficient.pointer)
+    final _$$selfRef = reference;
+    return _get$coefficient(_$$selfRef.pointer, _id_get$coefficient.pointer)
         .float;
   }
 }
@@ -36476,8 +37312,8 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<SuspendFun>();
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer).object<SuspendFun>();
   }
 }
 
@@ -36503,8 +37339,8 @@ extension SuspendFun$$Methods on SuspendFun {
   core$_.Future<jni$_.JString> sayHelloWithoutDelay() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _sayHelloWithoutDelay(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _sayHelloWithoutDelay(_$$selfRef.pointer,
             _id_sayHelloWithoutDelay.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -36552,8 +37388,8 @@ extension SuspendFun$$Methods on SuspendFun {
   core$_.Future<jni$_.JString> failWithoutDelay() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _failWithoutDelay(reference.pointer,
+    final _$$selfRef = reference;
+    final $r = _failWithoutDelay(_$$selfRef.pointer,
             _id_failWithoutDelay.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -36601,9 +37437,9 @@ extension SuspendFun$$Methods on SuspendFun {
   core$_.Future<jni$_.JString> fail() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r =
-        _fail(reference.pointer, _id_fail.pointer, _$continuation.pointer)
+        _fail(_$$selfRef.pointer, _id_fail.pointer, _$continuation.pointer)
             .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -36650,9 +37486,9 @@ extension SuspendFun$$Methods on SuspendFun {
   core$_.Future<jni$_.JString> sayHello() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _sayHello(
-            reference.pointer, _id_sayHello.pointer, _$continuation.pointer)
+            _$$selfRef.pointer, _id_sayHello.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -36707,8 +37543,9 @@ extension SuspendFun$$Methods on SuspendFun {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    final $r = _sayHello$1(reference.pointer, _id_sayHello$1.pointer,
+    final $r = _sayHello$1(_$$selfRef.pointer, _id_sayHello$1.pointer,
             _$string.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -36759,8 +37596,8 @@ extension SuspendFun$$Methods on SuspendFun {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _nullableHello(reference.pointer, _id_nullableHello.pointer,
+    final _$$selfRef = reference;
+    final $r = _nullableHello(_$$selfRef.pointer, _id_nullableHello.pointer,
             z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -36814,9 +37651,9 @@ extension SuspendFun$$Methods on SuspendFun {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _nullableHelloWithoutDelay(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_nullableHelloWithoutDelay.pointer,
             z ? 1 : 0,
             _$continuation.pointer)
@@ -36876,8 +37713,9 @@ extension SuspendFun$$Methods on SuspendFun {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    final $r = _nullableList(reference.pointer, _id_nullableList.pointer,
+    final $r = _nullableList(_$$selfRef.pointer, _id_nullableList.pointer,
             _$list.pointer, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -36925,7 +37763,8 @@ extension SuspendFun$$Methods on SuspendFun {
 
   /// from: `public final int getResult()`
   core$_.int get result {
-    return _get$result(reference.pointer, _id_get$result.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$result(_$$selfRef.pointer, _id_get$result.pointer).integer;
   }
 
   static final _id_set$result = SuspendFun._class.instanceMethodId(
@@ -36945,7 +37784,8 @@ extension SuspendFun$$Methods on SuspendFun {
 
   /// from: `public final void setResult(int i)`
   set result(core$_.int i) {
-    _set$result(reference.pointer, _id_set$result.pointer, i).check();
+    final _$$selfRef = reference;
+    _set$result(_$$selfRef.pointer, _id_set$result.pointer, i).check();
   }
 
   static final _id_noReturn = SuspendFun._class.instanceMethodId(
@@ -36969,9 +37809,9 @@ extension SuspendFun$$Methods on SuspendFun {
   core$_.Future<void> noReturn() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _noReturn(
-            reference.pointer, _id_noReturn.pointer, _$continuation.pointer)
+            _$$selfRef.pointer, _id_noReturn.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -37033,9 +37873,10 @@ core$_.Future<jni$_.JString> consumeOnAnotherThread(
 ) async {
   final $p = jni$_.ReceivePort();
   final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+  final _$$classRef = _SuspendFunKtClass.reference;
   final _$suspendInterface = suspendInterface.reference;
   final $r = _consumeOnAnotherThread(
-          _SuspendFunKtClass.reference.pointer,
+          _$$classRef.pointer,
           _id_consumeOnAnotherThread.pointer,
           _$suspendInterface.pointer,
           _$continuation.pointer)
@@ -37090,9 +37931,10 @@ core$_.Future<jni$_.JString> consumeOnSameThread(
 ) async {
   final $p = jni$_.ReceivePort();
   final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+  final _$$classRef = _SuspendFunKtClass.reference;
   final _$suspendInterface = suspendInterface.reference;
   final $r = _consumeOnSameThread(
-          _SuspendFunKtClass.reference.pointer,
+          _$$classRef.pointer,
           _id_consumeOnSameThread.pointer,
           _$suspendInterface.pointer,
           _$continuation.pointer)
@@ -37162,8 +38004,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d ==
           r'sayHello(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as Continuation).reference)
+        final _$$contRef = ($a![0] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayHello());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -37173,8 +38015,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'sayHello(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayHello$1(
           ($a![0] as jni$_.JString),
         ));
@@ -37186,8 +38028,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableHello(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.nullableHello(
           ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
@@ -37198,8 +38040,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
             jni$_.nullptr;
       }
       if ($d == r'sayInt(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as Continuation).reference)
+        final _$$contRef = ($a![0] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayInt());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -37209,8 +38051,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'sayInt(Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.sayInt$1(
           ($a![0] as jni$_.JInteger),
         ));
@@ -37222,8 +38064,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableInt(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.nullableInt(
           ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
@@ -37235,8 +38077,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![1] as Continuation).reference)
+        final _$$contRef = ($a![1] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithFuture(_$impls[$p]!.nullableList(
           ($a![0] as jni$_.JList<jni$_.JString?>?),
         ));
@@ -37248,8 +38090,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'noReturn(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference(
-                ($a![0] as Continuation).reference)
+        final _$$contRef = ($a![0] as Continuation).reference;
+        final $r = jni$_.KotlinContinuation.fromReference(_$$contRef)
             .resumeWithVoidFuture(_$impls[$p]!.noReturn());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -37319,9 +38161,9 @@ extension SuspendInterface$$Methods on SuspendInterface {
   core$_.Future<jni$_.JString> sayHello() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _sayHello(
-            reference.pointer, _id_sayHello.pointer, _$continuation.pointer)
+            _$$selfRef.pointer, _id_sayHello.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -37376,8 +38218,9 @@ extension SuspendInterface$$Methods on SuspendInterface {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$string = string.reference;
-    final $r = _sayHello$1(reference.pointer, _id_sayHello$1.pointer,
+    final $r = _sayHello$1(_$$selfRef.pointer, _id_sayHello$1.pointer,
             _$string.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -37428,8 +38271,8 @@ extension SuspendInterface$$Methods on SuspendInterface {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _nullableHello(reference.pointer, _id_nullableHello.pointer,
+    final _$$selfRef = reference;
+    final $r = _nullableHello(_$$selfRef.pointer, _id_nullableHello.pointer,
             z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -37479,9 +38322,9 @@ extension SuspendInterface$$Methods on SuspendInterface {
   core$_.Future<jni$_.JInteger> sayInt() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r =
-        _sayInt(reference.pointer, _id_sayInt.pointer, _$continuation.pointer)
+        _sayInt(_$$selfRef.pointer, _id_sayInt.pointer, _$continuation.pointer)
             .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -37536,8 +38379,9 @@ extension SuspendInterface$$Methods on SuspendInterface {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$integer = integer.reference;
-    final $r = _sayInt$1(reference.pointer, _id_sayInt$1.pointer,
+    final $r = _sayInt$1(_$$selfRef.pointer, _id_sayInt$1.pointer,
             _$integer.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -37588,8 +38432,8 @@ extension SuspendInterface$$Methods on SuspendInterface {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
-    final $r = _nullableInt(reference.pointer, _id_nullableInt.pointer,
+    final _$$selfRef = reference;
+    final $r = _nullableInt(_$$selfRef.pointer, _id_nullableInt.pointer,
             z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -37647,8 +38491,9 @@ extension SuspendInterface$$Methods on SuspendInterface {
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$$selfRef = reference;
     final _$list = list?.reference ?? jni$_.jNullReference;
-    final $r = _nullableList(reference.pointer, _id_nullableList.pointer,
+    final $r = _nullableList(_$$selfRef.pointer, _id_nullableList.pointer,
             _$list.pointer, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
@@ -37698,9 +38543,9 @@ extension SuspendInterface$$Methods on SuspendInterface {
   core$_.Future<void> noReturn() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$$selfRef = reference;
     final $r = _noReturn(
-            reference.pointer, _id_noReturn.pointer, _$continuation.pointer)
+            _$$selfRef.pointer, _id_noReturn.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -37852,8 +38697,8 @@ final _get$topLevelField = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final int getTopLevelField()`
 core$_.int get topLevelField {
-  return _get$topLevelField(
-          _TopLevelKtClass.reference.pointer, _id_get$topLevelField.pointer)
+  final _$$classRef = _TopLevelKtClass.reference;
+  return _get$topLevelField(_$$classRef.pointer, _id_get$topLevelField.pointer)
       .integer;
 }
 
@@ -37873,8 +38718,8 @@ final _set$topLevelField = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final void setTopLevelField(int i)`
 set topLevelField(core$_.int i) {
-  _set$topLevelField(
-          _TopLevelKtClass.reference.pointer, _id_set$topLevelField.pointer, i)
+  final _$$classRef = _TopLevelKtClass.reference;
+  _set$topLevelField(_$$classRef.pointer, _id_set$topLevelField.pointer, i)
       .check();
 }
 
@@ -37897,8 +38742,8 @@ final _topLevel = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `public fun topLevel(): kotlin.Int`
 core$_.int topLevel() {
-  return _topLevel(_TopLevelKtClass.reference.pointer, _id_topLevel.pointer)
-      .integer;
+  final _$$classRef = _TopLevelKtClass.reference;
+  return _topLevel(_$$classRef.pointer, _id_topLevel.pointer).integer;
 }
 
 final _id_topLevelSum = _TopLevelKtClass.staticMethodId(
@@ -37922,8 +38767,8 @@ core$_.int topLevelSum(
   core$_.int i,
   core$_.int i1,
 ) {
-  return _topLevelSum(
-          _TopLevelKtClass.reference.pointer, _id_topLevelSum.pointer, i, i1)
+  final _$$classRef = _TopLevelKtClass.reference;
+  return _topLevelSum(_$$classRef.pointer, _id_topLevelSum.pointer, i, i1)
       .integer;
 }
 
@@ -37949,8 +38794,9 @@ final _get$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final int getTopLevelField()`
 core$_.int get topLevelField$1 {
+  final _$$classRef = _TopLevelKt$1Class.reference;
   return _get$topLevelField$1(
-          _TopLevelKt$1Class.reference.pointer, _id_get$topLevelField$1.pointer)
+          _$$classRef.pointer, _id_get$topLevelField$1.pointer)
       .integer;
 }
 
@@ -37970,8 +38816,8 @@ final _set$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final void setTopLevelField(int i)`
 set topLevelField$1(core$_.int i) {
-  _set$topLevelField$1(_TopLevelKt$1Class.reference.pointer,
-          _id_set$topLevelField$1.pointer, i)
+  final _$$classRef = _TopLevelKt$1Class.reference;
+  _set$topLevelField$1(_$$classRef.pointer, _id_set$topLevelField$1.pointer, i)
       .check();
 }
 
@@ -37994,9 +38840,8 @@ final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `public fun topLevel(): kotlin.Int`
 core$_.int topLevel$1() {
-  return _topLevel$1(
-          _TopLevelKt$1Class.reference.pointer, _id_topLevel$1.pointer)
-      .integer;
+  final _$$classRef = _TopLevelKt$1Class.reference;
+  return _topLevel$1(_$$classRef.pointer, _id_topLevel$1.pointer).integer;
 }
 
 /// WARNING: DefaultConstructorMarker is a stub. To generate bindings for this class, include

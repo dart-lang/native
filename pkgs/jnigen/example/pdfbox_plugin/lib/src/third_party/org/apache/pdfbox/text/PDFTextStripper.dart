@@ -103,7 +103,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   /// Instantiate a new PDFTextStripper object.
   ///@throws IOException If there is an error loading the properties.
   factory PDFTextStripper() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    final _$$classRef = _class.reference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
         .object<PDFTextStripper>();
   }
 }
@@ -141,8 +142,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   jni$_.JString? getText(
     pddocument$_.PDDocument? doc,
   ) {
+    final _$$selfRef = reference;
     final _$doc = doc?.reference ?? jni$_.jNullReference;
-    return _getText(reference.pointer, _id_getText.pointer, _$doc.pointer)
+    return _getText(_$$selfRef.pointer, _id_getText.pointer, _$doc.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -178,9 +180,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
     pddocument$_.PDDocument? doc,
     writer$_.Writer? outputStream,
   ) {
+    final _$$selfRef = reference;
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$outputStream = outputStream?.reference ?? jni$_.jNullReference;
-    _writeText(reference.pointer, _id_writeText.pointer, _$doc.pointer,
+    _writeText(_$$selfRef.pointer, _id_writeText.pointer, _$doc.pointer,
             _$outputStream.pointer)
         .check();
   }
@@ -209,8 +212,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   void processPage(
     pdpage$_.PDPage? page,
   ) {
+    final _$$selfRef = reference;
     final _$page = page?.reference ?? jni$_.jNullReference;
-    _processPage(reference.pointer, _id_processPage.pointer, _$page.pointer)
+    _processPage(_$$selfRef.pointer, _id_processPage.pointer, _$page.pointer)
         .check();
   }
 
@@ -238,7 +242,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// be extracted. The default value is 1.
   ///@return Value of property startPage.
   core$_.int get startPage {
-    return _get$startPage(reference.pointer, _id_get$startPage.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$startPage(_$$selfRef.pointer, _id_get$startPage.pointer)
+        .integer;
   }
 
   static final _id_set$startPage = PDFTextStripper._class.instanceMethodId(
@@ -261,7 +267,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// This will set the first page to be extracted by this class.
   ///@param startPageValue New value of 1-based startPage property.
   set startPage(core$_.int startPageValue) {
-    _set$startPage(reference.pointer, _id_set$startPage.pointer, startPageValue)
+    final _$$selfRef = reference;
+    _set$startPage(
+            _$$selfRef.pointer, _id_set$startPage.pointer, startPageValue)
         .check();
   }
 
@@ -289,7 +297,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Integer.MAX_VALUE such that all pages of the pdf will be extracted.
   ///@return Value of property endPage.
   core$_.int get endPage {
-    return _get$endPage(reference.pointer, _id_get$endPage.pointer).integer;
+    final _$$selfRef = reference;
+    return _get$endPage(_$$selfRef.pointer, _id_get$endPage.pointer).integer;
   }
 
   static final _id_set$endPage = PDFTextStripper._class.instanceMethodId(
@@ -312,7 +321,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// This will set the last page to be extracted by this class.
   ///@param endPageValue New value of 1-based endPage property.
   set endPage(core$_.int endPageValue) {
-    _set$endPage(reference.pointer, _id_set$endPage.pointer, endPageValue)
+    final _$$selfRef = reference;
+    _set$endPage(_$$selfRef.pointer, _id_set$endPage.pointer, endPageValue)
         .check();
   }
 
@@ -338,8 +348,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// preference is not set explicitly using this method.
   ///@param separator The desired line separator string.
   set lineSeparator(jni$_.JString? separator) {
+    final _$$selfRef = reference;
     final _$separator = separator?.reference ?? jni$_.jNullReference;
-    _set$lineSeparator(reference.pointer, _id_set$lineSeparator.pointer,
+    _set$lineSeparator(_$$selfRef.pointer, _id_set$lineSeparator.pointer,
             _$separator.pointer)
         .check();
   }
@@ -367,7 +378,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// This will get the line separator.
   ///@return The desired line separator string.
   jni$_.JString? get lineSeparator {
-    return _get$lineSeparator(reference.pointer, _id_get$lineSeparator.pointer)
+    final _$$selfRef = reference;
+    return _get$lineSeparator(_$$selfRef.pointer, _id_get$lineSeparator.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -394,7 +406,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// This will get the word separator.
   ///@return The desired word separator string.
   jni$_.JString? get wordSeparator {
-    return _get$wordSeparator(reference.pointer, _id_get$wordSeparator.pointer)
+    final _$$selfRef = reference;
+    return _get$wordSeparator(_$$selfRef.pointer, _id_get$wordSeparator.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -422,8 +435,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// the empty string.
   ///@param separator The desired page separator string.
   set wordSeparator(jni$_.JString? separator) {
+    final _$$selfRef = reference;
     final _$separator = separator?.reference ?? jni$_.jNullReference;
-    _set$wordSeparator(reference.pointer, _id_set$wordSeparator.pointer,
+    _set$wordSeparator(_$$selfRef.pointer, _id_set$wordSeparator.pointer,
             _$separator.pointer)
         .check();
   }
@@ -451,8 +465,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// @return Returns the suppressDuplicateOverlappingText.
   core$_.bool get suppressDuplicateOverlappingText {
-    return _get$suppressDuplicateOverlappingText(
-            reference.pointer, _id_get$suppressDuplicateOverlappingText.pointer)
+    final _$$selfRef = reference;
+    return _get$suppressDuplicateOverlappingText(_$$selfRef.pointer,
+            _id_get$suppressDuplicateOverlappingText.pointer)
         .boolean;
   }
 
@@ -480,8 +495,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///@param suppressDuplicateOverlappingTextValue The suppressDuplicateOverlappingText to set.
   set suppressDuplicateOverlappingText(
       core$_.bool suppressDuplicateOverlappingTextValue) {
+    final _$$selfRef = reference;
     _set$suppressDuplicateOverlappingText(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_set$suppressDuplicateOverlappingText.pointer,
             suppressDuplicateOverlappingTextValue ? 1 : 0)
         .check();
@@ -510,8 +526,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// This will tell if the text stripper should separate by beads.
   ///@return If the text will be grouped by beads.
   core$_.bool get separateByBeads {
+    final _$$selfRef = reference;
     return _get$separateByBeads(
-            reference.pointer, _id_get$separateByBeads.pointer)
+            _$$selfRef.pointer, _id_get$separateByBeads.pointer)
         .boolean;
   }
 
@@ -536,8 +553,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Set if the text stripper should group the text output by a list of beads. The default value is true!
   ///@param aShouldSeparateByBeads The new grouping of beads.
   set shouldSeparateByBeads(core$_.bool aShouldSeparateByBeads) {
+    final _$$selfRef = reference;
     _set$shouldSeparateByBeads(
-            reference.pointer,
+            _$$selfRef.pointer,
             _id_set$shouldSeparateByBeads.pointer,
             aShouldSeparateByBeads ? 1 : 0)
         .check();
@@ -566,7 +584,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
   ///@return The ending bookmark.
   pdoutlineitem$_.PDOutlineItem? get endBookmark {
-    return _get$endBookmark(reference.pointer, _id_get$endBookmark.pointer)
+    final _$$selfRef = reference;
+    return _get$endBookmark(_$$selfRef.pointer, _id_get$endBookmark.pointer)
         .object<pdoutlineitem$_.PDOutlineItem?>();
   }
 
@@ -591,8 +610,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
   set endBookmark(pdoutlineitem$_.PDOutlineItem? aEndBookmark) {
+    final _$$selfRef = reference;
     final _$aEndBookmark = aEndBookmark?.reference ?? jni$_.jNullReference;
-    _set$endBookmark(reference.pointer, _id_set$endBookmark.pointer,
+    _set$endBookmark(_$$selfRef.pointer, _id_set$endBookmark.pointer,
             _$aEndBookmark.pointer)
         .check();
   }
@@ -620,7 +640,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
   ///@return The starting bookmark.
   pdoutlineitem$_.PDOutlineItem? get startBookmark {
-    return _get$startBookmark(reference.pointer, _id_get$startBookmark.pointer)
+    final _$$selfRef = reference;
+    return _get$startBookmark(_$$selfRef.pointer, _id_get$startBookmark.pointer)
         .object<pdoutlineitem$_.PDOutlineItem?>();
   }
 
@@ -645,8 +666,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
   set startBookmark(pdoutlineitem$_.PDOutlineItem? aStartBookmark) {
+    final _$$selfRef = reference;
     final _$aStartBookmark = aStartBookmark?.reference ?? jni$_.jNullReference;
-    _set$startBookmark(reference.pointer, _id_set$startBookmark.pointer,
+    _set$startBookmark(_$$selfRef.pointer, _id_set$startBookmark.pointer,
             _$aStartBookmark.pointer)
         .check();
   }
@@ -674,8 +696,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// This will tell if the text stripper should add some more text formatting.
   ///@return true if some more text formatting will be added
   core$_.bool get addMoreFormatting {
+    final _$$selfRef = reference;
     return _get$addMoreFormatting(
-            reference.pointer, _id_get$addMoreFormatting.pointer)
+            _$$selfRef.pointer, _id_get$addMoreFormatting.pointer)
         .boolean;
   }
 
@@ -700,8 +723,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// There will some additional text formatting be added if addMoreFormatting is set to true. Default is false.
   ///@param newAddMoreFormatting Tell PDFBox to add some more text formatting
   set addMoreFormatting(core$_.bool newAddMoreFormatting) {
-    _set$addMoreFormatting(reference.pointer, _id_set$addMoreFormatting.pointer,
-            newAddMoreFormatting ? 1 : 0)
+    final _$$selfRef = reference;
+    _set$addMoreFormatting(_$$selfRef.pointer,
+            _id_set$addMoreFormatting.pointer, newAddMoreFormatting ? 1 : 0)
         .check();
   }
 
@@ -727,8 +751,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// This will tell if the text stripper should sort the text tokens before writing to the stream.
   ///@return true If the text tokens will be sorted before being written.
   core$_.bool get sortByPosition {
+    final _$$selfRef = reference;
     return _get$sortByPosition(
-            reference.pointer, _id_get$sortByPosition.pointer)
+            _$$selfRef.pointer, _id_get$sortByPosition.pointer)
         .boolean;
   }
 
@@ -758,7 +783,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// the text tokens before processing them due to performance reasons.
   ///@param newSortByPosition Tell PDFBox to sort the text positions.
   set sortByPosition(core$_.bool newSortByPosition) {
-    _set$sortByPosition(reference.pointer, _id_set$sortByPosition.pointer,
+    final _$$selfRef = reference;
+    _set$sortByPosition(_$$selfRef.pointer, _id_set$sortByPosition.pointer,
             newSortByPosition ? 1 : 0)
         .check();
   }
@@ -787,8 +813,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
   core$_.double get spacingTolerance {
+    final _$$selfRef = reference;
     return _get$spacingTolerance(
-            reference.pointer, _id_get$spacingTolerance.pointer)
+            _$$selfRef.pointer, _id_get$spacingTolerance.pointer)
         .float;
   }
 
@@ -815,7 +842,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// the number of spaces added.
   ///@param spacingToleranceValue tolerance / scaling factor to use
   set spacingTolerance(core$_.double spacingToleranceValue) {
-    _set$spacingTolerance(reference.pointer, _id_set$spacingTolerance.pointer,
+    final _$$selfRef = reference;
+    _set$spacingTolerance(_$$selfRef.pointer, _id_set$spacingTolerance.pointer,
             spacingToleranceValue)
         .check();
   }
@@ -844,8 +872,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// be added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
   core$_.double get averageCharTolerance {
+    final _$$selfRef = reference;
     return _get$averageCharTolerance(
-            reference.pointer, _id_get$averageCharTolerance.pointer)
+            _$$selfRef.pointer, _id_get$averageCharTolerance.pointer)
         .float;
   }
 
@@ -872,7 +901,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// the number of spaces added.
   ///@param averageCharToleranceValue average tolerance / scaling factor to use
   set averageCharTolerance(core$_.double averageCharToleranceValue) {
-    _set$averageCharTolerance(reference.pointer,
+    final _$$selfRef = reference;
+    _set$averageCharTolerance(_$$selfRef.pointer,
             _id_set$averageCharTolerance.pointer, averageCharToleranceValue)
         .check();
   }
@@ -901,8 +931,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
   ///@return the number of whitespace character widths to use when detecting paragraph indents.
   core$_.double get indentThreshold {
+    final _$$selfRef = reference;
     return _get$indentThreshold(
-            reference.pointer, _id_get$indentThreshold.pointer)
+            _$$selfRef.pointer, _id_get$indentThreshold.pointer)
         .float;
   }
 
@@ -929,7 +960,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// The default value is 2.0.
   ///@param indentThresholdValue the number of whitespace character widths to use when detecting paragraph indents.
   set indentThreshold(core$_.double indentThresholdValue) {
-    _set$indentThreshold(reference.pointer, _id_set$indentThreshold.pointer,
+    final _$$selfRef = reference;
+    _set$indentThreshold(_$$selfRef.pointer, _id_set$indentThreshold.pointer,
             indentThresholdValue)
         .check();
   }
@@ -957,7 +989,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// start is considered to be a paragraph start.
   ///@return the character height multiple for max allowed whitespace between lines in the same paragraph.
   core$_.double get dropThreshold {
-    return _get$dropThreshold(reference.pointer, _id_get$dropThreshold.pointer)
+    final _$$selfRef = reference;
+    return _get$dropThreshold(_$$selfRef.pointer, _id_get$dropThreshold.pointer)
         .float;
   }
 
@@ -983,7 +1016,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///@param dropThresholdValue the character height multiple for max allowed whitespace between lines in the same
   /// paragraph.
   set dropThreshold(core$_.double dropThresholdValue) {
-    _set$dropThreshold(reference.pointer, _id_set$dropThreshold.pointer,
+    final _$$selfRef = reference;
+    _set$dropThreshold(_$$selfRef.pointer, _id_set$dropThreshold.pointer,
             dropThresholdValue)
         .check();
   }
@@ -1011,8 +1045,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Returns the string which will be used at the beginning of a paragraph.
   ///@return the paragraph start string
   jni$_.JString? get paragraphStart {
+    final _$$selfRef = reference;
     return _get$paragraphStart(
-            reference.pointer, _id_get$paragraphStart.pointer)
+            _$$selfRef.pointer, _id_get$paragraphStart.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1037,9 +1072,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Sets the string which will be used at the beginning of a paragraph.
   ///@param s the paragraph start string
   set paragraphStart(jni$_.JString? s) {
+    final _$$selfRef = reference;
     final _$s = s?.reference ?? jni$_.jNullReference;
     _set$paragraphStart(
-            reference.pointer, _id_set$paragraphStart.pointer, _$s.pointer)
+            _$$selfRef.pointer, _id_set$paragraphStart.pointer, _$s.pointer)
         .check();
   }
 
@@ -1066,7 +1102,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Returns the string which will be used at the end of a paragraph.
   ///@return the paragraph end string
   jni$_.JString? get paragraphEnd {
-    return _get$paragraphEnd(reference.pointer, _id_get$paragraphEnd.pointer)
+    final _$$selfRef = reference;
+    return _get$paragraphEnd(_$$selfRef.pointer, _id_get$paragraphEnd.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1091,9 +1128,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Sets the string which will be used at the end of a paragraph.
   ///@param s the paragraph end string
   set paragraphEnd(jni$_.JString? s) {
+    final _$$selfRef = reference;
     final _$s = s?.reference ?? jni$_.jNullReference;
     _set$paragraphEnd(
-            reference.pointer, _id_set$paragraphEnd.pointer, _$s.pointer)
+            _$$selfRef.pointer, _id_set$paragraphEnd.pointer, _$s.pointer)
         .check();
   }
 
@@ -1120,7 +1158,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Returns the string which will be used at the beginning of a page.
   ///@return the page start string
   jni$_.JString? get pageStart {
-    return _get$pageStart(reference.pointer, _id_get$pageStart.pointer)
+    final _$$selfRef = reference;
+    return _get$pageStart(_$$selfRef.pointer, _id_get$pageStart.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1145,8 +1184,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Sets the string which will be used at the beginning of a page.
   ///@param pageStartValue the page start string
   set pageStart(jni$_.JString? pageStartValue) {
+    final _$$selfRef = reference;
     final _$pageStartValue = pageStartValue?.reference ?? jni$_.jNullReference;
-    _set$pageStart(reference.pointer, _id_set$pageStart.pointer,
+    _set$pageStart(_$$selfRef.pointer, _id_set$pageStart.pointer,
             _$pageStartValue.pointer)
         .check();
   }
@@ -1174,7 +1214,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Returns the string which will be used at the end of a page.
   ///@return the page end string
   jni$_.JString? get pageEnd {
-    return _get$pageEnd(reference.pointer, _id_get$pageEnd.pointer)
+    final _$$selfRef = reference;
+    return _get$pageEnd(_$$selfRef.pointer, _id_get$pageEnd.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1199,9 +1240,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Sets the string which will be used at the end of a page.
   ///@param pageEndValue the page end string
   set pageEnd(jni$_.JString? pageEndValue) {
+    final _$$selfRef = reference;
     final _$pageEndValue = pageEndValue?.reference ?? jni$_.jNullReference;
     _set$pageEnd(
-            reference.pointer, _id_set$pageEnd.pointer, _$pageEndValue.pointer)
+            _$$selfRef.pointer, _id_set$pageEnd.pointer, _$pageEndValue.pointer)
         .check();
   }
 
@@ -1228,7 +1270,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Returns the string which will be used at the beginning of an article.
   ///@return the article start string
   jni$_.JString? get articleStart {
-    return _get$articleStart(reference.pointer, _id_get$articleStart.pointer)
+    final _$$selfRef = reference;
+    return _get$articleStart(_$$selfRef.pointer, _id_get$articleStart.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1253,9 +1296,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Sets the string which will be used at the beginning of an article.
   ///@param articleStartValue the article start string
   set articleStart(jni$_.JString? articleStartValue) {
+    final _$$selfRef = reference;
     final _$articleStartValue =
         articleStartValue?.reference ?? jni$_.jNullReference;
-    _set$articleStart(reference.pointer, _id_set$articleStart.pointer,
+    _set$articleStart(_$$selfRef.pointer, _id_set$articleStart.pointer,
             _$articleStartValue.pointer)
         .check();
   }
@@ -1283,7 +1327,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Returns the string which will be used at the end of an article.
   ///@return the article end string
   jni$_.JString? get articleEnd {
-    return _get$articleEnd(reference.pointer, _id_get$articleEnd.pointer)
+    final _$$selfRef = reference;
+    return _get$articleEnd(_$$selfRef.pointer, _id_get$articleEnd.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1308,9 +1353,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Sets the string which will be used at the end of an article.
   ///@param articleEndValue the article end string
   set articleEnd(jni$_.JString? articleEndValue) {
+    final _$$selfRef = reference;
     final _$articleEndValue =
         articleEndValue?.reference ?? jni$_.jNullReference;
-    _set$articleEnd(reference.pointer, _id_set$articleEnd.pointer,
+    _set$articleEnd(_$$selfRef.pointer, _id_set$articleEnd.pointer,
             _$articleEndValue.pointer)
         .check();
   }

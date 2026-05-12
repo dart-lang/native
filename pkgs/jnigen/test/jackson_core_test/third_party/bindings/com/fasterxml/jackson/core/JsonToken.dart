@@ -273,7 +273,8 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonToken?>? values() {
-    return _values(_class.reference.pointer, _id_values.pointer)
+    final _$$classRef = _class.reference;
+    return _values(_$$classRef.pointer, _id_values.pointer)
         .object<jni$_.JArray<JsonToken?>?>();
   }
 
@@ -298,9 +299,9 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   static JsonToken? valueOf(
     jni$_.JString? name,
   ) {
+    final _$$classRef = _class.reference;
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<JsonToken?>();
   }
 }
@@ -325,7 +326,8 @@ extension JsonToken$$Methods on JsonToken {
 
   /// from: `public final int id()`
   core$_.int id() {
-    return _id(reference.pointer, _id_id.pointer).integer;
+    final _$$selfRef = reference;
+    return _id(_$$selfRef.pointer, _id_id.pointer).integer;
   }
 
   static final _id_asString = JsonToken._class.instanceMethodId(
@@ -348,7 +350,8 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? asString() {
-    return _asString(reference.pointer, _id_asString.pointer)
+    final _$$selfRef = reference;
+    return _asString(_$$selfRef.pointer, _id_asString.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -372,7 +375,8 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray? asCharArray() {
-    return _asCharArray(reference.pointer, _id_asCharArray.pointer)
+    final _$$selfRef = reference;
+    return _asCharArray(_$$selfRef.pointer, _id_asCharArray.pointer)
         .object<jni$_.JCharArray?>();
   }
 
@@ -396,7 +400,8 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? asByteArray() {
-    return _asByteArray(reference.pointer, _id_asByteArray.pointer)
+    final _$$selfRef = reference;
+    return _asByteArray(_$$selfRef.pointer, _id_asByteArray.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -422,7 +427,9 @@ extension JsonToken$$Methods on JsonToken {
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
   core$_.bool get isNumeric {
-    return _get$isNumeric(reference.pointer, _id_get$isNumeric.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isNumeric(_$$selfRef.pointer, _id_get$isNumeric.pointer)
+        .boolean;
   }
 
   static final _id_get$isStructStart = JsonToken._class.instanceMethodId(
@@ -452,7 +459,8 @@ extension JsonToken$$Methods on JsonToken {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool get isStructStart {
-    return _get$isStructStart(reference.pointer, _id_get$isStructStart.pointer)
+    final _$$selfRef = reference;
+    return _get$isStructStart(_$$selfRef.pointer, _id_get$isStructStart.pointer)
         .boolean;
   }
 
@@ -483,7 +491,8 @@ extension JsonToken$$Methods on JsonToken {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool get isStructEnd {
-    return _get$isStructEnd(reference.pointer, _id_get$isStructEnd.pointer)
+    final _$$selfRef = reference;
+    return _get$isStructEnd(_$$selfRef.pointer, _id_get$isStructEnd.pointer)
         .boolean;
   }
 
@@ -513,7 +522,8 @@ extension JsonToken$$Methods on JsonToken {
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   core$_.bool get isScalarValue {
-    return _get$isScalarValue(reference.pointer, _id_get$isScalarValue.pointer)
+    final _$$selfRef = reference;
+    return _get$isScalarValue(_$$selfRef.pointer, _id_get$isScalarValue.pointer)
         .boolean;
   }
 
@@ -539,7 +549,9 @@ extension JsonToken$$Methods on JsonToken {
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
   core$_.bool get isBoolean {
-    return _get$isBoolean(reference.pointer, _id_get$isBoolean.pointer).boolean;
+    final _$$selfRef = reference;
+    return _get$isBoolean(_$$selfRef.pointer, _id_get$isBoolean.pointer)
+        .boolean;
   }
 }
 

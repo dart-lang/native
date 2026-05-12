@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 
 /// Type class for return types, variable types, etc.
@@ -93,6 +94,7 @@ abstract class Type extends AstNode {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => value;
 
   /// Returns generated Dart code that converts the given value from its
@@ -217,6 +219,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => value;
 
   @override

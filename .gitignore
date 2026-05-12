@@ -143,3 +143,4 @@ app.*.map.json
 .agents/rules/personal-*
 .agents/skills/personal-*
 gemini.md
+.jetskicli

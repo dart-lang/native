@@ -53,6 +53,10 @@ const _typeParamPrefix = '\$';
 /// Used for Dart-only bindings.
 const _self = 'this';
 
+// Local variable names for references.
+const _classRefVar = r'_$$classRef';
+const _selfRefVar = r'_$$selfRef';
+
 // Docs.
 const _releaseInstruction =
     '  /// The returned object must be released after use, '
@@ -1205,7 +1209,7 @@ ${modifier}final _$idName = $_protectedExtension
   String constructor(Method node) {
     final idName = _idName(node);
     final params = [
-      '$classRef.reference.pointer',
+      '$_classRefVar.pointer',
       '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
@@ -1220,7 +1224,7 @@ ${modifier}final _$idName = $_protectedExtension
   String methodCall(Method node) {
     final idName = _idName(node);
     final params = [
-      node.isStatic ? '$classRef.reference.pointer' : 'reference.pointer',
+      node.isStatic ? '$_classRefVar.pointer' : '$_selfRefVar.pointer',
       '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
@@ -1251,10 +1255,20 @@ ${modifier}final _$idName = $_protectedExtension
 
     // This is needed to keep the references alive in the scope while waiting
     // for the FFI call.
-    final localReferences = node.params
+    final paramsForReferences = node.isSuspendFun
+        ? node.params.sublist(0, node.params.length - 1)
+        : node.params;
+    final localReferences = paramsForReferences
         .accept(const _ParamReference())
         .where((ref) => ref.isNotEmpty)
         .toList();
+    // We store object.reference in a local variable to work around a limitation
+    // of Finalizable. See https://dartbug.com/63348 for context.
+    if (node.isStatic || node.isConstructor) {
+      localReferences.insert(0, 'final $_classRefVar = $classRef.reference;');
+    } else {
+      localReferences.insert(0, 'final $_selfRefVar = reference;');
+    }
     if (node.isConstructor && node.typeParams.isEmpty) {
       final className = node.classDecl.finalName;
       final name = node.finalName;
@@ -1291,7 +1305,6 @@ ${modifier}final _$idName = $_protectedExtension
     ].accept(const _TypeParamDef()).join(', ').encloseIfNotEmpty('<', '>');
     if (node.isSuspendFun) {
       defArgs.removeLast();
-      localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
     if (node.methodKind == MethodKind.getter) {
@@ -1691,7 +1704,8 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
       node.params.last.accept(_InterfaceParamCast(resolver, contArg,
           paramIndex: node.params.length - 1));
       s.write('''
-          final \$r = $_jni.KotlinContinuation.fromReference($contArg.reference)
+          final _\$\$contRef = $contArg.reference;
+          final \$r = $_jni.KotlinContinuation.fromReference(_\$\$contRef)
               .$resume($result);
           return $returnValue;
 ''');
