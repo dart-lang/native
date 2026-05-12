@@ -18,6 +18,8 @@ import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
 @ffi.Native<
   ffi.UnsignedLong Function(
     ffi.Pointer<objc.ObjCObjectImpl>,

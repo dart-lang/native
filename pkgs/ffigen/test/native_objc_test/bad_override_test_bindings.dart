@@ -6,6 +6,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// BadOverrideAunt
 extension type BadOverrideAunt._(objc.ObjCObject object$)
     implements objc.ObjCObject, BadOverrideGrandparent {

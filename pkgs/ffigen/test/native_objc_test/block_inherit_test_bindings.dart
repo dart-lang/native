@@ -6,6 +6,8 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
 typedef AcceptMammal = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartAcceptMammal = objc.ObjCBlock<ffi.Bool Function(Mammal)>;
 typedef AcceptPlatypus = ffi.Pointer<objc.ObjCBlockImpl>;
