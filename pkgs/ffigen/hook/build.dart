@@ -232,7 +232,13 @@ class CustomBuilder {
   final String _comp;
   final String _rootDir;
   final Uri _tempOutDir;
-  CustomBuilder._(this._comp, this._rootDir, this._tempOutDir);
+  final CodeConfig _codeConfig;
+  CustomBuilder._(
+    this._comp,
+    this._rootDir,
+    this._tempOutDir,
+    this._codeConfig,
+  );
 
   static Future<CustomBuilder> create(BuildInput input, String rootDir) async {
     final resolver = CompilerResolver(
@@ -243,6 +249,7 @@ class CustomBuilder {
       (await resolver.resolveCompiler()).uri.toFilePath(),
       rootDir,
       input.outputDirectory.resolve('obj/'),
+      input.config.code,
     );
   }
 
@@ -273,18 +280,71 @@ class CustomBuilder {
     required Uri outputHeader,
     required Uri outputLib,
   }) async {
-    final args = [
+    final baseArgs = [
       '-c',
       input.toFilePath(),
       '-module-name',
       moduleName,
       '-emit-library',
-      '-emit-objc-header-path',
-      outputHeader.toFilePath(),
-      '-o',
-      outputLib.toFilePath(),
     ];
-    await _run('swiftc', args);
+
+    final String target;
+    if (_codeConfig.targetOS == OS.iOS) {
+      final version = _codeConfig.iOS.targetVersion;
+      final arch = _codeConfig.targetArchitecture == Architecture.x64 ? 'x86_64' : 'arm64';
+      final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS ? 'ios' : 'ios-simulator';
+      target = '$arch-apple-$sdk$version';
+    } else {
+      final version = _codeConfig.macOS.targetVersion;
+      final arch = _codeConfig.targetArchitecture == Architecture.x64 ? 'x86_64' : 'arm64';
+      target = '$arch-apple-macosx$version';
+    }
+
+    if (_codeConfig.targetOS == OS.macOS &&
+        _codeConfig.targetArchitecture == Architecture.arm64) {
+      final libArm64 = '${outputLib.toFilePath()}.arm64';
+      final libArm64e = '${outputLib.toFilePath()}.arm64e';
+
+      final version = _codeConfig.macOS.targetVersion;
+      await _run('swiftc', [
+        ...baseArgs,
+        '-emit-objc-header-path',
+        outputHeader.toFilePath(),
+        '-target',
+        'arm64-apple-macosx$version',
+        '-o',
+        libArm64
+      ]);
+      await _run('swiftc', [
+        ...baseArgs,
+        '-target',
+        'arm64e-apple-macosx$version',
+        '-o',
+        libArm64e
+      ]);
+
+      await _run('lipo', [
+        '-create',
+        libArm64,
+        libArm64e,
+        '-output',
+        outputLib.toFilePath()
+      ]);
+
+      // Clean up temp files
+      await File(libArm64).delete();
+      await File(libArm64e).delete();
+    } else {
+      await _run('swiftc', [
+        ...baseArgs,
+        '-emit-objc-header-path',
+        outputHeader.toFilePath(),
+        '-target',
+        target,
+        '-o',
+        outputLib.toFilePath()
+      ]);
+    }
   }
 
   Future<void> _run(String cmd, List<String> args) async {
