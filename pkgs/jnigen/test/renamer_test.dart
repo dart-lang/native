@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/jnigen.dart'
-    hide ClassDecl, Classes, Field, Method, Param, Visitor;
+    show Config, DartCodeOutputConfig, OutputConfig, OutputStructure;
 import 'package:jnigen/src/bindings/linker.dart';
 import 'package:jnigen/src/bindings/renamer.dart';
 import 'package:jnigen/src/elements/elements.dart';
