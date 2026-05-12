@@ -5,7 +5,7 @@
 import 'elements.dart' as ast;
 
 /// An element in the Java AST that can be visited.
-abstract class Element {
+abstract class _Element {
   /// Accepts a [Visitor] to traverse this element and its children.
   void accept(Visitor visitor);
 }
@@ -29,7 +29,7 @@ abstract class Visitor {
 }
 
 /// A collection of class declarations.
-class Classes implements Element {
+class Classes implements _Element {
   Classes(this._classes);
   final ast.Classes _classes;
 
@@ -43,7 +43,7 @@ class Classes implements Element {
 }
 
 /// Represents a Java class declaration.
-class ClassDecl implements Element {
+class ClassDecl implements _Element {
   ClassDecl(this._classDecl);
   final ast.ClassDecl _classDecl;
 
@@ -76,7 +76,7 @@ class ClassDecl implements Element {
 }
 
 /// Represents a Java method declaration.
-class Method implements Element {
+class Method implements _Element {
   Method(this._method);
 
   final ast.Method _method;
@@ -106,8 +106,8 @@ class Method implements Element {
   }
 }
 
-/// Represents a Java method parameter declaration.
-class Param implements Element {
+/// Represents a Java parameter declaration.
+class Param implements _Element {
   Param(this._param);
 
   final ast.Param _param;
@@ -127,7 +127,7 @@ class Param implements Element {
 }
 
 /// Represents a Java field declaration.
-class Field implements Element {
+class Field implements _Element {
   Field(this._field);
 
   final ast.Field _field;

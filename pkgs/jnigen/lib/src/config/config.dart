@@ -3,4 +3,4 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'config_exception.dart';
-export 'config_types.dart';
+export 'config_types.dart' hide ConfigInternal;

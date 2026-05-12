@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 
-import '../config/config.dart';
+import '../config/config_types.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
 import '../util/dart_executable.dart';
