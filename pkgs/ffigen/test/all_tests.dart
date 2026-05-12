@@ -180,6 +180,7 @@ import 'unit_tests/scope_test.dart' as unit_tests_scope_test_dart;
 import 'unit_tests/sdk_variables_test.dart'
     as unit_tests_sdk_variables_test_dart;
 import 'unit_tests/subtyping_test.dart' as unit_tests_subtyping_test_dart;
+import 'unit_tests/version_test.dart' as unit_tests_version_test_dart;
 
 void main() {
   group(
@@ -536,6 +537,7 @@ void main() {
     unit_tests_sdk_variables_test_dart.main,
   );
   group('unit_tests/subtyping_test.dart', unit_tests_subtyping_test_dart.main);
+  group('unit_tests/version_test.dart', unit_tests_version_test_dart.main);
 
   test('All tests are imported and invoked', () {
     // TODO(https://github.com/dart-lang/native/issues/3345): Fix and enable.

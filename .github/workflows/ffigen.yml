@@ -157,26 +157,8 @@ jobs:
         run: dart test --name non_existent_test || true
       - name: Build all_tests.dart in AOT
         run: dart compile exe test/all_tests.dart -o test/all_tests
-      - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/
-      - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/
-      - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/
-      - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared
-      - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/ffigen/build
-      - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/objective_c/build
-      - name: debug
-        run: ls -a $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622
-      - name: debug
-        run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/**
-      - name: debug
-        run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/**.dylib | tr '\n' ':'
-      - name: debug
-        run: ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib | tr '\n' ':'
+      - name: Copy dylibs to expected location
+        run: cp $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib
       - name: Run all_tests in AOT
         run: >
           PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
@@ -184,7 +166,6 @@ jobs:
           XCODE=$(xcode-select -p)
           IOS_SDK=$(xcrun --show-sdk-path --sdk iphoneos)
           MACOS_SDK=$(xcrun --show-sdk-path --sdk macosx)
-          DYLD_INSERT_LIBRARIES=$(ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib | paste -sd ':' -)
           ./test/all_tests
 
   test-windows:
