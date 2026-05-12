@@ -291,12 +291,18 @@ class CustomBuilder {
     final String target;
     if (_codeConfig.targetOS == OS.iOS) {
       final version = _codeConfig.iOS.targetVersion;
-      final arch = _codeConfig.targetArchitecture == Architecture.x64 ? 'x86_64' : 'arm64';
-      final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS ? 'ios' : 'ios-simulator';
+      final arch = _codeConfig.targetArchitecture == Architecture.x64
+          ? 'x86_64'
+          : 'arm64';
+      final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
+          ? 'ios'
+          : 'ios-simulator';
       target = '$arch-apple-$sdk$version';
     } else {
       final version = _codeConfig.macOS.targetVersion;
-      final arch = _codeConfig.targetArchitecture == Architecture.x64 ? 'x86_64' : 'arm64';
+      final arch = _codeConfig.targetArchitecture == Architecture.x64
+          ? 'x86_64'
+          : 'arm64';
       target = '$arch-apple-macosx$version';
     }
 
@@ -313,14 +319,14 @@ class CustomBuilder {
         '-target',
         'arm64-apple-macosx$version',
         '-o',
-        libArm64
+        libArm64,
       ]);
       await _run('swiftc', [
         ...baseArgs,
         '-target',
         'arm64e-apple-macosx$version',
         '-o',
-        libArm64e
+        libArm64e,
       ]);
 
       await _run('lipo', [
@@ -328,7 +334,7 @@ class CustomBuilder {
         libArm64,
         libArm64e,
         '-output',
-        outputLib.toFilePath()
+        outputLib.toFilePath(),
       ]);
 
       // Clean up temp files
@@ -342,7 +348,7 @@ class CustomBuilder {
         '-target',
         target,
         '-o',
-        outputLib.toFilePath()
+        outputLib.toFilePath(),
       ]);
     }
   }
