@@ -54,7 +54,8 @@ class ClassDecl implements Element {
   bool get isExcluded => _classDecl.isExcluded;
   set isExcluded(bool value) => _classDecl.isExcluded = value;
 
-  /// The name of the class that will appear in generated code.
+  /// The name of the class that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _classDecl.userDefinedName ?? _classDecl.name;
   set name(String newName) => _classDecl.userDefinedName = newName;
 
@@ -84,7 +85,8 @@ class Method implements Element {
   bool get isExcluded => _method.userDefinedIsExcluded;
   set isExcluded(bool value) => _method.userDefinedIsExcluded = value;
 
-  /// The name of the method that will appear in generated code.
+  /// The name of the method that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _method.userDefinedName ?? _method.name;
   set name(String newName) => _method.userDefinedName = newName;
 
@@ -110,7 +112,8 @@ class Param implements Element {
 
   final ast.Param _param;
 
-  /// The name of the parameter that will appear in generated code.
+  /// The name of the parameter that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _param.userDefinedName ?? _param.name;
   set name(String newName) => _param.userDefinedName = newName;
 
@@ -133,7 +136,8 @@ class Field implements Element {
   bool get isExcluded => _field.isExcluded;
   set isExcluded(bool value) => _field.isExcluded = value;
 
-  /// The name of the field that will appear in generated code.
+  /// The name of the field that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _field.userDefinedName ?? _field.name;
   set name(String newName) => _field.userDefinedName = newName;
 
