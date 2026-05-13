@@ -50,12 +50,13 @@ void main(List<String> args) async {
           ]
         : <String>[];
 
+    // Build native_test.c. This is an ordinary build, so we can use CBuilder.
     await CBuilder.library(
       name: 'native_test',
       assetName: 'native_test',
       sources: [
         'test/native_test/native_test.c',
-        if (input.config.code.targetOS == OS.windows)
+        if (codeConfig.targetOS == OS.windows)
           'test/native_test/native_test.def',
       ],
       flags: cFlags,
@@ -67,20 +68,15 @@ void main(List<String> args) async {
         input.packageRoot.toFilePath(),
       );
 
-      // Build swift_class_test.swift. There's no swift compilation
-      // package, so we have to use a CustomBuilder.
+      // Build swift_class_test.swift. There's no swift compilation package, so
+      // we have to use a CustomBuilder.
       final objcTestDir = input.packageRoot.resolve('test/native_objc_test/');
       const swiftModule = 'swift_class_test';
       final swiftFile = objcTestDir.resolve('swift_class_test.swift');
       final swiftHeader = objcTestDir.resolve('swift_class_test-Swift.h');
       final swiftLib = input.outputDirectory.resolve('$swiftModule.dylib');
 
-      await builder.buildSwift(
-        swiftFile,
-        moduleName: swiftModule,
-        outputHeader: swiftHeader,
-        outputLib: swiftLib,
-      );
+      await builder.buildSwift(swiftFile, swiftModule, swiftHeader, swiftLib);
       output.assets.code.add(
         CodeAsset(
           package: packageName,
@@ -253,11 +249,11 @@ class CustomBuilder {
       _run(_comp, [...flags, '-o', output]);
 
   Future<void> buildSwift(
-    Uri input, {
-    required String moduleName,
-    required Uri outputHeader,
-    required Uri outputLib,
-  }) async {
+    Uri input,
+    String moduleName,
+    Uri outputHeader,
+    Uri outputLib,
+  ) async {
     final baseArgs = [
       '-c',
       input.toFilePath(),
