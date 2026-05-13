@@ -19,7 +19,6 @@ abstract class PirateTranslator {
 }
 
 // snippet-end#static-call
-
 // snippet-start#const-instance
 @RecordUse()
 final class PirateShip {

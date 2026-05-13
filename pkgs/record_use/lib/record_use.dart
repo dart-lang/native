@@ -39,7 +39,6 @@
 ///   static String speak(String english) => 'Ahoy $english';
 /// }
 ///
-///
 /// @RecordUse()
 /// final class PirateShip {
 ///   final String name;
