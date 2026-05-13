@@ -9,6 +9,8 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
 @ffi.Native<ffi.Int Function(ffi.Int)>()
 external int foo(int x);
 
@@ -26,8 +28,10 @@ external ffi.Pointer<ffi.Void> objc_autoreleasePoolPush();
 )
 external void _staticFuncConsumesArg(ffi.Pointer<objc.ObjCObjectImpl> a);
 
-void staticFuncConsumesArg(StaticFuncTestObj a) =>
-    _staticFuncConsumesArg(a.ref.retainAndReturnPointer());
+void staticFuncConsumesArg(StaticFuncTestObj a) {
+  final _$$ref = a.ref;
+  return _staticFuncConsumesArg(_$$ref.retainAndReturnPointer());
+}
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
@@ -38,11 +42,14 @@ external ffi.Pointer<objc.ObjCBlockImpl> _staticFuncOfBlock(
 
 objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> staticFuncOfBlock(
   objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> a,
-) => ObjCBlock_Int32_Int32.fromPointer(
-  _staticFuncOfBlock(a.ref.pointer),
-  retain: true,
-  release: true,
-);
+) {
+  final _$$ref = a.ref;
+  return ObjCBlock_Int32_Int32.fromPointer(
+    _staticFuncOfBlock(_$$ref.pointer),
+    retain: true,
+    release: true,
+  );
+}
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
@@ -51,14 +58,17 @@ external ffi.Pointer<objc.ObjCObjectImpl> _staticFuncOfNullableObject(
   ffi.Pointer<objc.ObjCObjectImpl> a,
 );
 
-StaticFuncTestObj? staticFuncOfNullableObject(StaticFuncTestObj? a) =>
-    _staticFuncOfNullableObject(a?.ref.pointer ?? ffi.nullptr).address == 0
-    ? null
-    : StaticFuncTestObj.fromPointer(
-        _staticFuncOfNullableObject(a?.ref.pointer ?? ffi.nullptr),
-        retain: true,
-        release: true,
-      );
+StaticFuncTestObj? staticFuncOfNullableObject(StaticFuncTestObj? a) {
+  final _$$ref = a?.ref;
+  return _staticFuncOfNullableObject(_$$ref?.pointer ?? ffi.nullptr).address ==
+          0
+      ? null
+      : StaticFuncTestObj.fromPointer(
+          _staticFuncOfNullableObject(_$$ref?.pointer ?? ffi.nullptr),
+          retain: true,
+          release: true,
+        );
+}
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
@@ -67,12 +77,14 @@ external ffi.Pointer<objc.ObjCObjectImpl> _staticFuncOfObject(
   ffi.Pointer<objc.ObjCObjectImpl> a,
 );
 
-StaticFuncTestObj staticFuncOfObject(StaticFuncTestObj a) =>
-    StaticFuncTestObj.fromPointer(
-      _staticFuncOfObject(a.ref.pointer),
-      retain: true,
-      release: true,
-    );
+StaticFuncTestObj staticFuncOfObject(StaticFuncTestObj a) {
+  final _$$ref = a.ref;
+  return StaticFuncTestObj.fromPointer(
+    _staticFuncOfObject(_$$ref.pointer),
+    retain: true,
+    release: true,
+  );
+}
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Int32>)>(
   symbol: 'staticFuncReturnsRetained',
@@ -81,12 +93,13 @@ external ffi.Pointer<objc.ObjCObjectImpl> _staticFuncReturnsRetained(
   ffi.Pointer<ffi.Int32> counter,
 );
 
-StaticFuncTestObj staticFuncReturnsRetained(ffi.Pointer<ffi.Int32> counter) =>
-    StaticFuncTestObj.fromPointer(
-      _staticFuncReturnsRetained(counter),
-      retain: false,
-      release: true,
-    );
+StaticFuncTestObj staticFuncReturnsRetained(ffi.Pointer<ffi.Int32> counter) {
+  return StaticFuncTestObj.fromPointer(
+    _staticFuncReturnsRetained(counter),
+    retain: false,
+    release: true,
+  );
+}
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
@@ -95,12 +108,14 @@ external ffi.Pointer<objc.ObjCObjectImpl> _staticFuncReturnsRetainedArg(
   ffi.Pointer<objc.ObjCObjectImpl> a,
 );
 
-StaticFuncTestObj staticFuncReturnsRetainedArg(StaticFuncTestObj a) =>
-    StaticFuncTestObj.fromPointer(
-      _staticFuncReturnsRetainedArg(a.ref.pointer),
-      retain: false,
-      release: true,
-    );
+StaticFuncTestObj staticFuncReturnsRetainedArg(StaticFuncTestObj a) {
+  final _$$ref = a.ref;
+  return StaticFuncTestObj.fromPointer(
+    _staticFuncReturnsRetainedArg(_$$ref.pointer),
+    retain: false,
+    release: true,
+  );
+}
 
 /// Construction methods for `objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>`.
 abstract final class ObjCBlock_Int32_Int32 {
@@ -140,11 +155,9 @@ abstract final class ObjCBlock_Int32_Int32 {
     int Function(int) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (int arg0) => fn(arg0),
-      keepIsolateAlive,
-    ),
+    objc.newClosureBlock(_closureCallable, (int arg0) {
+      return fn(arg0);
+    }, keepIsolateAlive),
     retain: false,
     release: true,
   );
@@ -174,20 +187,21 @@ abstract final class ObjCBlock_Int32_Int32 {
 /// Call operator for `objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>`.
 extension ObjCBlock_Int32_Int32$CallExtension
     on objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> {
-  int call(int arg0) =>
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Int32 arg0,
-              )
-            >
-          >()
-          .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
-        ref.pointer,
-        arg0,
-      );
+  int call(int arg0) {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Int32 Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Int32 arg0,
+            )
+          >
+        >()
+        .asFunction<int Function(ffi.Pointer<objc.ObjCBlockImpl>, int)>()(
+      ref.pointer,
+      arg0,
+    );
+  }
 }
 
 /// StaticFuncTestObj
@@ -255,18 +269,20 @@ extension type StaticFuncTestObj._(objc.ObjCObject object$)
 extension StaticFuncTestObj$Methods on StaticFuncTestObj {
   /// dealloc
   void dealloc() {
-    _objc_msgSend_1pl9qdv(object$.ref.pointer, _sel_dealloc);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_dealloc);
   }
 
   /// init
   StaticFuncTestObj init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'StaticFuncTestObj.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return StaticFuncTestObj.fromPointer($ret, retain: false, release: true);
@@ -274,8 +290,9 @@ extension StaticFuncTestObj$Methods on StaticFuncTestObj {
 
   /// initWithCounter:
   StaticFuncTestObj initWithCounter(ffi.Pointer<ffi.Int32> _counter) {
+    final _$$ref = object$.ref;
     final $ret = _objc_msgSend_129vhbw(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_initWithCounter_,
       _counter,
     );

@@ -7,6 +7,7 @@ import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
 import 'imports.dart';
+import 'local_variables.dart';
 import 'pointer.dart';
 import 'scope.dart';
 import 'type.dart';
@@ -23,7 +24,7 @@ import 'writer.dart';
 /// ```dart
 /// final int a = _dylib.lookup<ffi.Int32>('a').value;
 /// ```
-class Global extends LookUpBinding {
+class Global extends LookUpBinding with HasLocalScope {
   final Type type;
   final bool exposeSymbolAddress;
   final bool constant;
@@ -72,14 +73,17 @@ class Global extends LookUpBinding {
           pointerValue,
           objCRetain: false,
         );
+        final localVars = LocalVariables(localScope);
         final newValue = type.convertDartTypeToFfiDartType(
           context,
           'value',
           objCRetain: true,
           objCAutorelease: false,
+          localVariables: localVars,
         );
         s.write('''set $globalVarName($dartType value) {
   $releaseOldValue.ref.release();
+  ${localVars.generateDeclarations()}
   $pointerValue = $newValue;
 }''');
       }

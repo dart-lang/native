@@ -83,17 +83,12 @@ class Writer {
 
     // Write lint ignore if not specified by user already.
     final ignores = <String>[
-      if (!RegExp(r'ignore_for_file:\s*type\s*=\s*lint').hasMatch(header ?? ''))
-        'type=lint',
+      if (!_hasLintIgnore(r'type\s*=\s*lint')) 'type=lint',
       // TODO(https://github.com/dart-lang/native/issues/2748): Remove the
       //   unused_import ignore once we can guarantee that we don't generate
       //   unused imports.
-      if (!RegExp(r'ignore_for_file:\s*unused_import').hasMatch(header ?? ''))
-        'unused_import',
-      if (anyFuncHasRecordUse &&
-          !RegExp(
-            r'ignore_for_file:\s*experimental_member_use',
-          ).hasMatch(header ?? ''))
+      if (!_hasLintIgnore('unused_import')) 'unused_import',
+      if (anyFuncHasRecordUse && !_hasLintIgnore('experimental_member_use'))
         'experimental_member_use',
     ];
     if (ignores.isNotEmpty) {
@@ -179,6 +174,19 @@ class Writer {
       final path = lib.importPath(generateForPackageObjectiveC);
       result.write("import '$path' as ${context.libs.prefix(lib)};\n");
     }
+
+    if (libs.contains(objcPkgImport)) {
+      final objcPrefix = context.libs.prefix(objcPkgImport);
+      result.write('\n');
+      if (!_hasLintIgnore('unused_element')) {
+        result.write('// ignore: unused_element\n');
+      }
+      result.write('''
+const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
+    $objcMajorVersion, $objcMinorVersion);
+''');
+    }
+
     result.write(s);
 
     // Warn about Enum usage in API surface.
@@ -257,6 +265,9 @@ class Writer {
       },
     };
   }
+
+  bool _hasLintIgnore(String ignore) =>
+      RegExp('ignore_for_file:\\s*$ignore').hasMatch(header ?? '');
 
   Map<String, String> _makeSymbolMapValue(Binding b) {
     final dartName = b is Typealias ? getTypedefDartAliasName(b) : null;

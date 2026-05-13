@@ -6,6 +6,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 sealed class CoffeeOptions {
   static const CoffeeOptionsNone = 0;
   static const CoffeeOptionsMilk = 1;
@@ -86,13 +89,14 @@ extension type EnumTestInterface._(objc.ObjCObject object$)
 extension EnumTestInterface$Methods on EnumTestInterface {
   /// init
   EnumTestInterface init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'EnumTestInterface.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return EnumTestInterface.fromPointer($ret, retain: false, release: true);

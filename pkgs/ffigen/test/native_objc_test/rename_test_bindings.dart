@@ -6,6 +6,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 final class CollidingStructName extends ffi.Opaque {}
 
 /// _Renamed
@@ -63,18 +66,20 @@ extension type Renamed._(objc.ObjCObject object$)
 extension Renamed$Methods on Renamed {
   /// CollidingStructName
   int CollidingStructName$1() {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_CollidingStructName);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_CollidingStructName);
   }
 
   /// init
   Renamed init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       '_Renamed.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return Renamed.fromPointer($ret, retain: false, release: true);
@@ -82,13 +87,15 @@ extension Renamed$Methods on Renamed {
 
   /// property
   int get property {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_property);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_property);
   }
 
   /// renamedMethod:otherArg:
   int fooBarBaz(int x, {required int y}) {
+    final _$$ref = object$.ref;
     return _objc_msgSend_1q0lyci(
-      object$.ref.pointer,
+      _$$ref.pointer,
       _sel_renamedMethod_otherArg_,
       x,
       y,
@@ -97,22 +104,26 @@ extension Renamed$Methods on Renamed {
 
   /// renamedProperty
   int get reProp {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_renamedProperty);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_renamedProperty);
   }
 
   /// setProperty:
   set property(int value) {
-    _objc_msgSend_1bqef4y(object$.ref.pointer, _sel_setProperty_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setProperty_, value);
   }
 
   /// setRenamedProperty:
   set reProp(int value) {
-    _objc_msgSend_1bqef4y(object$.ref.pointer, _sel_setRenamedProperty_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setRenamedProperty_, value);
   }
 
   /// toString
   objc.NSString toString$1() {
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_toString);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_toString);
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }

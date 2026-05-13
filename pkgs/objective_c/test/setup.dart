@@ -90,7 +90,7 @@ void main(List<String> arguments) {
   lib.lookup('OBJC_CLASS_\$_DOBJCDartProtocol'); // protocol.m
   lib.lookup('OBJC_CLASS_\$_DOBJCObservation'); // observer.m
   // objective_c_bindings_generated.m
-  lib.lookup('_1wx624s_Observer');
+  lib.lookup('_1wx624s_wrapListenerBlock_ovsamd');
 
   // Sanity check that the executable can find FFI symbols.
   _linkMain([...objFiles, cMain], '$cMain.exe');

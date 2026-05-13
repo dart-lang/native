@@ -41,7 +41,6 @@ jobs:
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
-      - run: git diff
       - name: Analyze code
         run: dart analyze --fatal-infos
 
