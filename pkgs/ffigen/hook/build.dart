@@ -54,7 +54,7 @@ void main(List<String> args) async {
       // Build native_test.c.
       final nativeTestAsset = 'native_test';
       final nativeTestLib = input.outputDirectory.resolve(
-        os.dylibFileName(nativeTestAsset),
+        '$nativeTestAsset.dylib',
       );
       final nativeTestSource = input.packageRoot.resolve(
         'test/native_test/native_test.c',
@@ -78,7 +78,7 @@ void main(List<String> args) async {
         const swiftModule = 'swift_class_test';
         final swiftFile = objcTestDir.resolve('swift_class_test.swift');
         final swiftHeader = objcTestDir.resolve('swift_class_test-Swift.h');
-        final swiftLib = input.outputDirectory.resolve('lib$swiftModule.dylib');
+        final swiftLib = input.outputDirectory.resolve('$swiftModule.dylib');
 
         await builder.buildSwift(
           swiftFile,
@@ -122,7 +122,7 @@ void main(List<String> args) async {
         objFiles.add(await builder.buildObject(dartApiDl, cFlags));
 
         const objcAsset = 'objc_test';
-        final objcLib = input.outputDirectory.resolve('lib$objcAsset.dylib');
+        final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
         await builder.linkLib(objFiles, objcLib, [
           ...cFlags,
           '-framework',
