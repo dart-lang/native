@@ -42,7 +42,7 @@ void main() async {
         await tempFile.writeAsString('hello');
         await subFile.writeAsString('world');
 
-        await hashes.hashDependencies(
+        await hashes.updateHashes(
           [tempFile.uri, tempSubDir.uri],
           (await tempFile.lastModified()).add(const Duration(minutes: 1)),
           environment,
@@ -113,7 +113,7 @@ void main() async {
 
       // If a file is modified after the valid timestamp, it should be marked
       // as changed.
-      await hashes.hashDependencies(
+      await hashes.updateHashes(
         [tempFile.uri],
         (await tempFile.lastModified()).subtract(const Duration(seconds: 1)),
         environment,

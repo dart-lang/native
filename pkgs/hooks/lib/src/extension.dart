@@ -50,4 +50,10 @@ abstract interface class ProtocolExtension {
   /// Can be used to validate that there are no asset-id or shared library name
   /// collisions.
   Future<ValidationErrors> validateApplicationAssets(List<EncodedAsset> assets);
+
+  /// Returns any files emitted by the hook output for this extension.
+  ///
+  /// If any of these output files are modified or deleted, the hook needs to be
+  /// rerun.
+  Iterable<Uri> outputFiles(List<EncodedAsset> assets);
 }
