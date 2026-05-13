@@ -349,12 +349,16 @@ class ObjCProtocolGlobal extends NoLookUpBinding {
   @override
   BindingString toBindingString(Writer w) {
     final context = w.context;
-    final ffi = context.libs.prefix(ffiImport);
     final ptrType = PointerType(objCProtocolType).getCType(context);
     final getProtocol = ObjCBuiltInFunctions.getProtocol.gen(context);
-    final s =
-        '''
-@$ffi.Native<$ptrType Function()>(symbol: '$loaderName')
+    final nativeAnnotation = makeNativeAnnotation(
+      w,
+      nativeType: '$ptrType Function()',
+      dartName: rawSymbol.name,
+      nativeSymbolName: loaderName,
+    );
+    final s = '''
+$nativeAnnotation
 external $ptrType ${rawSymbol.name}();
 final $name = $getProtocol("$lookupName", ${rawSymbol.name});
 ''';

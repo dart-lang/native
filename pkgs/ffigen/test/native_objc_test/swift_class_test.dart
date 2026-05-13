@@ -16,8 +16,6 @@ import 'util.dart';
 void main() {
   group('swift_class_test', () {
     setUpAll(() {
-      loadLibrary();
-      loadSwiftLibrary();
     });
 
     test('Renamed class', () {

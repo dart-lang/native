@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('bad overrides', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('Method vs getter', () {

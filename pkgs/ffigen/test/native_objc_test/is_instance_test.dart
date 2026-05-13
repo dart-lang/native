@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('isInstance', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('Unrelated classes', () {

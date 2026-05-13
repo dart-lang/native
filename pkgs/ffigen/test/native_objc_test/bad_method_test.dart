@@ -16,7 +16,6 @@ import 'util.dart';
 void main() {
   group('bad_method_test', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test("Test incomplete struct methods that weren't skipped", () {

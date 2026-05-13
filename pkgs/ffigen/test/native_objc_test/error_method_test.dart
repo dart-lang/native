@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('error_method_test', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test("Error method that returns bool", () {

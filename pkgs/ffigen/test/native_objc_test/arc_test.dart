@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('ARC', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('objectRetainCount edge cases', () {

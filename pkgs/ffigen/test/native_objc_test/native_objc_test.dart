@@ -16,10 +16,6 @@ import 'util.dart';
 
 void main() {
   group('native_objc_test', () {
-    setUpAll(() {
-      loadLibrary();
-    });
-
     test('Basic types', () {
       final foo = Foo();
       final obj = NSObject();

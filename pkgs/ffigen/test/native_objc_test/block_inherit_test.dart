@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('Block inheritance', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('BlockInheritTestBase', () {

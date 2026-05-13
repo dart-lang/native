@@ -17,7 +17,6 @@ import 'util.dart';
 void main() {
   group('inheritedInstancetype', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('Ordinary init method', () {

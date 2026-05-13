@@ -16,7 +16,6 @@ import 'util.dart';
 void main() {
   group('typedef', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('Regression test for #386', () {

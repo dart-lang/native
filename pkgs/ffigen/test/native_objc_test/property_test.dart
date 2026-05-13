@@ -19,7 +19,6 @@ void main() {
   group('properties', () {
     late PropertyInterface testInterface;
     setUpAll(() {
-      loadLibrary();
       testInterface = PropertyInterface.alloc().init();
     });
 

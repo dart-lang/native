@@ -33,7 +33,6 @@ void main() {
     // correct block type.
 
     setUpAll(() {
-      loadLibrary();
     });
 
     void objectProducerTest(EmptyObject producer()) {

@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('string', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {

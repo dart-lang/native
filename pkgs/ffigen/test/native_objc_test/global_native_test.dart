@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('global using @Native', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('Global string', () {

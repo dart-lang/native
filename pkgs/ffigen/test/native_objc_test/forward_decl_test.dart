@@ -16,7 +16,6 @@ import 'util.dart';
 void main() {
   group('forward decl', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('Forward declared class', () {

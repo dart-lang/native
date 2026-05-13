@@ -18,7 +18,6 @@ import 'util.dart';
 void main() {
   group('runtime version check', () {
     setUpAll(() {
-      loadLibrary();
     });
 
     test('Interface', () {
