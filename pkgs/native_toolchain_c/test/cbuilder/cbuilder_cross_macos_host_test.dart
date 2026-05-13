@@ -116,99 +116,103 @@ void main() async {
     final arch = config.get<Architecture>();
     final optimizationLevel = config.get<OptimizationLevel>();
 
-    test('CBuilder $os $arch $linkMode $language $optimizationLevel', () async {
-      final tempUri = await tempDirForTest();
-      final tempUri2 = await tempDirForTest();
-      final sourceUri = switch (language) {
-        .c => packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
-        .objectiveC => packageUri.resolve(
-          'test/cbuilder/testfiles/add_objective_c/src/add.m',
-        ),
-        Language() => throw UnimplementedError(),
-      };
-      const name = 'add';
-
-      // When cross-compiling from MacOS, explicitly specify apple clang.
-      //
-      // The default tool-finding does not support macos cross compiling
-      // right now.
-      var chosenCCompiler = cCompiler;
-      if (os == .linux) {
-        // still respect the CI-provided compiler
-        chosenCCompiler ??= await resolveAppleToolchain();
-      }
-
-      final buildInputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: os,
-            targetArchitecture: arch,
-            linkModePreference: linkMode == DynamicLoadingBundled()
-                ? .dynamic
-                : .static,
-            cCompiler: chosenCCompiler,
-            macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+    test(
+      'CBuilder $os $arch $linkMode $language $optimizationLevel',
+      () async {
+        final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
+        final sourceUri = switch (language) {
+          .c => packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
+          .objectiveC => packageUri.resolve(
+            'test/cbuilder/testfiles/add_objective_c/src/add.m',
           ),
-        );
-      final buildInput = buildInputBuilder.build();
-      final buildOutput = BuildOutputBuilder();
+          Language() => throw UnimplementedError(),
+        };
+        const name = 'add';
 
-      final cbuilder = CBuilder.library(
-        name: name,
-        assetName: name,
-        sources: [sourceUri.toFilePath()],
-        language: language,
-        optimizationLevel: optimizationLevel,
-        buildMode: .release,
-        flags: [
-          if (os == .linux)
-            switch (arch) {
-              .arm => '--target=arm-linux-gnueabihf',
-              .arm64 => '--target=aarch64-linux-gnu',
-              .ia32 => '--target=i686-linux-gnu',
-              .x64 => '--target=x86_64-linux-gnu',
-              .riscv32 => '--target=riscv32-linux-gnu',
-              .riscv64 => '--target=riscv64-linux-gnu',
-              _ => throw UnsupportedError(
-                'Unexpected linux architecture: $arch',
-              ),
-            },
-          // Only homebrew lld can link for linux, and we don't have a
-          // sysroot so we can't use stdlibs / C-runtime files.
-          if (os == .linux) ...[
-            '--ld-path=$lldPath',
-            '-nostartfiles',
-            '-nostdlib',
+        // When cross-compiling from MacOS, explicitly specify apple clang.
+        //
+        // The default tool-finding does not support macos cross compiling
+        // right now.
+        var chosenCCompiler = cCompiler;
+        if (os == .linux) {
+          // still respect the CI-provided compiler
+          chosenCCompiler ??= await resolveAppleToolchain();
+        }
+
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: os,
+              targetArchitecture: arch,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? .dynamic
+                  : .static,
+              cCompiler: chosenCCompiler,
+              macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+            ),
+          );
+        final buildInput = buildInputBuilder.build();
+        final buildOutput = BuildOutputBuilder();
+
+        final cbuilder = CBuilder.library(
+          name: name,
+          assetName: name,
+          sources: [sourceUri.toFilePath()],
+          language: language,
+          optimizationLevel: optimizationLevel,
+          buildMode: .release,
+          flags: [
+            if (os == .linux)
+              switch (arch) {
+                .arm => '--target=arm-linux-gnueabihf',
+                .arm64 => '--target=aarch64-linux-gnu',
+                .ia32 => '--target=i686-linux-gnu',
+                .x64 => '--target=x86_64-linux-gnu',
+                .riscv32 => '--target=riscv32-linux-gnu',
+                .riscv64 => '--target=riscv64-linux-gnu',
+                _ => throw UnsupportedError(
+                  'Unexpected linux architecture: $arch',
+                ),
+              },
+            // Only homebrew lld can link for linux, and we don't have a
+            // sysroot so we can't use stdlibs / C-runtime files.
+            if (os == .linux) ...[
+              '--ld-path=$lldPath',
+              '-nostartfiles',
+              '-nostdlib',
+            ],
           ],
-        ],
-      );
-      await cbuilder.run(
-        input: buildInput,
-        output: buildOutput,
-        logger: logger,
-      );
+        );
+        await cbuilder.run(
+          input: buildInput,
+          output: buildOutput,
+          logger: logger,
+        );
 
-      final libUri = buildInput.outputDirectory.resolve(
-        os.libraryFileName(name, linkMode),
-      );
-      final result = await runProcess(
-        executable: Uri.file('objdump'),
-        arguments: ['-t', libUri.path],
-        logger: logger,
-      );
-      expect(result.exitCode, 0);
-      final machine = result.stdout
-          .split('\n')
-          .firstWhere((e) => e.contains('file format'));
-      expect(machine, contains(objdumpFileFormat[(os, arch)]));
-    }, skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,);
+        final libUri = buildInput.outputDirectory.resolve(
+          os.libraryFileName(name, linkMode),
+        );
+        final result = await runProcess(
+          executable: Uri.file('objdump'),
+          arguments: ['-t', libUri.path],
+          logger: logger,
+        );
+        expect(result.exitCode, 0);
+        final machine = result.stdout
+            .split('\n')
+            .firstWhere((e) => e.contains('file format'));
+        expect(machine, contains(objdumpFileFormat[(os, arch)]));
+      },
+      skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,
+    );
   }
 
   for (final macosVersion in [
