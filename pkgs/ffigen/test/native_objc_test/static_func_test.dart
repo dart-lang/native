@@ -22,19 +22,11 @@ typedef IntBlock = ObjCBlock_Int32_Int32;
 
 void main() {
   late StaticFuncTestObjCLibrary lib;
-
   group('static functions', () {
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
+      lib = StaticFuncTestObjCLibrary(
+        DynamicLibrary.open(findDylib("objc_test")),
       );
-      verifySetupFile(dylib);
-      lib = StaticFuncTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
     });
 
     Pointer<Int32> staticFuncOfObjectRefCountTest(Allocator alloc) {

@@ -14,6 +14,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - 'BadMethodTestObject'
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'bad_method_test.m'

@@ -7,6 +7,7 @@ import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -208,17 +209,38 @@ ${generateInstanceMethodBindings(w, this)}
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    context,
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   static String generateGetId(
+    Context context,
     String value,
     bool objCRetain,
     bool objCAutorelease,
-  ) => objCRetain
-      ? (objCAutorelease
-            ? '$value.ref.retainAndAutorelease()'
-            : '$value.ref.retainAndReturnPointer()')
-      : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
+    LocalVariables localVariables, {
+    bool isNullable = false,
+  }) {
+    final dot = isNullable ? '?.' : '.';
+    final fallback = isNullable
+        ? ' ?? ${context.libs.prefix(ffiImport)}.nullptr'
+        : '';
+    final refExpr = '$value${dot}ref';
+    // We store object.ref in a local variable to work around a limitation of
+    // Finalizable. See https://dartbug.com/63348 for context.
+    final refName = localVariables.addVariable('ref', refExpr);
+    final method = objCRetain
+        ? (objCAutorelease
+              ? 'retainAndAutorelease()'
+              : 'retainAndReturnPointer()')
+        : (objCAutorelease ? 'autorelease()' : 'pointer');
+    return '$refName$dot$method$fallback';
+  }
 
   @override
   String convertFfiDartTypeToDartType(

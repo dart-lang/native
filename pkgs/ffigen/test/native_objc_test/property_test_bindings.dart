@@ -6,6 +6,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+// ignore: unused_element
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// PropertyInterface
 extension type PropertyInterface._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -112,27 +115,30 @@ extension type PropertyInterface._(objc.ObjCObject object$)
 extension PropertyInterface$Methods on PropertyInterface {
   /// doubleProperty
   double get doubleProperty {
+    final _$$ref = object$.ref;
     return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(object$.ref.pointer, _sel_doubleProperty)
-        : _objc_msgSend_1ukqyt8(object$.ref.pointer, _sel_doubleProperty);
+        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_doubleProperty)
+        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_doubleProperty);
   }
 
   /// floatProperty
   double get floatProperty {
+    final _$$ref = object$.ref;
     return objc.useMsgSendVariants
-        ? _objc_msgSend_2cgrxlFpret(object$.ref.pointer, _sel_floatProperty)
-        : _objc_msgSend_2cgrxl(object$.ref.pointer, _sel_floatProperty);
+        ? _objc_msgSend_2cgrxlFpret(_$$ref.pointer, _sel_floatProperty)
+        : _objc_msgSend_2cgrxl(_$$ref.pointer, _sel_floatProperty);
   }
 
   /// init
   PropertyInterface init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'PropertyInterface.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return PropertyInterface.fromPointer($ret, retain: false, release: true);
@@ -140,56 +146,53 @@ extension PropertyInterface$Methods on PropertyInterface {
 
   /// instStaticSameName
   int get instStaticSameName {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_instStaticSameName);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_instStaticSameName);
   }
 
   /// readOnlyProperty
   int get readOnlyProperty {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_readOnlyProperty);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readOnlyProperty);
   }
 
   /// readWriteProperty
   int get readWriteProperty {
-    return _objc_msgSend_1gcq84o(object$.ref.pointer, _sel_readWriteProperty);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readWriteProperty);
   }
 
   /// setDoubleProperty:
   set doubleProperty(double value) {
-    _objc_msgSend_hwm8nu(object$.ref.pointer, _sel_setDoubleProperty_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleProperty_, value);
   }
 
   /// setFloatProperty:
   set floatProperty(double value) {
-    _objc_msgSend_v5hmet(object$.ref.pointer, _sel_setFloatProperty_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_v5hmet(_$$ref.pointer, _sel_setFloatProperty_, value);
   }
 
   /// setReadWriteProperty:
   set readWriteProperty(int value) {
-    _objc_msgSend_1bqef4y(
-      object$.ref.pointer,
-      _sel_setReadWriteProperty_,
-      value,
-    );
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setReadWriteProperty_, value);
   }
 
   /// setStructProperty:
   set structProperty(Vec4 value) {
-    _objc_msgSend_188ryij(object$.ref.pointer, _sel_setStructProperty_, value);
+    final _$$ref = object$.ref;
+    _objc_msgSend_188ryij(_$$ref.pointer, _sel_setStructProperty_, value);
   }
 
   /// structProperty
   Vec4 get structProperty {
+    final _$$ref = object$.ref;
     final $ptr = pkg_ffi.calloc<Vec4>();
     objc.useMsgSendVariants
-        ? _objc_msgSend_o6r21bStret(
-            $ptr,
-            object$.ref.pointer,
-            _sel_structProperty,
-          )
-        : $ptr.ref = _objc_msgSend_o6r21b(
-            object$.ref.pointer,
-            _sel_structProperty,
-          );
+        ? _objc_msgSend_o6r21bStret($ptr, _$$ref.pointer, _sel_structProperty)
+        : $ptr.ref = _objc_msgSend_o6r21b(_$$ref.pointer, _sel_structProperty);
     final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
       ffi.sizeOf<Vec4>(),
       finalizer: pkg_ffi.calloc.nativeFree,

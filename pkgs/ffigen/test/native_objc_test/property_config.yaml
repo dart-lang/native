@@ -6,6 +6,8 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - PropertyInterface
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'property_test.h'

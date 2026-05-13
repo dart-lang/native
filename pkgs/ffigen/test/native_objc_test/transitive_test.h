@@ -161,7 +161,7 @@
 -(int)bug2935TransitiveBlockInterfaceMethod;
 @end
 
-@protocol Bug2935TransitiveProtocol<NSObject> {}
+@protocol Bug2935TransitiveProtocol<NSObject>
 -(void)bug2935TransitiveProtocolMethod:
     (void (^)(Bug2935TransitiveBlockInterface* itf)) block;
 @end

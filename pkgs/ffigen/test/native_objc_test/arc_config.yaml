@@ -11,6 +11,8 @@ objc-interfaces:
   include:
     - ArcTestObject
     - ArcDtorTestObject
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'arc_test.h'

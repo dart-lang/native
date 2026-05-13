@@ -16,20 +16,10 @@ import 'global_test_bindings.dart';
 import 'util.dart';
 
 void main() {
+  late GlobalTestObjCLibrary lib;
   group('global', () {
-    late GlobalTestObjCLibrary lib;
-
     setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      lib = GlobalTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      lib = GlobalTestObjCLibrary(DynamicLibrary.open(findDylib("objc_test")));
     });
 
     test('Global string', () {

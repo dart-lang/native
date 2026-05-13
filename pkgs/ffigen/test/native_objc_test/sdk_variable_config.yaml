@@ -13,6 +13,8 @@ objc-interfaces:
       exclude:
         # This method is missing on some machines.
         - includesTextListMarkers
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - '$XCODE/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h'

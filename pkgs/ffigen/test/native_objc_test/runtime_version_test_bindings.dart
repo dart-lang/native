@@ -8,65 +8,73 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+
 /// FutureAPICategoryMethods
 extension FutureAPICategoryMethods on objc.NSObject {
   /// catFutureMethodBoth
   @Deprecated('test')
   int catFutureMethodBoth() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSObject.catFutureMethodBoth',
       iOS: (false, (1000, 0, 0)),
       macOS: (false, (1000, 0, 0)),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_catFutureMethodBoth);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodBoth);
   }
 
   /// catFutureMethodIos
   @Deprecated('test')
   int catFutureMethodIos() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSObject.catFutureMethodIos',
       iOS: (false, (1000, 0, 0)),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_catFutureMethodIos);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodIos);
   }
 
   /// catFutureMethodMac
   @Deprecated('test')
   int catFutureMethodMac() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSObject.catFutureMethodMac',
       macOS: (false, (1000, 0, 0)),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_catFutureMethodMac);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catFutureMethodMac);
   }
 
   /// catUnavailableBoth
   int catUnavailableBoth() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSObject.catUnavailableBoth',
       iOS: (true, null),
       macOS: (true, null),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_catUnavailableBoth);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableBoth);
   }
 
   /// catUnavailableIos
   int catUnavailableIos() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSObject.catUnavailableIos',
       iOS: (true, null),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_catUnavailableIos);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableIos);
   }
 
   /// catUnavailableMac
   int catUnavailableMac() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSObject.catUnavailableMac',
       macOS: (true, null),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_catUnavailableMac);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_catUnavailableMac);
   }
 }
 
@@ -136,13 +144,14 @@ extension type FutureAPIInterface._(objc.ObjCObject object$)
 extension FutureAPIInterface$Methods on FutureAPIInterface {
   /// init
   FutureAPIInterface init() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIInterface.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return FutureAPIInterface.fromPointer($ret, retain: false, release: true);
@@ -205,43 +214,47 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
   /// futureMethodBoth
   @Deprecated('test')
   int futureMethodBoth() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIMethods.futureMethodBoth',
       iOS: (false, (1000, 0, 0)),
       macOS: (false, (1000, 0, 0)),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_futureMethodBoth);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodBoth);
   }
 
   /// futureMethodIos
   @Deprecated('test')
   int futureMethodIos() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIMethods.futureMethodIos',
       iOS: (false, (1000, 0, 0)),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_futureMethodIos);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodIos);
   }
 
   /// futureMethodMac
   @Deprecated('test')
   int futureMethodMac() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIMethods.futureMethodMac',
       macOS: (false, (1000, 0, 0)),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_futureMethodMac);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_futureMethodMac);
   }
 
   /// init
   FutureAPIMethods init() {
+    final _$$ref$1 = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIMethods.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
+      _$$ref$1.retainAndReturnPointer(),
       _sel_init,
     );
     return FutureAPIMethods.fromPointer($ret, retain: false, release: true);
@@ -249,30 +262,33 @@ extension FutureAPIMethods$Methods on FutureAPIMethods {
 
   /// unavailableBoth
   int unavailableBoth() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIMethods.unavailableBoth',
       iOS: (true, null),
       macOS: (true, null),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_unavailableBoth);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableBoth);
   }
 
   /// unavailableIos
   int unavailableIos() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIMethods.unavailableIos',
       iOS: (true, null),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_unavailableIos);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableIos);
   }
 
   /// unavailableMac
   int unavailableMac() {
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'FutureAPIMethods.unavailableMac',
       macOS: (true, null),
     );
-    return _objc_msgSend_13yqbb6(object$.ref.pointer, _sel_unavailableMac);
+    return _objc_msgSend_13yqbb6(_$$ref.pointer, _sel_unavailableMac);
   }
 }
 

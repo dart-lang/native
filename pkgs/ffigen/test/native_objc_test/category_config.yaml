@@ -20,6 +20,8 @@ objc-categories:
     - InterfaceOnBuiltInType
     - StaticAndInstanceMethodsWithSameNameCategory
     - NSString
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'category_test.h'

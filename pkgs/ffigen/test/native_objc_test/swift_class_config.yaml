@@ -3,6 +3,8 @@ description: 'Tests Swift classes'
 language: objc
 output: 'swift_class_test_bindings.dart'
 exclude-all-by-default: true
+ffi-native:
+  asset-id: 'package:ffigen/swift_class_test'
 objc-interfaces:
   include:
     - MySwiftClass
