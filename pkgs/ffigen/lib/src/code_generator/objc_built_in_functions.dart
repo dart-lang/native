@@ -311,7 +311,20 @@ class ObjCClassGlobal extends NoLookUpBinding {
     final context = w.context;
     final ffi = context.libs.prefix(ffiImport);
     final type = PointerType(objCObjectType).getCType(context);
-    final symbol = Namer.stringLiteral('OBJC_CLASS_\$_$lookupName');
+
+    // If the class has a module prefix (e.g. "module.Class"), use Swift's mangling for the symbol.
+    String symbolLookupName = lookupName;
+    if (lookupName.contains('.')) {
+      final parts = lookupName.split('.');
+      if (parts.length == 2) {
+        final moduleName = parts[0];
+        final className = parts[1];
+        symbolLookupName =
+            '_TtC${moduleName.length}$moduleName${className.length}$className';
+      }
+    }
+
+    final symbol = Namer.stringLiteral('OBJC_CLASS_\$_$symbolLookupName');
     final getClass = ObjCBuiltInFunctions.getClass.gen(context);
     final address = '$ffi.Native.addressOf<$type>(${rawSymbol.name})';
     final s =

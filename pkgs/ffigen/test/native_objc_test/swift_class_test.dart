@@ -15,14 +15,29 @@ import 'util.dart';
 
 void main() {
   group('swift_class_test', () {
-    setUpAll(() {
-    });
-
     test('Renamed class', () {
       final swiftObject = MySwiftClass();
       expect(swiftObject.getValue(), 123);
       swiftObject.setValueWithX(456);
       expect(swiftObject.getValue(), 456);
+    });
+
+    test('Swift protocol conformsTo', () {
+      final swiftObject = MySwiftClass();
+      expect(MySwiftProtocol.conformsTo(swiftObject), isTrue);
+    });
+
+    test('No symbols with dots in generated bindings', () {
+      final file = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'swift_class_test_bindings.dart',
+      ));
+      final contents = file.readAsStringSync();
+      for (final line in contents.split('\n')) {
+        expect(line, isNot(contains(RegExp(r"symbol:.*\."))));
+      }
     });
   });
 }
