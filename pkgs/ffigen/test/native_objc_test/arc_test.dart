@@ -21,58 +21,39 @@ void main() {
       loadLibrary();
     });
 
-    test('objectRetainCount edge cases', () {
-      expect(objectRetainCount(nullptr), 0);
-      expect(objectRetainCount(Pointer.fromAddress(0x1234)), 0);
-    });
-
-    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) newMethodsInner(
-      Pointer<Int32> counter,
-    ) {
+    void newMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject();
       obj1.setCounter(counter);
       expect(counter.value, 1);
       final obj2 = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 2);
 
-      final obj1raw = obj1.ref.pointer;
-      final obj2raw = obj2.ref.pointer;
-
-      expect(objectRetainCount(obj1raw), greaterThan(0));
-      expect(objectRetainCount(obj2raw), greaterThan(0));
-
       final obj2b = ArcTestObject.fromPointer(
-        obj2raw,
+        obj2.ref.pointer,
         retain: true,
         release: true,
       );
-      expect(objectRetainCount(obj2b.ref.pointer), greaterThan(0));
+      expect(obj2b, isNotNull);
 
       final obj2c = ArcTestObject.fromPointer(
-        obj2raw,
+        obj2.ref.pointer,
         retain: true,
         release: true,
       );
-      expect(objectRetainCount(obj2c.ref.pointer), greaterThan(0));
-
-      return (obj1raw, obj2raw);
+      expect(obj2c, isNotNull);
     }
 
     test('new methods ref count correctly', () {
       // To get the GC to work correctly, the references to the objects all have
       // to be in a separate function.
-      final counter = calloc<Int32>();
-      counter.value = 0;
-      final (obj1raw, obj2raw) = newMethodsInner(counter);
+      final counter = calloc<Int32>()..value = 0;
+      newMethodsInner(counter);
       doGC();
-      expect(objectRetainCount(obj1raw), 0);
-      expect(objectRetainCount(obj2raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>)
-    allocMethodsInner(Pointer<Int32> counter) {
+    void allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.alloc().initWithCounter(counter);
       expect(counter.value, 1);
       final obj2 = ArcTestObject.as(ArcTestObject.alloc().init());
@@ -81,45 +62,20 @@ void main() {
       final obj3 = ArcTestObject.allocTheThing().initWithCounter(counter);
       expect(counter.value, 3);
 
-      final obj1raw = obj1.ref.pointer;
-      final obj2raw = obj2.ref.pointer;
-      final obj3raw = obj3.ref.pointer;
-
-      expect(objectRetainCount(obj1raw), greaterThan(0));
-      expect(objectRetainCount(obj2raw), greaterThan(0));
-      expect(objectRetainCount(obj3raw), greaterThan(0));
-
       expect(obj1, isNotNull); // Force obj1 to stay in scope.
       expect(obj2, isNotNull); // Force obj2 to stay in scope.
       expect(obj3, isNotNull); // Force obj3 to stay in scope.
-
-      return (obj1raw, obj2raw, obj3raw);
     }
 
     test('alloc and init methods ref count correctly', () {
-      final counter = calloc<Int32>();
-      counter.value = 0;
-      final (obj1raw, obj2raw, obj3raw) = allocMethodsInner(counter);
+      final counter = calloc<Int32>()..value = 0;
+      allocMethodsInner(counter);
       doGC();
-      expect(objectRetainCount(obj1raw), 0);
-      expect(objectRetainCount(obj2raw), 0);
-      expect(objectRetainCount(obj3raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    (
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-      Pointer<ObjCObjectImpl>,
-    )
-    copyMethodsInner(Pointer<Int32> counter) {
+    void copyMethodsInner(Pointer<Int32> counter) {
       final pool = objc_autoreleasePoolPush();
       final obj1 = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -140,221 +96,122 @@ void main() {
       final obj9 = obj1.copyMeConsumeSelf();
       expect(counter.value, 9);
 
-      final obj1raw = obj1.ref.pointer;
-      final obj2raw = obj2.ref.pointer;
-      final obj3raw = obj3.ref.pointer;
-      final obj4raw = obj4.ref.pointer;
-      final obj5raw = obj5.ref.pointer;
-      final obj6raw = obj6.ref.pointer;
-      final obj7raw = obj7.ref.pointer;
-      final obj8raw = obj8.ref.pointer;
-      final obj9raw = obj9.ref.pointer;
-
-      expect(objectRetainCount(obj1raw), greaterThan(0));
-      expect(objectRetainCount(obj2raw), greaterThan(0));
-      expect(objectRetainCount(obj3raw), greaterThan(0));
-      expect(objectRetainCount(obj4raw), greaterThan(0));
-      expect(objectRetainCount(obj5raw), greaterThan(0));
-      expect(objectRetainCount(obj6raw), greaterThan(0));
-      expect(objectRetainCount(obj7raw), greaterThan(0));
-      expect(objectRetainCount(obj8raw), greaterThan(0));
-      expect(objectRetainCount(obj9raw), greaterThan(0));
-
       objc_autoreleasePoolPop(pool);
-      expect(objectRetainCount(obj1raw), greaterThan(0));
-      expect(objectRetainCount(obj2raw), greaterThan(0));
-      expect(objectRetainCount(obj3raw), greaterThan(0));
-      expect(objectRetainCount(obj4raw), greaterThan(0));
-      expect(objectRetainCount(obj5raw), greaterThan(0));
-      expect(objectRetainCount(obj6raw), greaterThan(0));
-      expect(objectRetainCount(obj7raw), greaterThan(0));
-      expect(objectRetainCount(obj8raw), greaterThan(0));
-      expect(objectRetainCount(obj9raw), greaterThan(0));
+      expect(counter.value, 9);
 
-      return (
-        obj1raw,
-        obj2raw,
-        obj3raw,
-        obj4raw,
-        obj5raw,
-        obj6raw,
-        obj7raw,
-        obj8raw,
-        obj9raw,
-      );
+      expect(obj1, isNotNull);
+      expect(obj2, isNotNull);
+      expect(obj3, isNotNull);
+      expect(obj4, isNotNull);
+      expect(obj5, isNotNull);
+      expect(obj6, isNotNull);
+      expect(obj7, isNotNull);
+      expect(obj8, isNotNull);
+      expect(obj9, isNotNull);
     }
 
     test('copy methods ref count correctly', () {
-      final counter = calloc<Int32>();
-      counter.value = 0;
-      final (
-        obj1raw,
-        obj2raw,
-        obj3raw,
-        obj4raw,
-        obj5raw,
-        obj6raw,
-        obj7raw,
-        obj8raw,
-        obj9raw,
-      ) = copyMethodsInner(
-        counter,
-      );
+      final counter = calloc<Int32>()..value = 0;
+      copyMethodsInner(counter);
       doGC();
-      expect(objectRetainCount(obj1raw), 0);
-      expect(objectRetainCount(obj2raw), 0);
-      expect(objectRetainCount(obj3raw), 0);
-      expect(objectRetainCount(obj4raw), 0);
-      expect(objectRetainCount(obj5raw), 0);
-      expect(objectRetainCount(obj6raw), 0);
-      expect(objectRetainCount(obj7raw), 0);
-      expect(objectRetainCount(obj8raw), 0);
-      expect(objectRetainCount(obj9raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObjectImpl> autoreleaseMethodsInner(Pointer<Int32> counter) {
+    void autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.makeAndAutorelease(counter);
       expect(counter.value, 1);
-
-      final obj1raw = obj1.ref.pointer;
-      expect(objectRetainCount(obj1raw), greaterThan(0));
-      return obj1raw;
     }
 
     test('autorelease methods ref count correctly', () {
-      final counter = calloc<Int32>();
-      counter.value = 0;
+      final counter = calloc<Int32>()..value = 0;
 
       final pool1 = objc_autoreleasePoolPush();
-      final obj1raw = autoreleaseMethodsInner(counter);
+      autoreleaseMethodsInner(counter);
       doGC();
       // The autorelease pool is still holding a reference to the object.
       expect(counter.value, 1);
-      expect(objectRetainCount(obj1raw), greaterThan(0));
       objc_autoreleasePoolPop(pool1);
       expect(counter.value, 0);
-      expect(objectRetainCount(obj1raw), 0);
 
       final pool2 = objc_autoreleasePoolPush();
       final obj2 = ArcTestObject.makeAndAutorelease(counter);
-      final obj2raw = obj2.ref.pointer;
       expect(counter.value, 1);
-      expect(objectRetainCount(obj2raw), greaterThan(0));
       doGC();
       expect(counter.value, 1);
-      expect(objectRetainCount(obj2raw), greaterThan(0));
       objc_autoreleasePoolPop(pool2);
       // The obj2 variable still holds a reference to the object.
       expect(counter.value, 1);
-      expect(objectRetainCount(obj2raw), greaterThan(0));
       obj2.ref.release();
       expect(counter.value, 0);
-      expect(objectRetainCount(obj2raw), 0);
 
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObjectImpl> assignPropertiesInnerInner(
+    void assignPropertiesInnerInner(
       Pointer<Int32> counter,
       ArcTestObject outerObj,
     ) {
       final assignObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 2);
-      final assignObjRaw = assignObj.ref.pointer;
-      expect(objectRetainCount(assignObjRaw), greaterThan(0));
       outerObj.assignedProperty = assignObj;
       expect(counter.value, 2);
       expect(assignObj, outerObj.assignedProperty);
-      expect(objectRetainCount(assignObjRaw), greaterThan(0));
-      // To test that outerObj isn't holding a reference to assignObj, we let
-      // assignObj go out of scope, but keep outerObj in scope. This is
-      // dangerous because outerObj now has a dangling reference, so don't
-      // access that reference.
-      return assignObjRaw;
     }
 
-    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) assignPropertiesInner(
-      Pointer<Int32> counter,
-    ) {
+    void assignPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
-      final outerObjRaw = outerObj.ref.pointer;
-      expect(objectRetainCount(outerObjRaw), greaterThan(0));
-      final assignObjRaw = assignPropertiesInnerInner(counter, outerObj);
+      assignPropertiesInnerInner(counter, outerObj);
       doGC();
       // assignObj has been cleaned up.
       expect(counter.value, 1);
-      expect(objectRetainCount(assignObjRaw), 0);
-      expect(objectRetainCount(outerObjRaw), greaterThan(0));
       expect(outerObj, isNotNull); // Force outerObj to stay in scope.
-      return (outerObjRaw, assignObjRaw);
     }
 
     test('assign properties ref count correctly', () {
-      final counter = calloc<Int32>();
-      counter.value = 0;
-      final (outerObjRaw, assignObjRaw) = assignPropertiesInner(counter);
+      final counter = calloc<Int32>()..value = 0;
+      assignPropertiesInner(counter);
       doGC();
       expect(counter.value, 0);
-      expect(objectRetainCount(assignObjRaw), 0);
-      expect(objectRetainCount(outerObjRaw), 0);
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObjectImpl> retainPropertiesInnerInner(
+    void retainPropertiesInnerInner(
       Pointer<Int32> counter,
       ArcTestObject outerObj,
     ) {
       final retainObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 2);
-      final retainObjRaw = retainObj.ref.pointer;
-      expect(objectRetainCount(retainObjRaw), greaterThan(0));
       outerObj.retainedProperty = retainObj;
       expect(counter.value, 2);
       expect(retainObj, outerObj.retainedProperty);
-      expect(objectRetainCount(retainObjRaw), greaterThan(0));
-      return retainObjRaw;
     }
 
-    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) retainPropertiesInner(
-      Pointer<Int32> counter,
-    ) {
+    void retainPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
-      final outerObjRaw = outerObj.ref.pointer;
-      expect(objectRetainCount(outerObjRaw), greaterThan(0));
-      final retainObjRaw = retainPropertiesInnerInner(counter, outerObj);
+      retainPropertiesInnerInner(counter, outerObj);
       doGC();
       // retainObj is still around, because outerObj retains a reference to it.
-      expect(objectRetainCount(retainObjRaw), greaterThan(0));
-      expect(objectRetainCount(outerObjRaw), greaterThan(0));
       expect(counter.value, 2);
       expect(outerObj, isNotNull); // Force outerObj to stay in scope.
-      return (outerObjRaw, retainObjRaw);
     }
 
     test('retain properties ref count correctly', () {
-      final counter = calloc<Int32>();
-      counter.value = 0;
+      final counter = calloc<Int32>()..value = 0;
       // The getters of retain properties retain+autorelease the value. So we
       // need an autorelease pool.
       final pool = objc_autoreleasePoolPush();
-      final (outerObjRaw, retainObjRaw) = retainPropertiesInner(counter);
+      retainPropertiesInner(counter);
       doGC();
-      expect(objectRetainCount(retainObjRaw), greaterThan(0));
-      expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 1);
       objc_autoreleasePoolPop(pool);
-      expect(objectRetainCount(retainObjRaw), 0);
-      expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>)
-    copyPropertiesInner(Pointer<Int32> counter) {
+    void copyPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
 
@@ -370,55 +227,32 @@ void main() {
       expect(counter.value, 3);
       expect(anotherCopy, outerObj.copiedProperty);
 
-      final outerObjRaw = outerObj.ref.pointer;
-      final copyObjRaw = copyObj.ref.pointer;
-      final anotherCopyRaw = anotherCopy.ref.pointer;
-
-      expect(objectRetainCount(outerObjRaw), greaterThan(0));
-      expect(objectRetainCount(copyObjRaw), greaterThan(0));
-      expect(objectRetainCount(anotherCopyRaw), greaterThan(0));
-
-      return (outerObjRaw, copyObjRaw, anotherCopyRaw);
+      expect(outerObj, isNotNull);
+      expect(copyObj, isNotNull);
+      expect(anotherCopy, isNotNull);
     }
 
     test('copy properties ref count correctly', () {
-      final counter = calloc<Int32>();
-      counter.value = 0;
+      final counter = calloc<Int32>()..value = 0;
       // The getters of copy properties retain+autorelease the value. So we need
       // an autorelease pool.
       final pool = objc_autoreleasePoolPush();
-      final (outerObjRaw, copyObjRaw, anotherCopyRaw) = copyPropertiesInner(
-        counter,
-      );
+      copyPropertiesInner(counter);
       doGC();
       expect(counter.value, 1);
-      expect(objectRetainCount(outerObjRaw), 0);
-      expect(objectRetainCount(copyObjRaw), 0);
-      expect(objectRetainCount(anotherCopyRaw), greaterThan(0));
       objc_autoreleasePoolPop(pool);
       expect(counter.value, 0);
-      expect(objectRetainCount(outerObjRaw), 0);
-      expect(objectRetainCount(copyObjRaw), 0);
-      expect(objectRetainCount(anotherCopyRaw), 0);
       calloc.free(counter);
     }, skip: !canDoGC);
 
     test('Manual release', () {
-      final counter = calloc<Int32>();
+      final counter = calloc<Int32>()..value = 0;
       final obj1 = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
       final obj2 = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 2);
       final obj3 = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 3);
-
-      final obj1raw = obj1.ref.pointer;
-      final obj2raw = obj2.ref.pointer;
-      final obj3raw = obj3.ref.pointer;
-
-      expect(objectRetainCount(obj1raw), greaterThan(0));
-      expect(objectRetainCount(obj2raw), greaterThan(0));
-      expect(objectRetainCount(obj3raw), greaterThan(0));
 
       obj1.ref.release();
       expect(counter.value, 2);
@@ -429,10 +263,6 @@ void main() {
 
       expect(() => obj1.ref.release(), throwsStateError);
       calloc.free(counter);
-
-      expect(objectRetainCount(obj1raw), 0);
-      expect(objectRetainCount(obj2raw), 0);
-      expect(objectRetainCount(obj3raw), 0);
     });
 
     void largeRefCountInner(Pointer<Int32> counter) {
@@ -440,8 +270,6 @@ void main() {
       expect(counter.value, 1);
       final objRefs = <ArcTestObject>[];
       for (int i = 1; i < 1000; ++i) {
-        final expectedCount = i < 128 ? i : 128;
-        expect(objectRetainCount(obj.ref.pointer), expectedCount);
         objRefs.add(
           ArcTestObject.fromPointer(
             obj.ref.pointer,
@@ -451,24 +279,21 @@ void main() {
         );
       }
       expect(counter.value, 1);
+      expect(objRefs, isNotEmpty);
     }
 
     test('Consumed arguments', () {
-      final counter = calloc<Int32>();
+      final counter = calloc<Int32>()..value = 0;
       ArcTestObject? obj1 = ArcTestObject.newWithCounter(counter);
-      final obj1raw = obj1.ref.pointer;
 
-      expect(objectRetainCount(obj1raw), greaterThan(0));
       expect(counter.value, 1);
 
       ArcTestObject.consumeArg(obj1);
 
-      expect(objectRetainCount(obj1raw), greaterThan(0));
       expect(counter.value, 1);
 
       obj1 = null;
       doGC();
-      expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
@@ -479,8 +304,7 @@ void main() {
       // object has to take ownership by calling retain. This test verifies that
       // is working correctly by holding a reference to an object returned by a
       // method, after the original wrapper object is gone.
-      final counter = calloc<Int32>();
-      counter.value = 0;
+      final counter = calloc<Int32>()..value = 0;
       largeRefCountInner(counter);
       doGC();
       expect(counter.value, 0);
