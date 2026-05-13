@@ -90,26 +90,6 @@ void main(List<String> args) async {
         ),
       );
 
-      // Build native_test.c.
-      final nativeTestAsset = 'native_test';
-      final nativeTestLib = input.outputDirectory.resolve(
-        '$nativeTestAsset.dylib',
-      );
-      final nativeTestSource = input.packageRoot.resolve(
-        'test/native_test/native_test.c',
-      );
-      final nativeTestObj = await builder.buildObject(nativeTestSource, cFlags);
-      await builder.linkLib([nativeTestObj], nativeTestLib, cFlags);
-
-      output.assets.code.add(
-        CodeAsset(
-          package: packageName,
-          name: nativeTestAsset,
-          file: nativeTestLib,
-          linkMode: DynamicLoadingBundled(),
-        ),
-      );
-
       // Build all the ObjC files. Some of the files have different compile
       // flags, so we need to use the CustomBuilder again.
       final mFiles = _findFiles(objcTestDir, '.m');
