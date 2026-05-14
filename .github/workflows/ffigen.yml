@@ -164,7 +164,6 @@ jobs:
           XCODE=$(xcode-select -p)
           IOS_SDK=$(xcrun --show-sdk-path --sdk iphoneos)
           MACOS_SDK=$(xcrun --show-sdk-path --sdk macosx)
-          DYLD_INSERT_LIBRARIES=$(ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/*.dylib | paste -sd ':' -)
           dart test -c exe -x skip-aot
 
   test-windows:
