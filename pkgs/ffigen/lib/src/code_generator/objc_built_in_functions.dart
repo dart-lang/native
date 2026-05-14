@@ -297,10 +297,12 @@ class ObjCInternalGlobal extends NoLookUpBinding {
 String _makeLookupName(String originalName, String? module) =>
     module == null ? originalName : '$module.$originalName';
 
-String _makeSymbolLookupName(String originalName, String? module) =>
-    module == null
-    ? originalName
-    : '_TtC${module.length}$module${originalName.length}$originalName';
+String _makeSymbolLookupName(String originalName, String? module) {
+  final mangledName = module == null
+      ? originalName
+      : '_TtC${module.length}$module${originalName.length}$originalName';
+  return 'OBJC_CLASS_\$_$mangledName';
+}
 
 /// A global variable for an ObjC class, loaded via @Native.
 class ObjCClassGlobal extends NoLookUpBinding {
@@ -326,7 +328,7 @@ class ObjCClassGlobal extends NoLookUpBinding {
       w,
       nativeType: type,
       dartName: rawSymbol.name,
-      nativeSymbolName: 'OBJC_CLASS_\$_$symbolLookupName',
+      nativeSymbolName: symbolLookupName,
     );
     final getClass = ObjCBuiltInFunctions.getClass.gen(context);
     final address =
