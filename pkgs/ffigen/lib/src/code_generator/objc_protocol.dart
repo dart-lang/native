@@ -16,8 +16,9 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final superProtocols = <ObjCProtocol>[];
-  final String lookupName;
-  final NoLookUpBinding _protocolPointer;
+  final String? module;
+  final Symbol loaderSymbol;
+  late final ObjCProtocolGlobal _protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
   final ApiAvailability apiAvailability;
@@ -29,15 +30,13 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     super.usr,
     required String super.originalName,
     String? name,
-    String? lookupName,
+    this.module,
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
-  }) : lookupName = lookupName ?? originalName,
-       _protocolPointer = ObjCProtocolGlobal(
-         '_protocol_$originalName',
-         lookupName ?? originalName,
+  }) : loaderSymbol = Symbol(
          '_${context.objCBuiltInFunctions.libraryId}_$originalName',
+         SymbolKind.method,
        ),
        super(
          name:
@@ -47,6 +46,12 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
+    _protocolPointer = ObjCProtocolGlobal(
+      '_protocol_$originalName',
+      originalName,
+      module,
+      loaderSymbol,
+    );
     _conformsTo = context.objCBuiltInFunctions.getSelObject(
       'conformsToProtocol:',
     );
@@ -334,12 +339,11 @@ ${generateInstanceMethodBindings(w, this)}
   BindingString? toObjCBindingString(Writer w) {
     if (generateAsStub) return null;
 
-    final libraryId = context.objCBuiltInFunctions.libraryId;
     final mainString =
         '''
 
 __attribute__((visibility("default"))) __attribute__((used))
-Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
+Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
 ''';
 
     return BindingString(
@@ -438,6 +442,7 @@ Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
   void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
     if (!typeGraphOnly) {
       super.visitChildren(visitor);
+      visitor.visit(loaderSymbol);
       visitor.visit(_protocolPointer);
       visitor.visit(_conformsTo);
       visitor.visit(_conformsToMsgSend);

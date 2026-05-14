@@ -294,12 +294,24 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   }
 }
 
+String _makeLookupName(String originalName, String? module) =>
+    module == null ? originalName : '$module.$originalName';
+
+String _makeSymbolLookupName(String originalName, String? module) =>
+    module == null
+    ? originalName
+    : '_TtC${module.length}$module${originalName.length}$originalName';
+
 /// A global variable for an ObjC class, loaded via @Native.
 class ObjCClassGlobal extends NoLookUpBinding {
   final String lookupName;
+  final String symbolLookupName;
   final Symbol rawSymbol;
-  ObjCClassGlobal(String name, this.lookupName)
-    : rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+
+  ObjCClassGlobal(String name, String originalName, String? module)
+    : lookupName = _makeLookupName(originalName, module),
+      symbolLookupName = _makeSymbolLookupName(originalName, module),
+      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
       super(
         originalName: name,
         symbol: Symbol(name, SymbolKind.field),
@@ -309,28 +321,20 @@ class ObjCClassGlobal extends NoLookUpBinding {
   @override
   BindingString toBindingString(Writer w) {
     final context = w.context;
-    final ffi = context.libs.prefix(ffiImport);
     final type = PointerType(objCObjectType).getCType(context);
-
-    // If the class has a module prefix (e.g. "module.Class"), use Swift's
-    // mangling for the symbol.
-    var symbolLookupName = lookupName;
-    if (lookupName.contains('.')) {
-      final parts = lookupName.split('.');
-      if (parts.length == 2) {
-        final moduleName = parts[0];
-        final className = parts[1];
-        symbolLookupName =
-            '_TtC${moduleName.length}$moduleName${className.length}$className';
-      }
-    }
-
-    final symbol = Namer.stringLiteral('OBJC_CLASS_\$_$symbolLookupName');
+    final nativeAnnotation = makeNativeAnnotation(
+      w,
+      nativeType: type,
+      dartName: rawSymbol.name,
+      nativeSymbolName: 'OBJC_CLASS_\$_$symbolLookupName',
+    );
     final getClass = ObjCBuiltInFunctions.getClass.gen(context);
-    final address = '$ffi.Native.addressOf<$type>(${rawSymbol.name})';
+    final address =
+        '${context.libs.prefix(ffiImport)}.Native.addressOf<$type>'
+        '(${rawSymbol.name})';
     final s =
         '''
-@$ffi.Native<$type>(symbol: '$symbol')
+$nativeAnnotation
 external $type ${rawSymbol.name};
 final $name = $getClass("$lookupName", () => $address.cast());
 ''';
@@ -349,11 +353,17 @@ final $name = $getClass("$lookupName", () => $address.cast());
 
 /// A global variable for an ObjC protocol, loaded via @Native.
 class ObjCProtocolGlobal extends NoLookUpBinding {
-  final String loaderName;
+  final Symbol loaderSymbol;
   final String lookupName;
   final Symbol rawSymbol;
-  ObjCProtocolGlobal(String name, this.lookupName, this.loaderName)
-    : rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+
+  ObjCProtocolGlobal(
+    String name,
+    String originalName,
+    String? module,
+    this.loaderSymbol,
+  ) : lookupName = _makeLookupName(originalName, module),
+      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
       super(
         originalName: name,
         symbol: Symbol(name, SymbolKind.field),
@@ -369,7 +379,7 @@ class ObjCProtocolGlobal extends NoLookUpBinding {
       w,
       nativeType: '$ptrType Function()',
       dartName: rawSymbol.name,
-      nativeSymbolName: loaderName,
+      nativeSymbolName: loaderSymbol.name,
     );
     final s =
         '''
@@ -387,6 +397,7 @@ final $name = $getProtocol("$lookupName", ${rawSymbol.name});
     visitor.visit(objcPkgImport);
     visitor.visit(objCProtocolType);
     visitor.visit(rawSymbol);
+    visitor.visit(loaderSymbol);
   }
 }
 
