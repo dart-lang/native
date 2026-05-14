@@ -17,9 +17,6 @@ import 'util.dart';
 
 void main() {
   group('runtime version check', () {
-    setUpAll(() {
-    });
-
     test('Interface', () {
       expect(() => FutureAPIInterface(), throwsA(isA<OsVersionError>()));
     });

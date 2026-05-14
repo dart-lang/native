@@ -312,8 +312,9 @@ class ObjCClassGlobal extends NoLookUpBinding {
     final ffi = context.libs.prefix(ffiImport);
     final type = PointerType(objCObjectType).getCType(context);
 
-    // If the class has a module prefix (e.g. "module.Class"), use Swift's mangling for the symbol.
-    String symbolLookupName = lookupName;
+    // If the class has a module prefix (e.g. "module.Class"), use Swift's
+    // mangling for the symbol.
+    var symbolLookupName = lookupName;
     if (lookupName.contains('.')) {
       final parts = lookupName.split('.');
       if (parts.length == 2) {
@@ -370,7 +371,8 @@ class ObjCProtocolGlobal extends NoLookUpBinding {
       dartName: rawSymbol.name,
       nativeSymbolName: loaderName,
     );
-    final s = '''
+    final s =
+        '''
 $nativeAnnotation
 external $ptrType ${rawSymbol.name}();
 final $name = $getProtocol("$lookupName", ${rawSymbol.name});

@@ -28,12 +28,14 @@ void main() {
     });
 
     test('No symbols with dots in generated bindings', () {
-      final file = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'swift_class_test_bindings.dart',
-      ));
+      final file = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'swift_class_test_bindings.dart',
+        ),
+      );
       final contents = file.readAsStringSync();
       for (final line in contents.split('\n')) {
         expect(line, isNot(contains(RegExp(r"symbol:.*\."))));

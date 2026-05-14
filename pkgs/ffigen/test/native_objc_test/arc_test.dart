@@ -17,9 +17,6 @@ import 'util.dart';
 
 void main() {
   group('ARC', () {
-    setUpAll(() {
-    });
-
     test('objectRetainCount edge cases', () {
       expect(objectRetainCount(nullptr), 0);
       expect(objectRetainCount(Pointer.fromAddress(0x1234)), 0);

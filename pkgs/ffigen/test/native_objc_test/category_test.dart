@@ -17,9 +17,6 @@ import 'util.dart';
 
 void main() {
   group('categories', () {
-    setUpAll(() {
-    });
-
     test('Category methods', () {
       final thing = Thing();
       expect(thing.add(1000, Y: 234), 1234);

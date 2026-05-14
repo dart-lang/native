@@ -15,9 +15,6 @@ import 'util.dart';
 
 void main() {
   group('forward decl', () {
-    setUpAll(() {
-    });
-
     test('Forward declared class', () {
       expect(ForwardDeclaredClass.get123(), 123);
     });

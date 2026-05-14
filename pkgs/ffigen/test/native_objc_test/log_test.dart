@@ -17,9 +17,6 @@ import 'util.dart';
 
 void main() {
   group('log_test', () {
-    setUpAll(() {
-    });
-
     test('Duplicate method log spam', () {
       final logs = <String>[];
       final logger = createTestLogger(

@@ -15,9 +15,6 @@ import 'util.dart';
 
 void main() {
   group('bad_method_test', () {
-    setUpAll(() {
-    });
-
     test("Test incomplete struct methods that weren't skipped", () {
       final obj = BadMethodTestObject();
       final structPtr = obj.incompletePointerReturn();

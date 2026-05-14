@@ -32,9 +32,6 @@ void main() {
     // This is also why the ObjC block creation functions need casts to the
     // correct block type.
 
-    setUpAll(() {
-    });
-
     void objectProducerTest(EmptyObject producer()) {
       final pool = objc_autoreleasePoolPush();
       EmptyObject? obj = producer();

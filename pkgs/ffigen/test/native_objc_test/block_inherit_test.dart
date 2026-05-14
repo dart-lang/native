@@ -17,9 +17,6 @@ import 'util.dart';
 
 void main() {
   group('Block inheritance', () {
-    setUpAll(() {
-    });
-
     test('BlockInheritTestBase', () {
       final BlockInheritTestBase baseObj = BlockInheritTestBase();
       expect(baseObj.getAnimal().laysEggs(), false);
