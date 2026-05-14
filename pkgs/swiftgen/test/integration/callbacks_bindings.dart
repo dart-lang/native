@@ -654,7 +654,7 @@ extension TestMessageService$Methods on TestMessageService {
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_callbacks.TestMessageService',
+  symbol: 'OBJC_CLASS_\$__TtC9callbacks18TestMessageService',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_TestMessageService_raw;
 final _class_TestMessageService = objc.getClass(

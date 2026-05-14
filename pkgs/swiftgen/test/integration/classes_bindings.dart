@@ -136,7 +136,7 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_classes.TestClassWrapper',
+  symbol: 'OBJC_CLASS_\$__TtC7classes16TestClassWrapper',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_TestClassWrapper_raw;
 final _class_TestClassWrapper = objc.getClass(
@@ -146,7 +146,7 @@ final _class_TestClassWrapper = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_classes.TestOtherClassWrapper',
+  symbol: 'OBJC_CLASS_\$__TtC7classes21TestOtherClassWrapper',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_TestOtherClassWrapper_raw;
 final _class_TestOtherClassWrapper = objc.getClass(

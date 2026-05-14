@@ -1688,7 +1688,7 @@ interface class TestWeatherServiceDelegate$Builder {
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_protocols.TestSwiftInvoker',
+  symbol: 'OBJC_CLASS_\$__TtC9protocols16TestSwiftInvoker',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_TestSwiftInvoker_raw;
 final _class_TestSwiftInvoker = objc.getClass(
@@ -1698,7 +1698,7 @@ final _class_TestSwiftInvoker = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_protocols.TestWeatherService',
+  symbol: 'OBJC_CLASS_\$__TtC9protocols18TestWeatherService',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_TestWeatherService_raw;
 final _class_TestWeatherService = objc.getClass(
