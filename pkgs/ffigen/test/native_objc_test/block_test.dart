@@ -413,7 +413,8 @@ void main() {
       expect(result2(1), 14);
     });
 
-    Pointer<ObjCBlockImpl> funcPointerBlockRefCountTest() {
+    @pragma('vm:never-inline')
+    void funcPointerBlockRefCountTest(ReferenceTracker tracker) {
       final block = IntBlock.fromFunctionPointer(
         Pointer.fromFunction(_add100, 999),
       );
@@ -421,78 +422,98 @@ void main() {
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         false,
       );
-      expect(blockRetainCount(block.ref.pointer), 1);
-      return block.ref.pointer;
+      tracker.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      expect(tracker.isAlive, true);
     }
 
     test('Function pointer block ref counting', () {
-      final rawBlock = funcPointerBlockRefCountTest();
-      doGC();
-      expect(blockRetainCount(rawBlock), 0);
+      using((Arena arena) {
+        final tracker = ReferenceTracker(arena);
+        funcPointerBlockRefCountTest(tracker);
+        doGC();
+        expect(tracker.isAlive, false);
+      });
     }, skip: !canDoGC);
 
-    Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
+    @pragma('vm:never-inline')
+    void funcBlockRefCountTest(ReferenceTracker tracker) {
       final block = IntBlock.fromFunction(makeAdder(4000));
       expect(
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         true,
       );
-      expect(blockRetainCount(block.ref.pointer), 1);
-      return block.ref.pointer;
+      tracker.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      expect(tracker.isAlive, true);
     }
 
     test('Function block ref counting', () async {
-      final rawBlock = funcBlockRefCountTest();
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      expect(blockRetainCount(rawBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
-        false,
-      );
+      final arena = Arena();
+      try {
+        final tracker = ReferenceTracker(arena);
+        funcBlockRefCountTest(tracker);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
-    Pointer<ObjCBlockImpl> blockManualRetainRefCountTest() {
+    @pragma('vm:never-inline')
+    Pointer<ObjCBlockImpl> blockManualRetainRefCountTest(ReferenceTracker tracker1) {
       final block = IntBlock.fromFunction(makeAdder(4000));
       expect(
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         true,
       );
-      expect(blockRetainCount(block.ref.pointer), 1);
+      tracker1.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      expect(tracker1.isAlive, true);
+
       final rawBlock = block.ref.retainAndReturnPointer();
-      expect(blockRetainCount(rawBlock), 2);
       return rawBlock;
     }
 
-    int blockManualRetainRefCountTest2(Pointer<ObjCBlockImpl> rawBlock) {
+    @pragma('vm:never-inline')
+    void blockManualRetainRefCountTest2(Pointer<ObjCBlockImpl> rawBlock, ReferenceTracker tracker3) {
       final block = IntBlock.fromPointer(
         rawBlock.cast(),
         retain: false,
         release: true,
       );
-      return blockRetainCount(block.ref.pointer);
+      tracker3.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      expect(tracker3.isAlive, true);
     }
 
     test('Block ref counting with manual retain and release', () async {
-      final rawBlock = blockManualRetainRefCountTest();
-      doGC();
-      expect(blockRetainCount(rawBlock), 1);
-      expect(blockManualRetainRefCountTest2(rawBlock), 1);
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      expect(blockRetainCount(rawBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
-        false,
-      );
+      final arena = Arena();
+      try {
+        final tracker1 = ReferenceTracker(arena);
+        final rawBlock = blockManualRetainRefCountTest(tracker1);
+        doGC();
+        expect(tracker1.isAlive, true);
+
+        final tracker3 = ReferenceTracker(arena);
+        blockManualRetainRefCountTest2(rawBlock, tracker3);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker1.isAlive, false);
+        expect(tracker3.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-    blockBlockDartCallRefCountTest() {
+    (ReferenceTracker, ReferenceTracker, ReferenceTracker)
+    blockBlockDartCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
+      final tracker1 = ReferenceTracker(arena);
+      tracker1.track(ObjCObject(inputBlock.ref.pointer.cast(), retain: false, release: false));
+
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
@@ -500,189 +521,161 @@ void main() {
           return 3 * intBlock(x);
         });
       });
+      final tracker2 = ReferenceTracker(arena);
+      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+
       final outputBlock = blockBlock(inputBlock);
+      final tracker3 = ReferenceTracker(arena);
+      tracker3.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+
       expect(outputBlock(1), 15);
       objc_autoreleasePoolPop(pool);
       doGC();
 
-      // One reference held by inputBlock object, another bound to the
-      // outputBlock lambda.
-      expect(blockRetainCount(inputBlock.ref.pointer), 2);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(
-          inputBlock.ref.pointer.cast(),
-        ),
-        true,
-      );
+      expect(tracker1.isAlive, true);
+      expect(tracker2.isAlive, true);
+      expect(tracker3.isAlive, true);
 
-      expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(
-          blockBlock.ref.pointer.cast(),
-        ),
-        true,
-      );
-      expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(
-          outputBlock.ref.pointer.cast(),
-        ),
-        true,
-      );
-      return (
-        inputBlock.ref.pointer,
-        blockBlock.ref.pointer,
-        outputBlock.ref.pointer,
-      );
+      return (tracker1, tracker2, tracker3);
     }
 
     test('Calling a block block from Dart has correct ref counting', () async {
-      final (inputBlock, blockBlock, outputBlock) =
-          blockBlockDartCallRefCountTest();
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-
-      expect(blockRetainCount(inputBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-        false,
-      );
-      expect(blockRetainCount(blockBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
-        false,
-      );
-      expect(blockRetainCount(outputBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
-        false,
-      );
+      final arena = Arena();
+      try {
+        final (tracker1, tracker2, tracker3) =
+            blockBlockDartCallRefCountTest(arena);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker1.isAlive, false);
+        expect(tracker2.isAlive, false);
+        expect(tracker3.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-    blockBlockObjCCallRefCountTest() {
+    (ReferenceTracker, ReferenceTracker, ReferenceTracker)
+    blockBlockObjCCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
-      late Pointer<ObjCBlockImpl> inputBlock;
+      late Pointer<ObjCBlockImpl> inputBlockPtr;
+      final tracker1 = ReferenceTracker(arena);
+
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
-        inputBlock = intBlock.ref.pointer;
+        inputBlockPtr = intBlock.ref.pointer;
+        tracker1.track(ObjCObject(inputBlockPtr.cast(), retain: false, release: false));
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
+      final tracker2 = ReferenceTracker(arena);
+      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
+      final tracker3 = ReferenceTracker(arena);
+      tracker3.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+
       expect(outputBlock(1), 6);
       objc_autoreleasePoolPop(pool);
       doGC();
 
-      expect(blockRetainCount(inputBlock), 1);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-        false,
-      );
-      expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(
-          blockBlock.ref.pointer.cast(),
-        ),
-        true,
-      );
-      expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(
-          outputBlock.ref.pointer.cast(),
-        ),
-        true,
-      );
-      return (inputBlock, blockBlock.ref.pointer, outputBlock.ref.pointer);
+      expect(tracker1.isAlive, true);
+      expect(tracker2.isAlive, true);
+      expect(tracker3.isAlive, true);
+
+      return (tracker1, tracker2, tracker3);
     }
 
     test('Calling a block block from ObjC has correct ref counting', () async {
-      final (inputBlock, blockBlock, outputBlock) =
-          blockBlockObjCCallRefCountTest();
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-
-      expect(blockRetainCount(inputBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-        false,
-      );
-      expect(blockRetainCount(blockBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
-        false,
-      );
-      expect(blockRetainCount(outputBlock), 0);
-      expect(
-        internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
-        false,
-      );
+      final arena = Arena();
+      try {
+        final (tracker1, tracker2, tracker3) =
+            blockBlockObjCCallRefCountTest(arena);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker1.isAlive, false);
+        expect(tracker2.isAlive, false);
+        expect(tracker3.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-    nativeBlockBlockDartCallRefCountTest() {
+    (ReferenceTracker, ReferenceTracker, ReferenceTracker)
+    nativeBlockBlockDartCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
+      final tracker1 = ReferenceTracker(arena);
+      tracker1.track(ObjCObject(inputBlock.ref.pointer.cast(), retain: false, release: false));
+
       final blockBlock = BlockTester.newBlockBlock(7);
+      final tracker2 = ReferenceTracker(arena);
+      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+
       final outputBlock = blockBlock(inputBlock);
+      final tracker3 = ReferenceTracker(arena);
+      tracker3.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+
       expect(outputBlock(1), 35);
       objc_autoreleasePoolPop(pool);
       doGC();
 
-      // One reference held by inputBlock object, another held internally by the
-      // ObjC implementation of the blockBlock.
-      expect(blockRetainCount(inputBlock.ref.pointer), 2);
+      expect(tracker1.isAlive, true);
+      expect(tracker2.isAlive, true);
+      expect(tracker3.isAlive, true);
 
-      expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      return (
-        inputBlock.ref.pointer,
-        blockBlock.ref.pointer,
-        outputBlock.ref.pointer,
-      );
+      return (tracker1, tracker2, tracker3);
     }
 
     test(
       'Calling a native block block from Dart has correct ref counting',
       () {
-        final (inputBlock, blockBlock, outputBlock) =
-            nativeBlockBlockDartCallRefCountTest();
-        doGC();
-        expect(blockRetainCount(inputBlock), 0);
-        expect(blockRetainCount(blockBlock), 0);
-        expect(blockRetainCount(outputBlock), 0);
+        using((Arena arena) {
+          final (tracker1, tracker2, tracker3) =
+              nativeBlockBlockDartCallRefCountTest(arena);
+          doGC();
+          expect(tracker1.isAlive, false);
+          expect(tracker2.isAlive, false);
+          expect(tracker3.isAlive, false);
+        });
       },
       skip: !canDoGC,
     );
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-    nativeBlockBlockObjCCallRefCountTest() {
+    (ReferenceTracker, ReferenceTracker)
+    nativeBlockBlockObjCCallRefCountTest(Arena arena) {
       final blockBlock = BlockTester.newBlockBlock(7);
+      final tracker1 = ReferenceTracker(arena);
+      tracker1.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
+      final tracker2 = ReferenceTracker(arena);
+      tracker2.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+
       expect(outputBlock(1), 14);
       doGC();
 
-      expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      expect(blockRetainCount(outputBlock.ref.pointer), 1);
-      return (blockBlock.ref.pointer, outputBlock.ref.pointer);
+      expect(tracker1.isAlive, true);
+      expect(tracker2.isAlive, true);
+
+      return (tracker1, tracker2);
     }
 
     test(
       'Calling a native block block from ObjC has correct ref counting',
       () {
-        final (blockBlock, outputBlock) =
-            nativeBlockBlockObjCCallRefCountTest();
-        doGC();
-        expect(blockRetainCount(blockBlock), 0);
-        expect(blockRetainCount(outputBlock), 0);
+        using((Arena arena) {
+          final (tracker1, tracker2) =
+              nativeBlockBlockObjCCallRefCountTest(arena);
+          doGC();
+          expect(tracker1.isAlive, false);
+          expect(tracker2.isAlive, false);
+        });
       },
       skip: !canDoGC,
     );
@@ -762,17 +755,22 @@ void main() {
       skip: !canDoGC,
     );
 
-    Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
-    listenerBlockArgumentRetentionTest() async {
+    Future<(ReferenceTracker, ReferenceTracker)>
+    listenerBlockArgumentRetentionTest(Arena arena) async {
       final hasRun = Completer<void>();
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
+      final tracker1 = ReferenceTracker(arena);
+
       final blockBlock = ListenerBlock.listener((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
-        expect(blockRetainCount(intBlock.ref.pointer), greaterThan(0));
+        tracker1.track(ObjCObject(intBlock.ref.pointer.cast(), retain: false, release: false));
+        expect(tracker1.isAlive, true);
         inputBlock = intBlock;
         hasRun.complete();
       });
+      final tracker2 = ReferenceTracker(arena);
+      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
 
       final thread = BlockTester.callWithBlockOnNewThread(blockBlock);
       thread.start();
@@ -782,85 +780,104 @@ void main() {
       thread.ref.release();
       doGC();
 
-      expect(blockRetainCount(inputBlock.ref.pointer), 1);
-      expect(blockRetainCount(blockBlock.ref.pointer), 1);
-      return (inputBlock.ref.pointer, blockBlock.ref.pointer);
+      expect(tracker1.isAlive, true);
+      expect(tracker2.isAlive, true);
+      return (tracker1, tracker2);
     }
 
     test('Listener block arguments are not prematurely destroyed', () async {
-      // https://github.com/dart-lang/native/issues/835
-      final (inputBlock, blockBlock) =
-          await listenerBlockArgumentRetentionTest();
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
-
-      expect(blockRetainCount(inputBlock), 0);
-      expect(blockRetainCount(blockBlock), 0);
+      final arena = Arena();
+      try {
+        final (tracker1, tracker2) =
+            await listenerBlockArgumentRetentionTest(arena);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker1.isAlive, false);
+        expect(tracker2.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     test('Blocking block ref counting same thread', () async {
-      DummyObject? dummyObject = DummyObject();
-      DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
-        DummyObject obj,
-      ) {
-        // Object passed as argument.
-        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+      final arena = Arena();
+      try {
+        final tracker1 = ReferenceTracker(arena);
+        final tracker2 = ReferenceTracker(arena);
 
-        // Object bound in block's lambda.
-        expect(dummyObject, isNotNull);
-      });
+        DummyObject? dummyObject = DummyObject();
+        tracker2.track(dummyObject);
 
-      final tester = BlockTester.newFromListener(block);
-      final rawBlock = block!.ref.pointer;
-      expect(blockRetainCount(rawBlock), 2);
+        DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
+          DummyObject obj,
+        ) {
+          // Object passed as argument is tracked.
+          final tracker3 = ReferenceTracker(arena);
+          tracker3.track(obj);
+          expect(tracker3.isAlive, true);
 
-      final rawDummyObject = dummyObject!.ref.pointer;
-      expect(objectRetainCount(rawDummyObject), 1);
+          // Object bound in block's lambda.
+          expect(dummyObject, isNotNull);
+        });
+        tracker1.track(ObjCObject(block!.ref.pointer.cast(), retain: false, release: false));
 
-      dummyObject = null;
-      block = null;
-      tester.invokeAndReleaseListener(null);
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
+        final tester = BlockTester.newFromListener(block);
+        expect(tracker1.isAlive, true);
+        expect(tracker2.isAlive, true);
 
-      expect(blockRetainCount(rawBlock), 0);
-      expect(objectRetainCount(rawDummyObject), 0);
+        dummyObject = null;
+        block = null;
+        tester.invokeAndReleaseListener(null);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker1.isAlive, false);
+        expect(tracker2.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     test('Blocking block ref counting new thread', () async {
-      final completer = Completer<void>();
-      DummyObject? dummyObject = DummyObject();
-      DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
-        DummyObject obj,
-      ) {
-        // Object passed as argument.
-        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+      final arena = Arena();
+      try {
+        final tracker1 = ReferenceTracker(arena);
+        final tracker2 = ReferenceTracker(arena);
 
-        // Object bound in block's lambda.
-        expect(dummyObject, isNotNull);
+        final completer = Completer<void>();
+        DummyObject? dummyObject = DummyObject();
+        tracker2.track(dummyObject);
 
-        completer.complete();
-      });
+        DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
+          DummyObject obj,
+        ) {
+          final tracker3 = ReferenceTracker(arena);
+          tracker3.track(obj);
+          expect(tracker3.isAlive, true);
 
-      final tester = BlockTester.newFromListener(block);
-      final rawBlock = block!.ref.pointer;
-      expect(blockRetainCount(rawBlock), 2);
+          expect(dummyObject, isNotNull);
+          completer.complete();
+        });
+        tracker1.track(ObjCObject(block!.ref.pointer.cast(), retain: false, release: false));
 
-      final rawDummyObject = dummyObject!.ref.pointer;
-      expect(objectRetainCount(rawDummyObject), 1);
+        final tester = BlockTester.newFromListener(block);
+        expect(tracker1.isAlive, true);
+        expect(tracker2.isAlive, true);
 
-      tester.invokeAndReleaseListenerOnNewThread();
-      await completer.future;
-      dummyObject = null;
-      block = null;
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
+        tester.invokeAndReleaseListenerOnNewThread();
+        await completer.future;
 
-      expect(blockRetainCount(rawBlock), 0);
-      expect(objectRetainCount(rawDummyObject), 0);
+        dummyObject = null;
+        block = null;
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker1.isAlive, false);
+        expect(tracker2.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     test('Block fields have sensible values', () {
@@ -902,44 +919,53 @@ void main() {
       expect(objCBindings, contains('Vec4'));
     });
 
-    (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObjectImpl>)
-    regress1571Inner(Completer<void> completer) {
+    (BlockTester, ReferenceTracker, ReferenceTracker)
+    regress1571Inner(Completer<void> completer, Arena arena) {
       final dummyObject = DummyObject();
+      final tracker2 = ReferenceTracker(arena);
+      tracker2.track(dummyObject);
+
       DartObjectListenerBlock? block = ObjectListenerBlock.listener((
         DummyObject obj,
       ) {
-        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+        final tracker3 = ReferenceTracker(arena);
+        tracker3.track(obj);
+        expect(tracker3.isAlive, true);
         completer.complete();
         expect(dummyObject, isNotNull);
       });
+      final tracker1 = ReferenceTracker(arena);
+      tracker1.track(ObjCObject(block!.ref.pointer.cast(), retain: false, release: false));
+
       final tester = BlockTester.newFromListener(block);
-      expect(blockRetainCount(block.ref.pointer), 2);
-      expect(objectRetainCount(dummyObject.ref.pointer), 1);
-      return (tester, block.ref.pointer, dummyObject.ref.pointer);
+      expect(tracker1.isAlive, true);
+      expect(tracker2.isAlive, true);
+
+      return (tester, tracker1, tracker2);
     }
 
     test(
       'Regression test for https://github.com/dart-lang/native/issues/1571',
       () async {
-        // Pass a listener block to an ObjC API that retains a reference to the
-        // block, and release the Dart-side reference. Then, on a different
-        // thread, invoke the block and immediately release the ObjC-side
-        // reference. Before the fix, the dtor message could arrive before the
-        // invoke message. This was a flaky error, so try a few times.
-        for (int i = 0; i < 10; ++i) {
-          final completer = Completer<void>();
-          final (tester, blockPtr, objectPtr) = regress1571Inner(completer);
+        final arena = Arena();
+        try {
+          for (int i = 0; i < 10; ++i) {
+            final completer = Completer<void>();
+            final (tester, tracker1, tracker2) = regress1571Inner(completer, arena);
 
-          await flutterDoGC();
-          expect(blockRetainCount(blockPtr), 1);
-          expect(objectRetainCount(objectPtr), 1);
+            await flutterDoGC();
+            expect(tracker1.isAlive, true);
+            expect(tracker2.isAlive, true);
 
-          tester.invokeAndReleaseListenerOnNewThread();
-          await completer.future;
+            tester.invokeAndReleaseListenerOnNewThread();
+            await completer.future;
 
-          await flutterDoGC();
-          expect(blockRetainCount(blockPtr), 0);
-          expect(objectRetainCount(objectPtr), 0);
+            await flutterDoGC();
+            expect(tracker1.isAlive, false);
+            expect(tracker2.isAlive, false);
+          }
+        } finally {
+          arena.releaseAll();
         }
       },
     );

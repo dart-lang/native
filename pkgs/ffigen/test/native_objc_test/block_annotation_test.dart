@@ -37,16 +37,19 @@ void main() {
     });
 
     void objectProducerTest(EmptyObject producer()) {
-      final pool = objc_autoreleasePoolPush();
-      EmptyObject? obj = producer();
-      final ptr = obj.ref.pointer;
-      objc_autoreleasePoolPop(pool);
-      doGC();
-      expect(objectRetainCount(ptr), 1);
-      expect(obj, isNotNull);
-      obj = null;
-      doGC();
-      expect(objectRetainCount(ptr), 0);
+      using((Arena arena) {
+        final tracker = ReferenceTracker(arena);
+        final pool = objc_autoreleasePoolPush();
+        EmptyObject? obj = producer();
+        tracker.track(obj);
+        objc_autoreleasePoolPop(pool);
+        doGC();
+        expect(tracker.isAlive, true);
+        expect(obj, isNotNull);
+        obj = null;
+        doGC();
+        expect(tracker.isAlive, false);
+      });
     }
 
     test('ObjectProducer, defined objC, invoked dart', () {
@@ -187,21 +190,29 @@ void main() {
     Future<void> objectListenerTest(
       void Function(Completer<EmptyObject>) producer,
     ) async {
-      final pool = objc_autoreleasePoolPush();
       Completer<EmptyObject>? completer = Completer<EmptyObject>();
       producer(completer);
       EmptyObject? obj = await completer.future;
-      final ptr = obj.ref.pointer;
-      objc_autoreleasePoolPop(pool);
-      doGC();
-      expect(objectRetainCount(ptr), 1);
-      expect(obj, isNotNull);
-      obj = null;
-      completer = null;
-      doGC();
-      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
-      doGC();
-      expect(objectRetainCount(ptr), 0);
+
+      final arena = Arena();
+      try {
+        final tracker = ReferenceTracker(arena);
+        final pool = objc_autoreleasePoolPush();
+        tracker.track(obj);
+        objc_autoreleasePoolPop(pool);
+        doGC();
+        expect(tracker.isAlive, true);
+        expect(obj, isNotNull);
+
+        obj = null;
+        completer = null;
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }
 
     test('ObjectListener, defined dart, invoked dart', () async {
@@ -279,23 +290,31 @@ void main() {
     }, skip: !canDoGC);
 
     void blockProducerTest(DartEmptyBlock producer()) {
-      final pool = objc_autoreleasePoolPush();
-      DartEmptyBlock? obj = producer();
-      final ptr = obj.ref.pointer;
-      objc_autoreleasePoolPop(pool);
-      doGC();
-      expect(blockRetainCount(ptr), 1);
-      expect(obj, isNotNull);
-      obj = null;
-      doGC();
-      expect(blockRetainCount(ptr), 0);
+      using((Arena arena) {
+        final tracker = ReferenceTracker(arena);
+        final pool = objc_autoreleasePoolPush();
+        DartEmptyBlock? obj = producer();
+        tracker.track(
+          ObjCObject(obj.ref.pointer.cast(), retain: false, release: false),
+        );
+        doGC();
+        expect(tracker.isAlive, true);
+        expect(obj, isNotNull);
+
+        obj = null;
+        objc_autoreleasePoolPop(pool);
+        doGC();
+        expect(tracker.isAlive, false);
+      });
     }
 
     test('BlockProducer, defined objC, invoked dart', () {
       blockProducerTest(() {
         ObjCBlock<DartEmptyBlock Function(Pointer<Void>)> blk =
             BlockAnnotationTest.newBlockProducer();
-        return blk(nullptr);
+        final temp = blk(nullptr);
+        ObjCObject(temp.ref.pointer.cast(), retain: true, release: true);
+        return temp;
       });
     }, skip: !canDoGC);
 

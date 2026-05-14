@@ -10,6 +10,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:async/async.dart';
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -39,55 +40,67 @@ void main() {
     }
 
     test('Sending object through a port', () async {
-      Sendable? sendable = Sendable();
-      sendable.value = 123;
+      final arena = Arena();
+      try {
+        final tracker = ReferenceTracker(arena);
+        Sendable? sendable = Sendable();
+        sendable.value = 123;
+        tracker.track(sendable);
 
-      final port = ReceivePort();
-      final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(
-        sendingObjectTest,
-        port.sendPort,
-        onExit: port.sendPort,
-      );
+        final port = ReceivePort();
+        final queue = StreamQueue(port);
+        final isolate = await Isolate.spawn(
+          sendingObjectTest,
+          port.sendPort,
+          onExit: port.sendPort,
+        );
 
-      final sendPort = await queue.next as SendPort;
-      sendPort.send(sendable);
+        final sendPort = await queue.next as SendPort;
+        sendPort.send(sendable);
 
-      final oldValue = await queue.next;
-      expect(oldValue, 123);
-      expect(sendable.value, 456);
+        final oldValue = await queue.next;
+        expect(oldValue, 123);
+        expect(sendable.value, 456);
 
-      final pointer = sendable.ref.pointer;
-      expect(objectRetainCount(pointer), 1);
+        expect(tracker.isAlive, true);
 
-      expect(await queue.next, null); // onExit
-      port.close();
+        expect(await queue.next, null); // onExit
+        port.close();
 
-      sendable = null;
-      doGC();
-      expect(objectRetainCount(pointer), 0);
+        sendable = null;
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     test('Capturing object in closure', () async {
-      Sendable? sendable = Sendable();
-      sendable.value = 123;
+      final arena = Arena();
+      try {
+        final tracker = ReferenceTracker(arena);
+        Sendable? sendable = Sendable();
+        sendable.value = 123;
+        tracker.track(sendable);
 
-      final oldValue = await Isolate.run(() {
-        loadLibrary();
-        final oldValue = sendable!.value;
-        sendable!.value = 456;
-        return oldValue;
-      });
+        final oldValue = await Isolate.run(() {
+          loadLibrary();
+          final oldValue = sendable!.value;
+          sendable!.value = 456;
+          return oldValue;
+        });
 
-      expect(oldValue, 123);
-      expect(sendable.value, 456);
+        expect(oldValue, 123);
+        expect(sendable.value, 456);
 
-      final pointer = sendable.ref.pointer;
-      expect(objectRetainCount(pointer), 1);
+        expect(tracker.isAlive, true);
 
-      sendable = null;
-      doGC();
-      expect(objectRetainCount(pointer), 0);
+        sendable = null;
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     // Runs on other isolate (can't use expect function).
@@ -110,29 +123,38 @@ void main() {
         },
       );
 
-      final port = ReceivePort();
-      final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(
-        sendingBlockTest,
-        port.sendPort,
-        onExit: port.sendPort,
-      );
+      final arena = Arena();
+      try {
+        final tracker = ReferenceTracker(arena);
+        tracker.track(
+          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
+        );
 
-      final sendPort = await queue.next as SendPort;
-      sendPort.send(block);
+        final port = ReceivePort();
+        final queue = StreamQueue(port);
+        final isolate = await Isolate.spawn(
+          sendingBlockTest,
+          port.sendPort,
+          onExit: port.sendPort,
+        );
 
-      final value = await completer.future;
-      expect(value, 123);
+        final sendPort = await queue.next as SendPort;
+        sendPort.send(block);
 
-      final pointer = block.ref.pointer;
-      expect(blockRetainCount(pointer), 1);
+        final value = await completer.future;
+        expect(value, 123);
 
-      expect(await queue.next, null); // onExit
-      port.close();
+        expect(tracker.isAlive, true);
 
-      block = null;
-      doGC();
-      expect(blockRetainCount(pointer), 0);
+        expect(await queue.next, null); // onExit
+        port.close();
+
+        block = null;
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     ObjCBlock<Void Function(Int32)> makeBlock(Completer<int> completer) {
@@ -147,46 +169,62 @@ void main() {
       final completer = Completer<int>();
       ObjCBlock<Void Function(Int32)>? block = makeBlock(completer);
 
-      await Isolate.run(() {
-        loadLibrary();
-        block!(123);
-      });
-      final value = await completer.future;
-      expect(value, 123);
+      final arena = Arena();
+      try {
+        final tracker = ReferenceTracker(arena);
+        tracker.track(
+          ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
+        );
 
-      final pointer = block.ref.pointer;
-      expect(blockRetainCount(pointer), 1);
+        await Isolate.run(() {
+          loadLibrary();
+          block!(123);
+        });
+        final value = await completer.future;
+        expect(value, 123);
 
-      block = null;
-      doGC();
-      expect(blockRetainCount(pointer), 0);
+        expect(tracker.isAlive, true);
+
+        block = null;
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     test('Manual release across isolates', () async {
-      final sendable = Sendable();
-      final pointer = sendable.ref.pointer;
+      final arena = Arena();
+      try {
+        final tracker = ReferenceTracker(arena);
+        Sendable? sendable = Sendable();
+        tracker.track(sendable);
 
-      expect(objectRetainCount(pointer), 1);
-      expect(sendable.ref.isReleased, isFalse);
+        expect(tracker.isAlive, true);
+        expect(sendable!.ref.isReleased, isFalse);
 
-      final (oldIsReleased, newIsReleased) = await Isolate.run(() {
-        loadLibrary();
-        final oldIsReleased = sendable.ref.isReleased;
-        sendable!.ref.release();
-        return (oldIsReleased, sendable.ref.isReleased);
-      });
+        final (oldIsReleased, newIsReleased) = await Isolate.run(() {
+          loadLibrary();
+          final oldIsReleased = sendable!.ref.isReleased;
+          sendable!.ref.release();
+          return (oldIsReleased, sendable!.ref.isReleased);
+        });
 
-      expect(oldIsReleased, isFalse);
-      expect(newIsReleased, isTrue);
+        expect(oldIsReleased, isFalse);
+        expect(newIsReleased, isTrue);
 
-      expect(sendable.ref.isReleased, isTrue);
-      expect(objectRetainCount(pointer), 0);
+        expect(sendable!.ref.isReleased, isTrue);
+        sendable = null;
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     });
 
     test('Use after release and double release', () async {
       final sendable = Sendable();
       sendable.value = 123;
-      final pointer = sendable.ref.pointer;
 
       expect(sendable.ref.isReleased, isFalse);
 

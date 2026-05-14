@@ -18,8 +18,12 @@ import 'package:objective_c/src/internal.dart'
     as internal_for_testing
     show isValidBlock, isValidClass;
 import 'package:path/path.dart' as p;
+import 'package:test/test.dart';
 
 import '../test_utils.dart';
+import 'util_bindings.dart';
+export 'util_bindings.dart'
+    hide objc_autoreleasePoolPush, objc_autoreleasePoolPop;
 
 void verifyBindings(
   String testName, {
@@ -77,50 +81,22 @@ Future<void> flutterDoGC() async {
   await Future<void>.delayed(const Duration(milliseconds: 500));
 }
 
-@Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
-external int _isReadableMemory(Pointer<Void> ptr);
+class ReferenceTracker {
+  final Pointer<Bool> isAlivePtr;
 
-@Native<Uint64 Function(Pointer<Void>)>(
-  isLeaf: true,
-  symbol: 'getBlockRetainCount',
-)
-external int _getBlockRetainCount(Pointer<Void> block);
+  ReferenceTracker(Arena arena) : this._(arena, arena<Bool>()..value = true);
 
-int blockRetainCount(Pointer<ObjCBlockImpl> block) {
-  if (_isReadableMemory(block.cast()) == 0) return 0;
-  if (!internal_for_testing.isValidBlock(block)) return 0;
-  return _getBlockRetainCount(block.cast());
+  ReferenceTracker._(Arena arena, Pointer<Bool> isAlivePtr)
+    : isAlivePtr = isAlivePtr;
+
+  bool get isAlive => isAlivePtr.value;
+
+  void track(ObjCObject host) {
+    final object = DisposableObject.newWithIsAlive(isAlivePtr);
+    setAssociatedDisposableObject(host, object);
+  }
 }
 
-@Native<Uint64 Function(Pointer<Void>)>(
-  isLeaf: true,
-  symbol: 'getObjectRetainCount',
-)
-external int _getObjectRetainCount(Pointer<Void> object);
-
-int objectRetainCount(Pointer<ObjCObjectImpl> object) {
-  if (_isReadableMemory(object.cast()) == 0) return 0;
-  final header = object.cast<Uint64>().value;
-
-  // package:objective_c's isValidObject function internally calls
-  // object_getClass then isValidClass. But object_getClass can occasionally
-  // crash for invalid objects. This masking logic is a simplified version of
-  // what object_getClass does internally. This is less likely to crash, but
-  // more likely to break due to ObjC runtime updates, which is a reasonable
-  // trade off to make in tests where we're explicitly calling it many times
-  // on invalid objects. In package:objective_c's case, it doesn't matter so
-  // much if isValidObject crashes, since it's a best effort attempt to give a
-  // nice stack trace before the real crash, but it would be a problem if
-  // isValidObject broke due to a runtime update.
-  // These constants are the ISA_MASK macro defined in runtime/objc-private.h.
-  const maskX64 = 0x00007ffffffffff8;
-  const maskArm = 0x0000000ffffffff8;
-  final mask = Abi.current() == Abi.macosX64 ? maskX64 : maskArm;
-  final clazz = Pointer<ObjCObjectImpl>.fromAddress(header & mask);
-
-  if (!internal_for_testing.isValidClass(clazz)) return 0;
-  return _getObjectRetainCount(object.cast());
-}
 
 bool isValidClass(Pointer<Void> clazz) =>
     internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);
