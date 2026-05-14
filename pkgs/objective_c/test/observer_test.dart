@@ -8,6 +8,7 @@ library;
 
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -100,115 +101,129 @@ void main() {
     });
 
     test('observer and observed kept alive by observation', () async {
-      final values = <dynamic>[];
+      final arena = Arena();
+      try {
+        final tObserved = ReferenceTracker(arena);
+        final tObserver = ReferenceTracker(arena);
+        final values = <dynamic>[];
 
-      NSProgress? observed;
-      Observer? observer;
-      Observation? observation;
-      autoReleasePool(() {
-        observed = NSProgress();
-        observer = Observer$Builder.implement(
-          observeValueForKeyPath_ofObject_change_context_:
-              (
-                NSString keyPath,
-                ObjCObject object,
-                NSDictionary change,
-                Pointer<Void> context,
-              ) {
-                values.add(
-                  toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
-                );
+        NSProgress? observed;
+        Observer? observer;
+        Observation? observation;
+        autoReleasePool(() {
+          observed = NSProgress();
+          observer = Observer$Builder.implement(
+            observeValueForKeyPath_ofObject_change_context_:
+                (
+                  NSString keyPath,
+                  ObjCObject object,
+                  NSDictionary change,
+                  Pointer<Void> context,
+                ) {
+                  values.add(
+                    toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
+                  );
 
-                // This is testing that a captured reference from the observer
-                // to the observed object does not cause leak.
-                expect(object, observed);
-              },
-        );
+                  // This is testing that a captured reference from the observer
+                  // to the observed object does not cause leak.
+                  expect(object, observed);
+                },
+          );
 
-        observation = observed!.addObserver(
-          observer!,
-          forKeyPath: 'totalUnitCount'.toNSString(),
-        );
-      });
+          tObserved.track(observed!.ref.pointer.cast());
+          tObserver.track(observer!.ref.pointer.cast());
 
-      observed!.totalUnitCount = 123;
-      expect(values, [123]);
+          observation = observed!.addObserver(
+            observer!,
+            forKeyPath: 'totalUnitCount'.toNSString(),
+          );
+        });
 
-      final observedRaw = observed!.ref.pointer;
-      final observerRaw = observer!.ref.pointer;
+        observed!.totalUnitCount = 123;
+        expect(values, [123]);
 
-      observed = null;
-      observer = null;
+        final observedRaw = observed!.ref.pointer;
 
-      // TODO(https://github.com/dart-lang/native/issues/2352): Reenable.
-      // expect(objectRetainCount(observedRaw), greaterThan(0));
-      // expect(objectRetainCount(observerRaw), greaterThan(0));
+        observed = null;
+        observer = null;
 
-      NSProgress.fromPointer(observedRaw).totalUnitCount = 456;
-      expect(values, [123, 456]);
+        expect(tObserved.isAlive, true);
+        expect(tObserver.isAlive, true);
 
-      // Force observation to stay in scope.
-      expect(observation, isNotNull);
-      observation = null;
-      expect(observation, isNull);
+        NSProgress.fromPointer(observedRaw).totalUnitCount = 456;
+        expect(values, [123, 456]);
 
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
+        // Force observation to stay in scope.
+        expect(observation, isNotNull);
+        observation = null;
+        expect(observation, isNull);
 
-      expect(objectRetainCount(observedRaw), 0);
-      expect(objectRetainCount(observerRaw), 0);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+
+        expect(tObserved.isAlive, false);
+        expect(tObserver.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     });
 
     test('remove method drops references', () async {
-      NSProgress? observed;
-      Observer? observer;
-      Observation? observation;
-      autoReleasePool(() {
-        observed = NSProgress();
-        observer = Observer$Builder.implement(
-          observeValueForKeyPath_ofObject_change_context_:
-              (
-                NSString keyPath,
-                ObjCObject object,
-                NSDictionary change,
-                Pointer<Void> context,
-              ) {},
-        );
+      final arena = Arena();
+      try {
+        final tObserved = ReferenceTracker(arena);
+        final tObserver = ReferenceTracker(arena);
+        NSProgress? observed;
+        Observer? observer;
+        Observation? observation;
+        autoReleasePool(() {
+          observed = NSProgress();
+          observer = Observer$Builder.implement(
+            observeValueForKeyPath_ofObject_change_context_:
+                (
+                  NSString keyPath,
+                  ObjCObject object,
+                  NSDictionary change,
+                  Pointer<Void> context,
+                ) {},
+          );
 
-        observation = observed!.addObserver(
-          observer!,
-          forKeyPath: 'totalUnitCount'.toNSString(),
-        );
-      });
+          tObserved.track(observed!.ref.pointer.cast());
+          tObserver.track(observer!.ref.pointer.cast());
 
-      final observedRaw = observed!.ref.pointer;
-      final observerRaw = observer!.ref.pointer;
+          observation = observed!.addObserver(
+            observer!,
+            forKeyPath: 'totalUnitCount'.toNSString(),
+          );
+        });
 
-      observed = null;
-      observer = null;
+        observed = null;
+        observer = null;
 
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
 
-      // Still holding a reference to observation.
-      // TODO(https://github.com/dart-lang/native/issues/2352): Reenable.
-      // expect(objectRetainCount(observedRaw), greaterThan(0));
-      // expect(objectRetainCount(observerRaw), greaterThan(0));
+        // Still holding a reference to observation.
+        expect(tObserved.isAlive, true);
+        expect(tObserver.isAlive, true);
 
-      observation!.remove();
+        observation!.remove();
 
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
 
-      // Still holding a reference to observation, but we've called remove.
-      expect(objectRetainCount(observedRaw), 0);
-      expect(objectRetainCount(observerRaw), 0);
+        // Still holding a reference to observation, but we've called remove.
+        expect(tObserved.isAlive, false);
+        expect(tObserver.isAlive, false);
 
-      // Force observation to stay in scope.
-      expect(observation, isNotNull);
+        // Force observation to stay in scope.
+        expect(observation, isNotNull);
+      } finally {
+        arena.releaseAll();
+      }
     });
   });
 }

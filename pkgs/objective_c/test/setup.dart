@@ -25,6 +25,7 @@ final objCFiles = [
   'src/objective_c_bindings_generated.m',
   'src/observer.m',
   'src/protocol.m',
+  'test/util_tracker.m',
 ].map(_resolve);
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 final outputFile = _resolve('test/objective_c.dylib');

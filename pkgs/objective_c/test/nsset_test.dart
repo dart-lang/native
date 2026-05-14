@@ -6,8 +6,7 @@
 @TestOn('mac-os')
 library;
 
-import 'dart:ffi';
-
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -79,40 +78,51 @@ void main() {
     });
 
     test('ref counting', () async {
-      final pointers = <Pointer<ObjCObjectImpl>>[];
-      Set<ObjCObject>? set;
+      final arena = Arena();
+      try {
+        final trackers = <ReferenceTracker>[];
+        Set<ObjCObject>? set;
 
-      autoReleasePool(() {
-        final obj1 = NSObject();
-        final obj2 = NSObject();
-        final obj3 = NSObject();
-        final obj4 = NSObject();
-        final obj5 = NSObject();
-        final objects = [obj1, obj2, obj3, obj4, obj5];
-        final objCSet = NSSet.of(objects);
-        set = objCSet.asDart();
+        autoReleasePool(() {
+          final obj1 = NSObject();
+          final obj2 = NSObject();
+          final obj3 = NSObject();
+          final obj4 = NSObject();
+          final obj5 = NSObject();
+          final objects = [obj1, obj2, obj3, obj4, obj5];
+          final objCSet = NSSet.of(objects);
+          set = objCSet.asDart();
 
-        pointers.addAll(set!.map((o) => o.ref.pointer));
-        pointers.add(objCSet.ref.pointer);
+          for (final o in set!) {
+            final t = ReferenceTracker(arena);
+            t.track(o.ref.pointer.cast());
+            trackers.add(t);
+          }
+          final tSet = ReferenceTracker(arena);
+          tSet.track(objCSet.ref.pointer.cast());
+          trackers.add(tSet);
 
-        for (final pointer in pointers) {
-          expect(objectRetainCount(pointer), greaterThan(0));
+          for (final t in trackers) {
+            expect(t.isAlive, true);
+          }
+        });
+
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        for (final t in trackers) {
+          expect(t.isAlive, true);
         }
-      });
+        set = null;
 
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
-      for (final pointer in pointers) {
-        expect(objectRetainCount(pointer), greaterThan(0));
-      }
-      set = null;
-
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
-      for (final pointer in pointers) {
-        expect(objectRetainCount(pointer), 0);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        for (final t in trackers) {
+          expect(t.isAlive, false);
+        }
+      } finally {
+        arena.releaseAll();
       }
     });
   });
