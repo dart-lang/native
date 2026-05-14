@@ -59,7 +59,10 @@ void main() {
           expect(actual, contains('set someField(int value) {'));
 
           // Verify that SwiftClass is loaded using the swift_module prefix.
-          expect(actual, contains(r'OBJC_CLASS_\$_swift_module.SwiftClass'));
+          expect(
+            actual,
+            contains(r'OBJC_CLASS_\$__TtC12swift_module10SwiftClass'),
+          );
 
           return true;
         },
