@@ -481,7 +481,9 @@ void main() {
         (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString(),
       );
       final tracker = ReferenceTracker(arena);
-      tracker.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      tracker.track(
+        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
+      );
 
       MyProtocol$Builder.instanceMethod_withDouble_.implementWithBlock(
         protocolBuilder,
