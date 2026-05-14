@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
-import 'package:jnigen/src/elements/j_elements.dart' as j;
 
 // These core classes each have multiple constructors, such as a constructor
 // that converts a String to an Integer. We only want the constructor that takes
@@ -22,17 +21,17 @@ const Map<String, String> _constructorAllowList = {
   'Short': 's',
 };
 
-class Renamer extends j.Visitor {
-  late j.ClassDecl _class;
+class Renamer extends Visitor {
+  late ClassDecl _class;
 
   @override
-  void visitClass(j.ClassDecl c) {
+  void visitClass(ClassDecl c) {
     _class = c;
     c.name = 'J${c.originalName}';
   }
 
   @override
-  void visitMethod(j.Method m) {
+  void visitMethod(Method m) {
     if (!m.isConstructor) return;
     final sig = _constructorAllowList[_class.originalName];
     if (sig == null) return;
@@ -42,11 +41,11 @@ class Renamer extends j.Visitor {
   }
 }
 
-class ListParams extends j.Visitor {
+class ListParams extends Visitor {
   List<String> params = [];
 
   @override
-  void visitParam(j.Param p) {
+  void visitParam(Param p) {
     params.add(p.originalName);
   }
 }

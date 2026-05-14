@@ -7,7 +7,8 @@
   a Flutter project.
 - Fix directory-dependent `dart format` failures by explicitly searching for the
   correct Dart executable to run.
-- Export and document the classes required to write custom visitors.
+- Export and document the classes required to write custom visitors. Manual
+  import of j_elements.dart is no longer necessary.
 - **Breaking Change** (technically breaking, but unlikely to affect any users):
   elements.dart is no longer exported from the library, as these classes were
   always intended to be private. `Config.importedClasses` and
