@@ -87,9 +87,6 @@ int fnvHash32(String input) {
 final String dartExecutable = _findDart();
 
 String _findDart() {
-  final envDartExe = Platform.environment['DART_EXE'];
-  if (envDartExe != null) return envDartExe;
-
   var path = Platform.resolvedExecutable;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
   final dartExe = 'dart${p.extension(path)}';

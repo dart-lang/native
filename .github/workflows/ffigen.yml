@@ -159,7 +159,6 @@ jobs:
         run: cp $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib
       - name: Run all_tests in AOT
         run: >
-          PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
           DYLD_INSERT_LIBRARIES=$(ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/*.dylib | paste -sd ':' -)
           dart test -c exe -x skip-aot
 
