@@ -5,11 +5,11 @@
 #import <Foundation/NSObject.h>
 #include <stdbool.h>
 
-@interface DisposableObject : NSObject {
+@interface DisposableTrackerObject : NSObject {
   bool* isAlive;
 }
 - (instancetype)initWithIsAlive:(bool*) _isAlive;
 @end
 
-void setAssociatedDisposableObject(id host, DisposableObject* disposable);
-id createDisposableObject(bool* isAlive) __attribute__((ns_returns_retained));
+void setAssociatedDisposableTrackerObject(id host, DisposableTrackerObject* disposable);
+id createDisposableTrackerObject(bool* isAlive) __attribute__((ns_returns_retained));

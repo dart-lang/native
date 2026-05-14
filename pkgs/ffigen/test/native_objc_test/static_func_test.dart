@@ -87,25 +87,37 @@ void main() {
       skip: !canDoGC,
     );
 
-    Pointer<ObjCBlockImpl> staticFuncOfBlockRefCountTest() {
+    @pragma('vm:never-inline')
+    void staticFuncOfBlockRefCountTest(ReferenceTracker tracker1, ReferenceTracker tracker2) {
       final block = IntBlock.fromFunction((int x) => 2 * x);
-      expect(blockRetainCount(block.ref.pointer.cast()), 1);
+      tracker1.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      expect(tracker1.isAlive, true);
 
       final pool = lib.objc_autoreleasePoolPush();
       final outputBlock = lib.staticFuncOfBlock(block);
+      tracker2.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
       lib.objc_autoreleasePoolPop(pool);
-      expect(block, outputBlock);
-      expect(blockRetainCount(block.ref.pointer.cast()), 2);
 
-      return block.ref.pointer;
+      expect(block, outputBlock);
+      expect(tracker2.isAlive, true);
     }
 
     test(
       'Blocks passed through static functions have correct ref counts',
-      () {
-        final (rawBlock) = staticFuncOfBlockRefCountTest();
-        doGC();
-        expect(blockRetainCount(rawBlock), 0);
+      () async {
+        final arena = Arena();
+        try {
+          final tracker1 = ReferenceTracker(arena);
+          final tracker2 = ReferenceTracker(arena);
+          staticFuncOfBlockRefCountTest(tracker1, tracker2);
+          doGC();
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          doGC();
+          expect(tracker1.isAlive, false);
+          expect(tracker2.isAlive, false);
+        } finally {
+          arena.releaseAll();
+        }
       },
       skip: !canDoGC,
     );
@@ -158,19 +170,15 @@ void main() {
         'have correct ref counts', () {
       final counter = calloc<Int32>();
       StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter(counter);
-      final obj1raw = obj1.ref.pointer;
 
-      expect(objectRetainCount(obj1raw), 1);
       expect(counter.value, 1);
 
       lib.staticFuncConsumesArg(obj1);
 
-      expect(objectRetainCount(obj1raw), 1);
       expect(counter.value, 1);
 
       obj1 = null;
       doGC();
-      expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);

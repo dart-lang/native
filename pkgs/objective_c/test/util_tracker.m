@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-@implementation DisposableObject
+@implementation DisposableTrackerObject
 - (instancetype)initWithIsAlive:(bool*) _isAlive {
   if (self = [super init]) {
     isAlive = _isAlive;
@@ -28,11 +28,11 @@
 
 static const char DISPOSABLE_KEY;
 
-void setAssociatedDisposableObject(id host, DisposableObject* disposable) {
+void setAssociatedDisposableTrackerObject(id host, DisposableTrackerObject* disposable) {
   objc_setAssociatedObject(
       host, &DISPOSABLE_KEY, disposable, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-id createDisposableObject(bool* isAlive) __attribute__((ns_returns_retained)) {
-  return [[DisposableObject alloc] initWithIsAlive:isAlive];
+id createDisposableTrackerObject(bool* isAlive) __attribute__((ns_returns_retained)) {
+  return [[DisposableTrackerObject alloc] initWithIsAlive:isAlive];
 }

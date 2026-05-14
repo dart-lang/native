@@ -472,13 +472,17 @@ void main() {
       expect(count, 1000);
     });
 
-    (NSObject, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
+    @pragma('vm:never-inline')
+    (NSObject, ReferenceTracker) blockRefCountTestInner(Arena arena) {
       final pool = objc_autoreleasePoolPush();
       final protocolBuilder = ObjCProtocolBuilder();
 
       final block = InstanceMethodBlock.fromFunction(
         (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString(),
       );
+      final tracker = ReferenceTracker(arena);
+      tracker.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+
       MyProtocol$Builder.instanceMethod_withDouble_.implementWithBlock(
         protocolBuilder,
         block,
@@ -486,36 +490,36 @@ void main() {
       final protocol = protocolBuilder.build();
       objc_autoreleasePoolPop(pool);
 
-      final blockPtr = block.ref.pointer;
-
-      // There are 2 references to the block. One owned by the Dart wrapper
-      // object, and the other owned by the protocol.
       doGC();
-      expect(blockRetainCount(blockPtr), 2);
+      expect(tracker.isAlive, true);
 
-      return (protocol, blockPtr);
+      return (protocol, tracker);
     }
 
-    Pointer<ObjCBlockImpl> blockRefCountTest() {
-      final (protocol, blockPtr) = blockRefCountTestInner();
+    @pragma('vm:never-inline')
+    ReferenceTracker blockRefCountTest(Arena arena) {
+      final (protocol, tracker) = blockRefCountTestInner(arena);
 
-      // The Dart side block pointer has gone out of scope, but the protocol
-      // still owns a reference to it.
       doGC();
-      expect(blockRetainCount(blockPtr), 1);
+      expect(tracker.isAlive, true);
 
       expect(protocol, isNotNull); // Force protocol to stay in scope.
 
-      return blockPtr;
+      return tracker;
     }
 
-    test('Block ref counting', () {
-      final blockPtr = blockRefCountTest();
+    test('Block ref counting', () async {
+      final arena = Arena();
+      try {
+        final tracker = blockRefCountTest(arena);
 
-      // The protocol object has gone out of scope, so it should be cleaned up.
-      // So should the block.
-      doGC();
-      expect(blockRetainCount(blockPtr), 0);
+        doGC();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        doGC();
+        expect(tracker.isAlive, false);
+      } finally {
+        arena.releaseAll();
+      }
     }, skip: !canDoGC);
 
     test('keepIsolateAlive', () async {

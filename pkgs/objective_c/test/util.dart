@@ -35,16 +35,16 @@ void doGC() {
 }
 
 @Native<Pointer<c.ObjCObjectImpl> Function(Pointer<Bool>)>(
-  symbol: 'createDisposableObject',
+  symbol: 'createDisposableTrackerObject',
 )
-external Pointer<c.ObjCObjectImpl> _createDisposableObject(
+external Pointer<c.ObjCObjectImpl> _createDisposableTrackerObject(
   Pointer<Bool> isAlive,
 );
 
 @Native<Void Function(Pointer<Void>, Pointer<c.ObjCObjectImpl>)>(
-  symbol: 'setAssociatedDisposableObject',
+  symbol: 'setAssociatedDisposableTrackerObject',
 )
-external void _setAssociatedDisposableObject(
+external void _setAssociatedDisposableTrackerObject(
   Pointer<Void> host,
   Pointer<c.ObjCObjectImpl> disposable,
 );
@@ -59,13 +59,13 @@ class ReferenceTracker {
   bool get isAlive => isAlivePtr.value;
 
   void track(Pointer<Void> hostPtr) {
-    final disposablePtr = _createDisposableObject(isAlivePtr);
+    final disposablePtr = _createDisposableTrackerObject(isAlivePtr);
     final disposableObj = ObjCObject(
       disposablePtr.cast(),
       retain: false,
       release: true,
     );
-    _setAssociatedDisposableObject(hostPtr, disposableObj.ref.pointer.cast());
+    _setAssociatedDisposableTrackerObject(hostPtr, disposableObj.ref.pointer.cast());
   }
 }
 
