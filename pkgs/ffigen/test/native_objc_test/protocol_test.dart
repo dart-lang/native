@@ -671,5 +671,5 @@ void main() {
       );
       expect(result.toDartString(), 'ObjCProtocolImpl: abc: 123.00');
     });
-  });
+  }, tags: 'skip-aot');
 }
