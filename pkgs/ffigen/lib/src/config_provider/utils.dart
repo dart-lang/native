@@ -24,8 +24,7 @@ class _LazyVariable {
   final String _cmd;
   final List<String> _args;
   String? _value;
-  String get value =>
-      _value ??= Platform.environment[key] ?? firstLineOfStdout(_cmd, _args);
+  String get value => _value ??= firstLineOfStdout(_cmd, _args);
 }
 
 final _xcode = _LazyVariable('XCODE', 'xcode-select', ['-p']);
