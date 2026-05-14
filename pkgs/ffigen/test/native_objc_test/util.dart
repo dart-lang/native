@@ -97,7 +97,6 @@ class ReferenceTracker {
   }
 }
 
-
 bool isValidClass(Pointer<Void> clazz) =>
     internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);
 

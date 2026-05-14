@@ -422,7 +422,9 @@ void main() {
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         false,
       );
-      tracker.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      tracker.track(
+        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
+      );
       expect(tracker.isAlive, true);
     }
 
@@ -442,7 +444,9 @@ void main() {
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         true,
       );
-      tracker.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      tracker.track(
+        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
+      );
       expect(tracker.isAlive, true);
     }
 
@@ -461,13 +465,17 @@ void main() {
     }, skip: !canDoGC);
 
     @pragma('vm:never-inline')
-    Pointer<ObjCBlockImpl> blockManualRetainRefCountTest(ReferenceTracker tracker1) {
+    Pointer<ObjCBlockImpl> blockManualRetainRefCountTest(
+      ReferenceTracker tracker1,
+    ) {
       final block = IntBlock.fromFunction(makeAdder(4000));
       expect(
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         true,
       );
-      tracker1.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      tracker1.track(
+        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
+      );
       expect(tracker1.isAlive, true);
 
       final rawBlock = block.ref.retainAndReturnPointer();
@@ -475,13 +483,18 @@ void main() {
     }
 
     @pragma('vm:never-inline')
-    void blockManualRetainRefCountTest2(Pointer<ObjCBlockImpl> rawBlock, ReferenceTracker tracker3) {
+    void blockManualRetainRefCountTest2(
+      Pointer<ObjCBlockImpl> rawBlock,
+      ReferenceTracker tracker3,
+    ) {
       final block = IntBlock.fromPointer(
         rawBlock.cast(),
         retain: false,
         release: true,
       );
-      tracker3.track(ObjCObject(block.ref.pointer.cast(), retain: false, release: false));
+      tracker3.track(
+        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
+      );
       expect(tracker3.isAlive, true);
     }
 
@@ -512,7 +525,13 @@ void main() {
         return 5 * x;
       });
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(ObjCObject(inputBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker1.track(
+        ObjCObject(
+          inputBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
@@ -522,11 +541,23 @@ void main() {
         });
       });
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker2.track(
+        ObjCObject(
+          blockBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       final outputBlock = blockBlock(inputBlock);
       final tracker3 = ReferenceTracker(arena);
-      tracker3.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker3.track(
+        ObjCObject(
+          outputBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       expect(outputBlock(1), 15);
       objc_autoreleasePoolPop(pool);
@@ -542,8 +573,9 @@ void main() {
     test('Calling a block block from Dart has correct ref counting', () async {
       final arena = Arena();
       try {
-        final (tracker1, tracker2, tracker3) =
-            blockBlockDartCallRefCountTest(arena);
+        final (tracker1, tracker2, tracker3) = blockBlockDartCallRefCountTest(
+          arena,
+        );
         doGC();
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
@@ -565,17 +597,31 @@ void main() {
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
         inputBlockPtr = intBlock.ref.pointer;
-        tracker1.track(ObjCObject(inputBlockPtr.cast(), retain: false, release: false));
+        tracker1.track(
+          ObjCObject(inputBlockPtr.cast(), retain: false, release: false),
+        );
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker2.track(
+        ObjCObject(
+          blockBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       final tracker3 = ReferenceTracker(arena);
-      tracker3.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker3.track(
+        ObjCObject(
+          outputBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       expect(outputBlock(1), 6);
       objc_autoreleasePoolPop(pool);
@@ -591,8 +637,9 @@ void main() {
     test('Calling a block block from ObjC has correct ref counting', () async {
       final arena = Arena();
       try {
-        final (tracker1, tracker2, tracker3) =
-            blockBlockObjCCallRefCountTest(arena);
+        final (tracker1, tracker2, tracker3) = blockBlockObjCCallRefCountTest(
+          arena,
+        );
         doGC();
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
@@ -611,15 +658,33 @@ void main() {
         return 5 * x;
       });
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(ObjCObject(inputBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker1.track(
+        ObjCObject(
+          inputBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       final blockBlock = BlockTester.newBlockBlock(7);
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker2.track(
+        ObjCObject(
+          blockBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       final outputBlock = blockBlock(inputBlock);
       final tracker3 = ReferenceTracker(arena);
-      tracker3.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker3.track(
+        ObjCObject(
+          outputBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       expect(outputBlock(1), 35);
       objc_autoreleasePoolPop(pool);
@@ -647,15 +712,28 @@ void main() {
       skip: !canDoGC,
     );
 
-    (ReferenceTracker, ReferenceTracker)
-    nativeBlockBlockObjCCallRefCountTest(Arena arena) {
+    (ReferenceTracker, ReferenceTracker) nativeBlockBlockObjCCallRefCountTest(
+      Arena arena,
+    ) {
       final blockBlock = BlockTester.newBlockBlock(7);
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker1.track(
+        ObjCObject(
+          blockBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(ObjCObject(outputBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker2.track(
+        ObjCObject(
+          outputBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       expect(outputBlock(1), 14);
       doGC();
@@ -670,8 +748,9 @@ void main() {
       'Calling a native block block from ObjC has correct ref counting',
       () {
         using((Arena arena) {
-          final (tracker1, tracker2) =
-              nativeBlockBlockObjCCallRefCountTest(arena);
+          final (tracker1, tracker2) = nativeBlockBlockObjCCallRefCountTest(
+            arena,
+          );
           doGC();
           expect(tracker1.isAlive, false);
           expect(tracker2.isAlive, false);
@@ -764,13 +843,25 @@ void main() {
       final blockBlock = ListenerBlock.listener((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
-        tracker1.track(ObjCObject(intBlock.ref.pointer.cast(), retain: false, release: false));
+        tracker1.track(
+          ObjCObject(
+            intBlock.ref.pointer.cast(),
+            retain: false,
+            release: false,
+          ),
+        );
         expect(tracker1.isAlive, true);
         inputBlock = intBlock;
         hasRun.complete();
       });
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(ObjCObject(blockBlock.ref.pointer.cast(), retain: false, release: false));
+      tracker2.track(
+        ObjCObject(
+          blockBlock.ref.pointer.cast(),
+          retain: false,
+          release: false,
+        ),
+      );
 
       final thread = BlockTester.callWithBlockOnNewThread(blockBlock);
       thread.start();
@@ -788,8 +879,9 @@ void main() {
     test('Listener block arguments are not prematurely destroyed', () async {
       final arena = Arena();
       try {
-        final (tracker1, tracker2) =
-            await listenerBlockArgumentRetentionTest(arena);
+        final (tracker1, tracker2) = await listenerBlockArgumentRetentionTest(
+          arena,
+        );
         doGC();
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
@@ -820,7 +912,9 @@ void main() {
           // Object bound in block's lambda.
           expect(dummyObject, isNotNull);
         });
-        tracker1.track(ObjCObject(block!.ref.pointer.cast(), retain: false, release: false));
+        tracker1.track(
+          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
+        );
 
         final tester = BlockTester.newFromListener(block);
         expect(tracker1.isAlive, true);
@@ -859,7 +953,9 @@ void main() {
           expect(dummyObject, isNotNull);
           completer.complete();
         });
-        tracker1.track(ObjCObject(block!.ref.pointer.cast(), retain: false, release: false));
+        tracker1.track(
+          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
+        );
 
         final tester = BlockTester.newFromListener(block);
         expect(tracker1.isAlive, true);
@@ -919,8 +1015,10 @@ void main() {
       expect(objCBindings, contains('Vec4'));
     });
 
-    (BlockTester, ReferenceTracker, ReferenceTracker)
-    regress1571Inner(Completer<void> completer, Arena arena) {
+    (BlockTester, ReferenceTracker, ReferenceTracker) regress1571Inner(
+      Completer<void> completer,
+      Arena arena,
+    ) {
       final dummyObject = DummyObject();
       final tracker2 = ReferenceTracker(arena);
       tracker2.track(dummyObject);
@@ -935,7 +1033,9 @@ void main() {
         expect(dummyObject, isNotNull);
       });
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(ObjCObject(block!.ref.pointer.cast(), retain: false, release: false));
+      tracker1.track(
+        ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
+      );
 
       final tester = BlockTester.newFromListener(block);
       expect(tracker1.isAlive, true);
@@ -951,7 +1051,10 @@ void main() {
         try {
           for (int i = 0; i < 10; ++i) {
             final completer = Completer<void>();
-            final (tester, tracker1, tracker2) = regress1571Inner(completer, arena);
+            final (tester, tracker1, tracker2) = regress1571Inner(
+              completer,
+              arena,
+            );
 
             await flutterDoGC();
             expect(tracker1.isAlive, true);
