@@ -65,7 +65,10 @@ class ReferenceTracker {
       retain: false,
       release: true,
     );
-    _setAssociatedDisposableTrackerObject(hostPtr, disposableObj.ref.pointer.cast());
+    _setAssociatedDisposableTrackerObject(
+      hostPtr,
+      disposableObj.ref.pointer.cast(),
+    );
   }
 }
 
