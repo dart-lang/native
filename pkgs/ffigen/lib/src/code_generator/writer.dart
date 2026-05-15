@@ -88,6 +88,7 @@ class Writer {
       //   unused_import ignore once we can guarantee that we don't generate
       //   unused imports.
       if (!_hasLintIgnore('unused_import')) 'unused_import',
+      if (!_hasLintIgnore('unused_element')) 'unused_element',
       if (anyFuncHasRecordUse && !_hasLintIgnore('experimental_member_use'))
         'experimental_member_use',
     ];
@@ -177,11 +178,8 @@ class Writer {
 
     if (libs.contains(objcPkgImport)) {
       final objcPrefix = context.libs.prefix(objcPkgImport);
-      result.write('\n');
-      if (!_hasLintIgnore('unused_element')) {
-        result.write('// ignore: unused_element\n');
-      }
       result.write('''
+
 const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
     $objcMajorVersion, $objcMinorVersion);
 ''');

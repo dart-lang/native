@@ -300,14 +300,14 @@ If the diffs are expected, rerun with UPDATE=true
 ''');
   }
 
-  _expectNoAnalysisErrors(expectedPath);
+  expectNoAnalysisErrors(expectedPath);
 
   if (actualFileExists) {
     actualFile.deleteSync();
   }
 }
 
-void _expectNoAnalysisErrors(String file) {
+void expectNoAnalysisErrors(String file) {
   if (!file.endsWith('.dart')) return;
   Process.runSync(dartExecutable, [
     'pub',
