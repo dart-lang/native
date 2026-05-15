@@ -18,7 +18,6 @@
   return self;
 }
 - (void)dealloc {
-  NSLog(@"[DisposableObject] dealloc isAlive=%p", isAlive);
   if (isAlive) {
     *isAlive = false;
   }
