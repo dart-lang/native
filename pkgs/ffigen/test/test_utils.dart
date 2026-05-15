@@ -316,6 +316,7 @@ void expectNoAnalysisErrors(String file) {
   final result = Process.runSync(dartExecutable, [
     'analyze',
     file,
+    '--fatal-infos',
   ], workingDirectory: path.dirname(file));
   if (result.exitCode != 0) print(result.stdout);
   expect(result.exitCode, 0);
