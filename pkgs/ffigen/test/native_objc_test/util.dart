@@ -21,9 +21,6 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'util_bindings.dart';
-export 'util_bindings.dart'
-    hide objc_autoreleasePoolPush, objc_autoreleasePoolPop;
 
 void verifyBindings(
   String testName, {
@@ -81,19 +78,25 @@ Future<void> flutterDoGC() async {
   await Future<void>.delayed(const Duration(milliseconds: 500));
 }
 
+@Native<Void Function(Pointer<Void>, Pointer<Bool>)>(
+  symbol: 'attachReferenceTracker',
+)
+external void _attachReferenceTracker(
+  Pointer<Void> host,
+  Pointer<Bool> isAlive,
+);
+
 class ReferenceTracker {
   final Pointer<Bool> isAlivePtr;
 
   ReferenceTracker(Arena arena) : this._(arena, arena<Bool>()..value = true);
 
-  ReferenceTracker._(Arena arena, Pointer<Bool> isAlivePtr)
-    : isAlivePtr = isAlivePtr;
+  ReferenceTracker._(Arena arena, this.isAlivePtr);
 
   bool get isAlive => isAlivePtr.value;
 
   void track(ObjCObject host) {
-    final object = DisposableObject.newWithIsAlive(isAlivePtr);
-    setAssociatedDisposableObject(host, object);
+    _attachReferenceTracker(host.ref.pointer.cast(), isAlivePtr);
   }
 }
 

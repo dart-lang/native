@@ -10,7 +10,6 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
-import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/c_bindings_generated.dart' as c;
 
 final _executeInternalCommand = () {
@@ -34,19 +33,12 @@ void doGC() {
   calloc.free(gcNow);
 }
 
-@Native<Pointer<c.ObjCObjectImpl> Function(Pointer<Bool>)>(
-  symbol: 'createDisposableTrackerObject',
+@Native<Void Function(Pointer<Void>, Pointer<Bool>)>(
+  symbol: 'attachReferenceTracker',
 )
-external Pointer<c.ObjCObjectImpl> _createDisposableTrackerObject(
-  Pointer<Bool> isAlive,
-);
-
-@Native<Void Function(Pointer<Void>, Pointer<c.ObjCObjectImpl>)>(
-  symbol: 'setAssociatedDisposableTrackerObject',
-)
-external void _setAssociatedDisposableTrackerObject(
+external void _attachReferenceTracker(
   Pointer<Void> host,
-  Pointer<c.ObjCObjectImpl> disposable,
+  Pointer<Bool> isAlive,
 );
 
 class ReferenceTracker {
@@ -59,16 +51,7 @@ class ReferenceTracker {
   bool get isAlive => isAlivePtr.value;
 
   void track(Pointer<Void> hostPtr) {
-    final disposablePtr = _createDisposableTrackerObject(isAlivePtr);
-    final disposableObj = ObjCObject(
-      disposablePtr.cast(),
-      retain: false,
-      release: true,
-    );
-    _setAssociatedDisposableTrackerObject(
-      hostPtr,
-      disposableObj.ref.pointer.cast(),
-    );
+    _attachReferenceTracker(hostPtr, isAlivePtr);
   }
 }
 
