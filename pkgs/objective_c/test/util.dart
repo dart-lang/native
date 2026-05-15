@@ -8,9 +8,7 @@ library;
 
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
-import 'package:objective_c/src/c_bindings_generated.dart' as c;
 
 final _executeInternalCommand = () {
   try {
@@ -56,19 +54,6 @@ class ReferenceTracker {
 }
 
 String pkgDir = findPackageRoot('objective_c').toFilePath();
-
-// ---------------------------------------------------------------------------
-// Block retain count (from util.c: getBlockRetainCount).
-// ---------------------------------------------------------------------------
-
-@Native<Uint64 Function(Pointer<Void>)>(
-  isLeaf: true,
-  symbol: 'getBlockRetainCount',
-)
-external int _getBlockRetainCount(Pointer<Void> block);
-
-int blockRetainCount(Pointer<c.ObjCBlockImpl> block) =>
-    _getBlockRetainCount(block.cast());
 
 // ---------------------------------------------------------------------------
 // GC injection helpers (from gc_inject.m) — only available on macOS.

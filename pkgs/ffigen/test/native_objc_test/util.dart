@@ -18,7 +18,6 @@ import 'package:objective_c/src/internal.dart'
     as internal_for_testing
     show isValidBlock, isValidClass;
 import 'package:path/path.dart' as p;
-import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
@@ -78,6 +77,7 @@ Future<void> flutterDoGC() async {
   await Future<void>.delayed(const Duration(milliseconds: 500));
 }
 
+// Defined in package:objective_c's test-only util, reference_tracker.h.
 @Native<Void Function(Pointer<Void>, Pointer<Bool>)>(
   symbol: 'attachReferenceTracker',
 )

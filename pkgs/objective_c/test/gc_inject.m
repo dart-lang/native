@@ -21,8 +21,15 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// From util.c — reads the block ABI flags field for the retain count.
-extern uint64_t getBlockRetainCount(void*);
+typedef struct {
+  void* isa;
+  int flags;
+} BlockRefCountExtractor;
+
+__attribute__((visibility("default")))
+uint64_t getBlockRetainCount(BlockRefCountExtractor* block) {
+  return (block->flags & 0xFFFF) >> 1;
+}
 
 typedef void* (*DartGCNow_t)(const char*, void*);
 static DartGCNow_t g_dart_gc_now = NULL;

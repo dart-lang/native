@@ -2,17 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include "util_tracker.h"
+#include "reference_tracker.h"
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-@interface DisposableTrackerObject : NSObject {
+@interface ReferenceTracker : NSObject {
   bool* isAlive;
 }
 - (instancetype)initWithIsAlive:(bool*) _isAlive;
 @end
 
-@implementation DisposableTrackerObject
+@implementation ReferenceTracker
 - (instancetype)initWithIsAlive:(bool*) _isAlive {
   if (self = [super init]) {
     isAlive = _isAlive;
@@ -35,8 +35,8 @@
 static const char DISPOSABLE_KEY;
 
 void attachReferenceTracker(id host, bool* isAlive) {
-  DisposableTrackerObject* tracker =
-      [[DisposableTrackerObject alloc] initWithIsAlive:isAlive];
+  ReferenceTracker* tracker =
+      [[ReferenceTracker alloc] initWithIsAlive:isAlive];
   objc_setAssociatedObject(
       host, &DISPOSABLE_KEY, tracker, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

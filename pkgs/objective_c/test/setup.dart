@@ -15,7 +15,6 @@ import 'package:args/args.dart';
 final cFiles = [
   'src/objective_c.c',
   'src/include/dart_api_dl.c',
-  'test/util.c',
 ].map(_resolve);
 final cMain = _resolve('test/main.c');
 final objCFiles = [
@@ -25,7 +24,7 @@ final objCFiles = [
   'src/objective_c_bindings_generated.m',
   'src/observer.m',
   'src/protocol.m',
-  'test/util_tracker.m',
+  'test/reference_tracker.m',
 ].map(_resolve);
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 final outputFile = _resolve('test/objective_c.dylib');
