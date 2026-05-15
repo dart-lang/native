@@ -2,12 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// All @Native bindings in this file live in the package's native asset dylib.
 @DefaultAsset('package:objective_c/objective_c.dylib')
 library;
 
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 
 final _executeInternalCommand = () {

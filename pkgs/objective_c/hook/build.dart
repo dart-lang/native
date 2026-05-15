@@ -57,7 +57,9 @@ void main(List<String> args) async {
 
     if (input.userDefines['include_test_utils'] == true) {
       mFiles.add(input.packageRoot.resolve('test/gc_inject.m').toFilePath());
-      mFiles.add(input.packageRoot.resolve('test/reference_tracker.m').toFilePath());
+      mFiles.add(
+        input.packageRoot.resolve('test/reference_tracker.m').toFilePath(),
+      );
     }
 
     final sysroot = sdkPath(codeConfig);

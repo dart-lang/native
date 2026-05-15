@@ -12,10 +12,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-final cFiles = [
-  'src/objective_c.c',
-  'src/include/dart_api_dl.c',
-].map(_resolve);
+final cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'].map(_resolve);
 final cMain = _resolve('test/main.c');
 final objCFiles = [
   'src/input_stream_adapter.m',
