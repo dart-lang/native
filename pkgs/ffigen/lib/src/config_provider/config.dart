@@ -36,6 +36,9 @@ final class FfiGenerator {
   /// Configuration for structs.
   final Structs structs;
 
+  /// Configuration for C++ classes.
+  final CppClasses cppClasses;
+
   /// Configuration for typedefs.
   final Typedefs typedefs;
 
@@ -87,6 +90,7 @@ final class FfiGenerator {
     this.integers = const Integers(),
     this.macros = Macros.excludeAll,
     this.structs = Structs.excludeAll,
+    this.cppClasses = CppClasses.excludeAll,
     this.typedefs = Typedefs.excludeAll,
     this.unions = Unions.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
@@ -486,6 +490,17 @@ final class Typedefs extends Declarations {
 
   static Typedefs includeSet(Set<String> names) =>
       Typedefs(include: Declarations.includeSet(names));
+}
+
+/// Configuration for C++ class declarations.
+final class CppClasses extends Declarations {
+  const CppClasses({super.include, super.rename, super.renameMember});
+
+  static const excludeAll = CppClasses(include: Declarations.excludeAll);
+  static const includeAll = CppClasses(include: Declarations.includeAll);
+
+  static CppClasses includeSet(Set<String> names) =>
+      CppClasses(include: Declarations.includeSet(names));
 }
 
 /// Configuration for union declarations.

@@ -73,6 +73,9 @@ final class YamlConfig {
   YamlDeclarationFilters get structDecl => _structDecl;
   late YamlDeclarationFilters _structDecl;
 
+  /// Declaration config for C++ classes.
+  late YamlDeclarationFilters _cppClassDecl;
+
   /// Declaration config for Unions.
   YamlDeclarationFilters get unionDecl => _unionDecl;
   late YamlDeclarationFilters _unionDecl;
@@ -550,6 +553,22 @@ final class YamlConfig {
               _structDependencies =
                   (node.value as Map)[strings.dependencyOnly]
                       as CompoundDependencies;
+            },
+          ),
+        ),
+        HeterogeneousMapEntry(
+          key: strings.cppClasses,
+          valueConfigSpec: HeterogeneousMapConfigSpec(
+            entries: [
+              ..._includeExcludeProperties(),
+              ..._renameProperties(),
+              ..._memberRenameProperties(),
+            ],
+            result: (node) {
+              _cppClassDecl = declarationConfigExtractor(
+                node.value as Map<dynamic, dynamic>,
+                _excludeAllByDefault,
+              );
             },
           ),
         ),
@@ -1265,6 +1284,11 @@ final class YamlConfig {
           _structPackingOverride.getOverridenPackValue(decl.originalName),
       // ignore: deprecated_member_use_from_same_package
       imported: structTypeMappings.values.toList(),
+    ),
+    cppClasses: CppClasses(
+      include: _cppClassDecl.shouldInclude,
+      rename: _cppClassDecl.rename,
+      renameMember: _cppClassDecl.renameMember,
     ),
     enums: Enums(
       include: _enumClassDecl.shouldInclude,
