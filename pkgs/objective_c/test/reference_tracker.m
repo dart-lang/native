@@ -6,6 +6,10 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
+#if !__has_feature(objc_arc)
+#error "This file must be compiled with ARC enabled"
+#endif
+
 @interface ReferenceTracker : NSObject {
   bool* isAlive;
 }
@@ -26,9 +30,6 @@
   if (isAlive) {
     *isAlive = false;
   }
-#if !__has_feature(objc_arc)
-  [super dealloc];
-#endif
 }
 @end
 
