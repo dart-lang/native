@@ -153,6 +153,7 @@ jobs:
           channel: stable
       - name: Install dependencies
         run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+      # TODO(https://github.com/dart-lang/native/issues/3366): Remove this.
       - name: Build dylibs
         run: dart test --name non_existent_test || true
       - name: Copy dylibs to expected location
