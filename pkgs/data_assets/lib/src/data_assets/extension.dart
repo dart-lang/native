@@ -50,4 +50,13 @@ final class DataAssetsExtension implements ProtocolExtension {
   Future<ValidationErrors> validateApplicationAssets(
     List<EncodedAsset> assets,
   ) async => [];
+
+  @override
+  Iterable<Uri> outputFiles(List<EncodedAsset> assets) sync* {
+    for (final encodedAsset in assets) {
+      if (encodedAsset.isDataAsset) {
+        yield encodedAsset.asDataAsset.file;
+      }
+    }
+  }
 }

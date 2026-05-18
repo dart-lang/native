@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:data_assets/data_assets.dart';
 import 'package:hooks_runner/src/build_runner/build_runner.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:pub_formats/pub_formats.dart';
@@ -322,4 +323,80 @@ void main() async {
       });
     });
   }
+
+  test(
+    'generated data asset cache invalidation',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('simple_data_asset_generated/');
+
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+
+        // 1. Initial build.
+        {
+          final logMessages = <String>[];
+          final result = await buildDataAssets(
+            packageUri,
+            capturedLogs: logMessages,
+          );
+          expect(result.isSuccess, isTrue);
+          expect(
+            logMessages.join('\n'),
+            contains(
+              'simple_data_asset_generated${Platform.pathSeparator}hook'
+              '${Platform.pathSeparator}build.dart',
+            ),
+          );
+          final dataAssets = result.success.encodedAssets
+              .where((e) => e.isDataAsset)
+              .map(DataAsset.fromEncoded)
+              .toList();
+          expect(dataAssets, hasLength(1));
+          expect(dataAssets.single.name, 'data/generated.txt');
+        }
+
+        // 2. Cached build.
+        {
+          final logMessages = <String>[];
+          final result = await buildDataAssets(
+            packageUri,
+            capturedLogs: logMessages,
+          );
+          expect(result.isSuccess, isTrue);
+          expect(
+            logMessages.join('\n'),
+            contains('Skipping build for simple_data_asset_generated'),
+          );
+        }
+
+        // 3. Delete the generated output asset file.
+        final generatedFile = File.fromUri(
+          packageUri.resolve('data/generated.txt'),
+        );
+        await generatedFile.delete();
+
+        // 4. Re-run build, should be invalidated.
+        {
+          final logMessages = <String>[];
+          final result = await buildDataAssets(
+            packageUri,
+            capturedLogs: logMessages,
+          );
+          expect(result.isSuccess, isTrue);
+          expect(
+            logMessages.join('\n'),
+            contains(
+              'File contents changed: ${generatedFile.uri.toFilePath()}.',
+            ),
+          );
+          expect(
+            logMessages.join('\n'),
+            contains('Rerunning build for simple_data_asset_generated'),
+          );
+        }
+      });
+    },
+  );
 }

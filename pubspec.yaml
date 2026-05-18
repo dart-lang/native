@@ -78,6 +78,7 @@ workspace:
   - pkgs/hooks_runner/test_data/reusable_dynamic_library
   - pkgs/hooks_runner/test_data/reuse_dynamic_library
   - pkgs/hooks_runner/test_data/simple_data_asset
+  - pkgs/hooks_runner/test_data/simple_data_asset_generated
   - pkgs/hooks_runner/test_data/simple_link
   - pkgs/hooks_runner/test_data/some_dev_dep
   - pkgs/hooks_runner/test_data/system_library
