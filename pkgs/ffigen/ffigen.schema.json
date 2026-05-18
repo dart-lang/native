@@ -217,21 +217,27 @@
         }
       }
     },
-    "c++-classes": {
+    "cpp": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "include": {
-          "$ref": "#/$defs/fullMatchOrRegexpList"
-        },
-        "exclude": {
-          "$ref": "#/$defs/fullMatchOrRegexpList"
-        },
-        "rename": {
-          "$ref": "#/$defs/rename"
-        },
-        "member-rename": {
-          "$ref": "#/$defs/memberRename"
+        "cpp-classes": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "$ref": "#/$defs/fullMatchOrRegexpList"
+            },
+            "exclude": {
+              "$ref": "#/$defs/fullMatchOrRegexpList"
+            },
+            "rename": {
+              "$ref": "#/$defs/rename"
+            },
+            "member-rename": {
+              "$ref": "#/$defs/memberRename"
+            }
+          }
         }
       }
     },

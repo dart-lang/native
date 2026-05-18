@@ -36,8 +36,10 @@ final class FfiGenerator {
   /// Configuration for structs.
   final Structs structs;
 
-  /// Configuration for C++ classes.
-  final CppClasses cppClasses;
+  /// C++ specific configuration.
+  ///
+  /// If `null`, C++ class bindings will not be generated.
+  final Cpp? cpp;
 
   /// Configuration for typedefs.
   final Typedefs typedefs;
@@ -90,7 +92,7 @@ final class FfiGenerator {
     this.integers = const Integers(),
     this.macros = Macros.excludeAll,
     this.structs = Structs.excludeAll,
-    this.cppClasses = CppClasses.excludeAll,
+    this.cpp,
     this.typedefs = Typedefs.excludeAll,
     this.unions = Unions.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
@@ -501,6 +503,14 @@ final class CppClasses extends Declarations {
 
   static CppClasses includeSet(Set<String> names) =>
       CppClasses(include: Declarations.includeSet(names));
+}
+
+/// Configuration for C++.
+final class Cpp {
+  /// Declaration filters for C++ classes.
+  final CppClasses classes;
+
+  const Cpp({this.classes = CppClasses.excludeAll});
 }
 
 /// Configuration for union declarations.
