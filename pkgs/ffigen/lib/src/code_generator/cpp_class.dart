@@ -11,6 +11,8 @@ import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
+enum CppMethodKind { constructor, destructor, method }
+
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode {
   final String name;
@@ -19,6 +21,7 @@ class CppMethod extends AstNode {
   final List<Parameter> parameters;
   final bool isConstant;
   final bool isStatic;
+  final CppMethodKind kind;
 
   CppMethod({
     required this.name,
@@ -27,7 +30,11 @@ class CppMethod extends AstNode {
     required this.parameters,
     required this.isConstant,
     this.isStatic = false,
+    this.kind = CppMethodKind.method,
   });
+
+  bool get isConstructor => kind == CppMethodKind.constructor;
+  bool get isDestructor => kind == CppMethodKind.destructor;
 
   @override
   void visitChildren(Visitor visitor) {
@@ -37,13 +44,27 @@ class CppMethod extends AstNode {
   }
 }
 
+class CppMember extends CompoundMember {
+  /// Whether this field is declared `const` in the C++ source.
+  ///
+  /// A const field can only have a getter generated; mutable fields get both
+  /// a getter and a setter.
+  final bool isConst;
+
+  CppMember({
+    super.originalName,
+    required super.name,
+    required super.type,
+    super.dartDoc,
+    required this.isConst,
+  });
+}
+
 /// A binding for a C++ class.
 class CppClass extends BindingType with HasLocalScope {
   final Context context;
   final List<CppMethod> methods;
-  final List<CppMethod> constructors;
-  bool hasDestructor;
-  final List<CompoundMember> fields;
+  final List<CppMember> fields;
 
   CppClass({
     super.usr,
@@ -52,8 +73,6 @@ class CppClass extends BindingType with HasLocalScope {
     super.dartDoc,
     required this.context,
     required this.methods,
-    required this.constructors,
-    required this.hasDestructor,
     required this.fields,
   });
 
@@ -65,23 +84,34 @@ class CppClass extends BindingType with HasLocalScope {
     final s = StringBuffer();
     final ffiPrefix = context.libs.prefix(ffiImport);
 
+    final regularMethods = methods
+        .where((m) => m.kind == CppMethodKind.method)
+        .toList();
+
     s.write(makeDartDoc(dartDoc));
-    s.write('class $name {\n');
-    s.write('  // ignore: unused_field\n');
-    s.write('  final $ffiPrefix.Pointer<$ffiPrefix.Void> _ptr;\n\n');
-    s.write('  $name._(this._ptr);\n\n');
+    s.write('''
+class $name {
+  // ignore: unused_field
+  final $ffiPrefix.Pointer<$ffiPrefix.Void> _ptr;
+
+  $name._(this._ptr);
+
+''');
     for (final field in fields) {
       s.write('  // TODO: getter for field ${field.name}\n');
+      if (!field.isConst) {
+        s.write('  // TODO: setter for field ${field.name}\n');
+      }
     }
-    if (fields.isNotEmpty) s.write('\n');
-    for (final method in methods) {
+    for (final method in regularMethods) {
       s.write('  // TODO: method ${method.name}\n');
     }
-    if (methods.isNotEmpty) s.write('\n');
-    s.write('  void dispose() {\n');
-    s.write('    // TODO: call ${name}_delete(_ptr);\n');
-    s.write('  }\n');
-    s.write('}\n');
+    s.write('''
+  void dispose() {
+    // TODO: call ${name}_delete(_ptr);
+  }
+}
+''');
 
     return BindingString(
       type: BindingStringType.cppClass,
@@ -94,12 +124,16 @@ class CppClass extends BindingType with HasLocalScope {
 
   @override
   bool get sameFfiDartAndCType => true;
+  @override
+  bool get sameDartAndCType => false;
+
+  @override
+  bool get sameDartAndFfiDartType => false;
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(methods);
-    visitor.visitAll(constructors);
     visitor.visitAll(fields);
     visitor.visit(ffiImport);
   }
