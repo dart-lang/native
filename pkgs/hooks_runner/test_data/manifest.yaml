@@ -194,6 +194,8 @@
 - simple_data_asset/bin/simple_data_asset.dart.debug
 - simple_data_asset/hook/build.dart
 - simple_data_asset/pubspec.yaml
+- simple_data_asset_generated/hook/build.dart
+- simple_data_asset_generated/pubspec.yaml
 - simple_link/assets/data_0.json
 - simple_link/assets/data_1.json
 - simple_link/assets/data_2.json
