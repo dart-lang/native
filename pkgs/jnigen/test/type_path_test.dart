@@ -1,4 +1,4 @@
-import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/elements/elements.dart';
 import 'package:test/test.dart';
 
 void main() {
