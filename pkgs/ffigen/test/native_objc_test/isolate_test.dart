@@ -119,9 +119,7 @@ void main() {
 
       await using((arena) async {
         final tracker = ReferenceTracker(arena);
-        tracker.track(
-          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
-        );
+        tracker.trackBlock(block!);
 
         final port = ReceivePort();
         final queue = StreamQueue(port);
@@ -169,9 +167,7 @@ void main() {
 
       await using((arena) async {
         final tracker = ReferenceTracker(arena);
-        tracker.track(
-          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
-        );
+        tracker.trackBlock(block!);
 
         await runIsolateWithBlock(block!);
         final value = await completer.future;

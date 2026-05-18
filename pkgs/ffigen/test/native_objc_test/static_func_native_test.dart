@@ -90,20 +90,12 @@ void main() {
       ReferenceTracker tracker2,
     ) {
       final block = IntBlock.fromFunction((int x) => 2 * x);
-      tracker1.track(
-        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker1.trackBlock(block);
       expect(tracker1.isAlive, true);
 
       final pool = objc_autoreleasePoolPush();
       final outputBlock = staticFuncOfBlock(block);
-      tracker2.track(
-        ObjCObject(
-          outputBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker2.trackBlock(outputBlock);
       objc_autoreleasePoolPop(pool);
 
       expect(block, outputBlock);

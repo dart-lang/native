@@ -291,9 +291,7 @@ void main() {
         final tracker = ReferenceTracker(arena);
         final pool = objc_autoreleasePoolPush();
         DartEmptyBlock? obj = producer();
-        tracker.track(
-          ObjCObject(obj.ref.pointer.cast(), retain: false, release: false),
-        );
+        tracker.trackBlock(obj);
         doGC();
         expect(tracker.isAlive, true);
         expect(obj, isNotNull);

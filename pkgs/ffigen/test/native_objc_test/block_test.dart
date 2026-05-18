@@ -422,9 +422,7 @@ void main() {
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         false,
       );
-      tracker.track(
-        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker.trackBlock(block);
       expect(tracker.isAlive, true);
     }
 
@@ -444,9 +442,7 @@ void main() {
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         true,
       );
-      tracker.track(
-        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker.trackBlock(block);
       expect(tracker.isAlive, true);
     }
 
@@ -470,9 +466,7 @@ void main() {
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
         true,
       );
-      tracker1.track(
-        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker1.trackBlock(block);
       expect(tracker1.isAlive, true);
 
       final rawBlock = block.ref.retainAndReturnPointer();
@@ -489,9 +483,7 @@ void main() {
         retain: false,
         release: true,
       );
-      tracker3.track(
-        ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker3.trackBlock(block);
       expect(tracker3.isAlive, true);
     }
 
@@ -519,13 +511,7 @@ void main() {
         return 5 * x;
       });
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(
-        ObjCObject(
-          inputBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker1.trackBlock(inputBlock);
 
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
@@ -535,23 +521,11 @@ void main() {
         });
       });
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(
-        ObjCObject(
-          blockBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker2.trackBlock(blockBlock);
 
       final outputBlock = blockBlock(inputBlock);
       final tracker3 = ReferenceTracker(arena);
-      tracker3.track(
-        ObjCObject(
-          outputBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker3.trackBlock(outputBlock);
 
       expect(outputBlock(1), 15);
       objc_autoreleasePoolPop(pool);
@@ -588,31 +562,17 @@ void main() {
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
         inputBlockPtr = intBlock.ref.pointer;
-        tracker1.track(
-          ObjCObject(inputBlockPtr.cast(), retain: false, release: false),
-        );
+        tracker1.trackBlock(intBlock);
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(
-        ObjCObject(
-          blockBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker2.trackBlock(blockBlock);
 
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       final tracker3 = ReferenceTracker(arena);
-      tracker3.track(
-        ObjCObject(
-          outputBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker3.trackBlock(outputBlock);
 
       expect(outputBlock(1), 6);
       objc_autoreleasePoolPop(pool);
@@ -646,33 +606,15 @@ void main() {
         return 5 * x;
       });
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(
-        ObjCObject(
-          inputBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker1.trackBlock(inputBlock);
 
       final blockBlock = BlockTester.newBlockBlock(7);
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(
-        ObjCObject(
-          blockBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker2.trackBlock(blockBlock);
 
       final outputBlock = blockBlock(inputBlock);
       final tracker3 = ReferenceTracker(arena);
-      tracker3.track(
-        ObjCObject(
-          outputBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker3.trackBlock(outputBlock);
 
       expect(outputBlock(1), 35);
       objc_autoreleasePoolPop(pool);
@@ -705,23 +647,11 @@ void main() {
     ) {
       final blockBlock = BlockTester.newBlockBlock(7);
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(
-        ObjCObject(
-          blockBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker1.trackBlock(blockBlock);
 
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(
-        ObjCObject(
-          outputBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker2.trackBlock(outputBlock);
 
       expect(outputBlock(1), 14);
       doGC();
@@ -831,25 +761,13 @@ void main() {
       final blockBlock = ListenerBlock.listener((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
-        tracker1.track(
-          ObjCObject(
-            intBlock.ref.pointer.cast(),
-            retain: false,
-            release: false,
-          ),
-        );
+        tracker1.trackBlock(intBlock);
         expect(tracker1.isAlive, true);
         inputBlock = intBlock;
         hasRun.complete();
       });
       final tracker2 = ReferenceTracker(arena);
-      tracker2.track(
-        ObjCObject(
-          blockBlock.ref.pointer.cast(),
-          retain: false,
-          release: false,
-        ),
-      );
+      tracker2.trackBlock(blockBlock);
 
       final thread = BlockTester.callWithBlockOnNewThread(blockBlock);
       thread.start();
@@ -896,9 +814,7 @@ void main() {
           // Object bound in block's lambda.
           expect(dummyObject, isNotNull);
         });
-        tracker1.track(
-          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
-        );
+        tracker1.trackBlock(block!);
 
         final tester = BlockTester.newFromListener(block);
         expect(tracker1.isAlive, true);
@@ -934,9 +850,7 @@ void main() {
           expect(dummyObject, isNotNull);
           completer.complete();
         });
-        tracker1.track(
-          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
-        );
+        tracker1.trackBlock(block!);
 
         final tester = BlockTester.newFromListener(block);
         expect(tracker1.isAlive, true);
@@ -1012,9 +926,7 @@ void main() {
         expect(dummyObject, isNotNull);
       });
       final tracker1 = ReferenceTracker(arena);
-      tracker1.track(
-        ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker1.trackBlock(block!);
 
       final tester = BlockTester.newFromListener(block);
       expect(tracker1.isAlive, true);

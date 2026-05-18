@@ -96,7 +96,13 @@ class ReferenceTracker {
   bool get isAlive => isAlivePtr.value;
 
   void track(ObjCObject host) {
-    _attachReferenceTracker(host.ref.pointer.cast(), isAlivePtr);
+    final hostRef = host.ref;
+    _attachReferenceTracker(hostRef.pointer.cast(), isAlivePtr);
+  }
+
+  void trackBlock(ObjCBlock host) {
+    final hostRef = host.ref;
+    _attachReferenceTracker(hostRef.pointer.cast(), isAlivePtr);
   }
 }
 

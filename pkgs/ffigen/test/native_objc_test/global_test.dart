@@ -60,17 +60,13 @@ void main() {
     ) {
       final tracker1 = ReferenceTracker(arena);
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
-      tracker1.track(
-        ObjCObject(blk1.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker1.trackBlock(blk1);
       lib.globalBlock = blk1;
       expect(tracker1.isAlive, true);
 
       final tracker2 = ReferenceTracker(arena);
       final blk2 = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
-      tracker2.track(
-        ObjCObject(blk2.ref.pointer.cast(), retain: false, release: false),
-      );
+      tracker2.trackBlock(blk2);
       lib.globalBlock = blk2;
 
       expect(tracker2.isAlive, true);
