@@ -272,7 +272,7 @@ class CustomBuilder {
     Uri input,
     String moduleName,
     Uri outputHeader,
-    Uri outputLib,{
+    Uri outputLib, {
     List<String> extraObjects = const [],
   }) async {
     final baseArgs = [
