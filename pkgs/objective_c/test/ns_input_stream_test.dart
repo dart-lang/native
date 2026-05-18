@@ -318,8 +318,7 @@ void main() {
         await completionPort.first;
       });
       test('with self delegate', () async {
-        final arena = Arena();
-        try {
+        await using((arena) async {
           final tracker = ReferenceTracker(arena);
           late DartInputStreamAdapter? inputStream;
           autoReleasePool(() {
@@ -344,14 +343,11 @@ void main() {
           doGC();
 
           expect(tracker.isAlive, false);
-        } finally {
-          arena.releaseAll();
-        }
+        });
       });
 
       test('with non-self delegate', () async {
-        final arena = Arena();
-        try {
+        await using((arena) async {
           final tracker = ReferenceTracker(arena);
           late DartInputStreamAdapter? inputStream;
           autoReleasePool(() {
@@ -377,9 +373,7 @@ void main() {
           doGC();
 
           expect(tracker.isAlive, false);
-        } finally {
-          arena.releaseAll();
-        }
+        });
       });
     });
   });

@@ -194,11 +194,10 @@ void main() {
       producer(completer);
       EmptyObject? obj = await completer.future;
 
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         final pool = objc_autoreleasePoolPush();
-        tracker.track(obj);
+        tracker.track(obj!);
         objc_autoreleasePoolPop(pool);
         doGC();
         expect(tracker.isAlive, true);
@@ -210,9 +209,7 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }
 
     test('ObjectListener, defined dart, invoked dart', () async {

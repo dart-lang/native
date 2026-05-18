@@ -78,8 +78,7 @@ void main() {
     });
 
     test('ref counting', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final trackers = <ReferenceTracker>[];
         Set<ObjCObject>? set;
 
@@ -121,9 +120,7 @@ void main() {
         for (final t in trackers) {
           expect(t.isAlive, false);
         }
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
   });
 }

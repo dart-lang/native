@@ -40,8 +40,7 @@ void main() {
     }
 
     test('Sending object through a port', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         Sendable? sendable = Sendable();
         sendable.value = 123;
@@ -70,14 +69,11 @@ void main() {
         sendable = null;
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     test('Capturing object in closure', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         Sendable? sendable = Sendable();
         sendable.value = 123;
@@ -98,9 +94,7 @@ void main() {
         sendable = null;
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     // Runs on other isolate (can't use expect function).
@@ -123,8 +117,7 @@ void main() {
         },
       );
 
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         tracker.track(
           ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
@@ -152,9 +145,7 @@ void main() {
         block = null;
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     ObjCBlock<Void Function(Int32)> makeBlock(Completer<int> completer) {
@@ -165,21 +156,24 @@ void main() {
       });
     }
 
+    Future<void> runIsolateWithBlock(ObjCBlock<Void Function(Int32)> block) {
+      return Isolate.run(() {
+        loadLibrary();
+        block(123);
+      });
+    }
+
     test('Capturing block in closure', () async {
       final completer = Completer<int>();
       ObjCBlock<Void Function(Int32)>? block = makeBlock(completer);
 
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         tracker.track(
-          ObjCObject(block.ref.pointer.cast(), retain: false, release: false),
+          ObjCObject(block!.ref.pointer.cast(), retain: false, release: false),
         );
 
-        await Isolate.run(() {
-          loadLibrary();
-          block!(123);
-        });
+        await runIsolateWithBlock(block!);
         final value = await completer.future;
         expect(value, 123);
 
@@ -188,14 +182,11 @@ void main() {
         block = null;
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     test('Manual release across isolates', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         Sendable? sendable = Sendable();
         tracker.track(sendable);
@@ -217,9 +208,7 @@ void main() {
         sendable = null;
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
 
     test('Use after release and double release', () async {

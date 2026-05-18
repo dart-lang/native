@@ -511,17 +511,14 @@ void main() {
     }
 
     test('Block ref counting', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = blockRefCountTest(arena);
 
         doGC();
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     test('keepIsolateAlive', () async {

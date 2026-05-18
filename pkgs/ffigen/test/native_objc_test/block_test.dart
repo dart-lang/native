@@ -451,17 +451,14 @@ void main() {
     }
 
     test('Function block ref counting', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         funcBlockRefCountTest(tracker);
         doGC();
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     @pragma('vm:never-inline')
@@ -499,8 +496,7 @@ void main() {
     }
 
     test('Block ref counting with manual retain and release', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker1 = ReferenceTracker(arena);
         final rawBlock = blockManualRetainRefCountTest(tracker1);
         doGC();
@@ -513,9 +509,7 @@ void main() {
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker3.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
@@ -571,8 +565,7 @@ void main() {
     }
 
     test('Calling a block block from Dart has correct ref counting', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final (tracker1, tracker2, tracker3) = blockBlockDartCallRefCountTest(
           arena,
         );
@@ -582,9 +575,7 @@ void main() {
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
         expect(tracker3.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
@@ -635,8 +626,7 @@ void main() {
     }
 
     test('Calling a block block from ObjC has correct ref counting', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final (tracker1, tracker2, tracker3) = blockBlockObjCCallRefCountTest(
           arena,
         );
@@ -646,9 +636,7 @@ void main() {
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
         expect(tracker3.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
@@ -877,8 +865,7 @@ void main() {
     }
 
     test('Listener block arguments are not prematurely destroyed', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final (tracker1, tracker2) = await listenerBlockArgumentRetentionTest(
           arena,
         );
@@ -887,14 +874,11 @@ void main() {
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     test('Blocking block ref counting same thread', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker1 = ReferenceTracker(arena);
         final tracker2 = ReferenceTracker(arena);
 
@@ -928,14 +912,11 @@ void main() {
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     test('Blocking block ref counting new thread', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker1 = ReferenceTracker(arena);
         final tracker2 = ReferenceTracker(arena);
 
@@ -971,9 +952,7 @@ void main() {
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     }, skip: !canDoGC);
 
     test('Block fields have sensible values', () {
@@ -1047,8 +1026,7 @@ void main() {
     test(
       'Regression test for https://github.com/dart-lang/native/issues/1571',
       () async {
-        final arena = Arena();
-        try {
+        await using((arena) async {
           for (int i = 0; i < 10; ++i) {
             final completer = Completer<void>();
             final (tester, tracker1, tracker2) = regress1571Inner(
@@ -1067,9 +1045,7 @@ void main() {
             expect(tracker1.isAlive, false);
             expect(tracker2.isAlive, false);
           }
-        } finally {
-          arena.releaseAll();
-        }
+        });
       },
     );
 

@@ -100,8 +100,7 @@ void main() {
     });
 
     test('ref counting', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final trackers = <ReferenceTracker>[];
         Map<NSCopying, ObjCObject>? map;
 
@@ -152,9 +151,7 @@ void main() {
         for (final t in trackers) {
           expect(t.isAlive, false);
         }
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
   });
 }

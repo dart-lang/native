@@ -116,8 +116,7 @@ void main() {
     test(
       'Blocks passed through static functions have correct ref counts',
       () async {
-        final arena = Arena();
-        try {
+        await using((arena) async {
           final tracker1 = ReferenceTracker(arena);
           final tracker2 = ReferenceTracker(arena);
           staticFuncOfBlockRefCountTest(tracker1, tracker2);
@@ -126,9 +125,7 @@ void main() {
           doGC();
           expect(tracker1.isAlive, false);
           expect(tracker2.isAlive, false);
-        } finally {
-          arena.releaseAll();
-        }
+        });
       },
       skip: !canDoGC,
     );

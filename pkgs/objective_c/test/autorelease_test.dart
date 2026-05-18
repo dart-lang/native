@@ -17,8 +17,7 @@ import 'util.dart';
 void main() {
   group('autoReleasePool', () {
     test('basics', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         autoReleasePool(() {
           {
@@ -36,14 +35,11 @@ void main() {
         doGC();
 
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
 
     test('exception safe', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         expect(
           () => autoReleasePool(() {
@@ -65,14 +61,11 @@ void main() {
         doGC();
 
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
 
     test('returns callback value', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tracker = ReferenceTracker(arena);
         late Pointer<ObjCObjectImpl> pointer;
 
@@ -90,9 +83,7 @@ void main() {
         doGC();
 
         expect(tracker.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
   });
 }

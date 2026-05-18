@@ -101,8 +101,7 @@ void main() {
     });
 
     test('observer and observed kept alive by observation', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tObserved = ReferenceTracker(arena);
         final tObserver = ReferenceTracker(arena);
         final values = <dynamic>[];
@@ -164,14 +163,11 @@ void main() {
 
         expect(tObserved.isAlive, false);
         expect(tObserver.isAlive, false);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
 
     test('remove method drops references', () async {
-      final arena = Arena();
-      try {
+      await using((arena) async {
         final tObserved = ReferenceTracker(arena);
         final tObserver = ReferenceTracker(arena);
         NSProgress? observed;
@@ -221,9 +217,7 @@ void main() {
 
         // Force observation to stay in scope.
         expect(observation, isNotNull);
-      } finally {
-        arena.releaseAll();
-      }
+      });
     });
   });
 }
