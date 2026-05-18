@@ -2,11 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:jnigen/jnigen.dart' as jnigen;
+import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/bindings/linker.dart';
 import 'package:jnigen/src/bindings/renamer.dart';
 import 'package:jnigen/src/elements/elements.dart' as ast;
-import 'package:jnigen/src/elements/j_elements.dart';
 import 'package:test/test.dart';
 
 extension on Iterable<ast.Method> {
@@ -89,11 +88,11 @@ class UserRenamer extends Visitor {
 }
 
 Future<void> rename(ast.Classes classes) async {
-  final config = jnigen.Config(
-      outputConfig: jnigen.OutputConfig(
-        dartConfig: jnigen.DartCodeOutputConfig(
+  final config = Config(
+      outputConfig: OutputConfig(
+        dartConfig: DartCodeOutputConfig(
           path: Uri.file('test.dart'),
-          structure: jnigen.OutputStructure.singleFile,
+          structure: OutputStructure.singleFile,
         ),
       ),
       classes: []);
