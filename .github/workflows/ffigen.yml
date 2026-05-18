@@ -140,6 +140,30 @@ jobs:
       - name: Run Flutter tests
         run: dart test
 
+  test-mac-aot:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: stable
+      - name: Install dependencies
+        run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+      # TODO(https://github.com/dart-lang/native/issues/3366): Remove this.
+      - name: Build dylibs
+        run: dart test --name non_existent_test || true
+      - name: Copy dylibs to expected location
+        run: cp $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/hooks_runner/shared/*/build/*/*.dylib $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib
+      - name: Run all_tests in AOT
+        run: >
+          PACKAGE_ROOT=$GITHUB_WORKSPACE/pkgs/ffigen
+          DYLD_INSERT_LIBRARIES=$(ls $GITHUB_WORKSPACE/pkgs/ffigen/.dart_tool/lib/*.dylib | paste -sd ':' -)
+          dart test -c exe
+
   test-windows:
     needs: analyze
     runs-on: windows-latest
