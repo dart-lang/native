@@ -1,7 +1,7 @@
-## 1.3.0-wip
+## 1.3.0
 
 - Resolved caching abstraction violation by delegating generated output file identification to `ProtocolExtension.outputFiles`.
-- Bumped dependency on `package:hooks` to `^2.0.0-wip`.
+- Bumped dependency on `package:hooks` to `^2.0.0`.
 
 ## 1.2.1
 
