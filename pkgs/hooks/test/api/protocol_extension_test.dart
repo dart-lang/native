@@ -19,7 +19,9 @@ import 'package:test/test.dart';
 /// error, it means an abstract member was added to [ProtocolExtension]. To fix
 /// it, add a default implementation to the member in [ProtocolExtension]
 /// instead of implementing it here.
-final class ConcreteProtocolExtension extends ProtocolExtension {}
+final class ConcreteProtocolExtension extends ProtocolExtension {
+  // Class body must be left empty (see doc comment).
+}
 
 void main() {
   test(
