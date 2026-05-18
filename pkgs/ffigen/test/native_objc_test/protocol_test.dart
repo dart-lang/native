@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Objective C support is only available on mac.
-@TestOn('mac-os')
+@TestOn('mac-os && !exe')
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
@@ -671,5 +671,5 @@ void main() {
       );
       expect(result.toDartString(), 'ObjCProtocolImpl: abc: 123.00');
     });
-  }, tags: 'skip-aot');
+  });
 }
