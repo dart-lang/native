@@ -9,7 +9,7 @@ import 'validation.dart';
 
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
 /// with [DataAsset]s.
-final class DataAssetsExtension implements ProtocolExtension {
+final class DataAssetsExtension extends ProtocolExtension {
   DataAssetsExtension();
 
   @override
