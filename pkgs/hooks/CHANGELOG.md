@@ -1,3 +1,7 @@
+## 2.0.0-wip
+
+- **Breaking change**: Added `outputFiles` method to `ProtocolExtension`.
+
 ## 1.0.3
 
 - Deprecated `recordedUsagesFile` in `LinkInput`.

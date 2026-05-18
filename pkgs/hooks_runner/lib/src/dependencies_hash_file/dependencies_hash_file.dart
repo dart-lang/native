@@ -45,17 +45,18 @@ class DependenciesHashFile {
   void _reset() => _hashes = FileSystemHashes();
 
   /// Populate the hashes and persist file with entries from
-  /// [fileSystemEntities] and [environment].
+  /// [fileSystemEntities], [outputFiles], and [environment].
   ///
   /// Any file system entities that were modified after
   /// [fileSystemValidBeforeLastModified] will get a dummy hash so that they
   /// will show up as outdated. If any such entity exists, its uri will be
   /// returned.
-  Future<Uri?> hashDependencies(
+  Future<Uri?> updateHashes(
     List<Uri> fileSystemEntities,
     DateTime fileSystemValidBeforeLastModified,
-    Map<String, String> environment,
-  ) => _timeAsync('DependenciesHashFile.hashDependencies', () async {
+    Map<String, String> environment, {
+    List<Uri> outputFiles = const [],
+  }) => _timeAsync('DependenciesHashFile.updateHashes', () async {
     _reset();
 
     Uri? modifiedAfterTimeStamp;
@@ -71,6 +72,15 @@ class DependenciesHashFile {
         } else {
           hash = await _hashFile(uri);
         }
+      }
+      _hashes.files.add(FilesystemEntityHash(uri, hash));
+    }
+    for (final uri in outputFiles) {
+      int hash;
+      if (_isDirectoryPath(uri.path)) {
+        hash = await _hashDirectory(uri);
+      } else {
+        hash = await _hashFile(uri);
       }
       _hashes.files.add(FilesystemEntityHash(uri, hash));
     }

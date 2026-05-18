@@ -31,6 +31,22 @@ void main(List<String> args) async {
     }
 
     final packageName = input.packageName;
+    final codeConfig = input.config.code;
+
+    final cFlags = codeConfig.targetOS == OS.macOS
+        ? <String>[
+            '-isysroot',
+            sdkPath(codeConfig),
+            if (codeConfig.targetArchitecture == Architecture.arm64) ...[
+              '-arch',
+              'arm64e',
+            ] else ...[
+              '-target',
+              toTargetTriple(codeConfig),
+            ],
+            minOSVersion(codeConfig),
+          ]
+        : <String>[];
 
     // Build native_test.c. This is an ordinary build, so we can use CBuilder.
     await CBuilder.library(
@@ -38,12 +54,13 @@ void main(List<String> args) async {
       assetName: 'native_test',
       sources: [
         'test/native_test/native_test.c',
-        if (input.config.code.targetOS == OS.windows)
+        if (codeConfig.targetOS == OS.windows)
           'test/native_test/native_test.def',
       ],
+      flags: cFlags,
     ).run(input: input, output: output, logger: logger);
 
-    if (input.config.code.targetOS == OS.macOS) {
+    if (codeConfig.targetOS == OS.macOS) {
       final builder = await CustomBuilder.create(
         input,
         input.packageRoot.toFilePath(),
@@ -99,6 +116,7 @@ void main(List<String> args) async {
         final useArc = !arcDisabledFiles.contains(mFile.pathSegments.last);
         objFiles.add(
           await builder.buildObject(mFile, [
+            ...cFlags,
             '-x',
             'objective-c',
             if (useArc) '-fobjc-arc',
@@ -112,11 +130,15 @@ void main(List<String> args) async {
       final dartApiDl = input.packageRoot.resolve(
         '../objective_c/src/include/dart_api_dl.c',
       );
-      objFiles.add(await builder.buildObject(dartApiDl, []));
+      objFiles.add(await builder.buildObject(dartApiDl, cFlags));
 
       const objcAsset = 'objc_test';
       final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
-      await builder.linkLib(objFiles, objcLib, ['-framework', 'Foundation']);
+      await builder.linkLib(objFiles, objcLib, [
+        ...cFlags,
+        '-framework',
+        'Foundation',
+      ]);
 
       output.dependencies.addAll([...mFiles, ...hFiles, swiftFile, dartApiDl]);
 
@@ -132,6 +154,67 @@ void main(List<String> args) async {
   });
 }
 
+String sdkPath(CodeConfig codeConfig) {
+  final String target;
+  if (codeConfig.targetOS == OS.iOS) {
+    if (codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS) {
+      target = 'iphoneos';
+    } else {
+      target = 'iphonesimulator';
+    }
+  } else {
+    assert(codeConfig.targetOS == OS.macOS);
+    target = 'macosx';
+  }
+  return firstLineOfStdout('xcrun', ['--show-sdk-path', '--sdk', target]);
+}
+
+String firstLineOfStdout(String cmd, List<String> args) {
+  final result = Process.runSync(cmd, args);
+  if (result.exitCode != 0) {
+    throw Exception(
+      'Command failed: $cmd ${args.join(" ")}\n'
+      '${result.stdout}\n${result.stderr}',
+    );
+  }
+  return (result.stdout as String)
+      .split('\n')
+      .where((line) => line.isNotEmpty)
+      .first;
+}
+
+String minOSVersion(CodeConfig codeConfig) {
+  if (codeConfig.targetOS == OS.iOS) {
+    final targetVersion = codeConfig.iOS.targetVersion;
+    return '-mios-version-min=$targetVersion';
+  }
+  assert(codeConfig.targetOS == OS.macOS);
+  final targetVersion = codeConfig.macOS.targetVersion;
+  return '-mmacos-version-min=$targetVersion';
+}
+
+String toTargetTriple(CodeConfig codeConfig) {
+  final architecture = codeConfig.targetArchitecture;
+  if (codeConfig.targetOS == OS.iOS) {
+    return appleClangIosTargetFlags[architecture]![codeConfig.iOS.targetSdk]!;
+  }
+  assert(codeConfig.targetOS == OS.macOS);
+  return appleClangMacosTargetFlags[architecture]!;
+}
+
+const appleClangMacosTargetFlags = {
+  Architecture.arm64: 'arm64-apple-darwin',
+  Architecture.x64: 'x86_64-apple-darwin',
+};
+
+const appleClangIosTargetFlags = {
+  Architecture.arm64: {
+    IOSSdk.iPhoneOS: 'arm64-apple-ios',
+    IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
+  },
+  Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
+};
+
 List<Uri> _findFiles(Uri dir, String suffix) => Directory.fromUri(dir)
     .listSync()
     .whereType<File>()
@@ -143,7 +226,13 @@ class CustomBuilder {
   final String _comp;
   final String _rootDir;
   final Uri _tempOutDir;
-  CustomBuilder._(this._comp, this._rootDir, this._tempOutDir);
+  final CodeConfig _codeConfig;
+  CustomBuilder._(
+    this._comp,
+    this._rootDir,
+    this._tempOutDir,
+    this._codeConfig,
+  );
 
   static Future<CustomBuilder> create(BuildInput input, String rootDir) async {
     final resolver = CompilerResolver(
@@ -154,6 +243,7 @@ class CustomBuilder {
       (await resolver.resolveCompiler()).uri.toFilePath(),
       rootDir,
       input.outputDirectory.resolve('obj/'),
+      input.config.code,
     );
   }
 
@@ -182,21 +272,59 @@ class CustomBuilder {
     Uri input,
     String moduleName,
     Uri outputHeader,
-    Uri outputLib, {
+    Uri outputLib,{
     List<String> extraObjects = const [],
   }) async {
-    final args = [
+    final baseArgs = [
+      '-c',
       input.toFilePath(),
       ...extraObjects,
       '-module-name',
       moduleName,
       '-emit-library',
-      '-emit-objc-header-path',
-      outputHeader.toFilePath(),
-      '-o',
-      outputLib.toFilePath(),
     ];
-    await _run('swiftc', args);
+
+    final String target;
+    if (_codeConfig.targetOS == OS.iOS) {
+      final version = _codeConfig.iOS.targetVersion;
+      final arch = _codeConfig.targetArchitecture == Architecture.x64
+          ? 'x86_64'
+          : 'arm64';
+      final sdk = _codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS
+          ? 'ios'
+          : 'ios-simulator';
+      target = '$arch-apple-$sdk$version';
+    } else {
+      final version = _codeConfig.macOS.targetVersion;
+      final arch = _codeConfig.targetArchitecture == Architecture.x64
+          ? 'x86_64'
+          : 'arm64';
+      target = '$arch-apple-macosx$version';
+    }
+
+    if (_codeConfig.targetOS == OS.macOS &&
+        _codeConfig.targetArchitecture == Architecture.arm64) {
+      final version = _codeConfig.macOS.targetVersion;
+      await _run('swiftc', [
+        ...baseArgs,
+        '-emit-objc-header-path',
+        outputHeader.toFilePath(),
+        '-target',
+        'arm64e-apple-macosx$version',
+        '-o',
+        outputLib.toFilePath(),
+      ]);
+    } else {
+      await _run('swiftc', [
+        ...baseArgs,
+        '-emit-objc-header-path',
+        outputHeader.toFilePath(),
+        '-target',
+        target,
+        '-o',
+        outputLib.toFilePath(),
+      ]);
+    }
   }
 
   Future<void> _run(String cmd, List<String> args) async {
