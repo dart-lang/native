@@ -65,7 +65,7 @@ void main(List<String> args) async {
     final List<String> archFlags;
     if (codeConfig.targetArchitecture == Architecture.arm64 &&
         (os == OS.macOS || os == OS.iOS)) {
-      archFlags = ['-arch', 'arm64', '-arch', 'arm64e'];
+      archFlags = ['-arch', 'arm64e'];
     } else {
       archFlags = ['-target', target];
     }

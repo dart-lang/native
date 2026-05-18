@@ -39,8 +39,6 @@ void main(List<String> args) async {
             sdkPath(codeConfig),
             if (codeConfig.targetArchitecture == Architecture.arm64) ...[
               '-arch',
-              'arm64',
-              '-arch',
               'arm64e',
             ] else ...[
               '-target',
@@ -282,38 +280,16 @@ class CustomBuilder {
 
     if (_codeConfig.targetOS == OS.macOS &&
         _codeConfig.targetArchitecture == Architecture.arm64) {
-      final libArm64 = '${outputLib.toFilePath()}.arm64';
-      final libArm64e = '${outputLib.toFilePath()}.arm64e';
-
       final version = _codeConfig.macOS.targetVersion;
       await _run('swiftc', [
         ...baseArgs,
         '-emit-objc-header-path',
         outputHeader.toFilePath(),
         '-target',
-        'arm64-apple-macosx$version',
-        '-o',
-        libArm64,
-      ]);
-      await _run('swiftc', [
-        ...baseArgs,
-        '-target',
         'arm64e-apple-macosx$version',
         '-o',
-        libArm64e,
-      ]);
-
-      await _run('lipo', [
-        '-create',
-        libArm64,
-        libArm64e,
-        '-output',
         outputLib.toFilePath(),
       ]);
-
-      // Clean up temp files
-      await File(libArm64).delete();
-      await File(libArm64e).delete();
     } else {
       await _run('swiftc', [
         ...baseArgs,
