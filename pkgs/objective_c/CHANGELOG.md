@@ -1,4 +1,4 @@
-## 9.4.0-wip
+## 9.4.0
 - Fix a [bug](https://github.com/dart-lang/native/issues/3209) where a Dart GC
   safepoint during a non-leaf FFI call could prematurely release an ObjC block
   before ObjC retained it, causing an EXC_BAD_ACCESS crash.
@@ -13,6 +13,7 @@
 - Removed some test-only utilities from the release dylib (fixes [#2999](https://github.com/dart-lang/native/issues/2999)).
 - Added `bool.toNSNumber()` extension method, `NSNumber.isBool` check and
   converter support for bool.
+- Remove dependency on native_toolchain_c.
 
 ## 9.3.0
 - `autoReleasePool` now returns the value produced by its callback.
