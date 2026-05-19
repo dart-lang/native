@@ -50,7 +50,6 @@ void setCurrentThreadOwnsIsolate() =>
 void main() {
   group('Blocks', () {
     setUpAll(() {
-      loadLibrary();
       BlockTester.setup(NativeApi.initializeApiDLData);
     });
 
@@ -535,6 +534,10 @@ void main() {
       expect(tracker2.isAlive, true);
       expect(tracker3.isAlive, true);
 
+      expect(inputBlock, isNotNull);
+      expect(blockBlock, isNotNull);
+      expect(outputBlock, isNotNull);
+
       return (tracker1, tracker2, tracker3);
     }
 
@@ -582,6 +585,9 @@ void main() {
       expect(tracker2.isAlive, true);
       expect(tracker3.isAlive, true);
 
+      expect(blockBlock, isNotNull);
+      expect(outputBlock, isNotNull);
+
       return (tracker1, tracker2, tracker3);
     }
 
@@ -624,6 +630,10 @@ void main() {
       expect(tracker2.isAlive, true);
       expect(tracker3.isAlive, true);
 
+      expect(inputBlock, isNotNull);
+      expect(blockBlock, isNotNull);
+      expect(outputBlock, isNotNull);
+
       return (tracker1, tracker2, tracker3);
     }
 
@@ -658,6 +668,9 @@ void main() {
 
       expect(tracker1.isAlive, true);
       expect(tracker2.isAlive, true);
+
+      expect(blockBlock, isNotNull);
+      expect(outputBlock, isNotNull);
 
       return (tracker1, tracker2);
     }
@@ -779,6 +792,10 @@ void main() {
 
       expect(tracker1.isAlive, true);
       expect(tracker2.isAlive, true);
+
+      expect(blockBlock, isNotNull);
+      expect(inputBlock, isNotNull);
+
       return (tracker1, tracker2);
     }
 
