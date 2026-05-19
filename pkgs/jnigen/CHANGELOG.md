@@ -1,4 +1,4 @@
-## 0.16.1-wip
+## 0.17.0-wip
 
 - Update kotlin-metadata-jvm, allowing JNIgen to run on newer packages.
 - Fixed incorrect code generation for generic constructors in generic classes.
@@ -9,6 +9,12 @@
   correct Dart executable to run.
 - Generate minimal Dart stubs for referenced but excluded Java classes, instead
   of falling back to `JObject` (behind a `generateStubs` config flag).
+- Export and document the classes required to write custom visitors. Manual
+  import of j_elements.dart is no longer necessary.
+- **Breaking Change** (technically breaking, but unlikely to affect any users):
+  elements.dart is no longer exported from the library, as these classes were
+  always intended to be private. `Config.importedClasses` and
+  `Config.importClasses()` have also been made private.
 
 ## 0.16.0
 

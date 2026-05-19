@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 
-import '../config/config.dart';
+import '../config/config_types.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
 import '../util/dart_executable.dart';
@@ -18,7 +18,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '0.16.1';
+const String version = '0.17.0';
 
 /// Version of package:jni. Keep in sync with package:jni's `pubspec.yaml`.
 @visibleForTesting

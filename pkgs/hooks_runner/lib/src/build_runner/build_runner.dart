@@ -207,6 +207,7 @@ class NativeAssetsBuildRunner {
         null,
         buildDirUri,
         outDirUri,
+        extensions: extensions,
       );
       if (result.isFailure) {
         return result.asFailure;
@@ -359,6 +360,7 @@ class NativeAssetsBuildRunner {
         resourceIdentifiers,
         buildDirUri,
         outDirUri,
+        extensions: extensions,
       );
       if (result.isFailure) {
         return result.asFailure;
@@ -434,8 +436,9 @@ class NativeAssetsBuildRunner {
     _HookValidator validator,
     Uri? resources,
     Uri buildDirUri,
-    Uri outputDirectory,
-  ) async => _timeAsync(
+    Uri outputDirectory, {
+    required List<ProtocolExtension> extensions,
+  }) async => _timeAsync(
     '_runHookForPackageCached',
     arguments: {'hook': hook.name, 'package': input.packageName},
     () async => await runUnderDirectoriesLock(
@@ -551,10 +554,11 @@ class NativeAssetsBuildRunner {
           return result.asFailure;
         } else {
           final success = result.success;
-          final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+          final modifiedDuringBuild = await dependenciesHashes.updateHashes(
             [...success.dependencies, ?resources],
             lastModifiedCutoffTime,
             hookEnvironment,
+            outputFiles: _assetFiles(success, extensions),
           );
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
@@ -830,7 +834,7 @@ class NativeAssetsBuildRunner {
 
       final dartSources = await _readDepFile(depFile);
 
-      final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+      final modifiedDuringBuild = await dependenciesHashes.updateHashes(
         [
           ...dartSources.where(
             (e) => e != packageLayout.packageConfigUri && !_isImmutable(e),
@@ -1277,3 +1281,26 @@ Map<String, String> filteredEnvironment(bool Function(String) include) => {
   for (final entry in Platform.environment.entries)
     if (include(entry.key.toUpperCase())) entry.key: entry.value,
 };
+
+Iterable<EncodedAsset> _allEncodedAssets(HookOutput output) {
+  if (output is BuildOutput) {
+    return [
+      ...output.assets.encodedAssets,
+      ...output.assets.encodedAssetsForBuild,
+      ...output.assets.encodedAssetsForLinking.values.expand((e) => e),
+    ];
+  } else if (output is LinkOutput) {
+    return [
+      ...output.assets.encodedAssets,
+      ...output.assets.encodedAssetsForLink.values.expand((e) => e),
+    ];
+  }
+  return [];
+}
+
+List<Uri> _assetFiles(HookOutput output, List<ProtocolExtension> extensions) {
+  final allAssets = _allEncodedAssets(output).toList();
+  return [
+    for (final ext in extensions) ...ext.outputFiles(allAssets),
+  ];
+}

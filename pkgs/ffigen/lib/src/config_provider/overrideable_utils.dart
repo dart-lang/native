@@ -65,6 +65,9 @@ String configPathForTest(String directory, String file) =>
 ///
 /// https://github.com/dart-lang/test/issues/110
 Uri _findPackageRoot(String packageName) {
+  final envPackageRoot = Platform.environment['PACKAGE_ROOT'];
+  if (envPackageRoot != null) return Uri.directory(envPackageRoot);
+
   final script = Platform.script;
   final fileName = script.name;
   if (fileName.endsWith('.dart')) {

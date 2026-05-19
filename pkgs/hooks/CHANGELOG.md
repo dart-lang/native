@@ -1,3 +1,7 @@
+## 2.0.0
+
+- **Breaking change**: Turned `ProtocolExtension` into a base class instead of an interface, with default implementations for all methods including the newly added `outputFiles`.
+
 ## 1.0.3
 
 - Deprecated `recordedUsagesFile` in `LinkInput`.

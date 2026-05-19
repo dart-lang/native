@@ -8,13 +8,14 @@ import 'architecture.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';
 import 'config.dart';
+import 'link_mode.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
 import 'validation.dart';
 
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
 /// with [CodeAsset]s and [CodeConfig].
-final class CodeAssetExtension implements ProtocolExtension {
+final class CodeAssetExtension extends ProtocolExtension {
   /// The architecture to build for.
   final Architecture targetArchitecture;
 
@@ -100,4 +101,20 @@ final class CodeAssetExtension implements ProtocolExtension {
   Future<ValidationErrors> validateApplicationAssets(
     List<EncodedAsset> assets,
   ) => validateCodeAssetInApplication(assets);
+
+  @override
+  Iterable<Uri> outputFiles(List<EncodedAsset> assets) sync* {
+    for (final encodedAsset in assets) {
+      if (encodedAsset.isCodeAsset) {
+        final asset = encodedAsset.asCodeAsset;
+        if (asset.linkMode is DynamicLoadingBundled ||
+            asset.linkMode is StaticLinking) {
+          final file = asset.file;
+          if (file != null) {
+            yield file;
+          }
+        }
+      }
+    }
+  }
 }
