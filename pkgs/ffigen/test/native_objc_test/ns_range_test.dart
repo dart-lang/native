@@ -53,14 +53,14 @@ void main() {
           ),
         ),
       ).generate(logger: createTestLogger());
-      bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'ns_range_test_bindings.dart',
-        ),
-      ).readAsStringSync();
+      final file = path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'ns_range_test_bindings.dart',
+      );
+      expectNoAnalysisErrors(file);
+      bindings = File(file).readAsStringSync();
     });
 
     test('interfaces', () {

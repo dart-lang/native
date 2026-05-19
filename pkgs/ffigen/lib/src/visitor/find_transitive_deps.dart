@@ -79,7 +79,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    _visitImpl(node, config.objectiveC?.interfaces.includeTransitive ?? false);
+    _visitImpl(node, config.objectiveC?.protocols.includeTransitive ?? false);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visitAll(node.superProtocols);

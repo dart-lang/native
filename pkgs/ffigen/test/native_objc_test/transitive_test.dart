@@ -69,14 +69,14 @@ String generate({
       ),
     ),
   ).generate(logger: createTestLogger());
-  return File(
-    path.join(
-      packagePathForTests,
-      'test',
-      'native_objc_test',
-      'transitive_test_bindings.dart',
-    ),
-  ).readAsStringSync();
+  final file = path.join(
+    packagePathForTests,
+    'test',
+    'native_objc_test',
+    'transitive_test_bindings.dart',
+  );
+  expectNoAnalysisErrors(file);
+  return File(file).readAsStringSync();
 }
 
 enum Inclusion { omitted, stubbed, included }

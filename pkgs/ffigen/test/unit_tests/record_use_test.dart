@@ -30,7 +30,8 @@ void main() {
       expect(
         output,
         contains(
-          'ignore_for_file: type=lint, unused_import, experimental_member_use',
+          'ignore_for_file: type=lint, unused_import, unused_element, '
+          'deprecated_member_use_from_same_package, experimental_member_use',
         ),
       );
 

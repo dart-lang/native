@@ -1,5 +1,8 @@
 ## 21.0.0-wip
 
+- Add some more lint ignores to the generated bindings.
+- Fix a bug where the config option `Protocols.includeTransitive` was not
+  working correctly.
 - Add compile time version checks to verify consistency of package:objective_c's
   versions vs FFIgen's generated code.
 

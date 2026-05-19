@@ -71,6 +71,9 @@ const includeCStdLib = 'include-c-standard-library';
 // Declarations.
 const functions = 'functions';
 const structs = 'structs';
+const cpp = 'cpp';
+// Sub-keys of cpp.
+const cppClasses = 'cpp-classes';
 const unions = 'unions';
 const enums = 'enums';
 const unnamedEnums = 'unnamed-enums';

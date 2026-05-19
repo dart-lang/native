@@ -15,7 +15,7 @@ import 'validation.dart';
 
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
 /// with [CodeAsset]s and [CodeConfig].
-final class CodeAssetExtension implements ProtocolExtension {
+final class CodeAssetExtension extends ProtocolExtension {
   /// The architecture to build for.
   final Architecture targetArchitecture;
 

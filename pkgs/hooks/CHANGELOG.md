@@ -1,6 +1,6 @@
-## 2.0.0-wip
+## 2.0.0
 
-- **Breaking change**: Added `outputFiles` method to `ProtocolExtension`.
+- **Breaking change**: Turned `ProtocolExtension` into a base class instead of an interface, with default implementations for all methods including the newly added `outputFiles`.
 
 ## 1.0.3
 
