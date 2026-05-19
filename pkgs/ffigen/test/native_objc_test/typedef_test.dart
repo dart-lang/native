@@ -15,10 +15,6 @@ import 'util.dart';
 
 void main() {
   group('typedef', () {
-    setUpAll(() {
-      loadLibrary();
-    });
-
     test('Regression test for #386', () {
       // https://github.com/dart-lang/ffigen/issues/386
       // Make sure that the typedef DartSomeClassPtr is for SomeClass.

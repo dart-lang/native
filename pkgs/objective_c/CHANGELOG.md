@@ -14,6 +14,9 @@
 - Added `bool.toNSNumber()` extension method, `NSNumber.isBool` check and
   converter support for bool.
 - Remove dependency on native_toolchain_c.
+- Add an optional `loader` param to `getClass` and `getProtocol`, which will be
+  called to load the class/protocol. If the `loader` fails, it falls back to the
+  ObjC runtime functions, `objc_getClass` and `objc_getProtocol`.
 
 ## 9.3.0
 - `autoReleasePool` now returns the value produced by its callback.

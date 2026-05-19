@@ -1686,11 +1686,25 @@ interface class TestWeatherServiceDelegate$Builder {
       );
 }
 
-late final _class_TestSwiftInvoker = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC9protocols16TestSwiftInvoker',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_TestSwiftInvoker_raw;
+final _class_TestSwiftInvoker = objc.getClass(
   "protocols.TestSwiftInvoker",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_TestSwiftInvoker_raw,
+  ).cast(),
 );
-late final _class_TestWeatherService = objc.getClass(
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC9protocols18TestWeatherService',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_TestWeatherService_raw;
+final _class_TestWeatherService = objc.getClass(
   "protocols.TestWeatherService",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_TestWeatherService_raw,
+  ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
@@ -1815,11 +1829,22 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-late final _protocol_TestAsyncProtocol = objc.getProtocol(
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1yx5rho_TestAsyncProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_TestAsyncProtocol_raw();
+final _protocol_TestAsyncProtocol = objc.getProtocol(
   "protocols.TestAsyncProtocol",
+  _protocol_TestAsyncProtocol_raw,
 );
-late final _protocol_TestWeatherServiceDelegate = objc.getProtocol(
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1yx5rho_TestWeatherServiceDelegate',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_TestWeatherServiceDelegate_raw();
+final _protocol_TestWeatherServiceDelegate = objc.getProtocol(
   "protocols.TestWeatherServiceDelegate",
+  _protocol_TestWeatherServiceDelegate_raw,
 );
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");

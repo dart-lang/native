@@ -17,10 +17,6 @@ import 'util.dart';
 
 void main() {
   group('bad overrides', () {
-    setUpAll(() {
-      loadLibrary();
-    });
-
     test('Method vs getter', () {
       // In ObjC, supertypes and subtypes can have a method that's an ordinary
       // method in some classes of the heirarchy, and a property in others. This

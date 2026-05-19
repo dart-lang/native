@@ -1,7 +1,7 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
-#import "method_filtering_test.m"
+#import "swift_class_test-Swift.h"
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
@@ -50,11 +50,11 @@ id objc_retainBlock(id);
 
 
 __attribute__((visibility("default"))) __attribute__((used))
-Protocol* _n85dd5_MethodFilteringTestProtocol(void) { return @protocol(MethodFilteringTestProtocol); }
+Protocol* _pyqkbm_MySwiftProtocol(void) { return @protocol(MySwiftProtocol); }
 
-typedef id  (^_ProtocolTrampoline)(void * sel);
+typedef long  (^_ProtocolTrampoline)(void * sel);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _n85dd5_protocolTrampoline_1mbt9g9(id target, void * sel) {
+long  _pyqkbm_protocolTrampoline_fai2e9(id target, void * sel) {
   return ((_ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
 }
 #undef BLOCKING_BLOCK_IMPL

@@ -64,7 +64,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(
     usr: usr,
     originalName: name,
     name: objcProtocols.rename(decl),
-    lookupName: applyModulePrefix(name, objcProtocols.module(decl)),
+    module: objcProtocols.module(decl),
     dartDoc: getCursorDocComment(
       context,
       cursor,

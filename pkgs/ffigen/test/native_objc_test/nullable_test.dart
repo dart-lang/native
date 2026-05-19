@@ -20,7 +20,6 @@ void main() {
   late NullableInterface testInterface;
   group('Nullability', () {
     setUpAll(() {
-      loadLibrary();
       obj = NSObject.alloc().init();
       testInterface = NullableInterface.alloc().init();
     });

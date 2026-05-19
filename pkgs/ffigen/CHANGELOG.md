@@ -5,6 +5,8 @@
   working correctly.
 - Add compile time version checks to verify consistency of package:objective_c's
   versions vs FFIgen's generated code.
+- Fix [a bug](https://github.com/dart-lang/native/issues/3338) where ObjC
+  bindings may not auto-load their dylib in some cases.
 
 ## 21.0.0-dev.0
 
