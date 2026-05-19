@@ -513,6 +513,7 @@ class BindingsIndex {
   final Map<String, Typealias> _typealiases = {};
   final Map<String, EnumClass> _enums = {};
   final Map<String, Compound> _compounds = {};
+  final Map<String, CppClass> _cppClasses = {};
   final Map<String, ObjCBlock> _objcBlocks = {};
   final Map<String, ObjCInterface> _objcInterfaces = {};
   final Map<String, ObjCProtocol> _objcProtocols = {};
@@ -545,6 +546,9 @@ class BindingsIndex {
   bool isSeenCompound(String usr) => _compounds.containsKey(usr);
   void addCompoundToSeen(String usr, Compound t) => _compounds[usr] = t;
   Compound? getSeenCompound(String usr) => _compounds[usr];
+  bool isSeenCppClass(String usr) => _cppClasses.containsKey(usr);
+  void addCppClassToSeen(String usr, CppClass t) => _cppClasses[usr] = t;
+  CppClass? getSeenCppClass(String usr) => _cppClasses[usr];
   bool isSeenMacro(String usr) => _macros.containsKey(usr);
   void addMacroToSeen(String usr, String macro) => _macros[usr] = macro;
   bool isSeenUnsupportedTypealias(String usr) =>
