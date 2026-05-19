@@ -11,7 +11,7 @@ import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-enum CppMethodKind { method, destructor }
+enum CppMethodKind { constructor, destructor, method }
 
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode {
@@ -33,7 +33,7 @@ class CppMethod extends AstNode {
     this.kind = CppMethodKind.method,
   });
 
-  bool get isConstructor => isStatic && kind == CppMethodKind.method;
+  bool get isConstructor => kind == CppMethodKind.constructor;
   bool get isDestructor => kind == CppMethodKind.destructor;
 
   @override
@@ -84,8 +84,8 @@ class CppClass extends BindingType with HasLocalScope {
     final s = StringBuffer();
     final ffiPrefix = context.libs.prefix(ffiImport);
 
-    final instanceMethods = methods
-        .where((m) => m.kind == CppMethodKind.method && !m.isStatic)
+    final regularMethods = methods
+        .where((m) => m.kind == CppMethodKind.method)
         .toList();
 
     s.write(makeDartDoc(dartDoc));
@@ -103,7 +103,7 @@ class $name {
         s.write('  // TODO: setter for field ${field.name}\n');
       }
     }
-    for (final method in instanceMethods) {
+    for (final method in regularMethods) {
       s.write('  // TODO: method ${method.name}\n');
     }
     s.write('''
