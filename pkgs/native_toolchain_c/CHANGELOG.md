@@ -1,3 +1,7 @@
+## 0.19.0
+
+- Bumped dependency on `package:code_assets` to `^1.1.0` and `package:hooks` to `^2.0.0`.
+
 ## 0.18.0
 
 - Made `CLinker.run` `Logger` argument optional. It now defaults to a logger

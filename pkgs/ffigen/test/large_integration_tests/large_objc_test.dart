@@ -143,7 +143,7 @@ void main() {
     timer.reset();
 
     // Verify Dart bindings pass analysis.
-    expect(await run('dart', ['analyze', outFile]), 0);
+    expectNoAnalysisErrors(outFile);
 
     printOnFailure('\n\t\tAnalyze dart: ${timer.elapsed}\n');
     timer.reset();

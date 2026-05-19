@@ -1,7 +1,6 @@
-## 1.1.0-wip
+## 1.1.0
 
-- Implemented `outputFiles` protocol extension method to track generated files for cache invalidation, correctly omitting non-local assets like system libraries.
-- Bumped dependency on `package:hooks` to `^2.0.0-wip`.
+- Bumped dependency on `package:hooks` to `^2.0.0` and implemented the new `outputFiles` protocol extension method to track generated files for cache invalidation, correctly omitting non-local assets like system libraries.
 
 ## 1.0.0
 

@@ -300,14 +300,14 @@ If the diffs are expected, rerun with UPDATE=true
 ''');
   }
 
-  _expectNoAnalysisErrors(expectedPath);
+  expectNoAnalysisErrors(expectedPath);
 
   if (actualFileExists) {
     actualFile.deleteSync();
   }
 }
 
-void _expectNoAnalysisErrors(String file) {
+void expectNoAnalysisErrors(String file) {
   if (!file.endsWith('.dart')) return;
   Process.runSync(dartExecutable, [
     'pub',
@@ -316,6 +316,7 @@ void _expectNoAnalysisErrors(String file) {
   final result = Process.runSync(dartExecutable, [
     'analyze',
     file,
+    '--fatal-infos',
   ], workingDirectory: path.dirname(file));
   if (result.exitCode != 0) print(result.stdout);
   expect(result.exitCode, 0);

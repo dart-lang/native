@@ -41,7 +41,9 @@ external int _ma_engine_init(
 ma_result ma_engine_init(
   ffi.Pointer<ma_engine_config> pConfig,
   ffi.Pointer<ma_engine> pEngine,
-) => ma_result.fromValue(_ma_engine_init(pConfig, pEngine));
+) {
+  return ma_result.fromValue(_ma_engine_init(pConfig, pEngine));
+}
 
 @meta.RecordUse()
 @ffi.Native<
@@ -61,7 +63,9 @@ ma_result ma_engine_play_sound(
   ffi.Pointer<ma_engine> pEngine,
   ffi.Pointer<ffi.Char> pFilePath,
   ffi.Pointer<ma_sound> pGroup,
-) => ma_result.fromValue(_ma_engine_play_sound(pEngine, pFilePath, pGroup));
+) {
+  return ma_result.fromValue(_ma_engine_play_sound(pEngine, pFilePath, pGroup));
+}
 
 @meta.RecordUse()
 @ffi.Native<ffi.Void Function(ffi.Pointer<ma_engine>)>()
