@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Objective C support is only available on mac.
-@TestOn('mac-os && !exe')
+@TestOn('mac-os')
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
