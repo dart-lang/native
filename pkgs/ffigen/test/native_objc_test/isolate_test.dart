@@ -149,7 +149,6 @@ void main() {
 
     Future<void> runIsolateWithBlock(ObjCBlock<Void Function(Int32)> block) {
       return Isolate.run(() {
-        loadLibrary();
         block(123);
       });
     }

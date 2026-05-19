@@ -11,16 +11,8 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 import '_expected_native_test_bindings.dart';
 
-@Native<Void Function()>(
-  symbol: 'Function1Bool',
-  assetId: 'package:ffigen/native_test',
-)
-external void loadLibrary();
-
 void main() {
   group('native_test', () {
-    setUpAll(loadLibrary);
-
     test('generate_bindings', () {
       final context = testContext(
         testConfigFromPath(
