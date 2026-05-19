@@ -50,7 +50,6 @@ void setCurrentThreadOwnsIsolate() =>
 void main() {
   group('Blocks', () {
     setUpAll(() {
-      loadLibrary();
       BlockTester.setup(NativeApi.initializeApiDLData);
     });
 

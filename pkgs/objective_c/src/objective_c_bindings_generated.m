@@ -53,24 +53,34 @@ id objc_retainBlock(id);
   };
 
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSCoding(void) { return @protocol(NSCoding); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSCopying(void) { return @protocol(NSCopying); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSFastEnumeration(void) { return @protocol(NSFastEnumeration); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSItemProviderReading(void) { return @protocol(NSItemProviderReading); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSItemProviderWriting(void) { return @protocol(NSItemProviderWriting); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSMutableCopying(void) { return @protocol(NSMutableCopying); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSObject(void) { return @protocol(NSObject); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSPortDelegate(void) { return @protocol(NSPortDelegate); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSSecureCoding(void) { return @protocol(NSSecureCoding); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSStreamDelegate(void) { return @protocol(NSStreamDelegate); }
 
 typedef id  (^_ProtocolTrampoline)(void * sel);
@@ -595,6 +605,7 @@ id  _1wx624s_protocolTrampoline_c7gk2u(id target, void * sel, struct objc_select
   return ((_ProtocolTrampoline_17)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
 }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_Observer(void) { return @protocol(Observer); }
 #undef BLOCKING_BLOCK_IMPL
 

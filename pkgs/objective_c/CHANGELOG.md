@@ -13,6 +13,9 @@
 - Removed some test-only utilities from the release dylib (fixes [#2999](https://github.com/dart-lang/native/issues/2999)).
 - Added `bool.toNSNumber()` extension method, `NSNumber.isBool` check and
   converter support for bool.
+- Add an optional `loader` param to `getClass` and `getProtocol`, which will be
+  called to load the class/protocol. If the `loader` fails, it falls back to the
+  ObjC runtime functions, `objc_getClass` and `objc_getProtocol`.
 
 ## 9.3.0
 - `autoReleasePool` now returns the value produced by its callback.
