@@ -276,7 +276,7 @@ class ObjCImport {
   String gen(Context context) => '${context.libs.prefix(objcPkgImport)}.$name';
 }
 
-/// Globals only used internally by ObjC bindings, such as classes and SELs.
+/// Globals only used internally by ObjC bindings, such as selectors.
 class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function() makeValue;
 
@@ -291,6 +291,115 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = 'late final $name = ${makeValue()};\n';
     return BindingString(type: BindingStringType.global, string: s);
+  }
+}
+
+String _makeLookupName(String originalName, String? module) =>
+    module == null ? originalName : '$module.$originalName';
+
+String _makeSymbolLookupName(String originalName, String? module) {
+  final mangledName = module == null
+      ? originalName
+      : '_TtC${module.length}$module${originalName.length}$originalName';
+  return 'OBJC_CLASS_\$_$mangledName';
+}
+
+/// A global variable for an ObjC class, loaded via @Native.
+class ObjCClassGlobal extends NoLookUpBinding {
+  final String lookupName;
+  final String symbolLookupName;
+  final Symbol rawSymbol;
+
+  ObjCClassGlobal(String name, String originalName, String? module)
+    : lookupName = _makeLookupName(originalName, module),
+      symbolLookupName = _makeSymbolLookupName(originalName, module),
+      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+      super(
+        originalName: name,
+        symbol: Symbol(name, SymbolKind.field),
+        isInternal: true,
+      );
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final context = w.context;
+    final type = PointerType(objCObjectType).getCType(context);
+    final nativeAnnotation = makeNativeAnnotation(
+      w,
+      nativeType: type,
+      dartName: rawSymbol.name,
+      nativeSymbolName: symbolLookupName,
+    );
+    final getClass = ObjCBuiltInFunctions.getClass.gen(context);
+    final address =
+        '${context.libs.prefix(ffiImport)}.Native.addressOf<$type>'
+        '(${rawSymbol.name})';
+    final s =
+        '''
+$nativeAnnotation
+external $type ${rawSymbol.name};
+final $name = $getClass("$lookupName", () => $address.cast());
+''';
+    return BindingString(type: BindingStringType.global, string: s);
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
+    visitor.visit(objCObjectType);
+    visitor.visit(rawSymbol);
+  }
+}
+
+/// A global variable for an ObjC protocol, loaded via @Native.
+class ObjCProtocolGlobal extends NoLookUpBinding {
+  final Symbol loaderSymbol;
+  final String lookupName;
+  final Symbol rawSymbol;
+
+  ObjCProtocolGlobal(
+    String name,
+    String originalName,
+    String? module,
+    this.loaderSymbol,
+  ) : lookupName = _makeLookupName(originalName, module),
+      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+      super(
+        originalName: name,
+        symbol: Symbol(name, SymbolKind.field),
+        isInternal: true,
+      );
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final context = w.context;
+    final ptrType = PointerType(objCProtocolType).getCType(context);
+    final getProtocol = ObjCBuiltInFunctions.getProtocol.gen(context);
+    final nativeAnnotation = makeNativeAnnotation(
+      w,
+      nativeType: '$ptrType Function()',
+      dartName: rawSymbol.name,
+      nativeSymbolName: loaderSymbol.name,
+    );
+    final s =
+        '''
+$nativeAnnotation
+external $ptrType ${rawSymbol.name}();
+final $name = $getProtocol("$lookupName", ${rawSymbol.name});
+''';
+    return BindingString(type: BindingStringType.global, string: s);
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
+    visitor.visit(objCProtocolType);
+    visitor.visit(rawSymbol);
+    visitor.visit(loaderSymbol);
   }
 }
 

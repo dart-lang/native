@@ -111,16 +111,3 @@ bool isValidClass(Pointer<Void> clazz) =>
 
 String findDylib(String name) =>
     p.join(packagePathForTests, '.dart_tool', 'lib', '$name.dylib');
-
-// TODO(https://github.com/dart-lang/native/issues/3338): Remove these.
-@Native<Void Function()>(
-  symbol: 'ffigen_load_objc_test',
-  assetId: 'package:ffigen/objc_test',
-)
-external void loadLibrary();
-
-@Native<Void Function()>(
-  symbol: 'ffigen_load_swift_test',
-  assetId: 'package:ffigen/swift_class_test',
-)
-external void loadSwiftLibrary();

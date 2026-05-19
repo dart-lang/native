@@ -16,10 +16,6 @@ import 'util.dart';
 
 void main() {
   group('inheritedInstancetype', () {
-    setUpAll(() {
-      loadLibrary();
-    });
-
     test('Ordinary init method', () {
       final ChildClass child = ChildClass.alloc().init();
       expect(child.field, 123);

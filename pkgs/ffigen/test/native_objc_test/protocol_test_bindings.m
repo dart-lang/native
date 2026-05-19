@@ -49,8 +49,10 @@ id objc_retainBlock(id);
   };
 
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _13hhotk_EmptyProtocol(void) { return @protocol(EmptyProtocol); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _13hhotk_MyProtocol(void) { return @protocol(MyProtocol); }
 
 typedef int32_t  (^_ProtocolTrampoline)(void * sel);
@@ -141,8 +143,10 @@ id  _13hhotk_protocolTrampoline_1mbt9g9(id target, void * sel) {
   return ((_ProtocolTrampoline_6)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
 }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _13hhotk_SecondaryProtocol(void) { return @protocol(SecondaryProtocol); }
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _13hhotk_UnusedProtocol(void) { return @protocol(UnusedProtocol); }
 #undef BLOCKING_BLOCK_IMPL
 

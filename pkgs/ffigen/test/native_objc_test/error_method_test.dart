@@ -17,10 +17,6 @@ import 'util.dart';
 
 void main() {
   group('error_method_test', () {
-    setUpAll(() {
-      loadLibrary();
-    });
-
     test("Error method that returns bool", () {
       final obj = ErrorMethodTestObject();
       expect(obj.errorMethodReturningBool(true), isTrue);

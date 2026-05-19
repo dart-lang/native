@@ -20,7 +20,6 @@ void main() {
 
   group('cast', () {
     setUpAll(() {
-      loadLibrary();
       testInstance = Castaway();
     });
 

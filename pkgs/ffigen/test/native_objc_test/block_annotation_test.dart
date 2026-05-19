@@ -32,10 +32,6 @@ void main() {
     // This is also why the ObjC block creation functions need casts to the
     // correct block type.
 
-    setUpAll(() {
-      loadLibrary();
-    });
-
     void objectProducerTest(EmptyObject producer()) {
       using((Arena arena) {
         final tracker = ReferenceTracker(arena);

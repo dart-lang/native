@@ -17,10 +17,6 @@ import 'util.dart';
 
 void main() {
   group('Reference counting', () {
-    setUpAll(() {
-      loadLibrary();
-    });
-
     void newMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject();
       obj1.setCounter(counter);
