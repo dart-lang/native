@@ -307,9 +307,7 @@ void main() {
       blockProducerTest(() {
         ObjCBlock<DartEmptyBlock Function(Pointer<Void>)> blk =
             BlockAnnotationTest.newBlockProducer();
-        final temp = blk(nullptr);
-        ObjCObject(temp.ref.pointer.cast(), retain: true, release: true);
-        return temp;
+        return blk(nullptr);
       });
     }, skip: !canDoGC);
 
