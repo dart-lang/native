@@ -40,7 +40,7 @@ jobs:
         name: Install dependencies
         run: flutter --version && flutter pub get && flutter pub get --directory="example/command_line" && flutter pub get --directory="example/flutter_app"
       - name: Check formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: dart format . && git diff --exit-code
         if: always() && steps.install.outcome == 'success'
       - name: Analyze code
         run: flutter analyze --fatal-infos
