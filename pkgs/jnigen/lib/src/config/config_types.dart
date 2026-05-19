@@ -328,9 +328,6 @@ class Config {
   /// Whether to generate stubs for excluded classes.
   final bool generateStubs;
 
-  /// Call [importClasses] before using this.
-  late final Map<String, ClassDecl> importedClasses;
-
   /// Annotations specifying that this type is nullable.
   final List<String>? nullableAnnotations;
 
