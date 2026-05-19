@@ -601,6 +601,7 @@ void main() {
       protocolBuilder = null;
       doGC();
       expect(isValidClass(clazz), isTrue);
+      expect(protocol, isNotNull);
 
       protocol = null;
       doGC();
@@ -625,6 +626,7 @@ void main() {
       protocolBuilder = null;
       doGC();
       expect(isValidClass(clazz), isTrue);
+      expect(protocol, isNotNull);
 
       protocol = null;
       doGC();
