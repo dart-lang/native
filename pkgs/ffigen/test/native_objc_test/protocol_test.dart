@@ -509,7 +509,7 @@ void main() {
         final tracker = blockRefCountTest(arena);
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker.isAlive, false);
       });

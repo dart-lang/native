@@ -106,7 +106,7 @@ void main() {
           final tracker2 = ReferenceTracker(arena);
           staticFuncOfBlockRefCountTest(tracker1, tracker2);
           doGC();
-          await Future<void>.delayed(const Duration(milliseconds: 100));
+          await Future<void>.delayed(Duration.zero);
           doGC();
           expect(tracker1.isAlive, false);
           expect(tracker2.isAlive, false);

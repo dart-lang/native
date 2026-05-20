@@ -450,7 +450,7 @@ void main() {
         final tracker = ReferenceTracker(arena);
         funcBlockRefCountTest(tracker);
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker.isAlive, false);
       });
@@ -493,13 +493,13 @@ void main() {
         doGC();
         expect(tracker1.isAlive, true);
 
-        final tracker3 = ReferenceTracker(arena);
-        blockManualRetainRefCountTest2(rawBlock, tracker3);
+        final tracker2 = ReferenceTracker(arena);
+        blockManualRetainRefCountTest2(rawBlock, tracker2);
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker1.isAlive, false);
-        expect(tracker3.isAlive, false);
+        expect(tracker2.isAlive, false);
       });
     }, skip: !canDoGC);
 
@@ -547,7 +547,7 @@ void main() {
           arena,
         );
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
@@ -597,7 +597,7 @@ void main() {
           arena,
         );
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
@@ -805,7 +805,7 @@ void main() {
           arena,
         );
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
@@ -841,7 +841,7 @@ void main() {
         block = null;
         tester.invokeAndReleaseListener(null);
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
@@ -879,7 +879,7 @@ void main() {
         dummyObject = null;
         block = null;
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
