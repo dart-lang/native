@@ -9,6 +9,7 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:objective_c/objective_c.dart';
 
 final _executeInternalCommand = () {
   try {
@@ -40,16 +41,27 @@ external void _attachReferenceTracker(
 );
 
 class ReferenceTracker {
-  final Pointer<Bool> isAlivePtr;
+  bool _tracking = false;
+  final Pointer<Bool> _isAlivePtr;
 
   ReferenceTracker(Arena arena) : this._(arena, arena<Bool>()..value = true);
 
-  ReferenceTracker._(Arena arena, this.isAlivePtr);
+  ReferenceTracker._(Arena arena, this._isAlivePtr);
 
-  bool get isAlive => isAlivePtr.value;
+  bool get isAlive => _isAlivePtr.value;
 
-  void track(Pointer<Void> hostPtr) {
-    _attachReferenceTracker(hostPtr, isAlivePtr);
+  void track(ObjCObject host) {
+    assert(!_tracking);
+    _tracking = true;
+    final hostRef = host.ref;
+    _attachReferenceTracker(hostRef.pointer.cast(), _isAlivePtr);
+  }
+
+  void trackBlock(ObjCBlock host) {
+    assert(!_tracking);
+    _tracking = true;
+    final hostRef = host.ref;
+    _attachReferenceTracker(hostRef.pointer.cast(), _isAlivePtr);
   }
 }
 

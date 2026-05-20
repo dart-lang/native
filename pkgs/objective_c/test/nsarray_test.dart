@@ -78,11 +78,11 @@ void main() {
 
           for (final o in array!) {
             final t = ReferenceTracker(arena);
-            t.track(o.ref.pointer.cast());
+            t.track(o);
             trackers.add(t);
           }
           final tArray = ReferenceTracker(arena);
-          tArray.track(objCArray.ref.pointer.cast());
+          tArray.track(objCArray);
           trackers.add(tArray);
 
           for (final t in trackers) {

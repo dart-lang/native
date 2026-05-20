@@ -330,7 +330,7 @@ void main() {
 
             expect(inputStream!.delegate, inputStream);
 
-            tracker.track(inputStream!.ref.pointer.cast());
+            tracker.track(inputStream!);
           });
           expect(tracker.isAlive, true);
 
@@ -360,7 +360,7 @@ void main() {
             inputStream!.delegate = NSStreamDelegate.as(NSObject());
             expect(inputStream!.delegate, isNot(inputStream));
 
-            tracker.track(inputStream!.ref.pointer.cast());
+            tracker.track(inputStream!);
           });
           expect(tracker.isAlive, true);
 

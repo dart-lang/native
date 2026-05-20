@@ -94,11 +94,11 @@ void main() {
 
           for (final o in set!) {
             final t = ReferenceTracker(arena);
-            t.track(o.ref.pointer.cast());
+            t.track(o);
             trackers.add(t);
           }
           final tSet = ReferenceTracker(arena);
-          tSet.track(objCSet.ref.pointer.cast());
+          tSet.track(objCSet);
           trackers.add(tSet);
 
           for (final t in trackers) {

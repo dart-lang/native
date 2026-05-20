@@ -129,8 +129,8 @@ void main() {
                 },
           );
 
-          tObserved.track(observed!.ref.pointer.cast());
-          tObserver.track(observer!.ref.pointer.cast());
+          tObserved.track(observed!);
+          tObserver.track(observer!);
 
           observation = observed!.addObserver(
             observer!,
@@ -185,8 +185,8 @@ void main() {
                 ) {},
           );
 
-          tObserved.track(observed!.ref.pointer.cast());
-          tObserver.track(observer!.ref.pointer.cast());
+          tObserved.track(observed!);
+          tObserver.track(observer!);
 
           observation = observed!.addObserver(
             observer!,

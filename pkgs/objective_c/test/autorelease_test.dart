@@ -22,7 +22,7 @@ void main() {
         autoReleasePool(() {
           {
             final object = NSObject();
-            tracker.track(object.ref.pointer.cast());
+            tracker.track(object);
             object.ref.retainAndAutorelease();
             expect(tracker.isAlive, true);
           }
@@ -45,7 +45,7 @@ void main() {
           () => autoReleasePool(() {
             {
               final object = NSObject();
-              tracker.track(object.ref.pointer.cast());
+              tracker.track(object);
               object.ref.retainAndAutorelease();
               expect(tracker.isAlive, true);
             }
@@ -71,7 +71,7 @@ void main() {
 
         final returnedPointer = autoReleasePool(() {
           final object = NSObject();
-          tracker.track(object.ref.pointer.cast());
+          tracker.track(object);
           pointer = object.ref.retainAndAutorelease();
           return pointer;
         });

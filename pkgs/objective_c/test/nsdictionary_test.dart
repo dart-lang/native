@@ -120,16 +120,16 @@ void main() {
 
           for (final o in map!.keys) {
             final t = ReferenceTracker(arena);
-            t.track(o.ref.pointer.cast());
+            t.track(o);
             trackers.add(t);
           }
           for (final o in map!.values) {
             final t = ReferenceTracker(arena);
-            t.track(o.ref.pointer.cast());
+            t.track(o);
             trackers.add(t);
           }
           final tMap = ReferenceTracker(arena);
-          tMap.track(objCMap.ref.pointer.cast());
+          tMap.track(objCMap);
           trackers.add(tMap);
 
           for (final t in trackers) {
