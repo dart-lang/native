@@ -54,7 +54,8 @@ void main(List<String> args) async {
       }
     }
 
-    if (input.userDefines['include_test_utils'] == true) {
+    final testMode = input.userDefines['include_test_utils'] == true;
+    if (testMode) {
       cFiles.add(input.packageRoot.resolve('test/util.c').toFilePath());
       mFiles.add(input.packageRoot.resolve('test/gc_inject.m').toFilePath());
     }
@@ -64,8 +65,7 @@ void main(List<String> args) async {
     final cFlags = <String>[
       '-isysroot',
       sysroot,
-      '-target',
-      target,
+      if (testMode) ...['-arch', 'arm64e'] else ...['-target', target],
       minVersion,
     ];
     final mFlags = [...cFlags, ...objCFlags];
