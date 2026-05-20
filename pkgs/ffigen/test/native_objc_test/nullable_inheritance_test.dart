@@ -21,7 +21,6 @@ void main() {
     late NullableBase nullableBase;
     late objc.NSObject obj;
     setUpAll(() {
-      loadLibrary();
       nullableChild = NullableChild.alloc().init();
       nullableBase = NullableBase.alloc().init();
       obj = objc.NSObject.alloc().init();

@@ -122,12 +122,35 @@ Pointer<r.ObjCSelector> registerName(String name) {
   return sel;
 }
 
-/// Only for use by FFIgen bindings.
-ObjectPtr getClass(String name) {
+Pointer<T> _getClassOrProto<T extends NativeType>(
+  String name,
+  Pointer<T> Function()? loader,
+  Pointer<T> Function(Pointer<Char>) fallback,
+) {
   _ensureDartAPI();
+
+  if (loader != null) {
+    try {
+      final p = loader();
+      if (p != nullptr) {
+        return p;
+      }
+      // ignore: avoid_catching_errors
+    } on ArgumentError {
+      // The class is not in the user's dylib. This means the class is probably
+      // part of a built-in framework. Try to load it by name instead.
+    }
+  }
+
   final cstr = name.toNativeUtf8();
-  final clazz = r.getClass(cstr.cast());
+  final p = fallback(cstr.cast());
   calloc.free(cstr);
+  return p;
+}
+
+/// Only for use by FFIgen bindings.
+ObjectPtr getClass(String name, [ObjectPtr Function()? loader]) {
+  final clazz = _getClassOrProto(name, loader, r.getClass);
   if (clazz == nullptr) {
     throw FailedToLoadClassException(name);
   }
@@ -135,15 +158,15 @@ ObjectPtr getClass(String name) {
 }
 
 /// Only for use by ffigen bindings.
-Pointer<r.ObjCProtocolImpl> getProtocol(String name) {
-  _ensureDartAPI();
-  final cstr = name.toNativeUtf8();
-  final clazz = r.getProtocol(cstr.cast());
-  calloc.free(cstr);
-  if (clazz == nullptr) {
+Pointer<r.ObjCProtocolImpl> getProtocol(
+  String name, [
+  Pointer<r.ObjCProtocolImpl> Function()? loader,
+]) {
+  final protocol = _getClassOrProto(name, loader, r.getProtocol);
+  if (protocol == nullptr) {
     throw FailedToLoadProtocolException(name);
   }
-  return clazz;
+  return protocol;
 }
 
 /// Only for use by FFIgen bindings.

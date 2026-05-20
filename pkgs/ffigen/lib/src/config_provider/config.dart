@@ -39,6 +39,9 @@ final class FfiGenerator {
   /// C++ specific configuration.
   ///
   /// If `null`, C++ class bindings will not be generated.
+  ///
+  /// **EXPERIMENTAL**: C++ support is experimental. This part of the API
+  /// may change or be removed in a future version without a deprecation notice.
   final Cpp? cpp;
 
   /// Configuration for typedefs.

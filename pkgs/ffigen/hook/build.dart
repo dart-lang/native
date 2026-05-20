@@ -74,7 +74,27 @@ void main(List<String> args) async {
       final swiftHeader = objcTestDir.resolve('swift_class_test-Swift.h');
       final swiftLib = input.outputDirectory.resolve('$swiftModule.dylib');
 
-      await builder.buildSwift(swiftFile, swiftModule, swiftHeader, swiftLib);
+      final swiftBindingM = objcTestDir.resolve('swift_class_test_bindings.m');
+      final extraObjects = <String>[];
+      if (File.fromUri(swiftBindingM).existsSync()) {
+        extraObjects.add(
+          await builder.buildObject(swiftBindingM, [
+            '-x',
+            'objective-c',
+            '-fobjc-arc',
+            '-Wno-nullability-completeness',
+          ]),
+        );
+        output.dependencies.add(swiftBindingM);
+      }
+
+      await builder.buildSwift(
+        swiftFile,
+        swiftModule,
+        swiftHeader,
+        swiftLib,
+        extraObjects: extraObjects,
+      );
       output.assets.code.add(
         CodeAsset(
           package: packageName,
@@ -86,7 +106,9 @@ void main(List<String> args) async {
 
       // Build all the ObjC files. Some of the files have different compile
       // flags, so we need to use the CustomBuilder again.
-      final mFiles = _findFiles(objcTestDir, '.m');
+      final mFiles = _findFiles(objcTestDir, '.m')
+          .where((uri) => !uri.pathSegments.last.contains('swift_class_test'))
+          .toList();
       final hFiles = _findFiles(objcTestDir, '.h');
 
       final objFiles = <String>[];
@@ -250,11 +272,13 @@ class CustomBuilder {
     Uri input,
     String moduleName,
     Uri outputHeader,
-    Uri outputLib,
-  ) async {
+    Uri outputLib, {
+    List<String> extraObjects = const [],
+  }) async {
     final baseArgs = [
       '-c',
       input.toFilePath(),
+      ...extraObjects,
       '-module-name',
       moduleName,
       '-emit-library',

@@ -49,6 +49,7 @@ id objc_retainBlock(id);
   };
 
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _z0xonr_BlockAnnotationTestProtocol(void) { return @protocol(BlockAnnotationTestProtocol); }
 
 typedef id  (^_ProtocolTrampoline)(void * sel);

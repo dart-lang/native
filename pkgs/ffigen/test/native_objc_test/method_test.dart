@@ -18,7 +18,6 @@ void main() {
   group('method calls', () {
     late MethodInterface testInterface;
     setUpAll(() {
-      loadLibrary();
       testInterface = MethodInterface.alloc().init();
     });
 
