@@ -60,6 +60,23 @@ void main(List<String> args) async {
       flags: cFlags,
     ).run(input: input, output: output, logger: logger);
 
+    // Build all C++ test files. Works on all platforms.
+    final cppTestDir = input.packageRoot.resolve('test/native_cpp_test/');
+    final cppFiles = _findFiles(cppTestDir, '.cpp')
+        .map(
+          (uri) => p.relative(
+            uri.toFilePath(),
+            from: input.packageRoot.toFilePath(),
+          ),
+        )
+        .toList();
+    await CBuilder.library(
+      name: 'cpp_test',
+      assetName: 'cpp_test',
+      sources: cppFiles,
+      flags: [...cFlags, '-x', 'c++', '-std=c++17'],
+    ).run(input: input, output: output, logger: logger);
+
     if (codeConfig.targetOS == OS.macOS) {
       final builder = await CustomBuilder.create(
         input,
