@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// All @Native bindings in this file live in the package's native asset dylib.
 @DefaultAsset('package:objective_c/objective_c.dylib')
 library;
 

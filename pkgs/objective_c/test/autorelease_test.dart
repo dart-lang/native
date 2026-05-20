@@ -76,12 +76,14 @@ void main() {
           return pointer;
         });
 
+        // Returned value should be exactly what the callback returned
         expect(returnedPointer, same(pointer));
 
         doGC();
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
 
+        // Object should be released once the pool is popped
         expect(tracker.isAlive, false);
       });
     });

@@ -800,6 +800,7 @@ void main() {
     }
 
     test('Listener block arguments are not prematurely destroyed', () async {
+      // https://github.com/dart-lang/native/issues/835
       await using((arena) async {
         final (tracker1, tracker2) = await listenerBlockArgumentRetentionTest(
           arena,
@@ -956,6 +957,11 @@ void main() {
       'Regression test for https://github.com/dart-lang/native/issues/1571',
       () async {
         await using((arena) async {
+          // Pass a listener block to an ObjC API that retains a reference to the
+          // block, and release the Dart-side reference. Then, on a different
+          // thread, invoke the block and immediately release the ObjC-side
+          // reference. Before the fix, the dtor message could arrive before the
+          // invoke message. This was a flaky error, so try a few times.
           for (int i = 0; i < 10; ++i) {
             final completer = Completer<void>();
             final (tester, tracker1, tracker2) = regress1571Inner(

@@ -486,6 +486,8 @@ void main() {
       final protocol = protocolBuilder.build();
       objc_autoreleasePoolPop(pool);
 
+      // There are 2 references to the block. One owned by the Dart wrapper
+      // object, and the other owned by the protocol.
       doGC();
       expect(tracker.isAlive, true);
 
@@ -496,6 +498,8 @@ void main() {
     ReferenceTracker blockRefCountTest(Arena arena) {
       final (protocol, tracker) = blockRefCountTestInner(arena);
 
+      // The Dart side block wrapper has gone out of scope, but the protocol
+      // still owns a reference to it.
       doGC();
       expect(tracker.isAlive, true);
 
@@ -508,6 +512,8 @@ void main() {
       await using((arena) async {
         final tracker = blockRefCountTest(arena);
 
+        // The protocol object has gone out of scope, so it should be cleaned up.
+        // So should the block.
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
