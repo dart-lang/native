@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
-import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
@@ -99,21 +98,31 @@ void main(List<String> args) async {
 }
 
 class Builder {
-  final String _comp;
+  final String _compiler;
   final String _rootDir;
   final Uri _tempOutDir;
-  Builder._(this._comp, this._rootDir, this._tempOutDir);
+  Builder._(this._compiler, this._rootDir, this._tempOutDir);
 
   static Future<Builder> create(BuildInput input, String rootDir) async {
-    final resolver = CompilerResolver(
-      codeConfig: input.config.code,
-      logger: logger,
-    );
     return Builder._(
-      (await resolver.resolveCompiler()).uri.toFilePath(),
+      await _findCompiler(input.config.code),
       rootDir,
       input.outputDirectory.resolve('obj/'),
     );
+  }
+
+  static Future<String> _findCompiler(CodeConfig codeConfig) async {
+    final compiler = codeConfig.cCompiler?.compiler.toFilePath();
+    if (compiler != null) {
+      assert(await File(compiler).exists());
+      logger.info('Using compiler $compiler from BuildInput.cCompiler.cc.');
+      return compiler;
+    }
+    logger.info(
+      'No compiler set in BuildInput.cCompiler.cc. Falling back to '
+      'assuming clang is in the PATH.',
+    );
+    return 'clang';
   }
 
   Future<String> buildObject(String input, List<String> flags) async {
@@ -148,13 +157,13 @@ class Builder {
 
   Future<void> _compile(List<String> flags, String output) async {
     final args = [...flags, '-o', output];
-    logger.info('Running: $_comp ${args.join(" ")}');
-    final proc = await Process.run(_comp, args);
+    logger.info('Running: $_compiler ${args.join(" ")}');
+    final proc = await Process.run(_compiler, args);
     logger.info(proc.stdout);
     logger.info(proc.stderr);
     if (proc.exitCode != 0) {
       exitCode = proc.exitCode;
-      throw Exception('Command failed: $_comp ${args.join(" ")}');
+      throw Exception('Command failed: $_compiler ${args.join(" ")}');
     }
     logger.info('Generated $output');
   }
