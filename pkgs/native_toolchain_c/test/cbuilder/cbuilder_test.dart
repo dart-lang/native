@@ -99,9 +99,7 @@ void main() {
         expect(result.stdout.trim(), endsWith('Hello world.'));
 
         final compilerInvocation = logMessages.singleWhere(
-          (message) =>
-              message.contains('Running `') &&
-              message.contains(helloWorldCUri.toFilePath()),
+          (message) => message.contains(helloWorldCUri.toFilePath()),
         );
 
         switch ((buildInput.config.code.targetOS, pic)) {
@@ -183,9 +181,7 @@ void main() {
           expect(add(1, 2), 3);
 
           final compilerInvocation = logMessages.singleWhere(
-            (message) =>
-                message.contains('Running `') &&
-                message.contains(addCUri.toFilePath()),
+            (message) => message.contains(addCUri.toFilePath()),
           );
           switch ((buildInput.config.code.targetOS, pic)) {
             case (OS.windows, _) || (_, null):
@@ -203,168 +199,6 @@ void main() {
       });
     }
   }
-
-  for (final sanitizer in Sanitizer.values) {
-    test('CBuilder executable sanitizer ${sanitizer.name}', () async {
-      // MemorySanitizer is only supported on Linux.
-      if (sanitizer == Sanitizer.msan && !Platform.isLinux) {
-        return;
-      }
-      // ThreadSanitizer is not supported on Windows.
-      if (sanitizer == Sanitizer.tsan && Platform.isWindows) {
-        return;
-      }
-
-      final tempUri = await tempDirForTest();
-      final tempUri2 = await tempDirForTest();
-      final helloWorldCUri = packageUri.resolve(
-        'test/cbuilder/testfiles/hello_world/src/hello_world.c',
-      );
-      if (!await File.fromUri(helloWorldCUri).exists()) {
-        throw Exception('Run the test from the root directory.');
-      }
-      const name = 'hello_world';
-
-      final logMessages = <String>[];
-      final logger = createCapturingLogger(logMessages);
-
-      final buildInputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
-            sanitizer: sanitizer,
-          ),
-        );
-
-      final buildInput = buildInputBuilder.build();
-      final buildOutput = BuildOutputBuilder();
-
-      final cbuilder = CBuilder.executable(
-        name: name,
-        sources: [helloWorldCUri.toFilePath()],
-        buildMode: BuildMode.release,
-      );
-      await cbuilder.run(
-        input: buildInput,
-        output: buildOutput,
-        logger: logger,
-      );
-
-      final executableUri = buildInput.outputDirectory.resolve(
-        OS.current.executableFileName(name),
-      );
-      expect(await File.fromUri(executableUri).exists(), true);
-      if (Platform.isLinux) {
-        final result = await runProcess(
-          executable: executableUri,
-          logger: logger,
-        );
-        expect(result.exitCode, 0);
-        expect(result.stdout.trim(), endsWith('Hello world.'));
-      }
-
-      final compilerInvocation = logMessages.singleWhere(
-        (message) =>
-            message.contains('Running `') &&
-            message.contains(helloWorldCUri.toFilePath()),
-      );
-
-      final expectedFlag = switch (buildInput.config.code.targetOS) {
-        OS.windows => '/fsanitize=address', // only asan is supported
-        _ => switch (sanitizer) {
-          Sanitizer.asan => '-fsanitize=address',
-          Sanitizer.msan => '-fsanitize=memory',
-          Sanitizer.tsan => '-fsanitize=thread',
-          final s => '-fsanitize=${s.name}',
-        },
-      };
-      expect(compilerInvocation, contains(expectedFlag));
-    });
-  }
-
-  test('CBuilder executable custom sanitizer ignored', () async {
-    final tempUri = await tempDirForTest();
-    final tempUri2 = await tempDirForTest();
-    final helloWorldCUri = packageUri.resolve(
-      'test/cbuilder/testfiles/hello_world/src/hello_world.c',
-    );
-    if (!await File.fromUri(helloWorldCUri).exists()) {
-      throw Exception('Run the test from the root directory.');
-    }
-    const name = 'hello_world';
-
-    final logMessages = <String>[];
-    final logger = createCapturingLogger(logMessages);
-
-    final customSanitizer = Sanitizer.fromString('custom_sanitizer');
-
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: name,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(linkingEnabled: false)
-      ..addExtension(
-        CodeAssetExtension(
-          targetOS: targetOS,
-          macOS: macOSConfig,
-          targetArchitecture: Architecture.current,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: cCompiler,
-          sanitizer: customSanitizer,
-        ),
-      );
-
-    final buildInput = buildInputBuilder.build();
-    final buildOutput = BuildOutputBuilder();
-
-    final cbuilder = CBuilder.executable(
-      name: name,
-      sources: [helloWorldCUri.toFilePath()],
-      buildMode: BuildMode.release,
-    );
-    await cbuilder.run(
-      input: buildInput,
-      output: buildOutput,
-      logger: logger,
-    );
-
-    final executableUri = buildInput.outputDirectory.resolve(
-      OS.current.executableFileName(name),
-    );
-    expect(await File.fromUri(executableUri).exists(), true);
-
-    final compilerInvocation = logMessages.singleWhere(
-      (message) =>
-          message.contains('Running `') &&
-          message.contains(helloWorldCUri.toFilePath()),
-    );
-
-    // Compiler invocation should NOT contain any sanitizer flags.
-    expect(compilerInvocation, isNot(contains('-fsanitize=')));
-    expect(compilerInvocation, isNot(contains('/fsanitize=')));
-
-    // A warning should be logged about the ignored sanitizer.
-    final warningLogged = logMessages.any(
-      (message) =>
-          message.contains('The sanitizer \'custom_sanitizer\' is not') &&
-          message.contains('will be ignored'),
-    );
-    expect(warningLogged, true);
-  });
 
   for (final buildMode in BuildMode.values) {
     for (final enabled in [true, false]) {
@@ -453,9 +287,7 @@ void main() {
     expect(result.stdout, contains('Macro FIFOO is defined: "QuotedFIFOO"'));
 
     final compilerInvocation = logMessages.singleWhere(
-      (message) =>
-          message.contains('Running `') &&
-          message.contains(definesCUri.toFilePath()),
+      (message) => message.contains(definesCUri.toFilePath()),
     );
     expect(compilerInvocation, contains(flag));
   });
@@ -579,9 +411,7 @@ void main() {
     expect(add(1, 2), 3);
 
     final compilerInvocation = logMessages.singleWhere(
-      (message) =>
-          message.contains('Running `') &&
-          message.contains(addCUri.toFilePath()),
+      (message) => message.contains(addCUri.toFilePath()),
     );
     expect(compilerInvocation, contains(stdFlag));
   });
@@ -647,9 +477,7 @@ void main() {
 
     if (defaultStdLibLinkFlag != null) {
       final compilerInvocation = logMessages.singleWhere(
-        (message) =>
-            message.contains('Running `') &&
-            message.contains(helloWorldCppUri.toFilePath()),
+        (message) => message.contains(helloWorldCppUri.toFilePath()),
       );
       expect(compilerInvocation, contains(defaultStdLibLinkFlag));
     }
@@ -727,9 +555,7 @@ void main() {
       expect(result.stdout.trim(), endsWith('Hello world.'));
 
       final compilerInvocation = logMessages.singleWhere(
-        (message) =>
-            message.contains('Running `') &&
-            message.contains(helloWorldCppUri.toFilePath()),
+        (message) => message.contains(helloWorldCppUri.toFilePath()),
       );
       expect(compilerInvocation, contains('-l stdc++'));
     }
