@@ -1,4 +1,10 @@
+## 9.4.1
+
+- Fix a [bug](https://github.com/flutter/flutter/issues/186794) related to
+  a misconfigured build hook.
+
 ## 9.4.0
+
 - Fix a [bug](https://github.com/dart-lang/native/issues/3209) where a Dart GC
   safepoint during a non-leaf FFI call could prematurely release an ObjC block
   before ObjC retained it, causing an EXC_BAD_ACCESS crash.
@@ -19,9 +25,11 @@
   ObjC runtime functions, `objc_getClass` and `objc_getProtocol`.
 
 ## 9.3.0
+
 - `autoReleasePool` now returns the value produced by its callback.
 
 ## 9.2.5
+
 - Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
   minimum OS version flags to the build script.
 
