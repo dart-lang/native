@@ -38,7 +38,7 @@ jobs:
           channel: stable
       - id: install
         name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/command_line" && flutter pub get --directory="example/flutter_app"
+        run: flutter pub get && flutter pub get --directory="example/command_line" && flutter pub get --directory="example/flutter_app" && flutter pub get --directory="example/path_provider_example"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
@@ -128,4 +128,22 @@ jobs:
       - name: Run the example app
         run: dart run lib/main.dart
 
-
+  test-path-provider-example:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/objective_c/example/path_provider_example
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: stable
+      - name: Install dependencies
+        run: flutter pub get
+      - uses: futureware-tech/simulator-action@dab10d813144ef59b48d401cd95da151222ef8cd
+        with:
+          os: iOS
+          os_version: '>=18.0'
+      - name: Run integration test on iOS Simulator
+        run: flutter test integration_test/path_provider_test.dart
