@@ -65,6 +65,8 @@ void main(List<String> args) async {
     final cFlags = <String>[
       '-isysroot',
       sysroot,
+      // TODO(https://github.com/flutter/flutter/issues/186856): Remove this
+      // workaround and just use -target. Atm this is necessary for AOT testing.
       if (testMode) ...['-arch', 'arm64e'] else ...['-target', target],
       minVersion,
     ];
