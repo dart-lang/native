@@ -199,6 +199,7 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     required IOSCodeConfigSyntax? iOS,
     required LinkModePreferenceSyntax linkModePreference,
     required MacOSCodeConfigSyntax? macOS,
+    required SanitizerSyntax? sanitizer,
     required ArchitectureSyntax targetArchitecture,
     required OSSyntax targetOs,
     super.path = const [],
@@ -208,6 +209,7 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     _iOS = iOS;
     _linkModePreference = linkModePreference;
     _macOS = macOS;
+    _sanitizer = sanitizer;
     _targetArchitecture = targetArchitecture;
     _targetOs = targetOs;
     json.sortOnKey();
@@ -303,6 +305,18 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     return macOS?.validate() ?? [];
   }
 
+  SanitizerSyntax? get sanitizer {
+    final jsonValue = _reader.get<String?>('sanitizer');
+    if (jsonValue == null) return null;
+    return SanitizerSyntax.fromJson(jsonValue);
+  }
+
+  set _sanitizer(SanitizerSyntax? value) {
+    json.setOrRemove('sanitizer', value?.name);
+  }
+
+  List<String> _validateSanitizer() => _reader.validate<String?>('sanitizer');
+
   ArchitectureSyntax get targetArchitecture {
     final jsonValue = _reader.get<String>('target_architecture');
     return ArchitectureSyntax.fromJson(jsonValue);
@@ -334,6 +348,7 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     ..._validateIOS(),
     ..._validateLinkModePreference(),
     ..._validateMacOS(),
+    ..._validateSanitizer(),
     ..._validateTargetArchitecture(),
     ..._validateTargetOs(),
     ..._validateExtraRulesCodeConfig(),
@@ -907,6 +922,39 @@ class OSSyntax {
       return knownValue;
     }
     return OSSyntax.unknown(name);
+  }
+
+  bool get isKnown => _byName[name] != null;
+
+  @override
+  String toString() => name;
+}
+
+class SanitizerSyntax {
+  final String name;
+
+  const SanitizerSyntax._(this.name);
+
+  static const asan = SanitizerSyntax._('asan');
+
+  static const msan = SanitizerSyntax._('msan');
+
+  static const tsan = SanitizerSyntax._('tsan');
+
+  static const List<SanitizerSyntax> values = [asan, msan, tsan];
+
+  static final Map<String, SanitizerSyntax> _byName = {
+    for (final value in values) value.name: value,
+  };
+
+  SanitizerSyntax.unknown(this.name) : assert(!_byName.keys.contains(name));
+
+  factory SanitizerSyntax.fromJson(String name) {
+    final knownValue = _byName[name];
+    if (knownValue != null) {
+      return knownValue;
+    }
+    return SanitizerSyntax.unknown(name);
   }
 
   bool get isKnown => _byName[name] != null;

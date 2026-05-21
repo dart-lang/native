@@ -120,6 +120,20 @@ class RunCBuilder {
   Future<void> run() async {
     final toolInstance_ = await compiler();
     final tool = toolInstance_.tool;
+
+    if (codeConfig.sanitizer != null) {
+      final sanitizer = codeConfig.sanitizer!;
+      final isMsvc = tool == cl;
+      final supportedSanitizers = isMsvc ? _msvcSanitizers : _clangSanitizers;
+      if (!supportedSanitizers.containsKey(sanitizer)) {
+        final compilerName = isMsvc ? 'MSVC' : 'Clang-like compilers';
+        logger?.warning(
+          'The sanitizer \'$sanitizer\' is not supported on $compilerName '
+          'and will be ignored.',
+        );
+      }
+    }
+
     if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
       return;
@@ -291,6 +305,7 @@ class RunCBuilder {
             ],
           ],
         if (std != null) '-std=$std',
+        ?_clangSanitizers[codeConfig.sanitizer],
         if (language == .cpp) ...[
           '-x',
           'c++',
@@ -380,6 +395,8 @@ class RunCBuilder {
       arguments: [
         if (optimizationLevel != .unspecified) optimizationLevel.msvcFlag(),
         if (std != null) '/std:$std',
+        if (codeConfig.sanitizer == Sanitizer.asan) '/Zi',
+        ?_msvcSanitizers[codeConfig.sanitizer],
         if (language == .cpp) '/TP',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
@@ -411,6 +428,7 @@ class RunCBuilder {
           for (final directory in libraryDirectories)
             '/LIBPATH:${directory.toFilePath()}',
           for (final library in libraries) '$library.lib',
+          if (codeConfig.sanitizer == Sanitizer.asan) '/DEBUG',
         ],
       ],
       workingDirectory: outDir,
@@ -476,5 +494,15 @@ class RunCBuilder {
     OS.iOS: 'c++',
     OS.linux: 'stdc++',
     OS.macOS: 'c++',
+  };
+
+  static const _clangSanitizers = {
+    Sanitizer.asan: '-fsanitize=address',
+    Sanitizer.msan: '-fsanitize=memory',
+    Sanitizer.tsan: '-fsanitize=thread',
+  };
+
+  static const _msvcSanitizers = {
+    Sanitizer.asan: '/fsanitize=address',
   };
 }

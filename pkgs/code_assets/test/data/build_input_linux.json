@@ -12,6 +12,7 @@
           "ld": "/usr/lib/llvm-16/bin/ld.lld"
         },
         "link_mode_preference": "dynamic",
+        "sanitizer": "asan",
         "target_architecture": "x64",
         "target_os": "linux"
       }
