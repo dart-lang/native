@@ -46,6 +46,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     Pointer<Int32> staticFuncOfNullableObjectRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
       counter.value = 0;
@@ -83,7 +84,6 @@ void main() {
     ) {
       final block = IntBlock.fromFunction((int x) => 2 * x);
       blockTracker.trackBlock(block);
-      expect(blockTracker.isAlive, true);
 
       final pool = objc_autoreleasePoolPush();
       final outputBlock = staticFuncOfBlock(block);
@@ -91,6 +91,7 @@ void main() {
       objc_autoreleasePoolPop(pool);
 
       expect(block, outputBlock);
+      expect(blockTracker.isAlive, true);
       expect(outputBlockTracker.isAlive, true);
     }
 
@@ -111,6 +112,7 @@ void main() {
       skip: !canDoGC,
     );
 
+    @pragma('vm:never-inline')
     Pointer<Int32> staticFuncReturnsRetainedRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
       counter.value = 0;

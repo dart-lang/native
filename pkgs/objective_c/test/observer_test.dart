@@ -158,7 +158,7 @@ void main() {
         expect(observation, isNull);
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
 
         expect(observedTracker.isAlive, false);
@@ -198,7 +198,7 @@ void main() {
         observer = null;
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
 
         // Still holding a reference to observation.
@@ -208,7 +208,7 @@ void main() {
         observation!.remove();
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
 
         // Still holding a reference to observation, but we've called remove.

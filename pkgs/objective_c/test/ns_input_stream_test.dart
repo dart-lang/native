@@ -339,7 +339,7 @@ void main() {
           inputStream = null;
 
           doGC();
-          await Future<void>.delayed(const Duration(milliseconds: 100));
+          await Future<void>.delayed(Duration.zero);
           doGC();
 
           expect(inputStreamTracker.isAlive, false);
@@ -369,7 +369,7 @@ void main() {
           inputStream = null;
 
           doGC();
-          await Future<void>.delayed(const Duration(milliseconds: 100));
+          await Future<void>.delayed(Duration.zero);
           doGC();
 
           expect(inputStreamTracker.isAlive, false);

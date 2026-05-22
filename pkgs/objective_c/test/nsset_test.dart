@@ -107,7 +107,7 @@ void main() {
         });
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         for (final t in trackers) {
           expect(t.isAlive, true);
@@ -115,7 +115,7 @@ void main() {
         set = null;
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
         for (final t in trackers) {
           expect(t.isAlive, false);

@@ -31,7 +31,7 @@ void main() {
         });
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
 
         expect(objectTracker.isAlive, false);
@@ -57,7 +57,7 @@ void main() {
         );
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
 
         expect(objectTracker.isAlive, false);
@@ -73,6 +73,7 @@ void main() {
           final object = NSObject();
           objectTracker.track(object);
           pointer = object.ref.retainAndAutorelease();
+          expect(objectTracker.isAlive, true);
           return pointer;
         });
 
@@ -80,7 +81,7 @@ void main() {
         expect(returnedPointer, same(pointer));
 
         doGC();
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(Duration.zero);
         doGC();
 
         // Object should be released once the pool is popped
