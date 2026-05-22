@@ -87,7 +87,7 @@ external void _attachReferenceTracker(
 );
 
 class ReferenceTracker {
-  bool _tracking = false;
+  Pointer<Void> _host = nullptr;
   final Pointer<Bool> _isAlivePtr;
 
   ReferenceTracker(Arena arena) : this._(arena, arena<Bool>()..value = true);
@@ -95,19 +95,18 @@ class ReferenceTracker {
   ReferenceTracker._(Arena arena, this._isAlivePtr);
 
   bool get isAlive => _isAlivePtr.value;
+  Pointer<Void> get host => _host;
 
   void track(ObjCObject host) {
-    assert(!_tracking);
-    _tracking = true;
+    assert(_host == nullptr);
     final hostRef = host.ref;
-    _attachReferenceTracker(hostRef.pointer.cast(), _isAlivePtr);
+    _attachReferenceTracker(_host = hostRef.pointer.cast(), _isAlivePtr);
   }
 
   void trackBlock(ObjCBlock host) {
-    assert(!_tracking);
-    _tracking = true;
+    assert(_host == nullptr);
     final hostRef = host.ref;
-    _attachReferenceTracker(hostRef.pointer.cast(), _isAlivePtr);
+    _attachReferenceTracker(_host = hostRef.pointer.cast(), _isAlivePtr);
   }
 }
 

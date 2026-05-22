@@ -453,13 +453,15 @@ void main() {
         await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker.isAlive, false);
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker.host.cast()),
+          false,
+        );
       });
     }, skip: !canDoGC);
 
     @pragma('vm:never-inline')
-    Pointer<ObjCBlockImpl> blockManualRetainRefCountTest(
-      ReferenceTracker tracker1,
-    ) {
+    void blockManualRetainRefCountTest(ReferenceTracker tracker1) {
       final block = IntBlock.fromFunction(makeAdder(4000));
       expect(
         internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
@@ -468,8 +470,7 @@ void main() {
       tracker1.trackBlock(block);
       expect(tracker1.isAlive, true);
 
-      final rawBlock = block.ref.retainAndReturnPointer();
-      return rawBlock;
+      block.ref.retainAndReturnPointer();
     }
 
     @pragma('vm:never-inline')
@@ -489,17 +490,21 @@ void main() {
     test('Block ref counting with manual retain and release', () async {
       await using((arena) async {
         final tracker1 = ReferenceTracker(arena);
-        final rawBlock = blockManualRetainRefCountTest(tracker1);
+        blockManualRetainRefCountTest(tracker1);
         doGC();
         expect(tracker1.isAlive, true);
 
         final tracker2 = ReferenceTracker(arena);
-        blockManualRetainRefCountTest2(rawBlock, tracker2);
+        blockManualRetainRefCountTest2(tracker1.host.cast(), tracker2);
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+          false,
+        );
       });
     }, skip: !canDoGC);
 
@@ -534,9 +539,22 @@ void main() {
       expect(tracker2.isAlive, true);
       expect(tracker3.isAlive, true);
 
-      expect(inputBlock, isNotNull);
-      expect(blockBlock, isNotNull);
-      expect(outputBlock, isNotNull);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+        true,
+      );
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+        true,
+      );
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+        true,
+      );
+
+      expect(inputBlock.ref.pointer.address, isNot(0));
+      expect(blockBlock.ref.pointer.address, isNot(0));
+      expect(outputBlock.ref.pointer.address, isNot(0));
 
       return (tracker1, tracker2, tracker3);
     }
@@ -549,23 +567,38 @@ void main() {
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
+
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
         expect(tracker3.isAlive, false);
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+          false,
+        );
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+          false,
+        );
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+          false,
+        );
       });
     }, skip: !canDoGC);
 
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
     blockBlockObjCCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
-      late Pointer<ObjCBlockImpl> inputBlockPtr;
       final tracker1 = ReferenceTracker(arena);
 
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
-        inputBlockPtr = intBlock.ref.pointer;
         tracker1.trackBlock(intBlock);
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+          false,
+        );
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
@@ -585,8 +618,17 @@ void main() {
       expect(tracker2.isAlive, true);
       expect(tracker3.isAlive, true);
 
-      expect(blockBlock, isNotNull);
-      expect(outputBlock, isNotNull);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+        true,
+      );
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+        true,
+      );
+
+      expect(blockBlock.ref.pointer.address, isNot(0));
+      expect(outputBlock.ref.pointer.address, isNot(0));
 
       return (tracker1, tracker2, tracker3);
     }
@@ -599,9 +641,22 @@ void main() {
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
+
         expect(tracker1.isAlive, false);
         expect(tracker2.isAlive, false);
         expect(tracker3.isAlive, false);
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+          false,
+        );
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+          false,
+        );
+        expect(
+          internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+          false,
+        );
       });
     }, skip: !canDoGC);
 
@@ -630,9 +685,14 @@ void main() {
       expect(tracker2.isAlive, true);
       expect(tracker3.isAlive, true);
 
-      expect(inputBlock, isNotNull);
-      expect(blockBlock, isNotNull);
-      expect(outputBlock, isNotNull);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+        true,
+      );
+
+      expect(inputBlock.ref.pointer.address, isNot(0));
+      expect(blockBlock.ref.pointer.address, isNot(0));
+      expect(outputBlock.ref.pointer.address, isNot(0));
 
       return (tracker1, tracker2, tracker3);
     }
@@ -647,6 +707,12 @@ void main() {
           expect(tracker1.isAlive, false);
           expect(tracker2.isAlive, false);
           expect(tracker3.isAlive, false);
+          expect(
+            internal_for_testing.blockHasRegisteredClosure(
+              tracker1.host.cast(),
+            ),
+            false,
+          );
         });
       },
       skip: !canDoGC,
@@ -669,8 +735,8 @@ void main() {
       expect(tracker1.isAlive, true);
       expect(tracker2.isAlive, true);
 
-      expect(blockBlock, isNotNull);
-      expect(outputBlock, isNotNull);
+      expect(blockBlock.ref.pointer.address, isNot(0));
+      expect(outputBlock.ref.pointer.address, isNot(0));
 
       return (tracker1, tracker2);
     }
