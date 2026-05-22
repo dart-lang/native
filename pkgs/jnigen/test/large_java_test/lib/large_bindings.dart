@@ -24066,6 +24066,8 @@ final class $TestClass125$NestedEnum$Type$
   String get signature => r'Lcom/example/TestClass125$NestedEnum;';
 }
 
+/// from: `java.lang.Enum`
+///
 /// WARNING: Enum is a stub. To generate bindings for this class, include
 /// java.lang.Enum in your config's classes list.
 ///
@@ -24082,6 +24084,8 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   String get signature => r'Ljava/lang/Enum;';
 }
 
+/// from: `com.example.CustomRecord`
+///
 /// WARNING: CustomRecord is a stub. To generate bindings for this class, include
 /// com.example.CustomRecord in your config's classes list.
 ///

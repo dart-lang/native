@@ -128,6 +128,8 @@ final class $Example$Type$ extends jni$_.JType<Example> {
   String get signature => r'LExample;';
 }
 
+/// from: `kotlin.coroutines.Continuation`
+///
 /// WARNING: Continuation is a stub. To generate bindings for this class, include
 /// kotlin.coroutines.Continuation in your config's classes list.
 ///
