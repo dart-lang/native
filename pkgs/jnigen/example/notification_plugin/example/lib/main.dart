@@ -18,7 +18,7 @@ void showNotification(String title, String text) {
   var jTitle = title.toJString();
   var jText = text.toJString();
   Notifications.showNotification(
-    androidActivity(PlatformDispatcher.instance.engineId!),
+    androidActivity(PlatformDispatcher.instance.engineId!)?.as(Context.type),
     i,
     jTitle,
     jText,

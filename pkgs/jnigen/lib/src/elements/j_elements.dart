@@ -52,7 +52,8 @@ class ClassDecl implements _Element {
 
   /// Whether this class should be excluded from code generation.
   bool get isExcluded => _classDecl.isExcluded;
-  set isExcluded(bool value) => _classDecl.isExcluded = value;
+  set isExcluded(bool value) => _classDecl.bindingMode =
+      value ? ast.BindingMode.excluded : ast.BindingMode.full;
 
   /// The name of the class that will appear in generated code, subject to
   /// renaming to resolve conflicts (eg with keywords or other names).

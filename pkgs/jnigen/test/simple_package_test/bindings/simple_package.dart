@@ -312,9 +312,8 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final java.util.Random unusedRandom`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get unusedRandom =>
-      _id_unusedRandom.getNullable(_class, jni$_.JObject.type)
-          as jni$_.JObject?;
+  static Random? get unusedRandom =>
+      _id_unusedRandom.getNullable(_class, Random.type) as Random?;
 
   static final _id_get$amount = _class.staticMethodId(
     r'getAmount',
@@ -1011,10 +1010,10 @@ extension Example$$Methods on Example {
 
   /// from: `public java.util.Random getRandom()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get random {
+  Random? get random {
     final _$$selfRef = reference;
     return _get$random(_$$selfRef.pointer, _id_get$random.pointer)
-        .object<jni$_.JObject?>();
+        .object<Random?>();
   }
 
   static final _id_set$random = Example._class.instanceMethodId(
@@ -1034,7 +1033,7 @@ extension Example$$Methods on Example {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void setRandom(java.util.Random random)`
-  set random(jni$_.JObject? random) {
+  set random(Random? random) {
     final _$$selfRef = reference;
     final _$random = random?.reference ?? jni$_.jNullReference;
     _set$random(_$$selfRef.pointer, _id_set$random.pointer, _$random.pointer)
@@ -1172,7 +1171,7 @@ extension Example$$Methods on Example {
   /// from: `public java.lang.String getRandomNumericString(java.util.Random random)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? getRandomNumericString(
-    jni$_.JObject? random,
+    Random? random,
   ) {
     final _$$selfRef = reference;
     final _$random = random?.reference ?? jni$_.jNullReference;
@@ -1302,7 +1301,7 @@ extension Example$$Methods on Example {
     jni$_.JIntArray? is$,
     $T? charSequence,
     jni$_.JList<$T?>? list,
-    jni$_.JMap<jni$_.JString?, jni$_.JObject?>? map,
+    jni$_.JMap<jni$_.JString?, CharSequence?>? map,
   ) {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -1567,7 +1566,7 @@ final class $Example$Type$ extends jni$_.JType<Example> {
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Exceptions$MyException`
 extension type Exceptions$MyException._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements RuntimeException {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/simple_package/Exceptions$MyException');
 
@@ -2023,11 +2022,11 @@ extension Exceptions$$Methods on Exceptions {
 
   /// from: `public java.io.InputStream throwFileNotFoundException()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? throwFileNotFoundException() {
+  InputStream? throwFileNotFoundException() {
     final _$$selfRef = reference;
     return _throwFileNotFoundException(
             _$$selfRef.pointer, _id_throwFileNotFoundException.pointer)
-        .object<jni$_.JObject?>();
+        .object<InputStream?>();
   }
 
   static final _id_throwClassCastException = Exceptions._class.instanceMethodId(
@@ -2049,11 +2048,11 @@ extension Exceptions$$Methods on Exceptions {
 
   /// from: `public java.io.FileInputStream throwClassCastException()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? throwClassCastException() {
+  FileInputStream? throwClassCastException() {
     final _$$selfRef = reference;
     return _throwClassCastException(
             _$$selfRef.pointer, _id_throwClassCastException.pointer)
-        .object<jni$_.JObject?>();
+        .object<FileInputStream?>();
   }
 
   static final _id_throwArrayIndexException =
@@ -2352,13 +2351,11 @@ extension Fields$$Methods on Fields {
 
   /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get random =>
-      _id_random.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
+  Random? get random => _id_random.getNullable(this, Random.type) as Random?;
 
   /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
-  set random(jni$_.JObject? value) =>
-      _id_random.set(this, jni$_.JObject.type, value);
+  set random(Random? value) => _id_random.set(this, Random.type, value);
 }
 
 final class $Fields$Type$ extends jni$_.JType<Fields> {
@@ -2621,7 +2618,7 @@ final class $Colors$RGB$Type$ extends jni$_.JType<Colors$RGB> {
 }
 
 /// from: `com.github.dart_lang.jnigen.enums.Colors`
-extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type Colors._(jni$_.JObject _$this) implements Enum {
   static final _class =
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/enums/Colors');
 
@@ -2888,9 +2885,11 @@ final class $GenericTypeParams$Type$ extends jni$_.JType<GenericTypeParams> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
-extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
-        $S extends jni$_.JObject?, $U extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject {
+extension type GrandParent$Parent$Child<
+        $T extends jni$_.JObject?,
+        $S extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
 
@@ -5664,13 +5663,12 @@ extension MyRunnableRunner$$Methods on MyRunnableRunner {
 
   /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get error =>
-      _id_error.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
+  Throwable? get error =>
+      _id_error.getNullable(this, Throwable.type) as Throwable?;
 
   /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
-  set error(jni$_.JObject? value) =>
-      _id_error.set(this, jni$_.JObject.type, value);
+  set error(Throwable? value) => _id_error.set(this, Throwable.type, value);
 
   static final _id_runOnSameThread = MyRunnableRunner._class.instanceMethodId(
     r'runOnSameThread',
@@ -5759,7 +5757,7 @@ final class $MyRunnableRunner$Type$ extends jni$_.JType<MyRunnableRunner> {
 
 /// from: `com.github.dart_lang.jnigen.interfaces.StringConversionException`
 extension type StringConversionException._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements Exception {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/interfaces/StringConversionException');
 
@@ -6045,7 +6043,7 @@ extension type StringConverterConsumer._(jni$_.JObject _$this)
 
   /// from: `static public java.util.concurrent.Future<java.lang.Integer> consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? consumeOnAnotherThread(
+  static Future$1? consumeOnAnotherThread(
     StringConverter? stringConverter,
     jni$_.JString? string,
   ) {
@@ -6058,7 +6056,7 @@ extension type StringConverterConsumer._(jni$_.JObject _$this)
             _id_consumeOnAnotherThread.pointer,
             _$stringConverter.pointer,
             _$string.pointer)
-        .object<jni$_.JObject?>();
+        .object<Future$1?>();
   }
 }
 
@@ -9614,14 +9612,14 @@ extension Annotated$$Methods<
 
   /// from: `public java.util.Map$Entry<T, V> firstEntryOfComboMap(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? firstEntryOfComboMap<$V extends jni$_.JObject?>(
+  Map$$Entry? firstEntryOfComboMap<$V extends jni$_.JObject?>(
     jni$_.JMap<$T?, $V?> map,
   ) {
     final _$$selfRef = reference;
     final _$map = map.reference;
     return _firstEntryOfComboMap(
             _$$selfRef.pointer, _id_firstEntryOfComboMap.pointer, _$map.pointer)
-        .object<jni$_.JObject?>();
+        .object<Map$$Entry?>();
   }
 
   static final _id_get$w$1 = Annotated._class.instanceMethodId(
@@ -9863,8 +9861,7 @@ final class $Annotated$Type$ extends jni$_.JType<Annotated> {
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable$Case`
-extension type JsonSerializable$Case._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type JsonSerializable$Case._(jni$_.JObject _$this) implements Enum {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable$Case');
 
@@ -9970,7 +9967,7 @@ final class $JsonSerializable$Case$Type$
 
 /// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable`
 extension type JsonSerializable._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, Annotation {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable');
 
@@ -10155,7 +10152,8 @@ final class $MyDataClass$Type$ extends jni$_.JType<MyDataClass> {
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.NotNull`
-extension type NotNull._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type NotNull._(jni$_.JObject _$this)
+    implements jni$_.JObject, Annotation {
   static final _class =
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/annotations/NotNull');
 
@@ -10250,7 +10248,8 @@ final class $NotNull$Type$ extends jni$_.JType<NotNull> {
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Nullable`
-extension type Nullable._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type Nullable._(jni$_.JObject _$this)
+    implements jni$_.JObject, Annotation {
   static final _class =
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/annotations/Nullable');
 
@@ -10707,4 +10706,204 @@ final class $R693$Type$ extends jni$_.JType<R693> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R693;';
+}
+
+/// from: `java.util.Random`
+///
+/// WARNING: Random is a stub. To generate bindings for this class, include
+/// java.util.Random in your config's classes list.
+///
+extension type Random._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Random> type = $Random$Type$();
+}
+
+final class $Random$Type$ extends jni$_.JType<Random> {
+  @jni$_.internal
+  const $Random$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/Random;';
+}
+
+/// from: `java.lang.CharSequence`
+///
+/// WARNING: CharSequence is a stub. To generate bindings for this class, include
+/// java.lang.CharSequence in your config's classes list.
+///
+extension type CharSequence._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<CharSequence> type = $CharSequence$Type$();
+}
+
+final class $CharSequence$Type$ extends jni$_.JType<CharSequence> {
+  @jni$_.internal
+  const $CharSequence$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/CharSequence;';
+}
+
+/// from: `java.io.InputStream`
+///
+/// WARNING: InputStream is a stub. To generate bindings for this class, include
+/// java.io.InputStream in your config's classes list.
+///
+extension type InputStream._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<InputStream> type = $InputStream$Type$();
+}
+
+final class $InputStream$Type$ extends jni$_.JType<InputStream> {
+  @jni$_.internal
+  const $InputStream$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/io/InputStream;';
+}
+
+/// from: `java.io.FileInputStream`
+///
+/// WARNING: FileInputStream is a stub. To generate bindings for this class, include
+/// java.io.FileInputStream in your config's classes list.
+///
+extension type FileInputStream._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<FileInputStream> type = $FileInputStream$Type$();
+}
+
+final class $FileInputStream$Type$ extends jni$_.JType<FileInputStream> {
+  @jni$_.internal
+  const $FileInputStream$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/io/FileInputStream;';
+}
+
+/// from: `java.lang.RuntimeException`
+///
+/// WARNING: RuntimeException is a stub. To generate bindings for this class, include
+/// java.lang.RuntimeException in your config's classes list.
+///
+extension type RuntimeException._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<RuntimeException> type = $RuntimeException$Type$();
+}
+
+final class $RuntimeException$Type$ extends jni$_.JType<RuntimeException> {
+  @jni$_.internal
+  const $RuntimeException$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/RuntimeException;';
+}
+
+/// from: `java.lang.Enum`
+///
+/// WARNING: Enum is a stub. To generate bindings for this class, include
+/// java.lang.Enum in your config's classes list.
+///
+extension type Enum._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Enum> type = $Enum$Type$();
+}
+
+final class $Enum$Type$ extends jni$_.JType<Enum> {
+  @jni$_.internal
+  const $Enum$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Enum;';
+}
+
+/// from: `java.lang.Throwable`
+///
+/// WARNING: Throwable is a stub. To generate bindings for this class, include
+/// java.lang.Throwable in your config's classes list.
+///
+extension type Throwable._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Throwable> type = $Throwable$Type$();
+}
+
+final class $Throwable$Type$ extends jni$_.JType<Throwable> {
+  @jni$_.internal
+  const $Throwable$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Throwable;';
+}
+
+/// from: `java.lang.Exception`
+///
+/// WARNING: Exception is a stub. To generate bindings for this class, include
+/// java.lang.Exception in your config's classes list.
+///
+extension type Exception._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Exception> type = $Exception$Type$();
+}
+
+final class $Exception$Type$ extends jni$_.JType<Exception> {
+  @jni$_.internal
+  const $Exception$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Exception;';
+}
+
+/// from: `java.util.concurrent.Future`
+///
+/// WARNING: Future$1 is a stub. To generate bindings for this class, include
+/// java.util.concurrent.Future in your config's classes list.
+///
+extension type Future$1._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Future$1> type = $Future$1$Type$();
+}
+
+final class $Future$1$Type$ extends jni$_.JType<Future$1> {
+  @jni$_.internal
+  const $Future$1$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/concurrent/Future;';
+}
+
+/// from: `java.util.Map$Entry`
+///
+/// WARNING: Map$$Entry is a stub. To generate bindings for this class, include
+/// java.util.Map$Entry in your config's classes list.
+///
+extension type Map$$Entry._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Map$$Entry> type = $Map$$Entry$Type$();
+}
+
+final class $Map$$Entry$Type$ extends jni$_.JType<Map$$Entry> {
+  @jni$_.internal
+  const $Map$$Entry$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/Map$Entry;';
+}
+
+/// from: `java.lang.annotation.Annotation`
+///
+/// WARNING: Annotation is a stub. To generate bindings for this class, include
+/// java.lang.annotation.Annotation in your config's classes list.
+///
+extension type Annotation._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Annotation> type = $Annotation$Type$();
+}
+
+final class $Annotation$Type$ extends jni$_.JType<Annotation> {
+  @jni$_.internal
+  const $Annotation$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/annotation/Annotation;';
 }

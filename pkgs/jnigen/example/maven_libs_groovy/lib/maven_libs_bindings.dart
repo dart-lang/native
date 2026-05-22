@@ -88,10 +88,10 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.GsonBuilder newBuilder()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? newBuilder() {
+  GsonBuilder? newBuilder() {
     final _$$selfRef = reference;
     return _newBuilder(_$$selfRef.pointer, _id_newBuilder.pointer)
-        .object<jni$_.JObject?>();
+        .object<GsonBuilder?>();
   }
 
   static final _id_excluder = Gson._class.instanceMethodId(
@@ -113,10 +113,10 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.internal.Excluder excluder()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? excluder() {
+  Excluder? excluder() {
     final _$$selfRef = reference;
     return _excluder(_$$selfRef.pointer, _id_excluder.pointer)
-        .object<jni$_.JObject?>();
+        .object<Excluder?>();
   }
 
   static final _id_fieldNamingStrategy = Gson._class.instanceMethodId(
@@ -138,11 +138,11 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.FieldNamingStrategy fieldNamingStrategy()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? fieldNamingStrategy() {
+  FieldNamingStrategy? fieldNamingStrategy() {
     final _$$selfRef = reference;
     return _fieldNamingStrategy(
             _$$selfRef.pointer, _id_fieldNamingStrategy.pointer)
-        .object<jni$_.JObject?>();
+        .object<FieldNamingStrategy?>();
   }
 
   static final _id_serializeNulls = Gson._class.instanceMethodId(
@@ -210,14 +210,14 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.TypeAdapter<T> getAdapter(com.google.gson.reflect.TypeToken<T> typeToken)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getAdapter<$T extends jni$_.JObject?>(
-    jni$_.JObject? typeToken,
+  TypeAdapter? getAdapter<$T extends jni$_.JObject?>(
+    TypeToken? typeToken,
   ) {
     final _$$selfRef = reference;
     final _$typeToken = typeToken?.reference ?? jni$_.jNullReference;
     return _getAdapter(
             _$$selfRef.pointer, _id_getAdapter.pointer, _$typeToken.pointer)
-        .object<jni$_.JObject?>();
+        .object<TypeAdapter?>();
   }
 
   static final _id_getDelegateAdapter = Gson._class.instanceMethodId(
@@ -244,9 +244,9 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.TypeAdapter<T> getDelegateAdapter(com.google.gson.TypeAdapterFactory typeAdapterFactory, com.google.gson.reflect.TypeToken<T> typeToken)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getDelegateAdapter<$T extends jni$_.JObject?>(
-    jni$_.JObject? typeAdapterFactory,
-    jni$_.JObject? typeToken,
+  TypeAdapter? getDelegateAdapter<$T extends jni$_.JObject?>(
+    TypeAdapterFactory? typeAdapterFactory,
+    TypeToken? typeToken,
   ) {
     final _$$selfRef = reference;
     final _$typeAdapterFactory =
@@ -257,7 +257,7 @@ extension Gson$$Methods on Gson {
             _id_getDelegateAdapter.pointer,
             _$typeAdapterFactory.pointer,
             _$typeToken.pointer)
-        .object<jni$_.JObject?>();
+        .object<TypeAdapter?>();
   }
 
   static final _id_getAdapter$1 = Gson._class.instanceMethodId(
@@ -278,14 +278,14 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.TypeAdapter<T> getAdapter(java.lang.Class<T> class)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getAdapter$1<$T extends jni$_.JObject?>(
-    jni$_.JObject? class$,
+  TypeAdapter? getAdapter$1<$T extends jni$_.JObject?>(
+    Class? class$,
   ) {
     final _$$selfRef = reference;
     final _$class$ = class$?.reference ?? jni$_.jNullReference;
     return _getAdapter$1(
             _$$selfRef.pointer, _id_getAdapter$1.pointer, _$class$.pointer)
-        .object<jni$_.JObject?>();
+        .object<TypeAdapter?>();
   }
 
   static final _id_toJsonTree = Gson._class.instanceMethodId(
@@ -306,14 +306,14 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.JsonElement toJsonTree(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? toJsonTree(
+  JsonElement? toJsonTree(
     jni$_.JObject? object,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _toJsonTree(
             _$$selfRef.pointer, _id_toJsonTree.pointer, _$object.pointer)
-        .object<jni$_.JObject?>();
+        .object<JsonElement?>();
   }
 
   static final _id_toJsonTree$1 = Gson._class.instanceMethodId(
@@ -340,16 +340,16 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.JsonElement toJsonTree(java.lang.Object object, java.lang.reflect.Type type)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? toJsonTree$1(
+  JsonElement? toJsonTree$1(
     jni$_.JObject? object,
-    jni$_.JObject? type,
+    Type? type,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$type = type?.reference ?? jni$_.jNullReference;
     return _toJsonTree$1(_$$selfRef.pointer, _id_toJsonTree$1.pointer,
             _$object.pointer, _$type.pointer)
-        .object<jni$_.JObject?>();
+        .object<JsonElement?>();
   }
 
   static final _id_toJson = Gson._class.instanceMethodId(
@@ -405,7 +405,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? toJson$1(
     jni$_.JObject? object,
-    jni$_.JObject? type,
+    Type? type,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -440,7 +440,7 @@ extension Gson$$Methods on Gson {
   /// from: `public void toJson(java.lang.Object object, java.lang.Appendable appendable)`
   void toJson$2(
     jni$_.JObject? object,
-    jni$_.JObject? appendable,
+    Appendable? appendable,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -477,8 +477,8 @@ extension Gson$$Methods on Gson {
   /// from: `public void toJson(java.lang.Object object, java.lang.reflect.Type type, java.lang.Appendable appendable)`
   void toJson$3(
     jni$_.JObject? object,
-    jni$_.JObject? type,
-    jni$_.JObject? appendable,
+    Type? type,
+    Appendable? appendable,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -516,8 +516,8 @@ extension Gson$$Methods on Gson {
   /// from: `public void toJson(java.lang.Object object, java.lang.reflect.Type type, com.google.gson.stream.JsonWriter jsonWriter)`
   void toJson$4(
     jni$_.JObject? object,
-    jni$_.JObject? type,
-    jni$_.JObject? jsonWriter,
+    Type? type,
+    JsonWriter? jsonWriter,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -547,7 +547,7 @@ extension Gson$$Methods on Gson {
   /// from: `public java.lang.String toJson(com.google.gson.JsonElement jsonElement)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? toJson$5(
-    jni$_.JObject? jsonElement,
+    JsonElement? jsonElement,
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
@@ -580,8 +580,8 @@ extension Gson$$Methods on Gson {
 
   /// from: `public void toJson(com.google.gson.JsonElement jsonElement, java.lang.Appendable appendable)`
   void toJson$6(
-    jni$_.JObject? jsonElement,
-    jni$_.JObject? appendable,
+    JsonElement? jsonElement,
+    Appendable? appendable,
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
@@ -609,14 +609,14 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.stream.JsonWriter newJsonWriter(java.io.Writer writer)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? newJsonWriter(
-    jni$_.JObject? writer,
+  JsonWriter? newJsonWriter(
+    Writer? writer,
   ) {
     final _$$selfRef = reference;
     final _$writer = writer?.reference ?? jni$_.jNullReference;
     return _newJsonWriter(
             _$$selfRef.pointer, _id_newJsonWriter.pointer, _$writer.pointer)
-        .object<jni$_.JObject?>();
+        .object<JsonWriter?>();
   }
 
   static final _id_newJsonReader = Gson._class.instanceMethodId(
@@ -637,14 +637,14 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.stream.JsonReader newJsonReader(java.io.Reader reader)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? newJsonReader(
-    jni$_.JObject? reader,
+  JsonReader? newJsonReader(
+    Reader? reader,
   ) {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
     return _newJsonReader(
             _$$selfRef.pointer, _id_newJsonReader.pointer, _$reader.pointer)
-        .object<jni$_.JObject?>();
+        .object<JsonReader?>();
   }
 
   static final _id_toJson$7 = Gson._class.instanceMethodId(
@@ -671,8 +671,8 @@ extension Gson$$Methods on Gson {
 
   /// from: `public void toJson(com.google.gson.JsonElement jsonElement, com.google.gson.stream.JsonWriter jsonWriter)`
   void toJson$7(
-    jni$_.JObject? jsonElement,
-    jni$_.JObject? jsonWriter,
+    JsonElement? jsonElement,
+    JsonWriter? jsonWriter,
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
@@ -708,7 +708,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson<$T extends jni$_.JObject?>(
     jni$_.JString? string,
-    jni$_.JObject? class$,
+    Class? class$,
   ) {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -744,7 +744,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$1<$T extends jni$_.JObject?>(
     jni$_.JString? string,
-    jni$_.JObject? type,
+    Type? type,
   ) {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -780,7 +780,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$2<$T extends jni$_.JObject?>(
     jni$_.JString? string,
-    jni$_.JObject? typeToken,
+    TypeToken? typeToken,
   ) {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -815,8 +815,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(java.io.Reader reader, java.lang.Class<T> class)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$3<$T extends jni$_.JObject?>(
-    jni$_.JObject? reader,
-    jni$_.JObject? class$,
+    Reader? reader,
+    Class? class$,
   ) {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
@@ -851,8 +851,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(java.io.Reader reader, java.lang.reflect.Type type)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$4<$T extends jni$_.JObject?>(
-    jni$_.JObject? reader,
-    jni$_.JObject? type,
+    Reader? reader,
+    Type? type,
   ) {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
@@ -887,8 +887,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(java.io.Reader reader, com.google.gson.reflect.TypeToken<T> typeToken)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$5<$T extends jni$_.JObject?>(
-    jni$_.JObject? reader,
-    jni$_.JObject? typeToken,
+    Reader? reader,
+    TypeToken? typeToken,
   ) {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
@@ -923,8 +923,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(com.google.gson.stream.JsonReader jsonReader, java.lang.reflect.Type type)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$6<$T extends jni$_.JObject?>(
-    jni$_.JObject? jsonReader,
-    jni$_.JObject? type,
+    JsonReader? jsonReader,
+    Type? type,
   ) {
     final _$$selfRef = reference;
     final _$jsonReader = jsonReader?.reference ?? jni$_.jNullReference;
@@ -959,8 +959,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(com.google.gson.stream.JsonReader jsonReader, com.google.gson.reflect.TypeToken<T> typeToken)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$7<$T extends jni$_.JObject?>(
-    jni$_.JObject? jsonReader,
-    jni$_.JObject? typeToken,
+    JsonReader? jsonReader,
+    TypeToken? typeToken,
   ) {
     final _$$selfRef = reference;
     final _$jsonReader = jsonReader?.reference ?? jni$_.jNullReference;
@@ -995,8 +995,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(com.google.gson.JsonElement jsonElement, java.lang.Class<T> class)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$8<$T extends jni$_.JObject?>(
-    jni$_.JObject? jsonElement,
-    jni$_.JObject? class$,
+    JsonElement? jsonElement,
+    Class? class$,
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
@@ -1031,8 +1031,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(com.google.gson.JsonElement jsonElement, java.lang.reflect.Type type)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$9<$T extends jni$_.JObject?>(
-    jni$_.JObject? jsonElement,
-    jni$_.JObject? type,
+    JsonElement? jsonElement,
+    Type? type,
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
@@ -1067,8 +1067,8 @@ extension Gson$$Methods on Gson {
   /// from: `public T fromJson(com.google.gson.JsonElement jsonElement, com.google.gson.reflect.TypeToken<T> typeToken)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$10<$T extends jni$_.JObject?>(
-    jni$_.JObject? jsonElement,
-    jni$_.JObject? typeToken,
+    JsonElement? jsonElement,
+    TypeToken? typeToken,
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
@@ -1193,7 +1193,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun dispatcher(dispatcher: okhttp3.Dispatcher): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder dispatcher(
-    jni$_.JObject dispatcher,
+    Dispatcher dispatcher,
   ) {
     final _$$selfRef = reference;
     final _$dispatcher = dispatcher.reference;
@@ -1222,7 +1222,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun connectionPool(connectionPool: okhttp3.ConnectionPool): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder connectionPool(
-    jni$_.JObject connectionPool,
+    ConnectionPool connectionPool,
   ) {
     final _$$selfRef = reference;
     final _$connectionPool = connectionPool.reference;
@@ -1250,10 +1250,10 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
 
   /// from: `public fun interceptors(): kotlin.collections.MutableList<okhttp3.Interceptor>`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject> interceptors() {
+  jni$_.JList<Interceptor> interceptors() {
     final _$$selfRef = reference;
     return _interceptors(_$$selfRef.pointer, _id_interceptors.pointer)
-        .object<jni$_.JList<jni$_.JObject>>();
+        .object<jni$_.JList<Interceptor>>();
   }
 
   static final _id_addInterceptor =
@@ -1276,7 +1276,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun addInterceptor(interceptor: okhttp3.Interceptor): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder addInterceptor(
-    jni$_.JObject interceptor,
+    Interceptor interceptor,
   ) {
     final _$$selfRef = reference;
     final _$interceptor = interceptor.reference;
@@ -1305,11 +1305,11 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
 
   /// from: `public fun networkInterceptors(): kotlin.collections.MutableList<okhttp3.Interceptor>`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject> networkInterceptors() {
+  jni$_.JList<Interceptor> networkInterceptors() {
     final _$$selfRef = reference;
     return _networkInterceptors(
             _$$selfRef.pointer, _id_networkInterceptors.pointer)
-        .object<jni$_.JList<jni$_.JObject>>();
+        .object<jni$_.JList<Interceptor>>();
   }
 
   static final _id_addNetworkInterceptor =
@@ -1332,7 +1332,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun addNetworkInterceptor(interceptor: okhttp3.Interceptor): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder addNetworkInterceptor(
-    jni$_.JObject interceptor,
+    Interceptor interceptor,
   ) {
     final _$$selfRef = reference;
     final _$interceptor = interceptor.reference;
@@ -1360,7 +1360,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun eventListener(eventListener: okhttp3.EventListener): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder eventListener(
-    jni$_.JObject eventListener,
+    EventListener eventListener,
   ) {
     final _$$selfRef = reference;
     final _$eventListener = eventListener.reference;
@@ -1389,7 +1389,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun eventListenerFactory(eventListenerFactory: okhttp3.EventListener.Factory): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder eventListenerFactory(
-    jni$_.JObject factory,
+    EventListener$$Factory factory,
   ) {
     final _$$selfRef = reference;
     final _$factory = factory.reference;
@@ -1444,7 +1444,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun authenticator(authenticator: okhttp3.Authenticator): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder authenticator(
-    jni$_.JObject authenticator,
+    Authenticator authenticator,
   ) {
     final _$$selfRef = reference;
     final _$authenticator = authenticator.reference;
@@ -1526,7 +1526,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun cookieJar(cookieJar: okhttp3.CookieJar): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder cookieJar(
-    jni$_.JObject cookieJar,
+    CookieJar cookieJar,
   ) {
     final _$$selfRef = reference;
     final _$cookieJar = cookieJar.reference;
@@ -1554,7 +1554,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun cache(cache: okhttp3.Cache?): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder cache(
-    jni$_.JObject? cache,
+    Cache? cache,
   ) {
     final _$$selfRef = reference;
     final _$cache = cache?.reference ?? jni$_.jNullReference;
@@ -1581,7 +1581,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun dns(dns: okhttp3.Dns): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder dns(
-    jni$_.JObject dns,
+    Dns dns,
   ) {
     final _$$selfRef = reference;
     final _$dns = dns.reference;
@@ -1608,7 +1608,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun proxy(proxy: java.net.Proxy?): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder proxy(
-    jni$_.JObject? proxy,
+    Proxy? proxy,
   ) {
     final _$$selfRef = reference;
     final _$proxy = proxy?.reference ?? jni$_.jNullReference;
@@ -1635,7 +1635,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun proxySelector(proxySelector: java.net.ProxySelector): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder proxySelector(
-    jni$_.JObject proxySelector,
+    ProxySelector proxySelector,
   ) {
     final _$$selfRef = reference;
     final _$proxySelector = proxySelector.reference;
@@ -1664,7 +1664,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun proxyAuthenticator(proxyAuthenticator: okhttp3.Authenticator): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder proxyAuthenticator(
-    jni$_.JObject authenticator,
+    Authenticator authenticator,
   ) {
     final _$$selfRef = reference;
     final _$authenticator = authenticator.reference;
@@ -1692,7 +1692,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun socketFactory(socketFactory: javax.net.SocketFactory): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder socketFactory(
-    jni$_.JObject socketFactory,
+    SocketFactory socketFactory,
   ) {
     final _$$selfRef = reference;
     final _$socketFactory = socketFactory.reference;
@@ -1721,7 +1721,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun sslSocketFactory(sslSocketFactory: javax.net.ssl.SSLSocketFactory): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder sslSocketFactory(
-    jni$_.JObject sSLSocketFactory,
+    SSLSocketFactory sSLSocketFactory,
   ) {
     final _$$selfRef = reference;
     final _$sSLSocketFactory = sSLSocketFactory.reference;
@@ -1756,8 +1756,8 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun sslSocketFactory(sslSocketFactory: javax.net.ssl.SSLSocketFactory, trustManager: javax.net.ssl.X509TrustManager): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder sslSocketFactory$1(
-    jni$_.JObject sSLSocketFactory,
-    jni$_.JObject x509TrustManager,
+    SSLSocketFactory sSLSocketFactory,
+    X509TrustManager x509TrustManager,
   ) {
     final _$$selfRef = reference;
     final _$sSLSocketFactory = sSLSocketFactory.reference;
@@ -1790,7 +1790,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun connectionSpecs(connectionSpecs: kotlin.collections.List<okhttp3.ConnectionSpec>): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder connectionSpecs(
-    jni$_.JList<jni$_.JObject> list,
+    jni$_.JList<ConnectionSpec> list,
   ) {
     final _$$selfRef = reference;
     final _$list = list.reference;
@@ -1818,7 +1818,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun protocols(protocols: kotlin.collections.List<okhttp3.Protocol>): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder protocols(
-    jni$_.JList<jni$_.JObject> list,
+    jni$_.JList<Protocol> list,
   ) {
     final _$$selfRef = reference;
     final _$list = list.reference;
@@ -1846,7 +1846,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun hostnameVerifier(hostnameVerifier: javax.net.ssl.HostnameVerifier): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder hostnameVerifier(
-    jni$_.JObject hostnameVerifier,
+    HostnameVerifier hostnameVerifier,
   ) {
     final _$$selfRef = reference;
     final _$hostnameVerifier = hostnameVerifier.reference;
@@ -1875,7 +1875,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun certificatePinner(certificatePinner: okhttp3.CertificatePinner): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder certificatePinner(
-    jni$_.JObject certificatePinner,
+    CertificatePinner certificatePinner,
   ) {
     final _$$selfRef = reference;
     final _$certificatePinner = certificatePinner.reference;
@@ -1905,7 +1905,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder callTimeout(
     core$_.int j,
-    jni$_.JObject timeUnit,
+    TimeUnit timeUnit,
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
@@ -1933,7 +1933,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun callTimeout(duration: java.time.Duration): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder callTimeout$1(
-    jni$_.JObject duration,
+    Duration duration,
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
@@ -1964,7 +1964,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder connectTimeout(
     core$_.int j,
-    jni$_.JObject timeUnit,
+    TimeUnit timeUnit,
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
@@ -1993,7 +1993,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun connectTimeout(duration: java.time.Duration): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder connectTimeout$1(
-    jni$_.JObject duration,
+    Duration duration,
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
@@ -2023,7 +2023,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder readTimeout(
     core$_.int j,
-    jni$_.JObject timeUnit,
+    TimeUnit timeUnit,
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
@@ -2051,7 +2051,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun readTimeout(duration: java.time.Duration): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder readTimeout$1(
-    jni$_.JObject duration,
+    Duration duration,
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
@@ -2081,7 +2081,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder writeTimeout(
     core$_.int j,
-    jni$_.JObject timeUnit,
+    TimeUnit timeUnit,
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
@@ -2110,7 +2110,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun writeTimeout(duration: java.time.Duration): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder writeTimeout$1(
-    jni$_.JObject duration,
+    Duration duration,
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
@@ -2140,7 +2140,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder pingInterval(
     core$_.int j,
-    jni$_.JObject timeUnit,
+    TimeUnit timeUnit,
   ) {
     final _$$selfRef = reference;
     final _$timeUnit = timeUnit.reference;
@@ -2169,7 +2169,7 @@ extension OkHttpClient$Builder$$Methods on OkHttpClient$Builder {
   /// from: `public fun pingInterval(duration: java.time.Duration): okhttp3.OkHttpClient.Builder`
   /// The returned object must be released after use, by calling the [release] method.
   OkHttpClient$Builder pingInterval$1(
-    jni$_.JObject duration,
+    Duration duration,
   ) {
     final _$$selfRef = reference;
     final _$duration = duration.reference;
@@ -2266,7 +2266,7 @@ extension type OkHttpClient$Companion._(jni$_.JObject _$this)
   /// from: `synthetic public void <init>(kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
   /// The returned object must be released after use, by calling the [release] method.
   factory OkHttpClient$Companion(
-    jni$_.JObject? defaultConstructorMarker,
+    DefaultConstructorMarker? defaultConstructorMarker,
   ) {
     final _$$classRef = _class.reference;
     final _$defaultConstructorMarker =
@@ -2288,7 +2288,8 @@ final class $OkHttpClient$Companion$Type$
 }
 
 /// from: `okhttp3.OkHttpClient`
-extension type OkHttpClient._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type OkHttpClient._(jni$_.JObject _$this)
+    implements jni$_.JObject, Cloneable, Call$$Factory, WebSocket$$Factory {
   static final _class = jni$_.JClass.forName(r'okhttp3/OkHttpClient');
 
   /// The type which includes information such as the signature of this class.
@@ -2375,10 +2376,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.Dispatcher dispatcher()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject dispatcher() {
+  Dispatcher dispatcher() {
     final _$$selfRef = reference;
     return _dispatcher(_$$selfRef.pointer, _id_dispatcher.pointer)
-        .object<jni$_.JObject>();
+        .object<Dispatcher>();
   }
 
   static final _id_connectionPool = OkHttpClient._class.instanceMethodId(
@@ -2400,10 +2401,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.ConnectionPool connectionPool()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject connectionPool() {
+  ConnectionPool connectionPool() {
     final _$$selfRef = reference;
     return _connectionPool(_$$selfRef.pointer, _id_connectionPool.pointer)
-        .object<jni$_.JObject>();
+        .object<ConnectionPool>();
   }
 
   static final _id_interceptors = OkHttpClient._class.instanceMethodId(
@@ -2425,10 +2426,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final java.util.List<okhttp3.Interceptor> interceptors()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject> interceptors() {
+  jni$_.JList<Interceptor> interceptors() {
     final _$$selfRef = reference;
     return _interceptors(_$$selfRef.pointer, _id_interceptors.pointer)
-        .object<jni$_.JList<jni$_.JObject>>();
+        .object<jni$_.JList<Interceptor>>();
   }
 
   static final _id_networkInterceptors = OkHttpClient._class.instanceMethodId(
@@ -2450,11 +2451,11 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final java.util.List<okhttp3.Interceptor> networkInterceptors()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject> networkInterceptors() {
+  jni$_.JList<Interceptor> networkInterceptors() {
     final _$$selfRef = reference;
     return _networkInterceptors(
             _$$selfRef.pointer, _id_networkInterceptors.pointer)
-        .object<jni$_.JList<jni$_.JObject>>();
+        .object<jni$_.JList<Interceptor>>();
   }
 
   static final _id_eventListenerFactory = OkHttpClient._class.instanceMethodId(
@@ -2476,11 +2477,11 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.EventListener$Factory eventListenerFactory()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject eventListenerFactory() {
+  EventListener$$Factory eventListenerFactory() {
     final _$$selfRef = reference;
     return _eventListenerFactory(
             _$$selfRef.pointer, _id_eventListenerFactory.pointer)
-        .object<jni$_.JObject>();
+        .object<EventListener$$Factory>();
   }
 
   static final _id_retryOnConnectionFailure =
@@ -2528,10 +2529,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.Authenticator authenticator()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject authenticator() {
+  Authenticator authenticator() {
     final _$$selfRef = reference;
     return _authenticator(_$$selfRef.pointer, _id_authenticator.pointer)
-        .object<jni$_.JObject>();
+        .object<Authenticator>();
   }
 
   static final _id_followRedirects = OkHttpClient._class.instanceMethodId(
@@ -2602,10 +2603,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.CookieJar cookieJar()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject cookieJar() {
+  CookieJar cookieJar() {
     final _$$selfRef = reference;
     return _cookieJar(_$$selfRef.pointer, _id_cookieJar.pointer)
-        .object<jni$_.JObject>();
+        .object<CookieJar>();
   }
 
   static final _id_cache = OkHttpClient._class.instanceMethodId(
@@ -2627,10 +2628,9 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.Cache cache()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? cache() {
+  Cache? cache() {
     final _$$selfRef = reference;
-    return _cache(_$$selfRef.pointer, _id_cache.pointer)
-        .object<jni$_.JObject?>();
+    return _cache(_$$selfRef.pointer, _id_cache.pointer).object<Cache?>();
   }
 
   static final _id_dns = OkHttpClient._class.instanceMethodId(
@@ -2652,9 +2652,9 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.Dns dns()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject dns() {
+  Dns dns() {
     final _$$selfRef = reference;
-    return _dns(_$$selfRef.pointer, _id_dns.pointer).object<jni$_.JObject>();
+    return _dns(_$$selfRef.pointer, _id_dns.pointer).object<Dns>();
   }
 
   static final _id_proxy = OkHttpClient._class.instanceMethodId(
@@ -2676,10 +2676,9 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final java.net.Proxy proxy()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? proxy() {
+  Proxy? proxy() {
     final _$$selfRef = reference;
-    return _proxy(_$$selfRef.pointer, _id_proxy.pointer)
-        .object<jni$_.JObject?>();
+    return _proxy(_$$selfRef.pointer, _id_proxy.pointer).object<Proxy?>();
   }
 
   static final _id_proxySelector = OkHttpClient._class.instanceMethodId(
@@ -2701,10 +2700,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final java.net.ProxySelector proxySelector()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject proxySelector() {
+  ProxySelector proxySelector() {
     final _$$selfRef = reference;
     return _proxySelector(_$$selfRef.pointer, _id_proxySelector.pointer)
-        .object<jni$_.JObject>();
+        .object<ProxySelector>();
   }
 
   static final _id_proxyAuthenticator = OkHttpClient._class.instanceMethodId(
@@ -2726,11 +2725,11 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.Authenticator proxyAuthenticator()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject proxyAuthenticator() {
+  Authenticator proxyAuthenticator() {
     final _$$selfRef = reference;
     return _proxyAuthenticator(
             _$$selfRef.pointer, _id_proxyAuthenticator.pointer)
-        .object<jni$_.JObject>();
+        .object<Authenticator>();
   }
 
   static final _id_socketFactory = OkHttpClient._class.instanceMethodId(
@@ -2752,10 +2751,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final javax.net.SocketFactory socketFactory()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject socketFactory() {
+  SocketFactory socketFactory() {
     final _$$selfRef = reference;
     return _socketFactory(_$$selfRef.pointer, _id_socketFactory.pointer)
-        .object<jni$_.JObject>();
+        .object<SocketFactory>();
   }
 
   static final _id_sslSocketFactory = OkHttpClient._class.instanceMethodId(
@@ -2777,10 +2776,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final javax.net.ssl.SSLSocketFactory sslSocketFactory()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject sslSocketFactory() {
+  SSLSocketFactory sslSocketFactory() {
     final _$$selfRef = reference;
     return _sslSocketFactory(_$$selfRef.pointer, _id_sslSocketFactory.pointer)
-        .object<jni$_.JObject>();
+        .object<SSLSocketFactory>();
   }
 
   static final _id_x509TrustManager = OkHttpClient._class.instanceMethodId(
@@ -2802,10 +2801,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final javax.net.ssl.X509TrustManager x509TrustManager()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? x509TrustManager() {
+  X509TrustManager? x509TrustManager() {
     final _$$selfRef = reference;
     return _x509TrustManager(_$$selfRef.pointer, _id_x509TrustManager.pointer)
-        .object<jni$_.JObject?>();
+        .object<X509TrustManager?>();
   }
 
   static final _id_connectionSpecs = OkHttpClient._class.instanceMethodId(
@@ -2827,10 +2826,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final java.util.List<okhttp3.ConnectionSpec> connectionSpecs()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject> connectionSpecs() {
+  jni$_.JList<ConnectionSpec> connectionSpecs() {
     final _$$selfRef = reference;
     return _connectionSpecs(_$$selfRef.pointer, _id_connectionSpecs.pointer)
-        .object<jni$_.JList<jni$_.JObject>>();
+        .object<jni$_.JList<ConnectionSpec>>();
   }
 
   static final _id_protocols = OkHttpClient._class.instanceMethodId(
@@ -2852,10 +2851,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final java.util.List<okhttp3.Protocol> protocols()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject> protocols() {
+  jni$_.JList<Protocol> protocols() {
     final _$$selfRef = reference;
     return _protocols(_$$selfRef.pointer, _id_protocols.pointer)
-        .object<jni$_.JList<jni$_.JObject>>();
+        .object<jni$_.JList<Protocol>>();
   }
 
   static final _id_hostnameVerifier = OkHttpClient._class.instanceMethodId(
@@ -2877,10 +2876,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final javax.net.ssl.HostnameVerifier hostnameVerifier()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject hostnameVerifier() {
+  HostnameVerifier hostnameVerifier() {
     final _$$selfRef = reference;
     return _hostnameVerifier(_$$selfRef.pointer, _id_hostnameVerifier.pointer)
-        .object<jni$_.JObject>();
+        .object<HostnameVerifier>();
   }
 
   static final _id_certificatePinner = OkHttpClient._class.instanceMethodId(
@@ -2902,10 +2901,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.CertificatePinner certificatePinner()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject certificatePinner() {
+  CertificatePinner certificatePinner() {
     final _$$selfRef = reference;
     return _certificatePinner(_$$selfRef.pointer, _id_certificatePinner.pointer)
-        .object<jni$_.JObject>();
+        .object<CertificatePinner>();
   }
 
   static final _id_certificateChainCleaner =
@@ -2928,11 +2927,11 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.internal.tls.CertificateChainCleaner certificateChainCleaner()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? certificateChainCleaner() {
+  CertificateChainCleaner? certificateChainCleaner() {
     final _$$selfRef = reference;
     return _certificateChainCleaner(
             _$$selfRef.pointer, _id_certificateChainCleaner.pointer)
-        .object<jni$_.JObject?>();
+        .object<CertificateChainCleaner?>();
   }
 
   static final _id_callTimeoutMillis = OkHttpClient._class.instanceMethodId(
@@ -3104,10 +3103,10 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public final okhttp3.internal.connection.RouteDatabase getRouteDatabase()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject get routeDatabase {
+  RouteDatabase get routeDatabase {
     final _$$selfRef = reference;
     return _get$routeDatabase(_$$selfRef.pointer, _id_get$routeDatabase.pointer)
-        .object<jni$_.JObject>();
+        .object<RouteDatabase>();
   }
 
   static final _id_newCall = OkHttpClient._class.instanceMethodId(
@@ -3128,13 +3127,13 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public fun newCall(request: okhttp3.Request): okhttp3.Call`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject newCall(
-    jni$_.JObject request,
+  Call newCall(
+    Request request,
   ) {
     final _$$selfRef = reference;
     final _$request = request.reference;
     return _newCall(_$$selfRef.pointer, _id_newCall.pointer, _$request.pointer)
-        .object<jni$_.JObject>();
+        .object<Call>();
   }
 
   static final _id_newWebSocket = OkHttpClient._class.instanceMethodId(
@@ -3161,16 +3160,16 @@ extension OkHttpClient$$Methods on OkHttpClient {
 
   /// from: `public fun newWebSocket(request: okhttp3.Request, listener: okhttp3.WebSocketListener): okhttp3.WebSocket`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject newWebSocket(
-    jni$_.JObject request,
-    jni$_.JObject webSocketListener,
+  WebSocket newWebSocket(
+    Request request,
+    WebSocketListener webSocketListener,
   ) {
     final _$$selfRef = reference;
     final _$request = request.reference;
     final _$webSocketListener = webSocketListener.reference;
     return _newWebSocket(_$$selfRef.pointer, _id_newWebSocket.pointer,
             _$request.pointer, _$webSocketListener.pointer)
-        .object<jni$_.JObject>();
+        .object<WebSocket>();
   }
 
   static final _id_newBuilder = OkHttpClient._class.instanceMethodId(
@@ -3231,4 +3230,817 @@ final class $OkHttpClient$Type$ extends jni$_.JType<OkHttpClient> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lokhttp3/OkHttpClient;';
+}
+
+/// from: `com.google.gson.GsonBuilder`
+///
+/// WARNING: GsonBuilder is a stub. To generate bindings for this class, include
+/// com.google.gson.GsonBuilder in your config's classes list.
+///
+extension type GsonBuilder._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<GsonBuilder> type = $GsonBuilder$Type$();
+}
+
+final class $GsonBuilder$Type$ extends jni$_.JType<GsonBuilder> {
+  @jni$_.internal
+  const $GsonBuilder$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/GsonBuilder;';
+}
+
+/// from: `com.google.gson.internal.Excluder`
+///
+/// WARNING: Excluder is a stub. To generate bindings for this class, include
+/// com.google.gson.internal.Excluder in your config's classes list.
+///
+extension type Excluder._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Excluder> type = $Excluder$Type$();
+}
+
+final class $Excluder$Type$ extends jni$_.JType<Excluder> {
+  @jni$_.internal
+  const $Excluder$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/internal/Excluder;';
+}
+
+/// from: `com.google.gson.FieldNamingStrategy`
+///
+/// WARNING: FieldNamingStrategy is a stub. To generate bindings for this class, include
+/// com.google.gson.FieldNamingStrategy in your config's classes list.
+///
+extension type FieldNamingStrategy._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<FieldNamingStrategy> type =
+      $FieldNamingStrategy$Type$();
+}
+
+final class $FieldNamingStrategy$Type$
+    extends jni$_.JType<FieldNamingStrategy> {
+  @jni$_.internal
+  const $FieldNamingStrategy$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/FieldNamingStrategy;';
+}
+
+/// from: `com.google.gson.TypeAdapter`
+///
+/// WARNING: TypeAdapter is a stub. To generate bindings for this class, include
+/// com.google.gson.TypeAdapter in your config's classes list.
+///
+extension type TypeAdapter._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<TypeAdapter> type = $TypeAdapter$Type$();
+}
+
+final class $TypeAdapter$Type$ extends jni$_.JType<TypeAdapter> {
+  @jni$_.internal
+  const $TypeAdapter$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/TypeAdapter;';
+}
+
+/// from: `com.google.gson.reflect.TypeToken`
+///
+/// WARNING: TypeToken is a stub. To generate bindings for this class, include
+/// com.google.gson.reflect.TypeToken in your config's classes list.
+///
+extension type TypeToken._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<TypeToken> type = $TypeToken$Type$();
+}
+
+final class $TypeToken$Type$ extends jni$_.JType<TypeToken> {
+  @jni$_.internal
+  const $TypeToken$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/reflect/TypeToken;';
+}
+
+/// from: `com.google.gson.TypeAdapterFactory`
+///
+/// WARNING: TypeAdapterFactory is a stub. To generate bindings for this class, include
+/// com.google.gson.TypeAdapterFactory in your config's classes list.
+///
+extension type TypeAdapterFactory._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<TypeAdapterFactory> type =
+      $TypeAdapterFactory$Type$();
+}
+
+final class $TypeAdapterFactory$Type$ extends jni$_.JType<TypeAdapterFactory> {
+  @jni$_.internal
+  const $TypeAdapterFactory$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/TypeAdapterFactory;';
+}
+
+/// from: `java.lang.Class`
+///
+/// WARNING: Class is a stub. To generate bindings for this class, include
+/// java.lang.Class in your config's classes list.
+///
+extension type Class._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Class> type = $Class$Type$();
+}
+
+final class $Class$Type$ extends jni$_.JType<Class> {
+  @jni$_.internal
+  const $Class$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Class;';
+}
+
+/// from: `com.google.gson.JsonElement`
+///
+/// WARNING: JsonElement is a stub. To generate bindings for this class, include
+/// com.google.gson.JsonElement in your config's classes list.
+///
+extension type JsonElement._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<JsonElement> type = $JsonElement$Type$();
+}
+
+final class $JsonElement$Type$ extends jni$_.JType<JsonElement> {
+  @jni$_.internal
+  const $JsonElement$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/JsonElement;';
+}
+
+/// from: `java.lang.reflect.Type`
+///
+/// WARNING: Type is a stub. To generate bindings for this class, include
+/// java.lang.reflect.Type in your config's classes list.
+///
+extension type Type._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Type> type = $Type$Type$();
+}
+
+final class $Type$Type$ extends jni$_.JType<Type> {
+  @jni$_.internal
+  const $Type$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/reflect/Type;';
+}
+
+/// from: `java.lang.Appendable`
+///
+/// WARNING: Appendable is a stub. To generate bindings for this class, include
+/// java.lang.Appendable in your config's classes list.
+///
+extension type Appendable._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Appendable> type = $Appendable$Type$();
+}
+
+final class $Appendable$Type$ extends jni$_.JType<Appendable> {
+  @jni$_.internal
+  const $Appendable$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Appendable;';
+}
+
+/// from: `com.google.gson.stream.JsonWriter`
+///
+/// WARNING: JsonWriter is a stub. To generate bindings for this class, include
+/// com.google.gson.stream.JsonWriter in your config's classes list.
+///
+extension type JsonWriter._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<JsonWriter> type = $JsonWriter$Type$();
+}
+
+final class $JsonWriter$Type$ extends jni$_.JType<JsonWriter> {
+  @jni$_.internal
+  const $JsonWriter$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/stream/JsonWriter;';
+}
+
+/// from: `java.io.Writer`
+///
+/// WARNING: Writer is a stub. To generate bindings for this class, include
+/// java.io.Writer in your config's classes list.
+///
+extension type Writer._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Writer> type = $Writer$Type$();
+}
+
+final class $Writer$Type$ extends jni$_.JType<Writer> {
+  @jni$_.internal
+  const $Writer$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/io/Writer;';
+}
+
+/// from: `com.google.gson.stream.JsonReader`
+///
+/// WARNING: JsonReader is a stub. To generate bindings for this class, include
+/// com.google.gson.stream.JsonReader in your config's classes list.
+///
+extension type JsonReader._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<JsonReader> type = $JsonReader$Type$();
+}
+
+final class $JsonReader$Type$ extends jni$_.JType<JsonReader> {
+  @jni$_.internal
+  const $JsonReader$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/google/gson/stream/JsonReader;';
+}
+
+/// from: `java.io.Reader`
+///
+/// WARNING: Reader is a stub. To generate bindings for this class, include
+/// java.io.Reader in your config's classes list.
+///
+extension type Reader._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Reader> type = $Reader$Type$();
+}
+
+final class $Reader$Type$ extends jni$_.JType<Reader> {
+  @jni$_.internal
+  const $Reader$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/io/Reader;';
+}
+
+/// from: `okhttp3.Dispatcher`
+///
+/// WARNING: Dispatcher is a stub. To generate bindings for this class, include
+/// okhttp3.Dispatcher in your config's classes list.
+///
+extension type Dispatcher._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Dispatcher> type = $Dispatcher$Type$();
+}
+
+final class $Dispatcher$Type$ extends jni$_.JType<Dispatcher> {
+  @jni$_.internal
+  const $Dispatcher$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Dispatcher;';
+}
+
+/// from: `okhttp3.ConnectionPool`
+///
+/// WARNING: ConnectionPool is a stub. To generate bindings for this class, include
+/// okhttp3.ConnectionPool in your config's classes list.
+///
+extension type ConnectionPool._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<ConnectionPool> type = $ConnectionPool$Type$();
+}
+
+final class $ConnectionPool$Type$ extends jni$_.JType<ConnectionPool> {
+  @jni$_.internal
+  const $ConnectionPool$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/ConnectionPool;';
+}
+
+/// from: `okhttp3.Interceptor`
+///
+/// WARNING: Interceptor is a stub. To generate bindings for this class, include
+/// okhttp3.Interceptor in your config's classes list.
+///
+extension type Interceptor._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Interceptor> type = $Interceptor$Type$();
+}
+
+final class $Interceptor$Type$ extends jni$_.JType<Interceptor> {
+  @jni$_.internal
+  const $Interceptor$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Interceptor;';
+}
+
+/// from: `okhttp3.EventListener$Factory`
+///
+/// WARNING: EventListener$$Factory is a stub. To generate bindings for this class, include
+/// okhttp3.EventListener$Factory in your config's classes list.
+///
+extension type EventListener$$Factory._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<EventListener$$Factory> type =
+      $EventListener$$Factory$Type$();
+}
+
+final class $EventListener$$Factory$Type$
+    extends jni$_.JType<EventListener$$Factory> {
+  @jni$_.internal
+  const $EventListener$$Factory$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/EventListener$Factory;';
+}
+
+/// from: `okhttp3.Authenticator`
+///
+/// WARNING: Authenticator is a stub. To generate bindings for this class, include
+/// okhttp3.Authenticator in your config's classes list.
+///
+extension type Authenticator._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Authenticator> type = $Authenticator$Type$();
+}
+
+final class $Authenticator$Type$ extends jni$_.JType<Authenticator> {
+  @jni$_.internal
+  const $Authenticator$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Authenticator;';
+}
+
+/// from: `okhttp3.CookieJar`
+///
+/// WARNING: CookieJar is a stub. To generate bindings for this class, include
+/// okhttp3.CookieJar in your config's classes list.
+///
+extension type CookieJar._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<CookieJar> type = $CookieJar$Type$();
+}
+
+final class $CookieJar$Type$ extends jni$_.JType<CookieJar> {
+  @jni$_.internal
+  const $CookieJar$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/CookieJar;';
+}
+
+/// from: `okhttp3.Cache`
+///
+/// WARNING: Cache is a stub. To generate bindings for this class, include
+/// okhttp3.Cache in your config's classes list.
+///
+extension type Cache._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Cache> type = $Cache$Type$();
+}
+
+final class $Cache$Type$ extends jni$_.JType<Cache> {
+  @jni$_.internal
+  const $Cache$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Cache;';
+}
+
+/// from: `okhttp3.Dns`
+///
+/// WARNING: Dns is a stub. To generate bindings for this class, include
+/// okhttp3.Dns in your config's classes list.
+///
+extension type Dns._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Dns> type = $Dns$Type$();
+}
+
+final class $Dns$Type$ extends jni$_.JType<Dns> {
+  @jni$_.internal
+  const $Dns$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Dns;';
+}
+
+/// from: `java.net.Proxy`
+///
+/// WARNING: Proxy is a stub. To generate bindings for this class, include
+/// java.net.Proxy in your config's classes list.
+///
+extension type Proxy._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Proxy> type = $Proxy$Type$();
+}
+
+final class $Proxy$Type$ extends jni$_.JType<Proxy> {
+  @jni$_.internal
+  const $Proxy$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/net/Proxy;';
+}
+
+/// from: `java.net.ProxySelector`
+///
+/// WARNING: ProxySelector is a stub. To generate bindings for this class, include
+/// java.net.ProxySelector in your config's classes list.
+///
+extension type ProxySelector._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<ProxySelector> type = $ProxySelector$Type$();
+}
+
+final class $ProxySelector$Type$ extends jni$_.JType<ProxySelector> {
+  @jni$_.internal
+  const $ProxySelector$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/net/ProxySelector;';
+}
+
+/// from: `javax.net.SocketFactory`
+///
+/// WARNING: SocketFactory is a stub. To generate bindings for this class, include
+/// javax.net.SocketFactory in your config's classes list.
+///
+extension type SocketFactory._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<SocketFactory> type = $SocketFactory$Type$();
+}
+
+final class $SocketFactory$Type$ extends jni$_.JType<SocketFactory> {
+  @jni$_.internal
+  const $SocketFactory$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljavax/net/SocketFactory;';
+}
+
+/// from: `javax.net.ssl.SSLSocketFactory`
+///
+/// WARNING: SSLSocketFactory is a stub. To generate bindings for this class, include
+/// javax.net.ssl.SSLSocketFactory in your config's classes list.
+///
+extension type SSLSocketFactory._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<SSLSocketFactory> type = $SSLSocketFactory$Type$();
+}
+
+final class $SSLSocketFactory$Type$ extends jni$_.JType<SSLSocketFactory> {
+  @jni$_.internal
+  const $SSLSocketFactory$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljavax/net/ssl/SSLSocketFactory;';
+}
+
+/// from: `javax.net.ssl.X509TrustManager`
+///
+/// WARNING: X509TrustManager is a stub. To generate bindings for this class, include
+/// javax.net.ssl.X509TrustManager in your config's classes list.
+///
+extension type X509TrustManager._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<X509TrustManager> type = $X509TrustManager$Type$();
+}
+
+final class $X509TrustManager$Type$ extends jni$_.JType<X509TrustManager> {
+  @jni$_.internal
+  const $X509TrustManager$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljavax/net/ssl/X509TrustManager;';
+}
+
+/// from: `okhttp3.ConnectionSpec`
+///
+/// WARNING: ConnectionSpec is a stub. To generate bindings for this class, include
+/// okhttp3.ConnectionSpec in your config's classes list.
+///
+extension type ConnectionSpec._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<ConnectionSpec> type = $ConnectionSpec$Type$();
+}
+
+final class $ConnectionSpec$Type$ extends jni$_.JType<ConnectionSpec> {
+  @jni$_.internal
+  const $ConnectionSpec$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/ConnectionSpec;';
+}
+
+/// from: `okhttp3.Protocol`
+///
+/// WARNING: Protocol is a stub. To generate bindings for this class, include
+/// okhttp3.Protocol in your config's classes list.
+///
+extension type Protocol._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Protocol> type = $Protocol$Type$();
+}
+
+final class $Protocol$Type$ extends jni$_.JType<Protocol> {
+  @jni$_.internal
+  const $Protocol$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Protocol;';
+}
+
+/// from: `javax.net.ssl.HostnameVerifier`
+///
+/// WARNING: HostnameVerifier is a stub. To generate bindings for this class, include
+/// javax.net.ssl.HostnameVerifier in your config's classes list.
+///
+extension type HostnameVerifier._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<HostnameVerifier> type = $HostnameVerifier$Type$();
+}
+
+final class $HostnameVerifier$Type$ extends jni$_.JType<HostnameVerifier> {
+  @jni$_.internal
+  const $HostnameVerifier$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljavax/net/ssl/HostnameVerifier;';
+}
+
+/// from: `okhttp3.CertificatePinner`
+///
+/// WARNING: CertificatePinner is a stub. To generate bindings for this class, include
+/// okhttp3.CertificatePinner in your config's classes list.
+///
+extension type CertificatePinner._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<CertificatePinner> type = $CertificatePinner$Type$();
+}
+
+final class $CertificatePinner$Type$ extends jni$_.JType<CertificatePinner> {
+  @jni$_.internal
+  const $CertificatePinner$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/CertificatePinner;';
+}
+
+/// from: `okhttp3.internal.tls.CertificateChainCleaner`
+///
+/// WARNING: CertificateChainCleaner is a stub. To generate bindings for this class, include
+/// okhttp3.internal.tls.CertificateChainCleaner in your config's classes list.
+///
+extension type CertificateChainCleaner._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<CertificateChainCleaner> type =
+      $CertificateChainCleaner$Type$();
+}
+
+final class $CertificateChainCleaner$Type$
+    extends jni$_.JType<CertificateChainCleaner> {
+  @jni$_.internal
+  const $CertificateChainCleaner$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/internal/tls/CertificateChainCleaner;';
+}
+
+/// from: `okhttp3.internal.connection.RouteDatabase`
+///
+/// WARNING: RouteDatabase is a stub. To generate bindings for this class, include
+/// okhttp3.internal.connection.RouteDatabase in your config's classes list.
+///
+extension type RouteDatabase._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<RouteDatabase> type = $RouteDatabase$Type$();
+}
+
+final class $RouteDatabase$Type$ extends jni$_.JType<RouteDatabase> {
+  @jni$_.internal
+  const $RouteDatabase$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/internal/connection/RouteDatabase;';
+}
+
+/// from: `okhttp3.Call`
+///
+/// WARNING: Call is a stub. To generate bindings for this class, include
+/// okhttp3.Call in your config's classes list.
+///
+extension type Call._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Call> type = $Call$Type$();
+}
+
+final class $Call$Type$ extends jni$_.JType<Call> {
+  @jni$_.internal
+  const $Call$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Call;';
+}
+
+/// from: `okhttp3.Request`
+///
+/// WARNING: Request is a stub. To generate bindings for this class, include
+/// okhttp3.Request in your config's classes list.
+///
+extension type Request._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Request> type = $Request$Type$();
+}
+
+final class $Request$Type$ extends jni$_.JType<Request> {
+  @jni$_.internal
+  const $Request$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Request;';
+}
+
+/// from: `okhttp3.WebSocket`
+///
+/// WARNING: WebSocket is a stub. To generate bindings for this class, include
+/// okhttp3.WebSocket in your config's classes list.
+///
+extension type WebSocket._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<WebSocket> type = $WebSocket$Type$();
+}
+
+final class $WebSocket$Type$ extends jni$_.JType<WebSocket> {
+  @jni$_.internal
+  const $WebSocket$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/WebSocket;';
+}
+
+/// from: `okhttp3.WebSocketListener`
+///
+/// WARNING: WebSocketListener is a stub. To generate bindings for this class, include
+/// okhttp3.WebSocketListener in your config's classes list.
+///
+extension type WebSocketListener._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<WebSocketListener> type = $WebSocketListener$Type$();
+}
+
+final class $WebSocketListener$Type$ extends jni$_.JType<WebSocketListener> {
+  @jni$_.internal
+  const $WebSocketListener$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/WebSocketListener;';
+}
+
+/// from: `java.lang.Cloneable`
+///
+/// WARNING: Cloneable is a stub. To generate bindings for this class, include
+/// java.lang.Cloneable in your config's classes list.
+///
+extension type Cloneable._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Cloneable> type = $Cloneable$Type$();
+}
+
+final class $Cloneable$Type$ extends jni$_.JType<Cloneable> {
+  @jni$_.internal
+  const $Cloneable$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Cloneable;';
+}
+
+/// from: `okhttp3.Call$Factory`
+///
+/// WARNING: Call$$Factory is a stub. To generate bindings for this class, include
+/// okhttp3.Call$Factory in your config's classes list.
+///
+extension type Call$$Factory._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Call$$Factory> type = $Call$$Factory$Type$();
+}
+
+final class $Call$$Factory$Type$ extends jni$_.JType<Call$$Factory> {
+  @jni$_.internal
+  const $Call$$Factory$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/Call$Factory;';
+}
+
+/// from: `okhttp3.WebSocket$Factory`
+///
+/// WARNING: WebSocket$$Factory is a stub. To generate bindings for this class, include
+/// okhttp3.WebSocket$Factory in your config's classes list.
+///
+extension type WebSocket$$Factory._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<WebSocket$$Factory> type =
+      $WebSocket$$Factory$Type$();
+}
+
+final class $WebSocket$$Factory$Type$ extends jni$_.JType<WebSocket$$Factory> {
+  @jni$_.internal
+  const $WebSocket$$Factory$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/WebSocket$Factory;';
+}
+
+/// from: `okhttp3.EventListener`
+///
+/// WARNING: EventListener is a stub. To generate bindings for this class, include
+/// okhttp3.EventListener in your config's classes list.
+///
+extension type EventListener._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<EventListener> type = $EventListener$Type$();
+}
+
+final class $EventListener$Type$ extends jni$_.JType<EventListener> {
+  @jni$_.internal
+  const $EventListener$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lokhttp3/EventListener;';
+}
+
+/// from: `java.util.concurrent.TimeUnit`
+///
+/// WARNING: TimeUnit is a stub. To generate bindings for this class, include
+/// java.util.concurrent.TimeUnit in your config's classes list.
+///
+extension type TimeUnit._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<TimeUnit> type = $TimeUnit$Type$();
+}
+
+final class $TimeUnit$Type$ extends jni$_.JType<TimeUnit> {
+  @jni$_.internal
+  const $TimeUnit$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/concurrent/TimeUnit;';
+}
+
+/// from: `java.time.Duration`
+///
+/// WARNING: Duration is a stub. To generate bindings for this class, include
+/// java.time.Duration in your config's classes list.
+///
+extension type Duration._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Duration> type = $Duration$Type$();
+}
+
+final class $Duration$Type$ extends jni$_.JType<Duration> {
+  @jni$_.internal
+  const $Duration$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/time/Duration;';
+}
+
+/// from: `kotlin.jvm.internal.DefaultConstructorMarker`
+///
+/// WARNING: DefaultConstructorMarker is a stub. To generate bindings for this class, include
+/// kotlin.jvm.internal.DefaultConstructorMarker in your config's classes list.
+///
+extension type DefaultConstructorMarker._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<DefaultConstructorMarker> type =
+      $DefaultConstructorMarker$Type$();
+}
+
+final class $DefaultConstructorMarker$Type$
+    extends jni$_.JType<DefaultConstructorMarker> {
+  @jni$_.internal
+  const $DefaultConstructorMarker$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lkotlin/jvm/internal/DefaultConstructorMarker;';
 }

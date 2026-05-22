@@ -53,11 +53,13 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+import '../../../../java/lang/Enum.dart' as enum$_;
+
 /// from: `com.fasterxml.jackson.core.JsonToken`
 ///
 /// Enumeration for basic token types used for returning results
 /// of parsing JSON content.
-extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   static final _class =
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
 

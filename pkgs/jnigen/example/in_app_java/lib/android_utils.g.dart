@@ -40,7 +40,7 @@ const _$jniVersionCheck = jni$_.JniVersionCheck(1, 0);
 
 /// from: `androidx.emoji2.text.EmojiCompat$CodepointSequenceMatchResult`
 extension type EmojiCompat$CodepointSequenceMatchResult._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, Annotation {
   static final _class = jni$_.JClass.forName(
       r'androidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult');
 
@@ -499,14 +499,14 @@ extension EmojiCompat$DefaultSpanFactory$$Methods
 
   /// from: `public androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject createSpan(
-    jni$_.JObject typefaceEmojiRasterizer,
+  EmojiSpan createSpan(
+    TypefaceEmojiRasterizer typefaceEmojiRasterizer,
   ) {
     final _$$selfRef = reference;
     final _$typefaceEmojiRasterizer = typefaceEmojiRasterizer.reference;
     return _createSpan(_$$selfRef.pointer, _id_createSpan.pointer,
             _$typefaceEmojiRasterizer.pointer)
-        .object<jni$_.JObject>();
+        .object<EmojiSpan>();
   }
 }
 
@@ -563,7 +563,7 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
-          ($a![0] as jni$_.JObject),
+          ($a![0] as CharSequence),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
           ($a![2] as jni$_.JInteger).toDartInt(releaseOriginal: true),
           ($a![3] as jni$_.JInteger).toDartInt(releaseOriginal: true),
@@ -639,7 +639,7 @@ extension EmojiCompat$GlyphChecker$$Methods on EmojiCompat$GlyphChecker {
 
   /// from: `public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   core$_.bool hasGlyph(
-    jni$_.JObject charSequence,
+    CharSequence charSequence,
     core$_.int i,
     core$_.int i1,
     core$_.int i2,
@@ -654,27 +654,28 @@ extension EmojiCompat$GlyphChecker$$Methods on EmojiCompat$GlyphChecker {
 
 abstract base mixin class $EmojiCompat$GlyphChecker {
   factory $EmojiCompat$GlyphChecker({
-    required core$_.bool Function(jni$_.JObject charSequence, core$_.int i,
+    required core$_.bool Function(CharSequence charSequence, core$_.int i,
             core$_.int i1, core$_.int i2)
         hasGlyph,
   }) = _$EmojiCompat$GlyphChecker;
 
   core$_.bool hasGlyph(
-      jni$_.JObject charSequence, core$_.int i, core$_.int i1, core$_.int i2);
+      CharSequence charSequence, core$_.int i, core$_.int i1, core$_.int i2);
 }
 
 final class _$EmojiCompat$GlyphChecker with $EmojiCompat$GlyphChecker {
   _$EmojiCompat$GlyphChecker({
-    required core$_.bool Function(jni$_.JObject charSequence, core$_.int i,
+    required core$_.bool Function(CharSequence charSequence, core$_.int i,
             core$_.int i1, core$_.int i2)
         hasGlyph,
   }) : _hasGlyph = hasGlyph;
 
-  final core$_.bool Function(jni$_.JObject charSequence, core$_.int i,
-      core$_.int i1, core$_.int i2) _hasGlyph;
+  final core$_.bool Function(
+          CharSequence charSequence, core$_.int i, core$_.int i1, core$_.int i2)
+      _hasGlyph;
 
   core$_.bool hasGlyph(
-      jni$_.JObject charSequence, core$_.int i, core$_.int i1, core$_.int i2) {
+      CharSequence charSequence, core$_.int i, core$_.int i1, core$_.int i2) {
     return _hasGlyph(charSequence, i, i1, i2);
   }
 }
@@ -743,7 +744,7 @@ extension EmojiCompat$InitCallback$$Methods on EmojiCompat$InitCallback {
 
   /// from: `public void onFailed(java.lang.Throwable throwable)`
   void onFailed(
-    jni$_.JObject? throwable,
+    Throwable? throwable,
   ) {
     final _$$selfRef = reference;
     final _$throwable = throwable?.reference ?? jni$_.jNullReference;
@@ -764,7 +765,7 @@ final class $EmojiCompat$InitCallback$Type$
 
 /// from: `androidx.emoji2.text.EmojiCompat$LoadStrategy`
 extension type EmojiCompat$LoadStrategy._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, Annotation {
   static final _class =
       jni$_.JClass.forName(r'androidx/emoji2/text/EmojiCompat$LoadStrategy');
 
@@ -1055,7 +1056,7 @@ extension EmojiCompat$MetadataRepoLoaderCallback$$Methods
 
   /// from: `public abstract void onLoaded(androidx.emoji2.text.MetadataRepo metadataRepo)`
   void onLoaded(
-    jni$_.JObject metadataRepo,
+    MetadataRepo metadataRepo,
   ) {
     final _$$selfRef = reference;
     final _$metadataRepo = metadataRepo.reference;
@@ -1082,7 +1083,7 @@ extension EmojiCompat$MetadataRepoLoaderCallback$$Methods
 
   /// from: `public abstract void onFailed(java.lang.Throwable throwable)`
   void onFailed(
-    jni$_.JObject? throwable,
+    Throwable? throwable,
   ) {
     final _$$selfRef = reference;
     final _$throwable = throwable?.reference ?? jni$_.jNullReference;
@@ -1104,7 +1105,7 @@ final class $EmojiCompat$MetadataRepoLoaderCallback$Type$
 
 /// from: `androidx.emoji2.text.EmojiCompat$ReplaceStrategy`
 extension type EmojiCompat$ReplaceStrategy._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, Annotation {
   static final _class =
       jni$_.JClass.forName(r'androidx/emoji2/text/EmojiCompat$ReplaceStrategy');
 
@@ -1244,7 +1245,7 @@ extension type EmojiCompat$SpanFactory._(jni$_.JObject _$this)
       if ($d ==
           r'createSpan(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;') {
         final $r = _$impls[$p]!.createSpan(
-          ($a![0] as jni$_.JObject),
+          ($a![0] as TypefaceEmojiRasterizer),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -1311,36 +1312,36 @@ extension EmojiCompat$SpanFactory$$Methods on EmojiCompat$SpanFactory {
 
   /// from: `public abstract androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer typefaceEmojiRasterizer)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject createSpan(
-    jni$_.JObject typefaceEmojiRasterizer,
+  EmojiSpan createSpan(
+    TypefaceEmojiRasterizer typefaceEmojiRasterizer,
   ) {
     final _$$selfRef = reference;
     final _$typefaceEmojiRasterizer = typefaceEmojiRasterizer.reference;
     return _createSpan(_$$selfRef.pointer, _id_createSpan.pointer,
             _$typefaceEmojiRasterizer.pointer)
-        .object<jni$_.JObject>();
+        .object<EmojiSpan>();
   }
 }
 
 abstract base mixin class $EmojiCompat$SpanFactory {
   factory $EmojiCompat$SpanFactory({
-    required jni$_.JObject Function(jni$_.JObject typefaceEmojiRasterizer)
+    required EmojiSpan Function(TypefaceEmojiRasterizer typefaceEmojiRasterizer)
         createSpan,
   }) = _$EmojiCompat$SpanFactory;
 
-  jni$_.JObject createSpan(jni$_.JObject typefaceEmojiRasterizer);
+  EmojiSpan createSpan(TypefaceEmojiRasterizer typefaceEmojiRasterizer);
 }
 
 final class _$EmojiCompat$SpanFactory with $EmojiCompat$SpanFactory {
   _$EmojiCompat$SpanFactory({
-    required jni$_.JObject Function(jni$_.JObject typefaceEmojiRasterizer)
+    required EmojiSpan Function(TypefaceEmojiRasterizer typefaceEmojiRasterizer)
         createSpan,
   }) : _createSpan = createSpan;
 
-  final jni$_.JObject Function(jni$_.JObject typefaceEmojiRasterizer)
+  final EmojiSpan Function(TypefaceEmojiRasterizer typefaceEmojiRasterizer)
       _createSpan;
 
-  jni$_.JObject createSpan(jni$_.JObject typefaceEmojiRasterizer) {
+  EmojiSpan createSpan(TypefaceEmojiRasterizer typefaceEmojiRasterizer) {
     return _createSpan(typefaceEmojiRasterizer);
   }
 }
@@ -1438,7 +1439,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   static EmojiCompat? init(
-    jni$_.JObject context,
+    Context context,
   ) {
     final _$$classRef = _class.reference;
     final _$context = context.reference;
@@ -1471,7 +1472,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public androidx.emoji2.text.EmojiCompat init(android.content.Context context, androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory defaultEmojiCompatConfigFactory)`
   /// The returned object must be released after use, by calling the [release] method.
   static EmojiCompat? init$1(
-    jni$_.JObject context,
+    Context context,
     DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory?
         defaultEmojiCompatConfigFactory,
   ) {
@@ -1665,9 +1666,9 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public boolean handleOnKeyDown(android.text.Editable editable, int i, android.view.KeyEvent keyEvent)`
   static core$_.bool handleOnKeyDown(
-    jni$_.JObject editable,
+    Editable editable,
     core$_.int i,
-    jni$_.JObject keyEvent,
+    KeyEvent keyEvent,
   ) {
     final _$$classRef = _class.reference;
     final _$editable = editable.reference;
@@ -1708,8 +1709,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int i, int i1, boolean z)`
   static core$_.bool handleDeleteSurroundingText(
-    jni$_.JObject inputConnection,
-    jni$_.JObject editable,
+    InputConnection inputConnection,
+    Editable editable,
     core$_.int i,
     core$_.int i1,
     core$_.bool z,
@@ -1904,7 +1905,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public int getEmojiStart(java.lang.CharSequence charSequence, int i)`
   core$_.int getEmojiStart(
-    jni$_.JObject charSequence,
+    CharSequence charSequence,
     core$_.int i,
   ) {
     final _$$selfRef = reference;
@@ -1933,7 +1934,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public int getEmojiEnd(java.lang.CharSequence charSequence, int i)`
   core$_.int getEmojiEnd(
-    jni$_.JObject charSequence,
+    CharSequence charSequence,
     core$_.int i,
   ) {
     final _$$selfRef = reference;
@@ -1961,7 +1962,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence)`
   core$_.bool hasEmojiGlyph(
-    jni$_.JObject charSequence,
+    CharSequence charSequence,
   ) {
     final _$$selfRef = reference;
     final _$charSequence = charSequence.reference;
@@ -1989,7 +1990,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
   core$_.bool hasEmojiGlyph$1(
-    jni$_.JObject charSequence,
+    CharSequence charSequence,
     core$_.int i,
   ) {
     final _$$selfRef = reference;
@@ -2018,7 +2019,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public int getEmojiMatch(java.lang.CharSequence charSequence, int i)`
   core$_.int getEmojiMatch(
-    jni$_.JObject charSequence,
+    CharSequence charSequence,
     core$_.int i,
   ) {
     final _$$selfRef = reference;
@@ -2046,14 +2047,14 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? process(
-    jni$_.JObject? charSequence,
+  CharSequence? process(
+    CharSequence? charSequence,
   ) {
     final _$$selfRef = reference;
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _process(
             _$$selfRef.pointer, _id_process.pointer, _$charSequence.pointer)
-        .object<jni$_.JObject?>();
+        .object<CharSequence?>();
   }
 
   static final _id_process$1 = EmojiCompat._class.instanceMethodId(
@@ -2082,8 +2083,8 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? process$1(
-    jni$_.JObject? charSequence,
+  CharSequence? process$1(
+    CharSequence? charSequence,
     core$_.int i,
     core$_.int i1,
   ) {
@@ -2091,7 +2092,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _process$1(_$$selfRef.pointer, _id_process$1.pointer,
             _$charSequence.pointer, i, i1)
-        .object<jni$_.JObject?>();
+        .object<CharSequence?>();
   }
 
   static final _id_process$2 = EmojiCompat._class.instanceMethodId(
@@ -2122,8 +2123,8 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? process$2(
-    jni$_.JObject? charSequence,
+  CharSequence? process$2(
+    CharSequence? charSequence,
     core$_.int i,
     core$_.int i1,
     core$_.int i2,
@@ -2132,7 +2133,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _process$2(_$$selfRef.pointer, _id_process$2.pointer,
             _$charSequence.pointer, i, i1, i2)
-        .object<jni$_.JObject?>();
+        .object<CharSequence?>();
   }
 
   static final _id_process$3 = EmojiCompat._class.instanceMethodId(
@@ -2165,8 +2166,8 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2, int i3)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? process$3(
-    jni$_.JObject? charSequence,
+  CharSequence? process$3(
+    CharSequence? charSequence,
     core$_.int i,
     core$_.int i1,
     core$_.int i2,
@@ -2176,7 +2177,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _process$3(_$$selfRef.pointer, _id_process$3.pointer,
             _$charSequence.pointer, i, i1, i2, i3)
-        .object<jni$_.JObject?>();
+        .object<CharSequence?>();
   }
 
   static final _id_get$assetSignature = EmojiCompat._class.instanceMethodId(
@@ -2223,7 +2224,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public void updateEditorInfo(android.view.inputmethod.EditorInfo editorInfo)`
   void updateEditorInfo(
-    jni$_.JObject editorInfo,
+    EditorInfo editorInfo,
   ) {
     final _$$selfRef = reference;
     final _$editorInfo = editorInfo.reference;
@@ -2305,7 +2306,7 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory$$Methods
   /// from: `public androidx.emoji2.text.EmojiCompat$Config create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config? create(
-    jni$_.JObject context,
+    Context context,
   ) {
     final _$$selfRef = reference;
     final _$context = context.reference;
@@ -2389,8 +2390,8 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$$Methods
 
   /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?> getSigningSignatures(
-    jni$_.JObject packageManager,
+  jni$_.JArray<Signature?> getSigningSignatures(
+    PackageManager packageManager,
     jni$_.JString string,
   ) {
     final _$$selfRef = reference;
@@ -2401,7 +2402,7 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$$Methods
             _id_getSigningSignatures.pointer,
             _$packageManager.pointer,
             _$string.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>>();
+        .object<jni$_.JArray<Signature?>>();
   }
 
   static final _id_queryIntentContentProviders =
@@ -2433,9 +2434,9 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$$Methods
 
   /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
-    jni$_.JObject packageManager,
-    jni$_.JObject intent,
+  jni$_.JList<ResolveInfo?> queryIntentContentProviders(
+    PackageManager packageManager,
+    Intent intent,
     core$_.int i,
   ) {
     final _$$selfRef = reference;
@@ -2447,7 +2448,7 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$$Methods
             _$packageManager.pointer,
             _$intent.pointer,
             i)
-        .object<jni$_.JList<jni$_.JObject?>>();
+        .object<jni$_.JList<ResolveInfo?>>();
   }
 
   static final _id_getProviderInfo =
@@ -2470,14 +2471,14 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$$Methods
 
   /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getProviderInfo(
-    jni$_.JObject resolveInfo,
+  ProviderInfo? getProviderInfo(
+    ResolveInfo resolveInfo,
   ) {
     final _$$selfRef = reference;
     final _$resolveInfo = resolveInfo.reference;
     return _getProviderInfo(_$$selfRef.pointer, _id_getProviderInfo.pointer,
             _$resolveInfo.pointer)
-        .object<jni$_.JObject?>();
+        .object<ProviderInfo?>();
   }
 }
 
@@ -2561,9 +2562,9 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$$Methods
 
   /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
-    jni$_.JObject packageManager,
-    jni$_.JObject intent,
+  jni$_.JList<ResolveInfo?> queryIntentContentProviders(
+    PackageManager packageManager,
+    Intent intent,
     core$_.int i,
   ) {
     final _$$selfRef = reference;
@@ -2575,7 +2576,7 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$$Methods
             _$packageManager.pointer,
             _$intent.pointer,
             i)
-        .object<jni$_.JList<jni$_.JObject?>>();
+        .object<jni$_.JList<ResolveInfo?>>();
   }
 
   static final _id_getProviderInfo =
@@ -2598,14 +2599,14 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$$Methods
 
   /// from: `public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getProviderInfo(
-    jni$_.JObject resolveInfo,
+  ProviderInfo? getProviderInfo(
+    ResolveInfo resolveInfo,
   ) {
     final _$$selfRef = reference;
     final _$resolveInfo = resolveInfo.reference;
     return _getProviderInfo(_$$selfRef.pointer, _id_getProviderInfo.pointer,
             _$resolveInfo.pointer)
-        .object<jni$_.JObject?>();
+        .object<ProviderInfo?>();
   }
 }
 
@@ -2686,8 +2687,8 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28$$Methods
 
   /// from: `public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?> getSigningSignatures$1(
-    jni$_.JObject packageManager,
+  jni$_.JArray<Signature?> getSigningSignatures$1(
+    PackageManager packageManager,
     jni$_.JString string,
   ) {
     final _$$selfRef = reference;
@@ -2698,7 +2699,7 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28$$Methods
             _id_getSigningSignatures$1.pointer,
             _$packageManager.pointer,
             _$string.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>>();
+        .object<jni$_.JArray<Signature?>>();
   }
 }
 
@@ -2741,13 +2742,13 @@ extension type DefaultEmojiCompatConfig._(jni$_.JObject _$this)
 
   /// from: `static public androidx.emoji2.text.FontRequestEmojiCompatConfig create(android.content.Context context)`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? create(
-    jni$_.JObject context,
+  static FontRequestEmojiCompatConfig? create(
+    Context context,
   ) {
     final _$$classRef = _class.reference;
     final _$context = context.reference;
     return _create(_$$classRef.pointer, _id_create.pointer, _$context.pointer)
-        .object<jni$_.JObject?>();
+        .object<FontRequestEmojiCompatConfig?>();
   }
 }
 
@@ -3811,7 +3812,8 @@ final class $Build$Type$ extends jni$_.JType<Build> {
 
 /// from: `java.util.HashMap`
 extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject, jni$_.JMap<$K?, $V?> {
+        jni$_.JObject _$this)
+    implements AbstractMap, Cloneable, jni$_.JMap<$K?, $V?>, Serializable {
   static final _class = jni$_.JClass.forName(r'java/util/HashMap');
 
   /// The type which includes information such as the signature of this class.
@@ -4018,7 +4020,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   $V? compute(
     $K? object,
-    jni$_.JObject? biFunction,
+    BiFunction? biFunction,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -4054,7 +4056,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   $V? computeIfAbsent(
     $K? object,
-    jni$_.JObject? function,
+    Function$? function,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -4090,7 +4092,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   /// The returned object must be released after use, by calling the [release] method.
   $V? computeIfPresent(
     $K? object,
-    jni$_.JObject? biFunction,
+    BiFunction? biFunction,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -4173,10 +4175,10 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JSet<jni$_.JObject?>? entrySet() {
+  jni$_.JSet<Map$$Entry?>? entrySet() {
     final _$$selfRef = reference;
     return _entrySet(_$$selfRef.pointer, _id_entrySet.pointer)
-        .object<jni$_.JSet<jni$_.JObject?>?>();
+        .object<jni$_.JSet<Map$$Entry?>?>();
   }
 
   static final _id_forEach = HashMap._class.instanceMethodId(
@@ -4197,7 +4199,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public void forEach(java.util.function.BiConsumer<? super K, ? super V> biConsumer)`
   void forEach(
-    jni$_.JObject? biConsumer,
+    BiConsumer? biConsumer,
   ) {
     final _$$selfRef = reference;
     final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
@@ -4345,7 +4347,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   $V? merge(
     $K? object,
     $V? object1,
-    jni$_.JObject? biFunction,
+    BiFunction? biFunction,
   ) {
     final _$$selfRef = reference;
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -4608,7 +4610,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   void replaceAll(
-    jni$_.JObject? biFunction,
+    BiFunction? biFunction,
   ) {
     final _$$selfRef = reference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
@@ -4659,10 +4661,10 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? values() {
+  Collection? values() {
     final _$$selfRef = reference;
     return _values(_$$selfRef.pointer, _id_values.pointer)
-        .object<jni$_.JObject?>();
+        .object<Collection?>();
   }
 }
 
@@ -4708,8 +4710,8 @@ extension type AndroidUtils._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)`
   static void showToast(
-    jni$_.JObject? mainActivity,
-    jni$_.JObject? text,
+    Activity? mainActivity,
+    CharSequence? text,
     core$_.int duration,
   ) {
     final _$$classRef = _class.reference;
@@ -4728,4 +4730,480 @@ final class $AndroidUtils$Type$ extends jni$_.JType<AndroidUtils> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/in_app_java/AndroidUtils;';
+}
+
+/// from: `android.content.Context`
+///
+/// WARNING: Context is a stub. To generate bindings for this class, include
+/// android.content.Context in your config's classes list.
+///
+extension type Context._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Context> type = $Context$Type$();
+}
+
+final class $Context$Type$ extends jni$_.JType<Context> {
+  @jni$_.internal
+  const $Context$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/content/Context;';
+}
+
+/// from: `java.lang.CharSequence`
+///
+/// WARNING: CharSequence is a stub. To generate bindings for this class, include
+/// java.lang.CharSequence in your config's classes list.
+///
+extension type CharSequence._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<CharSequence> type = $CharSequence$Type$();
+}
+
+final class $CharSequence$Type$ extends jni$_.JType<CharSequence> {
+  @jni$_.internal
+  const $CharSequence$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/CharSequence;';
+}
+
+/// from: `android.text.Editable`
+///
+/// WARNING: Editable is a stub. To generate bindings for this class, include
+/// android.text.Editable in your config's classes list.
+///
+extension type Editable._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Editable> type = $Editable$Type$();
+}
+
+final class $Editable$Type$ extends jni$_.JType<Editable> {
+  @jni$_.internal
+  const $Editable$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/text/Editable;';
+}
+
+/// from: `android.view.KeyEvent`
+///
+/// WARNING: KeyEvent is a stub. To generate bindings for this class, include
+/// android.view.KeyEvent in your config's classes list.
+///
+extension type KeyEvent._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<KeyEvent> type = $KeyEvent$Type$();
+}
+
+final class $KeyEvent$Type$ extends jni$_.JType<KeyEvent> {
+  @jni$_.internal
+  const $KeyEvent$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/view/KeyEvent;';
+}
+
+/// from: `android.view.inputmethod.InputConnection`
+///
+/// WARNING: InputConnection is a stub. To generate bindings for this class, include
+/// android.view.inputmethod.InputConnection in your config's classes list.
+///
+extension type InputConnection._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<InputConnection> type = $InputConnection$Type$();
+}
+
+final class $InputConnection$Type$ extends jni$_.JType<InputConnection> {
+  @jni$_.internal
+  const $InputConnection$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/view/inputmethod/InputConnection;';
+}
+
+/// from: `android.view.inputmethod.EditorInfo`
+///
+/// WARNING: EditorInfo is a stub. To generate bindings for this class, include
+/// android.view.inputmethod.EditorInfo in your config's classes list.
+///
+extension type EditorInfo._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<EditorInfo> type = $EditorInfo$Type$();
+}
+
+final class $EditorInfo$Type$ extends jni$_.JType<EditorInfo> {
+  @jni$_.internal
+  const $EditorInfo$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/view/inputmethod/EditorInfo;';
+}
+
+/// from: `java.lang.annotation.Annotation`
+///
+/// WARNING: Annotation is a stub. To generate bindings for this class, include
+/// java.lang.annotation.Annotation in your config's classes list.
+///
+extension type Annotation._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Annotation> type = $Annotation$Type$();
+}
+
+final class $Annotation$Type$ extends jni$_.JType<Annotation> {
+  @jni$_.internal
+  const $Annotation$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/annotation/Annotation;';
+}
+
+/// from: `androidx.emoji2.text.EmojiSpan`
+///
+/// WARNING: EmojiSpan is a stub. To generate bindings for this class, include
+/// androidx.emoji2.text.EmojiSpan in your config's classes list.
+///
+extension type EmojiSpan._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<EmojiSpan> type = $EmojiSpan$Type$();
+}
+
+final class $EmojiSpan$Type$ extends jni$_.JType<EmojiSpan> {
+  @jni$_.internal
+  const $EmojiSpan$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroidx/emoji2/text/EmojiSpan;';
+}
+
+/// from: `androidx.emoji2.text.TypefaceEmojiRasterizer`
+///
+/// WARNING: TypefaceEmojiRasterizer is a stub. To generate bindings for this class, include
+/// androidx.emoji2.text.TypefaceEmojiRasterizer in your config's classes list.
+///
+extension type TypefaceEmojiRasterizer._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<TypefaceEmojiRasterizer> type =
+      $TypefaceEmojiRasterizer$Type$();
+}
+
+final class $TypefaceEmojiRasterizer$Type$
+    extends jni$_.JType<TypefaceEmojiRasterizer> {
+  @jni$_.internal
+  const $TypefaceEmojiRasterizer$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroidx/emoji2/text/TypefaceEmojiRasterizer;';
+}
+
+/// from: `java.lang.Throwable`
+///
+/// WARNING: Throwable is a stub. To generate bindings for this class, include
+/// java.lang.Throwable in your config's classes list.
+///
+extension type Throwable._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Throwable> type = $Throwable$Type$();
+}
+
+final class $Throwable$Type$ extends jni$_.JType<Throwable> {
+  @jni$_.internal
+  const $Throwable$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Throwable;';
+}
+
+/// from: `androidx.emoji2.text.MetadataRepo`
+///
+/// WARNING: MetadataRepo is a stub. To generate bindings for this class, include
+/// androidx.emoji2.text.MetadataRepo in your config's classes list.
+///
+extension type MetadataRepo._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<MetadataRepo> type = $MetadataRepo$Type$();
+}
+
+final class $MetadataRepo$Type$ extends jni$_.JType<MetadataRepo> {
+  @jni$_.internal
+  const $MetadataRepo$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroidx/emoji2/text/MetadataRepo;';
+}
+
+/// from: `androidx.emoji2.text.FontRequestEmojiCompatConfig`
+///
+/// WARNING: FontRequestEmojiCompatConfig is a stub. To generate bindings for this class, include
+/// androidx.emoji2.text.FontRequestEmojiCompatConfig in your config's classes list.
+///
+extension type FontRequestEmojiCompatConfig._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static const jni$_.JType<FontRequestEmojiCompatConfig> type =
+      $FontRequestEmojiCompatConfig$Type$();
+}
+
+final class $FontRequestEmojiCompatConfig$Type$
+    extends jni$_.JType<FontRequestEmojiCompatConfig> {
+  @jni$_.internal
+  const $FontRequestEmojiCompatConfig$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Landroidx/emoji2/text/FontRequestEmojiCompatConfig;';
+}
+
+/// from: `android.content.pm.Signature`
+///
+/// WARNING: Signature is a stub. To generate bindings for this class, include
+/// android.content.pm.Signature in your config's classes list.
+///
+extension type Signature._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Signature> type = $Signature$Type$();
+}
+
+final class $Signature$Type$ extends jni$_.JType<Signature> {
+  @jni$_.internal
+  const $Signature$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/content/pm/Signature;';
+}
+
+/// from: `android.content.pm.PackageManager`
+///
+/// WARNING: PackageManager is a stub. To generate bindings for this class, include
+/// android.content.pm.PackageManager in your config's classes list.
+///
+extension type PackageManager._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<PackageManager> type = $PackageManager$Type$();
+}
+
+final class $PackageManager$Type$ extends jni$_.JType<PackageManager> {
+  @jni$_.internal
+  const $PackageManager$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/content/pm/PackageManager;';
+}
+
+/// from: `android.content.pm.ResolveInfo`
+///
+/// WARNING: ResolveInfo is a stub. To generate bindings for this class, include
+/// android.content.pm.ResolveInfo in your config's classes list.
+///
+extension type ResolveInfo._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<ResolveInfo> type = $ResolveInfo$Type$();
+}
+
+final class $ResolveInfo$Type$ extends jni$_.JType<ResolveInfo> {
+  @jni$_.internal
+  const $ResolveInfo$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/content/pm/ResolveInfo;';
+}
+
+/// from: `android.content.Intent`
+///
+/// WARNING: Intent is a stub. To generate bindings for this class, include
+/// android.content.Intent in your config's classes list.
+///
+extension type Intent._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Intent> type = $Intent$Type$();
+}
+
+final class $Intent$Type$ extends jni$_.JType<Intent> {
+  @jni$_.internal
+  const $Intent$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/content/Intent;';
+}
+
+/// from: `android.content.pm.ProviderInfo`
+///
+/// WARNING: ProviderInfo is a stub. To generate bindings for this class, include
+/// android.content.pm.ProviderInfo in your config's classes list.
+///
+extension type ProviderInfo._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<ProviderInfo> type = $ProviderInfo$Type$();
+}
+
+final class $ProviderInfo$Type$ extends jni$_.JType<ProviderInfo> {
+  @jni$_.internal
+  const $ProviderInfo$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/content/pm/ProviderInfo;';
+}
+
+/// from: `java.util.AbstractMap`
+///
+/// WARNING: AbstractMap is a stub. To generate bindings for this class, include
+/// java.util.AbstractMap in your config's classes list.
+///
+extension type AbstractMap._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<AbstractMap> type = $AbstractMap$Type$();
+}
+
+final class $AbstractMap$Type$ extends jni$_.JType<AbstractMap> {
+  @jni$_.internal
+  const $AbstractMap$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/AbstractMap;';
+}
+
+/// from: `java.util.function.BiFunction`
+///
+/// WARNING: BiFunction is a stub. To generate bindings for this class, include
+/// java.util.function.BiFunction in your config's classes list.
+///
+extension type BiFunction._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<BiFunction> type = $BiFunction$Type$();
+}
+
+final class $BiFunction$Type$ extends jni$_.JType<BiFunction> {
+  @jni$_.internal
+  const $BiFunction$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/function/BiFunction;';
+}
+
+/// from: `java.util.function.Function`
+///
+/// WARNING: Function$ is a stub. To generate bindings for this class, include
+/// java.util.function.Function in your config's classes list.
+///
+extension type Function$._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Function$> type = $Function$$Type$();
+}
+
+final class $Function$$Type$ extends jni$_.JType<Function$> {
+  @jni$_.internal
+  const $Function$$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/function/Function;';
+}
+
+/// from: `java.util.Map$Entry`
+///
+/// WARNING: Map$$Entry is a stub. To generate bindings for this class, include
+/// java.util.Map$Entry in your config's classes list.
+///
+extension type Map$$Entry._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Map$$Entry> type = $Map$$Entry$Type$();
+}
+
+final class $Map$$Entry$Type$ extends jni$_.JType<Map$$Entry> {
+  @jni$_.internal
+  const $Map$$Entry$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/Map$Entry;';
+}
+
+/// from: `java.util.function.BiConsumer`
+///
+/// WARNING: BiConsumer is a stub. To generate bindings for this class, include
+/// java.util.function.BiConsumer in your config's classes list.
+///
+extension type BiConsumer._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<BiConsumer> type = $BiConsumer$Type$();
+}
+
+final class $BiConsumer$Type$ extends jni$_.JType<BiConsumer> {
+  @jni$_.internal
+  const $BiConsumer$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/function/BiConsumer;';
+}
+
+/// from: `java.util.Collection`
+///
+/// WARNING: Collection is a stub. To generate bindings for this class, include
+/// java.util.Collection in your config's classes list.
+///
+extension type Collection._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Collection> type = $Collection$Type$();
+}
+
+final class $Collection$Type$ extends jni$_.JType<Collection> {
+  @jni$_.internal
+  const $Collection$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/Collection;';
+}
+
+/// from: `java.lang.Cloneable`
+///
+/// WARNING: Cloneable is a stub. To generate bindings for this class, include
+/// java.lang.Cloneable in your config's classes list.
+///
+extension type Cloneable._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Cloneable> type = $Cloneable$Type$();
+}
+
+final class $Cloneable$Type$ extends jni$_.JType<Cloneable> {
+  @jni$_.internal
+  const $Cloneable$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Cloneable;';
+}
+
+/// from: `java.io.Serializable`
+///
+/// WARNING: Serializable is a stub. To generate bindings for this class, include
+/// java.io.Serializable in your config's classes list.
+///
+extension type Serializable._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Serializable> type = $Serializable$Type$();
+}
+
+final class $Serializable$Type$ extends jni$_.JType<Serializable> {
+  @jni$_.internal
+  const $Serializable$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/io/Serializable;';
+}
+
+/// from: `android.app.Activity`
+///
+/// WARNING: Activity is a stub. To generate bindings for this class, include
+/// android.app.Activity in your config's classes list.
+///
+extension type Activity._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<Activity> type = $Activity$Type$();
+}
+
+final class $Activity$Type$ extends jni$_.JType<Activity> {
+  @jni$_.internal
+  const $Activity$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Landroid/app/Activity;';
 }

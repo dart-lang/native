@@ -749,9 +749,20 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
 
       group('throw Java exceptions', () {
-        for (final (threading, consume) in [
-          ('another thread', StringConverterConsumer.consumeOnAnotherThread),
-          ('the same thread', StringConverterConsumer.consumeOnSameThread),
+        for (final (
+              threading,
+              JObject? Function(StringConverter?, JString?) consume
+            ) in [
+          (
+            'another thread',
+            StringConverterConsumer.consumeOnAnotherThread as JObject? Function(
+                StringConverter?, JString?)
+          ),
+          (
+            'the same thread',
+            StringConverterConsumer.consumeOnSameThread as JObject? Function(
+                StringConverter?, JString?)
+          ),
         ]) {
           test('StringConverter.implement on $threading ', () async {
             final stringConverter = StringConverter.implement(

@@ -1,6 +1,8 @@
 /// File merely exporting the generated bindings from lib/src/third_party
 library;
 
+export 'src/third_party/java/io/File.dart';
+export 'src/third_party/java/io/InputStream.dart';
 export 'src/third_party/org/apache/pdfbox/pdmodel/PDDocument.dart';
 export 'src/third_party/org/apache/pdfbox/pdmodel/PDDocumentInformation.dart';
 export 'src/third_party/org/apache/pdfbox/text/PDFTextStripper.dart';

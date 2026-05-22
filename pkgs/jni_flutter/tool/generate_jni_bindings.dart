@@ -30,6 +30,7 @@ Future<void> main() async {
       ),
       classes: ['com.github.dart_lang.jni_flutter.JniFlutterPlugin'],
       preamble: preamble,
+      generateStubs: false,
     ),
   );
 }
