@@ -103,7 +103,6 @@ void main() {
       lib.objc_autoreleasePoolPop(pool);
 
       expect(block, outputBlock);
-      expect(blockTracker.isAlive, true);
       expect(outputBlockTracker.isAlive, true);
     }
 

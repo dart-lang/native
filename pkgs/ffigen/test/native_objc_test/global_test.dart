@@ -31,7 +31,7 @@ void main() {
     });
 
     @pragma('vm:never-inline')
-    ReferenceTracker globalObjectRefCountingInner(Arean arena) {
+    ReferenceTracker globalObjectRefCountingInner(Arena arena) {
       final obj = NSObject();
       final globalObjectTracker = ReferenceTracker(arena);
       globalObjectTracker.track(obj);

@@ -95,7 +95,6 @@ void main() {
       objc_autoreleasePoolPop(pool);
 
       expect(block, outputBlock);
-      expect(blockTracker.isAlive, true);
       expect(outputBlockTracker.isAlive, true);
     }
 

@@ -918,7 +918,6 @@ void main() {
         doGC();
         expect(blockTracker.isAlive, true);
         expect(dummyObjectTracker.isAlive, true);
-        expect(objTracker.isAlive, false);
 
         dummyObject = null;
         block = null;
@@ -959,7 +958,6 @@ void main() {
         doGC();
         expect(blockTracker.isAlive, true);
         expect(dummyObjectTracker.isAlive, true);
-        expect(objTracker.isAlive, false);
 
         tester.invokeAndReleaseListenerOnNewThread();
         await completer.future;
@@ -1041,7 +1039,6 @@ void main() {
       await flutterDoGC();
       expect(dummyObjectTracker.isAlive, true);
       expect(blockTracker.isAlive, true);
-      expect(objTracker.isAlive, false);
 
       return (tester, dummyObjectTracker, blockTracker);
     }

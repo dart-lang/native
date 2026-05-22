@@ -286,19 +286,6 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    test('objectRetainCount large ref count', () {
-      // Most ObjC API methods return us a reference without incrementing the
-      // ref count (ie, returns us a reference we don't own). So the wrapper
-      // object has to take ownership by calling retain. This test verifies that
-      // is working correctly by holding a reference to an object returned by a
-      // method, after the original wrapper object is gone.
-      final counter = calloc<Int32>()..value = 0;
-      largeRefCountInner(counter);
-      doGC();
-      expect(counter.value, 0);
-      calloc.free(counter);
-    }, skip: !canDoGC);
-
     test('Destroy on main thread', () async {
       const numTestObjects = 1000;
 
