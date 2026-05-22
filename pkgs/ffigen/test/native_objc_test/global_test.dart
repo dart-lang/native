@@ -30,17 +30,19 @@ void main() {
       lib.globalString = 'Hello World'.toNSString();
     });
 
-    void globalObjectRefCountingInner(ReferenceTracker globalObjectTracker) {
+    @pragma('vm:never-inline')
+    ReferenceTracker globalObjectRefCountingInner(Arean arena) {
       final obj = NSObject();
+      final globalObjectTracker = ReferenceTracker(arena);
       globalObjectTracker.track(obj);
       lib.globalObject = obj;
       expect(globalObjectTracker.isAlive, true);
+      return globalObjectTracker;
     }
 
     test('Global object ref counting', () {
       using((Arena arena) {
-        final globalObjectTracker = ReferenceTracker(arena);
-        globalObjectRefCountingInner(globalObjectTracker);
+        final globalObjectTracker = globalObjectRefCountingInner(arena);
         expect(globalObjectTracker.isAlive, true);
         lib.globalObject = null;
         doGC();
@@ -55,6 +57,7 @@ void main() {
       expect(lib.globalBlock!(456), 1456);
     });
 
+    @pragma('vm:never-inline')
     (ReferenceTracker, ReferenceTracker) globalBlockRefCountingInner(
       Arena arena,
     ) {

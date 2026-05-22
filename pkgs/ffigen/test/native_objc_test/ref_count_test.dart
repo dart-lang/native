@@ -17,6 +17,7 @@ import 'util.dart';
 
 void main() {
   group('Reference counting', () {
+    @pragma('vm:never-inline')
     void newMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject();
       obj1.setCounter(counter);
@@ -49,6 +50,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject.alloc().initWithCounter(counter);
       expect(counter.value, 1);
@@ -71,6 +73,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void copyMethodsInner(Pointer<Int32> counter) {
       final pool = objc_autoreleasePoolPush();
       final obj1 = RefCountTestObject.newWithCounter(counter);
@@ -114,6 +117,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject.makeAndAutorelease(counter);
       expect(counter.value, 1);
@@ -144,6 +148,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void assignPropertiesInnerInner(
       Pointer<Int32> counter,
       RefCountTestObject outerObj,
@@ -155,6 +160,7 @@ void main() {
       expect(assignObj, outerObj.assignedProperty);
     }
 
+    @pragma('vm:never-inline')
     void assignPropertiesInner(Pointer<Int32> counter) {
       final outerObj = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -173,6 +179,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void retainPropertiesInnerInner(
       Pointer<Int32> counter,
       RefCountTestObject outerObj,
@@ -184,6 +191,7 @@ void main() {
       expect(retainObj, outerObj.retainedProperty);
     }
 
+    @pragma('vm:never-inline')
     void retainPropertiesInner(Pointer<Int32> counter) {
       final outerObj = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -207,6 +215,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void copyPropertiesInner(Pointer<Int32> counter) {
       final outerObj = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -241,6 +250,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     castFromPointerInnerReleaseAndRetain(int address) {
       final fromCast = RefCounted.fromPointer(
         Pointer<ObjCObjectImpl>.fromAddress(address),
@@ -259,6 +269,7 @@ void main() {
       expect(obj1.refCount, 1);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     castFromPointerInnerNoReleaseAndRetain(int address) {
       final fromCast = RefCounted.fromPointer(
         Pointer<ObjCObjectImpl>.fromAddress(address),
@@ -297,6 +308,7 @@ void main() {
       calloc.free(counter);
     });
 
+    @pragma('vm:never-inline')
     Pointer<ObjCObjectImpl> manualRetainInner(Pointer<Int32> counter) {
       final obj = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -304,6 +316,7 @@ void main() {
       return objRaw;
     }
 
+    @pragma('vm:never-inline')
     manualRetainInner2(Pointer<Int32> counter, Pointer<ObjCObjectImpl> objRaw) {
       final obj = RefCountTestObject.fromPointer(
         objRaw,
@@ -327,6 +340,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     RefCountTestObject unownedReferenceInner2(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject();
       obj1.setCounter(counter);
@@ -344,6 +358,7 @@ void main() {
       return obj1b;
     }
 
+    @pragma('vm:never-inline')
     Pointer<ObjCObjectImpl> unownedReferenceInner(Pointer<Int32> counter) {
       final obj1b = unownedReferenceInner2(counter);
       doGC(); // Collect obj1 and obj2.
@@ -365,23 +380,6 @@ void main() {
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
-
-    void largeRefCountInner(Pointer<Int32> counter) {
-      final obj = RefCountTestObject.newWithCounter(counter);
-      expect(counter.value, 1);
-      final objRefs = <RefCountTestObject>[];
-      for (int i = 1; i < 1000; ++i) {
-        objRefs.add(
-          RefCountTestObject.fromPointer(
-            obj.ref.pointer,
-            retain: true,
-            release: true,
-          ),
-        );
-      }
-      expect(counter.value, 1);
-      expect(objRefs, isNotEmpty);
-    }
 
     test('Consumed arguments', () {
       final counter = calloc<Int32>()..value = 0;

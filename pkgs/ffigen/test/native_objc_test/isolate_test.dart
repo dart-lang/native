@@ -139,6 +139,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     ObjCBlock<Void Function(Int32)> makeBlock(Completer<int> completer) {
       // Creating this block in a separate function to make sure completer is
       // not captured in Isolate.run's lambda.
@@ -147,6 +148,7 @@ void main() {
       });
     }
 
+    @pragma('vm:never-inline')
     Future<void> runIsolateWithBlock(ObjCBlock<Void Function(Int32)> block) {
       return Isolate.run(() {
         block(123);

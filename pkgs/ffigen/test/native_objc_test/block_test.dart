@@ -499,6 +499,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
     blockBlockDartCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
@@ -588,6 +589,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
     blockBlockObjCCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
@@ -680,6 +682,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
     nativeBlockBlockDartCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
@@ -723,6 +726,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     (ReferenceTracker, ReferenceTracker) nativeBlockBlockObjCCallRefCountTest(
       Arena arena,
     ) {
@@ -756,6 +760,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
       final pool = objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
@@ -785,6 +790,7 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
       Allocator alloc,
     ) {
@@ -827,6 +833,7 @@ void main() {
       skip: !canDoGC,
     );
 
+    @pragma('vm:never-inline')
     Future<(ReferenceTracker, ReferenceTracker)>
     listenerBlockArgumentRetentionTest(Arena arena) async {
       final hasRun = Completer<void>();
@@ -995,6 +1002,7 @@ void main() {
       expect(objCBindings, contains('Vec4'));
     });
 
+    @pragma('vm:never-inline')
     Future<(BlockTester, ReferenceTracker, ReferenceTracker)> regress1571Inner(
       Completer<void> completer,
       Arena arena,
@@ -1029,13 +1037,12 @@ void main() {
     test(
       'Regression test for https://github.com/dart-lang/native/issues/1571',
       () async {
+        // Pass a listener block to an ObjC API that retains a reference to the
+        // block, and release the Dart-side reference. Then, on a different
+        // thread, invoke the block and immediately release the ObjC-side
+        // reference. Before the fix, the dtor message could arrive before the
+        // invoke message. This was a flaky error, so try a few times.
         await using((arena) async {
-          // Pass a listener block to an ObjC API that retains a reference to
-          // the block, and release the Dart-side reference. Then, on a
-          // different thread, invoke the block and immediately release the
-          // ObjC-side reference. Before the fix, the dtor message could arrive
-          // before the invoke message. This was a flaky error, so try a few
-          // times.
           for (int i = 0; i < 10; ++i) {
             final completer = Completer<void>();
             final (tester, dummyObjectTracker, blockTracker) =
