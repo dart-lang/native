@@ -74,7 +74,8 @@ void main(List<String> args) async {
       name: 'cpp_test',
       assetName: 'cpp_test',
       sources: cppFiles,
-      flags: [...cFlags, '-x', 'c++', '-std=c++17'],
+      language: Language.cpp,
+      flags: cFlags,
     ).run(input: input, output: output, logger: logger);
 
     if (codeConfig.targetOS == OS.macOS) {
