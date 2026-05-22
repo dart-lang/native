@@ -150,7 +150,7 @@ Future<Result<LinkResult, HooksRunnerFailure>> link(
   List<String>? capturedLogs,
   String? runPackageName,
   required BuildResult buildResult,
-  Uri? resourceIdentifiers,
+  RecordUseConfig? recordUse,
   IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
   int? targetMacOSVersion,
@@ -203,7 +203,7 @@ Future<Result<LinkResult, HooksRunnerFailure>> link(
               DataAssetsExtension(),
           ],
           buildResult: buildResult,
-          resourceIdentifiers: resourceIdentifiers,
+          recordUse: recordUse,
         );
 
     if (result.isFailure) return result;
@@ -228,7 +228,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
-  Uri? resourceIdentifiers,
+  RecordUseConfig? recordUse,
   required List<BuildAssetType> buildAssetTypes,
 }) async => await runWithLog(capturedLogs, () async {
   final runPackageName_ =
@@ -308,7 +308,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
       if (buildAssetTypes.contains(BuildAssetType.data)) DataAssetsExtension(),
     ],
     buildResult: buildResult.success,
-    resourceIdentifiers: resourceIdentifiers,
+    recordUse: recordUse,
   );
 
   if (linkResult.isFailure) return (buildResult.success, null);

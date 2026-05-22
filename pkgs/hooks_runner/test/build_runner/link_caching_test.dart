@@ -121,4 +121,65 @@ void main() async {
       );
     });
   });
+
+  test('link hook cache isolate by entry-point and compiler', () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('$packageName/');
+
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      final buildResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      )).success;
+
+      final logMessages = <String>[];
+      Future<void> runLink(Uri entryPoint, String compiler) async {
+        logMessages.clear();
+        final result = await link(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildResult: buildResult,
+          recordUse: RecordUseConfig(
+            file: tempUri.resolve('treeshaking.json'),
+            entryPoints: [entryPoint],
+            compiler: compiler,
+          ),
+          buildAssetTypes: [.data],
+          capturedLogs: logMessages,
+        );
+        expect(result.isSuccess, true);
+      }
+
+      final entry1 = Uri.file('bin/simple_link.dart');
+      final entry2 = Uri.file('bin/simple_link_helper.dart');
+
+      final treeshakingFile = File.fromUri(tempUri.resolve('treeshaking.json'));
+      await treeshakingFile.writeAsString('{}');
+
+      // Run 1: (Entrypoint 1, compiler 'vm') -> Cache Miss (first compile)
+      await runLink(entry1, 'vm');
+      expect(logMessages.join('\n'), isNot(contains('Skipping link')));
+
+      // Run 2: (Entrypoint 1, compiler 'dart2js') -> Cache Miss (different
+      // compiler)
+      await runLink(entry1, 'dart2js');
+      expect(logMessages.join('\n'), isNot(contains('Skipping link')));
+
+      // Run 3: (Entrypoint 2, compiler 'vm') -> Cache Miss (different
+      // entrypoint)
+      await runLink(entry2, 'vm');
+      expect(logMessages.join('\n'), isNot(contains('Skipping link')));
+
+      // Run 4: (Entrypoint 1, compiler 'vm') -> Cache Hit! (matches Run 1)
+      await runLink(entry1, 'vm');
+      expect(logMessages.join('\n'), contains('Skipping link for simple_link'));
+
+      // Run 5: (Entrypoint 1, compiler 'dart2js') -> Cache Hit! (matches Run 2)
+      await runLink(entry1, 'dart2js');
+      expect(logMessages.join('\n'), contains('Skipping link for simple_link'));
+    });
+  });
 }

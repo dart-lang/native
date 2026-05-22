@@ -201,6 +201,7 @@
 - simple_link/assets/data_2.json
 - simple_link/assets/data_3.json
 - simple_link/bin/simple_link.dart
+- simple_link/bin/simple_link_helper.dart
 - simple_link/hook/build.dart
 - simple_link/hook/link.dart
 - simple_link/pubspec.yaml
