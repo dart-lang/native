@@ -11,9 +11,6 @@ import '../utils.dart';
 import 'api_availability.dart';
 import 'objcprotocoldecl_parser.dart';
 
-String applyModulePrefix(String name, String? module) =>
-    module == null ? name : '$module.$name';
-
 Type? parseObjCInterfaceDeclaration(
   Context context,
   clang_types.CXCursor cursor,
@@ -43,7 +40,7 @@ Type? parseObjCInterfaceDeclaration(
     usr: usr,
     originalName: name,
     name: objcInterfaces.rename(decl),
-    lookupName: applyModulePrefix(name, objcInterfaces.module(decl)),
+    module: objcInterfaces.module(decl),
     dartDoc: getCursorDocComment(
       context,
       cursor,

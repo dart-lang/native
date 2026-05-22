@@ -1,3 +1,8 @@
+## 0.19.1-wip
+
+- Added support for passing sanitizer flags (`-fsanitize=address`, `-fsanitize=memory`, `-fsanitize=thread`) to C compilers and linkers.
+- Depend on `package:code_assets` `^1.2.0-wip`.
+
 ## 0.19.0
 
 - Bumped dependency on `package:code_assets` to `^1.1.0` and `package:hooks` to `^2.0.0`.

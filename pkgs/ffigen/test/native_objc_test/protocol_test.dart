@@ -26,10 +26,6 @@ typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
 
 void main() {
   group('protocol', () {
-    setUpAll(() {
-      loadLibrary();
-    });
-
     group('ObjC implementation', () {
       test('Method implementation', () {
         final protocolImpl = ObjCProtocolImpl();
@@ -541,7 +537,6 @@ void main() {
 
       final isolate = Isolate.spawn(
         (sendPort) {
-          loadLibrary();
           final protoKeepAlive = ObjCProtocolBuilder().build(
             keepIsolateAlive: true,
           );

@@ -33,6 +33,13 @@ class ApplyConfigFiltersVisitation extends Visitation {
   }
 
   @override
+  void visitCppClass(CppClass node) {
+    final cppClasses = config.cpp?.classes;
+    if (cppClasses == null) return;
+    _visitImpl(node, cppClasses);
+  }
+
+  @override
   void visitFunc(Func node) => _visitImpl(node, config.functions);
 
   @override

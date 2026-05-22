@@ -24,6 +24,23 @@ The following compiler optimizations can influence the recorded API usage:
     API usage include type inference and propagation, loop optimizations, and
     `late` variable initialization.
 
+## Loading Units and Code Partitioning
+
+When deferred loading is used, compilers partition the application into
+separate loading units (e.g., separate JavaScript files or AOT loading units)
+that can be loaded dynamically.
+
+How different compilers partition code and name these loading units can vary
+significantly:
+
+*   **Partitioning strategies:** The algorithms and heuristics for grouping code
+    into deferred loading units differ between compilers (such as VM AOT,
+    dart2js, and dart2wasm). Consequently, a particular API usage might end up
+    associated with different loading units depending on the compiler.
+*   **Loading unit names:** Compilers use different naming schemes or
+    identifiers for loading units (e.g., integers like `1` or `2`, or file names
+    like `out.js_1.part.js`).
+
 ## Recommendations for Accurate Recording with `package:record_use`
 
 The `package:record_use` library records API usage by analyzing the compiled
@@ -42,3 +59,8 @@ consistent recording, consider the following recommendations:
     would trigger if any API calls are found with non-constant arguments,
     dynamic calls, or tear-offs. These constructs can lead to inconsistent
     reporting across compilers due to varying optimization strategies.
+*   **Aligning loading unit identifiers:** When writing tests or verification
+    logic that compares recordings across different compilers or compilation
+    configurations, use the `loadingUnitMapping` parameter in `semanticEquals`
+    to map/normalize the compiler-specific loading unit identifiers to a
+    unified, consistent format.

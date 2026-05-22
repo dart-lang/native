@@ -49,6 +49,7 @@ id objc_retainBlock(id);
   };
 
 
+__attribute__((visibility("default"))) __attribute__((used))
 Protocol* _n85dd5_MethodFilteringTestProtocol(void) { return @protocol(MethodFilteringTestProtocol); }
 
 typedef id  (^_ProtocolTrampoline)(void * sel);
