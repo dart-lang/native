@@ -124,6 +124,8 @@ final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   String get signature => r'Lcom/example/notification_plugin/Notifications;';
 }
 
+/// from: `android.content.Context`
+///
 /// WARNING: Context is a stub. To generate bindings for this class, include
 /// android.content.Context in your config's classes list.
 ///

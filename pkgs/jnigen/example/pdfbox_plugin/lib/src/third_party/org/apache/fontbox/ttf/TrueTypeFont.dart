@@ -54,6 +54,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `org.apache.fontbox.ttf.TrueTypeFont`
+///
 /// WARNING: TrueTypeFont is a stub. To generate bindings for this class, include
 /// org.apache.fontbox.ttf.TrueTypeFont in your config's classes list.
 ///

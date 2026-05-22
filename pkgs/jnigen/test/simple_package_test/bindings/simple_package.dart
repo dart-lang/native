@@ -10708,6 +10708,8 @@ final class $R693$Type$ extends jni$_.JType<R693> {
   String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R693;';
 }
 
+/// from: `java.util.Random`
+///
 /// WARNING: Random is a stub. To generate bindings for this class, include
 /// java.util.Random in your config's classes list.
 ///
@@ -10724,6 +10726,8 @@ final class $Random$Type$ extends jni$_.JType<Random> {
   String get signature => r'Ljava/util/Random;';
 }
 
+/// from: `java.lang.CharSequence`
+///
 /// WARNING: CharSequence is a stub. To generate bindings for this class, include
 /// java.lang.CharSequence in your config's classes list.
 ///
@@ -10740,6 +10744,8 @@ final class $CharSequence$Type$ extends jni$_.JType<CharSequence> {
   String get signature => r'Ljava/lang/CharSequence;';
 }
 
+/// from: `java.io.InputStream`
+///
 /// WARNING: InputStream is a stub. To generate bindings for this class, include
 /// java.io.InputStream in your config's classes list.
 ///
@@ -10756,6 +10762,8 @@ final class $InputStream$Type$ extends jni$_.JType<InputStream> {
   String get signature => r'Ljava/io/InputStream;';
 }
 
+/// from: `java.io.FileInputStream`
+///
 /// WARNING: FileInputStream is a stub. To generate bindings for this class, include
 /// java.io.FileInputStream in your config's classes list.
 ///
@@ -10773,6 +10781,8 @@ final class $FileInputStream$Type$ extends jni$_.JType<FileInputStream> {
   String get signature => r'Ljava/io/FileInputStream;';
 }
 
+/// from: `java.lang.RuntimeException`
+///
 /// WARNING: RuntimeException is a stub. To generate bindings for this class, include
 /// java.lang.RuntimeException in your config's classes list.
 ///
@@ -10790,6 +10800,8 @@ final class $RuntimeException$Type$ extends jni$_.JType<RuntimeException> {
   String get signature => r'Ljava/lang/RuntimeException;';
 }
 
+/// from: `java.lang.Enum`
+///
 /// WARNING: Enum is a stub. To generate bindings for this class, include
 /// java.lang.Enum in your config's classes list.
 ///
@@ -10806,6 +10818,8 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   String get signature => r'Ljava/lang/Enum;';
 }
 
+/// from: `java.lang.Throwable`
+///
 /// WARNING: Throwable is a stub. To generate bindings for this class, include
 /// java.lang.Throwable in your config's classes list.
 ///
@@ -10822,6 +10836,8 @@ final class $Throwable$Type$ extends jni$_.JType<Throwable> {
   String get signature => r'Ljava/lang/Throwable;';
 }
 
+/// from: `java.lang.Exception`
+///
 /// WARNING: Exception is a stub. To generate bindings for this class, include
 /// java.lang.Exception in your config's classes list.
 ///
@@ -10838,6 +10854,8 @@ final class $Exception$Type$ extends jni$_.JType<Exception> {
   String get signature => r'Ljava/lang/Exception;';
 }
 
+/// from: `java.util.concurrent.Future`
+///
 /// WARNING: Future$1 is a stub. To generate bindings for this class, include
 /// java.util.concurrent.Future in your config's classes list.
 ///
@@ -10854,6 +10872,8 @@ final class $Future$1$Type$ extends jni$_.JType<Future$1> {
   String get signature => r'Ljava/util/concurrent/Future;';
 }
 
+/// from: `java.util.Map$Entry`
+///
 /// WARNING: Map$$Entry is a stub. To generate bindings for this class, include
 /// java.util.Map$Entry in your config's classes list.
 ///
@@ -10870,6 +10890,8 @@ final class $Map$$Entry$Type$ extends jni$_.JType<Map$$Entry> {
   String get signature => r'Ljava/util/Map$Entry;';
 }
 
+/// from: `java.lang.annotation.Annotation`
+///
 /// WARNING: Annotation is a stub. To generate bindings for this class, include
 /// java.lang.annotation.Annotation in your config's classes list.
 ///

@@ -7,6 +7,8 @@ import '../elements/elements.dart';
 import '../logging/logging.dart';
 import 'visitor.dart';
 
+// TODO(https://github.com/dart-lang/native/issues/3382): Scopes and Symbols.
+
 class _Allowed {
   static const none = 0;
   static const fields = 1 << 0;

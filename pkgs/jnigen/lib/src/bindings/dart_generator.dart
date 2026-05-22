@@ -631,6 +631,8 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
     final name = node.finalName;
     final javaName = node.binaryName;
     s.write('''
+/// from: `$javaName`
+///
 /// WARNING: $name is a stub. To generate bindings for this class, include
 /// $javaName in your config's classes list.
 ///

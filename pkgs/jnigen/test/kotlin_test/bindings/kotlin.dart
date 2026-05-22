@@ -38846,6 +38846,8 @@ core$_.int topLevel$1() {
   return _topLevel$1(_$$classRef.pointer, _id_topLevel$1.pointer).integer;
 }
 
+/// from: `kotlin.jvm.internal.DefaultConstructorMarker`
+///
 /// WARNING: DefaultConstructorMarker is a stub. To generate bindings for this class, include
 /// kotlin.jvm.internal.DefaultConstructorMarker in your config's classes list.
 ///
@@ -38865,6 +38867,8 @@ final class $DefaultConstructorMarker$Type$
   String get signature => r'Lkotlin/jvm/internal/DefaultConstructorMarker;';
 }
 
+/// from: `java.lang.Enum`
+///
 /// WARNING: Enum is a stub. To generate bindings for this class, include
 /// java.lang.Enum in your config's classes list.
 ///
@@ -38881,6 +38885,8 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   String get signature => r'Ljava/lang/Enum;';
 }
 
+/// from: `kotlin.coroutines.Continuation`
+///
 /// WARNING: Continuation is a stub. To generate bindings for this class, include
 /// kotlin.coroutines.Continuation in your config's classes list.
 ///
@@ -38897,6 +38903,8 @@ final class $Continuation$Type$ extends jni$_.JType<Continuation> {
   String get signature => r'Lkotlin/coroutines/Continuation;';
 }
 
+/// from: `kotlin.Unit`
+///
 /// WARNING: Unit is a stub. To generate bindings for this class, include
 /// kotlin.Unit in your config's classes list.
 ///
@@ -38913,6 +38921,8 @@ final class $Unit$Type$ extends jni$_.JType<Unit> {
   String get signature => r'Lkotlin/Unit;';
 }
 
+/// from: `java.lang.Throwable`
+///
 /// WARNING: Throwable is a stub. To generate bindings for this class, include
 /// java.lang.Throwable in your config's classes list.
 ///

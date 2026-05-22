@@ -196,6 +196,8 @@ final class $C$Type$ extends jni$_.JType<C> {
   String get signature => r'Lcom/example/C;';
 }
 
+/// from: `com.example.B`
+///
 /// WARNING: B is a stub. To generate bindings for this class, include
 /// com.example.B in your config's classes list.
 ///
@@ -212,6 +214,8 @@ final class $B$Type$ extends jni$_.JType<B> {
   String get signature => r'Lcom/example/B;';
 }
 
+/// from: `com.example.D`
+///
 /// WARNING: D is a stub. To generate bindings for this class, include
 /// com.example.D in your config's classes list.
 ///

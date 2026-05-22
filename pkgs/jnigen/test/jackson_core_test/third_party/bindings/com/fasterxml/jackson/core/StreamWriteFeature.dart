@@ -53,6 +53,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `com.fasterxml.jackson.core.StreamWriteFeature`
+///
 /// WARNING: StreamWriteFeature is a stub. To generate bindings for this class, include
 /// com.fasterxml.jackson.core.StreamWriteFeature in your config's classes list.
 ///

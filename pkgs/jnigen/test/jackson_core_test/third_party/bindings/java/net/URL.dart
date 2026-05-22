@@ -53,6 +53,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `java.net.URL`
+///
 /// WARNING: URL is a stub. To generate bindings for this class, include
 /// java.net.URL in your config's classes list.
 ///

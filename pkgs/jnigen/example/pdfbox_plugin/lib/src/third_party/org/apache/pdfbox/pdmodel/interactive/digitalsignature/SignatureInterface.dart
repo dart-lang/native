@@ -54,6 +54,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface`
+///
 /// WARNING: SignatureInterface is a stub. To generate bindings for this class, include
 /// org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface in your config's classes list.
 ///

@@ -54,6 +54,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `java.io.File`
+///
 /// WARNING: File is a stub. To generate bindings for this class, include
 /// java.io.File in your config's classes list.
 ///

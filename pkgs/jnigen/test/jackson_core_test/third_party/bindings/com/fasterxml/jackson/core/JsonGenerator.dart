@@ -53,6 +53,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `com.fasterxml.jackson.core.JsonGenerator$Feature`
+///
 /// WARNING: JsonGenerator$$Feature is a stub. To generate bindings for this class, include
 /// com.fasterxml.jackson.core.JsonGenerator$Feature in your config's classes list.
 ///
@@ -72,6 +74,8 @@ final class $JsonGenerator$$Feature$Type$
   String get signature => r'Lcom/fasterxml/jackson/core/JsonGenerator$Feature;';
 }
 
+/// from: `com.fasterxml.jackson.core.JsonGenerator`
+///
 /// WARNING: JsonGenerator is a stub. To generate bindings for this class, include
 /// com.fasterxml.jackson.core.JsonGenerator in your config's classes list.
 ///

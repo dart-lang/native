@@ -3232,6 +3232,8 @@ final class $OkHttpClient$Type$ extends jni$_.JType<OkHttpClient> {
   String get signature => r'Lokhttp3/OkHttpClient;';
 }
 
+/// from: `com.google.gson.GsonBuilder`
+///
 /// WARNING: GsonBuilder is a stub. To generate bindings for this class, include
 /// com.google.gson.GsonBuilder in your config's classes list.
 ///
@@ -3248,6 +3250,8 @@ final class $GsonBuilder$Type$ extends jni$_.JType<GsonBuilder> {
   String get signature => r'Lcom/google/gson/GsonBuilder;';
 }
 
+/// from: `com.google.gson.internal.Excluder`
+///
 /// WARNING: Excluder is a stub. To generate bindings for this class, include
 /// com.google.gson.internal.Excluder in your config's classes list.
 ///
@@ -3264,6 +3268,8 @@ final class $Excluder$Type$ extends jni$_.JType<Excluder> {
   String get signature => r'Lcom/google/gson/internal/Excluder;';
 }
 
+/// from: `com.google.gson.FieldNamingStrategy`
+///
 /// WARNING: FieldNamingStrategy is a stub. To generate bindings for this class, include
 /// com.google.gson.FieldNamingStrategy in your config's classes list.
 ///
@@ -3283,6 +3289,8 @@ final class $FieldNamingStrategy$Type$
   String get signature => r'Lcom/google/gson/FieldNamingStrategy;';
 }
 
+/// from: `com.google.gson.TypeAdapter`
+///
 /// WARNING: TypeAdapter is a stub. To generate bindings for this class, include
 /// com.google.gson.TypeAdapter in your config's classes list.
 ///
@@ -3299,6 +3307,8 @@ final class $TypeAdapter$Type$ extends jni$_.JType<TypeAdapter> {
   String get signature => r'Lcom/google/gson/TypeAdapter;';
 }
 
+/// from: `com.google.gson.reflect.TypeToken`
+///
 /// WARNING: TypeToken is a stub. To generate bindings for this class, include
 /// com.google.gson.reflect.TypeToken in your config's classes list.
 ///
@@ -3315,6 +3325,8 @@ final class $TypeToken$Type$ extends jni$_.JType<TypeToken> {
   String get signature => r'Lcom/google/gson/reflect/TypeToken;';
 }
 
+/// from: `com.google.gson.TypeAdapterFactory`
+///
 /// WARNING: TypeAdapterFactory is a stub. To generate bindings for this class, include
 /// com.google.gson.TypeAdapterFactory in your config's classes list.
 ///
@@ -3333,6 +3345,8 @@ final class $TypeAdapterFactory$Type$ extends jni$_.JType<TypeAdapterFactory> {
   String get signature => r'Lcom/google/gson/TypeAdapterFactory;';
 }
 
+/// from: `java.lang.Class`
+///
 /// WARNING: Class is a stub. To generate bindings for this class, include
 /// java.lang.Class in your config's classes list.
 ///
@@ -3349,6 +3363,8 @@ final class $Class$Type$ extends jni$_.JType<Class> {
   String get signature => r'Ljava/lang/Class;';
 }
 
+/// from: `com.google.gson.JsonElement`
+///
 /// WARNING: JsonElement is a stub. To generate bindings for this class, include
 /// com.google.gson.JsonElement in your config's classes list.
 ///
@@ -3365,6 +3381,8 @@ final class $JsonElement$Type$ extends jni$_.JType<JsonElement> {
   String get signature => r'Lcom/google/gson/JsonElement;';
 }
 
+/// from: `java.lang.reflect.Type`
+///
 /// WARNING: Type is a stub. To generate bindings for this class, include
 /// java.lang.reflect.Type in your config's classes list.
 ///
@@ -3381,6 +3399,8 @@ final class $Type$Type$ extends jni$_.JType<Type> {
   String get signature => r'Ljava/lang/reflect/Type;';
 }
 
+/// from: `java.lang.Appendable`
+///
 /// WARNING: Appendable is a stub. To generate bindings for this class, include
 /// java.lang.Appendable in your config's classes list.
 ///
@@ -3397,6 +3417,8 @@ final class $Appendable$Type$ extends jni$_.JType<Appendable> {
   String get signature => r'Ljava/lang/Appendable;';
 }
 
+/// from: `com.google.gson.stream.JsonWriter`
+///
 /// WARNING: JsonWriter is a stub. To generate bindings for this class, include
 /// com.google.gson.stream.JsonWriter in your config's classes list.
 ///
@@ -3413,6 +3435,8 @@ final class $JsonWriter$Type$ extends jni$_.JType<JsonWriter> {
   String get signature => r'Lcom/google/gson/stream/JsonWriter;';
 }
 
+/// from: `java.io.Writer`
+///
 /// WARNING: Writer is a stub. To generate bindings for this class, include
 /// java.io.Writer in your config's classes list.
 ///
@@ -3429,6 +3453,8 @@ final class $Writer$Type$ extends jni$_.JType<Writer> {
   String get signature => r'Ljava/io/Writer;';
 }
 
+/// from: `com.google.gson.stream.JsonReader`
+///
 /// WARNING: JsonReader is a stub. To generate bindings for this class, include
 /// com.google.gson.stream.JsonReader in your config's classes list.
 ///
@@ -3445,6 +3471,8 @@ final class $JsonReader$Type$ extends jni$_.JType<JsonReader> {
   String get signature => r'Lcom/google/gson/stream/JsonReader;';
 }
 
+/// from: `java.io.Reader`
+///
 /// WARNING: Reader is a stub. To generate bindings for this class, include
 /// java.io.Reader in your config's classes list.
 ///
@@ -3461,6 +3489,8 @@ final class $Reader$Type$ extends jni$_.JType<Reader> {
   String get signature => r'Ljava/io/Reader;';
 }
 
+/// from: `okhttp3.Dispatcher`
+///
 /// WARNING: Dispatcher is a stub. To generate bindings for this class, include
 /// okhttp3.Dispatcher in your config's classes list.
 ///
@@ -3477,6 +3507,8 @@ final class $Dispatcher$Type$ extends jni$_.JType<Dispatcher> {
   String get signature => r'Lokhttp3/Dispatcher;';
 }
 
+/// from: `okhttp3.ConnectionPool`
+///
 /// WARNING: ConnectionPool is a stub. To generate bindings for this class, include
 /// okhttp3.ConnectionPool in your config's classes list.
 ///
@@ -3493,6 +3525,8 @@ final class $ConnectionPool$Type$ extends jni$_.JType<ConnectionPool> {
   String get signature => r'Lokhttp3/ConnectionPool;';
 }
 
+/// from: `okhttp3.Interceptor`
+///
 /// WARNING: Interceptor is a stub. To generate bindings for this class, include
 /// okhttp3.Interceptor in your config's classes list.
 ///
@@ -3509,6 +3543,8 @@ final class $Interceptor$Type$ extends jni$_.JType<Interceptor> {
   String get signature => r'Lokhttp3/Interceptor;';
 }
 
+/// from: `okhttp3.EventListener$Factory`
+///
 /// WARNING: EventListener$$Factory is a stub. To generate bindings for this class, include
 /// okhttp3.EventListener$Factory in your config's classes list.
 ///
@@ -3528,6 +3564,8 @@ final class $EventListener$$Factory$Type$
   String get signature => r'Lokhttp3/EventListener$Factory;';
 }
 
+/// from: `okhttp3.Authenticator`
+///
 /// WARNING: Authenticator is a stub. To generate bindings for this class, include
 /// okhttp3.Authenticator in your config's classes list.
 ///
@@ -3544,6 +3582,8 @@ final class $Authenticator$Type$ extends jni$_.JType<Authenticator> {
   String get signature => r'Lokhttp3/Authenticator;';
 }
 
+/// from: `okhttp3.CookieJar`
+///
 /// WARNING: CookieJar is a stub. To generate bindings for this class, include
 /// okhttp3.CookieJar in your config's classes list.
 ///
@@ -3560,6 +3600,8 @@ final class $CookieJar$Type$ extends jni$_.JType<CookieJar> {
   String get signature => r'Lokhttp3/CookieJar;';
 }
 
+/// from: `okhttp3.Cache`
+///
 /// WARNING: Cache is a stub. To generate bindings for this class, include
 /// okhttp3.Cache in your config's classes list.
 ///
@@ -3576,6 +3618,8 @@ final class $Cache$Type$ extends jni$_.JType<Cache> {
   String get signature => r'Lokhttp3/Cache;';
 }
 
+/// from: `okhttp3.Dns`
+///
 /// WARNING: Dns is a stub. To generate bindings for this class, include
 /// okhttp3.Dns in your config's classes list.
 ///
@@ -3592,6 +3636,8 @@ final class $Dns$Type$ extends jni$_.JType<Dns> {
   String get signature => r'Lokhttp3/Dns;';
 }
 
+/// from: `java.net.Proxy`
+///
 /// WARNING: Proxy is a stub. To generate bindings for this class, include
 /// java.net.Proxy in your config's classes list.
 ///
@@ -3608,6 +3654,8 @@ final class $Proxy$Type$ extends jni$_.JType<Proxy> {
   String get signature => r'Ljava/net/Proxy;';
 }
 
+/// from: `java.net.ProxySelector`
+///
 /// WARNING: ProxySelector is a stub. To generate bindings for this class, include
 /// java.net.ProxySelector in your config's classes list.
 ///
@@ -3624,6 +3672,8 @@ final class $ProxySelector$Type$ extends jni$_.JType<ProxySelector> {
   String get signature => r'Ljava/net/ProxySelector;';
 }
 
+/// from: `javax.net.SocketFactory`
+///
 /// WARNING: SocketFactory is a stub. To generate bindings for this class, include
 /// javax.net.SocketFactory in your config's classes list.
 ///
@@ -3640,6 +3690,8 @@ final class $SocketFactory$Type$ extends jni$_.JType<SocketFactory> {
   String get signature => r'Ljavax/net/SocketFactory;';
 }
 
+/// from: `javax.net.ssl.SSLSocketFactory`
+///
 /// WARNING: SSLSocketFactory is a stub. To generate bindings for this class, include
 /// javax.net.ssl.SSLSocketFactory in your config's classes list.
 ///
@@ -3657,6 +3709,8 @@ final class $SSLSocketFactory$Type$ extends jni$_.JType<SSLSocketFactory> {
   String get signature => r'Ljavax/net/ssl/SSLSocketFactory;';
 }
 
+/// from: `javax.net.ssl.X509TrustManager`
+///
 /// WARNING: X509TrustManager is a stub. To generate bindings for this class, include
 /// javax.net.ssl.X509TrustManager in your config's classes list.
 ///
@@ -3674,6 +3728,8 @@ final class $X509TrustManager$Type$ extends jni$_.JType<X509TrustManager> {
   String get signature => r'Ljavax/net/ssl/X509TrustManager;';
 }
 
+/// from: `okhttp3.ConnectionSpec`
+///
 /// WARNING: ConnectionSpec is a stub. To generate bindings for this class, include
 /// okhttp3.ConnectionSpec in your config's classes list.
 ///
@@ -3690,6 +3746,8 @@ final class $ConnectionSpec$Type$ extends jni$_.JType<ConnectionSpec> {
   String get signature => r'Lokhttp3/ConnectionSpec;';
 }
 
+/// from: `okhttp3.Protocol`
+///
 /// WARNING: Protocol is a stub. To generate bindings for this class, include
 /// okhttp3.Protocol in your config's classes list.
 ///
@@ -3706,6 +3764,8 @@ final class $Protocol$Type$ extends jni$_.JType<Protocol> {
   String get signature => r'Lokhttp3/Protocol;';
 }
 
+/// from: `javax.net.ssl.HostnameVerifier`
+///
 /// WARNING: HostnameVerifier is a stub. To generate bindings for this class, include
 /// javax.net.ssl.HostnameVerifier in your config's classes list.
 ///
@@ -3723,6 +3783,8 @@ final class $HostnameVerifier$Type$ extends jni$_.JType<HostnameVerifier> {
   String get signature => r'Ljavax/net/ssl/HostnameVerifier;';
 }
 
+/// from: `okhttp3.CertificatePinner`
+///
 /// WARNING: CertificatePinner is a stub. To generate bindings for this class, include
 /// okhttp3.CertificatePinner in your config's classes list.
 ///
@@ -3740,6 +3802,8 @@ final class $CertificatePinner$Type$ extends jni$_.JType<CertificatePinner> {
   String get signature => r'Lokhttp3/CertificatePinner;';
 }
 
+/// from: `okhttp3.internal.tls.CertificateChainCleaner`
+///
 /// WARNING: CertificateChainCleaner is a stub. To generate bindings for this class, include
 /// okhttp3.internal.tls.CertificateChainCleaner in your config's classes list.
 ///
@@ -3759,6 +3823,8 @@ final class $CertificateChainCleaner$Type$
   String get signature => r'Lokhttp3/internal/tls/CertificateChainCleaner;';
 }
 
+/// from: `okhttp3.internal.connection.RouteDatabase`
+///
 /// WARNING: RouteDatabase is a stub. To generate bindings for this class, include
 /// okhttp3.internal.connection.RouteDatabase in your config's classes list.
 ///
@@ -3775,6 +3841,8 @@ final class $RouteDatabase$Type$ extends jni$_.JType<RouteDatabase> {
   String get signature => r'Lokhttp3/internal/connection/RouteDatabase;';
 }
 
+/// from: `okhttp3.Call`
+///
 /// WARNING: Call is a stub. To generate bindings for this class, include
 /// okhttp3.Call in your config's classes list.
 ///
@@ -3791,6 +3859,8 @@ final class $Call$Type$ extends jni$_.JType<Call> {
   String get signature => r'Lokhttp3/Call;';
 }
 
+/// from: `okhttp3.Request`
+///
 /// WARNING: Request is a stub. To generate bindings for this class, include
 /// okhttp3.Request in your config's classes list.
 ///
@@ -3807,6 +3877,8 @@ final class $Request$Type$ extends jni$_.JType<Request> {
   String get signature => r'Lokhttp3/Request;';
 }
 
+/// from: `okhttp3.WebSocket`
+///
 /// WARNING: WebSocket is a stub. To generate bindings for this class, include
 /// okhttp3.WebSocket in your config's classes list.
 ///
@@ -3823,6 +3895,8 @@ final class $WebSocket$Type$ extends jni$_.JType<WebSocket> {
   String get signature => r'Lokhttp3/WebSocket;';
 }
 
+/// from: `okhttp3.WebSocketListener`
+///
 /// WARNING: WebSocketListener is a stub. To generate bindings for this class, include
 /// okhttp3.WebSocketListener in your config's classes list.
 ///
@@ -3840,6 +3914,8 @@ final class $WebSocketListener$Type$ extends jni$_.JType<WebSocketListener> {
   String get signature => r'Lokhttp3/WebSocketListener;';
 }
 
+/// from: `java.lang.Cloneable`
+///
 /// WARNING: Cloneable is a stub. To generate bindings for this class, include
 /// java.lang.Cloneable in your config's classes list.
 ///
@@ -3856,6 +3932,8 @@ final class $Cloneable$Type$ extends jni$_.JType<Cloneable> {
   String get signature => r'Ljava/lang/Cloneable;';
 }
 
+/// from: `okhttp3.Call$Factory`
+///
 /// WARNING: Call$$Factory is a stub. To generate bindings for this class, include
 /// okhttp3.Call$Factory in your config's classes list.
 ///
@@ -3872,6 +3950,8 @@ final class $Call$$Factory$Type$ extends jni$_.JType<Call$$Factory> {
   String get signature => r'Lokhttp3/Call$Factory;';
 }
 
+/// from: `okhttp3.WebSocket$Factory`
+///
 /// WARNING: WebSocket$$Factory is a stub. To generate bindings for this class, include
 /// okhttp3.WebSocket$Factory in your config's classes list.
 ///
@@ -3890,6 +3970,8 @@ final class $WebSocket$$Factory$Type$ extends jni$_.JType<WebSocket$$Factory> {
   String get signature => r'Lokhttp3/WebSocket$Factory;';
 }
 
+/// from: `okhttp3.EventListener`
+///
 /// WARNING: EventListener is a stub. To generate bindings for this class, include
 /// okhttp3.EventListener in your config's classes list.
 ///
@@ -3906,6 +3988,8 @@ final class $EventListener$Type$ extends jni$_.JType<EventListener> {
   String get signature => r'Lokhttp3/EventListener;';
 }
 
+/// from: `java.util.concurrent.TimeUnit`
+///
 /// WARNING: TimeUnit is a stub. To generate bindings for this class, include
 /// java.util.concurrent.TimeUnit in your config's classes list.
 ///
@@ -3922,6 +4006,8 @@ final class $TimeUnit$Type$ extends jni$_.JType<TimeUnit> {
   String get signature => r'Ljava/util/concurrent/TimeUnit;';
 }
 
+/// from: `java.time.Duration`
+///
 /// WARNING: Duration is a stub. To generate bindings for this class, include
 /// java.time.Duration in your config's classes list.
 ///
@@ -3938,6 +4024,8 @@ final class $Duration$Type$ extends jni$_.JType<Duration> {
   String get signature => r'Ljava/time/Duration;';
 }
 
+/// from: `kotlin.jvm.internal.DefaultConstructorMarker`
+///
 /// WARNING: DefaultConstructorMarker is a stub. To generate bindings for this class, include
 /// kotlin.jvm.internal.DefaultConstructorMarker in your config's classes list.
 ///

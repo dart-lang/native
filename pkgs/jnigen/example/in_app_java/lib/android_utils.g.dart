@@ -4732,6 +4732,8 @@ final class $AndroidUtils$Type$ extends jni$_.JType<AndroidUtils> {
   String get signature => r'Lcom/example/in_app_java/AndroidUtils;';
 }
 
+/// from: `android.content.Context`
+///
 /// WARNING: Context is a stub. To generate bindings for this class, include
 /// android.content.Context in your config's classes list.
 ///
@@ -4748,6 +4750,8 @@ final class $Context$Type$ extends jni$_.JType<Context> {
   String get signature => r'Landroid/content/Context;';
 }
 
+/// from: `java.lang.CharSequence`
+///
 /// WARNING: CharSequence is a stub. To generate bindings for this class, include
 /// java.lang.CharSequence in your config's classes list.
 ///
@@ -4764,6 +4768,8 @@ final class $CharSequence$Type$ extends jni$_.JType<CharSequence> {
   String get signature => r'Ljava/lang/CharSequence;';
 }
 
+/// from: `android.text.Editable`
+///
 /// WARNING: Editable is a stub. To generate bindings for this class, include
 /// android.text.Editable in your config's classes list.
 ///
@@ -4780,6 +4786,8 @@ final class $Editable$Type$ extends jni$_.JType<Editable> {
   String get signature => r'Landroid/text/Editable;';
 }
 
+/// from: `android.view.KeyEvent`
+///
 /// WARNING: KeyEvent is a stub. To generate bindings for this class, include
 /// android.view.KeyEvent in your config's classes list.
 ///
@@ -4796,6 +4804,8 @@ final class $KeyEvent$Type$ extends jni$_.JType<KeyEvent> {
   String get signature => r'Landroid/view/KeyEvent;';
 }
 
+/// from: `android.view.inputmethod.InputConnection`
+///
 /// WARNING: InputConnection is a stub. To generate bindings for this class, include
 /// android.view.inputmethod.InputConnection in your config's classes list.
 ///
@@ -4813,6 +4823,8 @@ final class $InputConnection$Type$ extends jni$_.JType<InputConnection> {
   String get signature => r'Landroid/view/inputmethod/InputConnection;';
 }
 
+/// from: `android.view.inputmethod.EditorInfo`
+///
 /// WARNING: EditorInfo is a stub. To generate bindings for this class, include
 /// android.view.inputmethod.EditorInfo in your config's classes list.
 ///
@@ -4829,6 +4841,8 @@ final class $EditorInfo$Type$ extends jni$_.JType<EditorInfo> {
   String get signature => r'Landroid/view/inputmethod/EditorInfo;';
 }
 
+/// from: `java.lang.annotation.Annotation`
+///
 /// WARNING: Annotation is a stub. To generate bindings for this class, include
 /// java.lang.annotation.Annotation in your config's classes list.
 ///
@@ -4845,6 +4859,8 @@ final class $Annotation$Type$ extends jni$_.JType<Annotation> {
   String get signature => r'Ljava/lang/annotation/Annotation;';
 }
 
+/// from: `androidx.emoji2.text.EmojiSpan`
+///
 /// WARNING: EmojiSpan is a stub. To generate bindings for this class, include
 /// androidx.emoji2.text.EmojiSpan in your config's classes list.
 ///
@@ -4861,6 +4877,8 @@ final class $EmojiSpan$Type$ extends jni$_.JType<EmojiSpan> {
   String get signature => r'Landroidx/emoji2/text/EmojiSpan;';
 }
 
+/// from: `androidx.emoji2.text.TypefaceEmojiRasterizer`
+///
 /// WARNING: TypefaceEmojiRasterizer is a stub. To generate bindings for this class, include
 /// androidx.emoji2.text.TypefaceEmojiRasterizer in your config's classes list.
 ///
@@ -4880,6 +4898,8 @@ final class $TypefaceEmojiRasterizer$Type$
   String get signature => r'Landroidx/emoji2/text/TypefaceEmojiRasterizer;';
 }
 
+/// from: `java.lang.Throwable`
+///
 /// WARNING: Throwable is a stub. To generate bindings for this class, include
 /// java.lang.Throwable in your config's classes list.
 ///
@@ -4896,6 +4916,8 @@ final class $Throwable$Type$ extends jni$_.JType<Throwable> {
   String get signature => r'Ljava/lang/Throwable;';
 }
 
+/// from: `androidx.emoji2.text.MetadataRepo`
+///
 /// WARNING: MetadataRepo is a stub. To generate bindings for this class, include
 /// androidx.emoji2.text.MetadataRepo in your config's classes list.
 ///
@@ -4912,6 +4934,8 @@ final class $MetadataRepo$Type$ extends jni$_.JType<MetadataRepo> {
   String get signature => r'Landroidx/emoji2/text/MetadataRepo;';
 }
 
+/// from: `androidx.emoji2.text.FontRequestEmojiCompatConfig`
+///
 /// WARNING: FontRequestEmojiCompatConfig is a stub. To generate bindings for this class, include
 /// androidx.emoji2.text.FontRequestEmojiCompatConfig in your config's classes list.
 ///
@@ -4932,6 +4956,8 @@ final class $FontRequestEmojiCompatConfig$Type$
       r'Landroidx/emoji2/text/FontRequestEmojiCompatConfig;';
 }
 
+/// from: `android.content.pm.Signature`
+///
 /// WARNING: Signature is a stub. To generate bindings for this class, include
 /// android.content.pm.Signature in your config's classes list.
 ///
@@ -4948,6 +4974,8 @@ final class $Signature$Type$ extends jni$_.JType<Signature> {
   String get signature => r'Landroid/content/pm/Signature;';
 }
 
+/// from: `android.content.pm.PackageManager`
+///
 /// WARNING: PackageManager is a stub. To generate bindings for this class, include
 /// android.content.pm.PackageManager in your config's classes list.
 ///
@@ -4964,6 +4992,8 @@ final class $PackageManager$Type$ extends jni$_.JType<PackageManager> {
   String get signature => r'Landroid/content/pm/PackageManager;';
 }
 
+/// from: `android.content.pm.ResolveInfo`
+///
 /// WARNING: ResolveInfo is a stub. To generate bindings for this class, include
 /// android.content.pm.ResolveInfo in your config's classes list.
 ///
@@ -4980,6 +5010,8 @@ final class $ResolveInfo$Type$ extends jni$_.JType<ResolveInfo> {
   String get signature => r'Landroid/content/pm/ResolveInfo;';
 }
 
+/// from: `android.content.Intent`
+///
 /// WARNING: Intent is a stub. To generate bindings for this class, include
 /// android.content.Intent in your config's classes list.
 ///
@@ -4996,6 +5028,8 @@ final class $Intent$Type$ extends jni$_.JType<Intent> {
   String get signature => r'Landroid/content/Intent;';
 }
 
+/// from: `android.content.pm.ProviderInfo`
+///
 /// WARNING: ProviderInfo is a stub. To generate bindings for this class, include
 /// android.content.pm.ProviderInfo in your config's classes list.
 ///
@@ -5012,6 +5046,8 @@ final class $ProviderInfo$Type$ extends jni$_.JType<ProviderInfo> {
   String get signature => r'Landroid/content/pm/ProviderInfo;';
 }
 
+/// from: `java.util.AbstractMap`
+///
 /// WARNING: AbstractMap is a stub. To generate bindings for this class, include
 /// java.util.AbstractMap in your config's classes list.
 ///
@@ -5028,6 +5064,8 @@ final class $AbstractMap$Type$ extends jni$_.JType<AbstractMap> {
   String get signature => r'Ljava/util/AbstractMap;';
 }
 
+/// from: `java.util.function.BiFunction`
+///
 /// WARNING: BiFunction is a stub. To generate bindings for this class, include
 /// java.util.function.BiFunction in your config's classes list.
 ///
@@ -5044,6 +5082,8 @@ final class $BiFunction$Type$ extends jni$_.JType<BiFunction> {
   String get signature => r'Ljava/util/function/BiFunction;';
 }
 
+/// from: `java.util.function.Function`
+///
 /// WARNING: Function$ is a stub. To generate bindings for this class, include
 /// java.util.function.Function in your config's classes list.
 ///
@@ -5060,6 +5100,8 @@ final class $Function$$Type$ extends jni$_.JType<Function$> {
   String get signature => r'Ljava/util/function/Function;';
 }
 
+/// from: `java.util.Map$Entry`
+///
 /// WARNING: Map$$Entry is a stub. To generate bindings for this class, include
 /// java.util.Map$Entry in your config's classes list.
 ///
@@ -5076,6 +5118,8 @@ final class $Map$$Entry$Type$ extends jni$_.JType<Map$$Entry> {
   String get signature => r'Ljava/util/Map$Entry;';
 }
 
+/// from: `java.util.function.BiConsumer`
+///
 /// WARNING: BiConsumer is a stub. To generate bindings for this class, include
 /// java.util.function.BiConsumer in your config's classes list.
 ///
@@ -5092,6 +5136,8 @@ final class $BiConsumer$Type$ extends jni$_.JType<BiConsumer> {
   String get signature => r'Ljava/util/function/BiConsumer;';
 }
 
+/// from: `java.util.Collection`
+///
 /// WARNING: Collection is a stub. To generate bindings for this class, include
 /// java.util.Collection in your config's classes list.
 ///
@@ -5108,6 +5154,8 @@ final class $Collection$Type$ extends jni$_.JType<Collection> {
   String get signature => r'Ljava/util/Collection;';
 }
 
+/// from: `java.lang.Cloneable`
+///
 /// WARNING: Cloneable is a stub. To generate bindings for this class, include
 /// java.lang.Cloneable in your config's classes list.
 ///
@@ -5124,6 +5172,8 @@ final class $Cloneable$Type$ extends jni$_.JType<Cloneable> {
   String get signature => r'Ljava/lang/Cloneable;';
 }
 
+/// from: `java.io.Serializable`
+///
 /// WARNING: Serializable is a stub. To generate bindings for this class, include
 /// java.io.Serializable in your config's classes list.
 ///
@@ -5140,6 +5190,8 @@ final class $Serializable$Type$ extends jni$_.JType<Serializable> {
   String get signature => r'Ljava/io/Serializable;';
 }
 
+/// from: `android.app.Activity`
+///
 /// WARNING: Activity is a stub. To generate bindings for this class, include
 /// android.app.Activity in your config's classes list.
 ///
