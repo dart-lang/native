@@ -7,6 +7,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -24,20 +25,26 @@ void main() {
       globalString = 'Hello World'.toNSString();
     });
 
-    Pointer<ObjCObjectImpl> globalObjectRefCountingInner() {
-      globalObject = NSObject();
-      final obj1raw = globalObject!.ref.pointer;
-
-      expect(objectRetainCount(obj1raw), greaterThan(0));
-
-      return obj1raw;
+    @pragma('vm:never-inline')
+    ReferenceTracker globalObjectRefCountingInner(Arena arena) {
+      final obj = NSObject();
+      final globalObjectTracker = ReferenceTracker(arena);
+      globalObjectTracker.track(obj);
+      globalObject = obj;
+      expect(globalObjectTracker.isAlive, true);
+      return globalObjectTracker;
     }
 
     test('Global object ref counting', () {
-      final obj1raw = globalObjectRefCountingInner();
-      globalObject = null;
-      doGC();
-      expect(objectRetainCount(obj1raw), 0);
+      using((Arena arena) {
+        final globalObjectTracker = globalObjectRefCountingInner(arena);
+        doGC();
+        expect(globalObjectTracker.isAlive, true);
+
+        globalObject = null;
+        doGC();
+        expect(globalObjectTracker.isAlive, false);
+      });
     }, skip: !canDoGC);
 
     test('Global block', () {
@@ -47,34 +54,43 @@ void main() {
       expect(globalBlock!(456), 1456);
     });
 
-    (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-    globalBlockRefCountingInner() {
+    @pragma('vm:never-inline')
+    (ReferenceTracker, ReferenceTracker) globalBlockRefCountingInner(
+      Arena arena,
+    ) {
+      final blk1Tracker = ReferenceTracker(arena);
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
+      blk1Tracker.trackBlock(blk1);
       globalBlock = blk1;
-      final blk1raw = blk1.ref.pointer;
-      expect(blockRetainCount(blk1raw), 2); // blk1, and the global variable.
+      expect(blk1Tracker.isAlive, true);
 
+      final blk2Tracker = ReferenceTracker(arena);
       final blk2 = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
+      blk2Tracker.trackBlock(blk2);
       globalBlock = blk2;
-      final blk2raw = blk2.ref.pointer;
-      expect(blockRetainCount(blk2raw), 2); // blk2, and the global variable.
-      expect(blockRetainCount(blk1raw), 1); // Just blk1.
-      expect(blk1, isNotNull); // Force blk1 to stay in scope.
-      expect(blk2, isNotNull); // Force blk2 to stay in scope.
 
-      return (blk1raw, blk2raw);
+      expect(blk2Tracker.isAlive, true);
+      expect(blk1Tracker.isAlive, true);
+
+      expect(blk1, isNotNull);
+      expect(blk2, isNotNull);
+
+      return (blk1Tracker, blk2Tracker);
     }
 
     test('Global block ref counting', () {
-      final (blk1raw, blk2raw) = globalBlockRefCountingInner();
-      doGC();
+      using((Arena arena) {
+        final (blk1Tracker, blk2Tracker) = globalBlockRefCountingInner(arena);
+        doGC();
 
-      expect(blockRetainCount(blk2raw), 1); // Just the global variable.
-      expect(blockRetainCount(blk1raw), 0);
+        expect(blk2Tracker.isAlive, true);
+        expect(blk1Tracker.isAlive, false);
 
-      globalBlock = null;
-      expect(blockRetainCount(blk2raw), 0);
-      expect(blockRetainCount(blk1raw), 0);
+        globalBlock = null;
+        doGC();
+        expect(blk2Tracker.isAlive, false);
+        expect(blk1Tracker.isAlive, false);
+      });
     }, skip: !canDoGC);
   });
 }

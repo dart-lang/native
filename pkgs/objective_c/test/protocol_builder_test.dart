@@ -6,12 +6,20 @@
 @TestOn('mac-os')
 library;
 
+import 'dart:ffi';
+
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/objective_c_bindings_generated.dart'
     show ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent;
 import 'package:test/test.dart';
 
 import 'util.dart';
+
+@Native<Uint64 Function(Pointer<Void>)>(
+  isLeaf: true,
+  symbol: 'getBlockRetainCount',
+)
+external int _getBlockRetainCount(Pointer<Void> block);
 
 // Directly exercises the blockRef extraction pattern from the production fix.
 // Extract block.ref into a local `blockRef` (static type ObjCBlockRef, which
@@ -31,7 +39,7 @@ bool _gcAndCheckBlock() {
   // the retain count via blockRetainCount, which reads the block ABI flags
   // field — the correct location for block retain counts on all architectures.
   callGCNowFromNative();
-  return blockRetainCount(ptr) > 0;
+  return _getBlockRetainCount(ptr.cast()) > 0;
 }
 
 void main() {

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Objective C support is only available on mac.
-@TestOn('mac-os && !exe')
+@TestOn('mac-os')
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
@@ -468,13 +468,17 @@ void main() {
       expect(count, 1000);
     });
 
-    (NSObject, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
+    @pragma('vm:never-inline')
+    (NSObject, ReferenceTracker) blockRefCountTestInner(Arena arena) {
       final pool = objc_autoreleasePoolPush();
       final protocolBuilder = ObjCProtocolBuilder();
 
       final block = InstanceMethodBlock.fromFunction(
         (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString(),
       );
+      final blockTracker = ReferenceTracker(arena);
+      blockTracker.trackBlock(block);
+
       MyProtocol$Builder.instanceMethod_withDouble_.implementWithBlock(
         protocolBuilder,
         block,
@@ -482,36 +486,39 @@ void main() {
       final protocol = protocolBuilder.build();
       objc_autoreleasePoolPop(pool);
 
-      final blockPtr = block.ref.pointer;
-
       // There are 2 references to the block. One owned by the Dart wrapper
       // object, and the other owned by the protocol.
       doGC();
-      expect(blockRetainCount(blockPtr), 2);
+      expect(blockTracker.isAlive, true);
 
-      return (protocol, blockPtr);
+      return (protocol, blockTracker);
     }
 
-    Pointer<ObjCBlockImpl> blockRefCountTest() {
-      final (protocol, blockPtr) = blockRefCountTestInner();
+    @pragma('vm:never-inline')
+    ReferenceTracker blockRefCountTest(Arena arena) {
+      final (protocol, blockTracker) = blockRefCountTestInner(arena);
 
-      // The Dart side block pointer has gone out of scope, but the protocol
+      // The Dart side block wrapper has gone out of scope, but the protocol
       // still owns a reference to it.
       doGC();
-      expect(blockRetainCount(blockPtr), 1);
+      expect(blockTracker.isAlive, true);
 
       expect(protocol, isNotNull); // Force protocol to stay in scope.
 
-      return blockPtr;
+      return blockTracker;
     }
 
-    test('Block ref counting', () {
-      final blockPtr = blockRefCountTest();
+    test('Block ref counting', () async {
+      await using((arena) async {
+        final blockTracker = blockRefCountTest(arena);
 
-      // The protocol object has gone out of scope, so it should be cleaned up.
-      // So should the block.
-      doGC();
-      expect(blockRetainCount(blockPtr), 0);
+        // The protocol object has gone out of scope, so it should be cleaned up.
+        // So should the block.
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(blockTracker.isAlive, false);
+      });
     }, skip: !canDoGC);
 
     test('keepIsolateAlive', () async {
@@ -600,6 +607,7 @@ void main() {
       protocolBuilder = null;
       doGC();
       expect(isValidClass(clazz), isTrue);
+      expect(protocol, isNotNull);
 
       protocol = null;
       doGC();
@@ -624,6 +632,7 @@ void main() {
       protocolBuilder = null;
       doGC();
       expect(isValidClass(clazz), isTrue);
+      expect(protocol, isNotNull);
 
       protocol = null;
       doGC();

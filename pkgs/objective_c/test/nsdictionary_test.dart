@@ -6,8 +6,7 @@
 @TestOn('mac-os')
 library;
 
-import 'dart:ffi';
-
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -101,46 +100,58 @@ void main() {
     });
 
     test('ref counting', () async {
-      final pointers = <Pointer<ObjCObjectImpl>>[];
-      Map<NSCopying, ObjCObject>? map;
+      await using((arena) async {
+        final trackers = <ReferenceTracker>[];
+        Map<NSCopying, ObjCObject>? map;
 
-      autoReleasePool(() {
-        // The dictionary key has to implement NSCopying. NSString is used in
-        // the other tests because it's easy to construct. But it isn't ref
-        // counted in the same way as other objects, so here we use NSArray.
-        final obj1 = NSArray.of(['apple'.toNSString()]);
-        final obj2 = NSObject();
-        final obj3 = NSArray.of(['banana'.toNSString()]);
-        final obj4 = NSObject();
-        final obj5 = NSArray.of(['carrot'.toNSString()]);
-        final obj6 = NSObject();
-        final objects = {obj1: obj2, obj3: obj4, obj5: obj6};
-        final objCMap = NSDictionary.of(objects);
-        map = objCMap.asDart();
+        autoReleasePool(() {
+          // The dictionary key has to implement NSCopying. NSString is used in
+          // the other tests because it's easy to construct. But it isn't ref
+          // counted in the same way as other objects, so here we use NSArray.
+          final obj1 = NSArray.of(['apple'.toNSString()]);
+          final obj2 = NSObject();
+          final obj3 = NSArray.of(['banana'.toNSString()]);
+          final obj4 = NSObject();
+          final obj5 = NSArray.of(['carrot'.toNSString()]);
+          final obj6 = NSObject();
+          final objects = {obj1: obj2, obj3: obj4, obj5: obj6};
+          final objCMap = NSDictionary.of(objects);
+          map = objCMap.asDart();
 
-        pointers.addAll(map!.keys.map((o) => o.ref.pointer));
-        pointers.addAll(map!.values.map((o) => o.ref.pointer));
-        pointers.add(objCMap.ref.pointer);
+          for (final o in map!.keys) {
+            final keyTracker = ReferenceTracker(arena);
+            keyTracker.track(o);
+            trackers.add(keyTracker);
+          }
+          for (final o in map!.values) {
+            final valueTracker = ReferenceTracker(arena);
+            valueTracker.track(o);
+            trackers.add(valueTracker);
+          }
+          final objCMapTracker = ReferenceTracker(arena);
+          objCMapTracker.track(objCMap);
+          trackers.add(objCMapTracker);
 
-        for (final pointer in pointers) {
-          expect(objectRetainCount(pointer), greaterThan(0));
+          for (final t in trackers) {
+            expect(t.isAlive, true);
+          }
+        });
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        for (final t in trackers) {
+          expect(t.isAlive, true);
+        }
+        map = null;
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        for (final t in trackers) {
+          expect(t.isAlive, false);
         }
       });
-
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
-      for (final pointer in pointers) {
-        expect(objectRetainCount(pointer), greaterThan(0));
-      }
-      map = null;
-
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
-      for (final pointer in pointers) {
-        expect(objectRetainCount(pointer), 0);
-      }
     });
   });
 }

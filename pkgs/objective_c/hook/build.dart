@@ -56,8 +56,10 @@ void main(List<String> args) async {
 
     final testMode = input.userDefines['include_test_utils'] == true;
     if (testMode) {
-      cFiles.add(input.packageRoot.resolve('test/util.c').toFilePath());
       mFiles.add(input.packageRoot.resolve('test/gc_inject.m').toFilePath());
+      mFiles.add(
+        input.packageRoot.resolve('test/reference_tracker.m').toFilePath(),
+      );
     }
 
     final sysroot = sdkPath(codeConfig);
