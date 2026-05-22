@@ -102,8 +102,8 @@ void main() {
 
     test('observer and observed kept alive by observation', () async {
       await using((arena) async {
-        final tObserved = ReferenceTracker(arena);
-        final tObserver = ReferenceTracker(arena);
+        final observedTracker = ReferenceTracker(arena);
+        final observerTracker = ReferenceTracker(arena);
         final values = <dynamic>[];
 
         NSProgress? observed;
@@ -129,8 +129,8 @@ void main() {
                 },
           );
 
-          tObserved.track(observed!);
-          tObserver.track(observer!);
+          observedTracker.track(observed!);
+          observerTracker.track(observer!);
 
           observation = observed!.addObserver(
             observer!,
@@ -146,8 +146,8 @@ void main() {
         observed = null;
         observer = null;
 
-        expect(tObserved.isAlive, true);
-        expect(tObserver.isAlive, true);
+        expect(observedTracker.isAlive, true);
+        expect(observerTracker.isAlive, true);
 
         NSProgress.fromPointer(observedRaw).totalUnitCount = 456;
         expect(values, [123, 456]);
@@ -161,15 +161,15 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
 
-        expect(tObserved.isAlive, false);
-        expect(tObserver.isAlive, false);
+        expect(observedTracker.isAlive, false);
+        expect(observerTracker.isAlive, false);
       });
     });
 
     test('remove method drops references', () async {
       await using((arena) async {
-        final tObserved = ReferenceTracker(arena);
-        final tObserver = ReferenceTracker(arena);
+        final observedTracker = ReferenceTracker(arena);
+        final observerTracker = ReferenceTracker(arena);
         NSProgress? observed;
         Observer? observer;
         Observation? observation;
@@ -185,8 +185,8 @@ void main() {
                 ) {},
           );
 
-          tObserved.track(observed!);
-          tObserver.track(observer!);
+          observedTracker.track(observed!);
+          observerTracker.track(observer!);
 
           observation = observed!.addObserver(
             observer!,
@@ -202,8 +202,8 @@ void main() {
         doGC();
 
         // Still holding a reference to observation.
-        expect(tObserved.isAlive, true);
-        expect(tObserver.isAlive, true);
+        expect(observedTracker.isAlive, true);
+        expect(observerTracker.isAlive, true);
 
         observation!.remove();
 
@@ -212,8 +212,8 @@ void main() {
         doGC();
 
         // Still holding a reference to observation, but we've called remove.
-        expect(tObserved.isAlive, false);
-        expect(tObserver.isAlive, false);
+        expect(observedTracker.isAlive, false);
+        expect(observerTracker.isAlive, false);
 
         // Force observation to stay in scope.
         expect(observation, isNotNull);

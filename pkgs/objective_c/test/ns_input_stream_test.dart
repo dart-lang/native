@@ -319,7 +319,7 @@ void main() {
       });
       test('with self delegate', () async {
         await using((arena) async {
-          final tracker = ReferenceTracker(arena);
+          final inputStreamTracker = ReferenceTracker(arena);
           late DartInputStreamAdapter? inputStream;
           autoReleasePool(() {
             inputStream =
@@ -330,9 +330,9 @@ void main() {
 
             expect(inputStream!.delegate, inputStream);
 
-            tracker.track(inputStream!);
+            inputStreamTracker.track(inputStream!);
           });
-          expect(tracker.isAlive, true);
+          expect(inputStreamTracker.isAlive, true);
 
           inputStream!.open();
           inputStream!.close();
@@ -342,13 +342,13 @@ void main() {
           await Future<void>.delayed(const Duration(milliseconds: 100));
           doGC();
 
-          expect(tracker.isAlive, false);
+          expect(inputStreamTracker.isAlive, false);
         });
       });
 
       test('with non-self delegate', () async {
         await using((arena) async {
-          final tracker = ReferenceTracker(arena);
+          final inputStreamTracker = ReferenceTracker(arena);
           late DartInputStreamAdapter? inputStream;
           autoReleasePool(() {
             inputStream =
@@ -360,9 +360,9 @@ void main() {
             inputStream!.delegate = NSStreamDelegate.as(NSObject());
             expect(inputStream!.delegate, isNot(inputStream));
 
-            tracker.track(inputStream!);
+            inputStreamTracker.track(inputStream!);
           });
-          expect(tracker.isAlive, true);
+          expect(inputStreamTracker.isAlive, true);
 
           inputStream!.open();
           inputStream!.close();
@@ -372,7 +372,7 @@ void main() {
           await Future<void>.delayed(const Duration(milliseconds: 100));
           doGC();
 
-          expect(tracker.isAlive, false);
+          expect(inputStreamTracker.isAlive, false);
         });
       });
     });

@@ -93,13 +93,13 @@ void main() {
           set = objCSet.asDart();
 
           for (final o in set!) {
-            final t = ReferenceTracker(arena);
-            t.track(o);
-            trackers.add(t);
+            final oTracker = ReferenceTracker(arena);
+            oTracker.track(o);
+            trackers.add(oTracker);
           }
-          final tSet = ReferenceTracker(arena);
-          tSet.track(objCSet);
-          trackers.add(tSet);
+          final objCSetTracker = ReferenceTracker(arena);
+          objCSetTracker.track(objCSet);
+          trackers.add(objCSetTracker);
 
           for (final t in trackers) {
             expect(t.isAlive, true);

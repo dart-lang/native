@@ -30,21 +30,21 @@ void main() {
       lib.globalString = 'Hello World'.toNSString();
     });
 
-    void globalObjectRefCountingInner(ReferenceTracker tracker) {
+    void globalObjectRefCountingInner(ReferenceTracker globalObjectTracker) {
       final obj = NSObject();
-      tracker.track(obj);
+      globalObjectTracker.track(obj);
       lib.globalObject = obj;
-      expect(tracker.isAlive, true);
+      expect(globalObjectTracker.isAlive, true);
     }
 
     test('Global object ref counting', () {
       using((Arena arena) {
-        final tracker = ReferenceTracker(arena);
-        globalObjectRefCountingInner(tracker);
-        expect(tracker.isAlive, true);
+        final globalObjectTracker = ReferenceTracker(arena);
+        globalObjectRefCountingInner(globalObjectTracker);
+        expect(globalObjectTracker.isAlive, true);
         lib.globalObject = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(globalObjectTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
@@ -58,38 +58,38 @@ void main() {
     (ReferenceTracker, ReferenceTracker) globalBlockRefCountingInner(
       Arena arena,
     ) {
-      final tracker1 = ReferenceTracker(arena);
+      final blk1Tracker = ReferenceTracker(arena);
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
-      tracker1.trackBlock(blk1);
+      blk1Tracker.trackBlock(blk1);
       lib.globalBlock = blk1;
-      expect(tracker1.isAlive, true);
+      expect(blk1Tracker.isAlive, true);
 
-      final tracker2 = ReferenceTracker(arena);
+      final blk2Tracker = ReferenceTracker(arena);
       final blk2 = ObjCBlock_Int32_Int32.fromFunction((int x) => x + 1000);
-      tracker2.trackBlock(blk2);
+      blk2Tracker.trackBlock(blk2);
       lib.globalBlock = blk2;
 
-      expect(tracker2.isAlive, true);
-      expect(tracker1.isAlive, true);
+      expect(blk2Tracker.isAlive, true);
+      expect(blk1Tracker.isAlive, true);
 
       expect(blk1, isNotNull);
       expect(blk2, isNotNull);
 
-      return (tracker1, tracker2);
+      return (blk1Tracker, blk2Tracker);
     }
 
     test('Global block ref counting', () {
       using((Arena arena) {
-        final (tracker1, tracker2) = globalBlockRefCountingInner(arena);
+        final (blk1Tracker, blk2Tracker) = globalBlockRefCountingInner(arena);
         doGC();
 
-        expect(tracker2.isAlive, true);
-        expect(tracker1.isAlive, false);
+        expect(blk2Tracker.isAlive, true);
+        expect(blk1Tracker.isAlive, false);
 
         lib.globalBlock = null;
         doGC();
-        expect(tracker2.isAlive, false);
-        expect(tracker1.isAlive, false);
+        expect(blk2Tracker.isAlive, false);
+        expect(blk1Tracker.isAlive, false);
       });
     }, skip: !canDoGC);
   });

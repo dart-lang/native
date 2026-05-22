@@ -77,13 +77,13 @@ void main() {
           array = objCArray.asDart();
 
           for (final o in array!) {
-            final t = ReferenceTracker(arena);
-            t.track(o);
-            trackers.add(t);
+            final oTracker = ReferenceTracker(arena);
+            oTracker.track(o);
+            trackers.add(oTracker);
           }
-          final tArray = ReferenceTracker(arena);
-          tArray.track(objCArray);
-          trackers.add(tArray);
+          final objCArrayTracker = ReferenceTracker(arena);
+          objCArrayTracker.track(objCArray);
+          trackers.add(objCArrayTracker);
 
           for (final t in trackers) {
             expect(t.isAlive, true);

@@ -476,8 +476,8 @@ void main() {
       final block = InstanceMethodBlock.fromFunction(
         (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString(),
       );
-      final tracker = ReferenceTracker(arena);
-      tracker.trackBlock(block);
+      final blockTracker = ReferenceTracker(arena);
+      blockTracker.trackBlock(block);
 
       MyProtocol$Builder.instanceMethod_withDouble_.implementWithBlock(
         protocolBuilder,
@@ -489,35 +489,35 @@ void main() {
       // There are 2 references to the block. One owned by the Dart wrapper
       // object, and the other owned by the protocol.
       doGC();
-      expect(tracker.isAlive, true);
+      expect(blockTracker.isAlive, true);
 
-      return (protocol, tracker);
+      return (protocol, blockTracker);
     }
 
     @pragma('vm:never-inline')
     ReferenceTracker blockRefCountTest(Arena arena) {
-      final (protocol, tracker) = blockRefCountTestInner(arena);
+      final (protocol, blockTracker) = blockRefCountTestInner(arena);
 
       // The Dart side block wrapper has gone out of scope, but the protocol
       // still owns a reference to it.
       doGC();
-      expect(tracker.isAlive, true);
+      expect(blockTracker.isAlive, true);
 
       expect(protocol, isNotNull); // Force protocol to stay in scope.
 
-      return tracker;
+      return blockTracker;
     }
 
     test('Block ref counting', () async {
       await using((arena) async {
-        final tracker = blockRefCountTest(arena);
+        final blockTracker = blockRefCountTest(arena);
 
         // The protocol object has gone out of scope, so it should be cleaned up.
         // So should the block.
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
-        expect(tracker.isAlive, false);
+        expect(blockTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 

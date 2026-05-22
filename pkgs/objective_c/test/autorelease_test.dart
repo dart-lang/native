@@ -18,39 +18,39 @@ void main() {
   group('autoReleasePool', () {
     test('basics', () async {
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
+        final objectTracker = ReferenceTracker(arena);
         autoReleasePool(() {
           {
             final object = NSObject();
-            tracker.track(object);
+            objectTracker.track(object);
             object.ref.retainAndAutorelease();
-            expect(tracker.isAlive, true);
+            expect(objectTracker.isAlive, true);
           }
           doGC();
-          expect(tracker.isAlive, true);
+          expect(objectTracker.isAlive, true);
         });
 
         doGC();
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
 
-        expect(tracker.isAlive, false);
+        expect(objectTracker.isAlive, false);
       });
     });
 
     test('exception safe', () async {
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
+        final objectTracker = ReferenceTracker(arena);
         expect(
           () => autoReleasePool(() {
             {
               final object = NSObject();
-              tracker.track(object);
+              objectTracker.track(object);
               object.ref.retainAndAutorelease();
-              expect(tracker.isAlive, true);
+              expect(objectTracker.isAlive, true);
             }
             doGC();
-            expect(tracker.isAlive, true);
+            expect(objectTracker.isAlive, true);
             throw Exception();
           }),
           throwsException,
@@ -60,18 +60,18 @@ void main() {
         await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
 
-        expect(tracker.isAlive, false);
+        expect(objectTracker.isAlive, false);
       });
     });
 
     test('returns callback value', () async {
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
+        final objectTracker = ReferenceTracker(arena);
         late Pointer<ObjCObjectImpl> pointer;
 
         final returnedPointer = autoReleasePool(() {
           final object = NSObject();
-          tracker.track(object);
+          objectTracker.track(object);
           pointer = object.ref.retainAndAutorelease();
           return pointer;
         });
@@ -84,7 +84,7 @@ void main() {
         doGC();
 
         // Object should be released once the pool is popped
-        expect(tracker.isAlive, false);
+        expect(objectTracker.isAlive, false);
       });
     });
   });

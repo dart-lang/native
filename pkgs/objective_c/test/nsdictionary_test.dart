@@ -119,18 +119,18 @@ void main() {
           map = objCMap.asDart();
 
           for (final o in map!.keys) {
-            final t = ReferenceTracker(arena);
-            t.track(o);
-            trackers.add(t);
+            final keyTracker = ReferenceTracker(arena);
+            keyTracker.track(o);
+            trackers.add(keyTracker);
           }
           for (final o in map!.values) {
-            final t = ReferenceTracker(arena);
-            t.track(o);
-            trackers.add(t);
+            final valueTracker = ReferenceTracker(arena);
+            valueTracker.track(o);
+            trackers.add(valueTracker);
           }
-          final tMap = ReferenceTracker(arena);
-          tMap.track(objCMap);
-          trackers.add(tMap);
+          final objCMapTracker = ReferenceTracker(arena);
+          objCMapTracker.track(objCMap);
+          trackers.add(objCMapTracker);
 
           for (final t in trackers) {
             expect(t.isAlive, true);

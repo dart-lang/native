@@ -85,34 +85,34 @@ void main() {
 
     @pragma('vm:never-inline')
     void staticFuncOfBlockRefCountTest(
-      ReferenceTracker tracker1,
-      ReferenceTracker tracker2,
+      ReferenceTracker blockTracker,
+      ReferenceTracker outputBlockTracker,
     ) {
       final block = IntBlock.fromFunction((int x) => 2 * x);
-      tracker1.trackBlock(block);
-      expect(tracker1.isAlive, true);
+      blockTracker.trackBlock(block);
+      expect(blockTracker.isAlive, true);
 
       final pool = lib.objc_autoreleasePoolPush();
       final outputBlock = lib.staticFuncOfBlock(block);
-      tracker2.trackBlock(outputBlock);
+      outputBlockTracker.trackBlock(outputBlock);
       lib.objc_autoreleasePoolPop(pool);
 
       expect(block, outputBlock);
-      expect(tracker2.isAlive, true);
+      expect(outputBlockTracker.isAlive, true);
     }
 
     test(
       'Blocks passed through static functions have correct ref counts',
       () async {
         await using((arena) async {
-          final tracker1 = ReferenceTracker(arena);
-          final tracker2 = ReferenceTracker(arena);
-          staticFuncOfBlockRefCountTest(tracker1, tracker2);
+          final blockTracker = ReferenceTracker(arena);
+          final outputBlockTracker = ReferenceTracker(arena);
+          staticFuncOfBlockRefCountTest(blockTracker, outputBlockTracker);
           doGC();
           await Future<void>.delayed(Duration.zero);
           doGC();
-          expect(tracker1.isAlive, false);
-          expect(tracker2.isAlive, false);
+          expect(blockTracker.isAlive, false);
+          expect(outputBlockTracker.isAlive, false);
         });
       },
       skip: !canDoGC,

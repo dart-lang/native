@@ -36,10 +36,10 @@ void main() {
 
     test('Sending object through a port', () async {
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
+        final sendableTracker = ReferenceTracker(arena);
         Sendable? sendable = Sendable();
         sendable.value = 123;
-        tracker.track(sendable);
+        sendableTracker.track(sendable);
 
         final port = ReceivePort();
         final queue = StreamQueue(port);
@@ -56,23 +56,23 @@ void main() {
         expect(oldValue, 123);
         expect(sendable.value, 456);
 
-        expect(tracker.isAlive, true);
+        expect(sendableTracker.isAlive, true);
 
         expect(await queue.next, null); // onExit
         port.close();
 
         sendable = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(sendableTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
     test('Capturing object in closure', () async {
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
+        final sendableTracker = ReferenceTracker(arena);
         Sendable? sendable = Sendable();
         sendable.value = 123;
-        tracker.track(sendable);
+        sendableTracker.track(sendable);
 
         final oldValue = await Isolate.run(() {
           final oldValue = sendable!.value;
@@ -83,11 +83,11 @@ void main() {
         expect(oldValue, 123);
         expect(sendable.value, 456);
 
-        expect(tracker.isAlive, true);
+        expect(sendableTracker.isAlive, true);
 
         sendable = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(sendableTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
@@ -111,8 +111,8 @@ void main() {
       );
 
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
-        tracker.trackBlock(block!);
+        final blockTracker = ReferenceTracker(arena);
+        blockTracker.trackBlock(block!);
 
         final port = ReceivePort();
         final queue = StreamQueue(port);
@@ -128,14 +128,14 @@ void main() {
         final value = await completer.future;
         expect(value, 123);
 
-        expect(tracker.isAlive, true);
+        expect(blockTracker.isAlive, true);
 
         expect(await queue.next, null); // onExit
         port.close();
 
         block = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(blockTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
@@ -158,28 +158,28 @@ void main() {
       ObjCBlock<Void Function(Int32)>? block = makeBlock(completer);
 
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
-        tracker.trackBlock(block!);
+        final blockTracker = ReferenceTracker(arena);
+        blockTracker.trackBlock(block!);
 
         await runIsolateWithBlock(block!);
         final value = await completer.future;
         expect(value, 123);
 
-        expect(tracker.isAlive, true);
+        expect(blockTracker.isAlive, true);
 
         block = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(blockTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
     test('Manual release across isolates', () async {
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
+        final sendableTracker = ReferenceTracker(arena);
         Sendable? sendable = Sendable();
-        tracker.track(sendable);
+        sendableTracker.track(sendable);
 
-        expect(tracker.isAlive, true);
+        expect(sendableTracker.isAlive, true);
         expect(sendable!.ref.isReleased, isFalse);
 
         final (oldIsReleased, newIsReleased) = await Isolate.run(() {
@@ -194,7 +194,7 @@ void main() {
         expect(sendable!.ref.isReleased, isTrue);
         sendable = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(sendableTracker.isAlive, false);
       });
     });
 

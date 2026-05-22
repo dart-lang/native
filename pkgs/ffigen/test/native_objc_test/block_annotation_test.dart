@@ -35,17 +35,17 @@ void main() {
     @pragma('vm:never-inline')
     void objectProducerTest(EmptyObject producer()) {
       using((Arena arena) {
-        final tracker = ReferenceTracker(arena);
+        final objTracker = ReferenceTracker(arena);
         final pool = objc_autoreleasePoolPush();
         EmptyObject? obj = producer();
-        tracker.track(obj);
+        objTracker.track(obj);
         objc_autoreleasePoolPop(pool);
         doGC();
-        expect(tracker.isAlive, true);
+        expect(objTracker.isAlive, true);
         expect(obj, isNotNull);
         obj = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(objTracker.isAlive, false);
       });
     }
 
@@ -195,10 +195,10 @@ void main() {
         objc_autoreleasePoolPop(pool);
 
         EmptyObject? obj = await completer.future;
-        final tracker = ReferenceTracker(arena);
-        tracker.track(obj);
+        final objTracker = ReferenceTracker(arena);
+        objTracker.track(obj);
         doGC();
-        expect(tracker.isAlive, true);
+        expect(objTracker.isAlive, true);
         expect(obj, isNotNull);
 
         obj = null;
@@ -206,7 +206,7 @@ void main() {
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
-        expect(tracker.isAlive, false);
+        expect(objTracker.isAlive, false);
       });
     }
 
@@ -287,18 +287,18 @@ void main() {
     @pragma('vm:never-inline')
     void blockProducerTest(DartEmptyBlock producer()) {
       using((Arena arena) {
-        final tracker = ReferenceTracker(arena);
+        final objTracker = ReferenceTracker(arena);
         final pool = objc_autoreleasePoolPush();
         DartEmptyBlock? obj = producer();
-        tracker.trackBlock(obj);
+        objTracker.trackBlock(obj);
         objc_autoreleasePoolPop(pool);
         doGC();
-        expect(tracker.isAlive, true);
+        expect(objTracker.isAlive, true);
         expect(obj, isNotNull);
 
         obj = null;
         doGC();
-        expect(tracker.isAlive, false);
+        expect(objTracker.isAlive, false);
       });
     }
 

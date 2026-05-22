@@ -505,8 +505,8 @@ void main() {
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final tracker1 = ReferenceTracker(arena);
-      tracker1.trackBlock(inputBlock);
+      final inputBlockTracker = ReferenceTracker(arena);
+      inputBlockTracker.trackBlock(inputBlock);
 
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
@@ -515,31 +515,37 @@ void main() {
           return 3 * intBlock(x);
         });
       });
-      final tracker2 = ReferenceTracker(arena);
-      tracker2.trackBlock(blockBlock);
+      final blockBlockTracker = ReferenceTracker(arena);
+      blockBlockTracker.trackBlock(blockBlock);
 
       final outputBlock = blockBlock(inputBlock);
-      final tracker3 = ReferenceTracker(arena);
-      tracker3.trackBlock(outputBlock);
+      final outputBlockTracker = ReferenceTracker(arena);
+      outputBlockTracker.trackBlock(outputBlock);
 
       expect(outputBlock(1), 15);
       objc_autoreleasePoolPop(pool);
       doGC();
 
-      expect(tracker1.isAlive, true);
-      expect(tracker2.isAlive, true);
-      expect(tracker3.isAlive, true);
+      expect(inputBlockTracker.isAlive, true);
+      expect(blockBlockTracker.isAlive, true);
+      expect(outputBlockTracker.isAlive, true);
 
       expect(
-        internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+        internal_for_testing.blockHasRegisteredClosure(
+          inputBlockTracker.host.cast(),
+        ),
         true,
       );
       expect(
-        internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+        internal_for_testing.blockHasRegisteredClosure(
+          blockBlockTracker.host.cast(),
+        ),
         true,
       );
       expect(
-        internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+        internal_for_testing.blockHasRegisteredClosure(
+          outputBlockTracker.host.cast(),
+        ),
         true,
       );
 
@@ -547,31 +553,36 @@ void main() {
       expect(blockBlock, isNotNull);
       expect(outputBlock, isNotNull);
 
-      return (tracker1, tracker2, tracker3);
+      return (inputBlockTracker, blockBlockTracker, outputBlockTracker);
     }
 
     test('Calling a block block from Dart has correct ref counting', () async {
       await using((arena) async {
-        final (tracker1, tracker2, tracker3) = blockBlockDartCallRefCountTest(
-          arena,
-        );
+        final (inputBlockTracker, blockBlockTracker, outputBlockTracker) =
+            blockBlockDartCallRefCountTest(arena);
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
 
-        expect(tracker1.isAlive, false);
-        expect(tracker2.isAlive, false);
-        expect(tracker3.isAlive, false);
+        expect(inputBlockTracker.isAlive, false);
+        expect(blockBlockTracker.isAlive, false);
+        expect(outputBlockTracker.isAlive, false);
         expect(
-          internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+          internal_for_testing.blockHasRegisteredClosure(
+            inputBlockTracker.host.cast(),
+          ),
           false,
         );
         expect(
-          internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+          internal_for_testing.blockHasRegisteredClosure(
+            blockBlockTracker.host.cast(),
+          ),
           false,
         );
         expect(
-          internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+          internal_for_testing.blockHasRegisteredClosure(
+            outputBlockTracker.host.cast(),
+          ),
           false,
         );
       });
@@ -580,77 +591,90 @@ void main() {
     (ReferenceTracker, ReferenceTracker, ReferenceTracker)
     blockBlockObjCCallRefCountTest(Arena arena) {
       final pool = objc_autoreleasePoolPush();
-      final tracker1 = ReferenceTracker(arena);
+      final intBlockTracker = ReferenceTracker(arena);
 
       final blockBlock = BlockBlock.fromFunction((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
-        tracker1.trackBlock(intBlock);
+        intBlockTracker.trackBlock(intBlock);
         expect(
-          internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+          internal_for_testing.blockHasRegisteredClosure(
+            intBlockTracker.host.cast(),
+          ),
           false,
         );
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
-      final tracker2 = ReferenceTracker(arena);
-      tracker2.trackBlock(blockBlock);
+      final blockBlockTracker = ReferenceTracker(arena);
+      blockBlockTracker.trackBlock(blockBlock);
 
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
-      final tracker3 = ReferenceTracker(arena);
-      tracker3.trackBlock(outputBlock);
+      final outputBlockTracker = ReferenceTracker(arena);
+      outputBlockTracker.trackBlock(outputBlock);
 
       expect(outputBlock(1), 6);
       objc_autoreleasePoolPop(pool);
       doGC();
 
-      expect(tracker1.isAlive, true);
-      expect(tracker2.isAlive, true);
-      expect(tracker3.isAlive, true);
+      expect(intBlockTracker.isAlive, true);
+      expect(blockBlockTracker.isAlive, true);
+      expect(outputBlockTracker.isAlive, true);
 
       expect(
-        internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+        internal_for_testing.blockHasRegisteredClosure(
+          intBlockTracker.host.cast(),
+        ),
         false,
       );
       expect(
-        internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+        internal_for_testing.blockHasRegisteredClosure(
+          blockBlockTracker.host.cast(),
+        ),
         true,
       );
       expect(
-        internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+        internal_for_testing.blockHasRegisteredClosure(
+          outputBlockTracker.host.cast(),
+        ),
         true,
       );
 
       expect(blockBlock, isNotNull);
       expect(outputBlock, isNotNull);
 
-      return (tracker1, tracker2, tracker3);
+      return (intBlockTracker, blockBlockTracker, outputBlockTracker);
     }
 
     test('Calling a block block from ObjC has correct ref counting', () async {
       await using((arena) async {
-        final (tracker1, tracker2, tracker3) = blockBlockObjCCallRefCountTest(
-          arena,
-        );
+        final (intBlockTracker, blockBlockTracker, outputBlockTracker) =
+            blockBlockObjCCallRefCountTest(arena);
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
         await Future<void>.delayed(Duration.zero);
 
-        expect(tracker1.isAlive, false);
-        expect(tracker2.isAlive, false);
-        expect(tracker3.isAlive, false);
+        expect(intBlockTracker.isAlive, false);
+        expect(blockBlockTracker.isAlive, false);
+        expect(outputBlockTracker.isAlive, false);
         expect(
-          internal_for_testing.blockHasRegisteredClosure(tracker1.host.cast()),
+          internal_for_testing.blockHasRegisteredClosure(
+            intBlockTracker.host.cast(),
+          ),
           false,
         );
         expect(
-          internal_for_testing.blockHasRegisteredClosure(tracker2.host.cast()),
+          internal_for_testing.blockHasRegisteredClosure(
+            blockBlockTracker.host.cast(),
+          ),
           false,
         );
         expect(
-          internal_for_testing.blockHasRegisteredClosure(tracker3.host.cast()),
+          internal_for_testing.blockHasRegisteredClosure(
+            outputBlockTracker.host.cast(),
+          ),
           false,
         );
       });
@@ -662,40 +686,40 @@ void main() {
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final tracker1 = ReferenceTracker(arena);
-      tracker1.trackBlock(inputBlock);
+      final inputBlockTracker = ReferenceTracker(arena);
+      inputBlockTracker.trackBlock(inputBlock);
 
       final blockBlock = BlockTester.newBlockBlock(7);
-      final tracker2 = ReferenceTracker(arena);
-      tracker2.trackBlock(blockBlock);
+      final blockBlockTracker = ReferenceTracker(arena);
+      blockBlockTracker.trackBlock(blockBlock);
 
       final outputBlock = blockBlock(inputBlock);
-      final tracker3 = ReferenceTracker(arena);
-      tracker3.trackBlock(outputBlock);
+      final outputBlockTracker = ReferenceTracker(arena);
+      outputBlockTracker.trackBlock(outputBlock);
 
       expect(outputBlock(1), 35);
       objc_autoreleasePoolPop(pool);
       doGC();
 
-      expect(tracker1.isAlive, true);
-      expect(tracker2.isAlive, true);
-      expect(tracker3.isAlive, true);
+      expect(inputBlockTracker.isAlive, true);
+      expect(blockBlockTracker.isAlive, true);
+      expect(outputBlockTracker.isAlive, true);
 
       expect(inputBlock, isNotNull);
       expect(blockBlock, isNotNull);
       expect(outputBlock, isNotNull);
 
-      return (tracker1, tracker2, tracker3);
+      return (inputBlockTracker, blockBlockTracker, outputBlockTracker);
     }
 
     test('Calling a native block block from Dart has correct ref counting', () {
       using((Arena arena) {
-        final (tracker1, tracker2, tracker3) =
+        final (inputBlockTracker, blockBlockTracker, outputBlockTracker) =
             nativeBlockBlockDartCallRefCountTest(arena);
         doGC();
-        expect(tracker1.isAlive, false);
-        expect(tracker2.isAlive, false);
-        expect(tracker3.isAlive, false);
+        expect(inputBlockTracker.isAlive, false);
+        expect(blockBlockTracker.isAlive, false);
+        expect(outputBlockTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
@@ -703,33 +727,32 @@ void main() {
       Arena arena,
     ) {
       final blockBlock = BlockTester.newBlockBlock(7);
-      final tracker1 = ReferenceTracker(arena);
-      tracker1.trackBlock(blockBlock);
+      final blockBlockTracker = ReferenceTracker(arena);
+      blockBlockTracker.trackBlock(blockBlock);
 
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
-      final tracker2 = ReferenceTracker(arena);
-      tracker2.trackBlock(outputBlock);
+      final outputBlockTracker = ReferenceTracker(arena);
+      outputBlockTracker.trackBlock(outputBlock);
 
       expect(outputBlock(1), 14);
       doGC();
 
-      expect(tracker1.isAlive, true);
-      expect(tracker2.isAlive, true);
+      expect(blockBlockTracker.isAlive, true);
+      expect(outputBlockTracker.isAlive, true);
 
       expect(blockBlock, isNotNull);
       expect(outputBlock, isNotNull);
 
-      return (tracker1, tracker2);
+      return (blockBlockTracker, outputBlockTracker);
     }
 
     test('Calling a native block block from ObjC has correct ref counting', () {
       using((Arena arena) {
-        final (tracker1, tracker2) = nativeBlockBlockObjCCallRefCountTest(
-          arena,
-        );
+        final (blockBlockTracker, outputBlockTracker) =
+            nativeBlockBlockObjCCallRefCountTest(arena);
         doGC();
-        expect(tracker1.isAlive, false);
-        expect(tracker2.isAlive, false);
+        expect(blockBlockTracker.isAlive, false);
+        expect(outputBlockTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
@@ -808,18 +831,18 @@ void main() {
     listenerBlockArgumentRetentionTest(Arena arena) async {
       final hasRun = Completer<void>();
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
-      final tracker1 = ReferenceTracker(arena);
+      final intBlockTracker = ReferenceTracker(arena);
 
       final blockBlock = ListenerBlock.listener((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
-        tracker1.trackBlock(intBlock);
-        expect(tracker1.isAlive, true);
+        intBlockTracker.trackBlock(intBlock);
+        expect(intBlockTracker.isAlive, true);
         inputBlock = intBlock;
         hasRun.complete();
       });
-      final tracker2 = ReferenceTracker(arena);
-      tracker2.trackBlock(blockBlock);
+      final blockBlockTracker = ReferenceTracker(arena);
+      blockBlockTracker.trackBlock(blockBlock);
 
       final thread = BlockTester.callWithBlockOnNewThread(blockBlock);
       thread.start();
@@ -829,55 +852,54 @@ void main() {
       thread.ref.release();
       doGC();
 
-      expect(tracker1.isAlive, true);
-      expect(tracker2.isAlive, true);
+      expect(intBlockTracker.isAlive, true);
+      expect(blockBlockTracker.isAlive, true);
 
       expect(blockBlock, isNotNull);
       expect(inputBlock, isNotNull);
 
-      return (tracker1, tracker2);
+      return (intBlockTracker, blockBlockTracker);
     }
 
     test('Listener block arguments are not prematurely destroyed', () async {
       // https://github.com/dart-lang/native/issues/835
       await using((arena) async {
-        final (tracker1, tracker2) = await listenerBlockArgumentRetentionTest(
-          arena,
-        );
+        final (intBlockTracker, blockBlockTracker) =
+            await listenerBlockArgumentRetentionTest(arena);
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
-        expect(tracker1.isAlive, false);
-        expect(tracker2.isAlive, false);
+        expect(intBlockTracker.isAlive, false);
+        expect(blockBlockTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
     test('Blocking block ref counting same thread', () async {
       await using((arena) async {
-        final tracker1 = ReferenceTracker(arena);
-        final tracker2 = ReferenceTracker(arena);
-        final tracker3 = ReferenceTracker(arena);
+        final blockTracker = ReferenceTracker(arena);
+        final dummyObjectTracker = ReferenceTracker(arena);
+        final objTracker = ReferenceTracker(arena);
 
         DummyObject? dummyObject = DummyObject();
-        tracker2.track(dummyObject);
+        dummyObjectTracker.track(dummyObject);
 
         DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
           DummyObject obj,
         ) {
-          tracker3.track(obj);
-          expect(tracker3.isAlive, true);
+          objTracker.track(obj);
+          expect(objTracker.isAlive, true);
 
           // Object bound in block's lambda.
           expect(dummyObject, isNotNull);
-          expect(tracker2.isAlive, true);
+          expect(dummyObjectTracker.isAlive, true);
         });
-        tracker1.trackBlock(block!);
+        blockTracker.trackBlock(block!);
 
         final tester = BlockTester.newFromListener(block);
         doGC();
-        expect(tracker1.isAlive, true);
-        expect(tracker2.isAlive, true);
-        expect(tracker3.isAlive, false);
+        expect(blockTracker.isAlive, true);
+        expect(dummyObjectTracker.isAlive, true);
+        expect(objTracker.isAlive, false);
 
         dummyObject = null;
         block = null;
@@ -885,40 +907,40 @@ void main() {
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
-        expect(tracker1.isAlive, false);
-        expect(tracker2.isAlive, false);
-        expect(tracker3.isAlive, false);
+        expect(blockTracker.isAlive, false);
+        expect(dummyObjectTracker.isAlive, false);
+        expect(objTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
     test('Blocking block ref counting new thread', () async {
       await using((arena) async {
-        final tracker1 = ReferenceTracker(arena);
-        final tracker2 = ReferenceTracker(arena);
-        final tracker3 = ReferenceTracker(arena);
+        final blockTracker = ReferenceTracker(arena);
+        final dummyObjectTracker = ReferenceTracker(arena);
+        final objTracker = ReferenceTracker(arena);
 
         final completer = Completer<void>();
         DummyObject? dummyObject = DummyObject();
-        tracker2.track(dummyObject);
+        dummyObjectTracker.track(dummyObject);
 
         DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
           DummyObject obj,
         ) {
-          tracker3.track(obj);
-          expect(tracker3.isAlive, true);
+          objTracker.track(obj);
+          expect(objTracker.isAlive, true);
 
           // Object bound in block's lambda.
           expect(dummyObject, isNotNull);
-          expect(tracker2.isAlive, true);
+          expect(dummyObjectTracker.isAlive, true);
           completer.complete();
         });
-        tracker1.trackBlock(block!);
+        blockTracker.trackBlock(block!);
 
         final tester = BlockTester.newFromListener(block);
         doGC();
-        expect(tracker1.isAlive, true);
-        expect(tracker2.isAlive, true);
-        expect(tracker3.isAlive, false);
+        expect(blockTracker.isAlive, true);
+        expect(dummyObjectTracker.isAlive, true);
+        expect(objTracker.isAlive, false);
 
         tester.invokeAndReleaseListenerOnNewThread();
         await completer.future;
@@ -928,9 +950,9 @@ void main() {
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
-        expect(tracker1.isAlive, false);
-        expect(tracker2.isAlive, false);
-        expect(tracker3.isAlive, false);
+        expect(blockTracker.isAlive, false);
+        expect(dummyObjectTracker.isAlive, false);
+        expect(objTracker.isAlive, false);
       });
     }, skip: !canDoGC);
 
@@ -977,31 +999,31 @@ void main() {
       Completer<void> completer,
       Arena arena,
     ) async {
-      final tracker1 = ReferenceTracker(arena);
-      final tracker2 = ReferenceTracker(arena);
-      final tracker3 = ReferenceTracker(arena);
+      final dummyObjectTracker = ReferenceTracker(arena);
+      final blockTracker = ReferenceTracker(arena);
+      final objTracker = ReferenceTracker(arena);
 
       final dummyObject = DummyObject();
-      tracker1.track(dummyObject);
+      dummyObjectTracker.track(dummyObject);
 
       DartObjectListenerBlock? block = ObjectListenerBlock.listener((
         DummyObject obj,
       ) {
-        tracker3.track(obj);
-        expect(tracker3.isAlive, true);
+        objTracker.track(obj);
+        expect(objTracker.isAlive, true);
         completer.complete();
         expect(dummyObject, isNotNull);
-        expect(tracker1.isAlive, true);
+        expect(dummyObjectTracker.isAlive, true);
       });
-      tracker2.trackBlock(block!);
+      blockTracker.trackBlock(block!);
 
       final tester = BlockTester.newFromListener(block);
       await flutterDoGC();
-      expect(tracker1.isAlive, true);
-      expect(tracker2.isAlive, true);
-      expect(tracker3.isAlive, false);
+      expect(dummyObjectTracker.isAlive, true);
+      expect(blockTracker.isAlive, true);
+      expect(objTracker.isAlive, false);
 
-      return (tester, tracker1, tracker2);
+      return (tester, dummyObjectTracker, blockTracker);
     }
 
     test(
@@ -1016,21 +1038,19 @@ void main() {
           // times.
           for (int i = 0; i < 10; ++i) {
             final completer = Completer<void>();
-            final (tester, tracker1, tracker2) = await regress1571Inner(
-              completer,
-              arena,
-            );
+            final (tester, dummyObjectTracker, blockTracker) =
+                await regress1571Inner(completer, arena);
 
             await flutterDoGC();
-            expect(tracker1.isAlive, true);
-            expect(tracker2.isAlive, true);
+            expect(dummyObjectTracker.isAlive, true);
+            expect(blockTracker.isAlive, true);
 
             tester.invokeAndReleaseListenerOnNewThread();
             await completer.future;
 
             await flutterDoGC();
-            expect(tracker1.isAlive, false);
-            expect(tracker2.isAlive, false);
+            expect(dummyObjectTracker.isAlive, false);
+            expect(blockTracker.isAlive, false);
           }
         });
       },
