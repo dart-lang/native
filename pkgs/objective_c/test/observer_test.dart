@@ -155,7 +155,6 @@ void main() {
         // Force observation to stay in scope.
         expect(observation, isNotNull);
         observation = null;
-        expect(observation, isNull);
 
         doGC();
         await Future<void>.delayed(Duration.zero);
