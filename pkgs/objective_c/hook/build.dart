@@ -54,7 +54,8 @@ void main(List<String> args) async {
       }
     }
 
-    if (input.userDefines['include_test_utils'] == true) {
+    final testMode = input.userDefines['include_test_utils'] == true;
+    if (testMode) {
       mFiles.add(input.packageRoot.resolve('test/gc_inject.m').toFilePath());
       mFiles.add(
         input.packageRoot.resolve('test/reference_tracker.m').toFilePath(),
@@ -63,14 +64,14 @@ void main(List<String> args) async {
 
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
-    final List<String> archFlags;
-    if (codeConfig.targetArchitecture == Architecture.arm64 &&
-        (os == OS.macOS || os == OS.iOS)) {
-      archFlags = ['-arch', 'arm64e'];
-    } else {
-      archFlags = ['-target', target];
-    }
-    final cFlags = <String>['-isysroot', sysroot, ...archFlags, minVersion];
+    final cFlags = <String>[
+      '-isysroot',
+      sysroot,
+      // TODO(https://github.com/flutter/flutter/issues/186856): Remove this
+      // workaround and just use -target. Atm this is necessary for AOT testing.
+      if (testMode) ...['-arch', 'arm64e'] else ...['-target', target],
+      minVersion,
+    ];
     final mFlags = [...cFlags, ...objCFlags];
     final linkFlags = cFlags;
 

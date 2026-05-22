@@ -1,3 +1,7 @@
+## 1.2.0-wip
+
+- Added an optional `sanitizer` parameter to `CodeConfig` and `CodeAssetExtension` supporting `asan`, `msan`, and `tsan`.
+
 ## 1.1.0
 
 - Bumped dependency on `package:hooks` to `^2.0.0` and implemented the new `outputFiles` protocol extension method to track generated files for cache invalidation, correctly omitting non-local assets like system libraries.

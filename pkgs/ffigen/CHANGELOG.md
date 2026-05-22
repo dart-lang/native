@@ -1,14 +1,4 @@
-## 21.0.0-wip
-
-- Add some more lint ignores to the generated bindings.
-- Fix a bug where the config option `Protocols.includeTransitive` was not
-  working correctly.
-- Add compile time version checks to verify consistency of package:objective_c's
-  versions vs FFIgen's generated code.
-- Fix [a bug](https://github.com/dart-lang/native/issues/3338) where ObjC
-  bindings may not auto-load their dylib in some cases.
-
-## 21.0.0-dev.0
+## 21.0.0
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart
   bindings. Deprecation messages from `__attribute__((deprecated("msg")))` and
@@ -46,6 +36,13 @@
   generating runtime-crashing no-arg constructors.
 - Fix a bug where methods marked with `__attribute__((unavailable))` were
   incorrectly included in bindings when no platform version info was configured.
+- Add some more lint ignores to the generated bindings.
+- Fix a bug where the config option `Protocols.includeTransitive` was not
+  working correctly.
+- Add compile time version checks to verify consistency of package:objective_c's
+  versions vs FFIgen's generated code.
+- Fix [a bug](https://github.com/dart-lang/native/issues/3338) where ObjC
+  bindings may not auto-load their dylib in some cases.
   
 ## 20.1.1
 
