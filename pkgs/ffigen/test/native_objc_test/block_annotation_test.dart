@@ -32,6 +32,7 @@ void main() {
     // This is also why the ObjC block creation functions need casts to the
     // correct block type.
 
+    @pragma('vm:never-inline')
     void objectProducerTest(EmptyObject producer()) {
       using((Arena arena) {
         final tracker = ReferenceTracker(arena);
@@ -183,18 +184,19 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     Future<void> objectListenerTest(
       void Function(Completer<EmptyObject>) producer,
     ) async {
-      Completer<EmptyObject>? completer = Completer<EmptyObject>();
-      producer(completer);
-      EmptyObject? obj = await completer.future;
-
       await using((arena) async {
-        final tracker = ReferenceTracker(arena);
         final pool = objc_autoreleasePoolPush();
-        tracker.track(obj!);
+        Completer<EmptyObject>? completer = Completer<EmptyObject>();
+        producer(completer);
         objc_autoreleasePoolPop(pool);
+
+        EmptyObject? obj = await completer.future;
+        final tracker = ReferenceTracker(arena);
+        tracker.track(obj);
         doGC();
         expect(tracker.isAlive, true);
         expect(obj, isNotNull);
@@ -282,18 +284,19 @@ void main() {
       });
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void blockProducerTest(DartEmptyBlock producer()) {
       using((Arena arena) {
         final tracker = ReferenceTracker(arena);
         final pool = objc_autoreleasePoolPush();
         DartEmptyBlock? obj = producer();
         tracker.trackBlock(obj);
+        objc_autoreleasePoolPop(pool);
         doGC();
         expect(tracker.isAlive, true);
         expect(obj, isNotNull);
 
         obj = null;
-        objc_autoreleasePoolPop(pool);
         doGC();
         expect(tracker.isAlive, false);
       });

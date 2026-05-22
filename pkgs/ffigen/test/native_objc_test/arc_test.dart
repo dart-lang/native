@@ -17,6 +17,7 @@ import 'util.dart';
 
 void main() {
   group('ARC', () {
+    @pragma('vm:never-inline')
     void newMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject();
       obj1.setCounter(counter);
@@ -49,6 +50,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.alloc().initWithCounter(counter);
       expect(counter.value, 1);
@@ -71,6 +73,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void copyMethodsInner(Pointer<Int32> counter) {
       final pool = objc_autoreleasePoolPush();
       final obj1 = ArcTestObject.newWithCounter(counter);
@@ -114,6 +117,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.makeAndAutorelease(counter);
       expect(counter.value, 1);
@@ -144,6 +148,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void assignPropertiesInnerInner(
       Pointer<Int32> counter,
       ArcTestObject outerObj,
@@ -155,6 +160,7 @@ void main() {
       expect(assignObj, outerObj.assignedProperty);
     }
 
+    @pragma('vm:never-inline')
     void assignPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -173,6 +179,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void retainPropertiesInnerInner(
       Pointer<Int32> counter,
       ArcTestObject outerObj,
@@ -184,6 +191,7 @@ void main() {
       expect(retainObj, outerObj.retainedProperty);
     }
 
+    @pragma('vm:never-inline')
     void retainPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -207,6 +215,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
+    @pragma('vm:never-inline')
     void copyPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -260,23 +269,6 @@ void main() {
       expect(() => obj1.ref.release(), throwsStateError);
       calloc.free(counter);
     });
-
-    void largeRefCountInner(Pointer<Int32> counter) {
-      final obj = ArcTestObject.newWithCounter(counter);
-      expect(counter.value, 1);
-      final objRefs = <ArcTestObject>[];
-      for (int i = 1; i < 1000; ++i) {
-        objRefs.add(
-          ArcTestObject.fromPointer(
-            obj.ref.pointer,
-            retain: true,
-            release: true,
-          ),
-        );
-      }
-      expect(counter.value, 1);
-      expect(objRefs, isNotEmpty);
-    }
 
     test('Consumed arguments', () {
       final counter = calloc<Int32>()..value = 0;
