@@ -9,8 +9,12 @@ class Animal {
   final ffi.Pointer<ffi.Void> _ptr;
 
   Animal._(this._ptr);
-
-  void dispose() {
-    // TODO: call Animal_delete(_ptr);
-  }
+  void speak() => _Animal_speak(_ptr);
+  int getAge() => _Animal_getAge(_ptr);
 }
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_speak')
+external void _Animal_speak(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_getAge')
+external int _Animal_getAge(ffi.Pointer<ffi.Void> self);

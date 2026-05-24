@@ -7,6 +7,7 @@ import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -14,7 +15,7 @@ import 'writer.dart';
 enum CppMethodKind { constructor, destructor, method }
 
 /// A method or constructor belonging to a C++ class.
-class CppMethod extends AstNode {
+class CppMethod extends AstNode with HasLocalScope {
   final String name;
   final String originalName;
   final Type returnType;
@@ -35,6 +36,9 @@ class CppMethod extends AstNode {
 
   bool get isConstructor => kind == CppMethodKind.constructor;
   bool get isDestructor => kind == CppMethodKind.destructor;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitCppMethod(this);
 
   @override
   void visitChildren(Visitor visitor) {
@@ -80,11 +84,23 @@ class CppClass extends BindingType with HasLocalScope {
   void visit(Visitation visitation) => visitation.visitCppClass(this);
 
   @override
+  String convertDartTypeToFfiDartType(
+    Context context,
+    String value, {
+    required bool objCRetain,
+    required bool objCAutorelease,
+    required LocalVariables localVariables,
+  }) => '$value._ptr';
+
+  @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
-    final ffiPrefix = context.libs.prefix(ffiImport);
+    final ctx = w.context;
+    final ffiPrefix = ctx.libs.prefix(ffiImport);
 
-    final regularMethods = methods
+    final ptrVoid = '$ffiPrefix.Pointer<$ffiPrefix.Void>';
+
+    final instanceMethods = methods
         .where((m) => m.kind == CppMethodKind.method)
         .toList();
 
@@ -92,26 +108,54 @@ class CppClass extends BindingType with HasLocalScope {
     s.write('''
 class $name {
   // ignore: unused_field
-  final $ffiPrefix.Pointer<$ffiPrefix.Void> _ptr;
+  final $ptrVoid _ptr;
 
   $name._(this._ptr);
+''');
 
-''');
-    for (final field in fields) {
-      s.write('  // TODO: getter for field ${field.name}\n');
-      if (!field.isConst) {
-        s.write('  // TODO: setter for field ${field.name}\n');
-      }
+    for (final method in instanceMethods) {
+      final glue = '_${name}_${method.name}';
+      final dartReturn = method.returnType.getDartType(ctx);
+      final dartParams = method.parameters
+          .map((p) => '${p.type.getDartType(ctx)} ${p.name}')
+          .join(', ');
+
+      final callArgs = method.parameters.map((p) => p.name).join(', ');
+      final call = callArgs.isEmpty ? '$glue(_ptr)' : '$glue(_ptr, $callArgs)';
+
+      s.write('  $dartReturn ${method.name}($dartParams) => $call;\n');
     }
-    for (final method in regularMethods) {
-      s.write('  // TODO: method ${method.name}\n');
+    s.write('}\n');
+
+    for (final method in instanceMethods) {
+      final symbol = '${name}_${method.name}';
+      final glue = '_$symbol';
+
+      final cReturn = method.returnType.getCType(ctx);
+      final cParams = [
+        ptrVoid,
+        ...method.parameters.map((p) => p.type.getCType(ctx)),
+      ].join(', ');
+      final cType = '$cReturn Function($cParams)';
+
+      final ffiReturn = method.returnType.getFfiDartType(ctx);
+      final ffiParams = [
+        '$ptrVoid self',
+        ...method.parameters.map(
+          (p) => '${p.type.getFfiDartType(ctx)} ${p.name}',
+        ),
+      ].join(', ');
+
+      s.write(
+        makeNativeAnnotation(
+          w,
+          nativeType: cType,
+          dartName: glue,
+          nativeSymbolName: symbol,
+        ),
+      );
+      s.write('\nexternal $ffiReturn $glue($ffiParams);\n\n');
     }
-    s.write('''
-  void dispose() {
-    // TODO: call ${name}_delete(_ptr);
-  }
-}
-''');
 
     return BindingString(
       type: BindingStringType.cppClass,

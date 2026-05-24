@@ -51,6 +51,15 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     '++++ Adding C++ Class: Name: $className, ${cursor.completeStringRepr()}',
   );
 
+  final methods = <CppMethod>[];
+
+  cursor.visitChildren((child) {
+    final kind = clang.clang_getCursorKind(child);
+    if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
+      _parseMethod(context, child, decl, methods);
+    }
+  });
+
   final cppClass = CppClass(
     usr: usr,
     dartDoc: getCursorDocComment(
@@ -61,11 +70,88 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     originalName: className,
     name: cppClasses.rename(decl),
     context: context,
-    methods: <CppMethod>[],
+    methods: methods,
     fields: <CppMember>[],
   );
 
   context.bindingsIndex.addCppClassToSeen(usr, cppClass);
 
   return cppClass;
+}
+
+void _parseMethod(
+  Context context,
+  clang_types.CXCursor cursor,
+  Declaration classDecl,
+  List<CppMethod> methods,
+) {
+  final logger = context.logger;
+  final methodName = cursor.spelling();
+
+  final isStatic = clang.clang_CXXMethod_isStatic(cursor) != 0;
+  if (isStatic) {
+    logger.fine('  ---- Skipping static C++ method: $methodName');
+    return;
+  }
+
+  final isConst = clang.clang_CXXMethod_isConst(cursor) != 0;
+  final returnType = clang
+      .clang_getCursorResultType(cursor)
+      .toCodeGenType(context);
+
+  final parameters = _parseParameters(context, cursor, classDecl);
+  if (parameters == null) {
+    logger.fine(
+      '  ---- Skipping method $methodName due to unsupported parameter type',
+    );
+    return;
+  }
+
+  logger.fine('  ++++ Method: $methodName (const=$isConst)');
+  methods.add(
+    CppMethod(
+      name: methodName,
+      originalName: methodName,
+      returnType: returnType,
+      parameters: parameters,
+      isConstant: isConst,
+      isStatic: isStatic,
+      kind: CppMethodKind.method,
+    ),
+  );
+}
+
+List<Parameter>? _parseParameters(
+  Context context,
+  clang_types.CXCursor cursor,
+  Declaration classDecl,
+) {
+  final logger = context.logger;
+  final parameters = <Parameter>[];
+  final totalArgs = clang.clang_Cursor_getNumArguments(cursor);
+
+  for (var i = 0; i < totalArgs; i++) {
+    final paramCursor = clang.clang_Cursor_getArgument(cursor, i);
+    final paramType = paramCursor.toCodeGenType(context);
+
+    if (paramType.isIncompleteCompound ||
+        paramType.baseType is UnimplementedType) {
+      logger.fine('  Unsupported parameter type: ${paramType.baseType}');
+      return null;
+    }
+
+    final paramName = paramCursor.spelling();
+    final resolvedName = paramName.isEmpty ? 'arg$i' : paramName;
+
+    parameters.add(
+      Parameter(
+        originalName: resolvedName,
+        name: resolvedName,
+        type: paramType,
+        objCConsumed: false,
+      ),
+    );
+  }
+
+  return parameters;
 }
