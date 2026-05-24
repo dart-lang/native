@@ -29,7 +29,7 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
   // Use the libclang API to detect anonymous classes reliably.
   final String className;
   if (clang.clang_Cursor_isAnonymous(cursor) == 0) {
-    className = usr.split('@').last;
+    className = cursor.spelling();
   } else {
     logger.fine('Skipping anonymous C++ class.');
     return null;
@@ -58,6 +58,8 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     final kind = clang.clang_getCursorKind(child);
     if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
       _parseMethod(context, child, decl, methods);
+    } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
+      _parseConstructor(context, child, decl, methods);
     }
   });
 
@@ -135,4 +137,29 @@ List<Parameter>? _parseParameters(
     return null;
   }
   return parsed.parameters;
+}
+
+void _parseConstructor(
+  Context context,
+  clang_types.CXCursor cursor,
+  Declaration classDecl,
+  List<CppMethod> methods,
+) {
+  final constructorName = cursor.spelling();
+  final returnType = clang
+      .clang_getCursorResultType(cursor)
+      .toCodeGenType(context);
+  final parameters = _parseParameters(context, cursor, classDecl);
+  if (parameters == null) return;
+  methods.add(
+    CppMethod(
+      name: constructorName,
+      originalName: constructorName,
+      returnType: returnType,
+      parameters: parameters,
+      isConstant: false,
+      isStatic: false,
+      kind: CppMethodKind.constructor,
+    ),
+  );
 }

@@ -9,6 +9,7 @@ class Animal {
   final ffi.Pointer<ffi.Void> _ptr;
 
   Animal._(this._ptr);
+  factory Animal(int age) => Animal._(_Animal_new(age));
   void speak() => _Animal_speak(_ptr);
   int getAge() => _Animal_getAge(_ptr);
   static int getCount() => _Animal_getCount();
@@ -22,3 +23,6 @@ external int _Animal_getAge(ffi.Pointer<ffi.Void> self);
 
 @ffi.Native<ffi.Int Function()>(symbol: 'Animal_getCount')
 external int _Animal_getCount();
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'Animal_new')
+external ffi.Pointer<ffi.Void> _Animal_new(int age);
