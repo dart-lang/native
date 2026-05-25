@@ -136,7 +136,7 @@ Pointer<T> _getClassOrProto<T extends NativeType>(
         return p;
       }
       // ignore: avoid_catching_errors
-    } on ArgumentError {
+    } catch (_) {
       // The class is not in the user's dylib. This means the class is probably
       // part of a built-in framework. Try to load it by name instead.
     }
