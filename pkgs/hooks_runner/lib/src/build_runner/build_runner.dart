@@ -608,8 +608,10 @@ class NativeAssetsBuildRunner {
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
       ...nonStandardNdkEnvironmentVariables,
+      'APPDATA', // Needed for NuGet.
       'HOME', // Needed to find tools in default install locations.
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
+      'LOCALAPPDATA', // Needed for dart_data_home and pub.
       'PATH', // Needed to invoke native tools.
       'PROGRAMDATA', // Needed for vswhere.exe.
       'PROCESSOR_ARCHITECTURE', // Needed for CMake Android on Windows.
@@ -624,6 +626,7 @@ class NativeAssetsBuildRunner {
     };
     const variablePrefixesFilter = {
       'CCACHE_', // Needed for Ccache.
+      'DOTNET_', // Needed for .Net.
       'NIX_', // Needed for Nix-installed toolchains.
     };
 
