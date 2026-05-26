@@ -47,7 +47,9 @@ extension HooksRunnerBuildInputBuilder on HookConfigBuilder {
     final hookConfig = ConfigSyntax.fromJson(baseHookConfig.json);
     hookConfig.extensions!.hooksRunner = HooksRunnerConfigSyntax(
       recordUse: RecordUseConfigSyntax(
-        entryPoints: [for (final e in recordUse.entryPoints) e.toFilePath()],
+        entryPoints: {
+          for (final e in recordUse.entryPoints) e.toFilePath(),
+        }.toList()..sort(),
         compiler: recordUse.compiler,
       ),
     );

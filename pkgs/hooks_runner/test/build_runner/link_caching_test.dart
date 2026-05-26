@@ -135,7 +135,7 @@ void main() async {
       )).success;
 
       final logMessages = <String>[];
-      Future<void> runLink(Uri entryPoint, String compiler) async {
+      Future<void> runLink(List<Uri> entryPoints, String compiler) async {
         logMessages.clear();
         final result = await link(
           packageUri,
@@ -144,7 +144,7 @@ void main() async {
           buildResult: buildResult,
           recordUse: RecordUseConfig(
             file: tempUri.resolve('treeshaking.json'),
-            entryPoints: [entryPoint],
+            entryPoints: entryPoints,
             compiler: compiler,
           ),
           buildAssetTypes: [.data],
@@ -160,25 +160,40 @@ void main() async {
       await treeshakingFile.writeAsString('{}');
 
       // Run 1: (Entrypoint 1, compiler 'vm') -> Cache Miss (first compile)
-      await runLink(entry1, 'vm');
+      await runLink([entry1], 'vm');
       expect(logMessages.join('\n'), isNot(contains('Skipping link')));
 
       // Run 2: (Entrypoint 1, compiler 'dart2js') -> Cache Miss (different
       // compiler)
-      await runLink(entry1, 'dart2js');
+      await runLink([entry1], 'dart2js');
       expect(logMessages.join('\n'), isNot(contains('Skipping link')));
 
       // Run 3: (Entrypoint 2, compiler 'vm') -> Cache Miss (different
       // entrypoint)
-      await runLink(entry2, 'vm');
+      await runLink([entry2], 'vm');
       expect(logMessages.join('\n'), isNot(contains('Skipping link')));
 
       // Run 4: (Entrypoint 1, compiler 'vm') -> Cache Hit! (matches Run 1)
-      await runLink(entry1, 'vm');
+      await runLink([entry1], 'vm');
       expect(logMessages.join('\n'), contains('Skipping link for simple_link'));
 
       // Run 5: (Entrypoint 1, compiler 'dart2js') -> Cache Hit! (matches Run 2)
-      await runLink(entry1, 'dart2js');
+      await runLink([entry1], 'dart2js');
+      expect(logMessages.join('\n'), contains('Skipping link for simple_link'));
+
+      // Run 6: Duplicate entry points [entry1, entry1] -> Cache Hit! (due to
+      // deduplication, matches Run 1)
+      await runLink([entry1, entry1], 'vm');
+      expect(logMessages.join('\n'), contains('Skipping link for simple_link'));
+
+      // Run 7: Multiple entry points [entry1, entry2] -> Cache Miss (first
+      // compile with multiple entrypoints)
+      await runLink([entry1, entry2], 'vm');
+      expect(logMessages.join('\n'), isNot(contains('Skipping link')));
+
+      // Run 8: Multiple entry points in different order [entry2, entry1] ->
+      // Cache Hit! (due to sorting)
+      await runLink([entry2, entry1], 'vm');
       expect(logMessages.join('\n'), contains('Skipping link for simple_link'));
     });
   });
