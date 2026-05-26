@@ -8,6 +8,7 @@ import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
+import 'functiondecl_parser.dart';
 
 /// Parses a C++ class declaration.
 CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
@@ -89,10 +90,6 @@ void _parseMethod(
   final methodName = cursor.spelling();
 
   final isStatic = clang.clang_CXXMethod_isStatic(cursor) != 0;
-  if (isStatic) {
-    logger.fine('  ---- Skipping static C++ method: $methodName');
-    return;
-  }
 
   final isConst = clang.clang_CXXMethod_isConst(cursor) != 0;
   final returnType = clang
@@ -127,31 +124,22 @@ List<Parameter>? _parseParameters(
   Declaration classDecl,
 ) {
   final logger = context.logger;
-  final parameters = <Parameter>[];
-  final totalArgs = clang.clang_Cursor_getNumArguments(cursor);
-
-  for (var i = 0; i < totalArgs; i++) {
-    final paramCursor = clang.clang_Cursor_getArgument(cursor, i);
-    final paramType = paramCursor.toCodeGenType(context);
-
-    if (paramType.isIncompleteCompound ||
-        paramType.baseType is UnimplementedType) {
-      logger.fine('  Unsupported parameter type: ${paramType.baseType}');
-      return null;
-    }
-
-    final paramName = paramCursor.spelling();
-    final resolvedName = paramName.isEmpty ? 'arg$i' : paramName;
-
-    parameters.add(
-      Parameter(
-        originalName: resolvedName,
-        name: resolvedName,
-        type: paramType,
-        objCConsumed: false,
-      ),
-    );
+  final parsed = parseParameters(context, cursor);
+  if (parsed.hasIncompleteStruct || parsed.hasUnimplementedType) {
+    logger.fine('  Unsupported parameter type');
+    return null;
   }
 
-  return parameters;
+  return [
+    for (var i = 0; i < parsed.parameters.length; i++)
+      if (parsed.parameters[i].originalName.isEmpty)
+        Parameter(
+          originalName: 'arg$i',
+          name: 'arg$i',
+          type: parsed.parameters[i].type,
+          objCConsumed: parsed.parameters[i].objCConsumed,
+        )
+      else
+        parsed.parameters[i],
+  ];
 }
