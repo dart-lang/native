@@ -23,6 +23,32 @@ class Clang {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
+  /// Determine if a C++ member function or member function template is
+  /// declared 'const'.
+  int clang_CXXMethod_isConst(CXCursor C) {
+    return _clang_CXXMethod_isConst(C);
+  }
+
+  late final _clang_CXXMethod_isConstPtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
+        'clang_CXXMethod_isConst',
+      );
+  late final _clang_CXXMethod_isConst = _clang_CXXMethod_isConstPtr
+      .asFunction<int Function(CXCursor)>();
+
+  /// Determine if a C++ member function or member function template is
+  /// declared 'static'.
+  int clang_CXXMethod_isStatic(CXCursor C) {
+    return _clang_CXXMethod_isStatic(C);
+  }
+
+  late final _clang_CXXMethod_isStaticPtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
+        'clang_CXXMethod_isStatic',
+      );
+  late final _clang_CXXMethod_isStatic = _clang_CXXMethod_isStaticPtr
+      .asFunction<int Function(CXCursor)>();
+
   /// If cursor is a statement declaration tries to evaluate the
   /// statement and if its variable, tries to evaluate its initializer,
   /// into its corresponding type.

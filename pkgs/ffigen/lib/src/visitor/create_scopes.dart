@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator/binding.dart';
+import '../code_generator/cpp_class.dart';
 import '../code_generator/func_type.dart';
 import '../code_generator/objc_built_in_functions.dart';
 import '../code_generator/objc_category.dart';
@@ -71,6 +72,9 @@ class CreateScopesVisitation extends Visitation {
   @override
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) =>
       visitHasLocalScope(node, 'objc_msgSend');
+
+  @override
+  void visitCppMethod(CppMethod node) => visitHasLocalScope(node, node.name);
 
   static const objCReservedMethods = {
     'ref',

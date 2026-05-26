@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator/binding.dart';
+import '../code_generator/cpp_class.dart';
 import '../code_generator/func.dart';
 import '../code_generator/func_type.dart';
 import '../code_generator/objc_built_in_functions.dart';
@@ -80,6 +81,10 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) =>
+      visitInsideScope(node, node.localScope);
+
+  @override
+  void visitCppMethod(CppMethod node) =>
       visitInsideScope(node, node.localScope);
 
   @override
