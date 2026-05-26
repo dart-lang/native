@@ -41,14 +41,15 @@ List<Func> parseFunctionDeclaration(
 
     final returnType = cursor.returnType().toCodeGenType(context);
 
-    final parsedParams = parseParameters(
+    final (
+      :parameters,
+      :hasIncompleteStruct,
+      :hasUnimplementedType,
+    ) = parseParameters(
       context,
       cursor,
       renameFn: (paramName) => config.functions.renameMember(decl, paramName),
     );
-    final parameters = parsedParams.parameters;
-    final incompleteStructParameter = parsedParams.hasIncompleteStruct;
-    final unimplementedParameterType = parsedParams.hasUnimplementedType;
 
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
         clang.clang_Cursor_getStorageClass(cursor) !=
@@ -64,7 +65,7 @@ List<Func> parseFunctionDeclaration(
       return funcs;
     }
 
-    if (returnType.isIncompleteCompound || incompleteStructParameter) {
+    if (returnType.isIncompleteCompound || hasIncompleteStruct) {
       logger.fine(
         '---- Removed Function, reason: Incomplete struct pass/return by '
         'value: ${cursor.completeStringRepr()}',
@@ -77,8 +78,7 @@ List<Func> parseFunctionDeclaration(
       return funcs;
     }
 
-    if (returnType.baseType is UnimplementedType ||
-        unimplementedParameterType) {
+    if (returnType.baseType is UnimplementedType || hasUnimplementedType) {
       logger.fine(
         '---- Removed Function, reason: unsupported return type or '
         'parameter type: ${cursor.completeStringRepr()}',

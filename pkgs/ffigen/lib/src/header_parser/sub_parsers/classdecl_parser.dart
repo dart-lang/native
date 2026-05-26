@@ -124,22 +124,15 @@ List<Parameter>? _parseParameters(
   Declaration classDecl,
 ) {
   final logger = context.logger;
-  final parsed = parseParameters(context, cursor);
+  var i = 0;
+  final parsed = parseParameters(
+    context,
+    cursor,
+    renameFn: (paramName) => paramName.isEmpty ? 'arg${i++}' : paramName,
+  );
   if (parsed.hasIncompleteStruct || parsed.hasUnimplementedType) {
     logger.fine('  Unsupported parameter type');
     return null;
   }
-
-  return [
-    for (var i = 0; i < parsed.parameters.length; i++)
-      if (parsed.parameters[i].originalName.isEmpty)
-        Parameter(
-          originalName: 'arg$i',
-          name: 'arg$i',
-          type: parsed.parameters[i].type,
-          objCConsumed: parsed.parameters[i].objCConsumed,
-        )
-      else
-        parsed.parameters[i],
-  ];
+  return parsed.parameters;
 }

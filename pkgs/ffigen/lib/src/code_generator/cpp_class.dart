@@ -120,17 +120,15 @@ class $name {
           .map((p) => '${p.type.getDartType(ctx)} ${p.name}')
           .join(', ');
 
-      final callArgs = method.parameters.map((p) => p.name).join(', ');
-      final String call;
-      if (method.isStatic) {
-        call = '$glue($callArgs)';
-      } else {
-        call = callArgs.isEmpty ? '$glue(_ptr)' : '$glue(_ptr, $callArgs)';
-      }
+      final callArgs = [
+        if (!method.isStatic) '_ptr',
+        ...method.parameters.map((p) => p.name),
+      ].join(', ');
 
       final staticKeyword = method.isStatic ? 'static ' : '';
       s.write(
-        '  $staticKeyword$dartReturn ${method.name}($dartParams) => $call;\n',
+        '  $staticKeyword$dartReturn ${method.name}($dartParams)'
+        ' => $glue($callArgs);\n',
       );
     }
     s.write('}\n');
