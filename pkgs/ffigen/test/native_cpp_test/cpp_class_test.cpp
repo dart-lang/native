@@ -11,3 +11,5 @@ Animal::~Animal() {}
 void Animal::speak() {}
 
 int Animal::getAge() const { return age; }
+
+int Animal::getCount() { return 42; }

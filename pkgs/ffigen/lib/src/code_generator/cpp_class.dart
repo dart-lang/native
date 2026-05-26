@@ -100,7 +100,7 @@ class CppClass extends BindingType with HasLocalScope {
 
     final ptrVoid = '$ffiPrefix.Pointer<$ffiPrefix.Void>';
 
-    final instanceMethods = methods
+    final classMethods = methods
         .where((m) => m.kind == CppMethodKind.method)
         .toList();
 
@@ -113,7 +113,7 @@ class $name {
   $name._(this._ptr);
 ''');
 
-    for (final method in instanceMethods) {
+    for (final method in classMethods) {
       final glue = '_${name}_${method.name}';
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = method.parameters
@@ -121,26 +121,34 @@ class $name {
           .join(', ');
 
       final callArgs = method.parameters.map((p) => p.name).join(', ');
-      final call = callArgs.isEmpty ? '$glue(_ptr)' : '$glue(_ptr, $callArgs)';
+      final String call;
+      if (method.isStatic) {
+        call = '$glue($callArgs)';
+      } else {
+        call = callArgs.isEmpty ? '$glue(_ptr)' : '$glue(_ptr, $callArgs)';
+      }
 
-      s.write('  $dartReturn ${method.name}($dartParams) => $call;\n');
+      final staticKeyword = method.isStatic ? 'static ' : '';
+      s.write(
+        '  $staticKeyword$dartReturn ${method.name}($dartParams) => $call;\n',
+      );
     }
     s.write('}\n');
 
-    for (final method in instanceMethods) {
+    for (final method in classMethods) {
       final symbol = '${name}_${method.name}';
       final glue = '_$symbol';
 
       final cReturn = method.returnType.getCType(ctx);
       final cParams = [
-        ptrVoid,
+        if (!method.isStatic) ptrVoid,
         ...method.parameters.map((p) => p.type.getCType(ctx)),
       ].join(', ');
       final cType = '$cReturn Function($cParams)';
 
       final ffiReturn = method.returnType.getFfiDartType(ctx);
       final ffiParams = [
-        '$ptrVoid self',
+        if (!method.isStatic) '$ptrVoid self',
         ...method.parameters.map(
           (p) => '${p.type.getFfiDartType(ctx)} ${p.name}',
         ),

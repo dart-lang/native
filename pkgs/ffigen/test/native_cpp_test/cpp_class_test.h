@@ -9,4 +9,5 @@ public:
     ~Animal();
     void speak();
     int getAge() const;
+    static int getCount();
 };
