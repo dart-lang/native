@@ -251,6 +251,7 @@ class NativeAssetsBuildRunner {
   /// reason for the failure.
   Future<Result<LinkResult, HooksRunnerFailure>> link({
     required List<ProtocolExtension> extensions,
+    @Deprecated('Use recordUse instead') Uri? resourceIdentifiers,
     RecordUseConfig? recordUse,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
@@ -270,7 +271,7 @@ class NativeAssetsBuildRunner {
     var linkResult = hookResultUserDefines.success;
 
     Recordings? packageRecordings;
-    final targetRecordingsFile = recordUse?.file;
+    final targetRecordingsFile = recordUse?.file ?? resourceIdentifiers;
     if (targetRecordingsFile != null) {
       final file = _fileSystem.file(targetRecordingsFile);
       try {
