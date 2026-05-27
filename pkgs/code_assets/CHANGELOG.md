@@ -1,4 +1,4 @@
-## 1.2.0-wip
+## 1.2.0
 
 - Added an optional `sanitizer` parameter to `CodeConfig` and `CodeAssetExtension` supporting `asan`, `msan`, and `tsan`.
 
