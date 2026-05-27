@@ -628,6 +628,7 @@ class NativeAssetsBuildRunner {
       'CCACHE_', // Needed for Ccache.
       'DOTNET_', // Needed for .Net.
       'NIX_', // Needed for Nix-installed toolchains.
+      'NUGET_', // Needed for NuGet.
     };
 
     return staticVariablesFilter.contains(environmentVariableName) ||
