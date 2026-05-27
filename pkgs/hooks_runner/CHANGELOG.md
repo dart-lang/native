@@ -1,3 +1,7 @@
+## 1.4.0-wip
+
+- Add cache-isolation for recorded usages under link hooks using `RecordUseConfig`, and deprecate the legacy `resourceIdentifiers` parameters.
+
 ## 1.3.0
 
 - Resolved caching abstraction violation by delegating generated output file identification to `ProtocolExtension.outputFiles`.

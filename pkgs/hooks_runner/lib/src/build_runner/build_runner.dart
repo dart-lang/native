@@ -25,6 +25,7 @@ import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';
 import 'failure.dart';
+import 'record_use_config.dart';
 import 'result.dart';
 import 'tracing_file_system.dart';
 
@@ -250,7 +251,8 @@ class NativeAssetsBuildRunner {
   /// reason for the failure.
   Future<Result<LinkResult, HooksRunnerFailure>> link({
     required List<ProtocolExtension> extensions,
-    Uri? resourceIdentifiers,
+    @Deprecated('Use recordUse instead') Uri? resourceIdentifiers,
+    RecordUseConfig? recordUse,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
     final planResult = await _makePlan(hook: .link, buildResult: buildResult);
@@ -269,8 +271,9 @@ class NativeAssetsBuildRunner {
     var linkResult = hookResultUserDefines.success;
 
     Recordings? packageRecordings;
-    if (resourceIdentifiers != null) {
-      final file = _fileSystem.file(resourceIdentifiers);
+    final targetRecordingsFile = recordUse?.file ?? resourceIdentifiers;
+    if (targetRecordingsFile != null) {
+      final file = _fileSystem.file(targetRecordingsFile);
       try {
         final content = await file.readAsString();
         packageRecordings = Recordings.fromJson(
@@ -278,7 +281,7 @@ class NativeAssetsBuildRunner {
         );
       } on FormatException catch (e) {
         logger.severe(
-          'Failed to parse resource identifiers from $resourceIdentifiers: $e',
+          'Failed to parse resource identifiers from $targetRecordingsFile: $e',
         );
         return const Failure(HooksRunnerFailure.internal);
       }
@@ -302,6 +305,7 @@ class NativeAssetsBuildRunner {
       for (final e in extensions) {
         e.setupLinkInput(inputBuilder);
       }
+      inputBuilder.config.setupHooksRunner(recordUse: recordUse);
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.link,
@@ -357,7 +361,7 @@ class NativeAssetsBuildRunner {
               output as LinkOutput,
             ),
         ],
-        resourceIdentifiers,
+        targetRecordingsFile,
         buildDirUri,
         outDirUri,
         extensions: extensions,

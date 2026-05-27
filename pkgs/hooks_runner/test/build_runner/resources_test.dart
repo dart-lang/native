@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:data_assets/data_assets.dart';
+import 'package:hooks_runner/hooks_runner.dart';
 import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
@@ -50,7 +51,11 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        resourceIdentifiers: resourcesUri,
+        recordUse: RecordUseConfig(
+          file: resourcesUri,
+          entryPoints: [Uri.file('bin/simple_link.dart')],
+          compiler: 'dart_aot_compiler_v1',
+        ),
         buildAssetTypes: [.data],
       );
       expect(buildFiles(), anyElement(endsWith('recorded_uses.json')));
@@ -80,7 +85,11 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        resourceIdentifiers: resourcesUri,
+        recordUse: RecordUseConfig(
+          file: resourcesUri,
+          entryPoints: [Uri.file('bin/pirate_adventure.dart')],
+          compiler: 'dart_aot_compiler_v1',
+        ),
         buildAssetTypes: [.data],
       )).success;
 
@@ -141,7 +150,11 @@ void main() async {
           logger,
           dartExecutable,
           buildResult: buildResult,
-          resourceIdentifiers: resourcesUri,
+          recordUse: RecordUseConfig(
+            file: resourcesUri,
+            entryPoints: [Uri.file('bin/pirate_adventure.dart')],
+            compiler: 'dart_aot_compiler_v1',
+          ),
           buildAssetTypes: [.data],
           capturedLogs: logMessages,
         );
