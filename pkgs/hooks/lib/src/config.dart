@@ -32,7 +32,7 @@ sealed class HookInput {
   ///
   /// This directory is unique per hook and per [config]. The directory is
   /// nested inside [outputDirectoryShared] and has a short checksum to avoid
-  /// running out of path length on Winddows.
+  /// running out of path length on Windows.
   ///
   /// Prefer using a sub directory in [outputDirectoryShared] with a
   /// checksum of the fields on the [config] that influence your build. Reusing
@@ -136,7 +136,7 @@ final class HookInputUserDefines {
   ///
   /// The relative path passed as user-define is resolved against the base path.
   /// For user-defines originating from a JSON/YAML, the base path is this
-  /// JSON/YAML. For user-defines originating from command-line aruments, the
+  /// JSON/YAML. For user-defines originating from command-line arguments, the
   /// base path is the working directory of the command-line invocation.
   ///
   /// If the user-define is `null` or not a [String], returns `null`.
