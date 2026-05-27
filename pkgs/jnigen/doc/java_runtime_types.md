@@ -65,4 +65,5 @@ global JNI references low.
 final JNumber num = foo.someJNumber();
 // Cast to JInteger and release the original JNumber reference.
 final JInteger jint = num.as(JInteger.type, releaseOriginal: true);
+// It's not safe to use num after this.
 ```
