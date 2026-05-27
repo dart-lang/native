@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "package:hooks_runner party:shared shared definitions",
+  "$comment": "This schema specifies the private hooks_runner metadata for compilation target and caching boundaries.",
+  "definitions": {
+    "Config": {
+      "type": "object",
+      "properties": {
+        "extensions": {
+          "$ref": "#/definitions/ConfigExtensions"
+        }
+      }
+    },
+    "ConfigExtensions": {
+      "type": "object",
+      "properties": {
+        "hooks_runner": {
+          "$ref": "#/definitions/HooksRunnerConfig"
+        }
+      }
+    },
+    "HooksRunnerConfig": {
+      "type": "object",
+      "description": "Private caching target metadata for the hooks runner.",
+      "properties": {
+        "record_use": {
+          "$ref": "#/definitions/RecordUseConfig"
+        }
+      }
+    },
+    "RecordUseConfig": {
+      "type": "object",
+      "description": "Target compilation metadata governing the recorded usages (package:record_use) cache boundary.",
+      "properties": {
+        "entry_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The absolute or relative entry point file paths."
+        },
+        "compiler": {
+          "type": "string",
+          "description": "The compiler version and target compiler options governing distinct cache boundaries."
+        }
+      },
+      "required": [
+        "entry_points",
+        "compiler"
+      ]
+    }
+  }
+}

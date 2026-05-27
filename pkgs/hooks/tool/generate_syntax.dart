@@ -10,12 +10,13 @@ import 'package:native_test_helpers/native_test_helpers.dart';
 
 import '../test/json_schema/helpers.dart';
 
-const generateFor = ['hooks', 'code_assets', 'data_assets'];
+const generateFor = ['hooks', 'code_assets', 'data_assets', 'hooks_runner'];
 
 final rootSchemas = loadSchemas([
   packageUri.resolve('doc/schema/'),
   packageUri.resolve('../code_assets/doc/schema/'),
   packageUri.resolve('../data_assets/doc/schema/'),
+  packageUri.resolve('../hooks_runner/doc/schema/'),
 ]);
 
 void main(List<String> args) {
