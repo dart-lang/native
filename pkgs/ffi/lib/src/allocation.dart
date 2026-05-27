@@ -49,7 +49,7 @@ final WinCoTaskMemFree winCoTaskMemFree = winCoTaskMemFreePointer.asFunction();
 final class MallocAllocator implements Allocator {
   const MallocAllocator._();
 
-  /// Allocates [byteCount] bytes of of unitialized memory on the native heap.
+  /// Allocates [byteCount] bytes of of uninitialized memory on the native heap.
   ///
   /// For POSIX-based systems, this uses `malloc`. On Windows, it uses
   /// `CoTaskMemAlloc`.

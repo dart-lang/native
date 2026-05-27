@@ -61,7 +61,7 @@ final class OS {
 
   /// The current [OS].
   ///
-  /// Consisten with the [Platform.version] string.
+  /// Consistent with the [Platform.version] string.
   static final OS current = OS.fromString(Platform.operatingSystem);
 }
 
