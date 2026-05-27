@@ -1,6 +1,8 @@
 ## 1.4.0-wip
 
 - Add cache-isolation for recorded usages under link hooks using `RecordUseConfig`, and deprecate the legacy `resourceIdentifiers` parameters.
+- Add `APPDATA`, `LOCALAPPDATA`, and prefixes `DOTNET_` and `NUGET_` to the
+  environment variables allowlist.
 
 ## 1.3.0
 
