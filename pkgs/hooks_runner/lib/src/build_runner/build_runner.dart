@@ -630,6 +630,7 @@ class NativeAssetsBuildRunner {
       ..._httpProxyEnvironmentVariables,
       ...toolsVariables,
     };
+
     const variablePrefixesFilter = {
       'CCACHE_', // Needed for Ccache.
       'DOTNET_', // Needed for .Net.
