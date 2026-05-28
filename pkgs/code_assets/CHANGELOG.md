@@ -1,3 +1,9 @@
+## 1.2.1
+
+- Avoid throwing a null-assertion error/exception when `input.config.code` is
+  accessed but `input.config.buildCodeAssets` is `false`. Instead, throw a
+  clear and descriptive `StateError`.
+
 ## 1.2.0
 
 - Added an optional `sanitizer` parameter to `CodeConfig` and `CodeAssetExtension` supporting `asan`, `msan`, and `tsan`.

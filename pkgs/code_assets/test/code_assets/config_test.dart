@@ -184,6 +184,76 @@ void main() async {
     expectCorrectCodeConfig(input.config.code);
   });
 
+  test('BuildInput.config.code throws StateError when buildCodeAssets is '
+      'false', () {
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(linkingEnabled: false);
+    final input = inputBuilder.build();
+    expect(input.config.buildCodeAssets, isFalse);
+    expect(
+      () => input.config.code,
+      throwsA(
+        isA<StateError>().having(
+          (e) => e.message,
+          'message',
+          allOf(
+            contains(
+              'HookConfig.code should only be accessed when building code '
+              'assets',
+            ),
+            contains(
+              'Check HookConfig.buildCodeAssets (e.g. '
+              '`input.config.buildCodeAssets`)',
+            ),
+          ),
+        ),
+      ),
+    );
+  });
+
+  test('LinkInput.config.code throws StateError when buildCodeAssets is '
+      'false', () {
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLink(
+        assets: assets,
+        recordedUsesFile: null,
+        assetsFromLinking: [],
+      );
+    final input = inputBuilder.build();
+    expect(input.config.buildCodeAssets, isFalse);
+    expect(
+      () => input.config.code,
+      throwsA(
+        isA<StateError>().having(
+          (e) => e.message,
+          'message',
+          allOf(
+            contains(
+              'HookConfig.code should only be accessed when building code '
+              'assets',
+            ),
+            contains(
+              'Check HookConfig.buildCodeAssets (e.g. '
+              '`input.config.buildCodeAssets`)',
+            ),
+          ),
+        ),
+      ),
+    );
+  });
+
   test('BuildInput from json ', () {
     for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
       final input = BuildInput(inputJson(targetOS: targetOS));
