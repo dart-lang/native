@@ -605,6 +605,11 @@ class NativeAssetsBuildRunner {
       'ANDROID_NDK_ROOT',
     };
 
+    // Environment variables used to discover optional external toolchains.
+    const toolsVariables = {
+      'GOPATH', // Needed for installed Go apps
+    };
+
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
       ...nonStandardNdkEnvironmentVariables,
@@ -623,12 +628,14 @@ class NativeAssetsBuildRunner {
       'USERPROFILE', // Needed to find tools in default install locations.
       'WINDIR', // Needed for CMake.
       ..._httpProxyEnvironmentVariables,
+      ...toolsVariables,
     };
     const variablePrefixesFilter = {
       'CCACHE_', // Needed for Ccache.
       'DOTNET_', // Needed for .Net.
       'NIX_', // Needed for Nix-installed toolchains.
       'NUGET_', // Needed for NuGet.
+      'CONAN_', // Needed for Conan Package Manager
     };
 
     return staticVariablesFilter.contains(environmentVariableName) ||
