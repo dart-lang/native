@@ -63,7 +63,7 @@ void doSomethingInJava() {
 ```
 
 > [!NOTE]
-> Since `MyCustomException` is an extension type of `JObect`,
+> Since `MyCustomException` is an extension type of `JObject`,
 > not `JThrowable`, `.message` and `.javaStackTrace` are not available
 > on the `customEx` variable. They're only available on the `throwable`
 > variable, since it is directly a `JThrowable`.
