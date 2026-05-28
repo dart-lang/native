@@ -173,25 +173,14 @@ class $name {
     }
     s.write('}\n');
 
-    for (final method in classMethods) {
-      final symbol = method.name.name;
-      final glue = '_$symbol';
-
-      final cReturn = method.returnType.getCType(ctx);
-      final cParams = [
-        if (!method.isStatic) ptrVoid,
-        ...method.parameters.map((p) => p.type.getCType(ctx)),
-      ].join(', ');
-      final cType = '$cReturn Function($cParams)';
-
-      final ffiReturn = method.returnType.getFfiDartType(ctx);
-      final ffiParams = [
-        if (!method.isStatic) '$ptrVoid self',
-        ...method.parameters.map(
-          (p) => '${p.type.getFfiDartType(ctx)} ${p.name}',
-        ),
-      ].join(', ');
-
+    // Writes a @Native annotation + external declaration for a glue function.
+    void writeNativeDecl({
+      required String symbol,
+      required String glue,
+      required String cType,
+      required String ffiReturn,
+      required String ffiParams,
+    }) {
       s.write(
         makeNativeAnnotation(
           w,
@@ -203,28 +192,56 @@ class $name {
       s.write('\nexternal $ffiReturn $glue($ffiParams);\n\n');
     }
 
+    for (final method in classMethods) {
+      final symbol = method.name.name;
+      final cReturn = method.returnType.getCType(ctx);
+      final cParams = [
+        if (!method.isStatic) ptrVoid,
+        ...method.parameters.map((p) => p.type.getCType(ctx)),
+      ].join(', ');
+      final ffiReturn = method.returnType.getFfiDartType(ctx);
+      final ffiParams = [
+        if (!method.isStatic) '$ptrVoid self',
+        ...method.parameters.map(
+          (p) => '${p.type.getFfiDartType(ctx)} ${p.name}',
+        ),
+      ].join(', ');
+      writeNativeDecl(
+        symbol: symbol,
+        glue: '_$symbol',
+        cType: '$cReturn Function($cParams)',
+        ffiReturn: ffiReturn,
+        ffiParams: ffiParams,
+      );
+    }
+
     for (final ctor in constructors) {
       final symbol = ctor.name.name;
-      final glue = '_$symbol';
-
       final paramCTypes = ctor.parameters
           .map((p) => p.type.getCType(ctx))
           .join(', ');
-      final cType = '$ptrVoid Function($paramCTypes)';
-
       final ffiParams = ctor.parameters
           .map((p) => '${p.type.getFfiDartType(ctx)} ${p.name}')
           .join(', ');
-
-      s.write(
-        makeNativeAnnotation(
-          w,
-          nativeType: cType,
-          dartName: glue,
-          nativeSymbolName: Namer.cSafeName(symbol),
-        ),
+      writeNativeDecl(
+        symbol: symbol,
+        glue: '_$symbol',
+        cType: '$ptrVoid Function($paramCTypes)',
+        ffiReturn: ptrVoid,
+        ffiParams: ffiParams,
       );
-      s.write('\nexternal $ptrVoid $glue($ffiParams);\n\n');
+    }
+
+    if (destructor != null) {
+      final cReturn = destructor.returnType.getCType(ctx);
+      final ffiReturn = destructor.returnType.getFfiDartType(ctx);
+      writeNativeDecl(
+        symbol: deleteSymbol,
+        glue: deleteGlue,
+        cType: '$cReturn Function($ptrVoid)',
+        ffiReturn: ffiReturn,
+        ffiParams: '$ptrVoid self',
+      );
     }
 
     if (destructor != null) {
