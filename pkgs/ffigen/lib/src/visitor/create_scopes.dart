@@ -74,7 +74,8 @@ class CreateScopesVisitation extends Visitation {
       visitHasLocalScope(node, 'objc_msgSend');
 
   @override
-  void visitCppMethod(CppMethod node) => visitHasLocalScope(node, node.name);
+  void visitCppMethod(CppMethod node) =>
+      visitHasLocalScope(node, node.name.oldName);
 
   static const objCReservedMethods = {
     'ref',

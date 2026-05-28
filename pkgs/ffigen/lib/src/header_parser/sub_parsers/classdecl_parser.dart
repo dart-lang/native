@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
+import '../../code_generator/scope.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -29,7 +30,7 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
   // Use the libclang API to detect anonymous classes reliably.
   final String className;
   if (clang.clang_Cursor_isAnonymous(cursor) == 0) {
-    className = usr.split('@').last;
+    className = cursor.spelling();
   } else {
     logger.fine('Skipping anonymous C++ class.');
     return null;
@@ -58,6 +59,8 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     final kind = clang.clang_getCursorKind(child);
     if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
       _parseMethod(context, child, decl, methods);
+    } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
+      _parseConstructor(context, child, decl, methods);
     }
   });
 
@@ -105,9 +108,11 @@ void _parseMethod(
   }
 
   logger.fine('  ++++ Method: $methodName (const=$isConst)');
+  final cppClasses = context.config.cpp!.classes;
+  final className = cppClasses.rename(classDecl);
   methods.add(
     CppMethod(
-      name: methodName,
+      name: Symbol('${className}_$methodName', SymbolKind.method),
       originalName: methodName,
       returnType: returnType,
       parameters: parameters,
@@ -135,4 +140,31 @@ List<Parameter>? _parseParameters(
     return null;
   }
   return parsed.parameters;
+}
+
+void _parseConstructor(
+  Context context,
+  clang_types.CXCursor cursor,
+  Declaration classDecl,
+  List<CppMethod> methods,
+) {
+  final constructorName = cursor.spelling();
+  final returnType = clang
+      .clang_getCursorResultType(cursor)
+      .toCodeGenType(context);
+  final parameters = _parseParameters(context, cursor, classDecl);
+  if (parameters == null) return;
+  final cppClasses = context.config.cpp!.classes;
+  final className = cppClasses.rename(classDecl);
+  methods.add(
+    CppMethod(
+      name: Symbol('${className}_new', SymbolKind.method),
+      originalName: constructorName,
+      returnType: returnType,
+      parameters: parameters,
+      isConstant: false,
+      isStatic: false,
+      kind: CppMethodKind.constructor,
+    ),
+  );
 }

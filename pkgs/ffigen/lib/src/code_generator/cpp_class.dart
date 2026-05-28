@@ -16,7 +16,7 @@ enum CppMethodKind { constructor, destructor, method }
 
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode with HasLocalScope {
-  final String name;
+  final Symbol name;
   final String originalName;
   final Type returnType;
   final List<Parameter> parameters;
@@ -34,8 +34,8 @@ class CppMethod extends AstNode with HasLocalScope {
     this.kind = CppMethodKind.method,
   });
 
-  bool get isConstructor => kind == CppMethodKind.constructor;
-  bool get isDestructor => kind == CppMethodKind.destructor;
+  bool get isConstructor => kind == .constructor;
+  bool get isDestructor => kind == .destructor;
 
   @override
   void visit(Visitation visitation) => visitation.visitCppMethod(this);
@@ -43,6 +43,7 @@ class CppMethod extends AstNode with HasLocalScope {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(name);
     visitor.visit(returnType);
     visitor.visitAll(parameters);
   }
@@ -100,9 +101,12 @@ class CppClass extends BindingType with HasLocalScope {
 
     final ptrVoid = '$ffiPrefix.Pointer<$ffiPrefix.Void>';
 
-    final classMethods = methods
-        .where((m) => m.kind == CppMethodKind.method)
-        .toList();
+    // Helper to build a comma-separated Dart parameter list.
+    String dartParamList(Iterable<Parameter> params) =>
+        params.map((p) => '${p.type.getDartType(ctx)} ${p.name}').join(', ');
+
+    final classMethods = methods.where((m) => m.kind == .method).toList();
+    final constructors = methods.where((m) => m.kind == .constructor).toList();
 
     s.write(makeDartDoc(dartDoc));
     s.write('''
@@ -113,12 +117,39 @@ class $name {
   $name._(this._ptr);
 ''');
 
-    for (final method in classMethods) {
-      final glue = '_${name}_${method.name}';
-      final dartReturn = method.returnType.getDartType(ctx);
-      final dartParams = method.parameters
-          .map((p) => '${p.type.getDartType(ctx)} ${p.name}')
+    for (final ctor in constructors) {
+      final glueName = ctor.name.name;
+      final privateName = '_$glueName';
+
+      final dartParams = dartParamList(ctor.parameters);
+
+      final localVars = LocalVariables(ctor.localScope);
+      final callArgs = ctor.parameters
+          .map(
+            (p) => p.type.sameDartAndFfiDartType
+                ? p.name
+                : p.type.convertDartTypeToFfiDartType(
+                    ctx,
+                    p.name,
+                    objCRetain: false,
+                    objCAutorelease: false,
+                    localVariables: localVars,
+                  ),
+          )
           .join(', ');
+
+      s.write('''
+  factory $name($dartParams) {
+    ${localVars.generateDeclarations()}
+    return $name._($privateName($callArgs));
+  }
+''');
+    }
+
+    for (final method in classMethods) {
+      final glue = '_${method.name.name}';
+      final dartReturn = method.returnType.getDartType(ctx);
+      final dartParams = dartParamList(method.parameters);
 
       final callArgs = [
         if (!method.isStatic) '_ptr',
@@ -127,14 +158,14 @@ class $name {
 
       final staticKeyword = method.isStatic ? 'static ' : '';
       s.write(
-        '  $staticKeyword$dartReturn ${method.name}($dartParams)'
+        '  $staticKeyword$dartReturn ${method.originalName}($dartParams)'
         ' => $glue($callArgs);\n',
       );
     }
     s.write('}\n');
 
     for (final method in classMethods) {
-      final symbol = '${name}_${method.name}';
+      final symbol = method.name.name;
       final glue = '_$symbol';
 
       final cReturn = method.returnType.getCType(ctx);
@@ -157,10 +188,34 @@ class $name {
           w,
           nativeType: cType,
           dartName: glue,
-          nativeSymbolName: symbol,
+          nativeSymbolName: Namer.cSafeName(symbol),
         ),
       );
       s.write('\nexternal $ffiReturn $glue($ffiParams);\n\n');
+    }
+
+    for (final ctor in constructors) {
+      final symbol = ctor.name.name;
+      final glue = '_$symbol';
+
+      final paramCTypes = ctor.parameters
+          .map((p) => p.type.getCType(ctx))
+          .join(', ');
+      final cType = '$ptrVoid Function($paramCTypes)';
+
+      final ffiParams = ctor.parameters
+          .map((p) => '${p.type.getFfiDartType(ctx)} ${p.name}')
+          .join(', ');
+
+      s.write(
+        makeNativeAnnotation(
+          w,
+          nativeType: cType,
+          dartName: glue,
+          nativeSymbolName: Namer.cSafeName(symbol),
+        ),
+      );
+      s.write('\nexternal $ptrVoid $glue($ffiParams);\n\n');
     }
 
     return BindingString(
