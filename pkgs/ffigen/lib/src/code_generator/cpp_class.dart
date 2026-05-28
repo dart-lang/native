@@ -16,7 +16,7 @@ enum CppMethodKind { constructor, destructor, method }
 
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode with HasLocalScope {
-  final String name;
+  final Symbol name;
   final String originalName;
   final Type returnType;
   final List<Parameter> parameters;
@@ -43,6 +43,7 @@ class CppMethod extends AstNode with HasLocalScope {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(name);
     visitor.visit(returnType);
     visitor.visitAll(parameters);
   }
@@ -107,11 +108,6 @@ class CppClass extends BindingType with HasLocalScope {
     final classMethods = methods.where((m) => m.kind == .method).toList();
     final constructors = methods.where((m) => m.kind == .constructor).toList();
 
-    final ctorInfos = [
-      for (var i = 0; i < constructors.length; i++)
-        (ctor: constructors[i], suffix: constructors.length == 1 ? '' : '_$i'),
-    ];
-
     s.write(makeDartDoc(dartDoc));
     s.write('''
 class $name {
@@ -121,12 +117,13 @@ class $name {
   $name._(this._ptr);
 ''');
 
-    for (final (:ctor, :suffix) in ctorInfos) {
-      final glueName = '${name}_new$suffix';
+    for (final ctor in constructors) {
+      final glueName = ctor.name.name;
       final privateName = '_$glueName';
 
       final dartParams = dartParamList(ctor.parameters);
 
+      final localVars = LocalVariables(ctor.localScope);
       final callArgs = ctor.parameters
           .map(
             (p) => p.type.sameDartAndFfiDartType
@@ -136,19 +133,21 @@ class $name {
                     p.name,
                     objCRetain: false,
                     objCAutorelease: false,
-                    localVariables: LocalVariables(localScope),
+                    localVariables: localVars,
                   ),
           )
           .join(', ');
 
-      s.write(
-        '  factory $name($dartParams) =>'
-        ' $name._($privateName($callArgs));\n',
-      );
+      s.write('''
+  factory $name($dartParams) {
+    ${localVars.generateDeclarations()}
+    return $name._($privateName($callArgs));
+  }
+''');
     }
 
     for (final method in classMethods) {
-      final glue = '_${name}_${method.name}';
+      final glue = '_${method.name.name}';
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
 
@@ -159,14 +158,14 @@ class $name {
 
       final staticKeyword = method.isStatic ? 'static ' : '';
       s.write(
-        '  $staticKeyword$dartReturn ${method.name}($dartParams)'
+        '  $staticKeyword$dartReturn ${method.originalName}($dartParams)'
         ' => $glue($callArgs);\n',
       );
     }
     s.write('}\n');
 
     for (final method in classMethods) {
-      final symbol = '${name}_${method.name}';
+      final symbol = method.name.name;
       final glue = '_$symbol';
 
       final cReturn = method.returnType.getCType(ctx);
@@ -189,14 +188,14 @@ class $name {
           w,
           nativeType: cType,
           dartName: glue,
-          nativeSymbolName: symbol,
+          nativeSymbolName: Namer.cSafeName(symbol),
         ),
       );
       s.write('\nexternal $ffiReturn $glue($ffiParams);\n\n');
     }
 
-    for (final (:ctor, :suffix) in ctorInfos) {
-      final symbol = '${name}_new$suffix';
+    for (final ctor in constructors) {
+      final symbol = ctor.name.name;
       final glue = '_$symbol';
 
       final paramCTypes = ctor.parameters
@@ -213,7 +212,7 @@ class $name {
           w,
           nativeType: cType,
           dartName: glue,
-          nativeSymbolName: symbol,
+          nativeSymbolName: Namer.cSafeName(symbol),
         ),
       );
       s.write('\nexternal $ptrVoid $glue($ffiParams);\n\n');

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
+import '../../code_generator/scope.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -107,9 +108,11 @@ void _parseMethod(
   }
 
   logger.fine('  ++++ Method: $methodName (const=$isConst)');
+  final cppClasses = context.config.cpp!.classes;
+  final className = cppClasses.rename(classDecl);
   methods.add(
     CppMethod(
-      name: methodName,
+      name: Symbol('${className}_$methodName', SymbolKind.method),
       originalName: methodName,
       returnType: returnType,
       parameters: parameters,
@@ -151,9 +154,11 @@ void _parseConstructor(
       .toCodeGenType(context);
   final parameters = _parseParameters(context, cursor, classDecl);
   if (parameters == null) return;
+  final cppClasses = context.config.cpp!.classes;
+  final className = cppClasses.rename(classDecl);
   methods.add(
     CppMethod(
-      name: constructorName,
+      name: Symbol('${className}_new', SymbolKind.method),
       originalName: constructorName,
       returnType: returnType,
       parameters: parameters,
