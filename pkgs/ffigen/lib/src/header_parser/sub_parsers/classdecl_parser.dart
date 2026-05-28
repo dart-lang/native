@@ -61,6 +61,8 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
       _parseMethod(context, child, decl, methods);
     } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
       _parseConstructor(context, child, decl, methods);
+    } else if (kind == clang_types.CXCursorKind.CXCursor_Destructor) {
+      _parseDestructor(context, child, decl, methods);
     }
   });
 
@@ -165,6 +167,31 @@ void _parseConstructor(
       isConstant: false,
       isStatic: false,
       kind: CppMethodKind.constructor,
+    ),
+  );
+}
+
+void _parseDestructor(
+  Context context,
+  clang_types.CXCursor cursor,
+  Declaration classDecl,
+  List<CppMethod> methods,
+) {
+  final destructorName = cursor.spelling();
+  final returnType = clang
+      .clang_getCursorResultType(cursor)
+      .toCodeGenType(context);
+  final cppClasses = context.config.cpp!.classes;
+  final className = cppClasses.rename(classDecl);
+  methods.add(
+    CppMethod(
+      name: Symbol('${className}_delete', SymbolKind.method),
+      originalName: destructorName,
+      returnType: returnType,
+      parameters: [],
+      isConstant: false,
+      isStatic: false,
+      kind: CppMethodKind.destructor,
     ),
   );
 }

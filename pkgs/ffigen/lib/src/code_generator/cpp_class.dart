@@ -107,6 +107,10 @@ class CppClass extends BindingType with HasLocalScope {
 
     final classMethods = methods.where((m) => m.kind == .method).toList();
     final constructors = methods.where((m) => m.kind == .constructor).toList();
+    final destructor = methods.where((m) => m.kind == .destructor).singleOrNull;
+
+    final deleteSymbol = '${name}_delete';
+    final deleteGlue = '_$deleteSymbol';
 
     s.write(makeDartDoc(dartDoc));
     s.write('''
@@ -162,6 +166,11 @@ class $name {
         ' => $glue($callArgs);\n',
       );
     }
+    if (destructor != null) {
+      s.write('  void dispose() => $deleteGlue(_ptr);\n');
+    } else {
+      s.write('  void dispose() {}\n');
+    }
     s.write('}\n');
 
     for (final method in classMethods) {
@@ -216,6 +225,21 @@ class $name {
         ),
       );
       s.write('\nexternal $ptrVoid $glue($ffiParams);\n\n');
+    }
+
+    if (destructor != null) {
+      final cReturn = destructor.returnType.getCType(ctx);
+      final cType = '$cReturn Function($ptrVoid)';
+      final ffiReturn = destructor.returnType.getFfiDartType(ctx);
+      s.write(
+        makeNativeAnnotation(
+          w,
+          nativeType: cType,
+          dartName: deleteGlue,
+          nativeSymbolName: deleteSymbol,
+        ),
+      );
+      s.write('\nexternal $ffiReturn $deleteGlue($ptrVoid self);\n\n');
     }
 
     return BindingString(
