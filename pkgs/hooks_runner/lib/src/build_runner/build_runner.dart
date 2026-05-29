@@ -636,7 +636,7 @@ class NativeAssetsBuildRunner {
       'DOTNET_', // Needed for .Net.
       'NIX_', // Needed for Nix-installed toolchains.
       'NUGET_', // Needed for NuGet.
-      'CONAN_', // Needed for Conan Package Manager
+      'CONAN_', // Needed for Conan Package Manager.
     };
 
     return staticVariablesFilter.contains(environmentVariableName) ||
