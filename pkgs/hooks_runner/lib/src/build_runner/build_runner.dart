@@ -605,15 +605,11 @@ class NativeAssetsBuildRunner {
       'ANDROID_NDK_ROOT',
     };
 
-    // Environment variables used to discover optional external toolchains.
-    const toolsVariables = {
-      'GOPATH', // Needed for installed Go apps
-    };
-
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
       ...nonStandardNdkEnvironmentVariables,
       'APPDATA', // Needed for NuGet.
+      'GOPATH', // Needed for installed Go apps.
       'HOME', // Needed to find tools in default install locations.
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
       'LOCALAPPDATA', // Needed for dart_data_home and pub.
