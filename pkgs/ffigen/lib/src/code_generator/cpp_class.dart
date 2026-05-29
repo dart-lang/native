@@ -192,71 +192,36 @@ class $name {
       s.write('\nexternal $ffiReturn $glue($ffiParams);\n\n');
     }
 
-    for (final method in classMethods) {
+    for (final method in methods) {
       final symbol = method.name.name;
-      final cReturn = method.returnType.getCType(ctx);
+      final glue = '_$symbol';
+
+      final cReturn = method.isConstructor
+          ? ptrVoid
+          : method.returnType.getCType(ctx);
+      final ffiReturn = method.isConstructor
+          ? ptrVoid
+          : method.returnType.getFfiDartType(ctx);
+
+      final needsSelf = !method.isConstructor && !method.isStatic;
       final cParams = [
-        if (!method.isStatic) ptrVoid,
+        if (needsSelf) ptrVoid,
         ...method.parameters.map((p) => p.type.getCType(ctx)),
       ].join(', ');
-      final ffiReturn = method.returnType.getFfiDartType(ctx);
       final ffiParams = [
-        if (!method.isStatic) '$ptrVoid self',
+        if (needsSelf) '$ptrVoid self',
         ...method.parameters.map(
           (p) => '${p.type.getFfiDartType(ctx)} ${p.name}',
         ),
       ].join(', ');
+
       writeNativeDecl(
         symbol: symbol,
-        glue: '_$symbol',
+        glue: glue,
         cType: '$cReturn Function($cParams)',
         ffiReturn: ffiReturn,
         ffiParams: ffiParams,
       );
-    }
-
-    for (final ctor in constructors) {
-      final symbol = ctor.name.name;
-      final paramCTypes = ctor.parameters
-          .map((p) => p.type.getCType(ctx))
-          .join(', ');
-      final ffiParams = ctor.parameters
-          .map((p) => '${p.type.getFfiDartType(ctx)} ${p.name}')
-          .join(', ');
-      writeNativeDecl(
-        symbol: symbol,
-        glue: '_$symbol',
-        cType: '$ptrVoid Function($paramCTypes)',
-        ffiReturn: ptrVoid,
-        ffiParams: ffiParams,
-      );
-    }
-
-    if (destructor != null) {
-      final cReturn = destructor.returnType.getCType(ctx);
-      final ffiReturn = destructor.returnType.getFfiDartType(ctx);
-      writeNativeDecl(
-        symbol: deleteSymbol,
-        glue: deleteGlue,
-        cType: '$cReturn Function($ptrVoid)',
-        ffiReturn: ffiReturn,
-        ffiParams: '$ptrVoid self',
-      );
-    }
-
-    if (destructor != null) {
-      final cReturn = destructor.returnType.getCType(ctx);
-      final cType = '$cReturn Function($ptrVoid)';
-      final ffiReturn = destructor.returnType.getFfiDartType(ctx);
-      s.write(
-        makeNativeAnnotation(
-          w,
-          nativeType: cType,
-          dartName: deleteGlue,
-          nativeSymbolName: deleteSymbol,
-        ),
-      );
-      s.write('\nexternal $ffiReturn $deleteGlue($ptrVoid self);\n\n');
     }
 
     return BindingString(

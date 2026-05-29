@@ -58,11 +58,11 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
   cursor.visitChildren((child) {
     final kind = clang.clang_getCursorKind(child);
     if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
-      _parseMethod(context, child, decl, methods);
+      _parseAnyMethod(context, child, decl, methods, CppMethodKind.method);
     } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
-      _parseConstructor(context, child, decl, methods);
+      _parseAnyMethod(context, child, decl, methods, CppMethodKind.constructor);
     } else if (kind == clang_types.CXCursorKind.CXCursor_Destructor) {
-      _parseDestructor(context, child, decl, methods);
+      _parseAnyMethod(context, child, decl, methods, CppMethodKind.destructor);
     }
   });
 
@@ -85,50 +85,25 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
   return cppClass;
 }
 
-/// Shared boilerplate for all three method kinds: resolves the return type,
-/// renames the class, and appends a [CppMethod] to [methods].
-void _parseMethodLike(
-  Context context,
-  clang_types.CXCursor cursor,
-  Declaration classDecl,
-  List<CppMethod> methods, {
-  required String Function(String className) symbolName,
-  required String originalName,
-  required List<Parameter>? parameters,
-  required bool isConstant,
-  required bool isStatic,
-  required CppMethodKind kind,
-}) {
-  if (parameters == null) return;
-  final returnType = clang
-      .clang_getCursorResultType(cursor)
-      .toCodeGenType(context);
-  final className = context.config.cpp!.classes.rename(classDecl);
-  methods.add(
-    CppMethod(
-      name: Symbol(symbolName(className), SymbolKind.method),
-      originalName: originalName,
-      returnType: returnType,
-      parameters: parameters,
-      isConstant: isConstant,
-      isStatic: isStatic,
-      kind: kind,
-    ),
-  );
-}
-
-void _parseMethod(
+void _parseAnyMethod(
   Context context,
   clang_types.CXCursor cursor,
   Declaration classDecl,
   List<CppMethod> methods,
+  CppMethodKind kind,
 ) {
   final logger = context.logger;
   final methodName = cursor.spelling();
-  final isStatic = clang.clang_CXXMethod_isStatic(cursor) != 0;
-  final isConst = clang.clang_CXXMethod_isConst(cursor) != 0;
+  final isStatic =
+      kind == CppMethodKind.constructor ||
+      clang.clang_CXXMethod_isStatic(cursor) != 0;
+  final isConst =
+      kind == CppMethodKind.method &&
+      clang.clang_CXXMethod_isConst(cursor) != 0;
 
-  final parameters = _parseParameters(context, cursor, classDecl);
+  final parameters = kind == CppMethodKind.destructor
+      ? <Parameter>[]
+      : _parseParameters(context, cursor, classDecl);
   if (parameters == null) {
     logger.fine(
       '  ---- Skipping method $methodName due to unsupported parameter type',
@@ -136,18 +111,26 @@ void _parseMethod(
     return;
   }
 
-  logger.fine('  ++++ Method: $methodName (const=$isConst)');
-  _parseMethodLike(
-    context,
-    cursor,
-    classDecl,
-    methods,
-    symbolName: (className) => '${className}_$methodName',
-    originalName: methodName,
-    parameters: parameters,
-    isConstant: isConst,
-    isStatic: isStatic,
-    kind: CppMethodKind.method,
+  final className = context.config.cpp!.classes.rename(classDecl);
+  final symbol = switch (kind) {
+    CppMethodKind.constructor => '${className}_new',
+    CppMethodKind.destructor => '${className}_delete',
+    CppMethodKind.method => '${className}_$methodName',
+  };
+
+  logger.fine('  ++++ ${kind.name}: $methodName (const=$isConst)');
+  methods.add(
+    CppMethod(
+      name: Symbol(symbol, SymbolKind.method),
+      originalName: methodName,
+      returnType: clang
+          .clang_getCursorResultType(cursor)
+          .toCodeGenType(context),
+      parameters: parameters,
+      isConstant: isConst,
+      isStatic: isStatic,
+      kind: kind,
+    ),
   );
 }
 
@@ -168,69 +151,4 @@ List<Parameter>? _parseParameters(
     return null;
   }
   return parsed.parameters;
-}
-
-void _parseConstructor(
-  Context context,
-  clang_types.CXCursor cursor,
-  Declaration classDecl,
-  List<CppMethod> methods,
-) {
-  _parseMethodLike(
-    context,
-    cursor,
-    classDecl,
-    methods,
-    symbolName: (className) => '${className}_new',
-    originalName: cursor.spelling(),
-    parameters: _parseParameters(context, cursor, classDecl),
-    isConstant: false,
-    isStatic: false,
-    kind: CppMethodKind.constructor,
-  );
-}
-
-void _parseDestructor(
-  Context context,
-  clang_types.CXCursor cursor,
-  Declaration classDecl,
-  List<CppMethod> methods,
-) {
-  _parseMethodLike(
-    context,
-    cursor,
-    classDecl,
-    methods,
-    symbolName: (className) => '${className}_delete',
-    originalName: cursor.spelling(),
-    parameters: [],
-    isConstant: false,
-    isStatic: false,
-    kind: CppMethodKind.destructor,
-  );
-}
-
-void _parseDestructor(
-  Context context,
-  clang_types.CXCursor cursor,
-  Declaration classDecl,
-  List<CppMethod> methods,
-) {
-  final destructorName = cursor.spelling();
-  final returnType = clang
-      .clang_getCursorResultType(cursor)
-      .toCodeGenType(context);
-  final cppClasses = context.config.cpp!.classes;
-  final className = cppClasses.rename(classDecl);
-  methods.add(
-    CppMethod(
-      name: Symbol('${className}_delete', SymbolKind.method),
-      originalName: destructorName,
-      returnType: returnType,
-      parameters: [],
-      isConstant: false,
-      isStatic: false,
-      kind: CppMethodKind.destructor,
-    ),
-  );
 }

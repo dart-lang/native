@@ -18,6 +18,12 @@ class Animal {
   void dispose() => _Animal_delete(_ptr);
 }
 
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'Animal_new')
+external ffi.Pointer<ffi.Void> _Animal_new(int age);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
+external void _Animal_delete(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_speak')
 external void _Animal_speak(ffi.Pointer<ffi.Void> self);
 
@@ -26,9 +32,3 @@ external int _Animal_getAge(ffi.Pointer<ffi.Void> self);
 
 @ffi.Native<ffi.Int Function()>(symbol: 'Animal_getCount')
 external int _Animal_getCount();
-
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'Animal_new')
-external ffi.Pointer<ffi.Void> _Animal_new(int age);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
-external void _Animal_delete(ffi.Pointer<ffi.Void> self);
