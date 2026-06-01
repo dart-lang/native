@@ -624,7 +624,6 @@ class NativeAssetsBuildRunner {
       'USERPROFILE', // Needed to find tools in default install locations.
       'WINDIR', // Needed for CMake.
       ..._httpProxyEnvironmentVariables,
-      ...toolsVariables,
     };
 
     const variablePrefixesFilter = {
