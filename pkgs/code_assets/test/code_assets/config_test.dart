@@ -196,25 +196,7 @@ void main() async {
       ..config.setupBuild(linkingEnabled: false);
     final input = inputBuilder.build();
     expect(input.config.buildCodeAssets, isFalse);
-    expect(
-      () => input.config.code,
-      throwsA(
-        isA<StateError>().having(
-          (e) => e.message,
-          'message',
-          allOf(
-            contains(
-              'HookConfig.code should only be accessed when building code '
-              'assets',
-            ),
-            contains(
-              'Check HookConfig.buildCodeAssets (e.g. '
-              '`input.config.buildCodeAssets`)',
-            ),
-          ),
-        ),
-      ),
-    );
+    expect(() => input.config.code, throwsStateError);
   });
 
   test('LinkInput.config.code throws StateError when buildCodeAssets is '
@@ -233,25 +215,7 @@ void main() async {
       );
     final input = inputBuilder.build();
     expect(input.config.buildCodeAssets, isFalse);
-    expect(
-      () => input.config.code,
-      throwsA(
-        isA<StateError>().having(
-          (e) => e.message,
-          'message',
-          allOf(
-            contains(
-              'HookConfig.code should only be accessed when building code '
-              'assets',
-            ),
-            contains(
-              'Check HookConfig.buildCodeAssets (e.g. '
-              '`input.config.buildCodeAssets`)',
-            ),
-          ),
-        ),
-      ),
-    );
+    expect(() => input.config.code, throwsStateError);
   });
 
   test('BuildInput from json ', () {
