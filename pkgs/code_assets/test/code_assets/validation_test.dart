@@ -487,5 +487,37 @@ void main() {
         ),
       );
     });
+
+    test('validation functions do not throw and return no errors when '
+        'buildCodeAssets is false', () async {
+      final buildInputBuilder = makeBuildInputBuilder();
+      final buildInput = BuildInput(buildInputBuilder.json);
+      expect(buildInput.config.buildCodeAssets, isFalse);
+
+      final buildErrors = await validateCodeAssetBuildInput(buildInput);
+      expect(buildErrors, isEmpty);
+
+      final buildOutputBuilder = BuildOutputBuilder();
+      final buildOutputErrors = await validateCodeAssetBuildOutput(
+        buildInput,
+        buildOutputBuilder.build(),
+      );
+      expect(buildOutputErrors, isEmpty);
+
+      final linkInputBuilder = makeLinkInputBuilder()
+        ..setupLink(assets: [], recordedUsesFile: null, assetsFromLinking: []);
+      final linkInput = LinkInput(linkInputBuilder.json);
+      expect(linkInput.config.buildCodeAssets, isFalse);
+
+      final linkErrors = await validateCodeAssetLinkInput(linkInput);
+      expect(linkErrors, isEmpty);
+
+      final linkOutputBuilder = LinkOutputBuilder();
+      final linkOutputErrors = await validateCodeAssetLinkOutput(
+        linkInput,
+        linkOutputBuilder.build(),
+      );
+      expect(linkOutputErrors, isEmpty);
+    });
   });
 }

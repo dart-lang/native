@@ -14,19 +14,28 @@ import 'os.dart';
 import 'syntax.g.dart';
 
 /// Validates the code asset specific parts of a [BuildInput].
-Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
-    [
-      ..._validateConfig('BuildInput.config.code', input.config),
-      ...await _validateCodeAssetHookInput([
-        for (final assets in input.assets.encodedAssets.values) ...assets,
-      ]),
-    ];
+Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async {
+  if (!input.config.buildCodeAssets) {
+    return [];
+  }
+  return [
+    ..._validateConfig('BuildInput.config.code', input.config),
+    ...await _validateCodeAssetHookInput([
+      for (final assets in input.assets.encodedAssets.values) ...assets,
+    ]),
+  ];
+}
 
 /// Validates the code asset specific parts of a [LinkInput].
-Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async => [
-  ..._validateConfig('LinkInput.config.code', input.config),
-  ...await _validateCodeAssetHookInput(input.assets.encodedAssets),
-];
+Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async {
+  if (!input.config.buildCodeAssets) {
+    return [];
+  }
+  return [
+    ..._validateConfig('LinkInput.config.code', input.config),
+    ...await _validateCodeAssetHookInput(input.assets.encodedAssets),
+  ];
+}
 
 ValidationErrors _validateConfig(String inputName, HookConfig config) {
   final syntaxErrors = _validateConfigSyntax(config);
@@ -85,30 +94,42 @@ Future<ValidationErrors> _validateCodeAssetHookInput(
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
   BuildOutput output,
-) => _validateCodeAssetBuildOrLinkOutput(
-  input,
-  input.config.code,
-  output.assets.encodedAssets,
-  [
-    ...output.assets.encodedAssetsForBuild,
-    ...output.assets.encodedAssetsForLinking.values.expand((assets) => assets),
-  ],
-  output,
-  true,
-);
+) async {
+  if (!input.config.buildCodeAssets) {
+    return [];
+  }
+  return _validateCodeAssetBuildOrLinkOutput(
+    input,
+    input.config.code,
+    output.assets.encodedAssets,
+    [
+      ...output.assets.encodedAssetsForBuild,
+      ...output.assets.encodedAssetsForLinking.values.expand(
+        (assets) => assets,
+      ),
+    ],
+    output,
+    true,
+  );
+}
 
 /// Validates the code asset specific parts of a [LinkOutput].
 Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
   LinkOutput output,
-) => _validateCodeAssetBuildOrLinkOutput(
-  input,
-  input.config.code,
-  output.assets.encodedAssets,
-  output.assets.encodedAssetsForLink.values.expand((assets) => assets),
-  output,
-  false,
-);
+) async {
+  if (!input.config.buildCodeAssets) {
+    return [];
+  }
+  return _validateCodeAssetBuildOrLinkOutput(
+    input,
+    input.config.code,
+    output.assets.encodedAssets,
+    output.assets.encodedAssetsForLink.values.expand((assets) => assets),
+    output,
+    false,
+  );
+}
 
 /// Validates that the given code assets can be used together in an application.
 ///
