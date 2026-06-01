@@ -145,6 +145,15 @@ abstract class Compound extends BindingType with HasLocalScope {
   }
 
   @override
+  ApiAvailability get computeAvailability {
+    var avail = ApiAvailability.alwaysAvailable;
+    for (final member in members) {
+      avail = avail.merge(member.type.computeAvailability);
+    }
+    return avail;
+  }
+
+  @override
   bool get isObjCImport =>
       context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
 

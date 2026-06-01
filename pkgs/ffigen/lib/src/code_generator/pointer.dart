@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'local_variables.dart';
 
@@ -21,6 +22,9 @@ class PointerType extends Type {
     }
     return PointerType._(child);
   }
+
+  @override
+  ApiAvailability get computeAvailability => child.computeAvailability;
 
   @override
   Type get baseType => child.baseType;
