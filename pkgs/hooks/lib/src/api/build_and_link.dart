@@ -78,6 +78,15 @@ import '../validation.dart';
 /// }
 /// ```
 ///
+/// ## User-defines
+///
+/// Build hooks can read custom, package-specific configuration settings passed
+/// by the end-user from the workspace `pubspec.yaml` (or the root package
+/// `pubspec.yaml` if not in a workspace) via the `input.userDefines` property.
+///
+/// See [HookInput.userDefines] for detailed documentation, configuration
+/// schema, and code snippets.
+///
 /// ## Environment
 ///
 /// Build hooks are executed in a semi-hermetic environment. This means that
@@ -131,7 +140,8 @@ import '../validation.dart';
 /// and only if:
 ///
 /// * The input to the hook didn't change (including the configuration fields
-///   in [BuildConfig] and the `user-defines` in the workspace `pubspec.yaml`).
+///   accessed via [BuildInput.config] and the `user-defines` in the workspace
+///   `pubspec.yaml`).
 /// * No environment variables (that are not filtered out) changed.
 /// * None of the files or directories declared in
 ///   [HookOutputBuilder.dependencies] changed.
@@ -148,13 +158,18 @@ import '../validation.dart';
 /// [HookOutputBuilder.dependencies] (e.g., via
 /// `output.dependencies.add(uri)`).
 ///
+/// If your hook resolves and reads local files referenced in user-defines (e.g.
+/// using `input.userDefines.path('key')`), you **must** manually register those
+/// files in [HookOutputBuilder.dependencies] to ensure the hook is re-run
+/// when the referenced files' contents change.
+///
 /// ### Cache Isolation
 ///
 /// Outputs are cached in a configuration-specific subdirectory inside
-/// `.dart_tool/hooks_runner/`. This directory is unique per hook and is derived
-/// from the [HookConfig]/[BuildConfig] structure. Therefore, different
-/// configurations (e.g., building for a different target OS or architecture)
-/// do not collide.
+/// `.dart_tool/hooks_runner/`. This directory is unique per hook and is
+/// derived from the configuration fields in [BuildInput.config]. Therefore,
+/// different configurations (e.g., building for a different target OS or
+/// architecture) do not collide.
 ///
 /// The cache is reused for identical configurations across different builds,
 /// even when inputs outside the configuration or environment variables change.
@@ -289,6 +304,15 @@ Future<void> build(
 /// non-zero exit code on failure. Throwing will lead to an uncaught exception,
 /// causing a non-zero exit code.
 ///
+/// ## Custom Configurations (User-Defines)
+///
+/// Link hooks can read custom, package-specific configuration settings passed
+/// by the end-user from the workspace `pubspec.yaml` (or the root package
+/// `pubspec.yaml` if not in a workspace) via the `input.userDefines` property.
+///
+/// See [HookInput.userDefines] for detailed documentation, configuration
+/// schema, and code snippets.
+///
 /// ## Environment
 ///
 /// Link hooks are executed in a semi-hermetic environment. This means that
@@ -342,7 +366,8 @@ Future<void> build(
 /// and only if:
 ///
 /// * The input to the hook didn't change (including the configuration fields
-///   in [LinkConfig] and the `user-defines` in the workspace `pubspec.yaml`).
+///   accessed via [LinkInput.config] and the `user-defines` in the workspace
+///   `pubspec.yaml`).
 /// * No environment variables (that are not filtered out) changed.
 /// * None of the files or directories declared in
 ///   [HookOutputBuilder.dependencies] changed.
@@ -359,13 +384,18 @@ Future<void> build(
 /// [HookOutputBuilder.dependencies] (e.g., via
 /// `output.dependencies.add(uri)`).
 ///
+/// If your hook resolves and reads local files referenced in user-defines (e.g.
+/// using `input.userDefines.path('key')`), you **must** manually register those
+/// files in [HookOutputBuilder.dependencies] to ensure the hook is re-run
+/// when the referenced files' contents change.
+///
 /// ### Cache Isolation
 ///
 /// Outputs are cached in a configuration-specific subdirectory inside
-/// `.dart_tool/hooks_runner/`. This directory is unique per hook and is derived
-/// from the [HookConfig]/[LinkConfig] structure. Therefore, different
-/// configurations (e.g., building for a different target OS or architecture)
-/// do not collide.
+/// `.dart_tool/hooks_runner/`. This directory is unique per hook and is
+/// derived from the configuration fields in [LinkInput.config]. Therefore,
+/// different configurations (e.g., building for a different target OS or
+/// architecture) do not collide.
 ///
 /// The cache is reused for identical configurations across different builds,
 /// even when inputs outside the configuration or environment variables change.
