@@ -6,7 +6,7 @@ import 'package:path/path.dart' as path;
 
 import 'ast/_core/interfaces/declaration.dart';
 
-const defaultTempDirPrefix = 'swift2objc_temp_';
+const defaultTempDirPrefix = 'swift2objc temp_';
 const symbolgraphFileSuffix = '.symbols.json';
 
 class Command {

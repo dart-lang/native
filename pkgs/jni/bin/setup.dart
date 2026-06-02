@@ -267,7 +267,8 @@ void main(List<String> arguments) async {
     final jniDirUri = Uri.directory('.dart_tool').resolve('jni');
     final jniDir = Directory.fromUri(jniDirUri);
     await jniDir.create(recursive: true);
-    final tempDir = await jniDir.createTemp('jni_native_build_');
+    final tempDir =
+        await jniDir.createTemp('jni native build ');
     final cmakeArgs = <String>[];
     cmakeArgs.addAll(options.cmakeArgs);
 

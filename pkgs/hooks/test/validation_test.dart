@@ -15,7 +15,8 @@ void main() {
   late Uri packageRootUri;
 
   setUp(() async {
-    tempUri = (await Directory.systemTemp.createTemp()).uri;
+    tempUri = (await Directory.systemTemp.createTemp('hooks test temp '))
+        .uri;
     outDirUri = tempUri.resolve('out/');
     await Directory.fromUri(outDirUri).create();
     outDirSharedUri = tempUri.resolve('out_shared/');
