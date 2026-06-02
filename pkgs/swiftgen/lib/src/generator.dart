@@ -53,6 +53,8 @@ extension SwiftGenGenerator on SwiftGenerator {
     outputFile: swiftWrapperFile.path,
     tempDir: Uri.directory(absTempDir),
     preamble: swiftWrapperFile.preamble,
+    target: target.triple,
+    sdk: target.sdk,
   ).generate(logger: logger);
 
   Future<void> _generateObjCFile(
