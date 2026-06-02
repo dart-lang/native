@@ -454,7 +454,7 @@ class ExampleTask extends Task {
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      ['build', 'cli', 'bin/native_add_app.dart'],
+      ['build', 'cli'],
     );
     await _runProcess(
       repositoryRoot
