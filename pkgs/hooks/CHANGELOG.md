@@ -1,3 +1,7 @@
+## 2.0.2
+
+- Update documentation for user-defines.
+
 ## 2.0.1
 
 - Updated documentation for hook caching behavior and semi-hermetic environment variables.
