@@ -11,9 +11,14 @@ import 'package:hooks/hooks.dart';
 void main(List<String> args) async {
   await build(args, (input, output) async {
     // Access raw user-defines value
-    final debugLogging =
-        input.userDefines['enable_debug_logging'] == true;
-    if (debugLogging) {
+    final debugLogging = input.userDefines['enable_debug_logging'];
+    if (debugLogging is! bool?) {
+      throw const FormatException(
+        'hooks.user_defines.my_package.enable_debug_logging must be a '
+        'boolean (or omitted)',
+      );
+    }
+    if (debugLogging == true) {
       print('Debug logging is enabled.');
     }
 

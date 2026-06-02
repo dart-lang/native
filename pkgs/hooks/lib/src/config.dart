@@ -106,23 +106,26 @@ sealed class HookInput {
   /// The configuration for this hook input.
   HookConfig get config => HookConfig._(this);
 
-  /// Custom user-defined configurations specified in the workspace or package
-  /// `pubspec.yaml` under the `hooks.user_defines` block.
+  /// Custom configurations specified in the root package `pubspec.yaml`
+  /// (or root package pub workspace `pubspec.yaml` if using a workspace) under
+  /// the `hooks.user_defines` block.
   ///
   /// These are used to pass custom parameters or local file paths to build and
   /// link hooks from the project's build environment.
   ///
   /// ### Workspace Scope
-  /// The SDK hook runner only reads user-defines from the **workspace root**
-  /// `pubspec.yaml` (or the root package's `pubspec.yaml` if the package is not
-  /// part of a workspace). As a result, only end-users (the authors of the root
+  /// The SDK hook runner reads user-defines from the root package's
+  /// `pubspec.yaml` (or the root package pub workspace's `pubspec.yaml` if
+  /// using a workspace). As a result, only end-users (the authors of the root
   /// app/package consuming the dependencies) can configure user-defines.
   /// Dependencies cannot supply their own default user-defines.
   ///
   /// ### Caching
   /// Hook user-defines are workspace-wide. If any user-defines inside the
-  /// workspace `pubspec.yaml` change, the hook is re-run. However, if the
-  /// user-defines for the package are identical, the hook is not re-run.
+  /// root package `pubspec.yaml` (or the root package pub workspace
+  /// `pubspec.yaml` if using a workspace) change, the hook is re-run.
+  /// However, if the user-defines for the package are identical, the hook is
+  /// not re-run.
   ///
   /// ### Supported Types
   /// Configured values inside `pubspec.yaml` can be any JSON-compatible type,
@@ -130,7 +133,7 @@ sealed class HookInput {
   /// ```yaml
   /// hooks:
   ///   user_defines:
-  ///     my_database:
+  ///     my_package:
   ///       supported_archs:
   ///         - arm64
   ///         - x64
@@ -147,14 +150,14 @@ sealed class HookInput {
   ///   ```yaml
   ///   hooks:
   ///     user_defines:
-  ///       my_database:
+  ///       my_package:
   ///         local_build: false
   ///   ```
   /// - Enable/disable debug options or configure a custom compiler flag:
   ///   ```yaml
   ///   hooks:
   ///     user_defines:
-  ///       my_database:
+  ///       my_package:
   ///         debug_mode: true
   ///   ```
   ///
@@ -163,7 +166,7 @@ sealed class HookInput {
   /// ```yaml
   /// hooks:
   ///   user_defines:
-  ///     my_database:
+  ///     my_package:
   ///       enable_experimental: true
   ///       custom_lib: assets/libnative.so
   /// ```
@@ -177,9 +180,14 @@ sealed class HookInput {
   /// void main(List<String> args) async {
   ///   await build(args, (input, output) async {
   ///     // Access raw user-defines value
-  ///     final debugLogging =
-  ///         input.userDefines['enable_debug_logging'] == true;
-  ///     if (debugLogging) {
+  ///     final debugLogging = input.userDefines['enable_debug_logging'];
+  ///     if (debugLogging is! bool?) {
+  ///       throw const FormatException(
+  ///         'hooks.user_defines.my_package.enable_debug_logging must be a '
+  ///         'boolean (or omitted)',
+  ///       );
+  ///     }
+  ///     if (debugLogging == true) {
   ///       print('Debug logging is enabled.');
   ///     }
   ///
@@ -204,7 +212,7 @@ final class HookInputUserDefines {
 
   /// The value for the user-define for [key] for this package.
   ///
-  /// This can be arbitrary JSON/YAML if provided from the SDK from such source.
+  /// This can be arbitrary JSON if provided from the SDK from such source.
   /// If it's provided from command-line arguments, it's likely a string.
   ///
   /// For example, if a project's `pubspec.yaml` contains:

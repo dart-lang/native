@@ -81,8 +81,9 @@ import '../validation.dart';
 /// ## User-defines
 ///
 /// Build hooks can read custom, package-specific configuration settings passed
-/// by the end-user from the workspace `pubspec.yaml` (or the root package
-/// `pubspec.yaml` if not in a workspace) via the `input.userDefines` property.
+/// by the end-user from the root package `pubspec.yaml` (or the root package
+/// pub workspace `pubspec.yaml` if using a workspace) via the
+/// `input.userDefines` property.
 ///
 /// See [HookInput.userDefines] for detailed documentation, configuration
 /// schema, and code snippets.
@@ -307,8 +308,9 @@ Future<void> build(
 /// ## Custom Configurations (User-Defines)
 ///
 /// Link hooks can read custom, package-specific configuration settings passed
-/// by the end-user from the workspace `pubspec.yaml` (or the root package
-/// `pubspec.yaml` if not in a workspace) via the `input.userDefines` property.
+/// by the end-user from the root package `pubspec.yaml` (or the root package
+/// pub workspace `pubspec.yaml` if using a workspace) via the
+/// `input.userDefines` property.
 ///
 /// See [HookInput.userDefines] for detailed documentation, configuration
 /// schema, and code snippets.
