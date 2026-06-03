@@ -83,6 +83,57 @@ void main(List<String> args) async {
 
 For more information see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 
+## User-defines
+
+Because build hooks execute in a semi-hermetic environment where most environment variables are stripped for reproducibility and caching purposes, you should use **user-defines** to pass custom configurations, flags, or paths to your hooks from `pubspec.yaml`.
+
+### 1. Define in `pubspec.yaml`
+In your package (or workspace root `pubspec.yaml` if using workspaces), add the `hooks.user_defines` section:
+
+```yaml
+hooks:
+  user_defines:
+    my_package_name:
+      enable_debug_logging: true
+      custom_asset: assets/data.json
+```
+
+> [!IMPORTANT]  
+> **Workspace Scope:** If a project is set up as a **pub workspace**, the `hooks.user_defines` configuration block must be placed in the **workspace root** `pubspec.yaml` file. Defines inside member package `pubspec.yaml` files are ignored when workspace resolution is active.
+
+### 2. Read in `hook/build.dart` or `hook/link.dart`
+Access the values using `input.userDefines`:
+
+<!-- file://./example/api/config_snippet_6.dart -->
+```dart
+import 'dart:io';
+import 'package:hooks/hooks.dart';
+
+void main(List<String> args) async {
+  await build(args, (input, output) async {
+    // Access raw user-defines value
+    final debugLogging = input.userDefines['enable_debug_logging'];
+    if (debugLogging is! bool?) {
+      throw const FormatException(
+        'hooks.user_defines.my_package.enable_debug_logging must be a '
+        'boolean (or omitted)',
+      );
+    }
+    if (debugLogging == true) {
+      print('Debug logging is enabled.');
+    }
+
+    // Resolve relative path against pubspec.yaml base path
+    final customAssetUri = input.userDefines.path('custom_asset');
+    if (customAssetUri != null) {
+      final file = File.fromUri(customAssetUri);
+      output.dependencies.add(file.uri); // Declare cache dependency
+      // Use the file...
+    }
+  });
+}
+```
+
 ## Documentation
 
 For detailed documentation on debugging and the configuration schema, see the

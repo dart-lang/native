@@ -19,7 +19,17 @@ extension HookConfigCodeConfig on HookConfig {
   /// Code asset specific configuration.
   ///
   /// Only available if [buildCodeAssets] is true.
-  CodeConfig get code => CodeConfig._fromJson(json, path);
+  CodeConfig get code {
+    if (!buildCodeAssets) {
+      throw StateError(
+        'HookConfig.code should only be accessed when building code assets. '
+        'Check HookConfig.buildCodeAssets '
+        '(e.g. `input.config.buildCodeAssets`) '
+        'before accessing HookConfig.code.',
+      );
+    }
+    return CodeConfig._fromJson(json, path);
+  }
 
   /// Whether the hook invoker (e.g. the Dart or Flutter SDK) expects this
   /// hook to build code assets.

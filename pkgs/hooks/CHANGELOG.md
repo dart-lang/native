@@ -1,3 +1,11 @@
+## 2.0.2
+
+- Update documentation for user-defines.
+
+## 2.0.1
+
+- Updated documentation for hook caching behavior and semi-hermetic environment variables.
+
 ## 2.0.0
 
 - **Breaking change**: Turned `ProtocolExtension` into a base class instead of an interface, with default implementations for all methods including the newly added `outputFiles`.
