@@ -220,12 +220,12 @@ String toTargetTriple(CodeConfig codeConfig) {
   return appleClangMacosTargetFlags[architecture]!;
 }
 
-const appleClangMacosTargetFlags = {
+final appleClangMacosTargetFlags = {
   Architecture.arm64: 'arm64-apple-darwin',
   Architecture.x64: 'x86_64-apple-darwin',
 };
 
-const appleClangIosTargetFlags = {
+final appleClangIosTargetFlags = {
   Architecture.arm64: {
     IOSSdk.iPhoneOS: 'arm64-apple-ios',
     IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',

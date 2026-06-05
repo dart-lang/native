@@ -96,6 +96,7 @@ export 'src/code_assets/extension.dart';
 export 'src/code_assets/ios_sdk.dart' show IOSSdk;
 export 'src/code_assets/link_mode.dart'
     show
+        CustomLinkMode,
         DynamicLoadingBundled,
         DynamicLoadingSystem,
         LinkMode,

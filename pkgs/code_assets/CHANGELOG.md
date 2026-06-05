@@ -1,3 +1,9 @@
+## 2.0.0
+
+- Support custom target OS and architectures in protocol extension.
+- **Breaking change**: Overrode `==` and `hashCode` in `OS`, `Architecture`, `Sanitizer`, and `LinkModePreference` to support custom targets. These objects can no longer be used as keys of `const` maps and sets.
+- **Breaking change**: Supported custom/unknown link modes via `CustomLinkMode` instead of throwing `FormatException` during deserialization.
+
 ## 1.2.1
 
 - Avoid throwing a null-assertion error/exception when `input.config.code` is

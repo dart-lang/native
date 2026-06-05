@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:collection/collection.dart';
+
 import 'code_asset.dart';
 
 import 'syntax.g.dart';
@@ -16,6 +18,10 @@ import 'syntax.g.dart';
 ///   * [LookupInExecutable]
 ///   * [DynamicLoadingBundled]
 ///   * [DynamicLoadingSystem]
+///
+/// Custom/extensible link modes are represented by:
+///
+/// * [CustomLinkMode]
 ///
 /// See the documentation on the above classes.
 abstract final class LinkMode {
@@ -46,6 +52,7 @@ extension LinkModeSyntaxExtension on LinkMode {
     final DynamicLoadingSystem system => DynamicLoadingSystemLinkModeSyntax(
       uri: system.uri,
     ),
+    final CustomLinkMode custom => LinkModeSyntax.fromJson(custom.json),
     _ => throw UnimplementedError('The link mode "$this" is not known'),
   };
 
@@ -59,8 +66,33 @@ extension LinkModeSyntaxExtension on LinkMode {
     _ when linkMode.isDynamicLoadingSystemLinkMode => DynamicLoadingSystem(
       linkMode.asDynamicLoadingSystemLinkMode.uri,
     ),
-    _ => throw FormatException('The link mode "${linkMode.type}" is not known'),
+    _ => CustomLinkMode(linkMode.type, linkMode.json),
   };
+}
+
+/// A custom link mode not natively supported by Dart/Flutter.
+final class CustomLinkMode extends LinkMode {
+  /// The type of this link mode.
+  final String type;
+
+  /// The JSON representation of this link mode.
+  final Map<String, Object?> json;
+
+  /// Constructs a [CustomLinkMode] with the given [type] and [json].
+  CustomLinkMode(this.type, this.json) : super._();
+
+  @override
+  bool operator ==(Object other) =>
+      other is CustomLinkMode &&
+      type == other.type &&
+      const MapEquality<String, Object?>().equals(json, other.json);
+
+  @override
+  int get hashCode =>
+      type.hashCode ^ const MapEquality<String, Object?>().hash(json);
+
+  @override
+  String toString() => type;
 }
 
 /// [CodeAsset]s with this [LinkMode] will be loaded at runtime.

@@ -1,3 +1,8 @@
+## 1.4.1
+
+- Support custom target OS and architectures in protocol extension.
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
 ## 1.4.0
 
 - Add cache-isolation for recorded usages under link hooks using `RecordUseConfig`, and deprecate the legacy `resourceIdentifiers` parameters.

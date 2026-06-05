@@ -1,3 +1,7 @@
+## 21.0.1
+
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
 ## 21.0.0
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart

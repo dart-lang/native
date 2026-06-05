@@ -1,3 +1,8 @@
+## 0.19.2
+
+- Support custom target OS and architectures.
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
 ## 0.19.1
 
 - Added support for passing sanitizer flags (`-fsanitize=address`, `-fsanitize=memory`, `-fsanitize=thread`) to C compilers and linkers.

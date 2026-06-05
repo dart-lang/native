@@ -53,7 +53,7 @@ void main() async {
     )).first.uri;
   });
 
-  const dumpbinMachine = {
+  final dumpbinMachine = {
     Architecture.arm64: 'ARM64',
     Architecture.ia32: 'x86',
     Architecture.x64: 'x64',
