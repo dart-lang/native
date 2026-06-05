@@ -93,3 +93,24 @@ external bool gcNowAvailableFromNative();
 // requires the Dart thread to be at a proper native-mode safepoint.
 @Native<Void Function()>(symbol: 'callGCNowFromNative')
 external void callGCNowFromNative();
+
+// buildInstance swizzle controls — mirror the implementMethod-side trio above.
+// Same `setGCInjectActive` flag gates both swizzles uniformly.
+
+@Native<Void Function()>(
+  isLeaf: true,
+  symbol: 'installBuildInstanceSwizzle',
+)
+external void installBuildInstanceSwizzle();
+
+@Native<Void Function()>(
+  isLeaf: true,
+  symbol: 'removeBuildInstanceSwizzle',
+)
+external void removeBuildInstanceSwizzle();
+
+@Native<Bool Function()>(
+  isLeaf: true,
+  symbol: 'wasBuilderReleasedDuringBuildInstance',
+)
+external bool wasBuilderReleasedDuringBuildInstance();
