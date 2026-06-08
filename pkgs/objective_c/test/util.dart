@@ -97,16 +97,10 @@ external void callGCNowFromNative();
 // buildInstance swizzle controls — mirror the implementMethod-side trio above.
 // Same `setGCInjectActive` flag gates both swizzles uniformly.
 
-@Native<Void Function()>(
-  isLeaf: true,
-  symbol: 'installBuildInstanceSwizzle',
-)
+@Native<Void Function()>(isLeaf: true, symbol: 'installBuildInstanceSwizzle')
 external void installBuildInstanceSwizzle();
 
-@Native<Void Function()>(
-  isLeaf: true,
-  symbol: 'removeBuildInstanceSwizzle',
-)
+@Native<Void Function()>(isLeaf: true, symbol: 'removeBuildInstanceSwizzle')
 external void removeBuildInstanceSwizzle();
 
 @Native<Bool Function()>(
