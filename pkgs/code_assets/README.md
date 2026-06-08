@@ -117,6 +117,7 @@ See the full example in [example/host_name/](example/host_name/).
 
 To target an operating system or hardware architecture not natively defined as a static constant on `OS` or `Architecture`, use `OS.fromString` and `Architecture.fromString`:
 
+<!-- no-source-file -->
 ```dart
 final customOS = OS.fromString('my_custom_os');
 final customArch = Architecture.fromString('my_custom_arch');
