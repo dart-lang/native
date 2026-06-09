@@ -38,6 +38,14 @@ dev_dependencies:
   logging: ^1.2.0
   test: ^1.25.8
 
+dependency_overrides:
+  code_assets:
+    path: ../code_assets
+  hooks:
+    path: ../hooks
+  native_toolchain_c:
+    path: ../native_toolchain_c
+
 # The following section is specific to Flutter packages.
 flutter:
   plugin:
@@ -50,3 +58,4 @@ flutter:
         ffiPlugin: true
         package: com.github.dart_lang.jni
         pluginClass: JniPlugin
+

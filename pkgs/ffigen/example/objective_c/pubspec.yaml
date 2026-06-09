@@ -19,5 +19,9 @@ dev_dependencies:
     path: ../../
 
 dependency_overrides:
+  code_assets:
+    path: ../../../code_assets
+  hooks:
+    path: ../../../hooks
   objective_c:
     path: ../../../objective_c/
