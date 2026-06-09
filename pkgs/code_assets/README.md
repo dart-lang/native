@@ -115,13 +115,20 @@ See the full example in [example/host_name/](example/host_name/).
 
 ### Custom Operating Systems and Architectures
 
-To target an operating system or hardware architecture not natively defined as a static constant on `OS` or `Architecture`, use `OS.fromString` and `Architecture.fromString`:
+SDK authors can define custom OSes and Architectures that they support in a helper package like:
 
-<!-- no-source-file -->
+<!-- file://./../hooks_runner/test/build_runner/custom_os_arch_test.dart -->
 ```dart
-final customOS = OS.fromString('my_custom_os');
-final customArch = Architecture.fromString('my_custom_arch');
+extension CustomOS on OS {
+  static final ohos = OS.fromString('ohos');
+}
+
+extension CustomArchitecture on Architecture {
+  static final mips = Architecture.fromString('mips');
+}
 ```
+
+The users of those SDKs can import this helper package to use the custom OSes and Architectures in their build hooks.
 
 For more information see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 

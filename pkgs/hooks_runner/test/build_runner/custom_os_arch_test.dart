@@ -70,6 +70,7 @@ void main() async {
   });
 }
 
+// snippet-start
 extension CustomOS on OS {
   static final ohos = OS.fromString('ohos');
 }
@@ -77,6 +78,8 @@ extension CustomOS on OS {
 extension CustomArchitecture on Architecture {
   static final mips = Architecture.fromString('mips');
 }
+
+// snippet-end
 
 extension CustomSanitizer on Sanitizer {
   static final mySanitizer = Sanitizer.fromString('my_sanitizer');
