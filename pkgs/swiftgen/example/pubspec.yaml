@@ -31,9 +31,12 @@ dependency_overrides:
     path: ../../ffigen/
   hooks:
     path: ../../hooks/
+  native_toolchain_c:
+    path: ../../native_toolchain_c/
   objective_c:
     path: ../../objective_c/
   swift2objc:
     path: ../../swift2objc/
+
 
 

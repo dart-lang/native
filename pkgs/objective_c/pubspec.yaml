@@ -42,6 +42,9 @@ dependency_overrides:
     path: ../ffigen
   hooks:
     path: ../hooks
+  native_toolchain_c:
+    path: ../native_toolchain_c
+
 
 hooks:
   user_defines:
