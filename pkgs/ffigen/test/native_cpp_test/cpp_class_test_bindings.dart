@@ -15,6 +15,8 @@ class Animal {
   void speak() => _Animal_speak(_ptr);
   int getAge() => _Animal_getAge(_ptr);
   static int getCount() => _Animal_getCount();
+  static void Animal_new() => _Animal_Animal_new();
+  static void Animal_delete() => _Animal_Animal_delete();
   void dispose() => _Animal_delete(_ptr);
 }
 
@@ -32,3 +34,9 @@ external int _Animal_getAge(ffi.Pointer<ffi.Void> self);
 
 @ffi.Native<ffi.Int Function()>(symbol: 'Animal_getCount')
 external int _Animal_getCount();
+
+@ffi.Native<ffi.Void Function()>(symbol: 'Animal_Animal_new')
+external void _Animal_Animal_new();
+
+@ffi.Native<ffi.Void Function()>(symbol: 'Animal_Animal_delete')
+external void _Animal_Animal_delete();
