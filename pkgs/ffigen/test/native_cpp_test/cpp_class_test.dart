@@ -11,5 +11,10 @@ void main() {
     test('Animal bindings exist', () {
       expect(Animal, isNotNull);
     });
+
+    test('Animal static methods do not clash', () {
+      expect(Animal.Animal_new, isNotNull);
+      expect(Animal.Animal_delete, isNotNull);
+    });
   });
 }
