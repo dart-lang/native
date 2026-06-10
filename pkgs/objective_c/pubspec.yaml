@@ -45,7 +45,6 @@ dependency_overrides:
   native_toolchain_c:
     path: ../native_toolchain_c
 
-
 hooks:
   user_defines:
     objective_c:

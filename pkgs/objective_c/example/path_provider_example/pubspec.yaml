@@ -28,7 +28,5 @@ dependency_overrides:
   objective_c:
     path: ../..
 
-
-
 flutter:
   uses-material-design: true
