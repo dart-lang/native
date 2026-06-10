@@ -1,7 +1,3 @@
-## 2.0.3
-
-- Bump `package:code_assets` dev_dependency to `^2.0.0`.
-
 ## 2.0.2
 
 - Update documentation for user-defines.
