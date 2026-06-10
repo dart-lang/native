@@ -37,6 +37,3 @@ dependency_overrides:
     path: ../../objective_c/
   swift2objc:
     path: ../../swift2objc/
-
-
-
