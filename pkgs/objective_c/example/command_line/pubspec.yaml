@@ -13,3 +13,11 @@ dependencies:
 dev_dependencies:
   lints: ^6.0.0
   test: ^1.27.0
+
+dependency_overrides:
+  code_assets:
+    path: ../../../code_assets
+  hooks:
+    path: ../../../hooks
+  native_toolchain_c:
+    path: ../../../native_toolchain_c

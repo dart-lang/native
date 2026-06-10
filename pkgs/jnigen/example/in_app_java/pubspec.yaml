@@ -34,4 +34,3 @@ dependency_overrides:
 
 flutter:
   uses-material-design: true
-

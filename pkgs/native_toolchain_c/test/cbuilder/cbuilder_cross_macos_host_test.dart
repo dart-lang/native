@@ -24,7 +24,7 @@ import 'package:test_case_selector/test_case_selector.dart';
 import '../helpers.dart';
 
 // Dont include 'mach-o' or 'Mach-O', different spelling is used.
-const objdumpFileFormat = {
+final objdumpFileFormat = {
   (OS.macOS, Architecture.arm64): 'arm64',
   (OS.macOS, Architecture.x64): '64-bit x86-64',
   (OS.linux, Architecture.arm): 'elf32-littlearm',

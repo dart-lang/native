@@ -81,33 +81,27 @@ final class Architecture {
   ///
   /// The name can be obtained from [Architecture.name] or
   /// [Architecture.toString].
-  factory Architecture.fromString(String name) =>
-      ArchitectureSyntaxExtension.fromSyntax(ArchitectureSyntax.fromJson(name));
+  factory Architecture.fromString(String name) => values.firstWhere(
+    (e) => e.name == name,
+    orElse: () => Architecture._(name),
+  );
 
   /// The current [Architecture].
   static final Architecture current = _abiToArch[Abi.current()]!;
+
+  @override
+  bool operator ==(Object other) => other is Architecture && other.name == name;
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 /// Extension methods for [Architecture] to convert to and from the syntax.
 extension ArchitectureSyntaxExtension on Architecture {
-  static final _toSyntax = {
-    for (final item in Architecture.values)
-      item: ArchitectureSyntax.fromJson(item.name),
-  };
-
-  static final _fromSyntax = {
-    for (var entry in _toSyntax.entries) entry.value: entry.key,
-  };
-
   /// Converts this [Architecture] to its corresponding [ArchitectureSyntax].
-  ArchitectureSyntax toSyntax() => _toSyntax[this]!;
+  ArchitectureSyntax toSyntax() => ArchitectureSyntax.fromJson(name);
 
   /// Converts an [ArchitectureSyntax] to its corresponding [Architecture].
   static Architecture fromSyntax(ArchitectureSyntax syntax) =>
-      switch (_fromSyntax[syntax]) {
-        null => throw FormatException(
-          'The architecture "${syntax.name}" is not known',
-        ),
-        final arch => arch,
-      };
+      Architecture.fromString(syntax.name);
 }

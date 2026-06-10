@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 name: objective_c
 description: 'A library to access Objective C from Flutter that acts as a support library for package:ffigen.'
-version: 9.4.1
+version: 9.4.2
 repository: https://github.com/dart-lang/native/tree/main/pkgs/objective_c
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aobjective_c
 
@@ -17,7 +17,7 @@ environment:
   sdk: '>=3.10.0 <4.0.0'
 
 dependencies:
-  code_assets: ^1.1.0
+  code_assets: ^2.0.0
   collection: ^1.19.1
   ffi: ^2.1.0
   hooks: ^2.0.0
@@ -42,6 +42,8 @@ dependency_overrides:
     path: ../ffigen
   hooks:
     path: ../hooks
+  native_toolchain_c:
+    path: ../native_toolchain_c
 
 hooks:
   user_defines:

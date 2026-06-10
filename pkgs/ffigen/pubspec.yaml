@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: ffigen
-version: 21.0.0
+version: 21.0.1
 description: >
   Generator for FFI bindings, using LibClang to parse C, Objective-C, and Swift
   files.
@@ -21,7 +21,7 @@ environment:
 dependencies:
   args: ^2.6.0
   cli_util: ^0.4.2
-  code_assets: ^1.1.0
+  code_assets: ^2.0.0
   collection: ^1.18.0
   dart_style: ^3.0.0
   ffi: ^2.0.1

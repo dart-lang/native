@@ -107,16 +107,9 @@ void main() {
   });
 
   test('AssetPath factory', () async {
-    expect(
-      () => LinkMode.fromJson({'type': 'wrong'}),
-      throwsA(
-        predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains('The link mode "wrong" is not known'),
-        ),
-      ),
-    );
+    final linkMode = LinkMode.fromJson({'type': 'wrong'});
+    expect(linkMode, isA<CustomLinkMode>());
+    expect((linkMode as CustomLinkMode).type, 'wrong');
   });
 
   test('Asset hashCode copyWith', () async {

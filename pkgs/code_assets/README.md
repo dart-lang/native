@@ -113,5 +113,22 @@ void main(List<String> args) async {
 
 See the full example in [example/host_name/](example/host_name/).
 
+### Custom Operating Systems and Architectures
+
+SDK authors can define custom OSes and Architectures that they support in a helper package like:
+
+<!-- file://./../hooks_runner/test/build_runner/custom_os_arch_test.dart -->
+```dart
+extension CustomOS on OS {
+  static final ohos = OS.fromString('ohos');
+}
+
+extension CustomArchitecture on Architecture {
+  static final mips = Architecture.fromString('mips');
+}
+```
+
+The users of those SDKs can import this helper package to use the custom OSes and Architectures in their build hooks.
+
 For more information see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 

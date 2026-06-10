@@ -18,5 +18,11 @@ dev_dependencies:
     path: ../../
 
 dependency_overrides:
+  code_assets:
+    path: ../../../code_assets
+  hooks:
+    path: ../../../hooks
+  native_toolchain_c:
+    path: ../../../native_toolchain_c
   objective_c:
     path: ../../../objective_c/

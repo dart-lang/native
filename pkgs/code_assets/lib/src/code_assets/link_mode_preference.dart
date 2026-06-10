@@ -17,10 +17,10 @@ final class LinkModePreference {
   /// Creates a [LinkModePreference] from a string.
   ///
   /// The [name] must be one of [LinkModePreference.values].
-  factory LinkModePreference.fromString(String name) =>
-      LinkModePreferenceSyntaxExtension.fromSyntax(
-        LinkModePreferenceSyntax.fromJson(name),
-      );
+  factory LinkModePreference.fromString(String name) => values.firstWhere(
+    (e) => e.name == name,
+    orElse: () => LinkModePreference._(name),
+  );
 
   /// Provide native assets as dynamic libraries.
   ///
@@ -51,32 +51,26 @@ final class LinkModePreference {
   static const values = [dynamic, static, preferDynamic, preferStatic];
 
   @override
+  bool operator ==(Object other) =>
+      other is LinkModePreference && other.name == name;
+
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
   String toString() => name;
 }
 
 /// Extension methods for [LinkModePreference] to convert to and from the
 /// syntax model.
 extension LinkModePreferenceSyntaxExtension on LinkModePreference {
-  static const _toSyntax = {
-    LinkModePreference.dynamic: LinkModePreferenceSyntax.dynamic,
-    LinkModePreference.preferDynamic: LinkModePreferenceSyntax.preferDynamic,
-    LinkModePreference.preferStatic: LinkModePreferenceSyntax.preferStatic,
-    LinkModePreference.static: LinkModePreferenceSyntax.static,
-  };
-
-  static const _fromSyntax = {
-    LinkModePreferenceSyntax.dynamic: LinkModePreference.dynamic,
-    LinkModePreferenceSyntax.preferDynamic: LinkModePreference.preferDynamic,
-    LinkModePreferenceSyntax.preferStatic: LinkModePreference.preferStatic,
-    LinkModePreferenceSyntax.static: LinkModePreference.static,
-  };
-
   /// Converts this [LinkModePreference] to its corresponding
   /// [LinkModePreferenceSyntax].
-  LinkModePreferenceSyntax toSyntax() => _toSyntax[this]!;
+  LinkModePreferenceSyntax toSyntax() =>
+      LinkModePreferenceSyntax.fromJson(name);
 
   /// Converts a [LinkModePreferenceSyntax] to its corresponding
   /// [LinkModePreference].
   static LinkModePreference fromSyntax(LinkModePreferenceSyntax syntax) =>
-      _fromSyntax[syntax]!;
+      LinkModePreference.fromString(syntax.name);
 }

@@ -40,7 +40,7 @@ final class OS {
   static const List<OS> values = [android, fuchsia, iOS, linux, macOS, windows];
 
   /// Typical cross compilation between OSes.
-  static const osCrossCompilationDefault = {
+  static final osCrossCompilationDefault = {
     OS.macOS: [OS.macOS, OS.iOS, OS.android],
     OS.linux: [OS.linux, OS.android],
     OS.windows: [OS.windows, OS.android],
@@ -57,30 +57,25 @@ final class OS {
   ///
   /// The name can be obtained from [OS.name] or [OS.toString].
   factory OS.fromString(String name) =>
-      OSSyntaxExtension.fromSyntax(OSSyntax.fromJson(name));
+      values.firstWhere((e) => e.name == name, orElse: () => OS._(name));
 
   /// The current [OS].
   ///
   /// Consistent with the [Platform.version] string.
   static final OS current = OS.fromString(Platform.operatingSystem);
+
+  @override
+  bool operator ==(Object other) => other is OS && other.name == name;
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 /// Extension methods for [OS] to convert to and from the syntax model.
 extension OSSyntaxExtension on OS {
-  static final _toSyntax = {
-    for (final item in OS.values) item: OSSyntax.fromJson(item.name),
-  };
-
-  static final _fromSyntax = {
-    for (var entry in _toSyntax.entries) entry.value: entry.key,
-  };
-
   /// Converts this [OS] to its corresponding [OSSyntax].
-  OSSyntax toSyntax() => _toSyntax[this]!;
+  OSSyntax toSyntax() => OSSyntax.fromJson(name);
 
   /// Converts an [OSSyntax] to its corresponding [OS].
-  static OS fromSyntax(OSSyntax syntax) => switch (_fromSyntax[syntax]) {
-    null => throw FormatException('The OS "${syntax.name}" is not known'),
-    final e => e,
-  };
+  static OS fromSyntax(OSSyntax syntax) => OS.fromString(syntax.name);
 }

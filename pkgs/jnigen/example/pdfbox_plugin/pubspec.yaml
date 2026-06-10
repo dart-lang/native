@@ -35,4 +35,3 @@ flutter:
         ffiPlugin: true
       windows:
         ffiPlugin: true
-

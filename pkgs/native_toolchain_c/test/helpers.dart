@@ -186,7 +186,7 @@ Future<String> readelfMachine(String path) async {
   return result.split('\n').firstWhere((e) => e.contains('Machine:'));
 }
 
-const readElfMachine = {
+final readElfMachine = {
   Architecture.arm: 'ARM',
   Architecture.arm64: 'AArch64',
   Architecture.ia32: 'Intel 80386',
@@ -357,7 +357,7 @@ int defaultMacOSVersion = MacOSVersion.flutterLowestSupported.value;
 
 /// File-format strings used by the `objdump` tool for Android binaries that
 /// run on a given architecture.
-const objdumpFileFormatAndroid = {
+final objdumpFileFormatAndroid = {
   Architecture.arm: 'elf32-littlearm',
   Architecture.arm64: 'elf64-littleaarch64',
   Architecture.ia32: 'elf32-i386',
@@ -365,24 +365,24 @@ const objdumpFileFormatAndroid = {
   Architecture.riscv64: 'elf64-littleriscv',
 };
 
-const objdumpFileFormatMacOS = {
+final objdumpFileFormatMacOS = {
   Architecture.arm64: 'mach-o arm64',
   Architecture.x64: 'mach-o 64-bit x86-64',
 };
 
 // Don't include 'mach-o' or 'Mach-O', different spelling is used.
-const objdumpFileFormatIOS = {
+final objdumpFileFormatIOS = {
   Architecture.arm64: 'arm64',
   Architecture.x64: '64-bit x86-64',
 };
 
-const targetOSToObjdumpFileFormat = {
+final targetOSToObjdumpFileFormat = {
   OS.android: objdumpFileFormatAndroid,
   OS.macOS: objdumpFileFormatMacOS,
   OS.iOS: objdumpFileFormatMacOS,
 };
 
-const dumpbinFileFormat = {
+final dumpbinFileFormat = {
   Architecture.arm64: 'ARM64',
   Architecture.ia32: 'x86',
   Architecture.x64: 'x64',

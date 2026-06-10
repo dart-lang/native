@@ -15,3 +15,11 @@ dev_dependencies:
   ffigen:
     path: '../../'
   test: ^1.25.15
+
+dependency_overrides:
+  code_assets:
+    path: ../../../code_assets
+  hooks:
+    path: ../../../hooks
+  native_toolchain_c:
+    path: ../../../native_toolchain_c

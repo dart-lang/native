@@ -1,0 +1,14 @@
+name: custom_os_arch
+description: A package to test custom OS and architecture settings.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  code_assets: any
+  hooks: any

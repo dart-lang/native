@@ -190,7 +190,10 @@ class WorkspaceTask extends Task {
     final rootDir = Directory.fromUri(repositoryRoot.resolve('pkgs'));
     for (final entity in rootDir.listSync(recursive: true)) {
       if (entity is File && entity.path.endsWith('pubspec.yaml')) {
-        if (entity.path.split(Platform.pathSeparator).contains('.dart_tool')) {
+        final pathSegments = entity.path.split(Platform.pathSeparator);
+        if (pathSegments.contains('.dart_tool') ||
+            pathSegments.contains('ephemeral')) {
+          // Can contain generated or symlinked pubspecs.
           continue;
         }
         packages.add(
