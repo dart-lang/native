@@ -410,6 +410,30 @@ id objc_retainBlock(id);
 
     return empty ? null : s.toString();
   }
+
+  /// Writes the Cpp glue code needed for the bindings, if any. Returns null
+  /// if there are no CppClass bindings.
+  String? generateCppGlue() {
+    final s = StringBuffer();
+    // Emit each entry-point header exactly once.
+    for (final header in context.config.headers.entryPoints) {
+      s.write('#include "${header.pathSegments.last}"\n');
+    }
+    s.write('\nextern "C" {\n\n');
+
+    var empty = true;
+    for (final binding in _allBindings) {
+      final glueString = binding.toCppGlueString(this);
+      if (glueString != null) {
+        empty = false;
+        s.write(glueString);
+      }
+    }
+
+    s.write('}\n');
+
+    return empty ? null : s.toString();
+  }
 }
 
 /// Manages the generated `_SymbolAddress` class.

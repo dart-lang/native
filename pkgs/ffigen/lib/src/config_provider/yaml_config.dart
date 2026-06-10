@@ -40,6 +40,10 @@ final class YamlConfig {
   Uri get outputObjC => Uri.file(_outputObjC ?? '$_output.m');
   String? _outputObjC;
 
+  /// Output Cpp glue file name.
+  Uri get outputCppGlue => Uri.file(_outputCppGlue ?? '$_output.cpp');
+  String? _outputCppGlue;
+
   /// Symbol file config.
   SymbolFile? get symbolFile => _symbolFile;
   late SymbolFile? _symbolFile;
@@ -358,6 +362,7 @@ final class YamlConfig {
             result: (node) {
               _output = (node.value as OutputConfig).output;
               _outputObjC = (node.value as OutputConfig).outputObjC;
+              _outputCppGlue = (node.value as OutputConfig).outputCppGlue;
               _symbolFile = (node.value as OutputConfig).symbolFile;
             },
           ),
@@ -1262,6 +1267,7 @@ final class YamlConfig {
     output: Output(
       dartFile: output,
       objectiveCFile: outputObjC,
+      cppGlueFile: outputCppGlue,
       symbolFile: symbolFile,
       commentType: commentType,
       preamble: preamble,

@@ -437,9 +437,15 @@ class SymbolFile {
 class OutputConfig {
   final String output;
   final String? outputObjC;
+  final String? outputCppGlue;
   final SymbolFile? symbolFile;
 
-  OutputConfig(this.output, this.outputObjC, this.symbolFile);
+  OutputConfig(
+    this.output,
+    this.outputObjC,
+    this.outputCppGlue,
+    this.symbolFile,
+  );
 }
 
 class RawVarArgFunction {
