@@ -13,3 +13,8 @@ void Animal::speak() {}
 int Animal::getAge() const { return age; }
 
 int Animal::getCount() { return 42; }
+
+void Animal::Animal_new() {}
+
+void Animal::Animal_delete() {}
+

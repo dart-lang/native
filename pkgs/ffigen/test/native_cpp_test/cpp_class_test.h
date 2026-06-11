@@ -10,4 +10,6 @@ public:
     void speak();
     int getAge() const;
     static int getCount();
+    static void Animal_new();
+    static void Animal_delete();
 };
