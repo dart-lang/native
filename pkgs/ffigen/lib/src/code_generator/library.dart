@@ -135,7 +135,7 @@ class Library {
   ///
   /// Returns whether bindings were generated.
   bool generateCppGlueFile(File file) {
-    final cppGlueString = writer.generateCppGlue();
+    final cppGlueString = writer.generateCppGlue(file.path);
 
     if (cppGlueString == null) {
       // No C++ glue needed. If there's already a file (eg from an earlier

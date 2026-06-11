@@ -413,11 +413,12 @@ id objc_retainBlock(id);
 
   /// Writes the Cpp glue code needed for the bindings, if any. Returns null
   /// if there are no CppClass bindings.
-  String? generateCppGlue() {
+  String? generateCppGlue(String outFilename) {
     final s = StringBuffer();
+    final outDir = p.dirname(outFilename);
     // Emit each entry-point header exactly once.
     for (final header in context.config.headers.entryPoints) {
-      s.write('#include "${header.pathSegments.last}"\n');
+      s.write('#include "${p.relative(header.toFilePath(), from: outDir)}"\n');
     }
     s.write('\nextern "C" {\n\n');
 

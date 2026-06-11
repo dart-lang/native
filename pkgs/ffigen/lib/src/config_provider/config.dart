@@ -688,9 +688,9 @@ final class Output {
   Uri get objCFile => objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
 
   /// The output Cpp glue file for the generated Cpp class bindings.
-  final Uri? cppGlueFile;
+  final Uri? cppFile;
 
-  Uri get cppGlue => cppGlueFile ?? Uri.file('${dartFile.toFilePath()}.cpp');
+  Uri get cppGlue => cppFile ?? Uri.file('${dartFile.toFilePath()}.cpp');
 
   /// The config for the symbol file.
   final SymbolFile? symbolFile;
@@ -716,7 +716,7 @@ final class Output {
   Output({
     required this.dartFile,
     this.objectiveCFile,
-    this.cppGlueFile,
+    this.cppFile,
     this.symbolFile,
     this.commentType = const CommentType.def(),
     this.preamble,

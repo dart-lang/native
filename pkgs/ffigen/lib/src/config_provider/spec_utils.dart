@@ -483,16 +483,13 @@ OutputConfig outputExtractor(
   PackageConfig? packageConfig,
 ) {
   if (value is String) {
-    return OutputConfig(normalizePath(value, configFilename), null, null, null);
+    return OutputConfig(normalizePath(value, configFilename), null, null);
   }
   value = value as Map;
   return OutputConfig(
     normalizePath(value[strings.bindings] as String, configFilename),
     value.containsKey(strings.objCBindings)
         ? normalizePath(value[strings.objCBindings] as String, configFilename)
-        : null,
-    value.containsKey(strings.cppGlue)
-        ? normalizePath(value[strings.cppGlue] as String, configFilename)
         : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
