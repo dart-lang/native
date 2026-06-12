@@ -44,6 +44,15 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
+    final cppGlueGen = File(config.output.cppGlue.toFilePath());
+    if (library.generateCppGlueFile(cppGlueGen)) {
+      logger.info(
+        _successPen(
+          'Finished, Cpp glue generated in ${cppGlueGen.absolute.path}',
+        ),
+      );
+    }
+
     final recordUseMappingFile = config.output.recordUseMapping;
     if (recordUseMappingFile != null) {
       final recordUseMappingGen = File(recordUseMappingFile.toFilePath());
