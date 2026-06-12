@@ -1,3 +1,7 @@
+## 1.5.0
+
+- Add `GOPATH`, and prefix `CONAN_` to the environment variables allowlist.
+
 ## 1.4.0
 
 - Add cache-isolation for recorded usages under link hooks using `RecordUseConfig`, and deprecate the legacy `resourceIdentifiers` parameters.
@@ -61,12 +65,12 @@
 
 * Fix caches not being invalidated on (1) user-defines changing, (2) metadata
   changing, and (3) assets sent to link hooks.
-  
+
 
 ## 0.22.0
 
 * Bump `package:hooks` to 0.20.0.
-* Enable passing metadata from link hooks of a package to the link hooks in 
+* Enable passing metadata from link hooks of a package to the link hooks in
   depending packages, by fixing the link hook execution order. This brings an
   order in which the link hooks are run - reverse to the build hook run order.
   Starting at the application link hook, then it's dependencies, and so on. This

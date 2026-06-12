@@ -609,6 +609,7 @@ class NativeAssetsBuildRunner {
       'ANDROID_HOME', // Needed for the NDK.
       ...nonStandardNdkEnvironmentVariables,
       'APPDATA', // Needed for NuGet.
+      'GOPATH', // Needed for installed Go apps.
       'HOME', // Needed to find tools in default install locations.
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
       'LOCALAPPDATA', // Needed for dart_data_home and pub.
@@ -624,11 +625,13 @@ class NativeAssetsBuildRunner {
       'WINDIR', // Needed for CMake.
       ..._httpProxyEnvironmentVariables,
     };
+
     const variablePrefixesFilter = {
       'CCACHE_', // Needed for Ccache.
       'DOTNET_', // Needed for .Net.
       'NIX_', // Needed for Nix-installed toolchains.
       'NUGET_', // Needed for NuGet.
+      'CONAN_', // Needed for Conan Package Manager.
     };
 
     return staticVariablesFilter.contains(environmentVariableName) ||
