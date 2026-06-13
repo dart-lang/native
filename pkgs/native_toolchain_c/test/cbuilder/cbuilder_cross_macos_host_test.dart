@@ -171,18 +171,6 @@ void main() async {
           optimizationLevel: optimizationLevel,
           buildMode: .release,
           flags: [
-            if (os == .linux)
-              switch (arch) {
-                .arm => '--target=arm-linux-gnueabihf',
-                .arm64 => '--target=aarch64-linux-gnu',
-                .ia32 => '--target=i686-linux-gnu',
-                .x64 => '--target=x86_64-linux-gnu',
-                .riscv32 => '--target=riscv32-linux-gnu',
-                .riscv64 => '--target=riscv64-linux-gnu',
-                _ => throw UnsupportedError(
-                  'Unexpected linux architecture: $arch',
-                ),
-              },
             // Only homebrew lld can link for linux, and we don't have a
             // sysroot so we can't use stdlibs / C-runtime files.
             if (os == .linux) ...[

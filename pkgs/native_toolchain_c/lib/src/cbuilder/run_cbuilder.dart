@@ -262,6 +262,8 @@ class RunCBuilder {
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (codeConfig.targetOS == .iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
+        if (codeConfig.targetOS == .linux && OS.current != .linux)
+          '--target=${clangLinuxTargetFlags[architecture]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
@@ -479,6 +481,15 @@ class RunCBuilder {
       IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
     },
     Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
+  };
+
+  static const clangLinuxTargetFlags = {
+    Architecture.arm: 'arm-linux-gnueabihf',
+    Architecture.arm64: 'aarch64-linux-gnu',
+    Architecture.ia32: 'i686-linux-gnu',
+    Architecture.x64: 'x86_64-linux-gnu',
+    Architecture.riscv32: 'riscv32-linux-gnu',
+    Architecture.riscv64: 'riscv64-linux-gnu',
   };
 
   static const clangWindowsTargetFlags = {
