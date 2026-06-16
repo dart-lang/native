@@ -224,13 +224,13 @@ class $name {
     );
   }
 
-  /// Returns the C++ function bodies for this class's glue wrappers.
+  /// Returns the C++ function bodies for this class's bindings.
   ///
   /// The `#include` preamble and `extern "C"` block are emitted once by
-  /// [Writer.generateCppGlue]; this method returns only the bodies to
+  /// [Writer.generateCpp]; this method returns only the bodies to
   /// be placed inside that block.
   @override
-  String? toCppGlueString(Writer w) {
+  String? toCppBindingString(Writer w) {
     // TODO: generate method wrappers.
     return '';
   }

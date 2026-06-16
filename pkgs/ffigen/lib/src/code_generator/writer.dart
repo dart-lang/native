@@ -413,7 +413,7 @@ id objc_retainBlock(id);
 
   /// Writes the Cpp glue code needed for the bindings, if any. Returns null
   /// if there are no CppClass bindings.
-  String? generateCppGlue(String outFilename) {
+  String? generateCpp(String outFilename) {
     final s = StringBuffer();
     final outDir = p.dirname(outFilename);
     // Emit each entry-point header exactly once.
@@ -424,10 +424,10 @@ id objc_retainBlock(id);
 
     var empty = true;
     for (final binding in _allBindings) {
-      final glueString = binding.toCppGlueString(this);
-      if (glueString != null) {
+      final cppBindingString = binding.toCppBindingString(this);
+      if (cppBindingString != null) {
         empty = false;
-        s.write(glueString);
+        s.write(cppBindingString);
       }
     }
 

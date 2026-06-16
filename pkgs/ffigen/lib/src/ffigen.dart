@@ -44,11 +44,11 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
-    final cppGlueGen = File(config.output.cppGlue.toFilePath());
-    if (library.generateCppGlueFile(cppGlueGen)) {
+    final cppGen = File(config.output.cppGlue.toFilePath());
+    if (library.generateCppFile(cppGen)) {
       logger.info(
         _successPen(
-          'Finished, Cpp glue generated in ${cppGlueGen.absolute.path}',
+          'Finished, Cpp bindings generated in ${cppGen.absolute.path}',
         ),
       );
     }
