@@ -44,6 +44,15 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
+    final cppGen = File(config.output.cppBindingsFile.toFilePath());
+    if (library.generateCppFile(cppGen)) {
+      logger.info(
+        _successPen(
+          'Finished, Cpp bindings generated in ${cppGen.absolute.path}',
+        ),
+      );
+    }
+
     final recordUseMappingFile = config.output.recordUseMapping;
     if (recordUseMappingFile != null) {
       final recordUseMappingGen = File(recordUseMappingFile.toFilePath());

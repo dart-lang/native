@@ -230,6 +230,17 @@ class $name {
     );
   }
 
+  /// Returns the C++ function bodies for this class's bindings.
+  ///
+  /// The `#include` preamble and `extern "C"` block are emitted once by
+  /// [Writer.generateCpp]; this method returns only the bodies to
+  /// be placed inside that block.
+  @override
+  String? toCppBindingString(Writer w) {
+    // TODO: generate method wrappers.
+    return '';
+  }
+
   @override
   String getCType(Context context) => name;
 

@@ -58,6 +58,9 @@ abstract class Binding extends AstNode implements Declaration {
   /// Returns the Objective C bindings, if any.
   BindingString? toObjCBindingString(Writer w) => null;
 
+  /// Returns the Cpp glue code for this binding, if any.
+  String? toCppBindingString(Writer w) => null;
+
   @override
   void visit(Visitation visitation) => visitation.visitBinding(this);
 

@@ -31,6 +31,7 @@ const output = 'output';
 // Sub-keys of output.
 const bindings = 'bindings';
 const objCBindings = 'objc-bindings';
+const cppGlue = 'cpp-glue';
 const symbolFile = 'symbol-file';
 
 const language = 'language';
