@@ -44,7 +44,7 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
-    final cppGen = File(config.output.cppGlue.toFilePath());
+    final cppGen = File(config.output.cppBindingsFile.toFilePath());
     if (library.generateCppFile(cppGen)) {
       logger.info(
         _successPen(

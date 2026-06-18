@@ -690,7 +690,8 @@ final class Output {
   /// The output Cpp glue file for the generated Cpp class bindings.
   final Uri? cppFile;
 
-  Uri get cppGlue => cppFile ?? Uri.file('${dartFile.toFilePath()}.cpp');
+  Uri get cppBindingsFile =>
+      cppFile ?? Uri.file('${dartFile.toFilePath()}.cpp');
 
   /// The config for the symbol file.
   final SymbolFile? symbolFile;
