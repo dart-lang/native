@@ -282,7 +282,7 @@ class $name {
       }
 
       return '''
-$returnTypeString $symbol($params) {
+FFIGEN_EXPORT $returnTypeString $symbol($params) {
   $body
 }''';
     }).join('\n\n')}\n\n';

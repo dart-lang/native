@@ -430,6 +430,11 @@ id objc_retainBlock(id);
     );
     s.write('typedef bool BOOL;\n');
     s.write('#endif\n\n');
+    s.write('#if defined(_WIN32)\n');
+    s.write('#define FFIGEN_EXPORT __declspec(dllexport)\n');
+    s.write('#else\n');
+    s.write('#define FFIGEN_EXPORT\n');
+    s.write('#endif\n\n');
     s.write('extern "C" {\n\n');
 
     var empty = true;

@@ -4,49 +4,55 @@
 typedef bool BOOL;
 #endif
 
+#if defined(_WIN32)
+#define FFIGEN_EXPORT __declspec(dllexport)
+#else
+#define FFIGEN_EXPORT
+#endif
+
 extern "C" {
 
-Animal* Animal_new(int age) {
+FFIGEN_EXPORT Animal* Animal_new(int age) {
   return new Animal(age);
 }
 
-void Animal_delete(Animal* self) {
+FFIGEN_EXPORT void Animal_delete(Animal* self) {
   delete self;
 }
 
-void Animal_speak(Animal* self) {
+FFIGEN_EXPORT void Animal_speak(Animal* self) {
   self->speak();
 }
 
-int Animal_getAge(const Animal* self) {
+FFIGEN_EXPORT int Animal_getAge(const Animal* self) {
   return self->getAge();
 }
 
-int Animal_getCount() {
+FFIGEN_EXPORT int Animal_getCount() {
   return Animal::getCount();
 }
 
-void Animal_Animal_new() {
+FFIGEN_EXPORT void Animal_Animal_new() {
   Animal::Animal_new();
 }
 
-void Animal_Animal_delete() {
+FFIGEN_EXPORT void Animal_Animal_delete() {
   Animal::Animal_delete();
 }
 
-BOOL Animal_isMammalClass(const Animal* self) {
+FFIGEN_EXPORT BOOL Animal_isMammalClass(const Animal* self) {
   return self->isMammalClass();
 }
 
-double Animal_getWeight(const Animal* self, double multiplier) {
+FFIGEN_EXPORT double Animal_getWeight(const Animal* self, double multiplier) {
   return self->getWeight(multiplier);
 }
 
-int Animal_addAges(Animal* self, int otherAge, float scale) {
+FFIGEN_EXPORT int Animal_addAges(Animal* self, int otherAge, float scale) {
   return self->addAges(otherAge, scale);
 }
 
-int Animal_sum(int a, int b) {
+FFIGEN_EXPORT int Animal_sum(int a, int b) {
   return Animal::sum(a, b);
 }
 
