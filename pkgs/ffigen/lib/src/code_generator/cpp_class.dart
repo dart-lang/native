@@ -237,12 +237,63 @@ class $name {
   /// be placed inside that block.
   @override
   String? toCppBindingString(Writer w) {
-    // TODO: generate method wrappers.
-    return '';
+    String paramDecl(Parameter p) =>
+        p.type.getNativeType(varName: p.name).trim();
+
+    final s = StringBuffer();
+    for (final method in methods) {
+      final symbol = method.name.name;
+      final callArgs = method.parameters.map((p) => p.name).join(', ');
+
+      final String returnTypeString;
+      final String params;
+      final String body;
+
+      if (method.isConstructor) {
+        returnTypeString = '$originalName*';
+        params = method.parameters.map(paramDecl).join(', ');
+        body = 'return new $originalName($callArgs);';
+      } else if (method.isDestructor) {
+        returnTypeString = 'void';
+        params = '$originalName* self';
+        body = 'delete self;';
+      } else {
+        returnTypeString = method.returnType.getNativeType().trim();
+        final needsReturn = method.returnType != voidType;
+        final returnPrefix = needsReturn ? 'return ' : '';
+
+        final otherParams = method.parameters.map(paramDecl);
+
+        if (method.isStatic) {
+          params = otherParams.join(', ');
+          body =
+              '$returnPrefix$originalName::'
+              '${method.originalName}($callArgs);';
+        } else {
+          final selfType = method.isConstant
+              ? 'const $originalName'
+              : originalName;
+          params = ['$selfType* self', ...otherParams].join(', ');
+          body = '${returnPrefix}self->${method.originalName}($callArgs);';
+        }
+      }
+
+      s.write('''
+$returnTypeString $symbol($params) {
+  $body
+}
+
+''');
+    }
+    return s.toString();
   }
 
   @override
   String getCType(Context context) => name;
+
+  @override
+  String getNativeType({String varName = ''}) =>
+      varName.isEmpty ? originalName : '$originalName $varName';
 
   @override
   bool get sameFfiDartAndCType => true;
