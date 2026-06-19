@@ -103,7 +103,10 @@ class Writer {
     // avoids duplicating the asset on every element.
     // Since the annotation goes on a `library;` directive, it needs to appear
     // before other definitions in the file.
-    if (ffiNativeBindings.isNotEmpty && nativeAssetId != null) {
+    final hasNativeBindings =
+        ffiNativeBindings.isNotEmpty ||
+        noLookUpBindings.whereType<CppClass>().any((c) => c.methods.isNotEmpty);
+    if (hasNativeBindings && nativeAssetId != null) {
       final ffiPrefix = context.libs.prefix(ffiImport);
       result
         ..writeln("@$ffiPrefix.DefaultAsset('$nativeAssetId')")
@@ -420,7 +423,14 @@ id objc_retainBlock(id);
     for (final header in context.config.headers.entryPoints) {
       s.write('#include "${p.relative(header.toFilePath(), from: outDir)}"\n');
     }
-    s.write('\nextern "C" {\n\n');
+    s.write(
+      '\n#if !defined(__OBJC__) && '
+      '!defined(__OBJC_BOOL_DEFINED) && '
+      '!defined(OBJC_BOOL_DEFINED)\n',
+    );
+    s.write('typedef bool BOOL;\n');
+    s.write('#endif\n\n');
+    s.write('extern "C" {\n\n');
 
     var empty = true;
     for (final binding in _allBindings) {

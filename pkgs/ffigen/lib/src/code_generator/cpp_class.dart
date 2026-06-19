@@ -237,11 +237,12 @@ class $name {
   /// be placed inside that block.
   @override
   String? toCppBindingString(Writer w) {
+    if (methods.isEmpty) return null;
+
     String paramDecl(Parameter p) =>
         p.type.getNativeType(varName: p.name).trim();
 
-    final s = StringBuffer();
-    for (final method in methods) {
+    return '${methods.map((method) {
       final symbol = method.name.name;
       final callArgs = method.parameters.map((p) => p.name).join(', ');
 
@@ -266,26 +267,25 @@ class $name {
 
         if (method.isStatic) {
           params = otherParams.join(', ');
-          body =
-              '$returnPrefix$originalName::'
+          body = '$returnPrefix$originalName::'
               '${method.originalName}($callArgs);';
         } else {
-          final selfType = method.isConstant
-              ? 'const $originalName'
-              : originalName;
+          final String selfType;
+          if (method.isConstant) {
+            selfType = 'const $originalName';
+          } else {
+            selfType = originalName;
+          }
           params = ['$selfType* self', ...otherParams].join(', ');
           body = '${returnPrefix}self->${method.originalName}($callArgs);';
         }
       }
 
-      s.write('''
+      return '''
 $returnTypeString $symbol($params) {
   $body
-}
-
-''');
-    }
-    return s.toString();
+}''';
+    }).join('\n\n')}\n\n';
   }
 
   @override
