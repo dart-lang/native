@@ -105,7 +105,7 @@ class Writer {
     // before other definitions in the file.
     final hasNativeBindings =
         ffiNativeBindings.isNotEmpty ||
-        noLookUpBindings.whereType<CppClass>().any((c) => c.methods.isNotEmpty);
+        noLookUpBindings.any((b) => b.hasNativeHelperFunctions);
     if (hasNativeBindings && nativeAssetId != null) {
       final ffiPrefix = context.libs.prefix(ffiImport);
       result
@@ -423,19 +423,23 @@ id objc_retainBlock(id);
     for (final header in context.config.headers.entryPoints) {
       s.write('#include "${p.relative(header.toFilePath(), from: outDir)}"\n');
     }
-    s.write(
-      '\n#if !defined(__OBJC__) && '
-      '!defined(__OBJC_BOOL_DEFINED) && '
-      '!defined(OBJC_BOOL_DEFINED)\n',
-    );
-    s.write('typedef bool BOOL;\n');
-    s.write('#endif\n\n');
-    s.write('#if defined(_WIN32)\n');
-    s.write('#define FFIGEN_EXPORT __declspec(dllexport)\n');
-    s.write('#else\n');
-    s.write('#define FFIGEN_EXPORT\n');
-    s.write('#endif\n\n');
-    s.write('extern "C" {\n\n');
+    s.write(r'''
+
+#if !defined(__OBJC__) && \
+    !defined(__OBJC_BOOL_DEFINED) && \
+    !defined(OBJC_BOOL_DEFINED)
+typedef bool BOOL;
+#endif
+
+#if defined(_WIN32)
+#define FFIGEN_EXPORT __declspec(dllexport)
+#else
+#define FFIGEN_EXPORT
+#endif
+
+extern "C" {
+
+''');
 
     var empty = true;
     for (final binding in _allBindings) {

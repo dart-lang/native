@@ -74,10 +74,10 @@ class Library {
       (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
     }
     final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
-    final hasCppMethods = noLookUpBindings.whereType<CppClass>().any(
-      (c) => c.methods.isNotEmpty,
+    final hasNoLookupNativeHelper = noLookUpBindings.any(
+      (b) => b.hasNativeHelperFunctions,
     );
-    if (hasCppMethods) {
+    if (hasNoLookupNativeHelper) {
       nativeAssetId = outputStyleAssetId;
     }
 

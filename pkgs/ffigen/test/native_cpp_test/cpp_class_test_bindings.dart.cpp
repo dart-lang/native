@@ -1,6 +1,8 @@
 #include "cpp_class_test.h"
 
-#if !defined(__OBJC__) && !defined(__OBJC_BOOL_DEFINED) && !defined(OBJC_BOOL_DEFINED)
+#if !defined(__OBJC__) && \
+    !defined(__OBJC_BOOL_DEFINED) && \
+    !defined(OBJC_BOOL_DEFINED)
 typedef bool BOOL;
 #endif
 

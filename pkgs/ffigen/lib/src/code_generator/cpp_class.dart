@@ -304,6 +304,9 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
   bool get sameDartAndFfiDartType => false;
 
   @override
+  bool get hasNativeHelperFunctions => methods.isNotEmpty;
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(methods);
