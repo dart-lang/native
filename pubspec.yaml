@@ -83,6 +83,7 @@ workspace:
   - pkgs/hooks_runner/test_data/some_dev_dep
   - pkgs/hooks_runner/test_data/system_library
   - pkgs/hooks_runner/test_data/transformer
+  - pkgs/hooks_runner/test_data/treeshaking_dylib_record_use
   - pkgs/hooks_runner/test_data/treeshaking_native_libs
   - pkgs/hooks_runner/test_data/use_all_api
   - pkgs/hooks_runner/test_data/user_defines
@@ -152,3 +153,19 @@ hooks:
 dependency_overrides:
   ffigen:
     path: pkgs/ffigen
+  # TODO: clean it up after https://github.com/dart-lang/test/pull/2677 is released.
+  test:
+    git:
+      url: https://github.com/dart-lang/test.git
+      ref: release-1.31.2
+      path: pkgs/test
+  test_api:
+    git:
+      url: https://github.com/dart-lang/test.git
+      ref: release-1.31.2
+      path: pkgs/test_api
+  test_core:
+    git:
+      url: https://github.com/dart-lang/test.git
+      ref: release-1.31.2
+      path: pkgs/test_core
