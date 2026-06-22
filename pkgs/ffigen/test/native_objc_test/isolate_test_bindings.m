@@ -71,6 +71,29 @@ _ListenerTrampoline _rdx59v_wrapBlockingBlock_1bqef4y(
     listenerBlock(waiter, arg0);
   });
 }
+
+typedef void  (^_ListenerTrampoline_1)(id arg0);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_1 _rdx59v_wrapListenerBlock_xtuoz7(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
+  return ^void(id arg0) {
+    objc_retainBlock(block);
+    block((__bridge id)(__bridge_retained void*)(arg0));
+  };
+}
+
+typedef void  (^_BlockingTrampoline_1)(void * waiter, id arg0);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_1 _rdx59v_wrapBlockingBlock_xtuoz7(
+    _BlockingTrampoline_1 block, _BlockingTrampoline_1 listenerBlock,
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(id arg0), {
+    objc_retainBlock(block);
+    block(nil, (__bridge id)(__bridge_retained void*)(arg0));
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, (__bridge id)(__bridge_retained void*)(arg0));
+  });
+}
 #undef BLOCKING_BLOCK_IMPL
 
 #pragma clang diagnostic pop

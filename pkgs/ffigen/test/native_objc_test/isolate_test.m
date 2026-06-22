@@ -5,4 +5,10 @@
 #include "isolate_test.h"
 
 @implementation Sendable
++ (Listener)dummyMethodToForceGenerationOfListener {
+  return nil;
+}
++ (ListenerWithSendable)dummyMethodToForceGenerationOfListenerWithSendable {
+  return nil;
+}
 @end

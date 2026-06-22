@@ -4,9 +4,13 @@
 
 #import <Foundation/NSObject.h>
 
+@class Sendable;
+
 typedef void (^Listener)(int32_t);
+typedef void (^ListenerWithSendable)(Sendable *);
 
 @interface Sendable : NSObject {}
 @property int32_t value;
 + (Listener)dummyMethodToForceGenerationOfListener;
++ (ListenerWithSendable)dummyMethodToForceGenerationOfListenerWithSendable;
 @end
