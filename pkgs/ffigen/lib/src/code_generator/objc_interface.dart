@@ -74,6 +74,9 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override
+  ApiAvailability get computeAvailability => apiAvailability;
+
+  @override
   BindingString toBindingString(Writer w) {
     final context = w.context;
     final s = StringBuffer();
