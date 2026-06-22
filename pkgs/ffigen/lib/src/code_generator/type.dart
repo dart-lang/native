@@ -72,7 +72,7 @@ abstract class Type extends AstNode {
   /// This method takes a [varName] arg because some C/ObjC types embed the
   /// variable name inside the type. Eg, to pass an ObjC block as a function
   /// argument, the syntax is `int (^arg)(int)`, where arg is the [varName].
-  String getNativeType({String varName = ''}) =>
+  String getNativeType({String varName = '', Context? context}) =>
       throw UnsupportedError('No native mapping for type: $this');
 
   /// Returns whether the FFI dart type and C type string are same.
@@ -204,7 +204,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   String getObjCBlockSignatureType(Context context) => getCType(context);
 
   @override
-  String getNativeType({String varName = ''}) =>
+  String getNativeType({String varName = '', Context? context}) =>
       throw UnsupportedError('No native mapping for type: $this');
 
   @override

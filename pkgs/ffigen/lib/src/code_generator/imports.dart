@@ -76,7 +76,8 @@ class ImportedType extends Type {
   }
 
   @override
-  String getNativeType({String varName = ''}) => '$nativeType $varName';
+  String getNativeType({String varName = '', Context? context}) =>
+      '$nativeType $varName';
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;

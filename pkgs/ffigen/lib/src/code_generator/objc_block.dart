@@ -541,7 +541,8 @@ $ret $fnName(id target, $argRecv) {
   String getObjCBlockSignatureType(Context context) => getDartType(context);
 
   @override
-  String getNativeType({String varName = ''}) => 'id $varName';
+  String getNativeType({String varName = '', Context? context}) =>
+      'id $varName';
 
   @override
   bool get sameFfiDartAndCType => true;

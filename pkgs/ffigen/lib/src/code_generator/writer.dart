@@ -425,12 +425,6 @@ id objc_retainBlock(id);
     }
     s.write(r'''
 
-#if !defined(__OBJC__) && \
-    !defined(__OBJC_BOOL_DEFINED) && \
-    !defined(OBJC_BOOL_DEFINED)
-typedef bool BOOL;
-#endif
-
 #if defined(_WIN32)
 #define FFIGEN_EXPORT __declspec(dllexport)
 #else

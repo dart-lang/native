@@ -38,8 +38,8 @@ class ObjCNullable extends Type {
   String getDartType(Context context) => '${child.getDartType(context)}?';
 
   @override
-  String getNativeType({String varName = ''}) =>
-      child.getNativeType(varName: varName);
+  String getNativeType({String varName = '', Context? context}) =>
+      child.getNativeType(varName: varName, context: context);
 
   @override
   String getObjCBlockSignatureType(Context context) =>

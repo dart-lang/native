@@ -1,11 +1,5 @@
 #include "cpp_class_test.h"
 
-#if !defined(__OBJC__) && \
-    !defined(__OBJC_BOOL_DEFINED) && \
-    !defined(OBJC_BOOL_DEFINED)
-typedef bool BOOL;
-#endif
-
 #if defined(_WIN32)
 #define FFIGEN_EXPORT __declspec(dllexport)
 #else
@@ -42,7 +36,7 @@ FFIGEN_EXPORT void Animal_Animal_delete() {
   Animal::Animal_delete();
 }
 
-FFIGEN_EXPORT BOOL Animal_isMammalClass(const Animal* self) {
+FFIGEN_EXPORT bool Animal_isMammalClass(const Animal* self) {
   return self->isMammalClass();
 }
 

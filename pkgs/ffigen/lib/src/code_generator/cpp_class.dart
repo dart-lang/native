@@ -239,8 +239,9 @@ class $name {
   String? toCppBindingString(Writer w) {
     if (methods.isEmpty) return null;
 
+    final context = w.context;
     String paramDecl(Parameter p) =>
-        p.type.getNativeType(varName: p.name).trim();
+        p.type.getNativeType(varName: p.name, context: context).trim();
 
     return '${methods.map((method) {
       final symbol = method.name.name;
@@ -259,7 +260,8 @@ class $name {
         params = '$originalName* self';
         body = 'delete self;';
       } else {
-        returnTypeString = method.returnType.getNativeType().trim();
+        final nativeType = method.returnType.getNativeType(context: context);
+        returnTypeString = nativeType.trim();
         final needsReturn = method.returnType != voidType;
         final returnPrefix = needsReturn ? 'return ' : '';
 
@@ -292,7 +294,7 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
   String getCType(Context context) => name;
 
   @override
-  String getNativeType({String varName = ''}) =>
+  String getNativeType({String varName = '', Context? context}) =>
       varName.isEmpty ? originalName : '$originalName $varName';
 
   @override

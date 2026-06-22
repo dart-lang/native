@@ -361,7 +361,8 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
       isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
-  String getNativeType({String varName = ''}) => 'id $varName';
+  String getNativeType({String varName = '', Context? context}) =>
+      'id $varName';
 
   @override
   String getObjCBlockSignatureType(Context context) => getDartType(context);
