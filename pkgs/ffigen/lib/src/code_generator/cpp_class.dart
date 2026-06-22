@@ -241,7 +241,7 @@ class $name {
 
     final context = w.context;
     String paramDecl(Parameter p) =>
-        p.type.getNativeType(varName: p.name, context: context).trim();
+        p.type.getNativeType(context, varName: p.name).trim();
 
     return '${methods.map((method) {
       final symbol = method.name.name;
@@ -260,7 +260,7 @@ class $name {
         params = '$originalName* self';
         body = 'delete self;';
       } else {
-        final nativeType = method.returnType.getNativeType(context: context);
+        final nativeType = method.returnType.getNativeType(context);
         returnTypeString = nativeType.trim();
         final needsReturn = method.returnType != voidType;
         final returnPrefix = needsReturn ? 'return ' : '';
@@ -294,7 +294,7 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
   String getCType(Context context) => name;
 
   @override
-  String getNativeType({String varName = '', Context? context}) =>
+  String getNativeType(Context context, {String varName = ''}) =>
       varName.isEmpty ? originalName : '$originalName $varName';
 
   @override

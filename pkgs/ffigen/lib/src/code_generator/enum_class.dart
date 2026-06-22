@@ -259,7 +259,7 @@ class EnumClass extends BindingType with HasLocalScope {
   }
 
   @override
-  String getNativeType({String varName = '', Context? context}) =>
+  String getNativeType(Context context, {String varName = ''}) =>
       '$originalName $varName';
 
   @override

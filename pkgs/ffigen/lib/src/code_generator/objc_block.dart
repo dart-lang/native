@@ -444,7 +444,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
-      argsReceived.add(param.getNativeType(varName: argName));
+      argsReceived.add(param.getNativeType(context, varName: argName));
       retains.add(param.type.generateRetain(argName) ?? argName);
     }
     final blockingRetains = ['nil', ...retains];
@@ -453,7 +453,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     final argStr = argsReceived.join(', ');
     final declArgStr = argStr.isEmpty ? 'void' : argStr;
     final blockingArgStr = [
-      _waiterParam.getNativeType(varName: _waiterParam.name),
+      _waiterParam.getNativeType(context, varName: _waiterParam.name),
       ...argsReceived,
     ].join(', ');
 
@@ -468,7 +468,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     return '''
 
-typedef ${returnType.getNativeType()} (^$listenerName)($declArgStr);
+typedef ${returnType.getNativeType(context)} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {
@@ -477,7 +477,7 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   };
 }
 
-typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
+typedef ${returnType.getNativeType(context)} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
@@ -502,11 +502,11 @@ $listenerName $blockingWrapper(
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = i == 0 ? 'sel' : 'arg$i';
-      argsReceived.add(param.getNativeType(varName: argName));
+      argsReceived.add(param.getNativeType(context, varName: argName));
       argsPassed.add(argName);
     }
 
-    final ret = returnType.getNativeType();
+    final ret = returnType.getNativeType(context);
     final argRecv = argsReceived.join(', ');
     final argPass = argsPassed.join(', ');
     final fnName = protocolTrampoline!.func.name;
@@ -541,8 +541,7 @@ $ret $fnName(id target, $argRecv) {
   String getObjCBlockSignatureType(Context context) => getDartType(context);
 
   @override
-  String getNativeType({String varName = '', Context? context}) =>
-      'id $varName';
+  String getNativeType(Context context, {String varName = ''}) => 'id $varName';
 
   @override
   bool get sameFfiDartAndCType => true;

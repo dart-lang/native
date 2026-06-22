@@ -76,7 +76,7 @@ class ImportedType extends Type {
   }
 
   @override
-  String getNativeType({String varName = '', Context? context}) =>
+  String getNativeType(Context context, {String varName = ''}) =>
       '$nativeType $varName';
 
   @override

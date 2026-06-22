@@ -74,7 +74,7 @@ class NativeType extends Type {
   String getFfiDartType(Context context) => _dartType;
 
   @override
-  String getNativeType({String varName = '', Context? context}) =>
+  String getNativeType(Context context, {String varName = ''}) =>
       '$_nativeType $varName';
 
   @override
@@ -102,8 +102,8 @@ class BooleanType extends NativeType {
   factory BooleanType() => _boolean;
 
   @override
-  String getNativeType({String varName = '', Context? context}) {
-    final nativeName = (context?.config.cpp != null) ? 'bool' : 'BOOL';
+  String getNativeType(Context context, {String varName = ''}) {
+    final nativeName = (context.config.cpp != null) ? 'bool' : 'BOOL';
     return varName.isEmpty ? nativeName : '$nativeName $varName';
   }
 
