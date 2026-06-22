@@ -18,7 +18,10 @@ Future<void> inTempDir(
   String? prefix,
   bool keepTemp = false,
 }) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
+  final basePrefix = prefix ?? 'hooks_test';
+  final effectivePrefix =
+      basePrefix.contains(' ') ? basePrefix : '$basePrefix with spaces ';
+  final tempDir = await Directory.systemTemp.createTemp(effectivePrefix);
   // Deal with Windows temp folder aliases.
   final tempUri = Directory(
     await tempDir.resolveSymbolicLinks(),

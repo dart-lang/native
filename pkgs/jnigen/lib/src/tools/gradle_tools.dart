@@ -49,7 +49,7 @@ class GradleTools {
       deps,
       targetPath,
     );
-    final tempDir = await currentDir.createTemp('maven_temp_');
+    final tempDir = await currentDir.createTemp('maven temp ');
     await createStubProject(tempDir);
 
     final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');

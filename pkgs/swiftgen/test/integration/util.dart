@@ -42,7 +42,7 @@ class TestGenerator {
   TestGenerator(this.name)
     : isObjCCompatible = objCCompatibleTests.contains(name) {
     testDir = path.absolute(path.join(pkgDir, 'test/integration'));
-    tempDir = path.join(testDir, 'temp');
+  tempDir = path.join(testDir, 'temp dir');
     inputFile = path.join(testDir, '$name.swift');
     wrapperFile = path.join(tempDir, '${name}_wrapper.swift');
     outputFile = path.join(tempDir, '${name}_output.dart');

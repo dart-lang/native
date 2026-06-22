@@ -51,7 +51,7 @@ Future<void> main() async {
         ),
       ),
     ),
-  ).generate(logger: logger, tempDirectory: Uri.directory('temp'));
+  ).generate(logger: logger, tempDirectory: Uri.directory('temp dir'));
 
   final result = Process.runSync('swiftc', [
     '-emit-library',

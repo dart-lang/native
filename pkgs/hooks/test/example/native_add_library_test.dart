@@ -19,7 +19,8 @@ void main() async {
   const name = 'native_add_library';
 
   setUp(() async {
-    tempUri = (await Directory.systemTemp.createTemp()).uri;
+    tempUri = (await Directory.systemTemp.createTemp('hooks example temp '))
+        .uri;
   });
 
   tearDown(() async {

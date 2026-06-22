@@ -269,7 +269,7 @@ ObjCMethod? parseObjCMethod(
         final p = _parseMethodParam(
           context,
           child,
-          itfDecl.originalName,
+          itfDecl.originalName ?? '',
           methodName,
         );
         if (p == null) {
