@@ -262,7 +262,9 @@ class RunCBuilder {
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (codeConfig.targetOS == .iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
-        if (codeConfig.targetOS == .linux && OS.current != .linux)
+        if (codeConfig.targetOS == .linux &&
+            OS.current != .linux &&
+            toolInstance.tool.isClang)
           '--target=${clangLinuxTargetFlags[architecture]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
