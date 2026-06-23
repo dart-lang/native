@@ -82,6 +82,16 @@ class CompilerResolver {
         yield x86_64LinuxGnuGcc;
       case (.linux, _, .riscv64):
         yield riscv64LinuxGnuGcc;
+      case (.macOS || .windows, .linux, .arm):
+        yield armLinuxGnueabihfGcc;
+      case (.macOS || .windows, .linux, .arm64):
+        yield aarch64LinuxGnuGcc;
+      case (.macOS || .windows, .linux, .ia32):
+        yield i686LinuxGnuGcc;
+      case (.macOS || .windows, .linux, .x64):
+        yield x86_64LinuxGnuGcc;
+      case (.macOS || .windows, .linux, .riscv64):
+        yield riscv64LinuxGnuGcc;
       case (.windows, _, .ia32):
         yield clIA32;
       case (.windows, _, .arm64):
@@ -149,6 +159,20 @@ class CompilerResolver {
     if (targetOS == .macOS || targetOS == .iOS) return appleAr;
     if (targetOS == .android) return androidNdkLlvmAr;
     if (hostOS == .linux) {
+      switch (targetArchitecture) {
+        case .arm:
+          return armLinuxGnueabihfGccAr;
+        case .arm64:
+          return aarch64LinuxGnuGccAr;
+        case .ia32:
+          return i686LinuxGnuGccAr;
+        case .x64:
+          return x86_64LinuxGnuGccAr;
+        case .riscv64:
+          return riscv64LinuxGnuGccAr;
+      }
+    }
+    if (targetOS == .linux && hostOS != .linux) {
       switch (targetArchitecture) {
         case .arm:
           return armLinuxGnueabihfGccAr;
