@@ -1,3 +1,7 @@
+## 1.5.1-wip
+
+- Fix record_use path changing caching issue.
+
 ## 1.5.0
 
 - Add `GOPATH`, and prefix `CONAN_` to the environment variables allowlist.

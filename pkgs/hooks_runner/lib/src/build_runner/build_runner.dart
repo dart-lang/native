@@ -361,7 +361,7 @@ class NativeAssetsBuildRunner {
               output as LinkOutput,
             ),
         ],
-        targetRecordingsFile,
+        resourcesFile?.uri,
         buildDirUri,
         outDirUri,
         extensions: extensions,
