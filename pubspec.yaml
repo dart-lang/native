@@ -153,19 +153,3 @@ hooks:
 dependency_overrides:
   ffigen:
     path: pkgs/ffigen
-  # TODO: clean it up after https://github.com/dart-lang/test/pull/2677 is released.
-  test:
-    git:
-      url: https://github.com/dart-lang/test.git
-      ref: release-1.31.2
-      path: pkgs/test
-  test_api:
-    git:
-      url: https://github.com/dart-lang/test.git
-      ref: release-1.31.2
-      path: pkgs/test_api
-  test_core:
-    git:
-      url: https://github.com/dart-lang/test.git
-      ref: release-1.31.2
-      path: pkgs/test_core

@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use, lines_longer_than_80_chars
-
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:record_use/record_use.dart';
@@ -26,6 +24,7 @@ void main(List<String> arguments) async {
       sources: ['src/multiply.c'],
     );
 
+    // ignore: experimental_member_use
     final usages = input.recordedUses;
 
     final addSymbols = usages?.calls.keys

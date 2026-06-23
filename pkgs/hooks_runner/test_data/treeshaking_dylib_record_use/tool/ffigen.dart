@@ -19,6 +19,11 @@ void main() {
       recordUse: (_) => true,
     ),
     output: Output(
+      preamble: '''
+// Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+''',
       dartFile: packageRoot.resolve('lib/src/add_bindings.dart'),
       recordUseMapping: packageRoot.resolve(
         'lib/src/add_record_use_mapping.dart',
@@ -39,6 +44,11 @@ void main() {
       recordUse: (_) => true,
     ),
     output: Output(
+      preamble: '''
+// Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+''',
       dartFile: packageRoot.resolve('lib/src/multiply_bindings.dart'),
       recordUseMapping: packageRoot.resolve(
         'lib/src/multiply_record_use_mapping.dart',
