@@ -103,8 +103,8 @@ class BooleanType extends NativeType {
 
   @override
   String getNativeType(Context context, {String varName = ''}) {
-    final nativeName = (context.config.cpp != null) ? 'bool' : 'BOOL';
-    return varName.isEmpty ? nativeName : '$nativeName $varName';
+    final nativeName = context.generatingCppGlue ? 'bool' : 'BOOL';
+    return '$nativeName $varName';
   }
 
   @override
