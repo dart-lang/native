@@ -10,7 +10,6 @@ import 'gcc.dart';
 extension ToolLikeness on Tool {
   bool get isClangLike => this == appleClang || this == clang || this == gcc;
 
-  /// Clang specifically (not gcc). gcc is target-baked and rejects `--target=`.
   bool get isClang => this == appleClang || this == clang;
 
   bool get isLdLike => this == appleLd || this == gnuLinker || this == lld;
