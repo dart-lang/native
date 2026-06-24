@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -28,10 +29,30 @@ void main() {
             .toList()
           ..sort();
 
+    final configs = <String, FfiGenerator>{
+      'cpp_class': FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('cpp_class_test_bindings.dart'),
+          style: const NativeExternalBindings(
+            assetId: 'package:ffigen/cpp_test',
+          ),
+        ),
+        headers: Headers(
+          entryPoints: [Uri.file(path.join(testDir.path, 'cpp_class_test.h'))],
+          compilerOptions: ['-x', 'c++'],
+        ),
+        cpp: Cpp(classes: CppClasses.includeSet({'Animal'})),
+      ),
+    };
+
     for (final testFile in testFiles) {
       final configName = testFile.replaceFirst('_test.dart', '');
       test('verifyBindings for $testFile', () {
-        verifyBindings(configName);
+        final config = configs[configName];
+        if (config == null) {
+          fail('No FfiGenerator config registered for $testFile in `configs`.');
+        }
+        verifyBindings(config);
       });
     }
   });
