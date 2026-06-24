@@ -73,10 +73,16 @@ final riscv64LinuxGnuLd = _gnuLinker('riscv64-linux-gnu');
 Tool _gcc(String prefix) => Tool(
   name: gcc.name,
   defaultResolver: CliVersionResolver(
-    wrappedResolver: PathToolResolver(
-      toolName: gcc.name,
-      executableName: '$prefix-gcc',
-    ),
+    wrappedResolver: ToolResolvers([
+      PathToolResolver(toolName: gcc.name, executableName: '$prefix-gcc'),
+      InstallLocationResolver(
+        toolName: gcc.name,
+        paths: [
+          '/opt/homebrew/bin/$prefix-gcc',
+          '/usr/local/bin/$prefix-gcc',
+        ],
+      ),
+    ]),
   ),
 );
 
