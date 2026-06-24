@@ -237,12 +237,65 @@ class $name {
   /// be placed inside that block.
   @override
   String? toCppBindingString(Writer w) {
-    // TODO: generate method wrappers.
-    return '';
+    if (methods.isEmpty) return null;
+
+    final context = w.context;
+    String paramDecl(Parameter p) =>
+        p.type.getNativeType(context, varName: p.name).trim();
+
+    return '${methods.map((method) {
+      final symbol = method.name.name;
+      final callArgs = method.parameters.map((p) => p.name).join(', ');
+
+      final String returnTypeString;
+      final String params;
+      final String body;
+
+      if (method.isConstructor) {
+        returnTypeString = '$originalName*';
+        params = method.parameters.map(paramDecl).join(', ');
+        body = 'return new $originalName($callArgs);';
+      } else if (method.isDestructor) {
+        returnTypeString = 'void';
+        params = '$originalName* self';
+        body = 'delete self;';
+      } else {
+        final nativeType = method.returnType.getNativeType(context);
+        returnTypeString = nativeType.trim();
+        final needsReturn = method.returnType != voidType;
+        final returnPrefix = needsReturn ? 'return ' : '';
+
+        final otherParams = method.parameters.map(paramDecl);
+
+        if (method.isStatic) {
+          params = otherParams.join(', ');
+          body = '$returnPrefix$originalName::'
+              '${method.originalName}($callArgs);';
+        } else {
+          final String selfType;
+          if (method.isConstant) {
+            selfType = 'const $originalName';
+          } else {
+            selfType = originalName;
+          }
+          params = ['$selfType* self', ...otherParams].join(', ');
+          body = '${returnPrefix}self->${method.originalName}($callArgs);';
+        }
+      }
+
+      return '''
+FFIGEN_EXPORT $returnTypeString $symbol($params) {
+  $body
+}''';
+    }).join('\n\n')}\n\n';
   }
 
   @override
   String getCType(Context context) => name;
+
+  @override
+  String getNativeType(Context context, {String varName = ''}) =>
+      varName.isEmpty ? originalName : '$originalName $varName';
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -251,6 +304,9 @@ class $name {
 
   @override
   bool get sameDartAndFfiDartType => false;
+
+  @override
+  bool get hasNativeHelperFunctions => methods.isNotEmpty;
 
   @override
   void visitChildren(Visitor visitor) {

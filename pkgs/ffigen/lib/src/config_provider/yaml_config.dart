@@ -75,6 +75,7 @@ final class YamlConfig {
 
   /// Declaration config for C++ classes. Null if `cpp` key is absent.
   YamlDeclarationFilters? _cppClassDecl;
+  bool _hasCpp = false;
 
   /// Declaration config for Unions.
   YamlDeclarationFilters get unionDecl => _unionDecl;
@@ -559,6 +560,11 @@ final class YamlConfig {
         HeterogeneousMapEntry(
           key: strings.cpp,
           valueConfigSpec: HeterogeneousMapConfigSpec(
+            result: (node) {
+              if (node.rawValue != null) {
+                _hasCpp = true;
+              }
+            },
             entries: [
               HeterogeneousMapEntry(
                 key: strings.cppClasses,
@@ -1292,7 +1298,7 @@ final class YamlConfig {
       // ignore: deprecated_member_use_from_same_package
       imported: structTypeMappings.values.toList(),
     ),
-    cpp: _cppClassDecl != null
+    cpp: _hasCpp && _cppClassDecl != null
         ? Cpp(
             classes: CppClasses(
               include: _cppClassDecl!.shouldInclude,

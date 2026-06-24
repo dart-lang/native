@@ -30,8 +30,8 @@ class PointerType extends Type {
       '${context.libs.prefix(ffiImport)}.Pointer<${child.getCType(context)}>';
 
   @override
-  String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()}* $varName';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${child.getNativeType(context)}* $varName';
 
   // Both the C type and the FFI Dart type are 'Pointer<$cType>'.
   @override
@@ -78,8 +78,8 @@ class ConstantArray extends PointerType {
   bool get isIncompleteCompound => baseArrayType.isIncompleteCompound;
 
   @override
-  String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()} $varName[$length]';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${child.getNativeType(context)} $varName[$length]';
 
   @override
   String toString() => '$child[$length]';
@@ -106,8 +106,8 @@ class IncompleteArray extends PointerType {
   Type get baseArrayType => child.baseArrayType;
 
   @override
-  String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()}* $varName';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${child.getNativeType(context)}* $varName';
 
   @override
   String toString() => '$child[]';
@@ -129,7 +129,7 @@ class ObjCObjectPointer extends PointerType {
       '${context.libs.prefix(objcPkgImport)}.ObjCObject';
 
   @override
-  String getNativeType({String varName = ''}) => 'id $varName';
+  String getNativeType(Context context, {String varName = ''}) => 'id $varName';
 
   @override
   bool get sameDartAndCType => false;

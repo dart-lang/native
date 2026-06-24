@@ -19,4 +19,12 @@ void verifyBindings(String testName) {
     'native_cpp_test',
     bindingsName,
   ]);
+
+  final cppBindingsName =
+      context.config.output.cppBindingsFile.pathSegments.last;
+  matchCppFileWithExpected(context, library, cppBindingsName, [
+    'test',
+    'native_cpp_test',
+    cppBindingsName,
+  ]);
 }

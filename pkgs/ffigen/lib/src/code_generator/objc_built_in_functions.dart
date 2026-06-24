@@ -104,9 +104,12 @@ class ObjCBuiltInFunctions {
       // and blocks both have `id` as their native type, but need separate
       // trampolines since they have different retain functions. So add the
       // retain function (if any) to all the param IDs.
-      paramIds.add(p.getNativeType(varName: p.type.generateRetain('') ?? ''));
+      paramIds.add(
+        p.getNativeType(context, varName: p.type.generateRetain('') ?? ''),
+      );
     }
     final rt = returnType.getNativeType(
+      context,
       varName: returnType.generateRetain('') ?? '',
     );
     final id = '$rt,${paramIds.join(',')}';
