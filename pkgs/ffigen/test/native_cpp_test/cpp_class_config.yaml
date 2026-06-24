@@ -4,10 +4,6 @@ output: 'cpp_class_test_bindings.dart'
 exclude-all-by-default: true
 compiler-opts:
   - '-x c++'
-cpp:
-  cpp-classes:
-    include:
-      - Animal
 ffi-native:
   asset-id: 'package:ffigen/cpp_test'
 headers:

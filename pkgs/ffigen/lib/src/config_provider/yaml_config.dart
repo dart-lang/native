@@ -73,10 +73,6 @@ final class YamlConfig {
   YamlDeclarationFilters get structDecl => _structDecl;
   late YamlDeclarationFilters _structDecl;
 
-  /// Declaration config for C++ classes. Null if `cpp` key is absent.
-  YamlDeclarationFilters? _cppClassDecl;
-  bool _hasCpp = false;
-
   /// Declaration config for Unions.
   YamlDeclarationFilters get unionDecl => _unionDecl;
   late YamlDeclarationFilters _unionDecl;
@@ -555,34 +551,6 @@ final class YamlConfig {
                   (node.value as Map)[strings.dependencyOnly]
                       as CompoundDependencies;
             },
-          ),
-        ),
-        HeterogeneousMapEntry(
-          key: strings.cpp,
-          valueConfigSpec: HeterogeneousMapConfigSpec(
-            result: (node) {
-              if (node.rawValue != null) {
-                _hasCpp = true;
-              }
-            },
-            entries: [
-              HeterogeneousMapEntry(
-                key: strings.cppClasses,
-                valueConfigSpec: HeterogeneousMapConfigSpec(
-                  entries: [
-                    ..._includeExcludeProperties(),
-                    ..._renameProperties(),
-                    ..._memberRenameProperties(),
-                  ],
-                  result: (node) {
-                    _cppClassDecl = declarationConfigExtractor(
-                      node.value as Map<dynamic, dynamic>,
-                      _excludeAllByDefault,
-                    );
-                  },
-                ),
-              ),
-            ],
           ),
         ),
         HeterogeneousMapEntry(
@@ -1298,15 +1266,6 @@ final class YamlConfig {
       // ignore: deprecated_member_use_from_same_package
       imported: structTypeMappings.values.toList(),
     ),
-    cpp: _hasCpp && _cppClassDecl != null
-        ? Cpp(
-            classes: CppClasses(
-              include: _cppClassDecl!.shouldInclude,
-              rename: _cppClassDecl!.rename,
-              renameMember: _cppClassDecl!.renameMember,
-            ),
-          )
-        : null,
     enums: Enums(
       include: _enumClassDecl.shouldInclude,
       rename: _enumClassDecl.rename,
