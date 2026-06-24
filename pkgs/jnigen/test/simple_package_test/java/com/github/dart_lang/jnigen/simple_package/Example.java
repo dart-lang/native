@@ -147,6 +147,11 @@ public class Example {
     return null;
   }
 
+  @Deprecated
+  public String deprecatedMethod() {
+    return "deprecated";
+  }
+
   public <T extends CharSequence> void methodWithSeveralParams(
       char ch, String s, int[] a, T t, List<T> lt, Map<String, ? extends CharSequence> wm) {}
 
