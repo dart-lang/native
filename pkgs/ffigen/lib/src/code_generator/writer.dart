@@ -417,17 +417,13 @@ id objc_retainBlock(id);
   /// Writes the Cpp glue code needed for the bindings, if any. Returns null
   /// if there are no CppClass bindings.
   String? generateCpp(String outFilename) {
-    context.generatingCppGlue = true;
-    try {
-      final s = StringBuffer();
-      final outDir = p.dirname(outFilename);
-      // Emit each entry-point header exactly once.
-      for (final header in context.config.headers.entryPoints) {
-        s.write(
-          '#include "${p.relative(header.toFilePath(), from: outDir)}"\n',
-        );
-      }
-      s.write(r'''
+    final s = StringBuffer();
+    final outDir = p.dirname(outFilename);
+    // Emit each entry-point header exactly once.
+    for (final header in context.config.headers.entryPoints) {
+      s.write('#include "${p.relative(header.toFilePath(), from: outDir)}"\n');
+    }
+    s.write(r'''
 
 #if defined(_WIN32)
 #define FFIGEN_EXPORT __declspec(dllexport)
@@ -439,21 +435,18 @@ extern "C" {
 
 ''');
 
-      var empty = true;
-      for (final binding in _allBindings) {
-        final cppBindingString = binding.toCppBindingString(this);
-        if (cppBindingString != null) {
-          empty = false;
-          s.write(cppBindingString);
-        }
+    var empty = true;
+    for (final binding in _allBindings) {
+      final cppBindingString = binding.toCppBindingString(this);
+      if (cppBindingString != null) {
+        empty = false;
+        s.write(cppBindingString);
       }
-
-      s.write('}\n');
-
-      return empty ? null : s.toString();
-    } finally {
-      context.generatingCppGlue = false;
     }
+
+    s.write('}\n');
+
+    return empty ? null : s.toString();
   }
 }
 
