@@ -22,14 +22,17 @@ class GradleTools {
       {String? workingDirectory, Uri? javaHome}) async {
     log.info('execute $exec ${args.join(" ")}');
     final env = Map<String, String>.from(Platform.environment);
-    final resolvedJavaHome = javaHome?.toFilePath() ?? AndroidSdkTools.detectFlutterJavaHome()?.toFilePath();
+    final resolvedJavaHome = javaHome?.toFilePath() ??
+        AndroidSdkTools.detectFlutterJavaHome()?.toFilePath();
     if (resolvedJavaHome != null) {
       env['JAVA_HOME'] = resolvedJavaHome;
       final pathSeparator = Platform.isWindows ? ';' : ':';
       final binPath = join(resolvedJavaHome, 'bin');
       final oldPath = env['PATH'] ?? '';
-      env['PATH'] = oldPath.isEmpty ? binPath : '$binPath$pathSeparator$oldPath';
-      log.info('Running command with JAVA_HOME=$resolvedJavaHome and prepended PATH');
+      env['PATH'] =
+          oldPath.isEmpty ? binPath : '$binPath$pathSeparator$oldPath';
+      log.info('Running command with JAVA_HOME=$resolvedJavaHome and '
+          'prepended PATH');
     }
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory,
@@ -84,9 +87,12 @@ class GradleTools {
 
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
-      List<MavenDependency> deps, String targetDir, {Uri? javaHome}) async {
-    await _runGradleCommand(deps, targetDir, taskName: 'downloadSources', javaHome: javaHome);
-    await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars', javaHome: javaHome);
+      List<MavenDependency> deps, String targetDir,
+      {Uri? javaHome}) async {
+    await _runGradleCommand(deps, targetDir,
+        taskName: 'downloadSources', javaHome: javaHome);
+    await _runGradleCommand(deps, targetDir,
+        taskName: 'extractSourceJars', javaHome: javaHome);
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
@@ -111,9 +117,12 @@ class GradleTools {
 
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
-      List<MavenDependency> deps, String targetDir, {Uri? javaHome}) async {
-    await _runGradleCommand(deps, targetDir, taskName: 'copyJars', javaHome: javaHome);
-    await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars', javaHome: javaHome);
+      List<MavenDependency> deps, String targetDir,
+      {Uri? javaHome}) async {
+    await _runGradleCommand(deps, targetDir,
+        taskName: 'copyJars', javaHome: javaHome);
+    await _runGradleCommand(deps, targetDir,
+        taskName: 'extractSourceJars', javaHome: javaHome);
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,

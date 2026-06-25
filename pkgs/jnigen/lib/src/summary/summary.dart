@@ -140,12 +140,14 @@ Future<Classes> getSummary(Config config, {Uri? javaHome}) async {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
     await GradleTools.downloadMavenSources(
-        GradleTools.deps(mavenDl.sourceDeps), sourcePath, javaHome: resolvedJavaHome);
+        GradleTools.deps(mavenDl.sourceDeps), sourcePath,
+        javaHome: resolvedJavaHome);
     extraSources.add(Uri.directory(sourcePath));
     final jarPath = mavenDl.jarDir;
     await Directory(jarPath).create(recursive: true);
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath, javaHome: resolvedJavaHome);
+        GradleTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath,
+        javaHome: resolvedJavaHome);
     extraJars.addAll(await Directory(jarPath)
         .list()
         .where((entry) => entry.path.endsWith('.jar'))

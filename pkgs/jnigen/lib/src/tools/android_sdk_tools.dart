@@ -486,14 +486,17 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     ProcessResult procRes;
     try {
       final env = Map<String, String>.from(Platform.environment);
-      final resolvedJavaHome = javaHome?.toFilePath() ?? detectFlutterJavaHome()?.toFilePath();
+      final resolvedJavaHome =
+          javaHome?.toFilePath() ?? detectFlutterJavaHome()?.toFilePath();
       if (resolvedJavaHome != null) {
         env['JAVA_HOME'] = resolvedJavaHome;
         final pathSeparator = Platform.isWindows ? ';' : ':';
         final binPath = join(resolvedJavaHome, 'bin');
         final oldPath = env['PATH'] ?? '';
-        env['PATH'] = oldPath.isEmpty ? binPath : '$binPath$pathSeparator$oldPath';
-        log.info('Running gradlew with JAVA_HOME=$resolvedJavaHome and prepended PATH');
+        env['PATH'] =
+            oldPath.isEmpty ? binPath : '$binPath$pathSeparator$oldPath';
+        log.info('Running gradlew with JAVA_HOME=$resolvedJavaHome and '
+            'prepended PATH');
       }
       procRes = Process.runSync(gradleCommand, ['-q', taskPath],
           workingDirectory: android, runInShell: true, environment: env);
@@ -596,7 +599,8 @@ ${procRes.stderr}
 
   static Uri? _detectedJavaHome;
 
-  /// Detects the Java Home path used by Flutter using `flutter config --machine`.
+  /// Detects the Java Home path used by Flutter using
+  /// `flutter config --machine`.
   ///
   /// Returns null if detection fails or `jdk-dir` is not set.
   static Uri? detectFlutterJavaHome() {
@@ -604,7 +608,8 @@ ${procRes.stderr}
       return _detectedJavaHome;
     }
     try {
-      final result = Process.runSync('flutter', ['config', '--machine'], runInShell: true);
+      final result =
+          Process.runSync('flutter', ['config', '--machine'], runInShell: true);
       if (result.exitCode != 0) {
         log.warning('flutter config --machine failed: ${result.stderr}');
         return null;
@@ -616,7 +621,8 @@ ${procRes.stderr}
         final dir = Directory(jdkDir);
         if (dir.existsSync()) {
           _detectedJavaHome = dir.uri;
-          log.info('Detected Java Home from flutter config: $_detectedJavaHome');
+          log.info(
+              'Detected Java Home from flutter config: $_detectedJavaHome');
           return _detectedJavaHome;
         } else {
           log.warning('Detected Java Home directory does not exist: $jdkDir');
