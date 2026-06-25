@@ -7,11 +7,19 @@ library;
 
 import 'dart:ffi' as ffi;
 
-class Animal {
+class Animal implements ffi.Finalizable {
   // ignore: unused_field
   final ffi.Pointer<ffi.Void> _ptr;
+  bool _isDisposed = false;
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >(_Animal_delete),
+  );
 
-  Animal._(this._ptr);
+  Animal._(this._ptr) {
+    _finalizer.attach(this, _ptr.cast(), detach: this);
+  }
   factory Animal(int age) {
     return Animal._(_Animal_new(age));
   }
@@ -25,7 +33,12 @@ class Animal {
   int addAges(int otherAge, double scale) =>
       _Animal_addAges(_ptr, otherAge, scale);
   static int sum(int a, int b) => _Animal_sum(a, b);
-  void dispose() => _Animal_delete(_ptr);
+  void dispose() {
+    if (_isDisposed) return;
+    _isDisposed = true;
+    _finalizer.detach(this);
+    _Animal_delete(_ptr);
+  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'Animal_new')
@@ -73,3 +86,44 @@ external int _Animal_addAges(
 
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(symbol: 'Animal_sum')
 external int _Animal_sum(int a, int b);
+
+class FinalizerTestSubject implements ffi.Finalizable {
+  // ignore: unused_field
+  final ffi.Pointer<ffi.Void> _ptr;
+  bool _isDisposed = false;
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >(_FinalizerTestSubject_delete),
+  );
+
+  FinalizerTestSubject._(this._ptr) {
+    _finalizer.attach(this, _ptr.cast(), detach: this);
+  }
+  factory FinalizerTestSubject() {
+    return FinalizerTestSubject._(_FinalizerTestSubject_new());
+  }
+  static int getDestructorCallCount() =>
+      _FinalizerTestSubject_getDestructorCallCount();
+  void dispose() {
+    if (_isDisposed) return;
+    _isDisposed = true;
+    _finalizer.detach(this);
+    _FinalizerTestSubject_delete(_ptr);
+  }
+}
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function()>(
+  symbol: 'FinalizerTestSubject_new',
+)
+external ffi.Pointer<ffi.Void> _FinalizerTestSubject_new();
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'FinalizerTestSubject_delete',
+)
+external void _FinalizerTestSubject_delete(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Int Function()>(
+  symbol: 'FinalizerTestSubject_getDestructorCallCount',
+)
+external int _FinalizerTestSubject_getDestructorCallCount();

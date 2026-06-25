@@ -30,5 +30,29 @@ void main() {
 
       animal.dispose();
     });
+
+    test('FinalizerTestSubject double dispose and GC', () async {
+      final baseline1 = FinalizerTestSubject.getDestructorCallCount();
+      final subject1 = FinalizerTestSubject();
+      subject1.dispose();
+      subject1.dispose();
+      expect(FinalizerTestSubject.getDestructorCallCount(), baseline1 + 1);
+
+      final baseline2 = FinalizerTestSubject.getDestructorCallCount();
+
+      (() {
+        final _ = FinalizerTestSubject();
+      })();
+
+      var attempts = 0;
+      while (FinalizerTestSubject.getDestructorCallCount() == baseline2 &&
+          attempts < 50) {
+        List.generate(10000, (i) => Object());
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+        attempts++;
+      }
+
+      expect(FinalizerTestSubject.getDestructorCallCount(), baseline2 + 1);
+    });
   });
 }

@@ -1,4 +1,5 @@
 #include "cpp_class_test.h"
+#include "finalizer_test_subject.h"
 
 #if defined(_WIN32)
 #define FFIGEN_EXPORT __declspec(dllexport)
@@ -50,6 +51,18 @@ FFIGEN_EXPORT int Animal_addAges(Animal* self, int otherAge, float scale) {
 
 FFIGEN_EXPORT int Animal_sum(int a, int b) {
   return Animal::sum(a, b);
+}
+
+FFIGEN_EXPORT FinalizerTestSubject* FinalizerTestSubject_new() {
+  return new FinalizerTestSubject();
+}
+
+FFIGEN_EXPORT void FinalizerTestSubject_delete(FinalizerTestSubject* self) {
+  delete self;
+}
+
+FFIGEN_EXPORT int FinalizerTestSubject_getDestructorCallCount() {
+  return FinalizerTestSubject::getDestructorCallCount();
 }
 
 }

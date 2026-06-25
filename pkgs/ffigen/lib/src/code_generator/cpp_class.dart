@@ -114,12 +114,27 @@ class CppClass extends BindingType with HasLocalScope {
 
     s.write(makeDartDoc(dartDoc));
     s.write('''
-class $name {
+class $name implements $ffiPrefix.Finalizable {
   // ignore: unused_field
   final $ptrVoid _ptr;
+''');
 
+    if (destructor != null) {
+      s.write('''
+  bool _isDisposed = false;
+  static final _finalizer = $ffiPrefix.NativeFinalizer(
+    $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue)
+  );
+
+  $name._(this._ptr) {
+    _finalizer.attach(this, _ptr.cast(), detach: this);
+  }
+''');
+    } else {
+      s.write('''
   $name._(this._ptr);
 ''');
+    }
 
     for (final ctor in constructors) {
       final glueName = ctor.name.name;
@@ -167,7 +182,14 @@ class $name {
       );
     }
     if (destructor != null) {
-      s.write('  void dispose() => $deleteGlue(_ptr);\n');
+      s.write('''
+  void dispose() {
+    if (_isDisposed) return;
+    _isDisposed = true;
+    _finalizer.detach(this);
+    $deleteGlue(_ptr);
+  }
+''');
     } else {
       s.write('  void dispose() {}\n');
     }
