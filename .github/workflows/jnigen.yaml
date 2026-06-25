@@ -80,7 +80,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        sdk: [stable, beta]
+        sdk: [stable]
+        java-version: ['11', '17', '21', '26']
+        include:
+          - os: ubuntu-latest
+            sdk: beta
+            java-version: '17'
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -88,11 +93,21 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+      - name: Install fallback JDK (Java 17)
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
         with:
           distribution: 'zulu'
           java-version: '17'
+      - name: Save Java 17 path
+        run: echo "JAVA_HOME_17=$JAVA_HOME" >> $GITHUB_ENV
+      - name: Install target JDK
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java-version }}
           cache: maven
+      - name: Configure Flutter JDK
+        run: flutter config --jdk-dir=$JAVA_HOME_17
       - run: dart pub get
       - name: pub get in_app_java example
         run: flutter pub get
@@ -258,6 +273,10 @@ jobs:
     defaults:
       run:
         working-directory: ./pkgs/jni
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: ['11', '17', '21', '26']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -265,10 +284,20 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+      - name: Install fallback JDK (Java 17)
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
         with:
           distribution: 'zulu'
           java-version: '17'
+      - name: Save Java 17 path
+        run: echo "JAVA_HOME_17=$JAVA_HOME" >> $GITHUB_ENV
+      - name: Install target JDK
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java-version }}
+      - name: Configure Flutter JDK
+        run: flutter config --jdk-dir=$JAVA_HOME_17
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev libclang-dev

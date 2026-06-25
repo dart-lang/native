@@ -170,10 +170,15 @@ format, the `dart` command must be from the Flutter SDK and not Dart SDK. See
 
 ### Java tooling
 
-Use JDK versions 11 to 17. The newer versions will not work because of their
-lack of
-[compatibility](https://docs.gradle.org/current/userguide/compatibility.html)
-with Gradle.
+JNIgen requires a JDK to be installed.
+
+By default, JNIgen uses the JDK configured in Flutter (e.g. Android Studio's
+bundled JDK) to run Gradle tasks, ensuring compatibility with your project's
+Gradle version.
+
+You can override this by setting the `java_home` configuration property,
+passing the `--java-home` command-line flag, or setting the `JAVA_HOME`
+environment variable.
 
 #### Windows
 

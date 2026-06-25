@@ -178,8 +178,8 @@ void main() async {
         await getSummary(config);
       } on SummaryParseException catch (e) {
         expect(e.message, contains('Java class file version 74'));
-        expect(e.message, contains('supported JDK version (11 to 17)'));
-        expect(e.message, contains('javac --release 17'));
+        expect(e.message, contains('supported JDK version (11 to 26)'));
+        expect(e.message, contains('javac --release 26'));
         expect(e.message, isNot(contains('FormatException')));
         return;
       }
