@@ -1,3 +1,7 @@
+## 0.19.3-wip
+
+- Support cross-compiling to Linux from macOS and Windows hosts. ([#2185](https://github.com/dart-lang/native/issues/2185))
+
 ## 0.19.2
 
 - Fixed compatibility with newer Xcode versions when cross-compiling static libraries on macOS hosts targeting Android and Linux.
