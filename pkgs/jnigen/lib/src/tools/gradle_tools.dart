@@ -52,12 +52,12 @@ class GradleTools {
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
 
-    final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');
+    final tempGradle = join(tempDir.path, 'build.gradle.kts');
     log.finer('using Gradle stub:\n$gradle');
     await File(tempGradle).writeAsString(gradle);
     final gradleArgs = [
-      '-b', // specify gradle file to run
-      tempGradle,
+      '-p',
+      tempDir.path,
       taskName,
       '-q' // quiet mode
     ];

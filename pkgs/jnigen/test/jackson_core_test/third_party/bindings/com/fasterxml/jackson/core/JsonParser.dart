@@ -340,17 +340,17 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature allows the support for "missing" values in a JSON array: missing
-  /// value meaning sequence of two commas, without value in-between but only
-  /// optional white space.
-  /// Enabling this feature will expose "missing" values as JsonToken\#VALUE_NULL
-  /// tokens, which typically become Java nulls in arrays and java.util.Collection
-  /// in data-binding.
+  ///value meaning sequence of two commas, without value in-between but only
+  ///optional white space.
+  ///Enabling this feature will expose "missing" values as JsonToken\#VALUE_NULL
+  ///tokens, which typically become Java nulls in arrays and java.util.Collection
+  ///in data-binding.
   ///
-  /// For example, enabling this feature will represent a JSON array <code>["value1",,"value3",]</code>
-  /// as <code>["value1", null, "value3", null]</code>
+  ///For example, enabling this feature will represent a JSON array <code>["value1",,"value3",]</code>
+  ///as <code>["value1", null, "value3", null]</code>
   ///
-  /// Since the JSON specification does not allow missing values this is a non-compliant JSON
-  /// feature and is disabled by default.
+  ///Since the JSON specification does not allow missing values this is a non-compliant JSON
+  ///feature and is disabled by default.
   ///@since 2.8
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_MISSING_VALUES instead
   static JsonParser$Feature get ALLOW_MISSING_VALUES =>
@@ -366,22 +366,22 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether JsonParser will allow for a single trailing
-  /// comma following the final value (in an Array) or member (in an Object). These commas
-  /// will simply be ignored.
+  ///comma following the final value (in an Array) or member (in an Object). These commas
+  ///will simply be ignored.
   ///
-  /// For example, when this feature is enabled, <code>[true,true,]</code> is equivalent to
-  /// <code>[true, true]</code> and <code>{"a": true,}</code> is equivalent to
-  /// <code>{"a": true}</code>.
+  ///For example, when this feature is enabled, <code>[true,true,]</code> is equivalent to
+  ///<code>[true, true]</code> and <code>{"a": true,}</code> is equivalent to
+  ///<code>{"a": true}</code>.
   ///
-  /// When combined with <code>ALLOW_MISSING_VALUES</code>, this feature takes priority, and
-  /// the final trailing comma in an array declaration does not imply a missing
-  /// (<code>null</code>) value. For example, when both <code>ALLOW_MISSING_VALUES</code>
-  /// and <code>ALLOW_TRAILING_COMMA</code> are enabled, <code>[true,true,]</code> is
-  /// equivalent to <code>[true, true]</code>, and <code>[true,true,,]</code> is equivalent to
-  /// <code>[true, true, null]</code>.
+  ///When combined with <code>ALLOW_MISSING_VALUES</code>, this feature takes priority, and
+  ///the final trailing comma in an array declaration does not imply a missing
+  ///(<code>null</code>) value. For example, when both <code>ALLOW_MISSING_VALUES</code>
+  ///and <code>ALLOW_TRAILING_COMMA</code> are enabled, <code>[true,true,]</code> is
+  ///equivalent to <code>[true, true]</code>, and <code>[true,true,,]</code> is equivalent to
+  ///<code>[true, true, null]</code>.
   ///
-  /// Since the JSON specification does not permit trailing commas, this is a non-standard
-  /// feature, and as such disabled by default.
+  ///Since the JSON specification does not permit trailing commas, this is a non-standard
+  ///feature, and as such disabled by default.
   ///@since 2.9
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_TRAILING_COMMA instead
   static JsonParser$Feature get ALLOW_TRAILING_COMMA =>
@@ -544,7 +544,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// from: `static public int collectDefaults()`
   ///
   /// Method that calculates bit set (flags) of all features that
-  /// are enabled by default.
+  ///are enabled by default.
   ///@return Bit mask of all features that are enabled by default
   static core$_.int collectDefaults() {
     final _$$classRef = _class.reference;
@@ -639,7 +639,7 @@ final class $JsonParser$Feature$Type$ extends jni$_.JType<JsonParser$Feature> {
 /// from: `com.fasterxml.jackson.core.JsonParser$NumberType`
 ///
 /// Enumeration of possible "native" (optimal) types that can be
-/// used for numbers.
+///used for numbers.
 extension type JsonParser$NumberType._(jni$_.JObject _$this)
     implements enum$_.Enum {
   static final _class =
@@ -778,8 +778,8 @@ final class $JsonParser$NumberType$Type$
 /// from: `com.fasterxml.jackson.core.JsonParser`
 ///
 /// Base class that defines public API for reading JSON content.
-/// Instances are created using factory methods of
-/// a JsonFactory instance.
+///Instances are created using factory methods of
+///a JsonFactory instance.
 ///@author Tatu Saloranta
 extension type JsonParser._(jni$_.JObject _$this)
     implements jni$_.JObject, closeable$_.Closeable, versioned$_.Versioned {
@@ -812,8 +812,8 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for ObjectCodec associated with this
-  /// parser, if any. Codec is used by \#readValueAs(Class)
-  /// method (and its variants).
+  ///parser, if any. Codec is used by \#readValueAs(Class)
+  ///method (and its variants).
   ///@return Codec assigned to this parser, if any; {@code null} if none
   objectcodec$_.ObjectCodec? get codec {
     final _$$selfRef = reference;
@@ -840,8 +840,8 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public abstract void setCodec(com.fasterxml.jackson.core.ObjectCodec oc)`
   ///
   /// Setter that allows defining ObjectCodec associated with this
-  /// parser, if any. Codec is used by \#readValueAs(Class)
-  /// method (and its variants).
+  ///parser, if any. Codec is used by \#readValueAs(Class)
+  ///method (and its variants).
   ///@param oc Codec to assign, if any; {@code null} if none
   set codec(objectcodec$_.ObjectCodec? oc) {
     final _$$selfRef = reference;
@@ -1050,7 +1050,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing Schema that this parser uses, if any.
-  /// Default implementation returns null.
+  ///Default implementation returns null.
   ///@return Schema in use by this parser, if any; {@code null} if none
   ///@since 2.1
   formatschema$_.FormatSchema? get schema {
@@ -1078,7 +1078,7 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
   /// Method that can be used to verify that given schema can be used with
-  /// this parser (using \#setSchema).
+  ///this parser (using \#setSchema).
   ///@param schema Schema to check
   ///@return True if this parser can use given schema; false if not
   core$_.bool canUseSchema(
@@ -1111,12 +1111,12 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public boolean requiresCustomCodec()`
   ///
   /// Method that can be called to determine if a custom
-  /// ObjectCodec is needed for binding data parsed
-  /// using JsonParser constructed by this factory
-  /// (which typically also implies the same for serialization
-  /// with JsonGenerator).
+  ///ObjectCodec is needed for binding data parsed
+  ///using JsonParser constructed by this factory
+  ///(which typically also implies the same for serialization
+  ///with JsonGenerator).
   ///@return True if format-specific codec is needed with this parser; false if a general
-  ///   ObjectCodec is enough
+  ///  ObjectCodec is enough
   ///@since 2.1
   core$_.bool requiresCustomCodec() {
     final _$$selfRef = reference;
@@ -1184,8 +1184,8 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will either return a feeder instance (if parser uses
-  /// non-blocking, aka asynchronous access); or <code>null</code> for
-  /// parsers that use blocking I/O.
+  ///non-blocking, aka asynchronous access); or <code>null</code> for
+  ///parsers that use blocking I/O.
   ///@return Input feeder to use with non-blocking (async) parsing
   ///@since 2.9
   nonblockinginputfeeder$_.NonBlockingInputFeeder? get nonBlockingInputFeeder {
@@ -1216,7 +1216,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for getting metadata on capabilities of this parser, based on
-  /// underlying data format being read (directly or indirectly).
+  ///underlying data format being read (directly or indirectly).
   ///@return Set of read capabilities for content to read via this parser
   ///@since 2.12
   jacksonfeatureset$_.JacksonFeatureSet? get readCapabilities {
@@ -1247,9 +1247,9 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for getting version of the core package, given a parser instance.
-  /// Left for sub-classes to implement.
+  ///Left for sub-classes to implement.
   ///@return Version of this generator (derived from version declared for
-  ///   {@code jackson-core} jar that contains the class
+  ///  {@code jackson-core} jar that contains the class
   version$_.Version? version() {
     final _$$selfRef = reference;
     return _version(_$$selfRef.pointer, _id_version.pointer)
@@ -1276,18 +1276,18 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public abstract void close()`
   ///
   /// Closes the parser so that no further iteration or data access
-  /// can be made; will also close the underlying input source
-  /// if parser either __owns__ the input source, or feature
-  /// Feature\#AUTO_CLOSE_SOURCE is enabled.
-  /// Whether parser owns the input source depends on factory
-  /// method that was used to construct instance (so check
-  /// com.fasterxml.jackson.core.JsonFactory for details,
-  /// but the general
-  /// idea is that if caller passes in closable resource (such
-  /// as InputStream or Reader) parser does NOT
-  /// own the source; but if it passes a reference (such as
-  /// java.io.File or java.net.URL and creates
-  /// stream or reader it does own them.
+  ///can be made; will also close the underlying input source
+  ///if parser either __owns__ the input source, or feature
+  ///Feature\#AUTO_CLOSE_SOURCE is enabled.
+  ///Whether parser owns the input source depends on factory
+  ///method that was used to construct instance (so check
+  ///com.fasterxml.jackson.core.JsonFactory for details,
+  ///but the general
+  ///idea is that if caller passes in closable resource (such
+  ///as InputStream or Reader) parser does NOT
+  ///own the source; but if it passes a reference (such as
+  ///java.io.File or java.net.URL and creates
+  ///stream or reader it does own them.
   ///@throws IOException if there is either an underlying I/O problem
   void close() {
     final _$$selfRef = reference;
@@ -1314,11 +1314,11 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public abstract boolean isClosed()`
   ///
   /// Method that can be called to determine whether this parser
-  /// is closed or not. If it is closed, no new tokens can be
-  /// retrieved by calling \#nextToken (and the underlying
-  /// stream may be closed). Closing may be due to an explicit
-  /// call to \#close or because parser has encountered
-  /// end of input.
+  ///is closed or not. If it is closed, no new tokens can be
+  ///retrieved by calling \#nextToken (and the underlying
+  ///stream may be closed). Closing may be due to an explicit
+  ///call to \#close or because parser has encountered
+  ///end of input.
   ///@return {@code True} if this parser instance has been closed
   core$_.bool get isClosed {
     final _$$selfRef = reference;
@@ -1346,13 +1346,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be used to access current parsing context reader
-  /// is in. There are 3 different types: root, array and object contexts,
-  /// with slightly different available information. Contexts are
-  /// hierarchically nested, and can be used for example for figuring
-  /// out part of the input document that correspond to specific
-  /// array or object (for highlighting purposes, or error reporting).
-  /// Contexts can also be used for simple xpath-like matching of
-  /// input, if so desired.
+  ///is in. There are 3 different types: root, array and object contexts,
+  ///with slightly different available information. Contexts are
+  ///hierarchically nested, and can be used for example for figuring
+  ///out part of the input document that correspond to specific
+  ///array or object (for highlighting purposes, or error reporting).
+  ///Contexts can also be used for simple xpath-like matching of
+  ///input, if so desired.
   ///@return Stream input context (JsonStreamContext) associated with this parser
   jsonstreamcontext$_.JsonStreamContext? get parsingContext {
     final _$$selfRef = reference;
@@ -1459,7 +1459,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentLocation(), to be deprecated in later
-  /// Jackson 2.x versions (and removed from Jackson 3.0).
+  ///Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
   jsonlocation$_.JsonLocation? get currentLocation$1 {
     final _$$selfRef = reference;
@@ -1489,7 +1489,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentTokenLocation(), to be deprecated in later
-  /// Jackson 2.x versions (and removed from Jackson 3.0).
+  ///Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Starting location of the token parser currently points to
   jsonlocation$_.JsonLocation? get tokenLocation {
     final _$$selfRef = reference;
@@ -1589,7 +1589,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentValue(), to be deprecated in later
-  /// Jackson 2.x versions (and removed from Jackson 3.0).
+  ///Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
   jni$_.JObject? get currentValue$1 {
     final _$$selfRef = reference;
@@ -1617,7 +1617,7 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public void setCurrentValue(java.lang.Object v)`
   ///
   /// Alias for \#assignCurrentValue, to be deprecated in later
-  /// Jackson 2.x versions (and removed from Jackson 3.0).
+  ///Jackson 2.x versions (and removed from Jackson 3.0).
   ///@param v Current value to assign for the current input context of this parser
   set currentValue$1(jni$_.JObject? v) {
     final _$$selfRef = reference;
@@ -1646,15 +1646,15 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public int releaseBuffered(java.io.OutputStream out)`
   ///
   /// Method that can be called to push back any content that
-  /// has been read but not consumed by the parser. This is usually
-  /// done after reading all content of interest using parser.
-  /// Content is released by writing it to given stream if possible;
-  /// if underlying input is byte-based it can released, if not (char-based)
-  /// it can not.
+  ///has been read but not consumed by the parser. This is usually
+  ///done after reading all content of interest using parser.
+  ///Content is released by writing it to given stream if possible;
+  ///if underlying input is byte-based it can released, if not (char-based)
+  ///it can not.
   ///@param out OutputStream to which buffered, undecoded content is written to
   ///@return -1 if the underlying content source is not byte based
-  ///    (that is, input can not be sent to OutputStream;
-  ///    otherwise number of bytes released (0 if there was nothing to release)
+  ///   (that is, input can not be sent to OutputStream;
+  ///   otherwise number of bytes released (0 if there was nothing to release)
   ///@throws IOException if write to stream threw exception
   core$_.int releaseBuffered(
     outputstream$_.OutputStream? out,
@@ -1685,16 +1685,16 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public int releaseBuffered(java.io.Writer w)`
   ///
   /// Method that can be called to push back any content that
-  /// has been read but not consumed by the parser.
-  /// This is usually
-  /// done after reading all content of interest using parser.
-  /// Content is released by writing it to given writer if possible;
-  /// if underlying input is char-based it can released, if not (byte-based)
-  /// it can not.
+  ///has been read but not consumed by the parser.
+  ///This is usually
+  ///done after reading all content of interest using parser.
+  ///Content is released by writing it to given writer if possible;
+  ///if underlying input is char-based it can released, if not (byte-based)
+  ///it can not.
   ///@param w Writer to which buffered but unprocessed content is written to
   ///@return -1 if the underlying content source is not char-based
-  ///    (that is, input can not be sent to Writer;
-  ///    otherwise number of chars released (0 if there was nothing to release)
+  ///   (that is, input can not be sent to Writer;
+  ///   otherwise number of chars released (0 if there was nothing to release)
   ///@throws IOException if write using Writer threw exception
   core$_.int releaseBuffered$1(
     writer$_.Writer? w,
@@ -1726,7 +1726,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
-  /// (check Feature for list of features)
+  ///(check Feature for list of features)
   ///@param f Feature to enable
   ///@return This parser, to allow call chaining
   JsonParser? enable(
@@ -1758,7 +1758,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified  feature
-  /// (check Feature for list of features)
+  ///(check Feature for list of features)
   ///@param f Feature to disable
   ///@return This parser, to allow call chaining
   JsonParser? disable(
@@ -1791,7 +1791,7 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified feature
-  /// (check Feature for list of features)
+  ///(check Feature for list of features)
   ///@param f Feature to enable or disable
   ///@param state Whether to enable feature ({@code true}) or disable ({@code false})
   ///@return This parser, to allow call chaining
@@ -1988,7 +1988,7 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public int getFormatFeatures()`
   ///
   /// Bulk access method for getting state of all FormatFeatures, format-specific
-  /// on/off configuration settings.
+  ///on/off configuration settings.
   ///@return Bit mask that defines current states of all standard FormatFeatures.
   ///@since 2.6
   core$_.int get formatFeatures {
@@ -2058,13 +2058,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Main iteration method, which will advance stream enough
-  /// to determine type of the next token, if any. If none
-  /// remaining (stream has no content other than possible
-  /// white space before ending), null will be returned.
+  ///to determine type of the next token, if any. If none
+  ///remaining (stream has no content other than possible
+  ///white space before ending), null will be returned.
   ///@return Next token from the stream, if any found, or null
-  ///   to indicate end-of-input
+  ///  to indicate end-of-input
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   jsontoken$_.JsonToken? nextToken() {
     final _$$selfRef = reference;
     return _nextToken(_$$selfRef.pointer, _id_nextToken.pointer)
@@ -2092,21 +2092,21 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Iteration method that will advance stream enough
-  /// to determine type of the next token that is a value type
-  /// (including JSON Array and Object start/end markers).
-  /// Or put another way, nextToken() will be called once,
-  /// and if JsonToken\#FIELD_NAME is returned, another
-  /// time to get the value for the field.
-  /// Method is most useful for iterating over value entries
-  /// of JSON objects; field name will still be available
-  /// by calling \#getCurrentName when parser points to
-  /// the value.
+  ///to determine type of the next token that is a value type
+  ///(including JSON Array and Object start/end markers).
+  ///Or put another way, nextToken() will be called once,
+  ///and if JsonToken\#FIELD_NAME is returned, another
+  ///time to get the value for the field.
+  ///Method is most useful for iterating over value entries
+  ///of JSON objects; field name will still be available
+  ///by calling \#getCurrentName when parser points to
+  ///the value.
   ///@return Next non-field-name token from the stream, if any found,
-  ///   or null to indicate end-of-input (or, for non-blocking
-  ///   parsers, JsonToken\#NOT_AVAILABLE if no tokens were
-  ///   available yet)
+  ///  or null to indicate end-of-input (or, for non-blocking
+  ///  parsers, JsonToken\#NOT_AVAILABLE if no tokens were
+  ///  available yet)
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   jsontoken$_.JsonToken? nextValue() {
     final _$$selfRef = reference;
     return _nextValue(_$$selfRef.pointer, _id_nextValue.pointer)
@@ -2177,12 +2177,12 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
-  /// verifies whether it is JsonToken\#FIELD_NAME; if it is,
-  /// returns same as \#getCurrentName(), otherwise null.
+  ///verifies whether it is JsonToken\#FIELD_NAME; if it is,
+  ///returns same as \#getCurrentName(), otherwise null.
   ///@return Name of the the {@code JsonToken.FIELD_NAME} parser advanced to, if any;
-  ///   {@code null} if next token is of some other type
+  ///  {@code null} if next token is of some other type
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   ///@since 2.5
   jni$_.JString? nextFieldName$1() {
     final _$$selfRef = reference;
@@ -2378,20 +2378,20 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will skip all child tokens of an array or
-  /// object token that the parser currently points to,
-  /// iff stream points to
-  /// JsonToken\#START_OBJECT or JsonToken\#START_ARRAY.
-  /// If not, it will do nothing.
-  /// After skipping, stream will point to __matching__
-  /// JsonToken\#END_OBJECT or JsonToken\#END_ARRAY
-  /// (possibly skipping nested pairs of START/END OBJECT/ARRAY tokens
-  /// as well as value tokens).
-  /// The idea is that after calling this method, application
-  /// will call \#nextToken to point to the next
-  /// available token, if any.
+  ///object token that the parser currently points to,
+  ///iff stream points to
+  ///JsonToken\#START_OBJECT or JsonToken\#START_ARRAY.
+  ///If not, it will do nothing.
+  ///After skipping, stream will point to __matching__
+  ///JsonToken\#END_OBJECT or JsonToken\#END_ARRAY
+  ///(possibly skipping nested pairs of START/END OBJECT/ARRAY tokens
+  ///as well as value tokens).
+  ///The idea is that after calling this method, application
+  ///will call \#nextToken to point to the next
+  ///available token, if any.
   ///@return This parser, to allow call chaining
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   JsonParser? skipChildren() {
     final _$$selfRef = reference;
     return _skipChildren(_$$selfRef.pointer, _id_skipChildren.pointer)
@@ -2456,13 +2456,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor to find which token parser currently points to, if any;
-  /// null will be returned if none.
-  /// If return value is non-null, data associated with the token
-  /// is available via other accessor methods.
+  ///null will be returned if none.
+  ///If return value is non-null, data associated with the token
+  ///is available via other accessor methods.
   ///@return Type of the token this parser currently points to,
-  ///   if any: null before any tokens have been read, and
-  ///   after end-of-input has been encountered, as well as
-  ///   if the current token has been explicitly cleared.
+  ///  if any: null before any tokens have been read, and
+  ///  after end-of-input has been encountered, as well as
+  ///  if the current token has been explicitly cleared.
   ///@since 2.8
   jsontoken$_.JsonToken? currentToken() {
     final _$$selfRef = reference;
@@ -2525,9 +2525,9 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentToken(), may be deprecated sometime after
-  /// Jackson 2.13 (will be removed from 3.0).
+  ///Jackson 2.13 (will be removed from 3.0).
   ///@return Type of the token this parser currently points to,
-  ///   if any: null before any tokens have been read, and
+  ///  if any: null before any tokens have been read, and
   jsontoken$_.JsonToken? get currentToken$1 {
     final _$$selfRef = reference;
     return _get$currentToken$1(
@@ -2584,13 +2584,13 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public abstract boolean hasCurrentToken()`
   ///
   /// Method for checking whether parser currently points to
-  /// a token (and data for that token is available).
-  /// Equivalent to check for <code>parser.getCurrentToken() != null</code>.
+  ///a token (and data for that token is available).
+  ///Equivalent to check for <code>parser.getCurrentToken() != null</code>.
   ///@return True if the parser just returned a valid
-  ///   token via \#nextToken; false otherwise (parser
-  ///   was just constructed, encountered end-of-input
-  ///   and returned null from \#nextToken, or the token
-  ///   has been consumed)
+  ///  token via \#nextToken; false otherwise (parser
+  ///  was just constructed, encountered end-of-input
+  ///  and returned null from \#nextToken, or the token
+  ///  has been consumed)
   core$_.bool hasCurrentToken() {
     final _$$selfRef = reference;
     return _hasCurrentToken(_$$selfRef.pointer, _id_hasCurrentToken.pointer)
@@ -2739,10 +2739,10 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public boolean isExpectedStartObjectToken()`
   ///
   /// Similar to \#isExpectedStartArrayToken(), but checks whether stream
-  /// currently points to JsonToken\#START_OBJECT.
+  ///currently points to JsonToken\#START_OBJECT.
   ///@return True if the current token can be considered as a
-  ///   start-array marker (such JsonToken\#START_OBJECT);
-  ///   {@code false} if not
+  ///  start-array marker (such JsonToken\#START_OBJECT);
+  ///  {@code false} if not
   ///@since 2.5
   core$_.bool get isExpectedStartObjectToken {
     final _$$selfRef = reference;
@@ -2808,16 +2808,16 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public boolean isNaN()`
   ///
   /// Access for checking whether current token is a numeric value token, but
-  /// one that is of "not-a-number" (NaN) variety (including both "NaN" AND
-  /// positive/negative infinity!): not supported by all formats,
-  /// but often supported for JsonToken\#VALUE_NUMBER_FLOAT.
-  /// NOTE: roughly equivalent to calling <code>!Double.isFinite()</code>
-  /// on value you would get from calling \#getDoubleValue().
+  ///one that is of "not-a-number" (NaN) variety (including both "NaN" AND
+  ///positive/negative infinity!): not supported by all formats,
+  ///but often supported for JsonToken\#VALUE_NUMBER_FLOAT.
+  ///NOTE: roughly equivalent to calling <code>!Double.isFinite()</code>
+  ///on value you would get from calling \#getDoubleValue().
   ///@return {@code True} if the current token is of type JsonToken\#VALUE_NUMBER_FLOAT
-  ///   but represents a "Not a Number"; {@code false} for other tokens and regular
-  ///   floating-point numbers
+  ///  but represents a "Not a Number"; {@code false} for other tokens and regular
+  ///  floating-point numbers
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   ///@since 2.9
   core$_.bool get isNaN {
     final _$$selfRef = reference;
@@ -2880,10 +2880,10 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to get the last token that was
-  /// cleared using \#clearCurrentToken. This is not necessarily
-  /// the latest token read.
-  /// Will return null if no tokens have been cleared,
-  /// or if parser has been closed.
+  ///cleared using \#clearCurrentToken. This is not necessarily
+  ///the latest token read.
+  ///Will return null if no tokens have been cleared,
+  ///or if parser has been closed.
   ///@return Last cleared token, if any; {@code null} otherwise
   jsontoken$_.JsonToken? get lastClearedToken {
     final _$$selfRef = reference;
@@ -2951,7 +2951,7 @@ extension JsonParser$$Methods on JsonParser {
   /// Alias of \#currentName().
   ///@return Name of the current field in the parsing context
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   jni$_.JString? get currentName {
     final _$$selfRef = reference;
     return _get$currentName(_$$selfRef.pointer, _id_get$currentName.pointer)
@@ -2979,13 +2979,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to get the name associated with
-  /// the current token: for JsonToken\#FIELD_NAMEs it will
-  /// be the same as what \#getText returns;
-  /// for field values it will be preceding field name;
-  /// and for others (array values, root-level values) null.
+  ///the current token: for JsonToken\#FIELD_NAMEs it will
+  ///be the same as what \#getText returns;
+  ///for field values it will be preceding field name;
+  ///and for others (array values, root-level values) null.
   ///@return Name of the current field in the parsing context
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   ///@since 2.10
   jni$_.JString? currentName$1() {
     final _$$selfRef = reference;
@@ -3014,13 +3014,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing textual representation of the current token;
-  /// if no current token (before first call to \#nextToken, or
-  /// after encountering end-of-input), returns null.
-  /// Method can be called for any token type.
+  ///if no current token (before first call to \#nextToken, or
+  ///after encountering end-of-input), returns null.
+  ///Method can be called for any token type.
   ///@return Textual value associated with the current token (one returned
-  ///   by \#nextToken() or other iteration methods)
+  ///  by \#nextToken() or other iteration methods)
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   jni$_.JString? get text {
     final _$$selfRef = reference;
     return _get$text(_$$selfRef.pointer, _id_get$text.pointer)
@@ -3143,12 +3143,12 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public abstract int getTextLength()`
   ///
   /// Accessor used with \#getTextCharacters, to know length
-  /// of String stored in returned buffer.
+  ///of String stored in returned buffer.
   ///@return Number of characters within buffer returned
-  ///   by \#getTextCharacters that are part of
-  ///   textual content of the current token.
+  ///  by \#getTextCharacters that are part of
+  ///  textual content of the current token.
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   core$_.int get textLength {
     final _$$selfRef = reference;
     return _get$textLength(_$$selfRef.pointer, _id_get$textLength.pointer)
@@ -3175,12 +3175,12 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public abstract int getTextOffset()`
   ///
   /// Accessor used with \#getTextCharacters, to know offset
-  /// of the first text content character within buffer.
+  ///of the first text content character within buffer.
   ///@return Offset of the first character within buffer returned
-  ///   by \#getTextCharacters that is part of
-  ///   textual content of the current token.
+  ///  by \#getTextCharacters that is part of
+  ///  textual content of the current token.
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   core$_.int get textOffset {
     final _$$selfRef = reference;
     return _get$textOffset(_$$selfRef.pointer, _id_get$textOffset.pointer)
@@ -3247,15 +3247,15 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Generic number value accessor method that will work for
-  /// all kinds of numeric values. It will return the optimal
-  /// (simplest/smallest possible) wrapper object that can
-  /// express the numeric value just parsed.
+  ///all kinds of numeric values. It will return the optimal
+  ///(simplest/smallest possible) wrapper object that can
+  ///express the numeric value just parsed.
   ///@return Numeric value of the current token in its most optimal
-  ///   representation
+  ///  representation
   ///@throws IOException Problem with access: JsonParseException if
-  ///    the current token is not numeric, or if decoding of the value fails
-  ///    (invalid format for numbers); plain IOException if underlying
-  ///    content read fails (possible if values are extracted lazily)
+  ///   the current token is not numeric, or if decoding of the value fails
+  ///   (invalid format for numbers); plain IOException if underlying
+  ///   content read fails (possible if values are extracted lazily)
   jni$_.JNumber? get numberValue {
     final _$$selfRef = reference;
     return _get$numberValue(_$$selfRef.pointer, _id_get$numberValue.pointer)
@@ -3324,12 +3324,12 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// If current token is of type
-  /// JsonToken\#VALUE_NUMBER_INT or
-  /// JsonToken\#VALUE_NUMBER_FLOAT, returns
-  /// one of NumberType constants; otherwise returns null.
+  ///JsonToken\#VALUE_NUMBER_INT or
+  ///JsonToken\#VALUE_NUMBER_FLOAT, returns
+  ///one of NumberType constants; otherwise returns null.
   ///@return Type of current number, if parser points to numeric token; {@code null} otherwise
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   JsonParser$NumberType? get numberType {
     final _$$selfRef = reference;
     return _get$numberType(_$$selfRef.pointer, _id_get$numberType.pointer)
@@ -3520,16 +3520,16 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Numeric accessor that can be called when the current
-  /// token is of type JsonToken\#VALUE_NUMBER_INT and
-  /// it can not be used as a Java long primitive type due to its
-  /// magnitude.
-  /// It can also be called for JsonToken\#VALUE_NUMBER_FLOAT;
-  /// if so, it is equivalent to calling \#getDecimalValue
-  /// and then constructing a BigInteger from that value.
+  ///token is of type JsonToken\#VALUE_NUMBER_INT and
+  ///it can not be used as a Java long primitive type due to its
+  ///magnitude.
+  ///It can also be called for JsonToken\#VALUE_NUMBER_FLOAT;
+  ///if so, it is equivalent to calling \#getDecimalValue
+  ///and then constructing a BigInteger from that value.
   ///@return Current number value as BigInteger (if numeric token);
-  ///     otherwise exception thrown
+  ///    otherwise exception thrown
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   biginteger$_.BigInteger? get bigIntegerValue {
     final _$$selfRef = reference;
     return _get$bigIntegerValue(
@@ -3638,13 +3638,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Numeric accessor that can be called when the current
-  /// token is of type JsonToken\#VALUE_NUMBER_FLOAT or
-  /// JsonToken\#VALUE_NUMBER_INT. No under/overflow exceptions
-  /// are ever thrown.
+  ///token is of type JsonToken\#VALUE_NUMBER_FLOAT or
+  ///JsonToken\#VALUE_NUMBER_INT. No under/overflow exceptions
+  ///are ever thrown.
   ///@return Current number value as BigDecimal (if numeric token);
-  ///   otherwise exception thrown
+  ///  otherwise exception thrown
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   bigdecimal$_.BigDecimal? get decimalValue {
     final _$$selfRef = reference;
     return _get$decimalValue(_$$selfRef.pointer, _id_get$decimalValue.pointer)
@@ -3671,16 +3671,16 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public boolean getBooleanValue()`
   ///
   /// Convenience accessor that can be called when the current
-  /// token is JsonToken\#VALUE_TRUE or
-  /// JsonToken\#VALUE_FALSE, to return matching {@code boolean}
-  /// value.
-  /// If the current token is of some other type, JsonParseException
-  /// will be thrown
+  ///token is JsonToken\#VALUE_TRUE or
+  ///JsonToken\#VALUE_FALSE, to return matching {@code boolean}
+  ///value.
+  ///If the current token is of some other type, JsonParseException
+  ///will be thrown
   ///@return {@code True} if current token is {@code JsonToken.VALUE_TRUE},
-  ///   {@code false} if current token is {@code JsonToken.VALUE_FALSE};
-  ///   otherwise throws JsonParseException
+  ///  {@code false} if current token is {@code JsonToken.VALUE_FALSE};
+  ///  otherwise throws JsonParseException
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   core$_.bool get booleanValue {
     final _$$selfRef = reference;
     return _get$booleanValue(_$$selfRef.pointer, _id_get$booleanValue.pointer)
@@ -3798,11 +3798,11 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Convenience alternative to \#getBinaryValue(Base64Variant)
-  /// that defaults to using
-  /// Base64Variants\#getDefaultVariant as the default encoding.
+  ///that defaults to using
+  ///Base64Variants\#getDefaultVariant as the default encoding.
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   jni$_.JByteArray? get binaryValue {
     final _$$selfRef = reference;
     return _get$binaryValue(_$$selfRef.pointer, _id_get$binaryValue.pointer)
@@ -3828,15 +3828,15 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public int readBinaryValue(java.io.OutputStream out)`
   ///
   /// Method that can be used as an alternative to \#getBigIntegerValue(),
-  /// especially when value can be large. The main difference (beyond method
-  /// of returning content using OutputStream instead of as byte array)
-  /// is that content will NOT remain accessible after method returns: any content
-  /// processed will be consumed and is not buffered in any way. If caller needs
-  /// buffering, it has to implement it.
+  ///especially when value can be large. The main difference (beyond method
+  ///of returning content using OutputStream instead of as byte array)
+  ///is that content will NOT remain accessible after method returns: any content
+  ///processed will be consumed and is not buffered in any way. If caller needs
+  ///buffering, it has to implement it.
   ///@param out Output stream to use for passing decoded binary data
   ///@return Number of bytes that were decoded and written via OutputStream
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   ///@since 2.1
   core$_.int readBinaryValue(
     outputstream$_.OutputStream? out,
@@ -3873,12 +3873,12 @@ extension JsonParser$$Methods on JsonParser {
   /// from: `public int readBinaryValue(com.fasterxml.jackson.core.Base64Variant bv, java.io.OutputStream out)`
   ///
   /// Similar to \#readBinaryValue(OutputStream) but allows explicitly
-  /// specifying base64 variant to use.
+  ///specifying base64 variant to use.
   ///@param bv base64 variant to use
   ///@param out Output stream to use for passing decoded binary data
   ///@return Number of bytes that were decoded and written via OutputStream
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   ///@since 2.1
   core$_.int readBinaryValue$1(
     base64variant$_.Base64Variant? bv,
@@ -4222,15 +4222,15 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will try to convert value of current token to a
-  /// java.lang.String.
-  /// JSON Strings map naturally; scalar values get converted to
-  /// their textual representation.
-  /// If representation can not be converted to a String value (including structured types
-  /// like Objects and Arrays and {@code null} token), default value of
-  /// __null__ will be returned; no exceptions are thrown.
+  ///java.lang.String.
+  ///JSON Strings map naturally; scalar values get converted to
+  ///their textual representation.
+  ///If representation can not be converted to a String value (including structured types
+  ///like Objects and Arrays and {@code null} token), default value of
+  ///__null__ will be returned; no exceptions are thrown.
   ///@return String value current token is converted to, if possible; {@code null} otherwise
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   ///@since 2.1
   jni$_.JString? get valueAsString {
     final _$$selfRef = reference;
@@ -4258,16 +4258,16 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will try to convert value of current token to a
-  /// java.lang.String.
-  /// JSON Strings map naturally; scalar values get converted to
-  /// their textual representation.
-  /// If representation can not be converted to a String value (including structured types
-  /// like Objects and Arrays and {@code null} token), specified default value
-  /// will be returned; no exceptions are thrown.
+  ///java.lang.String.
+  ///JSON Strings map naturally; scalar values get converted to
+  ///their textual representation.
+  ///If representation can not be converted to a String value (including structured types
+  ///like Objects and Arrays and {@code null} token), specified default value
+  ///will be returned; no exceptions are thrown.
   ///@param def Default value to return if conversion to {@code String} is not possible
   ///@return String value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
-  ///   JsonParseException for decoding problems
+  ///  JsonParseException for decoding problems
   ///@since 2.1
   jni$_.JString? getValueAsString(
     jni$_.JString? def,
@@ -4554,13 +4554,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
-  /// all with same specified value type.
+  ///all with same specified value type.
   ///@param <T> Nominal type parameter for value type
   ///@param valueType Java type to read content as (passed to ObjectCodec that
-  ///    deserializes content)
+  ///   deserializes content)
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
-  ///    issue at format layer
+  ///   issue at format layer
   jni$_.JIterator<$T?>? readValuesAs<$T extends jni$_.JObject?>(
     class$_.Class? valueType,
   ) {
@@ -4591,13 +4591,13 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
-  /// all with same specified value type.
+  ///all with same specified value type.
   ///@param <T> Nominal type parameter for value type
   ///@param valueTypeRef Java type to read content as (passed to ObjectCodec that
-  ///    deserializes content)
+  ///   deserializes content)
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
-  ///    issue at format layer
+  ///   issue at format layer
   jni$_.JIterator<$T?>? readValuesAs$1<$T extends jni$_.JObject?>(
     typereference$_.TypeReference? valueTypeRef,
   ) {
@@ -4629,14 +4629,14 @@ extension JsonParser$$Methods on JsonParser {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into equivalent "tree model",
-  /// represented by root TreeNode of resulting model.
-  /// For JSON Arrays it will an array node (with child nodes),
-  /// for objects object node (with child nodes), and for other types
-  /// matching leaf node type. Empty or whitespace documents are null.
+  ///represented by root TreeNode of resulting model.
+  ///For JSON Arrays it will an array node (with child nodes),
+  ///for objects object node (with child nodes), and for other types
+  ///matching leaf node type. Empty or whitespace documents are null.
   ///@param <T> Nominal type parameter for result node type (to reduce need for casting)
   ///@return root of the document, or null if empty or whitespace.
   ///@throws IOException if there is either an underlying I/O problem or decoding
-  ///    issue at format layer
+  ///   issue at format layer
   $T? readValueAsTree<$T extends jni$_.JObject?>() {
     final _$$selfRef = reference;
     return _readValueAsTree(_$$selfRef.pointer, _id_readValueAsTree.pointer)

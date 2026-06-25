@@ -98,7 +98,9 @@ public class Main {
     for (var qualifiedName : options.args) {
       var foundSource = sourceClasses.get(qualifiedName) != null;
       var foundBinary = binaryClasses.get(qualifiedName) != null;
+      System.err.println("DEBUG: qualifiedName=" + qualifiedName + " foundSource=" + foundSource + " foundBinary=" + foundBinary);
       if (!foundBinary && !foundSource) {
+        System.err.println("DEBUG: Calling CoreClassFinder.findAll for " + qualifiedName);
         Map<String, InputStream> inputStreams = null;
         try {
           inputStreams = CoreClassFinder.findAll(qualifiedName);

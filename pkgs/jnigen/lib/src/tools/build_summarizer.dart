@@ -29,12 +29,11 @@ Future<void> buildApiSummarizer() async {
   if (pkg == null) {
     log.fatal('package jnigen not found!');
   }
-  final gradleFile = pkg.resolve('java/build.gradle.kts');
   final gradleWrapper = await GradleTools.getGradleWExecutable();
   await Directory(toolPath).create(recursive: true);
   final gradleArgs = [
-    '-b',
-    gradleFile.toFilePath(),
+    '-p',
+    pkg.resolve('java/').toFilePath(),
     'buildFatJar', // from ktor plugin
     '-x', 'test', // ignore failing tests
     '-q' // quiet
