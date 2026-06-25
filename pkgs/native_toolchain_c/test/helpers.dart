@@ -402,9 +402,27 @@ Future<void> expectMachineArchitecture(
     final machine = await readelfMachine(libUri.path);
     expect(machine, contains(readElfMachine[targetArch]));
   } else if (Platform.isMacOS) {
+    final triple = switch ((targetOS, targetArch)) {
+      (OS.linux, Architecture.arm) => 'arm-linux-gnueabihf',
+      (OS.linux, Architecture.arm64) => 'aarch64-linux-gnu',
+      (OS.linux, Architecture.ia32) => 'i686-linux-gnu',
+      (OS.linux, Architecture.x64) => 'x86_64-linux-gnu',
+      (OS.linux, Architecture.riscv32) => 'riscv32-linux-gnu',
+      (OS.linux, Architecture.riscv64) => 'riscv64-linux-gnu',
+      (OS.android, Architecture.arm) => 'arm-linux-androideabi',
+      (OS.android, Architecture.arm64) => 'aarch64-linux-android',
+      (OS.android, Architecture.ia32) => 'i686-linux-android',
+      (OS.android, Architecture.x64) => 'x86_64-linux-android',
+      (OS.android, Architecture.riscv64) => 'riscv64-linux-android',
+      _ => null,
+    };
     final result = await runProcess(
       executable: Uri.file('objdump'),
-      arguments: ['-T', libUri.path],
+      arguments: [
+        if (triple != null) '--triple=$triple',
+        '-T',
+        libUri.path,
+      ],
       logger: logger,
     );
     expect(result.exitCode, 0);

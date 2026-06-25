@@ -200,9 +200,23 @@ void main() async {
         final libUri = buildInput.outputDirectory.resolve(
           os.libraryFileName(name, linkMode),
         );
+        final triple = switch ((os, arch)) {
+          (OS.linux, Architecture.arm) => 'arm-linux-gnueabihf',
+          (OS.linux, Architecture.arm64) => 'aarch64-linux-gnu',
+          (OS.linux, Architecture.ia32) => 'i686-linux-gnu',
+          (OS.linux, Architecture.x64) => 'x86_64-linux-gnu',
+          (OS.linux, Architecture.riscv32) => 'riscv32-linux-gnu',
+          (OS.linux, Architecture.riscv64) => 'riscv64-linux-gnu',
+          _ => null,
+        };
+
         final result = await runProcess(
           executable: Uri.file('objdump'),
-          arguments: ['-t', libUri.path],
+          arguments: [
+            if (triple != null) '--triple=$triple',
+            '-t',
+            libUri.path,
+          ],
           logger: logger,
         );
         expect(result.exitCode, 0);
