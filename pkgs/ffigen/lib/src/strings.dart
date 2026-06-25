@@ -31,7 +31,6 @@ const output = 'output';
 // Sub-keys of output.
 const bindings = 'bindings';
 const objCBindings = 'objc-bindings';
-const cppGlue = 'cpp-glue';
 const symbolFile = 'symbol-file';
 
 const language = 'language';
@@ -72,9 +71,6 @@ const includeCStdLib = 'include-c-standard-library';
 // Declarations.
 const functions = 'functions';
 const structs = 'structs';
-const cpp = 'cpp';
-// Sub-keys of cpp.
-const cppClasses = 'cpp-classes';
 const unions = 'unions';
 const enums = 'enums';
 const unnamedEnums = 'unnamed-enums';
