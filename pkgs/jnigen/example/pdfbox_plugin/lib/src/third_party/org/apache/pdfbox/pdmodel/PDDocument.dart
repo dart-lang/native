@@ -104,7 +104,7 @@ import 'interactive/form/PDSignatureField.dart' as pdsignaturefield$_;
 /// from: `org.apache.pdfbox.pdmodel.PDDocument`
 ///
 /// This is the in-memory representation of the PDF document.
-/// The \#close() method must be called once the document is no longer needed.
+///The \#close() method must be called once the document is no longer needed.
 ///@author Ben Litchfield
 extension type PDDocument._(jni$_.JObject _$this)
     implements jni$_.JObject, closeable$_.Closeable {
@@ -133,7 +133,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
-  /// You need to add at least one page for the document to be valid.
+  ///You need to add at least one page for the document to be valid.
   factory PDDocument() {
     final _$$classRef = _class.reference;
     return _new$(_$$classRef.pointer, _id_new$.pointer).object<PDDocument>();
@@ -158,7 +158,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
-  /// You need to add at least one page for the document to be valid.
+  ///You need to add at least one page for the document to be valid.
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
   factory PDDocument.new$1(
     memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
@@ -588,7 +588,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
-  /// pdf. Unrestricted main memory will be used for buffering PDF streams.
+  ///pdf. Unrestricted main memory will be used for buffering PDF streams.
   ///@param input stream that contains the document. Don't forget to close it after loading.
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
@@ -628,7 +628,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
-  /// copied to main memory or to a temporary file to enable random access to the pdf.
+  ///copied to main memory or to a temporary file to enable random access to the pdf.
   ///@param input stream that contains the document. Don't forget to close it after loading.
   ///@param memUsageSetting defines how memory is used for buffering input stream and PDF streams
   ///@return loaded document
@@ -673,7 +673,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
-  /// pdf. Unrestricted main memory will be used for buffering PDF streams.
+  ///pdf. Unrestricted main memory will be used for buffering PDF streams.
   ///@param input stream that contains the document. Don't forget to close it after loading.
   ///@param password password to be used for decryption
   ///@return loaded document
@@ -721,7 +721,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
-  /// pdf. Unrestricted main memory will be used for buffering PDF streams.
+  ///pdf. Unrestricted main memory will be used for buffering PDF streams.
   ///@param input stream that contains the document. Don't forget to close it after loading.
   ///@param password password to be used for decryption
   ///@param keyStore key store to be used for decryption when using public key security
@@ -772,7 +772,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
-  /// copied to main memory or to a temporary file to enable random access to the pdf.
+  ///copied to main memory or to a temporary file to enable random access to the pdf.
   ///@param input stream that contains the document. Don't forget to close it after loading.
   ///@param password password to be used for decryption
   ///@param memUsageSetting defines how memory is used for buffering input stream and PDF streams
@@ -826,7 +826,7 @@ extension type PDDocument._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
-  /// copied to memory or to a temporary file to enable random access to the pdf.
+  ///copied to memory or to a temporary file to enable random access to the pdf.
   ///@param input stream that contains the document. Don't forget to close it after loading.
   ///@param password password to be used for decryption
   ///@param keyStore key store to be used for decryption when using public key security
@@ -1075,7 +1075,7 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void addPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
-  /// hierarchy and set the parent of the page to the root.
+  ///hierarchy and set the parent of the page to the root.
   ///@param page The page to add to the document.
   void addPage(
     pdpage$_.PDPage? page,
@@ -1104,15 +1104,15 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)`
   ///
   /// Add parameters of signature to be created externally using default signature options. See
-  /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
-  /// signature creation scenario details.
+  ///\#saveIncrementalForExternalSigning(OutputStream) method description on external
+  ///signature creation scenario details.
   ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
+  ///Only one signature may be added in a document. To sign several times,
+  ///load document, add signature, save incremental and close again.
   ///@param sigObject is the PDSignatureField model
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
+  ///fields.
   void addSignature(
     pdsignature$_.PDSignature? sigObject,
   ) {
@@ -1148,16 +1148,16 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// Add parameters of signature to be created externally. See
-  /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
-  /// signature creation scenario details.
+  ///\#saveIncrementalForExternalSigning(OutputStream) method description on external
+  ///signature creation scenario details.
   ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
+  ///Only one signature may be added in a document. To sign several times,
+  ///load document, add signature, save incremental and close again.
   ///@param sigObject is the PDSignatureField model
   ///@param options signature options
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
+  ///fields.
   void addSignature$1(
     pdsignature$_.PDSignature? sigObject,
     signatureoptions$_.SignatureOptions? options,
@@ -1196,14 +1196,14 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Add a signature to be created using the instance of given interface.
   ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
+  ///Only one signature may be added in a document. To sign several times,
+  ///load document, add signature, save incremental and close again.
   ///@param sigObject is the PDSignatureField model
   ///@param signatureInterface is an interface whose implementation provides
-  /// signing capabilities. Can be null if external signing if used.
+  ///signing capabilities. Can be null if external signing if used.
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
+  ///fields.
   void addSignature$2(
     pdsignature$_.PDSignature? sigObject,
     signatureinterface$_.SignatureInterface? signatureInterface,
@@ -1244,18 +1244,18 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// This will add a signature to the document. If the 0-based page number in the options
-  /// parameter is smaller than 0 or larger than max, the nearest valid page number will be used
-  /// (i.e. 0 or max) and no exception will be thrown.
+  ///parameter is smaller than 0 or larger than max, the nearest valid page number will be used
+  ///(i.e. 0 or max) and no exception will be thrown.
   ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
+  ///Only one signature may be added in a document. To sign several times,
+  ///load document, add signature, save incremental and close again.
   ///@param sigObject is the PDSignatureField model
   ///@param signatureInterface is an interface whose implementation provides
-  /// signing capabilities. Can be null if external signing if used.
+  ///signing capabilities. Can be null if external signing if used.
   ///@param options signature options
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
+  ///fields.
   void addSignature$3(
     pdsignature$_.PDSignature? sigObject,
     signatureinterface$_.SignatureInterface? signatureInterface,
@@ -1304,11 +1304,11 @@ extension PDDocument$$Methods on PDDocument {
   /// This will add a list of signature fields to the document.
   ///@param sigFields are the PDSignatureFields that should be added to the document
   ///@param signatureInterface is an interface whose implementation provides
-  /// signing capabilities. Can be null if external signing if used.
+  ///signing capabilities. Can be null if external signing if used.
   ///@param options signature options
   ///@throws IOException if there is an error creating required fields
   ///@deprecated The method is misleading, because only one signature may be
-  /// added in a document. The method will be removed in the future.
+  ///added in a document. The method will be removed in the future.
   void addSignatureField(
     jni$_.JList<pdsignaturefield$_.PDSignatureField?>? sigFields,
     signatureinterface$_.SignatureInterface? signatureInterface,
@@ -1404,23 +1404,23 @@ extension PDDocument$$Methods on PDDocument {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will import and copy the contents from another location. Currently the content stream is
-  /// stored in a scratch file. The scratch file is associated with the document. If you are adding
-  /// a page to this document from another document and want to copy the contents to this
-  /// document's scratch file then use this method otherwise just use the \#addPage addPage()
-  /// method.
+  ///stored in a scratch file. The scratch file is associated with the document. If you are adding
+  ///a page to this document from another document and want to copy the contents to this
+  ///document's scratch file then use this method otherwise just use the \#addPage addPage()
+  ///method.
   ///
-  /// Unlike \#addPage addPage(), this method creates a new PDPage object. If your page has
-  /// annotations, and if these link to pages not in the target document, then the target document
-  /// might become huge. What you need to do is to delete page references of such annotations. See
-  /// <a href="http://stackoverflow.com/a/35477351/535646">here</a> for how to do this.
+  ///Unlike \#addPage addPage(), this method creates a new PDPage object. If your page has
+  ///annotations, and if these link to pages not in the target document, then the target document
+  ///might become huge. What you need to do is to delete page references of such annotations. See
+  ///<a href="http://stackoverflow.com/a/35477351/535646">here</a> for how to do this.
   ///
-  /// Inherited (global) resources are ignored because these can contain resources not needed for
-  /// this page which could bloat your document, see
-  /// <a href="https://issues.apache.org/jira/browse/PDFBOX-28">PDFBOX-28</a> and related issues.
-  /// If you need them, call <code>importedPage.setResources(page.getResources());</code>
+  ///Inherited (global) resources are ignored because these can contain resources not needed for
+  ///this page which could bloat your document, see
+  ///<a href="https://issues.apache.org/jira/browse/PDFBOX-28">PDFBOX-28</a> and related issues.
+  ///If you need them, call <code>importedPage.setResources(page.getResources());</code>
   ///
-  /// This method should only be used to import a page from a loaded document, not from a generated
-  /// document because these can contain unfinished parts, e.g. font subsetting information.
+  ///This method should only be used to import a page from a loaded document, not from a generated
+  ///document because these can contain unfinished parts, e.g. font subsetting information.
   ///@param page The page to import.
   ///@return The page that was imported.
   ///@throws IOException If there is an error copying the page.
@@ -1483,11 +1483,11 @@ extension PDDocument$$Methods on PDDocument {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the document info dictionary. If it doesn't exist, an empty document info
-  /// dictionary is created in the document trailer.
+  ///dictionary is created in the document trailer.
   ///
-  /// In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
-  /// document level metadata, a metadata stream should be used instead, see
-  /// PDDocumentCatalog\#getMetadata().
+  ///In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
+  ///document level metadata, a metadata stream should be used instead, see
+  ///PDDocumentCatalog\#getMetadata().
   ///@return The documents /Info dictionary, never null.
   pddocumentinformation$_.PDDocumentInformation? get documentInformation {
     final _$$selfRef = reference;
@@ -1516,9 +1516,9 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// This will set the document information for this document.
   ///
-  /// In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
-  /// document level metadata, a metadata stream should be used instead, see
-  /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
+  ///In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
+  ///document level metadata, a metadata stream should be used instead, see
+  ///PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
   ///@param info The updated document information.
   set documentInformation(pddocumentinformation$_.PDDocumentInformation? info) {
     final _$$selfRef = reference;
@@ -1605,9 +1605,9 @@ extension PDDocument$$Methods on PDDocument {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the encryption dictionary for this document. This will still return the parameters if the document
-  /// was decrypted. As the encryption architecture in PDF documents is pluggable this returns an abstract class,
-  /// but the only supported subclass at this time is a
-  /// PDStandardEncryption object.
+  ///was decrypted. As the encryption architecture in PDF documents is pluggable this returns an abstract class,
+  ///but the only supported subclass at this time is a
+  ///PDStandardEncryption object.
   ///@return The encryption dictionary(most likely a PDStandardEncryption object)
   pdencryption$_.PDEncryption? get encryption {
     final _$$selfRef = reference;
@@ -1668,7 +1668,7 @@ extension PDDocument$$Methods on PDDocument {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will return the last signature from the field tree. Note that this may not be the
-  /// last in time when empty signature fields are created first but signed after other fields.
+  ///last in time when empty signature fields are created first but signed after other fields.
   ///@return the last signature as <code>PDSignatureField</code>.
   ///@throws IOException if no document catalog can be found.
   pdsignature$_.PDSignature? get lastSignatureDictionary {
@@ -1760,8 +1760,8 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)`
   ///
   /// For internal PDFBox use when creating PDF documents: register a TrueTypeFont to make sure it
-  /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
-  /// method, it is done by the appropriate PDFont classes.
+  ///is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
+  ///method, it is done by the appropriate PDFont classes.
   ///@param ttf
   void registerTrueTypeFontForClosing(
     truetypefont$_.TrueTypeFont? ttf,
@@ -1793,9 +1793,9 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Save the document to a file.
   ///
-  /// If encryption has been activated (with
-  /// \#protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy) protect(ProtectionPolicy)),
-  /// do not use the document after saving because the contents are now encrypted.
+  ///If encryption has been activated (with
+  ///\#protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy) protect(ProtectionPolicy)),
+  ///do not use the document after saving because the contents are now encrypted.
   ///@param fileName The file to save as.
   ///@throws IOException if the output could not be written
   void save(
@@ -1826,9 +1826,9 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Save the document to a file.
   ///
-  /// If encryption has been activated (with
-  /// \#protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy) protect(ProtectionPolicy)),
-  /// do not use the document after saving because the contents are now encrypted.
+  ///If encryption has been activated (with
+  ///\#protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy) protect(ProtectionPolicy)),
+  ///do not use the document after saving because the contents are now encrypted.
   ///@param file The file to save as.
   ///@throws IOException if the output could not be written
   void save$1(
@@ -1859,11 +1859,11 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// This will save the document to an output stream.
   ///
-  /// If encryption has been activated (with
-  /// \#protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy) protect(ProtectionPolicy)),
-  /// do not use the document after saving because the contents are now encrypted.
+  ///If encryption has been activated (with
+  ///\#protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy) protect(ProtectionPolicy)),
+  ///do not use the document after saving because the contents are now encrypted.
   ///@param output The stream to write to. It will be closed when done. It is recommended to wrap
-  /// it in a java.io.BufferedOutputStream, unless it is already buffered.
+  ///it in a java.io.BufferedOutputStream, unless it is already buffered.
   ///@throws IOException if the output could not be written
   void save$2(
     outputstream$_.OutputStream? output,
@@ -1892,16 +1892,16 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void saveIncremental(java.io.OutputStream output)`
   ///
   /// Save the PDF as an incremental update. This is only possible if the PDF was loaded from a
-  /// file or a stream, not if the document was created in PDFBox itself. There must be a path of
-  /// objects that have COSUpdateInfo\#isNeedToBeUpdated() set, starting from the document
-  /// catalog. For signatures this is taken care by PDFBox itself.
+  ///file or a stream, not if the document was created in PDFBox itself. There must be a path of
+  ///objects that have COSUpdateInfo\#isNeedToBeUpdated() set, starting from the document
+  ///catalog. For signatures this is taken care by PDFBox itself.
   ///
-  /// Other usages of this method are for experienced users only. You will usually never need it.
-  /// It is useful only if you are required to keep the current revision and append the changes. A
-  /// typical use case is changing a signed file without invalidating the signature.
+  ///Other usages of this method are for experienced users only. You will usually never need it.
+  ///It is useful only if you are required to keep the current revision and append the changes. A
+  ///typical use case is changing a signed file without invalidating the signature.
   ///@param output stream to write to. It will be closed when done. It
-  /// <i>__must never__</i> point to the source file or that one will be
-  /// harmed!
+  ///<i>__must never__</i> point to the source file or that one will be
+  ///harmed!
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
   void saveIncremental(
@@ -1939,20 +1939,20 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void saveIncremental(java.io.OutputStream output, java.util.Set<org.apache.pdfbox.cos.COSDictionary> objectsToWrite)`
   ///
   /// Save the PDF as an incremental update. This is only possible if the PDF was loaded from a
-  /// file or a stream, not if the document was created in PDFBox itself. This allows to include
-  /// objects even if there is no path of objects that have
-  /// COSUpdateInfo\#isNeedToBeUpdated() set so the incremental update gets smaller. Only
-  /// dictionaries are supported; if you need to update other objects classes, then add their
-  /// parent dictionary.
+  ///file or a stream, not if the document was created in PDFBox itself. This allows to include
+  ///objects even if there is no path of objects that have
+  ///COSUpdateInfo\#isNeedToBeUpdated() set so the incremental update gets smaller. Only
+  ///dictionaries are supported; if you need to update other objects classes, then add their
+  ///parent dictionary.
   ///
-  /// This method is for experienced users only. You will usually never need it. It is useful only
-  /// if you are required to keep the current revision and append the changes. A typical use case
-  /// is changing a signed file without invalidating the signature. To know which objects are
-  /// getting changed, you need to have some understanding of the PDF specification, and look at
-  /// the saved file with an editor to verify that you are updating the correct objects. You should
-  /// also inspect the page and document structures of the file with PDFDebugger.
+  ///This method is for experienced users only. You will usually never need it. It is useful only
+  ///if you are required to keep the current revision and append the changes. A typical use case
+  ///is changing a signed file without invalidating the signature. To know which objects are
+  ///getting changed, you need to have some understanding of the PDF specification, and look at
+  ///the saved file with an editor to verify that you are updating the correct objects. You should
+  ///also inspect the page and document structures of the file with PDFDebugger.
   ///@param output stream to write to. It will be closed when done. It
-  /// <i>__must never__</i> point to the source file or that one will be harmed!
+  ///<i>__must never__</i> point to the source file or that one will be harmed!
   ///@param objectsToWrite objects that __must__ be part of the incremental saving.
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
@@ -1990,42 +1990,42 @@ extension PDDocument$$Methods on PDDocument {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   ///
-  /// __(This is a new feature for 2.0.3. The API for external signing might change based on feedback after release!)__
+  ///__(This is a new feature for 2.0.3. The API for external signing might change based on feedback after release!)__
   ///
-  /// Save PDF incrementally without closing for external signature creation scenario. The general
-  /// sequence is:
-  /// <pre>
-  ///    PDDocument pdDocument = ...;
-  ///    OutputStream outputStream = ...;
-  ///    SignatureOptions signatureOptions = ...; // options to specify fine tuned signature options or null for defaults
-  ///    PDSignature pdSignature = ...;
+  ///Save PDF incrementally without closing for external signature creation scenario. The general
+  ///sequence is:
+  ///<pre>
+  ///   PDDocument pdDocument = ...;
+  ///   OutputStream outputStream = ...;
+  ///   SignatureOptions signatureOptions = ...; // options to specify fine tuned signature options or null for defaults
+  ///   PDSignature pdSignature = ...;
   ///
-  ///    // add signature parameters to be used when creating signature dictionary
-  ///    pdDocument.addSignature(pdSignature, signatureOptions);
-  ///    // prepare PDF for signing and obtain helper class to be used
-  ///    ExternalSigningSupport externalSigningSupport = pdDocument.saveIncrementalForExternalSigning(outputStream);
-  ///    // get data to be signed
-  ///    InputStream dataToBeSigned = externalSigningSupport.getContent();
-  ///    // invoke signature service
-  ///    byte[] signature = sign(dataToBeSigned);
-  ///    // set resulted CMS signature
-  ///    externalSigningSupport.setSignature(signature);
+  ///   // add signature parameters to be used when creating signature dictionary
+  ///   pdDocument.addSignature(pdSignature, signatureOptions);
+  ///   // prepare PDF for signing and obtain helper class to be used
+  ///   ExternalSigningSupport externalSigningSupport = pdDocument.saveIncrementalForExternalSigning(outputStream);
+  ///   // get data to be signed
+  ///   InputStream dataToBeSigned = externalSigningSupport.getContent();
+  ///   // invoke signature service
+  ///   byte[] signature = sign(dataToBeSigned);
+  ///   // set resulted CMS signature
+  ///   externalSigningSupport.setSignature(signature);
   ///
-  ///    // last step is to close the document
-  ///    pdDocument.close();
-  /// </pre>
+  ///   // last step is to close the document
+  ///   pdDocument.close();
+  ///</pre>
   ///
-  /// Note that after calling this method, only {@code close()} method may invoked for
-  /// {@code PDDocument} instance and only AFTER ExternalSigningSupport instance is used.
+  ///Note that after calling this method, only {@code close()} method may invoked for
+  ///{@code PDDocument} instance and only AFTER ExternalSigningSupport instance is used.
   ///
   ///
   ///@param output stream to write the final PDF. It will be closed when the
-  /// document is closed. It <i>__must never__</i> point to the source file
-  /// or that one will be harmed!
+  ///document is closed. It <i>__must never__</i> point to the source file
+  ///or that one will be harmed!
   ///@return instance to be used for external signing and setting CMS signature
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream or
-  /// signature options were not set.
+  ///signature options were not set.
   externalsigningsupport$_.ExternalSigningSupport?
       saveIncrementalForExternalSigning(
     outputstream$_.OutputStream? output,
@@ -2057,9 +2057,9 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Returns the page at the given 0-based index.
   ///
-  /// This method is too slow to get all the pages from a large PDF document
-  /// (1000 pages or more). For such documents, use the iterator of
-  /// PDDocument\#getPages() instead.
+  ///This method is too slow to get all the pages from a large PDF document
+  ///(1000 pages or more). For such documents, use the iterator of
+  ///PDDocument\#getPages() instead.
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
   pdpage$_.PDPage? getPage(
@@ -2170,11 +2170,11 @@ extension PDDocument$$Methods on PDDocument {
   /// from: `public void protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy policy)`
   ///
   /// Protects the document with a protection policy. The document content will be really
-  /// encrypted when it will be saved. This method only marks the document for encryption. It also
-  /// calls \#setAllSecurityToBeRemoved(boolean) with a false argument if it was set to true
-  /// previously and logs a warning.
+  ///encrypted when it will be saved. This method only marks the document for encryption. It also
+  ///calls \#setAllSecurityToBeRemoved(boolean) with a false argument if it was set to true
+  ///previously and logs a warning.
   ///
-  /// Do not use the document after saving, because the structures are encrypted.
+  ///Do not use the document after saving, because the structures are encrypted.
   ///@see org.apache.pdfbox.pdmodel.encryption.StandardProtectionPolicy
   ///@see org.apache.pdfbox.pdmodel.encryption.PublicKeyProtectionPolicy
   ///@param policy The protection policy.
@@ -2210,9 +2210,9 @@ extension PDDocument$$Methods on PDDocument {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the access permissions granted when the document was decrypted. If the document was not decrypted this
-  /// method returns the access permission for a document owner (ie can do everything). The returned object is in read
-  /// only mode so that permissions cannot be changed. Methods providing access to content should rely on this object
-  /// to verify if the current user is allowed to proceed.
+  ///method returns the access permission for a document owner (ie can do everything). The returned object is in read
+  ///only mode so that permissions cannot be changed. Methods providing access to content should rely on this object
+  ///to verify if the current user is allowed to proceed.
   ///@return the access permissions for the current user on the document.
   accesspermission$_.AccessPermission? get currentAccessPermission {
     final _$$selfRef = reference;

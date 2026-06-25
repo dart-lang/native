@@ -151,7 +151,6 @@ public class CoreClassFinder {
   }
 
   public static Map<String, InputStream> findAll(String name) throws IOException {
-    System.err.println("DEBUG: CoreClassFinder.findAll(" + name + ")");
     Map<String, InputStream> results = new HashMap<>();
     boolean nameIsLikelyFQCN = false;
 
@@ -245,7 +244,6 @@ public class CoreClassFinder {
   }
 
   private static List<String> findTopLevelClassesInPackageClasspath(String packageName) {
-    System.err.println("DEBUG: findTopLevelClassesInPackageClasspath(" + packageName + ")");
     List<String> classNames = new ArrayList<>();
     String packagePath = packageName.replace('.', '/');
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -257,7 +255,6 @@ public class CoreClassFinder {
       Enumeration<URL> resources = classLoader.getResources(packagePath);
       while (resources.hasMoreElements()) {
         URL resourceUrl = resources.nextElement();
-        System.err.println("DEBUG: found resource: " + resourceUrl);
         if ("file".equals(resourceUrl.getProtocol())) {
           try {
             File directory = Paths.get(resourceUrl.toURI()).toFile();

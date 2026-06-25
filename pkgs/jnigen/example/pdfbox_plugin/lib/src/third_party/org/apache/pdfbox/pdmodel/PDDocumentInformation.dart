@@ -63,8 +63,8 @@ import 'common/COSObjectable.dart' as cosobjectable$_;
 /// from: `org.apache.pdfbox.pdmodel.PDDocumentInformation`
 ///
 /// This is the document metadata.  Each getXXX method will return the entry if
-/// it exists or null if it does not exist.  If you pass in null for the setXXX
-/// method then it will clear the value.
+///it exists or null if it does not exist.  If you pass in null for the setXXX
+///method then it will clear the value.
 ///@author Ben Litchfield
 ///@author Gerardo Ortiz
 extension type PDDocumentInformation._(jni$_.JObject _$this)
@@ -183,8 +183,8 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// Return the properties String value.
   ///
-  /// Allows to retrieve the
-  /// low level date for validation purposes.
+  ///Allows to retrieve the
+  ///low level date for validation purposes.
   ///
   ///
   ///@param propertyKey the dictionaries key
@@ -669,7 +669,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the trapped value for the document.
-  /// This will return null if one is not found.
+  ///This will return null if one is not found.
   ///@return The trapped value for the document.
   jni$_.JString? get trapped {
     final _$$selfRef = reference;
@@ -728,7 +728,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the value of a custom metadata information field for the document.
-  ///  This will return null if one is not found.
+  /// This will return null if one is not found.
   ///@param fieldName Name of custom metadata field from pdf document.
   ///@return String Value of metadata field
   jni$_.JString? getCustomMetadataValue(
@@ -803,7 +803,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// from: `public void setTrapped(java.lang.String value)`
   ///
   /// This will set the trapped of the document.  This will be
-  /// 'True', 'False', or 'Unknown'.
+  ///'True', 'False', or 'Unknown'.
   ///@param value The new trapped value for the document.
   ///@throws IllegalArgumentException if the parameter is invalid.
   set trapped(jni$_.JString? value) {

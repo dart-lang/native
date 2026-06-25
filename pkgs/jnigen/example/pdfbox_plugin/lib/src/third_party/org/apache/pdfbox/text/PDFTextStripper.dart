@@ -68,11 +68,11 @@ import 'LegacyPDFStreamEngine.dart' as legacypdfstreamengine$_;
 /// from: `org.apache.pdfbox.text.PDFTextStripper`
 ///
 /// This class will take a pdf document and strip out all of the text and ignore the formatting and such. Please note; it
-/// is up to clients of this class to verify that a specific user has the correct permissions to extract text from the
-/// PDF document.
+///is up to clients of this class to verify that a specific user has the correct permissions to extract text from the
+///PDF document.
 ///
-/// The basic flow of this process is that we get a document and use a series of processXXX() functions that work on
-/// smaller and smaller chunks of the page. Eventually, we fully process each page and then print it.
+///The basic flow of this process is that we get a document and use a series of processXXX() functions that work on
+///smaller and smaller chunks of the page. Eventually, we fully process each page and then print it.
 ///@author Ben Litchfield
 extension type PDFTextStripper._(jni$_.JObject _$this)
     implements legacypdfstreamengine$_.LegacyPDFStreamEngine {
@@ -130,12 +130,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will return the text of a document. See writeText. <br>
-  /// NOTE: The document must not be encrypted when coming into this method.
+  ///NOTE: The document must not be encrypted when coming into this method.
   ///
-  /// IMPORTANT: By default, text extraction is done in the same sequence as the text in the PDF page content stream.
-  /// PDF is a graphic format, not a text format, and unlike HTML, it has no requirements that text one on page
-  /// be rendered in a certain order. The order is the one that was determined by the software that created the
-  /// PDF. To get text sorted from left to right and top to botton, use \#setSortByPosition(boolean).
+  ///IMPORTANT: By default, text extraction is done in the same sequence as the text in the PDF page content stream.
+  ///PDF is a graphic format, not a text format, and unlike HTML, it has no requirements that text one on page
+  ///be rendered in a certain order. The order is the one that was determined by the software that created the
+  ///PDF. To get text sorted from left to right and top to botton, use \#setSortByPosition(boolean).
   ///@param doc The document to get the text from.
   ///@return The text of the PDF document.
   ///@throws IOException if the doc state is invalid or it is encrypted.
@@ -238,8 +238,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public int getStartPage()`
   ///
   /// This is the page that the text extraction will start on. The pages start at page 1. For example in a 5 page PDF
-  /// document, if the start page is 1 then all pages will be extracted. If the start page is 4 then pages 4 and 5 will
-  /// be extracted. The default value is 1.
+  ///document, if the start page is 1 then all pages will be extracted. If the start page is 4 then pages 4 and 5 will
+  ///be extracted. The default value is 1.
   ///@return Value of property startPage.
   core$_.int get startPage {
     final _$$selfRef = reference;
@@ -293,8 +293,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public int getEndPage()`
   ///
   /// This will get the last page that will be extracted. This is inclusive, for example if a 5 page PDF an endPage
-  /// value of 5 would extract the entire document, an end page of 2 would extract pages 1 and 2. This defaults to
-  /// Integer.MAX_VALUE such that all pages of the pdf will be extracted.
+  ///value of 5 would extract the entire document, an end page of 2 would extract pages 1 and 2. This defaults to
+  ///Integer.MAX_VALUE such that all pages of the pdf will be extracted.
   ///@return Value of property endPage.
   core$_.int get endPage {
     final _$$selfRef = reference;
@@ -345,7 +345,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setLineSeparator(java.lang.String separator)`
   ///
   /// Set the desired line separator for output text. The line.separator system property is used if the line separator
-  /// preference is not set explicitly using this method.
+  ///preference is not set explicitly using this method.
   ///@param separator The desired line separator string.
   set lineSeparator(jni$_.JString? separator) {
     final _$$selfRef = reference;
@@ -430,9 +430,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setWordSeparator(java.lang.String separator)`
   ///
   /// Set the desired word separator for output text. The PDFBox text extraction algorithm will output a space
-  /// character if there is enough space between two words. By default a space character is used. If you need and
-  /// accurate count of characters that are found in a PDF document then you might want to set the word separator to
-  /// the empty string.
+  ///character if there is enough space between two words. By default a space character is used. If you need and
+  ///accurate count of characters that are found in a PDF document then you might want to set the word separator to
+  ///the empty string.
   ///@param separator The desired page separator string.
   set wordSeparator(jni$_.JString? separator) {
     final _$$selfRef = reference;
@@ -490,8 +490,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setSuppressDuplicateOverlappingText(boolean suppressDuplicateOverlappingTextValue)`
   ///
   /// By default the text stripper will attempt to remove text that overlapps each other. Word paints the same
-  /// character several times in order to make it look bold. By setting this to false all text will be extracted, which
-  /// means that certain sections will be duplicated, but better performance will be noticed.
+  ///character several times in order to make it look bold. By setting this to false all text will be extracted, which
+  ///means that certain sections will be duplicated, but better performance will be noticed.
   ///@param suppressDuplicateOverlappingTextValue The suppressDuplicateOverlappingText to set.
   set suppressDuplicateOverlappingText(
       core$_.bool suppressDuplicateOverlappingTextValue) {
@@ -775,12 +775,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setSortByPosition(boolean newSortByPosition)`
   ///
   /// The order of the text tokens in a PDF file may not be in the same as they appear visually on the screen. For
-  /// example, a PDF writer may write out all text by font, so all bold or larger text, then make a second pass and
-  /// write out the normal text.<br>
-  /// The default is to __not__ sort by position.<br>
-  /// <br>
-  /// A PDF writer could choose to write each character in a different order. By default PDFBox does __not__ sort
-  /// the text tokens before processing them due to performance reasons.
+  ///example, a PDF writer may write out all text by font, so all bold or larger text, then make a second pass and
+  ///write out the normal text.<br>
+  ///The default is to __not__ sort by position.<br>
+  ///<br>
+  ///A PDF writer could choose to write each character in a different order. By default PDFBox does __not__ sort
+  ///the text tokens before processing them due to performance reasons.
   ///@param newSortByPosition Tell PDFBox to sort the text positions.
   set sortByPosition(core$_.bool newSortByPosition) {
     final _$$selfRef = reference;
@@ -810,7 +810,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public float getSpacingTolerance()`
   ///
   /// Get the current space width-based tolerance value that is being used to estimate where spaces in text should be
-  /// added. Note that the default value for this has been determined from trial and error.
+  ///added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
   core$_.double get spacingTolerance {
     final _$$selfRef = reference;
@@ -838,8 +838,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setSpacingTolerance(float spacingToleranceValue)`
   ///
   /// Set the space width-based tolerance value that is used to estimate where spaces in text should be added. Note
-  /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
-  /// the number of spaces added.
+  ///that the default value for this has been determined from trial and error. Setting this value larger will reduce
+  ///the number of spaces added.
   ///@param spacingToleranceValue tolerance / scaling factor to use
   set spacingTolerance(core$_.double spacingToleranceValue) {
     final _$$selfRef = reference;
@@ -869,7 +869,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public float getAverageCharTolerance()`
   ///
   /// Get the current character width-based tolerance value that is being used to estimate where spaces in text should
-  /// be added. Note that the default value for this has been determined from trial and error.
+  ///be added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
   core$_.double get averageCharTolerance {
     final _$$selfRef = reference;
@@ -897,8 +897,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setAverageCharTolerance(float averageCharToleranceValue)`
   ///
   /// Set the character width-based tolerance value that is used to estimate where spaces in text should be added. Note
-  /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
-  /// the number of spaces added.
+  ///that the default value for this has been determined from trial and error. Setting this value larger will reduce
+  ///the number of spaces added.
   ///@param averageCharToleranceValue average tolerance / scaling factor to use
   set averageCharTolerance(core$_.double averageCharToleranceValue) {
     final _$$selfRef = reference;
@@ -928,7 +928,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public float getIndentThreshold()`
   ///
   /// returns the multiple of whitespace character widths for the current text which the current line start can be
-  /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
+  ///indented from the previous line start beyond which the current line start is considered to be a paragraph start.
   ///@return the number of whitespace character widths to use when detecting paragraph indents.
   core$_.double get indentThreshold {
     final _$$selfRef = reference;
@@ -956,8 +956,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setIndentThreshold(float indentThresholdValue)`
   ///
   /// sets the multiple of whitespace character widths for the current text which the current line start can be
-  /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
-  /// The default value is 2.0.
+  ///indented from the previous line start beyond which the current line start is considered to be a paragraph start.
+  ///The default value is 2.0.
   ///@param indentThresholdValue the number of whitespace character widths to use when detecting paragraph indents.
   set indentThreshold(core$_.double indentThresholdValue) {
     final _$$selfRef = reference;
@@ -986,7 +986,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public float getDropThreshold()`
   ///
   /// the minimum whitespace, as a multiple of the max height of the current characters beyond which the current line
-  /// start is considered to be a paragraph start.
+  ///start is considered to be a paragraph start.
   ///@return the character height multiple for max allowed whitespace between lines in the same paragraph.
   core$_.double get dropThreshold {
     final _$$selfRef = reference;
@@ -1012,9 +1012,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// from: `public void setDropThreshold(float dropThresholdValue)`
   ///
   /// sets the minimum whitespace, as a multiple of the max height of the current characters beyond which the current
-  /// line start is considered to be a paragraph start. The default value is 2.5.
+  ///line start is considered to be a paragraph start. The default value is 2.5.
   ///@param dropThresholdValue the character height multiple for max allowed whitespace between lines in the same
-  /// paragraph.
+  ///paragraph.
   set dropThreshold(core$_.double dropThresholdValue) {
     final _$$selfRef = reference;
     _set$dropThreshold(_$$selfRef.pointer, _id_set$dropThreshold.pointer,

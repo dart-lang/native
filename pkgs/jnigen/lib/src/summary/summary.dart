@@ -117,7 +117,9 @@ class SummarizerCommand {
   }
 }
 
-Future<Classes> getSummary(Config config) async {
+Future<Classes> getSummary(Config config, {Uri? javaHome}) async {
+  // Use the passed javaHome, or fallback to the config one.
+  final resolvedJavaHome = javaHome ?? config.javaHome;
   // This function is a potential entry point in tests, which set log level to
   // warning.
   setLoggingLevel(config.logLevel);
@@ -138,12 +140,12 @@ Future<Classes> getSummary(Config config) async {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
     await GradleTools.downloadMavenSources(
-        GradleTools.deps(mavenDl.sourceDeps), sourcePath);
+        GradleTools.deps(mavenDl.sourceDeps), sourcePath, javaHome: resolvedJavaHome);
     extraSources.add(Uri.directory(sourcePath));
     final jarPath = mavenDl.jarDir;
     await Directory(jarPath).create(recursive: true);
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath);
+        GradleTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath, javaHome: resolvedJavaHome);
     extraJars.addAll(await Directory(jarPath)
         .list()
         .where((entry) => entry.path.endsWith('.jar'))
@@ -155,6 +157,7 @@ Future<Classes> getSummary(Config config) async {
     final deps = AndroidSdkTools.getGradleClasspaths(
       configRoot: config.configRoot,
       androidProject: androidConfig.androidExample ?? '.',
+      javaHome: resolvedJavaHome,
     );
     extraJars.addAll(deps.map(Uri.file));
   }
@@ -162,6 +165,7 @@ Future<Classes> getSummary(Config config) async {
     final deps = AndroidSdkTools.getGradleSources(
       configRoot: config.configRoot,
       androidProject: androidConfig.androidExample ?? '.',
+      javaHome: resolvedJavaHome,
     );
     extraSources.addAll(deps.map(Uri.file));
   }

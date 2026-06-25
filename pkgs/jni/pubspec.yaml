@@ -50,3 +50,14 @@ flutter:
         ffiPlugin: true
         package: com.github.dart_lang.jni
         pluginClass: JniPlugin
+
+dependency_overrides:
+  native_toolchain_c:
+    path: ../native_toolchain_c
+  ffigen:
+    path: ../ffigen
+  code_assets:
+    path: ../code_assets
+  hooks:
+    path: ../hooks
+

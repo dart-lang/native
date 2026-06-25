@@ -273,7 +273,8 @@ class Config {
       this.imports,
       this.hide,
       this.generateStubs = true,
-      this.visitors}) {
+      this.visitors,
+      this.javaHome}) {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -340,6 +341,9 @@ class Config {
   /// Used for testing package:jnigen.
   final Map<String, String>? customClassBody;
 
+  /// Path to Java Home to use for running Gradle tasks.
+  final Uri? javaHome;
+
   // User custom visitors.
   List<j_ast.Visitor>? visitors;
 
@@ -395,6 +399,7 @@ class Config {
         configRoot?.resolve(reference).toFilePath() ?? reference;
 
     final config = Config(
+      javaHome: prov.getPath(_Props.javaHome),
       sourcePath: prov.getPathList(_Props.sourcePath),
       classPath: prov.getPathList(_Props.classPath),
       classes: must(prov.getStringList, [], _Props.classes),
@@ -622,4 +627,5 @@ class _Props {
   static const addGradleDeps = '$androidSdkConfig.add_gradle_deps';
   static const addGradleSources = '$androidSdkConfig.add_gradle_sources';
   static const androidExample = '$androidSdkConfig.android_example';
+  static const javaHome = 'java_home';
 }
