@@ -1264,6 +1264,32 @@ extension Example$$Methods on Example {
         .object<jni$_.JString?>();
   }
 
+  static final _id_deprecatedMethod = Example._class.instanceMethodId(
+    r'deprecatedMethod',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _deprecatedMethod = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String deprecatedMethod()`
+  /// The returned object must be released after use, by calling the [release] method.
+  @core$_.Deprecated('This Java method is deprecated.')
+  jni$_.JString? deprecatedMethod() {
+    final _$$selfRef = reference;
+    return _deprecatedMethod(_$$selfRef.pointer, _id_deprecatedMethod.pointer)
+        .object<jni$_.JString?>();
+  }
+
   static final _id_methodWithSeveralParams = Example._class.instanceMethodId(
     r'methodWithSeveralParams',
     r'(CLjava/lang/String;[ILjava/lang/CharSequence;Ljava/util/List;Ljava/util/Map;)V',
