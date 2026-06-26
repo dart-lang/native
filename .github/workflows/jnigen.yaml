@@ -121,7 +121,12 @@ jobs:
       - name: Build summarizer
         run: dart run jnigen:setup
       - name: Run VM tests
-        run: dart test --test-randomize-ordering-seed random
+        run: |
+          if [ "${{ matrix.java-version }}" != "17" ]; then
+            dart test --test-randomize-ordering-seed random -x bindings
+          else
+            dart test --test-randomize-ordering-seed random
+          fi
       - name: build in_app_java APK
         run: flutter build apk --target-platform=android-arm64
         working-directory: ./pkgs/jnigen/example/in_app_java
@@ -131,7 +136,12 @@ jobs:
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Collect coverage
-        run: dart pub global run coverage:test_with_coverage
+        run: |
+          if [ "${{ matrix.java-version }}" != "17" ]; then
+            dart pub global run coverage:test_with_coverage -- -x bindings
+          else
+            dart pub global run coverage:test_with_coverage
+          fi
       - name: Upload coverage
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
         with:
@@ -306,11 +316,21 @@ jobs:
       - name: Get dependencies
         run: dart pub get
       - name: Run tests
-        run: dart test --test-randomize-ordering-seed random
+        run: |
+          if [ "${{ matrix.java-version }}" != "17" ]; then
+            dart test --test-randomize-ordering-seed random -x bindings
+          else
+            dart test --test-randomize-ordering-seed random
+          fi
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Collect coverage
-        run: dart pub global run coverage:test_with_coverage
+        run: |
+          if [ "${{ matrix.java-version }}" != "17" ]; then
+            dart pub global run coverage:test_with_coverage -- -x bindings
+          else
+            dart pub global run coverage:test_with_coverage
+          fi
       - name: Upload coverage
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
         with:
@@ -322,6 +342,7 @@ jobs:
         working-directory: ./pkgs/jni/example/
         run: flutter pub get
       - name: regenerate & compare jnigen bindings
+        if: matrix.java-version == '17'
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src/plugin

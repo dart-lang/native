@@ -205,7 +205,7 @@ void generateAndCompare(
 ) {
   test(description, () async {
     await generateAndCompareBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)));
+  }, timeout: const Timeout(Duration(minutes: 2)), tags: 'bindings');
 }
 
 List<String> findFilesWithSuffix(Directory dir, String suffix) {
