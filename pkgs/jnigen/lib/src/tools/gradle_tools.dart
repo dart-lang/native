@@ -126,7 +126,7 @@ class GradleTools {
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,
-      {String javaVersion = '11'}) {
+      {String javaVersion = '17'}) {
     final depDecls = <String>[];
     final sourceDecls = <String>[];
     // Use implementation configuration

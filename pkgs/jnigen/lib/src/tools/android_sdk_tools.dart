@@ -532,7 +532,7 @@ Execution failed for task ':gradle:compileGroovy'.
 > BUG! exception in phase 'semantic analysis' ...  Unsupported class file major version
 
 Then the JDK versions used by JNIgen and Flutter are not compatible. Try
-changing the default JDK version e.g. with `export JAVA_VERSION=11` on macOS and
+changing the default JDK version e.g. with `export JAVA_VERSION=17` on macOS and
 `sudo update-alternatives --config java` on Ubuntu.
 
 GRADLE OUTPUT:

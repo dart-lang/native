@@ -36,7 +36,7 @@ String? getActionableSummaryParseMessage(String stderr) {
   return 'Cannot generate summary: Java class file version $majorVersion is '
       'not supported by the summarizer. This usually means your input classes '
       'were compiled with a newer JDK target than JNIgen supports. Use a '
-      'supported JDK version (11 to 26), or recompile '
+      'supported JDK version (17 to 26), or recompile '
       'your Java inputs with a lower target (for example: javac --release '
       '26 <your-java-files>).';
 }
