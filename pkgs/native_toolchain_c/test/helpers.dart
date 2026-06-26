@@ -426,11 +426,12 @@ Future<void> expectMachineArchitecture(
       (OS.android, Architecture.riscv64) => 'riscv64-linux-android',
       _ => null,
     };
+    final isStatic = libUri.path.endsWith('.a') || libUri.path.endsWith('.lib');
     final result = await runProcess(
       executable: Uri.file('objdump'),
       arguments: [
         if (triple != null) '--triple=$triple',
-        '-T',
+        isStatic ? '-t' : '-T',
         libUri.path,
       ],
       logger: logger,
