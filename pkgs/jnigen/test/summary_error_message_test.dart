@@ -18,7 +18,7 @@ Caused by: java.lang.IllegalArgumentException: Unsupported class file major vers
       expect(message, isNotNull);
       expect(message, contains('class file version 66'));
       expect(message, contains('JDK version (17 to 26)'));
-      expect(message, contains('javac --release 26'));
+      expect(message, contains('javac --release 17'));
     });
 
     test('returns null for unrelated stderr', () {
