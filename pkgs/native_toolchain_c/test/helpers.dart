@@ -446,14 +446,15 @@ Future<void> expectMachineArchitecture(
     );
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await _runDumpbin(['/HEADERS'], libUri);
-    final skipReason = result == null
-        ? 'tool to determine binary architecture unavailable'
-        : false;
-    expect(result?.exitCode, 0, skip: skipReason);
+    final skip = skipLocal(
+      result == null,
+      'tool to determine binary architecture unavailable',
+    );
+    expect(result?.exitCode, 0, skip: skip);
     final machine = result?.stdout
         .split('\n')
         .firstWhere((e) => e.contains('machine'));
-    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skipReason);
+    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skip);
   }
 }
 

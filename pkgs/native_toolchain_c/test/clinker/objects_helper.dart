@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -99,7 +100,10 @@ void runObjectsTests(
       expect(
         symbols,
         stringContainsInOrder(['my_func', 'my_other_func']),
-        skip: symbols == null ? 'tool to extract symbols unavailable' : false,
+        skip: skipLocal(
+          symbols == null,
+          'tool to extract symbols unavailable',
+        ),
       );
     });
   }

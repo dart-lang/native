@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -69,14 +70,15 @@ void runWindowsModuleDefinitionTests(List<Architecture> architectures) {
         final asset = codeAssets.first;
         expect(asset, isA<CodeAsset>());
         final symbols = await readSymbols(asset, targetOS);
-        final skipReason = symbols == null
-            ? 'tool to extract symbols unavailable'
-            : false;
-        expect(symbols, contains('my_func'), skip: skipReason);
+        final skip = skipLocal(
+          symbols == null,
+          'tool to extract symbols unavailable',
+        );
+        expect(symbols, contains('my_func'), skip: skip);
         // Module Definition file causes my_unexported_func to be exported even
         // though it wasn't marked for export.
-        expect(symbols, contains('my_unexported_func'), skip: skipReason);
-        expect(symbols, isNot(contains('my_other_func')), skip: skipReason);
+        expect(symbols, contains('my_unexported_func'), skip: skip);
+        expect(symbols, isNot(contains('my_other_func')), skip: skip);
       },
     );
   }
