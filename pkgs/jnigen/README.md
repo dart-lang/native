@@ -177,8 +177,6 @@ Android Studio's bundled JDK) to run Gradle tasks, ensuring compatibility with
 your project's Gradle version. If that fails it falls back to relying on the
 `JAVA_HOME` and `PATH` environment variables (the default behavior for Gradle).
 
-You can override this by setting the `JAVA_HOME` environment variable.
-
 #### Windows
 
 On windows, append the path of `jvm.dll` in your JDK installation to PATH. For

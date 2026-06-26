@@ -7,7 +7,7 @@ import 'package:jnigen/src/logging/logging.dart';
 
 void main(List<String> args) async {
   enableLoggingToFile();
-  late final Config config;
+  Config config;
   try {
     config = Config.parseArgs(args);
   } on ConfigException catch (e) {

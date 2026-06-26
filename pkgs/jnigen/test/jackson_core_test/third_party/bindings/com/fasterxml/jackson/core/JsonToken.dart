@@ -58,7 +58,7 @@ import '../../../../java/lang/Enum.dart' as enum$_;
 /// from: `com.fasterxml.jackson.core.JsonToken`
 ///
 /// Enumeration for basic token types used for returning results
-///of parsing JSON content.
+/// of parsing JSON content.
 extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   static final _class =
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
@@ -74,12 +74,12 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// NOT_AVAILABLE can be returned if JsonParser
-  ///implementation can not currently return the requested
-  ///token (usually next one), or even if any will be
-  ///available, but that may be able to determine this in
-  ///future. This is the case with non-blocking parsers --
-  ///they can not block to wait for more data to parse and
-  ///must return something.
+  /// implementation can not currently return the requested
+  /// token (usually next one), or even if any will be
+  /// available, but that may be able to determine this in
+  /// future. This is the case with non-blocking parsers --
+  /// they can not block to wait for more data to parse and
+  /// must return something.
   static JsonToken get NOT_AVAILABLE =>
       _id_NOT_AVAILABLE.get(_class, JsonToken.type) as JsonToken;
 
@@ -92,7 +92,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// START_OBJECT is returned when encountering '{'
-  ///which signals starting of an Object value.
+  /// which signals starting of an Object value.
   static JsonToken get START_OBJECT =>
       _id_START_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
@@ -105,7 +105,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// END_OBJECT is returned when encountering '}'
-  ///which signals ending of an Object value
+  /// which signals ending of an Object value
   static JsonToken get END_OBJECT =>
       _id_END_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
@@ -118,7 +118,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// START_ARRAY is returned when encountering '['
-  ///which signals starting of an Array value
+  /// which signals starting of an Array value
   static JsonToken get START_ARRAY =>
       _id_START_ARRAY.get(_class, JsonToken.type) as JsonToken;
 
@@ -131,7 +131,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// END_ARRAY is returned when encountering ']'
-  ///which signals ending of an Array value
+  /// which signals ending of an Array value
   static JsonToken get END_ARRAY =>
       _id_END_ARRAY.get(_class, JsonToken.type) as JsonToken;
 
@@ -144,7 +144,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// FIELD_NAME is returned when a String token is encountered
-  ///as a field name (same lexical value, different function)
+  /// as a field name (same lexical value, different function)
   static JsonToken get FIELD_NAME =>
       _id_FIELD_NAME.get(_class, JsonToken.type) as JsonToken;
 
@@ -176,8 +176,8 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// VALUE_STRING is returned when a String token is encountered
-  ///in value context (array element, field value, or root-level
-  ///stand-alone value)
+  /// in value context (array element, field value, or root-level
+  /// stand-alone value)
   static JsonToken get VALUE_STRING =>
       _id_VALUE_STRING.get(_class, JsonToken.type) as JsonToken;
 
@@ -190,11 +190,11 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// VALUE_NUMBER_INT is returned when an integer numeric token is
-  ///encountered in value context: that is, a number that does
-  ///not have floating point or exponent marker in it (consists
-  ///only of an optional sign, followed by one or more digits;
-  ///or, for binary formats, is indicated as integral number
-  ///by internal representation).
+  /// encountered in value context: that is, a number that does
+  /// not have floating point or exponent marker in it (consists
+  /// only of an optional sign, followed by one or more digits;
+  /// or, for binary formats, is indicated as integral number
+  /// by internal representation).
   static JsonToken get VALUE_NUMBER_INT =>
       _id_VALUE_NUMBER_INT.get(_class, JsonToken.type) as JsonToken;
 
@@ -207,10 +207,10 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// VALUE_NUMBER_FLOAT is returned when a numeric token other
-  ///than integer is encountered: that is, a number that does
-  ///have floating point or exponent marker in it, in addition
-  ///to one or more digits (or, for non-textual formats,
-  ///has internal floating-point representation).
+  /// than integer is encountered: that is, a number that does
+  /// have floating point or exponent marker in it, in addition
+  /// to one or more digits (or, for non-textual formats,
+  /// has internal floating-point representation).
   static JsonToken get VALUE_NUMBER_FLOAT =>
       _id_VALUE_NUMBER_FLOAT.get(_class, JsonToken.type) as JsonToken;
 
@@ -223,7 +223,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// VALUE_TRUE is returned when encountering literal "true" in
-  ///value context
+  /// value context
   static JsonToken get VALUE_TRUE =>
       _id_VALUE_TRUE.get(_class, JsonToken.type) as JsonToken;
 
@@ -236,7 +236,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// VALUE_FALSE is returned when encountering literal "false" in
-  ///value context
+  /// value context
   static JsonToken get VALUE_FALSE =>
       _id_VALUE_FALSE.get(_class, JsonToken.type) as JsonToken;
 
@@ -249,7 +249,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// VALUE_NULL is returned when encountering literal "null" in
-  ///value context
+  /// value context
   static JsonToken get VALUE_NULL =>
       _id_VALUE_NULL.get(_class, JsonToken.type) as JsonToken;
 
@@ -425,7 +425,7 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final boolean isNumeric()`
   ///
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
-  ///  {@code false} otherwise
+  ///   {@code false} otherwise
   core$_.bool get isNumeric {
     final _$$selfRef = reference;
     return _get$isNumeric(_$$selfRef.pointer, _id_get$isNumeric.pointer)
@@ -452,11 +452,11 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final boolean isStructStart()`
   ///
   /// Accessor that is functionally equivalent to:
-  ///<code>
-  ///   this == JsonToken.START_OBJECT || this == JsonToken.START_ARRAY
-  ///</code>
+  /// <code>
+  ///    this == JsonToken.START_OBJECT || this == JsonToken.START_ARRAY
+  /// </code>
   ///@return {@code True} if this token is {@code START_OBJECT} or {@code START_ARRAY},
-  ///  {@code false} otherwise
+  ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool get isStructStart {
     final _$$selfRef = reference;
@@ -484,11 +484,11 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final boolean isStructEnd()`
   ///
   /// Accessor that is functionally equivalent to:
-  ///<code>
-  ///   this == JsonToken.END_OBJECT || this == JsonToken.END_ARRAY
-  ///</code>
+  /// <code>
+  ///    this == JsonToken.END_OBJECT || this == JsonToken.END_ARRAY
+  /// </code>
   ///@return {@code True} if this token is {@code END_OBJECT} or {@code END_ARRAY},
-  ///  {@code false} otherwise
+  ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool get isStructEnd {
     final _$$selfRef = reference;
@@ -516,11 +516,11 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final boolean isScalarValue()`
   ///
   /// Method that can be used to check whether this token represents
-  ///a valid non-structured value. This means all {@code VALUE_xxx} tokens;
-  ///excluding {@code START_xxx} and {@code END_xxx} tokens as well
-  ///{@code FIELD_NAME}.
+  /// a valid non-structured value. This means all {@code VALUE_xxx} tokens;
+  /// excluding {@code START_xxx} and {@code END_xxx} tokens as well
+  /// {@code FIELD_NAME}.
   ///@return {@code True} if this token is a scalar value token (one of
-  ///  {@code VALUE_xxx} tokens), {@code false} otherwise
+  ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   core$_.bool get isScalarValue {
     final _$$selfRef = reference;
     return _get$isScalarValue(_$$selfRef.pointer, _id_get$isScalarValue.pointer)
@@ -547,7 +547,7 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final boolean isBoolean()`
   ///
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
-  ///  {@code false} otherwise
+  ///   {@code false} otherwise
   core$_.bool get isBoolean {
     final _$$selfRef = reference;
     return _get$isBoolean(_$$selfRef.pointer, _id_get$isBoolean.pointer)

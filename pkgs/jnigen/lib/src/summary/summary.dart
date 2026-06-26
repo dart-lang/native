@@ -38,7 +38,7 @@ String? getActionableSummaryParseMessage(String stderr) {
       'were compiled with a newer JDK target than JNIgen supports. Use a '
       'supported JDK version (17 to 26), or recompile '
       'your Java inputs with a lower target (for example: javac --release '
-      '26 <your-java-files>).';
+      '17 <your-java-files>).';
 }
 
 /// A command based summary source which calls the ApiSummarizer command.

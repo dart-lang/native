@@ -118,7 +118,7 @@ import 'util/JacksonFeature.dart' as jacksonfeature$_;
 /// from: `com.fasterxml.jackson.core.JsonFactory$Feature`
 ///
 /// Enumeration that defines all on/off features that can only be
-///changed for JsonFactory.
+/// changed for JsonFactory.
 extension type JsonFactory$Feature._(jni$_.JObject _$this)
     implements enum$_.Enum, jacksonfeature$_.JacksonFeature {
   static final _class =
@@ -289,7 +289,7 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   /// from: `static public int collectDefaults()`
   ///
   /// Method that calculates bit set (flags) of all features that
-  ///are enabled by default.
+  /// are enabled by default.
   ///@return Bit field of features enabled by default
   static core$_.int collectDefaults() {
     final _$$classRef = _class.reference;
@@ -420,7 +420,7 @@ extension type JsonFactory._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Name used to identify JSON format
-  ///(and returned by \#getFormatName()
+  /// (and returned by \#getFormatName()
   static jni$_.JString? get FORMAT_NAME_JSON =>
       _id_FORMAT_NAME_JSON.getNullable(_class, jni$_.JString.type)
           as jni$_.JString?;
@@ -461,13 +461,13 @@ extension type JsonFactory._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default constructor used to create factory instances.
-  ///Creation of a factory instance is a light-weight operation,
-  ///but it is still a good idea to reuse limited number of
-  ///factory instances (and quite often just a single instance):
-  ///factories are used as context for storing some reused
-  ///processing objects (such as symbol tables parsers use)
-  ///and this reuse only works within context of a single
-  ///factory instance.
+  /// Creation of a factory instance is a light-weight operation,
+  /// but it is still a good idea to reuse limited number of
+  /// factory instances (and quite often just a single instance):
+  /// factories are used as context for storing some reused
+  /// processing objects (such as symbol tables parsers use)
+  /// and this reuse only works within context of a single
+  /// factory instance.
   factory JsonFactory() {
     final _$$classRef = _class.reference;
     return _new$(_$$classRef.pointer, _id_new$.pointer).object<JsonFactory>();
@@ -586,7 +586,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that allows construction of differently configured factory, starting
-  ///with settings of this factory.
+  /// with settings of this factory.
   ///@return Builder instance to use
   ///@since 2.10
   tsfbuilder$_.TSFBuilder? rebuild() {
@@ -616,15 +616,15 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing a new JsonFactory that has
-  ///the same settings as this instance, but is otherwise
-  ///independent (i.e. nothing is actually shared, symbol tables
-  ///are separate).
-  ///Note that ObjectCodec reference is not copied but is
-  ///set to null; caller typically needs to set it after calling
-  ///this method. Reason for this is that the codec is used for
-  ///callbacks, and assumption is that there is strict 1-to-1
-  ///mapping between codec, factory. Caller has to, then, explicitly
-  ///set codec after making the copy.
+  /// the same settings as this instance, but is otherwise
+  /// independent (i.e. nothing is actually shared, symbol tables
+  /// are separate).
+  /// Note that ObjectCodec reference is not copied but is
+  /// set to null; caller typically needs to set it after calling
+  /// this method. Reason for this is that the codec is used for
+  /// callbacks, and assumption is that there is strict 1-to-1
+  /// mapping between codec, factory. Caller has to, then, explicitly
+  /// set codec after making the copy.
   ///@return Copy of this factory instance
   ///@since 2.1
   JsonFactory? copy() {
@@ -731,15 +731,15 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public boolean canUseCharArrays()`
   ///
   /// Introspection method that can be used by base factory to check
-  ///whether access using <code>char[]</code> is something that actual
-  ///parser implementations can take advantage of, over having to
-  ///use java.io.Reader. Sub-types are expected to override
-  ///definition; default implementation (suitable for JSON) alleges
-  ///that optimization are possible; and thereby is likely to try
-  ///to access java.lang.String content by first copying it into
-  ///recyclable intermediate buffer.
+  /// whether access using <code>char[]</code> is something that actual
+  /// parser implementations can take advantage of, over having to
+  /// use java.io.Reader. Sub-types are expected to override
+  /// definition; default implementation (suitable for JSON) alleges
+  /// that optimization are possible; and thereby is likely to try
+  /// to access java.lang.String content by first copying it into
+  /// recyclable intermediate buffer.
   ///@return Whether access to decoded textual content can be efficiently
-  ///  accessed using parser method {@code getTextCharacters()}.
+  ///   accessed using parser method {@code getTextCharacters()}.
   ///@since 2.4
   core$_.bool canUseCharArrays() {
     final _$$selfRef = reference;
@@ -767,11 +767,11 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public boolean canParseAsync()`
   ///
   /// Introspection method that can be used to check whether this
-  ///factory can create non-blocking parsers: parsers that do not
-  ///use blocking I/O abstractions but instead use a
-  ///com.fasterxml.jackson.core.async.NonBlockingInputFeeder.
+  /// factory can create non-blocking parsers: parsers that do not
+  /// use blocking I/O abstractions but instead use a
+  /// com.fasterxml.jackson.core.async.NonBlockingInputFeeder.
   ///@return Whether this factory supports non-blocking ("async") parsing or
-  ///   not (and consequently whether {@code createNonBlockingXxx()} method(s) work)
+  ///    not (and consequently whether {@code createNonBlockingXxx()} method(s) work)
   ///@since 2.9
   core$_.bool canParseAsync() {
     final _$$selfRef = reference;
@@ -853,14 +853,14 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
   /// Method that can be used to quickly check whether given schema
-  ///is something that parsers and/or generators constructed by this
-  ///factory could use. Note that this means possible use, at the level
-  ///of data format (i.e. schema is for same data format as parsers and
-  ///generators this factory constructs); individual schema instances
-  ///may have further usage restrictions.
+  /// is something that parsers and/or generators constructed by this
+  /// factory could use. Note that this means possible use, at the level
+  /// of data format (i.e. schema is for same data format as parsers and
+  /// generators this factory constructs); individual schema instances
+  /// may have further usage restrictions.
   ///@param schema Schema instance to check
   ///@return Whether parsers and generators constructed by this factory
-  ///  can use specified format schema instance
+  ///   can use specified format schema instance
   core$_.bool canUseSchema(
     formatschema$_.FormatSchema? schema,
   ) {
@@ -950,13 +950,13 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public boolean requiresCustomCodec()`
   ///
   /// Method that can be called to determine if a custom
-  ///ObjectCodec is needed for binding data parsed
-  ///using JsonParser constructed by this factory
-  ///(which typically also implies the same for serialization
-  ///with JsonGenerator).
+  /// ObjectCodec is needed for binding data parsed
+  /// using JsonParser constructed by this factory
+  /// (which typically also implies the same for serialization
+  /// with JsonGenerator).
   ///@return True if custom codec is needed with parsers and
-  ///  generators created by this factory; false if a general
-  ///  ObjectCodec is enough
+  ///   generators created by this factory; false if a general
+  ///   ObjectCodec is enough
   ///@since 2.1
   core$_.bool requiresCustomCodec() {
     final _$$selfRef = reference;
@@ -1011,7 +1011,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified parser feature
-  ///(check JsonParser.Feature for list of features)
+  /// (check JsonParser.Feature for list of features)
   ///@param f Feature to enable/disable
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
@@ -1047,7 +1047,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
-  ///(check JsonFactory.Feature for list of features)
+  /// (check JsonFactory.Feature for list of features)
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
@@ -1080,7 +1080,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified parser features
-  ///(check JsonFactory.Feature for list of features)
+  /// (check JsonFactory.Feature for list of features)
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
@@ -1247,7 +1247,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified parser feature
-  ///(check JsonParser.Feature for list of features)
+  /// (check JsonParser.Feature for list of features)
   ///@param f Feature to enable/disable
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
@@ -1282,7 +1282,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
-  ///(check JsonParser.Feature for list of features)
+  /// (check JsonParser.Feature for list of features)
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? enable$1(
@@ -1314,7 +1314,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified parser features
-  ///(check JsonParser.Feature for list of features)
+  /// (check JsonParser.Feature for list of features)
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? disable$1(
@@ -1410,7 +1410,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for getting currently configured input decorator (if any;
-  ///there is no default decorator).
+  /// there is no default decorator).
   ///@return InputDecorator configured, if any
   inputdecorator$_.InputDecorator? get inputDecorator {
     final _$$selfRef = reference;
@@ -1473,7 +1473,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified generator feature
-  ///(check JsonGenerator.Feature for list of features)
+  /// (check JsonGenerator.Feature for list of features)
   ///@param f Feature to enable/disable
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
@@ -1508,7 +1508,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified generator features
-  ///(check JsonGenerator.Feature for list of features)
+  /// (check JsonGenerator.Feature for list of features)
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? enable$2(
@@ -1540,7 +1540,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified generator feature
-  ///(check JsonGenerator.Feature for list of features)
+  /// (check JsonGenerator.Feature for list of features)
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
   JsonFactory? disable$2(
@@ -1636,7 +1636,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing custom escapes factory uses for JsonGenerators
-  ///it creates.
+  /// it creates.
   ///@return Configured {@code CharacterEscapes}, if any; {@code null} if none
   characterescapes$_.CharacterEscapes? get characterEscapes {
     final _$$selfRef = reference;
@@ -1665,7 +1665,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for defining custom escapes factory uses for JsonGenerators
-  ///it creates.
+  /// it creates.
   ///@param esc CharaterEscapes to set (or {@code null} for "none")
   ///@return This factory instance (to allow call chaining)
   JsonFactory? setCharacterEscapes(
@@ -1699,9 +1699,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for getting currently configured output decorator (if any;
-  ///there is no default decorator).
+  /// there is no default decorator).
   ///@return OutputDecorator configured for generators factory creates, if any;
-  ///   {@code null} if none.
+  ///    {@code null} if none.
   outputdecorator$_.OutputDecorator? get outputDecorator {
     final _$$selfRef = reference;
     return _get$outputDecorator(
@@ -1762,9 +1762,9 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that allows overriding String used for separating root-level
-  ///JSON values (default is single space character)
+  /// JSON values (default is single space character)
   ///@param sep Separator to use, if any; null means that no separator is
-  ///  automatically added
+  ///   automatically added
   ///@return This factory instance (to allow call chaining)
   JsonFactory? setRootValueSeparator(
     jni$_.JString? sep,
@@ -1824,10 +1824,10 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for associating a ObjectCodec (typically
-  ///a <code>com.fasterxml.jackson.databind.ObjectMapper</code>)
-  ///with this factory (and more importantly, parsers and generators
-  ///it constructs). This is needed to use data-binding methods
-  ///of JsonParser and JsonGenerator instances.
+  /// a <code>com.fasterxml.jackson.databind.ObjectMapper</code>)
+  /// with this factory (and more importantly, parsers and generators
+  /// it constructs). This is needed to use data-binding methods
+  /// of JsonParser and JsonGenerator instances.
   ///@param oc Codec to use
   ///@return This factory instance (to allow call chaining)
   JsonFactory? setCodec(
@@ -2018,13 +2018,13 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///the contents accessed via specified Reader.
+  /// the contents accessed via specified Reader.
   ///
-  ///The read stream will __not be owned__ by
-  ///the parser, it will still be managed (i.e. closed if
-  ///end-of-stream is reacher, or parser close method called)
-  ///if (and only if) com.fasterxml.jackson.core.StreamReadFeature\#AUTO_CLOSE_SOURCE
-  ///is enabled.
+  /// The read stream will __not be owned__ by
+  /// the parser, it will still be managed (i.e. closed if
+  /// end-of-stream is reacher, or parser close method called)
+  /// if (and only if) com.fasterxml.jackson.core.StreamReadFeature\#AUTO_CLOSE_SOURCE
+  /// is enabled.
   ///@param r Reader to use for reading JSON content to parse
   ///@since 2.1
   jsonparser$_.JsonParser? createParser$3(
@@ -2057,7 +2057,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///the contents of given byte array.
+  /// the contents of given byte array.
   ///@since 2.1
   jsonparser$_.JsonParser? createParser$4(
     jni$_.JByteArray? data,
@@ -2097,7 +2097,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///the contents of given byte array.
+  /// the contents of given byte array.
   ///@param data Buffer that contains data to parse
   ///@param offset Offset of the first data byte within buffer
   ///@param len Length of contents to parse within buffer
@@ -2134,7 +2134,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///contents of given String.
+  /// contents of given String.
   ///@since 2.1
   jsonparser$_.JsonParser? createParser$6(
     jni$_.JString? content,
@@ -2166,7 +2166,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///contents of given char array.
+  /// contents of given char array.
   ///@since 2.4
   jsonparser$_.JsonParser? createParser$7(
     jni$_.JCharArray? content,
@@ -2500,7 +2500,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing generator for writing content using specified
-  ///DataOutput instance.
+  /// DataOutput instance.
   ///@since 2.8
   jsongenerator$_.JsonGenerator? createGenerator$4(
     dataoutput$_.DataOutput? out,
@@ -2710,13 +2710,13 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///the contents accessed via specified Reader.
+  /// the contents accessed via specified Reader.
   ///
-  ///The read stream will __not be owned__ by
-  ///the parser, it will still be managed (i.e. closed if
-  ///end-of-stream is reacher, or parser close method called)
-  ///if (and only if) com.fasterxml.jackson.core.JsonParser.Feature\#AUTO_CLOSE_SOURCE
-  ///is enabled.
+  /// The read stream will __not be owned__ by
+  /// the parser, it will still be managed (i.e. closed if
+  /// end-of-stream is reacher, or parser close method called)
+  /// if (and only if) com.fasterxml.jackson.core.JsonParser.Feature\#AUTO_CLOSE_SOURCE
+  /// is enabled.
   ///@param r Reader to use for reading JSON content to parse
   ///@return Parser constructed
   ///@throws IOException if parser initialization fails due to I/O (read) problem
@@ -2795,7 +2795,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///the contents of given byte array.
+  /// the contents of given byte array.
   ///@param data Buffer that contains data to parse
   ///@param offset Offset of the first data byte within buffer
   ///@param len Length of contents to parse within buffer
@@ -2835,7 +2835,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
-  ///contents of given String.
+  /// contents of given String.
   ///@param content Input content to parse
   ///@return Parser constructed
   ///@throws IOException if parser initialization fails due to I/O (read) problem

@@ -55,10 +55,9 @@ class YamlReader {
         stderr.writeln('Cannot read $configFilePath: $e.');
       }
     }
-    final overrides = List<String>.from(results['override'] as List<String>);
     final regex = RegExp('([a-z-_.]+)=(.+)');
     final properties = <String, String>{};
-    for (var prop in overrides) {
+    for (var prop in results['override'] as List<String>) {
       final match = regex.matchAsPrefix(prop);
       if (match != null && match.group(0) == prop) {
         final propertyName = match.group(1);
@@ -69,7 +68,7 @@ class YamlReader {
       }
     }
     final config = cli_config.Config.fromConfigFileContents(
-      commandLineDefines: overrides,
+      commandLineDefines: results['override'] as List<String>,
       workingDirectory: Directory.current.uri,
       environment: Platform.environment,
       fileContents: configFileContents,
