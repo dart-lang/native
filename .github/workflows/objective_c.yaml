@@ -67,6 +67,9 @@ jobs:
         # test/generate_code_test.dart runs the code generator, so if there are
         # any git-diffs at this point, it means the generated code is outdated.
         run: if [[ -n $(git status --porcelain | tee /dev/stderr) ]]; then echo -e "\nDIFF:"; git diff; false; fi
+      - name: Trust Coveralls tap
+        if: runner.os == 'macOS'
+        run: brew trust coverallsapp/coveralls
       - name: Upload coverage
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
         with:
@@ -90,7 +93,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode_version: ["16.1", "26.1.1"]
+        xcode_version: ["15.4", "16.0"]
         ios_version: ["18.1"]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
