@@ -409,12 +409,11 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   /// If current project is not directly buildable by gradle, eg: a plugin,
   /// a relative path to other project can be specified using [androidProject].
   static List<String> getGradleClasspaths(
-          {Uri? configRoot, String androidProject = '.', Uri? javaHome}) =>
+          {Uri? configRoot, String androidProject = '.'}) =>
       _runGradleStub(
         isSource: false,
         androidProject: androidProject,
         configRoot: configRoot,
-        javaHome: javaHome,
       );
 
   /// Get source paths for all gradle dependencies.
@@ -423,12 +422,11 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   /// function to list all dependency paths for release variant.
   /// This function fails if no gradle build is attempted before.
   static List<String> getGradleSources(
-      {Uri? configRoot, String androidProject = '.', Uri? javaHome}) {
+      {Uri? configRoot, String androidProject = '.'}) {
     return _runGradleStub(
       isSource: true,
       androidProject: androidProject,
       configRoot: configRoot,
-      javaHome: javaHome,
     );
   }
 
@@ -443,7 +441,6 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     required bool isSource,
     Uri? configRoot,
     String androidProject = '.',
-    Uri? javaHome,
   }) {
     final stubName =
         isSource ? _gradleGetSourcesTaskName : _gradleGetClasspathTaskName;
@@ -486,8 +483,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     ProcessResult procRes;
     try {
       final env = Map<String, String>.from(Platform.environment);
-      final resolvedJavaHome =
-          javaHome?.toFilePath() ?? detectFlutterJavaHome()?.toFilePath();
+      final resolvedJavaHome = detectFlutterJavaHome()?.toFilePath();
       if (resolvedJavaHome != null) {
         env['JAVA_HOME'] = resolvedJavaHome;
         final pathSeparator = Platform.isWindows ? ';' : ':';

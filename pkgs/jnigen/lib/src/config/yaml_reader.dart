@@ -38,7 +38,6 @@ class YamlReader {
     if (allowYamlConfig) {
       parser.addOption('config', abbr: 'c', help: 'Path to YAML config.');
     }
-    parser.addOption('java-home', help: 'Path to Java Home.');
 
     final results = parser.parse(args);
     if (results['help'] as bool) {
@@ -57,10 +56,6 @@ class YamlReader {
       }
     }
     final overrides = List<String>.from(results['override'] as List<String>);
-    final javaHomeOverride = results['java-home'] as String?;
-    if (javaHomeOverride != null) {
-      overrides.add('java_home=$javaHomeOverride');
-    }
     final regex = RegExp('([a-z-_.]+)=(.+)');
     final properties = <String, String>{};
     for (var prop in overrides) {

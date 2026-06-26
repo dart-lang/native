@@ -19,10 +19,10 @@ class GradleTools {
 
   /// Helper method since we can't pass inheritStdio option to [Process.run].
   static Future<int> _runCmd(String exec, List<String> args,
-      {String? workingDirectory, Uri? javaHome}) async {
+      {String? workingDirectory}) async {
     log.info('execute $exec ${args.join(" ")}');
     final env = Map<String, String>.from(Platform.environment);
-    final resolvedJavaHome = javaHome?.toFilePath() ??
+    final resolvedJavaHome =
         AndroidSdkTools.detectFlutterJavaHome()?.toFilePath();
     if (resolvedJavaHome != null) {
       env['JAVA_HOME'] = resolvedJavaHome;
@@ -54,7 +54,7 @@ class GradleTools {
 
   static Future<void> _runGradleCommand(
       List<MavenDependency> deps, String targetDir,
-      {String taskName = 'copyJars', Uri? javaHome}) async {
+      {String taskName = 'copyJars'}) async {
     final gradleWrapper = await getGradleWExecutable();
     // Paths in Gradle files on Windows get improperly escaped
     final targetPath = Platform.isWindows
@@ -76,7 +76,7 @@ class GradleTools {
       taskName,
       '-q' // quiet mode
     ];
-    await _runCmd(gradleWrapper!.toFilePath(), gradleArgs, javaHome: javaHome);
+    await _runCmd(gradleWrapper!.toFilePath(), gradleArgs);
     await Directory(tempDir.path).delete(recursive: true);
   }
 
@@ -87,12 +87,9 @@ class GradleTools {
 
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
-      List<MavenDependency> deps, String targetDir,
-      {Uri? javaHome}) async {
-    await _runGradleCommand(deps, targetDir,
-        taskName: 'downloadSources', javaHome: javaHome);
-    await _runGradleCommand(deps, targetDir,
-        taskName: 'extractSourceJars', javaHome: javaHome);
+      List<MavenDependency> deps, String targetDir) async {
+    await _runGradleCommand(deps, targetDir, taskName: 'downloadSources');
+    await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
@@ -117,12 +114,9 @@ class GradleTools {
 
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
-      List<MavenDependency> deps, String targetDir,
-      {Uri? javaHome}) async {
-    await _runGradleCommand(deps, targetDir,
-        taskName: 'copyJars', javaHome: javaHome);
-    await _runGradleCommand(deps, targetDir,
-        taskName: 'extractSourceJars', javaHome: javaHome);
+      List<MavenDependency> deps, String targetDir) async {
+    await _runGradleCommand(deps, targetDir, taskName: 'copyJars');
+    await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,

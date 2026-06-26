@@ -22,7 +22,7 @@ import 'tools/tools.dart';
 
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
-Future<void> generateJniBindings(Config config, {Uri? javaHome}) async {
+Future<void> generateJniBindings(Config config) async {
   Annotated.nonNullAnnotations.addAll(config.nonNullAnnotations ?? []);
   Annotated.nullableAnnotations.addAll(config.nullableAnnotations ?? []);
 
@@ -33,7 +33,7 @@ Future<void> generateJniBindings(Config config, {Uri? javaHome}) async {
   final Classes classes;
 
   try {
-    classes = await getSummary(config, javaHome: javaHome);
+    classes = await getSummary(config);
   } on SummaryParseException catch (e) {
     if (e.stderr != null) {
       printError(e.stderr);

@@ -172,13 +172,12 @@ format, the `dart` command must be from the Flutter SDK and not Dart SDK. See
 
 JNIgen requires a JDK to be installed.
 
-By default, JNIgen uses the JDK configured in Flutter (e.g. Android Studio's
-bundled JDK) to run Gradle tasks, ensuring compatibility with your project's
-Gradle version.
+By default, JNIgen uses the JDK configured in Flutter (which is typically
+Android Studio's bundled JDK) to run Gradle tasks, ensuring compatibility with
+your project's Gradle version. If that fails it falls back to relying on the
+`JAVA_HOME` and `PATH` environment variables (the default behavior for Gradle).
 
-You can override this by setting the `java_home` configuration property,
-passing the `--java-home` command-line flag, or setting the `JAVA_HOME`
-environment variable.
+You can override this by setting the `JAVA_HOME` environment variable.
 
 #### Windows
 
