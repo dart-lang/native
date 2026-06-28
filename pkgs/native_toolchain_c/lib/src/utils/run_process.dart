@@ -13,6 +13,7 @@ import 'package:logging/logging.dart';
 ///
 /// If [captureOutput], captures stdout and stderr.
 Future<RunProcessResult> runProcess({
+  Uri? launcher,
   required Uri executable,
   List<String> arguments = const [],
   Uri? workingDirectory,
@@ -28,7 +29,8 @@ Future<RunProcessResult> runProcess({
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
-    executable.toFilePath(),
+    (launcher ?? executable).toFilePath(),
+    if (launcher != null) executable.toFilePath(windows: false),
     ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
     if (printWorkingDir) ')',
   ].join(' ');
@@ -36,9 +38,14 @@ Future<RunProcessResult> runProcess({
 
   final stdoutBuffer = StringBuffer();
   final stderrBuffer = StringBuffer();
+
+  final resolvedArguments = [
+    if (launcher != null) executable.toFilePath(windows: false),
+    ...arguments,
+  ];
   final process = await Process.start(
-    executable.toFilePath(),
-    arguments,
+    (launcher ?? executable).toFilePath(),
+    resolvedArguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
     runInShell:

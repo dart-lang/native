@@ -96,7 +96,7 @@ class RunCBuilder {
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
-  Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
+  Future<ToolInstance> archiver() async => await _resolver.resolveArchiver();
 
   Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
     if (iosSdk == .iPhoneOS) {
@@ -150,7 +150,7 @@ class RunCBuilder {
     final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
-    Uri? archiver_;
+    ToolInstance? archiver_;
     if (isStaticLib) {
       archiver_ = await archiver();
     }
@@ -206,7 +206,8 @@ class RunCBuilder {
           (codeConfig.targetOS == OS.linux ||
               codeConfig.targetOS == OS.android);
       await runProcess(
-        executable: archiver_!,
+        launcher: archiver_!.launcher,
+        executable: archiver_.uri,
         arguments: [
           isMacToElfCross ? 'rcS' : 'rc',
           outDir.resolveUri(staticLibrary!).toFilePath(),
@@ -247,6 +248,7 @@ class RunCBuilder {
     final context = ToolResolvingContext(logger: logger);
 
     await runProcess(
+      launcher: toolInstance.launcher,
       executable: toolInstance.uri,
       environment: environment,
       arguments: [
@@ -393,7 +395,7 @@ class RunCBuilder {
     final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
-    Uri? archiver_;
+    ToolInstance? archiver_;
     if (isStaticLib) {
       archiver_ = await archiver();
     }
@@ -450,7 +452,7 @@ class RunCBuilder {
 
     if (staticLibrary != null) {
       await runProcess(
-        executable: archiver_!,
+        executable: archiver_!.uri,
         arguments: ['/out:${staticLibrary!.toFilePath()}', '*.obj'],
         workingDirectory: outDir,
         environment: environment,
