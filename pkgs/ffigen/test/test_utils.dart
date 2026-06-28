@@ -166,6 +166,25 @@ void matchObjCFileWithExpected(
   );
 }
 
+/// Generates C++ file using library and tests using [expect] with expected.
+///
+/// This will not delete the actual C++ file incase [expect] throws an error.
+void matchCppFileWithExpected(
+  Context context,
+  Library library,
+  String pathForActual,
+  List<String> pathToExpected, {
+  bool Function(String, String)? verify,
+}) {
+  matchFileWithExpected(
+    context: context,
+    pathForActual: pathForActual,
+    pathToExpected: pathToExpected,
+    fileWriter: (File file) => library.generateCppFile(file),
+    verify: verify,
+  );
+}
+
 /// Generates actual record-use mapping file using library and tests using
 /// [expect] with expected.
 ///

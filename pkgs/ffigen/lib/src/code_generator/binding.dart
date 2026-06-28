@@ -72,6 +72,9 @@ abstract class Binding extends AstNode implements Declaration {
 
   /// Returns whether this type is imported from package:objective_c.
   bool get isObjCImport => false;
+
+  /// Whether this binding generates `@ffi.Native` helper functions.
+  bool get hasNativeHelperFunctions => false;
 }
 
 /// Base class for bindings which look up symbols in dynamic library.

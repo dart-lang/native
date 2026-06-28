@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
@@ -303,8 +304,8 @@ class Parameter extends AstNode {
        // used in C for Pointer to function.
        type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
-  String getNativeType({String varName = ''}) =>
-      '${type.getNativeType(varName: varName)}'
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${type.getNativeType(context, varName: varName)}'
       '${objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
 
   @override

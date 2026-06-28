@@ -74,6 +74,12 @@ class Library {
       (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
     }
     final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
+    final hasNoLookupNativeHelper = noLookUpBindings.any(
+      (b) => b.hasNativeHelperFunctions,
+    );
+    if (hasNoLookupNativeHelper) {
+      nativeAssetId = outputStyleAssetId;
+    }
 
     final writer = Writer(
       lookUpBindings: lookupBindings,

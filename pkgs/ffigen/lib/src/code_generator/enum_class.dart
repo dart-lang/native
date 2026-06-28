@@ -259,7 +259,8 @@ class EnumClass extends BindingType with HasLocalScope {
   }
 
   @override
-  String getNativeType({String varName = ''}) => '$originalName $varName';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '$originalName $varName';
 
   @override
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;

@@ -200,16 +200,7 @@ void main() async {
         final libUri = buildInput.outputDirectory.resolve(
           os.libraryFileName(name, linkMode),
         );
-        final result = await runProcess(
-          executable: Uri.file('objdump'),
-          arguments: ['-t', libUri.path],
-          logger: logger,
-        );
-        expect(result.exitCode, 0);
-        final machine = result.stdout
-            .split('\n')
-            .firstWhere((e) => e.contains('file format'));
-        expect(machine, contains(objdumpFileFormat[(os, arch)]));
+        await expectMachineArchitecture(libUri, arch, os);
       },
       skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,
     );

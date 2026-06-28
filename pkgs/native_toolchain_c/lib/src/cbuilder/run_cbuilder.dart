@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:code_assets/code_assets.dart';
@@ -200,10 +201,14 @@ class RunCBuilder {
         );
         objectFiles.add(objectFile);
       }
+      final isMacToElfCross =
+          Platform.isMacOS &&
+          (codeConfig.targetOS == OS.linux ||
+              codeConfig.targetOS == OS.android);
       await runProcess(
         executable: archiver_!,
         arguments: [
-          'rc',
+          isMacToElfCross ? 'rcS' : 'rc',
           outDir.resolveUri(staticLibrary!).toFilePath(),
           ...objectFiles.map((objectFile) => objectFile.toFilePath()),
         ],

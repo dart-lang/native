@@ -12,4 +12,9 @@ public:
     static int getCount();
     static void Animal_new();
     static void Animal_delete();
+
+    bool isMammalClass() const;
+    double getWeight(double multiplier) const;
+    int addAges(int otherAge, float scale);
+    static int sum(int a, int b);
 };

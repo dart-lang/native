@@ -16,5 +16,19 @@ void main() {
       expect(Animal.Animal_new, isNotNull);
       expect(Animal.Animal_delete, isNotNull);
     });
+
+    test('Animal full lifecycle', () {
+      final animal = Animal(10);
+      expect(animal.getAge(), 10);
+      animal.speak();
+      expect(Animal.getCount(), 42);
+
+      expect(animal.isMammalClass(), isTrue);
+      expect(animal.getWeight(2.0), 30.0);
+      expect(animal.addAges(20, 0.5), 15);
+      expect(Animal.sum(3, 4), 7);
+
+      animal.dispose();
+    });
   });
 }
