@@ -11,6 +11,7 @@ import '../config/config.dart';
 import '../elements/elements.dart';
 import '../generate_bindings.dart';
 import '../logging/logging.dart';
+import '../util/jdk_util.dart' as jdk_util;
 
 class SummaryParseException implements Exception {
   final String? stderr;
@@ -106,12 +107,15 @@ class SummarizerCommand {
     }
     args.addAll(extraArgs);
     args.addAll(classes);
-    log.info('execute $exec ${args.join(' ')}');
+    final resolvedExec = jdk_util.resolveJavaExecutable(exec);
+    log.info('execute $resolvedExec ${args.join(' ')}');
     final proc = await Process.start(
-      exec,
+      resolvedExec,
       args,
       workingDirectory: workingDirectory?.toFilePath() ?? '.',
-      environment: {'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8'},
+      environment: jdk_util.getJavaEnvironment(
+        baseEnvironment: {'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8'},
+      ),
     );
     return proc;
   }

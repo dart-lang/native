@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
 import '../logging/logging.dart';
+import '../util/jdk_util.dart' as jdk_util;
 
 class _AndroidToolsException implements Exception {
   _AndroidToolsException(this.message);
@@ -482,18 +482,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     final taskPath = usesKotlinScript ? ':app:$stubName' : stubName;
     ProcessResult procRes;
     try {
-      final env = Map<String, String>.from(Platform.environment);
-      final resolvedJavaHome = detectFlutterJavaHome()?.toFilePath();
-      if (resolvedJavaHome != null) {
-        env['JAVA_HOME'] = resolvedJavaHome;
-        final pathSeparator = Platform.isWindows ? ';' : ':';
-        final binPath = join(resolvedJavaHome, 'bin');
-        final oldPath = env['PATH'] ?? '';
-        env['PATH'] =
-            oldPath.isEmpty ? binPath : '$binPath$pathSeparator$oldPath';
-        log.info('Running gradlew with JAVA_HOME=$resolvedJavaHome and '
-            'prepended PATH');
-      }
+      final env = jdk_util.getJavaEnvironment();
       procRes = Process.runSync(gradleCommand, ['-q', taskPath],
           workingDirectory: android, runInShell: true, environment: env);
     } finally {
@@ -574,6 +563,7 @@ ${procRes.stderr}
         ['build', 'apk', '--config-only'],
         workingDirectory: androidProject,
         runInShell: true,
+        environment: jdk_util.getJavaEnvironment(),
       );
       if (result.exitCode == 0) {
         success = true;
@@ -591,42 +581,5 @@ ${procRes.stderr}
         'with JNIgen anyway...',
       );
     }
-  }
-
-  static Uri? _detectedJavaHome;
-
-  /// Detects the Java Home path used by Flutter using
-  /// `flutter config --machine`.
-  ///
-  /// Returns null if detection fails or `jdk-dir` is not set.
-  static Uri? detectFlutterJavaHome() {
-    if (_detectedJavaHome != null) {
-      return _detectedJavaHome;
-    }
-    try {
-      final result =
-          Process.runSync('flutter', ['config', '--machine'], runInShell: true);
-      if (result.exitCode != 0) {
-        log.warning('flutter config --machine failed: ${result.stderr}');
-        return null;
-      }
-      final stdout = result.stdout as String;
-      final json = jsonDecode(stdout) as Map<dynamic, dynamic>;
-      final jdkDir = json['jdk-dir'] as String?;
-      if (jdkDir != null && jdkDir.isNotEmpty) {
-        final dir = Directory(jdkDir);
-        if (dir.existsSync()) {
-          _detectedJavaHome = dir.uri;
-          log.info(
-              'Detected Java Home from flutter config: $_detectedJavaHome');
-          return _detectedJavaHome;
-        } else {
-          log.warning('Detected Java Home directory does not exist: $jdkDir');
-        }
-      }
-    } catch (e) {
-      log.warning('Failed to detect Java Home: $e');
-    }
-    return null;
   }
 }

@@ -4,12 +4,12 @@
 
 import 'dart:io';
 
-import 'package:jnigen/src/tools/android_sdk_tools.dart';
+import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:test/test.dart';
 
 void main() {
   test('Detect Flutter Java Home', () {
-    final javaHome = AndroidSdkTools.detectFlutterJavaHome();
+    final javaHome = jdk_util.detectFlutterJavaHome();
     final isCI = Platform.environment['GITHUB_ACTIONS'] == 'true';
 
     if (isCI) {

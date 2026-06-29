@@ -15,6 +15,7 @@ import 'package:path/path.dart';
 
 import '../logging/logging.dart';
 import '../util/find_package.dart';
+import '../util/jdk_util.dart' as jdk_util;
 import 'gradle_tools.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
@@ -42,7 +43,9 @@ Future<void> buildApiSummarizer() async {
   try {
     final gradleProc = await Process.run(
         gradleWrapper!.toFilePath(), gradleArgs,
-        workingDirectory: toolPath, runInShell: true);
+        workingDirectory: toolPath,
+        runInShell: true,
+        environment: jdk_util.getJavaEnvironment());
     final exitCode = gradleProc.exitCode;
     final sourceJar = File(pkg
         .resolve('java/build/libs/ApiSummarizer.jar')

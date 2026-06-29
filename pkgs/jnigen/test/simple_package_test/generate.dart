@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
+import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
@@ -71,7 +72,9 @@ final javaFiles = [
 ];
 
 void compileJavaSources(String workingDir, List<String> files) async {
-  final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
+  final javac = jdk_util.resolveJavaExecutable('javac');
+  final procRes = Process.runSync(javac, files,
+      workingDirectory: workingDir, environment: jdk_util.getJavaEnvironment());
   if (procRes.exitCode != 0) {
     log.fatal('javac exited with ${procRes.exitCode}\n'
         '${procRes.stderr}');

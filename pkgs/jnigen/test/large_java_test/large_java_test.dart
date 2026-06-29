@@ -34,12 +34,7 @@ Future<void> main() async {
             .where((f) => f.path.endsWith('.java'))
             .map((f) => p.relative(f.path, from: pkgDir))
             .toList();
-    final javacResult =
-        await Process.run('javac', [...javaFiles], workingDirectory: pkgDir);
-    expect(javacResult.exitCode, 0,
-        reason: 'Java compilation failed:\n'
-            'STDOUT: ${javacResult.stdout}\n'
-            'STDERR: ${javacResult.stderr}');
+    await runCommand('javac', [...javaFiles], workingDirectory: pkgDir);
 
     // Run JNIgen.
     final thisDir = Uri.directory(p.join(pkgDir, 'test', 'large_java_test'));

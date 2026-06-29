@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
@@ -28,9 +29,11 @@ Config getConfig() {
     join('com', 'example', 'E.java'),
   ];
 
-  final javac = Process.runSync('javac', javaFiles, workingDirectory: javaPath);
-  if (javac.exitCode != 0) {
-    stderr.writeln(javac.stderr);
+  final javac = jdk_util.resolveJavaExecutable('javac');
+  final procRes = Process.runSync(javac, javaFiles,
+      workingDirectory: javaPath, environment: jdk_util.getJavaEnvironment());
+  if (procRes.exitCode != 0) {
+    stderr.writeln(procRes.stderr);
     exit(1);
   }
 

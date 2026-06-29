@@ -35,14 +35,17 @@ Future<void> runCommand(
     workingDir.replaceFirst(current, '');
   }
 
-  final cmd = "$exec ${args.join(" ")}";
+  final resolvedExec = resolveJavaExecutable(exec);
+  final env = getJavaEnvironment();
+  final cmd = "$resolvedExec ${args.join(" ")}";
   stderr.writeln('+ [$workingDir] $cmd');
   int status;
   if (options.verbose) {
     final process = await Process.start(
-      exec,
+      resolvedExec,
       args,
       workingDirectory: workingDir,
+      environment: env,
       mode: ProcessStartMode.inheritStdio,
       // without `runInShell`, sometimes cmake doesn't run on windows.
       runInShell: true,
@@ -54,9 +57,10 @@ Future<void> runCommand(
   } else {
     // ProcessStartMode.normal sometimes hangs on windows. No idea why.
     final process = await Process.run(
-      exec,
+      resolvedExec,
       args,
       runInShell: true,
+      environment: env,
       workingDirectory: workingDir,
     );
     status = process.exitCode;

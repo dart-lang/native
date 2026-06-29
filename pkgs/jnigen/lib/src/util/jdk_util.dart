@@ -1,34 +1,19 @@
-// Copyright (c) 2022, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-
-// Any shared build logic should be here. This way it can be reused across bin/,
-// tool/ and test/.
 
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
-const ansiRed = '\x1b[31m';
-const ansiDefault = '\x1b[39;49m';
-
-/// Returns true if [artifact] does not exist, or any file in [sourceDir] is
-/// newer than [artifact].
-bool needsBuild(File artifact, Directory sourceDir) {
-  if (!artifact.existsSync()) return true;
-  final fileLastModified = artifact.lastModifiedSync();
-  for (final entry in sourceDir.listSync(recursive: true)) {
-    if (entry.statSync().modified.isAfter(fileLastModified)) {
-      return true;
-    }
-  }
-  return false;
-}
+import '../logging/logging.dart';
 
 Uri? _detectedJavaHome;
 
 /// Detects the Java Home path used by Flutter using `flutter config --machine`.
+///
+/// Returns null if detection fails or `jdk-dir` is not set.
 Uri? detectFlutterJavaHome() {
   if (_detectedJavaHome != null) {
     return _detectedJavaHome;
@@ -37,6 +22,7 @@ Uri? detectFlutterJavaHome() {
     final result =
         Process.runSync('flutter', ['config', '--machine'], runInShell: true);
     if (result.exitCode != 0) {
+      log.warning('flutter config --machine failed: ${result.stderr}');
       return null;
     }
     final stdout = result.stdout as String;
@@ -46,10 +32,15 @@ Uri? detectFlutterJavaHome() {
       final dir = Directory(jdkDir);
       if (dir.existsSync()) {
         _detectedJavaHome = dir.uri;
+        log.info('Detected Java Home from flutter config: $_detectedJavaHome');
         return _detectedJavaHome;
+      } else {
+        log.warning('Detected Java Home directory does not exist: $jdkDir');
       }
     }
-  } catch (_) {}
+  } catch (e) {
+    log.warning('Failed to detect Java Home: $e');
+  }
   return null;
 }
 

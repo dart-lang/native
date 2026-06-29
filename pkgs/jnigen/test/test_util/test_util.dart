@@ -8,6 +8,7 @@ import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/dart_executable.dart';
 import 'package:jnigen/src/util/find_package.dart' hide findPackageRoot;
+import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:logging/logging.dart' show Level;
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' hide equals;
@@ -34,8 +35,11 @@ Future<bool> isEmptyOrNotExistDir(String path) async {
 /// Runs command, and prints output only if the exit status is non-zero.
 Future<int> runCommandReturningStatus(String exec, List<String> args,
     {String? workingDirectory, bool runInShell = false}) async {
-  final proc = await Process.run(exec, args,
-      workingDirectory: workingDirectory, runInShell: runInShell);
+  final resolvedExec = jdk_util.resolveJavaExecutable(exec);
+  final proc = await Process.run(resolvedExec, args,
+      workingDirectory: workingDirectory,
+      runInShell: runInShell,
+      environment: jdk_util.getJavaEnvironment());
   if (proc.exitCode != 0) {
     printError('command exited with exit status ${proc.exitCode}:\n'
         '$exec ${args.join(" ")}\n');

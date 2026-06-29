@@ -9,7 +9,7 @@ import 'package:path/path.dart';
 
 import '../logging/logging.dart';
 import '../util/find_package.dart';
-import 'android_sdk_tools.dart';
+import '../util/jdk_util.dart' as jdk_util;
 
 class GradleTools {
   static final currentDir = Directory('.');
@@ -21,19 +21,7 @@ class GradleTools {
   static Future<int> _runCmd(String exec, List<String> args,
       {String? workingDirectory}) async {
     log.info('execute $exec ${args.join(" ")}');
-    final env = Map<String, String>.from(Platform.environment);
-    final resolvedJavaHome =
-        AndroidSdkTools.detectFlutterJavaHome()?.toFilePath();
-    if (resolvedJavaHome != null) {
-      env['JAVA_HOME'] = resolvedJavaHome;
-      final pathSeparator = Platform.isWindows ? ';' : ':';
-      final binPath = join(resolvedJavaHome, 'bin');
-      final oldPath = env['PATH'] ?? '';
-      env['PATH'] =
-          oldPath.isEmpty ? binPath : '$binPath$pathSeparator$oldPath';
-      log.info('Running command with JAVA_HOME=$resolvedJavaHome and '
-          'prepended PATH');
-    }
+    final env = jdk_util.getJavaEnvironment();
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory,
         runInShell: true,

@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
+import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
@@ -29,6 +30,7 @@ void compileKotlinSources(String workingDir) async {
     ['package'],
     workingDirectory: workingDir,
     runInShell: true,
+    environment: jdk_util.getJavaEnvironment(),
   );
   if (procRes.exitCode != 0) {
     log.fatal('mvn exited with ${procRes.exitCode}\n'
