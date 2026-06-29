@@ -9,7 +9,8 @@ import 'gcc.dart';
 import 'wsl.dart';
 
 extension ToolLikeness on Tool {
-  bool get isClangLike => this == appleClang || this == clang || this == gcc;
+  bool get isClangLike =>
+      this == appleClang || this == clang || this == gcc || this == gccWsl;
 
   bool get isClang => this == appleClang || this == clang;
 
