@@ -2,8 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
+
+import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
+import '../test_utils.dart';
 import 'cpp_class_test_bindings.dart';
 
 void main() {
@@ -31,28 +35,28 @@ void main() {
       animal.dispose();
     });
 
-    test('FinalizerTestSubject double dispose and GC', () async {
-      final baseline1 = FinalizerTestSubject.getDestructorCallCount();
-      final subject1 = FinalizerTestSubject();
-      subject1.dispose();
-      subject1.dispose();
-      expect(FinalizerTestSubject.getDestructorCallCount(), baseline1 + 1);
+    @pragma('vm:never-inline')
+    void gcTestSubjectInner(Pointer<Int32> counter) {
+      final _ = FinalizerTestSubject(counter.cast());
+    }
 
-      final baseline2 = FinalizerTestSubject.getDestructorCallCount();
-
-      (() {
-        final _ = FinalizerTestSubject();
-      })();
-
-      var attempts = 0;
-      while (FinalizerTestSubject.getDestructorCallCount() == baseline2 &&
-          attempts < 50) {
-        List.generate(10000, (i) => Object());
-        await Future<void>.delayed(const Duration(milliseconds: 20));
-        attempts++;
-      }
-
-      expect(FinalizerTestSubject.getDestructorCallCount(), baseline2 + 1);
+    test('FinalizerTestSubject double dispose', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final subject = FinalizerTestSubject(counter.cast());
+      subject.dispose();
+      expect(subject.dispose, throwsStateError);
+      expect(counter.value, 1);
+      calloc.free(counter);
     });
+
+    test('FinalizerTestSubject GC', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      gcTestSubjectInner(counter);
+      doGC();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    }, skip: !canDoGC);
   });
 }

@@ -119,8 +119,7 @@ class $name implements $ffiPrefix.Finalizable {
   final $ptrVoid _ptr;
 ''');
 
-    if (destructor != null) {
-      s.write('''
+    s.write('''
   bool _isDisposed = false;
   static final _finalizer = $ffiPrefix.NativeFinalizer(
     $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue)
@@ -130,11 +129,6 @@ class $name implements $ffiPrefix.Finalizable {
     _finalizer.attach(this, _ptr.cast(), detach: this);
   }
 ''');
-    } else {
-      s.write('''
-  $name._(this._ptr);
-''');
-    }
 
     for (final ctor in constructors) {
       final glueName = ctor.name.name;
@@ -181,18 +175,16 @@ class $name implements $ffiPrefix.Finalizable {
         ' => $glue($callArgs);\n',
       );
     }
-    if (destructor != null) {
-      s.write('''
+    s.write('''
   void dispose() {
-    if (_isDisposed) return;
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
     _isDisposed = true;
     _finalizer.detach(this);
     $deleteGlue(_ptr);
   }
 ''');
-    } else {
-      s.write('  void dispose() {}\n');
-    }
     s.write('}\n');
 
     // Writes a @Native annotation + external declaration for a glue function.
@@ -245,6 +237,15 @@ class $name implements $ffiPrefix.Finalizable {
         ffiParams: ffiParams,
       );
     }
+    if (destructor == null) {
+      writeNativeDecl(
+        symbol: deleteSymbol,
+        glue: deleteGlue,
+        cType: '$ffiPrefix.Void Function($ptrVoid)',
+        ffiReturn: 'void',
+        ffiParams: '$ptrVoid self',
+      );
+    }
 
     return BindingString(
       type: BindingStringType.cppClass,
@@ -252,64 +253,76 @@ class $name implements $ffiPrefix.Finalizable {
     );
   }
 
-  /// Returns the C++ function bodies for this class's bindings.
-  ///
-  /// The `#include` preamble and `extern "C"` block are emitted once by
-  /// [Writer.generateCpp]; this method returns only the bodies to
-  /// be placed inside that block.
   @override
   String? toCppBindingString(Writer w) {
-    if (methods.isEmpty) return null;
-
     final context = w.context;
     String paramDecl(Parameter p) =>
         p.type.getNativeType(context, varName: p.name).trim();
 
-    return '${methods.map((method) {
-      final symbol = method.name.name;
-      final callArgs = method.parameters.map((p) => p.name).join(', ');
+    final destructorString = methods.any((m) => m.isDestructor)
+        ? ''
+        : '''
+FFIGEN_EXPORT void ${name}_delete($originalName* self) {
+  delete self;
+}''';
 
-      final String returnTypeString;
-      final String params;
-      final String body;
+    if (methods.isEmpty) {
+      return destructorString.isEmpty ? null : '$destructorString\n\n';
+    }
 
-      if (method.isConstructor) {
-        returnTypeString = '$originalName*';
-        params = method.parameters.map(paramDecl).join(', ');
-        body = 'return new $originalName($callArgs);';
-      } else if (method.isDestructor) {
-        returnTypeString = 'void';
-        params = '$originalName* self';
-        body = 'delete self;';
-      } else {
-        final nativeType = method.returnType.getNativeType(context);
-        returnTypeString = nativeType.trim();
-        final needsReturn = method.returnType != voidType;
-        final returnPrefix = needsReturn ? 'return ' : '';
+    final methodBindings = methods
+        .map((method) {
+          final symbol = method.name.name;
+          final callArgs = method.parameters.map((p) => p.name).join(', ');
 
-        final otherParams = method.parameters.map(paramDecl);
+          final String returnTypeString;
+          final String params;
+          final String body;
 
-        if (method.isStatic) {
-          params = otherParams.join(', ');
-          body = '$returnPrefix$originalName::'
-              '${method.originalName}($callArgs);';
-        } else {
-          final String selfType;
-          if (method.isConstant) {
-            selfType = 'const $originalName';
+          if (method.isConstructor) {
+            returnTypeString = '$originalName*';
+            params = method.parameters.map(paramDecl).join(', ');
+            body = 'return new $originalName($callArgs);';
+          } else if (method.isDestructor) {
+            returnTypeString = 'void';
+            params = '$originalName* self';
+            body = 'delete self;';
           } else {
-            selfType = originalName;
-          }
-          params = ['$selfType* self', ...otherParams].join(', ');
-          body = '${returnPrefix}self->${method.originalName}($callArgs);';
-        }
-      }
+            final nativeType = method.returnType.getNativeType(context);
+            returnTypeString = nativeType.trim();
+            final needsReturn = method.returnType != voidType;
+            final returnPrefix = needsReturn ? 'return ' : '';
 
-      return '''
+            final otherParams = method.parameters.map(paramDecl);
+
+            if (method.isStatic) {
+              params = otherParams.join(', ');
+              body =
+                  '$returnPrefix$originalName::'
+                  '${method.originalName}($callArgs);';
+            } else {
+              final String selfType;
+              if (method.isConstant) {
+                selfType = 'const $originalName';
+              } else {
+                selfType = originalName;
+              }
+              params = ['$selfType* self', ...otherParams].join(', ');
+              body = '${returnPrefix}self->${method.originalName}($callArgs);';
+            }
+          }
+
+          return '''
 FFIGEN_EXPORT $returnTypeString $symbol($params) {
   $body
 }''';
-    }).join('\n\n')}\n\n';
+        })
+        .join('\n\n');
+
+    final destructorSuffix = destructorString.isEmpty
+        ? ''
+        : '\n\n$destructorString';
+    return '$methodBindings$destructorSuffix\n\n';
   }
 
   @override
@@ -328,7 +341,7 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
   bool get sameDartAndFfiDartType => false;
 
   @override
-  bool get hasNativeHelperFunctions => methods.isNotEmpty;
+  bool get hasNativeHelperFunctions => true;
 
   @override
   void visitChildren(Visitor visitor) {

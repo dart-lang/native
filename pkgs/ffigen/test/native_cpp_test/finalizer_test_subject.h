@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 class FinalizerTestSubject {
+private:
+    int* counter;
 public:
-    FinalizerTestSubject();
+    FinalizerTestSubject(int* counter);
     ~FinalizerTestSubject();
-    static int getDestructorCallCount();
 };

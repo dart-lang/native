@@ -4,12 +4,10 @@
 
 #include "finalizer_test_subject.h"
 
-static int destructorCallCount = 0;
-
-FinalizerTestSubject::FinalizerTestSubject() {}
+FinalizerTestSubject::FinalizerTestSubject(int* _counter) : counter(_counter) {}
 
 FinalizerTestSubject::~FinalizerTestSubject() {
-    destructorCallCount++;
+    if (counter != nullptr) {
+        (*counter)++;
+    }
 }
-
-int FinalizerTestSubject::getDestructorCallCount() { return destructorCallCount; }

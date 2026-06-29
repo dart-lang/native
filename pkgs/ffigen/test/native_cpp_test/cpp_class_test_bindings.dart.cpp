@@ -53,16 +53,12 @@ FFIGEN_EXPORT int Animal_sum(int a, int b) {
   return Animal::sum(a, b);
 }
 
-FFIGEN_EXPORT FinalizerTestSubject* FinalizerTestSubject_new() {
-  return new FinalizerTestSubject();
+FFIGEN_EXPORT FinalizerTestSubject* FinalizerTestSubject_new(int * counter) {
+  return new FinalizerTestSubject(counter);
 }
 
 FFIGEN_EXPORT void FinalizerTestSubject_delete(FinalizerTestSubject* self) {
   delete self;
-}
-
-FFIGEN_EXPORT int FinalizerTestSubject_getDestructorCallCount() {
-  return FinalizerTestSubject::getDestructorCallCount();
 }
 
 }

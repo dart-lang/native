@@ -34,7 +34,9 @@ class Animal implements ffi.Finalizable {
       _Animal_addAges(_ptr, otherAge, scale);
   static int sum(int a, int b) => _Animal_sum(a, b);
   void dispose() {
-    if (_isDisposed) return;
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
     _isDisposed = true;
     _finalizer.detach(this);
     _Animal_delete(_ptr);
@@ -100,30 +102,27 @@ class FinalizerTestSubject implements ffi.Finalizable {
   FinalizerTestSubject._(this._ptr) {
     _finalizer.attach(this, _ptr.cast(), detach: this);
   }
-  factory FinalizerTestSubject() {
-    return FinalizerTestSubject._(_FinalizerTestSubject_new());
+  factory FinalizerTestSubject(ffi.Pointer<ffi.Int> counter) {
+    return FinalizerTestSubject._(_FinalizerTestSubject_new(counter));
   }
-  static int getDestructorCallCount() =>
-      _FinalizerTestSubject_getDestructorCallCount();
   void dispose() {
-    if (_isDisposed) return;
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
     _isDisposed = true;
     _finalizer.detach(this);
     _FinalizerTestSubject_delete(_ptr);
   }
 }
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function()>(
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Int>)>(
   symbol: 'FinalizerTestSubject_new',
 )
-external ffi.Pointer<ffi.Void> _FinalizerTestSubject_new();
+external ffi.Pointer<ffi.Void> _FinalizerTestSubject_new(
+  ffi.Pointer<ffi.Int> counter,
+);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'FinalizerTestSubject_delete',
 )
 external void _FinalizerTestSubject_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Int Function()>(
-  symbol: 'FinalizerTestSubject_getDestructorCallCount',
-)
-external int _FinalizerTestSubject_getDestructorCallCount();

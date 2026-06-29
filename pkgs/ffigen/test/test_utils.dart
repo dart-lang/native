@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
 import 'dart:io';
+import 'package:ffi/ffi.dart';
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
@@ -374,3 +376,23 @@ FfiGenerator testConfigFromPath(String path, {Logger? logger}) {
 }
 
 bool isFlutterTester = Platform.resolvedExecutable.contains('flutter_tester');
+
+final _executeInternalCommand = () {
+  final dylib = DynamicLibrary.process();
+  if (dylib.providesSymbol('Dart_ExecuteInternalCommand')) {
+    return dylib
+        .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
+          'Dart_ExecuteInternalCommand',
+        )
+        .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
+  }
+  return null;
+}();
+
+bool canDoGC = _executeInternalCommand != null;
+
+void doGC() {
+  final gcNow = 'gc-now'.toNativeUtf8();
+  _executeInternalCommand!(gcNow.cast(), nullptr);
+  calloc.free(gcNow);
+}
