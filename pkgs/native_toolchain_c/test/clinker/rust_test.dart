@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -67,11 +68,12 @@ Future<void> main() async {
       targetArchitecture,
       targetOS,
     );
-    final skipReason = symbols == null
-        ? 'tool to extract symbols unavailable'
-        : false;
-    expect(symbols, contains('my_other_func'), skip: skipReason);
-    expect(symbols, isNot(contains('my_func')), skip: skipReason);
+    final skip = skipLocal(
+      symbols == null,
+      'tool to extract symbols unavailable',
+    );
+    expect(symbols, contains('my_other_func'), skip: skip);
+    expect(symbols, isNot(contains('my_func')), skip: skip);
   });
 
   test('link rust binary without script keeps symbols', () async {
@@ -91,11 +93,12 @@ Future<void> main() async {
       targetArchitecture,
       targetOS,
     );
-    final skipReason = symbols == null
-        ? 'tool to extract symbols unavailable'
-        : false;
-    expect(symbols, contains('my_other_func'), skip: skipReason);
-    expect(symbols, contains('my_func'), skip: skipReason);
+    final skip = skipLocal(
+      symbols == null,
+      'tool to extract symbols unavailable',
+    );
+    expect(symbols, contains('my_other_func'), skip: skip);
+    expect(symbols, contains('my_func'), skip: skip);
   });
 }
 

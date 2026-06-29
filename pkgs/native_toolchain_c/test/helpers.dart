@@ -376,10 +376,20 @@ const objdumpFileFormatIOS = {
   Architecture.x64: '64-bit x86-64',
 };
 
+const objdumpFileFormatLinux = {
+  Architecture.arm: 'elf32-littlearm',
+  Architecture.arm64: 'elf64-littleaarch64',
+  Architecture.ia32: 'elf32-i386',
+  Architecture.x64: 'elf64-x86-64',
+  Architecture.riscv32: 'elf32-riscv32',
+  Architecture.riscv64: 'elf64-riscv64',
+};
+
 const targetOSToObjdumpFileFormat = {
   OS.android: objdumpFileFormatAndroid,
   OS.macOS: objdumpFileFormatMacOS,
   OS.iOS: objdumpFileFormatMacOS,
+  OS.linux: objdumpFileFormatLinux,
 };
 
 const dumpbinFileFormat = {
@@ -402,9 +412,28 @@ Future<void> expectMachineArchitecture(
     final machine = await readelfMachine(libUri.path);
     expect(machine, contains(readElfMachine[targetArch]));
   } else if (Platform.isMacOS) {
+    final triple = switch ((targetOS, targetArch)) {
+      (OS.linux, Architecture.arm) => 'arm-linux-gnueabihf',
+      (OS.linux, Architecture.arm64) => 'aarch64-linux-gnu',
+      (OS.linux, Architecture.ia32) => 'i686-linux-gnu',
+      (OS.linux, Architecture.x64) => 'x86_64-linux-gnu',
+      (OS.linux, Architecture.riscv32) => 'riscv32-linux-gnu',
+      (OS.linux, Architecture.riscv64) => 'riscv64-linux-gnu',
+      (OS.android, Architecture.arm) => 'arm-linux-androideabi',
+      (OS.android, Architecture.arm64) => 'aarch64-linux-android',
+      (OS.android, Architecture.ia32) => 'i686-linux-android',
+      (OS.android, Architecture.x64) => 'x86_64-linux-android',
+      (OS.android, Architecture.riscv64) => 'riscv64-linux-android',
+      _ => null,
+    };
+    final isStatic = libUri.path.endsWith('.a') || libUri.path.endsWith('.lib');
     final result = await runProcess(
       executable: Uri.file('objdump'),
-      arguments: ['-T', libUri.path],
+      arguments: [
+        if (triple != null) '--triple=$triple',
+        isStatic ? '-t' : '-T',
+        libUri.path,
+      ],
       logger: logger,
     );
     expect(result.exitCode, 0);
@@ -417,14 +446,15 @@ Future<void> expectMachineArchitecture(
     );
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await _runDumpbin(['/HEADERS'], libUri);
-    final skipReason = result == null
-        ? 'tool to determine binary architecture unavailable'
-        : false;
-    expect(result?.exitCode, 0, skip: skipReason);
+    final skip = skipLocal(
+      result == null,
+      'tool to determine binary architecture unavailable',
+    );
+    expect(result?.exitCode, 0, skip: skip);
     final machine = result?.stdout
         .split('\n')
         .firstWhere((e) => e.contains('machine'));
-    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skipReason);
+    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skip);
   }
 }
 

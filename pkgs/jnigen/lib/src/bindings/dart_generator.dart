@@ -1309,6 +1309,9 @@ ${modifier}final _$idName = $_protectedExtension
       defArgs.removeLast();
     }
     final params = defArgs.delimited(', ');
+    if (node.isDeprecated) {
+      s.writeln("  @core\$_.Deprecated('This Java method is deprecated.')");
+    }
     if (node.methodKind == MethodKind.getter) {
       s.write('  $ifStatic$returnType get $name ');
     } else if (node.methodKind == MethodKind.setter) {

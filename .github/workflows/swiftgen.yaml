@@ -68,7 +68,6 @@ jobs:
       - name: Run VM tests and collect coverage
         run: dart pub global run coverage:test_with_coverage --scope-output=swiftgen
       - name: Trust Coveralls tap
-        if: runner.os == 'macOS'
         run: brew trust coverallsapp/coveralls
       - name: Upload coverage
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926

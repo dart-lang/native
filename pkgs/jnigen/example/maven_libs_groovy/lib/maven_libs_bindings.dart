@@ -113,6 +113,7 @@ extension Gson$$Methods on Gson {
 
   /// from: `public com.google.gson.internal.Excluder excluder()`
   /// The returned object must be released after use, by calling the [release] method.
+  @core$_.Deprecated('This Java method is deprecated.')
   Excluder? excluder() {
     final _$$selfRef = reference;
     return _excluder(_$$selfRef.pointer, _id_excluder.pointer)

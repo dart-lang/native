@@ -13,6 +13,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
@@ -200,18 +201,12 @@ void main() async {
         final libUri = buildInput.outputDirectory.resolve(
           os.libraryFileName(name, linkMode),
         );
-        final result = await runProcess(
-          executable: Uri.file('objdump'),
-          arguments: ['-t', libUri.path],
-          logger: logger,
-        );
-        expect(result.exitCode, 0);
-        final machine = result.stdout
-            .split('\n')
-            .firstWhere((e) => e.contains('file format'));
-        expect(machine, contains(objdumpFileFormat[(os, arch)]));
+        await expectMachineArchitecture(libUri, arch, os);
       },
-      skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,
+      skip: skipLocal(
+        os == OS.linux && !lldAvailable,
+        'ld.lld not available',
+      ),
     );
   }
 
