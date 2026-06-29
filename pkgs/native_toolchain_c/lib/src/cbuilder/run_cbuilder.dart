@@ -98,6 +98,20 @@ class RunCBuilder {
 
   Future<ToolInstance> archiver() async => await _resolver.resolveArchiver();
 
+  /// Renders [uri] as a path the [tool] can open.
+  ///
+  /// When [tool] runs through the WSL launcher it sees the Windows drives
+  /// mounted under `/mnt` (`C:\Users` -> `/mnt/c/Users`), so render a POSIX path
+  /// and remap the drive. Tools run on the host use the host path rendering.
+  String _mapToPosixPathIfNeeded(Uri uri, ToolInstance tool) {
+    if (tool.launcher?.tool.isWsl != true) return uri.toFilePath();
+    final posix = uri.toFilePath(windows: false); // /C:/Users/...
+    return posix.replaceFirstMapped(
+      RegExp(r'^/([A-Za-z]):/'),
+      (match) => '/mnt/${match[1]!.toLowerCase()}/',
+    );
+  }
+
   Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
     if (iosSdk == .iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(
@@ -183,7 +197,9 @@ class RunCBuilder {
         : null;
 
     final architecture = codeConfig.targetArchitecture;
-    final sourceFiles = sources.map((e) => e.toFilePath()).toList();
+    final sourceFiles = sources
+        .map((e) => _mapToPosixPathIfNeeded(e, tool))
+        .toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
       for (var i = 0; i < sourceFiles.length; i++) {
@@ -206,12 +222,14 @@ class RunCBuilder {
           (codeConfig.targetOS == OS.linux ||
               codeConfig.targetOS == OS.android);
       await runProcess(
-        launcher: archiver_!.launcher,
+        launcher: archiver_!.launcher?.uri,
         executable: archiver_.uri,
         arguments: [
           isMacToElfCross ? 'rcS' : 'rc',
-          outDir.resolveUri(staticLibrary!).toFilePath(),
-          ...objectFiles.map((objectFile) => objectFile.toFilePath()),
+          _mapToPosixPathIfNeeded(outDir.resolveUri(staticLibrary!), archiver_),
+          ...objectFiles.map(
+            (objectFile) => _mapToPosixPathIfNeeded(objectFile, archiver_!),
+          ),
         ],
         logger: logger,
         captureOutput: false,
@@ -247,8 +265,10 @@ class RunCBuilder {
   ) async {
     final context = ToolResolvingContext(logger: logger);
 
+    String toolPath(Uri uri) => _mapToPosixPathIfNeeded(uri, toolInstance);
+
     await runProcess(
-      launcher: toolInstance.launcher,
+      launcher: toolInstance.launcher?.uri,
       executable: toolInstance.uri,
       environment: environment,
       arguments: [
@@ -347,9 +367,9 @@ class RunCBuilder {
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
-        for (final include in includes) '-I${include.toFilePath()}',
+        for (final include in includes) '-I${toolPath(include)}',
         for (final forcedInclude in forcedIncludes)
-          '-include${forcedInclude.toFilePath()}',
+          '-include${toolPath(forcedInclude)}',
         if (linkerOptions != null)
           ...linkerOptions!.sourceFilesToFlags(
             toolInstance.tool,
@@ -364,15 +384,15 @@ class RunCBuilder {
         ],
         if (executable != null) ...[
           '-o',
-          outDir.resolveUri(executable!).toFilePath(),
+          toolPath(outDir.resolveUri(executable!)),
         ] else if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
-          outFile!.toFilePath(),
+          toolPath(outFile!),
         ] else if (staticLibrary != null) ...[
           '-c',
           '-o',
-          outFile!.toFilePath(),
+          toolPath(outFile!),
         ],
         if (executable != null || dynamicLibrary != null) ...[
           if (codeConfig.targetOS case .android || .linux)
@@ -381,7 +401,7 @@ class RunCBuilder {
             // it is linked against.
             '-Wl,-rpath,\$ORIGIN',
           for (final directory in libraryDirectories)
-            '-L${directory.toFilePath()}',
+            '-L${toolPath(directory)}',
           for (final library in libraries) '-l$library',
         ],
       ],

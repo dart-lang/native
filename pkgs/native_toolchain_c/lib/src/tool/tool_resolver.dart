@@ -129,6 +129,7 @@ class CliVersionResolver implements ToolResolver {
     logger?.finer('Looking up version with --version for $toolInstance.');
     final version = await executableVersion(
       toolInstance.uri,
+      launcher: toolInstance.launcher?.uri,
       arguments: arguments,
       expectedExitCode: expectedExitCode,
       logger: logger,
@@ -140,12 +141,14 @@ class CliVersionResolver implements ToolResolver {
 
   static Future<Version> executableVersion(
     Uri executable, {
+    Uri? launcher,
     List<String> arguments = const ['--version'],
     int expectedExitCode = 0,
     required Logger? logger,
   }) async {
     final process = await runProcess(
       executable: executable,
+      launcher: launcher,
       arguments: arguments,
       logger: logger,
     );

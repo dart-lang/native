@@ -6,6 +6,7 @@ import 'package:code_assets/code_assets.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
+import 'wsl.dart';
 
 /// The GNU Compiler Collection for [Architecture.current].
 ///
@@ -82,6 +83,7 @@ Tool _gcc(String prefix) => Tool(
           '/usr/local/bin/$prefix-gcc',
         ],
       ),
+      WslToolResolver(toolName: gcc.name, executableName: '$prefix-gcc'),
     ]),
   ),
 );
@@ -90,11 +92,17 @@ Tool _gnuArchiver(String prefix) {
   final gcc = _gcc(prefix);
   return Tool(
     name: gnuArchiver.name,
-    defaultResolver: RelativeToolResolver(
-      toolName: gnuArchiver.name,
-      wrappedResolver: gcc.defaultResolver!,
-      relativePath: Uri.file('$prefix-gcc-ar'),
-    ),
+    defaultResolver: ToolResolvers([
+      RelativeToolResolver(
+        toolName: gnuArchiver.name,
+        wrappedResolver: gcc.defaultResolver!,
+        relativePath: Uri.file('$prefix-gcc-ar'),
+      ),
+      WslToolResolver(
+        toolName: gnuArchiver.name,
+        executableName: '$prefix-gcc-ar',
+      ),
+    ]),
   );
 }
 
