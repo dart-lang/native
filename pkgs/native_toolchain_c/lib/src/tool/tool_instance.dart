@@ -15,7 +15,7 @@ class ToolInstance implements Comparable<ToolInstance> {
 
   /// The launcher of the [Tool] when the tool cannot be executed by the host
   /// OS directly e.g. wsl.
-  final Uri? launcher;
+  final ToolInstance? launcher;
 
   /// The version of the native tool.
   ///
@@ -29,7 +29,7 @@ class ToolInstance implements Comparable<ToolInstance> {
     this.version,
   });
 
-  ToolInstance copyWith({Uri? uri, Uri? launcher, Version? version}) =>
+  ToolInstance copyWith({Uri? uri, ToolInstance? launcher, Version? version}) =>
       ToolInstance(
         tool: tool,
         uri: uri ?? this.uri,

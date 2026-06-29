@@ -195,8 +195,8 @@ void main() async {
       expect(result.exitCode, 0);
       expect(result.stdout, contains('elf64-x86-64'));
     },
-    skip: Process.runSync('where', ['x86_64-linux-gnu-gcc']).exitCode == 0
+    skip: Process.runSync('wsl', ['x86_64-linux-gnu-gcc']).exitCode == 0
         ? null
-        : 'x86_64-linux-gnu-gcc not found on PATH',
+        : 'x86_64-linux-gnu-gcc not found',
   );
 }
