@@ -1452,9 +1452,15 @@ extern "C"
     jint JNI_CreateJavaVM(JavaVM **, JNIEnv **, void *);
     jint JNI_GetCreatedJavaVMs(JavaVM **, jsize, jsize *);
 
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+#define JNIIMPORT __declspec(dllimport)
+#define JNIEXPORT __declspec(dllexport)
+#define JNICALL __stdcall
+#else
 #define JNIIMPORT
 #define JNIEXPORT __attribute__((visibility("default")))
 #define JNICALL
+#endif
 
     /*
      * Prototypes for functions exported by loadable shared libs.  These are
