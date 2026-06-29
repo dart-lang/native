@@ -85,11 +85,6 @@ jobs:
           additional-packages: gcc-x86-64-linux-gnu binutils-x86-64-linux-gnu libc6-dev-amd64-cross
         if: ${{ matrix.os == 'windows' }}
 
-      - name: Add Linux cross gcc wrappers to PATH (Windows)
-        run: echo "${{ github.workspace }}\.github\windows_cross" >> $env:GITHUB_PATH
-        shell: pwsh
-        if: ${{ matrix.os == 'windows' }}
-
       - run: dart pub get
 
       - name: Run pub get, analysis, formatting, generators, tests, and examples.

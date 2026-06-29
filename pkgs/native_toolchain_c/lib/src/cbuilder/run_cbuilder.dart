@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
+import '../native_toolchain/wsl.dart';
 import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
@@ -100,17 +101,11 @@ class RunCBuilder {
 
   /// Renders [uri] as a path the [tool] can open.
   ///
-  /// When [tool] runs through the WSL launcher it sees the Windows drives
-  /// mounted under `/mnt` (`C:\Users` -> `/mnt/c/Users`), so render a POSIX path
-  /// and remap the drive. Tools run on the host use the host path rendering.
-  String _mapToPosixPathIfNeeded(Uri uri, ToolInstance tool) {
-    if (tool.launcher?.tool.isWsl != true) return uri.toFilePath();
-    final posix = uri.toFilePath(windows: false); // /C:/Users/...
-    return posix.replaceFirstMapped(
-      RegExp(r'^/([A-Za-z]):/'),
-      (match) => '/mnt/${match[1]!.toLowerCase()}/',
-    );
-  }
+  /// A tool that runs through the WSL launcher sees the Windows drives mounted
+  /// under `/mnt`, so its paths are mapped (see [toWslPath]). Tools run on the
+  /// host use the host path rendering.
+  String _toolPath(Uri uri, ToolInstance tool) =>
+      tool.launcher?.tool.isWsl == true ? toWslPath(uri) : uri.toFilePath();
 
   Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
     if (iosSdk == .iPhoneOS) {
@@ -197,9 +192,7 @@ class RunCBuilder {
         : null;
 
     final architecture = codeConfig.targetArchitecture;
-    final sourceFiles = sources
-        .map((e) => _mapToPosixPathIfNeeded(e, tool))
-        .toList();
+    final sourceFiles = sources.map((e) => _toolPath(e, tool)).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
       for (var i = 0; i < sourceFiles.length; i++) {
@@ -226,9 +219,9 @@ class RunCBuilder {
         executable: archiver_.uri,
         arguments: [
           isMacToElfCross ? 'rcS' : 'rc',
-          _mapToPosixPathIfNeeded(outDir.resolveUri(staticLibrary!), archiver_),
+          _toolPath(outDir.resolveUri(staticLibrary!), archiver_),
           ...objectFiles.map(
-            (objectFile) => _mapToPosixPathIfNeeded(objectFile, archiver_!),
+            (objectFile) => _toolPath(objectFile, archiver_!),
           ),
         ],
         logger: logger,
@@ -265,7 +258,7 @@ class RunCBuilder {
   ) async {
     final context = ToolResolvingContext(logger: logger);
 
-    String toolPath(Uri uri) => _mapToPosixPathIfNeeded(uri, toolInstance);
+    String toolPath(Uri uri) => _toolPath(uri, toolInstance);
 
     await runProcess(
       launcher: toolInstance.launcher?.uri,

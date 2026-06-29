@@ -13,6 +13,7 @@ import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
@@ -188,14 +189,15 @@ void main() async {
         OS.linux.libraryFileName(name, DynamicLoadingBundled()),
       );
       final result = await runProcess(
-        executable: Uri.file('objdump'),
-        arguments: ['-t', libUri.path],
+        executable: Uri.file('wsl'),
+        arguments: ['x86_64-linux-gnu-objdump', '-t', toWslPath(libUri)],
         logger: logger,
       );
       expect(result.exitCode, 0);
       expect(result.stdout, contains('elf64-x86-64'));
     },
-    skip: Process.runSync('wsl', ['x86_64-linux-gnu-gcc']).exitCode == 0
+    skip:
+        Process.runSync('wsl', ['which', 'x86_64-linux-gnu-gcc']).exitCode == 0
         ? null
         : 'x86_64-linux-gnu-gcc not found',
   );
