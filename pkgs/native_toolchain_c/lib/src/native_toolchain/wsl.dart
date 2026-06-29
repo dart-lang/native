@@ -19,6 +19,17 @@ final wsl = Tool(
   ),
 );
 
+/// Maps a Windows file [uri] to the path a tool running inside WSL can open.
+///
+/// WSL mounts the Windows drives under `/mnt` (`C:\Users` -> `/mnt/c/Users`).
+String toWslPath(Uri uri) {
+  final posix = uri.toFilePath(windows: false); // /C:/Users/...
+  return posix.replaceFirstMapped(
+    RegExp(r'^/([A-Za-z]):/'),
+    (match) => '/mnt/${match[1]!.toLowerCase()}/',
+  );
+}
+
 /// Resolves a tool that lives inside WSL (Windows -> Linux cross builds).
 ///
 /// Runs `wsl which <executableName>` and records `wsl` as the

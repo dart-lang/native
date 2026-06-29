@@ -48,9 +48,7 @@ Future<RunProcessResult> runProcess({
     resolvedArguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell:
-        Platform.isWindows &&
-        (workingDirectory != null || _needsShell(executable)),
+    runInShell: Platform.isWindows && workingDirectory != null,
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {
@@ -100,18 +98,6 @@ Future<RunProcessResult> runProcess({
     );
   }
   return result;
-}
-
-/// Whether [executable] must be launched through a shell on Windows.
-///
-/// `.bat`/`.cmd` scripts require `cmd.exe`, and a bare command name (no path
-/// separator) needs `PATH`/`PATHEXT` resolution, which `Process.start` only
-/// does via the shell. Full-path `.exe` invocations are left untouched.
-bool _needsShell(Uri executable) {
-  final path = executable.toFilePath().toLowerCase();
-  return path.endsWith('.bat') ||
-      path.endsWith('.cmd') ||
-      !path.contains(Platform.pathSeparator);
 }
 
 /// Drop in replacement of [ProcessResult].
