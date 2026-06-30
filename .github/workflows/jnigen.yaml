@@ -304,9 +304,14 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
       - run: dart pub get
       - run: dart run jni:setup
-      - run: dart test --test-randomize-ordering-seed random
+      - run: dart test -x bindings --test-randomize-ordering-seed random
 
   # Not having Java installed on a Desktop will not fail Flutter build.
   test_no_jdk_fallback:
@@ -382,13 +387,18 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        with:
+          distribution: 'zulu'
+          java-version: '17'
       - run: git config --global core.autocrlf true
+      - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
       - run: dart pub get
       - run: dart run jnigen:setup
       - name: Build summarizer
         run: dart run jnigen:setup
       - name: Run tests
-        run: dart test --test-randomize-ordering-seed random
+        run: dart test -x bindings --test-randomize-ordering-seed random
 
   test_jni_macos_minimal:
     needs: [analyze_jni]
@@ -405,7 +415,7 @@ jobs:
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - run: dart pub get
       - run: dart run jni:setup
-      - run: dart test --test-randomize-ordering-seed random
+      - run: dart test -x bindings --test-randomize-ordering-seed random
 
   test_jnigen_macos_minimal:
     needs: [analyze_jnigen]
@@ -429,7 +439,7 @@ jobs:
       - name: Build summarizer
         run: dart run jnigen:setup
       - name: Run tests
-        run: dart test --test-randomize-ordering-seed random
+        run: dart test -x bindings --test-randomize-ordering-seed random
 
   build_jni_example_linux:
     runs-on: ubuntu-latest
