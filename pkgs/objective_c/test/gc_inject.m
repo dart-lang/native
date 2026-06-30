@@ -31,6 +31,19 @@ uint64_t getBlockRetainCount(BlockRefCountExtractor* block) {
   return (block->flags & 0xFFFF) >> 1;
 }
 
+// On arm64 non-pointer ISA, the top byte of the isa header holds extra_rc
+// (i.e. retain count minus one). This is sufficient to observe a retain-count
+// drop, which is all the buildInstance swizzle below needs to detect a
+// premature finalizer release.
+typedef struct {
+  uint64_t header;
+} ObjectRefCountExtractor;
+
+__attribute__((visibility("default")))
+uint64_t getObjectRetainCount(ObjectRefCountExtractor* object) {
+  return object->header >> 56;
+}
+
 typedef void* (*DartGCNow_t)(const char*, void*);
 static DartGCNow_t g_dart_gc_now = NULL;
 
@@ -39,6 +52,11 @@ static bool g_swizzle_active = false;
 // Written and read from the same Dart thread (native-mode FFI call), so a
 // plain bool is safe.
 static bool g_block_freed_before_retain = false;
+
+// buildInstance swizzle state — separate from the implementMethod swizzle
+// above so both can be installed independently. Both share g_swizzle_active.
+static IMP g_original_buildInstance_imp = NULL;
+static bool g_builder_released_during_buildInstance = false;
 
 // Replacement for -[DOBJCDartProtocolBuilder implementMethod:withBlock:...].
 // Forces GC before calling the original, then checks the retain count.
@@ -106,4 +124,62 @@ void setGCInjectActive(bool active) {
 // Sticky flag: once true it stays true even after setGCInjectActive(false).
 bool wasBlockFreedBeforeRetain(void) {
   return g_block_freed_before_retain;
+}
+
+// Replacement for -[DOBJCDartProtocolBuilder buildInstance:]. The production
+// crash (same family as #3209) is the Dart wrapper for the receiver being
+// finalized at the FFI safepoint inside the call, after Dart extracts
+// _builder.ref.pointer but before objc_msgSend dispatches. This swizzle
+// reproduces that window deterministically:
+//
+//   1. CFRetain self so the test process survives even if the finalizer fires
+//      — without this, we'd observe the crash instead of detecting it.
+//   2. Snapshot retain count, force gc-now, snapshot again. A drop means a
+//      finalizer released the builder while we were inside the FFI call.
+//   3. Call the original IMP and return its result.
+//   4. CFRelease to balance the retain from step 1.
+static id buildInstance_gc_inject_imp(id self, SEL _cmd, int32_t port) {
+  if (g_swizzle_active && g_dart_gc_now != NULL) {
+    CFRetain((CFTypeRef)self);
+    uint64_t rc_before = getObjectRetainCount((__bridge void*)self);
+    g_dart_gc_now("gc-now", NULL);
+    uint64_t rc_after = getObjectRetainCount((__bridge void*)self);
+    if (rc_after < rc_before) {
+      g_builder_released_during_buildInstance = true;
+    }
+    id result =
+        ((id (*)(id, SEL, int32_t))g_original_buildInstance_imp)(
+            self, _cmd, port);
+    CFRelease((CFTypeRef)self);
+    return result;
+  }
+  return ((id (*)(id, SEL, int32_t))g_original_buildInstance_imp)(
+      self, _cmd, port);
+}
+
+void installBuildInstanceSwizzle(void) {
+  g_builder_released_during_buildInstance = false;
+  Class cls = NSClassFromString(@"DOBJCDartProtocolBuilder");
+  if (cls == nil) return;
+  SEL sel = @selector(buildInstance:);
+  Method m = class_getInstanceMethod(cls, sel);
+  if (m == NULL) return;
+  g_original_buildInstance_imp =
+      method_setImplementation(m, (IMP)buildInstance_gc_inject_imp);
+}
+
+void removeBuildInstanceSwizzle(void) {
+  if (g_original_buildInstance_imp == NULL) return;
+  Class cls = NSClassFromString(@"DOBJCDartProtocolBuilder");
+  SEL sel = @selector(buildInstance:);
+  Method m = class_getInstanceMethod(cls, sel);
+  if (m != NULL) {
+    method_setImplementation(m, g_original_buildInstance_imp);
+  }
+  g_original_buildInstance_imp = NULL;
+}
+
+// Sticky flag: once true it stays true even after setGCInjectActive(false).
+bool wasBuilderReleasedDuringBuildInstance(void) {
+  return g_builder_released_during_buildInstance;
 }
