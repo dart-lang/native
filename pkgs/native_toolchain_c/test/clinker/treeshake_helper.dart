@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -151,17 +150,19 @@ void runTreeshakeTests(
         targetOS,
       );
 
-      final symbols = await readSymbols(asset, targetOS);
-      final skip = skipLocal(
-        symbols == null,
-        'tool to extract symbols unavailable',
-      );
       if (clinker.linker != linkerAutoKeepAll) {
-        expect(symbols, contains('my_other_func'), skip: skip);
-        expect(symbols, isNot(contains('my_func')), skip: skip);
+        await expectSymbols(
+          asset: asset,
+          targetOS: targetOS,
+          symbols: ['my_other_func'],
+          symbolsNotToContain: ['my_func'],
+        );
       } else {
-        expect(symbols, contains('my_other_func'), skip: skip);
-        expect(symbols, contains('my_func'), skip: skip);
+        await expectSymbols(
+          asset: asset,
+          targetOS: targetOS,
+          symbols: ['my_other_func', 'my_func'],
+        );
       }
 
       final sizeInBytes = await File.fromUri(asset.file!).length();
