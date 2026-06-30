@@ -102,6 +102,23 @@ void main() {
       port.close();
     }
 
+    // Runs on other isolate.
+    void case2Helper(SendPort sendPort) async {
+      final port = ReceivePort();
+      sendPort.send(port.sendPort);
+
+      final block = ObjCBlock_ffiVoid_Sendable.listener((Sendable s) {
+        // Do nothing.
+      }, keepIsolateAlive: false);
+
+      sendPort.send(block);
+
+      await for (final _ in port) {
+        break;
+      }
+      port.close();
+    }
+
     test('Sending block through a port', () async {
       final completer = Completer<int>();
       ObjCBlock<Void Function(Int32)>? block = ObjCBlock_ffiVoid_Int32.listener(
@@ -214,5 +231,72 @@ void main() {
       expect(() => sendable.value, throwsA(isA<UseAfterReleaseError>()));
       expect(() => sendable.ref.release(), throwsA(isA<DoubleReleaseError>()));
     });
+
+    test(
+      'Case 2: Isolate shuts down before handling message (Memory Leak)',
+      () async {
+        await using((arena) async {
+          final sendableTracker = ReferenceTracker(arena);
+          Sendable? sendable = Sendable();
+          sendable.value = 789;
+          sendableTracker.track(sendable);
+
+          final port = ReceivePort();
+          final queue = StreamQueue(port);
+          final isolate = await Isolate.spawn(
+            case2Helper,
+            port.sendPort,
+            onExit: port.sendPort,
+          );
+
+          final helperSendPort = await queue.next as SendPort;
+          final block = await queue.next as ObjCBlock<Void Function(Sendable)>;
+
+          // Invoke the block, passing the sendable object.
+          block(sendable!);
+
+          // IMMEDIATELY kill the helper isolate.
+          isolate.kill(priority: Isolate.immediate);
+
+          // Wait for the helper isolate to completely exit.
+          while (await queue.next != null) {
+            // Wait for onExit signal which sends null.
+          }
+          port.close();
+
+          // Clear our own references to sendable and the block.
+          sendable = null;
+
+          // Force Garbage Collection.
+          doGC();
+
+          // In a buggy implementation, the Sendable object will have leaked
+          // because the message containing it was dropped during isolate shutdown
+          // without releasing the retained ObjC reference.
+          // So sendableTracker.isAlive will still be true.
+          expect(sendableTracker.isAlive, true);
+        });
+      },
+      skip: !canDoGC,
+    );
+
+    test(
+      'Case 3: Isolate is already shut down before message is sent (Crash/UB)',
+      () async {
+        // Run the subprocess script and expect it to crash (exit code != 0).
+        final scriptPath = path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'isolate_test_case3_subprocess.dart',
+        );
+        final result = await Process.run(Platform.resolvedExecutable, [
+          scriptPath,
+        ]);
+
+        // In a buggy implementation, the subprocess crashes (segfaults) so the exit code is non-zero.
+        expect(result.exitCode, isNot(0));
+      },
+    );
   });
 }
