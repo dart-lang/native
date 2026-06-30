@@ -14,7 +14,6 @@ import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
-import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
@@ -146,60 +145,57 @@ void main() async {
     }
   }
 
-  test(
-    'CBuilder discovers a cross toolchain and builds linux-x64 (ELF)',
-    () async {
-      final tempUri = await tempDirForTest();
-      final tempUri2 = await tempDirForTest();
-      final sourceUri = packageUri.resolve(
-        'test/cbuilder/testfiles/add/src/add.c',
-      );
-      const name = 'add';
-
-      final buildInputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: OS.linux,
-            targetArchitecture: Architecture.x64,
-            linkModePreference: .dynamic,
-          ),
+  for (final arch in supportedArchitecturesFor(OS.linux)) {
+    final triple = targetTriple(OS.linux, arch);
+    test(
+      'CBuilder discovers a cross toolchain and builds linux-$arch (ELF)',
+      () async {
+        final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
+        final sourceUri = packageUri.resolve(
+          'test/cbuilder/testfiles/add/src/add.c',
         );
-      final buildInput = buildInputBuilder.build();
-      final buildOutput = BuildOutputBuilder();
+        const name = 'add';
 
-      final cbuilder = CBuilder.library(
-        name: name,
-        assetName: name,
-        sources: [sourceUri.toFilePath()],
-        buildMode: .release,
-      );
-      await cbuilder.run(
-        input: buildInput,
-        output: buildOutput,
-        logger: logger,
-      );
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.linux,
+              targetArchitecture: arch,
+              linkModePreference: .dynamic,
+            ),
+          );
+        final buildInput = buildInputBuilder.build();
+        final buildOutput = BuildOutputBuilder();
 
-      final libUri = buildInput.outputDirectory.resolve(
-        OS.linux.libraryFileName(name, DynamicLoadingBundled()),
-      );
-      final result = await runProcess(
-        executable: Uri.file('wsl'),
-        arguments: ['x86_64-linux-gnu-objdump', '-t', toWslPath(libUri)],
-        logger: logger,
-      );
-      expect(result.exitCode, 0);
-      expect(result.stdout, contains('elf64-x86-64'));
-    },
-    skip: skipLocal(
-      Process.runSync('wsl', ['which', 'x86_64-linux-gnu-gcc']).exitCode != 0,
-      'x86_64-linux-gnu-gcc not found',
-    ),
-  );
+        final cbuilder = CBuilder.library(
+          name: name,
+          assetName: name,
+          sources: [sourceUri.toFilePath()],
+          buildMode: .release,
+        );
+        await cbuilder.run(
+          input: buildInput,
+          output: buildOutput,
+          logger: logger,
+        );
+
+        final libUri = buildInput.outputDirectory.resolve(
+          OS.linux.libraryFileName(name, DynamicLoadingBundled()),
+        );
+        await expectMachineArchitecture(libUri, arch, OS.linux);
+      },
+      skip: skipLocal(
+        Process.runSync('wsl', ['which', '$triple-gcc']).exitCode != 0,
+        '$triple-gcc not found',
+      ),
+    );
+  }
 }

@@ -12,6 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -385,6 +386,28 @@ const objdumpFileFormatLinux = {
   Architecture.riscv64: 'elf64-riscv64',
 };
 
+/// The target triple identifying the cross toolchain for [targetOS]/
+/// [targetArch], e.g. to invoke its executables (`<triple>-gcc`,
+/// `<triple>-objdump`) or to pass to `objdump --triple=`.
+///
+/// Returns `null` for combinations without a dedicated triple (e.g. native
+/// macOS/iOS or Windows targets).
+String? targetTriple(OS targetOS, Architecture targetArch) =>
+    switch ((targetOS, targetArch)) {
+      (OS.linux, Architecture.arm) => 'arm-linux-gnueabihf',
+      (OS.linux, Architecture.arm64) => 'aarch64-linux-gnu',
+      (OS.linux, Architecture.ia32) => 'i686-linux-gnu',
+      (OS.linux, Architecture.x64) => 'x86_64-linux-gnu',
+      (OS.linux, Architecture.riscv32) => 'riscv32-linux-gnu',
+      (OS.linux, Architecture.riscv64) => 'riscv64-linux-gnu',
+      (OS.android, Architecture.arm) => 'arm-linux-androideabi',
+      (OS.android, Architecture.arm64) => 'aarch64-linux-android',
+      (OS.android, Architecture.ia32) => 'i686-linux-android',
+      (OS.android, Architecture.x64) => 'x86_64-linux-android',
+      (OS.android, Architecture.riscv64) => 'riscv64-linux-android',
+      _ => null,
+    };
+
 const targetOSToObjdumpFileFormat = {
   OS.android: objdumpFileFormatAndroid,
   OS.macOS: objdumpFileFormatMacOS,
@@ -412,20 +435,7 @@ Future<void> expectMachineArchitecture(
     final machine = await readelfMachine(libUri.path);
     expect(machine, contains(readElfMachine[targetArch]));
   } else if (Platform.isMacOS) {
-    final triple = switch ((targetOS, targetArch)) {
-      (OS.linux, Architecture.arm) => 'arm-linux-gnueabihf',
-      (OS.linux, Architecture.arm64) => 'aarch64-linux-gnu',
-      (OS.linux, Architecture.ia32) => 'i686-linux-gnu',
-      (OS.linux, Architecture.x64) => 'x86_64-linux-gnu',
-      (OS.linux, Architecture.riscv32) => 'riscv32-linux-gnu',
-      (OS.linux, Architecture.riscv64) => 'riscv64-linux-gnu',
-      (OS.android, Architecture.arm) => 'arm-linux-androideabi',
-      (OS.android, Architecture.arm64) => 'aarch64-linux-android',
-      (OS.android, Architecture.ia32) => 'i686-linux-android',
-      (OS.android, Architecture.x64) => 'x86_64-linux-android',
-      (OS.android, Architecture.riscv64) => 'riscv64-linux-android',
-      _ => null,
-    };
+    final triple = targetTriple(targetOS, targetArch);
     final isStatic = libUri.path.endsWith('.a') || libUri.path.endsWith('.lib');
     final result = await runProcess(
       executable: Uri.file('objdump'),
@@ -444,6 +454,24 @@ Future<void> expectMachineArchitecture(
       machine,
       contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
     );
+  } else if (Platform.isWindows && targetOS == OS.linux) {
+    final triple = targetTriple(targetOS, targetArch);
+    final isStatic = libUri.path.endsWith('.a') || libUri.path.endsWith('.lib');
+    final result = await runProcess(
+      executable: Uri.file('wsl'),
+      arguments: ['$triple-objdump', isStatic ? '-t' : '-T', toWslPath(libUri)],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final machine = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('file format'));
+    // GNU binutils objdump names RISC-V `elf64-littleriscv`, unlike the LLVM
+    // objdump (`elf64-riscv64`) that the macOS branch above relies on.
+    final expectedFormat = targetArch == Architecture.riscv64
+        ? 'elf64-littleriscv'
+        : objdumpFileFormatLinux[targetArch];
+    expect(machine, contains(expectedFormat));
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await _runDumpbin(['/HEADERS'], libUri);
     final skip = skipLocal(
