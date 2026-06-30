@@ -222,68 +222,65 @@ void main() async {
     }
   }
 
-  test(
-    'CBuilder discovers a cross toolchain and builds linux-x64 (ELF)',
-    () async {
-      final tempUri = await tempDirForTest();
-      final tempUri2 = await tempDirForTest();
-      final sourceUri = packageUri.resolve(
-        'test/cbuilder/testfiles/add/src/add.c',
-      );
-      const name = 'add';
-
-      final buildInputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: OS.linux,
-            targetArchitecture: Architecture.x64,
-            linkModePreference: .dynamic,
-          ),
+  for (final arch in const [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    // RISC-V: no messense macOS cross-toolchain available.
+  ]) {
+    final triple = targetTriple(OS.linux, arch);
+    test(
+      'CBuilder discovers a cross toolchain and builds linux-$arch (ELF)',
+      () async {
+        final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
+        final sourceUri = packageUri.resolve(
+          'test/cbuilder/testfiles/add/src/add.c',
         );
-      final buildInput = buildInputBuilder.build();
-      final buildOutput = BuildOutputBuilder();
+        const name = 'add';
 
-      final cbuilder = CBuilder.library(
-        name: name,
-        assetName: name,
-        sources: [sourceUri.toFilePath()],
-        buildMode: .release,
-      );
-      await cbuilder.run(
-        input: buildInput,
-        output: buildOutput,
-        logger: logger,
-      );
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.linux,
+              targetArchitecture: arch,
+              linkModePreference: .dynamic,
+            ),
+          );
+        final buildInput = buildInputBuilder.build();
+        final buildOutput = BuildOutputBuilder();
 
-      final libUri = buildInput.outputDirectory.resolve(
-        OS.linux.libraryFileName(name, DynamicLoadingBundled()),
-      );
-      final result = await runProcess(
-        executable: Uri.file('objdump'),
-        arguments: ['-t', libUri.path],
-        logger: logger,
-      );
-      expect(result.exitCode, 0);
-      final machine = result.stdout
-          .split('\n')
-          .firstWhere((e) => e.contains('file format'));
-      expect(
-        machine,
-        contains(objdumpFileFormat[(OS.linux, Architecture.x64)]),
-      );
-    },
-    skip: skipLocal(
-      Process.runSync('which', ['x86_64-linux-gnu-gcc']).exitCode != 0,
-      'x86_64-linux-gnu-gcc not found on PATH',
-    ),
-  );
+        final cbuilder = CBuilder.library(
+          name: name,
+          assetName: name,
+          sources: [sourceUri.toFilePath()],
+          buildMode: .release,
+        );
+        await cbuilder.run(
+          input: buildInput,
+          output: buildOutput,
+          logger: logger,
+        );
+
+        final libUri = buildInput.outputDirectory.resolve(
+          OS.linux.libraryFileName(name, DynamicLoadingBundled()),
+        );
+        await expectMachineArchitecture(libUri, arch, OS.linux);
+      },
+      skip: skipLocal(
+        Process.runSync('which', ['$triple-gcc']).exitCode != 0,
+        '$triple-gcc not found on PATH',
+      ),
+    );
+  }
 }
 
 Future<Uri> buildLib(

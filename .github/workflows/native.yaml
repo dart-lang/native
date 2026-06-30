@@ -74,7 +74,12 @@ jobs:
         if: ${{ matrix.os == 'macos' }}
 
       - name: Install Linux cross gcc (macOS)
-        run: brew install messense/macos-cross-toolchains/x86_64-unknown-linux-gnu
+        run: |
+          brew install \
+            messense/macos-cross-toolchains/x86_64-unknown-linux-gnu \
+            messense/macos-cross-toolchains/aarch64-unknown-linux-gnu \
+            messense/macos-cross-toolchains/arm-unknown-linux-gnueabihf \
+            messense/macos-cross-toolchains/i686-unknown-linux-gnu
         if: ${{ matrix.os == 'macos' }}
 
       - name: Install Linux cross gcc in WSL (Windows)
@@ -82,7 +87,12 @@ jobs:
         with:
           distribution: Ubuntu-24.04
           wsl-version: '1'
-          additional-packages: gcc-x86-64-linux-gnu binutils-x86-64-linux-gnu libc6-dev-amd64-cross
+          additional-packages: >-
+            gcc-x86-64-linux-gnu binutils-x86-64-linux-gnu libc6-dev-amd64-cross
+            gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross
+            gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf libc6-dev-armhf-cross
+            gcc-i686-linux-gnu binutils-i686-linux-gnu libc6-dev-i386-cross
+            gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu libc6-dev-riscv64-cross
         if: ${{ matrix.os == 'windows' }}
 
       - run: dart pub get
