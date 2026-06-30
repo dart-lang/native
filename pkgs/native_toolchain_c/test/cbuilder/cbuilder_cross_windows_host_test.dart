@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
@@ -196,9 +197,9 @@ void main() async {
       expect(result.exitCode, 0);
       expect(result.stdout, contains('elf64-x86-64'));
     },
-    skip:
-        Process.runSync('wsl', ['which', 'x86_64-linux-gnu-gcc']).exitCode == 0
-        ? null
-        : 'x86_64-linux-gnu-gcc not found',
+    skip: skipLocal(
+      Process.runSync('wsl', ['which', 'x86_64-linux-gnu-gcc']).exitCode != 0,
+      'x86_64-linux-gnu-gcc not found',
+    ),
   );
 }

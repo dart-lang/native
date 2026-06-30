@@ -286,9 +286,10 @@ void main() async {
         contains(objdumpFileFormat[(OS.linux, Architecture.x64)]),
       );
     },
-    skip: Process.runSync('which', ['x86_64-linux-gnu-gcc']).exitCode == 0
-        ? null
-        : 'x86_64-linux-gnu-gcc not found on PATH',
+    skip: skipLocal(
+      Process.runSync('which', ['x86_64-linux-gnu-gcc']).exitCode != 0,
+      'x86_64-linux-gnu-gcc not found on PATH',
+    ),
   );
 }
 
