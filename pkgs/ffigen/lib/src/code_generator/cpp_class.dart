@@ -12,7 +12,7 @@ import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-enum CppMethodKind { constructor, destructor, method }
+enum CppMethodKind { constructor, method }
 
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode with HasLocalScope {
@@ -35,7 +35,6 @@ class CppMethod extends AstNode with HasLocalScope {
   });
 
   bool get isConstructor => kind == .constructor;
-  bool get isDestructor => kind == .destructor;
 
   @override
   void visit(Visitation visitation) => visitation.visitCppMethod(this);
@@ -107,7 +106,6 @@ class CppClass extends BindingType with HasLocalScope {
 
     final classMethods = methods.where((m) => m.kind == .method).toList();
     final constructors = methods.where((m) => m.kind == .constructor).toList();
-    final destructor = methods.where((m) => m.kind == .destructor).singleOrNull;
 
     final deleteSymbol = '${name}_delete';
     final deleteGlue = '_$deleteSymbol';
@@ -125,8 +123,10 @@ class $name implements $ffiPrefix.Finalizable {
     $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue)
   );
 
-  $name._(this._ptr) {
-    _finalizer.attach(this, _ptr.cast(), detach: this);
+  $name.fromPointer(this._ptr, {bool attachFinalizer = true}) {
+    if (attachFinalizer) {
+      _finalizer.attach(this, _ptr.cast(), detach: this);
+    }
   }
 ''');
 
@@ -154,7 +154,7 @@ class $name implements $ffiPrefix.Finalizable {
       s.write('''
   factory $name($dartParams) {
     ${localVars.generateDeclarations()}
-    return $name._($privateName($callArgs));
+    return $name.fromPointer($privateName($callArgs));
   }
 ''');
     }
@@ -237,15 +237,13 @@ class $name implements $ffiPrefix.Finalizable {
         ffiParams: ffiParams,
       );
     }
-    if (destructor == null) {
-      writeNativeDecl(
-        symbol: deleteSymbol,
-        glue: deleteGlue,
-        cType: '$ffiPrefix.Void Function($ptrVoid)',
-        ffiReturn: 'void',
-        ffiParams: '$ptrVoid self',
-      );
-    }
+    writeNativeDecl(
+      symbol: deleteSymbol,
+      glue: deleteGlue,
+      cType: '$ffiPrefix.Void Function($ptrVoid)',
+      ffiReturn: 'void',
+      ffiParams: '$ptrVoid self',
+    );
 
     return BindingString(
       type: BindingStringType.cppClass,
@@ -259,15 +257,14 @@ class $name implements $ffiPrefix.Finalizable {
     String paramDecl(Parameter p) =>
         p.type.getNativeType(context, varName: p.name).trim();
 
-    final destructorString = methods.any((m) => m.isDestructor)
-        ? ''
-        : '''
+    final deleteWrapper =
+        '''
 FFIGEN_EXPORT void ${name}_delete($originalName* self) {
   delete self;
 }''';
 
     if (methods.isEmpty) {
-      return destructorString.isEmpty ? null : '$destructorString\n\n';
+      return '$deleteWrapper\n\n';
     }
 
     final methodBindings = methods
@@ -283,10 +280,6 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
             returnTypeString = '$originalName*';
             params = method.parameters.map(paramDecl).join(', ');
             body = 'return new $originalName($callArgs);';
-          } else if (method.isDestructor) {
-            returnTypeString = 'void';
-            params = '$originalName* self';
-            body = 'delete self;';
           } else {
             final nativeType = method.returnType.getNativeType(context);
             returnTypeString = nativeType.trim();
@@ -319,10 +312,7 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
         })
         .join('\n\n');
 
-    final destructorSuffix = destructorString.isEmpty
-        ? ''
-        : '\n\n$destructorString';
-    return '$methodBindings$destructorSuffix\n\n';
+    return '$methodBindings\n\n$deleteWrapper\n\n';
   }
 
   @override

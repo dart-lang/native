@@ -17,11 +17,13 @@ class Animal implements ffi.Finalizable {
     >(_Animal_delete),
   );
 
-  Animal._(this._ptr) {
-    _finalizer.attach(this, _ptr.cast(), detach: this);
+  Animal.fromPointer(this._ptr, {bool attachFinalizer = true}) {
+    if (attachFinalizer) {
+      _finalizer.attach(this, _ptr.cast(), detach: this);
+    }
   }
   factory Animal(int age) {
-    return Animal._(_Animal_new(age));
+    return Animal.fromPointer(_Animal_new(age));
   }
   void speak() => _Animal_speak(_ptr);
   int getAge() => _Animal_getAge(_ptr);
@@ -45,9 +47,6 @@ class Animal implements ffi.Finalizable {
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'Animal_new')
 external ffi.Pointer<ffi.Void> _Animal_new(int age);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
-external void _Animal_delete(ffi.Pointer<ffi.Void> self);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_speak')
 external void _Animal_speak(ffi.Pointer<ffi.Void> self);
@@ -89,6 +88,9 @@ external int _Animal_addAges(
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(symbol: 'Animal_sum')
 external int _Animal_sum(int a, int b);
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
+external void _Animal_delete(ffi.Pointer<ffi.Void> self);
+
 class FinalizerTestSubject implements ffi.Finalizable {
   // ignore: unused_field
   final ffi.Pointer<ffi.Void> _ptr;
@@ -99,11 +101,13 @@ class FinalizerTestSubject implements ffi.Finalizable {
     >(_FinalizerTestSubject_delete),
   );
 
-  FinalizerTestSubject._(this._ptr) {
-    _finalizer.attach(this, _ptr.cast(), detach: this);
+  FinalizerTestSubject.fromPointer(this._ptr, {bool attachFinalizer = true}) {
+    if (attachFinalizer) {
+      _finalizer.attach(this, _ptr.cast(), detach: this);
+    }
   }
   factory FinalizerTestSubject(ffi.Pointer<ffi.Int> counter) {
-    return FinalizerTestSubject._(_FinalizerTestSubject_new(counter));
+    return FinalizerTestSubject.fromPointer(_FinalizerTestSubject_new(counter));
   }
   void dispose() {
     if (_isDisposed) {
