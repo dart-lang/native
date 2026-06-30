@@ -50,6 +50,13 @@ void main() {
       calloc.free(counter);
     });
 
+    test('Animal methods throw StateError after dispose', () {
+      final animal = Animal(10);
+      animal.dispose();
+      expect(animal.getAge, throwsStateError);
+      expect(animal.speak, throwsStateError);
+    });
+
     test('FinalizerTestSubject GC', () {
       final counter = calloc<Int>().cast<Int32>();
       counter.value = 0;

@@ -25,15 +25,44 @@ class Animal implements ffi.Finalizable {
   factory Animal(int age) {
     return Animal.fromPointer(_Animal_new(age));
   }
-  void speak() => _Animal_speak(_ptr);
-  int getAge() => _Animal_getAge(_ptr);
+  void speak() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_speak(_ptr);
+  }
+
+  int getAge() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_getAge(_ptr);
+  }
+
   static int getCount() => _Animal_getCount();
   static void Animal_new() => _Animal_Animal_new();
   static void Animal_delete() => _Animal_Animal_delete();
-  bool isMammalClass() => _Animal_isMammalClass(_ptr);
-  double getWeight(double multiplier) => _Animal_getWeight(_ptr, multiplier);
-  int addAges(int otherAge, double scale) =>
-      _Animal_addAges(_ptr, otherAge, scale);
+  bool isMammalClass() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_isMammalClass(_ptr);
+  }
+
+  double getWeight(double multiplier) {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_getWeight(_ptr, multiplier);
+  }
+
+  int addAges(int otherAge, double scale) {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_addAges(_ptr, otherAge, scale);
+  }
+
   static int sum(int a, int b) => _Animal_sum(a, b);
   void dispose() {
     if (_isDisposed) {

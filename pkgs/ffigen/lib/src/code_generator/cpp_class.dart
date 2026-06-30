@@ -169,11 +169,21 @@ class $name implements $ffiPrefix.Finalizable {
         ...method.parameters.map((p) => p.name),
       ].join(', ');
 
-      final staticKeyword = method.isStatic ? 'static ' : '';
-      s.write(
-        '  $staticKeyword$dartReturn ${method.originalName}($dartParams)'
-        ' => $glue($callArgs);\n',
-      );
+      if (method.isStatic) {
+        s.write(
+          '  static $dartReturn ${method.originalName}($dartParams) '
+          '=> $glue($callArgs);\n',
+        );
+      } else {
+        s.write('''
+  $dartReturn ${method.originalName}($dartParams) {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return $glue($callArgs);
+  }
+''');
+      }
     }
     s.write('''
   void dispose() {
