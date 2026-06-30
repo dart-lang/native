@@ -131,10 +131,8 @@ void main() async {
         };
         const name = 'add';
 
-        // When cross-compiling from MacOS, explicitly specify apple clang.
-        //
-        // The default tool-finding does not support macos cross compiling
-        // right now.
+        // For Linux targets, explicitly use Apple Clang + lld
+        // (see flags below).
         var chosenCCompiler = cCompiler;
         if (os == .linux) {
           // still respect the CI-provided compiler
