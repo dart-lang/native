@@ -227,11 +227,11 @@ void main() async {
     Architecture.arm64,
     Architecture.ia32,
     Architecture.x64,
-    // RISC-V: no messense macOS cross-toolchain available.
+    // Risc-V no messense macOS cross-toolchain available for CI.
   ]) {
     final triple = targetTriple(OS.linux, arch);
     test(
-      'CBuilder discovers a cross toolchain and builds linux-$arch (ELF)',
+      'CBuilder discovers a macOS cross toolchain and builds linux-$arch',
       () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
