@@ -17,8 +17,8 @@ class Animal implements ffi.Finalizable {
     >(_Animal_delete),
   );
 
-  Animal.fromPointer(this._ptr, {bool attachFinalizer = true}) {
-    if (attachFinalizer) {
+  Animal.fromPointer(this._ptr, {bool takeOwnership = true}) {
+    if (takeOwnership) {
       _finalizer.attach(this, _ptr.cast(), detach: this);
     }
   }
@@ -130,8 +130,8 @@ class FinalizerTestSubject implements ffi.Finalizable {
     >(_FinalizerTestSubject_delete),
   );
 
-  FinalizerTestSubject.fromPointer(this._ptr, {bool attachFinalizer = true}) {
-    if (attachFinalizer) {
+  FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = true}) {
+    if (takeOwnership) {
       _finalizer.attach(this, _ptr.cast(), detach: this);
     }
   }

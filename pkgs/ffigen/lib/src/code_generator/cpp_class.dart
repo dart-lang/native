@@ -123,8 +123,8 @@ class $name implements $ffiPrefix.Finalizable {
     $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue)
   );
 
-  $name.fromPointer(this._ptr, {bool attachFinalizer = true}) {
-    if (attachFinalizer) {
+  $name.fromPointer(this._ptr, {bool takeOwnership = true}) {
+    if (takeOwnership) {
       _finalizer.attach(this, _ptr.cast(), detach: this);
     }
   }
@@ -272,10 +272,6 @@ class $name implements $ffiPrefix.Finalizable {
 FFIGEN_EXPORT void ${name}_delete($originalName* self) {
   delete self;
 }''';
-
-    if (methods.isEmpty) {
-      return '$deleteWrapper\n\n';
-    }
 
     final methodBindings = methods
         .map((method) {
