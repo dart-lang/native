@@ -56,13 +56,14 @@ void updateManifests(Counts counts) async {
 
 const denyList = [
   '.dart_tool',
-  'pubspec.lock',
-  'manifest',
-  'README.md',
   '.gitignore',
-  'out.js',
-  'json/',
+  'build/cli/',
   'json_dart2js/',
+  'json/',
+  'manifest',
+  'out.js',
+  'pubspec.lock',
+  'README.md',
 ];
 
 /// These just modify other test projects.
