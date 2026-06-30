@@ -44,10 +44,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, macos, windows]
+        os: [ubuntu, macos, windows, windows-arm64]
         sdk: [dev, stable]
+        include:
+          - os: ubuntu
+            runner: ubuntu-latest
+          - os: macos
+            runner: macos-latest
+          - os: windows
+            runner: windows-latest
+          - os: windows-arm64
+            runner: windows-11-arm
 
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.runner }}
 
     defaults:
       run:
@@ -63,7 +72,7 @@ jobs:
       - uses: nttld/setup-ndk@ed92fe6cadad69be94a966a7ee3271275e62f779
         with:
           ndk-version: r27
-        if: ${{ matrix.os != 'macos' }}
+        if: ${{ matrix.os != 'macos' && matrix.os != 'windows-arm64'}}
 
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
