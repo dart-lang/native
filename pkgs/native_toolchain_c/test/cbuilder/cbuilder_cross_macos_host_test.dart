@@ -105,11 +105,6 @@ void main() async {
     stderr.writeln("Install with 'brew install lld' on macOS.");
   }
 
-  if (!Platform.isMacOS) {
-    // Avoid needing status files on Dart SDK CI.
-    return;
-  }
-
   for (final config in configurations) {
     final language = config.get<Language>();
     final linkMode = config.get<LinkMode>();
@@ -333,7 +328,7 @@ Future<Uri> buildLib(
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
   final libUri = buildInput.outputDirectory.resolve(
-    OS.iOS.libraryFileName(name, linkMode),
+    OS.macOS.libraryFileName(name, linkMode),
   );
   return libUri;
 }
