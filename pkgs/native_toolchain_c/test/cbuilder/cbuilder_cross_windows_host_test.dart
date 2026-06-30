@@ -148,7 +148,7 @@ void main() async {
   for (final arch in supportedArchitecturesFor(OS.linux)) {
     final triple = targetTriple(OS.linux, arch);
     test(
-      'CBuilder discovers a cross toolchain and builds linux-$arch (ELF)',
+      'CBuilder discovers a windows cross toolchain and builds linux-$arch',
       () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
