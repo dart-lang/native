@@ -36,7 +36,7 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-const _$jniVersionCheck = jni$_.JniVersionCheck(1, 0);
+const _$jniVersionCheck = jni$_.JniVersionCheck(1, 1);
 
 /// from: `com.example.BaseInterface`
 extension type BaseInterface._(jni$_.JObject _$this) implements jni$_.JObject {
@@ -12375,7 +12375,7 @@ extension type TestClass058<$T extends jni$_.JObject>._(jni$_.JObject _$this)
       }
       if ($d == r'isFoo([Ljava/lang/Number;I)[Ljava/lang/Number;') {
         final $r = _$impls[$p]!.isFoo(
-          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
+          ($a![0] as jni$_.JArray<jni$_.JObject>?),
           ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
@@ -12470,14 +12470,14 @@ extension TestClass058$$Methods<$T extends jni$_.JObject> on TestClass058<$T> {
 
   /// from: `public abstract T[] isFoo(T[] p1, int p2)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? isFoo(
-    jni$_.JArray<$T?>? p1,
+  jni$_.JArray<$T>? isFoo(
+    jni$_.JArray<$T>? p1,
     core$_.int p2,
   ) {
     final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer, p2)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 }
 
@@ -12485,38 +12485,38 @@ abstract base mixin class $TestClass058<$T extends jni$_.JObject> {
   factory $TestClass058({
     required void Function() otherInterfaceMethod,
     core$_.bool otherInterfaceMethod$async,
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<jni$_.JObject>? Function(
+            jni$_.JArray<jni$_.JObject>? p1, core$_.int p2)
         isFoo,
   }) = _$TestClass058<$T>;
 
   void otherInterfaceMethod();
   core$_.bool get otherInterfaceMethod$async => false;
-  jni$_.JArray<jni$_.JObject?>? isFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2);
+  jni$_.JArray<jni$_.JObject>? isFoo(
+      jni$_.JArray<jni$_.JObject>? p1, core$_.int p2);
 }
 
 final class _$TestClass058<$T extends jni$_.JObject> with $TestClass058<$T> {
   _$TestClass058({
     required void Function() otherInterfaceMethod,
     this.otherInterfaceMethod$async = false,
-    required jni$_.JArray<jni$_.JObject?>? Function(
-            jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2)
+    required jni$_.JArray<jni$_.JObject>? Function(
+            jni$_.JArray<jni$_.JObject>? p1, core$_.int p2)
         isFoo,
   })  : _otherInterfaceMethod = otherInterfaceMethod,
         _isFoo = isFoo;
 
   final void Function() _otherInterfaceMethod;
   final core$_.bool otherInterfaceMethod$async;
-  final jni$_.JArray<jni$_.JObject?>? Function(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) _isFoo;
+  final jni$_.JArray<jni$_.JObject>? Function(
+      jni$_.JArray<jni$_.JObject>? p1, core$_.int p2) _isFoo;
 
   void otherInterfaceMethod() {
     return _otherInterfaceMethod();
   }
 
-  jni$_.JArray<jni$_.JObject?>? isFoo(
-      jni$_.JArray<jni$_.JObject?>? p1, core$_.int p2) {
+  jni$_.JArray<jni$_.JObject>? isFoo(
+      jni$_.JArray<jni$_.JObject>? p1, core$_.int p2) {
     return _isFoo(p1, p2);
   }
 }
@@ -13092,14 +13092,14 @@ extension TestClass061$$Methods<$T extends jni$_.JObject> on TestClass061<$T> {
 
   /// from: `public native com.example.NestedCustom$Nested[] isFoo(com.example.NestedCustom$Nested[] p1)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<NestedCustom$Nested<$S, $S, $S>>?
+  jni$_.JArray<NestedCustom$Nested<$S, $S, $S>?>?
       isFoo<$S extends jni$_.JObject, $V extends jni$_.JObject>(
-    jni$_.JArray<NestedCustom$Nested<$S, $S, $S>>? p1,
+    jni$_.JArray<NestedCustom$Nested<$S, $S, $S>?>? p1,
   ) {
     final _$$selfRef = reference;
     final _$p1 = p1?.reference ?? jni$_.jNullReference;
     return _isFoo(_$$selfRef.pointer, _id_isFoo.pointer, _$p1.pointer)
-        .object<jni$_.JArray<NestedCustom$Nested<$S, $S, $S>>?>();
+        .object<jni$_.JArray<NestedCustom$Nested<$S, $S, $S>?>?>();
   }
 }
 
