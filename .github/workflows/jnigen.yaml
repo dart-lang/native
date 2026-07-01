@@ -280,12 +280,7 @@ jobs:
       - name: Get dependencies
         run: dart pub get
       - name: Run tests
-        run: |
-          if [ "${{ matrix.java-version }}" != "17" ]; then
-            dart test -x bindings --test-randomize-ordering-seed random
-          else
-            dart test --test-randomize-ordering-seed random
-          fi
+        run: dart test --test-randomize-ordering-seed random
       - name: Install coverage
         if: ${{ matrix.java-version == 'none' }}
         run: dart pub global activate coverage
@@ -304,6 +299,7 @@ jobs:
         working-directory: ./pkgs/jni/example/
         run: flutter pub get
       - name: regenerate & compare jnigen bindings
+        if: ${{ matrix.java-version == '17' }}
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src/plugin
