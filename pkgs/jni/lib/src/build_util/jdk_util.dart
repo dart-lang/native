@@ -5,6 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
+
 /// The Java Home path used by Flutter using `flutter config --machine`.
 ///
 /// null if detection fails (eg Java is not installed, or is not set up for
@@ -32,12 +34,12 @@ final javaHome = () {
 /// detected) and `JAVA_HOME/bin` prepended to `PATH`.
 final javaEnvironment = () {
   final env = Map<String, String>.from(Platform.environment);
-  final resolvedJavaHome = javaHome;
-  if (resolvedJavaHome != null) {
-    env['JAVA_HOME'] = resolvedJavaHome.toFilePath();
+  final homePath = javaHome?.toFilePath();
+  if (homePath != null) {
+    final binPath = p.join(homePath, 'bin');
     final pathSeparator = Platform.isWindows ? ';' : ':';
-    final binPath = resolvedJavaHome.resolve('bin/').toFilePath();
     final oldPath = env['PATH'] ?? '';
+    env['JAVA_HOME'] = homePath;
     env['PATH'] = oldPath.isEmpty ? binPath : '$binPath$pathSeparator$oldPath';
   }
   return env;
@@ -46,9 +48,12 @@ final javaEnvironment = () {
 /// Resolves executable names like `java`, `javac`, or `javap` to their full
 /// path inside `JAVA_HOME/bin` if Flutter's Java Home is detected.
 String resolveJavaExecutable(String exec) {
-  final uri = javaHome?.resolve('bin/$exec');
-  if (uri != null && File.fromUri(uri).existsSync()) {
-    return uri.toFilePath();
+  final homePath = javaHome?.toFilePath();
+  if (homePath != null) {
+    final resolved = p.join(homePath, 'bin', exec);
+    if (File(resolved).existsSync()) {
+      return resolved;
+    }
   }
   return exec;
 }
