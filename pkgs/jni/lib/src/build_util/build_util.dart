@@ -5,10 +5,7 @@
 // Any shared build logic should be here. This way it can be reused across bin/,
 // tool/ and test/.
 
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:path/path.dart' as p;
 
 const ansiRed = '\x1b[31m';
 const ansiDefault = '\x1b[39;49m';
