@@ -38,10 +38,15 @@ void main() {
           ),
         ),
         headers: Headers(
-          entryPoints: [Uri.file(path.join(testDir.path, 'cpp_class_test.h'))],
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_class_test.h')),
+            Uri.file(path.join(testDir.path, 'finalizer_test_subject.h')),
+          ],
           compilerOptions: ['-x', 'c++'],
         ),
-        cpp: Cpp(classes: CppClasses.includeSet({'Animal'})),
+        cpp: Cpp(
+          classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
+        ),
       ),
     };
 

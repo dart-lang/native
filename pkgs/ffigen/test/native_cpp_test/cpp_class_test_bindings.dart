@@ -7,32 +7,75 @@ library;
 
 import 'dart:ffi' as ffi;
 
-class Animal {
+class Animal implements ffi.Finalizable {
   // ignore: unused_field
   final ffi.Pointer<ffi.Void> _ptr;
+  bool _isDisposed = false;
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >(_Animal_delete),
+  );
 
-  Animal._(this._ptr);
-  factory Animal(int age) {
-    return Animal._(_Animal_new(age));
+  Animal.fromPointer(this._ptr, {bool takeOwnership = true}) {
+    if (takeOwnership) {
+      _finalizer.attach(this, _ptr.cast(), detach: this);
+    }
   }
-  void speak() => _Animal_speak(_ptr);
-  int getAge() => _Animal_getAge(_ptr);
+  factory Animal(int age) {
+    return Animal.fromPointer(_Animal_new(age));
+  }
+  void speak() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_speak(_ptr);
+  }
+
+  int getAge() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_getAge(_ptr);
+  }
+
   static int getCount() => _Animal_getCount();
   static void Animal_new() => _Animal_Animal_new();
   static void Animal_delete() => _Animal_Animal_delete();
-  bool isMammalClass() => _Animal_isMammalClass(_ptr);
-  double getWeight(double multiplier) => _Animal_getWeight(_ptr, multiplier);
-  int addAges(int otherAge, double scale) =>
-      _Animal_addAges(_ptr, otherAge, scale);
+  bool isMammalClass() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_isMammalClass(_ptr);
+  }
+
+  double getWeight(double multiplier) {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_getWeight(_ptr, multiplier);
+  }
+
+  int addAges(int otherAge, double scale) {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Animal_addAges(_ptr, otherAge, scale);
+  }
+
   static int sum(int a, int b) => _Animal_sum(a, b);
-  void dispose() => _Animal_delete(_ptr);
+  void dispose() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    _isDisposed = true;
+    _finalizer.detach(this);
+    _Animal_delete(_ptr);
+  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'Animal_new')
 external ffi.Pointer<ffi.Void> _Animal_new(int age);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
-external void _Animal_delete(ffi.Pointer<ffi.Void> self);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_speak')
 external void _Animal_speak(ffi.Pointer<ffi.Void> self);
@@ -73,3 +116,46 @@ external int _Animal_addAges(
 
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(symbol: 'Animal_sum')
 external int _Animal_sum(int a, int b);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
+external void _Animal_delete(ffi.Pointer<ffi.Void> self);
+
+class FinalizerTestSubject implements ffi.Finalizable {
+  // ignore: unused_field
+  final ffi.Pointer<ffi.Void> _ptr;
+  bool _isDisposed = false;
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >(_FinalizerTestSubject_delete),
+  );
+
+  FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = true}) {
+    if (takeOwnership) {
+      _finalizer.attach(this, _ptr.cast(), detach: this);
+    }
+  }
+  factory FinalizerTestSubject(ffi.Pointer<ffi.Int> counter) {
+    return FinalizerTestSubject.fromPointer(_FinalizerTestSubject_new(counter));
+  }
+  void dispose() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    _isDisposed = true;
+    _finalizer.detach(this);
+    _FinalizerTestSubject_delete(_ptr);
+  }
+}
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Int>)>(
+  symbol: 'FinalizerTestSubject_new',
+)
+external ffi.Pointer<ffi.Void> _FinalizerTestSubject_new(
+  ffi.Pointer<ffi.Int> counter,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'FinalizerTestSubject_delete',
+)
+external void _FinalizerTestSubject_delete(ffi.Pointer<ffi.Void> self);
