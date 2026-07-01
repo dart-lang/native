@@ -30,7 +30,7 @@ void compileKotlinSources(String workingDir) async {
     ['package'],
     workingDirectory: workingDir,
     runInShell: true,
-    environment: jdk_util.getJavaEnvironment(),
+    environment: jdk_util.javaEnvironment,
   );
   if (procRes.exitCode != 0) {
     log.fatal('mvn exited with ${procRes.exitCode}\n'

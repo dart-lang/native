@@ -45,7 +45,7 @@ Future<void> buildApiSummarizer() async {
         gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath,
         runInShell: true,
-        environment: jdk_util.getJavaEnvironment());
+        environment: jdk_util.javaEnvironment);
     final exitCode = gradleProc.exitCode;
     final sourceJar = File(pkg
         .resolve('java/build/libs/ApiSummarizer.jar')

@@ -21,11 +21,10 @@ class GradleTools {
   static Future<int> _runCmd(String exec, List<String> args,
       {String? workingDirectory}) async {
     log.info('execute $exec ${args.join(" ")}');
-    final env = jdk_util.getJavaEnvironment();
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory,
         runInShell: true,
-        environment: env,
+        environment: jdk_util.javaEnvironment,
         mode: ProcessStartMode.inheritStdio);
     return proc.exitCode;
   }

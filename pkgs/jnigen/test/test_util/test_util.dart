@@ -39,7 +39,7 @@ Future<int> runCommandReturningStatus(String exec, List<String> args,
   final proc = await Process.run(resolvedExec, args,
       workingDirectory: workingDirectory,
       runInShell: runInShell,
-      environment: jdk_util.getJavaEnvironment());
+      environment: jdk_util.javaEnvironment);
   if (proc.exitCode != 0) {
     printError('command exited with exit status ${proc.exitCode}:\n'
         '$exec ${args.join(" ")}\n');

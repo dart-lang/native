@@ -113,9 +113,10 @@ class SummarizerCommand {
       resolvedExec,
       args,
       workingDirectory: workingDirectory?.toFilePath() ?? '.',
-      environment: jdk_util.getJavaEnvironment(
-        baseEnvironment: {'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8'},
-      ),
+      environment: {
+        ...jdk_util.javaEnvironment,
+        'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8',
+      },
     );
     return proc;
   }

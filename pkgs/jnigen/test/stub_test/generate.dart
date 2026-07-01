@@ -31,7 +31,7 @@ Config getConfig() {
 
   final javac = jdk_util.resolveJavaExecutable('javac');
   final procRes = Process.runSync(javac, javaFiles,
-      workingDirectory: javaPath, environment: jdk_util.getJavaEnvironment());
+      workingDirectory: javaPath, environment: jdk_util.javaEnvironment);
   if (procRes.exitCode != 0) {
     stderr.writeln(procRes.stderr);
     exit(1);

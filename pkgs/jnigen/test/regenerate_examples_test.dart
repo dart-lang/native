@@ -55,7 +55,7 @@ void testDartApiExample(
         final generatorResult = await Process.run(
             Platform.resolvedExecutable, ['run', generatorScriptPath],
             workingDirectory: examplePath,
-            environment: jdk_util.getJavaEnvironment());
+            environment: jdk_util.javaEnvironment);
         if ((generatorResult.stderr as String)
             .contains('Gradle execution failed.')) {
           stderr.writeln('Skip: $exampleName');

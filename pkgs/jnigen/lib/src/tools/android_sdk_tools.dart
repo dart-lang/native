@@ -482,9 +482,10 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     final taskPath = usesKotlinScript ? ':app:$stubName' : stubName;
     ProcessResult procRes;
     try {
-      final env = jdk_util.getJavaEnvironment();
       procRes = Process.runSync(gradleCommand, ['-q', taskPath],
-          workingDirectory: android, runInShell: true, environment: env);
+          workingDirectory: android,
+          runInShell: true,
+          environment: jdk_util.javaEnvironment);
     } finally {
       log.info('Restoring build scripts');
       origBuild.writeAsStringSync(
@@ -563,7 +564,7 @@ ${procRes.stderr}
         ['build', 'apk', '--config-only'],
         workingDirectory: androidProject,
         runInShell: true,
-        environment: jdk_util.getJavaEnvironment(),
+        environment: jdk_util.javaEnvironment,
       );
       if (result.exitCode == 0) {
         success = true;

@@ -74,7 +74,7 @@ final javaFiles = [
 void compileJavaSources(String workingDir, List<String> files) async {
   final javac = jdk_util.resolveJavaExecutable('javac');
   final procRes = Process.runSync(javac, files,
-      workingDirectory: workingDir, environment: jdk_util.getJavaEnvironment());
+      workingDirectory: workingDir, environment: jdk_util.javaEnvironment);
   if (procRes.exitCode != 0) {
     log.fatal('javac exited with ${procRes.exitCode}\n'
         '${procRes.stderr}');
