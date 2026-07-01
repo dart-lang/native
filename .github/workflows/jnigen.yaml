@@ -67,15 +67,18 @@ jobs:
 
   test_jnigen:
     needs: [analyze_jnigen]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./pkgs/jnigen
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        sdk: [stable, beta]
+        sdk: [stable]
+        java-version: ['17', '21', '26', 'none']
+        include:
+          - sdk: beta
+            java-version: 'none'
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -83,6 +86,12 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        if: matrix.java-version != 'none'
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java-version }}
+          cache: maven
       - run: dart pub get
       - name: pub get in_app_java example
         run: flutter pub get
@@ -104,17 +113,19 @@ jobs:
         run: flutter build apk --target-platform=android-arm64
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Install coverage
+        if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         run: dart pub global activate coverage
       - name: Collect coverage
+        if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
+        if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
         with:
           flag-name: jnigen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
-        if: ${{ matrix.sdk == 'stable' }}
 
   test_jnigen_android:
     needs: [analyze_jnigen]
@@ -240,6 +251,10 @@ jobs:
     defaults:
       run:
         working-directory: ./pkgs/jni
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: ['17', '21', '26', 'none']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -247,6 +262,11 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        if: matrix.java-version != 'none'
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java-version }}
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev libclang-dev
@@ -257,10 +277,13 @@ jobs:
       - name: Run tests
         run: dart test --test-randomize-ordering-seed random
       - name: Install coverage
+        if: ${{ matrix.java-version == 'none' }}
         run: dart pub global activate coverage
       - name: Collect coverage
+        if: ${{ matrix.java-version == 'none' }}
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
+        if: ${{ matrix.java-version == 'none' }}
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
         with:
           flag-name: jni
