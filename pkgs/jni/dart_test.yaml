@@ -5,5 +5,3 @@
 tags:
   load_test:
     timeout: 10x
-  bindings:
-
