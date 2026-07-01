@@ -6,19 +6,16 @@
 
 #include "include/dart_api_dl.h"
 #include "jni_constants.h"
+#include "../third_party/jni.h"
 
-// Note: include appropriate system jni.h as found by CMake, not third_party/jni.h.
-#include <jni.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #if defined(__ANDROID__)
 #include <android/log.h>
-#define __ENVP_CAST (JNIEnv**)
 #define LOGF(...) __android_log_print(ANDROID_LOG_FATAL, "DartJNI", __VA_ARGS__)
 #else
-#define __ENVP_CAST (void**)
 #define LOGF(...)                                                              \
   do {                                                                         \
     fprintf(stderr, "DartJNI [FATAL] ");                                       \
@@ -165,7 +162,7 @@ static inline void attach_thread() {
           " Dart code too early, before 'main()' (such as during Dart plugin"
           " class registration)?");
     }
-    (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
+    (*jni->jvm)->AttachCurrentThread(jni->jvm, &jniEnv, NULL);
 #if !defined(_WIN32)
     pthread_setspecific(tlsKey, &jniEnv);
 #endif

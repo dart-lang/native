@@ -36,7 +36,7 @@ Future<void> runCommand(
     workingDir.replaceFirst(current, '');
   }
 
-  final resolvedExec = resolveJavaExecutable(exec);
+  final resolvedExec = jdk_util.resolveJavaExecutable(exec);
   final cmd = "$resolvedExec ${args.join(" ")}";
   stderr.writeln('+ [$workingDir] $cmd');
   int status;
