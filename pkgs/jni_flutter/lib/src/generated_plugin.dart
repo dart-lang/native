@@ -41,7 +41,7 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-const _$jniVersionCheck = jni$_.JniVersionCheck(1, 0);
+const _$jniVersionCheck = jni$_.JniVersionCheck(1, 1);
 
 /// from: `com.github.dart_lang.jni_flutter.JniFlutterPlugin`
 extension type JniFlutterPlugin._(jni$_.JObject _$this)
