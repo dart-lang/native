@@ -186,8 +186,7 @@ JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
     vmArgs.ignoreUnrecognized = JNI_TRUE;
     initArgs = &vmArgs;
   }
-  const long flag =
-      JNI_CreateJavaVM(&jni_context.jvm, &jniEnv, initArgs);
+  const long flag = JNI_CreateJavaVM(&jni_context.jvm, &jniEnv, initArgs);
   if (flag != JNI_OK) {
     return flag;
   }

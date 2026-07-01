@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "include/dart_api_dl.h"
-#include "jni_constants.h"
-#include "../third_party/jni.h"
-
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "../third_party/jni.h"
+#include "include/dart_api_dl.h"
+#include "jni_constants.h"
 
 #if defined(__ANDROID__)
 #include <android/log.h>

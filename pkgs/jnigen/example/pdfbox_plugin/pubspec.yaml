@@ -36,3 +36,6 @@ flutter:
       windows:
         ffiPlugin: true
 
+dependency_overrides:
+  jni:
+    path: ../../../jni/
