@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         sdk: [stable]
-        java-version: ['11', '17', '21', 'none']
+        java-version: ['17', '21', 'none']
         include:
           - sdk: beta
             java-version: 'none'
@@ -259,7 +259,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java-version: ['11', '17', '21', 'none']
+        java-version: ['17', '21', 'none']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
