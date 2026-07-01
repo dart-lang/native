@@ -30,7 +30,7 @@ jobs:
         working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
     - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
       with:
@@ -98,7 +98,7 @@ jobs:
         working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           submodules: true
 
@@ -112,7 +112,7 @@ jobs:
         run: ls -R .dart_tool/download_asset/
 
       - name: Release
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda
+        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b
         if: startsWith(github.ref, 'refs/tags/download_asset-prebuild-assets')
         with:
           files: 'pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**'
