@@ -49,26 +49,6 @@ void verifyBindings(
   ], verify: objCVerify);
 }
 
-final _executeInternalCommand = () {
-  try {
-    return DynamicLibrary.process()
-        .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
-          'Dart_ExecuteInternalCommand',
-        )
-        .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
-  } on ArgumentError {
-    return null;
-  }
-}();
-
-bool canDoGC = _executeInternalCommand != null;
-
-void doGC() {
-  final gcNow = 'gc-now'.toNativeUtf8();
-  _executeInternalCommand!(gcNow.cast(), nullptr);
-  calloc.free(gcNow);
-}
-
 // Dart_ExecuteInternalCommand("gc-now") doesn't work on flutter, so we use
 // leak_tracker's forceGC function instead. It's less reliable, and to combat
 // that we need to wait for quite a long time, which breaks autorelease pools.

@@ -13,6 +13,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
@@ -202,7 +203,10 @@ void main() async {
         );
         await expectMachineArchitecture(libUri, arch, os);
       },
-      skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,
+      skip: skipLocal(
+        os == OS.linux && !lldAvailable,
+        'ld.lld not available',
+      ),
     );
   }
 

@@ -756,6 +756,9 @@ class Method with ClassMember, Annotated implements Element<Method> {
 
   bool get isConstructor => name == '<init>';
 
+  bool get isDeprecated =>
+      annotations?.any((a) => a.binaryName == 'java.lang.Deprecated') ?? false;
+
   factory Method.fromJson(Map<String, dynamic> json) => _$MethodFromJson(json);
 
   Method clone({GenerationStage until = GenerationStage.userVisitors}) {

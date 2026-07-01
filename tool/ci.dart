@@ -427,6 +427,9 @@ class ExampleTask extends Task {
       'pkgs/code_assets/example/sqlite_prebuilt/',
       'pkgs/code_assets/example/sqlite/',
       'pkgs/code_assets/example/stb_image/',
+      // TODO(https://github.com/dart-lang/sdk/issues/63372): Run this on ci
+      // after dev/stable support it.
+      // 'pkgs/hooks_runner/test_data/treeshaking_dylib_record_use/',
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',

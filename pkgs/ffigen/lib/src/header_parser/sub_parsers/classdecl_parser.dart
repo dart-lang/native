@@ -61,8 +61,6 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
       _parseAnyMethod(context, child, decl, methods, CppMethodKind.method);
     } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
       _parseAnyMethod(context, child, decl, methods, CppMethodKind.constructor);
-    } else if (kind == clang_types.CXCursorKind.CXCursor_Destructor) {
-      _parseAnyMethod(context, child, decl, methods, CppMethodKind.destructor);
     }
   });
 
@@ -101,9 +99,7 @@ void _parseAnyMethod(
       kind == CppMethodKind.method &&
       clang.clang_CXXMethod_isConst(cursor) != 0;
 
-  final parameters = kind == CppMethodKind.destructor
-      ? <Parameter>[]
-      : _parseParameters(context, cursor, classDecl);
+  final parameters = _parseParameters(context, cursor, classDecl);
   if (parameters == null) {
     logger.fine(
       '  ---- Skipping method $methodName due to unsupported parameter type',
@@ -114,7 +110,6 @@ void _parseAnyMethod(
   final className = context.config.cpp!.classes.rename(classDecl);
   final symbol = switch (kind) {
     CppMethodKind.constructor => '${className}_new',
-    CppMethodKind.destructor => '${className}_delete',
     CppMethodKind.method => '${className}_$methodName',
   };
 

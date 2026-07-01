@@ -12,7 +12,7 @@ import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-enum CppMethodKind { constructor, destructor, method }
+enum CppMethodKind { constructor, method }
 
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode with HasLocalScope {
@@ -35,7 +35,6 @@ class CppMethod extends AstNode with HasLocalScope {
   });
 
   bool get isConstructor => kind == .constructor;
-  bool get isDestructor => kind == .destructor;
 
   @override
   void visit(Visitation visitation) => visitation.visitCppMethod(this);
@@ -107,18 +106,28 @@ class CppClass extends BindingType with HasLocalScope {
 
     final classMethods = methods.where((m) => m.kind == .method).toList();
     final constructors = methods.where((m) => m.kind == .constructor).toList();
-    final destructor = methods.where((m) => m.kind == .destructor).singleOrNull;
 
     final deleteSymbol = '${name}_delete';
     final deleteGlue = '_$deleteSymbol';
 
     s.write(makeDartDoc(dartDoc));
     s.write('''
-class $name {
+class $name implements $ffiPrefix.Finalizable {
   // ignore: unused_field
   final $ptrVoid _ptr;
+''');
 
-  $name._(this._ptr);
+    s.write('''
+  bool _isDisposed = false;
+  static final _finalizer = $ffiPrefix.NativeFinalizer(
+    $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue)
+  );
+
+  $name.fromPointer(this._ptr, {bool takeOwnership = true}) {
+    if (takeOwnership) {
+      _finalizer.attach(this, _ptr.cast(), detach: this);
+    }
+  }
 ''');
 
     for (final ctor in constructors) {
@@ -145,7 +154,7 @@ class $name {
       s.write('''
   factory $name($dartParams) {
     ${localVars.generateDeclarations()}
-    return $name._($privateName($callArgs));
+    return $name.fromPointer($privateName($callArgs));
   }
 ''');
     }
@@ -160,17 +169,32 @@ class $name {
         ...method.parameters.map((p) => p.name),
       ].join(', ');
 
-      final staticKeyword = method.isStatic ? 'static ' : '';
-      s.write(
-        '  $staticKeyword$dartReturn ${method.originalName}($dartParams)'
-        ' => $glue($callArgs);\n',
-      );
+      if (method.isStatic) {
+        s.write(
+          '  static $dartReturn ${method.originalName}($dartParams) '
+          '=> $glue($callArgs);\n',
+        );
+      } else {
+        s.write('''
+  $dartReturn ${method.originalName}($dartParams) {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
     }
-    if (destructor != null) {
-      s.write('  void dispose() => $deleteGlue(_ptr);\n');
-    } else {
-      s.write('  void dispose() {}\n');
+    return $glue($callArgs);
+  }
+''');
+      }
     }
+    s.write('''
+  void dispose() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    _isDisposed = true;
+    _finalizer.detach(this);
+    $deleteGlue(_ptr);
+  }
+''');
     s.write('}\n');
 
     // Writes a @Native annotation + external declaration for a glue function.
@@ -223,6 +247,13 @@ class $name {
         ffiParams: ffiParams,
       );
     }
+    writeNativeDecl(
+      symbol: deleteSymbol,
+      glue: deleteGlue,
+      cType: '$ffiPrefix.Void Function($ptrVoid)',
+      ffiReturn: 'void',
+      ffiParams: '$ptrVoid self',
+    );
 
     return BindingString(
       type: BindingStringType.cppClass,
@@ -230,64 +261,64 @@ class $name {
     );
   }
 
-  /// Returns the C++ function bodies for this class's bindings.
-  ///
-  /// The `#include` preamble and `extern "C"` block are emitted once by
-  /// [Writer.generateCpp]; this method returns only the bodies to
-  /// be placed inside that block.
   @override
   String? toCppBindingString(Writer w) {
-    if (methods.isEmpty) return null;
-
     final context = w.context;
     String paramDecl(Parameter p) =>
         p.type.getNativeType(context, varName: p.name).trim();
 
-    return '${methods.map((method) {
-      final symbol = method.name.name;
-      final callArgs = method.parameters.map((p) => p.name).join(', ');
+    final deleteWrapper =
+        '''
+FFIGEN_EXPORT void ${name}_delete($originalName* self) {
+  delete self;
+}''';
 
-      final String returnTypeString;
-      final String params;
-      final String body;
+    final methodBindings = methods
+        .map((method) {
+          final symbol = method.name.name;
+          final callArgs = method.parameters.map((p) => p.name).join(', ');
 
-      if (method.isConstructor) {
-        returnTypeString = '$originalName*';
-        params = method.parameters.map(paramDecl).join(', ');
-        body = 'return new $originalName($callArgs);';
-      } else if (method.isDestructor) {
-        returnTypeString = 'void';
-        params = '$originalName* self';
-        body = 'delete self;';
-      } else {
-        final nativeType = method.returnType.getNativeType(context);
-        returnTypeString = nativeType.trim();
-        final needsReturn = method.returnType != voidType;
-        final returnPrefix = needsReturn ? 'return ' : '';
+          final String returnTypeString;
+          final String params;
+          final String body;
 
-        final otherParams = method.parameters.map(paramDecl);
-
-        if (method.isStatic) {
-          params = otherParams.join(', ');
-          body = '$returnPrefix$originalName::'
-              '${method.originalName}($callArgs);';
-        } else {
-          final String selfType;
-          if (method.isConstant) {
-            selfType = 'const $originalName';
+          if (method.isConstructor) {
+            returnTypeString = '$originalName*';
+            params = method.parameters.map(paramDecl).join(', ');
+            body = 'return new $originalName($callArgs);';
           } else {
-            selfType = originalName;
-          }
-          params = ['$selfType* self', ...otherParams].join(', ');
-          body = '${returnPrefix}self->${method.originalName}($callArgs);';
-        }
-      }
+            final nativeType = method.returnType.getNativeType(context);
+            returnTypeString = nativeType.trim();
+            final needsReturn = method.returnType != voidType;
+            final returnPrefix = needsReturn ? 'return ' : '';
 
-      return '''
+            final otherParams = method.parameters.map(paramDecl);
+
+            if (method.isStatic) {
+              params = otherParams.join(', ');
+              body =
+                  '$returnPrefix$originalName::'
+                  '${method.originalName}($callArgs);';
+            } else {
+              final String selfType;
+              if (method.isConstant) {
+                selfType = 'const $originalName';
+              } else {
+                selfType = originalName;
+              }
+              params = ['$selfType* self', ...otherParams].join(', ');
+              body = '${returnPrefix}self->${method.originalName}($callArgs);';
+            }
+          }
+
+          return '''
 FFIGEN_EXPORT $returnTypeString $symbol($params) {
   $body
 }''';
-    }).join('\n\n')}\n\n';
+        })
+        .join('\n\n');
+
+    return '$methodBindings\n\n$deleteWrapper\n\n';
   }
 
   @override
@@ -306,7 +337,7 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
   bool get sameDartAndFfiDartType => false;
 
   @override
-  bool get hasNativeHelperFunctions => methods.isNotEmpty;
+  bool get hasNativeHelperFunctions => true;
 
   @override
   void visitChildren(Visitor visitor) {
