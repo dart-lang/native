@@ -4,9 +4,9 @@
 
 import 'dart:io';
 
+import 'package:jni/_internal.dart' as jdk_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
-import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 

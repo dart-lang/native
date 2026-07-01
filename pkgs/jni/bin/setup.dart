@@ -5,8 +5,8 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:jni/_internal.dart' as jdk_util;
 import 'package:jni/src/build_util/build_util.dart';
-import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:package_config/package_config.dart';
 
 const jniNativeBuildDirective =

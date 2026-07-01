@@ -5,11 +5,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:jni/_internal.dart' as jdk_util;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
 import '../util/find_package.dart';
-import '../util/jdk_util.dart' as jdk_util;
 
 class GradleTools {
   static final currentDir = Directory('.');

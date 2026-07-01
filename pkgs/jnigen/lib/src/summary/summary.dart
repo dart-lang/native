@@ -6,12 +6,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:jni/_internal.dart' as jdk_util;
+
 import '../../tools.dart';
 import '../config/config.dart';
 import '../elements/elements.dart';
 import '../generate_bindings.dart';
 import '../logging/logging.dart';
-import '../util/jdk_util.dart' as jdk_util;
 
 class SummaryParseException implements Exception {
   final String? stderr;

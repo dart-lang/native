@@ -4,11 +4,11 @@
 
 import 'dart:io';
 
+import 'package:jni/_internal.dart' as jdk_util;
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
 import '../logging/logging.dart';
-import '../util/jdk_util.dart' as jdk_util;
 
 class _AndroidToolsException implements Exception {
   _AndroidToolsException(this.message);

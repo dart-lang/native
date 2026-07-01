@@ -11,11 +11,11 @@
 
 import 'dart:io';
 
+import 'package:jni/_internal.dart' as jdk_util;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
 import '../util/find_package.dart';
-import '../util/jdk_util.dart' as jdk_util;
 import 'gradle_tools.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');

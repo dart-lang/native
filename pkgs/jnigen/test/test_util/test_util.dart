@@ -4,11 +4,11 @@
 
 import 'dart:io';
 
+import 'package:jni/_internal.dart' as jdk_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/dart_executable.dart';
 import 'package:jnigen/src/util/find_package.dart' hide findPackageRoot;
-import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
 import 'package:logging/logging.dart' show Level;
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' hide equals;

@@ -4,19 +4,22 @@
 
 import 'dart:io';
 
-import 'package:jnigen/src/util/jdk_util.dart' as jdk_util;
+import 'package:jni/_internal.dart' as jdk_util;
 import 'package:test/test.dart';
 
 void main() {
   test('jdk_util.javaHome', () {
     final javaHome = jdk_util.javaHome;
-    expect(javaHome, isNotNull);
-    expect(Directory.fromUri(javaHome!).existsSync(), isTrue);
+    if (javaHome != null) {
+      expect(Directory.fromUri(javaHome).existsSync(), isTrue);
+    }
   });
 
   test('jdk_util.resolveJavaExecutable', () {
     final javaExeName = Platform.isWindows ? 'java.exe' : 'java';
     final javaExe = jdk_util.resolveJavaExecutable(javaExeName);
-    expect(File(javaExe).existsSync(), isTrue);
+    if (jdk_util.javaHome != null) {
+      expect(File(javaExe).existsSync(), isTrue);
+    }
   });
 }

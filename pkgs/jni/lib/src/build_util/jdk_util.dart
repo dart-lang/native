@@ -5,8 +5,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../logging/logging.dart';
-
 /// The Java Home path used by Flutter using `flutter config --machine`.
 ///
 /// null if detection fails (eg Java is not installed, or is not set up for
@@ -16,7 +14,6 @@ final javaHome = () {
     final result =
         Process.runSync('flutter', ['config', '--machine'], runInShell: true);
     if (result.exitCode != 0) {
-      log.warning('flutter config --machine failed: ${result.stderr}');
       return null;
     }
     final json = jsonDecode(result.stdout as String) as Map<dynamic, dynamic>;
@@ -24,15 +21,10 @@ final javaHome = () {
     if (jdkDir is String && jdkDir.isNotEmpty) {
       final dir = Directory(jdkDir);
       if (dir.existsSync()) {
-        log.info('Detected Java Home from flutter config: $dir');
         return dir.uri;
-      } else {
-        log.warning('Detected Java Home directory does not exist: $jdkDir');
       }
     }
-  } catch (e) {
-    log.warning('Failed to detect Java Home: $e');
-  }
+  } catch (_) {}
   return null;
 }();
 
