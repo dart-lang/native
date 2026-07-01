@@ -170,12 +170,13 @@ format, the `dart` command must be from the Flutter SDK and not Dart SDK. See
 
 ### Java tooling
 
-JNIgen requires a JDK to be installed.
+JNIgen requires a JDK to be installed. JNIgen is known to work with Java
+versions 17 to 26.
 
 By default, JNIgen uses the JDK configured in Flutter (which is typically
-Android Studio's bundled JDK) to run Gradle tasks, ensuring compatibility with
-your project's Gradle version. If that fails it falls back to relying on the
-`JAVA_HOME` and `PATH` environment variables (the default behavior for Gradle).
+Android Studio's bundled JDK). If that fails (eg because Flutter is not
+installed, or isn't set up for Android development) it falls back to
+relying on the `JAVA_HOME` and `PATH` environment variables.
 
 #### Windows
 
@@ -188,7 +189,7 @@ $env:Path += ";${env:JAVA_HOME}\bin\server"
 The above will only add `jvm.dll` to `PATH` for the current PowerShell session,
 use the Control Panel to add it to the path permanently.
 
-If JAVA_HOME not set, find the `java.exe` executable and set the environment
+If `JAVA_HOME` not set, find the `java.exe` executable and set the environment
 variable in Control Panel. If java is installed through a package manager, there
 may be a more automatic way to do this. (e.g. `scoop reset`).
 

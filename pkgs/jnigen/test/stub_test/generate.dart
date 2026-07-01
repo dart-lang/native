@@ -29,11 +29,11 @@ Config getConfig() {
     join('com', 'example', 'E.java'),
   ];
 
-  final javac = jdk_util.resolveJavaExecutable('javac');
-  final procRes = Process.runSync(javac, javaFiles,
+  final javac = Process.runSync(
+      jdk_util.resolveJavaExecutable('javac'), javaFiles,
       workingDirectory: javaPath, environment: jdk_util.javaEnvironment);
-  if (procRes.exitCode != 0) {
-    stderr.writeln(procRes.stderr);
+  if (javac.exitCode != 0) {
+    stderr.writeln(javac.stderr);
     exit(1);
   }
 
