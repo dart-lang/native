@@ -171,7 +171,7 @@ format, the `dart` command must be from the Flutter SDK and not Dart SDK. See
 ### Java tooling
 
 JNIgen requires a JDK to be installed. JNIgen officially supports Java
-versions 17 to 26.
+versions 17 to 21.
 
 By default, JNIgen uses the JDK configured in Flutter (which is typically
 Android Studio's bundled JDK). If that fails (eg because Flutter is not
