@@ -24,7 +24,7 @@ const String version = '0.17.0';
 @visibleForTesting
 const String jniMajorVersion = '1';
 @visibleForTesting
-const String jniMinorVersion = '0';
+const String jniMinorVersion = '1';
 
 // Import prefixes.
 const _jni = r'jni$_';
