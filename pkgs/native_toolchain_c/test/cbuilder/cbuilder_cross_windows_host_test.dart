@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
@@ -142,5 +143,59 @@ void main() async {
         });
       }
     }
+  }
+
+  for (final arch in supportedArchitecturesFor(OS.linux)) {
+    final triple = targetTriple(OS.linux, arch);
+    test(
+      'CBuilder discovers a windows cross toolchain and builds linux-$arch',
+      () async {
+        final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
+        final sourceUri = packageUri.resolve(
+          'test/cbuilder/testfiles/add/src/add.c',
+        );
+        const name = 'add';
+
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.linux,
+              targetArchitecture: arch,
+              linkModePreference: .dynamic,
+            ),
+          );
+        final buildInput = buildInputBuilder.build();
+        final buildOutput = BuildOutputBuilder();
+
+        final cbuilder = CBuilder.library(
+          name: name,
+          assetName: name,
+          sources: [sourceUri.toFilePath()],
+          buildMode: .release,
+        );
+        await cbuilder.run(
+          input: buildInput,
+          output: buildOutput,
+          logger: logger,
+        );
+
+        final libUri = buildInput.outputDirectory.resolve(
+          OS.linux.libraryFileName(name, DynamicLoadingBundled()),
+        );
+        await expectMachineArchitecture(libUri, arch, OS.linux);
+      },
+      skip: skipLocal(
+        Process.runSync('wsl', ['which', '$triple-gcc']).exitCode != 0,
+        '$triple-gcc not found',
+      ),
+    );
   }
 }

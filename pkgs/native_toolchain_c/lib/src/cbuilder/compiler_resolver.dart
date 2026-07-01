@@ -82,6 +82,31 @@ class CompilerResolver {
         yield x86_64LinuxGnuGcc;
       case (.linux, _, .riscv64):
         yield riscv64LinuxGnuGcc;
+      case (.macOS, .linux, .arm):
+        yield armLinuxGnueabihfGcc;
+      case (.macOS, .linux, .arm64):
+        yield aarch64LinuxGnuGcc;
+      case (.macOS, .linux, .ia32):
+        yield i686LinuxGnuGcc;
+      case (.macOS, .linux, .x64):
+        yield x86_64LinuxGnuGcc;
+      case (.macOS, .linux, .riscv64):
+        yield riscv64LinuxGnuGcc;
+      case (.windows, .linux, .arm):
+        yield armLinuxGnueabihfGccWsl;
+        yield armLinuxGnueabihfGcc;
+      case (.windows, .linux, .arm64):
+        yield aarch64LinuxGnuGccWsl;
+        yield aarch64LinuxGnuGcc;
+      case (.windows, .linux, .ia32):
+        yield i686LinuxGnuGccWsl;
+        yield i686LinuxGnuGcc;
+      case (.windows, .linux, .x64):
+        yield x86_64LinuxGnuGccWsl;
+        yield x86_64LinuxGnuGcc;
+      case (.windows, .linux, .riscv64):
+        yield riscv64LinuxGnuGccWsl;
+        yield riscv64LinuxGnuGcc;
       case (.windows, _, .ia32):
         yield clIA32;
       case (.windows, _, .arm64):
@@ -149,6 +174,34 @@ class CompilerResolver {
     if (targetOS == .macOS || targetOS == .iOS) return appleAr;
     if (targetOS == .android) return androidNdkLlvmAr;
     if (hostOS == .linux) {
+      switch (targetArchitecture) {
+        case .arm:
+          return armLinuxGnueabihfGccAr;
+        case .arm64:
+          return aarch64LinuxGnuGccAr;
+        case .ia32:
+          return i686LinuxGnuGccAr;
+        case .x64:
+          return x86_64LinuxGnuGccAr;
+        case .riscv64:
+          return riscv64LinuxGnuGccAr;
+      }
+    }
+    if (targetOS == .linux && hostOS == .windows) {
+      switch (targetArchitecture) {
+        case .arm:
+          return armLinuxGnueabihfGccArWsl;
+        case .arm64:
+          return aarch64LinuxGnuGccArWsl;
+        case .ia32:
+          return i686LinuxGnuGccArWsl;
+        case .x64:
+          return x86_64LinuxGnuGccArWsl;
+        case .riscv64:
+          return riscv64LinuxGnuGccArWsl;
+      }
+    }
+    if (targetOS == .linux && hostOS != .linux) {
       switch (targetArchitecture) {
         case .arm:
           return armLinuxGnueabihfGccAr;

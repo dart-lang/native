@@ -13,21 +13,32 @@ class ToolInstance implements Comparable<ToolInstance> {
   /// The path of the native tool on the system.
   final Uri uri;
 
+  /// The launcher of the [Tool] when the tool cannot be executed by the host
+  /// OS directly e.g. wsl.
+  final ToolInstance? launcher;
+
   /// The version of the native tool.
   ///
   /// Can be null if version is hard to determine.
   final Version? version;
 
-  ToolInstance({required this.tool, required this.uri, this.version});
+  ToolInstance({
+    required this.tool,
+    required this.uri,
+    this.launcher,
+    this.version,
+  });
 
-  ToolInstance copyWith({Uri? uri, Version? version}) => ToolInstance(
-    tool: tool,
-    uri: uri ?? this.uri,
-    version: version ?? this.version,
-  );
+  ToolInstance copyWith({Uri? uri, ToolInstance? launcher, Version? version}) =>
+      ToolInstance(
+        tool: tool,
+        uri: uri ?? this.uri,
+        launcher: launcher ?? this.launcher,
+        version: version ?? this.version,
+      );
 
   @override
-  String toString() => 'ToolInstance(${tool.name}, $version, $uri)';
+  String toString() => 'ToolInstance(${tool.name}, $version, $uri, $launcher)';
 
   /// Compares this tool instance to [other].
   ///
@@ -63,8 +74,9 @@ class ToolInstance implements Comparable<ToolInstance> {
       other is ToolInstance &&
       tool == other.tool &&
       uri == other.uri &&
+      launcher == other.launcher &&
       version == other.version;
 
   @override
-  int get hashCode => Object.hash(tool, uri, version);
+  int get hashCode => Object.hash(tool, uri, version, launcher);
 }

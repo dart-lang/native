@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
+import '../native_toolchain/wsl.dart';
 import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
@@ -96,7 +97,15 @@ class RunCBuilder {
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
-  Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
+  Future<ToolInstance> archiver() async => await _resolver.resolveArchiver();
+
+  /// Renders [uri] as a path the [tool] can open.
+  ///
+  /// A tool that runs through the WSL launcher sees the Windows drives mounted
+  /// under `/mnt`, so its paths are mapped (see [toWslPath]). Tools run on the
+  /// host use the host path rendering.
+  String _toolPath(Uri uri, ToolInstance tool) =>
+      tool.launcher?.tool.isWsl == true ? toWslPath(uri) : uri.toFilePath();
 
   Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
     if (iosSdk == .iPhoneOS) {
@@ -150,7 +159,7 @@ class RunCBuilder {
     final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
-    Uri? archiver_;
+    ToolInstance? archiver_;
     if (isStaticLib) {
       archiver_ = await archiver();
     }
@@ -183,7 +192,7 @@ class RunCBuilder {
         : null;
 
     final architecture = codeConfig.targetArchitecture;
-    final sourceFiles = sources.map((e) => e.toFilePath()).toList();
+    final sourceFiles = sources.map((e) => _toolPath(e, tool)).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
       for (var i = 0; i < sourceFiles.length; i++) {
@@ -206,11 +215,14 @@ class RunCBuilder {
           (codeConfig.targetOS == OS.linux ||
               codeConfig.targetOS == OS.android);
       await runProcess(
-        executable: archiver_!,
+        launcher: archiver_!.launcher?.uri,
+        executable: archiver_.uri,
         arguments: [
           isMacToElfCross ? 'rcS' : 'rc',
-          outDir.resolveUri(staticLibrary!).toFilePath(),
-          ...objectFiles.map((objectFile) => objectFile.toFilePath()),
+          _toolPath(outDir.resolveUri(staticLibrary!), archiver_),
+          ...objectFiles.map(
+            (objectFile) => _toolPath(objectFile, archiver_!),
+          ),
         ],
         logger: logger,
         captureOutput: false,
@@ -246,7 +258,10 @@ class RunCBuilder {
   ) async {
     final context = ToolResolvingContext(logger: logger);
 
+    String toolPath(Uri uri) => _toolPath(uri, toolInstance);
+
     await runProcess(
+      launcher: toolInstance.launcher?.uri,
       executable: toolInstance.uri,
       environment: environment,
       arguments: [
@@ -262,6 +277,10 @@ class RunCBuilder {
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (codeConfig.targetOS == .iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
+        if (codeConfig.targetOS == .linux &&
+            OS.current != .linux &&
+            toolInstance.tool.isClang)
+          '--target=${clangLinuxTargetFlags[architecture]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
@@ -341,9 +360,9 @@ class RunCBuilder {
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
-        for (final include in includes) '-I${include.toFilePath()}',
+        for (final include in includes) '-I${toolPath(include)}',
         for (final forcedInclude in forcedIncludes)
-          '-include${forcedInclude.toFilePath()}',
+          '-include${toolPath(forcedInclude)}',
         if (linkerOptions != null)
           ...linkerOptions!.sourceFilesToFlags(
             toolInstance.tool,
@@ -358,15 +377,15 @@ class RunCBuilder {
         ],
         if (executable != null) ...[
           '-o',
-          outDir.resolveUri(executable!).toFilePath(),
+          toolPath(outDir.resolveUri(executable!)),
         ] else if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
-          outFile!.toFilePath(),
+          toolPath(outFile!),
         ] else if (staticLibrary != null) ...[
           '-c',
           '-o',
-          outFile!.toFilePath(),
+          toolPath(outFile!),
         ],
         if (executable != null || dynamicLibrary != null) ...[
           if (codeConfig.targetOS case .android || .linux)
@@ -375,7 +394,7 @@ class RunCBuilder {
             // it is linked against.
             '-Wl,-rpath,\$ORIGIN',
           for (final directory in libraryDirectories)
-            '-L${directory.toFilePath()}',
+            '-L${toolPath(directory)}',
           for (final library in libraries) '-l$library',
         ],
       ],
@@ -389,7 +408,7 @@ class RunCBuilder {
     final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
-    Uri? archiver_;
+    ToolInstance? archiver_;
     if (isStaticLib) {
       archiver_ = await archiver();
     }
@@ -446,7 +465,7 @@ class RunCBuilder {
 
     if (staticLibrary != null) {
       await runProcess(
-        executable: archiver_!,
+        executable: archiver_!.uri,
         arguments: ['/out:${staticLibrary!.toFilePath()}', '*.obj'],
         workingDirectory: outDir,
         environment: environment,
@@ -479,6 +498,15 @@ class RunCBuilder {
       IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
     },
     Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
+  };
+
+  static const clangLinuxTargetFlags = {
+    Architecture.arm: 'arm-linux-gnueabihf',
+    Architecture.arm64: 'aarch64-linux-gnu',
+    Architecture.ia32: 'i686-linux-gnu',
+    Architecture.x64: 'x86_64-linux-gnu',
+    Architecture.riscv32: 'riscv32-linux-gnu',
+    Architecture.riscv64: 'riscv64-linux-gnu',
   };
 
   static const clangWindowsTargetFlags = {
