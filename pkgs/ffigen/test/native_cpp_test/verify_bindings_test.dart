@@ -59,8 +59,11 @@ void main() {
           compilerOptions: ['-x', 'c++'],
         ),
         enums: Enums.includeSet({
+          'GlobalBox::State',
+          'GlobalPalette::Shade',
           'outer::Color',
           'outer::inner::Color',
+          'outer::Palette::Tone',
           'other::Color',
         }),
       ),

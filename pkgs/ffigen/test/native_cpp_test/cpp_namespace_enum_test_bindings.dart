@@ -4,6 +4,34 @@
 // ignore_for_file: type=lint, unused_import, unused_element, deprecated_member_use_from_same_package
 import 'dart:ffi' as ffi;
 
+enum GlobalBox$State {
+  closed(30),
+  open(31);
+
+  final int value;
+  const GlobalBox$State(this.value);
+
+  static GlobalBox$State fromValue(int value) => switch (value) {
+    30 => closed,
+    31 => open,
+    _ => throw ArgumentError('Unknown value for GlobalBox\$State: $value'),
+  };
+}
+
+enum GlobalPalette$Shade {
+  dim(7),
+  bright(8);
+
+  final int value;
+  const GlobalPalette$Shade(this.value);
+
+  static GlobalPalette$Shade fromValue(int value) => switch (value) {
+    7 => dim,
+    8 => bright,
+    _ => throw ArgumentError('Unknown value for GlobalPalette\$Shade: $value'),
+  };
+}
+
 enum other$Color {
   black(100),
   white(200);
@@ -31,6 +59,20 @@ enum outer$Color {
     1 => green,
     2 => blue,
     _ => throw ArgumentError('Unknown value for outer\$Color: $value'),
+  };
+}
+
+enum outer$Palette$Tone {
+  light(1),
+  dark(2);
+
+  final int value;
+  const outer$Palette$Tone(this.value);
+
+  static outer$Palette$Tone fromValue(int value) => switch (value) {
+    1 => light,
+    2 => dark,
+    _ => throw ArgumentError('Unknown value for outer\$Palette\$Tone: $value'),
   };
 }
 

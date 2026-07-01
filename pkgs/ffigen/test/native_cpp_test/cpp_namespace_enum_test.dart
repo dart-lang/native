@@ -9,8 +9,11 @@ import 'cpp_namespace_enum_test_bindings.dart';
 void main() {
   group('CppNamespaceEnum', () {
     test('enums in namespaces are generated with flattened names', () {
+      expect(GlobalBox$State, isNotNull);
+      expect(GlobalPalette$Shade, isNotNull);
       expect(outer$Color, isNotNull);
       expect(outer$inner$Color, isNotNull);
+      expect(outer$Palette$Tone, isNotNull);
       expect(other$Color, isNotNull);
     });
 
@@ -23,6 +26,21 @@ void main() {
     test('scoped enum (enum class) in a nested namespace', () {
       expect(outer$inner$Color.cyan.value, 10);
       expect(outer$inner$Color.magenta.value, 20);
+    });
+
+    test('scoped enum nested in a class inside a namespace', () {
+      expect(outer$Palette$Tone.light.value, 1);
+      expect(outer$Palette$Tone.dark.value, 2);
+    });
+
+    test('scoped enum nested in a class at global scope', () {
+      expect(GlobalPalette$Shade.dim.value, 7);
+      expect(GlobalPalette$Shade.bright.value, 8);
+    });
+
+    test('scoped enum nested in a struct at global scope', () {
+      expect(GlobalBox$State.closed.value, 30);
+      expect(GlobalBox$State.open.value, 31);
     });
 
     test('leaf-name collision across namespaces is disambiguated', () {
