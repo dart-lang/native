@@ -178,8 +178,6 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final closureTrampoline = localScope.addPrivate('_closureTrampoline');
     final funcPtrCallable = localScope.addPrivate('_fnPtrCallable');
     final closureCallable = localScope.addPrivate('_closureCallable');
-    final listenerTrampoline = localScope.addPrivate('_listenerTrampoline');
-    final listenerCallable = localScope.addPrivate('_listenerCallable');
     final blockingTrampoline = localScope.addPrivate('_blockingTrampoline');
     final blockingCallable = localScope.addPrivate('_blockingCallable');
     final blockingListenerCallable = localScope.addPrivate(
@@ -188,6 +186,9 @@ class ObjCBlock extends BindingType with HasLocalScope {
 
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(context);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(context);
+    final newListenerBlock = ObjCBuiltInFunctions.newListenerBlock.gen(
+      context,
+    );
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(context);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(context);
     final objCContext = ObjCBuiltInFunctions.objCContext.gen(context);
@@ -200,7 +201,6 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     final ffiPrefix = w.context.libs.prefix(ffiImport);
     final paramsNameOnly = _helper.paramsNameOnly;
-    final trampNatCallType = _helper.trampNatCallType;
 
     // Snippet that converts a Dart typed closure to FfiDart type. This snippet
     // is used below. Note that the closure being converted is called `fn`.
@@ -227,6 +227,29 @@ class ObjCBlock extends BindingType with HasLocalScope {
   ${closureLocalVars.generateDeclarations()}
   return $convFnInvocation;
 }''';
+
+    // Write the listener args struct, once per unique block signature. It
+    // mirrors the C struct emitted into the ObjC bindings, which packs the
+    // arguments of one listener block invocation so they can be delivered
+    // through a Dart port.
+    final wrappers = _blockWrappers;
+    if (wrappers != null &&
+        params.isNotEmpty &&
+        !wrappers.dartArgsStructGenerated) {
+      wrappers.dartArgsStructGenerated = true;
+      s.write('''
+
+final class ${wrappers.argsStructName} extends $ffiPrefix.Struct {
+''');
+      for (var i = 0; i < wrappers.argTypes.length; ++i) {
+        final t = wrappers.argTypes[i];
+        if (!t.sameFfiDartAndCType) {
+          s.write('  @${t.getCType(context)}()\n');
+        }
+        s.write('  external ${t.getFfiDartType(context)} arg$i;\n');
+      }
+      s.write('}\n');
+    }
 
     // Write the wrapper class.
     s.write('''
@@ -293,21 +316,48 @@ abstract final class $name {
       final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
+      // The listener closure receives a pointer to the packed-args struct
+      // created by the ObjC wrapper, unpacks it, and calls the user function.
+      // Ownership of any retained ObjC arguments is adopted by the unpacked
+      // Dart wrapper objects. The args struct itself is freed by the invoker
+      // in package:objective_c after this closure returns.
+      final String listenerRawFn;
+      if (params.isEmpty) {
+        listenerRawFn = '($voidPtrCType _) { fn(); }';
+      } else {
+        final argsStructName = _blockWrappers!.argsStructName;
+        final unpackedArgs = <String>[];
+        for (var i = 0; i < params.length; ++i) {
+          unpackedArgs.add(
+            params[i].type.convertFfiDartTypeToDartType(
+              context,
+              'args.arg$i',
+              objCRetain: false,
+            ),
+          );
+        }
+        listenerRawFn =
+            '''($voidPtrCType rawArgs) {
+      final args = rawArgs.cast<$argsStructName>().ref;
+      fn(${unpackedArgs.join(', ')});
+    }''';
+      }
+
       s.write('''
   /// Creates a listener block from a Dart function.
   ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously: invocations are delivered to
+  /// the isolate that created the block through a port, and run on its event
+  /// loop. If that isolate has shut down when the block is invoked, the
+  /// invocation is safely dropped and its resources are freed.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
   static $blockType listener(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
-    final raw = $newClosureBlock($listenerCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapListenerFn(raw);
+    final raw = $newListenerBlock($listenerRawFn, keepIsolateAlive);
+    final wrapper = $wrapListenerFn(raw, $objCContext);
     $releaseFn(raw.cast());
     return $blockType(wrapper, retain: false, release: true);
   }
@@ -335,14 +385,6 @@ abstract final class $name {
     return $blockType(wrapper, retain: false, release: true);
   }
 
-  static $returnFfiDartType $listenerTrampoline(
-      $blockCType block, ${_helper.paramsFfiDartType}) {
-    ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
-    $releaseFn(block.cast());
-  }
-  static $trampNatCallType $listenerCallable =
-      $trampNatCallType.listener($listenerTrampoline $exceptionalReturn)
-          ..keepIsolateAlive = false;
   static $returnFfiDartType $blockingTrampoline(
       $blockCType block, ${_blockingHelper.paramsFfiDartType}) {
     try {
@@ -441,11 +483,35 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     final argsReceived = <String>[];
     final retains = <String>[];
+    // C fields, pack statements, and dispose statements for the listener
+    // packed-args struct. Retained args (ObjC objects and blocks) are stored
+    // as void* at +1; everything else is copied verbatim.
+    final argsStructFields = <String>[];
+    final argsPacks = <String>[];
+    final argsDisposes = <String>[];
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
       argsReceived.add(param.getNativeType(context, varName: argName));
-      retains.add(param.type.generateRetain(argName) ?? argName);
+      final retain = param.type.generateRetain(argName);
+      retains.add(retain ?? argName);
+      if (retain != null) {
+        argsStructFields.add('void *$argName;');
+        // The struct owns a +1 reference to the arg. For consumed params, the
+        // wrapper's ns_consumed attribute makes ARC release the incoming +1
+        // at the end of the wrapper body, so take an extra retain (via
+        // __bridge_retained) to keep the packed reference alive. This matches
+        // the old trampoline behavior, where the call through the raw block's
+        // ns_consumed signature made ARC retain the arg at the call site.
+        final bridge = param.objCConsumed ? '__bridge_retained' : '__bridge';
+        argsPacks.add('args->$argName = ($bridge void*)($retain);');
+        argsDisposes.add('(void)(__bridge_transfer id)(args->$argName);');
+      } else {
+        argsStructFields.add(
+          '${param.getNativeType(context, varName: argName)};',
+        );
+        argsPacks.add('args->$argName = $argName;');
+      }
     }
     final blockingRetains = ['nil', ...retains];
     final blockingListenerRetains = [_waiterParam.name, ...retains];
@@ -466,14 +532,53 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       context.rootObjCScope.addPrivate('_BlockingTrampoline'),
     );
 
-    return '''
+    final s = StringBuffer();
+
+    // The listener packed-args struct, its dispose function, and the wrapper
+    // that packs one invocation's args and posts them to the block's owner
+    // isolate. The dispose function releases the retained args, and is only
+    // run (by package:objective_c) if the invocation is not delivered; on
+    // delivery the Dart side adopts ownership instead.
+    final argsStructName = _blockWrappers!.argsStructName;
+    final argsDisposeName = '${argsStructName}_dispose';
+    var argsPtr = 'NULL';
+    var disposePtr = 'NULL';
+    if (params.isNotEmpty) {
+      s.write('''
+
+typedef struct {
+  ${argsStructFields.join('\n  ')}
+} $argsStructName;
+''');
+      argsPtr = 'args';
+      if (argsDisposes.isNotEmpty) {
+        disposePtr = '&$argsDisposeName';
+        s.write('''
+
+static void $argsDisposeName(void *p) {
+  $argsStructName *args = ($argsStructName *)p;
+  ${argsDisposes.join('\n  ')}
+}
+''');
+      }
+    }
+
+    final packArgs = params.isEmpty
+        ? ''
+        : '''
+
+    $argsStructName *args = ($argsStructName *)malloc(sizeof($argsStructName));
+    ${argsPacks.join('\n    ')}''';
+
+    s.write('''
 
 typedef ${returnType.getNativeType(context)} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
-$listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
-  return ^void($argStr) {
-    ${generateRetain('block')};
-    block(${retains.join(', ')});
+$listenerName $listenerWrapper(
+    $listenerName block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
+  return ^void($argStr) {$packArgs
+    ctx->postListenerInvocation((__bridge void*)block, $argsPtr, $disposePtr);
   };
 }
 
@@ -490,7 +595,8 @@ $listenerName $blockingWrapper(
     listenerBlock(${blockingListenerRetains.join(', ')});
   });
 }
-''';
+''');
+    return s.toString();
   }
 
   String? _protocolTrampolineBindingString(Writer w) {

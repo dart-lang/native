@@ -33,6 +33,7 @@ class ObjCBuiltInFunctions {
   static const respondsToSelector = ObjCImport('respondsToSelector');
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
+  static const newListenerBlock = ObjCImport('newListenerBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
   static const getProtocolMethodSignature = ObjCImport(
     'getProtocolMethodSignature',
@@ -157,6 +158,8 @@ class ObjCBuiltInFunctions {
         '_${libraryId}_wrapBlockingBlock_$idHash',
         blocking: true,
       ),
+      [for (final p in _methodSigParams(block.params)) p.type],
+      '_${libraryId}_ListenerArgs_$idHash',
     );
   }
 
@@ -169,18 +172,17 @@ class ObjCBuiltInFunctions {
         type: PointerType(objCBlockType),
         objCConsumed: false,
       ),
-      if (blocking) ...[
+      if (blocking)
         Parameter(
           name: 'listnerBlock',
           type: PointerType(objCBlockType),
           objCConsumed: false,
         ),
-        Parameter(
-          name: 'context',
-          type: PointerType(objCContextType),
-          objCConsumed: false,
-        ),
-      ],
+      Parameter(
+        name: 'context',
+        type: PointerType(objCContextType),
+        objCConsumed: false,
+      ),
     ],
     objCReturnsRetained: true,
     isLeaf: true,
@@ -234,15 +236,34 @@ class ObjCBuiltInFunctions {
 class ObjCBlockWrapperFuncs extends AstNode {
   final Func listenerWrapper;
   final Func blockingWrapper;
-  bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.listenerWrapper, this.blockingWrapper);
+  /// The signature-normalized argument types, shared by all blocks that use
+  /// these wrappers. Used to generate the packed-args struct that carries a
+  /// listener invocation's arguments through a Dart port.
+  final List<Type> argTypes;
+
+  /// Name of the packed-args struct, in both the generated Dart bindings (an
+  /// ffi.Struct mirror) and the generated ObjC code (a C struct typedef).
+  final String argsStructName;
+
+  bool objCBindingsGenerated = false;
+  bool dartArgsStructGenerated = false;
+
+  ObjCBlockWrapperFuncs(
+    this.listenerWrapper,
+    this.blockingWrapper,
+    this.argTypes,
+    this.argsStructName,
+  );
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);
+    // argTypes are deliberately not visited: they are signature-normalized
+    // copies of the params of the blocks sharing these wrappers, and those
+    // params are already visited by each block.
     visitor.visit(objcPkgImport);
   }
 
