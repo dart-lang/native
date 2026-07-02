@@ -1,0 +1,26 @@
+# Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+name: jni_util
+description: Shared utility functions for package:jni and package:jnigen.
+version: 0.1.0-wip
+repository: https://github.com/dart-lang/native/tree/main/pkgs/jni_util
+issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni_util
+
+topics:
+  - interop
+  - ffi
+  - java
+  - kotlin
+  - jni
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  path: ^1.9.0
+
+dev_dependencies:
+  dart_flutter_team_lints: ^3.5.2
+  test: ^1.25.8

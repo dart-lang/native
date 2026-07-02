@@ -34,8 +34,9 @@ final javaHome = () {
 /// detected) and `JAVA_HOME/bin` prepended to `PATH`.
 final javaEnvironment = () {
   final env = Map<String, String>.from(Platform.environment);
-  final homePath = javaHome?.toFilePath();
-  if (homePath != null) {
+  final resolvedJavaHome = javaHome;
+  if (resolvedJavaHome != null) {
+    final homePath = resolvedJavaHome.toFilePath();
     final binPath = p.join(homePath, 'bin');
     final pathSeparator = Platform.isWindows ? ';' : ':';
     final oldPath = env['PATH'] ?? '';
@@ -48,11 +49,11 @@ final javaEnvironment = () {
 /// Resolves executable names like `java`, `javac`, or `javap` to their full
 /// path inside `JAVA_HOME/bin` if Flutter's Java Home is detected.
 String resolveJavaExecutable(String exec) {
-  final homePath = javaHome?.toFilePath();
-  if (homePath != null) {
-    final resolved = p.join(homePath, 'bin', exec);
-    if (File(resolved).existsSync()) {
-      return resolved;
+  final home = javaHome;
+  if (home != null) {
+    final candidate = p.join(home.toFilePath(), 'bin', exec);
+    if (File(candidate).existsSync()) {
+      return candidate;
     }
   }
   return exec;

@@ -5,7 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:jni/_internal.dart' as jdk_util;
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -24,7 +24,7 @@ class GradleTools {
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory,
         runInShell: true,
-        environment: jdk_util.javaEnvironment,
+        environment: jni_util.javaEnvironment,
         mode: ProcessStartMode.inheritStdio);
     return proc.exitCode;
   }

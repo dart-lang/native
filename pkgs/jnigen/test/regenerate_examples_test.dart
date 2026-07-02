@@ -7,7 +7,7 @@ library;
 
 import 'dart:io';
 
-import 'package:jni/_internal.dart' as jdk_util;
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/tools.dart';
 import 'package:path/path.dart' hide equals;
@@ -55,7 +55,7 @@ void testDartApiExample(
         final generatorResult = await Process.run(
             Platform.resolvedExecutable, ['run', generatorScriptPath],
             workingDirectory: examplePath,
-            environment: jdk_util.javaEnvironment);
+            environment: jni_util.javaEnvironment);
         if ((generatorResult.stderr as String)
             .contains('Gradle execution failed.')) {
           stderr.writeln('Skip: $exampleName');

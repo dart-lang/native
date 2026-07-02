@@ -11,7 +11,7 @@
 
 import 'dart:io';
 
-import 'package:jni/_internal.dart' as jdk_util;
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -45,7 +45,7 @@ Future<void> buildApiSummarizer() async {
         gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath,
         runInShell: true,
-        environment: jdk_util.javaEnvironment);
+        environment: jni_util.javaEnvironment);
     final exitCode = gradleProc.exitCode;
     final sourceJar = File(pkg
         .resolve('java/build/libs/ApiSummarizer.jar')

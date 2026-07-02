@@ -28,7 +28,6 @@ export 'dart:isolate' show RawReceivePort, ReceivePort;
 export 'package:meta/meta.dart' show internal;
 
 export 'src/accessors.dart';
-export 'src/build_util/jdk_util.dart';
 export 'src/jni.dart' show ProtectedJniExtensions;
 export 'src/jobject.dart' show $JObject$Type$;
 export 'src/jreference.dart';

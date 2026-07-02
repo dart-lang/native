@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:jni/_internal.dart' as jdk_util;
+import 'package:jni_util/jni_util.dart' as jni_util;
 
 import '../../tools.dart';
 import '../config/config.dart';
@@ -108,14 +108,14 @@ class SummarizerCommand {
     }
     args.addAll(extraArgs);
     args.addAll(classes);
-    final resolvedExec = jdk_util.resolveJavaExecutable(exec);
+    final resolvedExec = jni_util.resolveJavaExecutable(exec);
     log.info('execute $resolvedExec ${args.join(' ')}');
     final proc = await Process.start(
       resolvedExec,
       args,
       workingDirectory: workingDirectory?.toFilePath() ?? '.',
       environment: {
-        ...jdk_util.javaEnvironment,
+        ...jni_util.javaEnvironment,
         'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8',
       },
     );

@@ -5,8 +5,8 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:jni/_internal.dart' as jdk_util;
 import 'package:jni/src/build_util/build_util.dart';
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:package_config/package_config.dart';
 
 const jniNativeBuildDirective =
@@ -36,7 +36,7 @@ Future<void> runCommand(
     workingDir.replaceFirst(current, '');
   }
 
-  final resolvedExec = jdk_util.resolveJavaExecutable(exec);
+  final resolvedExec = jni_util.resolveJavaExecutable(exec);
   final cmd = "$resolvedExec ${args.join(" ")}";
   stderr.writeln('+ [$workingDir] $cmd');
   int status;
@@ -45,7 +45,7 @@ Future<void> runCommand(
       resolvedExec,
       args,
       workingDirectory: workingDir,
-      environment: jdk_util.javaEnvironment,
+      environment: jni_util.javaEnvironment,
       mode: ProcessStartMode.inheritStdio,
       // without `runInShell`, sometimes cmake doesn't run on windows.
       runInShell: true,
@@ -60,7 +60,7 @@ Future<void> runCommand(
       resolvedExec,
       args,
       runInShell: true,
-      environment: jdk_util.javaEnvironment,
+      environment: jni_util.javaEnvironment,
       workingDirectory: workingDir,
     );
     status = process.exitCode;

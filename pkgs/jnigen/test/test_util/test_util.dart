@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:jni/_internal.dart' as jdk_util;
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/dart_executable.dart';
@@ -35,11 +35,11 @@ Future<bool> isEmptyOrNotExistDir(String path) async {
 /// Runs command, and prints output only if the exit status is non-zero.
 Future<int> runCommandReturningStatus(String exec, List<String> args,
     {String? workingDirectory, bool runInShell = false}) async {
-  final resolvedExec = jdk_util.resolveJavaExecutable(exec);
+  final resolvedExec = jni_util.resolveJavaExecutable(exec);
   final proc = await Process.run(resolvedExec, args,
       workingDirectory: workingDirectory,
       runInShell: runInShell,
-      environment: jdk_util.javaEnvironment);
+      environment: jni_util.javaEnvironment);
   if (proc.exitCode != 0) {
     printError('command exited with exit status ${proc.exitCode}:\n'
         '$exec ${args.join(" ")}\n');

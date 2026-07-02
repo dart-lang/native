@@ -18,6 +18,7 @@ on:
       - 'pkgs/jnigen/**'
       - 'pkgs/jni/**'
       - 'pkgs/jni_flutter/**'
+      - 'pkgs/jni_util/**'
   pull_request:
     branches: [main]
     paths:
@@ -25,6 +26,7 @@ on:
       - 'pkgs/jnigen/**'
       - 'pkgs/jni/**'
       - 'pkgs/jni_flutter/**'
+      - 'pkgs/jni_util/**'
   schedule:
     - cron: '0 0 * * 0'
 
@@ -32,6 +34,41 @@ env:
   PUB_ENVIRONMENT: bot.github
 
 jobs:
+  analyze_jni_util:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_util
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - run: dart pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+      - name: Analyze code
+        run: dart analyze --fatal-infos
+
+  test_jni_util:
+    needs: [analyze_jni_util]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_util
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - run: dart pub get
+      - name: Run tests
+        run: dart test --test-randomize-ordering-seed random
+
   analyze_jnigen:
     runs-on: ubuntu-latest
     defaults:

@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:jni/_internal.dart' as jdk_util;
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
@@ -485,7 +485,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
       procRes = Process.runSync(gradleCommand, ['-q', taskPath],
           workingDirectory: android,
           runInShell: true,
-          environment: jdk_util.javaEnvironment);
+          environment: jni_util.javaEnvironment);
     } finally {
       log.info('Restoring build scripts');
       origBuild.writeAsStringSync(
@@ -564,7 +564,7 @@ ${procRes.stderr}
         ['build', 'apk', '--config-only'],
         workingDirectory: androidProject,
         runInShell: true,
-        environment: jdk_util.javaEnvironment,
+        environment: jni_util.javaEnvironment,
       );
       if (result.exitCode == 0) {
         success = true;
