@@ -1,6 +1,7 @@
 ## 1.0.1-wip
 
 - Improve error message when JNI is used before Flutter plugin initialization.
+- Improve no such method error handling.
 
 ## 1.0.0
 
