@@ -64,6 +64,13 @@ class Animal implements ffi.Finalizable {
   }
 
   static int sum(int a, int b) => _Animal_sum(a, b);
+  Shape getUniqueShape() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return Shape.fromPointer(_Animal_getUniqueShape(_ptr));
+  }
+
   void dispose() {
     if (_isDisposed) {
       throw StateError('This object has already been disposed.');
@@ -117,6 +124,13 @@ external int _Animal_addAges(
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(symbol: 'Animal_sum')
 external int _Animal_sum(int a, int b);
 
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'Animal_getUniqueShape',
+)
+external ffi.Pointer<ffi.Void> _Animal_getUniqueShape(
+  ffi.Pointer<ffi.Void> self,
+);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Animal_delete')
 external void _Animal_delete(ffi.Pointer<ffi.Void> self);
 
@@ -159,3 +173,47 @@ external ffi.Pointer<ffi.Void> _FinalizerTestSubject_new(
   symbol: 'FinalizerTestSubject_delete',
 )
 external void _FinalizerTestSubject_delete(ffi.Pointer<ffi.Void> self);
+
+class Shape implements ffi.Finalizable {
+  // ignore: unused_field
+  final ffi.Pointer<ffi.Void> _ptr;
+  bool _isDisposed = false;
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >(_Shape_delete),
+  );
+
+  Shape.fromPointer(this._ptr, {bool takeOwnership = true}) {
+    if (takeOwnership) {
+      _finalizer.attach(this, _ptr.cast(), detach: this);
+    }
+  }
+  factory Shape(int sides) {
+    return Shape.fromPointer(_Shape_new(sides));
+  }
+  int getSides() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    return _Shape_getSides(_ptr);
+  }
+
+  void dispose() {
+    if (_isDisposed) {
+      throw StateError('This object has already been disposed.');
+    }
+    _isDisposed = true;
+    _finalizer.detach(this);
+    _Shape_delete(_ptr);
+  }
+}
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Int)>(symbol: 'Shape_new')
+external ffi.Pointer<ffi.Void> _Shape_new(int sides);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(symbol: 'Shape_getSides')
+external int _Shape_getSides(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Shape_delete')
+external void _Shape_delete(ffi.Pointer<ffi.Void> self);

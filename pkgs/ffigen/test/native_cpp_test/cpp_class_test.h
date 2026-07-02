@@ -2,6 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+#include <memory>
+
+class Shape {
+public:
+    int sides;
+    Shape(int sides);
+    ~Shape();
+    int getSides() const;
+};
+
 class Animal {
 public:
     int age;
@@ -17,4 +27,6 @@ public:
     double getWeight(double multiplier) const;
     int addAges(int otherAge, float scale);
     static int sum(int a, int b);
+
+    std::unique_ptr<Shape> getUniqueShape() const;
 };

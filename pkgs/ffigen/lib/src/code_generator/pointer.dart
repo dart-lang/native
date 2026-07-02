@@ -10,24 +10,38 @@ import 'local_variables.dart';
 /// Represents a pointer.
 class PointerType extends Type {
   final Type child;
+  final bool releasedFromUniquePtr;
 
-  PointerType._(this.child);
+  PointerType._(this.child, {this.releasedFromUniquePtr = false});
 
-  factory PointerType(Type child) {
+  factory PointerType(Type child, {bool releasedFromUniquePtr = false}) {
     if (child == objCObjectType) {
       return ObjCObjectPointer();
     } else if (child == objCBlockType) {
       return ObjCBlockPointer();
     }
-    return PointerType._(child);
+    return PointerType._(child, releasedFromUniquePtr: releasedFromUniquePtr);
   }
 
   @override
   Type get baseType => child.baseType;
 
   @override
-  String getCType(Context context) =>
-      '${context.libs.prefix(ffiImport)}.Pointer<${child.getCType(context)}>';
+  String getDartType(Context context) {
+    if (releasedFromUniquePtr && child.baseType is CppClass) {
+      return (child.baseType as CppClass).name;
+    }
+    return super.getDartType(context);
+  }
+
+  @override
+  String getCType(Context context) {
+    final ffiPrefix = context.libs.prefix(ffiImport);
+    if (child.baseType is CppClass) {
+      return '$ffiPrefix.Pointer<$ffiPrefix.Void>';
+    }
+    return '$ffiPrefix.Pointer<${child.getCType(context)}>';
+  }
 
   @override
   String getNativeType(Context context, {String varName = ''}) =>

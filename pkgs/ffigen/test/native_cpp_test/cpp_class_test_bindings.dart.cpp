@@ -49,6 +49,11 @@ FFIGEN_EXPORT int Animal_sum(int a, int b) {
   return Animal::sum(a, b);
 }
 
+FFIGEN_EXPORT Shape* Animal_getUniqueShape(const Animal* self) {
+  auto result = self->getUniqueShape();
+  return result.release();
+}
+
 FFIGEN_EXPORT void Animal_delete(Animal* self) {
   delete self;
 }
@@ -58,6 +63,18 @@ FFIGEN_EXPORT FinalizerTestSubject* FinalizerTestSubject_new(int * counter) {
 }
 
 FFIGEN_EXPORT void FinalizerTestSubject_delete(FinalizerTestSubject* self) {
+  delete self;
+}
+
+FFIGEN_EXPORT Shape* Shape_new(int sides) {
+  return new Shape(sides);
+}
+
+FFIGEN_EXPORT int Shape_getSides(const Shape* self) {
+  return self->getSides();
+}
+
+FFIGEN_EXPORT void Shape_delete(Shape* self) {
   delete self;
 }
 
