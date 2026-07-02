@@ -186,9 +186,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
 
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(context);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(context);
-    final newListenerBlock = ObjCBuiltInFunctions.newListenerBlock.gen(
-      context,
-    );
+    final newListenerBlock = ObjCBuiltInFunctions.newListenerBlock.gen(context);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(context);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(context);
     final objCContext = ObjCBuiltInFunctions.objCContext.gen(context);

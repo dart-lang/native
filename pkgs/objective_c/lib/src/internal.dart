@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
@@ -481,22 +482,27 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
 /// [fn] receives a pointer to the per-signature packed-args struct created by
 /// the generated ObjC wrapper. It must not free the pointer; the args struct
 /// and the block reference are cleaned up by the invoker after [fn] returns.
-BlockPtr newListenerBlock(
-  void Function(VoidPtr) fn,
-  bool keepIsolateAlive,
-) => _newBlock(
-  // The invoke stub is never called: invocations are delivered through
-  // invoke_port by the generated ObjC wrapper. The Block runtime requires a
-  // valid invoke pointer to copy the block.
-  Native.addressOf<NativeFunction<Void Function()>>(
-    c.listenerBlockInvokeStub,
-  ).cast(),
-  _registerBlockClosure(fn, keepIsolateAlive),
-  _closureBlockDesc,
-  _blockClosureDisposer.sendPort.nativePort,
-  _blockHasCopyDispose,
-  invokePort: _blockListenerInvoker.sendPort.nativePort,
-);
+///
+/// [fn] is invoked in the zone that created the block, and uncaught errors
+/// are reported to that zone's error handler, matching
+/// `NativeCallable.listener` semantics.
+BlockPtr newListenerBlock(void Function(VoidPtr) fn, bool keepIsolateAlive) =>
+    _newBlock(
+      // The invoke stub is never called: invocations are delivered through
+      // invoke_port by the generated ObjC wrapper. The Block runtime requires a
+      // valid invoke pointer to copy the block.
+      Native.addressOf<NativeFunction<Void Function()>>(
+        c.listenerBlockInvokeStub,
+      ).cast(),
+      _registerBlockClosure(
+        Zone.current.bindUnaryCallbackGuarded(fn),
+        keepIsolateAlive,
+      ),
+      _closureBlockDesc,
+      _blockClosureDisposer.sendPort.nativePort,
+      _blockHasCopyDispose,
+      invokePort: _blockListenerInvoker.sendPort.nativePort,
+    );
 
 /// Receives listener block invocations posted by
 /// `DOBJC_postListenerInvocation` as [c.DOBJC_ListenerInvocation] envelopes.
