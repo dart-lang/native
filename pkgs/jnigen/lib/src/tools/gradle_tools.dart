@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -18,11 +19,12 @@ class GradleTools {
 
   /// Helper method since we can't pass inheritStdio option to [Process.run].
   static Future<int> _runCmd(String exec, List<String> args,
-      [String? workingDirectory]) async {
+      {String? workingDirectory}) async {
     log.info('execute $exec ${args.join(" ")}');
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory,
         runInShell: true,
+        environment: jni_util.javaEnvironment,
         mode: ProcessStartMode.inheritStdio);
     return proc.exitCode;
   }
@@ -52,12 +54,12 @@ class GradleTools {
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
 
-    final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');
+    final tempGradle = join(tempDir.path, 'build.gradle.kts');
     log.finer('using Gradle stub:\n$gradle');
     await File(tempGradle).writeAsString(gradle);
     final gradleArgs = [
-      '-b', // specify gradle file to run
-      tempGradle,
+      '-p',
+      tempDir.path,
       taskName,
       '-q' // quiet mode
     ];
@@ -73,8 +75,8 @@ class GradleTools {
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, String targetDir) async {
-    await _runGradleCommand(deps, taskName: 'downloadSources', targetDir);
-    await _runGradleCommand(deps, taskName: 'extractSourceJars', targetDir);
+    await _runGradleCommand(deps, targetDir, taskName: 'downloadSources');
+    await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
@@ -100,12 +102,12 @@ class GradleTools {
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
       List<MavenDependency> deps, String targetDir) async {
-    await _runGradleCommand(deps, taskName: 'copyJars', targetDir);
-    await _runGradleCommand(deps, taskName: 'extractSourceJars', targetDir);
+    await _runGradleCommand(deps, targetDir, taskName: 'copyJars');
+    await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,
-      {String javaVersion = '11'}) {
+      {String javaVersion = '17'}) {
     final depDecls = <String>[];
     final sourceDecls = <String>[];
     // Use implementation configuration

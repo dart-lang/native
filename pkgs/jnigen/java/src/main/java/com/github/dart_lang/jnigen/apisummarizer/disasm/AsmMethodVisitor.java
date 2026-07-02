@@ -95,7 +95,10 @@ public class AsmMethodVisitor extends MethodVisitor {
   public void visitEnd() {
     if (paramNames.size() == method.params.size()) {
       for (int i = 0; i < paramNames.size(); i++) {
-        method.params.get(i).name = paramNames.get(i);
+        String name = paramNames.get(i);
+        if (name != null) {
+          method.params.get(i).name = name;
+        }
       }
     }
     super.visitEnd();

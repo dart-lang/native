@@ -96,6 +96,7 @@ workspace:
   # - pkgs/jni_flutter  # TODO
   # - pkgs/jni_flutter/android_test_runner  # TODO
   # - pkgs/jni_flutter/example  # TODO
+  # - pkgs/jni_util  # TODO
   # - pkgs/jni/example  # TODO
   # - pkgs/jnigen  # TODO
   # - pkgs/jnigen/android_test_runner  # TODO

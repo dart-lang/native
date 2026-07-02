@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/dart_executable.dart';
@@ -34,8 +35,11 @@ Future<bool> isEmptyOrNotExistDir(String path) async {
 /// Runs command, and prints output only if the exit status is non-zero.
 Future<int> runCommandReturningStatus(String exec, List<String> args,
     {String? workingDirectory, bool runInShell = false}) async {
-  final proc = await Process.run(exec, args,
-      workingDirectory: workingDirectory, runInShell: runInShell);
+  final resolvedExec = jni_util.resolveJavaExecutable(exec);
+  final proc = await Process.run(resolvedExec, args,
+      workingDirectory: workingDirectory,
+      runInShell: runInShell,
+      environment: jni_util.javaEnvironment);
   if (proc.exitCode != 0) {
     printError('command exited with exit status ${proc.exitCode}:\n'
         '$exec ${args.join(" ")}\n');
@@ -205,7 +209,7 @@ void generateAndCompare(
 ) {
   test(description, () async {
     await generateAndCompareBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)));
+  }, timeout: const Timeout(Duration(minutes: 2)), tags: 'bindings');
 }
 
 List<String> findFilesWithSuffix(Directory dir, String suffix) {

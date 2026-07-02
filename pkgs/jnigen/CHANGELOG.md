@@ -5,6 +5,8 @@
   These are now generated as static `create` methods.
 - It's no longer necessary to run `flutter build apk` before running JNIgen in
   a Flutter project.
+- JNIgen now uses Flutter's JDK by default. It's no longer necessary to install
+  a separate JDK, if you already have Flutter set up for Android development.
 - Fix directory-dependent `dart format` failures by explicitly searching for the
   correct Dart executable to run.
 - Generate minimal Dart stubs for referenced but excluded Java classes, instead

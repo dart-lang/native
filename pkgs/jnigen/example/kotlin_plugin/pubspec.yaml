@@ -29,3 +29,9 @@ flutter:
     platforms:
       android:
         ffiPlugin: true
+
+dependency_overrides:
+  jni:
+    path: ../../../jni
+  jni_util:
+    path: ../../../jni_util

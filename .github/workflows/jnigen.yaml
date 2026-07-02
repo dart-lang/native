@@ -18,6 +18,7 @@ on:
       - 'pkgs/jnigen/**'
       - 'pkgs/jni/**'
       - 'pkgs/jni_flutter/**'
+      - 'pkgs/jni_util/**'
   pull_request:
     branches: [main]
     paths:
@@ -25,6 +26,7 @@ on:
       - 'pkgs/jnigen/**'
       - 'pkgs/jni/**'
       - 'pkgs/jni_flutter/**'
+      - 'pkgs/jni_util/**'
   schedule:
     - cron: '0 0 * * 0'
 
@@ -32,6 +34,41 @@ env:
   PUB_ENVIRONMENT: bot.github
 
 jobs:
+  analyze_jni_util:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_util
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - run: dart pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+      - name: Analyze code
+        run: dart analyze --fatal-infos
+
+  test_jni_util:
+    needs: [analyze_jni_util]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_util
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - run: dart pub get
+      - name: Run tests
+        run: dart test --test-randomize-ordering-seed random
+
   analyze_jnigen:
     runs-on: ubuntu-latest
     defaults:
@@ -48,11 +85,6 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-          cache: maven
       - uses: ./.github/actions/java-format-check
         with:
           working-directory: ./pkgs/jnigen
@@ -72,15 +104,18 @@ jobs:
 
   test_jnigen:
     needs: [analyze_jnigen]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./pkgs/jnigen
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        sdk: [stable, beta]
+        sdk: [stable]
+        java-version: ['17', '21', 'none']
+        include:
+          - sdk: beta
+            java-version: 'none'
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -89,9 +124,10 @@ jobs:
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        if: matrix.java-version != 'none'
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: ${{ matrix.java-version }}
           cache: maven
       - run: dart pub get
       - name: pub get in_app_java example
@@ -106,7 +142,12 @@ jobs:
       - name: Build summarizer
         run: dart run jnigen:setup
       - name: Run VM tests
-        run: dart test --test-randomize-ordering-seed random
+        run: |
+          if [ "${{ matrix.java-version }}" != "17" ]; then
+            dart test -x bindings --test-randomize-ordering-seed random
+          else
+            dart test --test-randomize-ordering-seed random
+          fi
       - name: build in_app_java APK
         run: flutter build apk --target-platform=android-arm64
         working-directory: ./pkgs/jnigen/example/in_app_java
@@ -114,17 +155,19 @@ jobs:
         run: flutter build apk --target-platform=android-arm64
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Install coverage
+        if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         run: dart pub global activate coverage
       - name: Collect coverage
+        if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
+        if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
         with:
           flag-name: jnigen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
-        if: ${{ matrix.sdk == 'stable' }}
 
   test_jnigen_android:
     needs: [analyze_jnigen]
@@ -165,10 +208,6 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'zulu'
-          java-version: '17'
       - uses: ./.github/actions/java-format-check
         with:
           working-directory: ./pkgs/jni_flutter
@@ -225,10 +264,6 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'zulu'
-          java-version: '17'
       - uses: ./.github/actions/java-format-check
         with:
           working-directory: ./pkgs/jni
@@ -258,6 +293,10 @@ jobs:
     defaults:
       run:
         working-directory: ./pkgs/jni
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: ['17', '21', 'none']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -266,9 +305,10 @@ jobs:
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
+        if: matrix.java-version != 'none'
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: ${{ matrix.java-version }}
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev libclang-dev
@@ -279,10 +319,13 @@ jobs:
       - name: Run tests
         run: dart test --test-randomize-ordering-seed random
       - name: Install coverage
+        if: ${{ matrix.java-version == 'none' }}
         run: dart pub global activate coverage
       - name: Collect coverage
+        if: ${{ matrix.java-version == 'none' }}
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
+        if: ${{ matrix.java-version == 'none' }}
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
         with:
           flag-name: jni
@@ -293,6 +336,7 @@ jobs:
         working-directory: ./pkgs/jni/example/
         run: flutter pub get
       - name: regenerate & compare jnigen bindings
+        if: ${{ matrix.java-version == '17' }}
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src/plugin
@@ -333,7 +377,7 @@ jobs:
       - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
       - run: dart pub get
       - run: dart run jni:setup
-      - run: dart test --test-randomize-ordering-seed random
+      - run: dart test -x bindings --test-randomize-ordering-seed random
 
   # Not having Java installed on a Desktop will not fail Flutter build.
   test_no_jdk_fallback:
@@ -364,6 +408,17 @@ jobs:
 
       - name: Create New Flutter App
         run: flutter create .
+        working-directory: ./pkgs/jni/test_app
+
+      - name: Add jni_util dependency override
+        run: |
+          cat <<EOF >> pubspec.yaml
+
+          dependency_overrides:
+            jni_util:
+              path: "../../jni_util"
+          EOF
+        shell: bash
         working-directory: ./pkgs/jni/test_app
 
       - name: Add JNI Plugin (using relative path to link local source)
@@ -420,7 +475,7 @@ jobs:
       - name: Build summarizer
         run: dart run jnigen:setup
       - name: Run tests
-        run: dart test --test-randomize-ordering-seed random
+        run: dart test -x bindings --test-randomize-ordering-seed random
 
   test_jni_macos_minimal:
     needs: [analyze_jni]
@@ -435,13 +490,9 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'temurin'
-          java-version: '17'
       - run: dart pub get
       - run: dart run jni:setup
-      - run: dart test --test-randomize-ordering-seed random
+      - run: dart test -x bindings --test-randomize-ordering-seed random
 
   test_jnigen_macos_minimal:
     needs: [analyze_jnigen]
@@ -460,16 +511,12 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'temurin'
-          java-version: '17'
       - run: git config --global core.autocrlf true
       - run: dart pub get
       - name: Build summarizer
         run: dart run jnigen:setup
       - name: Run tests
-        run: dart test --test-randomize-ordering-seed random
+        run: dart test -x bindings --test-randomize-ordering-seed random
 
   build_jni_example_linux:
     runs-on: ubuntu-latest
@@ -483,10 +530,6 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'zulu'
-          java-version: '17'
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
@@ -507,10 +550,6 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'zulu'
-          java-version: '17'
       - run: flutter config --enable-windows-desktop
       - run: flutter pub get
       - run: flutter build windows
@@ -522,10 +561,6 @@ jobs:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'zulu'
-          java-version: '17'
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -546,10 +581,6 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654
-        with:
-          distribution: 'zulu'
-          java-version: '17'
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
