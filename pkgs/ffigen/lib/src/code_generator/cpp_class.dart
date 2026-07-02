@@ -169,18 +169,30 @@ class $name implements $ffiPrefix.Finalizable {
         ...method.parameters.map((p) => p.name),
       ].join(', ');
 
+      final returnType = method.returnType;
+      final isUniquePtrCppClass =
+          returnType is PointerType &&
+          returnType.releasedFromUniquePtr &&
+          returnType.child is CppClass;
+
       if (method.isStatic) {
+        final staticCall = isUniquePtrCppClass
+            ? '$dartReturn.fromPointer($glue($callArgs))'
+            : '$glue($callArgs)';
         s.write(
-          '  static $dartReturn ${method.originalName}($dartParams) '
-          '=> $glue($callArgs);\n',
+          '  static $dartReturn ${method.originalName}($dartParams) =>\n'
+          '      $staticCall;\n',
         );
       } else {
+        final body = isUniquePtrCppClass
+            ? 'return $dartReturn.fromPointer($glue($callArgs));'
+            : 'return $glue($callArgs);';
         s.write('''
   $dartReturn ${method.originalName}($dartParams) {
     if (_isDisposed) {
       throw StateError('This object has already been disposed.');
     }
-    return $glue($callArgs);
+    $body
   }
 ''');
       }
@@ -294,11 +306,18 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
 
             final otherParams = method.parameters.map(paramDecl);
 
+            final isUniquePtr =
+                method.returnType is PointerType &&
+                (method.returnType as PointerType).releasedFromUniquePtr;
+
             if (method.isStatic) {
               params = otherParams.join(', ');
-              body =
-                  '$returnPrefix$originalName::'
-                  '${method.originalName}($callArgs);';
+              body = isUniquePtr
+                  ? 'auto result = '
+                        '$originalName::${method.originalName}($callArgs);\n'
+                        '  return result.release();'
+                  : '$returnPrefix$originalName::'
+                        '${method.originalName}($callArgs);';
             } else {
               final String selfType;
               if (method.isConstant) {
@@ -307,7 +326,11 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
                 selfType = originalName;
               }
               params = ['$selfType* self', ...otherParams].join(', ');
-              body = '${returnPrefix}self->${method.originalName}($callArgs);';
+              body = isUniquePtr
+                  ? 'auto result = '
+                        'self->${method.originalName}($callArgs);\n'
+                        '  return result.release();'
+                  : '${returnPrefix}self->${method.originalName}($callArgs);';
             }
           }
 

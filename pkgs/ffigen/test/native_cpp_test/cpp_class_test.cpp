@@ -4,6 +4,12 @@
 
 #include "cpp_class_test.h"
 
+Shape::Shape(int sides) : sides(sides) {}
+
+Shape::~Shape() {}
+
+int Shape::getSides() const { return sides; }
+
 Animal::Animal(int age) : age(age) {}
 
 Animal::~Animal() {}
@@ -25,4 +31,8 @@ double Animal::getWeight(double multiplier) const { return age * 1.5 * multiplie
 int Animal::addAges(int otherAge, float scale) { return (age + otherAge) * scale; }
 
 int Animal::sum(int a, int b) { return a + b; }
+
+std::unique_ptr<Shape> Animal::getUniqueShape() const {
+  return std::make_unique<Shape>(4);
+}
 

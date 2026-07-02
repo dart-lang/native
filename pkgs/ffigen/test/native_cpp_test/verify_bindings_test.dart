@@ -45,7 +45,11 @@ void main() {
           compilerOptions: ['-x', 'c++'],
         ),
         cpp: Cpp(
-          classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
+          classes: CppClasses.includeSet({
+            'Animal',
+            'FinalizerTestSubject',
+            'Shape',
+          }),
         ),
       ),
     };

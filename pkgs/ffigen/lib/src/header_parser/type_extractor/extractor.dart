@@ -9,6 +9,7 @@ import '../../code_generator.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../sub_parsers/classdecl_parser.dart';
 import '../sub_parsers/compounddecl_parser.dart';
 import '../sub_parsers/enumdecl_parser.dart';
 import '../sub_parsers/function_type_param_parser.dart';
@@ -40,6 +41,15 @@ Type getCodeGenType(
   // Special case: Elaborated types just refer to another type.
   if (cxtype.kind == clang_types.CXTypeKind.CXType_Elaborated) {
     return getCodeGenType(context, clang.clang_Type_getNamedType(cxtype));
+  }
+
+  final typeSpelling = cxtype.spelling();
+  if (_isStdUniquePtr(typeSpelling)) {
+    final innerCxType = clang.clang_Type_getTemplateArgumentAsType(cxtype, 0);
+    if (innerCxType.kind != clang_types.CXTypeKind.CXType_Invalid) {
+      final innerType = getCodeGenType(context, innerCxType);
+      return PointerType(innerType, releasedFromUniquePtr: true);
+    }
   }
 
   // These basic Objective C types skip the cache, and are conditional on the
@@ -262,6 +272,8 @@ Type? _extractfromRecord(
       return config.unionTypeMappings[declSpelling]!;
     }
     return parseUnionDeclaration(cursor, context);
+  } else if (cursorKind == clang_types.CXCursorKind.CXCursor_ClassDecl) {
+    return parseClassDeclaration(context, cursor);
   }
 
   logger.fine(
@@ -338,3 +350,8 @@ void _parseAndMergeParamNames(
     }
   }
 }
+
+bool _isStdUniquePtr(String spelling) =>
+    spelling.startsWith('std::unique_ptr<') ||
+    spelling.startsWith('std::') && spelling.contains('::unique_ptr<') ||
+    spelling.startsWith('unique_ptr<');

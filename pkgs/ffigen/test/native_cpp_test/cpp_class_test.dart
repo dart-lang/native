@@ -35,6 +35,15 @@ void main() {
       animal.dispose();
     });
 
+    test('Shape template return lifecycle', () {
+      final animal = Animal(10);
+      final shape = animal.getUniqueShape();
+      expect(shape, isNotNull);
+      expect(shape.getSides(), 4);
+      shape.dispose();
+      animal.dispose();
+    });
+
     @pragma('vm:never-inline')
     void gcTestSubjectInner(Pointer<Int32> counter) {
       final _ = FinalizerTestSubject(counter.cast());
