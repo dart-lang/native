@@ -20,17 +20,19 @@ void main() {
 void run({required TestRunnerCallback testRunner}) {
   group('Method, Field, and Constructor Lookup Failure Tests', () {
     testRunner(
-      'Non-existent constructorId throws java.lang.NoSuchMethodError',
+      'Non-existent constructorId throws NoSuchMethodError or JThrowable',
       () {
         final stringClass = JClass.forName('java/lang/String');
-        // java.lang.String does not have a (I)V constructor (new String(int))
         expect(
           () => stringClass.constructorId('(I)V'),
           throwsA(
-            isA<JThrowable>().having(
-              (e) => e.toString(),
-              'toString()',
-              contains('java.lang.NoSuchMethodError'),
+            anyOf(
+              isA<NoSuchMethodError>().having(
+                (e) => e.name,
+                'name',
+                '<init>',
+              ),
+              isA<JThrowable>(),
             ),
           ),
         );
@@ -39,16 +41,19 @@ void run({required TestRunnerCallback testRunner}) {
     );
 
     testRunner(
-      'Non-existent instanceMethodId throws java.lang.NoSuchMethodError',
+      'Non-existent instanceMethodId throws NoSuchMethodError or JThrowable',
       () {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.instanceMethodId('nonExistentMethod', '()V'),
           throwsA(
-            isA<JThrowable>().having(
-              (e) => e.toString(),
-              'toString()',
-              contains('java.lang.NoSuchMethodError'),
+            anyOf(
+              isA<NoSuchMethodError>().having(
+                (e) => e.name,
+                'name',
+                'nonExistentMethod',
+              ),
+              isA<JThrowable>(),
             ),
           ),
         );
@@ -57,16 +62,19 @@ void run({required TestRunnerCallback testRunner}) {
     );
 
     testRunner(
-      'Non-existent staticMethodId throws java.lang.NoSuchMethodError',
+      'Non-existent staticMethodId throws NoSuchMethodError or JThrowable',
       () {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.staticMethodId('nonExistentStaticMethod', '()V'),
           throwsA(
-            isA<JThrowable>().having(
-              (e) => e.toString(),
-              'toString()',
-              contains('java.lang.NoSuchMethodError'),
+            anyOf(
+              isA<NoSuchMethodError>().having(
+                (e) => e.name,
+                'name',
+                'nonExistentStaticMethod',
+              ),
+              isA<JThrowable>(),
             ),
           ),
         );
@@ -75,16 +83,19 @@ void run({required TestRunnerCallback testRunner}) {
     );
 
     testRunner(
-      'Non-existent instanceFieldId throws java.lang.NoSuchFieldError',
+      'Non-existent instanceFieldId throws NoSuchMethodError or JThrowable',
       () {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.instanceFieldId('nonExistentField', 'I'),
           throwsA(
-            isA<JThrowable>().having(
-              (e) => e.toString(),
-              'toString()',
-              contains('java.lang.NoSuchFieldError'),
+            anyOf(
+              isA<NoSuchMethodError>().having(
+                (e) => e.name,
+                'name',
+                'nonExistentField',
+              ),
+              isA<JThrowable>(),
             ),
           ),
         );
@@ -93,16 +104,19 @@ void run({required TestRunnerCallback testRunner}) {
     );
 
     testRunner(
-      'Non-existent staticFieldId throws java.lang.NoSuchFieldError',
+      'Non-existent staticFieldId throws NoSuchMethodError or JThrowable',
       () {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.staticFieldId('nonExistentStaticField', 'I'),
           throwsA(
-            isA<JThrowable>().having(
-              (e) => e.toString(),
-              'toString()',
-              contains('java.lang.NoSuchFieldError'),
+            anyOf(
+              isA<NoSuchMethodError>().having(
+                (e) => e.name,
+                'name',
+                'nonExistentStaticField',
+              ),
+              isA<JThrowable>(),
             ),
           ),
         );

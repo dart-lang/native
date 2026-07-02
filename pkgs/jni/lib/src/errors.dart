@@ -41,6 +41,12 @@ final class JNullError extends StateError {
   JNullError() : super('The reference was null');
 }
 
+final class NoSuchMethodError extends StateError {
+  final String name;
+
+  NoSuchMethodError(this.name) : super('No such method: $name');
+}
+
 final class DoubleReleaseError extends StateError with _ExplainsRelease {
   @override
   final String? releaseStackTrace;
