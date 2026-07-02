@@ -58,6 +58,12 @@ external int initializeApi(ffi.Pointer<ffi.Void> data);
 )
 external bool isValidBlock(ffi.Pointer<ObjCBlockImpl> block);
 
+@ffi.Native<ffi.Void Function()>(
+  symbol: 'DOBJC_listenerBlockInvokeStub',
+  isLeaf: true,
+)
+external void listenerBlockInvokeStub();
+
 @ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>(
   symbol: 'DOBJC_newFinalizableBool',
 )
@@ -76,6 +82,22 @@ external Dart_FinalizableHandle newFinalizableHandle(
   isLeaf: true,
 )
 external ffi.Pointer<ffi.Void> newWaiter();
+
+@ffi.Native<
+  ffi.Void Function(
+    ffi.Pointer<ObjCBlockImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
+    >,
+  )
+>(symbol: 'DOBJC_postListenerInvocation', isLeaf: true)
+external void postListenerInvocation(
+  ffi.Pointer<ObjCBlockImpl> block,
+  ffi.Pointer<ffi.Void> args,
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>>
+  dispose_args,
+);
 
 @ffi.Native<
   ffi.Void Function(
@@ -123,6 +145,19 @@ final class DOBJC_Context extends ffi.Struct {
   external ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
   getCurrentThreadOwnsIsolate;
 
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ObjCBlockImpl>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
+        >,
+      )
+    >
+  >
+  postListenerInvocation$1;
+
   static ffi.Pointer<DOBJC_Context> $allocate(
     ffi.Allocator $allocator, {
     required int version,
@@ -145,6 +180,18 @@ final class DOBJC_Context extends ffi.Struct {
     getMainPortId,
     required ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
     getCurrentThreadOwnsIsolate,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ObjCBlockImpl>,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
+          >,
+        )
+      >
+    >
+    postListenerInvocation$1,
   }) => $allocator<DOBJC_Context>()
     ..ref.version = version
     ..ref.newWaiter$1 = newWaiter$1
@@ -153,7 +200,32 @@ final class DOBJC_Context extends ffi.Struct {
     ..ref.enterIsolate = enterIsolate
     ..ref.exitIsolate = exitIsolate
     ..ref.getMainPortId = getMainPortId
-    ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate;
+    ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate
+    ..ref.postListenerInvocation$1 = postListenerInvocation$1;
+}
+
+final class DOBJC_ListenerInvocation extends ffi.Struct {
+  external ffi.Pointer<ObjCBlockImpl> block;
+
+  external ffi.Pointer<ffi.Void> args;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
+  >
+  dispose_args;
+
+  static ffi.Pointer<DOBJC_ListenerInvocation> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ObjCBlockImpl> block,
+    required ffi.Pointer<ffi.Void> args,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
+    >
+    dispose_args,
+  }) => $allocator<DOBJC_ListenerInvocation>()
+    ..ref.block = block
+    ..ref.args = args
+    ..ref.dispose_args = dispose_args;
 }
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
@@ -224,6 +296,9 @@ final class ObjCBlockImpl extends ffi.Struct {
   @ffi.Int64()
   external int dispose_port;
 
+  @ffi.Int64()
+  external int invoke_port;
+
   static ffi.Pointer<ObjCBlockImpl> $allocate(
     ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> isa,
@@ -233,6 +308,7 @@ final class ObjCBlockImpl extends ffi.Struct {
     required ffi.Pointer<ObjCBlockDesc> descriptor,
     required ffi.Pointer<ffi.Void> target,
     required int dispose_port,
+    required int invoke_port,
   }) => $allocator<ObjCBlockImpl>()
     ..ref.isa = isa
     ..ref.flags = flags
@@ -240,7 +316,8 @@ final class ObjCBlockImpl extends ffi.Struct {
     ..ref.invoke = invoke
     ..ref.descriptor = descriptor
     ..ref.target = target
-    ..ref.dispose_port = dispose_port;
+    ..ref.dispose_port = dispose_port
+    ..ref.invoke_port = invoke_port;
 }
 
 final class ObjCObjectImpl extends ffi.Opaque {}
