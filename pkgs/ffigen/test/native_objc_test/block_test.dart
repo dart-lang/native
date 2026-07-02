@@ -27,7 +27,9 @@ typedef ListenerBlock = ObjCBlock_ffiVoid_IntBlock;
 typedef FloatBlock = ObjCBlock_ffiFloat_ffiFloat;
 typedef DoubleBlock = ObjCBlock_ffiDouble_ffiDouble;
 typedef Vec4Block = ObjCBlock_Vec4_Vec4;
-typedef SelectorBlock = ObjCBlock_ffiVoid_objcObjCSelector;
+// NOTE: The name of this block class depends on the SDK the bindings were
+// regenerated against (newer SDKs resolve the SEL typealias differently).
+typedef SelectorBlock = ObjCBlock_ffiVoid_SEL;
 typedef ObjectBlock = ObjCBlock_DummyObject_DummyObject;
 typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject$1;
 typedef NullableStringBlock = ObjCBlock_NSString_NSString;

@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdlib.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
 #import "block_test.h"
@@ -19,6 +20,8 @@ typedef struct {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  // Version 2 additions:
+  void (*postListenerInvocation)(void*, void*, void (*)(void*));
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -51,10 +54,11 @@ id objc_retainBlock(id);
 
 typedef void  (^_ListenerTrampoline)(void);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _18tji2r_wrapListenerBlock_1pl9qdv(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+_ListenerTrampoline _18tji2r_wrapListenerBlock_1pl9qdv(
+    _ListenerTrampoline block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void() {
-    objc_retainBlock(block);
-    block();
+    ctx->postListenerInvocation((__bridge void*)block, NULL, NULL);
   };
 }
 
@@ -72,12 +76,24 @@ _ListenerTrampoline _18tji2r_wrapBlockingBlock_1pl9qdv(
   });
 }
 
+typedef struct {
+  void *arg0;
+} _18tji2r_ListenerArgs_xtuoz7;
+
+static void _18tji2r_ListenerArgs_xtuoz7_dispose(void *p) {
+  _18tji2r_ListenerArgs_xtuoz7 *args = (_18tji2r_ListenerArgs_xtuoz7 *)p;
+  (void)(__bridge_transfer id)(args->arg0);
+}
+
 typedef void  (^_ListenerTrampoline_1)(id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_1 _18tji2r_wrapListenerBlock_xtuoz7(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_1 _18tji2r_wrapListenerBlock_xtuoz7(
+    _ListenerTrampoline_1 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(id arg0) {
-    objc_retainBlock(block);
-    block((__bridge id)(__bridge_retained void*)(arg0));
+    _18tji2r_ListenerArgs_xtuoz7 *args = (_18tji2r_ListenerArgs_xtuoz7 *)malloc(sizeof(_18tji2r_ListenerArgs_xtuoz7));
+    args->arg0 = (__bridge void*)((__bridge id)(__bridge_retained void*)(arg0));
+    ctx->postListenerInvocation((__bridge void*)block, args, &_18tji2r_ListenerArgs_xtuoz7_dispose);
   };
 }
 
@@ -95,12 +111,19 @@ _ListenerTrampoline_1 _18tji2r_wrapBlockingBlock_xtuoz7(
   });
 }
 
+typedef struct {
+  int32_t arg0;
+} _18tji2r_ListenerArgs_1bqef4y;
+
 typedef void  (^_ListenerTrampoline_2)(int32_t arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_2 _18tji2r_wrapListenerBlock_1bqef4y(_ListenerTrampoline_2 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_2 _18tji2r_wrapListenerBlock_1bqef4y(
+    _ListenerTrampoline_2 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(int32_t arg0) {
-    objc_retainBlock(block);
-    block(arg0);
+    _18tji2r_ListenerArgs_1bqef4y *args = (_18tji2r_ListenerArgs_1bqef4y *)malloc(sizeof(_18tji2r_ListenerArgs_1bqef4y));
+    args->arg0 = arg0;
+    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
   };
 }
 
@@ -118,12 +141,19 @@ _ListenerTrampoline_2 _18tji2r_wrapBlockingBlock_1bqef4y(
   });
 }
 
+typedef struct {
+  int32_t * arg0;
+} _18tji2r_ListenerArgs_yhkuco;
+
 typedef void  (^_ListenerTrampoline_3)(int32_t * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_3 _18tji2r_wrapListenerBlock_yhkuco(_ListenerTrampoline_3 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_3 _18tji2r_wrapListenerBlock_yhkuco(
+    _ListenerTrampoline_3 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(int32_t * arg0) {
-    objc_retainBlock(block);
-    block(arg0);
+    _18tji2r_ListenerArgs_yhkuco *args = (_18tji2r_ListenerArgs_yhkuco *)malloc(sizeof(_18tji2r_ListenerArgs_yhkuco));
+    args->arg0 = arg0;
+    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
   };
 }
 
@@ -141,12 +171,23 @@ _ListenerTrampoline_3 _18tji2r_wrapBlockingBlock_yhkuco(
   });
 }
 
+typedef struct {
+  int32_t arg0;
+  Vec4 arg1;
+  char * arg2;
+} _18tji2r_ListenerArgs_li50va;
+
 typedef void  (^_ListenerTrampoline_4)(int32_t arg0, Vec4 arg1, char * arg2);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_4 _18tji2r_wrapListenerBlock_li50va(_ListenerTrampoline_4 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_4 _18tji2r_wrapListenerBlock_li50va(
+    _ListenerTrampoline_4 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(int32_t arg0, Vec4 arg1, char * arg2) {
-    objc_retainBlock(block);
-    block(arg0, arg1, arg2);
+    _18tji2r_ListenerArgs_li50va *args = (_18tji2r_ListenerArgs_li50va *)malloc(sizeof(_18tji2r_ListenerArgs_li50va));
+    args->arg0 = arg0;
+    args->arg1 = arg1;
+    args->arg2 = arg2;
+    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
   };
 }
 
@@ -164,12 +205,24 @@ _ListenerTrampoline_4 _18tji2r_wrapBlockingBlock_li50va(
   });
 }
 
+typedef struct {
+  void *arg0;
+} _18tji2r_ListenerArgs_f167m6;
+
+static void _18tji2r_ListenerArgs_f167m6_dispose(void *p) {
+  _18tji2r_ListenerArgs_f167m6 *args = (_18tji2r_ListenerArgs_f167m6 *)p;
+  (void)(__bridge_transfer id)(args->arg0);
+}
+
 typedef void  (^_ListenerTrampoline_5)(id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_5 _18tji2r_wrapListenerBlock_f167m6(_ListenerTrampoline_5 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_5 _18tji2r_wrapListenerBlock_f167m6(
+    _ListenerTrampoline_5 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(id arg0) {
-    objc_retainBlock(block);
-    block(objc_retainBlock(arg0));
+    _18tji2r_ListenerArgs_f167m6 *args = (_18tji2r_ListenerArgs_f167m6 *)malloc(sizeof(_18tji2r_ListenerArgs_f167m6));
+    args->arg0 = (__bridge void*)(objc_retainBlock(arg0));
+    ctx->postListenerInvocation((__bridge void*)block, args, &_18tji2r_ListenerArgs_f167m6_dispose);
   };
 }
 
@@ -187,42 +240,26 @@ _ListenerTrampoline_5 _18tji2r_wrapBlockingBlock_f167m6(
   });
 }
 
-typedef void  (^_ListenerTrampoline_6)(struct Vec2 arg0, Vec4 arg1, id arg2);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_6 _18tji2r_wrapListenerBlock_ru30ue(_ListenerTrampoline_6 block) NS_RETURNS_RETAINED {
-  return ^void(struct Vec2 arg0, Vec4 arg1, id arg2) {
-    objc_retainBlock(block);
-    block(arg0, arg1, (__bridge id)(__bridge_retained void*)(arg2));
-  };
-}
+typedef struct {
+  struct objc_selector * arg0;
+} _18tji2r_ListenerArgs_1d9e4oe;
 
-typedef void  (^_BlockingTrampoline_6)(void * waiter, struct Vec2 arg0, Vec4 arg1, id arg2);
+typedef void  (^_ListenerTrampoline_6)(struct objc_selector * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_6 _18tji2r_wrapBlockingBlock_ru30ue(
-    _BlockingTrampoline_6 block, _BlockingTrampoline_6 listenerBlock,
-    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(struct Vec2 arg0, Vec4 arg1, id arg2), {
-    objc_retainBlock(block);
-    block(nil, arg0, arg1, (__bridge id)(__bridge_retained void*)(arg2));
-  }, {
-    objc_retainBlock(listenerBlock);
-    listenerBlock(waiter, arg0, arg1, (__bridge id)(__bridge_retained void*)(arg2));
-  });
-}
-
-typedef void  (^_ListenerTrampoline_7)(struct objc_selector * arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_7 _18tji2r_wrapListenerBlock_1d9e4oe(_ListenerTrampoline_7 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_6 _18tji2r_wrapListenerBlock_1d9e4oe(
+    _ListenerTrampoline_6 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(struct objc_selector * arg0) {
-    objc_retainBlock(block);
-    block(arg0);
+    _18tji2r_ListenerArgs_1d9e4oe *args = (_18tji2r_ListenerArgs_1d9e4oe *)malloc(sizeof(_18tji2r_ListenerArgs_1d9e4oe));
+    args->arg0 = arg0;
+    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
   };
 }
 
-typedef void  (^_BlockingTrampoline_7)(void * waiter, struct objc_selector * arg0);
+typedef void  (^_BlockingTrampoline_6)(void * waiter, struct objc_selector * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_7 _18tji2r_wrapBlockingBlock_1d9e4oe(
-    _BlockingTrampoline_7 block, _BlockingTrampoline_7 listenerBlock,
+_ListenerTrampoline_6 _18tji2r_wrapBlockingBlock_1d9e4oe(
+    _BlockingTrampoline_6 block, _BlockingTrampoline_6 listenerBlock,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, ^void(struct objc_selector * arg0), {
     objc_retainBlock(block);
@@ -230,6 +267,45 @@ _ListenerTrampoline_7 _18tji2r_wrapBlockingBlock_1d9e4oe(
   }, {
     objc_retainBlock(listenerBlock);
     listenerBlock(waiter, arg0);
+  });
+}
+
+typedef struct {
+  struct Vec2 arg0;
+  Vec4 arg1;
+  void *arg2;
+} _18tji2r_ListenerArgs_ru30ue;
+
+static void _18tji2r_ListenerArgs_ru30ue_dispose(void *p) {
+  _18tji2r_ListenerArgs_ru30ue *args = (_18tji2r_ListenerArgs_ru30ue *)p;
+  (void)(__bridge_transfer id)(args->arg2);
+}
+
+typedef void  (^_ListenerTrampoline_7)(struct Vec2 arg0, Vec4 arg1, id arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_7 _18tji2r_wrapListenerBlock_ru30ue(
+    _ListenerTrampoline_7 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
+  return ^void(struct Vec2 arg0, Vec4 arg1, id arg2) {
+    _18tji2r_ListenerArgs_ru30ue *args = (_18tji2r_ListenerArgs_ru30ue *)malloc(sizeof(_18tji2r_ListenerArgs_ru30ue));
+    args->arg0 = arg0;
+    args->arg1 = arg1;
+    args->arg2 = (__bridge void*)((__bridge id)(__bridge_retained void*)(arg2));
+    ctx->postListenerInvocation((__bridge void*)block, args, &_18tji2r_ListenerArgs_ru30ue_dispose);
+  };
+}
+
+typedef void  (^_BlockingTrampoline_7)(void * waiter, struct Vec2 arg0, Vec4 arg1, id arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_7 _18tji2r_wrapBlockingBlock_ru30ue(
+    _BlockingTrampoline_7 block, _BlockingTrampoline_7 listenerBlock,
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(struct Vec2 arg0, Vec4 arg1, id arg2), {
+    objc_retainBlock(block);
+    block(nil, arg0, arg1, (__bridge id)(__bridge_retained void*)(arg2));
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0, arg1, (__bridge id)(__bridge_retained void*)(arg2));
   });
 }
 #undef BLOCKING_BLOCK_IMPL

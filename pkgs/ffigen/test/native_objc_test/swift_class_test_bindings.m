@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdlib.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
 #import "swift_class_test-Swift.h"
@@ -19,6 +20,8 @@ typedef struct {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  // Version 2 additions:
+  void (*postListenerInvocation)(void*, void*, void (*)(void*));
 } DOBJC_Context;
 
 id objc_retainBlock(id);

@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdlib.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
 #import "isolate_test.h"
@@ -19,6 +20,8 @@ typedef struct {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  // Version 2 additions:
+  void (*postListenerInvocation)(void*, void*, void (*)(void*));
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -49,12 +52,19 @@ id objc_retainBlock(id);
   };
 
 
+typedef struct {
+  int32_t arg0;
+} _rdx59v_ListenerArgs_1bqef4y;
+
 typedef void  (^_ListenerTrampoline)(int32_t arg0);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _rdx59v_wrapListenerBlock_1bqef4y(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+_ListenerTrampoline _rdx59v_wrapListenerBlock_1bqef4y(
+    _ListenerTrampoline block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(int32_t arg0) {
-    objc_retainBlock(block);
-    block(arg0);
+    _rdx59v_ListenerArgs_1bqef4y *args = (_rdx59v_ListenerArgs_1bqef4y *)malloc(sizeof(_rdx59v_ListenerArgs_1bqef4y));
+    args->arg0 = arg0;
+    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
   };
 }
 

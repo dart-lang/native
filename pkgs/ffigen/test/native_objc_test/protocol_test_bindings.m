@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdlib.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
 #import "protocol_test.h"
@@ -19,6 +20,8 @@ typedef struct {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  // Version 2 additions:
+  void (*postListenerInvocation)(void*, void*, void (*)(void*));
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -79,12 +82,21 @@ id  _13hhotk_protocolTrampoline_1s2pox8(id target, void * sel, id arg1, double a
   return ((_ProtocolTrampoline_3)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
 }
 
+typedef struct {
+  void * arg0;
+  int32_t arg1;
+} _13hhotk_ListenerArgs_1pbq496;
+
 typedef void  (^_ListenerTrampoline)(void * arg0, int32_t arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _13hhotk_wrapListenerBlock_1pbq496(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+_ListenerTrampoline _13hhotk_wrapListenerBlock_1pbq496(
+    _ListenerTrampoline block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(void * arg0, int32_t arg1) {
-    objc_retainBlock(block);
-    block(arg0, arg1);
+    _13hhotk_ListenerArgs_1pbq496 *args = (_13hhotk_ListenerArgs_1pbq496 *)malloc(sizeof(_13hhotk_ListenerArgs_1pbq496));
+    args->arg0 = arg0;
+    args->arg1 = arg1;
+    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
   };
 }
 
@@ -108,12 +120,21 @@ void  _13hhotk_protocolTrampoline_1pbq496(id target, void * sel, int32_t arg1) {
   return ((_ProtocolTrampoline_4)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
+typedef struct {
+  void * arg0;
+  int32_t * arg1;
+} _13hhotk_ListenerArgs_8r9qkg;
+
 typedef void  (^_ListenerTrampoline_1)(void * arg0, int32_t * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_1 _13hhotk_wrapListenerBlock_8r9qkg(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_1 _13hhotk_wrapListenerBlock_8r9qkg(
+    _ListenerTrampoline_1 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(void * arg0, int32_t * arg1) {
-    objc_retainBlock(block);
-    block(arg0, arg1);
+    _13hhotk_ListenerArgs_8r9qkg *args = (_13hhotk_ListenerArgs_8r9qkg *)malloc(sizeof(_13hhotk_ListenerArgs_8r9qkg));
+    args->arg0 = arg0;
+    args->arg1 = arg1;
+    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
   };
 }
 

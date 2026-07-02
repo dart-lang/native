@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdlib.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
 #import "block_annotation_test.h"
@@ -19,6 +20,8 @@ typedef struct {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  // Version 2 additions:
+  void (*postListenerInvocation)(void*, void*, void (*)(void*));
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -78,10 +81,11 @@ id  _z0xonr_protocolTrampoline_cww6wh(id target, void * sel, id arg1 __attribute
 
 typedef void  (^_ListenerTrampoline)(void);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _z0xonr_wrapListenerBlock_1pl9qdv(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+_ListenerTrampoline _z0xonr_wrapListenerBlock_1pl9qdv(
+    _ListenerTrampoline block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void() {
-    objc_retainBlock(block);
-    block();
+    ctx->postListenerInvocation((__bridge void*)block, NULL, NULL);
   };
 }
 
@@ -99,12 +103,26 @@ _ListenerTrampoline _z0xonr_wrapBlockingBlock_1pl9qdv(
   });
 }
 
+typedef struct {
+  void * arg0;
+  void *arg1;
+} _z0xonr_ListenerArgs_18v1jvf;
+
+static void _z0xonr_ListenerArgs_18v1jvf_dispose(void *p) {
+  _z0xonr_ListenerArgs_18v1jvf *args = (_z0xonr_ListenerArgs_18v1jvf *)p;
+  (void)(__bridge_transfer id)(args->arg1);
+}
+
 typedef void  (^_ListenerTrampoline_1)(void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_1 _z0xonr_wrapListenerBlock_18v1jvf(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_1 _z0xonr_wrapListenerBlock_18v1jvf(
+    _ListenerTrampoline_1 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(void * arg0, id arg1) {
-    objc_retainBlock(block);
-    block(arg0, (__bridge id)(__bridge_retained void*)(arg1));
+    _z0xonr_ListenerArgs_18v1jvf *args = (_z0xonr_ListenerArgs_18v1jvf *)malloc(sizeof(_z0xonr_ListenerArgs_18v1jvf));
+    args->arg0 = arg0;
+    args->arg1 = (__bridge void*)((__bridge id)(__bridge_retained void*)(arg1));
+    ctx->postListenerInvocation((__bridge void*)block, args, &_z0xonr_ListenerArgs_18v1jvf_dispose);
   };
 }
 
@@ -128,12 +146,26 @@ void  _z0xonr_protocolTrampoline_18v1jvf(id target, void * sel, id arg1) {
   return ((_ProtocolTrampoline_4)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
+typedef struct {
+  void * arg0;
+  void *arg1;
+} _z0xonr_ListenerArgs_6yc3kd;
+
+static void _z0xonr_ListenerArgs_6yc3kd_dispose(void *p) {
+  _z0xonr_ListenerArgs_6yc3kd *args = (_z0xonr_ListenerArgs_6yc3kd *)p;
+  (void)(__bridge_transfer id)(args->arg1);
+}
+
 typedef void  (^_ListenerTrampoline_2)(void * arg0, id arg1 __attribute__((ns_consumed)));
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_2 _z0xonr_wrapListenerBlock_6yc3kd(_ListenerTrampoline_2 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_2 _z0xonr_wrapListenerBlock_6yc3kd(
+    _ListenerTrampoline_2 block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(void * arg0, id arg1 __attribute__((ns_consumed))) {
-    objc_retainBlock(block);
-    block(arg0, (__bridge id)(__bridge_retained void*)(arg1));
+    _z0xonr_ListenerArgs_6yc3kd *args = (_z0xonr_ListenerArgs_6yc3kd *)malloc(sizeof(_z0xonr_ListenerArgs_6yc3kd));
+    args->arg0 = arg0;
+    args->arg1 = (__bridge_retained void*)((__bridge id)(__bridge_retained void*)(arg1));
+    ctx->postListenerInvocation((__bridge void*)block, args, &_z0xonr_ListenerArgs_6yc3kd_dispose);
   };
 }
 

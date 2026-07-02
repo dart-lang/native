@@ -67,8 +67,10 @@ void main() {
     });
 
     test('All code genned structs are included in the list', () {
+      // Private structs (eg the internal listener packed-args structs) are
+      // deliberately not part of the built-in compound list.
       final allStructNames = findBindings(
-        RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)'),
+        RegExp(r'^final class ([^_]\w*) extends ffi\.(Struct|Opaque)'),
       );
       expectSetsEqual(
         'generated structs',

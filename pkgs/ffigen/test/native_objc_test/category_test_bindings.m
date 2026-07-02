@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdlib.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
 #import "category_test.h"
@@ -20,6 +21,8 @@ typedef struct {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  // Version 2 additions:
+  void (*postListenerInvocation)(void*, void*, void (*)(void*));
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -50,12 +53,27 @@ id objc_retainBlock(id);
   };
 
 
+typedef struct {
+  void *arg0;
+  void *arg1;
+} _l3cf7j_ListenerArgs_pfv6jd;
+
+static void _l3cf7j_ListenerArgs_pfv6jd_dispose(void *p) {
+  _l3cf7j_ListenerArgs_pfv6jd *args = (_l3cf7j_ListenerArgs_pfv6jd *)p;
+  (void)(__bridge_transfer id)(args->arg0);
+  (void)(__bridge_transfer id)(args->arg1);
+}
+
 typedef void  (^_ListenerTrampoline)(id arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _l3cf7j_wrapListenerBlock_pfv6jd(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+_ListenerTrampoline _l3cf7j_wrapListenerBlock_pfv6jd(
+    _ListenerTrampoline block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(id arg0, id arg1) {
-    objc_retainBlock(block);
-    block((__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
+    _l3cf7j_ListenerArgs_pfv6jd *args = (_l3cf7j_ListenerArgs_pfv6jd *)malloc(sizeof(_l3cf7j_ListenerArgs_pfv6jd));
+    args->arg0 = (__bridge void*)((__bridge id)(__bridge_retained void*)(arg0));
+    args->arg1 = (__bridge void*)((__bridge id)(__bridge_retained void*)(arg1));
+    ctx->postListenerInvocation((__bridge void*)block, args, &_l3cf7j_ListenerArgs_pfv6jd_dispose);
   };
 }
 

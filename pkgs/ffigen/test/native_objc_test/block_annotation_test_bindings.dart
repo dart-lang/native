@@ -121,24 +121,36 @@ external ffi.Pointer<objc.ObjCBlockImpl> _z0xonr_wrapBlockingBlock_6yc3kd(
 );
 
 @ffi.Native<
-  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
 >(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _z0xonr_wrapListenerBlock_18v1jvf(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.DOBJC_Context> context,
 );
 
 @ffi.Native<
-  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
 >(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _z0xonr_wrapListenerBlock_1pl9qdv(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.DOBJC_Context> context,
 );
 
 @ffi.Native<
-  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
 >(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _z0xonr_wrapListenerBlock_6yc3kd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.DOBJC_Context> context,
 );
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>()
@@ -2458,10 +2470,11 @@ abstract final class ObjCBlock_ffiVoid {
 
   /// Creates a listener block from a Dart function.
   ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously: invocations are delivered to
+  /// the isolate that created the block through a port, and run on its event
+  /// loop. If that isolate has shut down when the block is invoked, the
+  /// invocation is safely dropped and its resources are freed.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -2469,14 +2482,10 @@ abstract final class ObjCBlock_ffiVoid {
     void Function() fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newClosureBlock(
-      _listenerCallable.nativeFunction.cast(),
-      () {
-        return fn();
-      },
-      keepIsolateAlive,
-    );
-    final wrapper = _z0xonr_wrapListenerBlock_1pl9qdv(raw);
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> _) {
+      fn();
+    }, keepIsolateAlive);
+    final wrapper = _z0xonr_wrapListenerBlock_1pl9qdv(raw, objc.objCContext);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function()>(
       wrapper,
@@ -2527,17 +2536,6 @@ abstract final class ObjCBlock_ffiVoid {
     );
   }
 
-  static void _listenerTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) {
-    (objc.getBlockClosure(block) as void Function())();
-    objc.objectRelease(block.cast());
-  }
-
-  static ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>
-  _listenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-        >.listener(_listenerTrampoline)
-        ..keepIsolateAlive = false;
   static void _blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
@@ -2608,6 +2606,11 @@ extension ObjCBlock_ffiVoid$CallExtension
   }
 }
 
+final class _z0xonr_ListenerArgs_18v1jvf extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> arg0;
+  external ffi.Pointer<objc.ObjCObjectImpl> arg1;
+}
+
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)>`.
 abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject {
   /// Returns a block that wraps the given raw block pointer.
@@ -2672,10 +2675,11 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject {
 
   /// Creates a listener block from a Dart function.
   ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously: invocations are delivered to
+  /// the isolate that created the block through a port, and run on its event
+  /// loop. If that isolate has shut down when the block is invoked, the
+  /// invocation is safely dropped and its resources are freed.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -2684,16 +2688,14 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject {
     void Function(ffi.Pointer<ffi.Void>, EmptyObject) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
-      ffi.Pointer<ffi.Void> arg0,
-      ffi.Pointer<objc.ObjCObjectImpl> arg1,
-    ) {
-      return fn(
-        arg0,
-        EmptyObject.fromPointer(arg1, retain: false, release: true),
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
+      final args = rawArgs.cast<_z0xonr_ListenerArgs_18v1jvf>().ref;
+      fn(
+        args.arg0,
+        EmptyObject.fromPointer(args.arg1, retain: false, release: true),
       );
     }, keepIsolateAlive);
-    final wrapper = _z0xonr_wrapListenerBlock_18v1jvf(raw);
+    final wrapper = _z0xonr_wrapListenerBlock_18v1jvf(raw, objc.objCContext);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)
@@ -2746,35 +2748,6 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject {
     >(wrapper, retain: false, release: true);
   }
 
-  static void _listenerTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-    ffi.Pointer<objc.ObjCObjectImpl> arg1,
-  ) {
-    (objc.getBlockClosure(block)
-        as void Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        ))(arg0, arg1);
-    objc.objectRelease(block.cast());
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-    )
-  >
-  _listenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >.listener(_listenerTrampoline)
-        ..keepIsolateAlive = false;
   static void _blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
@@ -2901,6 +2874,11 @@ extension ObjCBlock_ffiVoid_ffiVoid_EmptyObject$CallExtension
   }
 }
 
+final class _z0xonr_ListenerArgs_6yc3kd extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> arg0;
+  external ffi.Pointer<objc.ObjCObjectImpl> arg1;
+}
+
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.Consumed<EmptyObject>)>`.
 abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1 {
   /// Returns a block that wraps the given raw block pointer.
@@ -2976,10 +2954,11 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1 {
 
   /// Creates a listener block from a Dart function.
   ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously: invocations are delivered to
+  /// the isolate that created the block through a port, and run on its event
+  /// loop. If that isolate has shut down when the block is invoked, the
+  /// invocation is safely dropped and its resources are freed.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -2990,16 +2969,14 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1 {
     void Function(ffi.Pointer<ffi.Void>, EmptyObject) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
-      ffi.Pointer<ffi.Void> arg0,
-      ffi.Pointer<objc.ObjCObjectImpl> arg1,
-    ) {
-      return fn(
-        arg0,
-        EmptyObject.fromPointer(arg1, retain: false, release: true),
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
+      final args = rawArgs.cast<_z0xonr_ListenerArgs_6yc3kd>().ref;
+      fn(
+        args.arg0,
+        EmptyObject.fromPointer(args.arg1, retain: false, release: true),
       );
     }, keepIsolateAlive);
-    final wrapper = _z0xonr_wrapListenerBlock_6yc3kd(raw);
+    final wrapper = _z0xonr_wrapListenerBlock_6yc3kd(raw, objc.objCContext);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, objc.Consumed<EmptyObject>)
@@ -3054,35 +3031,6 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1 {
     >(wrapper, retain: false, release: true);
   }
 
-  static void _listenerTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-    ffi.Pointer<objc.ObjCObjectImpl> arg1,
-  ) {
-    (objc.getBlockClosure(block)
-        as void Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        ))(arg0, arg1);
-    objc.objectRelease(block.cast());
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-    )
-  >
-  _listenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >.listener(_listenerTrampoline)
-        ..keepIsolateAlive = false;
   static void _blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
