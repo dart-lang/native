@@ -8,18 +8,25 @@ import 'dart:io';
 ///
 /// Returns `null` (forcing the test or expectation to run) if running on CI
 /// (detected by the `GITHUB_ACTIONS` environment variable).
-// ignore: avoid_positional_boolean_parameters
-Object? skipLocal(bool condition, String reason) {
+Object? skipLocal(
+  // ignore: avoid_positional_boolean_parameters
+  bool condition,
+  String reason, {
+  bool skipDartSdkCI = false,
+}) {
   // Disallow skips when running in CI environments, where all toolchains and
   // dependencies must be present.
   final isGithubActions = Platform.environment.containsKey('GITHUB_ACTIONS');
 
-  // The Dart SDK's internal CI infrastructure (Buildbot / Swarming).
+  // Note: The Dart SDK's internal CI infrastructure (Buildbot / Swarming)
+  // does not always have all tools (e.g. `dumpbin` is missing on Windows).
+  // We allow skipping there only when `allowSkipDartSdk` is true.
   final isDartSdkCI =
       Platform.environment.containsKey('BUILDBOT_BUILDERNAME') ||
       Platform.environment.containsKey('SWARMING_TASK_ID');
 
-  final isCI = isGithubActions || isDartSdkCI;
-  if (isCI) return null;
+  if (isGithubActions) return null;
+  if (isDartSdkCI && !skipDartSdkCI) return null;
+
   return condition ? reason : null;
 }

@@ -6,19 +6,31 @@
 library;
 
 import 'dart:ffi';
+import 'dart:io';
 import 'package:test/test.dart';
 import 'package:treeshaking_dylib_record_use/treeshaking_dylib_record_use.dart';
 
 void main() {
   test('multiply works, but divide is tree-shaken', () {
+    // Dynamic lookup via Process only works on platforms where the dynamic
+    // linker searches RTLD_LOCAL loaded libraries (like macOS and Windows).
+    // TODO(https://github.com/dart-lang/sdk/issues/63295): Use
+    // DynamicLibrary.openAsset when available.
+    final skipDynamicLookup = (Platform.isLinux || Platform.isAndroid)
+        ? 'DynamicLibrary.process() does not search RTLD_LOCAL libraries on Linux/Android'
+        : null;
+
     // 1. Statically call `multiply`, which records it as used and keeps it.
     expect(multiply(14, 3), equals(42));
 
     // 2. Look up 'multiply' dynamically; it should succeed.
     final process = DynamicLibrary.process();
     expect(
-      process.lookup<NativeFunction<Int32 Function(Int32, Int32)>>('multiply'),
-      isNotNull,
+      () => process.lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+        'multiply',
+      ),
+      returnsNormally,
+      skip: skipDynamicLookup,
     );
 
     // 3. 'divide' is not statically called, so it should be tree-shaken
@@ -28,6 +40,7 @@ void main() {
         'divide',
       ),
       throwsArgumentError,
+      skip: skipDynamicLookup,
     );
   });
 }

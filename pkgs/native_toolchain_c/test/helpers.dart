@@ -258,6 +258,30 @@ Future<void> expectSymbolNotUndefined(
   );
 }
 
+/// Asserts that the library described by [asset] contains [symbols] and does
+/// not contain [symbolsNotToContain].
+Future<void> expectSymbols({
+  required CodeAsset asset,
+  required OS targetOS,
+  List<String> symbols = const [],
+  List<String> symbolsNotToContain = const [],
+}) async {
+  final symbolsString = await readSymbols(asset, targetOS);
+  final skip = skipLocal(
+    symbolsString == null,
+    'tool to extract symbols unavailable',
+    // The Dart SDK CI does not have dumpbin.
+    skipDartSdkCI: true,
+  );
+  expect(symbolsString, isNotNull, skip: skip);
+  for (final symbol in symbols) {
+    expect(symbolsString, contains(symbol), skip: skip);
+  }
+  for (final symbol in symbolsNotToContain) {
+    expect(symbolsString, isNot(contains(symbol)), skip: skip);
+  }
+}
+
 /// Returns null if the dumpbin tool is not available.
 Future<RunProcessResult?> _runDumpbin(
   List<String> arguments,
@@ -449,6 +473,8 @@ Future<void> expectMachineArchitecture(
     final skip = skipLocal(
       result == null,
       'tool to determine binary architecture unavailable',
+      // The Dart SDK CI does not have dumpbin.
+      skipDartSdkCI: true,
     );
     expect(result?.exitCode, 0, skip: skip);
     final machine = result?.stdout

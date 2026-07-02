@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -60,7 +59,7 @@ Future<void> main() async {
     final treeshakeOption = LinkerOptions.treeshake(
       symbolsToKeep: ['my_other_func'],
     );
-    final symbols = await _link(
+    final asset = await _link(
       staticLib,
       treeshakeOption,
       linkInput,
@@ -68,12 +67,12 @@ Future<void> main() async {
       targetArchitecture,
       targetOS,
     );
-    final skip = skipLocal(
-      symbols == null,
-      'tool to extract symbols unavailable',
+    await expectSymbols(
+      asset: asset,
+      targetOS: targetOS,
+      symbols: ['my_other_func'],
+      symbolsNotToContain: ['my_func'],
     );
-    expect(symbols, contains('my_other_func'), skip: skip);
-    expect(symbols, isNot(contains('my_func')), skip: skip);
   });
 
   test('link rust binary without script keeps symbols', () async {
@@ -85,7 +84,7 @@ Future<void> main() async {
       stripDebug: true,
       gcSections: true,
     );
-    final symbols = await _link(
+    final asset = await _link(
       staticLib,
       manualOption,
       linkInput,
@@ -93,16 +92,15 @@ Future<void> main() async {
       targetArchitecture,
       targetOS,
     );
-    final skip = skipLocal(
-      symbols == null,
-      'tool to extract symbols unavailable',
+    await expectSymbols(
+      asset: asset,
+      targetOS: targetOS,
+      symbols: ['my_other_func', 'my_func'],
     );
-    expect(symbols, contains('my_other_func'), skip: skip);
-    expect(symbols, contains('my_func'), skip: skip);
   });
 }
 
-Future<String?> _link(
+Future<CodeAsset> _link(
   Uri staticLib,
   LinkerOptions manualOption,
   LinkInput linkInput,
@@ -122,5 +120,5 @@ Future<String?> _link(
 
   await expectMachineArchitecture(asset.file!, targetArchitecture, targetOS);
 
-  return await readSymbols(asset, targetOS);
+  return asset;
 }
