@@ -435,8 +435,9 @@ BlockPtr _newBlock(
   VoidPtr target,
   Pointer<c.ObjCBlockDesc> descriptor,
   int disposePort,
-  int flags,
-) {
+  int flags, {
+  int invokePort = 0,
+}) {
   final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
   b.ref.isa = Native.addressOf<Array<VoidPtr>>(r.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
@@ -444,6 +445,7 @@ BlockPtr _newBlock(
   b.ref.invoke = invoke;
   b.ref.target = target;
   b.ref.dispose_port = disposePort;
+  b.ref.invoke_port = invokePort;
   b.ref.descriptor = descriptor;
   assert(c.isValidBlock(b));
   final copy = r.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
@@ -467,6 +469,58 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
       _blockClosureDisposer.sendPort.nativePort,
       _blockHasCopyDispose,
     );
+
+/// Only for use by FFIgen bindings.
+///
+/// Creates a listener block whose invocations are delivered to this isolate
+/// through a port instead of a NativeCallable trampoline. If this isolate has
+/// shut down when the block is invoked, the invocation is safely dropped and
+/// its resources are freed by the native message finalizer, instead of
+/// crashing the process. See https://github.com/dart-lang/native/issues/3265.
+///
+/// [fn] receives a pointer to the per-signature packed-args struct created by
+/// the generated ObjC wrapper. It must not free the pointer; the args struct
+/// and the block reference are cleaned up by the invoker after [fn] returns.
+BlockPtr newListenerBlock(
+  void Function(VoidPtr) fn,
+  bool keepIsolateAlive,
+) => _newBlock(
+  // The invoke stub is never called: invocations are delivered through
+  // invoke_port by the generated ObjC wrapper. The Block runtime requires a
+  // valid invoke pointer to copy the block.
+  Native.addressOf<NativeFunction<Void Function()>>(
+    c.listenerBlockInvokeStub,
+  ).cast(),
+  _registerBlockClosure(fn, keepIsolateAlive),
+  _closureBlockDesc,
+  _blockClosureDisposer.sendPort.nativePort,
+  _blockHasCopyDispose,
+  invokePort: _blockListenerInvoker.sendPort.nativePort,
+);
+
+/// Receives listener block invocations posted by
+/// `DOBJC_postListenerInvocation` as [c.DOBJC_ListenerInvocation] envelopes.
+///
+/// The envelope, the args struct, and the block reference are owned by this
+/// handler once the message is delivered; the native message finalizer only
+/// runs for undelivered messages.
+final _blockListenerInvoker = () {
+  _ensureDartAPI();
+  return RawReceivePort((dynamic msg) {
+    final invocation = Pointer<c.DOBJC_ListenerInvocation>.fromAddress(
+      msg as int,
+    );
+    final block = invocation.ref.block;
+    final args = invocation.ref.args;
+    calloc.free(invocation);
+    try {
+      (getBlockClosure(block) as void Function(VoidPtr))(args);
+    } finally {
+      calloc.free(args);
+      r.objectRelease(block.cast());
+    }
+  }, 'ObjCBlockListenerInvoker')..keepIsolateAlive = false;
+}();
 
 /// Only for use by FFIgen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
