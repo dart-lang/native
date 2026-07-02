@@ -414,6 +414,17 @@ jobs:
         run: flutter pub add jni --path ../
         working-directory: ./pkgs/jni/test_app
 
+      - name: Add jni_util dependency override
+        run: |
+          cat <<EOF >> pubspec.yaml
+
+          dependency_overrides:
+            jni_util:
+              path: "../../jni_util"
+          EOF
+        shell: bash
+        working-directory: ./pkgs/jni/test_app
+
       - name: Clear JAVA_HOME to Simulate Missing JDK
         run: echo "JAVA_HOME=" >> $GITHUB_ENV
         shell: bash
