@@ -1,0 +1,15 @@
+name: ListenerLifetimeTestObjCLibrary
+description: 'Tests listener blocks that outlive their owner isolate'
+language: objc
+output:
+  bindings: 'listener_lifetime_test_bindings.dart'
+  objc-bindings: 'listener_lifetime_test_bindings.m'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - ListenerLifetimeTester
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'listener_lifetime_test.h'
