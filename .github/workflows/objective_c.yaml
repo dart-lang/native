@@ -92,7 +92,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode_version: ["16.1", "26.1.1"]
+        xcode_version: ["16.2", "26.4.1"]
         ios_version: ["18.1"]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
