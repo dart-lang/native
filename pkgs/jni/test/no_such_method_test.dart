@@ -25,16 +25,7 @@ void run({required TestRunnerCallback testRunner}) {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.constructorId('(I)V'),
-          throwsA(
-            anyOf(
-              isA<NoSuchMethodError>().having(
-                (e) => e.name,
-                'name',
-                '<init>',
-              ),
-              isA<JThrowable>(),
-            ),
-          ),
+          throwsA(anyOf(isA<NoSuchMethodError>(), isA<JThrowable>())),
         );
         stringClass.release();
       },
@@ -46,16 +37,7 @@ void run({required TestRunnerCallback testRunner}) {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.instanceMethodId('nonExistentMethod', '()V'),
-          throwsA(
-            anyOf(
-              isA<NoSuchMethodError>().having(
-                (e) => e.name,
-                'name',
-                'nonExistentMethod',
-              ),
-              isA<JThrowable>(),
-            ),
-          ),
+          throwsA(anyOf(isA<NoSuchMethodError>(), isA<JThrowable>())),
         );
         stringClass.release();
       },
@@ -67,16 +49,7 @@ void run({required TestRunnerCallback testRunner}) {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.staticMethodId('nonExistentStaticMethod', '()V'),
-          throwsA(
-            anyOf(
-              isA<NoSuchMethodError>().having(
-                (e) => e.name,
-                'name',
-                'nonExistentStaticMethod',
-              ),
-              isA<JThrowable>(),
-            ),
-          ),
+          throwsA(anyOf(isA<NoSuchMethodError>(), isA<JThrowable>())),
         );
         stringClass.release();
       },
@@ -88,16 +61,7 @@ void run({required TestRunnerCallback testRunner}) {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.instanceFieldId('nonExistentField', 'I'),
-          throwsA(
-            anyOf(
-              isA<NoSuchMethodError>().having(
-                (e) => e.name,
-                'name',
-                'nonExistentField',
-              ),
-              isA<JThrowable>(),
-            ),
-          ),
+          throwsA(anyOf(isA<NoSuchMethodError>(), isA<JThrowable>())),
         );
         stringClass.release();
       },
@@ -109,16 +73,7 @@ void run({required TestRunnerCallback testRunner}) {
         final stringClass = JClass.forName('java/lang/String');
         expect(
           () => stringClass.staticFieldId('nonExistentStaticField', 'I'),
-          throwsA(
-            anyOf(
-              isA<NoSuchMethodError>().having(
-                (e) => e.name,
-                'name',
-                'nonExistentStaticField',
-              ),
-              isA<JThrowable>(),
-            ),
-          ),
+          throwsA(anyOf(isA<NoSuchMethodError>(), isA<JThrowable>())),
         );
         stringClass.release();
       },

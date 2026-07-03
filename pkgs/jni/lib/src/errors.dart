@@ -44,7 +44,7 @@ final class JNullError extends StateError {
 final class NoSuchMethodError extends StateError {
   final String name;
 
-  NoSuchMethodError(this.name) : super('No such method: $name');
+  NoSuchMethodError(this.name) : super('No such method or field: $name');
 }
 
 final class DoubleReleaseError extends StateError with _ExplainsRelease {
