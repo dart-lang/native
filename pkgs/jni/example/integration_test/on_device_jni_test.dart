@@ -15,6 +15,7 @@ import '../../test/jarray_test.dart' as jarray_test;
 import '../../test/boxed_test.dart' as boxed_test;
 import '../../test/load_test.dart' as load_test;
 import '../../test/isolate_test.dart' as isolate_test;
+import '../../test/no_such_method_test.dart' as no_such_method_test;
 
 void integrationTestRunner(String description, void Function() testCallback,
     {Object? skip}) {
@@ -35,6 +36,7 @@ void main() {
     boxed_test.run,
     load_test.run,
     isolate_test.run,
+    no_such_method_test.run,
   ];
   for (var testSuite in testSuites) {
     testSuite(testRunner: integrationTestRunner);
