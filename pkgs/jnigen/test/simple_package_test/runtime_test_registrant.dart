@@ -11,6 +11,7 @@ import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
 import '../test_util/callback_types.dart';
+import '../test_util/java_gc.dart';
 import 'bindings/simple_package.dart';
 
 void _jnigenConsumerIsolateEntry(
@@ -57,25 +58,6 @@ void _jnigenConsumerIsolateEntry(
 const pi = 3.14159;
 const fpDelta = 0.001;
 const trillion = 1024 * 1024 * 1024 * 1024;
-
-void _runJavaGC() {
-  final managementFactory = JClass.forName(
-    'java/lang/management/ManagementFactory',
-  );
-  final bean = managementFactory
-      .staticMethodId(
-    'getRuntimeMXBean',
-    '()Ljava/lang/management/RuntimeMXBean;',
-  )
-      .call(managementFactory, JObject.type, []);
-  final pid =
-      bean.jClass.instanceMethodId('getPid', '()J').call(bean, jlong.type, []);
-  ProcessResult result;
-  do {
-    result = Process.runSync('jcmd', [pid.toString(), 'GC.run']);
-    sleep(const Duration(milliseconds: 100));
-  } while (result.exitCode != 0);
-}
 
 Future<void> _waitUntil(bool Function() predicate) async {
   for (var i = 0; i < 8; ++i) {
@@ -616,7 +598,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(MyInterface.$impls, hasLength(1), skip: Platform.isAndroid);
           myInterface.release();
           if (!Platform.isAndroid) {
-            _runJavaGC();
+            runJavaGC();
             await _waitUntil(() => MyInterface.$impls.isEmpty);
             expect(MyInterface.$impls, isEmpty);
           }
@@ -660,7 +642,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
           myInterface.release();
           if (!Platform.isAndroid) {
-            _runJavaGC();
+            runJavaGC();
             await _waitUntil(() => MyInterface.$impls.isEmpty);
             // Since the interface is now deleted, the cleaner must signal to
             // Dart to clean up.
@@ -711,7 +693,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             runnable.release();
             runner.release();
             if (!Platform.isAndroid) {
-              _runJavaGC();
+              runJavaGC();
               await _waitUntil(() => MyInterface.$impls.isEmpty);
               // Since the interface is now deleted, the cleaner must signal to
               // Dart to clean up.
@@ -730,7 +712,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
           runnable.release();
           if (!Platform.isAndroid) {
-            _runJavaGC();
+            runJavaGC();
             await _waitUntil(() => MyInterface.$impls.isEmpty);
             expect(MyRunnable.$impls, isEmpty);
           }
@@ -763,7 +745,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             isolate.kill(priority: Isolate.immediate);
             await exitPort.first;
 
-            _runJavaGC();
+            runJavaGC();
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -798,7 +780,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            _runJavaGC();
+            runJavaGC();
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -835,7 +817,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            _runJavaGC();
+            runJavaGC();
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -865,7 +847,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             isolate.kill(priority: Isolate.immediate);
             await exitPort.first;
 
-            _runJavaGC();
+            runJavaGC();
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -900,7 +882,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            _runJavaGC();
+            runJavaGC();
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -937,7 +919,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            _runJavaGC();
+            runJavaGC();
             expect(runner.isArgCollected, isTrue);
           });
         });
@@ -990,7 +972,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 expect(cause.toString(), contains(exception.toString()));
               });
               if (!Platform.isAndroid) {
-                _runJavaGC();
+                runJavaGC();
               }
             });
           }
