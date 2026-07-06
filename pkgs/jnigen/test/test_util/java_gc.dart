@@ -9,17 +9,6 @@ import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 
 void runJavaGC() {
-  if (Platform.isAndroid) {
-    final systemClass = JClass.forName('java/lang/System');
-    final gcMethod = systemClass.staticMethodId('gc', '()V');
-    for (var i = 0; i < 3; i++) {
-      gcMethod.call(systemClass, jvoid.type, []);
-      sleep(const Duration(milliseconds: 100));
-    }
-    systemClass.release();
-    return;
-  }
-
   final managementFactory = JClass.forName(
     'java/lang/management/ManagementFactory',
   );
