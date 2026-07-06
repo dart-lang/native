@@ -18,21 +18,24 @@ public class MyConsumerRunner {
 
   public void runOnAnotherThread(Object arg) {
     this.weakArg = new WeakReference<>(arg);
-    this.thread = new Thread(new Runnable() {
-      private Object localArg = arg;
-      @Override
-      public void run() {
-        try {
-          consumer.consume(localArg);
-        } finally {
-          localArg = null;
-          synchronized (MyConsumerRunner.this) {
-            finished = true;
-            MyConsumerRunner.this.notifyAll();
-          }
-        }
-      }
-    });
+    this.thread =
+        new Thread(
+            new Runnable() {
+              private Object localArg = arg;
+
+              @Override
+              public void run() {
+                try {
+                  consumer.consume(localArg);
+                } finally {
+                  localArg = null;
+                  synchronized (MyConsumerRunner.this) {
+                    finished = true;
+                    MyConsumerRunner.this.notifyAll();
+                  }
+                }
+              }
+            });
     this.thread.start();
   }
 
