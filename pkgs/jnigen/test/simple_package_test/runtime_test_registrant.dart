@@ -6,11 +6,47 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
 import '../test_util/callback_types.dart';
 import 'bindings/simple_package.dart';
+
+void _jnigenConsumerIsolateEntry(
+    (
+      SendPort runnerPort,
+      SendPort callbackPort,
+      bool isAsync,
+      bool sleepBeforeExit,
+      bool busyWaitBeforeExit,
+    ) args) async {
+  final (runnerPort, callbackPort, isAsync, sleepBeforeExit, busyWaitBeforeExit) = args;
+  final consumer = MyConsumer.implement(
+    $MyConsumer(
+      consume: (arg) {
+        callbackPort.send('callback_executed');
+        arg?.release();
+      },
+      consume$async: isAsync,
+    ),
+  );
+  final runner = MyConsumerRunner(consumer);
+  // ignore: invalid_use_of_internal_member
+  final runnerRefPtr = Jni.env.NewGlobalRef(runner.reference.pointer);
+  runnerPort.send(runnerRefPtr.address);
+
+  if (sleepBeforeExit) {
+    await Future.delayed(const Duration(seconds: 10));
+  } else if (busyWaitBeforeExit) {
+    final stopwatch = Stopwatch()..start();
+    while (stopwatch.elapsed.inSeconds < 10) {
+      // Wait 10 seconds, but don't use Future.delayed. We specifically don't
+      // want to allow messages to arrive while we're waiting.
+    }
+  }
+  Isolate.current.kill();
+}
 
 const pi = 3.14159;
 const fpDelta = 0.001;
@@ -693,7 +729,216 @@ void registerTests(String groupName, TestRunnerCallback test) {
             expect(MyRunnable.$impls, isEmpty);
           }
         });
+
+        group('Interface implementation on destroyed isolate', () {
+          test('non-blocking callback - successful callback flow', () async {
+            final runnerPort = ReceivePort();
+            final callbackPort = ReceivePort();
+            final exitPort = ReceivePort();
+            final isolate = await Isolate.spawn(
+              _jnigenConsumerIsolateEntry,
+              (runnerPort.sendPort, callbackPort.sendPort, true, true, false),
+              onExit: exitPort.sendPort,
+            );
+            final runnerAddress = await runnerPort.first as int;
+            final runner = JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(runnerAddress)),
+            ).as(MyConsumerRunner.type);
+
+            final arg = 'testObject'.toJString();
+            runner.runOnAnotherThreadAndJoin(arg);
+            expect(runner.isArgCollected, isFalse);
+            arg.release();
+
+            final result = await callbackPort.first;
+            expect(result, 'callback_executed');
+            expect(runner.isFinished, isTrue);
+
+            isolate.kill(priority: Isolate.immediate);
+            await exitPort.first;
+
+            _runJavaGC();
+            expect(runner.isArgCollected, isTrue);
+          });
+
+          test('non-blocking callback - destroyed before message is sent',
+              () async {
+            final runnerPort = ReceivePort();
+            final callbackPort = ReceivePort();
+            final exitPort = ReceivePort();
+            await Isolate.spawn(
+              _jnigenConsumerIsolateEntry,
+              (runnerPort.sendPort, callbackPort.sendPort, true, false, false),
+              onExit: exitPort.sendPort,
+            );
+            final runnerAddress = await runnerPort.first as int;
+            final runner = JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(runnerAddress)),
+            ).as(MyConsumerRunner.type);
+
+            // Wait for the target isolate to exit before invoking the interface
+            // method.
+            await exitPort.first;
+            final arg = 'testObject'.toJString();
+            runner.runOnAnotherThreadAndJoin(arg);
+            expect(runner.isArgCollected, isFalse);
+            arg.release();
+
+            // Non blocking callback. Runner finished even though message isn't
+            // delivered.
+            expect(runner.isFinished, isTrue);
+            expect(
+              callbackPort.first.timeout(const Duration(milliseconds: 200)),
+              throwsA(isA<TimeoutException>()),
+            );
+
+            // BUG: Arg is leaked because undelivered message holds a reference.
+            _runJavaGC();
+            expect(runner.isArgCollected, isFalse);
+          });
+
+          test(
+              'non-blocking callback - destroyed after sending '
+              'but before handling', () async {
+            final runnerPort = ReceivePort();
+            final callbackPort = ReceivePort();
+            final exitPort = ReceivePort();
+            final isolate = await Isolate.spawn(
+              _jnigenConsumerIsolateEntry,
+              (runnerPort.sendPort, callbackPort.sendPort, true, false, true),
+              onExit: exitPort.sendPort,
+            );
+            final runnerAddress = await runnerPort.first as int;
+            final runner = JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(runnerAddress)),
+            ).as(MyConsumerRunner.type);
+
+            // Invoke the interface method then immediately kill the isolate.
+            final arg = 'testObject'.toJString();
+            runner.runOnAnotherThread(arg);
+            await Future.delayed(const Duration(milliseconds: 200));
+            isolate.kill(priority: Isolate.immediate);
+            await exitPort.first;
+            expect(runner.isArgCollected, isFalse);
+            arg.release();
+
+            // Non blocking callback. Runner finished even though message isn't
+            // delivered.
+            expect(runner.waitForFinished(1000), isTrue);
+            expect(
+              callbackPort.first.timeout(const Duration(milliseconds: 200)),
+              throwsA(isA<TimeoutException>()),
+            );
+
+            // BUG: Arg is leaked because undelivered message holds a reference.
+            _runJavaGC();
+            expect(runner.isArgCollected, isFalse);
+          });
+
+          test('blocking callback - successful callback flow', () async {
+            final runnerPort = ReceivePort();
+            final callbackPort = ReceivePort();
+            final exitPort = ReceivePort();
+            final isolate = await Isolate.spawn(
+              _jnigenConsumerIsolateEntry,
+              (runnerPort.sendPort, callbackPort.sendPort, false, true, false),
+              onExit: exitPort.sendPort,
+            );
+            final runnerAddress = await runnerPort.first as int;
+            final runner = JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(runnerAddress)),
+            ).as(MyConsumerRunner.type);
+
+            final arg = 'testObject'.toJString();
+            runner.runOnAnotherThread(arg);
+            expect(runner.isArgCollected, isFalse);
+            arg.release();
+
+            final result = await callbackPort.first;
+            expect(result, 'callback_executed');
+            expect(runner.waitForFinished(1000), isTrue);
+
+            isolate.kill(priority: Isolate.immediate);
+            await exitPort.first;
+
+            _runJavaGC();
+            expect(runner.isArgCollected, isTrue);
+          });
+
+          test('blocking callback - destroyed before message is sent',
+              () async {
+            final runnerPort = ReceivePort();
+            final callbackPort = ReceivePort();
+            final exitPort = ReceivePort();
+            await Isolate.spawn(
+              _jnigenConsumerIsolateEntry,
+              (runnerPort.sendPort, callbackPort.sendPort, false, false, false),
+              onExit: exitPort.sendPort,
+            );
+            final runnerAddress = await runnerPort.first as int;
+            final runner = JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(runnerAddress)),
+            ).as(MyConsumerRunner.type);
+
+            // Wait for the target isolate to exit before invoking the interface
+            // method.
+            await exitPort.first;
+            final arg = 'testObject'.toJString();
+            runner.runOnAnotherThread(arg);
+            expect(runner.isArgCollected, isFalse);
+            arg.release();
+
+            // Blocking callback. BUG: Runner never finishes.
+            expect(runner.waitForFinished(500), isFalse);
+            expect(
+              callbackPort.first.timeout(const Duration(milliseconds: 200)),
+              throwsA(isA<TimeoutException>()),
+            );
+
+            // BUG: Arg is leaked because undelivered message holds a reference.
+            _runJavaGC();
+            expect(runner.isArgCollected, isFalse);
+          });
+
+          test(
+              'blocking callback - destroyed after sending but before handling',
+              () async {
+            final runnerPort = ReceivePort();
+            final callbackPort = ReceivePort();
+            final exitPort = ReceivePort();
+            final isolate = await Isolate.spawn(
+              _jnigenConsumerIsolateEntry,
+              (runnerPort.sendPort, callbackPort.sendPort, false, false, true),
+              onExit: exitPort.sendPort,
+            );
+            final runnerAddress = await runnerPort.first as int;
+            final runner = JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(runnerAddress)),
+            ).as(MyConsumerRunner.type);
+
+            // Invoke the interface method then immediately kill the isolate.
+            final arg = 'testObject'.toJString();
+            runner.runOnAnotherThread(arg);
+            await Future.delayed(const Duration(milliseconds: 200));
+            isolate.kill(priority: Isolate.immediate);
+            await exitPort.first;
+            expect(runner.isArgCollected, isFalse);
+            arg.release();
+
+            // Blocking callback. BUG: Runner never finishes.
+            expect(runner.waitForFinished(500), isFalse);
+            expect(
+              callbackPort.first.timeout(const Duration(milliseconds: 200)),
+              throwsA(isA<TimeoutException>()),
+            );
+
+            // BUG: Arg is leaked because undelivered message holds a reference.
+            _runJavaGC();
+            expect(runner.isArgCollected, isFalse);
+          });
+        });
       }
+
       group('Dart exceptions are handled', () {
         for (final exception in [UnimplementedError(), 'Hello!']) {
           for (final sameThread in [true, false]) {
