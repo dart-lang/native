@@ -21,7 +21,13 @@ void _jnigenConsumerIsolateEntry(
       bool sleepBeforeExit,
       bool busyWaitBeforeExit,
     ) args) async {
-  final (runnerPort, callbackPort, isAsync, sleepBeforeExit, busyWaitBeforeExit) = args;
+  final (
+    runnerPort,
+    callbackPort,
+    isAsync,
+    sleepBeforeExit,
+    busyWaitBeforeExit
+  ) = args;
   final consumer = MyConsumer.implement(
     $MyConsumer(
       consume: (arg) {
@@ -37,7 +43,7 @@ void _jnigenConsumerIsolateEntry(
   runnerPort.send(runnerRefPtr.address);
 
   if (sleepBeforeExit) {
-    await Future.delayed(const Duration(seconds: 10));
+    await Future<void>.delayed(const Duration(seconds: 10));
   } else if (busyWaitBeforeExit) {
     final stopwatch = Stopwatch()..start();
     while (stopwatch.elapsed.inSeconds < 10) {
@@ -784,17 +790,16 @@ void registerTests(String groupName, TestRunnerCallback test) {
             expect(runner.isArgCollected, isFalse);
             arg.release();
 
-            // Non blocking callback. Runner finished even though message isn't
-            // delivered.
+            // Runner finished even though message isn't delivered.
             expect(runner.isFinished, isTrue);
             expect(
               callbackPort.first.timeout(const Duration(milliseconds: 200)),
               throwsA(isA<TimeoutException>()),
             );
 
-            // BUG: Arg is leaked because undelivered message holds a reference.
+            // Arg is cleaned up even though message isn't delivered.
             _runJavaGC();
-            expect(runner.isArgCollected, isFalse);
+            expect(runner.isArgCollected, isTrue);
           });
 
           test(
@@ -816,23 +821,22 @@ void registerTests(String groupName, TestRunnerCallback test) {
             // Invoke the interface method then immediately kill the isolate.
             final arg = 'testObject'.toJString();
             runner.runOnAnotherThread(arg);
-            await Future.delayed(const Duration(milliseconds: 200));
+            await Future<void>.delayed(const Duration(milliseconds: 200));
             isolate.kill(priority: Isolate.immediate);
             await exitPort.first;
             expect(runner.isArgCollected, isFalse);
             arg.release();
 
-            // Non blocking callback. Runner finished even though message isn't
-            // delivered.
+            // Runner finished even though message isn't delivered.
             expect(runner.waitForFinished(1000), isTrue);
             expect(
               callbackPort.first.timeout(const Duration(milliseconds: 200)),
               throwsA(isA<TimeoutException>()),
             );
 
-            // BUG: Arg is leaked because undelivered message holds a reference.
+            // Arg is cleaned up even though message isn't delivered.
             _runJavaGC();
-            expect(runner.isArgCollected, isFalse);
+            expect(runner.isArgCollected, isTrue);
           });
 
           test('blocking callback - successful callback flow', () async {
@@ -888,16 +892,16 @@ void registerTests(String groupName, TestRunnerCallback test) {
             expect(runner.isArgCollected, isFalse);
             arg.release();
 
-            // Blocking callback. BUG: Runner never finishes.
-            expect(runner.waitForFinished(500), isFalse);
+            // Runner finished even though message isn't delivered.
+            expect(runner.waitForFinished(1000), isTrue);
             expect(
               callbackPort.first.timeout(const Duration(milliseconds: 200)),
               throwsA(isA<TimeoutException>()),
             );
 
-            // BUG: Arg is leaked because undelivered message holds a reference.
+            // Arg is cleaned up even though message isn't delivered.
             _runJavaGC();
-            expect(runner.isArgCollected, isFalse);
+            expect(runner.isArgCollected, isTrue);
           });
 
           test(
@@ -919,22 +923,22 @@ void registerTests(String groupName, TestRunnerCallback test) {
             // Invoke the interface method then immediately kill the isolate.
             final arg = 'testObject'.toJString();
             runner.runOnAnotherThread(arg);
-            await Future.delayed(const Duration(milliseconds: 200));
+            await Future<void>.delayed(const Duration(milliseconds: 200));
             isolate.kill(priority: Isolate.immediate);
             await exitPort.first;
             expect(runner.isArgCollected, isFalse);
             arg.release();
 
-            // Blocking callback. BUG: Runner never finishes.
-            expect(runner.waitForFinished(500), isFalse);
+            // Runner finished even though message isn't delivered.
+            expect(runner.waitForFinished(1000), isTrue);
             expect(
               callbackPort.first.timeout(const Duration(milliseconds: 200)),
               throwsA(isA<TimeoutException>()),
             );
 
-            // BUG: Arg is leaked because undelivered message holds a reference.
+            // Arg is cleaned up even though message isn't delivered.
             _runJavaGC();
-            expect(runner.isArgCollected, isFalse);
+            expect(runner.isArgCollected, isTrue);
           });
         });
       }
