@@ -103,6 +103,7 @@ extension type CanDoA._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -245,6 +246,7 @@ extension type CanDoB._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -490,6 +492,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -9548,6 +9551,7 @@ extension type NIFlutterIntegrationCoreApi._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -38120,6 +38124,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(

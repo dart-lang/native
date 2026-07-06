@@ -524,7 +524,9 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
       }
       final \$i = $_methodInvocation.fromMessage(\$m);
       final \$r = _\$invokeMethod(\$p.sendPort.nativePort, \$i);
+      \$i.args?.release();
       $_protectedExtension.returnResult(\$i.result, \$r);
+
     });
     implementer.add(
       r'${node.binaryName}',

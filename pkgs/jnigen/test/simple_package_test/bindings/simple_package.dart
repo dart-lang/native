@@ -4234,6 +4234,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -4662,6 +4663,7 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -4946,6 +4948,7 @@ extension type InheritedFromMyRunnable._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -5472,6 +5475,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -5913,6 +5917,7 @@ extension type MyRunnable._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6242,6 +6247,7 @@ extension type StringConverter._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6514,6 +6520,7 @@ extension type Animal._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6732,6 +6739,7 @@ extension type BaseGenericInterface<$T extends jni$_.JObject?>._(
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6887,6 +6895,7 @@ extension type BaseInterface._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7175,6 +7184,7 @@ extension type DerivedInterface._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7381,6 +7391,7 @@ extension type Dog._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7633,6 +7644,7 @@ extension type FourLegged._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7830,6 +7842,7 @@ extension type Furry._(jni$_.JObject _$this) implements jni$_.JObject, Mammal {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -8099,6 +8112,7 @@ extension type Mammal._(jni$_.JObject _$this) implements jni$_.JObject, Animal {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10408,6 +10422,7 @@ extension type JsonSerializable._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10585,6 +10600,7 @@ extension type NotNull._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10681,6 +10697,7 @@ extension type Nullable._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10783,6 +10800,7 @@ extension type R2250$Child._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10925,6 +10943,7 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
