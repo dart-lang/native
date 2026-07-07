@@ -8,6 +8,7 @@ export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
         DOBJC_Context,
+        DOBJC_ListenerInvocation,
         Dart_FinalizableHandle_,
         ObjCBlockDesc,
         ObjCBlockImpl,

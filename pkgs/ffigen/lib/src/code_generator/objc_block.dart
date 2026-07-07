@@ -226,18 +226,20 @@ class ObjCBlock extends BindingType with HasLocalScope {
   return $convFnInvocation;
 }''';
 
-    // Write the listener args struct, once per unique block signature. It
-    // mirrors the C struct emitted into the ObjC bindings, which packs the
-    // arguments of one listener block invocation so they can be delivered
-    // through a Dart port.
+    // Dart mirror of the C listener invocation struct, emitted once per
+    // signature.
     final wrappers = _blockWrappers;
     if (wrappers != null &&
         params.isNotEmpty &&
         !wrappers.dartArgsStructGenerated) {
       wrappers.dartArgsStructGenerated = true;
+      final invocationType = ObjCBuiltInFunctions.listenerInvocationType.gen(
+        context,
+      );
       s.write('''
 
 final class ${wrappers.argsStructName} extends $ffiPrefix.Struct {
+  external $invocationType invocation;
 ''');
       for (var i = 0; i < wrappers.argTypes.length; ++i) {
         final t = wrappers.argTypes[i];
@@ -285,59 +287,45 @@ abstract final class $name {
 
     // Listener block constructor is only available for void blocks.
     if (hasListener) {
-      // This snippet is the same as the convFn above, except that the params
-      // don't need to be retained because they've already been retained by
-      // _blockWrappers.listenerWrapper.
-      final listenerConvertedFnArgs = params
-          .map(
-            (p) => p.type.convertFfiDartTypeToDartType(
-              context,
-              p.name,
-              objCRetain: false,
-            ),
-          )
-          .join(', ');
-      final listenerLocalVars = LocalVariables(localScope);
-      final listenerConvFnInvocation = returnType.convertDartTypeToFfiDartType(
+      // Converts the FfiDart args produced by src to Dart types, without
+      // retaining them: the ObjC wrapper already retained them.
+      String convertedArgs(String Function(int i) src) => [
+        for (var i = 0; i < params.length; ++i)
+          params[i].type.convertFfiDartTypeToDartType(
+            context,
+            src(i),
+            objCRetain: false,
+          ),
+      ].join(', ');
+
+      // Same as convFn above, but without retains.
+      final blockingLocalVars = LocalVariables(localScope);
+      final blockingConvFnInvocation = returnType.convertDartTypeToFfiDartType(
         context,
-        'fn($listenerConvertedFnArgs)',
+        'fn(${convertedArgs((i) => params[i].name)})',
         objCRetain: true,
         objCAutorelease: !returnsRetained,
-        localVariables: listenerLocalVars,
+        localVariables: blockingLocalVars,
       );
-      final listenerConvFn =
+      final blockingConvFn =
           '''
 (${_helper.paramsFfiDartType}) {
-  ${listenerLocalVars.generateDeclarations()}
-  return $listenerConvFnInvocation;
+  ${blockingLocalVars.generateDeclarations()}
+  return $blockingConvFnInvocation;
 }''';
-      final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
-      final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
+      final wrapListenerFn = wrappers!.listenerWrapper.name;
+      final wrapBlockingFn = wrappers.blockingWrapper.name;
 
-      // The listener closure receives a pointer to the packed-args struct
-      // created by the ObjC wrapper, unpacks it, and calls the user function.
-      // Ownership of any retained ObjC arguments is adopted by the unpacked
-      // Dart wrapper objects. The args struct itself is freed by the invoker
-      // in package:objective_c after this closure returns.
+      // Closure that unpacks the invocation struct posted by the ObjC wrapper
+      // and calls fn. package:objective_c frees the struct after it returns.
       final String listenerRawFn;
       if (params.isEmpty) {
         listenerRawFn = '($voidPtrCType _) { fn(); }';
       } else {
-        final argsStructName = _blockWrappers!.argsStructName;
-        final unpackedArgs = <String>[];
-        for (var i = 0; i < params.length; ++i) {
-          unpackedArgs.add(
-            params[i].type.convertFfiDartTypeToDartType(
-              context,
-              'args.arg$i',
-              objCRetain: false,
-            ),
-          );
-        }
         listenerRawFn =
-            '''($voidPtrCType rawArgs) {
-      final args = rawArgs.cast<$argsStructName>().ref;
-      fn(${unpackedArgs.join(', ')});
+            '''($voidPtrCType invocation) {
+      final args = invocation.cast<${wrappers.argsStructName}>().ref;
+      fn(${convertedArgs((i) => 'args.arg$i')});
     }''';
       }
 
@@ -345,10 +333,9 @@ abstract final class $name {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -373,10 +360,10 @@ abstract final class $name {
   static $blockType blocking(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
     final raw = $newClosureBlock($blockingCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
+        $blockingConvFn, keepIsolateAlive);
     final rawListener = $newClosureBlock(
         $blockingListenerCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
+        $blockingConvFn, keepIsolateAlive);
     final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
@@ -481,33 +468,29 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     final argsReceived = <String>[];
     final retains = <String>[];
-    // C fields, pack statements, and dispose statements for the listener
-    // packed-args struct. Retained args (ObjC objects and blocks) are stored
-    // as void* at +1; everything else is copied verbatim.
+    // Listener invocation struct fields, pack statements, and dispose
+    // statements. Retained args (ObjC objects and blocks) are stored as
+    // void* at +1.
     final argsStructFields = <String>[];
     final argsPacks = <String>[];
     final argsDisposes = <String>[];
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
-      argsReceived.add(param.getNativeType(context, varName: argName));
+      final nativeType = param.getNativeType(context, varName: argName);
+      argsReceived.add(nativeType);
       final retain = param.type.generateRetain(argName);
       retains.add(retain ?? argName);
       if (retain != null) {
         argsStructFields.add('void *$argName;');
-        // The struct owns a +1 reference to the arg. For consumed params, the
-        // wrapper's ns_consumed attribute makes ARC release the incoming +1
-        // at the end of the wrapper body, so take an extra retain (via
-        // __bridge_retained) to keep the packed reference alive. This matches
-        // the old trampoline behavior, where the call through the raw block's
-        // ns_consumed signature made ARC retain the arg at the call site.
+        // For consumed params, ARC releases the incoming +1 at the end of the
+        // wrapper body (ns_consumed), so __bridge_retained takes an extra
+        // retain to keep the packed reference at +1.
         final bridge = param.objCConsumed ? '__bridge_retained' : '__bridge';
         argsPacks.add('args->$argName = ($bridge void*)($retain);');
         argsDisposes.add('(void)(__bridge_transfer id)(args->$argName);');
       } else {
-        argsStructFields.add(
-          '${param.getNativeType(context, varName: argName)};',
-        );
+        argsStructFields.add('$nativeType;');
         argsPacks.add('args->$argName = $argName;');
       }
     }
@@ -532,41 +515,43 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     final s = StringBuffer();
 
-    // The listener packed-args struct, its dispose function, and the wrapper
-    // that packs one invocation's args and posts them to the block's owner
-    // isolate. The dispose function releases the retained args, and is only
-    // run (by package:objective_c) if the invocation is not delivered; on
-    // delivery the Dart side adopts ownership instead.
+    // The listener invocation struct (a DOBJC_ListenerInvocation header
+    // followed by the packed args), its dispose function (run only for
+    // undelivered invocations), and the pack-and-post wrapper.
     final argsStructName = _blockWrappers!.argsStructName;
     final argsDisposeName = '${argsStructName}_dispose';
-    var argsPtr = 'NULL';
+    final String makeInvocation;
     var disposePtr = 'NULL';
-    if (params.isNotEmpty) {
+    if (params.isEmpty) {
+      makeInvocation = '''
+    DOBJC_ListenerInvocation *invocation =
+        (DOBJC_ListenerInvocation *)malloc(sizeof(DOBJC_ListenerInvocation));
+    invocation->dispose = NULL;''';
+    } else {
       s.write('''
 
 typedef struct {
+  DOBJC_ListenerInvocation invocation;
   ${argsStructFields.join('\n  ')}
 } $argsStructName;
 ''');
-      argsPtr = 'args';
       if (argsDisposes.isNotEmpty) {
         disposePtr = '&$argsDisposeName';
         s.write('''
 
-static void $argsDisposeName(void *p) {
-  $argsStructName *args = ($argsStructName *)p;
+static void $argsDisposeName(DOBJC_ListenerInvocation *invocation) {
+  $argsStructName *args = ($argsStructName *)invocation;
   ${argsDisposes.join('\n  ')}
 }
 ''');
       }
-    }
-
-    final packArgs = params.isEmpty
-        ? ''
-        : '''
-
+      makeInvocation =
+          '''
     $argsStructName *args = ($argsStructName *)malloc(sizeof($argsStructName));
-    ${argsPacks.join('\n    ')}''';
+    args->invocation.dispose = $disposePtr;
+    ${argsPacks.join('\n    ')}
+    DOBJC_ListenerInvocation *invocation = &args->invocation;''';
+    }
 
     s.write('''
 
@@ -575,8 +560,9 @@ __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper(
     $listenerName block, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
-  return ^void($argStr) {$packArgs
-    ctx->postListenerInvocation((__bridge void*)block, $argsPtr, $disposePtr);
+  return ^void($argStr) {
+$makeInvocation
+    ctx->postListenerInvocation((__bridge void*)block, invocation);
   };
 }
 

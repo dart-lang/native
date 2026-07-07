@@ -11,6 +11,12 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
+// Duplicated from package:objective_c's objective_c.h. Keep in sync.
+typedef struct _DOBJC_ListenerInvocation {
+  void *block;
+  void (*dispose)(struct _DOBJC_ListenerInvocation *invocation);
+} DOBJC_ListenerInvocation;
+
 typedef struct {
   int64_t version;
   void* (*newWaiter)(void);
@@ -21,7 +27,7 @@ typedef struct {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   // Version 2 additions:
-  void (*postListenerInvocation)(void*, void*, void (*)(void*));
+  void (*postListenerInvocation)(void*, DOBJC_ListenerInvocation*);
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -53,6 +59,7 @@ id objc_retainBlock(id);
 
 
 typedef struct {
+  DOBJC_ListenerInvocation invocation;
   int32_t arg0;
 } _rdx59v_ListenerArgs_1bqef4y;
 
@@ -63,8 +70,10 @@ _ListenerTrampoline _rdx59v_wrapListenerBlock_1bqef4y(
   NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(int32_t arg0) {
     _rdx59v_ListenerArgs_1bqef4y *args = (_rdx59v_ListenerArgs_1bqef4y *)malloc(sizeof(_rdx59v_ListenerArgs_1bqef4y));
+    args->invocation.dispose = NULL;
     args->arg0 = arg0;
-    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
+    DOBJC_ListenerInvocation *invocation = &args->invocation;
+    ctx->postListenerInvocation((__bridge void*)block, invocation);
   };
 }
 

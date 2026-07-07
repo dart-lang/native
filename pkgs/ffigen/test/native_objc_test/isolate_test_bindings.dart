@@ -35,6 +35,7 @@ external ffi.Pointer<objc.ObjCBlockImpl> _rdx59v_wrapListenerBlock_1bqef4y(
 );
 
 final class _rdx59v_ListenerArgs_1bqef4y extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   @ffi.Int32()
   external int arg0;
 }
@@ -87,10 +88,9 @@ abstract final class ObjCBlock_ffiVoid_Int32 {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -98,8 +98,8 @@ abstract final class ObjCBlock_ffiVoid_Int32 {
     void Function(int) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_rdx59v_ListenerArgs_1bqef4y>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_rdx59v_ListenerArgs_1bqef4y>().ref;
       fn(args.arg0);
     }, keepIsolateAlive);
     final wrapper = _rdx59v_wrapListenerBlock_1bqef4y(raw, objc.objCContext);

@@ -28019,10 +28019,9 @@ abstract final class ObjCBlock_ffiVoid {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -28155,6 +28154,7 @@ extension ObjCBlock_ffiVoid$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_pfv6jd extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCObjectImpl> arg0;
   external ffi.Pointer<objc.ObjCObjectImpl> arg1;
 }
@@ -28226,10 +28226,9 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -28237,8 +28236,8 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
     void Function(NSData?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
       fn(
         args.arg0.address == 0
             ? null
@@ -28450,6 +28449,7 @@ extension ObjCBlock_ffiVoid_NSData_NSError$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_1b3bb6a extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCBlockImpl> arg0;
   external ffi.Pointer<objc.ObjCObjectImpl> arg1;
   external ffi.Pointer<objc.ObjCObjectImpl> arg2;
@@ -28581,10 +28581,9 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_Class_NSD
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -28608,8 +28607,8 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_Class_NSD
     fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_1b3bb6a>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_1b3bb6a>().ref;
       fn(
         ObjCBlock_ffiVoid_idNSSecureCoding_NSError.fromPointer(
           args.arg0,
@@ -28875,6 +28874,7 @@ extension ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_Class_NSDictionary$C
 }
 
 final class _1wx624s_ListenerArgs_zkjmn1 extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external NSRange arg0;
   external ffi.Pointer<ffi.Bool> arg1;
 }
@@ -28938,10 +28938,9 @@ abstract final class ObjCBlock_ffiVoid_NSRange_bool {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -28950,8 +28949,8 @@ abstract final class ObjCBlock_ffiVoid_NSRange_bool {
     void Function(NSRange, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_zkjmn1>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_zkjmn1>().ref;
       fn(args.arg0, args.arg1);
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_zkjmn1(raw, objc.objCContext);
@@ -29120,6 +29119,7 @@ extension ObjCBlock_ffiVoid_NSRange_bool$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_lmc3p5 extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCObjectImpl> arg0;
   external NSRange arg1;
   external NSRange arg2;
@@ -29210,10 +29210,9 @@ abstract final class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -29224,8 +29223,8 @@ abstract final class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool {
     void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_lmc3p5>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_lmc3p5>().ref;
       fn(
         args.arg0.address == 0
             ? null
@@ -29470,6 +29469,7 @@ extension ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_t8l8el extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCObjectImpl> arg0;
   external ffi.Pointer<ffi.Bool> arg1;
 }
@@ -29536,10 +29536,9 @@ abstract final class ObjCBlock_ffiVoid_NSString_bool {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -29548,8 +29547,8 @@ abstract final class ObjCBlock_ffiVoid_NSString_bool {
     void Function(NSString, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_t8l8el>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_t8l8el>().ref;
       fn(
         NSString.fromPointer(args.arg0, retain: false, release: true),
         args.arg1,
@@ -29736,6 +29735,7 @@ extension ObjCBlock_ffiVoid_NSString_bool$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_xtuoz7 extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCObjectImpl> arg0;
 }
 
@@ -29794,10 +29794,9 @@ abstract final class ObjCBlock_ffiVoid_NSTimer {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -29805,8 +29804,8 @@ abstract final class ObjCBlock_ffiVoid_NSTimer {
     void Function(NSTimer) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_xtuoz7>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_xtuoz7>().ref;
       fn(NSTimer.fromPointer(args.arg0, retain: false, release: true));
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_xtuoz7(raw, objc.objCContext);
@@ -29963,6 +29962,7 @@ extension ObjCBlock_ffiVoid_NSTimer$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_q5jeyk extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   @ffi.UnsignedLong()
   external int arg0;
   external ffi.Pointer<ffi.Bool> arg1;
@@ -30038,10 +30038,9 @@ abstract final class ObjCBlock_ffiVoid_NSUInteger_bool {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -30052,8 +30051,8 @@ abstract final class ObjCBlock_ffiVoid_NSUInteger_bool {
     void Function(int, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_q5jeyk>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_q5jeyk>().ref;
       fn(args.arg0, args.arg1);
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_q5jeyk(raw, objc.objCContext);
@@ -30289,10 +30288,9 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -30300,8 +30298,8 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
     void Function(NSURL?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
       fn(
         args.arg0.address == 0
             ? null
@@ -30513,6 +30511,7 @@ extension ObjCBlock_ffiVoid_NSURL_NSError$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_rnu2c5 extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCObjectImpl> arg0;
   @ffi.Bool()
   external bool arg1;
@@ -30591,10 +30590,9 @@ abstract final class ObjCBlock_ffiVoid_NSURL_bool_NSError {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -30602,8 +30600,8 @@ abstract final class ObjCBlock_ffiVoid_NSURL_bool_NSError {
     void Function(NSURL?, bool, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_rnu2c5>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_rnu2c5>().ref;
       fn(
         args.arg0.address == 0
             ? null
@@ -30833,6 +30831,7 @@ extension ObjCBlock_ffiVoid_NSURL_bool_NSError$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_ovsamd extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<ffi.Void> arg0;
 }
 
@@ -30888,10 +30887,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -30899,8 +30897,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
     void Function(ffi.Pointer<ffi.Void>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_ovsamd>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_ovsamd>().ref;
       fn(args.arg0);
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_ovsamd(raw, objc.objCContext);
@@ -31050,6 +31048,7 @@ extension ObjCBlock_ffiVoid_ffiVoid$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_18v1jvf extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<ffi.Void> arg0;
   external ffi.Pointer<objc.ObjCObjectImpl> arg1;
 }
@@ -31116,10 +31115,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -31128,8 +31126,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
     void Function(ffi.Pointer<ffi.Void>, NSCoder) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_18v1jvf>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_18v1jvf>().ref;
       fn(
         args.arg0,
         NSCoder.fromPointer(args.arg1, retain: false, release: true),
@@ -31380,10 +31378,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSPortMessage {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -31392,8 +31389,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSPortMessage {
     void Function(ffi.Pointer<ffi.Void>, NSPortMessage) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_18v1jvf>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_18v1jvf>().ref;
       fn(
         args.arg0,
         NSPortMessage.fromPointer(args.arg1, retain: false, release: true),
@@ -31579,6 +31576,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSPortMessage$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_1q8ia8l extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<ffi.Void> arg0;
   external NSRange arg1;
   external ffi.Pointer<ffi.Bool> arg2;
@@ -31659,10 +31657,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -31673,8 +31670,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool {
     void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_1q8ia8l>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_1q8ia8l>().ref;
       fn(args.arg0, args.arg1, args.arg2);
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_1q8ia8l(raw, objc.objCContext);
@@ -31878,6 +31875,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSRange_bool$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_hoampi extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<ffi.Void> arg0;
   external ffi.Pointer<objc.ObjCObjectImpl> arg1;
   @ffi.UnsignedLong()
@@ -31963,10 +31961,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -31977,8 +31974,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
     void Function(ffi.Pointer<ffi.Void>, NSStream, int) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_hoampi>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_hoampi>().ref;
       fn(
         args.arg0,
         NSStream.fromPointer(args.arg1, retain: false, release: true),
@@ -32195,6 +32192,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_1sr3ozv extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<ffi.Void> arg0;
   external ffi.Pointer<objc.ObjCObjectImpl> arg1;
   external ffi.Pointer<objc.ObjCObjectImpl> arg2;
@@ -32330,10 +32328,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_id_NSDictionary_ffiVoid 
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -32357,8 +32354,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_id_NSDictionary_ffiVoid 
     fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_1sr3ozv>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_1sr3ozv>().ref;
       fn(
         args.arg0,
         NSString.fromPointer(args.arg1, retain: false, release: true),
@@ -32658,6 +32655,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSString_id_NSDictionary_ffiVoid$CallExtensi
 }
 
 final class _1wx624s_ListenerArgs_zuf90e extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<ffi.Void> arg0;
   @ffi.UnsignedLong()
   external int arg1;
@@ -32733,10 +32731,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUInteger {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -32747,8 +32744,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUInteger {
     void Function(ffi.Pointer<ffi.Void>, int) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_zuf90e>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_zuf90e>().ref;
       fn(args.arg0, args.arg1);
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_zuf90e(raw, objc.objCContext);
@@ -33001,10 +32998,9 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -33015,8 +33011,8 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
     void Function(NSItemProviderReading?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
       fn(
         args.arg0.address == 0
             ? null
@@ -33325,10 +33321,9 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -33339,8 +33334,8 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
     void Function(NSItemProviderWriting?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
       fn(
         args.arg0.address == 0
             ? null
@@ -33643,10 +33638,9 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -33657,8 +33651,8 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
     void Function(NSSecureCoding?, NSError) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_pfv6jd>().ref;
       fn(
         args.arg0.address == 0
             ? null
@@ -33947,10 +33941,9 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_bool {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -33961,8 +33954,8 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_bool {
     void Function(objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_t8l8el>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_t8l8el>().ref;
       fn(objc.ObjCObject(args.arg0, retain: false, release: true), args.arg1);
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_t8l8el(raw, objc.objCContext);
@@ -34147,6 +34140,7 @@ extension ObjCBlock_ffiVoid_objcObjCObjectImpl_bool$CallExtension
 }
 
 final class _1wx624s_ListenerArgs_1p9ui4q extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCObjectImpl> arg0;
   @ffi.UnsignedLong()
   external int arg1;
@@ -34256,10 +34250,9 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -34274,8 +34267,8 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool {
     void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_1p9ui4q>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_1p9ui4q>().ref;
       fn(
         objc.ObjCObject(args.arg0, retain: false, release: true),
         args.arg1,
@@ -34508,6 +34501,7 @@ extension ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool$CallExtensio
 }
 
 final class _1wx624s_ListenerArgs_1o83rbn extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<objc.ObjCObjectImpl> arg0;
   external ffi.Pointer<objc.ObjCObjectImpl> arg1;
   external ffi.Pointer<ffi.Bool> arg2;
@@ -34616,10 +34610,9 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_objcObjCObjectImpl_boo
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -34634,8 +34627,8 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_objcObjCObjectImpl_boo
     void Function(objc.ObjCObject, objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_1o83rbn>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_1o83rbn>().ref;
       fn(
         objc.ObjCObject(args.arg0, retain: false, release: true),
         objc.ObjCObject(args.arg1, retain: false, release: true),
@@ -34870,6 +34863,7 @@ extension ObjCBlock_ffiVoid_objcObjCObjectImpl_objcObjCObjectImpl_bool$CallExten
 }
 
 final class _1wx624s_ListenerArgs_vhbh5h extends ffi.Struct {
+  external objc.DOBJC_ListenerInvocation invocation;
   external ffi.Pointer<ffi.UnsignedShort> arg0;
   @ffi.UnsignedLong()
   external int arg1;
@@ -34948,10 +34942,9 @@ abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
   /// Creates a listener block from a Dart function.
   ///
   /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously: invocations are delivered to
-  /// the isolate that created the block through a port, and run on its event
-  /// loop. If that isolate has shut down when the block is invoked, the
-  /// invocation is safely dropped and its resources are freed.
+  /// functions, and is not run synchronously: invocations are delivered
+  /// asynchronously to the isolate that created the block. Invocations that
+  /// arrive after that isolate has shut down are silently dropped.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
@@ -34962,8 +34955,8 @@ abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
     void Function(ffi.Pointer<ffi.UnsignedShort>, int) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> rawArgs) {
-      final args = rawArgs.cast<_1wx624s_ListenerArgs_vhbh5h>().ref;
+    final raw = objc.newListenerBlock((ffi.Pointer<ffi.Void> invocation) {
+      final args = invocation.cast<_1wx624s_ListenerArgs_vhbh5h>().ref;
       fn(args.arg0, args.arg1);
     }, keepIsolateAlive);
     final wrapper = _1wx624s_wrapListenerBlock_vhbh5h(raw, objc.objCContext);

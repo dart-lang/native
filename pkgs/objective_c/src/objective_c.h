@@ -31,31 +31,27 @@ typedef struct _ObjCBlockImpl {
   Dart_Port invoke_port;  // Only set for listener blocks. 0 otherwise.
 } ObjCBlockImpl;
 
-// Frees the resources held by a listener invocation's packed-args struct
-// (releases any retained ObjC arguments). Generated per block signature by
-// FFIgen. Does not free the args struct's own memory.
-typedef void (*DOBJC_ListenerArgsDispose)(void *args);
-
-// A single in-flight listener block invocation, posted to the block's
-// invoke_port as a Dart_CObject_kNativePointer.
+// One in-flight listener block invocation. FFIgen emits this as the leading
+// member of a per-signature malloc'd struct whose remaining members are the
+// packed (retained) args. Keep in sync with the copy in FFIgen's writer.dart.
 typedef struct _DOBJC_ListenerInvocation {
-  ObjCBlockImpl *block;                    // Retained.
-  void *args;                              // malloc'd. NULL for 0-arg blocks.
-  DOBJC_ListenerArgsDispose dispose_args;  // NULL iff args is NULL.
+  void *block;  // The retained raw listener block. Set by
+                // DOBJC_postListenerInvocation.
+  // Releases the retained args, without freeing the struct. Generated per
+  // block signature by FFIgen. May be NULL.
+  void (*dispose)(struct _DOBJC_ListenerInvocation *invocation);
 } DOBJC_ListenerInvocation;
 
 // Delivers a listener block invocation to the block's owner isolate via
-// invoke_port. Safe to call from any thread, and safe to call after the owner
-// isolate has shut down: an undeliverable invocation is cleaned up (args
-// disposed, block released) by the message's finalizer instead of crashing.
+// invoke_port. Safe to call from any thread, including after the owner
+// isolate has shut down: undeliverable invocations are disposed and freed.
+// Takes ownership of the malloc'd invocation.
 // See https://github.com/dart-lang/native/issues/3265.
-FFI_EXPORT void DOBJC_postListenerInvocation(ObjCBlockImpl *block, void *args,
-                                             DOBJC_ListenerArgsDispose dispose_args);
+FFI_EXPORT void DOBJC_postListenerInvocation(ObjCBlockImpl *block,
+                                             DOBJC_ListenerInvocation *invocation);
 
-// Invoke stub used as the `invoke` pointer of raw listener blocks. Never
-// called: raw listener blocks are always wrapped by a generated ObjC block
-// that delivers invocations via DOBJC_postListenerInvocation instead. The
-// Block runtime requires a valid invoke pointer to copy a block.
+// No-op invoke pointer for raw listener blocks; invocations are delivered via
+// DOBJC_postListenerInvocation. The Block runtime requires a non-NULL invoke.
 FFI_EXPORT void DOBJC_listenerBlockInvokeStub(void);
 
 // Initialize the Dart API.
@@ -108,8 +104,7 @@ typedef struct _DOBJC_Context {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   // Version 2 additions:
-  void (*postListenerInvocation)(ObjCBlockImpl*, void*,
-                                 DOBJC_ListenerArgsDispose);
+  void (*postListenerInvocation)(ObjCBlockImpl*, DOBJC_ListenerInvocation*);
 } DOBJC_Context;
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context);
 

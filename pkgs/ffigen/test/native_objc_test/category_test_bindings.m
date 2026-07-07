@@ -12,6 +12,12 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
+// Duplicated from package:objective_c's objective_c.h. Keep in sync.
+typedef struct _DOBJC_ListenerInvocation {
+  void *block;
+  void (*dispose)(struct _DOBJC_ListenerInvocation *invocation);
+} DOBJC_ListenerInvocation;
+
 typedef struct {
   int64_t version;
   void* (*newWaiter)(void);
@@ -22,7 +28,7 @@ typedef struct {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   // Version 2 additions:
-  void (*postListenerInvocation)(void*, void*, void (*)(void*));
+  void (*postListenerInvocation)(void*, DOBJC_ListenerInvocation*);
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -54,12 +60,13 @@ id objc_retainBlock(id);
 
 
 typedef struct {
+  DOBJC_ListenerInvocation invocation;
   void *arg0;
   void *arg1;
 } _l3cf7j_ListenerArgs_pfv6jd;
 
-static void _l3cf7j_ListenerArgs_pfv6jd_dispose(void *p) {
-  _l3cf7j_ListenerArgs_pfv6jd *args = (_l3cf7j_ListenerArgs_pfv6jd *)p;
+static void _l3cf7j_ListenerArgs_pfv6jd_dispose(DOBJC_ListenerInvocation *invocation) {
+  _l3cf7j_ListenerArgs_pfv6jd *args = (_l3cf7j_ListenerArgs_pfv6jd *)invocation;
   (void)(__bridge_transfer id)(args->arg0);
   (void)(__bridge_transfer id)(args->arg1);
 }
@@ -71,9 +78,11 @@ _ListenerTrampoline _l3cf7j_wrapListenerBlock_pfv6jd(
   NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(id arg0, id arg1) {
     _l3cf7j_ListenerArgs_pfv6jd *args = (_l3cf7j_ListenerArgs_pfv6jd *)malloc(sizeof(_l3cf7j_ListenerArgs_pfv6jd));
+    args->invocation.dispose = &_l3cf7j_ListenerArgs_pfv6jd_dispose;
     args->arg0 = (__bridge void*)((__bridge id)(__bridge_retained void*)(arg0));
     args->arg1 = (__bridge void*)((__bridge id)(__bridge_retained void*)(arg1));
-    ctx->postListenerInvocation((__bridge void*)block, args, &_l3cf7j_ListenerArgs_pfv6jd_dispose);
+    DOBJC_ListenerInvocation *invocation = &args->invocation;
+    ctx->postListenerInvocation((__bridge void*)block, invocation);
   };
 }
 

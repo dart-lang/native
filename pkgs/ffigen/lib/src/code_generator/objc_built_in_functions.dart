@@ -34,6 +34,7 @@ class ObjCBuiltInFunctions {
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const newListenerBlock = ObjCImport('newListenerBlock');
+  static const listenerInvocationType = ObjCImport('DOBJC_ListenerInvocation');
   static const getBlockClosure = ObjCImport('getBlockClosure');
   static const getProtocolMethodSignature = ObjCImport(
     'getProtocolMethodSignature',
@@ -237,13 +238,12 @@ class ObjCBlockWrapperFuncs extends AstNode {
   final Func listenerWrapper;
   final Func blockingWrapper;
 
-  /// The signature-normalized argument types, shared by all blocks that use
-  /// these wrappers. Used to generate the packed-args struct that carries a
-  /// listener invocation's arguments through a Dart port.
+  /// Signature-normalized param types, used to emit the listener invocation
+  /// struct.
   final List<Type> argTypes;
 
-  /// Name of the packed-args struct, in both the generated Dart bindings (an
-  /// ffi.Struct mirror) and the generated ObjC code (a C struct typedef).
+  /// Name of the listener invocation struct in both the Dart and ObjC
+  /// bindings.
   final String argsStructName;
 
   bool objCBindingsGenerated = false;
@@ -261,9 +261,7 @@ class ObjCBlockWrapperFuncs extends AstNode {
     super.visitChildren(visitor);
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);
-    // argTypes are deliberately not visited: they are signature-normalized
-    // copies of the params of the blocks sharing these wrappers, and those
-    // params are already visited by each block.
+    // argTypes are normalized copies of params each block already visits.
     visitor.visit(objcPkgImport);
   }
 

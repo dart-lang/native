@@ -473,27 +473,18 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
 
 /// Only for use by FFIgen bindings.
 ///
-/// Creates a listener block whose invocations are delivered to this isolate
-/// through a port instead of a NativeCallable trampoline. If this isolate has
-/// shut down when the block is invoked, the invocation is safely dropped and
-/// its resources are freed by the native message finalizer, instead of
-/// crashing the process. See https://github.com/dart-lang/native/issues/3265.
+/// Creates a listener block that delivers invocations to this isolate through
+/// a port. Invocations after this isolate has shut down are safely dropped
+/// (https://github.com/dart-lang/native/issues/3265).
 ///
-/// [fn] receives a pointer to the per-signature packed-args struct created by
-/// the generated ObjC wrapper. It must not free the pointer; the args struct
-/// and the block reference are cleaned up by the invoker after [fn] returns.
-///
-/// [fn] is invoked in the zone that created the block, and uncaught errors
-/// are reported to that zone's error handler, matching
-/// `NativeCallable.listener` semantics.
+/// [fn] receives a pointer to the signature-specific invocation struct built
+/// by the generated ObjC wrapper. It must not free it; the invoker frees the
+/// struct and releases the block after [fn] returns. Uncaught errors are
+/// reported to the zone that created the block, as with
+/// `NativeCallable.listener`.
 BlockPtr newListenerBlock(void Function(VoidPtr) fn, bool keepIsolateAlive) =>
     _newBlock(
-      // The invoke stub is never called: invocations are delivered through
-      // invoke_port by the generated ObjC wrapper. The Block runtime requires a
-      // valid invoke pointer to copy the block.
-      Native.addressOf<NativeFunction<Void Function()>>(
-        c.listenerBlockInvokeStub,
-      ).cast(),
+      _listenerBlockInvokeStub,
       _registerBlockClosure(
         Zone.current.bindUnaryCallbackGuarded(fn),
         keepIsolateAlive,
@@ -504,25 +495,27 @@ BlockPtr newListenerBlock(void Function(VoidPtr) fn, bool keepIsolateAlive) =>
       invokePort: _blockListenerInvoker.sendPort.nativePort,
     );
 
-/// Receives listener block invocations posted by
-/// `DOBJC_postListenerInvocation` as [c.DOBJC_ListenerInvocation] envelopes.
-///
-/// The envelope, the args struct, and the block reference are owned by this
-/// handler once the message is delivered; the native message finalizer only
-/// runs for undelivered messages.
+/// Never called; invocations arrive via invoke_port. The Block runtime just
+/// needs a valid invoke pointer for copying.
+final VoidPtr _listenerBlockInvokeStub =
+    Native.addressOf<NativeFunction<Void Function()>>(
+      c.listenerBlockInvokeStub,
+    ).cast();
+
+/// Handles invocations posted by `DOBJC_postListenerInvocation`. Once a
+/// message is delivered, this handler owns the invocation struct and its
+/// block reference.
 final _blockListenerInvoker = () {
   _ensureDartAPI();
   return RawReceivePort((dynamic msg) {
     final invocation = Pointer<c.DOBJC_ListenerInvocation>.fromAddress(
       msg as int,
     );
-    final block = invocation.ref.block;
-    final args = invocation.ref.args;
-    calloc.free(invocation);
+    final block = invocation.ref.block.cast<c.ObjCBlockImpl>();
     try {
-      (getBlockClosure(block) as void Function(VoidPtr))(args);
+      (getBlockClosure(block) as void Function(VoidPtr))(invocation.cast());
     } finally {
-      calloc.free(args);
+      calloc.free(invocation);
       r.objectRelease(block.cast());
     }
   }, 'ObjCBlockListenerInvoker')..keepIsolateAlive = false;

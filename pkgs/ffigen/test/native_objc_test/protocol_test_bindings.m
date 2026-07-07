@@ -11,6 +11,12 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
+// Duplicated from package:objective_c's objective_c.h. Keep in sync.
+typedef struct _DOBJC_ListenerInvocation {
+  void *block;
+  void (*dispose)(struct _DOBJC_ListenerInvocation *invocation);
+} DOBJC_ListenerInvocation;
+
 typedef struct {
   int64_t version;
   void* (*newWaiter)(void);
@@ -21,7 +27,7 @@ typedef struct {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   // Version 2 additions:
-  void (*postListenerInvocation)(void*, void*, void (*)(void*));
+  void (*postListenerInvocation)(void*, DOBJC_ListenerInvocation*);
 } DOBJC_Context;
 
 id objc_retainBlock(id);
@@ -83,6 +89,7 @@ id  _13hhotk_protocolTrampoline_1s2pox8(id target, void * sel, id arg1, double a
 }
 
 typedef struct {
+  DOBJC_ListenerInvocation invocation;
   void * arg0;
   int32_t arg1;
 } _13hhotk_ListenerArgs_1pbq496;
@@ -94,9 +101,11 @@ _ListenerTrampoline _13hhotk_wrapListenerBlock_1pbq496(
   NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(void * arg0, int32_t arg1) {
     _13hhotk_ListenerArgs_1pbq496 *args = (_13hhotk_ListenerArgs_1pbq496 *)malloc(sizeof(_13hhotk_ListenerArgs_1pbq496));
+    args->invocation.dispose = NULL;
     args->arg0 = arg0;
     args->arg1 = arg1;
-    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
+    DOBJC_ListenerInvocation *invocation = &args->invocation;
+    ctx->postListenerInvocation((__bridge void*)block, invocation);
   };
 }
 
@@ -121,6 +130,7 @@ void  _13hhotk_protocolTrampoline_1pbq496(id target, void * sel, int32_t arg1) {
 }
 
 typedef struct {
+  DOBJC_ListenerInvocation invocation;
   void * arg0;
   int32_t * arg1;
 } _13hhotk_ListenerArgs_8r9qkg;
@@ -132,9 +142,11 @@ _ListenerTrampoline_1 _13hhotk_wrapListenerBlock_8r9qkg(
   NSCAssert(ctx->version >= 2, @"package:objective_c is too old");
   return ^void(void * arg0, int32_t * arg1) {
     _13hhotk_ListenerArgs_8r9qkg *args = (_13hhotk_ListenerArgs_8r9qkg *)malloc(sizeof(_13hhotk_ListenerArgs_8r9qkg));
+    args->invocation.dispose = NULL;
     args->arg0 = arg0;
     args->arg1 = arg1;
-    ctx->postListenerInvocation((__bridge void*)block, args, NULL);
+    DOBJC_ListenerInvocation *invocation = &args->invocation;
+    ctx->postListenerInvocation((__bridge void*)block, invocation);
   };
 }
 

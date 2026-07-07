@@ -86,17 +86,12 @@ external ffi.Pointer<ffi.Void> newWaiter();
 @ffi.Native<
   ffi.Void Function(
     ffi.Pointer<ObjCBlockImpl>,
-    ffi.Pointer<ffi.Void>,
-    ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
-    >,
+    ffi.Pointer<DOBJC_ListenerInvocation>,
   )
 >(symbol: 'DOBJC_postListenerInvocation', isLeaf: true)
 external void postListenerInvocation(
   ffi.Pointer<ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> args,
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>>
-  dispose_args,
+  ffi.Pointer<DOBJC_ListenerInvocation> invocation,
 );
 
 @ffi.Native<
@@ -149,10 +144,7 @@ final class DOBJC_Context extends ffi.Struct {
     ffi.NativeFunction<
       ffi.Void Function(
         ffi.Pointer<ObjCBlockImpl>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<
-          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
-        >,
+        ffi.Pointer<DOBJC_ListenerInvocation>,
       )
     >
   >
@@ -184,10 +176,7 @@ final class DOBJC_Context extends ffi.Struct {
       ffi.NativeFunction<
         ffi.Void Function(
           ffi.Pointer<ObjCBlockImpl>,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
-          >,
+          ffi.Pointer<DOBJC_ListenerInvocation>,
         )
       >
     >
@@ -205,27 +194,27 @@ final class DOBJC_Context extends ffi.Struct {
 }
 
 final class DOBJC_ListenerInvocation extends ffi.Struct {
-  external ffi.Pointer<ObjCBlockImpl> block;
-
-  external ffi.Pointer<ffi.Void> args;
+  external ffi.Pointer<ffi.Void> block;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<DOBJC_ListenerInvocation> invocation)
+    >
   >
-  dispose_args;
+  dispose;
 
   static ffi.Pointer<DOBJC_ListenerInvocation> $allocate(
     ffi.Allocator $allocator, {
-    required ffi.Pointer<ObjCBlockImpl> block,
-    required ffi.Pointer<ffi.Void> args,
+    required ffi.Pointer<ffi.Void> block,
     required ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> args)>
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<DOBJC_ListenerInvocation> invocation)
+      >
     >
-    dispose_args,
+    dispose,
   }) => $allocator<DOBJC_ListenerInvocation>()
     ..ref.block = block
-    ..ref.args = args
-    ..ref.dispose_args = dispose_args;
+    ..ref.dispose = dispose;
 }
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;

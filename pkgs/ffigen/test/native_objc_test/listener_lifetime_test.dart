@@ -7,7 +7,6 @@
 library;
 
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
@@ -20,11 +19,9 @@ import 'util.dart';
 
 void main() {
   group('listener lifetime', () {
-    // Regression tests for
-    // https://github.com/dart-lang/native/issues/3265: invoking a listener
-    // block after its owner isolate has shut down used to hit a deleted
-    // NativeCallable and abort the process
-    // ("Callback invoked after it has been deleted").
+    // Regression tests for https://github.com/dart-lang/native/issues/3265:
+    // invoking a listener block after its owner isolate shut down used to hit
+    // a deleted NativeCallable and abort the process.
 
     // Creates a listener block in a short-lived isolate, stores it in
     // [tester], and returns after that isolate has fully shut down.
@@ -35,8 +32,7 @@ void main() {
         tester.storedListener = ObjCBlock_ffiVoid_NSObject.listener((
           NSObject obj,
         ) {
-          // The owner isolate is dead by the time the block is invoked, so
-          // this never runs.
+          // Never runs; the owner isolate is dead when the block is invoked.
         }, keepIsolateAlive: false);
       });
       // Give the dead isolate's ports time to fully close.
@@ -60,8 +56,8 @@ void main() {
         autoReleasePool(() {
           blockTracker.trackBlock(tester.storedListener);
 
-          // Would previously SIGABRT. Now the invocation is dropped, and its
-          // retained args are released.
+          // Previously aborted the process; now a safe no-op that releases
+          // the args.
           tester.invokeStoredWithArg(arg!);
         });
 
