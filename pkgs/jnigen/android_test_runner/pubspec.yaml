@@ -57,6 +57,8 @@ dev_dependencies:
 dependency_overrides:
   jni:
     path: ../../jni
+  jni_util:
+    path: ../../jni_util
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

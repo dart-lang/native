@@ -8094,6 +8094,31 @@ extension type NIAnEnum._(jni$_.JObject _$this) implements Enum {
     return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<NIAnEnum?>();
   }
+
+  static final _id_get$entries = _class.staticMethodId(
+    r'getEntries',
+    r'()Lkotlin/enums/EnumEntries;',
+  );
+
+  static final _get$entries = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public kotlin.enums.EnumEntries<com.github.dart_lang.jnigen.NIAnEnum> getEntries()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static EnumEntries get entries {
+    final _$$classRef = _class.reference;
+    return _get$entries(_$$classRef.pointer, _id_get$entries.pointer)
+        .object<EnumEntries>();
+  }
 }
 
 extension NIAnEnum$$Methods on NIAnEnum {
@@ -8284,6 +8309,31 @@ extension type NIAnotherEnum._(jni$_.JObject _$this) implements Enum {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<NIAnotherEnum?>();
+  }
+
+  static final _id_get$entries = _class.staticMethodId(
+    r'getEntries',
+    r'()Lkotlin/enums/EnumEntries;',
+  );
+
+  static final _get$entries = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public kotlin.enums.EnumEntries<com.github.dart_lang.jnigen.NIAnotherEnum> getEntries()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static EnumEntries get entries {
+    final _$$classRef = _class.reference;
+    return _get$entries(_$$classRef.pointer, _id_get$entries.pointer)
+        .object<EnumEntries>();
   }
 }
 
@@ -35984,7 +36034,7 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <V> methodGenericNullableEcho(v: V): V`
+  /// from: `public fun <V : kotlin.Any?> methodGenericNullableEcho(v: V): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V? methodGenericNullableEcho<$V extends jni$_.JObject?>(
     $V? object,
@@ -37225,6 +37275,31 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements Enum, MeasureUnit {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<SpeedUnit?>();
+  }
+
+  static final _id_get$entries = _class.staticMethodId(
+    r'getEntries',
+    r'()Lkotlin/enums/EnumEntries;',
+  );
+
+  static final _get$entries = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public kotlin.enums.EnumEntries<com.github.dart_lang.jnigen.SpeedUnit> getEntries()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static EnumEntries get entries {
+    final _$$classRef = _class.reference;
+    return _get$entries(_$$classRef.pointer, _id_get$entries.pointer)
+        .object<EnumEntries>();
   }
 }
 
@@ -38883,6 +38958,24 @@ final class $Enum$Type$ extends jni$_.JType<Enum> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/lang/Enum;';
+}
+
+/// from: `kotlin.enums.EnumEntries`
+///
+/// WARNING: EnumEntries is a stub. To generate bindings for this class, include
+/// kotlin.enums.EnumEntries in your config's classes list.
+///
+extension type EnumEntries._(jni$_.JObject _$this) implements jni$_.JObject {
+  static const jni$_.JType<EnumEntries> type = $EnumEntries$Type$();
+}
+
+final class $EnumEntries$Type$ extends jni$_.JType<EnumEntries> {
+  @jni$_.internal
+  const $EnumEntries$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lkotlin/enums/EnumEntries;';
 }
 
 /// from: `kotlin.coroutines.Continuation`

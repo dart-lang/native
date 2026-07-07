@@ -43,6 +43,8 @@ dependencies:
 dependency_overrides:
   jni:
     path: ..
+  jni_util:
+    path: ../../jni_util
 
 dev_dependencies:
   test: any
