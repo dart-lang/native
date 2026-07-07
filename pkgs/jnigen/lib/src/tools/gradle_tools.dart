@@ -5,7 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:jni_util/jni_util.dart' as jni_util;
+import 'package:jni_util/jni_util.dart';
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -24,7 +24,7 @@ class GradleTools {
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory,
         runInShell: true,
-        environment: jni_util.javaEnvironment,
+        environment: javaEnvironment,
         mode: ProcessStartMode.inheritStdio);
     return proc.exitCode;
   }
@@ -106,8 +106,7 @@ class GradleTools {
     await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
 
-  static String _getStubGradle(List<MavenDependency> deps, String targetDir,
-      {String javaVersion = '17'}) {
+  static String _getStubGradle(List<MavenDependency> deps, String targetDir) {
     final depDecls = <String>[];
     final sourceDecls = <String>[];
     // Use implementation configuration
@@ -127,8 +126,8 @@ class GradleTools {
     }
     
     java {
-        sourceCompatibility = JavaVersion.VERSION_$javaVersion
-        targetCompatibility = JavaVersion.VERSION_$javaVersion
+        sourceCompatibility = JavaVersion.VERSION_$minJavaVersion
+        targetCompatibility = JavaVersion.VERSION_$minJavaVersion
     }
     
     tasks.register<Copy>("copyJars") {

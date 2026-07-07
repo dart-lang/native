@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:jni_util/jni_util.dart' as jni_util;
+import 'package:jni_util/jni_util.dart';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
@@ -485,7 +485,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
       procRes = Process.runSync(gradleCommand, ['-q', taskPath],
           workingDirectory: android,
           runInShell: true,
-          environment: jni_util.javaEnvironment);
+          environment: javaEnvironment);
     } finally {
       log.info('Restoring build scripts');
       origBuild.writeAsStringSync(
@@ -518,8 +518,8 @@ Execution failed for task ':gradle:compileGroovy'.
 > BUG! exception in phase 'semantic analysis' ...  Unsupported class file major version
 
 Then the JDK versions used by JNIgen and Flutter are not compatible. Try
-changing the default JDK version e.g. with `export JAVA_VERSION=17` on macOS and
-`sudo update-alternatives --config java` on Ubuntu.
+changing the default JDK version e.g. with `export JAVA_VERSION=$minJavaVersion`
+on macOS and `sudo update-alternatives --config java` on Ubuntu.
 
 GRADLE OUTPUT:
 --------------------------------------------------------------------------------
@@ -564,7 +564,7 @@ ${procRes.stderr}
         ['build', 'apk', '--config-only'],
         workingDirectory: androidProject,
         runInShell: true,
-        environment: jni_util.javaEnvironment,
+        environment: javaEnvironment,
       );
       if (result.exitCode == 0) {
         success = true;

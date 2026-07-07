@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:jni_util/jni_util.dart' as jni_util;
+import 'package:jni_util/jni_util.dart';
 
 import '../../tools.dart';
 import '../config/config.dart';
@@ -38,9 +38,9 @@ String? getActionableSummaryParseMessage(String stderr) {
   return 'Cannot generate summary: Java class file version $majorVersion is '
       'not supported by the summarizer. This usually means your input classes '
       'were compiled with a newer JDK target than JNIgen supports. Use a '
-      'supported JDK version (17 to 21), or recompile '
-      'your Java inputs with a lower target (for example: javac --release '
-      '17 <your-java-files>).';
+      'supported JDK version ($minJavaVersion to $maxJavaVersion), or '
+      'recompile your Java inputs with a lower target (for example: javac '
+      '--release $minJavaVersion <your-java-files>).';
 }
 
 /// A command based summary source which calls the ApiSummarizer command.
@@ -108,14 +108,14 @@ class SummarizerCommand {
     }
     args.addAll(extraArgs);
     args.addAll(classes);
-    final resolvedExec = jni_util.resolveJavaExecutable(exec);
+    final resolvedExec = resolveJavaExecutable(exec);
     log.info('execute $resolvedExec ${args.join(' ')}');
     final proc = await Process.start(
       resolvedExec,
       args,
       workingDirectory: workingDirectory?.toFilePath() ?? '.',
       environment: {
-        ...jni_util.javaEnvironment,
+        ...javaEnvironment,
         'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8',
       },
     );

@@ -7,18 +7,26 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+const minJavaVersion = 17;
+const maxJavaVersion = 21;
+
 /// The Java Home path used by Flutter using `flutter config --machine`.
 ///
 /// null if detection fails (eg Java is not installed, or is not set up for
 /// Android development).
 final javaHome = () {
   try {
-    final result =
-        Process.runSync('flutter', ['config', '--machine'], runInShell: true);
+    final result = Process.runSync(
+        'flutter',
+        [
+          'config',
+          '--machine',
+        ],
+        runInShell: true);
     if (result.exitCode != 0) {
       return null;
     }
-    final json = jsonDecode(result.stdout as String) as Map<dynamic, dynamic>;
+    final json = jsonDecode(result.stdout as String) as Map<String, Object?>;
     final jdkDir = json['jdk-dir'];
     if (jdkDir is String && jdkDir.isNotEmpty) {
       final dir = Directory(jdkDir);
