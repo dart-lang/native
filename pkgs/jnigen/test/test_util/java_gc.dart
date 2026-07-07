@@ -8,6 +8,9 @@ import 'dart:io';
 import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 
+// Can't reliably force GC on Android.
+final canRunJavaGC = !Platform.isAndroid;
+
 void runJavaGC() {
   final managementFactory = JClass.forName(
     'java/lang/management/ManagementFactory',

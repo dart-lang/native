@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:io';
 import 'dart:isolate';
 
 import 'package:jni/_internal.dart';
@@ -776,8 +775,6 @@ kotlin.Unit
         expect(weakRef.isCollected, isTrue);
         weakRef.release();
       });
-    },
-        // Can't reliably force GC on Android.
-        skip: Platform.isAndroid);
+    }, skip: !canRunJavaGC);
   });
 }

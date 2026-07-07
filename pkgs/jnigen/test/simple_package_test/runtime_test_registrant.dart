@@ -921,10 +921,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             // Arg is cleaned up even though message isn't delivered.
             runJavaGC();
             expect(runner.isArgCollected, isTrue);
-          },
-              // Can't reliably force GC on Android.
-              skip: Platform.isAndroid);
-        });
+          });
+        }, skip: !canRunJavaGC);
       }
 
       group('Dart exceptions are handled', () {
