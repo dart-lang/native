@@ -120,13 +120,47 @@ class $name implements $ffiPrefix.Finalizable {
     s.write('''
   bool _isDisposed = false;
   static final _finalizer = $ffiPrefix.NativeFinalizer(
-    $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue)
+    $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue),
   );
+
+  /// The finalizer currently attached for this instance, or [null] if this
+  /// object does not own its pointer.
+  $ffiPrefix.NativeFinalizer? _activeFinalizer;
 
   $name.fromPointer(this._ptr, {bool takeOwnership = true}) {
     if (takeOwnership) {
       _finalizer.attach(this, _ptr.cast(), detach: this);
+      _activeFinalizer = _finalizer;
     }
+  }
+
+  /// Attaches a finalizer so this object takes ownership of the underlying
+  /// C++ pointer. If [customFinalizer] is provided it is used instead of the
+  /// default `delete` finalizer, which is useful when the object was not
+  /// allocated with `new` (e.g. `malloc` or a custom allocator).
+  ///
+  /// Has no effect if this object already owns the pointer.
+  void retainOwnership([
+    $ffiPrefix.Pointer<
+      $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+    >? customFinalizer,
+  ]) {
+    if (_activeFinalizer != null) return;
+    final fin = customFinalizer != null
+        ? $ffiPrefix.NativeFinalizer(customFinalizer)
+        : _finalizer;
+    fin.attach(this, _ptr.cast(), detach: this);
+    _activeFinalizer = fin;
+  }
+
+  /// Detaches the finalizer so this object releases ownership of the
+  /// underlying C++ pointer. The caller becomes responsible for freeing
+  /// the memory.
+  ///
+  /// Has no effect if this object does not own the pointer.
+  void releaseOwnership() {
+    _activeFinalizer?.detach(this);
+    _activeFinalizer = null;
   }
 ''');
 
@@ -191,7 +225,7 @@ class $name implements $ffiPrefix.Finalizable {
       throw StateError('This object has already been disposed.');
     }
     _isDisposed = true;
-    _finalizer.detach(this);
+    releaseOwnership();
     $deleteGlue(_ptr);
   }
 ''');

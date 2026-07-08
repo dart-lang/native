@@ -66,4 +66,73 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
   });
+
+  group('Ownership management', () {
+    @pragma('vm:never-inline')
+    void releaseOwnershipInner(Pointer<Int32> counter) {
+      // Construct with ownership, then immediately release it.
+      // The GC should NOT call delete when this object is collected.
+      final subject = FinalizerTestSubject(counter.cast())..releaseOwnership();
+      // Keep subject alive until the end of this scope to make the test clear.
+      expect(subject, isNotNull);
+    }
+
+    test('releaseOwnership suppresses GC finalizer', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      releaseOwnershipInner(counter);
+      doGC();
+      // The finalizer was detached, so the counter must still be 0.
+      expect(counter.value, 0);
+      // Manually free to avoid a real leak in the test.
+      calloc.free(counter);
+    }, skip: !canDoGC);
+
+    @pragma('vm:never-inline')
+    void retainAfterReleaseInner(Pointer<Int32> counter) {
+      // Release then re-take ownership; GC should now call delete.
+      final subject = FinalizerTestSubject(counter.cast())
+        ..releaseOwnership()
+        ..retainOwnership();
+      expect(subject, isNotNull);
+    }
+
+    test(
+      'retainOwnership after releaseOwnership re-enables GC finalizer',
+      () {
+        final counter = calloc<Int>().cast<Int32>();
+        counter.value = 0;
+        retainAfterReleaseInner(counter);
+        doGC();
+        expect(counter.value, 1);
+        calloc.free(counter);
+      },
+      skip: !canDoGC,
+    );
+
+    test('retainOwnership is idempotent', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final subject = FinalizerTestSubject(counter.cast());
+      // Calling retainOwnership on an already-owned object is a no-op.
+      subject.retainOwnership();
+      subject.retainOwnership();
+      subject.dispose();
+      // dispose() calls releaseOwnership then delete directly, so counter == 1.
+      expect(counter.value, 1);
+      calloc.free(counter);
+    });
+
+    test('releaseOwnership is idempotent', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final subject = FinalizerTestSubject(counter.cast());
+      subject.releaseOwnership();
+      // Calling again must not throw.
+      subject.releaseOwnership();
+      subject.dispose();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    });
+  });
 }

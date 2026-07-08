@@ -17,11 +17,45 @@ class Animal implements ffi.Finalizable {
     >(_Animal_delete),
   );
 
+  /// The finalizer currently attached for this instance, or [null] if this
+  /// object does not own its pointer.
+  ffi.NativeFinalizer? _activeFinalizer;
+
   Animal.fromPointer(this._ptr, {bool takeOwnership = true}) {
     if (takeOwnership) {
       _finalizer.attach(this, _ptr.cast(), detach: this);
+      _activeFinalizer = _finalizer;
     }
   }
+
+  /// Attaches a finalizer so this object takes ownership of the underlying
+  /// C++ pointer. If [customFinalizer] is provided it is used instead of the
+  /// default `delete` finalizer, which is useful when the object was not
+  /// allocated with `new` (e.g. `malloc` or a custom allocator).
+  ///
+  /// Has no effect if this object already owns the pointer.
+  void retainOwnership([
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
+    customFinalizer,
+  ]) {
+    if (_activeFinalizer != null) return;
+    final fin = customFinalizer != null
+        ? ffi.NativeFinalizer(customFinalizer)
+        : _finalizer;
+    fin.attach(this, _ptr.cast(), detach: this);
+    _activeFinalizer = fin;
+  }
+
+  /// Detaches the finalizer so this object releases ownership of the
+  /// underlying C++ pointer. The caller becomes responsible for freeing
+  /// the memory.
+  ///
+  /// Has no effect if this object does not own the pointer.
+  void releaseOwnership() {
+    _activeFinalizer?.detach(this);
+    _activeFinalizer = null;
+  }
+
   factory Animal(int age) {
     return Animal.fromPointer(_Animal_new(age));
   }
@@ -69,7 +103,7 @@ class Animal implements ffi.Finalizable {
       throw StateError('This object has already been disposed.');
     }
     _isDisposed = true;
-    _finalizer.detach(this);
+    releaseOwnership();
     _Animal_delete(_ptr);
   }
 }
@@ -130,11 +164,45 @@ class FinalizerTestSubject implements ffi.Finalizable {
     >(_FinalizerTestSubject_delete),
   );
 
+  /// The finalizer currently attached for this instance, or [null] if this
+  /// object does not own its pointer.
+  ffi.NativeFinalizer? _activeFinalizer;
+
   FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = true}) {
     if (takeOwnership) {
       _finalizer.attach(this, _ptr.cast(), detach: this);
+      _activeFinalizer = _finalizer;
     }
   }
+
+  /// Attaches a finalizer so this object takes ownership of the underlying
+  /// C++ pointer. If [customFinalizer] is provided it is used instead of the
+  /// default `delete` finalizer, which is useful when the object was not
+  /// allocated with `new` (e.g. `malloc` or a custom allocator).
+  ///
+  /// Has no effect if this object already owns the pointer.
+  void retainOwnership([
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
+    customFinalizer,
+  ]) {
+    if (_activeFinalizer != null) return;
+    final fin = customFinalizer != null
+        ? ffi.NativeFinalizer(customFinalizer)
+        : _finalizer;
+    fin.attach(this, _ptr.cast(), detach: this);
+    _activeFinalizer = fin;
+  }
+
+  /// Detaches the finalizer so this object releases ownership of the
+  /// underlying C++ pointer. The caller becomes responsible for freeing
+  /// the memory.
+  ///
+  /// Has no effect if this object does not own the pointer.
+  void releaseOwnership() {
+    _activeFinalizer?.detach(this);
+    _activeFinalizer = null;
+  }
+
   factory FinalizerTestSubject(ffi.Pointer<ffi.Int> counter) {
     return FinalizerTestSubject.fromPointer(_FinalizerTestSubject_new(counter));
   }
@@ -143,7 +211,7 @@ class FinalizerTestSubject implements ffi.Finalizable {
       throw StateError('This object has already been disposed.');
     }
     _isDisposed = true;
-    _finalizer.detach(this);
+    releaseOwnership();
     _FinalizerTestSubject_delete(_ptr);
   }
 }
