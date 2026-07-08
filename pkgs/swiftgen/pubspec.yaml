@@ -33,8 +33,14 @@ dev_dependencies:
   test: ^1.21.1
 
 dependency_overrides:
+  code_assets:
+    path: ../code_assets/
   ffigen:
     path: ../ffigen/
+  hooks:
+    path: ../hooks/
+  native_toolchain_c:
+    path: ../native_toolchain_c/
   objective_c:
     path: ../objective_c/
   swift2objc:

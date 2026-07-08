@@ -151,16 +151,20 @@ final class Target implements Comparable<Target> {
 
   /// A list of supported target [Target]s from this host [os].
   List<Target> supportedTargetTargets({
-    Map<OS, List<OS>> osCrossCompilation = OS.osCrossCompilationDefault,
-  }) => Target.values
-      .where(
-        (target) =>
-            // Only valid cross compilation.
-            osCrossCompilation[os]!.contains(target.os) &&
-            // And no deprecated architectures.
-            target != Target.iOSArm,
-      )
-      .sorted;
+    Map<OS, List<OS>>? osCrossCompilation,
+  }) {
+    final osCrossCompilation_ =
+        osCrossCompilation ?? OS.osCrossCompilationDefault;
+    return Target.values
+        .where(
+          (target) =>
+              // Only valid cross compilation.
+              osCrossCompilation_[os]!.contains(target.os) &&
+              // And no deprecated architectures.
+              target != Target.iOSArm,
+        )
+        .sorted;
+  }
 }
 
 /// Common methods for manipulating iterables of [Target]s.
