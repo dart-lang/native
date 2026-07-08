@@ -262,7 +262,6 @@ bool _mustHaveFile(LinkMode linkMode) => switch (linkMode) {
   DynamicLoadingSystem _ => false,
   DynamicLoadingBundled _ => true,
   StaticLinking _ => true,
-  _ => throw UnsupportedError('Unknown link mode: $linkMode.'),
 };
 
 void _validateNoDuplicateDylibNames(
