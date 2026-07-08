@@ -11,6 +11,19 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
 @ffi.Native<
+  ffi.Void Function(
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+  )
+>()
+external void _13hhotk_protocolTrampoline_18v1jvf(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+);
+
+@ffi.Native<
   ffi.Int32 Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>)
 >()
 external int _13hhotk_protocolTrampoline_1d4mjzg(
@@ -106,6 +119,19 @@ external int _13hhotk_protocolTrampoline_ct0ie0(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _13hhotk_wrapBlockingBlock_18v1jvf(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
+  ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
+>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _13hhotk_wrapBlockingBlock_1pbq496(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
@@ -123,6 +149,13 @@ external ffi.Pointer<objc.ObjCBlockImpl> _13hhotk_wrapBlockingBlock_8r9qkg(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _13hhotk_wrapListenerBlock_18v1jvf(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
@@ -292,6 +325,19 @@ extension MyProtocol$Methods on MyProtocol {
     _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
   }
 
+  /// objectMethod:
+  void objectMethod(objc.NSObject obj) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = obj.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_objectMethod_)) {
+      throw objc.UnimplementedOptionalMethodException(
+        'MyProtocol',
+        'objectMethod:',
+      );
+    }
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_objectMethod_, _$$ref$1.pointer);
+  }
+
   /// optionalMethod:
   int optionalMethod(SomeStruct s) {
     final _$$ref = object$.ref;
@@ -332,6 +378,7 @@ interface class MyProtocol$Builder {
     required objc.NSString Function(objc.NSString, double)
     instanceMethod_withDouble_,
     void Function(ffi.Pointer<ffi.Int32>)? intPtrMethod_,
+    void Function(objc.NSObject)? objectMethod_,
     int Function(SomeStruct)? optionalMethod_,
     void Function(int)? voidMethod_,
     bool $keepIsolateAlive = true,
@@ -343,6 +390,7 @@ interface class MyProtocol$Builder {
       instanceMethod_withDouble_,
     );
     MyProtocol$Builder.intPtrMethod_.implement(builder, intPtrMethod_);
+    MyProtocol$Builder.objectMethod_.implement(builder, objectMethod_);
     MyProtocol$Builder.optionalMethod_.implement(builder, optionalMethod_);
     MyProtocol$Builder.voidMethod_.implement(builder, voidMethod_);
     builder.addProtocol($protocol);
@@ -359,6 +407,7 @@ interface class MyProtocol$Builder {
     required objc.NSString Function(objc.NSString, double)
     instanceMethod_withDouble_,
     void Function(ffi.Pointer<ffi.Int32>)? intPtrMethod_,
+    void Function(objc.NSObject)? objectMethod_,
     int Function(SomeStruct)? optionalMethod_,
     void Function(int)? voidMethod_,
     bool $keepIsolateAlive = true,
@@ -369,6 +418,7 @@ interface class MyProtocol$Builder {
       instanceMethod_withDouble_,
     );
     MyProtocol$Builder.intPtrMethod_.implement(builder, intPtrMethod_);
+    MyProtocol$Builder.objectMethod_.implement(builder, objectMethod_);
     MyProtocol$Builder.optionalMethod_.implement(builder, optionalMethod_);
     MyProtocol$Builder.voidMethod_.implement(builder, voidMethod_);
     builder.addProtocol($protocol);
@@ -385,6 +435,7 @@ interface class MyProtocol$Builder {
     required objc.NSString Function(objc.NSString, double)
     instanceMethod_withDouble_,
     void Function(ffi.Pointer<ffi.Int32>)? intPtrMethod_,
+    void Function(objc.NSObject)? objectMethod_,
     int Function(SomeStruct)? optionalMethod_,
     void Function(int)? voidMethod_,
     bool $keepIsolateAlive = true,
@@ -398,6 +449,10 @@ interface class MyProtocol$Builder {
     MyProtocol$Builder.intPtrMethod_.implementAsListener(
       builder,
       intPtrMethod_,
+    );
+    MyProtocol$Builder.objectMethod_.implementAsListener(
+      builder,
+      objectMethod_,
     );
     MyProtocol$Builder.optionalMethod_.implement(builder, optionalMethod_);
     MyProtocol$Builder.voidMethod_.implementAsListener(builder, voidMethod_);
@@ -416,6 +471,7 @@ interface class MyProtocol$Builder {
     required objc.NSString Function(objc.NSString, double)
     instanceMethod_withDouble_,
     void Function(ffi.Pointer<ffi.Int32>)? intPtrMethod_,
+    void Function(objc.NSObject)? objectMethod_,
     int Function(SomeStruct)? optionalMethod_,
     void Function(int)? voidMethod_,
     bool $keepIsolateAlive = true,
@@ -428,6 +484,10 @@ interface class MyProtocol$Builder {
     MyProtocol$Builder.intPtrMethod_.implementAsListener(
       builder,
       intPtrMethod_,
+    );
+    MyProtocol$Builder.objectMethod_.implementAsListener(
+      builder,
+      objectMethod_,
     );
     MyProtocol$Builder.optionalMethod_.implement(builder, optionalMethod_);
     MyProtocol$Builder.voidMethod_.implementAsListener(builder, voidMethod_);
@@ -445,6 +505,7 @@ interface class MyProtocol$Builder {
     required objc.NSString Function(objc.NSString, double)
     instanceMethod_withDouble_,
     void Function(ffi.Pointer<ffi.Int32>)? intPtrMethod_,
+    void Function(objc.NSObject)? objectMethod_,
     int Function(SomeStruct)? optionalMethod_,
     void Function(int)? voidMethod_,
     bool $keepIsolateAlive = true,
@@ -458,6 +519,10 @@ interface class MyProtocol$Builder {
     MyProtocol$Builder.intPtrMethod_.implementAsBlocking(
       builder,
       intPtrMethod_,
+    );
+    MyProtocol$Builder.objectMethod_.implementAsBlocking(
+      builder,
+      objectMethod_,
     );
     MyProtocol$Builder.optionalMethod_.implement(builder, optionalMethod_);
     MyProtocol$Builder.voidMethod_.implementAsBlocking(builder, voidMethod_);
@@ -476,6 +541,7 @@ interface class MyProtocol$Builder {
     required objc.NSString Function(objc.NSString, double)
     instanceMethod_withDouble_,
     void Function(ffi.Pointer<ffi.Int32>)? intPtrMethod_,
+    void Function(objc.NSObject)? objectMethod_,
     int Function(SomeStruct)? optionalMethod_,
     void Function(int)? voidMethod_,
     bool $keepIsolateAlive = true,
@@ -488,6 +554,10 @@ interface class MyProtocol$Builder {
     MyProtocol$Builder.intPtrMethod_.implementAsBlocking(
       builder,
       intPtrMethod_,
+    );
+    MyProtocol$Builder.objectMethod_.implementAsBlocking(
+      builder,
+      objectMethod_,
     );
     MyProtocol$Builder.optionalMethod_.implement(builder, optionalMethod_);
     MyProtocol$Builder.voidMethod_.implementAsBlocking(builder, voidMethod_);
@@ -582,6 +652,41 @@ interface class MyProtocol$Builder {
             ObjCBlock_ffiVoid_ffiVoid_Int32$1.blocking(
               (ffi.Pointer<ffi.Void> _, ffi.Pointer<ffi.Int32> arg1) =>
                   func(arg1),
+            ),
+      );
+
+  /// objectMethod:
+  static final objectMethod_ =
+      objc.ObjCProtocolListenableMethod<void Function(objc.NSObject)>(
+        _protocol_MyProtocol,
+        _sel_objectMethod_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_13hhotk_protocolTrampoline_18v1jvf)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_MyProtocol,
+          _sel_objectMethod_,
+          isRequired: false,
+          isInstanceMethod: true,
+        ),
+        (void Function(objc.NSObject) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSObject.fromFunction(
+              (ffi.Pointer<ffi.Void> _, objc.NSObject arg1) => func(arg1),
+            ),
+        (void Function(objc.NSObject) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSObject.listener(
+              (ffi.Pointer<ffi.Void> _, objc.NSObject arg1) => func(arg1),
+            ),
+        (void Function(objc.NSObject) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSObject.blocking(
+              (ffi.Pointer<ffi.Void> _, objc.NSObject arg1) => func(arg1),
             ),
       );
 
@@ -1825,6 +1930,299 @@ extension ObjCBlock_ffiVoid_ffiVoid_Int32$1$CallExtension
   }
 }
 
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSObject {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+        )
+      >
+    >
+    ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>
+  fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSObject) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>(
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
+        arg0,
+        objc.NSObject.fromPointer(arg1, retain: true, release: true),
+      );
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>
+  listener(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSObject) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
+        arg0,
+        objc.NSObject.fromPointer(arg1, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final wrapper = _13hhotk_wrapListenerBlock_18v1jvf(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)
+    >(wrapper, retain: false, release: true);
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>
+  blocking(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSObject) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_blockingCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
+        arg0,
+        objc.NSObject.fromPointer(arg1, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final rawListener = objc.newClosureBlock(
+      _blockingListenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) {
+        return fn(
+          arg0,
+          objc.NSObject.fromPointer(arg1, retain: false, release: true),
+        );
+      },
+      keepIsolateAlive,
+    );
+    final wrapper = _13hhotk_wrapBlockingBlock_18v1jvf(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)
+    >(wrapper, retain: false, release: true);
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) {
+    (objc.getBlockClosure(block)
+        as void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        ))(arg0, arg1);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)
+      >()(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSObject$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSObject)> {
+  void call(ffi.Pointer<ffi.Void> arg0, objc.NSObject arg1) {
+    final _$$ref = arg1.ref;
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            )
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(ref.pointer, arg0, _$$ref.pointer);
+  }
+}
+
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_idMyProtocol_ffiVoid {
   /// Returns a block that wraps the given raw block pointer.
@@ -2257,6 +2655,23 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
     _objc_msgSend_yhkuco(_$$ref$1.pointer, _sel_intPtrMethod_, ptr);
   }
 
+  /// objectMethod:
+  void objectMethod(objc.NSObject obj) {
+    final _$$ref$2 = object$.ref;
+    final _$$ref$3 = obj.ref;
+    if (!objc.respondsToSelector(_$$ref$2.pointer, _sel_objectMethod_)) {
+      throw objc.UnimplementedOptionalMethodException(
+        'ObjCProtocolImpl',
+        'objectMethod:',
+      );
+    }
+    _objc_msgSend_xtuoz7(
+      _$$ref$2.pointer,
+      _sel_objectMethod_,
+      _$$ref$3.pointer,
+    );
+  }
+
   /// optionalMethod:
   int optionalMethod(SomeStruct s) {
     final _$$ref$1 = object$.ref;
@@ -2496,6 +2911,23 @@ extension ObjCProtocolImplMissingMethod$Methods
       );
     }
     _objc_msgSend_yhkuco(_$$ref$2.pointer, _sel_intPtrMethod_, ptr);
+  }
+
+  /// objectMethod:
+  void objectMethod(objc.NSObject obj) {
+    final _$$ref$4 = object$.ref;
+    final _$$ref$5 = obj.ref;
+    if (!objc.respondsToSelector(_$$ref$4.pointer, _sel_objectMethod_)) {
+      throw objc.UnimplementedOptionalMethodException(
+        'ObjCProtocolImplMissingMethod',
+        'objectMethod:',
+      );
+    }
+    _objc_msgSend_xtuoz7(
+      _$$ref$4.pointer,
+      _sel_objectMethod_,
+      _$$ref$5.pointer,
+    );
   }
 
   /// optionalMethod:
@@ -3315,6 +3747,7 @@ late final _sel_instanceMethod_withDouble_ = objc.registerName(
 late final _sel_intPtrMethod_ = objc.registerName("intPtrMethod:");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
+late final _sel_objectMethod_ = objc.registerName("objectMethod:");
 late final _sel_optionalClassMethod = objc.registerName("optionalClassMethod");
 late final _sel_optionalMethod_ = objc.registerName("optionalMethod:");
 late final _sel_otherMethod_b_c_d_ = objc.registerName("otherMethod:b:c:d:");

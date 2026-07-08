@@ -137,10 +137,39 @@ void  _13hhotk_protocolTrampoline_8r9qkg(id target, void * sel, int32_t * arg1) 
   return ((_ProtocolTrampoline_5)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline_6)(void * sel);
+typedef void  (^_ListenerTrampoline_2)(void * arg0, id arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_2 _13hhotk_wrapListenerBlock_18v1jvf(_ListenerTrampoline_2 block) NS_RETURNS_RETAINED {
+  return ^void(void * arg0, id arg1) {
+    objc_retainBlock(block);
+    block(arg0, (__bridge id)(__bridge_retained void*)(arg1));
+  };
+}
+
+typedef void  (^_BlockingTrampoline_2)(void * waiter, void * arg0, id arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_2 _13hhotk_wrapBlockingBlock_18v1jvf(
+    _BlockingTrampoline_2 block, _BlockingTrampoline_2 listenerBlock,
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, id arg1), {
+    objc_retainBlock(block);
+    block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1));
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1));
+  });
+}
+
+typedef void  (^_ProtocolTrampoline_6)(void * sel, id arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+void  _13hhotk_protocolTrampoline_18v1jvf(id target, void * sel, id arg1) {
+  return ((_ProtocolTrampoline_6)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+}
+
+typedef id  (^_ProtocolTrampoline_7)(void * sel);
 __attribute__((visibility("default"))) __attribute__((used))
 id  _13hhotk_protocolTrampoline_1mbt9g9(id target, void * sel) {
-  return ((_ProtocolTrampoline_6)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
+  return ((_ProtocolTrampoline_7)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
 }
 
 __attribute__((visibility("default"))) __attribute__((used))
