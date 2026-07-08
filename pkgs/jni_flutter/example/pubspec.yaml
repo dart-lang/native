@@ -17,6 +17,8 @@ dependencies:
 dependency_overrides:
   jni:
     path: ../../jni
+  jni_util:
+    path: ../../jni_util
 
 dev_dependencies:
   flutter_test:

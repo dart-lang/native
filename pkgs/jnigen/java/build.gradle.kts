@@ -12,7 +12,7 @@ repositories {
 dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     implementation("commons-cli:commons-cli:1.5.0")
-    implementation("org.ow2.asm:asm-tree:9.7")
+    implementation("org.ow2.asm:asm-tree:9.10.1")
     implementation("org.jetbrains.kotlin:kotlin-metadata-jvm:2.2.0")
     implementation(kotlin("stdlib-jdk8"))
     testImplementation("junit:junit:4.13.2")

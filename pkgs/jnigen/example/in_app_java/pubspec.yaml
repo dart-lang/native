@@ -31,6 +31,8 @@ dev_dependencies:
 dependency_overrides:
   jni:
     path: ../../../jni
+  jni_util:
+    path: ../../../jni_util
 
 flutter:
   uses-material-design: true
