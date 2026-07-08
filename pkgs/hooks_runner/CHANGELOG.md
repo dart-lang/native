@@ -1,5 +1,6 @@
 ## 1.6.0-wip
 
+- Bump `package:code_assets` dependency to `^2.0.0`.
 - Fix record_use path changing caching issue.
 
 ## 1.5.0

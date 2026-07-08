@@ -1,3 +1,7 @@
+## 9.4.2
+
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
 ## 9.4.1
 
 - Fix a [bug](https://github.com/flutter/flutter/issues/186794) related to
