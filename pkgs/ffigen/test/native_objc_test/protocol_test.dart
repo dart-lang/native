@@ -694,7 +694,7 @@ void main() {
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
-          NSString? arg = 'testObject'.toNSString();
+          NSObject? arg = NSObject();
           tracker.track(arg);
           expect(tracker.isAlive, isTrue);
 
@@ -732,7 +732,7 @@ void main() {
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
-          NSString? arg = 'testObject'.toNSString();
+          NSObject? arg = NSObject();
           tracker.track(arg);
           expect(tracker.isAlive, isTrue);
 
@@ -768,7 +768,7 @@ void main() {
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
-          NSString? arg = 'testObject'.toNSString();
+          NSObject? arg = NSObject();
           tracker.track(arg);
           expect(tracker.isAlive, isTrue);
 
@@ -806,7 +806,7 @@ void main() {
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
-          NSString? arg = 'testObject'.toNSString();
+          NSObject? arg = NSObject();
           tracker.track(arg);
           expect(tracker.isAlive, isTrue);
 
@@ -844,7 +844,7 @@ void main() {
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
-          NSString? arg = 'testObject'.toNSString();
+          NSObject? arg = NSObject();
           tracker.track(arg);
           expect(tracker.isAlive, isTrue);
 
@@ -887,7 +887,7 @@ void main() {
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
-          NSString? arg = 'testObject'.toNSString();
+          NSObject? arg = NSObject();
           tracker.track(arg);
           expect(tracker.isAlive, isTrue);
 
