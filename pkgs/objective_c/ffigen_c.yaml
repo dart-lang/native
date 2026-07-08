@@ -33,6 +33,7 @@ typedefs:
 structs:
   include:
     - '_DOBJC_Context'
+    - 'PortBlockTarget'
   rename:
     '_ObjC(.*)': 'ObjC$1'
     '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'

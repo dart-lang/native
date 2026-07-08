@@ -157,6 +157,8 @@ void main(List<String> args) async {
         ...cFlags,
         '-framework',
         'Foundation',
+        '-undefined',
+        'dynamic_lookup',
       ]);
 
       output.dependencies.addAll([...mFiles, ...hFiles, swiftFile, dartApiDl]);

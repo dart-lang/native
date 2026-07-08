@@ -4,14 +4,34 @@
 
 #include "objective_c.h"
 
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <dispatch/dispatch.h>
 
 #include "include/dart_api_dl.h"
 #include "objective_c_runtime.h"
 
-// Dispose helper for ObjC blocks that wrap a Dart closure. For these blocks,
-// the target is an int ID, and the dispose_port is listening for these IDs.
+_Atomic bool _mainThreadIsListening = false;
+
+static void setListening(void* arg) {
+  _mainThreadIsListening = true;
+}
+
+FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {
+  dispatch_async_f(dispatch_get_main_queue(), NULL, setListening);
+  return Dart_InitializeApiDL(data);
+}
+
+// Copy and dispose helper for ObjC blocks that wrap a Dart closure. For these
+// blocks, the target is an int ID, and the dispose_port is listening for these
+// IDs.
+FFI_EXPORT void DOBJC_copyObjCBlockWithClosure(ObjCBlockImpl* dst,
+                                               ObjCBlockImpl* src) {
+  dst->target = src->target;
+  dst->dispose_port = src->dispose_port;
+}
+
 FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl* block) {
   Dart_PostInteger_DL(block->dispose_port, (int64_t)block->target);
 }
@@ -50,8 +70,25 @@ FFI_EXPORT bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
   return pointer;
 }
 
+FFI_EXPORT bool DOBJC_postCObject(int64_t port_id, void* peer,
+                                  void (*callback)(void*, void*)) {
+  Dart_CObject c_post;
+  c_post.type = Dart_CObject_kNativePointer;
+  c_post.value.as_native_pointer.ptr = (intptr_t)peer;
+  c_post.value.as_native_pointer.size = 0;
+  c_post.value.as_native_pointer.callback = (Dart_HandleFinalizer)callback;
+  if (!Dart_PostCObject_DL(port_id, &c_post)) {
+    if (c_post.value.as_native_pointer.callback != NULL) {
+      c_post.value.as_native_pointer.callback(
+          NULL, (void*)c_post.value.as_native_pointer.ptr);
+    }
+    return false;
+  }
+  return true;
+}
+
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
-  context->version = 1;
+  context->version = 2;
   context->newWaiter = DOBJC_newWaiter;
   context->awaitWaiter = DOBJC_awaitWaiter;
   context->currentIsolate = Dart_CurrentIsolate_DL;
@@ -59,5 +96,7 @@ FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
   context->exitIsolate = Dart_ExitIsolate_DL;
   context->getMainPortId = Dart_GetMainPortId_DL;
   context->getCurrentThreadOwnsIsolate = Dart_GetCurrentThreadOwnsIsolate_DL;
+  context->postCObject = DOBJC_postCObject;
+  context->finalizeObject = DOBJC_finalizeObject;
   return context;
 }

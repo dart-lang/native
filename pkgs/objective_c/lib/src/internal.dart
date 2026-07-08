@@ -412,24 +412,27 @@ class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
+  Pointer<NativeFunction<Void Function(BlockPtr, BlockPtr)>> copyHelper,
   Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper,
 ) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlockImpl>();
-  desc.ref.copy_helper = nullptr;
+  desc.ref.copy_helper = copyHelper.cast();
   desc.ref.dispose_helper = disposeHelper.cast();
   desc.ref.signature = nullptr;
   return desc;
 }
 
-final _pointerBlockDesc = _newBlockDesc(nullptr);
+final _pointerBlockDesc = _newBlockDesc(nullptr, nullptr);
 final _closureBlockDesc = _newBlockDesc(
+  Native.addressOf<NativeFunction<Void Function(BlockPtr, BlockPtr)>>(
+    c.copyObjCBlockWithClosure,
+  ),
   Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
     c.disposeObjCBlockWithClosure,
   ),
 );
-
 BlockPtr _newBlock(
   VoidPtr invoke,
   VoidPtr target,
@@ -438,7 +441,7 @@ BlockPtr _newBlock(
   int flags,
 ) {
   final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
-  b.ref.isa = Native.addressOf<Array<VoidPtr>>(r.NSConcreteGlobalBlock).cast();
+  b.ref.isa = Native.addressOf<Array<VoidPtr>>(r.NSConcreteStackBlock).cast();
   b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
@@ -467,6 +470,43 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
       _blockClosureDisposer.sendPort.nativePort,
       _blockHasCopyDispose,
     );
+
+final _blockPortRegistry = <int, RawReceivePort>{};
+
+final _blockPortDisposer = () {
+  _ensureDartAPI();
+  return RawReceivePort((dynamic msg) {
+    final targetPtr = Pointer<c.PortBlockTarget>.fromAddress(msg as int);
+    final portId = targetPtr.ref.port_id;
+    final port = _blockPortRegistry.remove(portId);
+    port?.close();
+    calloc.free(targetPtr);
+  }, 'ObjCBlockPortDisposer')..keepIsolateAlive = false;
+}();
+
+/// Only for use by FFIgen bindings.
+BlockPtr newPortBlock(
+  VoidPtr invoke,
+  void Function(int) handler, {
+  required bool keepIsolateAlive,
+}) {
+  final port = RawReceivePort((dynamic msg) => handler(msg as int));
+  port.keepIsolateAlive = keepIsolateAlive;
+  final portId = port.sendPort.nativePort;
+  _blockPortRegistry[portId] = port;
+
+  final target = calloc<c.PortBlockTarget>();
+  target.ref.port_id = portId;
+  target.ref.ctx = objCContext;
+
+  return _newBlock(
+    invoke,
+    target.cast(),
+    _closureBlockDesc,
+    _blockPortDisposer.sendPort.nativePort,
+    _blockHasCopyDispose,
+  );
+}
 
 /// Only for use by FFIgen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>

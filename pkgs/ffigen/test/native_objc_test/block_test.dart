@@ -301,83 +301,81 @@ void main() {
     });
 
     test('Object listener block', () async {
-      final hasRun = Completer<void>();
+      final hasRun = Completer<DummyObject>();
       final block = ObjectListenerBlock.listener((DummyObject x) {
-        expect(x, isNotNull);
-        hasRun.complete();
+        hasRun.complete(x);
       });
 
       BlockTester.callObjectListener(block);
-      await hasRun.future;
+      final x = await hasRun.future;
+      expect(x, isNotNull);
     });
 
     test('Nullable listener block', () async {
-      final hasRun = Completer<void>();
+      final hasRun = Completer<DummyObject?>();
       final block = NullableListenerBlock.listener((DummyObject? x) {
-        expect(x, isNull);
-        hasRun.complete();
+        hasRun.complete(x);
       });
 
       BlockTester.callNullableListener(block);
-      await hasRun.future;
+      final x = await hasRun.future;
+      expect(x, isNull);
     });
 
     test('Struct listener block', () async {
-      final hasRun = Completer<void>();
+      final hasRun = Completer<(Vec2, Vec4, NSObject)>();
       final block = StructListenerBlock.listener((
         Vec2 vec2,
         Vec4 vec4,
         NSObject dummy,
       ) {
-        expect(vec2.x, 100);
-        expect(vec2.y, 200);
-
-        expect(vec4.x, 1.2);
-        expect(vec4.y, 3.4);
-        expect(vec4.z, 5.6);
-        expect(vec4.w, 7.8);
-
-        expect(dummy, isNotNull);
-
-        hasRun.complete();
+        hasRun.complete((vec2, vec4, dummy));
       });
 
       BlockTester.callStructListener(block);
-      await hasRun.future;
+      final (vec2, vec4, dummy) = await hasRun.future;
+      expect(vec2.x, 100);
+      expect(vec2.y, 200);
+
+      expect(vec4.x, 1.2);
+      expect(vec4.y, 3.4);
+      expect(vec4.z, 5.6);
+      expect(vec4.w, 7.8);
+
+      expect(dummy, isNotNull);
     });
 
     test('NSString listener block', () async {
-      final hasRun = Completer<void>();
+      final hasRun = Completer<NSString>();
       final block = NSStringListenerBlock.listener((NSString s) {
-        expect(s.toDartString(), "Foo 123");
-        hasRun.complete();
+        hasRun.complete(s);
       });
 
       BlockTester.callNSStringListener(block, x: 123);
-      await hasRun.future;
+      final s = await hasRun.future;
+      expect(s.toDartString(), "Foo 123");
     });
 
     test('No trampoline listener block', () async {
-      final hasRun = Completer<void>();
+      final hasRun = Completer<(int, Vec4, Pointer<Char>)>();
       final block = NoTrampolineListenerBlock.listener((
         int x,
         Vec4 vec4,
         Pointer<Char> charPtr,
       ) {
-        expect(x, 123);
-
-        expect(vec4.x, 1.2);
-        expect(vec4.y, 3.4);
-        expect(vec4.z, 5.6);
-        expect(vec4.w, 7.8);
-
-        expect(charPtr.cast<Utf8>().toDartString(), "Hello World");
-
-        hasRun.complete();
+        hasRun.complete((x, vec4, charPtr));
       });
 
       BlockTester.callNoTrampolineListener(block);
-      await hasRun.future;
+      final (x, vec4, charPtr) = await hasRun.future;
+      expect(x, 123);
+
+      expect(vec4.x, 1.2);
+      expect(vec4.y, 3.4);
+      expect(vec4.z, 5.6);
+      expect(vec4.w, 7.8);
+
+      expect(charPtr.cast<Utf8>().toDartString(), "Hello World");
     });
 
     test('Block block', () {
@@ -849,14 +847,13 @@ void main() {
     Future<(ReferenceTracker, ReferenceTracker)>
     listenerBlockArgumentRetentionTest(Arena arena) async {
       final hasRun = Completer<void>();
-      late ObjCBlock<Int32 Function(Int32)> inputBlock;
+      ObjCBlock<Int32 Function(Int32)>? inputBlock;
       final intBlockTracker = ReferenceTracker(arena);
 
       final blockBlock = ListenerBlock.listener((
         ObjCBlock<Int32 Function(Int32)> intBlock,
       ) {
         intBlockTracker.trackBlock(intBlock);
-        expect(intBlockTracker.isAlive, true);
         inputBlock = intBlock;
         hasRun.complete();
       });
@@ -867,7 +864,8 @@ void main() {
       thread.start();
 
       await hasRun.future;
-      expect(inputBlock(123), 12300);
+      expect(intBlockTracker.isAlive, true);
+      expect(inputBlock!(123), 12300);
       thread.ref.release();
       doGC();
 
@@ -877,6 +875,8 @@ void main() {
       expect(blockBlock, isNotNull);
       expect(inputBlock, isNotNull);
 
+      inputBlock = null;
+
       return (intBlockTracker, blockBlockTracker);
     }
 
@@ -885,9 +885,14 @@ void main() {
       await using((arena) async {
         final (intBlockTracker, blockBlockTracker) =
             await listenerBlockArgumentRetentionTest(arena);
-        doGC();
-        await Future<void>.delayed(Duration.zero);
-        doGC();
+        Future<void> gcAndFlush() async {
+          for (var i = 0; i < 15; ++i) {
+            doGC();
+            await Future<void>.delayed(const Duration(milliseconds: 50));
+          }
+        }
+
+        await gcAndFlush();
         expect(intBlockTracker.isAlive, false);
         expect(blockBlockTracker.isAlive, false);
       });
@@ -984,7 +989,7 @@ void main() {
       final descPtr = blockPtr.ref.descriptor;
       expect(descPtr.ref.reserved, 0);
       expect(descPtr.ref.size, isNot(0));
-      expect(descPtr.ref.copy_helper, nullptr);
+      expect(descPtr.ref.copy_helper, isNot(nullptr));
       expect(descPtr.ref.dispose_helper, isNot(nullptr));
       expect(descPtr.ref.signature, nullptr);
     });
@@ -1013,10 +1018,16 @@ void main() {
     });
 
     @pragma('vm:never-inline')
-    Future<(BlockTester, ReferenceTracker, ReferenceTracker)> regress1571Inner(
-      Completer<void> completer,
-      Arena arena,
-    ) async {
+    Future<
+      (
+        BlockTester,
+        ReferenceTracker,
+        ReferenceTracker,
+        ReferenceTracker,
+        DummyObject,
+      )
+    >
+    regress1571Inner(Completer<void> completer, Arena arena) async {
       final dummyObjectTracker = ReferenceTracker(arena);
       final blockTracker = ReferenceTracker(arena);
       final objTracker = ReferenceTracker(arena);
@@ -1028,10 +1039,7 @@ void main() {
         DummyObject obj,
       ) {
         objTracker.track(obj);
-        expect(objTracker.isAlive, true);
         completer.complete();
-        expect(dummyObject, isNotNull);
-        expect(dummyObjectTracker.isAlive, true);
       });
       blockTracker.trackBlock(block!);
 
@@ -1040,7 +1048,13 @@ void main() {
       expect(dummyObjectTracker.isAlive, true);
       expect(blockTracker.isAlive, true);
 
-      return (tester, dummyObjectTracker, blockTracker);
+      return (
+        tester,
+        dummyObjectTracker,
+        blockTracker,
+        objTracker,
+        dummyObject,
+      );
     }
 
     test(
@@ -1054,17 +1068,32 @@ void main() {
         await using((arena) async {
           for (int i = 0; i < 10; ++i) {
             final completer = Completer<void>();
-            final (tester, dummyObjectTracker, blockTracker) =
-                await regress1571Inner(completer, arena);
+            final (
+              tester,
+              dummyObjectTracker,
+              blockTracker,
+              objTracker,
+              dummyObject,
+            ) = await regress1571Inner(
+              completer,
+              arena,
+            );
 
             await flutterDoGC();
+            await Future<void>.delayed(const Duration(milliseconds: 50));
             expect(dummyObjectTracker.isAlive, true);
             expect(blockTracker.isAlive, true);
 
             tester.invokeAndReleaseListenerOnNewThread();
             await completer.future;
 
+            expect(objTracker.isAlive, true);
+            expect(dummyObject, isNotNull);
+            expect(dummyObjectTracker.isAlive, true);
+
+            await Future<void>.delayed(const Duration(milliseconds: 100));
             await flutterDoGC();
+            await Future<void>.delayed(const Duration(milliseconds: 50));
             expect(dummyObjectTracker.isAlive, false);
             expect(blockTracker.isAlive, false);
           }

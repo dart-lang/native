@@ -33,6 +33,7 @@ class ObjCBuiltInFunctions {
   static const respondsToSelector = ObjCImport('respondsToSelector');
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
+  static const newPortBlock = ObjCImport('newPortBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
   static const getProtocolMethodSignature = ObjCImport(
     'getProtocolMethodSignature',

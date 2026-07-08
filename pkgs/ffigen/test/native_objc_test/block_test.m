@@ -90,16 +90,17 @@ void objc_release(id value);
 
 + (void)callListener:(ListenerBlock)block {
   // Note: This method is invoked on a background thread.
+  @autoreleasepool {
+    // This multiplier is defined in a bound variable rather than inside the block
+    // to force the compiler to make a real lambda style block. Without this, we
+    // get a _NSConcreteGlobalBlock (essentially a static function pointer), which
+    // always has a ref count of 0, so we can't test the ref counting.
+    int mult = 100;
 
-  // This multiplier is defined in a bound variable rather than inside the block
-  // to force the compiler to make a real lambda style block. Without this, we
-  // get a _NSConcreteGlobalBlock (essentially a static function pointer), which
-  // always has a ref count of 0, so we can't test the ref counting.
-  int mult = 100;
-
-  block(^int(int x) {
-    return mult * x;
-  });
+    block(^int(int x) {
+      return mult * x;
+    });
+  }
 }
 
 + (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block NS_RETURNS_RETAINED {
@@ -205,16 +206,20 @@ void objc_release(id value);
 }
 
 - (void)invokeAndReleaseListener:(id)_ {
-  myListener([DummyObject new]);
-  myListener = nil;
+  @autoreleasepool {
+    myListener([DummyObject new]);
+    myListener = nil;
+  }
 }
 
 + (void)blockingBlockTest:(IntPtrBlock)blockingBlock
               resultBlock:(ResultBlock)resultBlock {
   [[[NSThread alloc] initWithBlock:^void() {
-    int32_t result;
-    blockingBlock(&result);
-    resultBlock(result);
+    @autoreleasepool {
+      int32_t result;
+      blockingBlock(&result);
+      resultBlock(result);
+    }
   }] start];
 }
 

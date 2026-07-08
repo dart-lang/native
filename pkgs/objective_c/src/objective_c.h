@@ -33,7 +33,8 @@ typedef struct _ObjCBlockImpl {
 // Initialize the Dart API.
 FFI_EXPORT intptr_t DOBJC_initializeApi(void *data);
 
-// Dispose helper for ObjC blocks that wrap a Dart closure.
+// Copy and dispose helper for ObjC blocks that wrap a Dart closure.
+FFI_EXPORT void DOBJC_copyObjCBlockWithClosure(ObjCBlockImpl *dst, ObjCBlockImpl *src);
 FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl *block);
 
 // Returns whether the block is valid and live. The pointer must point to
@@ -66,6 +67,9 @@ FFI_EXPORT void *DOBJC_newWaiter(void);
 FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
+FFI_EXPORT bool DOBJC_postCObject(int64_t port_id, void* peer,
+                                  void (*callback)(void*, void*));
+
 // Context object containing functions needed by the FFIgen bindings. Any
 // changes to this struct should bump the `version` field filled in by
 // package:objective_c, and checked by FFIgen. Never change or delete existing
@@ -79,7 +83,15 @@ typedef struct _DOBJC_Context {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  bool (*postCObject)(int64_t, void*, void (*)(void*, void*));
+  void (*finalizeObject)(void*, void*);
 } DOBJC_Context;
+
+typedef struct {
+  int64_t port_id;
+  DOBJC_Context* ctx;
+} PortBlockTarget;
+
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

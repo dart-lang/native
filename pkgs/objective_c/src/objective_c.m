@@ -11,14 +11,7 @@
 #include "include/dart_api_dl.h"
 #include "os_version.h"
 
-_Atomic bool _mainThreadIsListening = false;
-
-FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    _mainThreadIsListening = true;
-  });
-  return Dart_InitializeApiDL(data);
-}
+extern _Atomic bool _mainThreadIsListening;
 
 FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
   if (!_mainThreadIsListening || [NSThread isMainThread]) {

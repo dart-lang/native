@@ -68,7 +68,7 @@ void main() {
 
     test('All code genned structs are included in the list', () {
       final allStructNames = findBindings(
-        RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)'),
+        RegExp(r'^final class ([^_]\w*) extends ffi\.(Struct|Opaque)'),
       );
       expectSetsEqual(
         'generated structs',
