@@ -47,6 +47,9 @@ class NormalClassInfo extends ClassInfo {
   /// Only set in the parent class.
   final bool visibleTaggedUnion;
 
+  /// If the tagged union allows unknown tag values.
+  final bool isOpenTaggedUnion;
+
   bool get isTaggedUnion =>
       taggedUnionProperty != null || taggedUnionValue != null;
 
@@ -60,6 +63,7 @@ class NormalClassInfo extends ClassInfo {
     this.taggedUnionValue,
     this.extraValidation = const [],
     this.visibleTaggedUnion = false,
+    this.isOpenTaggedUnion = true,
   }) : super() {
     superclass?.subclasses.add(this);
     if (taggedUnionValue != null) {
