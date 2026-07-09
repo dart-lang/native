@@ -4234,6 +4234,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -4662,6 +4663,7 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -4946,6 +4948,7 @@ extension type InheritedFromMyRunnable._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -5027,6 +5030,356 @@ final class $InheritedFromMyRunnable$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/interfaces/InheritedFromMyRunnable;';
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.MyConsumer`
+extension type MyConsumer._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/MyConsumer');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<MyConsumer> type = $MyConsumer$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<core$_.int, $MyConsumer> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    core$_.int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    core$_.int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'consume(Ljava/lang/Object;)V') {
+        _$impls[$p]!.consume(
+          ($a![0] as jni$_.JObject?),
+        );
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $MyConsumer $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.interfaces.MyConsumer',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.consume$async) r'consume(Ljava/lang/Object;)V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory MyConsumer.implement(
+    $MyConsumer $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<MyConsumer>();
+  }
+  static core$_.Map<core$_.int, $MyConsumer> get $impls => _$impls;
+}
+
+extension MyConsumer$$Methods on MyConsumer {
+  static final _id_consume = MyConsumer._class.instanceMethodId(
+    r'consume',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _consume = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract void consume(java.lang.Object object)`
+  void consume(
+    jni$_.JObject? object,
+  ) {
+    final _$$selfRef = reference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    _consume(_$$selfRef.pointer, _id_consume.pointer, _$object.pointer).check();
+  }
+}
+
+abstract base mixin class $MyConsumer {
+  factory $MyConsumer({
+    required void Function(jni$_.JObject? object) consume,
+    core$_.bool consume$async,
+  }) = _$MyConsumer;
+
+  void consume(jni$_.JObject? object);
+  core$_.bool get consume$async => false;
+}
+
+final class _$MyConsumer with $MyConsumer {
+  _$MyConsumer({
+    required void Function(jni$_.JObject? object) consume,
+    this.consume$async = false,
+  }) : _consume = consume;
+
+  final void Function(jni$_.JObject? object) _consume;
+  final core$_.bool consume$async;
+
+  void consume(jni$_.JObject? object) {
+    return _consume(object);
+  }
+}
+
+final class $MyConsumer$Type$ extends jni$_.JType<MyConsumer> {
+  @jni$_.internal
+  const $MyConsumer$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyConsumer;';
+}
+
+/// from: `com.github.dart_lang.jnigen.interfaces.MyConsumerRunner`
+extension type MyConsumerRunner._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/interfaces/MyConsumerRunner');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<MyConsumerRunner> type = $MyConsumerRunner$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Lcom/github/dart_lang/jnigen/interfaces/MyConsumer;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(com.github.dart_lang.jnigen.interfaces.MyConsumer myConsumer)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MyConsumerRunner(
+    MyConsumer? myConsumer,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$myConsumer = myConsumer?.reference ?? jni$_.jNullReference;
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$myConsumer.pointer)
+        .object<MyConsumerRunner>();
+  }
+}
+
+extension MyConsumerRunner$$Methods on MyConsumerRunner {
+  static final _id_runOnAnotherThread =
+      MyConsumerRunner._class.instanceMethodId(
+    r'runOnAnotherThread',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _runOnAnotherThread = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void runOnAnotherThread(java.lang.Object object)`
+  void runOnAnotherThread(
+    jni$_.JObject? object,
+  ) {
+    final _$$selfRef = reference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    _runOnAnotherThread(_$$selfRef.pointer, _id_runOnAnotherThread.pointer,
+            _$object.pointer)
+        .check();
+  }
+
+  static final _id_runOnAnotherThreadAndJoin =
+      MyConsumerRunner._class.instanceMethodId(
+    r'runOnAnotherThreadAndJoin',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _runOnAnotherThreadAndJoin = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void runOnAnotherThreadAndJoin(java.lang.Object object)`
+  void runOnAnotherThreadAndJoin(
+    jni$_.JObject? object,
+  ) {
+    final _$$selfRef = reference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    _runOnAnotherThreadAndJoin(_$$selfRef.pointer,
+            _id_runOnAnotherThreadAndJoin.pointer, _$object.pointer)
+        .check();
+  }
+
+  static final _id_joinThread = MyConsumerRunner._class.instanceMethodId(
+    r'joinThread',
+    r'()V',
+  );
+
+  static final _joinThread = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void joinThread()`
+  void joinThread() {
+    final _$$selfRef = reference;
+    _joinThread(_$$selfRef.pointer, _id_joinThread.pointer).check();
+  }
+
+  static final _id_get$isFinished = MyConsumerRunner._class.instanceMethodId(
+    r'isFinished',
+    r'()Z',
+  );
+
+  static final _get$isFinished = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isFinished()`
+  core$_.bool get isFinished {
+    final _$$selfRef = reference;
+    return _get$isFinished(_$$selfRef.pointer, _id_get$isFinished.pointer)
+        .boolean;
+  }
+
+  static final _id_waitForFinished = MyConsumerRunner._class.instanceMethodId(
+    r'waitForFinished',
+    r'(J)Z',
+  );
+
+  static final _waitForFinished = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Int64,)>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
+
+  /// from: `public boolean waitForFinished(long j)`
+  core$_.bool waitForFinished(
+    core$_.int j,
+  ) {
+    final _$$selfRef = reference;
+    return _waitForFinished(_$$selfRef.pointer, _id_waitForFinished.pointer, j)
+        .boolean;
+  }
+
+  static final _id_get$isArgCollected =
+      MyConsumerRunner._class.instanceMethodId(
+    r'isArgCollected',
+    r'()Z',
+  );
+
+  static final _get$isArgCollected = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isArgCollected()`
+  core$_.bool get isArgCollected {
+    final _$$selfRef = reference;
+    return _get$isArgCollected(
+            _$$selfRef.pointer, _id_get$isArgCollected.pointer)
+        .boolean;
+  }
+}
+
+final class $MyConsumerRunner$Type$ extends jni$_.JType<MyConsumerRunner> {
+  @jni$_.internal
+  const $MyConsumerRunner$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/interfaces/MyConsumerRunner;';
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyInterface`
@@ -5122,6 +5475,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -5563,6 +5917,7 @@ extension type MyRunnable._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -5892,6 +6247,7 @@ extension type StringConverter._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6164,6 +6520,7 @@ extension type Animal._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6382,6 +6739,7 @@ extension type BaseGenericInterface<$T extends jni$_.JObject?>._(
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6537,6 +6895,7 @@ extension type BaseInterface._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -6825,6 +7184,7 @@ extension type DerivedInterface._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7031,6 +7391,7 @@ extension type Dog._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7283,6 +7644,7 @@ extension type FourLegged._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7480,6 +7842,7 @@ extension type Furry._(jni$_.JObject _$this) implements jni$_.JObject, Mammal {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -7749,6 +8112,7 @@ extension type Mammal._(jni$_.JObject _$this) implements jni$_.JObject, Animal {
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10058,6 +10422,7 @@ extension type JsonSerializable._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10235,6 +10600,7 @@ extension type NotNull._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10331,6 +10697,7 @@ extension type Nullable._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10433,6 +10800,7 @@ extension type R2250$Child._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -10575,6 +10943,7 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(

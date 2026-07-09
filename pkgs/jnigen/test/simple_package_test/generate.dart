@@ -55,6 +55,8 @@ final javaFiles = [
   join(javaPrefix, 'interfaces', 'GenericInterface.java'),
   join(javaPrefix, 'interfaces', 'InheritedFromMyInterface.java'),
   join(javaPrefix, 'interfaces', 'InheritedFromMyRunnable.java'),
+  join(javaPrefix, 'interfaces', 'MyConsumer.java'),
+  join(javaPrefix, 'interfaces', 'MyConsumerRunner.java'),
   join(javaPrefix, 'interfaces', 'MyInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterfaceConsumer.java'),
   join(javaPrefix, 'interfaces', 'MyRunnable.java'),
@@ -104,6 +106,9 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
     nonNullAnnotations: ['com.github.dart_lang.jnigen.annotations.NotNull'],
     nullableAnnotations: ['com.github.dart_lang.jnigen.annotations.Nullable'],
     customClassBody: {
+      'com.github.dart_lang.jnigen.interfaces.MyConsumer': r'''
+  static core$_.Map<core$_.int, $MyConsumer> get $impls => _$impls;
+''',
       'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
   static core$_.Map<core$_.int, $MyInterface> get $impls => _$impls;
 ''',

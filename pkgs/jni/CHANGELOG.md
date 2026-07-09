@@ -2,6 +2,8 @@
 
 - Improve error message when JNI is used before Flutter plugin initialization.
 - Improve no such method error handling.
+- Fix memory leaks and deadlocks that can happen in callbacks, if the target
+  isolate is shut down.
 
 ## 1.0.0
 

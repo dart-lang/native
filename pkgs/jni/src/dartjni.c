@@ -273,6 +273,10 @@ FFI_PLUGIN_EXPORT JniResult DartException__ctor(jstring message,
   return (JniResult){.value = {.l = _result}, .exception = check_exception()};
 }
 
+void finalizeGlobal(void* isolate_callback_data, void* peer);
+void doNotFinalize(void* isolate_callback_data, void* peer);
+void finalizeBlockingResult(void* isolate_callback_data, void* peer);
+
 JNIEXPORT void JNICALL
 Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith(JNIEnv* env,
                                                              jclass clazz,
@@ -280,9 +284,15 @@ Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith(JNIEnv* env,
                                                              jobject result) {
   attach_thread();
   Dart_CObject c_post;
-  c_post.type = Dart_CObject_kInt64;
-  c_post.value.as_int64 = (jlong)((*env)->NewGlobalRef(env, result));
-  Dart_PostCObject_DL(port, &c_post);
+  c_post.type = Dart_CObject_kNativePointer;
+  c_post.value.as_native_pointer.ptr =
+      (intptr_t)((*env)->NewGlobalRef(env, result));
+  c_post.value.as_native_pointer.size = 0;
+  c_post.value.as_native_pointer.callback = finalizeGlobal;
+  if (!Dart_PostCObject_DL(port, &c_post)) {
+    c_post.value.as_native_pointer.callback(
+        NULL, (void*)c_post.value.as_native_pointer.ptr);
+  }
 }
 
 // com.github.dart_lang.jni.PortContinuation
@@ -319,6 +329,13 @@ void resultFor(CallbackResult* result, jobject object) {
 }
 
 void doNotFinalize(void* isolate_callback_data, void* peer) {}
+
+void finalizeBlockingResult(void* isolate_callback_data, void* peer) {
+  CallbackResult* result = (CallbackResult*)peer;
+  if (result != NULL) {
+    resultFor(result, NULL);
+  }
+}
 
 void finalizeLocal(void* isolate_callback_data, void* peer) {
   attach_thread();
@@ -437,17 +454,25 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     }
 
     Dart_CObject c_result;
-    c_result.type = Dart_CObject_kInt64;
-    c_result.value.as_int64 = (jlong)result;
+    c_result.type = Dart_CObject_kNativePointer;
+    c_result.value.as_native_pointer.ptr = (intptr_t)result;
+    c_result.value.as_native_pointer.size = 0;
+    c_result.value.as_native_pointer.callback =
+        isBlocking ? finalizeBlockingResult : doNotFinalize;
 
     Dart_CObject c_method;
-    c_method.type = Dart_CObject_kInt64;
-    c_method.value.as_int64 =
-        (jlong)((*env)->NewGlobalRef(env, methodDescriptor));
+    c_method.type = Dart_CObject_kNativePointer;
+    c_method.value.as_native_pointer.ptr =
+        (intptr_t)((*env)->NewGlobalRef(env, methodDescriptor));
+    c_method.value.as_native_pointer.size = 0;
+    c_method.value.as_native_pointer.callback = finalizeGlobal;
 
     Dart_CObject c_args;
-    c_args.type = Dart_CObject_kInt64;
-    c_args.value.as_int64 = (jlong)((*env)->NewGlobalRef(env, args));
+    c_args.type = Dart_CObject_kNativePointer;
+    c_args.value.as_native_pointer.ptr =
+        (intptr_t)((*env)->NewGlobalRef(env, args));
+    c_args.value.as_native_pointer.size = 0;
+    c_args.value.as_native_pointer.callback = finalizeGlobal;
 
     Dart_CObject* c_post_arr[] = {&c_result, &c_method, &c_args};
     Dart_CObject c_post;
@@ -455,7 +480,14 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     c_post.value.as_array.values = c_post_arr;
     c_post.value.as_array.length = sizeof(c_post_arr) / sizeof(c_post_arr[0]);
 
-    Dart_PostCObject_DL(port, &c_post);
+    if (!Dart_PostCObject_DL(port, &c_post)) {
+      if (isBlocking) {
+        result->ready = 1;
+        result->object = NULL;
+      }
+      (*env)->DeleteGlobalRef(env, (void*)c_method.value.as_native_pointer.ptr);
+      (*env)->DeleteGlobalRef(env, (void*)c_args.value.as_native_pointer.ptr);
+    }
 
     if (isBlocking) {
       while (!result->ready) {
