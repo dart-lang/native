@@ -21,8 +21,8 @@ import 'syntax.g.dart';
 /// Associate [Definition]s annotated with `@RecordUse()` from `package:meta`
 /// with their corresponding recorded usages.
 ///
-/// The definition annotated with `@RecordUse()` must be inside the `lib/`
-/// directory of the package. If the definition is a member of a class (e.g. a
+/// The declaration annotated with `@RecordUse()` must be inside the `lib/`
+/// directory of the package. If the declaration is a member of a class (e.g. a
 /// static method), the class must be in the `lib/` directory.
 ///
 /// The class uses a normalized JSON format, allowing the reuse of constants
@@ -30,9 +30,11 @@ import 'syntax.g.dart';
 class Recordings {
   /// The collected [CallReference]s for each [DefinitionWithStaticCalls].
   ///
-  /// Recorded when `@RecordUse()` is placed on a static member (top-level
-  /// functions, static methods, getters, setters, or operators) in any
-  /// container (library, class, mixin, enum, extension, or extension type).
+  /// Recorded when `@RecordUse()` is placed on a statically resolved function
+  /// or member (such as a top-level function, static method, non-redirecting
+  /// factory constructor, getter, setter, operator, extension method, or
+  /// extension type method) in any container (library, class, mixin, enum,
+  /// extension, or extension type).
   ///
   /// For example, to record calls to a static method:
   ///
@@ -66,11 +68,14 @@ class Recordings {
   /// - [NullConstant]: The `null` literal.
   /// - [BoolConstant]: `true` and `false`.
   /// - [IntConstant]: All constant integer values.
+  /// - [DoubleConstant]: Constant double values.
   /// - [StringConstant]: All constant string values.
   /// - [SymbolConstant]: Both public (e.g. `#mySymbol`) and private (e.g.
   ///   `#_myPrivateSymbol`). Private symbols include the library URI in the
   ///   recording to ensure they are unambiguous.
   /// - [ListConstant]: Constant lists where every element is also a
+  ///   supported constant.
+  /// - [SetConstant]: Constant sets where every element is also a
   ///   supported constant.
   /// - [MapConstant]: Constant maps where every key and value is a
   ///   supported constant.
@@ -86,10 +91,6 @@ class Recordings {
   /// Unsupported Constants:
   /// The following types are explicitly not supported and will be recorded as
   /// an [UnsupportedConstant] with a descriptive message if encountered:
-  /// - Doubles: Double literals are currently excluded from recording to avoid
-  ///   precision/portability issues across different platforms (VM vs JS).
-  /// - Sets: Constant sets are currently not supported (they are handled
-  ///   differently than Lists/Maps in the compiler backends).
   /// - Type Literals: Passing a type itself (e.g. `MyClass`) as a constant
   ///   argument is not supported.
   ///   https://github.com/dart-lang/native/issues/3199
@@ -128,8 +129,10 @@ class Recordings {
 
   /// The collected [InstanceReference]s for each [DefinitionWithInstances].
   ///
-  /// Recorded when `@RecordUse()` is placed on a `final class` or `enum` to
-  /// track the lifecycle of instances.
+  /// Recorded when `@RecordUse()` is placed on a class or enum to track
+  /// constant instances (including those resulting from `const` redirecting
+  /// factory constructors), non-const generative constructor invocations, and
+  /// generative constructor tear-offs.
   ///
   /// For example, to record instances of a class:
   ///
@@ -160,7 +163,8 @@ class Recordings {
   ///     constant; otherwise recorded as [NonConstant]. Any non-provided
   ///     arguments with default values will have their default values
   ///     filled in.
-  /// - [ConstructorTearoffReference]: Recorded for constructor tear-offs.
+  /// - [ConstructorTearoffReference]: Recorded for generative constructor
+  ///   tear-offs.
   /// - Redirecting Factories (`=`): Resolved to the effective target class and
   ///   recorded as an instance creation, constant, or tear-off of that class.
   /// - Typedefs: Resolved back to the underlying class.
@@ -171,11 +175,14 @@ class Recordings {
   /// - [NullConstant]: The `null` literal.
   /// - [BoolConstant]: `true` and `false`.
   /// - [IntConstant]: All constant integer values.
+  /// - [DoubleConstant]: Constant double values.
   /// - [StringConstant]: All constant string values.
   /// - [SymbolConstant]: Both public (e.g. `#mySymbol`) and private (e.g.
   ///   `#_myPrivateSymbol`). Private symbols include the library URI in the
   ///   recording to ensure they are unambiguous.
   /// - [ListConstant]: Constant lists where every element is also a
+  ///   supported constant.
+  /// - [SetConstant]: Constant sets where every element is also a
   ///   supported constant.
   /// - [MapConstant]: Constant maps where every key and value is a
   ///   supported constant.
@@ -191,10 +198,6 @@ class Recordings {
   /// Unsupported Constants:
   /// The following types are explicitly not supported and will be recorded as
   /// an [UnsupportedConstant] with a descriptive message if encountered:
-  /// - Doubles: Double literals are currently excluded from recording to avoid
-  ///   precision/portability issues across different platforms (VM vs JS).
-  /// - Sets: Constant sets are currently not supported (they are handled
-  ///   differently than Lists/Maps in the compiler backends).
   /// - Type Literals: Passing a type itself (e.g. `MyClass`) as a constant
   ///   argument is not supported.
   ///   https://github.com/dart-lang/native/issues/3199

@@ -7,23 +7,35 @@
 /// This package provides the data classes for the usage recording feature in
 /// the Dart SDK.
 ///
-/// Dart objects with the `@RecordUse()` annotation are being recorded at
-/// compile time, providing the user with information. The information depends
-/// on the object being recorded.
+/// During compilation, usages of declarations annotated with `@RecordUse()` in
+/// reachable code are recorded, and information about these usages is made
+/// available to post-compile steps (such as link hooks). Usages in unreachable
+/// code are not recorded.
 ///
 /// The main entrypoint for recorded usages is [Recordings].
 ///
-/// - If placed on a static method, the annotation means that arguments passed
-///   to the method will be recorded, as far as they can be inferred at compile
-///   time. These can be found in [Recordings.calls].
-/// - If placed on a class, the annotation means that any constant instance of
-///   the class and any constructor invocation will be recorded. These can be
-///   found in [Recordings.instances].
+/// - If placed on a statically resolved function or member (such as a top-level
+///   function, static method, non-redirecting factory constructor, getter,
+///   setter, operator, extension method, or extension type method), all calls
+///   to or tear-offs of that member in reachable code will be recorded, along
+///   with arguments passed to the call as far as they can be evaluated as
+///   constant expressions at compile time. These can be found in
+///   [Recordings.calls]. Generative constructors and redirecting factory
+///   constructors cannot be annotated directly.
+/// - If placed on a class, any constant instance of the class (including
+///   instances created via `const` redirecting factory constructors), any
+///   non-const generative constructor invocation, and any generative
+///   constructor tear-off in reachable code will be recorded. These can be
+///   found in [Recordings.instances]. Calls to non-const factory constructors
+///   are not recorded directly by annotating the class; rather, any generative
+///   constructor invocation within the factory body will be recorded.
+///
+/// Only usages in executable code are recorded. Usages appearing within
+/// metadata (annotations) are ignored.
 ///
 /// > [!NOTE]
-/// > The `@RecordUse()` annotation is only allowed on definitions within a
-/// > package's `lib/` directory. This includes definitions that are members of
-/// > a class, such as static methods.
+/// > The `@RecordUse()` annotation is only allowed on declarations within a
+/// > package's `lib/` directory.
 ///
 /// ## Example
 ///
