@@ -43,8 +43,7 @@ public class MyConsumerRunner {
 
   public void runOnAnotherThread(Object arg) {
     this.weakArg = new WeakReference<>(arg);
-    this.thread =
-        new Thread(new ConsumerRunnable(this, consumer, arg));
+    this.thread = new Thread(new ConsumerRunnable(this, consumer, arg));
     this.thread.start();
   }
 
