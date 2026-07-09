@@ -4,8 +4,7 @@
 
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io'
-    show Process, ProcessException, ProcessResult, systemEncoding;
+import 'dart:io' show Process, ProcessException, ProcessResult, systemEncoding;
 
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
