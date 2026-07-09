@@ -14,7 +14,6 @@ void main(List<String> arguments) async {
       input: input,
       output: output,
       linkerOptions: LinkerOptions.treeshake(
-        // ignore: experimental_member_use
         symbolsToKeep: input.recordedUses?.calls.keys.cast<Method>().map(
           (e) => recordUseMapping[e.name]!,
         ),

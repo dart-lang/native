@@ -1,11 +1,3 @@
-> [!CAUTION]
-> This is an experimental package. Its API and the underlying JSON format
-> **will break** as we are actively iterating. Use at your own discretion.
->
-> We are continuously changing the implementation, so a released version of the
-> package may only work with one or two [dev releases] of the Dart SDK. This
-> version will work with the first dev release _after_ `3.12.0-203.0.dev`.
-
 This package provides the data classes for the usage recording feature in the
 Dart SDK.
 
@@ -92,5 +84,3 @@ void main(List<String> arguments) {
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
-
-[dev releases]: https://dart.dev/get-dart/archive#dev-channel

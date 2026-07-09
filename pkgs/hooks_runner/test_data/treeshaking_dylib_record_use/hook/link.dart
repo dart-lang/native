@@ -24,7 +24,6 @@ void main(List<String> arguments) async {
       sources: ['src/multiply.c'],
     );
 
-    // ignore: experimental_member_use
     final usages = input.recordedUses;
 
     final addSymbols = usages?.calls.keys
