@@ -63,4 +63,6 @@ dependency_overrides:
     path: ../jni_util
   native_toolchain_c:
     path: ../native_toolchain_c
+  record_use:
+    path: ../record_use
 
