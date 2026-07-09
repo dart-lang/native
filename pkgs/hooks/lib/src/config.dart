@@ -7,7 +7,6 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart' show sha256;
-import 'package:meta/meta.dart';
 import 'package:record_use/record_use.dart';
 
 import 'api/build_and_link.dart';
@@ -477,22 +476,10 @@ final class LinkInput extends HookInput {
   List<EncodedAsset> get _encodedAssets => assets.encodedAssets;
 
   /// The file containing recorded usages, if any.
-  ///
-  /// Experimental: The record uses feature needs to be enabled as experiment.
-  /// The experiment is only available in the Dart SDK, not in Flutter. We
-  /// reserve the right to break this API at any point without respecting
-  /// semantic versioning of this package.
-  @experimental
   @Deprecated('Use recordedUses instead')
   Uri? get recordedUsagesFile => _syntaxLinkInput.resourceIdentifiers;
 
   /// The recorded usages, if any.
-  ///
-  /// Experimental: The record uses feature needs to be enabled as experiment.
-  /// The experiment is only available in the Dart SDK, not in Flutter. We
-  /// reserve the right to break this API at any point without respecting
-  /// semantic versioning of this package.
-  @experimental
   late final Recordings? recordedUses = () {
     final file = _syntaxLinkInput.resourceIdentifiers;
     if (file == null) return null;

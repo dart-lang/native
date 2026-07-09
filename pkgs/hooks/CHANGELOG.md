@@ -1,3 +1,7 @@
+## 2.0.3
+
+- Graduate `LinkInput.recordedUses` out of experimental.
+
 ## 2.0.2
 
 - Update documentation for user-defines.

@@ -1,4 +1,4 @@
-## 1.5.1-wip
+## 1.5.1
 
 - Fix record_use path changing caching issue.
 
