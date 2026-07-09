@@ -21,7 +21,7 @@ dependencies:
   glob: ^2.1.1
   hooks: ^2.0.0
   logging: ^1.3.0
-  meta: ^1.16.0
+  meta: ^1.19.0
   pub_semver: ^2.2.0
 
 dev_dependencies:
