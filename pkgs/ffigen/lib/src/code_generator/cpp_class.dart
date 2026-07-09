@@ -90,7 +90,7 @@ class CppClass extends BindingType with HasLocalScope {
     required bool objCRetain,
     required bool objCAutorelease,
     required LocalVariables localVariables,
-  }) => '$value._ptr';
+  }) => '$value._ptr!';
 
   @override
   BindingString toBindingString(Writer w) {
@@ -113,24 +113,36 @@ class CppClass extends BindingType with HasLocalScope {
     s.write(makeDartDoc(dartDoc));
     s.write('''
 class $name implements $ffiPrefix.Finalizable {
-  // ignore: unused_field
-  final $ptrVoid _ptr;
+  $ptrVoid? _ptr;
 ''');
 
     s.write('''
-  bool _isDisposed = false;
-  static final _finalizer = $ffiPrefix.NativeFinalizer(
+  static final _defaultFinalizer = $ffiPrefix.NativeFinalizer(
     $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue),
   );
+
+  /// Keeps user-supplied [NativeFinalizer] instances alive so they are not
+  /// garbage collected before they have a chance to fire.
+  static final _customFinalizers = <$ffiPrefix.NativeFinalizer>{};
 
   /// The finalizer currently attached for this instance, or [null] if this
   /// object does not own its pointer.
   $ffiPrefix.NativeFinalizer? _activeFinalizer;
 
-  $name.fromPointer(this._ptr, {bool takeOwnership = true}) {
+  /// The native function pointer used by [_activeFinalizer], stored so that
+  /// [dispose] can call the correct destructor directly.
+  $ffiPrefix.Pointer<
+    $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+  >? _activeFinalizerFn;
+
+  $name.fromPointer($ptrVoid ptr, {bool takeOwnership = true})
+      : _ptr = ptr {
     if (takeOwnership) {
-      _finalizer.attach(this, _ptr.cast(), detach: this);
-      _activeFinalizer = _finalizer;
+      _defaultFinalizer.attach(this, ptr.cast(), detach: this);
+      _activeFinalizer = _defaultFinalizer;
+      _activeFinalizerFn = $ffiPrefix.Native.addressOf<
+        $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+      >($deleteGlue);
     }
   }
 
@@ -139,28 +151,47 @@ class $name implements $ffiPrefix.Finalizable {
   /// default `delete` finalizer, which is useful when the object was not
   /// allocated with `new` (e.g. `malloc` or a custom allocator).
   ///
+  /// Throws a [StateError] if the object has already been disposed.
   /// Has no effect if this object already owns the pointer.
   void retainOwnership([
     $ffiPrefix.Pointer<
       $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
     >? customFinalizer,
   ]) {
+    if (_ptr == null) {
+      throw StateError('This object has already been disposed.');
+    }
     if (_activeFinalizer != null) return;
-    final fin = customFinalizer != null
-        ? $ffiPrefix.NativeFinalizer(customFinalizer)
-        : _finalizer;
-    fin.attach(this, _ptr.cast(), detach: this);
+    final fnPtr = customFinalizer ??
+        $ffiPrefix.Native.addressOf<
+          $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+        >($deleteGlue);
+    final $ffiPrefix.NativeFinalizer fin;
+    if (customFinalizer != null) {
+      fin = $ffiPrefix.NativeFinalizer(fnPtr);
+      _customFinalizers.add(fin);
+    } else {
+      fin = _defaultFinalizer;
+    }
+    fin.attach(this, _ptr!.cast(), detach: this);
     _activeFinalizer = fin;
+    _activeFinalizerFn = fnPtr;
   }
 
   /// Detaches the finalizer so this object releases ownership of the
   /// underlying C++ pointer. The caller becomes responsible for freeing
   /// the memory.
   ///
+  /// Throws a [StateError] if the object has already been disposed.
   /// Has no effect if this object does not own the pointer.
   void releaseOwnership() {
+    if (_ptr == null) {
+      throw StateError('This object has already been disposed.');
+    }
+    _customFinalizers.remove(_activeFinalizer);
     _activeFinalizer?.detach(this);
     _activeFinalizer = null;
+    _activeFinalizerFn = null;
   }
 ''');
 
@@ -199,7 +230,7 @@ class $name implements $ffiPrefix.Finalizable {
       final dartParams = dartParamList(method.parameters);
 
       final callArgs = [
-        if (!method.isStatic) '_ptr',
+        if (!method.isStatic) '_ptr!',
         ...method.parameters.map((p) => p.name),
       ].join(', ');
 
@@ -211,7 +242,7 @@ class $name implements $ffiPrefix.Finalizable {
       } else {
         s.write('''
   $dartReturn ${method.originalName}($dartParams) {
-    if (_isDisposed) {
+    if (_ptr == null) {
       throw StateError('This object has already been disposed.');
     }
     return $glue($callArgs);
@@ -221,12 +252,15 @@ class $name implements $ffiPrefix.Finalizable {
     }
     s.write('''
   void dispose() {
-    if (_isDisposed) {
+    if (_ptr == null) {
       throw StateError('This object has already been disposed.');
     }
-    _isDisposed = true;
-    releaseOwnership();
-    $deleteGlue(_ptr);
+    _customFinalizers.remove(_activeFinalizer);
+    _activeFinalizer?.detach(this);
+    _activeFinalizer = null;
+    _activeFinalizerFn?.asFunction<void Function($ptrVoid)>()(_ptr!);
+    _activeFinalizerFn = null;
+    _ptr = null;
   }
 ''');
     s.write('}\n');

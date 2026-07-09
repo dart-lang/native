@@ -10,6 +10,13 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'cpp_class_test_bindings.dart';
 
+// Expose the symbol so we can pass its address as a custom finalizer in tests.
+@Native<Void Function(Pointer<Void>)>(
+  symbol: 'FinalizerTestSubject_delete',
+  assetId: 'package:ffigen/cpp_test',
+)
+external void _testFinalizerTestSubjectDelete(Pointer<Void> self);
+
 void main() {
   group('CppClass', () {
     test('Animal bindings exist', () {
@@ -117,8 +124,8 @@ void main() {
       // Calling retainOwnership on an already-owned object is a no-op.
       subject.retainOwnership();
       subject.retainOwnership();
+      // dispose() detaches the finalizer and calls the destructor directly.
       subject.dispose();
-      // dispose() calls releaseOwnership then delete directly, so counter == 1.
       expect(counter.value, 1);
       calloc.free(counter);
     });
@@ -128,11 +135,73 @@ void main() {
       counter.value = 0;
       final subject = FinalizerTestSubject(counter.cast());
       subject.releaseOwnership();
-      // Calling again must not throw.
+      // Calling again on an unowned object is a no-op.
       subject.releaseOwnership();
+      // Restore ownership so dispose() can destroy the native object as part of
+      // test cleanup.
+      subject.retainOwnership();
       subject.dispose();
       expect(counter.value, 1);
       calloc.free(counter);
     });
+
+    test('retainOwnership throws StateError after dispose', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final subject = FinalizerTestSubject(counter.cast());
+      subject.dispose();
+      expect(subject.retainOwnership, throwsStateError);
+      calloc.free(counter);
+    });
+
+    test('releaseOwnership throws StateError after dispose', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final subject = FinalizerTestSubject(counter.cast());
+      subject.dispose();
+      expect(subject.releaseOwnership, throwsStateError);
+      calloc.free(counter);
+    });
+
+    test('retainOwnership with custom finalizer calls it on dispose', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final subject = FinalizerTestSubject(counter.cast());
+      subject.releaseOwnership();
+      // Pass the delete function pointer as the custom finalizer.
+      final customFinalizer =
+          Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
+            _testFinalizerTestSubjectDelete,
+          );
+      subject.retainOwnership(customFinalizer);
+      // dispose() must call the custom finalizer, not the default _deleteGlue.
+      subject.dispose();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    });
+
+    @pragma('vm:never-inline')
+    void customFinalizerGCInner(
+      Pointer<Int32> counter,
+      Pointer<NativeFunction<Void Function(Pointer<Void>)>> customFinalizer,
+    ) {
+      final subject = FinalizerTestSubject(counter.cast())
+        ..releaseOwnership()
+        ..retainOwnership(customFinalizer);
+      expect(subject, isNotNull);
+    }
+
+    test('retainOwnership with custom finalizer is called by GC', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final customFinalizer =
+          Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
+            _testFinalizerTestSubjectDelete,
+          );
+      customFinalizerGCInner(counter, customFinalizer);
+      doGC();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    }, skip: !canDoGC);
   });
 }
