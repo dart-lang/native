@@ -97,6 +97,5 @@ FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
   context->getMainPortId = Dart_GetMainPortId_DL;
   context->getCurrentThreadOwnsIsolate = Dart_GetCurrentThreadOwnsIsolate_DL;
   context->postCObject = DOBJC_postCObject;
-  context->finalizeObject = DOBJC_finalizeObject;
   return context;
 }

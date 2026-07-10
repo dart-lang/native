@@ -84,7 +84,6 @@ typedef struct _DOBJC_Context {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   bool (*postCObject)(int64_t, void*, void (*)(void*, void*));
-  void (*finalizeObject)(void*, void*);
 } DOBJC_Context;
 
 typedef struct {

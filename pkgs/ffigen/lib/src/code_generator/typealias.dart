@@ -198,13 +198,11 @@ class Typealias extends BindingType {
     Context context,
     String value, {
     required bool objCRetain,
-    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => type.convertFfiDartTypeToDartType(
     context,
     value,
     objCRetain: objCRetain,
-    objCRelease: objCRelease,
     objCEnclosingClass: objCEnclosingClass,
   );
 
@@ -268,21 +266,18 @@ class ObjCInstanceType extends Typealias {
     Context context,
     String value, {
     required bool objCRetain,
-    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => objCEnclosingClass == null
       ? super.convertFfiDartTypeToDartType(
           context,
           value,
           objCRetain: objCRetain,
-          objCRelease: objCRelease,
           objCEnclosingClass: objCEnclosingClass,
         )
       : ObjCInterface.generateConstructor(
           objCEnclosingClass,
           value,
           objCRetain,
-          objCRelease,
         );
 
   @override

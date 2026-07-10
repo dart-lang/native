@@ -109,7 +109,6 @@ abstract class Type extends AstNode {
     Context context,
     String value, {
     required bool objCRetain,
-    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => value;
 
@@ -228,7 +227,6 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     Context context,
     String value, {
     required bool objCRetain,
-    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => value;
 

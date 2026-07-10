@@ -1,8 +1,6 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
-
-extern uint64_t getBlockRetainCount(void*);
 #import "category_test.h"
 #import "category_test.h"
 
@@ -33,7 +31,6 @@ typedef struct {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   bool (*postCObject)(int64_t, void*, void (*)(void*, void*));
-  void (*finalizeObject)(void*, void*);
 } DOBJC_Context;
 
 typedef struct {

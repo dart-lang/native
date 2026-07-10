@@ -395,13 +395,11 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
     Context context,
     String value, {
     required bool objCRetain,
-    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => ObjCInterface.generateConstructor(
     getDartType(context),
     value,
     objCRetain,
-    objCRelease,
   );
 
   @override

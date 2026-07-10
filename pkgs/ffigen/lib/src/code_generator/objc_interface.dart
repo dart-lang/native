@@ -246,22 +246,19 @@ ${generateInstanceMethodBindings(w, this)}
     Context context,
     String value, {
     required bool objCRetain,
-    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => ObjCInterface.generateConstructor(
     getDartType(context),
     value,
     objCRetain,
-    objCRelease,
   );
 
   static String generateConstructor(
     String className,
     String value,
-    bool objCRetain, [
-    bool objCRelease = true,
-  ]) {
-    final ownershipFlags = 'retain: $objCRetain, release: $objCRelease';
+    bool objCRetain,
+  ) {
+    final ownershipFlags = 'retain: $objCRetain, release: true';
     return '$className.fromPointer($value, $ownershipFlags)';
   }
 

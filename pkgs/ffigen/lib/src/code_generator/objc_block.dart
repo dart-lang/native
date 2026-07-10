@@ -1056,9 +1056,8 @@ $ret $fnName(id target, $argRecv) {
     Context context,
     String value, {
     required bool objCRetain,
-    bool objCRelease = true,
     String? objCEnclosingClass,
-  }) => ObjCInterface.generateConstructor(name, value, objCRetain, objCRelease);
+  }) => ObjCInterface.generateConstructor(name, value, objCRetain);
 
   @override
   String? generateRetain(String value) => 'objc_retainBlock($value)';
