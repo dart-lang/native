@@ -13,7 +13,7 @@ dependencies:
   code_assets: any
   hooks: any
   logging: ^1.3.0
-  meta: ^1.16.0
+  meta: ^1.19.0
   native_toolchain_c: any
 
 dev_dependencies:

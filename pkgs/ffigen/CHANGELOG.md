@@ -1,3 +1,9 @@
+## 21.0.1-wip
+
+- Bump `package:meta` dependency to `^1.19.0` and stop generating
+  `experimental_member_use` lint ignore in generated bindings when
+  `@RecordUse()` is used.
+
 ## 21.0.0
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart

@@ -21,5 +21,5 @@ dependencies:
   hooks: any
   library_uris_helper:
     path: ../library_uris_helper
-  meta: ^1.18.0
+  meta: ^1.19.0
   record_use: any

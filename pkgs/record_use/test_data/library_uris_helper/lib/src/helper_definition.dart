@@ -5,7 +5,6 @@
 import 'package:meta/meta.dart';
 
 class ClassInHelper {
-  // ignore: experimental_member_use
   @RecordUse()
   static void methodInHelper(String argument) {
     print('Hello $argument');
