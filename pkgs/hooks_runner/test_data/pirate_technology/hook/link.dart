@@ -17,7 +17,6 @@ void main(List<String> args) async {
       throw StateError('Could not find technologies asset.');
     }
 
-    // ignore: experimental_member_use
     final recordings = input.recordedUses;
 
     if (recordings == null) {

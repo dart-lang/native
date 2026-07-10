@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include <jni.h>
 #include <stdarg.h>
 #include <stdint.h>
 
@@ -187,8 +186,7 @@ JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
     vmArgs.ignoreUnrecognized = JNI_TRUE;
     initArgs = &vmArgs;
   }
-  const long flag =
-      JNI_CreateJavaVM(&jni_context.jvm, __ENVP_CAST & jniEnv, initArgs);
+  const long flag = JNI_CreateJavaVM(&jni_context.jvm, &jniEnv, initArgs);
   if (flag != JNI_OK) {
     return flag;
   }

@@ -2,8 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@Tags(['bindings'])
+library;
+
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/tools.dart';
 import 'package:path/path.dart' hide equals;
@@ -50,7 +54,8 @@ void testDartApiExample(
       try {
         final generatorResult = await Process.run(
             Platform.resolvedExecutable, ['run', generatorScriptPath],
-            workingDirectory: examplePath);
+            workingDirectory: examplePath,
+            environment: jni_util.javaEnvironment);
         if ((generatorResult.stderr as String)
             .contains('Gradle execution failed.')) {
           stderr.writeln('Skip: $exampleName');

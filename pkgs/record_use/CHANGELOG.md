@@ -1,6 +1,6 @@
-## 0.6.1-wip
+## 1.0.0-wip
 
-- Nothing yet.
+- Stable release.
 
 ## 0.6.0
 

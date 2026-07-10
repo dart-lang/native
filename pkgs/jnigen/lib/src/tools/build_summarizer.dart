@@ -11,6 +11,7 @@
 
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -29,12 +30,11 @@ Future<void> buildApiSummarizer() async {
   if (pkg == null) {
     log.fatal('package jnigen not found!');
   }
-  final gradleFile = pkg.resolve('java/build.gradle.kts');
   final gradleWrapper = await GradleTools.getGradleWExecutable();
   await Directory(toolPath).create(recursive: true);
   final gradleArgs = [
-    '-b',
-    gradleFile.toFilePath(),
+    '-p',
+    pkg.resolve('java/').toFilePath(),
     'buildFatJar', // from ktor plugin
     '-x', 'test', // ignore failing tests
     '-q' // quiet
@@ -43,7 +43,9 @@ Future<void> buildApiSummarizer() async {
   try {
     final gradleProc = await Process.run(
         gradleWrapper!.toFilePath(), gradleArgs,
-        workingDirectory: toolPath, runInShell: true);
+        workingDirectory: toolPath,
+        runInShell: true,
+        environment: jni_util.javaEnvironment);
     final exitCode = gradleProc.exitCode;
     final sourceJar = File(pkg
         .resolve('java/build/libs/ApiSummarizer.jar')

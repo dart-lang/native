@@ -25,11 +25,12 @@ Future<RunProcessResult> runProcess({
 }) async {
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
+  String quoteIfSpaced(String s) => s.contains(' ') ? '"$s"' : s;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
-    executable.toFilePath(),
-    ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
+    quoteIfSpaced(executable.toFilePath()),
+    ...arguments.map(quoteIfSpaced),
     if (printWorkingDir) ')',
   ].join(' ');
   logger?.info('Running `$commandString`.');
@@ -41,7 +42,13 @@ Future<RunProcessResult> runProcess({
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: Platform.isWindows && workingDirectory != null,
+    // Never run through a shell. On Windows, running an executable through
+    // `cmd.exe /c` mangles the command line when more than one argument is
+    // quoted (cmd strips the outer quotes when the line contains more than
+    // two quote characters), which breaks any invocation whose executable and
+    // arguments contain spaces. A shell is also not needed for wildcard
+    // arguments: on Windows, programs expand wildcards themselves; `cmd.exe`
+    // performs no glob expansion.
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {

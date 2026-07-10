@@ -445,9 +445,18 @@ class RunCBuilder {
     );
 
     if (staticLibrary != null) {
+      // `cl.exe /c` writes one object file per source into the working
+      // directory ([outDir]), named after the source file with its extension
+      // replaced by `.obj`. Pass exactly those file names to the archiver
+      // instead of `*.obj`, so that object files left in [outDir] by other
+      // builds are not swept into this archive, and so that the archive
+      // member names stay independent of the build directory location.
+      final objectFiles = {
+        for (final source in sources) _objectFileName(source),
+      }.toList();
       await runProcess(
         executable: archiver_!,
-        arguments: ['/out:${staticLibrary!.toFilePath()}', '*.obj'],
+        arguments: ['/out:${staticLibrary!.toFilePath()}', ...objectFiles],
         workingDirectory: outDir,
         environment: environment,
         logger: logger,
@@ -458,6 +467,17 @@ class RunCBuilder {
     }
 
     assert(result.exitCode == 0);
+  }
+
+  /// The name of the object file `cl.exe /c` produces for [source]: the
+  /// source file name with its extension replaced by `.obj`.
+  static String _objectFileName(Uri source) {
+    final fileName = source.pathSegments.last;
+    final extensionIndex = fileName.lastIndexOf('.');
+    final baseName = extensionIndex > 0
+        ? fileName.substring(0, extensionIndex)
+        : fileName;
+    return '$baseName.obj';
   }
 
   static const androidNdkClangTargetFlags = {

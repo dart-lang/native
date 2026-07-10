@@ -1,3 +1,17 @@
+## 0.19.3-wip
+
+- Fixed building with MSVC on Windows when a source, include, or output path
+  contains a space (e.g. a user name with a space in the default pub cache
+  location). The compiler and archiver are now invoked directly instead of
+  through `cmd.exe`, whose quote handling mangled such command lines. As a
+  consequence, `cmd.exe` environment variable expansion (`%VAR%`) no longer
+  applies to compiler flags and defines; they are passed to the tools
+  verbatim.
+- The MSVC archiver is now passed the object file names derived from the
+  sources instead of `*.obj`, so object files left in the output directory by
+  other builds are no longer swept into the archive, and archive member names
+  no longer embed the local build directory path.
+
 ## 0.19.2
 
 - Fixed compatibility with newer Xcode versions when cross-compiling static libraries on macOS hosts targeting Android and Linux.

@@ -2,8 +2,8 @@
 
 - Improve error message when JNI is used before Flutter plugin initialization.
 - Improve no such method error handling.
-- Fix issues related to a Dart isolate shutting down while Java is trying to
-  invoke callbacks in that isolate.
+- Fix memory leaks and deadlocks that can happen in callbacks, if the target
+  isolate is shut down.
 
 ## 1.0.0
 
