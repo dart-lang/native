@@ -85,15 +85,19 @@ jobs:
 
   build-flutter-example:
     needs: analyze
-    runs-on: 'macos-latest'
+    runs-on: ${{ matrix.runner }}
     defaults:
       run:
         working-directory: pkgs/objective_c/example/flutter_app
     strategy:
       fail-fast: false
       matrix:
-        xcode_version: ["16.1", "26.3"]
         ios_version: ["18.1"]
+        include:
+          - runner: "macos-15"
+            xcode: "16.1"
+          - runner: "macos-latest"
+            xcode: "26.3"
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
