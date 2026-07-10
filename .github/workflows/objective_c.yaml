@@ -107,12 +107,14 @@ jobs:
           channel: stable
       - name: List installed Xcodes
         run: ls -l /Applications | grep Xcode
+      - name: List Installed SDKs
+        run: xcodebuild -showsdks
       - name: Select the XCode version
         run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
-      - name: Install iOS SDK
-        run: |
-          xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
-          xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
+      # - name: Install iOS SDK
+      #   run: |
+      #     xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
+      #     xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
       - name: Install dependencies
         run: flutter pub get
       - name: Build the example app for macos
