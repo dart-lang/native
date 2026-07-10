@@ -37,7 +37,7 @@ void main(List<String> args) {
     'runProcess handles an executable path containing a space',
     timeout: const Timeout.factor(5),
     () async {
-      final outDir = await tempDirForTest(prefix: 'run process space ');
+      final outDir = await tempDirForTest();
       final exeUri = outDir.resolve(
         'echo args${Platform.isWindows ? '.exe' : ''}',
       );
