@@ -150,16 +150,19 @@ void runTreeshakeTests(
         targetOS,
       );
 
-      final symbols = await readSymbols(asset, targetOS);
-      final skipReason = symbols == null
-          ? 'tool to extract symbols unavailable'
-          : false;
       if (clinker.linker != linkerAutoKeepAll) {
-        expect(symbols, contains('my_other_func'), skip: skipReason);
-        expect(symbols, isNot(contains('my_func')), skip: skipReason);
+        await expectSymbols(
+          asset: asset,
+          targetOS: targetOS,
+          symbols: ['my_other_func'],
+          symbolsNotToContain: ['my_func'],
+        );
       } else {
-        expect(symbols, contains('my_other_func'), skip: skipReason);
-        expect(symbols, contains('my_func'), skip: skipReason);
+        await expectSymbols(
+          asset: asset,
+          targetOS: targetOS,
+          symbols: ['my_other_func', 'my_func'],
+        );
       }
 
       final sizeInBytes = await File.fromUri(asset.file!).length();

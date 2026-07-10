@@ -12,10 +12,12 @@ void main(List<String> arguments) async {
   await link(
     arguments,
     (input, output) async {
-      // ignore: experimental_member_use
       final recordings = input.recordedUses;
       if (recordings == null) {
-        throw UnsupportedError('Run with --enable-experiment=record-use.');
+        throw UnsupportedError(
+          'Update to Dart 3.13 or run with --enable-experiment=record-use'
+          ' on older Dart versions.',
+        );
       }
 
       // This package.

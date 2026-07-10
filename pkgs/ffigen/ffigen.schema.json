@@ -217,30 +217,6 @@
         }
       }
     },
-    "cpp": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "cpp-classes": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "include": {
-              "$ref": "#/$defs/fullMatchOrRegexpList"
-            },
-            "exclude": {
-              "$ref": "#/$defs/fullMatchOrRegexpList"
-            },
-            "rename": {
-              "$ref": "#/$defs/rename"
-            },
-            "member-rename": {
-              "$ref": "#/$defs/memberRename"
-            }
-          }
-        }
-      }
-    },
     "unions": {
       "type": "object",
       "additionalProperties": false,

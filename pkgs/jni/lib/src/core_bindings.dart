@@ -6806,15 +6806,14 @@ extension type JCharacter$JUnicodeScript._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public java.lang.Character$UnicodeScript valueOf(java.lang.String synthetic)`
+  /// from: `static public java.lang.Character$UnicodeScript valueOf(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   static JCharacter$JUnicodeScript? valueOf(
-    JString? synthetic,
+    JString? string,
   ) {
     final _$$classRef = _class.reference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
-    return _valueOf(
-            _$$classRef.pointer, _id_valueOf.pointer, _$synthetic.pointer)
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf(_$$classRef.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<JCharacter$JUnicodeScript?>();
   }
 
@@ -8273,6 +8272,7 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaLetter(char c)`
+  @core$_.Deprecated('This Java method is deprecated.')
   static core$_.bool isJavaLetter(
     core$_.int c,
   ) {
@@ -8296,6 +8296,7 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaLetterOrDigit(char c)`
+  @core$_.Deprecated('This Java method is deprecated.')
   static core$_.bool isJavaLetterOrDigit(
     core$_.int c,
   ) {
@@ -8525,6 +8526,7 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isSpace(char c)`
+  @core$_.Deprecated('This Java method is deprecated.')
   static core$_.bool isSpace(
     core$_.int c,
   ) {
@@ -10297,7 +10299,7 @@ extension type JFloat._(jni$_.JObject _$this)
   static const MIN_EXPONENT = -126;
 
   /// from: `static public final float MIN_NORMAL`
-  static const MIN_NORMAL = 1.17549435e-38;
+  static const MIN_NORMAL = 1.1754944e-38;
 
   /// from: `static public final float MIN_VALUE`
   static const MIN_VALUE = 1.4e-45;
@@ -16120,6 +16122,7 @@ extension JString$$Methods on JString {
               core$_.int)>();
 
   /// from: `public void getBytes(int i, int i1, byte[] bs, int i2)`
+  @core$_.Deprecated('This Java method is deprecated.')
   void getBytes(
     core$_.int i,
     core$_.int i1,
@@ -19451,6 +19454,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -23467,6 +23471,7 @@ extension type JIterator<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -24798,6 +24803,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -26919,6 +26925,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -28665,6 +28672,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -31499,6 +31507,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(

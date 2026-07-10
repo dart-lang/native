@@ -68,15 +68,14 @@ void runWindowsModuleDefinitionTests(List<Architecture> architectures) {
         expect(codeAssets, hasLength(1));
         final asset = codeAssets.first;
         expect(asset, isA<CodeAsset>());
-        final symbols = await readSymbols(asset, targetOS);
-        final skipReason = symbols == null
-            ? 'tool to extract symbols unavailable'
-            : false;
-        expect(symbols, contains('my_func'), skip: skipReason);
         // Module Definition file causes my_unexported_func to be exported even
         // though it wasn't marked for export.
-        expect(symbols, contains('my_unexported_func'), skip: skipReason);
-        expect(symbols, isNot(contains('my_other_func')), skip: skipReason);
+        await expectSymbols(
+          asset: asset,
+          targetOS: targetOS,
+          symbols: ['my_func', 'my_unexported_func'],
+          symbolsNotToContain: ['my_other_func'],
+        );
       },
     );
   }

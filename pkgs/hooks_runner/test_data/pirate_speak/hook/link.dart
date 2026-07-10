@@ -15,7 +15,6 @@ void main(List<String> args) async {
 
     if (translationAsset == null) return;
 
-    // ignore: experimental_member_use
     final recordings = input.recordedUses;
     if (recordings == null) {
       output.assets.data.add(translationAsset.asDataAsset);

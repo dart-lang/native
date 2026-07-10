@@ -2,8 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
+
+import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
+import '../test_utils.dart';
 import 'cpp_class_test_bindings.dart';
 
 void main() {
@@ -30,5 +34,36 @@ void main() {
 
       animal.dispose();
     });
+
+    @pragma('vm:never-inline')
+    void gcTestSubjectInner(Pointer<Int32> counter) {
+      final _ = FinalizerTestSubject(counter.cast());
+    }
+
+    test('FinalizerTestSubject double dispose', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      final subject = FinalizerTestSubject(counter.cast());
+      subject.dispose();
+      expect(subject.dispose, throwsStateError);
+      expect(counter.value, 1);
+      calloc.free(counter);
+    });
+
+    test('Animal methods throw StateError after dispose', () {
+      final animal = Animal(10);
+      animal.dispose();
+      expect(animal.getAge, throwsStateError);
+      expect(animal.speak, throwsStateError);
+    });
+
+    test('FinalizerTestSubject GC', () {
+      final counter = calloc<Int>().cast<Int32>();
+      counter.value = 0;
+      gcTestSubjectInner(counter);
+      doGC();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    }, skip: !canDoGC);
   });
 }

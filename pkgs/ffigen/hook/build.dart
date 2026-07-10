@@ -75,6 +75,7 @@ void main(List<String> args) async {
       assetName: 'cpp_test',
       sources: cppFiles,
       language: Language.cpp,
+      std: 'c++17',
       flags: cFlags,
     ).run(input: input, output: output, logger: logger);
 

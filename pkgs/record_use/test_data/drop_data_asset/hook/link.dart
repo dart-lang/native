@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use
-
 import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
@@ -13,8 +11,8 @@ void main(List<String> arguments) async {
     final usages = input.recordedUses;
     if (usages == null) {
       throw ArgumentError(
-        'Enable the --enable-experiment=record-use experiment'
-        ' to use this app.',
+        'Update to Dart 3.13 or run with --enable-experiment=record-use'
+        ' on older Dart versions.',
       );
     }
     final dataAssets = input.assets.data;

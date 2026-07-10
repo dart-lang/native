@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
@@ -28,7 +29,9 @@ Config getConfig() {
     join('com', 'example', 'E.java'),
   ];
 
-  final javac = Process.runSync('javac', javaFiles, workingDirectory: javaPath);
+  final javac = Process.runSync(
+      jni_util.resolveJavaExecutable('javac'), javaFiles,
+      workingDirectory: javaPath, environment: jni_util.javaEnvironment);
   if (javac.exitCode != 0) {
     stderr.writeln(javac.stderr);
     exit(1);

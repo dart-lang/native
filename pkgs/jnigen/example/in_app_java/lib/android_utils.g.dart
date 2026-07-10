@@ -98,6 +98,7 @@ extension type EmojiCompat$CodepointSequenceMatchResult._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -589,6 +590,7 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -822,6 +824,7 @@ extension type EmojiCompat$LoadStrategy._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -928,6 +931,7 @@ extension type EmojiCompat$MetadataRepoLoader._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -1163,6 +1167,7 @@ extension type EmojiCompat$ReplaceStrategy._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -1272,6 +1277,7 @@ extension type EmojiCompat$SpanFactory._(jni$_.JObject _$this)
       }
       final $i = jni$_.MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
       jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
     });
     implementer.add(
@@ -1961,6 +1967,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence)`
+  @core$_.Deprecated('This Java method is deprecated.')
   core$_.bool hasEmojiGlyph(
     CharSequence charSequence,
   ) {
@@ -1989,6 +1996,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
+  @core$_.Deprecated('This Java method is deprecated.')
   core$_.bool hasEmojiGlyph$1(
     CharSequence charSequence,
     core$_.int i,

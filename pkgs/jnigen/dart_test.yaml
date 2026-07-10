@@ -12,3 +12,5 @@ tags:
     timeout: 1x
   runtime_test:
     timeout: 1x
+  bindings:
+
