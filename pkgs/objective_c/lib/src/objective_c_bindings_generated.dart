@@ -15,7 +15,6 @@
 library;
 
 import 'dart:ffi' as ffi;
-import 'dart:isolate' as isolate;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 

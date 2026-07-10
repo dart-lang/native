@@ -273,9 +273,6 @@ abstract final class $name {
 
     // Listener block constructor is only available for void blocks.
     if (hasListener) {
-      // This snippet is the same as the convFn above, except that the params
-      // don't need to be retained because they've already been retained by
-      // _blockWrappers.listenerWrapper.
       final listenerConvertedFnArgs = params
           .map(
             (p) => p.type.convertFfiDartTypeToDartType(
@@ -299,71 +296,17 @@ abstract final class $name {
   ${listenerLocalVars.generateDeclarations()}
   return $listenerConvFnInvocation;
 }''';
+
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
-      final portListenerConvertedFnArgs = <String>[];
-      for (var i = 0; i < params.length; ++i) {
-        final param = params[i];
-        final paramType = param.type.typealiasType;
-        final isObjCObject =
-            paramType is ObjCInterface ||
-            paramType is ObjCObjectPointer ||
-            paramType is ObjCBlock ||
-            paramType is ObjCBlockPointer;
-        final String rawArgVal;
-        if (isObjCObject) {
-          var type = param.type.typealiasType.getFfiDartType(context);
-          if (type.contains('Pointer<')) {
-            type = type.substring(
-              type.indexOf('Pointer<') + 'Pointer<'.length,
-              type.lastIndexOf('>'),
-            );
-          }
-          final nameSuffix = param.objCConsumed ? 'takeArg$i' : 'getArg$i';
-          rawArgVal = '${blockArgsName}_$nameSuffix(raw).cast<$type>()';
-        } else {
-          rawArgVal = '${blockArgsName}_getArg$i(raw)';
-        }
-
-        final conv = param.type.convertFfiDartTypeToDartType(
-          context,
-          rawArgVal,
-          objCRetain: !param.objCConsumed,
-        );
-        portListenerConvertedFnArgs.add(conv);
-      }
-
-      final portBlockingConvertedFnArgs = <String>[];
-      for (var i = 0; i < params.length; ++i) {
-        final param = params[i];
-        final paramType = param.type.typealiasType;
-        final isObjCObject =
-            paramType is ObjCInterface ||
-            paramType is ObjCObjectPointer ||
-            paramType is ObjCBlock ||
-            paramType is ObjCBlockPointer;
-        final String rawArgVal;
-        if (isObjCObject) {
-          var type = param.type.typealiasType.getFfiDartType(context);
-          if (type.contains('Pointer<')) {
-            type = type.substring(
-              type.indexOf('Pointer<') + 'Pointer<'.length,
-              type.lastIndexOf('>'),
-            );
-          }
-          final nameSuffix = param.objCConsumed ? 'takeArg$i' : 'getArg$i';
-          rawArgVal = '${blockingBlockArgsName}_$nameSuffix(raw).cast<$type>()';
-        } else {
-          rawArgVal = '${blockingBlockArgsName}_getArg$i(raw)';
-        }
-
-        final conv = param.type.convertFfiDartTypeToDartType(
-          context,
-          rawArgVal,
-          objCRetain: !param.objCConsumed,
-        );
-        portBlockingConvertedFnArgs.add(conv);
-      }
+      final portListenerConvertedFnArgs = List.generate(
+        params.length,
+        (i) => _convertedArgVal(i, blockArgsName, context),
+      );
+      final portBlockingConvertedFnArgs = List.generate(
+        params.length,
+        (i) => _convertedArgVal(i, blockingBlockArgsName, context),
+      );
 
       final newPortBlock = ObjCBuiltInFunctions.newPortBlock.gen(context);
 
@@ -1074,7 +1017,6 @@ $ret $fnName(id target, $argRecv) {
     visitor.visit(_blockWrappers);
     visitor.visit(protocolTrampoline);
     visitor.visit(ffiImport);
-    visitor.visit(isolateImport);
     visitor.visit(objcPkgImport);
     _helper.visitChildren(visitor);
     _blockingHelper.visitChildren(visitor);
@@ -1095,6 +1037,39 @@ $ret $fnName(id target, $argRecv) {
       );
     }
     return false;
+  }
+
+  String _getInnerType(Type type, Context context) {
+    final paramType = type.typealiasType;
+    if (paramType is ObjCBlock || paramType is ObjCBlockPointer) {
+      return objCBlockType.getCType(context);
+    }
+    return objCObjectType.getCType(context);
+  }
+
+  String _rawArgVal(int i, String structName, Context context) {
+    final param = params[i];
+    final nameSuffix = param.objCConsumed ? 'takeArg$i' : 'getArg$i';
+    final paramType = param.type.typealiasType;
+    final isObjCObject =
+        paramType is ObjCInterface ||
+        paramType is ObjCObjectPointer ||
+        paramType is ObjCBlock ||
+        paramType is ObjCBlockPointer;
+    final raw = '${structName}_$nameSuffix(raw)';
+    if (isObjCObject) {
+      return '$raw.cast<${_getInnerType(param.type, context)}>()';
+    }
+    return raw;
+  }
+
+  String _convertedArgVal(int i, String structName, Context context) {
+    final param = params[i];
+    return param.type.convertFfiDartTypeToDartType(
+      context,
+      _rawArgVal(i, structName, context),
+      objCRetain: !param.objCConsumed,
+    );
   }
 }
 

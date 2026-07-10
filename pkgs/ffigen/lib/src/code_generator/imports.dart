@@ -122,7 +122,6 @@ class SelfImportedType extends Type {
 
 const ffiImport = LibraryImport('ffi', 'dart:ffi');
 const ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
-const isolateImport = LibraryImport('isolate', 'dart:isolate');
 const metaImport = LibraryImport('meta', 'package:meta/meta.dart');
 const objcPkgImport = LibraryImport(
   'objc',
@@ -136,7 +135,6 @@ final builtInLibraries = {
   for (final l in [
     ffiImport,
     ffiPkgImport,
-    isolateImport,
     metaImport,
     objcPkgImport,
     selfImport,
