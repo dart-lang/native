@@ -37,9 +37,9 @@ dev_dependencies:
   jnigen:
     path: ../jnigen
   logging: ^1.2.0
-  test: ^1.25.8
   record_use:
     path: ../record_use
+  test: ^1.25.8
 
 # The following section is specific to Flutter packages.
 flutter:
