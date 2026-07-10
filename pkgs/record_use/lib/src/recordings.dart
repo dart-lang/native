@@ -151,6 +151,10 @@ class Recordings {
   /// - `final class` (must be `final` to ensure all creation points are known).
   /// - `enum` (implicitly `final`).
   ///
+  /// Unsupported Locations:
+  /// - `extension type`: The `@RecordUse()` annotation cannot be placed
+  ///   directly on an `extension type` to record instances.
+  ///
   /// What is Recorded:
   /// - [InstanceConstantReference]: Recorded for constant instances and enum
   ///   elements.

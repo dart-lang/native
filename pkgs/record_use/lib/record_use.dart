@@ -21,20 +21,25 @@
 ///   constant expressions at compile time. These can be found in
 ///   [Recordings.calls]. Generative constructors and redirecting factory
 ///   constructors cannot be annotated directly.
-/// - If placed on a class, any constant instance of the class (including
-///   instances created via `const` redirecting factory constructors), any
-///   non-const generative constructor invocation, and any generative
-///   constructor tear-off in reachable code will be recorded. These can be
-///   found in [Recordings.instances]. Calls to non-const factory constructors
-///   are not recorded directly by annotating the class; rather, any generative
-///   constructor invocation within the factory body will be recorded.
+/// - If placed on a `final class` or `enum`:
+///   - For a `final class`: any constant instance of the class (including
+///     instances created via `const` redirecting factory constructors), any
+///     non-const generative constructor invocation, and any generative
+///     constructor tear-off in reachable code will be recorded. These can be
+///     found in [Recordings.instances]. Calls to non-const factory constructors
+///     are not recorded directly by annotating the class; rather, any
+///     generative constructor invocation within the factory body will be
+///     recorded.
+///   - For an `enum`: any constant enum element in reachable code will be
+///     recorded in [Recordings.instances].
+///   - The `@RecordUse()` annotation cannot be placed directly on an
+///     `extension type` to record instances.
 ///
 /// Only usages in executable code are recorded. Usages appearing within
 /// metadata (annotations) are ignored.
 ///
-/// > [!NOTE]
-/// > The `@RecordUse()` annotation is only allowed on declarations within a
-/// > package's `lib/` directory.
+/// The `@RecordUse()` annotation is only allowed on declarations within a
+/// package's `lib/` directory.
 ///
 /// ## Example
 ///
@@ -59,8 +64,8 @@
 /// }
 /// ```
 /// This code will generate a data file that contains both the field values of
-/// the `PirateShip` instances, as well as the arguments for the `speak`
-/// method annotated with `@RecordUse()`.
+/// the `PirateShip` instances, as well as the arguments for the `speak` method
+/// annotated with `@RecordUse()`.
 ///
 /// This information can then be accessed in a link hook as follows:
 /// <!-- file://./../example/api/usage_link.dart#link -->
