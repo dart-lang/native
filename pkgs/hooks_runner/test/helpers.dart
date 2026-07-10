@@ -32,9 +32,10 @@ Future<void> inTempDir(
   Future<void> Function(Uri tempUri) fun, {
   String? prefix,
   bool keepTemp = false,
+  bool useSpacesInPath = true,
 }) async {
   final basePrefix = prefix ?? 'hooks_runner_test';
-  final effectivePrefix = basePrefix.contains(' ')
+  final effectivePrefix = (!useSpacesInPath || basePrefix.contains(' '))
       ? basePrefix
       : '$basePrefix with spaces ';
   final tempDir = await Directory.systemTemp.createTemp(effectivePrefix);
@@ -61,9 +62,13 @@ Future<void> inTempDir(
   }
 }
 
-Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
+Future<Uri> tempDirForTest({
+  String? prefix,
+  bool keepTemp = false,
+  bool useSpacesInPath = true,
+}) async {
   final basePrefix = prefix ?? 'hooks_runner_test';
-  final effectivePrefix = basePrefix.contains(' ')
+  final effectivePrefix = (!useSpacesInPath || basePrefix.contains(' '))
       ? basePrefix
       : '$basePrefix with spaces ';
   final tempDir = await Directory.systemTemp.createTemp(effectivePrefix);
