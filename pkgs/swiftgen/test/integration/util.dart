@@ -42,7 +42,7 @@ class TestGenerator {
   TestGenerator(this.name)
     : isObjCCompatible = objCCompatibleTests.contains(name) {
     testDir = path.absolute(path.join(pkgDir, 'test/integration'));
-    tempDir = path.join(testDir, 'temp');
+    tempDir = path.join(testDir, 'temp_$name');
     inputFile = path.join(testDir, '$name.swift');
     wrapperFile = path.join(tempDir, '${name}_wrapper.swift');
     outputFile = path.join(tempDir, '${name}_output.dart');
@@ -54,43 +54,45 @@ class TestGenerator {
     actualOutputFile = path.join(testDir, '${name}_bindings.dart');
   }
 
-  Future<void> generateBindings([Target? target]) async =>
-      await SwiftGenerator(
-        target: target ?? await hostTarget,
-        inputs: [
-          isObjCCompatible
-              ? ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)])
-              : SwiftFileInput(files: [Uri.file(inputFile)]),
-        ],
-        output: Output(
-          swiftWrapperFile: isObjCCompatible
-              ? null
-              : SwiftWrapperFile(path: Uri.file(wrapperFile)),
-          module: name,
-          dartFile: Uri.file(outputFile),
-          objectiveCFile: Uri.file(outputObjCFile),
-          preamble: '''
+  Future<void> generateBindings([Target? target]) async {
+    clean();
+    await SwiftGenerator(
+      target: target ?? await hostTarget,
+      inputs: [
+        isObjCCompatible
+            ? ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)])
+            : SwiftFileInput(files: [Uri.file(inputFile)]),
+      ],
+      output: Output(
+        swiftWrapperFile: isObjCCompatible
+            ? null
+            : SwiftWrapperFile(path: Uri.file(wrapperFile)),
+        module: name,
+        dartFile: Uri.file(outputFile),
+        objectiveCFile: Uri.file(outputObjCFile),
+        preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 // coverage:ignore-file
 ''',
-        ),
-        ffigen: FfiGeneratorOptions(
-          objectiveC: fg.ObjectiveC(
-            interfaces: fg.Interfaces(
-              include: (decl) => decl.originalName.startsWith('Test'),
-            ),
-            protocols: fg.Protocols(
-              include: (decl) => decl.originalName.startsWith('Test'),
-            ),
+      ),
+      ffigen: FfiGeneratorOptions(
+        objectiveC: fg.ObjectiveC(
+          interfaces: fg.Interfaces(
+            include: (decl) => decl.originalName.startsWith('Test'),
+          ),
+          protocols: fg.Protocols(
+            include: (decl) => decl.originalName.startsWith('Test'),
           ),
         ),
-      ).generate(
-        logger: Logger.root..level = Level.SEVERE,
-        tempDirectory: Uri.directory(tempDir),
-      );
+      ),
+    ).generate(
+      logger: Logger.root..level = Level.SEVERE,
+      tempDirectory: Uri.directory(tempDir),
+    );
+  }
 
   Future<void> generateAndVerifyBindings([Target? compileTarget]) async {
     // Run the generation pipeline. This produces the swift compatability
@@ -142,6 +144,8 @@ class TestGenerator {
       '-shared',
       '-framework',
       'Foundation',
+      '-undefined',
+      'dynamic_lookup',
       '-target',
       target.triple,
       '-isysroot',
@@ -155,9 +159,23 @@ class TestGenerator {
     expect(File(dylibFile).existsSync(), isTrue);
 
     // Expect that the bindings match.
+    if (Platform.environment['UPDATE'] == 'true') {
+      File(
+        actualOutputFile,
+      ).writeAsStringSync(File(outputFile).readAsStringSync());
+    }
     expect(
       File(outputFile).readAsStringSync(),
       File(actualOutputFile).readAsStringSync(),
     );
+  }
+
+  void clean() {
+    try {
+      final dir = Directory(tempDir);
+      if (dir.existsSync()) {
+        dir.deleteSync(recursive: true);
+      }
+    } catch (_) {}
   }
 }

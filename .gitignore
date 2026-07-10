@@ -98,6 +98,7 @@ doc/api/
 **/test/debug_generated/*
 coverage/
 **/temp/
+**/temp_*/
 
 ## Downloaded files and build artifacts
 *.jar
