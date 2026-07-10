@@ -37,6 +37,7 @@ workspace:
   - pkgs/hooks_runner/test_data/add_asset_link
   - pkgs/hooks_runner/test_data/complex_link
   - pkgs/hooks_runner/test_data/complex_link_helper
+  - pkgs/hooks_runner/test_data/custom_os_arch
   - pkgs/hooks_runner/test_data/cyclic_link_package_1
   - pkgs/hooks_runner/test_data/cyclic_link_package_2
   - pkgs/hooks_runner/test_data/cyclic_package_1

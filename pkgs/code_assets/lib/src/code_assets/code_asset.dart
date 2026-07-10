@@ -189,7 +189,7 @@ extension OSLibraryNaming on OS {
 }
 
 /// The default name prefix for dynamic libraries per [OS].
-const _dylibPrefix = {
+final _dylibPrefix = {
   OS.android: 'lib',
   OS.fuchsia: 'lib',
   OS.iOS: 'lib',
@@ -199,7 +199,7 @@ const _dylibPrefix = {
 };
 
 /// The default extension for dynamic libraries per [OS].
-const _dylibExtension = {
+final _dylibExtension = {
   OS.android: 'so',
   OS.fuchsia: 'so',
   OS.iOS: 'dylib',
@@ -209,10 +209,10 @@ const _dylibExtension = {
 };
 
 /// The default name prefix for static libraries per [OS].
-const _staticlibPrefix = _dylibPrefix;
+final _staticlibPrefix = _dylibPrefix;
 
 /// The default extension for static libraries per [OS].
-const _staticlibExtension = {
+final _staticlibExtension = {
   OS.android: 'a',
   OS.fuchsia: 'a',
   OS.iOS: 'a',
@@ -222,7 +222,7 @@ const _staticlibExtension = {
 };
 
 /// The default extension for executables per [OS].
-const _executableExtension = {
+final _executableExtension = {
   OS.android: '',
   OS.fuchsia: '',
   OS.iOS: '',

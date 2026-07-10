@@ -1,8 +1,9 @@
-## 21.0.1-wip
+## 21.1.0-wip
 
 - Bump `package:meta` dependency to `^1.19.0` and stop generating
   `experimental_member_use` lint ignore in generated bindings when
   `@RecordUse()` is used.
+- Bump `package:code_assets` dependency to `^2.0.0`.
 
 ## 21.0.0
 

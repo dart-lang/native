@@ -1,5 +1,6 @@
 ## 0.19.3-wip
 
+- Bump `package:code_assets` dependency to `^2.0.0`.
 - Fixed building with MSVC on Windows when a source, include, or output path
   contains a space (e.g. a user name with a space in the default pub cache
   location). The compiler and archiver are now invoked directly instead of
@@ -14,7 +15,8 @@
 
 ## 0.19.2
 
-- Fixed compatibility with newer Xcode versions when cross-compiling static libraries on macOS hosts targeting Android and Linux.
+- Fixed compatibility with newer Xcode versions when cross-compiling static
+  libraries on macOS hosts targeting Android and Linux.
 
 ## 0.19.1
 
