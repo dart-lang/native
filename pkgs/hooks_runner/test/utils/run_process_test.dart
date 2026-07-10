@@ -6,12 +6,11 @@
 // contain a space (e.g. the default pub cache under a Windows user name with
 // a space, `C:\Users\First Last\AppData\Local\Pub\Cache\...`).
 //
-// On Windows, `runProcess` runs through `cmd.exe` (`runInShell`) whenever a
-// `workingDirectory` is passed. `cmd.exe`'s `/c` quote-stripping rule mangles
-// the command line as soon as more than one token needs quoting because it
-// contains a space (the executable path and an argument, or two arguments),
-// causing errors like
-// `'C:\Program' is not recognized as an internal or external command`.
+// On Windows, `runProcess` only runs through `cmd.exe` (`runInShell`) when
+// strictly necessary: bare command names (resolved via `PATHEXT`) and
+// `.bat`/`.cmd` shims. For `.exe`/`.com` binaries it uses `CreateProcess`
+// directly so command lines with multiple quoted tokens are not mangled by
+// `cmd.exe`'s `/c` quote-stripping rule.
 
 import 'dart:io';
 
@@ -77,6 +76,55 @@ void main(List<String> args) {
     expect(result.stdout, contains('ARGC:2'));
     expect(result.stdout, contains('ARGV:first arg|second arg'));
   });
+
+  test(
+    'runProcess runs bare .bat shim from working directory on Windows',
+    () async {
+      if (!Platform.isWindows) return;
+
+      final binDir = await tempDirForTest();
+      final batUri = binDir.resolve('test shim.bat');
+      await File.fromUri(batUri).writeAsString(
+        '@echo off\r\necho SHIM_OK %*\r\n',
+      );
+
+      final result = await runProcess(
+        executable: Uri.parse('test shim'),
+        arguments: ['--help'],
+        workingDirectory: binDir,
+        logger: logger,
+      );
+
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('SHIM_OK'));
+      expect(result.stdout, contains('--help'));
+    },
+  );
+
+  test(
+    'runProcess runs bare .bat shim from PATH on Windows',
+    () async {
+      if (!Platform.isWindows) return;
+
+      final binDir = await tempDirForTest();
+      final batUri = binDir.resolve('test shim.bat');
+      await File.fromUri(batUri).writeAsString(
+        '@echo off\r\necho SHIM_OK %*\r\n',
+      );
+
+      final originalPath = Platform.environment['PATH'] ?? '';
+      final result = await runProcess(
+        executable: Uri.parse('test shim'),
+        arguments: ['--help'],
+        environment: {'PATH': '${binDir.toFilePath()};$originalPath'},
+        logger: logger,
+      );
+
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('SHIM_OK'));
+      expect(result.stdout, contains('--help'));
+    },
+  );
 
   test('runProcess handles arguments containing a space and quotes', () async {
     final workingDir = await tempDirForTest();
