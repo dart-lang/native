@@ -1,5 +1,4 @@
-This package provides the data classes for the usage recording feature in the
-Dart SDK.
+Dart API to access `@RecordUse()` recorded usages in link hooks.
 
 During compilation, usages of declarations annotated with `@RecordUse()` in
 reachable code are recorded, and information about these usages is made available
@@ -94,6 +93,8 @@ void main(List<String> arguments) {
   });
 }
 ```
+
+For complete end-to-end examples combining link hooks (`hook/link.dart`) and `package:record_use` to tree-shake native C libraries (`LinkerOptions.treeshake`), see the [examples index](example/README.md).
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
