@@ -45,9 +45,7 @@ class ReferenceTracker {
   Pointer<Void> _host = nullptr;
   final Pointer<Bool> _isAlivePtr;
 
-  ReferenceTracker(Arena arena) : this._(arena, arena<Bool>()..value = true);
-
-  ReferenceTracker._(Arena arena, this._isAlivePtr);
+  ReferenceTracker(Arena arena) : _isAlivePtr = calloc<Bool>()..value = true;
 
   bool get isAlive => _isAlivePtr.value;
   Pointer<Void> get host => _host;

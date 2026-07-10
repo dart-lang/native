@@ -342,6 +342,8 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
+
+extern uint64_t getBlockRetainCount(void*);
 ''');
 
     for (final entryPoint in nativeEntryPoints) {
@@ -386,6 +388,7 @@ typedef struct {
 
 id objc_retainBlock(id);
 void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
+void DOBJC_signalWaiter(void *waiter);
 
 #define BLOCKING_BLOCK_IMPL(ctx, BLOCK_SIG, INVOKE_DIRECT, INVOKE_LISTENER)    \
   assert(ctx->version >= 1);                                                   \

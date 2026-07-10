@@ -6,6 +6,7 @@
 library;
 
 import 'dart:ffi' as ffi;
+import 'dart:isolate' as isolate;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
@@ -155,3 +156,41 @@ extension ObjCBlock_Int32_Int32$CallExtension
     );
   }
 }
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
+  symbol: '_4ms8p0_BlockArgs_1u8m6co_blocking_signalWaiter',
+  isLeaf: true,
+)
+external void _4ms8p0_BlockArgs_1u8m6co_blocking_signalWaiter(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
+>(symbol: '_4ms8p0_BlockArgs_1u8m6co_blocking_getBlock', isLeaf: true)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_4ms8p0_BlockArgs_1u8m6co_blocking_getBlock(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
+  symbol: '_4ms8p0_BlockArgs_1u8m6co_blocking_free',
+  isLeaf: true,
+)
+external void _4ms8p0_BlockArgs_1u8m6co_blocking_free(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+@ffi.Native<ffi.Int32 Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
+  symbol: '_4ms8p0_BlockArgs_1u8m6co_blocking_getArg0',
+  isLeaf: true,
+)
+external int _4ms8p0_BlockArgs_1u8m6co_blocking_getArg0(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
+  symbol: '_4ms8p0_1u8m6co_portBlockInvoke_blocking',
+  isLeaf: true,
+)
+external void _4ms8p0_1u8m6co_portBlockInvoke_blocking(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);

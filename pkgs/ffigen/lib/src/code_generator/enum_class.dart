@@ -285,6 +285,7 @@ class EnumClass extends BindingType with HasLocalScope {
     Context context,
     String value, {
     required bool objCRetain,
+    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => sameDartAndFfiDartType
       ? value

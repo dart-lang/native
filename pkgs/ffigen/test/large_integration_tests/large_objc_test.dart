@@ -159,6 +159,8 @@ void main() {
         '-shared',
         '-framework',
         'Foundation',
+        '-undefined',
+        'dynamic_lookup',
         '-o',
         '/dev/null',
       ]),

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
@@ -490,7 +491,8 @@ BlockPtr newPortBlock(
   void Function(int) handler, {
   required bool keepIsolateAlive,
 }) {
-  final port = RawReceivePort((dynamic msg) => handler(msg as int));
+  final zone = Zone.current;
+  final port = RawReceivePort((dynamic msg) => zone.run(() => handler(msg as int)));
   port.keepIsolateAlive = keepIsolateAlive;
   final portId = port.sendPort.nativePort;
   _blockPortRegistry[portId] = port;

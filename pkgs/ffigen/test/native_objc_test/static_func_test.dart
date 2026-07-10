@@ -24,6 +24,7 @@ void main() {
   late StaticFuncTestObjCLibrary lib;
   group('static functions', () {
     setUpAll(() {
+      NSObject.new$();
       lib = StaticFuncTestObjCLibrary(
         DynamicLibrary.open(findDylib("objc_test")),
       );

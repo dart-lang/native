@@ -9,6 +9,7 @@ import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';
 import 'scope.dart';
+import 'utils.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType with HasLocalScope {
@@ -147,7 +148,16 @@ class ObjCBlock extends BindingType with HasLocalScope {
     ].join(' ');
   }
 
-  bool get hasListener => returnType == voidType;
+  bool get hasListener {
+    if (returnType != voidType) return false;
+    for (final param in params) {
+      final t = param.type.typealiasType;
+      if (t is ConstantArray || t is IncompleteArray) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   String _blockType(Context context) {
     final argStr = params
@@ -169,8 +179,11 @@ class ObjCBlock extends BindingType with HasLocalScope {
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
-    final cSafeName = name.replaceAll('\$', '_');
+    final cSafeName = fnvHash32(name.replaceAll('\$', '_')).toRadixString(36);
     final libraryId = w.context.objCBuiltInFunctions.libraryId;
+    final blockArgsName = '_${libraryId}_BlockArgs_$cSafeName';
+    final blockingBlockArgsName =
+        '_${libraryId}_BlockArgs_${cSafeName}_blocking';
 
     final context = w.context;
     final voidPtr = PointerType(voidType);
@@ -182,16 +195,12 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final closureCallable = localScope.addPrivate('_closureCallable');
     final blockingTrampoline = localScope.addPrivate('_blockingTrampoline');
     final blockingCallable = localScope.addPrivate('_blockingCallable');
-    final blockingListenerCallable = localScope.addPrivate(
-      '_blockingListenerCallable',
-    );
 
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(context);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(context);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(context);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(context);
     final objCContext = ObjCBuiltInFunctions.objCContext.gen(context);
-    final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(context);
     final returnFfiDartType = returnType.getFfiDartType(context);
     final voidPtrCType = voidPtr.getCType(context);
     final blockCType = blockPtr.getCType(context);
@@ -200,6 +209,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     final ffiPrefix = w.context.libs.prefix(ffiImport);
     final paramsNameOnly = _helper.paramsNameOnly;
+    final objCObjectImpl = objCObjectType.getFfiDartType(context);
 
     // Snippet that converts a Dart typed closure to FfiDart type. This snippet
     // is used below. Note that the closure being converted is called `fn`.
@@ -271,7 +281,7 @@ abstract final class $name {
             (p) => p.type.convertFfiDartTypeToDartType(
               context,
               p.name,
-              objCRetain: false,
+              objCRetain: !p.objCConsumed,
             ),
           )
           .join(', ');
@@ -309,18 +319,52 @@ abstract final class $name {
               type.lastIndexOf('>'),
             );
           }
-          rawArgVal = 'msgPtr.ref.arg$i.cast<$type>()';
+          final nameSuffix = param.objCConsumed ? 'takeArg$i' : 'getArg$i';
+          rawArgVal = '${blockArgsName}_$nameSuffix(raw).cast<$type>()';
         } else {
-          rawArgVal = 'msgPtr.ref.arg$i';
+          rawArgVal = '${blockArgsName}_getArg$i(raw)';
         }
 
         final conv = param.type.convertFfiDartTypeToDartType(
           context,
           rawArgVal,
-          objCRetain: false,
+          objCRetain: !param.objCConsumed,
         );
         portListenerConvertedFnArgs.add(conv);
       }
+
+      final portBlockingConvertedFnArgs = <String>[];
+      for (var i = 0; i < params.length; ++i) {
+        final param = params[i];
+        final paramType = param.type.typealiasType;
+        final isObjCObject =
+            paramType is ObjCInterface ||
+            paramType is ObjCObjectPointer ||
+            paramType is ObjCBlock ||
+            paramType is ObjCBlockPointer;
+        final String rawArgVal;
+        if (isObjCObject) {
+          var type = param.type.typealiasType.getFfiDartType(context);
+          if (type.contains('Pointer<')) {
+            type = type.substring(
+              type.indexOf('Pointer<') + 'Pointer<'.length,
+              type.lastIndexOf('>'),
+            );
+          }
+          final nameSuffix = param.objCConsumed ? 'takeArg$i' : 'getArg$i';
+          rawArgVal = '${blockingBlockArgsName}_$nameSuffix(raw).cast<$type>()';
+        } else {
+          rawArgVal = '${blockingBlockArgsName}_getArg$i(raw)';
+        }
+
+        final conv = param.type.convertFfiDartTypeToDartType(
+          context,
+          rawArgVal,
+          objCRetain: !param.objCConsumed,
+        );
+        portBlockingConvertedFnArgs.add(conv);
+      }
+
       final newPortBlock = ObjCBuiltInFunctions.newPortBlock.gen(context);
 
       s.write('''
@@ -337,8 +381,14 @@ abstract final class $name {
     final raw = $newPortBlock(
       $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($blockCType)>>(_${libraryId}_${cSafeName}_portBlockInvoke).cast(),
       (int msg) {
-        ${params.isEmpty ? '' : 'final msgPtr = $ffiPrefix.Pointer<_${libraryId}_BlockArgs_$cSafeName>.fromAddress(msg);'}
-        fn(${portListenerConvertedFnArgs.join(', ')});
+        final rawMsg = $ffiPrefix.Pointer.fromAddress(msg).cast<$objCObjectImpl>();
+        try {
+          ${params.isEmpty ? '' : 'final args = objc.NSObject.fromPointer(rawMsg, retain: false, release: false);'}
+          ${params.isEmpty ? '' : 'final raw = args.ref.pointer;'}
+          fn(${portListenerConvertedFnArgs.join(', ')});
+        } finally {
+          ${blockArgsName}_free(rawMsg);
+        }
       },
       keepIsolateAlive: keepIsolateAlive,
     );
@@ -359,30 +409,31 @@ abstract final class $name {
           {bool keepIsolateAlive = true}) {
     final raw = $newClosureBlock($blockingCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
-    final rawListener = $newClosureBlock(
-        $blockingListenerCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
+    final rawListener = $newPortBlock(
+      $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($blockCType)>>(_${libraryId}_${cSafeName}_portBlockInvoke_blocking).cast(),
+      (int msg) {
+        final rawMsg = $ffiPrefix.Pointer.fromAddress(msg).cast<$objCObjectImpl>();
+        try {
+          ${params.isEmpty ? '' : 'final args = objc.NSObject.fromPointer(rawMsg, retain: false, release: false);'}
+          ${params.isEmpty ? '' : 'final raw = args.ref.pointer;'}
+          fn(${portBlockingConvertedFnArgs.join(', ')});
+        } catch (e) {
+        } finally {
+          ${blockingBlockArgsName}_free(rawMsg);
+        }
+      },
+      keepIsolateAlive: keepIsolateAlive,
+    );
     final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
     $releaseFn(raw.cast());
-    $releaseFn(rawListener.cast());
     return $blockType(wrapper, retain: false, release: true);
   }
 
   static $returnFfiDartType $blockingTrampoline(
-      $blockCType block, ${_blockingHelper.paramsFfiDartType}) {
-    try {
+      $blockCType block, ${_blockingHelper.paramsFfiDartType}) =>
       ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
-    } catch (e) {
-    } finally {
-      $signalWaiterFn(waiter);
-      $releaseFn(block.cast());
-    }
-  }
   static ${_blockingHelper.trampNatCallType} $blockingCallable =
       ${_blockingHelper.trampNatCallType}.isolateLocal(
-          $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-  static ${_blockingHelper.trampNatCallType} $blockingListenerCallable =
-      ${_blockingHelper.trampNatCallType}.listener(
           $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 ''');
     }
@@ -441,8 +492,18 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     s.write('  }\n');
 
     s.write('}\n\n');
+
     if (hasListener) {
-      final dartFields = <String>[];
+      s.write('''
+@$ffiPrefix.Native<
+    $ffiPrefix.Pointer<$objCObjectImpl> Function(
+      $ffiPrefix.Pointer<$objCObjectImpl>,
+    )>(symbol: '${blockArgsName}_getBlock', isLeaf: true)
+external $ffiPrefix.Pointer<$objCObjectImpl> ${blockArgsName}_getBlock(
+  $ffiPrefix.Pointer<$objCObjectImpl> peer,
+);
+''');
+
       for (var i = 0; i < params.length; ++i) {
         final param = params[i];
         final paramType = param.type.typealiasType;
@@ -452,35 +513,39 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
             paramType is ObjCBlock ||
             paramType is ObjCBlockPointer;
 
+        final String ffiCallType;
         final String ffiDartType;
-        final String? annotation;
 
         if (isObjCObject) {
-          ffiDartType = '$ffiPrefix.Pointer<$ffiPrefix.Void>';
-          annotation = null;
+          ffiCallType = '$ffiPrefix.Pointer<$objCObjectImpl>';
+          ffiDartType = '$ffiPrefix.Pointer<$objCObjectImpl>';
         } else {
+          ffiCallType = param.type.getCType(context);
           ffiDartType = param.type.getFfiDartType(context);
-          if (ffiDartType == 'int' ||
-              ffiDartType == 'double' ||
-              ffiDartType == 'bool') {
-            annotation = '@${param.type.getCType(context)}()';
-          } else {
-            annotation = null;
-          }
         }
 
-        final annotStr = annotation == null ? '' : '  $annotation\n';
-        dartFields.add('$annotStr  external $ffiDartType arg$i;');
-      }
-
-      if (dartFields.isEmpty) {
-        dartFields.add('  @$ffiPrefix.Char()\n  external int dummy;');
+        final nameSuffix = (isObjCObject && param.objCConsumed)
+            ? 'takeArg$i'
+            : 'getArg$i';
+        s.write('''
+@$ffiPrefix.Native<
+    $ffiCallType Function(
+      $ffiPrefix.Pointer<$objCObjectImpl>,
+    )>(symbol: '${blockArgsName}_$nameSuffix', isLeaf: true)
+external $ffiDartType ${blockArgsName}_$nameSuffix(
+  $ffiPrefix.Pointer<$objCObjectImpl> peer,
+);
+''');
       }
 
       s.write('''
-final class _${libraryId}_BlockArgs_$cSafeName extends $ffiPrefix.Struct {
-${dartFields.join('\n')}
-}
+@$ffiPrefix.Native<
+    $ffiPrefix.Void Function(
+      $ffiPrefix.Pointer<$objCObjectImpl>,
+    )>(symbol: '${blockArgsName}_free', isLeaf: true)
+external void ${blockArgsName}_free(
+  $ffiPrefix.Pointer<$objCObjectImpl> peer,
+);
 
 @$ffiPrefix.Native<
     $ffiPrefix.Void Function(
@@ -489,6 +554,74 @@ ${dartFields.join('\n')}
 external void _${libraryId}_${cSafeName}_portBlockInvoke($blockCType block);
 ''');
     }
+
+    s.write('''
+@$ffiPrefix.Native<
+    $ffiPrefix.Void Function(
+      $ffiPrefix.Pointer<$objCObjectImpl>,
+    )>(symbol: '${blockingBlockArgsName}_signalWaiter', isLeaf: true)
+external void ${blockingBlockArgsName}_signalWaiter(
+  $ffiPrefix.Pointer<$objCObjectImpl> peer,
+);
+
+@$ffiPrefix.Native<
+    $ffiPrefix.Pointer<$objCObjectImpl> Function(
+      $ffiPrefix.Pointer<$objCObjectImpl>,
+    )>(symbol: '${blockingBlockArgsName}_getBlock', isLeaf: true)
+external $ffiPrefix.Pointer<$objCObjectImpl> ${blockingBlockArgsName}_getBlock(
+  $ffiPrefix.Pointer<$objCObjectImpl> peer,
+);
+
+@$ffiPrefix.Native<
+    $ffiPrefix.Void Function(
+      $ffiPrefix.Pointer<$objCObjectImpl>,
+    )>(symbol: '${blockingBlockArgsName}_free', isLeaf: true)
+external void ${blockingBlockArgsName}_free(
+  $ffiPrefix.Pointer<$objCObjectImpl> peer,
+);
+''');
+
+    for (var i = 0; i < params.length; ++i) {
+      final param = params[i];
+      final paramType = param.type.typealiasType;
+      final isObjCObject =
+          paramType is ObjCInterface ||
+          paramType is ObjCObjectPointer ||
+          paramType is ObjCBlock ||
+          paramType is ObjCBlockPointer;
+
+      final String ffiCallType;
+      final String ffiDartType;
+
+      if (isObjCObject) {
+        ffiCallType = '$ffiPrefix.Pointer<$objCObjectImpl>';
+        ffiDartType = '$ffiPrefix.Pointer<$objCObjectImpl>';
+      } else {
+        ffiCallType = param.type.getCType(context);
+        ffiDartType = param.type.getFfiDartType(context);
+      }
+
+      final nameSuffix = (isObjCObject && param.objCConsumed)
+          ? 'takeArg$i'
+          : 'getArg$i';
+      s.write('''
+@$ffiPrefix.Native<
+    $ffiCallType Function(
+      $ffiPrefix.Pointer<$objCObjectImpl>,
+    )>(symbol: '${blockingBlockArgsName}_$nameSuffix', isLeaf: true)
+external $ffiDartType ${blockingBlockArgsName}_$nameSuffix(
+  $ffiPrefix.Pointer<$objCObjectImpl> peer,
+);
+''');
+    }
+
+    s.write('''
+@$ffiPrefix.Native<
+    $ffiPrefix.Void Function(
+      $blockCType,
+    )>(symbol: '_${libraryId}_${cSafeName}_portBlockInvoke_blocking', isLeaf: true)
+external void _${libraryId}_${cSafeName}_portBlockInvoke_blocking($blockCType block);
+''');
 
     return BindingString(
       type: BindingStringType.objcBlock,
@@ -499,8 +632,9 @@ external void _${libraryId}_${cSafeName}_portBlockInvoke($blockCType block);
   @override
   BindingString? toObjCBindingString(Writer w) {
     final chunks = [
-      _blockWrappersBindingString(w),
+      if (hasListener) _blockWrappersBindingString(w),
       if (hasListener) _portBlockBindingString(w),
+      if (hasListener) _portBlockingBlockBindingString(w),
       _protocolTrampolineBindingString(w),
     ].nonNulls;
     if (chunks.isEmpty) return null;
@@ -512,14 +646,13 @@ external void _${libraryId}_${cSafeName}_portBlockInvoke($blockCType block);
 
   String _portBlockBindingString(Writer w) {
     final context = w.context;
-    final cSafeName = name.replaceAll('\$', '_');
+    final cSafeName = fnvHash32(name.replaceAll('\$', '_')).toRadixString(36);
     final libraryId = context.objCBuiltInFunctions.libraryId;
     final blockArgsName = '_${libraryId}_BlockArgs_$cSafeName';
     final portBlockInvokeName = '_${libraryId}_${cSafeName}_portBlockInvoke';
 
     final argsFields = <String>[];
     final assignments = <String>[];
-    final releases = <String>[];
     final argsReceived = <String>[];
 
     for (var i = 0; i < params.length; ++i) {
@@ -532,18 +665,18 @@ external void _${libraryId}_${cSafeName}_portBlockInvoke($blockCType block);
           paramType is ObjCObjectPointer ||
           paramType is ObjCBlock ||
           paramType is ObjCBlockPointer;
+      final isBlock = paramType is ObjCBlock || paramType is ObjCBlockPointer;
 
       if (isObjCObject) {
-        argsFields.add('  void* arg$i;');
-        final isBlock = paramType is ObjCBlock || paramType is ObjCBlockPointer;
+        argsFields.add('  id arg$i;');
         if (isBlock) {
           assignments.add(
-            'args->arg$i = (__bridge void*)objc_retainBlock(arg$i);',
+            'args->arg$i = (__bridge_transfer id)(__bridge void*)'
+            'objc_retainBlock(arg$i);',
           );
         } else {
-          assignments.add('args->arg$i = (__bridge_retained void*)arg$i;');
+          assignments.add('args->arg$i = arg$i;');
         }
-        releases.add('  if (args->arg$i) CFRelease(args->arg$i);');
       } else {
         final declType = param.type.getNativeType(context, varName: argName);
         argsFields.add('  $declType;');
@@ -552,25 +685,74 @@ external void _${libraryId}_${cSafeName}_portBlockInvoke($blockCType block);
       argsReceived.add(param.type.getNativeType(context, varName: argName));
     }
 
-    if (argsFields.isEmpty) {
-      argsFields.add('  char dummy;');
-    }
-
     final invokeArgs = ['ObjCBlockImpl* block', ...argsReceived].join(', ');
 
-    return '''
-typedef struct {
-${argsFields.join('\n')}
-} $blockArgsName;
+    final getters = <String>[];
+    getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+void* ${blockArgsName}_getBlock(void* peer) {
+  return (__bridge void*)((__bridge $blockArgsName*)peer)->block;
+}
+''');
 
-void ${portBlockInvokeName}_free(void* peer) {
-  $blockArgsName* args = ($blockArgsName*)peer;
-${releases.join('\n')}
-  free(args);
+    for (var i = 0; i < params.length; ++i) {
+      final param = params[i];
+      final paramType = param.type.typealiasType;
+      final isObjCObject =
+          paramType is ObjCInterface ||
+          paramType is ObjCObjectPointer ||
+          paramType is ObjCBlock ||
+          paramType is ObjCBlockPointer;
+
+      if (isObjCObject) {
+        if (param.objCConsumed) {
+          getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+void* ${blockArgsName}_takeArg$i(void* peer) {
+  $blockArgsName* args = (__bridge $blockArgsName*)peer;
+  void* val = (__bridge_retained void*)args->arg$i;
+  args->arg$i = nil;
+  return val;
+}
+''');
+        } else {
+          getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+void* ${blockArgsName}_getArg$i(void* peer) {
+  return (__bridge void*)((__bridge $blockArgsName*)peer)->arg$i;
+}
+''');
+        }
+      } else {
+        final declType = param.type.getNativeType(context);
+        getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+$declType ${blockArgsName}_getArg$i(void* peer) {
+  return ((__bridge $blockArgsName*)peer)->arg$i;
+}
+''');
+      }
+    }
+
+    return '''
+@interface $blockArgsName : NSObject {
+  @public
+  id block;
+${argsFields.join('\n')}
+}
+@end
+
+@implementation $blockArgsName
+@end
+
+${getters.join('\n')}
+
+void ${blockArgsName}_free(void* peer) {
+  id args = (__bridge_transfer id)peer;
 }
 
-void ${portBlockInvokeName}_finalize(void* isolate_callback_data, void* peer) {
-  DOBJC_runOnMainThread(${portBlockInvokeName}_free, peer);
+void ${blockArgsName}_finalize(void* isolate_callback_data, void* peer) {
+  DOBJC_runOnMainThread(${blockArgsName}_free, peer);
 }
 
 __attribute__((visibility("default"))) __attribute__((used))
@@ -579,10 +761,160 @@ void $portBlockInvokeName($invokeArgs) {
   int64_t port_id = target->port_id;
   DOBJC_Context* ctx = target->ctx;
 
-  $blockArgsName* args = calloc(1, sizeof($blockArgsName));
+  $blockArgsName* args = [[$blockArgsName alloc] init];
+  args->block = (__bridge_transfer id)(__bridge void*)objc_retainBlock((__bridge id)block);
   ${assignments.join('\n  ')}
 
-  ctx->postCObject(port_id, args, ${portBlockInvokeName}_finalize);
+  void* raw_args = (__bridge_retained void*)args;
+  ctx->postCObject(port_id, raw_args, ${blockArgsName}_finalize);
+}
+''';
+  }
+
+  String _portBlockingBlockBindingString(Writer w) {
+    final context = w.context;
+    final cSafeName = fnvHash32(name.replaceAll('\$', '_')).toRadixString(36);
+    final libraryId = context.objCBuiltInFunctions.libraryId;
+    final blockArgsName = '_${libraryId}_BlockArgs_${cSafeName}_blocking';
+    final portBlockInvokeName =
+        '_${libraryId}_${cSafeName}_portBlockInvoke_blocking';
+
+    final argsFields = <String>[];
+    final assignments = <String>[];
+    final argsReceived = <String>[];
+
+    for (var i = 0; i < params.length; ++i) {
+      final param = params[i];
+      final argName = 'arg$i';
+
+      final paramType = param.type.typealiasType;
+      final isObjCObject =
+          paramType is ObjCInterface ||
+          paramType is ObjCObjectPointer ||
+          paramType is ObjCBlock ||
+          paramType is ObjCBlockPointer;
+      final isBlock = paramType is ObjCBlock || paramType is ObjCBlockPointer;
+
+      if (isObjCObject) {
+        argsFields.add('  id arg$i;');
+        if (isBlock) {
+          assignments.add(
+            'args->arg$i = (__bridge_transfer id)(__bridge void*)'
+            'objc_retainBlock(arg$i);',
+          );
+        } else {
+          assignments.add('args->arg$i = arg$i;');
+        }
+      } else {
+        final declType = param.type.getNativeType(context, varName: argName);
+        argsFields.add('  $declType;');
+        assignments.add('args->arg$i = arg$i;');
+      }
+      argsReceived.add(param.type.getNativeType(context, varName: argName));
+    }
+
+    final invokeArgs = [
+      'ObjCBlockImpl* block',
+      'void* waiter',
+      ...argsReceived,
+    ].join(', ');
+
+    final getters = <String>[];
+    getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+void ${blockArgsName}_signalWaiter(void* peer) {
+  $blockArgsName* args = (__bridge $blockArgsName*)peer;
+  if (args->waiter != NULL) {
+    DOBJC_signalWaiter(args->waiter);
+    args->waiter = NULL;
+  }
+}
+
+__attribute__((visibility("default"))) __attribute__((used))
+void* ${blockArgsName}_getBlock(void* peer) {
+  return (__bridge void*)((__bridge $blockArgsName*)peer)->block;
+}
+''');
+
+    for (var i = 0; i < params.length; ++i) {
+      final param = params[i];
+      final paramType = param.type.typealiasType;
+      final isObjCObject =
+          paramType is ObjCInterface ||
+          paramType is ObjCObjectPointer ||
+          paramType is ObjCBlock ||
+          paramType is ObjCBlockPointer;
+
+      if (isObjCObject) {
+        if (param.objCConsumed) {
+          getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+void* ${blockArgsName}_takeArg$i(void* peer) {
+  $blockArgsName* args = (__bridge $blockArgsName*)peer;
+  void* val = (__bridge_retained void*)args->arg$i;
+  args->arg$i = nil;
+  return val;
+}
+''');
+        } else {
+          getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+void* ${blockArgsName}_getArg$i(void* peer) {
+  return (__bridge void*)((__bridge $blockArgsName*)peer)->arg$i;
+}
+''');
+        }
+      } else {
+        final declType = param.type.getNativeType(context);
+        getters.add('''
+__attribute__((visibility("default"))) __attribute__((used))
+$declType ${blockArgsName}_getArg$i(void* peer) {
+  return ((__bridge $blockArgsName*)peer)->arg$i;
+}
+''');
+      }
+    }
+
+    return '''
+@interface $blockArgsName : NSObject {
+  @public
+  void* waiter;
+  id block;
+${argsFields.join('\n')}
+}
+@end
+
+@implementation $blockArgsName
+@end
+
+${getters.join('\n')}
+
+void ${blockArgsName}_free(void* peer) {
+  $blockArgsName* args = (__bridge $blockArgsName*)peer;
+  void* waiter = args->waiter;
+  args->waiter = NULL;
+  id argsObj = (__bridge_transfer id)peer;
+  argsObj = nil;
+  DOBJC_signalWaiter(waiter);
+}
+
+void ${blockArgsName}_finalize(void* isolate_callback_data, void* peer) {
+  DOBJC_runOnMainThread(${blockArgsName}_free, peer);
+}
+
+__attribute__((visibility("default"))) __attribute__((used))
+void $portBlockInvokeName($invokeArgs) {
+  PortBlockTarget* target = (PortBlockTarget*)block->target;
+  int64_t port_id = target->port_id;
+  DOBJC_Context* ctx = target->ctx;
+
+  $blockArgsName* args = [[$blockArgsName alloc] init];
+  args->waiter = waiter;
+  args->block = (__bridge_transfer id)(__bridge void*)objc_retainBlock((__bridge id)block);
+  ${assignments.join('\n  ')}
+
+  void* raw_args = (__bridge_retained void*)args;
+  ctx->postCObject(port_id, raw_args, ${blockArgsName}_finalize);
 }
 ''';
   }
@@ -597,7 +929,7 @@ void $portBlockInvokeName($invokeArgs) {
       final param = params[i];
       final argName = 'arg$i';
       argsReceived.add(param.getNativeType(context, varName: argName));
-      retains.add(param.type.generateRetain(argName) ?? argName);
+      retains.add(argName);
     }
     final blockingRetains = ['nil', ...retains];
     final blockingListenerRetains = [_waiterParam.name, ...retains];
@@ -624,8 +956,8 @@ typedef ${returnType.getNativeType(context)} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {
-    ${generateRetain('block')};
-    block(${retains.join(', ')});
+    $listenerName strongBlock = block;
+    strongBlock(${retains.join(', ')});
   };
 }
 
@@ -635,11 +967,11 @@ $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, ^void($argStr), {
-    ${generateRetain('block')};
-    block(${blockingRetains.join(', ')});
+    $blockingName strongBlock = block;
+    strongBlock(${blockingRetains.join(', ')});
   }, {
-    ${generateRetain('listenerBlock')};
-    listenerBlock(${blockingListenerRetains.join(', ')});
+    $blockingName strongListenerBlock = listenerBlock;
+    strongListenerBlock(${blockingListenerRetains.join(', ')});
   });
 }
 ''';
@@ -724,8 +1056,9 @@ $ret $fnName(id target, $argRecv) {
     Context context,
     String value, {
     required bool objCRetain,
+    bool objCRelease = true,
     String? objCEnclosingClass,
-  }) => ObjCInterface.generateConstructor(name, value, objCRetain);
+  }) => ObjCInterface.generateConstructor(name, value, objCRetain, objCRelease);
 
   @override
   String? generateRetain(String value) => 'objc_retainBlock($value)';

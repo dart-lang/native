@@ -157,8 +157,11 @@ class ObjCObjectPointer extends PointerType {
     Context context,
     String value, {
     required bool objCRetain,
+    bool objCRelease = true,
     String? objCEnclosingClass,
-  }) => '${getDartType(context)}($value, retain: $objCRetain, release: true)';
+  }) =>
+      '${getDartType(context)}($value, '
+      'retain: $objCRetain, release: $objCRelease)';
 
   @override
   String? generateRetain(String value) =>
@@ -237,11 +240,13 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
     Context context,
     String value, {
     required bool objCRetain,
+    bool objCRelease = true,
     String? objCEnclosingClass,
   }) => protocols.first.convertFfiDartTypeToDartType(
     context,
     value,
     objCRetain: objCRetain,
+    objCRelease: objCRelease,
     objCEnclosingClass: objCEnclosingClass,
   );
 

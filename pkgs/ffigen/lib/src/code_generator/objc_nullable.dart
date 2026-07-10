@@ -75,6 +75,7 @@ class ObjCNullable extends Type {
     Context context,
     String value, {
     required bool objCRetain,
+    bool objCRelease = true,
     String? objCEnclosingClass,
   }) {
     // All currently supported child types have a Pointer as their FfiDartType.
@@ -82,6 +83,7 @@ class ObjCNullable extends Type {
       context,
       value,
       objCRetain: objCRetain,
+      objCRelease: objCRelease,
       objCEnclosingClass: objCEnclosingClass,
     );
     return '$value.address == 0 ? null : $convertedValue';

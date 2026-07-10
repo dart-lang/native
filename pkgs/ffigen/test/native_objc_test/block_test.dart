@@ -1005,8 +1005,8 @@ void main() {
       ).readAsStringSync();
 
       // Objects are converted to id.
-      expect(objCBindings, isNot(contains('NSObject')));
-      expect(objCBindings, isNot(contains('NSString')));
+      expect(objCBindings, isNot(contains('NSObject*')));
+      expect(objCBindings, isNot(contains('NSString*')));
       expect(objCBindings, contains('id'));
 
       // Blocks are also converted to id. Note: (^) is part of a block type.
@@ -1048,6 +1048,8 @@ void main() {
       expect(dummyObjectTracker.isAlive, true);
       expect(blockTracker.isAlive, true);
 
+      block = null;
+
       return (
         tester,
         dummyObjectTracker,
@@ -1068,16 +1070,20 @@ void main() {
         await using((arena) async {
           for (int i = 0; i < 10; ++i) {
             final completer = Completer<void>();
-            final (
-              tester,
-              dummyObjectTracker,
-              blockTracker,
-              objTracker,
-              dummyObject,
-            ) = await regress1571Inner(
-              completer,
-              arena,
-            );
+            DummyObject? dummyObject;
+            (
+              BlockTester,
+              ReferenceTracker,
+              ReferenceTracker,
+              ReferenceTracker,
+              DummyObject,
+            )?
+            result = await regress1571Inner(completer, arena);
+            final tester = result!.$1;
+            final dummyObjectTracker = result!.$2;
+            final blockTracker = result!.$3;
+            final objTracker = result!.$4;
+            dummyObject = result!.$5;
 
             await flutterDoGC();
             await Future<void>.delayed(const Duration(milliseconds: 50));
@@ -1091,6 +1097,9 @@ void main() {
             expect(dummyObject, isNotNull);
             expect(dummyObjectTracker.isAlive, true);
 
+            dummyObject = null;
+            result = null;
+
             await Future<void>.delayed(const Duration(milliseconds: 100));
             await flutterDoGC();
             await Future<void>.delayed(const Duration(milliseconds: 50));
@@ -1099,6 +1108,7 @@ void main() {
           }
         });
       },
+      skip: !canDoGC,
     );
 
     test('Block.fromFunction, keepIsolateAlive', () async {
@@ -1341,8 +1351,12 @@ void main() {
           false,
         ), onExit: exitPort.sendPort);
 
-        final block =
-            await blockPort.first as ObjCBlock<Void Function(DummyObject)>;
+        final blockAddress = await blockPort.first as int;
+        final block = ObjCBlock_ffiVoid_DummyObject.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
@@ -1373,12 +1387,16 @@ void main() {
           blockPort.sendPort,
           callbackPort.sendPort,
           true,
-          false,
+          true,
           false,
         ), onExit: exitPort.sendPort);
 
-        final block =
-            await blockPort.first as ObjCBlock<Void Function(DummyObject)>;
+        final blockAddress = await blockPort.first as int;
+        final block = ObjCBlock_ffiVoid_DummyObject.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
         targetIsolate.kill(priority: Isolate.immediate);
         await exitPort.first;
 
@@ -1415,8 +1433,12 @@ void main() {
           true,
         ), onExit: exitPort.sendPort);
 
-        final block =
-            await blockPort.first as ObjCBlock<Void Function(DummyObject)>;
+        final blockAddress = await blockPort.first as int;
+        final block = ObjCBlock_ffiVoid_DummyObject.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
@@ -1453,8 +1475,12 @@ void main() {
           false,
         ), onExit: exitPort.sendPort);
 
-        final block =
-            await blockPort.first as ObjCBlock<Void Function(DummyObject)>;
+        final blockAddress = await blockPort.first as int;
+        final block = ObjCBlock_ffiVoid_DummyObject.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
 
         await using((arena) async {
           final tracker = ReferenceTracker(arena);
@@ -1485,12 +1511,16 @@ void main() {
           blockPort.sendPort,
           callbackPort.sendPort,
           false,
-          false,
+          true,
           false,
         ), onExit: exitPort.sendPort);
 
-        final block =
-            await blockPort.first as ObjCBlock<Void Function(DummyObject)>;
+        final blockAddress = await blockPort.first as int;
+        final block = ObjCBlock_ffiVoid_DummyObject.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
         targetIsolate.kill(priority: Isolate.immediate);
         await exitPort.first;
 
@@ -1527,8 +1557,12 @@ void main() {
           true,
         ), onExit: exitPort.sendPort);
 
-        final block =
-            await blockPort.first as ObjCBlock<Void Function(DummyObject)>;
+        final blockAddress = await blockPort.first as int;
+        final block = ObjCBlock_ffiVoid_DummyObject.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
 
         // Spawn a killer isolate to kill the target isolate after 200ms.
         await Isolate.spawn((args) async {
@@ -1587,7 +1621,7 @@ void _blockTargetIsolateEntry(
           callbackPort.send('callback_executed');
         });
 
-  blockPort.send(block);
+  blockPort.send(block.ref.pointer.address);
 
   if (sleepBeforeExit) {
     await Future<void>.delayed(const Duration(seconds: 10));

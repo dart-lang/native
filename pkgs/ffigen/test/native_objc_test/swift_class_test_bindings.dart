@@ -6,6 +6,7 @@
 library;
 
 import 'dart:ffi' as ffi;
+import 'dart:isolate' as isolate;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
@@ -288,6 +289,43 @@ extension ObjCBlock_NSInteger_ffiVoid$CallExtension
   }
 }
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
+  symbol: '_pyqkbm_BlockArgs_1nn26ru_blocking_signalWaiter',
+  isLeaf: true,
+)
+external void _pyqkbm_BlockArgs_1nn26ru_blocking_signalWaiter(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
+>(symbol: '_pyqkbm_BlockArgs_1nn26ru_blocking_getBlock', isLeaf: true)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_pyqkbm_BlockArgs_1nn26ru_blocking_getBlock(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
+  symbol: '_pyqkbm_BlockArgs_1nn26ru_blocking_free',
+  isLeaf: true,
+)
+external void _pyqkbm_BlockArgs_1nn26ru_blocking_free(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
+  symbol: '_pyqkbm_BlockArgs_1nn26ru_blocking_getArg0',
+  isLeaf: true,
+)
+external ffi.Pointer<ffi.Void> _pyqkbm_BlockArgs_1nn26ru_blocking_getArg0(
+  ffi.Pointer<objc.ObjCObjectImpl> peer,
+);
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
+  symbol: '_pyqkbm_1nn26ru_portBlockInvoke_blocking',
+  isLeaf: true,
+)
+external void _pyqkbm_1nn26ru_portBlockInvoke_blocking(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__TtC16swift_class_test12MySwiftClass',
 )
