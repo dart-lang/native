@@ -55,6 +55,8 @@ dependency_overrides:
     path: ../native_toolchain_c
   objective_c:
     path: ../objective_c
+  record_use:
+    path: ../record_use
 
 hooks:
   user_defines:
