@@ -13,6 +13,5 @@ const Map<String, String> _translations = {
   'Money': 'Doubloons',
 };
 
-// ignore: experimental_member_use
 @RecordUse()
 String pirateSpeak(String english) => _translations[english] ?? english;

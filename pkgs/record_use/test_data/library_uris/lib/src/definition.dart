@@ -5,7 +5,6 @@
 import 'package:meta/meta.dart';
 
 class MyClass {
-  // ignore: experimental_member_use
   @RecordUse()
   static void myMethod(String argument) {
     print('Hello $argument');

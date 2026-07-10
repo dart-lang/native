@@ -12,28 +12,24 @@ const Map<String, Map<String, num>> _technologies = {
   'PegLeg': {'comfort': 2},
 };
 
-// ignore: experimental_member_use
 @RecordUse()
 void useCannon() {
   final damage = _technologies['Cannon']!['damage'];
   print('Boom! (Damage: $damage)');
 }
 
-// ignore: experimental_member_use
 @RecordUse()
 void useCompass() {
   final accuracy = _technologies['Compass']!['accuracy'];
   print('North! (Accuracy: $accuracy)');
 }
 
-// ignore: experimental_member_use
 @RecordUse()
 void useTelescope() {
   final zoom = _technologies['Telescope']!['zoom'];
   print('I see you! (Zoom: x$zoom)');
 }
 
-// ignore: experimental_member_use
 @RecordUse()
 void usePegLeg() {
   final comfort = _technologies['PegLeg']!['comfort'];
