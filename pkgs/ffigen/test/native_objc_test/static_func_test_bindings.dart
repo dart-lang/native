@@ -286,40 +286,40 @@ extension ObjCBlock_Int32_Int32$CallExtension
 }
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1dakn50_BlockArgs_1u8m6co_blocking_signalWaiter',
+  symbol: '_1dar2rn_BlockArgs_1u8m6co_blocking_signalWaiter',
   isLeaf: true,
 )
-external void _1dakn50_BlockArgs_1u8m6co_blocking_signalWaiter(
+external void _1dar2rn_BlockArgs_1u8m6co_blocking_signalWaiter(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
->(symbol: '_1dakn50_BlockArgs_1u8m6co_blocking_getBlock', isLeaf: true)
+>(symbol: '_1dar2rn_BlockArgs_1u8m6co_blocking_getBlock', isLeaf: true)
 external ffi.Pointer<objc.ObjCObjectImpl>
-_1dakn50_BlockArgs_1u8m6co_blocking_getBlock(
+_1dar2rn_BlockArgs_1u8m6co_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1dakn50_BlockArgs_1u8m6co_blocking_free',
+  symbol: '_1dar2rn_BlockArgs_1u8m6co_blocking_free',
   isLeaf: true,
 )
-external void _1dakn50_BlockArgs_1u8m6co_blocking_free(
+external void _1dar2rn_BlockArgs_1u8m6co_blocking_free(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1dakn50_BlockArgs_1u8m6co_blocking_getArg0',
+  symbol: '_1dar2rn_BlockArgs_1u8m6co_blocking_getArg0',
   isLeaf: true,
 )
-external int _1dakn50_BlockArgs_1u8m6co_blocking_getArg0(
+external int _1dar2rn_BlockArgs_1u8m6co_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 @ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1dakn50_1u8m6co_portBlockInvoke_blocking',
+  symbol: '_1dar2rn_1u8m6co_portBlockInvoke_blocking',
   isLeaf: true,
 )
-external void _1dakn50_1u8m6co_portBlockInvoke_blocking(
+external void _1dar2rn_1u8m6co_portBlockInvoke_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 

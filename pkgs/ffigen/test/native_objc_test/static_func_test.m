@@ -1,12 +1,19 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 #import <Foundation/NSString.h>
-#import "static_func_test.h"
 
 void *objc_autoreleasePoolPush();
 void objc_autoreleasePoolPop(void *pool);
+
+@interface StaticFuncTestObj : NSObject {
+  int32_t* counter;
+}
++ (instancetype)newWithCounter:(int32_t*) _counter;
+- (instancetype)initWithCounter:(int32_t*) _counter;
+- (void)dealloc;
+@end
 
 StaticFuncTestObj* staticFuncOfObject(StaticFuncTestObj* a) {
   return a;
@@ -17,20 +24,24 @@ StaticFuncTestObj* _Nullable staticFuncOfNullableObject(
   return a;
 }
 
+typedef int32_t (^IntBlock)(int32_t);
 IntBlock staticFuncOfBlock(IntBlock a) {
   return a;
 }
 
-NS_RETURNS_RETAINED StaticFuncTestObj* staticFuncReturnsRetained(int32_t* counter) {
+NS_RETURNS_RETAINED StaticFuncTestObj* staticFuncReturnsRetained(
+    int32_t* counter) {
   return [StaticFuncTestObj newWithCounter: counter];
 }
 
-__attribute((ns_returns_retained)) StaticFuncTestObj* staticFuncReturnsRetainedArg(StaticFuncTestObj* a) {
+__attribute((ns_returns_retained)) StaticFuncTestObj* staticFuncReturnsRetainedArg(
+    StaticFuncTestObj* a) {
   return a;
 }
 
 void staticFuncConsumesArg(StaticFuncTestObj* __attribute((ns_consumed)) a) {
 }
+
 
 @implementation StaticFuncTestObj
 + (instancetype)newWithCounter:(int32_t*) _counter {

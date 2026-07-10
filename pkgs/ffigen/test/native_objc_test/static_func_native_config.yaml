@@ -22,4 +22,4 @@ objc-interfaces:
     - StaticFuncTestObj
 headers:
   entry-points:
-    - 'static_func_test.h'
+    - 'static_func_test.m'
