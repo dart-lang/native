@@ -26,6 +26,7 @@ See the [doc](doc/) directory for more documentation.
 | [native_doc_dartifier](pkgs/native_doc_dartifier/) | A library that converts code snippets from other languages into Dart. | [![issues](https://img.shields.io/badge/package:native__doc__dartifier-4774bc)][native_doc_dartifier_issues] | [![pub package](https://img.shields.io/pub/v/native_doc_dartifier.svg)](https://pub.dev/packages/native_doc_dartifier) |
 | [native_toolchain_c](pkgs/native_toolchain_c/) | A library to invoke the native C compiler installed on the host machine. | [![issues](https://img.shields.io/badge/package:native__toolchain__c-4774bc)][native_toolchain_c_issues] | [![pub package](https://img.shields.io/pub/v/native_toolchain_c.svg)](https://pub.dev/packages/native_toolchain_c) |
 | [objective_c](pkgs/objective_c/) | A library to access Objective C from Flutter that acts as a support library for package:ffigen. | [![issues](https://img.shields.io/badge/package:objective__c-4774bc)][objective_c_issues] | [![pub package](https://img.shields.io/pub/v/objective_c.svg)](https://pub.dev/packages/objective_c) |
+| [record_use](pkgs/record_use/) | Dart API to access `@RecordUse()` recorded usages in link hooks. | [![issues](https://img.shields.io/badge/package:record__use-4774bc)][record_use_issues] | [![pub package](https://img.shields.io/pub/v/record_use.svg)](https://pub.dev/packages/record_use) |
 | [swift2objc](pkgs/swift2objc/) | A tool for generating bindings that allow interop between Dart and Swift code. | [![issues](https://img.shields.io/badge/package:swift2objc-4774bc)][swift2objc_issues] | [![pub package](https://img.shields.io/pub/v/swift2objc.svg)](https://pub.dev/packages/swift2objc) |
 | [swiftgen](pkgs/swiftgen/) | A tool for generating bindings that allow interop between Dart and Swift code. | [![issues](https://img.shields.io/badge/package:swiftgen-4774bc)][swiftgen_issues] | [![pub package](https://img.shields.io/pub/v/swiftgen.svg)](https://pub.dev/packages/swiftgen) |
 
@@ -42,6 +43,7 @@ See the [doc](doc/) directory for more documentation.
 [native_doc_dartifier_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Anative_doc_dartifier
 [native_toolchain_c_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Anative_toolchain_c
 [objective_c_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aobjective_c
+[record_use_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Arecord_use
 [swift2objc_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aswift2objc
 [swiftgen_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aswiftgen
 
