@@ -14,7 +14,6 @@ void main() {
   methodInBin();
 }
 
-// ignore: experimental_member_use
 @RecordUse()
 void methodInBin() {
   print('The answer to the universe, life, and everything.');

@@ -31,7 +31,7 @@ void main() {
         output,
         contains(
           'ignore_for_file: type=lint, unused_import, unused_element, '
-          'deprecated_member_use_from_same_package, experimental_member_use',
+          'deprecated_member_use_from_same_package',
         ),
       );
 
@@ -88,7 +88,6 @@ void main() {
 
       final output = library.generate();
       expect(output, isNot(contains('@meta.RecordUse()')));
-      expect(output, isNot(contains('experimental_member_use')));
 
       final mapping = library.writer.generateRecordUseMapping();
       expect(mapping, isNull);

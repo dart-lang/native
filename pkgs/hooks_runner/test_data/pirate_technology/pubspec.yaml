@@ -15,5 +15,5 @@ environment:
 dependencies:
   data_assets: any
   hooks: any
-  meta: ^1.17.0
+  meta: ^1.19.0
   record_use: any

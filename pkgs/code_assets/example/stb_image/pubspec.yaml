@@ -20,7 +20,7 @@ dependencies:
   ffi: ^2.1.4
   hooks: any
   logging: ^1.3.0
-  meta: ^1.11.0
+  meta: ^1.19.0
   native_toolchain_c: any
   record_use: any
 
