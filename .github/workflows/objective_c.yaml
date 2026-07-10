@@ -92,12 +92,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ios_version: ["18.1"]
+        runner: ["macos-15", "macos-latest"]
         include:
           - runner: "macos-15"
             xcode_version: "16.1"
+            ios_version: "18.1"
           - runner: "macos-latest"
             xcode_version: "26.3"
+            ios_version: "26.5"
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
