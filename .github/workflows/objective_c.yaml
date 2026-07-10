@@ -93,13 +93,12 @@ jobs:
       fail-fast: false
       matrix:
         runner: ["macos-15", "macos-latest"]
+        ios_version: ["18.1"]
         include:
           - runner: "macos-15"
             xcode_version: "16.1"
-            ios_version: "18.1"
           - runner: "macos-latest"
             xcode_version: "26.3"
-            ios_version: "26.5"
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -111,10 +110,10 @@ jobs:
         run: xcodebuild -showsdks
       - name: Select the XCode version
         run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
-      # - name: Install iOS SDK
-      #   run: |
-      #     xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
-      #     xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
+      - name: Install iOS SDK
+        run: |
+          xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
+          xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
       - name: Install dependencies
         run: flutter pub get
       - name: Build the example app for macos
