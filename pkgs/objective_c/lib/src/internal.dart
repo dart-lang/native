@@ -492,7 +492,9 @@ BlockPtr newPortBlock(
   required bool keepIsolateAlive,
 }) {
   final zone = Zone.current;
-  final port = RawReceivePort((dynamic msg) => zone.run(() => handler(msg as int)));
+  final port = RawReceivePort(
+    (dynamic msg) => zone.run(() => handler(msg as int)),
+  );
   port.keepIsolateAlive = keepIsolateAlive;
   final portId = port.sendPort.nativePort;
   _blockPortRegistry[portId] = port;
