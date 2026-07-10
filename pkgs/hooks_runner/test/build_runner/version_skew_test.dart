@@ -30,7 +30,7 @@ void main() async {
           )).success;
           expect(result.encodedAssets.length, 1);
         }
-      });
+      }, useSpacesInPath: false);
     },
   );
 
@@ -55,7 +55,7 @@ void main() async {
           logMessages.join('\n'),
           stringContainsInOrder(['Unhandled exception']),
         );
-      });
+      }, useSpacesInPath: false);
     },
   );
 }

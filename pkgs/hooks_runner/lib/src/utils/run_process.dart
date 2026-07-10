@@ -4,8 +4,7 @@
 
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io'
-    show Platform, Process, ProcessException, ProcessResult, systemEncoding;
+import 'dart:io' show Process, ProcessException, ProcessResult, systemEncoding;
 
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
@@ -32,11 +31,12 @@ Future<RunProcessResult> runProcess({
   final printWorkingDir =
       workingDirectory != null &&
       workingDirectory != filesystem.currentDirectory.uri;
+  String quoteIfSpaced(String s) => s.contains(' ') ? '"$s"' : s;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
-    executable.toFilePath(),
-    ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
+    quoteIfSpaced(executable.toFilePath()),
+    ...arguments.map(quoteIfSpaced),
     if (printWorkingDir) ')',
   ].join(' ');
   logger?.info('Running `$commandString`.');
@@ -58,9 +58,11 @@ Future<RunProcessResult> runProcess({
       workingDirectory: workingDirectory?.toFilePath(),
       environment: environment,
       includeParentEnvironment: includeParentEnvironment,
-      runInShell:
-          Platform.isWindows &&
-          (!includeParentEnvironment || workingDirectory != null),
+      // Never run through a shell. On Windows, running an executable through
+      // `cmd.exe /c` mangles the command line when more than one argument is
+      // quoted (cmd strips the outer quotes when the line contains more than
+      // two quote characters), which breaks any invocation whose executable
+      // and arguments contain spaces.
     );
 
     final stdoutSub = process.stdout.listen((List<int> data) {

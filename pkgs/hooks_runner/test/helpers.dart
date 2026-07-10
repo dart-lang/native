@@ -32,8 +32,13 @@ Future<void> inTempDir(
   Future<void> Function(Uri tempUri) fun, {
   String? prefix,
   bool keepTemp = false,
+  bool useSpacesInPath = true,
 }) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
+  final basePrefix = prefix ?? 'hooks_runner_test';
+  final effectivePrefix = (!useSpacesInPath || basePrefix.contains(' '))
+      ? basePrefix
+      : '$basePrefix with spaces ';
+  final tempDir = await Directory.systemTemp.createTemp(effectivePrefix);
   // Deal with Windows temp folder aliases.
   final tempUri = Directory(
     await tempDir.resolveSymbolicLinks(),
@@ -57,8 +62,16 @@ Future<void> inTempDir(
   }
 }
 
-Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
+Future<Uri> tempDirForTest({
+  String? prefix,
+  bool keepTemp = false,
+  bool useSpacesInPath = true,
+}) async {
+  final basePrefix = prefix ?? 'hooks_runner_test';
+  final effectivePrefix = (!useSpacesInPath || basePrefix.contains(' '))
+      ? basePrefix
+      : '$basePrefix with spaces ';
+  final tempDir = await Directory.systemTemp.createTemp(effectivePrefix);
   // Deal with Windows temp folder aliases.
   final tempUri = Directory(
     await tempDir.resolveSymbolicLinks(),

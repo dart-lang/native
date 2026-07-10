@@ -1,6 +1,8 @@
 ## 1.6.0-wip
 
 - Fix record_use path changing caching issue.
+- Fix hook invocation when the Dart executable or an argument path contains a
+  space on Windows.
 
 ## 1.5.0
 
