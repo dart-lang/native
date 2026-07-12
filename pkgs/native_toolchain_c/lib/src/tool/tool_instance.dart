@@ -14,7 +14,7 @@ class ToolInstance implements Comparable<ToolInstance> {
   final Uri uri;
 
   /// The launcher of the [Tool] when the tool cannot be executed by the host
-  /// OS directly e.g. wsl.
+  /// OS directly e.g. WSL.
   final ToolInstance? launcher;
 
   /// The version of the native tool.
@@ -38,7 +38,10 @@ class ToolInstance implements Comparable<ToolInstance> {
       );
 
   @override
-  String toString() => 'ToolInstance(${tool.name}, $version, $uri, $launcher)';
+  String toString() {
+    final fields = [tool.name, version, uri, ?launcher?.tool.name];
+    return 'ToolInstance(${fields.join(', ')})';
+  }
 
   /// Compares this tool instance to [other].
   ///

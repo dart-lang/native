@@ -31,6 +31,8 @@ Future<RunProcessResult> runProcess({
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
     quoteIfSpaced((launcher ?? executable).toFilePath()),
+    // WSL is the only launcher, so the executable and any file paths in
+    // [arguments] are Linux style.
     if (launcher != null) quoteIfSpaced(executable.toFilePath(windows: false)),
     ...arguments.map(quoteIfSpaced),
     if (printWorkingDir) ')',
