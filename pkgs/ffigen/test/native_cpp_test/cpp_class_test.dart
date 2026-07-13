@@ -117,26 +117,25 @@ void main() {
       skip: !canDoGC,
     );
 
-    test('retainOwnership is idempotent', () {
+    test('retainOwnership throws StateError if already owned', () {
       final counter = calloc<Int>().cast<Int32>();
       counter.value = 0;
       final subject = FinalizerTestSubject(counter.cast());
-      // Calling retainOwnership on an already-owned object is a no-op.
-      subject.retainOwnership();
-      subject.retainOwnership();
+      // Calling retainOwnership on an already-owned object throws StateError.
+      expect(subject.retainOwnership, throwsStateError);
       // dispose() detaches the finalizer and calls the destructor directly.
       subject.dispose();
       expect(counter.value, 1);
       calloc.free(counter);
     });
 
-    test('releaseOwnership is idempotent', () {
+    test('releaseOwnership throws StateError if already unowned', () {
       final counter = calloc<Int>().cast<Int32>();
       counter.value = 0;
       final subject = FinalizerTestSubject(counter.cast());
       subject.releaseOwnership();
-      // Calling again on an unowned object is a no-op.
-      subject.releaseOwnership();
+      // Calling releaseOwnership on already unowned object throws StateError.
+      expect(subject.releaseOwnership, throwsStateError);
       // Restore ownership so dispose() can destroy the native object as part of
       // test cleanup.
       subject.retainOwnership();

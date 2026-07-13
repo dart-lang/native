@@ -8,7 +8,7 @@ library;
 import 'dart:ffi' as ffi;
 
 class Animal implements ffi.Finalizable {
-  ffi.Pointer<ffi.Void>? _ptr;
+  ffi.Pointer<ffi.Void> _ptr;
   static final _defaultFinalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf<
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
@@ -28,10 +28,9 @@ class Animal implements ffi.Finalizable {
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
   _activeFinalizerFn;
 
-  Animal.fromPointer(ffi.Pointer<ffi.Void> ptr, {bool takeOwnership = true})
-    : _ptr = ptr {
+  Animal.fromPointer(this._ptr, {bool takeOwnership = true}) {
     if (takeOwnership) {
-      _defaultFinalizer.attach(this, ptr.cast(), detach: this);
+      _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
       _activeFinalizerFn =
           ffi.Native.addressOf<
@@ -51,10 +50,12 @@ class Animal implements ffi.Finalizable {
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
     customFinalizer,
   ]) {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    if (_activeFinalizer != null) return;
+    if (_activeFinalizer != null) {
+      throw StateError('This object already owns its pointer.');
+    }
     final fnPtr =
         customFinalizer ??
         ffi.Native.addressOf<
@@ -67,7 +68,7 @@ class Animal implements ffi.Finalizable {
     } else {
       fin = _defaultFinalizer;
     }
-    fin.attach(this, _ptr!.cast(), detach: this);
+    fin.attach(this, _ptr.cast(), detach: this);
     _activeFinalizer = fin;
     _activeFinalizerFn = fnPtr;
   }
@@ -79,8 +80,11 @@ class Animal implements ffi.Finalizable {
   /// Throws a [StateError] if the object has already been disposed.
   /// Has no effect if this object does not own the pointer.
   void releaseOwnership() {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError('This object does not own its pointer.');
     }
     _customFinalizers.remove(_activeFinalizer);
     _activeFinalizer?.detach(this);
@@ -92,56 +96,56 @@ class Animal implements ffi.Finalizable {
     return Animal.fromPointer(_Animal_new(age));
   }
   void speak() {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    return _Animal_speak(_ptr!);
+    return _Animal_speak(_ptr);
   }
 
   int getAge() {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    return _Animal_getAge(_ptr!);
+    return _Animal_getAge(_ptr);
   }
 
   static int getCount() => _Animal_getCount();
   static void Animal_new() => _Animal_Animal_new();
   static void Animal_delete() => _Animal_Animal_delete();
   bool isMammalClass() {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    return _Animal_isMammalClass(_ptr!);
+    return _Animal_isMammalClass(_ptr);
   }
 
   double getWeight(double multiplier) {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    return _Animal_getWeight(_ptr!, multiplier);
+    return _Animal_getWeight(_ptr, multiplier);
   }
 
   int addAges(int otherAge, double scale) {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    return _Animal_addAges(_ptr!, otherAge, scale);
+    return _Animal_addAges(_ptr, otherAge, scale);
   }
 
   static int sum(int a, int b) => _Animal_sum(a, b);
   void dispose() {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
     _customFinalizers.remove(_activeFinalizer);
     _activeFinalizer?.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn?.asFunction<void Function(ffi.Pointer<ffi.Void>)>()(
-      _ptr!,
+      _ptr,
     );
     _activeFinalizerFn = null;
-    _ptr = null;
+    _ptr = ffi.nullptr;
   }
 }
 
@@ -192,7 +196,7 @@ external int _Animal_sum(int a, int b);
 external void _Animal_delete(ffi.Pointer<ffi.Void> self);
 
 class FinalizerTestSubject implements ffi.Finalizable {
-  ffi.Pointer<ffi.Void>? _ptr;
+  ffi.Pointer<ffi.Void> _ptr;
   static final _defaultFinalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf<
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
@@ -212,12 +216,9 @@ class FinalizerTestSubject implements ffi.Finalizable {
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
   _activeFinalizerFn;
 
-  FinalizerTestSubject.fromPointer(
-    ffi.Pointer<ffi.Void> ptr, {
-    bool takeOwnership = true,
-  }) : _ptr = ptr {
+  FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = true}) {
     if (takeOwnership) {
-      _defaultFinalizer.attach(this, ptr.cast(), detach: this);
+      _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
       _activeFinalizerFn =
           ffi.Native.addressOf<
@@ -237,10 +238,12 @@ class FinalizerTestSubject implements ffi.Finalizable {
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
     customFinalizer,
   ]) {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    if (_activeFinalizer != null) return;
+    if (_activeFinalizer != null) {
+      throw StateError('This object already owns its pointer.');
+    }
     final fnPtr =
         customFinalizer ??
         ffi.Native.addressOf<
@@ -253,7 +256,7 @@ class FinalizerTestSubject implements ffi.Finalizable {
     } else {
       fin = _defaultFinalizer;
     }
-    fin.attach(this, _ptr!.cast(), detach: this);
+    fin.attach(this, _ptr.cast(), detach: this);
     _activeFinalizer = fin;
     _activeFinalizerFn = fnPtr;
   }
@@ -265,8 +268,11 @@ class FinalizerTestSubject implements ffi.Finalizable {
   /// Throws a [StateError] if the object has already been disposed.
   /// Has no effect if this object does not own the pointer.
   void releaseOwnership() {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError('This object does not own its pointer.');
     }
     _customFinalizers.remove(_activeFinalizer);
     _activeFinalizer?.detach(this);
@@ -278,17 +284,17 @@ class FinalizerTestSubject implements ffi.Finalizable {
     return FinalizerTestSubject.fromPointer(_FinalizerTestSubject_new(counter));
   }
   void dispose() {
-    if (_ptr == null) {
+    if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
     _customFinalizers.remove(_activeFinalizer);
     _activeFinalizer?.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn?.asFunction<void Function(ffi.Pointer<ffi.Void>)>()(
-      _ptr!,
+      _ptr,
     );
     _activeFinalizerFn = null;
-    _ptr = null;
+    _ptr = ffi.nullptr;
   }
 }
 
