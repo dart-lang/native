@@ -113,21 +113,87 @@ class CppClass extends BindingType with HasLocalScope {
     s.write(makeDartDoc(dartDoc));
     s.write('''
 class $name implements $ffiPrefix.Finalizable {
-  // ignore: unused_field
-  final $ptrVoid _ptr;
+  $ptrVoid _ptr;
 ''');
 
     s.write('''
-  bool _isDisposed = false;
-  static final _finalizer = $ffiPrefix.NativeFinalizer(
-    $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue)
+  static final _defaultFinalizer = $ffiPrefix.NativeFinalizer(
+    $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue),
   );
+
+  /// The finalizer currently attached for this instance, or [null] if this
+  /// object does not own its pointer.
+  $ffiPrefix.NativeFinalizer? _activeFinalizer;
+
+  /// The native function pointer used by [_activeFinalizer], stored so that
+  /// [dispose] can call the correct destructor directly.
+  $ffiPrefix.Pointer<
+    $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+  >? _activeFinalizerFn;
 
   $name.fromPointer(this._ptr, {bool takeOwnership = true}) {
     if (takeOwnership) {
-      _finalizer.attach(this, _ptr.cast(), detach: this);
+      _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
+      _activeFinalizer = _defaultFinalizer;
+      _activeFinalizerFn = $ffiPrefix.Native.addressOf<
+        $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+      >($deleteGlue);
     }
   }
+
+  /// Attaches a finalizer so this object takes ownership of the underlying
+  /// C++ pointer. If [customFinalizer] is provided it is used instead of the
+  /// default `delete` finalizer, which is useful when the object was not
+  /// allocated with `new` (e.g. `malloc` or a custom allocator).
+  ///
+  /// Both [customFinalizer] and [customFinalizerFn] must be provided together.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object already owns the pointer.
+  void retainOwnership([
+    $ffiPrefix.NativeFinalizer? customFinalizer,
+    $ffiPrefix.Pointer<
+      $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+    >? customFinalizerFn,
+  ]) {
+    if (_ptr == $ffiPrefix.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer != null) {
+      throw StateError('This object already owns its pointer.');
+    }
+    if ((customFinalizer == null) != (customFinalizerFn == null)) {
+      throw ArgumentError(
+          'Both customFinalizer and customFinalizerFn must be provided together.');
+    }
+    final fin = customFinalizer ?? _defaultFinalizer;
+    final fnPtr = customFinalizerFn ??
+        $ffiPrefix.Native.addressOf<
+          $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
+        >($deleteGlue);
+    fin.attach(this, _ptr.cast(), detach: this);
+    _activeFinalizer = fin;
+    _activeFinalizerFn = fnPtr;
+  }
+
+  /// Detaches the finalizer so this object releases ownership of the
+  /// underlying C++ pointer. The caller becomes responsible for freeing
+  /// the memory.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  void releaseOwnership() {
+    if (_ptr == $ffiPrefix.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError('This object does not own its pointer.');
+    }
+    _activeFinalizer!.detach(this);
+    _activeFinalizer = null;
+    _activeFinalizerFn = null;
+  }
+
 ''');
 
     for (final ctor in constructors) {
@@ -177,7 +243,7 @@ class $name implements $ffiPrefix.Finalizable {
       } else {
         s.write('''
   $dartReturn ${method.originalName}($dartParams) {
-    if (_isDisposed) {
+    if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
     return $glue($callArgs);
@@ -187,12 +253,14 @@ class $name implements $ffiPrefix.Finalizable {
     }
     s.write('''
   void dispose() {
-    if (_isDisposed) {
+    if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    _isDisposed = true;
-    _finalizer.detach(this);
-    $deleteGlue(_ptr);
+    _activeFinalizer!.detach(this);
+    _activeFinalizer = null;
+    _activeFinalizerFn?.asFunction<void Function($ptrVoid)>()(_ptr);
+    _activeFinalizerFn = null;
+    _ptr = $ffiPrefix.nullptr;
   }
 ''');
     s.write('}\n');
