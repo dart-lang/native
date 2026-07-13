@@ -3,6 +3,14 @@
 - Bump `package:meta` dependency to `^1.19.0` and stop generating
   `experimental_member_use` lint ignore in generated bindings when
   `@RecordUse()` is used.
+- Add `dart run ffigen:migrate` to generate a Dart script (using the
+  `FfiGenerator` API) from an existing YAML configuration, to help migrate off
+  the YAML config format.
+- Re-export `Logger` from `package:logging` in `package:ffigen/ffigen.dart`,
+  since it appears in the public API (e.g. in `defaultCompilerOpts`).
+- Add `Headers.includeGlobs`, a helper to build a `Headers.include` filter
+  from glob patterns, matching the semantics of the YAML config's
+  `include-directives`.
 
 ## 21.0.0
 

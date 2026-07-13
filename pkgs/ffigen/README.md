@@ -149,11 +149,40 @@ in the following way:
 1. Install Xcode.
 2. Install Xcode command line tools: `xcode-select --install`.
 
+## Migrating from YAML
+
+If you have an existing YAML configuration and want to move to the Dart API,
+run the bundled migration tool:
+
+```bash
+dart run ffigen:migrate --config config.yaml --output tool/ffigen.dart
+```
+
+If `--config` is omitted, the tool looks for an `ffigen:` key in
+`pubspec.yaml`, matching `dart run ffigen`'s own default. If `--output` is
+omitted, the script is written to `tool/ffigen.dart`. The generated script can
+then be run directly with `dart run tool/ffigen.dart` (or via a
+[build hook](#getting-started)) to regenerate bindings, and can be committed
+in place of the YAML file.
+
+The migration is best-effort: it translates each YAML key to the closest
+equivalent `FfiGenerator` API call, falling back to inline callbacks (for
+example, for regex-based `include`/`exclude`/`rename` entries) where there is
+no direct equivalent. Options that have no Dart API equivalent are preserved
+as `// TODO(ffigen migration): ...` comments in the generated file so nothing
+from the original configuration is silently dropped. Review the generated
+script, resolve any `TODO`s, and compare output before deleting the original
+YAML file.
+
+Run `dart run ffigen:migrate --help` to see all available options.
+
 ## YAML Configuration Reference
 
 In addition to the Dart API shown in the "Getting Started" section, FFIgen can
 also be configured via YAML. Support for the YAML configuration will be
-eventually phased out, and using the Dart API is recommended.
+eventually phased out, and using the Dart API is recommended. See
+["Migrating from YAML"](#migrating-from-yaml) above for an automated migration
+path.
 
 A YAML configuration can be either provided in the project's `pubspec.yaml` file
 under the key `ffigen` or via a custom YAML file. To generate bindings
