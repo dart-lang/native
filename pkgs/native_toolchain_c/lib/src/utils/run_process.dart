@@ -13,6 +13,7 @@ import 'package:logging/logging.dart';
 ///
 /// If [captureOutput], captures stdout and stderr.
 Future<RunProcessResult> runProcess({
+  Uri? launcher,
   required Uri executable,
   List<String> arguments = const [],
   Uri? workingDirectory,
@@ -29,7 +30,10 @@ Future<RunProcessResult> runProcess({
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
-    quoteIfSpaced(executable.toFilePath()),
+    quoteIfSpaced((launcher ?? executable).toFilePath()),
+    // WSL is the only launcher, so the executable and any file paths in
+    // [arguments] are Linux style.
+    if (launcher != null) quoteIfSpaced(executable.toFilePath(windows: false)),
     ...arguments.map(quoteIfSpaced),
     if (printWorkingDir) ')',
   ].join(' ');
@@ -37,9 +41,14 @@ Future<RunProcessResult> runProcess({
 
   final stdoutBuffer = StringBuffer();
   final stderrBuffer = StringBuffer();
+
+  final resolvedArguments = [
+    if (launcher != null) executable.toFilePath(windows: false),
+    ...arguments,
+  ];
   final process = await Process.start(
-    executable.toFilePath(),
-    arguments,
+    (launcher ?? executable).toFilePath(),
+    resolvedArguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
     // Never run through a shell. On Windows, running an executable through

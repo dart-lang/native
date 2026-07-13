@@ -11,6 +11,7 @@
   sources instead of `*.obj`, so object files left in the output directory by
   other builds are no longer swept into the archive, and archive member names
   no longer embed the local build directory path.
+- Support cross-compiling to Linux from macOS and Windows hosts. ([#2185](https://github.com/dart-lang/native/issues/2185))
 
 ## 0.19.2
 
