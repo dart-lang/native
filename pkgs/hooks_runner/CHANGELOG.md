@@ -1,4 +1,4 @@
-## 1.6.0-wip
+## 1.6.0
 
 - Fix record_use path changing caching issue.
 - Fix hook invocation when the Dart executable or an argument path contains a
