@@ -17,6 +17,12 @@ import 'cpp_class_test_bindings.dart';
 )
 external void _testFinalizerTestSubjectDelete(Pointer<Void> self);
 
+final _customDeleteFinalizer = NativeFinalizer(
+  Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
+    _testFinalizerTestSubjectDelete,
+  ),
+);
+
 void main() {
   group('CppClass', () {
     test('Animal bindings exist', () {
@@ -167,12 +173,11 @@ void main() {
       counter.value = 0;
       final subject = FinalizerTestSubject(counter.cast());
       subject.releaseOwnership();
-      // Pass the delete function pointer as the custom finalizer.
-      final customFinalizer =
+      final customFinalizerFn =
           Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
             _testFinalizerTestSubjectDelete,
           );
-      subject.retainOwnership(customFinalizer);
+      subject.retainOwnership(_customDeleteFinalizer, customFinalizerFn);
       // dispose() must call the custom finalizer, not the default _deleteGlue.
       subject.dispose();
       expect(counter.value, 1);
@@ -182,22 +187,27 @@ void main() {
     @pragma('vm:never-inline')
     void customFinalizerGCInner(
       Pointer<Int32> counter,
-      Pointer<NativeFunction<Void Function(Pointer<Void>)>> customFinalizer,
+      NativeFinalizer customFinalizer,
+      Pointer<NativeFunction<Void Function(Pointer<Void>)>> customFinalizerFn,
     ) {
       final subject = FinalizerTestSubject(counter.cast())
         ..releaseOwnership()
-        ..retainOwnership(customFinalizer);
+        ..retainOwnership(customFinalizer, customFinalizerFn);
       expect(subject, isNotNull);
     }
 
     test('retainOwnership with custom finalizer is called by GC', () {
       final counter = calloc<Int>().cast<Int32>();
       counter.value = 0;
-      final customFinalizer =
+      final customFinalizerFn =
           Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
             _testFinalizerTestSubjectDelete,
           );
-      customFinalizerGCInner(counter, customFinalizer);
+      customFinalizerGCInner(
+        counter,
+        _customDeleteFinalizer,
+        customFinalizerFn,
+      );
       doGC();
       expect(counter.value, 1);
       calloc.free(counter);

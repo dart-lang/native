@@ -121,10 +121,6 @@ class $name implements $ffiPrefix.Finalizable {
     $ffiPrefix.Native.addressOf<$ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>>($deleteGlue),
   );
 
-  /// Keeps user-supplied [NativeFinalizer] instances alive so they are not
-  /// garbage collected before they have a chance to fire.
-  static final _customFinalizers = <$ffiPrefix.NativeFinalizer>{};
-
   /// The finalizer currently attached for this instance, or [null] if this
   /// object does not own its pointer.
   $ffiPrefix.NativeFinalizer? _activeFinalizer;
@@ -150,12 +146,15 @@ class $name implements $ffiPrefix.Finalizable {
   /// default `delete` finalizer, which is useful when the object was not
   /// allocated with `new` (e.g. `malloc` or a custom allocator).
   ///
-  /// Throws a [StateError] if the object has already been disposed.
-  /// Has no effect if this object already owns the pointer.
+  /// Both [customFinalizer] and [customFinalizerFn] must be provided together.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object already owns the pointer.
   void retainOwnership([
+    $ffiPrefix.NativeFinalizer? customFinalizer,
     $ffiPrefix.Pointer<
       $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
-    >? customFinalizer,
+    >? customFinalizerFn,
   ]) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
@@ -163,17 +162,15 @@ class $name implements $ffiPrefix.Finalizable {
     if (_activeFinalizer != null) {
       throw StateError('This object already owns its pointer.');
     }
-    final fnPtr = customFinalizer ??
+    if ((customFinalizer == null) != (customFinalizerFn == null)) {
+      throw ArgumentError(
+          'Both customFinalizer and customFinalizerFn must be provided together.');
+    }
+    final fin = customFinalizer ?? _defaultFinalizer;
+    final fnPtr = customFinalizerFn ??
         $ffiPrefix.Native.addressOf<
           $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
         >($deleteGlue);
-    final $ffiPrefix.NativeFinalizer fin;
-    if (customFinalizer != null) {
-      fin = $ffiPrefix.NativeFinalizer(fnPtr);
-      _customFinalizers.add(fin);
-    } else {
-      fin = _defaultFinalizer;
-    }
     fin.attach(this, _ptr.cast(), detach: this);
     _activeFinalizer = fin;
     _activeFinalizerFn = fnPtr;
@@ -183,8 +180,8 @@ class $name implements $ffiPrefix.Finalizable {
   /// underlying C++ pointer. The caller becomes responsible for freeing
   /// the memory.
   ///
-  /// Throws a [StateError] if the object has already been disposed.
-  /// Has no effect if this object does not own the pointer.
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
   void releaseOwnership() {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
@@ -192,11 +189,11 @@ class $name implements $ffiPrefix.Finalizable {
     if (_activeFinalizer == null) {
       throw StateError('This object does not own its pointer.');
     }
-    _customFinalizers.remove(_activeFinalizer);
-    _activeFinalizer?.detach(this);
+    _activeFinalizer!.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn = null;
   }
+
 ''');
 
     for (final ctor in constructors) {
@@ -259,8 +256,7 @@ class $name implements $ffiPrefix.Finalizable {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    _customFinalizers.remove(_activeFinalizer);
-    _activeFinalizer?.detach(this);
+    _activeFinalizer!.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn?.asFunction<void Function($ptrVoid)>()(_ptr);
     _activeFinalizerFn = null;
