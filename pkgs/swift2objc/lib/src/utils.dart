@@ -31,7 +31,13 @@ const macOSX64TargetTripleUnversioned = 'x86_64-apple-macosx';
 
 // Eg: Extracts "15.2" from ".../MacOSX15.2.sdk/"
 final _versionRegExp = RegExp(r'/[^0-9]*([0-9.]+)\.sdk/$');
-String _parseVersion(Uri sdk) => _versionRegExp.firstMatch(sdk.path)!.group(1)!;
+String _parseVersion(Uri sdk) {
+  final v = _versionRegExp.firstMatch(sdk.path)?.group(1);
+  if (v == null) {
+    throw FormatException('SDK path has unexpected form', sdk.path);
+  }
+  return v;
+}
 
 Future<String> _versionedTargetTriple(
   String unversionedTriple,
