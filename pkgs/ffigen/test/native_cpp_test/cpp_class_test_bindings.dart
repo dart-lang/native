@@ -84,7 +84,7 @@ class Animal implements ffi.Finalizable {
     if (_activeFinalizer == null) {
       throw StateError('This object does not own its pointer.');
     }
-    _activeFinalizer?.detach(this);
+    _activeFinalizer!.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn = null;
   }
@@ -135,7 +135,7 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    _activeFinalizer?.detach(this);
+    _activeFinalizer!.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn?.asFunction<void Function(ffi.Pointer<ffi.Void>)>()(
       _ptr,
@@ -268,7 +268,7 @@ class FinalizerTestSubject implements ffi.Finalizable {
     if (_activeFinalizer == null) {
       throw StateError('This object does not own its pointer.');
     }
-    _activeFinalizer?.detach(this);
+    _activeFinalizer!.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn = null;
   }
@@ -280,7 +280,7 @@ class FinalizerTestSubject implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    _activeFinalizer?.detach(this);
+    _activeFinalizer!.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn?.asFunction<void Function(ffi.Pointer<ffi.Void>)>()(
       _ptr,
