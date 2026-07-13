@@ -6,6 +6,7 @@ import 'dart:ffi';
 
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
 import '../ffigen.dart';
@@ -135,6 +136,24 @@ final class Headers {
   final bool Function(Uri header) include;
 
   static bool _includeDefault(Uri header) => true;
+
+  /// Returns a function to pass to [include] that includes any header whose
+  /// file path fully matches one of [globs].
+  ///
+  /// `*` matches anything within a path segment, `**` matches across path
+  /// segments, and `?` matches a single character. Since the header's whole
+  /// (absolute) path is matched, patterns typically start with `**`, e.g.
+  /// `'**/include/*.h'`.
+  ///
+  /// This matches the semantics of the legacy YAML config's
+  /// `include-directives`.
+  static bool Function(Uri) includeGlobs(List<String> globs) {
+    final patterns = [for (final glob in globs) quiver.Glob(glob)];
+    return (Uri header) {
+      final path = header.toFilePath();
+      return patterns.any((p) => quiver.matchesFull(p, path));
+    };
+  }
 
   /// Command line arguments to pass to clang_compiler.
   final List<String>? compilerOptions;
