@@ -4,6 +4,7 @@
 - Improve no such method error handling.
 - Fix memory leaks and deadlocks that can happen in callbacks, if the target
   isolate is shut down.
+- Support versions 3.x of `package:package_config`.
 
 ## 1.0.0
 
