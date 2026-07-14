@@ -755,6 +755,29 @@ String qualifiedNameFromUsr(String usr, String leafName) {
   return [...scopes, leafName].join('::');
 }
 
+/// Builds the fully-qualified C++ name of a variable (or static data member)
+/// from its [usr].
+///
+/// Unlike [qualifiedNameFromUsr], a variable's USR ends in a bare name token
+/// with no preceding kind marker, e.g. `c:@N@ns@nsInt` or `c:@S@Box@memberInt`
+/// (const variables also carry a leading file token, e.g.
+/// `c:foo.h@N@ns@nsInt`). These yield `ns::nsInt` and `Box::memberInt`
+/// respectively. At file scope (no enclosing namespace or class) this just
+/// returns [leafName].
+String qualifiedVarNameFromUsr(String usr, String leafName) {
+  // Scope markers/names sit between the `c:`(+file) prefix (parts[0]) and the
+  // trailing leaf token (parts.last), alternating marker/name.
+  final parts = usr.split('@');
+  final scopes = <String>[];
+  for (var i = 1; i + 1 < parts.length; i += 2) {
+    if (parts[i] == 'N' || parts[i] == 'S' || parts[i] == 'U') {
+      scopes.add(parts[i + 1]);
+    }
+  }
+  if (scopes.isEmpty) return leafName;
+  return [...scopes, leafName].join('::');
+}
+
 /// Flattens a `::`-qualified C++ name into a single Dart identifier by joining
 /// the path segments with `$`, e.g. `outer::inner::Color` becomes
 /// `outer$inner$Color`.

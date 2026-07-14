@@ -48,6 +48,27 @@ void main() {
           classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
         ),
       ),
+      'cpp_constexpr': FfiGenerator(
+        output: Output(dartFile: Uri.file('cpp_constexpr_test_bindings.dart')),
+        headers: Headers(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_constexpr_test.h')),
+          ],
+          compilerOptions: ['-x', 'c++'],
+        ),
+        globals: Globals.includeSet({
+          'topInt',
+          'topDouble',
+          'topStr',
+          'topDerived',
+          'ns::nsInt',
+          'ns::inner::nsInt',
+          'Box::memberInt',
+          'Box::memberDouble',
+          'Widget::classInt',
+          'scoped::Gadget::gadgetInt',
+        }),
+      ),
       'cpp_extern_c': FfiGenerator(
         output: Output(dartFile: Uri.file('cpp_extern_c_test_bindings.dart')),
         headers: Headers(

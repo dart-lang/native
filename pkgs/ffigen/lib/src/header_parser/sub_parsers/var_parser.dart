@@ -25,7 +25,19 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     return bindingsIndex.getSeenVariableConstant(usr);
   }
 
-  final decl = Declaration(usr: usr, originalName: name);
+  // For C++ variables (and static data members) declared inside one or more
+  // scopes, [qualifiedName] is the fully-qualified name (e.g. `ns::nsVar` or
+  // `Box::member`). At file scope it equals [name].
+  final qualifiedName = qualifiedVarNameFromUsr(usr, name);
+  final decl = Declaration(usr: usr, originalName: qualifiedName);
+
+  // C++ scope separators are not valid in Dart identifiers. Flatten any scopes
+  // left after user renaming, preserving the renamed prefix if any.
+  final renamed = config.globals.rename(decl);
+  final dartName = renamed.contains('::')
+      ? flattenQualifiedName(renamed)
+      : renamed;
+
   final cType = cursor.type();
 
   // Try to evaluate as a constant first,
@@ -40,8 +52,8 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
         final value = clang.clang_EvalResult_getAsLongLong(evalResult);
         constant = Constant(
           usr: usr,
-          originalName: name,
-          name: config.globals.rename(decl),
+          originalName: qualifiedName,
+          name: dartName,
           dartDoc: getCursorDocComment(context, cursor),
           rawType: 'int',
           rawValue: value.toString(),
@@ -51,8 +63,8 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
         final value = clang.clang_EvalResult_getAsDouble(evalResult);
         constant = Constant(
           usr: usr,
-          originalName: name,
-          name: config.globals.rename(decl),
+          originalName: qualifiedName,
+          name: dartName,
           dartDoc: getCursorDocComment(context, cursor),
           rawType: 'double',
           rawValue: writeDoubleAsString(value),
@@ -63,8 +75,8 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
         final rawValue = getWrittenStringRepresentation(name, value, context);
         constant = Constant(
           usr: usr,
-          originalName: name,
-          name: config.globals.rename(decl),
+          originalName: qualifiedName,
+          name: dartName,
           dartDoc: getCursorDocComment(context, cursor),
           rawType: 'String',
           rawValue: "'$rawValue'",
@@ -100,8 +112,8 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
   }
 
   final global = Global(
-    originalName: name,
-    name: config.globals.rename(decl),
+    originalName: qualifiedName,
+    name: dartName,
     usr: usr,
     type: type,
     dartDoc: getCursorDocComment(context, cursor),
