@@ -973,6 +973,40 @@ class JavaDocComment implements Element<JavaDocComment> {
 
   final String comment;
 
+  String? get deprecatedMessage {
+    final lines = comment.split('\n');
+    final messageLines = <String>[];
+    var readingDeprecatedTag = false;
+
+    for (final line in lines) {
+      final trimmed = line.trim();
+
+      if (!readingDeprecatedTag) {
+        if (trimmed.startsWith('@deprecated')) {
+          readingDeprecatedTag = true;
+
+          final firstLine = trimmed.substring('@deprecated'.length).trim();
+          if (firstLine.isNotEmpty) {
+            messageLines.add(firstLine);
+          }
+        }
+        continue;
+      }
+
+      // A new Javadoc block tag marks the end of the deprecated message.
+      if (trimmed.startsWith('@')) {
+        break;
+      }
+
+      if (trimmed.isNotEmpty) {
+        messageLines.add(trimmed);
+      }
+    }
+
+    final message = messageLines.join('\n').trim();
+    return message.isEmpty ? null : message;
+  }
+
   factory JavaDocComment.fromJson(Map<String, dynamic> json) =>
       _$JavaDocCommentFromJson(json);
 
