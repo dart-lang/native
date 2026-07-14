@@ -130,9 +130,18 @@ Type getCodeGenType(
       return BooleanType();
     case clang_types.CXTypeKind.CXType_Attributed:
     case clang_types.CXTypeKind.CXType_Unexposed:
+      // For attributed types, the modified type is the underlying type. Other
+      // unexposed types (e.g. a C++ type referenced through a
+      // using-declaration, like `std::uint16_t`) have no modified type;
+      // resolve those via their canonical type instead.
+      var innerCxType = clang.clang_Type_getModifiedType(cxtype);
+      if (innerCxType.kind == clang_types.CXTypeKind.CXType_Invalid) {
+        final canonical = clang.clang_getCanonicalType(cxtype);
+        if (canonical.kind != cxtype.kind) innerCxType = canonical;
+      }
       final innerType = getCodeGenType(
         context,
-        clang.clang_Type_getModifiedType(cxtype),
+        innerCxType,
         originalCursor: originalCursor,
       );
       final isNullable =

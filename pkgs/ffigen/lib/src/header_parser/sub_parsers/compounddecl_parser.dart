@@ -136,7 +136,13 @@ Compound? _parseCompoundDeclaration(
     return null;
   }
 
-  final decl = Declaration(usr: usr, originalName: declName);
+  // For C++ compounds declared inside one or more scopes, [qualifiedName] is
+  // the fully-qualified name (e.g. `outer::Point` or `Outer::Inner`). At
+  // global scope it equals [declName].
+  final qualifiedName = declName.isEmpty
+      ? declName
+      : qualifiedNameFromUsr(usr, declName);
+  final decl = Declaration(usr: usr, originalName: qualifiedName);
   final Compound compound;
   if (declName.isEmpty) {
     cursor = context.cursorIndex.getDefinition(cursor);
@@ -155,12 +161,19 @@ Compound? _parseCompoundDeclaration(
   } else {
     cursor = context.cursorIndex.getDefinition(cursor);
     context.logger.fine(
-      '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
+      '++++ Adding $className: Name: $qualifiedName, '
+      '${cursor.completeStringRepr()}',
     );
+    var dartName = configDecl.rename(decl);
+    if (dartName.contains('::')) {
+      // C++ scope separators are not valid in Dart identifiers. Flatten any
+      // scopes left after user renaming, preserving the renamed prefix if any.
+      dartName = flattenQualifiedName(dartName);
+    }
     compound = constructor(
       usr: usr,
-      originalName: declName,
-      name: configDecl.rename(decl),
+      originalName: qualifiedName,
+      name: dartName,
       dartDoc: getCursorDocComment(
         context,
         cursor,

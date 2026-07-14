@@ -67,6 +67,26 @@ void main() {
           'other::Color',
         }),
       ),
+      'cpp_scoped_struct': FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('cpp_scoped_struct_test_bindings.dart'),
+        ),
+        headers: Headers(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_scoped_struct_test.h')),
+          ],
+          compilerOptions: ['-x', 'c++'],
+        ),
+        structs: Structs.includeSet({
+          'GlobalBox',
+          'GlobalBox::Lid',
+          'outer::Point',
+          'outer::inner::Point',
+          'outer::Palette::Entry',
+          'other::Point',
+        }),
+        unions: Unions.includeSet({'other::Value'}),
+      ),
     };
 
     for (final testFile in testFiles) {

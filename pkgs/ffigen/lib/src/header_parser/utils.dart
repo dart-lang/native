@@ -110,7 +110,10 @@ extension CXCursorExt on clang_types.CXCursor {
 
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();
-    assert(!res.contains(synthUsrChar));
+    // Raw USRs must not collide with the synthesized `~ <label>:` suffixes
+    // added below and elsewhere. A bare [synthUsrChar] can legitimately appear
+    // in a raw USR, e.g. in a C++ destructor name like `@F@~Foo#`.
+    assert(!res.contains('$synthUsrChar '));
     if (isAnonymousRecordDecl()) {
       res += '$synthUsrChar anonRec: offset:${sourceFileOffset()}';
     }
@@ -729,3 +732,31 @@ String _getWritableChar(int char, {bool utf8 = true}) {
   /// In all other cases, simply convert to string.
   return String.fromCharCode(char);
 }
+
+/// Builds the fully-qualified C++ name of a declaration from its [usr].
+///
+/// A USR like `c:@N@outer@S@Palette@E@Tone` yields
+/// `outer::Palette::Tone`. At global scope (no enclosing namespace or class)
+/// this just returns [leafName].
+String qualifiedNameFromUsr(String usr, String leafName) {
+  // After the `c:` prefix, USR tokens alternate between a single-char kind
+  // marker (`N` for namespace, `S` for class/struct, `U` for union, `E` for
+  // enum, etc.) and its name. Collect the names of the enclosing scopes by
+  // stepping over each marker/name pair, skipping the last pair which is the
+  // declaration itself.
+  final parts = usr.split('@');
+  final scopes = <String>[];
+  for (var i = 1; i + 3 < parts.length; i += 2) {
+    if (parts[i] == 'N' || parts[i] == 'S' || parts[i] == 'U') {
+      scopes.add(parts[i + 1]);
+    }
+  }
+  if (scopes.isEmpty) return leafName;
+  return [...scopes, leafName].join('::');
+}
+
+/// Flattens a `::`-qualified C++ name into a single Dart identifier by joining
+/// the path segments with `$`, e.g. `outer::inner::Color` becomes
+/// `outer$inner$Color`.
+String flattenQualifiedName(String qualifiedName) =>
+    qualifiedName.split('::').where((s) => s.isNotEmpty).join(r'$');
