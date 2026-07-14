@@ -187,7 +187,9 @@ void* _18tji2r_BlockArgs_46g30m_getArg0(void* peer) {
 void _18tji2r_BlockArgs_46g30m_free(void* peer) {
   @autoreleasepool {
     _18tji2r_BlockArgs_46g30m* args = (__bridge _18tji2r_BlockArgs_46g30m*)peer;
-    if (args->arg0 != NULL) { id relObj = (__bridge_transfer id)args->arg0; }
+    if (args->arg0 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg0;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -243,7 +245,9 @@ void _18tji2r_BlockArgs_46g30m_blocking_free(void* peer) {
       ((DOBJC_Context*)args->context)->signalWaiter(args->waiter);
       args->waiter = NULL;
     }
-    if (args->arg0 != NULL) { id relObj = (__bridge_transfer id)args->arg0; }
+    if (args->arg0 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg0;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -809,7 +813,9 @@ void* _18tji2r_BlockArgs_1xjdmo1_getArg0(void* peer) {
 void _18tji2r_BlockArgs_1xjdmo1_free(void* peer) {
   @autoreleasepool {
     _18tji2r_BlockArgs_1xjdmo1* args = (__bridge _18tji2r_BlockArgs_1xjdmo1*)peer;
-    if (args->arg0 != NULL) { id relObj = (__bridge_transfer id)args->arg0; }
+    if (args->arg0 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg0;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -865,7 +871,9 @@ void _18tji2r_BlockArgs_1xjdmo1_blocking_free(void* peer) {
       ((DOBJC_Context*)args->context)->signalWaiter(args->waiter);
       args->waiter = NULL;
     }
-    if (args->arg0 != NULL) { id relObj = (__bridge_transfer id)args->arg0; }
+    if (args->arg0 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg0;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -931,7 +939,9 @@ void* _18tji2r_BlockArgs_1nfopnd_getArg0(void* peer) {
 void _18tji2r_BlockArgs_1nfopnd_free(void* peer) {
   @autoreleasepool {
     _18tji2r_BlockArgs_1nfopnd* args = (__bridge _18tji2r_BlockArgs_1nfopnd*)peer;
-    if (args->arg0 != NULL) { id relObj = (__bridge_transfer id)args->arg0; }
+    if (args->arg0 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg0;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -987,7 +997,9 @@ void _18tji2r_BlockArgs_1nfopnd_blocking_free(void* peer) {
       ((DOBJC_Context*)args->context)->signalWaiter(args->waiter);
       args->waiter = NULL;
     }
-    if (args->arg0 != NULL) { id relObj = (__bridge_transfer id)args->arg0; }
+    if (args->arg0 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg0;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -1065,7 +1077,9 @@ void* _18tji2r_BlockArgs_1uznk83_getArg2(void* peer) {
 void _18tji2r_BlockArgs_1uznk83_free(void* peer) {
   @autoreleasepool {
     _18tji2r_BlockArgs_1uznk83* args = (__bridge _18tji2r_BlockArgs_1uznk83*)peer;
-    if (args->arg2 != NULL) { id relObj = (__bridge_transfer id)args->arg2; }
+    if (args->arg2 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg2;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -1135,7 +1149,9 @@ void _18tji2r_BlockArgs_1uznk83_blocking_free(void* peer) {
       ((DOBJC_Context*)args->context)->signalWaiter(args->waiter);
       args->waiter = NULL;
     }
-    if (args->arg2 != NULL) { id relObj = (__bridge_transfer id)args->arg2; }
+    if (args->arg2 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg2;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }

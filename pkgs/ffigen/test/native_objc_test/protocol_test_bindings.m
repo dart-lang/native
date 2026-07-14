@@ -389,7 +389,9 @@ void* _13hhotk_BlockArgs_o4v3e9_getArg1(void* peer) {
 void _13hhotk_BlockArgs_o4v3e9_free(void* peer) {
   @autoreleasepool {
     _13hhotk_BlockArgs_o4v3e9* args = (__bridge _13hhotk_BlockArgs_o4v3e9*)peer;
-    if (args->arg1 != NULL) { id relObj = (__bridge_transfer id)args->arg1; }
+    if (args->arg1 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg1;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }
@@ -452,7 +454,9 @@ void _13hhotk_BlockArgs_o4v3e9_blocking_free(void* peer) {
       ((DOBJC_Context*)args->context)->signalWaiter(args->waiter);
       args->waiter = NULL;
     }
-    if (args->arg1 != NULL) { id relObj = (__bridge_transfer id)args->arg1; }
+    if (args->arg1 != NULL) {
+      id relObj = (__bridge_transfer id)args->arg1;
+    }
     id argsObj = (__bridge_transfer id)peer;
   }
 }

@@ -634,12 +634,16 @@ external $blockCType _${libraryId}_${cSafeName}_wrapPortBlock_blocking(
           'objc_retainBlock($argName);',
         );
         unconsumedReleases.add(
-          'if (args->$argName != NULL) { id relObj = (__bridge_transfer id)args->$argName; }',
+          'if (args->$argName != NULL) {\n'
+          '      id relObj = (__bridge_transfer id)args->$argName;\n'
+          '    }',
         );
       } else if (isObjCObject) {
         assignments.add('args->$argName = (__bridge_retained void*)$argName;');
         unconsumedReleases.add(
-          'if (args->$argName != NULL) { id relObj = (__bridge_transfer id)args->$argName; }',
+          'if (args->$argName != NULL) {\n'
+          '      id relObj = (__bridge_transfer id)args->$argName;\n'
+          '    }',
         );
       } else {
         assignments.add('args->$argName = $argName;');
@@ -773,12 +777,16 @@ void* _${libraryId}_${cSafeName}_wrapPortBlock(id block, int64_t port_id, void* 
           'objc_retainBlock($argName);',
         );
         unconsumedReleases.add(
-          'if (args->$argName != NULL) { id relObj = (__bridge_transfer id)args->$argName; }',
+          'if (args->$argName != NULL) {\n'
+          '      id relObj = (__bridge_transfer id)args->$argName;\n'
+          '    }',
         );
       } else if (isObjCObject) {
         assignments.add('args->$argName = (__bridge_retained void*)$argName;');
         unconsumedReleases.add(
-          'if (args->$argName != NULL) { id relObj = (__bridge_transfer id)args->$argName; }',
+          'if (args->$argName != NULL) {\n'
+          '      id relObj = (__bridge_transfer id)args->$argName;\n'
+          '    }',
         );
       } else {
         assignments.add('args->$argName = $argName;');
