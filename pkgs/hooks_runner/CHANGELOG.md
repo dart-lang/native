@@ -1,4 +1,4 @@
-## 1.6.1-wip
+## 1.6.1
 
 - Support versions 3.x of `package:package_config`.
 
