@@ -1,3 +1,7 @@
+## 1.6.1
+
+- Support versions 3.x of `package:package_config`.
+
 ## 1.6.0
 
 - Fix record_use path changing caching issue.

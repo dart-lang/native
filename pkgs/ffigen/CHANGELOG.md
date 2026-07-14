@@ -3,6 +3,7 @@
 - Bump `package:meta` dependency to `^1.19.0` and stop generating
   `experimental_member_use` lint ignore in generated bindings when
   `@RecordUse()` is used.
+- Support versions 3.x of `package:package_config`.
 
 ## 21.0.0
 
