@@ -84,6 +84,10 @@ typedef struct _DOBJC_Context {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   bool (*postCObject)(int64_t, void*, void (*)(void*, void*));
+  void (*runOnMainThread)(void (*fn)(void *), void *arg);
+  void (*signalWaiter)(void *waiter);
+  int64_t (*getBlockPortId)(void* block);
+  void* (*getBlockContext)(void* block);
 } DOBJC_Context;
 
 typedef struct {
@@ -92,5 +96,8 @@ typedef struct {
 } PortBlockTarget;
 
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context);
+FFI_EXPORT int64_t DOBJC_getBlockPortId(void* block);
+FFI_EXPORT void* DOBJC_getBlockContext(void* block);
+FFI_EXPORT void DOBJC_noop(void);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

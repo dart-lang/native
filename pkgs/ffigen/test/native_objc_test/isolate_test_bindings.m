@@ -11,16 +11,6 @@
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
 typedef struct {
-  void* isa;
-  int flags;
-  int reserved;
-  void* invoke;
-  void* descriptor;
-  void* target;
-  int64_t dispose_port;
-} ObjCBlockImpl;
-
-typedef struct {
   int64_t version;
   void* (*newWaiter)(void);
   void (*awaitWaiter)(void*);
@@ -30,12 +20,11 @@ typedef struct {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   bool (*postCObject)(int64_t, void*, void (*)(void*, void*));
+  void (*runOnMainThread)(void (*fn)(void *), void *arg);
+  void (*signalWaiter)(void *waiter);
+  int64_t (*getBlockPortId)(void* block);
+  void* (*getBlockContext)(void* block);
 } DOBJC_Context;
-
-typedef struct {
-  int64_t port_id;
-  DOBJC_Context* ctx;
-} PortBlockTarget;
 
 id objc_retainBlock(id);
 void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
@@ -66,43 +55,16 @@ void DOBJC_signalWaiter(void *waiter);
     }                                                                          \
   };
 
-
-typedef void  (^_ListenerTrampoline)(int32_t arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _rdx59v_wrapListenerBlock_1bqef4y(_ListenerTrampoline block) NS_RETURNS_RETAINED {
-  return ^void(int32_t arg0) {
-    _ListenerTrampoline strongBlock = block;
-    strongBlock(arg0);
-  };
-}
-
-typedef void  (^_BlockingTrampoline)(void * waiter, int32_t arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _rdx59v_wrapBlockingBlock_1bqef4y(
-    _BlockingTrampoline block, _BlockingTrampoline listenerBlock,
-    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(int32_t arg0), {
-    _BlockingTrampoline strongBlock = block;
-    strongBlock(nil, arg0);
-  }, {
-    _BlockingTrampoline strongListenerBlock = listenerBlock;
-    strongListenerBlock(waiter, arg0);
-  });
-}
 @interface _rdx59v_BlockArgs_1huiwh : NSObject {
   @public
   id block;
-  int32_t arg0;
+  void* context;
+  int32_t  arg0;
 }
 @end
 
 @implementation _rdx59v_BlockArgs_1huiwh
 @end
-
-__attribute__((visibility("default"))) __attribute__((used))
-void* _rdx59v_BlockArgs_1huiwh_getBlock(void* peer) {
-  return (__bridge void*)((__bridge _rdx59v_BlockArgs_1huiwh*)peer)->block;
-}
 
 __attribute__((visibility("default"))) __attribute__((used))
 int32_t  _rdx59v_BlockArgs_1huiwh_getArg0(void* peer) {
@@ -111,31 +73,38 @@ int32_t  _rdx59v_BlockArgs_1huiwh_getArg0(void* peer) {
 
 
 void _rdx59v_BlockArgs_1huiwh_free(void* peer) {
-  id args = (__bridge_transfer id)peer;
+  @autoreleasepool {
+    _rdx59v_BlockArgs_1huiwh* args = (__bridge _rdx59v_BlockArgs_1huiwh*)peer;
+    
+    id argsObj = (__bridge_transfer id)peer;
+  }
 }
 
 void _rdx59v_BlockArgs_1huiwh_finalize(void* isolate_callback_data, void* peer) {
-  DOBJC_runOnMainThread(_rdx59v_BlockArgs_1huiwh_free, peer);
+  _rdx59v_BlockArgs_1huiwh* args = (__bridge _rdx59v_BlockArgs_1huiwh*)peer;
+  ((DOBJC_Context*)args->context)->runOnMainThread(_rdx59v_BlockArgs_1huiwh_free, peer);
 }
 
+typedef void  (^_ListenerTrampoline)(int32_t arg0);
+
 __attribute__((visibility("default"))) __attribute__((used))
-void _rdx59v_1huiwh_portBlockInvoke(ObjCBlockImpl* block, int32_t arg0) {
-  PortBlockTarget* target = (PortBlockTarget*)block->target;
-  int64_t port_id = target->port_id;
-  DOBJC_Context* ctx = target->ctx;
-
-  _rdx59v_BlockArgs_1huiwh* args = [[_rdx59v_BlockArgs_1huiwh alloc] init];
-  args->block = (__bridge_transfer id)(__bridge void*)objc_retainBlock((__bridge id)block);
-  args->arg0 = arg0;
-
-  void* raw_args = (__bridge_retained void*)args;
-  ctx->postCObject(port_id, raw_args, _rdx59v_BlockArgs_1huiwh_finalize);
+void* _rdx59v_1huiwh_wrapPortBlock(id block, int64_t port_id, void* ctx) {
+  DOBJC_Context* context = (DOBJC_Context*)ctx;
+  return (void*)CFBridgingRetain((id)[^void(int32_t arg0) {
+    _rdx59v_BlockArgs_1huiwh* args = [[_rdx59v_BlockArgs_1huiwh alloc] init];
+    args->block = block;
+    args->context = context;
+    args->arg0 = arg0;
+    void* raw_args = (__bridge_retained void*)args;
+    context->postCObject(port_id, raw_args, _rdx59v_BlockArgs_1huiwh_finalize);
+  } copy]);
 }
 @interface _rdx59v_BlockArgs_1huiwh_blocking : NSObject {
   @public
   void* waiter;
-  id block;
-  int32_t arg0;
+  void* block;
+  void* context;
+  int32_t  arg0;
 }
 @end
 
@@ -143,51 +112,66 @@ void _rdx59v_1huiwh_portBlockInvoke(ObjCBlockImpl* block, int32_t arg0) {
 @end
 
 __attribute__((visibility("default"))) __attribute__((used))
-void _rdx59v_BlockArgs_1huiwh_blocking_signalWaiter(void* peer) {
-  _rdx59v_BlockArgs_1huiwh_blocking* args = (__bridge _rdx59v_BlockArgs_1huiwh_blocking*)peer;
-  if (args->waiter != NULL) {
-    DOBJC_signalWaiter(args->waiter);
-    args->waiter = NULL;
-  }
-}
-
-__attribute__((visibility("default"))) __attribute__((used))
-void* _rdx59v_BlockArgs_1huiwh_blocking_getBlock(void* peer) {
-  return (__bridge void*)((__bridge _rdx59v_BlockArgs_1huiwh_blocking*)peer)->block;
-}
-
-__attribute__((visibility("default"))) __attribute__((used))
 int32_t  _rdx59v_BlockArgs_1huiwh_blocking_getArg0(void* peer) {
   return ((__bridge _rdx59v_BlockArgs_1huiwh_blocking*)peer)->arg0;
 }
 
 
+__attribute__((visibility("default"))) __attribute__((used))
 void _rdx59v_BlockArgs_1huiwh_blocking_free(void* peer) {
-  _rdx59v_BlockArgs_1huiwh_blocking* args = (__bridge _rdx59v_BlockArgs_1huiwh_blocking*)peer;
-  void* waiter = args->waiter;
-  args->waiter = NULL;
-  id argsObj = (__bridge_transfer id)peer;
-  argsObj = nil;
-  DOBJC_signalWaiter(waiter);
+  @autoreleasepool {
+    _rdx59v_BlockArgs_1huiwh_blocking* args = (__bridge _rdx59v_BlockArgs_1huiwh_blocking*)peer;
+    if (args->block != NULL) {
+      id relBlock = (__bridge_transfer id)args->block;
+      args->block = NULL;
+    }
+    if (args->waiter != NULL) {
+      ((DOBJC_Context*)args->context)->signalWaiter(args->waiter);
+      args->waiter = NULL;
+    }
+    
+    id argsObj = (__bridge_transfer id)peer;
+  }
 }
 
 void _rdx59v_BlockArgs_1huiwh_blocking_finalize(void* isolate_callback_data, void* peer) {
-  DOBJC_runOnMainThread(_rdx59v_BlockArgs_1huiwh_blocking_free, peer);
+  _rdx59v_BlockArgs_1huiwh_blocking* args = (__bridge _rdx59v_BlockArgs_1huiwh_blocking*)peer;
+  ((DOBJC_Context*)args->context)->runOnMainThread(_rdx59v_BlockArgs_1huiwh_blocking_free, peer);
 }
 
+typedef void  (^_BlockingTrampoline)(void* block, int32_t arg0);
+
 __attribute__((visibility("default"))) __attribute__((used))
-void _rdx59v_1huiwh_portBlockInvoke_blocking(ObjCBlockImpl* block, void* waiter, int32_t arg0) {
-  PortBlockTarget* target = (PortBlockTarget*)block->target;
-  int64_t port_id = target->port_id;
-  DOBJC_Context* ctx = target->ctx;
-
-  _rdx59v_BlockArgs_1huiwh_blocking* args = [[_rdx59v_BlockArgs_1huiwh_blocking alloc] init];
-  args->waiter = waiter;
-  args->block = (__bridge_transfer id)(__bridge void*)objc_retainBlock((__bridge id)block);
-  args->arg0 = arg0;
-
-  void* raw_args = (__bridge_retained void*)args;
-  ctx->postCObject(port_id, raw_args, _rdx59v_BlockArgs_1huiwh_blocking_finalize);
+void* _rdx59v_1huiwh_wrapPortBlock_blocking(id block, id listener_block, int64_t port_id, void* ctx) {
+  DOBJC_Context* context = (DOBJC_Context*)ctx;
+  int64_t targetPort = context->getMainPortId == NULL ? 0 : context->getMainPortId();
+  void* targetIsolate = context->currentIsolate();
+  return (void*)CFBridgingRetain((id)[^void(int32_t arg0) {
+    void* currentIsolate = context->currentIsolate();
+    bool mayEnterIsolate =
+        currentIsolate == NULL &&
+        context->getCurrentThreadOwnsIsolate != NULL &&
+        context->getCurrentThreadOwnsIsolate(targetPort);
+    if (currentIsolate == targetIsolate || mayEnterIsolate) {
+      if (mayEnterIsolate) {
+        context->enterIsolate(targetIsolate);
+      }
+      ((_BlockingTrampoline)block)((__bridge void*)block, arg0);
+      if (mayEnterIsolate) {
+        context->exitIsolate();
+      }
+    } else {
+      void* waiter = context->newWaiter();
+      _rdx59v_BlockArgs_1huiwh_blocking* args = [[_rdx59v_BlockArgs_1huiwh_blocking alloc] init];
+      args->block = (__bridge_retained void*)listener_block;
+      args->waiter = waiter;
+      args->context = context;
+      args->arg0 = arg0;
+      void* raw_args = (__bridge_retained void*)args;
+      context->postCObject(port_id, raw_args, _rdx59v_BlockArgs_1huiwh_blocking_finalize);
+      context->awaitWaiter(waiter);
+    }
+  } copy]);
 }
 #undef BLOCKING_BLOCK_IMPL
 

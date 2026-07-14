@@ -257,7 +257,7 @@ void main() {
             ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1.listener(
               (Pointer<Void> _, EmptyObject obj) => completer.complete(obj),
             );
-        BlockAnnotationTest.invokeObjectListenerSync(
+        BlockAnnotationTest.invokeConsumedObjectListenerSync(
           ObjCBlock<Void Function(Pointer<Void>, EmptyObject)>(
             blk.ref.pointer,
             retain: true,
@@ -273,7 +273,7 @@ void main() {
             ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1.listener(
               (Pointer<Void> _, EmptyObject obj) => completer.complete(obj),
             );
-        final thread = BlockAnnotationTest.invokeObjectListenerAsync(
+        final thread = BlockAnnotationTest.invokeConsumedObjectListenerAsync(
           ObjCBlock<Void Function(Pointer<Void>, EmptyObject)>(
             blk.ref.pointer,
             retain: true,

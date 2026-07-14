@@ -350,16 +350,6 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
 typedef struct {
-  void* isa;
-  int flags;
-  int reserved;
-  void* invoke;
-  void* descriptor;
-  void* target;
-  int64_t dispose_port;
-} ObjCBlockImpl;
-
-typedef struct {
   int64_t version;
   void* (*newWaiter)(void);
   void (*awaitWaiter)(void*);
@@ -369,12 +359,11 @@ typedef struct {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   bool (*postCObject)(int64_t, void*, void (*)(void*, void*));
+  void (*runOnMainThread)(void (*fn)(void *), void *arg);
+  void (*signalWaiter)(void *waiter);
+  int64_t (*getBlockPortId)(void* block);
+  void* (*getBlockContext)(void* block);
 } DOBJC_Context;
-
-typedef struct {
-  int64_t port_id;
-  DOBJC_Context* ctx;
-} PortBlockTarget;
 
 id objc_retainBlock(id);
 void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);

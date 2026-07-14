@@ -485,6 +485,9 @@ final _blockPortDisposer = () {
   }, 'ObjCBlockPortDisposer')..keepIsolateAlive = false;
 }();
 
+@Native<Void Function()>(symbol: 'DOBJC_noop', isLeaf: true)
+external void _noop();
+
 /// Only for use by FFIgen bindings.
 BlockPtr newPortBlock(
   VoidPtr invoke,
@@ -503,14 +506,22 @@ BlockPtr newPortBlock(
   target.ref.port_id = portId;
   target.ref.ctx = objCContext;
 
+  final invokePtr = invoke == nullptr
+      ? Native.addressOf<NativeFunction<Void Function()>>(_noop).cast<Void>()
+      : invoke;
+
   return _newBlock(
-    invoke,
+    invokePtr,
     target.cast(),
     _closureBlockDesc,
     _blockPortDisposer.sendPort.nativePort,
     _blockHasCopyDispose,
   );
 }
+
+/// Only for use by FFIgen bindings.
+int getPortBlockId(BlockPtr block) =>
+    block.ref.target.cast<c.PortBlockTarget>().ref.port_id;
 
 /// Only for use by FFIgen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>

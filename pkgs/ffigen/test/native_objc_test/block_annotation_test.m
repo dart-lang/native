@@ -59,10 +59,14 @@
   return block(nil, [[EmptyObject alloc] init]);
 }
 + (void) invokeObjectListenerSync: (ObjectListener)block {
-  block(nil, [[EmptyObject alloc] init]);
+  @autoreleasepool {
+    block(nil, [[EmptyObject alloc] init]);
+  }
 }
 + (void) invokeConsumedObjectListenerSync: (ConsumedObjectListener)block {
-  block(nil, [[EmptyObject alloc] init]);
+  @autoreleasepool {
+    block(nil, [[EmptyObject alloc] init]);
+  }
 }
 + (NSThread*) invokeObjectListenerAsync: (ObjectListener)block {
   return [[NSThread alloc] initWithTarget:[BlockAnnotationTest class]

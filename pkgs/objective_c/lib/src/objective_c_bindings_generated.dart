@@ -24466,12 +24466,13 @@ extension ObjCBlock_NSArray_ffiVoid$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_14efovh_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_14efovh_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_14efovh_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_14efovh_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -24482,13 +24483,6 @@ _1wx624s_BlockArgs_14efovh_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_14efovh_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_14efovh_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_14efovh_blocking_getArg0',
   isLeaf: true,
@@ -24496,12 +24490,20 @@ external void _1wx624s_BlockArgs_14efovh_blocking_free(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_14efovh_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_14efovh_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_14efovh_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_14efovh_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_14efovh_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
@@ -24678,12 +24680,13 @@ extension ObjCBlock_NSComparisonResult_objcObjCObjectImpl_objcObjCObjectImpl$Cal
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1o7wjwi_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1o7wjwi_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1o7wjwi_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1o7wjwi_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -24694,13 +24697,6 @@ _1wx624s_BlockArgs_1o7wjwi_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1o7wjwi_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1o7wjwi_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1o7wjwi_blocking_getArg0', isLeaf: true)
@@ -24715,12 +24711,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1o7wjwi_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1o7wjwi_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1o7wjwi_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1o7wjwi_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1o7wjwi_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>`.
@@ -24865,12 +24869,13 @@ extension ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString$Call
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_107pfia_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_107pfia_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_107pfia_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_107pfia_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -24881,13 +24886,6 @@ _1wx624s_BlockArgs_107pfia_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_107pfia_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_107pfia_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_107pfia_blocking_getArg0',
   isLeaf: true,
@@ -24902,12 +24900,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_107pfia_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_107pfia_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_107pfia_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_107pfia_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_107pfia_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<NSOrderedCollectionChange Function(NSOrderedCollectionChange)>`.
@@ -25057,12 +25063,13 @@ extension ObjCBlock_NSOrderedCollectionChange_NSOrderedCollectionChange$CallExte
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_3t0s0w_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_3t0s0w_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_3t0s0w_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_3t0s0w_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -25073,13 +25080,6 @@ _1wx624s_BlockArgs_3t0s0w_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_3t0s0w_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_3t0s0w_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_3t0s0w_blocking_getArg0', isLeaf: true)
@@ -25087,12 +25087,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_3t0s0w_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_3t0s0w_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_3t0s0w_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_3t0s0w_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_3t0s0w_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()>? Function(NSProgress)>`.
@@ -25254,12 +25261,13 @@ extension ObjCBlock_NSProgressUnpublishingHandler_NSProgress$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_m32fzq_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_m32fzq_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_m32fzq_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_m32fzq_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -25270,13 +25278,6 @@ _1wx624s_BlockArgs_m32fzq_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_m32fzq_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_m32fzq_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_m32fzq_blocking_getArg0', isLeaf: true)
@@ -25284,12 +25285,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_m32fzq_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_m32fzq_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_m32fzq_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_m32fzq_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_m32fzq_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<NSProgress? Function(objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>)>`.
@@ -25466,12 +25474,13 @@ extension ObjCBlock_NSProgress_ffiVoidNSDataNSError$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_6owjkf_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_6owjkf_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_6owjkf_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_6owjkf_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -25482,13 +25491,6 @@ _1wx624s_BlockArgs_6owjkf_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_6owjkf_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_6owjkf_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_6owjkf_blocking_getArg0', isLeaf: true)
@@ -25496,12 +25498,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_6owjkf_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_6owjkf_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_6owjkf_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_6owjkf_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_6owjkf_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<NSProgress? Function(objc.ObjCBlock<ffi.Void Function(NSURL?, ffi.Bool, NSError?)>)>`.
@@ -25688,12 +25697,13 @@ extension ObjCBlock_NSProgress_ffiVoidNSURLboolNSError$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_egn9sw_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_egn9sw_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_egn9sw_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_egn9sw_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -25704,13 +25714,6 @@ _1wx624s_BlockArgs_egn9sw_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_egn9sw_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_egn9sw_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_egn9sw_blocking_getArg0', isLeaf: true)
@@ -25718,12 +25721,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_egn9sw_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_egn9sw_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_egn9sw_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_egn9sw_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_egn9sw_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<NSProgress? Function(ffi.Pointer<ffi.Void>, NSString, objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>)>`.
@@ -25957,12 +25967,13 @@ extension ObjCBlock_NSProgress_ffiVoid_NSString_ffiVoidNSDataNSError$CallExtensi
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_10528fa_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_10528fa_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_10528fa_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_10528fa_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -25973,13 +25984,6 @@ _1wx624s_BlockArgs_10528fa_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_10528fa_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_10528fa_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_10528fa_blocking_getArg0',
   isLeaf: true,
@@ -26001,12 +26005,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_10528fa_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_10528fa_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_10528fa_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_10528fa_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_10528fa_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<NSProgress? Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)>)>`.
@@ -26212,12 +26224,13 @@ extension ObjCBlock_NSProgress_ffiVoididNSItemProviderWritingNSError$CallExtensi
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_11ud4_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_11ud4_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_11ud4_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_11ud4_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -26228,13 +26241,6 @@ _1wx624s_BlockArgs_11ud4_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_11ud4_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_11ud4_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_11ud4_blocking_getArg0', isLeaf: true)
@@ -26242,12 +26248,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_11ud4_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_11ud4_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_11ud4_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_11ud4_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_11ud4_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)>`.
@@ -26366,12 +26379,13 @@ extension ObjCBlock_NSString_ffiVoid$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1b89k85_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1b89k85_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1b89k85_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1b89k85_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -26382,13 +26396,6 @@ _1wx624s_BlockArgs_1b89k85_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1b89k85_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1b89k85_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1b89k85_blocking_getArg0',
   isLeaf: true,
@@ -26396,12 +26403,20 @@ external void _1wx624s_BlockArgs_1b89k85_blocking_free(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1b89k85_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1b89k85_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1b89k85_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1b89k85_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1b89k85_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>`.
@@ -26508,12 +26523,13 @@ extension ObjCBlock_NSUInteger_ffiVoid$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1tkkcqr_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1tkkcqr_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1tkkcqr_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1tkkcqr_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -26524,13 +26540,6 @@ _1wx624s_BlockArgs_1tkkcqr_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1tkkcqr_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1tkkcqr_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1tkkcqr_blocking_getArg0',
   isLeaf: true,
@@ -26538,12 +26547,20 @@ external void _1wx624s_BlockArgs_1tkkcqr_blocking_free(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1tkkcqr_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1tkkcqr_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1tkkcqr_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1tkkcqr_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1tkkcqr_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>, ffi.UnsignedLong)>`.
@@ -26760,12 +26777,13 @@ extension ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObjectImpl
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1x7d1ts_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1x7d1ts_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1x7d1ts_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1x7d1ts_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -26776,13 +26794,6 @@ _1wx624s_BlockArgs_1x7d1ts_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1x7d1ts_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1x7d1ts_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1x7d1ts_blocking_getArg0',
   isLeaf: true,
@@ -26813,12 +26824,20 @@ _1wx624s_BlockArgs_1x7d1ts_blocking_getArg2(
 external int _1wx624s_BlockArgs_1x7d1ts_blocking_getArg3(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1x7d1ts_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1x7d1ts_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1x7d1ts_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1x7d1ts_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>`.
@@ -26930,12 +26949,13 @@ extension ObjCBlock_NSZone_ffiVoid$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1e5gbsa_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1e5gbsa_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1e5gbsa_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1e5gbsa_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -26946,13 +26966,6 @@ _1wx624s_BlockArgs_1e5gbsa_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1e5gbsa_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1e5gbsa_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1e5gbsa_blocking_getArg0',
   isLeaf: true,
@@ -26960,12 +26973,20 @@ external void _1wx624s_BlockArgs_1e5gbsa_blocking_free(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1e5gbsa_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1e5gbsa_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1e5gbsa_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1e5gbsa_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1e5gbsa_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)>`.
@@ -27163,12 +27184,13 @@ extension ObjCBlock_bool_KeyType_ObjectType_bool$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_ykvlom_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_ykvlom_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_ykvlom_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_ykvlom_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -27179,13 +27201,6 @@ _1wx624s_BlockArgs_ykvlom_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_ykvlom_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_ykvlom_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_ykvlom_blocking_getArg0', isLeaf: true)
@@ -27207,12 +27222,19 @@ _1wx624s_BlockArgs_ykvlom_blocking_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_ykvlom_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_ykvlom_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_ykvlom_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_ykvlom_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_ykvlom_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
@@ -27347,12 +27369,13 @@ extension ObjCBlock_bool_NSUInteger_bool$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1l9wwoz_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1l9wwoz_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1l9wwoz_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1l9wwoz_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -27363,13 +27386,6 @@ _1wx624s_BlockArgs_1l9wwoz_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1l9wwoz_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1l9wwoz_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1l9wwoz_blocking_getArg0',
   isLeaf: true,
@@ -27384,12 +27400,20 @@ external int _1wx624s_BlockArgs_1l9wwoz_blocking_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1l9wwoz_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1l9wwoz_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1l9wwoz_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1l9wwoz_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1l9wwoz_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
@@ -27582,12 +27606,13 @@ extension ObjCBlock_bool_ObjectType_NSUInteger_bool$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_oh2z17_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_oh2z17_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_oh2z17_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_oh2z17_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -27598,13 +27623,6 @@ _1wx624s_BlockArgs_oh2z17_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_oh2z17_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_oh2z17_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_oh2z17_blocking_getArg0', isLeaf: true)
@@ -27626,12 +27644,19 @@ external int _1wx624s_BlockArgs_oh2z17_blocking_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_oh2z17_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_oh2z17_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_oh2z17_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_oh2z17_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_oh2z17_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)>`.
@@ -27790,12 +27815,13 @@ extension ObjCBlock_bool_ObjectType_bool$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1sbgtqm_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1sbgtqm_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1sbgtqm_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1sbgtqm_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -27806,13 +27832,6 @@ _1wx624s_BlockArgs_1sbgtqm_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1sbgtqm_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1sbgtqm_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1sbgtqm_blocking_getArg0', isLeaf: true)
@@ -27827,12 +27846,20 @@ _1wx624s_BlockArgs_1sbgtqm_blocking_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1sbgtqm_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1sbgtqm_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1sbgtqm_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1sbgtqm_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1sbgtqm_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>`.
@@ -27933,12 +27960,13 @@ extension ObjCBlock_bool_ffiVoid$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1sggnp3_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1sggnp3_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1sggnp3_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1sggnp3_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -27949,13 +27977,6 @@ _1wx624s_BlockArgs_1sggnp3_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1sggnp3_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1sggnp3_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1sggnp3_blocking_getArg0',
   isLeaf: true,
@@ -27963,12 +27984,20 @@ external void _1wx624s_BlockArgs_1sggnp3_blocking_free(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1sggnp3_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1sggnp3_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1sggnp3_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1sggnp3_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1sggnp3_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>`.
@@ -28101,12 +28130,13 @@ extension ObjCBlock_bool_ffiVoid_Protocol$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1aetu6k_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1aetu6k_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1aetu6k_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1aetu6k_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -28117,13 +28147,6 @@ _1wx624s_BlockArgs_1aetu6k_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1aetu6k_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1aetu6k_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1aetu6k_blocking_getArg0',
   isLeaf: true,
@@ -28138,12 +28161,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1aetu6k_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1aetu6k_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1aetu6k_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1aetu6k_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1aetu6k_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
@@ -28302,12 +28333,13 @@ extension ObjCBlock_bool_ffiVoid_objcObjCObjectImpl$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_exol9p_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_exol9p_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_exol9p_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_exol9p_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -28318,13 +28350,6 @@ _1wx624s_BlockArgs_exol9p_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_exol9p_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_exol9p_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_exol9p_blocking_getArg0',
   isLeaf: true,
@@ -28339,12 +28364,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_exol9p_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_exol9p_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_exol9p_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_exol9p_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_exol9p_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>`.
@@ -28493,12 +28525,13 @@ extension ObjCBlock_bool_ffiVoid_objcObjCSelector$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_nuona1_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_nuona1_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_nuona1_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_nuona1_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -28509,13 +28542,6 @@ _1wx624s_BlockArgs_nuona1_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_nuona1_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_nuona1_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_nuona1_blocking_getArg0',
   isLeaf: true,
@@ -28530,12 +28556,19 @@ external ffi.Pointer<objc.ObjCSelector>
 _1wx624s_BlockArgs_nuona1_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_nuona1_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_nuona1_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_nuona1_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_nuona1_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function()>`.
@@ -28591,32 +28624,51 @@ abstract final class ObjCBlock_ffiVoid {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function() fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        fn();
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function()> listener(
     void Function() fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1cme7zu_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          fn();
-        } finally {
-          _1wx624s_BlockArgs_1cme7zu_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1cme7zu_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function()>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function() fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        fn();
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -28640,30 +28692,13 @@ abstract final class ObjCBlock_ffiVoid {
       },
       keepIsolateAlive,
     );
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1cme7zu_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          fn();
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1cme7zu_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1cme7zu_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_1pl9qdv(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function()>(
       wrapper,
       retain: false,
@@ -28727,27 +28762,25 @@ extension ObjCBlock_ffiVoid$CallExtension
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1cme7zu_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1cme7zu_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1cme7zu_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1cme7zu_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1cme7zu_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1cme7zu_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1cme7zu_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1cme7zu_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1cme7zu_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1cme7zu_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1cme7zu_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -28758,19 +28791,20 @@ _1wx624s_BlockArgs_1cme7zu_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1cme7zu_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1cme7zu_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1cme7zu_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1cme7zu_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1cme7zu_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1cme7zu_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)>`.
@@ -28881,6 +28915,44 @@ abstract final class ObjCBlock_ffiVoid_KeyType_ObjectType_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(objc.ObjCObject, objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_tbq8wd_getArg0(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_tbq8wd_getArg1(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_tbq8wd_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<objc.ObjCObjectImpl>,
@@ -28892,44 +28964,11 @@ abstract final class ObjCBlock_ffiVoid_KeyType_ObjectType_bool {
     void Function(objc.ObjCObject, objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_tbq8wd_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_tbq8wd_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_tbq8wd_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_tbq8wd_getArg2(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_tbq8wd_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_tbq8wd_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -28938,6 +28977,40 @@ abstract final class ObjCBlock_ffiVoid_KeyType_ObjectType_bool {
         ffi.Pointer<ffi.Bool>,
       )
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(objc.ObjCObject, objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_tbq8wd_blocking_getArg0(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_tbq8wd_blocking_getArg1(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_tbq8wd_blocking_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -28972,52 +29045,13 @@ abstract final class ObjCBlock_ffiVoid_KeyType_ObjectType_bool {
         arg2,
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_tbq8wd_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_tbq8wd_blocking_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_tbq8wd_blocking_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_tbq8wd_blocking_getArg2(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_tbq8wd_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_tbq8wd_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_1o83rbn(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
@@ -29180,27 +29214,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_tbq8wd_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_tbq8wd_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_tbq8wd_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_tbq8wd_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_tbq8wd_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_tbq8wd_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_tbq8wd_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_tbq8wd_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_tbq8wd_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_tbq8wd_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_tbq8wd_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_tbq8wd_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -29211,13 +29243,6 @@ _1wx624s_BlockArgs_tbq8wd_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_tbq8wd_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_tbq8wd_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_tbq8wd_blocking_getArg0', isLeaf: true)
@@ -29239,12 +29264,19 @@ _1wx624s_BlockArgs_tbq8wd_blocking_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_tbq8wd_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_tbq8wd_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_tbq8wd_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_tbq8wd_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_tbq8wd_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>`.
@@ -29319,53 +29351,95 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSData?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1ilrkog_getArg0(raw).address == 0
+              ? null
+              : NSData.fromPointer(
+                  _1wx624s_BlockArgs_1ilrkog_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1ilrkog_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_1ilrkog_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)> listener(
     void Function(NSData?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1ilrkog_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1ilrkog_getArg0(raw).address == 0
-                ? null
-                : NSData.fromPointer(
-                    _1wx624s_BlockArgs_1ilrkog_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1ilrkog_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_1ilrkog_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1ilrkog_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1ilrkog_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSData?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1ilrkog_blocking_getArg0(raw).address == 0
+              ? null
+              : NSData.fromPointer(
+                  _1wx624s_BlockArgs_1ilrkog_blocking_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1ilrkog_blocking_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_1ilrkog_blocking_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -29395,51 +29469,13 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
             : NSError.fromPointer(arg1, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1ilrkog_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1ilrkog_blocking_getArg0(raw).address == 0
-                ? null
-                : NSData.fromPointer(
-                    _1wx624s_BlockArgs_1ilrkog_blocking_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1ilrkog_blocking_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_1ilrkog_blocking_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1ilrkog_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1ilrkog_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>(
       wrapper,
       retain: false,
@@ -29573,27 +29609,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1ilrkog_getArg0(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1ilrkog_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1ilrkog_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1ilrkog_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1ilrkog_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1ilrkog_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1ilrkog_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1ilrkog_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1ilrkog_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1ilrkog_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1ilrkog_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1ilrkog_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -29604,13 +29638,6 @@ _1wx624s_BlockArgs_1ilrkog_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1ilrkog_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1ilrkog_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1ilrkog_blocking_getArg0', isLeaf: true)
@@ -29625,12 +29652,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1ilrkog_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1ilrkog_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1ilrkog_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1ilrkog_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1ilrkog_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)>, ffi.Pointer<objc.ObjCObjectImpl>, NSDictionary)>`.
@@ -29764,6 +29799,55 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)
+      >,
+      objc.ObjCObject,
+      NSDictionary,
+    )
+    fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          ObjCBlock_ffiVoid_idNSSecureCoding_NSError.fromPointer(
+            _1wx624s_BlockArgs_dgl1yu_getArg0(raw).cast<objc.ObjCBlockImpl>(),
+            retain: true,
+            release: true,
+          ),
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_dgl1yu_getArg1(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          NSDictionary.fromPointer(
+            _1wx624s_BlockArgs_dgl1yu_getArg2(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(
       objc.ObjCBlock<
@@ -29784,48 +29868,11 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
     fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_dgl1yu_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            ObjCBlock_ffiVoid_idNSSecureCoding_NSError.fromPointer(
-              _1wx624s_BlockArgs_dgl1yu_getArg0(raw).cast<objc.ObjCBlockImpl>(),
-              retain: true,
-              release: true,
-            ),
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_dgl1yu_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            NSDictionary.fromPointer(
-              _1wx624s_BlockArgs_dgl1yu_getArg2(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_dgl1yu_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_dgl1yu_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -29836,6 +29883,53 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
         NSDictionary,
       )
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)
+      >,
+      objc.ObjCObject,
+      NSDictionary,
+    )
+    fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          ObjCBlock_ffiVoid_idNSSecureCoding_NSError.fromPointer(
+            _1wx624s_BlockArgs_dgl1yu_blocking_getArg0(
+              raw,
+            ).cast<objc.ObjCBlockImpl>(),
+            retain: true,
+            release: true,
+          ),
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_dgl1yu_blocking_getArg1(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          NSDictionary.fromPointer(
+            _1wx624s_BlockArgs_dgl1yu_blocking_getArg2(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -29883,58 +29977,13 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
         NSDictionary.fromPointer(arg2, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_dgl1yu_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            ObjCBlock_ffiVoid_idNSSecureCoding_NSError.fromPointer(
-              _1wx624s_BlockArgs_dgl1yu_blocking_getArg0(
-                raw,
-              ).cast<objc.ObjCBlockImpl>(),
-              retain: true,
-              release: true,
-            ),
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_dgl1yu_blocking_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            NSDictionary.fromPointer(
-              _1wx624s_BlockArgs_dgl1yu_blocking_getArg2(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_dgl1yu_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_dgl1yu_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_1b3bb6a(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
         objc.ObjCBlock<
@@ -30104,27 +30153,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_dgl1yu_getArg1(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_dgl1yu_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_dgl1yu_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_dgl1yu_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_dgl1yu_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_dgl1yu_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_dgl1yu_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_dgl1yu_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_dgl1yu_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_dgl1yu_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_dgl1yu_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_dgl1yu_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -30135,13 +30182,6 @@ _1wx624s_BlockArgs_dgl1yu_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_dgl1yu_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_dgl1yu_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_dgl1yu_blocking_getArg0', isLeaf: true)
@@ -30163,12 +30203,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_dgl1yu_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_dgl1yu_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_dgl1yu_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_dgl1yu_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_dgl1yu_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)>`.
@@ -30235,42 +30282,72 @@ abstract final class ObjCBlock_ffiVoid_NSRange_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSRange, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_meh2de_getArg0(raw),
+          _1wx624s_BlockArgs_meh2de_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)>
   listener(
     void Function(NSRange, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_meh2de_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_meh2de_getArg0(raw),
-            _1wx624s_BlockArgs_meh2de_getArg1(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_meh2de_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_meh2de_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSRange, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_meh2de_blocking_getArg0(raw),
+          _1wx624s_BlockArgs_meh2de_blocking_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -30294,39 +30371,13 @@ abstract final class ObjCBlock_ffiVoid_NSRange_bool {
     ) {
       return fn(arg0, arg1);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_meh2de_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_meh2de_blocking_getArg0(raw),
-            _1wx624s_BlockArgs_meh2de_blocking_getArg1(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_meh2de_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_meh2de_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_zkjmn1(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)>(
       wrapper,
       retain: false,
@@ -30442,27 +30493,25 @@ external NSRange _1wx624s_BlockArgs_meh2de_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_meh2de_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_meh2de_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_meh2de_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_meh2de_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_meh2de_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_meh2de_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_meh2de_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_meh2de_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_meh2de_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_meh2de_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_meh2de_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -30473,13 +30522,6 @@ _1wx624s_BlockArgs_meh2de_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_meh2de_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_meh2de_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<NSRange Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_meh2de_blocking_getArg0',
   isLeaf: true,
@@ -30494,12 +30536,19 @@ external NSRange _1wx624s_BlockArgs_meh2de_blocking_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_meh2de_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_meh2de_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_meh2de_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_meh2de_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_meh2de_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>)>`.
@@ -30591,6 +30640,43 @@ abstract final class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1r0pv4q_getArg0(raw).address == 0
+              ? null
+              : NSString.fromPointer(
+                  _1wx624s_BlockArgs_1r0pv4q_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1r0pv4q_getArg1(raw),
+          _1wx624s_BlockArgs_1r0pv4q_getArg2(raw),
+          _1wx624s_BlockArgs_1r0pv4q_getArg3(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>)
   >
@@ -30598,43 +30684,44 @@ abstract final class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool {
     void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1r0pv4q_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1r0pv4q_getArg0(raw).address == 0
-                ? null
-                : NSString.fromPointer(
-                    _1wx624s_BlockArgs_1r0pv4q_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1r0pv4q_getArg1(raw),
-            _1wx624s_BlockArgs_1r0pv4q_getArg2(raw),
-            _1wx624s_BlockArgs_1r0pv4q_getArg3(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1r0pv4q_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1r0pv4q_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1r0pv4q_blocking_getArg0(raw).address == 0
+              ? null
+              : NSString.fromPointer(
+                  _1wx624s_BlockArgs_1r0pv4q_blocking_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1r0pv4q_blocking_getArg1(raw),
+          _1wx624s_BlockArgs_1r0pv4q_blocking_getArg2(raw),
+          _1wx624s_BlockArgs_1r0pv4q_blocking_getArg3(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -30669,47 +30756,13 @@ abstract final class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool {
         arg3,
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1r0pv4q_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1r0pv4q_blocking_getArg0(raw).address == 0
-                ? null
-                : NSString.fromPointer(
-                    _1wx624s_BlockArgs_1r0pv4q_blocking_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1r0pv4q_blocking_getArg1(raw),
-            _1wx624s_BlockArgs_1r0pv4q_blocking_getArg2(raw),
-            _1wx624s_BlockArgs_1r0pv4q_blocking_getArg3(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1r0pv4q_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1r0pv4q_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_lmc3p5(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>)
     >(wrapper, retain: false, release: true);
@@ -30885,27 +30938,25 @@ external NSRange _1wx624s_BlockArgs_1r0pv4q_getArg2(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1r0pv4q_getArg3(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1r0pv4q_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1r0pv4q_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1r0pv4q_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1r0pv4q_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1r0pv4q_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1r0pv4q_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1r0pv4q_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1r0pv4q_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1r0pv4q_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1r0pv4q_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -30916,13 +30967,6 @@ _1wx624s_BlockArgs_1r0pv4q_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1r0pv4q_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1r0pv4q_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1r0pv4q_blocking_getArg0', isLeaf: true)
@@ -30951,12 +30995,20 @@ external NSRange _1wx624s_BlockArgs_1r0pv4q_blocking_getArg2(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1r0pv4q_blocking_getArg3(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1r0pv4q_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1r0pv4q_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1r0pv4q_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1r0pv4q_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(NSString, ffi.Pointer<ffi.Bool>)>`.
@@ -31026,48 +31078,82 @@ abstract final class ObjCBlock_ffiVoid_NSString_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSString, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          NSString.fromPointer(
+            _1wx624s_BlockArgs_v348wu_getArg0(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_v348wu_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(NSString, ffi.Pointer<ffi.Bool>)>
   listener(
     void Function(NSString, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_v348wu_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            NSString.fromPointer(
-              _1wx624s_BlockArgs_v348wu_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_v348wu_getArg1(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_v348wu_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_v348wu_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(NSString, ffi.Pointer<ffi.Bool>)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSString, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          NSString.fromPointer(
+            _1wx624s_BlockArgs_v348wu_blocking_getArg0(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_v348wu_blocking_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -31091,45 +31177,13 @@ abstract final class ObjCBlock_ffiVoid_NSString_bool {
     ) {
       return fn(NSString.fromPointer(arg0, retain: true, release: true), arg1);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_v348wu_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            NSString.fromPointer(
-              _1wx624s_BlockArgs_v348wu_blocking_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_v348wu_blocking_getArg1(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_v348wu_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_v348wu_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_t8l8el(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSString, ffi.Pointer<ffi.Bool>)>(
       wrapper,
       retain: false,
@@ -31256,27 +31310,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_v348wu_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_v348wu_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_v348wu_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_v348wu_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_v348wu_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_v348wu_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_v348wu_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_v348wu_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_v348wu_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_v348wu_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_v348wu_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_v348wu_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -31287,13 +31339,6 @@ _1wx624s_BlockArgs_v348wu_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_v348wu_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_v348wu_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_v348wu_blocking_getArg0', isLeaf: true)
@@ -31308,12 +31353,19 @@ _1wx624s_BlockArgs_v348wu_blocking_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_v348wu_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_v348wu_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_v348wu_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_v348wu_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_v348wu_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(NSTimer)>`.
@@ -31376,46 +31428,79 @@ abstract final class ObjCBlock_ffiVoid_NSTimer {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSTimer) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          NSTimer.fromPointer(
+            _1wx624s_BlockArgs_1yuig1_getArg0(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(NSTimer)> listener(
     void Function(NSTimer) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1yuig1_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            NSTimer.fromPointer(
-              _1wx624s_BlockArgs_1yuig1_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1yuig1_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1yuig1_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(NSTimer)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSTimer) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          NSTimer.fromPointer(
+            _1wx624s_BlockArgs_1yuig1_blocking_getArg0(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -31437,44 +31522,13 @@ abstract final class ObjCBlock_ffiVoid_NSTimer {
     ) {
       return fn(NSTimer.fromPointer(arg0, retain: true, release: true));
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1yuig1_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            NSTimer.fromPointer(
-              _1wx624s_BlockArgs_1yuig1_blocking_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1yuig1_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1yuig1_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_xtuoz7(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSTimer)>(
       wrapper,
       retain: false,
@@ -31574,27 +31628,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1yuig1_getBlock(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1yuig1_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1yuig1_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1yuig1_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1yuig1_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1yuig1_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1yuig1_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1yuig1_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1yuig1_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1yuig1_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1yuig1_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1yuig1_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -31605,13 +31657,6 @@ _1wx624s_BlockArgs_1yuig1_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1yuig1_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1yuig1_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1yuig1_blocking_getArg0', isLeaf: true)
@@ -31619,12 +31664,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1yuig1_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1yuig1_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1yuig1_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1yuig1_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1yuig1_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
@@ -31702,6 +31754,35 @@ abstract final class ObjCBlock_ffiVoid_NSUInteger_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(int, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1dzsfqo_getArg0(raw),
+          _1wx624s_BlockArgs_1dzsfqo_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
   >
@@ -31709,35 +31790,36 @@ abstract final class ObjCBlock_ffiVoid_NSUInteger_bool {
     void Function(int, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1dzsfqo_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1dzsfqo_getArg0(raw),
-            _1wx624s_BlockArgs_1dzsfqo_getArg1(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1dzsfqo_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1dzsfqo_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(int, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1dzsfqo_blocking_getArg0(raw),
+          _1wx624s_BlockArgs_1dzsfqo_blocking_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -31763,39 +31845,13 @@ abstract final class ObjCBlock_ffiVoid_NSUInteger_bool {
     ) {
       return fn(arg0, arg1);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1dzsfqo_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1dzsfqo_blocking_getArg0(raw),
-            _1wx624s_BlockArgs_1dzsfqo_blocking_getArg1(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1dzsfqo_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1dzsfqo_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_q5jeyk(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >(wrapper, retain: false, release: true);
@@ -31912,27 +31968,25 @@ external int _1wx624s_BlockArgs_1dzsfqo_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1dzsfqo_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1dzsfqo_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1dzsfqo_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1dzsfqo_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1dzsfqo_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1dzsfqo_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1dzsfqo_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1dzsfqo_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1dzsfqo_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1dzsfqo_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1dzsfqo_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -31943,13 +31997,6 @@ _1wx624s_BlockArgs_1dzsfqo_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1dzsfqo_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1dzsfqo_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1dzsfqo_blocking_getArg0',
   isLeaf: true,
@@ -31964,12 +32011,20 @@ external int _1wx624s_BlockArgs_1dzsfqo_blocking_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1dzsfqo_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1dzsfqo_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1dzsfqo_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1dzsfqo_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1dzsfqo_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(NSURL?, NSError?)>`.
@@ -32044,53 +32099,95 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSURL?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1wa2b1l_getArg0(raw).address == 0
+              ? null
+              : NSURL.fromPointer(
+                  _1wx624s_BlockArgs_1wa2b1l_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1wa2b1l_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_1wa2b1l_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(NSURL?, NSError?)> listener(
     void Function(NSURL?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1wa2b1l_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1wa2b1l_getArg0(raw).address == 0
-                ? null
-                : NSURL.fromPointer(
-                    _1wx624s_BlockArgs_1wa2b1l_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1wa2b1l_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_1wa2b1l_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1wa2b1l_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1wa2b1l_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(NSURL?, NSError?)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSURL?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1wa2b1l_blocking_getArg0(raw).address == 0
+              ? null
+              : NSURL.fromPointer(
+                  _1wx624s_BlockArgs_1wa2b1l_blocking_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1wa2b1l_blocking_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_1wa2b1l_blocking_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -32120,51 +32217,13 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
             : NSError.fromPointer(arg1, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1wa2b1l_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1wa2b1l_blocking_getArg0(raw).address == 0
-                ? null
-                : NSURL.fromPointer(
-                    _1wx624s_BlockArgs_1wa2b1l_blocking_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1wa2b1l_blocking_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_1wa2b1l_blocking_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1wa2b1l_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1wa2b1l_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSURL?, NSError?)>(
       wrapper,
       retain: false,
@@ -32298,27 +32357,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1wa2b1l_getArg0(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1wa2b1l_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1wa2b1l_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1wa2b1l_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1wa2b1l_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1wa2b1l_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1wa2b1l_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1wa2b1l_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1wa2b1l_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1wa2b1l_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1wa2b1l_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1wa2b1l_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -32329,13 +32386,6 @@ _1wx624s_BlockArgs_1wa2b1l_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1wa2b1l_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1wa2b1l_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1wa2b1l_blocking_getArg0', isLeaf: true)
@@ -32350,12 +32400,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1wa2b1l_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1wa2b1l_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1wa2b1l_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1wa2b1l_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1wa2b1l_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(NSURL?, ffi.Bool, NSError?)>`.
@@ -32435,54 +32493,97 @@ abstract final class ObjCBlock_ffiVoid_NSURL_bool_NSError {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSURL?, bool, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_jnk8ia_getArg0(raw).address == 0
+              ? null
+              : NSURL.fromPointer(
+                  _1wx624s_BlockArgs_jnk8ia_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_jnk8ia_getArg1(raw),
+          _1wx624s_BlockArgs_jnk8ia_getArg2(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_jnk8ia_getArg2(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(NSURL?, ffi.Bool, NSError?)> listener(
     void Function(NSURL?, bool, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_jnk8ia_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_jnk8ia_getArg0(raw).address == 0
-                ? null
-                : NSURL.fromPointer(
-                    _1wx624s_BlockArgs_jnk8ia_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_jnk8ia_getArg1(raw),
-            _1wx624s_BlockArgs_jnk8ia_getArg2(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_jnk8ia_getArg2(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_jnk8ia_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_jnk8ia_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(NSURL?, ffi.Bool, NSError?)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSURL?, bool, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_jnk8ia_blocking_getArg0(raw).address == 0
+              ? null
+              : NSURL.fromPointer(
+                  _1wx624s_BlockArgs_jnk8ia_blocking_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_jnk8ia_blocking_getArg1(raw),
+          _1wx624s_BlockArgs_jnk8ia_blocking_getArg2(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_jnk8ia_blocking_getArg2(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -32514,52 +32615,13 @@ abstract final class ObjCBlock_ffiVoid_NSURL_bool_NSError {
             : NSError.fromPointer(arg2, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_jnk8ia_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_jnk8ia_blocking_getArg0(raw).address == 0
-                ? null
-                : NSURL.fromPointer(
-                    _1wx624s_BlockArgs_jnk8ia_blocking_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_jnk8ia_blocking_getArg1(raw),
-            _1wx624s_BlockArgs_jnk8ia_blocking_getArg2(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_jnk8ia_blocking_getArg2(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_jnk8ia_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_jnk8ia_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_rnu2c5(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSURL?, ffi.Bool, NSError?)>(
       wrapper,
       retain: false,
@@ -32714,27 +32776,25 @@ external bool _1wx624s_BlockArgs_jnk8ia_getArg1(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_jnk8ia_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_jnk8ia_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_jnk8ia_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_jnk8ia_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_jnk8ia_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_jnk8ia_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_jnk8ia_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_jnk8ia_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_jnk8ia_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_jnk8ia_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_jnk8ia_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -32745,13 +32805,6 @@ _1wx624s_BlockArgs_jnk8ia_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_jnk8ia_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_jnk8ia_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_jnk8ia_blocking_getArg0', isLeaf: true)
@@ -32773,12 +32826,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_jnk8ia_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_jnk8ia_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_jnk8ia_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_jnk8ia_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_jnk8ia_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)>`.
@@ -32868,6 +32928,39 @@ abstract final class ObjCBlock_ffiVoid_ObjectType_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_borsj5_getArg0(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_borsj5_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)
   >
@@ -32875,41 +32968,42 @@ abstract final class ObjCBlock_ffiVoid_ObjectType_bool {
     void Function(objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_borsj5_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_borsj5_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_borsj5_getArg1(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_borsj5_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_borsj5_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(objc.ObjCObject, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_borsj5_blocking_getArg0(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_borsj5_blocking_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -32935,45 +33029,13 @@ abstract final class ObjCBlock_ffiVoid_ObjectType_bool {
     ) {
       return fn(objc.ObjCObject(arg0, retain: true, release: true), arg1);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_borsj5_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_borsj5_blocking_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_borsj5_blocking_getArg1(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_borsj5_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_borsj5_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_t8l8el(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)
     >(wrapper, retain: false, release: true);
@@ -33104,27 +33166,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_borsj5_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_borsj5_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_borsj5_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_borsj5_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_borsj5_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_borsj5_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_borsj5_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_borsj5_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_borsj5_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_borsj5_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_borsj5_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_borsj5_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -33135,13 +33195,6 @@ _1wx624s_BlockArgs_borsj5_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_borsj5_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_borsj5_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_borsj5_blocking_getArg0', isLeaf: true)
@@ -33156,12 +33209,19 @@ _1wx624s_BlockArgs_borsj5_blocking_getArg0(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_borsj5_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_borsj5_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_borsj5_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_borsj5_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_borsj5_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>`.
@@ -33221,38 +33281,65 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(ffi.Pointer<ffi.Void>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(_1wx624s_BlockArgs_448250_getArg0(raw));
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> listener(
     void Function(ffi.Pointer<ffi.Void>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_448250_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(_1wx624s_BlockArgs_448250_getArg0(raw));
-        } finally {
-          _1wx624s_BlockArgs_448250_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_448250_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(ffi.Pointer<ffi.Void>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(_1wx624s_BlockArgs_448250_blocking_getArg0(raw));
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -33274,36 +33361,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
     ) {
       return fn(arg0);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_448250_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(_1wx624s_BlockArgs_448250_blocking_getArg0(raw));
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_448250_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_448250_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_ovsamd(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
       wrapper,
       retain: false,
@@ -33396,27 +33460,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_448250_getBlock(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_448250_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_448250_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_448250_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_448250_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_448250_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_448250_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_448250_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_448250_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_448250_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_448250_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_448250_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -33427,13 +33489,6 @@ _1wx624s_BlockArgs_448250_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_448250_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_448250_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_448250_blocking_getArg0',
   isLeaf: true,
@@ -33441,12 +33496,19 @@ external void _1wx624s_BlockArgs_448250_blocking_free(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_448250_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_448250_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_448250_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_448250_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_448250_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>`.
@@ -33516,48 +33578,82 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1vi0sov_getArg0(raw),
+          NSCoder.fromPointer(
+            _1wx624s_BlockArgs_1vi0sov_getArg1(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>
   listener(
     void Function(ffi.Pointer<ffi.Void>, NSCoder) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1vi0sov_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1vi0sov_getArg0(raw),
-            NSCoder.fromPointer(
-              _1wx624s_BlockArgs_1vi0sov_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1vi0sov_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1vi0sov_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
       raw,
       retain: false,
       release: true,
     );
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1vi0sov_blocking_getArg0(raw),
+          NSCoder.fromPointer(
+            _1wx624s_BlockArgs_1vi0sov_blocking_getArg1(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -33581,45 +33677,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
     ) {
       return fn(arg0, NSCoder.fromPointer(arg1, retain: true, release: true));
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1vi0sov_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1vi0sov_blocking_getArg0(raw),
-            NSCoder.fromPointer(
-              _1wx624s_BlockArgs_1vi0sov_blocking_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1vi0sov_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1vi0sov_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_18v1jvf(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
       wrapper,
       retain: false,
@@ -33746,27 +33810,25 @@ external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1vi0sov_getArg0(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1vi0sov_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1vi0sov_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1vi0sov_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1vi0sov_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1vi0sov_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1vi0sov_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1vi0sov_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1vi0sov_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1vi0sov_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1vi0sov_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1vi0sov_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -33777,13 +33839,6 @@ _1wx624s_BlockArgs_1vi0sov_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1vi0sov_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1vi0sov_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1vi0sov_blocking_getArg0',
   isLeaf: true,
@@ -33798,12 +33853,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1vi0sov_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1vi0sov_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1vi0sov_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1vi0sov_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1vi0sov_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSPortMessage)>`.
@@ -33876,46 +33939,80 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSPortMessage {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSPortMessage) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1mmoiyc_getArg0(raw),
+          NSPortMessage.fromPointer(
+            _1wx624s_BlockArgs_1mmoiyc_getArg1(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSPortMessage)>
   listener(
     void Function(ffi.Pointer<ffi.Void>, NSPortMessage) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1mmoiyc_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1mmoiyc_getArg0(raw),
-            NSPortMessage.fromPointer(
-              _1wx624s_BlockArgs_1mmoiyc_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1mmoiyc_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1mmoiyc_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSPortMessage)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSPortMessage) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1mmoiyc_blocking_getArg0(raw),
+          NSPortMessage.fromPointer(
+            _1wx624s_BlockArgs_1mmoiyc_blocking_getArg1(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -33942,45 +34039,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSPortMessage {
         NSPortMessage.fromPointer(arg1, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1mmoiyc_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1mmoiyc_blocking_getArg0(raw),
-            NSPortMessage.fromPointer(
-              _1wx624s_BlockArgs_1mmoiyc_blocking_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1mmoiyc_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1mmoiyc_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_18v1jvf(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSPortMessage)
     >(wrapper, retain: false, release: true);
@@ -34105,27 +34170,25 @@ external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1mmoiyc_getArg0(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1mmoiyc_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1mmoiyc_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1mmoiyc_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1mmoiyc_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1mmoiyc_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1mmoiyc_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1mmoiyc_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1mmoiyc_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1mmoiyc_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1mmoiyc_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1mmoiyc_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -34136,13 +34199,6 @@ _1wx624s_BlockArgs_1mmoiyc_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1mmoiyc_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1mmoiyc_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1mmoiyc_blocking_getArg0',
   isLeaf: true,
@@ -34157,12 +34213,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1mmoiyc_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1mmoiyc_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1mmoiyc_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1mmoiyc_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1mmoiyc_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>)>`.
@@ -34245,6 +34309,36 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1yt1g7s_getArg0(raw),
+          _1wx624s_BlockArgs_1yt1g7s_getArg1(raw),
+          _1wx624s_BlockArgs_1yt1g7s_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>)
   >
@@ -34252,36 +34346,37 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool {
     void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1yt1g7s_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1yt1g7s_getArg0(raw),
-            _1wx624s_BlockArgs_1yt1g7s_getArg1(raw),
-            _1wx624s_BlockArgs_1yt1g7s_getArg2(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1yt1g7s_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1yt1g7s_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1yt1g7s_blocking_getArg0(raw),
+          _1wx624s_BlockArgs_1yt1g7s_blocking_getArg1(raw),
+          _1wx624s_BlockArgs_1yt1g7s_blocking_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -34308,40 +34403,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool {
     ) {
       return fn(arg0, arg1, arg2);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1yt1g7s_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1yt1g7s_blocking_getArg0(raw),
-            _1wx624s_BlockArgs_1yt1g7s_blocking_getArg1(raw),
-            _1wx624s_BlockArgs_1yt1g7s_blocking_getArg2(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1yt1g7s_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1yt1g7s_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_1q8ia8l(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>)
     >(wrapper, retain: false, release: true);
@@ -34496,27 +34564,25 @@ external NSRange _1wx624s_BlockArgs_1yt1g7s_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1yt1g7s_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1yt1g7s_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1yt1g7s_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1yt1g7s_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1yt1g7s_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1yt1g7s_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1yt1g7s_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1yt1g7s_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1yt1g7s_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1yt1g7s_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1yt1g7s_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -34527,13 +34593,6 @@ _1wx624s_BlockArgs_1yt1g7s_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1yt1g7s_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1yt1g7s_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1yt1g7s_blocking_getArg0',
   isLeaf: true,
@@ -34555,12 +34614,20 @@ external NSRange _1wx624s_BlockArgs_1yt1g7s_blocking_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_1yt1g7s_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1yt1g7s_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1yt1g7s_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1yt1g7s_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1yt1g7s_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>`.
@@ -34647,6 +34714,40 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSStream, int) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_n9asv4_getArg0(raw),
+          NSStream.fromPointer(
+            _1wx624s_BlockArgs_n9asv4_getArg1(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_n9asv4_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
   >
@@ -34654,42 +34755,43 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
     void Function(ffi.Pointer<ffi.Void>, NSStream, int) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_n9asv4_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_n9asv4_getArg0(raw),
-            NSStream.fromPointer(
-              _1wx624s_BlockArgs_n9asv4_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_n9asv4_getArg2(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_n9asv4_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_n9asv4_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, NSStream, int) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_n9asv4_blocking_getArg0(raw),
+          NSStream.fromPointer(
+            _1wx624s_BlockArgs_n9asv4_blocking_getArg1(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_n9asv4_blocking_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -34720,46 +34822,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
         arg2,
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_n9asv4_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_n9asv4_blocking_getArg0(raw),
-            NSStream.fromPointer(
-              _1wx624s_BlockArgs_n9asv4_blocking_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_n9asv4_blocking_getArg2(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_n9asv4_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_n9asv4_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_hoampi(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
     >(wrapper, retain: false, release: true);
@@ -34910,27 +34979,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_n9asv4_getArg1(
 external int _1wx624s_BlockArgs_n9asv4_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_n9asv4_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_n9asv4_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_n9asv4_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_n9asv4_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_n9asv4_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_n9asv4_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_n9asv4_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_n9asv4_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_n9asv4_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_n9asv4_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -34941,13 +35008,6 @@ _1wx624s_BlockArgs_n9asv4_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_n9asv4_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_n9asv4_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_n9asv4_blocking_getArg0',
   isLeaf: true,
@@ -34969,12 +35029,19 @@ _1wx624s_BlockArgs_n9asv4_blocking_getArg1(
 external int _1wx624s_BlockArgs_n9asv4_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_n9asv4_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_n9asv4_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_n9asv4_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_n9asv4_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSString, ffi.Pointer<objc.ObjCObjectImpl>, NSDictionary, ffi.Pointer<ffi.Void>)>`.
@@ -35110,6 +35177,57 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_objcObjCObjectImpl_NSDic
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(
+      ffi.Pointer<ffi.Void>,
+      NSString,
+      objc.ObjCObject,
+      NSDictionary,
+      ffi.Pointer<ffi.Void>,
+    )
+    fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_a5zxhf_getArg0(raw),
+          NSString.fromPointer(
+            _1wx624s_BlockArgs_a5zxhf_getArg1(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_a5zxhf_getArg2(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          NSDictionary.fromPointer(
+            _1wx624s_BlockArgs_a5zxhf_getArg3(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_a5zxhf_getArg4(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<ffi.Void>,
@@ -35130,52 +35248,11 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_objcObjCObjectImpl_NSDic
     fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_a5zxhf_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_a5zxhf_getArg0(raw),
-            NSString.fromPointer(
-              _1wx624s_BlockArgs_a5zxhf_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_a5zxhf_getArg2(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            NSDictionary.fromPointer(
-              _1wx624s_BlockArgs_a5zxhf_getArg3(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_a5zxhf_getArg4(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_a5zxhf_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_a5zxhf_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -35186,6 +35263,55 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_objcObjCObjectImpl_NSDic
         ffi.Pointer<ffi.Void>,
       )
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(
+      ffi.Pointer<ffi.Void>,
+      NSString,
+      objc.ObjCObject,
+      NSDictionary,
+      ffi.Pointer<ffi.Void>,
+    )
+    fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_a5zxhf_blocking_getArg0(raw),
+          NSString.fromPointer(
+            _1wx624s_BlockArgs_a5zxhf_blocking_getArg1(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_a5zxhf_blocking_getArg2(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          NSDictionary.fromPointer(
+            _1wx624s_BlockArgs_a5zxhf_blocking_getArg3(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_a5zxhf_blocking_getArg4(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -35233,60 +35359,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_objcObjCObjectImpl_NSDic
         arg4,
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_a5zxhf_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_a5zxhf_blocking_getArg0(raw),
-            NSString.fromPointer(
-              _1wx624s_BlockArgs_a5zxhf_blocking_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_a5zxhf_blocking_getArg2(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            NSDictionary.fromPointer(
-              _1wx624s_BlockArgs_a5zxhf_blocking_getArg3(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_a5zxhf_blocking_getArg4(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_a5zxhf_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_a5zxhf_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_1sr3ozv(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<ffi.Void>,
@@ -35502,27 +35581,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_a5zxhf_getArg3(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_a5zxhf_getArg4(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_a5zxhf_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_a5zxhf_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_a5zxhf_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_a5zxhf_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_a5zxhf_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_a5zxhf_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_a5zxhf_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_a5zxhf_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_a5zxhf_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_a5zxhf_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -35533,13 +35610,6 @@ _1wx624s_BlockArgs_a5zxhf_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_a5zxhf_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_a5zxhf_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_a5zxhf_blocking_getArg0',
   isLeaf: true,
@@ -35575,12 +35645,19 @@ _1wx624s_BlockArgs_a5zxhf_blocking_getArg3(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_a5zxhf_blocking_getArg4(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_a5zxhf_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_a5zxhf_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_a5zxhf_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_a5zxhf_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>`.
@@ -35658,6 +35735,35 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUInteger {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, int) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1y1ob59_getArg0(raw),
+          _1wx624s_BlockArgs_1y1ob59_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)
   >
@@ -35665,35 +35771,36 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUInteger {
     void Function(ffi.Pointer<ffi.Void>, int) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1y1ob59_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1y1ob59_getArg0(raw),
-            _1wx624s_BlockArgs_1y1ob59_getArg1(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1y1ob59_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1y1ob59_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(ffi.Pointer<ffi.Void>, int) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1y1ob59_blocking_getArg0(raw),
+          _1wx624s_BlockArgs_1y1ob59_blocking_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -35719,39 +35826,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUInteger {
     ) {
       return fn(arg0, arg1);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1y1ob59_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1y1ob59_blocking_getArg0(raw),
-            _1wx624s_BlockArgs_1y1ob59_blocking_getArg1(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1y1ob59_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1y1ob59_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_zuf90e(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)
     >(wrapper, retain: false, release: true);
@@ -35868,27 +35949,25 @@ external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1y1ob59_getArg0(
 external int _1wx624s_BlockArgs_1y1ob59_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1y1ob59_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1y1ob59_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1y1ob59_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1y1ob59_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1y1ob59_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1y1ob59_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1y1ob59_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1y1ob59_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1y1ob59_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1y1ob59_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -35899,13 +35978,6 @@ _1wx624s_BlockArgs_1y1ob59_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1y1ob59_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1y1ob59_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1y1ob59_blocking_getArg0',
   isLeaf: true,
@@ -35920,12 +35992,20 @@ external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1y1ob59_blocking_getArg0(
 external int _1wx624s_BlockArgs_1y1ob59_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1y1ob59_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1y1ob59_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1y1ob59_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1y1ob59_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)>`.
@@ -36017,6 +36097,47 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSItemProviderReading?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_chi4tl_getArg0(raw).address == 0
+              ? null
+              : NSItemProviderReading.fromPointer(
+                  _1wx624s_BlockArgs_chi4tl_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_chi4tl_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_chi4tl_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
   >
@@ -36024,47 +36145,48 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
     void Function(NSItemProviderReading?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_chi4tl_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_chi4tl_getArg0(raw).address == 0
-                ? null
-                : NSItemProviderReading.fromPointer(
-                    _1wx624s_BlockArgs_chi4tl_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_chi4tl_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_chi4tl_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_chi4tl_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_chi4tl_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSItemProviderReading?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_chi4tl_blocking_getArg0(raw).address == 0
+              ? null
+              : NSItemProviderReading.fromPointer(
+                  _1wx624s_BlockArgs_chi4tl_blocking_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_chi4tl_blocking_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_chi4tl_blocking_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -36101,51 +36223,13 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
             : NSError.fromPointer(arg1, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_chi4tl_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_chi4tl_blocking_getArg0(raw).address == 0
-                ? null
-                : NSItemProviderReading.fromPointer(
-                    _1wx624s_BlockArgs_chi4tl_blocking_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_chi4tl_blocking_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_chi4tl_blocking_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_chi4tl_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_chi4tl_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
     >(wrapper, retain: false, release: true);
@@ -36280,27 +36364,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_chi4tl_getArg0(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_chi4tl_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_chi4tl_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_chi4tl_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_chi4tl_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_chi4tl_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_chi4tl_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_chi4tl_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_chi4tl_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_chi4tl_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_chi4tl_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_chi4tl_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -36311,13 +36393,6 @@ _1wx624s_BlockArgs_chi4tl_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_chi4tl_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_chi4tl_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_chi4tl_blocking_getArg0', isLeaf: true)
@@ -36332,12 +36407,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_chi4tl_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_chi4tl_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_chi4tl_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_chi4tl_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_chi4tl_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)>`.
@@ -36429,6 +36511,47 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSItemProviderWriting?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1kxxlrd_getArg0(raw).address == 0
+              ? null
+              : NSItemProviderWriting.fromPointer(
+                  _1wx624s_BlockArgs_1kxxlrd_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1kxxlrd_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_1kxxlrd_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
   >
@@ -36436,47 +36559,48 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
     void Function(NSItemProviderWriting?, NSError?) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1kxxlrd_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1kxxlrd_getArg0(raw).address == 0
-                ? null
-                : NSItemProviderWriting.fromPointer(
-                    _1wx624s_BlockArgs_1kxxlrd_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1kxxlrd_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_1kxxlrd_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1kxxlrd_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1kxxlrd_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSItemProviderWriting?, NSError?) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1kxxlrd_blocking_getArg0(raw).address == 0
+              ? null
+              : NSItemProviderWriting.fromPointer(
+                  _1wx624s_BlockArgs_1kxxlrd_blocking_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          _1wx624s_BlockArgs_1kxxlrd_blocking_getArg1(raw).address == 0
+              ? null
+              : NSError.fromPointer(
+                  _1wx624s_BlockArgs_1kxxlrd_blocking_getArg1(raw),
+                  retain: true,
+                  release: true,
+                ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -36513,51 +36637,13 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
             : NSError.fromPointer(arg1, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1kxxlrd_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1kxxlrd_blocking_getArg0(raw).address == 0
-                ? null
-                : NSItemProviderWriting.fromPointer(
-                    _1wx624s_BlockArgs_1kxxlrd_blocking_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            _1wx624s_BlockArgs_1kxxlrd_blocking_getArg1(raw).address == 0
-                ? null
-                : NSError.fromPointer(
-                    _1wx624s_BlockArgs_1kxxlrd_blocking_getArg1(raw),
-                    retain: true,
-                    release: true,
-                  ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1kxxlrd_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1kxxlrd_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
     >(wrapper, retain: false, release: true);
@@ -36692,27 +36778,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1kxxlrd_getArg0(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1kxxlrd_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1kxxlrd_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1kxxlrd_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1kxxlrd_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1kxxlrd_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1kxxlrd_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1kxxlrd_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1kxxlrd_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1kxxlrd_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1kxxlrd_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1kxxlrd_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -36723,13 +36807,6 @@ _1wx624s_BlockArgs_1kxxlrd_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1kxxlrd_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1kxxlrd_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1kxxlrd_blocking_getArg0', isLeaf: true)
@@ -36744,12 +36821,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1kxxlrd_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1kxxlrd_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1kxxlrd_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1kxxlrd_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1kxxlrd_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)>`.
@@ -36835,6 +36920,45 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(NSSecureCoding?, NSError) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1a2aane_getArg0(raw).address == 0
+              ? null
+              : NSSecureCoding.fromPointer(
+                  _1wx624s_BlockArgs_1a2aane_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          NSError.fromPointer(
+            _1wx624s_BlockArgs_1a2aane_getArg1(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)
   >
@@ -36842,47 +36966,48 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
     void Function(NSSecureCoding?, NSError) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1a2aane_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1a2aane_getArg0(raw).address == 0
-                ? null
-                : NSSecureCoding.fromPointer(
-                    _1wx624s_BlockArgs_1a2aane_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            NSError.fromPointer(
-              _1wx624s_BlockArgs_1a2aane_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } finally {
-          _1wx624s_BlockArgs_1a2aane_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_1a2aane_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(NSSecureCoding?, NSError) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_1a2aane_blocking_getArg0(raw).address == 0
+              ? null
+              : NSSecureCoding.fromPointer(
+                  _1wx624s_BlockArgs_1a2aane_blocking_getArg0(raw),
+                  retain: true,
+                  release: true,
+                ),
+          NSError.fromPointer(
+            _1wx624s_BlockArgs_1a2aane_blocking_getArg1(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -36913,51 +37038,13 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
         NSError.fromPointer(arg1, retain: true, release: true),
       );
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_1a2aane_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_1a2aane_blocking_getArg0(raw).address == 0
-                ? null
-                : NSSecureCoding.fromPointer(
-                    _1wx624s_BlockArgs_1a2aane_blocking_getArg0(raw),
-                    retain: true,
-                    release: true,
-                  ),
-            NSError.fromPointer(
-              _1wx624s_BlockArgs_1a2aane_blocking_getArg1(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_1a2aane_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_1a2aane_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)
     >(wrapper, retain: false, release: true);
@@ -37088,27 +37175,25 @@ external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1a2aane_getArg0(
 external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_BlockArgs_1a2aane_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1a2aane_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1a2aane_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1a2aane_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_1a2aane_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1a2aane_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_1a2aane_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1a2aane_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1a2aane_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1a2aane_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1a2aane_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -37119,13 +37204,6 @@ _1wx624s_BlockArgs_1a2aane_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1a2aane_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1a2aane_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_1a2aane_blocking_getArg0', isLeaf: true)
@@ -37140,12 +37218,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1a2aane_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1a2aane_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1a2aane_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1a2aane_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1a2aane_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
@@ -37256,6 +37342,40 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_enc3u4_getArg0(raw).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_enc3u4_getArg1(raw),
+          _1wx624s_BlockArgs_enc3u4_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<objc.ObjCObjectImpl>,
@@ -37267,38 +37387,11 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool {
     void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_enc3u4_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_enc3u4_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_enc3u4_getArg1(raw),
-            _1wx624s_BlockArgs_enc3u4_getArg2(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_enc3u4_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_enc3u4_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -37307,6 +37400,34 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool {
         ffi.Pointer<ffi.Bool>,
       )
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          objc.ObjCObject(
+            _1wx624s_BlockArgs_enc3u4_blocking_getArg0(
+              raw,
+            ).cast<objc.ObjCObjectImpl>(),
+            retain: true,
+            release: true,
+          ),
+          _1wx624s_BlockArgs_enc3u4_blocking_getArg1(raw),
+          _1wx624s_BlockArgs_enc3u4_blocking_getArg2(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -37337,46 +37458,13 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool {
     ) {
       return fn(objc.ObjCObject(arg0, retain: true, release: true), arg1, arg2);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_enc3u4_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            objc.ObjCObject(
-              _1wx624s_BlockArgs_enc3u4_blocking_getArg0(
-                raw,
-              ).cast<objc.ObjCObjectImpl>(),
-              retain: true,
-              release: true,
-            ),
-            _1wx624s_BlockArgs_enc3u4_blocking_getArg1(raw),
-            _1wx624s_BlockArgs_enc3u4_blocking_getArg2(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_enc3u4_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_enc3u4_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_1p9ui4q(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
@@ -37535,27 +37623,25 @@ external int _1wx624s_BlockArgs_enc3u4_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_enc3u4_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_enc3u4_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_enc3u4_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_enc3u4_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_enc3u4_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_enc3u4_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_enc3u4_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_enc3u4_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_enc3u4_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_enc3u4_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_enc3u4_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -37566,13 +37652,6 @@ _1wx624s_BlockArgs_enc3u4_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_enc3u4_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_enc3u4_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_enc3u4_blocking_getArg0', isLeaf: true)
@@ -37594,12 +37673,19 @@ external int _1wx624s_BlockArgs_enc3u4_blocking_getArg1(
 external ffi.Pointer<ffi.Bool> _1wx624s_BlockArgs_enc3u4_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_enc3u4_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_enc3u4_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_enc3u4_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_enc3u4_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)>`.
@@ -37680,6 +37766,35 @@ abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
+  static ffi.Pointer<objc.ObjCBlockImpl> _createListenerPortBlock(
+    void Function(ffi.Pointer<ffi.UnsignedShort>, int) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_9k92cw_getArg0(raw),
+          _1wx624s_BlockArgs_9k92cw_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
+  }
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on RawReceivePort, and has the same capabilities and
+  /// limitations. This block can be invoked from any thread, but only supports
+  /// void functions, and is not run synchronously.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
     ffi.Void Function(ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)
   >
@@ -37687,35 +37802,36 @@ abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
     void Function(ffi.Pointer<ffi.UnsignedShort>, int) fn, {
     bool keepIsolateAlive = true,
   }) {
-    final raw = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_9k92cw_portBlockInvoke)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_9k92cw_getArg0(raw),
-            _1wx624s_BlockArgs_9k92cw_getArg1(raw),
-          );
-        } finally {
-          _1wx624s_BlockArgs_9k92cw_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawDummy = _createListenerPortBlock(fn, keepIsolateAlive);
+    final raw = _1wx624s_9k92cw_wrapPortBlock(
+      rawDummy.cast(),
+      objc.getPortBlockId(rawDummy),
+      objc.objCContext.cast(),
     );
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)
     >(raw, retain: false, release: true);
+  }
+
+  static ffi.Pointer<objc.ObjCBlockImpl> _createBlockingPortBlock(
+    void Function(ffi.Pointer<ffi.UnsignedShort>, int) fn,
+    bool keepIsolateAlive,
+  ) {
+    return objc.newPortBlock(ffi.nullptr, (int msg) {
+      try {
+        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
+        final args = objc.NSObject.fromPointer(
+          rawMsg,
+          retain: false,
+          release: false,
+        );
+        final raw = args.ref.pointer;
+        fn(
+          _1wx624s_BlockArgs_9k92cw_blocking_getArg0(raw),
+          _1wx624s_BlockArgs_9k92cw_blocking_getArg1(raw),
+        );
+      } catch (_) {}
+    }, keepIsolateAlive: keepIsolateAlive);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -37741,39 +37857,13 @@ abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
     ) {
       return fn(arg0, arg1);
     }, keepIsolateAlive);
-    final rawListener = objc.newPortBlock(
-      ffi.Native.addressOf<
-            ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)
-            >
-          >(_1wx624s_9k92cw_portBlockInvoke_blocking)
-          .cast(),
-      (int msg) {
-        final rawMsg = ffi.Pointer.fromAddress(msg).cast<objc.ObjCObjectImpl>();
-        try {
-          final args = objc.NSObject.fromPointer(
-            rawMsg,
-            retain: false,
-            release: false,
-          );
-          final raw = args.ref.pointer;
-          fn(
-            _1wx624s_BlockArgs_9k92cw_blocking_getArg0(raw),
-            _1wx624s_BlockArgs_9k92cw_blocking_getArg1(raw),
-          );
-        } catch (e) {
-        } finally {
-          _1wx624s_BlockArgs_9k92cw_blocking_free(rawMsg);
-        }
-      },
-      keepIsolateAlive: keepIsolateAlive,
+    final rawListener = _createBlockingPortBlock(fn, keepIsolateAlive);
+    final wrapper = _1wx624s_9k92cw_wrapPortBlock_blocking(
+      raw.cast(),
+      rawListener.cast(),
+      objc.getPortBlockId(rawListener),
+      objc.objCContext.cast(),
     );
-    final wrapper = _1wx624s_wrapBlockingBlock_vhbh5h(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)
     >(wrapper, retain: false, release: true);
@@ -37896,27 +37986,25 @@ external ffi.Pointer<ffi.UnsignedShort> _1wx624s_BlockArgs_9k92cw_getArg0(
 external int _1wx624s_BlockArgs_9k92cw_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_9k92cw_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_9k92cw_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_9k92cw_portBlockInvoke',
-  isLeaf: true,
-)
-external void _1wx624s_9k92cw_portBlockInvoke(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_9k92cw_wrapPortBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_9k92cw_wrapPortBlock(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_9k92cw_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_9k92cw_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_9k92cw_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_9k92cw_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -37927,13 +38015,6 @@ _1wx624s_BlockArgs_9k92cw_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_9k92cw_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_9k92cw_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<ffi.UnsignedShort> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_9k92cw_blocking_getArg0', isLeaf: true)
@@ -37948,12 +38029,19 @@ _1wx624s_BlockArgs_9k92cw_blocking_getArg0(
 external int _1wx624s_BlockArgs_9k92cw_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_9k92cw_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_9k92cw_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_9k92cw_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_9k92cw_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>`.
@@ -38152,12 +38240,13 @@ extension ObjCBlock_instancetype_ffiVoid_NSCoder$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1elsj4r_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1elsj4r_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1elsj4r_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1elsj4r_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -38168,13 +38257,6 @@ _1wx624s_BlockArgs_1elsj4r_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1elsj4r_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1elsj4r_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1elsj4r_blocking_getArg0',
   isLeaf: true,
@@ -38189,12 +38271,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_1elsj4r_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1elsj4r_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1elsj4r_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1elsj4r_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1elsj4r_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObjectImpl>? Function(NSError, NSString)>`.
@@ -38373,12 +38463,13 @@ extension ObjCBlock_objcObjCObjectImpl_NSError_NSErrorUserInfoKey$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_toiz7q_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_toiz7q_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_toiz7q_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_toiz7q_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -38389,13 +38480,6 @@ _1wx624s_BlockArgs_toiz7q_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_toiz7q_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_toiz7q_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_1wx624s_BlockArgs_toiz7q_blocking_getArg0', isLeaf: true)
@@ -38410,12 +38494,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_toiz7q_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_toiz7q_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_toiz7q_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_toiz7q_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_toiz7q_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)>`.
@@ -38550,12 +38641,13 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_17uu8la_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_17uu8la_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_17uu8la_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_17uu8la_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -38566,13 +38658,6 @@ _1wx624s_BlockArgs_17uu8la_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_17uu8la_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_17uu8la_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_17uu8la_blocking_getArg0',
   isLeaf: true,
@@ -38580,12 +38665,20 @@ external void _1wx624s_BlockArgs_17uu8la_blocking_free(
 external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_17uu8la_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_17uu8la_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_17uu8la_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_17uu8la_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_17uu8la_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>`.
@@ -38760,12 +38853,13 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1dzcxwq_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1dzcxwq_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1dzcxwq_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1dzcxwq_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -38776,13 +38870,6 @@ _1wx624s_BlockArgs_1dzcxwq_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1dzcxwq_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1dzcxwq_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1dzcxwq_blocking_getArg0',
   isLeaf: true,
@@ -38797,12 +38884,20 @@ external ffi.Pointer<ffi.Void> _1wx624s_BlockArgs_1dzcxwq_blocking_getArg0(
 external ffi.Pointer<NSZone> _1wx624s_BlockArgs_1dzcxwq_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1dzcxwq_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1dzcxwq_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1dzcxwq_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1dzcxwq_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>`.
@@ -38984,12 +39079,13 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_objcObjCSelector$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1px6zc6_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_1px6zc6_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_1px6zc6_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_1px6zc6_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -39000,13 +39096,6 @@ _1wx624s_BlockArgs_1px6zc6_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_1px6zc6_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_1px6zc6_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_1px6zc6_blocking_getArg0',
   isLeaf: true,
@@ -39021,12 +39110,20 @@ external ffi.Pointer<objc.ObjCSelector>
 _1wx624s_BlockArgs_1px6zc6_blocking_getArg1(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_1px6zc6_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_1px6zc6_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_1px6zc6_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_1px6zc6_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
@@ -39233,12 +39330,13 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_objcObjCSelector_objcObjCObjectIm
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_ipxcpe_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_ipxcpe_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_ipxcpe_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_ipxcpe_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -39249,13 +39347,6 @@ _1wx624s_BlockArgs_ipxcpe_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_ipxcpe_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_ipxcpe_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_ipxcpe_blocking_getArg0',
   isLeaf: true,
@@ -39277,12 +39368,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_ipxcpe_blocking_getArg2(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_ipxcpe_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_ipxcpe_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_ipxcpe_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_ipxcpe_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
@@ -39511,12 +39609,13 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid_objcObjCSelector_objcObjCObjectIm
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_17dwd5y_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_1wx624s_BlockArgs_17dwd5y_blocking_free',
   isLeaf: true,
 )
-external void _1wx624s_BlockArgs_17dwd5y_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _1wx624s_BlockArgs_17dwd5y_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -39527,13 +39626,6 @@ _1wx624s_BlockArgs_17dwd5y_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_1wx624s_BlockArgs_17dwd5y_blocking_free',
-  isLeaf: true,
-)
-external void _1wx624s_BlockArgs_17dwd5y_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
   symbol: '_1wx624s_BlockArgs_17dwd5y_blocking_getArg0',
   isLeaf: true,
@@ -39562,12 +39654,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _1wx624s_BlockArgs_17dwd5y_blocking_getArg3(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_1wx624s_17dwd5y_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _1wx624s_17dwd5y_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_1wx624s_17dwd5y_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_1wx624s_17dwd5y_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Protocol for observing changes to values of objects.

@@ -12,16 +12,6 @@
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
 typedef struct {
-  void* isa;
-  int flags;
-  int reserved;
-  void* invoke;
-  void* descriptor;
-  void* target;
-  int64_t dispose_port;
-} ObjCBlockImpl;
-
-typedef struct {
   int64_t version;
   void* (*newWaiter)(void);
   void (*awaitWaiter)(void*);
@@ -31,12 +21,11 @@ typedef struct {
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
   bool (*postCObject)(int64_t, void*, void (*)(void*, void*));
+  void (*runOnMainThread)(void (*fn)(void *), void *arg);
+  void (*signalWaiter)(void *waiter);
+  int64_t (*getBlockPortId)(void* block);
+  void* (*getBlockContext)(void* block);
 } DOBJC_Context;
-
-typedef struct {
-  int64_t port_id;
-  DOBJC_Context* ctx;
-} PortBlockTarget;
 
 id objc_retainBlock(id);
 void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
@@ -67,44 +56,17 @@ void DOBJC_signalWaiter(void *waiter);
     }                                                                          \
   };
 
-
-typedef void  (^_ListenerTrampoline)(id arg0, id arg1);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _l3cf7j_wrapListenerBlock_pfv6jd(_ListenerTrampoline block) NS_RETURNS_RETAINED {
-  return ^void(id arg0, id arg1) {
-    _ListenerTrampoline strongBlock = block;
-    strongBlock(arg0, arg1);
-  };
-}
-
-typedef void  (^_BlockingTrampoline)(void * waiter, id arg0, id arg1);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _l3cf7j_wrapBlockingBlock_pfv6jd(
-    _BlockingTrampoline block, _BlockingTrampoline listenerBlock,
-    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(id arg0, id arg1), {
-    _BlockingTrampoline strongBlock = block;
-    strongBlock(nil, arg0, arg1);
-  }, {
-    _BlockingTrampoline strongListenerBlock = listenerBlock;
-    strongListenerBlock(waiter, arg0, arg1);
-  });
-}
 @interface _l3cf7j_BlockArgs_1ilrkog : NSObject {
   @public
   id block;
-  id arg0;
-  id arg1;
+  void* context;
+  id  arg0;
+  id  arg1;
 }
 @end
 
 @implementation _l3cf7j_BlockArgs_1ilrkog
 @end
-
-__attribute__((visibility("default"))) __attribute__((used))
-void* _l3cf7j_BlockArgs_1ilrkog_getBlock(void* peer) {
-  return (__bridge void*)((__bridge _l3cf7j_BlockArgs_1ilrkog*)peer)->block;
-}
 
 __attribute__((visibility("default"))) __attribute__((used))
 id  _l3cf7j_BlockArgs_1ilrkog_getArg0(void* peer) {
@@ -118,52 +80,45 @@ id  _l3cf7j_BlockArgs_1ilrkog_getArg1(void* peer) {
 
 
 void _l3cf7j_BlockArgs_1ilrkog_free(void* peer) {
-  id args = (__bridge_transfer id)peer;
+  @autoreleasepool {
+    _l3cf7j_BlockArgs_1ilrkog* args = (__bridge _l3cf7j_BlockArgs_1ilrkog*)peer;
+    
+    id argsObj = (__bridge_transfer id)peer;
+  }
 }
 
 void _l3cf7j_BlockArgs_1ilrkog_finalize(void* isolate_callback_data, void* peer) {
-  DOBJC_runOnMainThread(_l3cf7j_BlockArgs_1ilrkog_free, peer);
+  _l3cf7j_BlockArgs_1ilrkog* args = (__bridge _l3cf7j_BlockArgs_1ilrkog*)peer;
+  ((DOBJC_Context*)args->context)->runOnMainThread(_l3cf7j_BlockArgs_1ilrkog_free, peer);
 }
 
+typedef void  (^_ListenerTrampoline)(id arg0, id arg1);
+
 __attribute__((visibility("default"))) __attribute__((used))
-void _l3cf7j_1ilrkog_portBlockInvoke(ObjCBlockImpl* block, id arg0, id arg1) {
-  PortBlockTarget* target = (PortBlockTarget*)block->target;
-  int64_t port_id = target->port_id;
-  DOBJC_Context* ctx = target->ctx;
-
-  _l3cf7j_BlockArgs_1ilrkog* args = [[_l3cf7j_BlockArgs_1ilrkog alloc] init];
-  args->block = (__bridge_transfer id)(__bridge void*)objc_retainBlock((__bridge id)block);
-  args->arg0 = arg0;
-  args->arg1 = arg1;
-
-  void* raw_args = (__bridge_retained void*)args;
-  ctx->postCObject(port_id, raw_args, _l3cf7j_BlockArgs_1ilrkog_finalize);
+void* _l3cf7j_1ilrkog_wrapPortBlock(id block, int64_t port_id, void* ctx) {
+  DOBJC_Context* context = (DOBJC_Context*)ctx;
+  return (void*)CFBridgingRetain((id)[^void(id arg0, id arg1) {
+    _l3cf7j_BlockArgs_1ilrkog* args = [[_l3cf7j_BlockArgs_1ilrkog alloc] init];
+    args->block = block;
+    args->context = context;
+    args->arg0 = arg0;
+    args->arg1 = arg1;
+    void* raw_args = (__bridge_retained void*)args;
+    context->postCObject(port_id, raw_args, _l3cf7j_BlockArgs_1ilrkog_finalize);
+  } copy]);
 }
 @interface _l3cf7j_BlockArgs_1ilrkog_blocking : NSObject {
   @public
   void* waiter;
-  id block;
-  id arg0;
-  id arg1;
+  void* block;
+  void* context;
+  id  arg0;
+  id  arg1;
 }
 @end
 
 @implementation _l3cf7j_BlockArgs_1ilrkog_blocking
 @end
-
-__attribute__((visibility("default"))) __attribute__((used))
-void _l3cf7j_BlockArgs_1ilrkog_blocking_signalWaiter(void* peer) {
-  _l3cf7j_BlockArgs_1ilrkog_blocking* args = (__bridge _l3cf7j_BlockArgs_1ilrkog_blocking*)peer;
-  if (args->waiter != NULL) {
-    DOBJC_signalWaiter(args->waiter);
-    args->waiter = NULL;
-  }
-}
-
-__attribute__((visibility("default"))) __attribute__((used))
-void* _l3cf7j_BlockArgs_1ilrkog_blocking_getBlock(void* peer) {
-  return (__bridge void*)((__bridge _l3cf7j_BlockArgs_1ilrkog_blocking*)peer)->block;
-}
 
 __attribute__((visibility("default"))) __attribute__((used))
 id  _l3cf7j_BlockArgs_1ilrkog_blocking_getArg0(void* peer) {
@@ -176,33 +131,62 @@ id  _l3cf7j_BlockArgs_1ilrkog_blocking_getArg1(void* peer) {
 }
 
 
+__attribute__((visibility("default"))) __attribute__((used))
 void _l3cf7j_BlockArgs_1ilrkog_blocking_free(void* peer) {
-  _l3cf7j_BlockArgs_1ilrkog_blocking* args = (__bridge _l3cf7j_BlockArgs_1ilrkog_blocking*)peer;
-  void* waiter = args->waiter;
-  args->waiter = NULL;
-  id argsObj = (__bridge_transfer id)peer;
-  argsObj = nil;
-  DOBJC_signalWaiter(waiter);
+  @autoreleasepool {
+    _l3cf7j_BlockArgs_1ilrkog_blocking* args = (__bridge _l3cf7j_BlockArgs_1ilrkog_blocking*)peer;
+    if (args->block != NULL) {
+      id relBlock = (__bridge_transfer id)args->block;
+      args->block = NULL;
+    }
+    if (args->waiter != NULL) {
+      ((DOBJC_Context*)args->context)->signalWaiter(args->waiter);
+      args->waiter = NULL;
+    }
+    
+    id argsObj = (__bridge_transfer id)peer;
+  }
 }
 
 void _l3cf7j_BlockArgs_1ilrkog_blocking_finalize(void* isolate_callback_data, void* peer) {
-  DOBJC_runOnMainThread(_l3cf7j_BlockArgs_1ilrkog_blocking_free, peer);
+  _l3cf7j_BlockArgs_1ilrkog_blocking* args = (__bridge _l3cf7j_BlockArgs_1ilrkog_blocking*)peer;
+  ((DOBJC_Context*)args->context)->runOnMainThread(_l3cf7j_BlockArgs_1ilrkog_blocking_free, peer);
 }
 
+typedef void  (^_BlockingTrampoline)(void* block, id arg0, id arg1);
+
 __attribute__((visibility("default"))) __attribute__((used))
-void _l3cf7j_1ilrkog_portBlockInvoke_blocking(ObjCBlockImpl* block, void* waiter, id arg0, id arg1) {
-  PortBlockTarget* target = (PortBlockTarget*)block->target;
-  int64_t port_id = target->port_id;
-  DOBJC_Context* ctx = target->ctx;
-
-  _l3cf7j_BlockArgs_1ilrkog_blocking* args = [[_l3cf7j_BlockArgs_1ilrkog_blocking alloc] init];
-  args->waiter = waiter;
-  args->block = (__bridge_transfer id)(__bridge void*)objc_retainBlock((__bridge id)block);
-  args->arg0 = arg0;
-  args->arg1 = arg1;
-
-  void* raw_args = (__bridge_retained void*)args;
-  ctx->postCObject(port_id, raw_args, _l3cf7j_BlockArgs_1ilrkog_blocking_finalize);
+void* _l3cf7j_1ilrkog_wrapPortBlock_blocking(id block, id listener_block, int64_t port_id, void* ctx) {
+  DOBJC_Context* context = (DOBJC_Context*)ctx;
+  int64_t targetPort = context->getMainPortId == NULL ? 0 : context->getMainPortId();
+  void* targetIsolate = context->currentIsolate();
+  return (void*)CFBridgingRetain((id)[^void(id arg0, id arg1) {
+    void* currentIsolate = context->currentIsolate();
+    bool mayEnterIsolate =
+        currentIsolate == NULL &&
+        context->getCurrentThreadOwnsIsolate != NULL &&
+        context->getCurrentThreadOwnsIsolate(targetPort);
+    if (currentIsolate == targetIsolate || mayEnterIsolate) {
+      if (mayEnterIsolate) {
+        context->enterIsolate(targetIsolate);
+      }
+      ((_BlockingTrampoline)block)((__bridge void*)block, arg0, arg1);
+      if (mayEnterIsolate) {
+        context->exitIsolate();
+      }
+    } else {
+      void* waiter = context->newWaiter();
+      _l3cf7j_BlockArgs_1ilrkog_blocking* args = [[_l3cf7j_BlockArgs_1ilrkog_blocking alloc] init];
+      args->block = (__bridge_retained void*)listener_block;
+      args->waiter = waiter;
+      args->context = context;
+      args->arg0 = arg0;
+      args->arg1 = arg1;
+      void* raw_args = (__bridge_retained void*)args;
+      context->postCObject(port_id, raw_args, _l3cf7j_BlockArgs_1ilrkog_blocking_finalize);
+      context->awaitWaiter(waiter);
+    }
+  } copy]);
 }
 #undef BLOCKING_BLOCK_IMPL
 

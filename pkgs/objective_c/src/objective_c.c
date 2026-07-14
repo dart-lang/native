@@ -36,13 +36,7 @@ FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl* block) {
   Dart_PostInteger_DL(block->dispose_port, (int64_t)block->target);
 }
 
-FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl* block) {
-  if (block == NULL) return false;
-  void* isa = block->isa;
-  return isa == &_NSConcreteStackBlock || isa == &_NSConcreteMallocBlock ||
-         isa == &_NSConcreteAutoBlock || isa == &_NSConcreteFinalizingBlock ||
-         isa == &_NSConcreteGlobalBlock || isa == &_NSConcreteWeakBlockVariable;
-}
+
 
 FFI_EXPORT void DOBJC_finalizeObject(void* isolate_callback_data, void* peer) {
   // objc_release works for Objects and Blocks.
@@ -88,7 +82,7 @@ FFI_EXPORT bool DOBJC_postCObject(int64_t port_id, void* peer,
 }
 
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
-  context->version = 2;
+  context->version = 3;
   context->newWaiter = DOBJC_newWaiter;
   context->awaitWaiter = DOBJC_awaitWaiter;
   context->currentIsolate = Dart_CurrentIsolate_DL;
@@ -97,5 +91,37 @@ FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
   context->getMainPortId = Dart_GetMainPortId_DL;
   context->getCurrentThreadOwnsIsolate = Dart_GetCurrentThreadOwnsIsolate_DL;
   context->postCObject = DOBJC_postCObject;
+  context->runOnMainThread = DOBJC_runOnMainThread;
+  context->signalWaiter = DOBJC_signalWaiter;
+  context->getBlockPortId = DOBJC_getBlockPortId;
+  context->getBlockContext = DOBJC_getBlockContext;
   return context;
 }
+
+FFI_EXPORT int64_t DOBJC_getBlockPortId(void* block) {
+  ObjCBlockImpl* b = (ObjCBlockImpl*)block;
+  PortBlockTarget* target = (PortBlockTarget*)b->target;
+  return target->port_id;
+}
+
+FFI_EXPORT void* DOBJC_getBlockContext(void* block) {
+  ObjCBlockImpl* b = (ObjCBlockImpl*)block;
+  PortBlockTarget* target = (PortBlockTarget*)b->target;
+  return target->ctx;
+}
+
+extern void* _NSConcreteStackBlock[];
+extern void* _NSConcreteMallocBlock[];
+extern void* _NSConcreteAutoBlock[];
+extern void* _NSConcreteFinalizingBlock[];
+extern void* _NSConcreteGlobalBlock[];
+extern void* _NSConcreteWeakBlockVariable[];
+
+FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl* block) {
+  if (block == NULL) return false;
+  void* isa = (void*)(((uintptr_t)block->isa) & 0x0000000fffffffffull);
+  return isa == &_NSConcreteStackBlock || isa == &_NSConcreteMallocBlock ||
+         isa == &_NSConcreteAutoBlock || isa == &_NSConcreteFinalizingBlock ||
+         isa == &_NSConcreteGlobalBlock || isa == &_NSConcreteWeakBlockVariable;
+}
+FFI_EXPORT void DOBJC_noop(void) {}

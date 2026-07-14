@@ -50,6 +50,18 @@ external ffi.Pointer<DOBJC_Context> fillContext(
   ffi.Pointer<DOBJC_Context> context,
 );
 
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DOBJC_getBlockContext',
+  isLeaf: true,
+)
+external ffi.Pointer<ffi.Void> getBlockContext(ffi.Pointer<ffi.Void> block);
+
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DOBJC_getBlockPortId',
+  isLeaf: true,
+)
+external int getBlockPortId(ffi.Pointer<ffi.Void> block);
+
 /// Returns the MacOS/iOS version we're running on.
 @ffi.Native<_Version Function()>(symbol: 'DOBJC_getOsVesion', isLeaf: true)
 external _Version getOsVesion();
@@ -84,6 +96,9 @@ external Dart_FinalizableHandle newFinalizableHandle(
   isLeaf: true,
 )
 external ffi.Pointer<ffi.Void> newWaiter();
+
+@ffi.Native<ffi.Void Function()>(symbol: 'DOBJC_noop', isLeaf: true)
+external void noop();
 
 @ffi.Native<
   ffi.Bool Function(
@@ -168,6 +183,36 @@ final class DOBJC_Context extends ffi.Struct {
   >
   postCObject$1;
 
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+        >
+        fn,
+        ffi.Pointer<ffi.Void> arg,
+      )
+    >
+  >
+  runOnMainThread$1;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> waiter)>
+  >
+  signalWaiter$1;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void> block)>
+  >
+  getBlockPortId$1;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> block)
+    >
+  >
+  getBlockContext$1;
+
   static ffi.Pointer<DOBJC_Context> $allocate(
     ffi.Allocator $allocator, {
     required int version,
@@ -204,6 +249,32 @@ final class DOBJC_Context extends ffi.Struct {
       >
     >
     postCObject$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+          >
+          fn,
+          ffi.Pointer<ffi.Void> arg,
+        )
+      >
+    >
+    runOnMainThread$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> waiter)>
+    >
+    signalWaiter$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void> block)>
+    >
+    getBlockPortId$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> block)
+      >
+    >
+    getBlockContext$1,
   }) => $allocator<DOBJC_Context>()
     ..ref.version = version
     ..ref.newWaiter$1 = newWaiter$1
@@ -213,7 +284,11 @@ final class DOBJC_Context extends ffi.Struct {
     ..ref.exitIsolate = exitIsolate
     ..ref.getMainPortId = getMainPortId
     ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate
-    ..ref.postCObject$1 = postCObject$1;
+    ..ref.postCObject$1 = postCObject$1
+    ..ref.runOnMainThread$1 = runOnMainThread$1
+    ..ref.signalWaiter$1 = signalWaiter$1
+    ..ref.getBlockPortId$1 = getBlockPortId$1
+    ..ref.getBlockContext$1 = getBlockContext$1;
 }
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;

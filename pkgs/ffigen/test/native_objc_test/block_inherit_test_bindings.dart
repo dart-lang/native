@@ -454,12 +454,13 @@ extension ObjCBlock_Mammal$CallExtension on objc.ObjCBlock<Mammal Function()> {
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_1euc3pw_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_16kmkts_BlockArgs_1euc3pw_blocking_free',
   isLeaf: true,
 )
-external void _16kmkts_BlockArgs_1euc3pw_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _16kmkts_BlockArgs_1euc3pw_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -470,19 +471,20 @@ _16kmkts_BlockArgs_1euc3pw_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_1euc3pw_blocking_free',
-  isLeaf: true,
-)
-external void _16kmkts_BlockArgs_1euc3pw_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_16kmkts_1euc3pw_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _16kmkts_1euc3pw_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_16kmkts_1euc3pw_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_16kmkts_1euc3pw_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<Platypus Function()>`.
@@ -582,12 +584,13 @@ extension ObjCBlock_Platypus$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_1m4llr1_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_16kmkts_BlockArgs_1m4llr1_blocking_free',
   isLeaf: true,
 )
-external void _16kmkts_BlockArgs_1m4llr1_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _16kmkts_BlockArgs_1m4llr1_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -598,19 +601,20 @@ _16kmkts_BlockArgs_1m4llr1_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_1m4llr1_blocking_free',
-  isLeaf: true,
-)
-external void _16kmkts_BlockArgs_1m4llr1_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_16kmkts_1m4llr1_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _16kmkts_1m4llr1_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_16kmkts_1m4llr1_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_16kmkts_1m4llr1_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(Mammal)>`.
@@ -722,12 +726,13 @@ extension ObjCBlock_bool_Mammal$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_6a8ref_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_16kmkts_BlockArgs_6a8ref_blocking_free',
   isLeaf: true,
 )
-external void _16kmkts_BlockArgs_6a8ref_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _16kmkts_BlockArgs_6a8ref_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -738,13 +743,6 @@ _16kmkts_BlockArgs_6a8ref_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_6a8ref_blocking_free',
-  isLeaf: true,
-)
-external void _16kmkts_BlockArgs_6a8ref_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_16kmkts_BlockArgs_6a8ref_blocking_getArg0', isLeaf: true)
@@ -752,12 +750,19 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _16kmkts_BlockArgs_6a8ref_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_16kmkts_6a8ref_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _16kmkts_6a8ref_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_16kmkts_6a8ref_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl> _16kmkts_6a8ref_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(Platypus)>`.
@@ -869,12 +874,13 @@ extension ObjCBlock_bool_Platypus$CallExtension
   }
 }
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_1g722ui_blocking_signalWaiter',
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: '_16kmkts_BlockArgs_1g722ui_blocking_free',
   isLeaf: true,
 )
-external void _16kmkts_BlockArgs_1g722ui_blocking_signalWaiter(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
+external void _16kmkts_BlockArgs_1g722ui_blocking_free(
+  ffi.Pointer<ffi.Void> isolateCallbackData,
+  ffi.Pointer<ffi.Void> peer,
 );
 
 @ffi.Native<
@@ -885,13 +891,6 @@ _16kmkts_BlockArgs_1g722ui_blocking_getBlock(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>)>(
-  symbol: '_16kmkts_BlockArgs_1g722ui_blocking_free',
-  isLeaf: true,
-)
-external void _16kmkts_BlockArgs_1g722ui_blocking_free(
-  ffi.Pointer<objc.ObjCObjectImpl> peer,
-);
 @ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<objc.ObjCObjectImpl>)
 >(symbol: '_16kmkts_BlockArgs_1g722ui_blocking_getArg0', isLeaf: true)
@@ -899,12 +898,20 @@ external ffi.Pointer<objc.ObjCObjectImpl>
 _16kmkts_BlockArgs_1g722ui_blocking_getArg0(
   ffi.Pointer<objc.ObjCObjectImpl> peer,
 );
-@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>)>(
-  symbol: '_16kmkts_1g722ui_portBlockInvoke_blocking',
-  isLeaf: true,
-)
-external void _16kmkts_1g722ui_portBlockInvoke_blocking(
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Int64,
+    ffi.Pointer<ffi.Void>,
+  )
+>(symbol: '_16kmkts_1g722ui_wrapPortBlock_blocking')
+external ffi.Pointer<objc.ObjCBlockImpl>
+_16kmkts_1g722ui_wrapPortBlock_blocking(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listenerBlock,
+  int portId,
+  ffi.Pointer<ffi.Void> ctx,
 );
 
 /// Platypus
