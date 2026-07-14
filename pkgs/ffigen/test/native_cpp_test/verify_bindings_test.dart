@@ -48,6 +48,20 @@ void main() {
           classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
         ),
       ),
+      'cpp_extern_c': FfiGenerator(
+        output: Output(dartFile: Uri.file('cpp_extern_c_test_bindings.dart')),
+        headers: Headers(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_extern_c_test.h')),
+          ],
+          compilerOptions: ['-x', 'c++'],
+        ),
+        functions: Functions.includeSet({'add', 'deep', 'reset', 'outside'}),
+        structs: Structs.includeSet({'Pair'}),
+        unions: Unions.includeSet({'Number'}),
+        enums: Enums.includeSet({'Fruit', 'ns::Flag'}),
+        globals: Globals.includeSet({'counter'}),
+      ),
       'cpp_namespace_enum': FfiGenerator(
         output: Output(
           dartFile: Uri.file('cpp_namespace_enum_test_bindings.dart'),
