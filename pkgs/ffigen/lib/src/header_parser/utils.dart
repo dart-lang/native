@@ -247,7 +247,15 @@ extension CXCursorExt on clang_types.CXCursor {
         clang_types.CXCursor child,
         clang_types.CXCursor parent,
         Pointer<Void> clientData,
-      ) => callback(child, parent),
+      ) {
+        try {
+          return callback(child, parent);
+        } catch (e, st) {
+          print(e);
+          print(st);
+          rethrow;
+        }
+      },
       exceptionalReturn: exceptionalVisitorReturn,
     );
     final result = clang.clang_visitChildren(

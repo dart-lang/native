@@ -88,3 +88,57 @@ FFI_EXPORT Version DOBJC_getOsVesion(void) {
   c_version.patch = (int)objc_version.patchVersion;
   return c_version;
 }
+
+void DOBJC_freePortBlockArgs(void* peer) {
+  id args = (__bridge_transfer id)peer;
+}
+
+void DOBJC_finalizePortBlockArgs(void* _, void* peer) {
+  DOBJC_runOnMainThread(DOBJC_freePortBlockArgs, peer);
+}
+
+void DOBJC_finalizePortBlockWaiter(void* _, void* peer) {
+  DOBJC_signalWaiter(peer);
+}
+
+FFI_EXPORT void DOBJC_invokeListenerPortBlock(int64_t port, void* args) {
+  printf("zxcv: NatInt 1");
+  Dart_CObject cobj;
+  cobj.type = Dart_CObject_kNativePointer;
+  cobj.value.as_native_pointer.ptr = (intptr_t)args;
+  cobj.value.as_native_pointer.size = 0;
+  cobj.value.as_native_pointer.callback = DOBJC_finalizePortBlockArgs;
+
+printf("zxcv: NatInt 2");
+  if (!Dart_PostCObject_DL(port, &cobj)) {
+    printf("zxcv: NatInt 3");
+    DOBJC_finalizePortBlockArgs(NULL, args);
+  }
+  printf("zxcv: NatInt 4");
+}
+
+FFI_EXPORT void DOBJC_invokeBlockingPortBlock(
+    int64_t port, void* args, void* waiter) {
+  Dart_CObject cargs;
+  cargs.type = Dart_CObject_kNativePointer;
+  cargs.value.as_native_pointer.ptr = (intptr_t)args;
+  cargs.value.as_native_pointer.size = 0;
+  cargs.value.as_native_pointer.callback = DOBJC_finalizePortBlockArgs;
+
+  Dart_CObject cwaiter;
+  cwaiter.type = Dart_CObject_kNativePointer;
+  cwaiter.value.as_native_pointer.ptr = (intptr_t)waiter;
+  cwaiter.value.as_native_pointer.size = 0;
+  cwaiter.value.as_native_pointer.callback = DOBJC_finalizePortBlockWaiter;
+
+  Dart_CObject* cobjArray[] = {&cargs, &cwaiter};
+  Dart_CObject cobj;
+  cobj.type = Dart_CObject_kArray;
+  cobj.value.as_array.values = cobjArray;
+  cobj.value.as_array.length = sizeof(cobjArray) / sizeof(cobjArray[0]);
+
+  if (!Dart_PostCObject_DL(port, &cobj)) {
+    DOBJC_finalizePortBlockArgs(NULL, args);
+    DOBJC_finalizePortBlockWaiter(NULL, waiter);
+  }
+}

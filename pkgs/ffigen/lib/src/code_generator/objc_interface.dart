@@ -38,6 +38,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
+    super.isInternal = false,
   }) : super(
          name:
              context.objCBuiltInFunctions.getBuiltInInterfaceName(
@@ -60,6 +61,33 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
         ),
       ],
     );
+  }
+
+  static ObjCInterface forBlockArgs(
+      Context context, String originalName, List<Parameter> params) {
+    final itf = ObjCInterface(
+      originalName: originalName,
+      apiAvailability: ApiAvailability.all,
+      context: context,
+      isInternal: true,
+    );
+    for (final p in params) {
+      itf.addMethod(ObjCMethod(
+        context: context,
+        originalName: p.originalName,
+        name: p.originalName,
+        kind: ObjCMethodKind.propertyGetter,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: p.type,
+        params: const [],
+        family: null,
+        apiAvailability: ApiAvailability.all,
+        ownershipAttribute: null,
+        consumesSelfAttribute: false,
+      ));
+    }
+    return itf;
   }
 
   void addProtocol(ObjCProtocol? proto) {

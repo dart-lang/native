@@ -51,7 +51,7 @@ FFI_EXPORT bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
 }
 
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
-  context->version = 1;
+  context->version = 2;
   context->newWaiter = DOBJC_newWaiter;
   context->awaitWaiter = DOBJC_awaitWaiter;
   context->currentIsolate = Dart_CurrentIsolate_DL;
@@ -59,5 +59,7 @@ FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
   context->exitIsolate = Dart_ExitIsolate_DL;
   context->getMainPortId = Dart_GetMainPortId_DL;
   context->getCurrentThreadOwnsIsolate = Dart_GetCurrentThreadOwnsIsolate_DL;
+  context->invokeListenerPortBlock = DOBJC_invokeListenerPortBlock;
+  context->invokeBlockingPortBlock = DOBJC_invokeBlockingPortBlock;
   return context;
 }

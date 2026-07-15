@@ -405,6 +405,57 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
+typedef _BlockCallback = Void Function(ObjectPtr);
+typedef _BlockCallbackPointer = Pointer<NativeFunction<_BlockCallback>>;
+
+/// Only for use by FFIgen bindings.
+int newBlockPort(void Function(ObjectPtr) callback, bool keepIsolateAlive) {
+  _ensureDartAPI();
+  final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
+  port.handler = (int? argsRaw) {
+    if (argsRaw == null) {
+      port.close();
+      return;
+    }
+    final argsPtr = ObjectPtr.fromAddress(argsRaw);
+    try {
+      callback(argsPtr);
+    } catch (e) {
+    } finally {
+      r.objectRelease(argsPtr);
+    }
+  };
+  return port.sendPort.nativePort;
+}
+
+/// Only for use by FFIgen bindings.
+(int, _BlockCallbackPointer) newBlockingBlockPort(void Function(ObjectPtr) callback, bool keepIsolateAlive) {
+  _ensureDartAPI();
+  final direct = NativeCallable<_BlockCallback>.isolateLocal(
+      callback)..keepIsolateAlive = false;
+  final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
+  port.handler = (List? argsRaw) {
+    if (argsRaw == null) {
+      port.close();
+      direct.close();
+      return;
+    }
+    final argsPtr = ObjectPtr.fromAddress(argsRaw[0] as int);
+    final waiter = VoidPtr.fromAddress(argsRaw[1] as int);
+    try {
+      callback(argsPtr);
+    } catch (e) {
+    } finally {
+      c.signalWaiter(waiter);
+      r.objectRelease(argsPtr);
+    }
+  };
+  return (
+    port.sendPort.nativePort,
+    direct.nativeFunction,
+  );
+}
+
 /// Only for use by FFIgen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
