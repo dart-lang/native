@@ -368,7 +368,7 @@ id objc_retainBlock(id);
   assert(ctx->version >= 1);                                                   \
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
-  __block __weak TYPE weakSelfBlock = nil;                                     \
+  __block __unsafe_unretained TYPE weakSelfBlock = nil;                        \
   TYPE strongSelfBlock = [SIG {                                                \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
@@ -385,8 +385,10 @@ id objc_retainBlock(id);
       }                                                                        \
     } else {                                                                   \
       void* waiter = ctx->newWaiter();                                         \
+      TYPE selfRetain = [weakSelfBlock copy];                                  \
       INVOKE_LISTENER;                                                         \
       ctx->awaitWaiter(waiter);                                                \
+      (void)selfRetain;                                                        \
     }                                                                          \
   } copy];                                                                     \
   weakSelfBlock = strongSelfBlock;                                             \

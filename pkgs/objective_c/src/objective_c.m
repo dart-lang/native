@@ -6,6 +6,11 @@
 #import <Foundation/NSDate.h>
 #import <Foundation/NSThread.h>
 #import <dispatch/dispatch.h>
+#import <objc/message.h>
+
+#if !__has_feature(objc_arc)
+#error "This file must be compiled with ARC enabled"
+#endif
 
 #include "ffi.h"
 #include "include/dart_api_dl.h"
@@ -14,9 +19,7 @@
 _Atomic bool _mainThreadIsListening = false;
 
 FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    _mainThreadIsListening = true;
-  });
+  _mainThreadIsListening = true;
   return Dart_InitializeApiDL(data);
 }
 
@@ -29,27 +32,36 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
     });
   }
 }
-
-@interface DOBJCWaiter : NSObject {}
-@property(strong) NSCondition* cond;
-@property bool done;
--(void)signal;
--(void)wait;
+@interface DOBJCWaiter : NSObject {
+  NSCondition* _cond;
+  bool _done;
+  bool _signaled;
+}
+- (void)signal;
+- (void)wait;
 @end
 
 @implementation DOBJCWaiter
 -(instancetype)init {
-  if (self) {
+  if (self = [super init]) {
     _cond = [[NSCondition alloc] init];
     _done = false;
+    _signaled = false;
   }
   return self;
 }
 -(void)signal {
   [_cond lock];
-  _done = true;
-  [_cond signal];
-  [_cond unlock];
+  if (!_signaled) {
+    _signaled = true;
+    _done = true;
+    [_cond signal];
+    [_cond unlock];
+    id unused = (__bridge_transfer id)(__bridge void*)self;
+    (void)unused;
+  } else {
+    [_cond unlock];
+  }
 }
 -(void)wait {
   [_cond lock];
@@ -72,11 +84,15 @@ FFI_EXPORT void* DOBJC_newWaiter(void) {
 }
 
 FFI_EXPORT void DOBJC_signalWaiter(void* waiter) {
-  if (waiter) [(__bridge_transfer DOBJCWaiter*)waiter signal];
+  @autoreleasepool {
+    if (waiter) [((__bridge DOBJCWaiter*)waiter) signal];
+  }
 }
 
 FFI_EXPORT void DOBJC_awaitWaiter(void* waiter) {
-  [(__bridge_transfer DOBJCWaiter*)waiter wait];
+  @autoreleasepool {
+    [(__bridge_transfer DOBJCWaiter*)waiter wait];
+  }
 }
 
 FFI_EXPORT Version DOBJC_getOsVesion(void) {
@@ -90,7 +106,10 @@ FFI_EXPORT Version DOBJC_getOsVesion(void) {
 }
 
 void DOBJC_freePortBlockArgs(void* peer) {
-  id args = (__bridge_transfer id)peer;
+  @autoreleasepool {
+    id args = (__bridge_transfer id)peer;
+    (void)args;
+  }
 }
 
 void DOBJC_finalizePortBlockArgs(void* _, void* peer) {
@@ -137,4 +156,34 @@ FFI_EXPORT void DOBJC_invokeBlockingPortBlock(
     DOBJC_finalizePortBlockArgs(NULL, args);
     DOBJC_finalizePortBlockWaiter(NULL, waiter);
   }
+}
+
+@interface PortBlockFinalizer : NSObject {
+  int64_t port;
+}
+- (instancetype)initWithPort:(int64_t) _port;
+@end
+
+@implementation PortBlockFinalizer
+- (instancetype)initWithPort:(int64_t) _port {
+  if (self = [super init]) {
+    port = _port;
+  }
+  return self;
+}
+- (void)dealloc {
+  printf("\nzxcv: PortBlockFinalizer.dealloc\n\n");
+  Dart_CObject cobj;
+  cobj.type = Dart_CObject_kNull;
+  Dart_PostCObject_DL(port, &cobj);
+}
+@end
+
+static const char BLOCK_FINALIZER_KEY;
+
+FFI_EXPORT void DOBJC_attachPortBlockFinalizer(void* block, int64_t port) {
+  PortBlockFinalizer* dtor = [[PortBlockFinalizer alloc] initWithPort:port];
+  objc_setAssociatedObject(
+      (__bridge id)block, &BLOCK_FINALIZER_KEY, dtor,
+      OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

@@ -68,7 +68,8 @@ FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
 FFI_EXPORT void DOBJC_invokeListenerPortBlock(int64_t port, void* args);
 FFI_EXPORT void DOBJC_invokeBlockingPortBlock(int64_t port, void* args,
-                                              void* writer);
+                                              void* waiter);
+FFI_EXPORT void DOBJC_attachPortBlockFinalizer(void *block, int64_t port);
 
 // Context object containing functions needed by the FFIgen bindings. Any
 // changes to this struct should bump the `version` field filled in by

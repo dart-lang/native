@@ -29,7 +29,7 @@ id objc_retainBlock(id);
   assert(ctx->version >= 1);                                                   \
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
-  __block __weak TYPE weakSelfBlock = nil;                                     \
+  __block __unsafe_unretained TYPE weakSelfBlock = nil;                        \
   TYPE strongSelfBlock = [SIG {                                                \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
@@ -46,31 +46,39 @@ id objc_retainBlock(id);
       }                                                                        \
     } else {                                                                   \
       void* waiter = ctx->newWaiter();                                         \
+      TYPE selfRetain = [weakSelfBlock copy];                                  \
       INVOKE_LISTENER;                                                         \
       ctx->awaitWaiter(waiter);                                                \
+      (void)selfRetain;                                                        \
     }                                                                          \
   } copy];                                                                     \
   weakSelfBlock = strongSelfBlock;                                             \
   return strongSelfBlock;
 
 
-@interface _18tji2r_BlockArgs_1pl9qdv : NSObject {
-  @public
-  id block;
-  
-} @end
-@implementation _18tji2r_BlockArgs_1pl9qdv @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_1pl9qdv : NSObject
+@property (copy) id block;
+
+@end
+@implementation _18tji2r_BlockArgs_1pl9qdv
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline)(void);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _18tji2r_wrapListenerBlock_1pl9qdv(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline weakSelfBlock = nil;
   _ListenerTrampoline strongSelfBlock = [^void() {
-    _18tji2r_BlockArgs_1pl9qdv* args = [[_18tji2r_BlockArgs_1pl9qdv alloc] init];
-    args->block = weakSelfBlock;
-    
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1pl9qdv* args = [[_18tji2r_BlockArgs_1pl9qdv alloc] init];
+      args.block = weakSelfBlock;
+      
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -81,35 +89,45 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _18tji2r_wrapBlockingBlock_1pl9qdv(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline, ^void(), {
-    _18tji2r_BlockArgs_1pl9qdv* args = [[_18tji2r_BlockArgs_1pl9qdv alloc] init];
-    args->block = weakSelfBlock;
-    
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1pl9qdv* args = [[_18tji2r_BlockArgs_1pl9qdv alloc] init];
+      args.block = weakSelfBlock;
+      
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_1pl9qdv* args = [[_18tji2r_BlockArgs_1pl9qdv alloc] init];
-    args->block = weakSelfBlock;
-    
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1pl9qdv* args = [[_18tji2r_BlockArgs_1pl9qdv alloc] init];
+      args.block = weakSelfBlock;
+      
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 
-@interface _18tji2r_BlockArgs_xtuoz7 : NSObject {
-  @public
-  id block;
-  id arg0;
-} @end
-@implementation _18tji2r_BlockArgs_xtuoz7 @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_xtuoz7 : NSObject
+@property (copy) id block;
+@property (strong) id arg0;
+@end
+@implementation _18tji2r_BlockArgs_xtuoz7
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline_1)(id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_1 _18tji2r_wrapListenerBlock_xtuoz7(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline_1 weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline_1 weakSelfBlock = nil;
   _ListenerTrampoline_1 strongSelfBlock = [^void(id arg0) {
-    _18tji2r_BlockArgs_xtuoz7* args = [[_18tji2r_BlockArgs_xtuoz7 alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_xtuoz7* args = [[_18tji2r_BlockArgs_xtuoz7 alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -120,35 +138,45 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_1 _18tji2r_wrapBlockingBlock_xtuoz7(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_1, ^void(id arg0), {
-    _18tji2r_BlockArgs_xtuoz7* args = [[_18tji2r_BlockArgs_xtuoz7 alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_xtuoz7* args = [[_18tji2r_BlockArgs_xtuoz7 alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_xtuoz7* args = [[_18tji2r_BlockArgs_xtuoz7 alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_xtuoz7* args = [[_18tji2r_BlockArgs_xtuoz7 alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 
-@interface _18tji2r_BlockArgs_1bqef4y : NSObject {
-  @public
-  id block;
-  int32_t arg0;
-} @end
-@implementation _18tji2r_BlockArgs_1bqef4y @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_1bqef4y : NSObject
+@property (copy) id block;
+@property int32_t arg0;
+@end
+@implementation _18tji2r_BlockArgs_1bqef4y
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline_2)(int32_t arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_2 _18tji2r_wrapListenerBlock_1bqef4y(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline_2 weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline_2 weakSelfBlock = nil;
   _ListenerTrampoline_2 strongSelfBlock = [^void(int32_t arg0) {
-    _18tji2r_BlockArgs_1bqef4y* args = [[_18tji2r_BlockArgs_1bqef4y alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1bqef4y* args = [[_18tji2r_BlockArgs_1bqef4y alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -159,35 +187,45 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_2 _18tji2r_wrapBlockingBlock_1bqef4y(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_2, ^void(int32_t arg0), {
-    _18tji2r_BlockArgs_1bqef4y* args = [[_18tji2r_BlockArgs_1bqef4y alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1bqef4y* args = [[_18tji2r_BlockArgs_1bqef4y alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_1bqef4y* args = [[_18tji2r_BlockArgs_1bqef4y alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1bqef4y* args = [[_18tji2r_BlockArgs_1bqef4y alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 
-@interface _18tji2r_BlockArgs_yhkuco : NSObject {
-  @public
-  id block;
-  int32_t * arg0;
-} @end
-@implementation _18tji2r_BlockArgs_yhkuco @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_yhkuco : NSObject
+@property (copy) id block;
+@property int32_t * arg0;
+@end
+@implementation _18tji2r_BlockArgs_yhkuco
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline_3)(int32_t * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_3 _18tji2r_wrapListenerBlock_yhkuco(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline_3 weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline_3 weakSelfBlock = nil;
   _ListenerTrampoline_3 strongSelfBlock = [^void(int32_t * arg0) {
-    _18tji2r_BlockArgs_yhkuco* args = [[_18tji2r_BlockArgs_yhkuco alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_yhkuco* args = [[_18tji2r_BlockArgs_yhkuco alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -198,39 +236,49 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_3 _18tji2r_wrapBlockingBlock_yhkuco(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_3, ^void(int32_t * arg0), {
-    _18tji2r_BlockArgs_yhkuco* args = [[_18tji2r_BlockArgs_yhkuco alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_yhkuco* args = [[_18tji2r_BlockArgs_yhkuco alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_yhkuco* args = [[_18tji2r_BlockArgs_yhkuco alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_yhkuco* args = [[_18tji2r_BlockArgs_yhkuco alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 
-@interface _18tji2r_BlockArgs_li50va : NSObject {
-  @public
-  id block;
-  int32_t arg0;
-  Vec4 arg1;
-  char * arg2;
-} @end
-@implementation _18tji2r_BlockArgs_li50va @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_li50va : NSObject
+@property (copy) id block;
+@property int32_t arg0;
+@property Vec4 arg1;
+@property char * arg2;
+@end
+@implementation _18tji2r_BlockArgs_li50va
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline_4)(int32_t arg0, Vec4 arg1, char * arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_4 _18tji2r_wrapListenerBlock_li50va(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline_4 weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline_4 weakSelfBlock = nil;
   _ListenerTrampoline_4 strongSelfBlock = [^void(int32_t arg0, Vec4 arg1, char * arg2) {
-    _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    args->arg1 = arg1;
-    args->arg2 = arg2;
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+    args.arg2 = arg2;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -241,39 +289,49 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_4 _18tji2r_wrapBlockingBlock_li50va(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_4, ^void(int32_t arg0, Vec4 arg1, char * arg2), {
-    _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    args->arg1 = arg1;
-    args->arg2 = arg2;
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+    args.arg2 = arg2;
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    args->arg1 = arg1;
-    args->arg2 = arg2;
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+    args.arg2 = arg2;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 
-@interface _18tji2r_BlockArgs_f167m6 : NSObject {
-  @public
-  id block;
-  id arg0;
-} @end
-@implementation _18tji2r_BlockArgs_f167m6 @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_f167m6 : NSObject
+@property (copy) id block;
+@property (copy) id arg0;
+@end
+@implementation _18tji2r_BlockArgs_f167m6
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline_5)(id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_5 _18tji2r_wrapListenerBlock_f167m6(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline_5 weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline_5 weakSelfBlock = nil;
   _ListenerTrampoline_5 strongSelfBlock = [^void(id arg0) {
-    _18tji2r_BlockArgs_f167m6* args = [[_18tji2r_BlockArgs_f167m6 alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_f167m6* args = [[_18tji2r_BlockArgs_f167m6 alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -284,39 +342,49 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_5 _18tji2r_wrapBlockingBlock_f167m6(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_5, ^void(id arg0), {
-    _18tji2r_BlockArgs_f167m6* args = [[_18tji2r_BlockArgs_f167m6 alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_f167m6* args = [[_18tji2r_BlockArgs_f167m6 alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_f167m6* args = [[_18tji2r_BlockArgs_f167m6 alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_f167m6* args = [[_18tji2r_BlockArgs_f167m6 alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 
-@interface _18tji2r_BlockArgs_ru30ue : NSObject {
-  @public
-  id block;
-  struct Vec2 arg0;
-  Vec4 arg1;
-  id arg2;
-} @end
-@implementation _18tji2r_BlockArgs_ru30ue @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_ru30ue : NSObject
+@property (copy) id block;
+@property struct Vec2 arg0;
+@property Vec4 arg1;
+@property (strong) id arg2;
+@end
+@implementation _18tji2r_BlockArgs_ru30ue
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline_6)(struct Vec2 arg0, Vec4 arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_6 _18tji2r_wrapListenerBlock_ru30ue(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline_6 weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline_6 weakSelfBlock = nil;
   _ListenerTrampoline_6 strongSelfBlock = [^void(struct Vec2 arg0, Vec4 arg1, id arg2) {
-    _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    args->arg1 = arg1;
-    args->arg2 = arg2;
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+    args.arg2 = arg2;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -327,39 +395,49 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_6 _18tji2r_wrapBlockingBlock_ru30ue(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_6, ^void(struct Vec2 arg0, Vec4 arg1, id arg2), {
-    _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    args->arg1 = arg1;
-    args->arg2 = arg2;
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+    args.arg2 = arg2;
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    args->arg1 = arg1;
-    args->arg2 = arg2;
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+    args.arg2 = arg2;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 
-@interface _18tji2r_BlockArgs_1d9e4oe : NSObject {
-  @public
-  id block;
-  struct objc_selector * arg0;
-} @end
-@implementation _18tji2r_BlockArgs_1d9e4oe @end
+__attribute__((visibility("default")))
+@interface _18tji2r_BlockArgs_1d9e4oe : NSObject
+@property (copy) id block;
+@property struct objc_selector * arg0;
+@end
+@implementation _18tji2r_BlockArgs_1d9e4oe
+- (void)dealloc {
+  printf("\nzxcv: BlockArgs.dealloc\n\n");
+}
+@end
 
 typedef void  (^_ListenerTrampoline_7)(struct objc_selector * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_7 _18tji2r_wrapListenerBlock_1d9e4oe(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak _ListenerTrampoline_7 weakSelfBlock = nil;
+  __block __unsafe_unretained _ListenerTrampoline_7 weakSelfBlock = nil;
   _ListenerTrampoline_7 strongSelfBlock = [^void(struct objc_selector * arg0) {
-    _18tji2r_BlockArgs_1d9e4oe* args = [[_18tji2r_BlockArgs_1d9e4oe alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1d9e4oe* args = [[_18tji2r_BlockArgs_1d9e4oe alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -370,15 +448,19 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_7 _18tji2r_wrapBlockingBlock_1d9e4oe(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_7, ^void(struct objc_selector * arg0), {
-    _18tji2r_BlockArgs_1d9e4oe* args = [[_18tji2r_BlockArgs_1d9e4oe alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1d9e4oe* args = [[_18tji2r_BlockArgs_1d9e4oe alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    _18tji2r_BlockArgs_1d9e4oe* args = [[_18tji2r_BlockArgs_1d9e4oe alloc] init];
-    args->block = weakSelfBlock;
-    args->arg0 = arg0;
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      _18tji2r_BlockArgs_1d9e4oe* args = [[_18tji2r_BlockArgs_1d9e4oe alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 #undef BLOCKING_BLOCK_IMPL

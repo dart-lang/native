@@ -313,8 +313,8 @@ abstract final class $name {
   /// until it is garbage collected by both Dart and ObjC.
   static $blockType listener(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
-    return $blockType($wrapListenerFn(
-        $newBlockPort($listenerConvFn, keepIsolateAlive), $objCContext),
+    return $blockType(
+        $newBlockPort($wrapListenerFn, $listenerConvFn, keepIsolateAlive),
         retain: false, release: true);
   }
 
@@ -330,10 +330,9 @@ abstract final class $name {
   /// indefinitely, or have other undefined behavior.
   static $blockType blocking(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
-    final (port, direct) =
-        $newBlockingBlockPort($listenerConvFn, keepIsolateAlive);
-    return $blockType($wrapBlockingFn(
-        port, $objCContext, direct), retain: false, release: true);
+    return $blockType($newBlockingBlockPort(
+            $wrapBlockingFn, $listenerConvFn, keepIsolateAlive),
+        retain: false, release: true);
   }
 ''');
     }
@@ -422,10 +421,16 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
-      final argWithType = param.getNativeType(context, varName: argName);
+      final isBlock = param.type is ObjCBlock || param.type.typealiasType is ObjCBlock;
+      final nativeType = param.getNativeType(context, varName: argName);
+      final isObj = nativeType.startsWith('id ') || isBlock || param.type is ObjCInterface || param.type.typealiasType is ObjCInterface || param.type is ObjCNullable;
+      final argWithType = isObj
+          ? 'id $argName'
+          : param.getNativeType(context, varName: argName);
       argsReceived.add(argWithType);
-      argDecls.add('$argWithType;');
-      argAssigns.add('args->$argName = $argName;');
+      final propAttr = isBlock ? '(copy) ' : (isObj ? '(strong) ' : '');
+      argDecls.add('@property ${propAttr}$argWithType;');
+      argAssigns.add('args.$argName = $argName;');
       retains.add(param.type.generateRetain(argName) ?? argName);
     }
     final blockingRetains = ['nil', ...retains];
@@ -437,10 +442,10 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       _waiterParam.getNativeType(context, varName: _waiterParam.name),
       ...argsReceived,
     ].join(', ');
-    final argDeclStr = argDecls.join('\n  ');
+    final argDeclStr = argDecls.join('\n');
     final argAssignStr = argAssigns.join('\n    ');
 
-    final argClassName = _argClass!.name;
+    final argClassName = _argClass!.originalName;
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
     final listenerName = Namer.cSafeName(
@@ -452,23 +457,29 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     return '''
 
-@interface $argClassName : NSObject {
-  @public
-  id block;
-  $argDeclStr
-} @end
-@implementation $argClassName @end
+__attribute__((visibility("default")))
+@interface $argClassName : NSObject
+@property (copy) id block;
+$argDeclStr
+@end
+@implementation $argClassName
+- (void)dealloc {
+  printf("\\nzxcv: BlockArgs.dealloc\\n\\n");
+}
+@end
 
 typedef ${returnType.getNativeType(context)} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __weak $listenerName weakSelfBlock = nil;
+  __block __unsafe_unretained $listenerName weakSelfBlock = nil;
   $listenerName strongSelfBlock = [^void($argStr) {
-    $argClassName* args = [[$argClassName alloc] init];
-    args->block = weakSelfBlock;
-    $argAssignStr
-    ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    @autoreleasepool {
+      $argClassName* args = [[$argClassName alloc] init];
+      args.block = weakSelfBlock;
+      $argAssignStr
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
   } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
@@ -479,15 +490,19 @@ __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, $listenerName, ^void($argStr), {
-    $argClassName* args = [[$argClassName alloc] init];
-    args->block = weakSelfBlock;
-    $argAssignStr
-    directInvoke((__bridge_retained void*)args);
+    @autoreleasepool {
+      $argClassName* args = [[$argClassName alloc] init];
+      args.block = weakSelfBlock;
+      $argAssignStr
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    $argClassName* args = [[$argClassName alloc] init];
-    args->block = weakSelfBlock;
-    $argAssignStr
-    ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    @autoreleasepool {
+      $argClassName* args = [[$argClassName alloc] init];
+      args.block = weakSelfBlock;
+      $argAssignStr
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 ''';

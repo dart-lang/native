@@ -83,7 +83,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
         params: const [],
         family: null,
         apiAvailability: ApiAvailability.all,
-        ownershipAttribute: null,
+        ownershipAttribute: ObjCMethodOwnership.retained,
         consumesSelfAttribute: false,
       ));
     }
