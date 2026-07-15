@@ -55,7 +55,17 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         .where((c) => c.rawValue.startsWith('-'))
         .isNotEmpty;
   } else {
-    final decl = Declaration(usr: usr, originalName: enumName);
+    // For C++ enums declared inside one or more scopes, [qualifiedName] is the
+    // fully-qualified name (e.g. `outer::inner::Color` or
+    // `outer::Class::Color`). At global scope it equals [enumName].
+    final qualifiedName = _qualifiedName(usr, enumName);
+    final decl = Declaration(usr: usr, originalName: qualifiedName);
+    var dartName = config.enums.rename(decl);
+    if (dartName.contains('::')) {
+      // C++ scope separators are not valid in Dart identifiers. Flatten any
+      // scopes left after user renaming, preserving the renamed prefix if any.
+      dartName = _flattenQualifiedName(dartName);
+    }
     logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: usr,
@@ -64,8 +74,8 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         cursor,
         availability: apiAvailability.dartDoc,
       ),
-      originalName: enumName,
-      name: config.enums.rename(decl),
+      originalName: qualifiedName,
+      name: dartName,
       nativeType: nativeType,
       context: context,
       apiAvailability: apiAvailability,
@@ -132,3 +142,28 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         apiAvailability: apiAvailability,
       );
 }
+
+/// Builds the fully-qualified C++ name of an enum from its [usr].
+///
+/// A USR like `c:@N@outer@S@Palette@E@Tone` yields
+/// `outer::Palette::Tone`. At global scope (no enclosing namespace or class)
+/// this just returns [leafName].
+String _qualifiedName(String usr, String leafName) {
+  // After the `c:` prefix, USR tokens alternate between a single-char kind
+  // marker (`N` for namespace, `S` for class/struct, `E` for enum, etc.) and
+  // its name. Collect the names of the enclosing scopes by stepping over each
+  // marker/name pair.
+  final parts = usr.split('@');
+  final scopes = <String>[];
+  for (var i = 1; i + 1 < parts.length; i += 2) {
+    if (parts[i] == 'N' || parts[i] == 'S') scopes.add(parts[i + 1]);
+  }
+  if (scopes.isEmpty) return leafName;
+  return [...scopes, leafName].join('::');
+}
+
+/// Flattens a `::`-qualified C++ name into a single Dart identifier by joining
+/// the path segments with `$`, e.g. `outer::inner::Color` becomes
+/// `outer$inner$Color`.
+String _flattenQualifiedName(String qualifiedName) =>
+    qualifiedName.split('::').where((s) => s.isNotEmpty).join(r'$');

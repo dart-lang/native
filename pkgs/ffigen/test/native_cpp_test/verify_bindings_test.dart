@@ -48,6 +48,25 @@ void main() {
           classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
         ),
       ),
+      'cpp_namespace_enum': FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('cpp_namespace_enum_test_bindings.dart'),
+        ),
+        headers: Headers(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_namespace_enum_test.h')),
+          ],
+          compilerOptions: ['-x', 'c++'],
+        ),
+        enums: Enums.includeSet({
+          'GlobalBox::State',
+          'GlobalPalette::Shade',
+          'outer::Color',
+          'outer::inner::Color',
+          'outer::Palette::Tone',
+          'other::Color',
+        }),
+      ),
     };
 
     for (final testFile in testFiles) {
