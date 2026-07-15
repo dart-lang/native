@@ -464,12 +464,12 @@ __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   __block __weak $listenerName weakSelfBlock = nil;
-  $listenerName strongSelfBlock = ^void($argStr) {
+  $listenerName strongSelfBlock = [^void($argStr) {
     $argClassName* args = [[$argClassName alloc] init];
     args->block = weakSelfBlock;
     $argAssignStr
     ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
-  };
+  } copy];
   weakSelfBlock = strongSelfBlock;
   return strongSelfBlock;
 }

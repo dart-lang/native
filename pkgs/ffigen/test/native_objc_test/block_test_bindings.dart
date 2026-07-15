@@ -2317,7 +2317,7 @@ abstract final class ObjCBlock_ffiVoid_DummyObject {
     return objc.ObjCBlock<ffi.Void Function(DummyObject)>(
       _18tji2r_wrapListenerBlock_xtuoz7(
         objc.newBlockPort((ffi.Pointer<objc.ObjCObjectImpl> rawArgs) {
-          final args = _18tji2r_BlockArgs_xtuoz7$1.fromPointer(
+          final args = _18tji2r_BlockArgs_xtuoz7.fromPointer(
             rawArgs,
             retain: false,
             release: false,
@@ -2349,7 +2349,7 @@ abstract final class ObjCBlock_ffiVoid_DummyObject {
     final (port, direct) = objc.newBlockingBlockPort((
       ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
     ) {
-      final args = _18tji2r_BlockArgs_xtuoz7$1.fromPointer(
+      final args = _18tji2r_BlockArgs_xtuoz7.fromPointer(
         rawArgs,
         retain: false,
         release: false,
@@ -2493,7 +2493,7 @@ abstract final class ObjCBlock_ffiVoid_DummyObject$1 {
     return objc.ObjCBlock<ffi.Void Function(DummyObject?)>(
       _18tji2r_wrapListenerBlock_xtuoz7(
         objc.newBlockPort((ffi.Pointer<objc.ObjCObjectImpl> rawArgs) {
-          final args = _18tji2r_BlockArgs_xtuoz7$2.fromPointer(
+          final args = _18tji2r_BlockArgs_xtuoz7$1.fromPointer(
             rawArgs,
             retain: false,
             release: false,
@@ -2525,7 +2525,7 @@ abstract final class ObjCBlock_ffiVoid_DummyObject$1 {
     final (port, direct) = objc.newBlockingBlockPort((
       ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
     ) {
-      final args = _18tji2r_BlockArgs_xtuoz7$2.fromPointer(
+      final args = _18tji2r_BlockArgs_xtuoz7$1.fromPointer(
         rawArgs,
         retain: false,
         release: false,
@@ -3375,7 +3375,7 @@ abstract final class ObjCBlock_ffiVoid_NSString {
     return objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
       _18tji2r_wrapListenerBlock_xtuoz7(
         objc.newBlockPort((ffi.Pointer<objc.ObjCObjectImpl> rawArgs) {
-          final args = _18tji2r_BlockArgs_xtuoz7.fromPointer(
+          final args = _18tji2r_BlockArgs_xtuoz7$2.fromPointer(
             rawArgs,
             retain: false,
             release: false,
@@ -3407,7 +3407,7 @@ abstract final class ObjCBlock_ffiVoid_NSString {
     final (port, direct) = objc.newBlockingBlockPort((
       ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
     ) {
-      final args = _18tji2r_BlockArgs_xtuoz7.fromPointer(
+      final args = _18tji2r_BlockArgs_xtuoz7$2.fromPointer(
         rawArgs,
         retain: false,
         release: false,
@@ -4185,10 +4185,10 @@ extension type _18tji2r_BlockArgs_xtuoz7._(objc.ObjCObject object$)
 }
 
 extension _18tji2r_BlockArgs_xtuoz7$Methods on _18tji2r_BlockArgs_xtuoz7 {
-  objc.NSString get arg0 {
+  DummyObject get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return DummyObject.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -4219,10 +4219,12 @@ extension type _18tji2r_BlockArgs_xtuoz7$1._(objc.ObjCObject object$)
 }
 
 extension _18tji2r_BlockArgs_xtuoz7$1$Methods on _18tji2r_BlockArgs_xtuoz7$1 {
-  DummyObject get arg0 {
+  DummyObject? get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return DummyObject.fromPointer($ret, retain: true, release: true);
+    return $ret.address == 0
+        ? null
+        : DummyObject.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -4253,12 +4255,10 @@ extension type _18tji2r_BlockArgs_xtuoz7$2._(objc.ObjCObject object$)
 }
 
 extension _18tji2r_BlockArgs_xtuoz7$2$Methods on _18tji2r_BlockArgs_xtuoz7$2 {
-  DummyObject? get arg0 {
+  objc.NSString get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : DummyObject.fromPointer($ret, retain: true, release: true);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
 

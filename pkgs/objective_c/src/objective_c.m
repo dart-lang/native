@@ -102,19 +102,15 @@ void DOBJC_finalizePortBlockWaiter(void* _, void* peer) {
 }
 
 FFI_EXPORT void DOBJC_invokeListenerPortBlock(int64_t port, void* args) {
-  printf("zxcv: NatInt 1");
   Dart_CObject cobj;
   cobj.type = Dart_CObject_kNativePointer;
   cobj.value.as_native_pointer.ptr = (intptr_t)args;
   cobj.value.as_native_pointer.size = 0;
   cobj.value.as_native_pointer.callback = DOBJC_finalizePortBlockArgs;
 
-printf("zxcv: NatInt 2");
   if (!Dart_PostCObject_DL(port, &cobj)) {
-    printf("zxcv: NatInt 3");
     DOBJC_finalizePortBlockArgs(NULL, args);
   }
-  printf("zxcv: NatInt 4");
 }
 
 FFI_EXPORT void DOBJC_invokeBlockingPortBlock(

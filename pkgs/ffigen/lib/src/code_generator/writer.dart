@@ -369,7 +369,7 @@ id objc_retainBlock(id);
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
   __block __weak TYPE weakSelfBlock = nil;                                     \
-  TYPE strongSelfBlock = SIG {                                                 \
+  TYPE strongSelfBlock = [SIG {                                                \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
         currentIsolate == NULL &&                                              \
@@ -388,7 +388,7 @@ id objc_retainBlock(id);
       INVOKE_LISTENER;                                                         \
       ctx->awaitWaiter(waiter);                                                \
     }                                                                          \
-  };                                                                           \
+  } copy];                                                                     \
   weakSelfBlock = strongSelfBlock;                                             \
   return strongSelfBlock;
 
