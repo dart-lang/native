@@ -304,9 +304,13 @@ class Parameter extends AstNode {
        // used in C for Pointer to function.
        type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
-  String getNativeType(Context context, {String varName = ''}) =>
+  String getNativeType(
+    Context context, {
+    String varName = '',
+    bool withAttr = true,
+  }) =>
       '${type.getNativeType(context, varName: varName)}'
-      '${objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
+      '${withAttr && objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
 
   @override
   String toString() => '$type $symbol';

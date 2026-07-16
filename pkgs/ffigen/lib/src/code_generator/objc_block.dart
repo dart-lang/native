@@ -426,15 +426,15 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       final argName = 'arg$i';
       final type = param.type.typealiasType;
       final isBlock = type is ObjCBlock;
-      final nativeType = param.getNativeType(context, varName: argName);
       final isObj =
-          nativeType.startsWith('id ') ||
-          isBlock ||
+          type is ObjCObjectPointer ||
           type is ObjCInterface ||
           type is ObjCNullable;
-      final argWithType = isObj
-          ? 'id $argName'
-          : param.getNativeType(context, varName: argName);
+      final argWithType = param.getNativeType(
+        context,
+        varName: argName,
+        withAttr: false,
+      );
       argsReceived.add(argWithType);
       final propAttr = isBlock ? '(copy) ' : (isObj ? '(strong) ' : '');
       argDecls.add('@property $propAttr$argWithType;');

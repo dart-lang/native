@@ -29927,7 +29927,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
       objc.newBlockPort(_1wx624s_wrapListenerBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$2.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -29958,7 +29958,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
       objc.newBlockingBlockPort(_1wx624s_wrapBlockingBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$2.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -32640,7 +32640,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
       objc.newBlockPort(_1wx624s_wrapListenerBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$2.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -32676,7 +32676,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
       objc.newBlockingBlockPort(_1wx624s_wrapBlockingBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$2.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -35470,18 +35470,20 @@ extension type _1wx624s_BlockArgs_pfv6jd$2._(objc.ObjCObject object$)
 }
 
 extension _1wx624s_BlockArgs_pfv6jd$2$Methods on _1wx624s_BlockArgs_pfv6jd$2 {
-  NSSecureCoding? get arg0 {
+  NSURL? get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
     return $ret.address == 0
         ? null
-        : NSSecureCoding.fromPointer($ret, retain: true, release: true);
+        : NSURL.fromPointer($ret, retain: true, release: true);
   }
 
-  NSError get arg1 {
+  NSError? get arg1 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return NSError.fromPointer($ret, retain: true, release: true);
+    return $ret.address == 0
+        ? null
+        : NSError.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -35512,20 +35514,18 @@ extension type _1wx624s_BlockArgs_pfv6jd$3._(objc.ObjCObject object$)
 }
 
 extension _1wx624s_BlockArgs_pfv6jd$3$Methods on _1wx624s_BlockArgs_pfv6jd$3 {
-  NSURL? get arg0 {
+  NSSecureCoding? get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
     return $ret.address == 0
         ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+        : NSSecureCoding.fromPointer($ret, retain: true, release: true);
   }
 
-  NSError? get arg1 {
+  NSError get arg1 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return $ret.address == 0
-        ? null
-        : NSError.fromPointer($ret, retain: true, release: true);
+    return NSError.fromPointer($ret, retain: true, release: true);
   }
 }
 
