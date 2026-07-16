@@ -1,7 +1,7 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
-#import "block_annotation_test.h"
+#import "protocol_test.h"
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
@@ -57,95 +57,52 @@ id objc_retainBlock(id);
 
 
 __attribute__((visibility("default"))) __attribute__((used))
-Protocol* _z0xonr_BlockAnnotationTestProtocol(void) { return @protocol(BlockAnnotationTestProtocol); }
+Protocol* _13hhotk_EmptyProtocol(void) { return @protocol(EmptyProtocol); }
 
-typedef id  (^_ProtocolTrampoline)(void * sel);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _z0xonr_protocolTrampoline_zb0vvk(id target, void * sel) {
+Protocol* _13hhotk_MyProtocol(void) { return @protocol(MyProtocol); }
+
+typedef int32_t  (^_ProtocolTrampoline)(void * sel);
+__attribute__((visibility("default"))) __attribute__((used))
+int32_t  _13hhotk_protocolTrampoline_1d4mjzg(id target, void * sel) {
   return ((_ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
 }
 
-typedef id  (^_ProtocolTrampoline_1)(void * sel);
+typedef int32_t  (^_ProtocolTrampoline_1)(void * sel, int32_t arg1, int32_t arg2, int32_t arg3, int32_t arg4);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _z0xonr_protocolTrampoline_1mbt9g9(id target, void * sel) {
-  return ((_ProtocolTrampoline_1)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
+int32_t  _13hhotk_protocolTrampoline_ct0ie0(id target, void * sel, int32_t arg1, int32_t arg2, int32_t arg3, int32_t arg4) {
+  return ((_ProtocolTrampoline_1)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3, arg4);
 }
 
-typedef id  (^_ProtocolTrampoline_2)(void * sel, id arg1);
+typedef int32_t  (^_ProtocolTrampoline_2)(void * sel, SomeStruct arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _z0xonr_protocolTrampoline_xr62hr(id target, void * sel, id arg1) {
+int32_t  _13hhotk_protocolTrampoline_1pfwxcz(id target, void * sel, SomeStruct arg1) {
   return ((_ProtocolTrampoline_2)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline_3)(void * sel, id arg1 __attribute__((ns_consumed)));
+typedef id  (^_ProtocolTrampoline_3)(void * sel, id arg1, double arg2);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _z0xonr_protocolTrampoline_cww6wh(id target, void * sel, id arg1 __attribute__((ns_consumed))) {
-  return ((_ProtocolTrampoline_3)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+id  _13hhotk_protocolTrampoline_1s2pox8(id target, void * sel, id arg1, double arg2) {
+  return ((_ProtocolTrampoline_3)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
 }
 
 __attribute__((visibility("default")))
-@interface _z0xonr_BlockArgs_1pl9qdv : NSObject
-@property (copy) id block;
-
-@end
-@implementation _z0xonr_BlockArgs_1pl9qdv
-@end
-
-typedef void  (^_ListenerTrampoline)(void);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _z0xonr_wrapListenerBlock_1pl9qdv(
-    int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline weakSelfBlock = nil;
-  _ListenerTrampoline strongSelfBlock = [^void() {
-    @autoreleasepool {
-      _z0xonr_BlockArgs_1pl9qdv* args = [[_z0xonr_BlockArgs_1pl9qdv alloc] init];
-      args.block = weakSelfBlock;
-      
-      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
-    }
-  } copy];
-  weakSelfBlock = strongSelfBlock;
-  return strongSelfBlock;
-}
-
-typedef void  (^_BlockingTrampoline)(void * waiter);
-__attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline _z0xonr_wrapBlockingBlock_1pl9qdv(int64_t port, DOBJC_Context* ctx,
-    void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline, ^void(), {
-    @autoreleasepool {
-      _z0xonr_BlockArgs_1pl9qdv* args = [[_z0xonr_BlockArgs_1pl9qdv alloc] init];
-      args.block = weakSelfBlock;
-      
-      directInvoke((__bridge_retained void*)args);
-    }
-  }, {
-    @autoreleasepool {
-      _z0xonr_BlockArgs_1pl9qdv* args = [[_z0xonr_BlockArgs_1pl9qdv alloc] init];
-      args.block = weakSelfBlock;
-      
-      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
-    }
-  });
-}
-
-__attribute__((visibility("default")))
-@interface _z0xonr_BlockArgs_18v1jvf : NSObject
+@interface _13hhotk_BlockArgs_1pbq496 : NSObject
 @property (copy) id block;
 @property void * arg0;
-@property (strong) id arg1;
+@property int32_t arg1;
 @end
-@implementation _z0xonr_BlockArgs_18v1jvf
+@implementation _13hhotk_BlockArgs_1pbq496
 @end
 
-typedef void  (^_ListenerTrampoline_1)(void * arg0, id arg1);
+typedef void  (^_ListenerTrampoline)(void * arg0, int32_t arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_1 _z0xonr_wrapListenerBlock_18v1jvf(
+_ListenerTrampoline _13hhotk_wrapListenerBlock_1pbq496(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_1 weakSelfBlock = nil;
-  _ListenerTrampoline_1 strongSelfBlock = [^void(void * arg0, id arg1) {
+  __block __unsafe_unretained _ListenerTrampoline weakSelfBlock = nil;
+  _ListenerTrampoline strongSelfBlock = [^void(void * arg0, int32_t arg1) {
     @autoreleasepool {
-      _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
+      _13hhotk_BlockArgs_1pbq496* args = [[_13hhotk_BlockArgs_1pbq496 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -156,13 +113,13 @@ _ListenerTrampoline_1 _z0xonr_wrapListenerBlock_18v1jvf(
   return strongSelfBlock;
 }
 
-typedef void  (^_BlockingTrampoline_1)(void * waiter, void * arg0, id arg1);
+typedef void  (^_BlockingTrampoline)(void * waiter, void * arg0, int32_t arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_1 _z0xonr_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Context* ctx,
+_ListenerTrampoline _13hhotk_wrapBlockingBlock_1pbq496(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_1, ^void(void * arg0, id arg1), {
+  BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline, ^void(void * arg0, int32_t arg1), {
     @autoreleasepool {
-      _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
+      _13hhotk_BlockArgs_1pbq496* args = [[_13hhotk_BlockArgs_1pbq496 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -170,7 +127,7 @@ _ListenerTrampoline_1 _z0xonr_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Cont
     }
   }, {
     @autoreleasepool {
-      _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
+      _13hhotk_BlockArgs_1pbq496* args = [[_13hhotk_BlockArgs_1pbq496 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -179,29 +136,85 @@ _ListenerTrampoline_1 _z0xonr_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Cont
   });
 }
 
-typedef void  (^_ProtocolTrampoline_4)(void * sel, id arg1);
+typedef void  (^_ProtocolTrampoline_4)(void * sel, int32_t arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-void  _z0xonr_protocolTrampoline_18v1jvf(id target, void * sel, id arg1) {
+void  _13hhotk_protocolTrampoline_1pbq496(id target, void * sel, int32_t arg1) {
   return ((_ProtocolTrampoline_4)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
 __attribute__((visibility("default")))
-@interface _z0xonr_BlockArgs_6yc3kd : NSObject
+@interface _13hhotk_BlockArgs_8r9qkg : NSObject
+@property (copy) id block;
+@property void * arg0;
+@property int32_t * arg1;
+@end
+@implementation _13hhotk_BlockArgs_8r9qkg
+@end
+
+typedef void  (^_ListenerTrampoline_1)(void * arg0, int32_t * arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_1 _13hhotk_wrapListenerBlock_8r9qkg(
+    int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  __block __unsafe_unretained _ListenerTrampoline_1 weakSelfBlock = nil;
+  _ListenerTrampoline_1 strongSelfBlock = [^void(void * arg0, int32_t * arg1) {
+    @autoreleasepool {
+      _13hhotk_BlockArgs_8r9qkg* args = [[_13hhotk_BlockArgs_8r9qkg alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
+  } copy];
+  weakSelfBlock = strongSelfBlock;
+  return strongSelfBlock;
+}
+
+typedef void  (^_BlockingTrampoline_1)(void * waiter, void * arg0, int32_t * arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_1 _13hhotk_wrapBlockingBlock_8r9qkg(int64_t port, DOBJC_Context* ctx,
+    void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_1, ^void(void * arg0, int32_t * arg1), {
+    @autoreleasepool {
+      _13hhotk_BlockArgs_8r9qkg* args = [[_13hhotk_BlockArgs_8r9qkg alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+      directInvoke((__bridge_retained void*)args);
+    }
+  }, {
+    @autoreleasepool {
+      _13hhotk_BlockArgs_8r9qkg* args = [[_13hhotk_BlockArgs_8r9qkg alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+    args.arg1 = arg1;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
+  });
+}
+
+typedef void  (^_ProtocolTrampoline_5)(void * sel, int32_t * arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+void  _13hhotk_protocolTrampoline_8r9qkg(id target, void * sel, int32_t * arg1) {
+  return ((_ProtocolTrampoline_5)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+}
+
+__attribute__((visibility("default")))
+@interface _13hhotk_BlockArgs_18v1jvf : NSObject
 @property (copy) id block;
 @property void * arg0;
 @property (strong) id arg1;
 @end
-@implementation _z0xonr_BlockArgs_6yc3kd
+@implementation _13hhotk_BlockArgs_18v1jvf
 @end
 
 typedef void  (^_ListenerTrampoline_2)(void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_2 _z0xonr_wrapListenerBlock_6yc3kd(
+_ListenerTrampoline_2 _13hhotk_wrapListenerBlock_18v1jvf(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   __block __unsafe_unretained _ListenerTrampoline_2 weakSelfBlock = nil;
   _ListenerTrampoline_2 strongSelfBlock = [^void(void * arg0, id arg1) {
     @autoreleasepool {
-      _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
+      _13hhotk_BlockArgs_18v1jvf* args = [[_13hhotk_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -214,11 +227,11 @@ _ListenerTrampoline_2 _z0xonr_wrapListenerBlock_6yc3kd(
 
 typedef void  (^_BlockingTrampoline_2)(void * waiter, void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_2 _z0xonr_wrapBlockingBlock_6yc3kd(int64_t port, DOBJC_Context* ctx,
+_ListenerTrampoline_2 _13hhotk_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Context* ctx,
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_2, ^void(void * arg0, id arg1), {
     @autoreleasepool {
-      _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
+      _13hhotk_BlockArgs_18v1jvf* args = [[_13hhotk_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -226,7 +239,7 @@ _ListenerTrampoline_2 _z0xonr_wrapBlockingBlock_6yc3kd(int64_t port, DOBJC_Conte
     }
   }, {
     @autoreleasepool {
-      _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
+      _13hhotk_BlockArgs_18v1jvf* args = [[_13hhotk_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -235,11 +248,23 @@ _ListenerTrampoline_2 _z0xonr_wrapBlockingBlock_6yc3kd(int64_t port, DOBJC_Conte
   });
 }
 
-typedef void  (^_ProtocolTrampoline_5)(void * sel, id arg1 __attribute__((ns_consumed)));
+typedef void  (^_ProtocolTrampoline_6)(void * sel, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-void  _z0xonr_protocolTrampoline_6yc3kd(id target, void * sel, id arg1 __attribute__((ns_consumed))) {
-  return ((_ProtocolTrampoline_5)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+void  _13hhotk_protocolTrampoline_18v1jvf(id target, void * sel, id arg1) {
+  return ((_ProtocolTrampoline_6)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
+
+typedef id  (^_ProtocolTrampoline_7)(void * sel);
+__attribute__((visibility("default"))) __attribute__((used))
+id  _13hhotk_protocolTrampoline_1mbt9g9(id target, void * sel) {
+  return ((_ProtocolTrampoline_7)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
+}
+
+__attribute__((visibility("default"))) __attribute__((used))
+Protocol* _13hhotk_SecondaryProtocol(void) { return @protocol(SecondaryProtocol); }
+
+__attribute__((visibility("default"))) __attribute__((used))
+Protocol* _13hhotk_UnusedProtocol(void) { return @protocol(UnusedProtocol); }
 #undef BLOCKING_BLOCK_IMPL
 
 #pragma clang diagnostic pop

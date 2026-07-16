@@ -3039,6 +3039,16 @@ final _class__z0xonr_BlockArgs_1pl9qdv = objc.getClass(
     _class__z0xonr_BlockArgs_1pl9qdv_raw,
   ).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__z0xonr_BlockArgs_6yc3kd',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__z0xonr_BlockArgs_6yc3kd_raw;
+final _class__z0xonr_BlockArgs_6yc3kd = objc.getClass(
+  "_z0xonr_BlockArgs_6yc3kd",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__z0xonr_BlockArgs_6yc3kd_raw,
+  ).cast(),
+);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -3635,6 +3645,45 @@ extension type _z0xonr_BlockArgs_1pl9qdv._(objc.ObjCObject object$)
 }
 
 extension _z0xonr_BlockArgs_1pl9qdv$Methods on _z0xonr_BlockArgs_1pl9qdv {}
+
+extension type _z0xonr_BlockArgs_6yc3kd._(objc.ObjCObject object$)
+    implements objc.ObjCObject {
+  /// Constructs a [_z0xonr_BlockArgs_6yc3kd] that points to the same underlying object as [other].
+  _z0xonr_BlockArgs_6yc3kd.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [_z0xonr_BlockArgs_6yc3kd] that wraps the given raw object pointer.
+  _z0xonr_BlockArgs_6yc3kd.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [_z0xonr_BlockArgs_6yc3kd].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__z0xonr_BlockArgs_6yc3kd,
+        );
+}
+
+extension _z0xonr_BlockArgs_6yc3kd$Methods on _z0xonr_BlockArgs_6yc3kd {
+  ffi.Pointer<ffi.Void> get arg0 {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+  }
+
+  EmptyObject get arg1 {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+    return EmptyObject.fromPointer($ret, retain: true, release: true);
+  }
+}
 
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

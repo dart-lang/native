@@ -8,6 +8,129 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
 
+/// WARNING: NSAccessibility is a stub. To generate bindings for this class, include
+/// NSAccessibility in your config's objc-protocols list.
+///
+/// NSAccessibility
+extension type NSAccessibility._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol, objc.NSObjectProtocol {
+  /// Constructs a [NSAccessibility] that points to the same underlying object as [other].
+  NSAccessibility.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSAccessibility] that wraps the given raw object pointer.
+  NSAccessibility.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: NSAccessibilityElement is a stub. To generate bindings for this class, include
+/// NSAccessibilityElement in your config's objc-protocols list.
+///
+/// NSAccessibilityElement
+extension type NSAccessibilityElement._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol, objc.NSObjectProtocol {
+  /// Constructs a [NSAccessibilityElement] that points to the same underlying object as [other].
+  NSAccessibilityElement.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSAccessibilityElement] that wraps the given raw object pointer.
+  NSAccessibilityElement.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: NSAnimatablePropertyContainer is a stub. To generate bindings for this class, include
+/// NSAnimatablePropertyContainer in your config's objc-protocols list.
+///
+/// NSAnimatablePropertyContainer
+extension type NSAnimatablePropertyContainer._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol {
+  /// Constructs a [NSAnimatablePropertyContainer] that points to the same underlying object as [other].
+  NSAnimatablePropertyContainer.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSAnimatablePropertyContainer] that wraps the given raw object pointer.
+  NSAnimatablePropertyContainer.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: NSAppearanceCustomization is a stub. To generate bindings for this class, include
+/// NSAppearanceCustomization in your config's objc-protocols list.
+///
+/// NSAppearanceCustomization
+extension type NSAppearanceCustomization._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol, objc.NSObjectProtocol {
+  /// Constructs a [NSAppearanceCustomization] that points to the same underlying object as [other].
+  NSAppearanceCustomization.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSAppearanceCustomization] that wraps the given raw object pointer.
+  NSAppearanceCustomization.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: NSButtonCell is a stub. To generate bindings for this class, include
+/// NSButtonCell in your config's objc-interfaces list.
+///
+/// NSButtonCell
+extension type NSButtonCell._(objc.ObjCObject object$)
+    implements objc.ObjCObject {
+  /// Constructs a [NSButtonCell] that points to the same underlying object as [other].
+  NSButtonCell.as(objc.ObjCObject other) : object$ = other {}
+
+  /// Constructs a [NSButtonCell] that wraps the given raw object pointer.
+  NSButtonCell.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
+}
+
+/// WARNING: NSColorList is a stub. To generate bindings for this class, include
+/// NSColorList in your config's objc-interfaces list.
+///
+/// NSColorList
+extension type NSColorList._(objc.ObjCObject object$)
+    implements objc.ObjCObject {
+  /// Constructs a [NSColorList] that points to the same underlying object as [other].
+  NSColorList.as(objc.ObjCObject other) : object$ = other {}
+
+  /// Constructs a [NSColorList] that wraps the given raw object pointer.
+  NSColorList.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
+}
+
+/// WARNING: NSColorPanel is a stub. To generate bindings for this class, include
+/// NSColorPanel in your config's objc-interfaces list.
+///
+/// NSColorPanel
+extension type NSColorPanel._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NSPanel {
+  /// Constructs a [NSColorPanel] that points to the same underlying object as [other].
+  NSColorPanel.as(objc.ObjCObject other) : object$ = other {
+    objc.checkOsVersionInternal('NSColorPanel', iOS: (true, null));
+  }
+
+  /// Constructs a [NSColorPanel] that wraps the given raw object pointer.
+  NSColorPanel.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal('NSColorPanel', iOS: (true, null));
+  }
+}
+
 enum NSColorPanelMode {
   NSColorPanelModeNone(-1),
   NSColorPanelModeGray(0),
@@ -284,6 +407,81 @@ extension type NSColorPickingDefault._(objc.ObjCProtocol object$)
   }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
 }
 
+/// WARNING: NSImage is a stub. To generate bindings for this class, include
+/// NSImage in your config's objc-interfaces list.
+///
+/// NSImage
+extension type NSImage._(objc.ObjCObject object$) implements objc.ObjCObject {
+  /// Constructs a [NSImage] that points to the same underlying object as [other].
+  NSImage.as(objc.ObjCObject other) : object$ = other {}
+
+  /// Constructs a [NSImage] that wraps the given raw object pointer.
+  NSImage.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
+}
+
+/// WARNING: NSMenuItemValidation is a stub. To generate bindings for this class, include
+/// NSMenuItemValidation in your config's objc-protocols list.
+///
+/// NSMenuItemValidation
+extension type NSMenuItemValidation._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol, objc.NSObjectProtocol {
+  /// Constructs a [NSMenuItemValidation] that points to the same underlying object as [other].
+  NSMenuItemValidation.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSMenuItemValidation] that wraps the given raw object pointer.
+  NSMenuItemValidation.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: NSPanel is a stub. To generate bindings for this class, include
+/// NSPanel in your config's objc-interfaces list.
+///
+/// NSPanel
+extension type NSPanel._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NSWindow {
+  /// Constructs a [NSPanel] that points to the same underlying object as [other].
+  NSPanel.as(objc.ObjCObject other) : object$ = other {
+    objc.checkOsVersionInternal('NSPanel', iOS: (true, null));
+  }
+
+  /// Constructs a [NSPanel] that wraps the given raw object pointer.
+  NSPanel.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal('NSPanel', iOS: (true, null));
+  }
+}
+
+/// WARNING: NSResponder is a stub. To generate bindings for this class, include
+/// NSResponder in your config's objc-interfaces list.
+///
+/// NSResponder
+extension type NSResponder._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject, objc.NSCoding {
+  /// Constructs a [NSResponder] that points to the same underlying object as [other].
+  NSResponder.as(objc.ObjCObject other) : object$ = other {
+    objc.checkOsVersionInternal('NSResponder', iOS: (true, null));
+  }
+
+  /// Constructs a [NSResponder] that wraps the given raw object pointer.
+  NSResponder.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal('NSResponder', iOS: (true, null));
+  }
+}
+
 /// NSTextList
 extension type NSTextList._(objc.ObjCObject object$)
     implements
@@ -515,6 +713,70 @@ extension NSTextList$Methods on NSTextList {
 
 sealed class NSTextListOptions {
   static const NSTextListPrependEnclosingMarker = 1;
+}
+
+/// WARNING: NSUserInterfaceItemIdentification is a stub. To generate bindings for this class, include
+/// NSUserInterfaceItemIdentification in your config's objc-protocols list.
+///
+/// NSUserInterfaceItemIdentification
+extension type NSUserInterfaceItemIdentification._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol {
+  /// Constructs a [NSUserInterfaceItemIdentification] that points to the same underlying object as [other].
+  NSUserInterfaceItemIdentification.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSUserInterfaceItemIdentification] that wraps the given raw object pointer.
+  NSUserInterfaceItemIdentification.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: NSUserInterfaceValidations is a stub. To generate bindings for this class, include
+/// NSUserInterfaceValidations in your config's objc-protocols list.
+///
+/// NSUserInterfaceValidations
+extension type NSUserInterfaceValidations._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol {
+  /// Constructs a [NSUserInterfaceValidations] that points to the same underlying object as [other].
+  NSUserInterfaceValidations.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSUserInterfaceValidations] that wraps the given raw object pointer.
+  NSUserInterfaceValidations.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+}
+
+/// WARNING: NSWindow is a stub. To generate bindings for this class, include
+/// NSWindow in your config's objc-interfaces list.
+///
+/// NSWindow
+extension type NSWindow._(objc.ObjCObject object$)
+    implements
+        objc.ObjCObject,
+        NSResponder,
+        NSAnimatablePropertyContainer,
+        NSMenuItemValidation,
+        NSUserInterfaceValidations,
+        NSUserInterfaceItemIdentification,
+        NSAppearanceCustomization,
+        NSAccessibilityElement,
+        NSAccessibility {
+  /// Constructs a [NSWindow] that points to the same underlying object as [other].
+  NSWindow.as(objc.ObjCObject other) : object$ = other {
+    objc.checkOsVersionInternal('NSWindow', iOS: (true, null));
+  }
+
+  /// Constructs a [NSWindow] that wraps the given raw object pointer.
+  NSWindow.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal('NSWindow', iOS: (true, null));
+  }
 }
 
 /// UIPickerView

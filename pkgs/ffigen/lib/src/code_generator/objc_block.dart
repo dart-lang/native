@@ -154,7 +154,20 @@ class ObjCBlock extends BindingType with HasLocalScope {
     ].join(' ');
   }
 
-  bool get hasListener => returnType == voidType;
+  bool get hasListener {
+    if (returnType != voidType) return false;
+    for (final p in params) {
+      final t = p.type.typealiasType;
+
+      // Arrays are not compatible with BlockArgs object. With additional work
+      // we could support ConstantArray, but it's not clear how we could
+      // support IncompleteArray.
+      if (t is ConstantArray || t is IncompleteArray) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   String _blockType(Context context) {
     final argStr = params

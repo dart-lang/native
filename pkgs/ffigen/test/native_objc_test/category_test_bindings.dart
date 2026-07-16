@@ -1259,6 +1259,16 @@ final _class_Thing = objc.getClass(
     _class_Thing_raw,
   ).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__l3cf7j_BlockArgs_pfv6jd',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__l3cf7j_BlockArgs_pfv6jd_raw;
+final _class__l3cf7j_BlockArgs_pfv6jd = objc.getClass(
+  "_l3cf7j_BlockArgs_pfv6jd",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__l3cf7j_BlockArgs_pfv6jd_raw,
+  ).cast(),
+);
 
 extension type _l3cf7j_BlockArgs_pfv6jd._(objc.ObjCObject object$)
     implements objc.ObjCObject {
@@ -1640,6 +1650,8 @@ late final _sel_anonymousCategoryMethod = objc.registerName(
 late final _sel_anonymousCategoryStaticMethod = objc.registerName(
   "anonymousCategoryStaticMethod",
 );
+late final _sel_arg0 = objc.registerName("arg0");
+late final _sel_arg1 = objc.registerName("arg1");
 late final _sel_checkPromisedItemIsReachableAndReturnError_ = objc.registerName(
   "checkPromisedItemIsReachableAndReturnError:",
 );
