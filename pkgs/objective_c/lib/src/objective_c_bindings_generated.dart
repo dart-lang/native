@@ -29927,7 +29927,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
       objc.newBlockPort(_1wx624s_wrapListenerBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$1.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -29958,7 +29958,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
       objc.newBlockingBlockPort(_1wx624s_wrapBlockingBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$1.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -32178,7 +32178,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
       objc.newBlockPort(_1wx624s_wrapListenerBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$4.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -32214,7 +32214,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
       objc.newBlockingBlockPort(_1wx624s_wrapBlockingBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$4.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$3.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -32412,7 +32412,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
       objc.newBlockPort(_1wx624s_wrapListenerBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$1.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$4.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -32448,7 +32448,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
       objc.newBlockingBlockPort(_1wx624s_wrapBlockingBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _1wx624s_BlockArgs_pfv6jd$1.fromPointer(
+        final args = _1wx624s_BlockArgs_pfv6jd$4.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -35426,12 +35426,12 @@ extension type _1wx624s_BlockArgs_pfv6jd$1._(objc.ObjCObject object$)
 }
 
 extension _1wx624s_BlockArgs_pfv6jd$1$Methods on _1wx624s_BlockArgs_pfv6jd$1 {
-  NSItemProviderWriting? get arg0 {
+  NSURL? get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
     return $ret.address == 0
         ? null
-        : NSItemProviderWriting.fromPointer($ret, retain: true, release: true);
+        : NSURL.fromPointer($ret, retain: true, release: true);
   }
 
   NSError? get arg1 {
@@ -35512,12 +35512,12 @@ extension type _1wx624s_BlockArgs_pfv6jd$3._(objc.ObjCObject object$)
 }
 
 extension _1wx624s_BlockArgs_pfv6jd$3$Methods on _1wx624s_BlockArgs_pfv6jd$3 {
-  NSURL? get arg0 {
+  NSItemProviderReading? get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
     return $ret.address == 0
         ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+        : NSItemProviderReading.fromPointer($ret, retain: true, release: true);
   }
 
   NSError? get arg1 {
@@ -35556,12 +35556,12 @@ extension type _1wx624s_BlockArgs_pfv6jd$4._(objc.ObjCObject object$)
 }
 
 extension _1wx624s_BlockArgs_pfv6jd$4$Methods on _1wx624s_BlockArgs_pfv6jd$4 {
-  NSItemProviderReading? get arg0 {
+  NSItemProviderWriting? get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
     return $ret.address == 0
         ? null
-        : NSItemProviderReading.fromPointer($ret, retain: true, release: true);
+        : NSItemProviderWriting.fromPointer($ret, retain: true, release: true);
   }
 
   NSError? get arg1 {
