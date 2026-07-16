@@ -30,7 +30,7 @@ id objc_retainBlock(id);
   assert(ctx->version >= 1);                                                   \
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
-  __block __unsafe_unretained TYPE weakSelfBlock = nil;                        \
+  __block __weak TYPE weakSelfBlock = nil;                                     \
   TYPE strongSelfBlock = [SIG {                                                \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
@@ -70,7 +70,7 @@ typedef void  (^_ListenerTrampoline)(id arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _l3cf7j_wrapListenerBlock_pfv6jd(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline weakSelfBlock = nil;
   _ListenerTrampoline strongSelfBlock = [^void(id arg0, id arg1) {
     @autoreleasepool {
       _l3cf7j_BlockArgs_pfv6jd* args = [[_l3cf7j_BlockArgs_pfv6jd alloc] init];

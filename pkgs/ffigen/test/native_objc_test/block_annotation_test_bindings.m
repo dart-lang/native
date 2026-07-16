@@ -29,7 +29,7 @@ id objc_retainBlock(id);
   assert(ctx->version >= 1);                                                   \
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
-  __block __unsafe_unretained TYPE weakSelfBlock = nil;                        \
+  __block __weak TYPE weakSelfBlock = nil;                                     \
   TYPE strongSelfBlock = [SIG {                                                \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
@@ -95,7 +95,7 @@ typedef void  (^_ListenerTrampoline)(void);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _z0xonr_wrapListenerBlock_1pl9qdv(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline weakSelfBlock = nil;
   _ListenerTrampoline strongSelfBlock = [^void() {
     @autoreleasepool {
       _z0xonr_BlockArgs_1pl9qdv* args = [[_z0xonr_BlockArgs_1pl9qdv alloc] init];
@@ -142,7 +142,7 @@ typedef void  (^_ListenerTrampoline_1)(void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_1 _z0xonr_wrapListenerBlock_18v1jvf(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_1 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_1 weakSelfBlock = nil;
   _ListenerTrampoline_1 strongSelfBlock = [^void(void * arg0, id arg1) {
     @autoreleasepool {
       _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
@@ -198,7 +198,7 @@ typedef void  (^_ListenerTrampoline_2)(void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_2 _z0xonr_wrapListenerBlock_6yc3kd(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_2 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_2 weakSelfBlock = nil;
   _ListenerTrampoline_2 strongSelfBlock = [^void(void * arg0, id arg1) {
     @autoreleasepool {
       _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];

@@ -29,7 +29,7 @@ id objc_retainBlock(id);
   assert(ctx->version >= 1);                                                   \
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
-  __block __unsafe_unretained TYPE weakSelfBlock = nil;                        \
+  __block __weak TYPE weakSelfBlock = nil;                                     \
   TYPE strongSelfBlock = [SIG {                                                \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
@@ -68,7 +68,7 @@ typedef void  (^_ListenerTrampoline)(void);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _18tji2r_wrapListenerBlock_1pl9qdv(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline weakSelfBlock = nil;
   _ListenerTrampoline strongSelfBlock = [^void() {
     @autoreleasepool {
       _18tji2r_BlockArgs_1pl9qdv* args = [[_18tji2r_BlockArgs_1pl9qdv alloc] init];
@@ -114,7 +114,7 @@ typedef void  (^_ListenerTrampoline_1)(id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_1 _18tji2r_wrapListenerBlock_xtuoz7(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_1 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_1 weakSelfBlock = nil;
   _ListenerTrampoline_1 strongSelfBlock = [^void(id arg0) {
     @autoreleasepool {
       _18tji2r_BlockArgs_xtuoz7* args = [[_18tji2r_BlockArgs_xtuoz7 alloc] init];
@@ -160,7 +160,7 @@ typedef void  (^_ListenerTrampoline_2)(int32_t arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_2 _18tji2r_wrapListenerBlock_1bqef4y(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_2 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_2 weakSelfBlock = nil;
   _ListenerTrampoline_2 strongSelfBlock = [^void(int32_t arg0) {
     @autoreleasepool {
       _18tji2r_BlockArgs_1bqef4y* args = [[_18tji2r_BlockArgs_1bqef4y alloc] init];
@@ -206,7 +206,7 @@ typedef void  (^_ListenerTrampoline_3)(int32_t * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_3 _18tji2r_wrapListenerBlock_yhkuco(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_3 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_3 weakSelfBlock = nil;
   _ListenerTrampoline_3 strongSelfBlock = [^void(int32_t * arg0) {
     @autoreleasepool {
       _18tji2r_BlockArgs_yhkuco* args = [[_18tji2r_BlockArgs_yhkuco alloc] init];
@@ -254,7 +254,7 @@ typedef void  (^_ListenerTrampoline_4)(int32_t arg0, Vec4 arg1, char * arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_4 _18tji2r_wrapListenerBlock_li50va(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_4 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_4 weakSelfBlock = nil;
   _ListenerTrampoline_4 strongSelfBlock = [^void(int32_t arg0, Vec4 arg1, char * arg2) {
     @autoreleasepool {
       _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
@@ -306,7 +306,7 @@ typedef void  (^_ListenerTrampoline_5)(id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_5 _18tji2r_wrapListenerBlock_f167m6(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_5 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_5 weakSelfBlock = nil;
   _ListenerTrampoline_5 strongSelfBlock = [^void(id arg0) {
     @autoreleasepool {
       _18tji2r_BlockArgs_f167m6* args = [[_18tji2r_BlockArgs_f167m6 alloc] init];
@@ -354,7 +354,7 @@ typedef void  (^_ListenerTrampoline_6)(struct Vec2 arg0, Vec4 arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_6 _18tji2r_wrapListenerBlock_ru30ue(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_6 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_6 weakSelfBlock = nil;
   _ListenerTrampoline_6 strongSelfBlock = [^void(struct Vec2 arg0, Vec4 arg1, id arg2) {
     @autoreleasepool {
       _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
@@ -406,7 +406,7 @@ typedef void  (^_ListenerTrampoline_7)(struct objc_selector * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline_7 _18tji2r_wrapListenerBlock_1d9e4oe(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained _ListenerTrampoline_7 weakSelfBlock = nil;
+  __block __weak _ListenerTrampoline_7 weakSelfBlock = nil;
   _ListenerTrampoline_7 strongSelfBlock = [^void(struct objc_selector * arg0) {
     @autoreleasepool {
       _18tji2r_BlockArgs_1d9e4oe* args = [[_18tji2r_BlockArgs_1d9e4oe alloc] init];

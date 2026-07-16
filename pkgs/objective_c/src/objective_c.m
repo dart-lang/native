@@ -34,36 +34,28 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
     });
   }
 }
-@interface DOBJCWaiter : NSObject {
-  NSCondition* _cond;
-  bool _done;
-  bool _signaled;
-}
-- (void)signal;
-- (void)wait;
+
+@interface DOBJCWaiter : NSObject {}
+@property(strong) NSCondition* cond;
+@property bool done;
+-(void)signal;
+-(void)wait;
 @end
 
 @implementation DOBJCWaiter
 -(instancetype)init {
-  if (self = [super init]) {
+  self = [super init];
+  if (self) {
     _cond = [[NSCondition alloc] init];
     _done = false;
-    _signaled = false;
   }
   return self;
 }
 -(void)signal {
   [_cond lock];
-  if (!_signaled) {
-    _signaled = true;
-    _done = true;
-    [_cond signal];
-    [_cond unlock];
-    id unused = (__bridge_transfer id)(__bridge void*)self;
-    (void)unused;
-  } else {
-    [_cond unlock];
-  }
+  _done = true;
+  [_cond signal];
+  [_cond unlock];
 }
 -(void)wait {
   [_cond lock];
@@ -86,15 +78,11 @@ FFI_EXPORT void* DOBJC_newWaiter(void) {
 }
 
 FFI_EXPORT void DOBJC_signalWaiter(void* waiter) {
-  @autoreleasepool {
-    if (waiter) [((__bridge DOBJCWaiter*)waiter) signal];
-  }
+  if (waiter) [(__bridge_transfer DOBJCWaiter*)waiter signal];
 }
 
 FFI_EXPORT void DOBJC_awaitWaiter(void* waiter) {
-  @autoreleasepool {
-    [(__bridge_transfer DOBJCWaiter*)waiter wait];
-  }
+  [(__bridge_transfer DOBJCWaiter*)waiter wait];
 }
 
 FFI_EXPORT Version DOBJC_getOsVesion(void) {

@@ -424,15 +424,14 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
-      final isBlock =
-          param.type is ObjCBlock || param.type.typealiasType is ObjCBlock;
+      final type = param.type.typealiasType;
+      final isBlock = type is ObjCBlock;
       final nativeType = param.getNativeType(context, varName: argName);
       final isObj =
           nativeType.startsWith('id ') ||
           isBlock ||
-          param.type is ObjCInterface ||
-          param.type.typealiasType is ObjCInterface ||
-          param.type is ObjCNullable;
+          type is ObjCInterface ||
+          type is ObjCNullable;
       final argWithType = isObj
           ? 'id $argName'
           : param.getNativeType(context, varName: argName);
@@ -476,7 +475,7 @@ typedef ${returnType.getNativeType(context)} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper(
     int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  __block __unsafe_unretained $listenerName weakSelfBlock = nil;
+  __block __weak $listenerName weakSelfBlock = nil;
   $listenerName strongSelfBlock = [^void($argStr) {
     @autoreleasepool {
       $argClassName* args = [[$argClassName alloc] init];
