@@ -48,6 +48,21 @@ void main() {
           classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
         ),
       ),
+      'memory_edge_cases': FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('memory_edge_cases_bindings.dart'),
+          style: const NativeExternalBindings(
+            assetId: 'package:ffigen/cpp_test',
+          ),
+        ),
+        headers: Headers(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'memory_edge_cases.h')),
+          ],
+          compilerOptions: ['-x', 'c++'],
+        ),
+        cpp: Cpp(classes: CppClasses.includeSet({'Node'})),
+      ),
     };
 
     for (final testFile in testFiles) {
