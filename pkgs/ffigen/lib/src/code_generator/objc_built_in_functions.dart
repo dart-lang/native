@@ -180,16 +180,20 @@ class ObjCBuiltInFunctions {
       if (blocking) ...[
         Parameter(
           name: 'directInvoke',
-          type: PointerType(NativeFunc(FunctionType(
-            returnType: voidType,
-            parameters: [
-              Parameter(
-                name: 'args',
-                type: PointerType(objCObjectType),
-                objCConsumed: false,
+          type: PointerType(
+            NativeFunc(
+              FunctionType(
+                returnType: voidType,
+                parameters: [
+                  Parameter(
+                    name: 'args',
+                    type: PointerType(objCObjectType),
+                    objCConsumed: false,
+                  ),
+                ],
               ),
-            ],
-          ))),
+            ),
+          ),
           objCConsumed: false,
         ),
       ],
@@ -249,7 +253,11 @@ class ObjCBlockWrapperFuncs extends AstNode {
   final Func blockingWrapper;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.idHash, this.listenerWrapper, this.blockingWrapper);
+  ObjCBlockWrapperFuncs(
+    this.idHash,
+    this.listenerWrapper,
+    this.blockingWrapper,
+  );
 
   @override
   void visitChildren(Visitor visitor) {

@@ -64,7 +64,10 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   }
 
   static ObjCInterface forBlockArgs(
-      Context context, String originalName, List<Parameter> params) {
+    Context context,
+    String originalName,
+    List<Parameter> params,
+  ) {
     final itf = ObjCInterface(
       originalName: originalName,
       apiAvailability: ApiAvailability.all,
@@ -72,20 +75,22 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
       isInternal: true,
     );
     for (final p in params) {
-      itf.addMethod(ObjCMethod(
-        context: context,
-        originalName: p.originalName,
-        name: p.originalName,
-        kind: ObjCMethodKind.propertyGetter,
-        isClassMethod: false,
-        isOptional: false,
-        returnType: p.type,
-        params: const [],
-        family: null,
-        apiAvailability: ApiAvailability.all,
-        ownershipAttribute: ObjCMethodOwnership.retained,
-        consumesSelfAttribute: false,
-      ));
+      itf.addMethod(
+        ObjCMethod(
+          context: context,
+          originalName: p.originalName,
+          name: p.originalName,
+          kind: ObjCMethodKind.propertyGetter,
+          isClassMethod: false,
+          isOptional: false,
+          returnType: p.type,
+          params: const [],
+          family: null,
+          apiAvailability: ApiAvailability.all,
+          ownershipAttribute: ObjCMethodOwnership.notRetained,
+          consumesSelfAttribute: false,
+        ),
+      );
     }
     return itf;
   }

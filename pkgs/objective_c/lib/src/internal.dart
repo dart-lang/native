@@ -411,21 +411,27 @@ typedef _BlockCallback = Void Function(ObjectPtr);
 typedef _BlockCallbackPointer = Pointer<NativeFunction<_BlockCallback>>;
 
 /// Only for use by FFIgen bindings.
-BlockPtr newBlockPort(BlockPtr Function(int, ContextPtr) maker, void Function(ObjectPtr) callback, bool keepIsolateAlive) {
+BlockPtr newBlockPort(
+  BlockPtr Function(int, ContextPtr) maker,
+  void Function(ObjectPtr) callback,
+  bool keepIsolateAlive,
+) {
   _ensureDartAPI();
   final zone = Zone.current;
   final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
   port.handler = (dynamic argsRaw) {
     if (argsRaw == null) {
       port.close();
+      port.handler = null;
       return;
     }
     final argsPtr = ObjectPtr.fromAddress(argsRaw);
+    final pool = r.autoreleasePoolPush();
     try {
       zone.run(() => callback(argsPtr));
     } catch (e, st) {
-      print('DEBUG Exception in port handler: $e\n$st');
     } finally {
+      r.autoreleasePoolPop(pool);
       r.objectRelease(argsPtr);
     }
   };
@@ -436,27 +442,37 @@ BlockPtr newBlockPort(BlockPtr Function(int, ContextPtr) maker, void Function(Ob
 }
 
 /// Only for use by FFIgen bindings.
-BlockPtr newBlockingBlockPort(BlockPtr Function(int, ContextPtr, _BlockCallbackPointer) maker, void Function(ObjectPtr) callback, bool keepIsolateAlive) {
+BlockPtr newBlockingBlockPort(
+  BlockPtr Function(int, ContextPtr, _BlockCallbackPointer) maker,
+  void Function(ObjectPtr) callback,
+  bool keepIsolateAlive,
+) {
   _ensureDartAPI();
   final zone = Zone.current;
-  final direct = NativeCallable<_BlockCallback>.isolateLocal(
-      callback)..keepIsolateAlive = false;
+  final runCallback = (ObjectPtr argsPtr) {
+    final pool = r.autoreleasePoolPush();
+    try {
+      zone.run(() => callback(argsPtr));
+    } catch (e, st) {
+    } finally {
+      r.autoreleasePoolPop(pool);
+      r.objectRelease(argsPtr);
+    }
+  };
+
+  final direct = NativeCallable<_BlockCallback>.isolateLocal(runCallback)
+    ..keepIsolateAlive = false;
   final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
-  port.handler = (List? argsRaw) {
+  port.handler = (List<dynamic>? argsRaw) {
     if (argsRaw == null) {
       port.close();
       direct.close();
       return;
     }
-    final argsPtr = ObjectPtr.fromAddress(argsRaw[0] as int);
-    final waiter = VoidPtr.fromAddress(argsRaw[1] as int);
     try {
-      zone.run(() => callback(argsPtr));
-    } catch (e, st) {
-      print('DEBUG Exception in blocking port handler: $e\n$st');
+      runCallback(ObjectPtr.fromAddress(argsRaw[0] as int));
     } finally {
-      c.signalWaiter(waiter);
-      r.objectRelease(argsPtr);
+      c.signalWaiter(VoidPtr.fromAddress(argsRaw[1] as int));
     }
   };
   final nativePort = port.sendPort.nativePort;
@@ -566,9 +582,7 @@ Function getBlockClosure(BlockPtr block) {
 }
 
 /// Only for use by FFIgen bindings.
-final ContextPtr objCContext = c.fillContext(
-  calloc<c.DOBJC_Context>(),
-);
+final ContextPtr objCContext = c.fillContext(calloc<c.DOBJC_Context>());
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>

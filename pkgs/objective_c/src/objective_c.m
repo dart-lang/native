@@ -19,7 +19,9 @@
 _Atomic bool _mainThreadIsListening = false;
 
 FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {
-  _mainThreadIsListening = true;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    _mainThreadIsListening = true;
+  });
   return Dart_InitializeApiDL(data);
 }
 
@@ -172,7 +174,6 @@ FFI_EXPORT void DOBJC_invokeBlockingPortBlock(
   return self;
 }
 - (void)dealloc {
-  printf("\nzxcv: PortBlockFinalizer.dealloc\n\n");
   Dart_CObject cobj;
   cobj.type = Dart_CObject_kNull;
   Dart_PostCObject_DL(port, &cobj);

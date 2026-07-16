@@ -62,9 +62,6 @@ __attribute__((visibility("default")))
 
 @end
 @implementation _18tji2r_BlockArgs_1pl9qdv
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline)(void);
@@ -111,9 +108,6 @@ __attribute__((visibility("default")))
 @property (strong) id arg0;
 @end
 @implementation _18tji2r_BlockArgs_xtuoz7
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline_1)(id arg0);
@@ -160,9 +154,6 @@ __attribute__((visibility("default")))
 @property int32_t arg0;
 @end
 @implementation _18tji2r_BlockArgs_1bqef4y
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline_2)(int32_t arg0);
@@ -209,9 +200,6 @@ __attribute__((visibility("default")))
 @property int32_t * arg0;
 @end
 @implementation _18tji2r_BlockArgs_yhkuco
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline_3)(int32_t * arg0);
@@ -260,9 +248,6 @@ __attribute__((visibility("default")))
 @property char * arg2;
 @end
 @implementation _18tji2r_BlockArgs_li50va
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline_4)(int32_t arg0, Vec4 arg1, char * arg2);
@@ -315,9 +300,6 @@ __attribute__((visibility("default")))
 @property (copy) id arg0;
 @end
 @implementation _18tji2r_BlockArgs_f167m6
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline_5)(id arg0);
@@ -366,9 +348,6 @@ __attribute__((visibility("default")))
 @property (strong) id arg2;
 @end
 @implementation _18tji2r_BlockArgs_ru30ue
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline_6)(struct Vec2 arg0, Vec4 arg1, id arg2);
@@ -421,9 +400,6 @@ __attribute__((visibility("default")))
 @property struct objc_selector * arg0;
 @end
 @implementation _18tji2r_BlockArgs_1d9e4oe
-- (void)dealloc {
-  printf("\nzxcv: BlockArgs.dealloc\n\n");
-}
 @end
 
 typedef void  (^_ListenerTrampoline_7)(struct objc_selector * arg0);

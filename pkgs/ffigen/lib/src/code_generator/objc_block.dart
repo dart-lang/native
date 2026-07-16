@@ -8,7 +8,6 @@ import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';
-import 'objc_interface.dart';
 import 'scope.dart';
 import 'writer.dart';
 
@@ -102,9 +101,11 @@ class ObjCBlock extends BindingType with HasLocalScope {
     if (hasListener) {
       _blockWrappers = context.objCBuiltInFunctions.getBlockTrampolines(this);
       final libraryId = context.objCBuiltInFunctions.libraryId;
-      _argClass = ObjCInterface.forBlockArgs(context,
-          '_${libraryId}_BlockArgs_${_blockWrappers!.idHash}',
-          params);
+      _argClass = ObjCInterface.forBlockArgs(
+        context,
+        '_${libraryId}_BlockArgs_${_blockWrappers!.idHash}',
+        params,
+      );
     }
   }
 
@@ -185,19 +186,14 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final closureTrampoline = localScope.addPrivate('_closureTrampoline');
     final funcPtrCallable = localScope.addPrivate('_fnPtrCallable');
     final closureCallable = localScope.addPrivate('_closureCallable');
-    final blockingTrampoline = localScope.addPrivate('_blockingTrampoline');
-    final blockingCallable = localScope.addPrivate('_blockingCallable');
-    final blockingListenerCallable = localScope.addPrivate(
-      '_blockingListenerCallable',
-    );
 
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(context);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(context);
     final newBlockPort = ObjCBuiltInFunctions.newBlockPort.gen(context);
-    final newBlockingBlockPort = ObjCBuiltInFunctions.newBlockingBlockPort.gen(context);
+    final newBlockingBlockPort = ObjCBuiltInFunctions.newBlockingBlockPort.gen(
+      context,
+    );
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(context);
-    final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(context);
-    final objCContext = ObjCBuiltInFunctions.objCContext.gen(context);
     final returnFfiDartType = returnType.getFfiDartType(context);
     final voidPtrCType = voidPtr.getCType(context);
     final objPtrCType = objPtr.getCType(context);
@@ -207,7 +203,6 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     final ffiPrefix = w.context.libs.prefix(ffiImport);
     final paramsNameOnly = _helper.paramsNameOnly;
-    final trampNatCallType = _helper.trampNatCallType;
 
     // Snippet that converts a Dart typed closure to FfiDart type. This snippet
     // is used below. Note that the closure being converted is called `fn`.
@@ -272,14 +267,8 @@ abstract final class $name {
     // Listener block constructor is only available for void blocks.
     if (hasListener) {
       final listenerConvertedFnArgs = params
-          .map((p) => 'args.${p.name}').join(', ');
-      //   (p) => p.type.convertFfiDartTypeToDartType(
-      //     context,
-      //     'args.${p.name}',
-      //     objCRetain: false,
-      //   ),
-      // )
-      // .join(', ');
+          .map((p) => 'args.${p.name}')
+          .join(', ');
       final listenerLocalVars = LocalVariables(localScope);
       final listenerConvFnInvocation = returnType.convertDartTypeToFfiDartType(
         context,
@@ -289,8 +278,9 @@ abstract final class $name {
         localVariables: listenerLocalVars,
       );
 
-      final listenerConvFn = params.isEmpty ? '($objPtrCType rawArgs) => fn()' :
-          '''
+      final listenerConvFn = params.isEmpty
+          ? '($objPtrCType rawArgs) => fn()'
+          : '''
 ($objPtrCType rawArgs) {
   final args = ${_argClass!.name}.fromPointer(
       rawArgs, retain: false, release: false);
@@ -421,20 +411,24 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
-      final isBlock = param.type is ObjCBlock || param.type.typealiasType is ObjCBlock;
+      final isBlock =
+          param.type is ObjCBlock || param.type.typealiasType is ObjCBlock;
       final nativeType = param.getNativeType(context, varName: argName);
-      final isObj = nativeType.startsWith('id ') || isBlock || param.type is ObjCInterface || param.type.typealiasType is ObjCInterface || param.type is ObjCNullable;
+      final isObj =
+          nativeType.startsWith('id ') ||
+          isBlock ||
+          param.type is ObjCInterface ||
+          param.type.typealiasType is ObjCInterface ||
+          param.type is ObjCNullable;
       final argWithType = isObj
           ? 'id $argName'
           : param.getNativeType(context, varName: argName);
       argsReceived.add(argWithType);
       final propAttr = isBlock ? '(copy) ' : (isObj ? '(strong) ' : '');
-      argDecls.add('@property ${propAttr}$argWithType;');
+      argDecls.add('@property $propAttr$argWithType;');
       argAssigns.add('args.$argName = $argName;');
       retains.add(param.type.generateRetain(argName) ?? argName);
     }
-    final blockingRetains = ['nil', ...retains];
-    final blockingListenerRetains = [_waiterParam.name, ...retains];
 
     final argStr = argsReceived.join(', ');
     final declArgStr = argStr.isEmpty ? 'void' : argStr;
@@ -463,9 +457,6 @@ __attribute__((visibility("default")))
 $argDeclStr
 @end
 @implementation $argClassName
-- (void)dealloc {
-  printf("\\nzxcv: BlockArgs.dealloc\\n\\n");
-}
 @end
 
 typedef ${returnType.getNativeType(context)} (^$listenerName)($declArgStr);

@@ -73,7 +73,7 @@ class ListBindingsVisitation extends Visitation {
     } else {
       includeBehavior = _IncludeBehavior.configOnly;
     }
-    final omit = node.unavailable ||!_visitImpl(node, includeBehavior);
+    final omit = node.unavailable || !_visitImpl(node, includeBehavior);
 
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;

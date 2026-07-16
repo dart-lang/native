@@ -4023,11 +4023,7 @@ extension _18tji2r_BlockArgs_f167m6$Methods on _18tji2r_BlockArgs_f167m6 {
   DartIntBlock get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_arg0);
-    return ObjCBlock_Int32_Int32.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return ObjCBlock_Int32_Int32.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -4138,7 +4134,7 @@ extension _18tji2r_BlockArgs_ru30ue$Methods on _18tji2r_BlockArgs_ru30ue {
   objc.NSObject get arg2 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
-    return objc.NSObject.fromPointer($ret, retain: false, release: true);
+    return objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -4172,7 +4168,7 @@ extension _18tji2r_BlockArgs_xtuoz7$Methods on _18tji2r_BlockArgs_xtuoz7 {
   objc.NSString get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return objc.NSString.fromPointer($ret, retain: false, release: true);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -4206,7 +4202,7 @@ extension _18tji2r_BlockArgs_xtuoz7$1$Methods on _18tji2r_BlockArgs_xtuoz7$1 {
   DummyObject get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return DummyObject.fromPointer($ret, retain: false, release: true);
+    return DummyObject.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -4242,7 +4238,7 @@ extension _18tji2r_BlockArgs_xtuoz7$2$Methods on _18tji2r_BlockArgs_xtuoz7$2 {
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
     return $ret.address == 0
         ? null
-        : DummyObject.fromPointer($ret, retain: false, release: true);
+        : DummyObject.fromPointer($ret, retain: true, release: true);
   }
 }
 

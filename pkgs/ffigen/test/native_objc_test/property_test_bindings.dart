@@ -200,23 +200,6 @@ extension PropertyInterface$Methods on PropertyInterface {
   }
 }
 
-/// WARNING: UndefinedTemplate is a stub. To generate bindings for this class, include
-/// UndefinedTemplate in your config's objc-interfaces list.
-///
-/// UndefinedTemplate
-extension type UndefinedTemplate._(objc.ObjCObject object$)
-    implements objc.ObjCObject {
-  /// Constructs a [UndefinedTemplate] that points to the same underlying object as [other].
-  UndefinedTemplate.as(objc.ObjCObject other) : object$ = other {}
-
-  /// Constructs a [UndefinedTemplate] that wraps the given raw object pointer.
-  UndefinedTemplate.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
-}
-
 final class Vec4 extends ffi.Struct {
   @ffi.Double()
   external double x;
