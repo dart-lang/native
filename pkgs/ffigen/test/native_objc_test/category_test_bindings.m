@@ -58,12 +58,12 @@ id objc_retainBlock(id);
 
 
 __attribute__((visibility("default")))
-@interface _l3cf7j_BlockArgs_pfv6jd : NSObject
+@interface _l3cf7j_BlockArgs_x5cg0 : NSObject
 @property (copy) id block;
 @property (strong) id arg0;
 @property (strong) id arg1;
 @end
-@implementation _l3cf7j_BlockArgs_pfv6jd
+@implementation _l3cf7j_BlockArgs_x5cg0
 @end
 
 typedef void  (^_ListenerTrampoline)(id arg0, id arg1);
@@ -73,7 +73,7 @@ _ListenerTrampoline _l3cf7j_wrapListenerBlock_pfv6jd(
   __block __weak _ListenerTrampoline weakSelfBlock = nil;
   _ListenerTrampoline strongSelfBlock = [^void(id arg0, id arg1) {
     @autoreleasepool {
-      _l3cf7j_BlockArgs_pfv6jd* args = [[_l3cf7j_BlockArgs_pfv6jd alloc] init];
+      _l3cf7j_BlockArgs_x5cg0* args = [[_l3cf7j_BlockArgs_x5cg0 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -90,7 +90,7 @@ _ListenerTrampoline _l3cf7j_wrapBlockingBlock_pfv6jd(int64_t port, DOBJC_Context
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline, ^void(id arg0, id arg1), {
     @autoreleasepool {
-      _l3cf7j_BlockArgs_pfv6jd* args = [[_l3cf7j_BlockArgs_pfv6jd alloc] init];
+      _l3cf7j_BlockArgs_x5cg0* args = [[_l3cf7j_BlockArgs_x5cg0 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -98,7 +98,7 @@ _ListenerTrampoline _l3cf7j_wrapBlockingBlock_pfv6jd(int64_t port, DOBJC_Context
     }
   }, {
     @autoreleasepool {
-      _l3cf7j_BlockArgs_pfv6jd* args = [[_l3cf7j_BlockArgs_pfv6jd alloc] init];
+      _l3cf7j_BlockArgs_x5cg0* args = [[_l3cf7j_BlockArgs_x5cg0 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;

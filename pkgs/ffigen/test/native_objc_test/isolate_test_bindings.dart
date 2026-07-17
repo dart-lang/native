@@ -103,7 +103,7 @@ abstract final class ObjCBlock_ffiVoid_Int32 {
       objc.newBlockPort(_rdx59v_wrapListenerBlock_1bqef4y, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _rdx59v_BlockArgs_1bqef4y.fromPointer(
+        final args = _rdx59v_BlockArgs_1liq3c0.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -134,7 +134,7 @@ abstract final class ObjCBlock_ffiVoid_Int32 {
       objc.newBlockingBlockPort(_rdx59v_wrapBlockingBlock_1bqef4y, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _rdx59v_BlockArgs_1bqef4y.fromPointer(
+        final args = _rdx59v_BlockArgs_1liq3c0.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -293,13 +293,13 @@ final _class_Sendable = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__rdx59v_BlockArgs_1bqef4y',
+  symbol: 'OBJC_CLASS_\$__rdx59v_BlockArgs_1liq3c0',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__rdx59v_BlockArgs_1bqef4y_raw;
-final _class__rdx59v_BlockArgs_1bqef4y = objc.getClass(
-  "_rdx59v_BlockArgs_1bqef4y",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__rdx59v_BlockArgs_1liq3c0_raw;
+final _class__rdx59v_BlockArgs_1liq3c0 = objc.getClass(
+  "_rdx59v_BlockArgs_1liq3c0",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__rdx59v_BlockArgs_1bqef4y_raw,
+    _class__rdx59v_BlockArgs_1liq3c0_raw,
   ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
@@ -399,15 +399,15 @@ final _objc_msgSend_uwvaik = objc.msgSendPointer
       )
     >();
 
-extension type _rdx59v_BlockArgs_1bqef4y._(objc.ObjCObject object$)
+extension type _rdx59v_BlockArgs_1liq3c0._(objc.ObjCObject object$)
     implements objc.ObjCObject {
-  /// Constructs a [_rdx59v_BlockArgs_1bqef4y] that points to the same underlying object as [other].
-  _rdx59v_BlockArgs_1bqef4y.as(objc.ObjCObject other) : object$ = other {
+  /// Constructs a [_rdx59v_BlockArgs_1liq3c0] that points to the same underlying object as [other].
+  _rdx59v_BlockArgs_1liq3c0.as(objc.ObjCObject other) : object$ = other {
     assert(isA(object$));
   }
 
-  /// Constructs a [_rdx59v_BlockArgs_1bqef4y] that wraps the given raw object pointer.
-  _rdx59v_BlockArgs_1bqef4y.fromPointer(
+  /// Constructs a [_rdx59v_BlockArgs_1liq3c0] that wraps the given raw object pointer.
+  _rdx59v_BlockArgs_1liq3c0.fromPointer(
     ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
@@ -415,17 +415,17 @@ extension type _rdx59v_BlockArgs_1bqef4y._(objc.ObjCObject object$)
     assert(isA(object$));
   }
 
-  /// Returns whether [obj] is an instance of [_rdx59v_BlockArgs_1bqef4y].
+  /// Returns whether [obj] is an instance of [_rdx59v_BlockArgs_1liq3c0].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__rdx59v_BlockArgs_1bqef4y,
+          _class__rdx59v_BlockArgs_1liq3c0,
         );
 }
 
-extension _rdx59v_BlockArgs_1bqef4y$Methods on _rdx59v_BlockArgs_1bqef4y {
+extension _rdx59v_BlockArgs_1liq3c0$Methods on _rdx59v_BlockArgs_1liq3c0 {
   int get arg0 {
     final _$$ref = object$.ref;
     return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_arg0);

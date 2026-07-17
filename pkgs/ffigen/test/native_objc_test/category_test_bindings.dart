@@ -968,7 +968,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
       objc.newBlockPort(_l3cf7j_wrapListenerBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _l3cf7j_BlockArgs_pfv6jd.fromPointer(
+        final args = _l3cf7j_BlockArgs_x5cg0.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -1000,7 +1000,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
       objc.newBlockingBlockPort(_l3cf7j_wrapBlockingBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _l3cf7j_BlockArgs_pfv6jd.fromPointer(
+        final args = _l3cf7j_BlockArgs_x5cg0.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -1260,25 +1260,25 @@ final _class_Thing = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__l3cf7j_BlockArgs_pfv6jd',
+  symbol: 'OBJC_CLASS_\$__l3cf7j_BlockArgs_x5cg0',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__l3cf7j_BlockArgs_pfv6jd_raw;
-final _class__l3cf7j_BlockArgs_pfv6jd = objc.getClass(
-  "_l3cf7j_BlockArgs_pfv6jd",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__l3cf7j_BlockArgs_x5cg0_raw;
+final _class__l3cf7j_BlockArgs_x5cg0 = objc.getClass(
+  "_l3cf7j_BlockArgs_x5cg0",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__l3cf7j_BlockArgs_pfv6jd_raw,
+    _class__l3cf7j_BlockArgs_x5cg0_raw,
   ).cast(),
 );
 
-extension type _l3cf7j_BlockArgs_pfv6jd._(objc.ObjCObject object$)
+extension type _l3cf7j_BlockArgs_x5cg0._(objc.ObjCObject object$)
     implements objc.ObjCObject {
-  /// Constructs a [_l3cf7j_BlockArgs_pfv6jd] that points to the same underlying object as [other].
-  _l3cf7j_BlockArgs_pfv6jd.as(objc.ObjCObject other) : object$ = other {
+  /// Constructs a [_l3cf7j_BlockArgs_x5cg0] that points to the same underlying object as [other].
+  _l3cf7j_BlockArgs_x5cg0.as(objc.ObjCObject other) : object$ = other {
     assert(isA(object$));
   }
 
-  /// Constructs a [_l3cf7j_BlockArgs_pfv6jd] that wraps the given raw object pointer.
-  _l3cf7j_BlockArgs_pfv6jd.fromPointer(
+  /// Constructs a [_l3cf7j_BlockArgs_x5cg0] that wraps the given raw object pointer.
+  _l3cf7j_BlockArgs_x5cg0.fromPointer(
     ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
@@ -1286,17 +1286,17 @@ extension type _l3cf7j_BlockArgs_pfv6jd._(objc.ObjCObject object$)
     assert(isA(object$));
   }
 
-  /// Returns whether [obj] is an instance of [_l3cf7j_BlockArgs_pfv6jd].
+  /// Returns whether [obj] is an instance of [_l3cf7j_BlockArgs_x5cg0].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__l3cf7j_BlockArgs_pfv6jd,
+          _class__l3cf7j_BlockArgs_x5cg0,
         );
 }
 
-extension _l3cf7j_BlockArgs_pfv6jd$Methods on _l3cf7j_BlockArgs_pfv6jd {
+extension _l3cf7j_BlockArgs_x5cg0$Methods on _l3cf7j_BlockArgs_x5cg0 {
   objc.NSData? get arg0 {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);

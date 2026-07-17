@@ -154,7 +154,6 @@ class ObjCBuiltInFunctions {
   ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
-      idHash,
       _blockTrampolineFunc('_${libraryId}_wrapListenerBlock_$idHash'),
       _blockTrampolineFunc(
         '_${libraryId}_wrapBlockingBlock_$idHash',
@@ -248,13 +247,11 @@ class ObjCBuiltInFunctions {
 
 /// A native trampoline function for a listener block.
 class ObjCBlockWrapperFuncs extends AstNode {
-  final String idHash;
   final Func listenerWrapper;
   final Func blockingWrapper;
   bool objCBindingsGenerated = false;
 
   ObjCBlockWrapperFuncs(
-    this.idHash,
     this.listenerWrapper,
     this.blockingWrapper,
   );

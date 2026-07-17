@@ -9,6 +9,7 @@ import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';
 import 'scope.dart';
+import 'utils.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType with HasLocalScope {
@@ -101,9 +102,10 @@ class ObjCBlock extends BindingType with HasLocalScope {
     if (hasListener) {
       _blockWrappers = context.objCBuiltInFunctions.getBlockTrampolines(this);
       final libraryId = context.objCBuiltInFunctions.libraryId;
+      final sigHash = _getBlockSigHash(returnType, params, returnsRetained);
       _argClass = ObjCInterface.forBlockArgs(
         context,
-        '_${libraryId}_BlockArgs_${_blockWrappers!.idHash}',
+        '_${libraryId}_BlockArgs_$sigHash',
         params,
       );
     }
@@ -139,20 +141,33 @@ class ObjCBlock extends BindingType with HasLocalScope {
     return type;
   }
 
+  // Create a fake USR code for the block. This code is used to dedupe blocks
+  // with the same signature. Not intended to be human readable.
   static String _getBlockUsr(
     Type returnType,
     List<Parameter> params,
     bool returnsRetained,
-  ) {
-    // Create a fake USR code for the block. This code is used to dedupe blocks
-    // with the same signature. Not intended to be human readable.
-    return [
-      '${strings.synthUsrChar} objcBlock:',
-      '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
+  ) => [
+    '${strings.synthUsrChar} objcBlock:',
+    '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
+    for (final param in params)
+      '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
+  ].join(' ');
+
+  // Similar to _getBlockUsr, but not 100% garunteed to be unique, since it
+  // depends on stringified types. The trade off is that this hash is
+  // deterministic, whereas _getBlockUsr varies between runs.
+  static String _getBlockSigHash(
+    Type returnType,
+    List<Parameter> params,
+    bool returnsRetained,
+  ) => fnvHash32(
+    [
+      '$returnType ${returnsRetained ? 'R' : ''}',
       for (final param in params)
-        '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
-    ].join(' ');
-  }
+        '${param.type} ${param.objCConsumed ? 'C' : ''}',
+    ].join(','),
+  ).toRadixString(36);
 
   bool get hasListener {
     if (returnType != voidType) return false;
