@@ -9,7 +9,7 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
 @ffi.Native<ffi.Pointer<objc.ObjCBlockImpl>>(symbol: 'globalBlock')
 external ffi.Pointer<objc.ObjCBlockImpl> _globalBlock;
 

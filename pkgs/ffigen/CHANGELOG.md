@@ -1,5 +1,7 @@
-## 21.0.1-wip
+## 21.1.0-wip
 
+- Fix memory leaks, deadlocks, and crashes that can happen in callbacks, if the
+  target isolate is shut down.
 - Bump `package:meta` dependency to `^1.19.0` and stop generating
   `experimental_member_use` lint ignore in generated bindings when
   `@RecordUse()` is used.

@@ -1000,7 +1000,7 @@ void main() {
       ).readAsStringSync();
 
       // Objects are converted to id.
-      expect(objCBindings, isNot(contains('NSObject *')));
+      expect(objCBindings, isNot(contains('DummyObject')));
       expect(objCBindings, isNot(contains('NSString')));
       expect(objCBindings, contains('id'));
 

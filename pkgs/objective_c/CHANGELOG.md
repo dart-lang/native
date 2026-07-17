@@ -1,3 +1,7 @@
+## 9.5.0-wip
+
+- Add internal utils required to support FFIgen's new port based blocks.
+
 ## 9.4.1
 
 - Fix a [bug](https://github.com/flutter/flutter/issues/186794) related to
