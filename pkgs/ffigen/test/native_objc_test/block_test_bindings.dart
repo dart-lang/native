@@ -3921,7 +3921,7 @@ extension type _BlockArgs_1b0erz1._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_1d9e4oe,
+          _class__BlockArgs_1b0erz1,
         );
 }
 
@@ -3954,7 +3954,7 @@ extension type _BlockArgs_1hqv45x._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_xtuoz7$1,
+          _class__BlockArgs_1hqv45x,
         );
 }
 
@@ -3988,7 +3988,7 @@ extension type _BlockArgs_1liq3c0._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_1bqef4y,
+          _class__BlockArgs_1liq3c0,
         );
 }
 
@@ -4021,7 +4021,7 @@ extension type _BlockArgs_1vzvc26._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_xtuoz7,
+          _class__BlockArgs_1vzvc26,
         );
 }
 
@@ -4055,7 +4055,7 @@ extension type _BlockArgs_7ojdju._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_ru30ue,
+          _class__BlockArgs_7ojdju,
         );
 }
 
@@ -4115,7 +4115,7 @@ extension type _BlockArgs_bht217._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_li50va,
+          _class__BlockArgs_bht217,
         );
 }
 
@@ -4166,7 +4166,7 @@ extension type _BlockArgs_ii17hk._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_1pl9qdv,
+          _class__BlockArgs_ii17hk,
         );
 }
 
@@ -4194,7 +4194,7 @@ extension type _BlockArgs_lgqwom._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_f167m6,
+          _class__BlockArgs_lgqwom,
         );
 }
 
@@ -4228,7 +4228,7 @@ extension type _BlockArgs_nge4yi._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_yhkuco,
+          _class__BlockArgs_nge4yi,
         );
 }
 
@@ -4261,7 +4261,7 @@ extension type _BlockArgs_te4g5k._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__18tji2r_BlockArgs_xtuoz7$2,
+          _class__BlockArgs_te4g5k,
         );
 }
 
@@ -4304,105 +4304,103 @@ final _class_NSThread = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_1bqef4y',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_1bqef4y_raw;
-final _class__18tji2r_BlockArgs_1bqef4y = objc.getClass(
-  "_18tji2r_BlockArgs_1bqef4y",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_1bqef4y_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_1d9e4oe',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_1d9e4oe_raw;
-final _class__18tji2r_BlockArgs_1d9e4oe = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1b0erz1_raw;
+final _class__BlockArgs_1b0erz1 = objc.getClass(
   "_18tji2r_BlockArgs_1d9e4oe",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_1d9e4oe_raw,
+    _class__BlockArgs_1b0erz1_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_1pl9qdv',
+  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_xtuoz7',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_1pl9qdv_raw;
-final _class__18tji2r_BlockArgs_1pl9qdv = objc.getClass(
-  "_18tji2r_BlockArgs_1pl9qdv",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1hqv45x_raw;
+final _class__BlockArgs_1hqv45x = objc.getClass(
+  "_18tji2r_BlockArgs_xtuoz7",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_1pl9qdv_raw,
+    _class__BlockArgs_1hqv45x_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_f167m6',
+  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_1bqef4y',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_f167m6_raw;
-final _class__18tji2r_BlockArgs_f167m6 = objc.getClass(
-  "_18tji2r_BlockArgs_f167m6",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1liq3c0_raw;
+final _class__BlockArgs_1liq3c0 = objc.getClass(
+  "_18tji2r_BlockArgs_1bqef4y",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_f167m6_raw,
+    _class__BlockArgs_1liq3c0_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_li50va',
+  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_xtuoz7',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_li50va_raw;
-final _class__18tji2r_BlockArgs_li50va = objc.getClass(
-  "_18tji2r_BlockArgs_li50va",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1vzvc26_raw;
+final _class__BlockArgs_1vzvc26 = objc.getClass(
+  "_18tji2r_BlockArgs_xtuoz7",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_li50va_raw,
+    _class__BlockArgs_1vzvc26_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_ru30ue',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_ru30ue_raw;
-final _class__18tji2r_BlockArgs_ru30ue = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_7ojdju_raw;
+final _class__BlockArgs_7ojdju = objc.getClass(
   "_18tji2r_BlockArgs_ru30ue",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_ru30ue_raw,
+    _class__BlockArgs_7ojdju_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_xtuoz7',
+  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_li50va',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_xtuoz7_raw;
-final _class__18tji2r_BlockArgs_xtuoz7 = objc.getClass(
-  "_18tji2r_BlockArgs_xtuoz7",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_bht217_raw;
+final _class__BlockArgs_bht217 = objc.getClass(
+  "_18tji2r_BlockArgs_li50va",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_xtuoz7_raw,
+    _class__BlockArgs_bht217_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_xtuoz7',
+  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_1pl9qdv',
 )
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__18tji2r_BlockArgs_xtuoz7_raw$1;
-final _class__18tji2r_BlockArgs_xtuoz7$1 = objc.getClass(
-  "_18tji2r_BlockArgs_xtuoz7",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_ii17hk_raw;
+final _class__BlockArgs_ii17hk = objc.getClass(
+  "_18tji2r_BlockArgs_1pl9qdv",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_xtuoz7_raw$1,
+    _class__BlockArgs_ii17hk_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_xtuoz7',
+  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_f167m6',
 )
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__18tji2r_BlockArgs_xtuoz7_raw$2;
-final _class__18tji2r_BlockArgs_xtuoz7$2 = objc.getClass(
-  "_18tji2r_BlockArgs_xtuoz7",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_lgqwom_raw;
+final _class__BlockArgs_lgqwom = objc.getClass(
+  "_18tji2r_BlockArgs_f167m6",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_xtuoz7_raw$2,
+    _class__BlockArgs_lgqwom_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_yhkuco',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__18tji2r_BlockArgs_yhkuco_raw;
-final _class__18tji2r_BlockArgs_yhkuco = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_nge4yi_raw;
+final _class__BlockArgs_nge4yi = objc.getClass(
   "_18tji2r_BlockArgs_yhkuco",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__18tji2r_BlockArgs_yhkuco_raw,
+    _class__BlockArgs_nge4yi_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__18tji2r_BlockArgs_xtuoz7',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_te4g5k_raw;
+final _class__BlockArgs_te4g5k = objc.getClass(
+  "_18tji2r_BlockArgs_xtuoz7",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_te4g5k_raw,
   ).cast(),
 );
 final _objc_msgSend_129vhbw = objc.msgSendPointer

@@ -47,7 +47,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    classObject = ObjCClassGlobal('_class_$originalName', originalName, module);
+    classObject = ObjCClassGlobal('_class_$name', originalName, module);
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );

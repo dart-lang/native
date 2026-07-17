@@ -1237,7 +1237,7 @@ extension type _BlockArgs_x5cg0._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__l3cf7j_BlockArgs_pfv6jd,
+          _class__BlockArgs_x5cg0,
         );
 }
 
@@ -1306,11 +1306,11 @@ final _class_Thing = objc.getClass(
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__l3cf7j_BlockArgs_pfv6jd',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__l3cf7j_BlockArgs_pfv6jd_raw;
-final _class__l3cf7j_BlockArgs_pfv6jd = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_x5cg0_raw;
+final _class__BlockArgs_x5cg0 = objc.getClass(
   "_l3cf7j_BlockArgs_pfv6jd",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__l3cf7j_BlockArgs_pfv6jd_raw,
+    _class__BlockArgs_x5cg0_raw,
   ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer

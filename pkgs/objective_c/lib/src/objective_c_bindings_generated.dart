@@ -1007,13 +1007,13 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class_DOBJCDartInputStreamAdapter,
+          _class_DartInputStreamAdapter,
         );
 
   /// alloc
   static DartInputStreamAdapter alloc() {
     final $ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartInputStreamAdapter,
+      _class_DartInputStreamAdapter,
       _sel_alloc,
     );
     return DartInputStreamAdapter.fromPointer(
@@ -1026,7 +1026,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   /// allocWithZone:
   static DartInputStreamAdapter allocWithZone(ffi.Pointer<NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
-      _class_DOBJCDartInputStreamAdapter,
+      _class_DartInputStreamAdapter,
       _sel_allocWithZone_,
       zone,
     );
@@ -1041,7 +1041,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   static DartInputStreamAdapter? inputStreamWithData(NSData data) {
     final _$$ref = data.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      _class_DOBJCDartInputStreamAdapter,
+      _class_DartInputStreamAdapter,
       _sel_inputStreamWithData_,
       _$$ref.pointer,
     );
@@ -1054,7 +1054,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   static DartInputStreamAdapter? inputStreamWithFileAtPath(NSString path) {
     final _$$ref = path.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      _class_DOBJCDartInputStreamAdapter,
+      _class_DartInputStreamAdapter,
       _sel_inputStreamWithFileAtPath_,
       _$$ref.pointer,
     );
@@ -1069,7 +1069,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   /// _  => The number of types being required in a `read:maxLength` call.
   static DartInputStreamAdapter inputStreamWithPort(int sendPort) {
     final $ret = _objc_msgSend_1ya1kjn(
-      _class_DOBJCDartInputStreamAdapter,
+      _class_DartInputStreamAdapter,
       _sel_inputStreamWithPort_,
       sendPort,
     );
@@ -1089,7 +1089,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
       macOS: (false, (10, 6, 0)),
     );
     final $ret = _objc_msgSend_1sotr3r(
-      _class_DOBJCDartInputStreamAdapter,
+      _class_DartInputStreamAdapter,
       _sel_inputStreamWithURL_,
       _$$ref.pointer,
     );
@@ -1100,10 +1100,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
 
   /// new
   static DartInputStreamAdapter new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartInputStreamAdapter,
-      _sel_new,
-    );
+    final $ret = _objc_msgSend_151sglz(_class_DartInputStreamAdapter, _sel_new);
     return DartInputStreamAdapter.fromPointer(
       $ret,
       retain: false,
@@ -1258,13 +1255,13 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class_DOBJCDartInputStreamAdapterWeakHolder,
+          _class_DartInputStreamAdapterWeakHolder,
         );
 
   /// alloc
   static DartInputStreamAdapterWeakHolder alloc() {
     final $ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _class_DartInputStreamAdapterWeakHolder,
       _sel_alloc,
     );
     return DartInputStreamAdapterWeakHolder.fromPointer(
@@ -1279,7 +1276,7 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
     ffi.Pointer<NSZone> zone,
   ) {
     final $ret = _objc_msgSend_1cwp428(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _class_DartInputStreamAdapterWeakHolder,
       _sel_allocWithZone_,
       zone,
     );
@@ -1296,7 +1293,7 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
   ) {
     final _$$ref = adapter.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _class_DartInputStreamAdapterWeakHolder,
       _sel_holderWithInputStreamAdapter_,
       _$$ref.pointer,
     );
@@ -1310,7 +1307,7 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
   /// new
   static DartInputStreamAdapterWeakHolder new$() {
     final $ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _class_DartInputStreamAdapterWeakHolder,
       _sel_new,
     );
     return DartInputStreamAdapterWeakHolder.fromPointer(
@@ -1380,19 +1377,19 @@ extension type DartProtocol._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class_DOBJCDartProtocol,
+          _class_DartProtocol,
         );
 
   /// alloc
   static DartProtocol alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_DOBJCDartProtocol, _sel_alloc);
+    final $ret = _objc_msgSend_151sglz(_class_DartProtocol, _sel_alloc);
     return DartProtocol.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static DartProtocol allocWithZone(ffi.Pointer<NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
-      _class_DOBJCDartProtocol,
+      _class_DartProtocol,
       _sel_allocWithZone_,
       zone,
     );
@@ -1401,7 +1398,7 @@ extension type DartProtocol._(objc.ObjCObject object$)
 
   /// new
   static DartProtocol new$() {
-    final $ret = _objc_msgSend_151sglz(_class_DOBJCDartProtocol, _sel_new);
+    final $ret = _objc_msgSend_151sglz(_class_DartProtocol, _sel_new);
     return DartProtocol.fromPointer($ret, retain: false, release: true);
   }
 
@@ -1485,22 +1482,19 @@ extension type DartProtocolBuilder._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class_DOBJCDartProtocolBuilder,
+          _class_DartProtocolBuilder,
         );
 
   /// alloc
   static DartProtocolBuilder alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartProtocolBuilder,
-      _sel_alloc,
-    );
+    final $ret = _objc_msgSend_151sglz(_class_DartProtocolBuilder, _sel_alloc);
     return DartProtocolBuilder.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static DartProtocolBuilder allocWithZone(ffi.Pointer<NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
-      _class_DOBJCDartProtocolBuilder,
+      _class_DartProtocolBuilder,
       _sel_allocWithZone_,
       zone,
     );
@@ -1509,10 +1503,7 @@ extension type DartProtocolBuilder._(objc.ObjCObject object$)
 
   /// new
   static DartProtocolBuilder new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartProtocolBuilder,
-      _sel_new,
-    );
+    final $ret = _objc_msgSend_151sglz(_class_DartProtocolBuilder, _sel_new);
     return DartProtocolBuilder.fromPointer($ret, retain: false, release: true);
   }
 
@@ -34880,7 +34871,7 @@ extension type _BlockArgs_139usnw._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_vhbh5h,
+          _class__BlockArgs_139usnw,
         );
 }
 
@@ -34918,7 +34909,7 @@ extension type _BlockArgs_1599z35._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_18v1jvf,
+          _class__BlockArgs_1599z35,
         );
 }
 
@@ -34957,7 +34948,7 @@ extension type _BlockArgs_18aygyv._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_rnu2c5,
+          _class__BlockArgs_18aygyv,
         );
 }
 
@@ -35006,7 +34997,7 @@ extension type _BlockArgs_1dse6r3._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_pfv6jd$4,
+          _class__BlockArgs_1dse6r3,
         );
 }
 
@@ -35050,7 +35041,7 @@ extension type _BlockArgs_1e1kc88._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_18v1jvf$1,
+          _class__BlockArgs_1e1kc88,
         );
 }
 
@@ -35089,7 +35080,7 @@ extension type _BlockArgs_1e56rsl._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_1p9ui4q,
+          _class__BlockArgs_1e56rsl,
         );
 }
 
@@ -35133,7 +35124,7 @@ extension type _BlockArgs_1ebqbq6._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_q5jeyk,
+          _class__BlockArgs_1ebqbq6,
         );
 }
 
@@ -35171,7 +35162,7 @@ extension type _BlockArgs_1lk8uv7._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_pfv6jd$3,
+          _class__BlockArgs_1lk8uv7,
         );
 }
 
@@ -35215,7 +35206,7 @@ extension type _BlockArgs_1ltqoqj._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_zuf90e,
+          _class__BlockArgs_1ltqoqj,
         );
 }
 
@@ -35253,7 +35244,7 @@ extension type _BlockArgs_1mvxr7g._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_1sr3ozv,
+          _class__BlockArgs_1mvxr7g,
         );
 }
 
@@ -35309,7 +35300,7 @@ extension type _BlockArgs_1pvrxoh._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_lmc3p5,
+          _class__BlockArgs_1pvrxoh,
         );
 }
 
@@ -35376,7 +35367,7 @@ extension type _BlockArgs_1y7l7kf._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_pfv6jd$1,
+          _class__BlockArgs_1y7l7kf,
         );
 }
 
@@ -35420,7 +35411,7 @@ extension type _BlockArgs_3djt55._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_1q8ia8l,
+          _class__BlockArgs_3djt55,
         );
 }
 
@@ -35471,7 +35462,7 @@ extension type _BlockArgs_64fwqt._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_hoampi,
+          _class__BlockArgs_64fwqt,
         );
 }
 
@@ -35515,7 +35506,7 @@ extension type _BlockArgs_6yk1dr._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_1b3bb6a,
+          _class__BlockArgs_6yk1dr,
         );
 }
 
@@ -35566,7 +35557,7 @@ extension type _BlockArgs_awd5mj._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_ovsamd,
+          _class__BlockArgs_awd5mj,
         );
 }
 
@@ -35599,7 +35590,7 @@ extension type _BlockArgs_gk3fi2._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_1o83rbn,
+          _class__BlockArgs_gk3fi2,
         );
 }
 
@@ -35644,7 +35635,7 @@ extension type _BlockArgs_ii17hk._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_1pl9qdv,
+          _class__BlockArgs_ii17hk,
         );
 }
 
@@ -35672,7 +35663,7 @@ extension type _BlockArgs_kr40r0._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_xtuoz7,
+          _class__BlockArgs_kr40r0,
         );
 }
 
@@ -35706,7 +35697,7 @@ extension type _BlockArgs_krrtfh._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_pfv6jd$2,
+          _class__BlockArgs_krrtfh,
         );
 }
 
@@ -35748,7 +35739,7 @@ extension type _BlockArgs_ounrb4._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_t8l8el$1,
+          _class__BlockArgs_ounrb4,
         );
 }
 
@@ -35787,7 +35778,7 @@ extension type _BlockArgs_uckb5m._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_zkjmn1,
+          _class__BlockArgs_uckb5m,
         );
 }
 
@@ -35833,7 +35824,7 @@ extension type _BlockArgs_wnzfgp._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_t8l8el,
+          _class__BlockArgs_wnzfgp,
         );
 }
 
@@ -35872,7 +35863,7 @@ extension type _BlockArgs_x5cg0._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1wx624s_BlockArgs_pfv6jd,
+          _class__BlockArgs_x5cg0,
         );
 }
 
@@ -35895,48 +35886,6 @@ extension _BlockArgs_x5cg0$Methods on _BlockArgs_x5cg0 {
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_DOBJCDartInputStreamAdapter',
-)
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class_DOBJCDartInputStreamAdapter_raw;
-final _class_DOBJCDartInputStreamAdapter = objc.getClass(
-  "DOBJCDartInputStreamAdapter",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_DOBJCDartInputStreamAdapter_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_DOBJCDartInputStreamAdapterWeakHolder',
-)
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class_DOBJCDartInputStreamAdapterWeakHolder_raw;
-final _class_DOBJCDartInputStreamAdapterWeakHolder = objc.getClass(
-  "DOBJCDartInputStreamAdapterWeakHolder",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_DOBJCDartInputStreamAdapterWeakHolder_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_DOBJCDartProtocol',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class_DOBJCDartProtocol_raw;
-final _class_DOBJCDartProtocol = objc.getClass(
-  "DOBJCDartProtocol",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_DOBJCDartProtocol_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_DOBJCDartProtocolBuilder',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class_DOBJCDartProtocolBuilder_raw;
-final _class_DOBJCDartProtocolBuilder = objc.getClass(
-  "DOBJCDartProtocolBuilder",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_DOBJCDartProtocolBuilder_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_DOBJCObservation',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_DOBJCObservation_raw;
@@ -35944,6 +35893,47 @@ final _class_DOBJCObservation = objc.getClass(
   "DOBJCObservation",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_DOBJCObservation_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartInputStreamAdapter',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_DartInputStreamAdapter_raw;
+final _class_DartInputStreamAdapter = objc.getClass(
+  "DOBJCDartInputStreamAdapter",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DartInputStreamAdapter_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartInputStreamAdapterWeakHolder',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_DartInputStreamAdapterWeakHolder_raw;
+final _class_DartInputStreamAdapterWeakHolder = objc.getClass(
+  "DOBJCDartInputStreamAdapterWeakHolder",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DartInputStreamAdapterWeakHolder_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartProtocol',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_DartProtocol_raw;
+final _class_DartProtocol = objc.getClass(
+  "DOBJCDartProtocol",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DartProtocol_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_DOBJCDartProtocolBuilder',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_DartProtocolBuilder_raw;
+final _class_DartProtocolBuilder = objc.getClass(
+  "DOBJCDartProtocolBuilder",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_DartProtocolBuilder_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSArray')
@@ -36351,249 +36341,243 @@ final _class_Protocol = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_18v1jvf',
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_vhbh5h',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_18v1jvf_raw;
-final _class__1wx624s_BlockArgs_18v1jvf = objc.getClass(
-  "_1wx624s_BlockArgs_18v1jvf",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_139usnw_raw;
+final _class__BlockArgs_139usnw = objc.getClass(
+  "_1wx624s_BlockArgs_vhbh5h",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_18v1jvf_raw,
+    _class__BlockArgs_139usnw_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_18v1jvf',
 )
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__1wx624s_BlockArgs_18v1jvf_raw$1;
-final _class__1wx624s_BlockArgs_18v1jvf$1 = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1599z35_raw;
+final _class__BlockArgs_1599z35 = objc.getClass(
   "_1wx624s_BlockArgs_18v1jvf",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_18v1jvf_raw$1,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1b3bb6a',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_1b3bb6a_raw;
-final _class__1wx624s_BlockArgs_1b3bb6a = objc.getClass(
-  "_1wx624s_BlockArgs_1b3bb6a",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_1b3bb6a_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1o83rbn',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_1o83rbn_raw;
-final _class__1wx624s_BlockArgs_1o83rbn = objc.getClass(
-  "_1wx624s_BlockArgs_1o83rbn",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_1o83rbn_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1p9ui4q',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_1p9ui4q_raw;
-final _class__1wx624s_BlockArgs_1p9ui4q = objc.getClass(
-  "_1wx624s_BlockArgs_1p9ui4q",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_1p9ui4q_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1pl9qdv',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_1pl9qdv_raw;
-final _class__1wx624s_BlockArgs_1pl9qdv = objc.getClass(
-  "_1wx624s_BlockArgs_1pl9qdv",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_1pl9qdv_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1q8ia8l',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_1q8ia8l_raw;
-final _class__1wx624s_BlockArgs_1q8ia8l = objc.getClass(
-  "_1wx624s_BlockArgs_1q8ia8l",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_1q8ia8l_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1sr3ozv',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_1sr3ozv_raw;
-final _class__1wx624s_BlockArgs_1sr3ozv = objc.getClass(
-  "_1wx624s_BlockArgs_1sr3ozv",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_1sr3ozv_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_hoampi',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_hoampi_raw;
-final _class__1wx624s_BlockArgs_hoampi = objc.getClass(
-  "_1wx624s_BlockArgs_hoampi",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_hoampi_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_lmc3p5',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_lmc3p5_raw;
-final _class__1wx624s_BlockArgs_lmc3p5 = objc.getClass(
-  "_1wx624s_BlockArgs_lmc3p5",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_lmc3p5_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_ovsamd',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_ovsamd_raw;
-final _class__1wx624s_BlockArgs_ovsamd = objc.getClass(
-  "_1wx624s_BlockArgs_ovsamd",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_ovsamd_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_pfv6jd_raw;
-final _class__1wx624s_BlockArgs_pfv6jd = objc.getClass(
-  "_1wx624s_BlockArgs_pfv6jd",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_pfv6jd_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
-)
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__1wx624s_BlockArgs_pfv6jd_raw$1;
-final _class__1wx624s_BlockArgs_pfv6jd$1 = objc.getClass(
-  "_1wx624s_BlockArgs_pfv6jd",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_pfv6jd_raw$1,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
-)
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__1wx624s_BlockArgs_pfv6jd_raw$2;
-final _class__1wx624s_BlockArgs_pfv6jd$2 = objc.getClass(
-  "_1wx624s_BlockArgs_pfv6jd",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_pfv6jd_raw$2,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
-)
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__1wx624s_BlockArgs_pfv6jd_raw$3;
-final _class__1wx624s_BlockArgs_pfv6jd$3 = objc.getClass(
-  "_1wx624s_BlockArgs_pfv6jd",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_pfv6jd_raw$3,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
-)
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__1wx624s_BlockArgs_pfv6jd_raw$4;
-final _class__1wx624s_BlockArgs_pfv6jd$4 = objc.getClass(
-  "_1wx624s_BlockArgs_pfv6jd",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_pfv6jd_raw$4,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_q5jeyk',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_q5jeyk_raw;
-final _class__1wx624s_BlockArgs_q5jeyk = objc.getClass(
-  "_1wx624s_BlockArgs_q5jeyk",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_q5jeyk_raw,
+    _class__BlockArgs_1599z35_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_rnu2c5',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_rnu2c5_raw;
-final _class__1wx624s_BlockArgs_rnu2c5 = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_18aygyv_raw;
+final _class__BlockArgs_18aygyv = objc.getClass(
   "_1wx624s_BlockArgs_rnu2c5",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_rnu2c5_raw,
+    _class__BlockArgs_18aygyv_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_t8l8el',
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_t8l8el_raw;
-final _class__1wx624s_BlockArgs_t8l8el = objc.getClass(
-  "_1wx624s_BlockArgs_t8l8el",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1dse6r3_raw;
+final _class__BlockArgs_1dse6r3 = objc.getClass(
+  "_1wx624s_BlockArgs_pfv6jd",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_t8l8el_raw,
+    _class__BlockArgs_1dse6r3_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_t8l8el',
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_18v1jvf',
 )
-external ffi.Pointer<objc.ObjCObjectImpl>
-_class__1wx624s_BlockArgs_t8l8el_raw$1;
-final _class__1wx624s_BlockArgs_t8l8el$1 = objc.getClass(
-  "_1wx624s_BlockArgs_t8l8el",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1e1kc88_raw;
+final _class__BlockArgs_1e1kc88 = objc.getClass(
+  "_1wx624s_BlockArgs_18v1jvf",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_t8l8el_raw$1,
+    _class__BlockArgs_1e1kc88_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_vhbh5h',
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1p9ui4q',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_vhbh5h_raw;
-final _class__1wx624s_BlockArgs_vhbh5h = objc.getClass(
-  "_1wx624s_BlockArgs_vhbh5h",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1e56rsl_raw;
+final _class__BlockArgs_1e56rsl = objc.getClass(
+  "_1wx624s_BlockArgs_1p9ui4q",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_vhbh5h_raw,
+    _class__BlockArgs_1e56rsl_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_xtuoz7',
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_q5jeyk',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_xtuoz7_raw;
-final _class__1wx624s_BlockArgs_xtuoz7 = objc.getClass(
-  "_1wx624s_BlockArgs_xtuoz7",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1ebqbq6_raw;
+final _class__BlockArgs_1ebqbq6 = objc.getClass(
+  "_1wx624s_BlockArgs_q5jeyk",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_xtuoz7_raw,
+    _class__BlockArgs_1ebqbq6_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_zkjmn1',
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_zkjmn1_raw;
-final _class__1wx624s_BlockArgs_zkjmn1 = objc.getClass(
-  "_1wx624s_BlockArgs_zkjmn1",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1lk8uv7_raw;
+final _class__BlockArgs_1lk8uv7 = objc.getClass(
+  "_1wx624s_BlockArgs_pfv6jd",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_zkjmn1_raw,
+    _class__BlockArgs_1lk8uv7_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_zuf90e',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1wx624s_BlockArgs_zuf90e_raw;
-final _class__1wx624s_BlockArgs_zuf90e = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1ltqoqj_raw;
+final _class__BlockArgs_1ltqoqj = objc.getClass(
   "_1wx624s_BlockArgs_zuf90e",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1wx624s_BlockArgs_zuf90e_raw,
+    _class__BlockArgs_1ltqoqj_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1sr3ozv',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1mvxr7g_raw;
+final _class__BlockArgs_1mvxr7g = objc.getClass(
+  "_1wx624s_BlockArgs_1sr3ozv",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_1mvxr7g_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_lmc3p5',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1pvrxoh_raw;
+final _class__BlockArgs_1pvrxoh = objc.getClass(
+  "_1wx624s_BlockArgs_lmc3p5",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_1pvrxoh_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1y7l7kf_raw;
+final _class__BlockArgs_1y7l7kf = objc.getClass(
+  "_1wx624s_BlockArgs_pfv6jd",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_1y7l7kf_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1q8ia8l',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_3djt55_raw;
+final _class__BlockArgs_3djt55 = objc.getClass(
+  "_1wx624s_BlockArgs_1q8ia8l",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_3djt55_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_hoampi',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_64fwqt_raw;
+final _class__BlockArgs_64fwqt = objc.getClass(
+  "_1wx624s_BlockArgs_hoampi",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_64fwqt_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1b3bb6a',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_6yk1dr_raw;
+final _class__BlockArgs_6yk1dr = objc.getClass(
+  "_1wx624s_BlockArgs_1b3bb6a",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_6yk1dr_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_ovsamd',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_awd5mj_raw;
+final _class__BlockArgs_awd5mj = objc.getClass(
+  "_1wx624s_BlockArgs_ovsamd",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_awd5mj_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1o83rbn',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_gk3fi2_raw;
+final _class__BlockArgs_gk3fi2 = objc.getClass(
+  "_1wx624s_BlockArgs_1o83rbn",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_gk3fi2_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_1pl9qdv',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_ii17hk_raw;
+final _class__BlockArgs_ii17hk = objc.getClass(
+  "_1wx624s_BlockArgs_1pl9qdv",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_ii17hk_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_xtuoz7',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_kr40r0_raw;
+final _class__BlockArgs_kr40r0 = objc.getClass(
+  "_1wx624s_BlockArgs_xtuoz7",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_kr40r0_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_krrtfh_raw;
+final _class__BlockArgs_krrtfh = objc.getClass(
+  "_1wx624s_BlockArgs_pfv6jd",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_krrtfh_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_t8l8el',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_ounrb4_raw;
+final _class__BlockArgs_ounrb4 = objc.getClass(
+  "_1wx624s_BlockArgs_t8l8el",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_ounrb4_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_zkjmn1',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_uckb5m_raw;
+final _class__BlockArgs_uckb5m = objc.getClass(
+  "_1wx624s_BlockArgs_zkjmn1",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_uckb5m_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_t8l8el',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_wnzfgp_raw;
+final _class__BlockArgs_wnzfgp = objc.getClass(
+  "_1wx624s_BlockArgs_t8l8el",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_wnzfgp_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1wx624s_BlockArgs_pfv6jd',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_x5cg0_raw;
+final _class__BlockArgs_x5cg0 = objc.getClass(
+  "_1wx624s_BlockArgs_pfv6jd",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_x5cg0_raw,
   ).cast(),
 );
 final _objc_msgSend_102xxo4 = objc.msgSendPointer

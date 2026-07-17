@@ -1449,7 +1449,7 @@ extension type _BlockArgs_1t32fdx._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1yx5rho_BlockArgs_18v1jvf,
+          _class__BlockArgs_1t32fdx,
         );
 }
 
@@ -1488,7 +1488,7 @@ extension type _BlockArgs_1vzvc26._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1yx5rho_BlockArgs_xtuoz7,
+          _class__BlockArgs_1vzvc26,
         );
 }
 
@@ -1522,7 +1522,7 @@ extension type _BlockArgs_nl1ebt._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__1yx5rho_BlockArgs_jk1ljc,
+          _class__BlockArgs_nl1ebt,
         );
 }
 
@@ -1572,31 +1572,31 @@ final _class_TestWeatherService = objc.getClass(
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__1yx5rho_BlockArgs_18v1jvf',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1yx5rho_BlockArgs_18v1jvf_raw;
-final _class__1yx5rho_BlockArgs_18v1jvf = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1t32fdx_raw;
+final _class__BlockArgs_1t32fdx = objc.getClass(
   "_1yx5rho_BlockArgs_18v1jvf",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1yx5rho_BlockArgs_18v1jvf_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__1yx5rho_BlockArgs_jk1ljc',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1yx5rho_BlockArgs_jk1ljc_raw;
-final _class__1yx5rho_BlockArgs_jk1ljc = objc.getClass(
-  "_1yx5rho_BlockArgs_jk1ljc",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1yx5rho_BlockArgs_jk1ljc_raw,
+    _class__BlockArgs_1t32fdx_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__1yx5rho_BlockArgs_xtuoz7',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__1yx5rho_BlockArgs_xtuoz7_raw;
-final _class__1yx5rho_BlockArgs_xtuoz7 = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1vzvc26_raw;
+final _class__BlockArgs_1vzvc26 = objc.getClass(
   "_1yx5rho_BlockArgs_xtuoz7",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__1yx5rho_BlockArgs_xtuoz7_raw,
+    _class__BlockArgs_1vzvc26_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__1yx5rho_BlockArgs_jk1ljc',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_nl1ebt_raw;
+final _class__BlockArgs_nl1ebt = objc.getClass(
+  "_1yx5rho_BlockArgs_jk1ljc",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class__BlockArgs_nl1ebt_raw,
   ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
