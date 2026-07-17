@@ -148,25 +148,43 @@ void main() {
 
     test('Blocking block same thread throws', () {
       int value = 0;
-      final block = VoidBlock.blocking(() {
-        value = 123;
-        throw "Hello";
-      });
-      BlockTester.callOnSameThread(block);
+      Object? thrownError;
+      runZonedGuarded(
+        () {
+          final block = VoidBlock.blocking(() {
+            value = 123;
+            throw "Hello";
+          });
+          BlockTester.callOnSameThread(block);
+        },
+        (error, stack) {
+          thrownError = error;
+        },
+      );
       expect(value, 123);
+      expect(thrownError, "Hello");
     });
 
     test('Blocking block new thread throws', () async {
-      final block = IntPtrBlock.blocking((Pointer<Int32> result) {
-        result.value = 123456;
-        throw "Hello";
-      });
-      final resultCompleter = Completer<int>();
-      final resultBlock = ResultBlock.listener((int result) {
-        resultCompleter.complete(result);
-      });
-      BlockTester.blockingBlockTest(block, resultBlock: resultBlock);
-      expect(await resultCompleter.future, 123456);
+      final errorCompleter = Completer<Object>();
+      runZonedGuarded(
+        () async {
+          final block = IntPtrBlock.blocking((Pointer<Int32> result) {
+            result.value = 123456;
+            throw "Hello";
+          });
+          final resultCompleter = Completer<int>();
+          final resultBlock = ResultBlock.listener((int result) {
+            resultCompleter.complete(result);
+          });
+          BlockTester.blockingBlockTest(block, resultBlock: resultBlock);
+          expect(await resultCompleter.future, 123456);
+        },
+        (error, stack) {
+          errorCompleter.complete(error);
+        },
+      );
+      expect(await errorCompleter.future, "Hello");
     });
 
     test('Blocking block manual invocation', () {
@@ -919,9 +937,9 @@ void main() {
         expect(blockTracker.isAlive, true);
         expect(dummyObjectTracker.isAlive, true);
 
-        dummyObject = null;
         block = null;
         tester.invokeAndReleaseListener(null);
+        dummyObject = null;
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();

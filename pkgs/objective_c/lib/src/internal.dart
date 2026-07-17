@@ -428,7 +428,7 @@ BlockPtr newBlockPort(
     final argsPtr = ObjectPtr.fromAddress(argsRaw);
     final pool = r.autoreleasePoolPush();
     try {
-      zone.run(() => callback(argsPtr));
+      zone.runGuarded(() => callback(argsPtr));
     } finally {
       r.autoreleasePoolPop(pool);
       r.objectRelease(argsPtr);
@@ -451,7 +451,7 @@ BlockPtr newBlockingBlockPort(
   void runCallback(ObjectPtr argsPtr) {
     final pool = r.autoreleasePoolPush();
     try {
-      zone.run(() => callback(argsPtr));
+      zone.runGuarded(() => callback(argsPtr));
     } finally {
       r.autoreleasePoolPop(pool);
       r.objectRelease(argsPtr);
