@@ -65,11 +65,13 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 
   static ObjCInterface forBlockArgs(
     Context context,
+    String name,
     String originalName,
     List<Parameter> params,
   ) {
     final itf = ObjCInterface(
       originalName: originalName,
+      name: name,
       apiAvailability: ApiAvailability.all,
       context: context,
       isInternal: true,

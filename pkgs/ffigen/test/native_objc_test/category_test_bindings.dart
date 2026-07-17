@@ -968,7 +968,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
       objc.newBlockPort(_l3cf7j_wrapListenerBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _l3cf7j_BlockArgs_x5cg0.fromPointer(
+        final args = _BlockArgs_x5cg0.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -1000,7 +1000,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
       objc.newBlockingBlockPort(_l3cf7j_wrapBlockingBlock_pfv6jd, (
         ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
       ) {
-        final args = _l3cf7j_BlockArgs_x5cg0.fromPointer(
+        final args = _BlockArgs_x5cg0.fromPointer(
           rawArgs,
           retain: false,
           release: false,
@@ -1215,6 +1215,50 @@ extension Thing$Methods on Thing {
   }
 }
 
+extension type _BlockArgs_x5cg0._(objc.ObjCObject object$)
+    implements objc.ObjCObject {
+  /// Constructs a [_BlockArgs_x5cg0] that points to the same underlying object as [other].
+  _BlockArgs_x5cg0.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [_BlockArgs_x5cg0] that wraps the given raw object pointer.
+  _BlockArgs_x5cg0.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [_BlockArgs_x5cg0].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class__l3cf7j_BlockArgs_pfv6jd,
+        );
+}
+
+extension _BlockArgs_x5cg0$Methods on _BlockArgs_x5cg0 {
+  objc.NSData? get arg0 {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
+    return $ret.address == 0
+        ? null
+        : objc.NSData.fromPointer($ret, retain: true, release: true);
+  }
+
+  objc.NSError? get arg1 {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+    return $ret.address == 0
+        ? null
+        : objc.NSError.fromPointer($ret, retain: true, release: true);
+  }
+}
+
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_ChildOfNSString',
 )
@@ -1260,60 +1304,15 @@ final _class_Thing = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__l3cf7j_BlockArgs_x5cg0',
+  symbol: 'OBJC_CLASS_\$__l3cf7j_BlockArgs_pfv6jd',
 )
-external ffi.Pointer<objc.ObjCObjectImpl> _class__l3cf7j_BlockArgs_x5cg0_raw;
-final _class__l3cf7j_BlockArgs_x5cg0 = objc.getClass(
-  "_l3cf7j_BlockArgs_x5cg0",
+external ffi.Pointer<objc.ObjCObjectImpl> _class__l3cf7j_BlockArgs_pfv6jd_raw;
+final _class__l3cf7j_BlockArgs_pfv6jd = objc.getClass(
+  "_l3cf7j_BlockArgs_pfv6jd",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__l3cf7j_BlockArgs_x5cg0_raw,
+    _class__l3cf7j_BlockArgs_pfv6jd_raw,
   ).cast(),
 );
-
-extension type _l3cf7j_BlockArgs_x5cg0._(objc.ObjCObject object$)
-    implements objc.ObjCObject {
-  /// Constructs a [_l3cf7j_BlockArgs_x5cg0] that points to the same underlying object as [other].
-  _l3cf7j_BlockArgs_x5cg0.as(objc.ObjCObject other) : object$ = other {
-    assert(isA(object$));
-  }
-
-  /// Constructs a [_l3cf7j_BlockArgs_x5cg0] that wraps the given raw object pointer.
-  _l3cf7j_BlockArgs_x5cg0.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
-    assert(isA(object$));
-  }
-
-  /// Returns whether [obj] is an instance of [_l3cf7j_BlockArgs_x5cg0].
-  static bool isA(objc.ObjCObject? obj) => obj == null
-      ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class__l3cf7j_BlockArgs_x5cg0,
-        );
-}
-
-extension _l3cf7j_BlockArgs_x5cg0$Methods on _l3cf7j_BlockArgs_x5cg0 {
-  objc.NSData? get arg0 {
-    final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : objc.NSData.fromPointer($ret, retain: true, release: true);
-  }
-
-  objc.NSError? get arg1 {
-    final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return $ret.address == 0
-        ? null
-        : objc.NSError.fromPointer($ret, retain: true, release: true);
-  }
-}
-
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

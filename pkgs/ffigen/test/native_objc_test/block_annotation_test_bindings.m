@@ -84,11 +84,11 @@ id  _z0xonr_protocolTrampoline_cww6wh(id target, void * sel, id arg1 __attribute
 }
 
 __attribute__((visibility("default")))
-@interface _z0xonr_BlockArgs_ii17hk : NSObject
+@interface _z0xonr_BlockArgs_1pl9qdv : NSObject
 @property (copy) id block;
 
 @end
-@implementation _z0xonr_BlockArgs_ii17hk
+@implementation _z0xonr_BlockArgs_1pl9qdv
 @end
 
 typedef void  (^_ListenerTrampoline)(void);
@@ -98,7 +98,7 @@ _ListenerTrampoline _z0xonr_wrapListenerBlock_1pl9qdv(
   __block __weak _ListenerTrampoline weakSelfBlock = nil;
   _ListenerTrampoline strongSelfBlock = [^void() {
     @autoreleasepool {
-      _z0xonr_BlockArgs_ii17hk* args = [[_z0xonr_BlockArgs_ii17hk alloc] init];
+      _z0xonr_BlockArgs_1pl9qdv* args = [[_z0xonr_BlockArgs_1pl9qdv alloc] init];
       args.block = weakSelfBlock;
       
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
@@ -114,14 +114,14 @@ _ListenerTrampoline _z0xonr_wrapBlockingBlock_1pl9qdv(int64_t port, DOBJC_Contex
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline, ^void(), {
     @autoreleasepool {
-      _z0xonr_BlockArgs_ii17hk* args = [[_z0xonr_BlockArgs_ii17hk alloc] init];
+      _z0xonr_BlockArgs_1pl9qdv* args = [[_z0xonr_BlockArgs_1pl9qdv alloc] init];
       args.block = weakSelfBlock;
       
       directInvoke((__bridge_retained void*)args);
     }
   }, {
     @autoreleasepool {
-      _z0xonr_BlockArgs_ii17hk* args = [[_z0xonr_BlockArgs_ii17hk alloc] init];
+      _z0xonr_BlockArgs_1pl9qdv* args = [[_z0xonr_BlockArgs_1pl9qdv alloc] init];
       args.block = weakSelfBlock;
       
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
@@ -130,12 +130,12 @@ _ListenerTrampoline _z0xonr_wrapBlockingBlock_1pl9qdv(int64_t port, DOBJC_Contex
 }
 
 __attribute__((visibility("default")))
-@interface _z0xonr_BlockArgs_1wgsnfr : NSObject
+@interface _z0xonr_BlockArgs_18v1jvf : NSObject
 @property (copy) id block;
 @property void * arg0;
 @property (strong) id arg1;
 @end
-@implementation _z0xonr_BlockArgs_1wgsnfr
+@implementation _z0xonr_BlockArgs_18v1jvf
 @end
 
 typedef void  (^_ListenerTrampoline_1)(void * arg0, id arg1);
@@ -145,7 +145,7 @@ _ListenerTrampoline_1 _z0xonr_wrapListenerBlock_18v1jvf(
   __block __weak _ListenerTrampoline_1 weakSelfBlock = nil;
   _ListenerTrampoline_1 strongSelfBlock = [^void(void * arg0, id arg1) {
     @autoreleasepool {
-      _z0xonr_BlockArgs_1wgsnfr* args = [[_z0xonr_BlockArgs_1wgsnfr alloc] init];
+      _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -162,7 +162,7 @@ _ListenerTrampoline_1 _z0xonr_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Cont
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_1, ^void(void * arg0, id arg1), {
     @autoreleasepool {
-      _z0xonr_BlockArgs_1wgsnfr* args = [[_z0xonr_BlockArgs_1wgsnfr alloc] init];
+      _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -170,7 +170,7 @@ _ListenerTrampoline_1 _z0xonr_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Cont
     }
   }, {
     @autoreleasepool {
-      _z0xonr_BlockArgs_1wgsnfr* args = [[_z0xonr_BlockArgs_1wgsnfr alloc] init];
+      _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -186,12 +186,12 @@ void  _z0xonr_protocolTrampoline_18v1jvf(id target, void * sel, id arg1) {
 }
 
 __attribute__((visibility("default")))
-@interface _z0xonr_BlockArgs_o9cz58 : NSObject
+@interface _z0xonr_BlockArgs_6yc3kd : NSObject
 @property (copy) id block;
 @property void * arg0;
 @property (strong) id arg1;
 @end
-@implementation _z0xonr_BlockArgs_o9cz58
+@implementation _z0xonr_BlockArgs_6yc3kd
 @end
 
 typedef void  (^_ListenerTrampoline_2)(void * arg0, id arg1);
@@ -201,7 +201,7 @@ _ListenerTrampoline_2 _z0xonr_wrapListenerBlock_6yc3kd(
   __block __weak _ListenerTrampoline_2 weakSelfBlock = nil;
   _ListenerTrampoline_2 strongSelfBlock = [^void(void * arg0, id arg1) {
     @autoreleasepool {
-      _z0xonr_BlockArgs_o9cz58* args = [[_z0xonr_BlockArgs_o9cz58 alloc] init];
+      _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -218,7 +218,7 @@ _ListenerTrampoline_2 _z0xonr_wrapBlockingBlock_6yc3kd(int64_t port, DOBJC_Conte
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline_2, ^void(void * arg0, id arg1), {
     @autoreleasepool {
-      _z0xonr_BlockArgs_o9cz58* args = [[_z0xonr_BlockArgs_o9cz58 alloc] init];
+      _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;
@@ -226,7 +226,7 @@ _ListenerTrampoline_2 _z0xonr_wrapBlockingBlock_6yc3kd(int64_t port, DOBJC_Conte
     }
   }, {
     @autoreleasepool {
-      _z0xonr_BlockArgs_o9cz58* args = [[_z0xonr_BlockArgs_o9cz58 alloc] init];
+      _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
     args.arg1 = arg1;

@@ -105,7 +105,8 @@ class ObjCBlock extends BindingType with HasLocalScope {
       final sigHash = _getBlockSigHash(returnType, params, returnsRetained);
       _argClass = ObjCInterface.forBlockArgs(
         context,
-        '_${libraryId}_BlockArgs_$sigHash',
+        '_BlockArgs_$sigHash',
+        '_${libraryId}_BlockArgs_${_blockWrappers!.idHash}',
         params,
       );
     }

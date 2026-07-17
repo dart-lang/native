@@ -57,11 +57,11 @@ id objc_retainBlock(id);
 
 
 __attribute__((visibility("default")))
-@interface _rdx59v_BlockArgs_1liq3c0 : NSObject
+@interface _rdx59v_BlockArgs_1bqef4y : NSObject
 @property (copy) id block;
 @property int32_t arg0;
 @end
-@implementation _rdx59v_BlockArgs_1liq3c0
+@implementation _rdx59v_BlockArgs_1bqef4y
 @end
 
 typedef void  (^_ListenerTrampoline)(int32_t arg0);
@@ -71,7 +71,7 @@ _ListenerTrampoline _rdx59v_wrapListenerBlock_1bqef4y(
   __block __weak _ListenerTrampoline weakSelfBlock = nil;
   _ListenerTrampoline strongSelfBlock = [^void(int32_t arg0) {
     @autoreleasepool {
-      _rdx59v_BlockArgs_1liq3c0* args = [[_rdx59v_BlockArgs_1liq3c0 alloc] init];
+      _rdx59v_BlockArgs_1bqef4y* args = [[_rdx59v_BlockArgs_1bqef4y alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
@@ -87,14 +87,14 @@ _ListenerTrampoline _rdx59v_wrapBlockingBlock_1bqef4y(int64_t port, DOBJC_Contex
     void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline, ^void(int32_t arg0), {
     @autoreleasepool {
-      _rdx59v_BlockArgs_1liq3c0* args = [[_rdx59v_BlockArgs_1liq3c0 alloc] init];
+      _rdx59v_BlockArgs_1bqef4y* args = [[_rdx59v_BlockArgs_1bqef4y alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
     @autoreleasepool {
-      _rdx59v_BlockArgs_1liq3c0* args = [[_rdx59v_BlockArgs_1liq3c0 alloc] init];
+      _rdx59v_BlockArgs_1bqef4y* args = [[_rdx59v_BlockArgs_1bqef4y alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
