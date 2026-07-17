@@ -407,8 +407,8 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
-typedef _BlockCallback = Void Function(ObjectPtr);
-typedef _BlockCallbackPointer = Pointer<NativeFunction<_BlockCallback>>;
+typedef BlockCallback = Void Function(ObjectPtr);
+typedef BlockCallbackPointer = Pointer<NativeFunction<BlockCallback>>;
 
 /// Only for use by FFIgen bindings.
 BlockPtr newBlockPort(
@@ -419,7 +419,7 @@ BlockPtr newBlockPort(
   _ensureDartAPI();
   final zone = Zone.current;
   final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
-  port.handler = (dynamic argsRaw) {
+  port.handler = (int? argsRaw) {
     if (argsRaw == null) {
       port.close();
       port.handler = null;
@@ -429,7 +429,6 @@ BlockPtr newBlockPort(
     final pool = r.autoreleasePoolPush();
     try {
       zone.run(() => callback(argsPtr));
-    } catch (e, st) {
     } finally {
       r.autoreleasePoolPop(pool);
       r.objectRelease(argsPtr);
@@ -443,24 +442,23 @@ BlockPtr newBlockPort(
 
 /// Only for use by FFIgen bindings.
 BlockPtr newBlockingBlockPort(
-  BlockPtr Function(int, ContextPtr, _BlockCallbackPointer) maker,
+  BlockPtr Function(int, ContextPtr, BlockCallbackPointer) maker,
   void Function(ObjectPtr) callback,
   bool keepIsolateAlive,
 ) {
   _ensureDartAPI();
   final zone = Zone.current;
-  final runCallback = (ObjectPtr argsPtr) {
+  void runCallback(ObjectPtr argsPtr) {
     final pool = r.autoreleasePoolPush();
     try {
       zone.run(() => callback(argsPtr));
-    } catch (e, st) {
     } finally {
       r.autoreleasePoolPop(pool);
       r.objectRelease(argsPtr);
     }
-  };
+  }
 
-  final direct = NativeCallable<_BlockCallback>.isolateLocal(runCallback)
+  final direct = NativeCallable<BlockCallback>.isolateLocal(runCallback)
     ..keepIsolateAlive = false;
   final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
   port.handler = (List<dynamic>? argsRaw) {
