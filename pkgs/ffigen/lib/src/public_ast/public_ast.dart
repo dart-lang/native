@@ -97,12 +97,12 @@ typedef FfiVisitor = Visitor;
 
 /// Root AST container holding all top-level declarations.
 class PublicAst {
-  final List<Declaration> declarations;
+  final List<Decl> declarations;
 
   PublicAst(this.declarations);
 
   factory PublicAst.fromBindings(List<ast.Binding> bindings) {
-    final decls = <Declaration>[];
+    final decls = <Decl>[];
     for (final b in bindings) {
       final shadow = _wrapBinding(b);
       if (shadow != null) decls.add(shadow);
@@ -110,7 +110,7 @@ class PublicAst {
     return PublicAst(decls);
   }
 
-  static Declaration? _wrapBinding(ast.Binding binding) {
+  static Decl? _wrapBinding(ast.Binding binding) {
     return switch (binding) {
       final ast.Struct s => Struct(s),
       final ast.Union u => Union(u),
@@ -135,13 +135,13 @@ class PublicAst {
 
 typedef FfiAst = PublicAst;
 
-/// Abstract base for all public AST elements.
-abstract class PublicElement {
+/// Abstract base for all public AST nodes.
+abstract class AstNode {
   void accept(Visitor visitor);
 }
 
 /// Top-level declaration public AST element.
-abstract class Declaration implements PublicElement {
+abstract class Decl implements AstNode {
   String get originalName;
   String get name;
   set name(String value);
@@ -151,7 +151,7 @@ abstract class Declaration implements PublicElement {
   set isExcluded(bool value);
 }
 
-class Struct implements Declaration {
+class Struct implements Decl {
   final ast.Struct _binding;
 
   Struct(this._binding);
@@ -183,7 +183,7 @@ class Struct implements Declaration {
   void accept(Visitor visitor) => visitor.visitStruct(this);
 }
 
-class Union implements Declaration {
+class Union implements Decl {
   final ast.Union _binding;
 
   Union(this._binding);
@@ -212,7 +212,7 @@ class Union implements Declaration {
   void accept(Visitor visitor) => visitor.visitUnion(this);
 }
 
-class EnumClass implements Declaration {
+class EnumClass implements Decl {
   final ast.EnumClass _binding;
 
   EnumClass(this._binding);
@@ -245,13 +245,14 @@ class EnumClass implements Declaration {
   void accept(Visitor visitor) => visitor.visitEnum(this);
 }
 
-class UnnamedEnumConstant implements Declaration {
+class UnnamedEnumConstant implements Decl {
   final ast.UnnamedEnumConstant _binding;
 
   UnnamedEnumConstant(this._binding);
 
   @override
-  String get originalName => _binding.originalName;
+  String get originalName =>
+      _binding.originalName.isNotEmpty ? _binding.originalName : _binding.name;
 
   @override
   String get usr => _binding.usr;
@@ -272,7 +273,7 @@ class UnnamedEnumConstant implements Declaration {
   void accept(Visitor visitor) => visitor.visitUnnamedEnumConstant(this);
 }
 
-class Func implements Declaration {
+class Func implements Decl {
   final ast.Func _binding;
 
   Func(this._binding);
@@ -315,7 +316,7 @@ class Func implements Declaration {
   void accept(Visitor visitor) => visitor.visitFunc(this);
 }
 
-class Global implements Declaration {
+class Global implements Decl {
   final ast.Global _binding;
 
   Global(this._binding);
@@ -345,13 +346,14 @@ class Global implements Declaration {
   void accept(Visitor visitor) => visitor.visitGlobal(this);
 }
 
-class MacroConstant implements Declaration {
+class MacroConstant implements Decl {
   final ast.MacroConstant _binding;
 
   MacroConstant(this._binding);
 
   @override
-  String get originalName => _binding.originalName;
+  String get originalName =>
+      _binding.originalName.isNotEmpty ? _binding.originalName : _binding.name;
 
   @override
   String get usr => _binding.usr;
@@ -372,7 +374,7 @@ class MacroConstant implements Declaration {
   void accept(Visitor visitor) => visitor.visitMacroConstant(this);
 }
 
-class Typealias implements Declaration {
+class Typealias implements Decl {
   final ast.Typealias _binding;
 
   Typealias(this._binding);
@@ -399,7 +401,7 @@ class Typealias implements Declaration {
   void accept(Visitor visitor) => visitor.visitTypealias(this);
 }
 
-class ObjCInterface implements Declaration {
+class ObjCInterface implements Decl {
   final ast.ObjCInterface _binding;
 
   ObjCInterface(this._binding);
@@ -431,7 +433,7 @@ class ObjCInterface implements Declaration {
   void accept(Visitor visitor) => visitor.visitObjCInterface(this);
 }
 
-class ObjCProtocol implements Declaration {
+class ObjCProtocol implements Decl {
   final ast.ObjCProtocol _binding;
 
   ObjCProtocol(this._binding);
@@ -463,7 +465,7 @@ class ObjCProtocol implements Declaration {
   void accept(Visitor visitor) => visitor.visitObjCProtocol(this);
 }
 
-class ObjCCategory implements Declaration {
+class ObjCCategory implements Decl {
   final ast.ObjCCategory _binding;
 
   ObjCCategory(this._binding);
@@ -492,7 +494,7 @@ class ObjCCategory implements Declaration {
   void accept(Visitor visitor) => visitor.visitObjCCategory(this);
 }
 
-class CppClass implements Declaration {
+class CppClass implements Decl {
   final ast.CppClass _binding;
 
   CppClass(this._binding);
@@ -524,7 +526,7 @@ class CppClass implements Declaration {
 }
 
 /// Member elements
-class Field implements PublicElement {
+class Field implements AstNode {
   final ast.CompoundMember _member;
 
   Field(this._member);
@@ -543,7 +545,7 @@ class Field implements PublicElement {
   void accept(Visitor visitor) => visitor.visitField(this);
 }
 
-class EnumConstant implements PublicElement {
+class EnumConstant implements AstNode {
   final ast.EnumConstant _constant;
 
   EnumConstant(this._constant);
@@ -564,7 +566,7 @@ class EnumConstant implements PublicElement {
   void accept(Visitor visitor) => visitor.visitEnumConstant(this);
 }
 
-class Parameter implements PublicElement {
+class Parameter implements AstNode {
   final ast.Parameter _param;
 
   Parameter(this._param);
@@ -583,7 +585,7 @@ class Parameter implements PublicElement {
   void accept(Visitor visitor) => visitor.visitParameter(this);
 }
 
-class ObjCMethod implements PublicElement {
+class ObjCMethod implements AstNode {
   final ast.ObjCMethod _method;
 
   ObjCMethod(this._method);
@@ -606,7 +608,7 @@ class ObjCMethod implements PublicElement {
   void accept(Visitor visitor) => visitor.visitObjCMethod(this);
 }
 
-class CppMethod implements PublicElement {
+class CppMethod implements AstNode {
   final ast.CppMethod _method;
 
   CppMethod(this._method);
@@ -660,6 +662,10 @@ class IncludeAllVisitor extends Visitor {
   void visitObjCCategory(ObjCCategory node) => node.isExcluded = false;
 
   @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      node.isExcluded = false;
+
+  @override
   void visitCppClass(CppClass node) => node.isExcluded = false;
 }
 
@@ -697,6 +703,10 @@ class ExcludeAllVisitor extends Visitor {
   void visitObjCCategory(ObjCCategory node) => node.isExcluded = true;
 
   @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      node.isExcluded = true;
+
+  @override
   void visitCppClass(CppClass node) => node.isExcluded = true;
 }
 
@@ -705,7 +715,7 @@ class IncludeSetVisitor extends Visitor {
 
   const IncludeSetVisitor(this.names);
 
-  void _check(Declaration node) {
+  void _check(Decl node) {
     node.isExcluded = !names.contains(node.originalName);
   }
 
@@ -715,6 +725,8 @@ class IncludeSetVisitor extends Visitor {
   void visitUnion(Union node) => _check(node);
   @override
   void visitEnum(EnumClass node) => _check(node);
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) => _check(node);
   @override
   void visitFunc(Func node) => _check(node);
   @override
@@ -761,7 +773,7 @@ class RenameMapVisitor extends Visitor {
 
   const RenameMapVisitor(this.renames);
 
-  void _rename(Declaration node) {
+  void _rename(Decl node) {
     if (renames.containsKey(node.originalName)) {
       node.name = renames[node.originalName]!;
     }
@@ -773,6 +785,8 @@ class RenameMapVisitor extends Visitor {
   void visitUnion(Union node) => _rename(node);
   @override
   void visitEnum(EnumClass node) => _rename(node);
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) => _rename(node);
   @override
   void visitFunc(Func node) => _rename(node);
   @override
@@ -866,7 +880,10 @@ class LegacyCallbacksVisitor extends Visitor {
           !config.enums.includeMember(node._binding, c.originalName!)) {
         c.isExcluded = true;
       } else if (c.originalName != null) {
-        final cRenamed = config.enums.renameMember(node._binding, c.originalName!);
+        final cRenamed = config.enums.renameMember(
+          node._binding,
+          c.originalName!,
+        );
         if (cRenamed != c.originalName) {
           c.name = cRenamed;
         }
@@ -965,13 +982,14 @@ class LegacyCallbacksVisitor extends Visitor {
     for (final method in node.methods) {
       if (!objcInterfaces.includeMember(node._binding, method.originalName)) {
         method.isExcluded = true;
-      } else {
+      } else if (objcInterfaces.renameMember !=
+          Declarations.useMemberOriginalName) {
         final methodRenamed = objcInterfaces.renameMember(
           node._binding,
           method.originalName,
         );
         if (methodRenamed != method.originalName) {
-          method.name = methodRenamed;
+          method.name = methodRenamed.split(':').first;
         }
       }
     }
@@ -993,13 +1011,14 @@ class LegacyCallbacksVisitor extends Visitor {
     for (final method in node.methods) {
       if (!objcProtocols.includeMember(node._binding, method.originalName)) {
         method.isExcluded = true;
-      } else {
+      } else if (objcProtocols.renameMember !=
+          Declarations.useMemberOriginalName) {
         final methodRenamed = objcProtocols.renameMember(
           node._binding,
           method.originalName,
         );
         if (methodRenamed != method.originalName) {
-          method.name = methodRenamed;
+          method.name = methodRenamed.split(':').first;
         }
       }
     }
@@ -1019,13 +1038,14 @@ class LegacyCallbacksVisitor extends Visitor {
     for (final method in node.methods) {
       if (!objcCategories.includeMember(node._binding, method.originalName)) {
         method.isExcluded = true;
-      } else {
+      } else if (objcCategories.renameMember !=
+          Declarations.useMemberOriginalName) {
         final methodRenamed = objcCategories.renameMember(
           node._binding,
           method.originalName,
         );
         if (methodRenamed != method.originalName) {
-          method.name = methodRenamed;
+          method.name = methodRenamed.split(':').first;
         }
       }
     }

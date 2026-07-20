@@ -9,7 +9,9 @@ FfiGenerator getConfig(Uri packageRoot) {
   return FfiGenerator(
     output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
     headers: Headers(entryPoints: [packageRoot.resolve('src/add.h')]),
-    visitors: [const IncludeSetVisitor({'add'})],
+    visitors: [
+      const IncludeSetVisitor({'add'}),
+    ],
   );
 }
 
