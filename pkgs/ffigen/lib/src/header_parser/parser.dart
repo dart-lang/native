@@ -14,6 +14,7 @@ import '../code_generator/scope.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
 import '../context.dart';
+import '../public_ast/public_ast.dart' as public_ast;
 import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
@@ -175,6 +176,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
 
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+
+  // Execute Public AST visitors.
+  final publicAst = public_ast.PublicAst.fromBindings(allBindings.toList());
+  publicAst.accept(public_ast.LegacyCallbacksVisitor(config));
+  for (final v in config.visitors ?? const <public_ast.Visitor>[]) {
+    publicAst.accept(v);
+  }
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
   visit(context, applyConfigFiltersVisitation, allBindings);

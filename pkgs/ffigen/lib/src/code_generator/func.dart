@@ -43,12 +43,12 @@ import 'writer.dart';
 /// ```
 class Func extends LookUpBinding with HasLocalScope {
   final FunctionType functionType;
-  final bool exposeSymbolAddress;
-  final bool exposeFunctionTypedefs;
-  final bool isLeaf;
+  bool exposeSymbolAddress;
+  bool exposeFunctionTypedefs;
+  bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
-  final bool recordUse;
+  bool recordUse;
   final ApiAvailability? apiAvailability;
 
   @override
@@ -289,6 +289,7 @@ class Parameter extends AstNode {
   final String originalName;
   Type type;
   final bool objCConsumed;
+  bool userDefinedIsExcluded = false;
 
   Symbol symbol;
   String get name => symbol.name;

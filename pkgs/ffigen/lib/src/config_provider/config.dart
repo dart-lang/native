@@ -9,12 +9,16 @@ import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../ffigen.dart';
+import '../public_ast/public_ast.dart' show Visitor;
 import 'config_types.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.
 // TODO: Add a code snippet example.
 final class FfiGenerator {
+  /// User custom visitors to modify/filter AST elements.
+  final List<Visitor>? visitors;
+
   /// The configuration for header parsing of [FfiGenerator].
   final Headers headers;
 
@@ -88,6 +92,7 @@ final class FfiGenerator {
   final Uri? libclangDylib;
 
   const FfiGenerator({
+    this.visitors,
     this.headers = const Headers(),
     this.enums = Enums.excludeAll,
     this.functions = Functions.excludeAll,

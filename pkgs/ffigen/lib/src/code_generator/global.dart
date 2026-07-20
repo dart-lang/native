@@ -26,7 +26,7 @@ import 'writer.dart';
 /// ```
 class Global extends LookUpBinding with HasLocalScope {
   final Type type;
-  final bool exposeSymbolAddress;
+  bool exposeSymbolAddress;
   final bool constant;
 
   @override

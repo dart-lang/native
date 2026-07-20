@@ -32,6 +32,9 @@ abstract class Binding extends AstNode implements Declaration {
   final String? dartDoc;
   final bool isInternal;
 
+  /// Whether this binding was explicitly excluded by a user visitor or filter.
+  bool userDefinedIsExcluded = false;
+
   /// Whether these bindings should be generated.
   ///
   /// Set by MarkBindingsVisitation.
