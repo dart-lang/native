@@ -12,10 +12,10 @@ void main() {
     headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/stb_image.h')],
     ),
-    functions: Functions(
-      include: (decl) => {'stbi_info'}.contains(decl.originalName),
-      recordUse: (_) => true,
-    ),
+    visitors: const [
+      IncludeSetVisitor({'stbi_info'}),
+      RecordUseVisitor(),
+    ],
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/stb_image.g.dart'),
       recordUseMapping: packageRoot.resolve(

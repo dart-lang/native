@@ -733,6 +733,29 @@ class IncludeSetVisitor extends Visitor {
   void visitCppClass(CppClass node) => _check(node);
 }
 
+class RecordUseVisitor extends Visitor {
+  const RecordUseVisitor();
+
+  @override
+  void visitFunc(Func node) {
+    node.recordUse = true;
+  }
+}
+
+class ExposeSymbolAddressVisitor extends Visitor {
+  const ExposeSymbolAddressVisitor();
+
+  @override
+  void visitFunc(Func node) {
+    node.exposeSymbolAddress = true;
+  }
+
+  @override
+  void visitGlobal(Global node) {
+    node.exposeSymbolAddress = true;
+  }
+}
+
 class RenameMapVisitor extends Visitor {
   final Map<String, String> renames;
 
@@ -779,7 +802,10 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = config.structs.rename(node._binding);
+    final renamed = config.structs.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     final pack = config.structs.packingOverride(node._binding);
     if (pack != null) {
       node.pack = pack.value;
@@ -788,10 +814,13 @@ class LegacyCallbacksVisitor extends Visitor {
       if (!config.structs.includeMember(node._binding, field.originalName)) {
         field.isExcluded = true;
       } else {
-        field.name = config.structs.renameMember(
+        final fieldRenamed = config.structs.renameMember(
           node._binding,
           field.originalName,
         );
+        if (fieldRenamed != field.originalName) {
+          field.name = fieldRenamed;
+        }
       }
     }
   }
@@ -802,15 +831,21 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = config.unions.rename(node._binding);
+    final renamed = config.unions.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     for (final field in node.fields) {
       if (!config.unions.includeMember(node._binding, field.originalName)) {
         field.isExcluded = true;
       } else {
-        field.name = config.unions.renameMember(
+        final fieldRenamed = config.unions.renameMember(
           node._binding,
           field.originalName,
         );
+        if (fieldRenamed != field.originalName) {
+          field.name = fieldRenamed;
+        }
       }
     }
   }
@@ -821,14 +856,20 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = config.enums.rename(node._binding);
+    final renamed = config.enums.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     node.style = config.enums.style(node._binding, node.style);
     for (final c in node.constants) {
       if (c.originalName != null &&
           !config.enums.includeMember(node._binding, c.originalName!)) {
         c.isExcluded = true;
       } else if (c.originalName != null) {
-        c.name = config.enums.renameMember(node._binding, c.originalName!);
+        final cRenamed = config.enums.renameMember(node._binding, c.originalName!);
+        if (cRenamed != c.originalName) {
+          c.name = cRenamed;
+        }
       }
     }
   }
@@ -839,7 +880,10 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = config.functions.rename(node._binding);
+    final renamed = config.functions.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     if (config.functions.includeSymbolAddress(node._binding)) {
       node.exposeSymbolAddress = true;
     }
@@ -860,7 +904,10 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = config.globals.rename(node._binding);
+    final renamed = config.globals.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     if (config.globals.includeSymbolAddress(node._binding)) {
       node.exposeSymbolAddress = true;
     }
@@ -871,7 +918,10 @@ class LegacyCallbacksVisitor extends Visitor {
     if (!config.macros.include(node._binding)) {
       node.isExcluded = true;
     } else {
-      node.name = config.macros.rename(node._binding);
+      final renamed = config.macros.rename(node._binding);
+      if (renamed != node.originalName) {
+        node.name = renamed;
+      }
     }
   }
 
@@ -879,9 +929,11 @@ class LegacyCallbacksVisitor extends Visitor {
   void visitTypealias(Typealias node) {
     if (!config.typedefs.include(node._binding)) {
       node.isExcluded = true;
-      return;
     } else {
-      node.name = config.typedefs.rename(node._binding);
+      final renamed = config.typedefs.rename(node._binding);
+      if (renamed != node.originalName) {
+        node.name = renamed;
+      }
     }
   }
 
@@ -890,7 +942,10 @@ class LegacyCallbacksVisitor extends Visitor {
     if (!config.unnamedEnums.include(node._binding)) {
       node.isExcluded = true;
     } else {
-      node.name = config.unnamedEnums.rename(node._binding);
+      final renamed = config.unnamedEnums.rename(node._binding);
+      if (renamed != node.originalName) {
+        node.name = renamed;
+      }
     }
   }
 
@@ -901,17 +956,23 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = objcInterfaces.rename(node._binding);
+    final renamed = objcInterfaces.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     final mod = objcInterfaces.module(node._binding);
     if (mod != null) node.module = mod;
     for (final method in node.methods) {
       if (!objcInterfaces.includeMember(node._binding, method.originalName)) {
         method.isExcluded = true;
       } else {
-        method.name = objcInterfaces.renameMember(
+        final methodRenamed = objcInterfaces.renameMember(
           node._binding,
           method.originalName,
         );
+        if (methodRenamed != method.originalName) {
+          method.name = methodRenamed;
+        }
       }
     }
   }
@@ -923,17 +984,23 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = objcProtocols.rename(node._binding);
+    final renamed = objcProtocols.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     final mod = objcProtocols.module(node._binding);
     if (mod != null) node.module = mod;
     for (final method in node.methods) {
       if (!objcProtocols.includeMember(node._binding, method.originalName)) {
         method.isExcluded = true;
       } else {
-        method.name = objcProtocols.renameMember(
+        final methodRenamed = objcProtocols.renameMember(
           node._binding,
           method.originalName,
         );
+        if (methodRenamed != method.originalName) {
+          method.name = methodRenamed;
+        }
       }
     }
   }
@@ -945,15 +1012,21 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = objcCategories.rename(node._binding);
+    final renamed = objcCategories.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
     for (final method in node.methods) {
       if (!objcCategories.includeMember(node._binding, method.originalName)) {
         method.isExcluded = true;
       } else {
-        method.name = objcCategories.renameMember(
+        final methodRenamed = objcCategories.renameMember(
           node._binding,
           method.originalName,
         );
+        if (methodRenamed != method.originalName) {
+          method.name = methodRenamed;
+        }
       }
     }
   }
@@ -970,6 +1043,9 @@ class LegacyCallbacksVisitor extends Visitor {
       node.isExcluded = true;
       return;
     }
-    node.name = cppClasses.rename(node._binding);
+    final renamed = cppClasses.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
   }
 }

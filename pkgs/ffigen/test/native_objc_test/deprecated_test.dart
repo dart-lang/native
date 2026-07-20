@@ -45,35 +45,28 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ],
     ),
     objectiveC: ObjectiveC(
-      interfaces: Interfaces(
-        include: (decl) => {
-          'DeprecatedInterfaceMethods',
-          'DeprecatedInterface',
-        }.contains(decl.originalName),
-      ),
-      protocols: Protocols(
-        include: (decl) => {
-          'DeprecatedProtocolMethods',
-          'DeprecatedProtocol',
-        }.contains(decl.originalName),
-      ),
-      categories: Categories(
-        include: (decl) => {
-          'DeprecatedCategoryMethods',
-          'DeprecatedCategory',
-        }.contains(decl.originalName),
-        includeTransitive: false,
-      ),
       externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
-    functions: Functions.includeSet({'normalFunction', 'deprecatedFunction'}),
-    structs: Structs.includeSet({'NormalStruct', 'DeprecatedStruct'}),
-    unions: Unions.includeSet({'NormalUnion', 'DeprecatedUnion'}),
-    enums: Enums.includeSet({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnums: UnnamedEnums.includeSet({
-      'normalUnnamedEnum',
-      'deprecatedUnnamedEnum',
-    }),
+    visitors: [
+      const IncludeSetVisitor({
+        'DeprecatedInterfaceMethods',
+        'DeprecatedInterface',
+        'DeprecatedProtocolMethods',
+        'DeprecatedProtocol',
+        'DeprecatedCategoryMethods',
+        'DeprecatedCategory',
+        'normalFunction',
+        'deprecatedFunction',
+        'NormalStruct',
+        'DeprecatedStruct',
+        'NormalUnion',
+        'DeprecatedUnion',
+        'NormalEnum',
+        'DeprecatedEnum',
+        'normalUnnamedEnum',
+        'deprecatedUnnamedEnum',
+      }),
+    ],
   ).generate(logger: createTestLogger());
   final file = path.join(
     packagePathForTests,
