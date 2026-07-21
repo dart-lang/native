@@ -6,12 +6,10 @@
 // contain a space (e.g. the default pub cache under a Windows user name with
 // a space, `C:\Users\First Last\AppData\Local\Pub\Cache\...`).
 //
-// On Windows, `runProcess` runs through `cmd.exe` (`runInShell`) whenever a
-// `workingDirectory` is passed. `cmd.exe`'s `/c` quote-stripping rule mangles
-// the command line as soon as more than one token needs quoting because it
-// contains a space (the executable path and an argument, or two arguments),
-// causing errors like
-// `'C:\Program' is not recognized as an internal or external command`.
+// `runProcess` never runs through a shell. Absolute paths (with a file
+// extension on Windows) are required; relative paths and PATHEXT are not
+// supported. Spaces in the executable path and arguments are handled by
+// passing them as separate CreateProcess / exec arguments.
 
 import 'dart:io';
 
@@ -91,4 +89,41 @@ void main(List<String> args) {
     expect(result.stdout, contains('ARGC:2'));
     expect(result.stdout, contains('ARGV:fir"st arg|sec\'ond arg'));
   });
+
+  test('runProcess rejects a relative executable path', () async {
+    await expectLater(
+      runProcess(
+        executable: Uri(path: 'dart'),
+        logger: logger,
+      ),
+      throwsA(
+        isA<ArgumentError>().having(
+          (e) => e.message,
+          'message',
+          contains('absolute'),
+        ),
+      ),
+    );
+  });
+
+  test(
+    'runProcess rejects a Windows executable without a file extension',
+    () async {
+      if (!Platform.isWindows) return;
+
+      await expectLater(
+        runProcess(
+          executable: Uri.file(r'C:\path\to\dart'),
+          logger: logger,
+        ),
+        throwsA(
+          isA<ArgumentError>().having(
+            (e) => e.message,
+            'message',
+            contains('PATHEXT'),
+          ),
+        ),
+      );
+    },
+  );
 }
