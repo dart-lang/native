@@ -1,7 +1,3 @@
-## 1.6.2-wip
-
-- Fix running a relative executable path with a `workingDirectory` on Windows.
-
 ## 1.6.1
 
 - Support versions 3.x of `package:package_config`.

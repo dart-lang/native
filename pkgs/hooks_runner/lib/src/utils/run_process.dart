@@ -53,18 +53,8 @@ Future<RunProcessResult> runProcess({
   try {
     final stdoutBuffer = StringBuffer();
     final stderrBuffer = StringBuffer();
-    // On Windows, `CreateProcess` (used when `runInShell` is `false`) ignores
-    // `workingDirectory` when resolving [executable]. Relative paths that
-    // contain a directory component must be made absolute against
-    // [workingDirectory] first; otherwise Process.start fails with
-    // "The system cannot find the file specified".
-    final executablePath = _resolveExecutablePath(
-      filesystem: filesystem,
-      executable: executable,
-      workingDirectory: workingDirectory,
-    );
     final process = await Process.start(
-      executablePath,
+      executable.toFilePath(),
       arguments,
       workingDirectory: workingDirectory?.toFilePath(),
       environment: environment,
@@ -136,32 +126,6 @@ Future<RunProcessResult> runProcess({
   } finally {
     task?.finish();
   }
-}
-
-/// Resolves [executable] against [workingDirectory] when needed.
-///
-/// On Windows, [Process.start] does not resolve a relative [executable] against
-/// [workingDirectory] (unlike POSIX, where the directory is changed before
-/// exec). Relative paths that include a directory component are therefore made
-/// absolute here. Bare command names (no separators) are left unchanged so
-/// `PATH` / `PATHEXT` lookup still works.
-String _resolveExecutablePath({
-  required FileSystem filesystem,
-  required Uri executable,
-  required Uri? workingDirectory,
-}) {
-  final executablePath = executable.toFilePath();
-  if (workingDirectory == null) return executablePath;
-
-  final context = filesystem.path;
-  if (context.isAbsolute(executablePath)) return executablePath;
-  // Bare command name — leave for PATH / PATHEXT resolution.
-  if (!executablePath.contains(r'\') && !executablePath.contains('/')) {
-    return executablePath;
-  }
-  return context.normalize(
-    context.join(workingDirectory.toFilePath(), executablePath),
-  );
 }
 
 /// Whether [executable] must be launched through `cmd.exe` on Windows.
