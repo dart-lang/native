@@ -67,7 +67,10 @@ class NativeAssetsBuildRunner {
 
   final Logger logger;
 
-  /// Absolute path to the Dart executable used to compile and run hooks.
+  /// Absolute path to the Dart executable.
+  ///
+  /// On Windows, must include the file extension (for example `.exe`).
+  /// [Platform.resolvedExecutable] is a valid value.
   final Uri dartExecutable;
   final Duration singleHookTimeout;
   final Map<String, String> hookEnvironment;
