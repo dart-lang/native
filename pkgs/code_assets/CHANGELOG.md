@@ -1,3 +1,13 @@
+## 1.3.0
+
+- Validate that a bundled dynamic library was built for the target
+  architecture by reading its ELF, Mach-O (including fat), or PE header. A
+  recognized library built for the wrong architecture or in the wrong format
+  for the target OS is a validation error; unrecognized files only produce a
+  warning on the new optional `logger` of `CodeAssetExtension`,
+  `validateCodeAssetBuildOutput`, and `validateCodeAssetLinkOutput`, with a
+  pointer to file an issue.
+
 ## 1.2.1
 
 - Avoid throwing a null-assertion error/exception when `input.config.code` is

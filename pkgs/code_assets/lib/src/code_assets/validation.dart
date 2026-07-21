@@ -5,11 +5,14 @@
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
+import 'package:logging/logging.dart';
 
+import 'architecture.dart';
 import 'code_asset.dart';
 import 'config.dart';
 import 'link_mode.dart';
 import 'link_mode_preference.dart';
+import 'native_library_headers.dart';
 import 'os.dart';
 import 'syntax.g.dart';
 
@@ -93,8 +96,9 @@ Future<ValidationErrors> _validateCodeAssetHookInput(
 /// Validates the code asset specific parts of a [BuildOutput].
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
-  BuildOutput output,
-) async {
+  BuildOutput output, {
+  Logger? logger,
+}) async {
   if (!input.config.buildCodeAssets) {
     return [];
   }
@@ -110,14 +114,16 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
     ],
     output,
     true,
+    logger,
   );
 }
 
 /// Validates the code asset specific parts of a [LinkOutput].
 Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
-  LinkOutput output,
-) async {
+  LinkOutput output, {
+  Logger? logger,
+}) async {
   if (!input.config.buildCodeAssets) {
     return [];
   }
@@ -128,6 +134,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
     output.assets.encodedAssetsForLink.values.expand((assets) => assets),
     output,
     false,
+    logger,
   );
 }
 
@@ -158,6 +165,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   Iterable<EncodedAsset> encodedAssetsNotBundled,
   HookOutput output,
   bool isBuild,
+  Logger? logger,
 ) async {
   final errors = <String>[];
 
@@ -170,7 +178,15 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       continue;
     }
     final codeAsset = CodeAsset.fromEncoded(asset);
-    _validateCodeAsset(input, codeConfig, codeAsset, errors, isBuild, true);
+    _validateCodeAsset(
+      input,
+      codeConfig,
+      codeAsset,
+      errors,
+      isBuild,
+      true,
+      logger: logger,
+    );
     codeAssetsBundled.add(codeAsset);
   }
   _validateNoDuplicateDylibNames(errors, codeAssetsBundled);
@@ -185,7 +201,15 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       continue;
     }
     final codeAsset = CodeAsset.fromEncoded(asset);
-    _validateCodeAsset(input, codeConfig, codeAsset, errors, isBuild, false);
+    _validateCodeAsset(
+      input,
+      codeConfig,
+      codeAsset,
+      errors,
+      isBuild,
+      false,
+      logger: logger,
+    );
     codeAssetsNotBundled.add(codeAsset);
   }
   _validateNoDuplicateDylibNames(errors, codeAssetsNotBundled);
@@ -220,8 +244,9 @@ void _validateCodeAsset(
   CodeAsset codeAsset,
   ValidationErrors errors,
   bool validateAssetId,
-  bool validateLinkMode,
-) {
+  bool validateLinkMode, {
+  Logger? logger,
+}) {
   final id = codeAsset.id;
   final prefix = 'package:${input.packageName}/';
   if (validateAssetId && !id.startsWith(prefix)) {
@@ -244,6 +269,78 @@ void _validateCodeAsset(
   }
 
   errors.addAll(_validateCodeAssetFile(codeAsset));
+  _validateCodeAssetArchitecture(codeConfig, codeAsset, errors, logger);
+}
+
+/// The binary format for dynamic libraries on [targetOS], or `null` when it
+/// has no architecture check.
+BinaryFormat? _expectedFormat(OS targetOS) => switch (targetOS) {
+  OS.android || OS.fuchsia || OS.linux => BinaryFormat.elf,
+  OS.iOS || OS.macOS => BinaryFormat.machO,
+  OS.windows => BinaryFormat.pe,
+  _ => null,
+};
+
+/// Checks that a bundled dynamic library was built for the target
+/// architecture by reading its file header.
+///
+/// A file whose format or machine value is not recognized only produces a
+/// warning on [logger]: the goal is to catch mixed-up architectures early
+/// with a clear message, not to reject libraries this check does not know.
+void _validateCodeAssetArchitecture(
+  CodeConfig codeConfig,
+  CodeAsset codeAsset,
+  ValidationErrors errors,
+  Logger? logger,
+) {
+  final fileUri = codeAsset.file;
+  if (codeAsset.linkMode is! DynamicLoadingBundled || fileUri == null) {
+    return;
+  }
+  final file = File.fromUri(fileUri);
+  if (!file.existsSync()) return;
+  final expectedFormat = _expectedFormat(codeConfig.targetOS);
+  if (expectedFormat == null) return;
+  final id = codeAsset.id;
+  switch (readNativeLibraryHeader(file)) {
+    case UnrecognizedHeader():
+      logger?.warning(
+        'Could not recognize the binary format of code asset "$id" file '
+        '"${file.path}"; skipping the architecture check. If this is a valid '
+        'native library, please file an issue at '
+        'https://github.com/dart-lang/native/issues.',
+      );
+    case RecognizedHeader(
+      :final format,
+      :final architectures,
+      :final machineValues,
+    ):
+      if (format != expectedFormat) {
+        errors.add(
+          'Code asset "$id" file "${file.path}" is a '
+          '${format.displayName} binary, but ${codeConfig.targetOS} expects '
+          '${expectedFormat.displayName}.',
+        );
+        return;
+      }
+      if (architectures.contains(codeConfig.targetArchitecture)) return;
+      final known = architectures.whereType<Architecture>().toList();
+      if (known.isEmpty) {
+        logger?.warning(
+          'Could not recognize the machine value(s) '
+          '${machineValues.map((value) => '0x${value.toRadixString(16)}')} '
+          'of code asset "$id" file "${file.path}"; skipping the '
+          'architecture check. If this is a valid native library, please '
+          'file an issue at https://github.com/dart-lang/native/issues.',
+        );
+        return;
+      }
+      errors.add(
+        'Code asset "$id" file "${file.path}" is built for '
+        '${known.join(', ')}, but the target architecture is '
+        '${codeConfig.targetArchitecture}.',
+      );
+  }
 }
 
 ValidationErrors _validateCodeAssetFile(CodeAsset codeAsset) {
