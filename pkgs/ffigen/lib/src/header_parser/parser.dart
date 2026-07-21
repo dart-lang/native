@@ -187,9 +187,8 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
   visit(context, applyConfigFiltersVisitation, allBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
-  final included = directlyIncluded.union(
-    applyConfigFiltersVisitation.indirectlyIncluded,
-  );
+  final indirectlyIncluded = applyConfigFiltersVisitation.indirectlyIncluded;
+  final included = directlyIncluded.union(indirectlyIncluded);
 
   final byValueCompounds = visit(
     context,

@@ -169,7 +169,7 @@ class Struct implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -201,7 +201,7 @@ class Union implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -230,7 +230,7 @@ class EnumClass implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -264,7 +264,7 @@ class UnnamedEnumConstant implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -291,7 +291,7 @@ class Func implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -334,7 +334,7 @@ class Global implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -365,7 +365,7 @@ class MacroConstant implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -392,7 +392,7 @@ class Typealias implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -419,7 +419,7 @@ class ObjCInterface implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -451,7 +451,7 @@ class ObjCProtocol implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -483,7 +483,7 @@ class ObjCCategory implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -512,7 +512,7 @@ class CppClass implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded;
+  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
@@ -537,7 +537,7 @@ class Field implements AstNode {
 
   set name(String value) => _member.symbol.oldName = value;
 
-  bool get isExcluded => _member.userDefinedIsExcluded;
+  bool get isExcluded => _member.userDefinedIsExcluded ?? false;
 
   set isExcluded(bool value) => _member.userDefinedIsExcluded = value;
 
@@ -558,7 +558,7 @@ class EnumConstant implements AstNode {
 
   int get value => _constant.value;
 
-  bool get isExcluded => _constant.userDefinedIsExcluded;
+  bool get isExcluded => _constant.userDefinedIsExcluded ?? false;
 
   set isExcluded(bool value) => _constant.userDefinedIsExcluded = value;
 
@@ -577,7 +577,7 @@ class Parameter implements AstNode {
 
   set name(String value) => _param.symbol.oldName = value;
 
-  bool get isExcluded => _param.userDefinedIsExcluded;
+  bool get isExcluded => _param.userDefinedIsExcluded ?? false;
 
   set isExcluded(bool value) => _param.userDefinedIsExcluded = value;
 
@@ -600,7 +600,7 @@ class ObjCMethod implements AstNode {
 
   bool get isProperty => _method.isProperty;
 
-  bool get isExcluded => _method.userDefinedIsExcluded;
+  bool get isExcluded => _method.userDefinedIsExcluded ?? false;
 
   set isExcluded(bool value) => _method.userDefinedIsExcluded = value;
 
@@ -619,7 +619,7 @@ class CppMethod implements AstNode {
 
   set name(String value) => _method.name.oldName = value;
 
-  bool get isExcluded => _method.userDefinedIsExcluded;
+  bool get isExcluded => _method.userDefinedIsExcluded ?? false;
 
   set isExcluded(bool value) => _method.userDefinedIsExcluded = value;
 
@@ -812,10 +812,8 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitStruct(Struct node) {
-    if (!config.structs.include(node._binding)) {
-      node.isExcluded = true;
-      return;
-    }
+    if (node._binding.isInternal) return;
+    if (!config.structs.include(node._binding)) return;
     final renamed = config.structs.rename(node._binding);
     if (renamed != node.originalName) {
       node.name = renamed;
@@ -841,10 +839,8 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitUnion(Union node) {
-    if (!config.unions.include(node._binding)) {
-      node.isExcluded = true;
-      return;
-    }
+    if (node._binding.isInternal) return;
+    if (!config.unions.include(node._binding)) return;
     final renamed = config.unions.rename(node._binding);
     if (renamed != node.originalName) {
       node.name = renamed;
@@ -866,10 +862,8 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitEnum(EnumClass node) {
-    if (!config.enums.include(node._binding)) {
-      node.isExcluded = true;
-      return;
-    }
+    if (node._binding.isInternal) return;
+    if (!config.enums.include(node._binding)) return;
     final renamed = config.enums.rename(node._binding);
     if (renamed != node.originalName) {
       node.name = renamed;
@@ -893,10 +887,8 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitFunc(Func node) {
-    if (!config.functions.include(node._binding)) {
-      node.isExcluded = true;
-      return;
-    }
+    if (node._binding.isInternal) return;
+    if (!config.functions.include(node._binding)) return;
     final renamed = config.functions.rename(node._binding);
     if (renamed != node.originalName) {
       node.name = renamed;
@@ -917,10 +909,8 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitGlobal(Global node) {
-    if (!config.globals.include(node._binding)) {
-      node.isExcluded = true;
-      return;
-    }
+    if (node._binding.isInternal) return;
+    if (!config.globals.include(node._binding)) return;
     final renamed = config.globals.rename(node._binding);
     if (renamed != node.originalName) {
       node.name = renamed;
@@ -932,45 +922,39 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitMacroConstant(MacroConstant node) {
-    if (!config.macros.include(node._binding)) {
-      node.isExcluded = true;
-    } else {
-      final renamed = config.macros.rename(node._binding);
-      if (renamed != node.originalName) {
-        node.name = renamed;
-      }
+    if (node._binding.isInternal) return;
+    if (!config.macros.include(node._binding)) return;
+    final renamed = config.macros.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
     }
   }
 
   @override
   void visitTypealias(Typealias node) {
-    if (!config.typedefs.include(node._binding)) {
-      node.isExcluded = true;
-    } else {
-      final renamed = config.typedefs.rename(node._binding);
-      if (renamed != node.originalName) {
-        node.name = renamed;
-      }
+    if (node._binding.isInternal) return;
+    if (!config.typedefs.include(node._binding)) return;
+    final renamed = config.typedefs.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
     }
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    if (!config.unnamedEnums.include(node._binding)) {
-      node.isExcluded = true;
-    } else {
-      final renamed = config.unnamedEnums.rename(node._binding);
-      if (renamed != node.originalName) {
-        node.name = renamed;
-      }
+    if (node._binding.isInternal) return;
+    if (!config.unnamedEnums.include(node._binding)) return;
+    final renamed = config.unnamedEnums.rename(node._binding);
+    if (renamed != node.originalName) {
+      node.name = renamed;
     }
   }
 
   @override
   void visitObjCInterface(ObjCInterface node) {
+    if (node._binding.isInternal) return;
     final objcInterfaces = config.objectiveC?.interfaces;
     if (objcInterfaces == null || !objcInterfaces.include(node._binding)) {
-      node.isExcluded = true;
       return;
     }
     final renamed = objcInterfaces.rename(node._binding);
@@ -997,11 +981,9 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
+    if (node._binding.isInternal) return;
     final objcProtocols = config.objectiveC?.protocols;
-    if (objcProtocols == null || !objcProtocols.include(node._binding)) {
-      node.isExcluded = true;
-      return;
-    }
+    if (objcProtocols == null || !objcProtocols.include(node._binding)) return;
     final renamed = objcProtocols.rename(node._binding);
     if (renamed != node.originalName) {
       node.name = renamed;
@@ -1026,9 +1008,9 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
+    if (node._binding.isInternal) return;
     final objcCategories = config.objectiveC?.categories;
     if (objcCategories == null || !objcCategories.include(node._binding)) {
-      node.isExcluded = true;
       return;
     }
     final renamed = objcCategories.rename(node._binding);
@@ -1058,11 +1040,9 @@ class LegacyCallbacksVisitor extends Visitor {
 
   @override
   void visitCppClass(CppClass node) {
+    if (node._binding.isInternal) return;
     final cppClasses = config.cpp?.classes;
-    if (cppClasses == null || !cppClasses.include(node._binding)) {
-      node.isExcluded = true;
-      return;
-    }
+    if (cppClasses == null) return;
     final renamed = cppClasses.rename(node._binding);
     if (renamed != node.originalName) {
       node.name = renamed;

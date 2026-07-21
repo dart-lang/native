@@ -255,7 +255,7 @@ class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
   final Type type;
-  bool userDefinedIsExcluded = false;
+  bool? userDefinedIsExcluded;
 
   final Symbol _symbol;
   Symbol get symbol => _symbol;

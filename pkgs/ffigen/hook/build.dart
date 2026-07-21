@@ -128,7 +128,6 @@ void main(List<String> args) async {
       final mFiles = _findFiles(objcTestDir, '.m')
           .where((uri) => !uri.pathSegments.last.contains('swift_class_test'))
           .where((uri) => !uri.pathSegments.last.contains('sdk_variable_test'))
-          .where((uri) => !uri.pathSegments.last.contains('_bindings.'))
           .toList();
       final hFiles = _findFiles(objcTestDir, '.h');
 

@@ -35,7 +35,7 @@ class ListBindingsVisitation extends Visitation {
   }
 
   bool _shouldInclude(Binding node, _IncludeBehavior behavior) {
-    if (node.isObjCImport) return false;
+    if (node.isObjCImport || node.userDefinedIsExcluded == true) return false;
     switch (behavior) {
       case _IncludeBehavior.configOnly:
         return includes.contains(node);
@@ -88,12 +88,15 @@ class ListBindingsVisitation extends Visitation {
   }
 
   @override
-  void visitObjCCategory(ObjCCategory node) => _visitImpl(
-    node,
-    config.objectiveC?.categories.includeTransitive ?? false
+  void visitObjCCategory(ObjCCategory node) {
+    final parentIncluded = includes.contains(node.parent);
+    final behavior =
+        (config.objectiveC?.categories.includeTransitive ?? false) &&
+            parentIncluded
         ? _IncludeBehavior.configOrDirectTransitive
-        : _IncludeBehavior.configOnly,
-  );
+        : _IncludeBehavior.configOnly;
+    _visitImpl(node, behavior);
+  }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
@@ -114,6 +117,14 @@ class ListBindingsVisitation extends Visitation {
       visitor.visitAll(node.superProtocols);
     }
   }
+
+  @override
+  void visitStruct(Struct node) =>
+      _visitImpl(node, _IncludeBehavior.configOrTransitive);
+
+  @override
+  void visitUnion(Union node) =>
+      _visitImpl(node, _IncludeBehavior.configOrTransitive);
 
   @override
   void visitTypealias(Typealias node) {

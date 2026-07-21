@@ -352,20 +352,26 @@ class YamlMemberIncluder {
   }) : _memberIncluderFull = memberIncluderFull ?? {},
        _memberIncluderMatchers = memberIncluderMatchers ?? [];
 
-  bool shouldInclude(String declaration, String member) {
+  bool shouldInclude(
+    String declaration,
+    String member, [
+    bool excludeAllByDefault = false,
+  ]) {
     // Full matches take priority.
     final fullMatch = _memberIncluderFull[declaration];
-    if (fullMatch != null) return fullMatch.shouldInclude(member);
+    if (fullMatch != null) {
+      return fullMatch.shouldInclude(member, excludeAllByDefault);
+    }
 
     // Check regex matchers.
     for (final (re, includer) in _memberIncluderMatchers) {
       if (quiver.matchesFull(re, declaration)) {
-        return includer.shouldInclude(member);
+        return includer.shouldInclude(member, excludeAllByDefault);
       }
     }
 
-    // By default, include all members.
-    return true;
+    // By default, include all members unless excludeAllByDefault is true.
+    return !excludeAllByDefault;
   }
 }
 

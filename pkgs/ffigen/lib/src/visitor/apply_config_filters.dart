@@ -17,7 +17,10 @@ class ApplyConfigFiltersVisitation extends Visitation {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (config.importedTypesByUsr.containsKey(node.usr)) return;
-    if (!node.userDefinedIsExcluded) directlyIncluded.add(node);
+    if (node.userDefinedIsExcluded == true) return;
+    if (node.userDefinedIsExcluded == false || filters.include(node)) {
+      directlyIncluded.add(node);
+    }
   }
 
   @override
@@ -35,7 +38,12 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitCppClass(CppClass node) {
     final cppClasses = config.cpp?.classes;
-    if (cppClasses == null) return;
+    if (cppClasses == null) {
+      if (node.userDefinedIsExcluded == false) {
+        directlyIncluded.add(node);
+      }
+      return;
+    }
     _visitImpl(node, cppClasses);
   }
 
@@ -50,15 +58,21 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitObjCInterface(ObjCInterface node) {
     if (node.unavailable) return;
     final objcInterfaces = config.objectiveC?.interfaces;
+    if (objcInterfaces == null) {
+      if (node.userDefinedIsExcluded == false) {
+        directlyIncluded.add(node);
+      }
+      return;
+    }
 
     node.filterMethods(
       (m) =>
-          !m.userDefinedIsExcluded &&
+          m.userDefinedIsExcluded != true &&
           !m.unavailable &&
-          (objcInterfaces == null ||
+          (m.userDefinedIsExcluded == false ||
               objcInterfaces.includeMember(node, m.originalName)),
     );
-    _visitImpl(node, objcInterfaces ?? const Declarations());
+    _visitImpl(node, objcInterfaces);
 
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
@@ -71,34 +85,46 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     final objcCategories = config.objectiveC?.categories;
+    if (objcCategories == null) {
+      if (node.userDefinedIsExcluded == false) {
+        directlyIncluded.add(node);
+      }
+      return;
+    }
     node.filterMethods((m) {
-      if (m.userDefinedIsExcluded) return false;
+      if (m.userDefinedIsExcluded == true) return false;
       if (m.unavailable) return false;
       if (node.shouldCopyMethodToInterface(m)) return false;
-      return objcCategories == null ||
+      return m.userDefinedIsExcluded == false ||
           objcCategories.includeMember(node, m.originalName);
     });
-    _visitImpl(node, objcCategories ?? const Declarations());
+    _visitImpl(node, objcCategories);
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     if (node.unavailable) return;
     final objcProtocols = config.objectiveC?.protocols;
+    if (objcProtocols == null) {
+      if (node.userDefinedIsExcluded == false) {
+        directlyIncluded.add(node);
+      }
+      return;
+    }
 
     node.filterMethods((m) {
       // TODO(https://github.com/dart-lang/native/issues/1149): Support class
       // methods on protocols if there's a use case. For now filter them. We
       // filter here instead of during parsing so that these methods are still
       // copied to any interfaces that implement the protocol.
-      if (m.userDefinedIsExcluded) return false;
+      if (m.userDefinedIsExcluded == true) return false;
       if (m.unavailable) return false;
       if (m.isClassMethod) return false;
 
-      return objcProtocols == null ||
+      return m.userDefinedIsExcluded == false ||
           objcProtocols.includeMember(node, m.originalName);
     });
-    _visitImpl(node, objcProtocols ?? const Declarations());
+    _visitImpl(node, objcProtocols);
   }
 
   @override

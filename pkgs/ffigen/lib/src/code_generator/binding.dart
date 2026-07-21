@@ -33,7 +33,7 @@ abstract class Binding extends AstNode implements Declaration {
   final bool isInternal;
 
   /// Whether this binding was explicitly excluded by a user visitor or filter.
-  bool userDefinedIsExcluded = false;
+  bool? userDefinedIsExcluded;
 
   /// Whether these bindings should be generated.
   ///

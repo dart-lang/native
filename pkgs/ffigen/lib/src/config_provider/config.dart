@@ -614,7 +614,10 @@ final class Categories extends Declarations {
     this.includeTransitive = true,
   });
 
-  static const excludeAll = Categories(include: Declarations.excludeAll);
+  static const excludeAll = Categories(
+    include: Declarations.excludeAll,
+    includeTransitive: false,
+  );
 
   static const includeAll = Categories(include: Declarations.includeAll);
 

@@ -37,8 +37,9 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   }
 
   bool shouldCopyMethodToInterface(ObjCMethod method) {
+    if (parent.isObjCImport) return false;
     if (originalName.isEmpty) return true;
-    return method.returnsInstanceType && !parent.isObjCImport;
+    return method.returnsInstanceType;
   }
 
   @override
