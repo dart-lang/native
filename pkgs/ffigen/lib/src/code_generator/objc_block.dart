@@ -9,6 +9,7 @@ import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';
 import 'scope.dart';
+import 'utils.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType with HasLocalScope {
@@ -18,6 +19,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
   final bool returnsRetained;
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
+  ObjCInterface? _argClass;
 
   final Parameter _blockParam;
   final Parameter _waiterParam;
@@ -99,6 +101,14 @@ class ObjCBlock extends BindingType with HasLocalScope {
     ], _blockParam);
     if (hasListener) {
       _blockWrappers = context.objCBuiltInFunctions.getBlockTrampolines(this);
+      final libraryId = context.objCBuiltInFunctions.libraryId;
+      final sigHash = _getBlockSigHash(returnType, params, returnsRetained);
+      _argClass = ObjCInterface.forBlockArgs(
+        context,
+        '_BlockArgs_$sigHash',
+        '_${libraryId}_BlockArgs_${_blockWrappers!.idHash}',
+        params,
+      );
     }
   }
 
@@ -132,22 +142,48 @@ class ObjCBlock extends BindingType with HasLocalScope {
     return type;
   }
 
+  // Create a fake USR code for the block. This code is used to dedupe blocks
+  // with the same signature. Not intended to be human readable.
   static String _getBlockUsr(
     Type returnType,
     List<Parameter> params,
     bool returnsRetained,
-  ) {
-    // Create a fake USR code for the block. This code is used to dedupe blocks
-    // with the same signature. Not intended to be human readable.
-    return [
-      '${strings.synthUsrChar} objcBlock:',
-      '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
-      for (final param in params)
-        '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
-    ].join(' ');
-  }
+  ) => [
+    '${strings.synthUsrChar} objcBlock:',
+    '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
+    for (final param in params)
+      '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
+  ].join(' ');
 
-  bool get hasListener => returnType == voidType;
+  // Similar to _getBlockUsr, but not 100% garunteed to be unique, since it
+  // depends on stringified types. The trade off is that this hash is
+  // deterministic, whereas _getBlockUsr varies between runs.
+  static String _getBlockSigHash(
+    Type returnType,
+    List<Parameter> params,
+    bool returnsRetained,
+  ) => fnvHash32(
+    [
+      '$returnType ${returnsRetained ? 'R' : ''}',
+      for (final param in params)
+        '${param.type} ${param.objCConsumed ? 'C' : ''}',
+    ].join(','),
+  ).toRadixString(36);
+
+  bool get hasListener {
+    if (returnType != voidType) return false;
+    for (final p in params) {
+      final t = p.type.typealiasType;
+
+      // Arrays are not compatible with BlockArgs object. With additional work
+      // we could support ConstantArray, but it's not clear how we could
+      // support IncompleteArray.
+      if (t is ConstantArray || t is IncompleteArray) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   String _blockType(Context context) {
     final argStr = params
@@ -173,34 +209,29 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final context = w.context;
     final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
+    final objPtr = PointerType(objCObjectType);
 
     final funcPtrTrampoline = localScope.addPrivate('_fnPtrTrampoline');
     final closureTrampoline = localScope.addPrivate('_closureTrampoline');
     final funcPtrCallable = localScope.addPrivate('_fnPtrCallable');
     final closureCallable = localScope.addPrivate('_closureCallable');
-    final listenerTrampoline = localScope.addPrivate('_listenerTrampoline');
-    final listenerCallable = localScope.addPrivate('_listenerCallable');
-    final blockingTrampoline = localScope.addPrivate('_blockingTrampoline');
-    final blockingCallable = localScope.addPrivate('_blockingCallable');
-    final blockingListenerCallable = localScope.addPrivate(
-      '_blockingListenerCallable',
-    );
 
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(context);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(context);
+    final newBlockPort = ObjCBuiltInFunctions.newBlockPort.gen(context);
+    final newBlockingBlockPort = ObjCBuiltInFunctions.newBlockingBlockPort.gen(
+      context,
+    );
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(context);
-    final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(context);
-    final objCContext = ObjCBuiltInFunctions.objCContext.gen(context);
-    final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(context);
     final returnFfiDartType = returnType.getFfiDartType(context);
     final voidPtrCType = voidPtr.getCType(context);
+    final objPtrCType = objPtr.getCType(context);
     final blockCType = blockPtr.getCType(context);
     final blockType = _blockType(context);
     final defaultValue = returnType.getDefaultValue(context);
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     final ffiPrefix = w.context.libs.prefix(ffiImport);
     final paramsNameOnly = _helper.paramsNameOnly;
-    final trampNatCallType = _helper.trampNatCallType;
 
     // Snippet that converts a Dart typed closure to FfiDart type. This snippet
     // is used below. Note that the closure being converted is called `fn`.
@@ -264,17 +295,8 @@ abstract final class $name {
 
     // Listener block constructor is only available for void blocks.
     if (hasListener) {
-      // This snippet is the same as the convFn above, except that the params
-      // don't need to be retained because they've already been retained by
-      // _blockWrappers.listenerWrapper.
       final listenerConvertedFnArgs = params
-          .map(
-            (p) => p.type.convertFfiDartTypeToDartType(
-              context,
-              p.name,
-              objCRetain: false,
-            ),
-          )
+          .map((p) => 'args.${p.name}')
           .join(', ');
       final listenerLocalVars = LocalVariables(localScope);
       final listenerConvFnInvocation = returnType.convertDartTypeToFfiDartType(
@@ -284,39 +306,41 @@ abstract final class $name {
         objCAutorelease: !returnsRetained,
         localVariables: listenerLocalVars,
       );
-      final listenerConvFn =
-          '''
-(${_helper.paramsFfiDartType}) {
+
+      final listenerConvFn = params.isEmpty
+          ? '($objPtrCType rawArgs) => fn()'
+          : '''
+($objPtrCType rawArgs) {
+  final args = ${_argClass!.name}.fromPointer(
+      rawArgs, retain: false, release: false);
   ${listenerLocalVars.generateDeclarations()}
-  return $listenerConvFnInvocation;
+  $listenerConvFnInvocation;
 }''';
+
       final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
       s.write('''
   /// Creates a listener block from a Dart function.
   ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously. Async functions (ie returning
+  /// Future<void>) are not supported.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
   static $blockType listener(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
-    final raw = $newClosureBlock($listenerCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapListenerFn(raw);
-    $releaseFn(raw.cast());
-    return $blockType(wrapper, retain: false, release: true);
+    return $blockType(
+        $newBlockPort($wrapListenerFn, $listenerConvFn, keepIsolateAlive),
+        retain: false, release: true);
   }
 
   /// Creates a blocking block from a Dart function.
   ///
   /// This callback can be invoked from any native thread, and will block the
   /// caller until the callback is handled by the Dart isolate that created
-  /// the block. Async functions are not supported.
+  /// the block. Async functions (ie returning Future<void>) are not supported.
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC. If the owner isolate
@@ -324,41 +348,10 @@ abstract final class $name {
   /// indefinitely, or have other undefined behavior.
   static $blockType blocking(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
-    final raw = $newClosureBlock($blockingCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
-    final rawListener = $newClosureBlock(
-        $blockingListenerCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
-    $releaseFn(raw.cast());
-    $releaseFn(rawListener.cast());
-    return $blockType(wrapper, retain: false, release: true);
+    return $blockType($newBlockingBlockPort(
+            $wrapBlockingFn, $listenerConvFn, keepIsolateAlive),
+        retain: false, release: true);
   }
-
-  static $returnFfiDartType $listenerTrampoline(
-      $blockCType block, ${_helper.paramsFfiDartType}) {
-    ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
-    $releaseFn(block.cast());
-  }
-  static $trampNatCallType $listenerCallable =
-      $trampNatCallType.listener($listenerTrampoline $exceptionalReturn)
-          ..keepIsolateAlive = false;
-  static $returnFfiDartType $blockingTrampoline(
-      $blockCType block, ${_blockingHelper.paramsFfiDartType}) {
-    try {
-      ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
-    } catch (e) {
-    } finally {
-      $signalWaiterFn(waiter);
-      $releaseFn(block.cast());
-    }
-  }
-  static ${_blockingHelper.trampNatCallType} $blockingCallable =
-      ${_blockingHelper.trampNatCallType}.isolateLocal(
-          $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-  static ${_blockingHelper.trampNatCallType} $blockingListenerCallable =
-      ${_blockingHelper.trampNatCallType}.listener(
-          $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 ''');
     }
     s.write('''
@@ -440,15 +433,29 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     _blockWrappers!.objCBindingsGenerated = true;
 
     final argsReceived = <String>[];
+    final argDecls = <String>[];
+    final argAssigns = <String>[];
     final retains = <String>[];
     for (var i = 0; i < params.length; ++i) {
       final param = params[i];
       final argName = 'arg$i';
-      argsReceived.add(param.getNativeType(context, varName: argName));
+      final type = param.type.typealiasType;
+      final isBlock = type is ObjCBlock;
+      final isObj =
+          type is ObjCObjectPointer ||
+          type is ObjCInterface ||
+          type is ObjCNullable;
+      final argWithType = param.getNativeType(
+        context,
+        varName: argName,
+        withAttr: false,
+      );
+      argsReceived.add(argWithType);
+      final propAttr = isBlock ? '(copy) ' : (isObj ? '(strong) ' : '');
+      argDecls.add('@property $propAttr$argWithType;');
+      argAssigns.add('args.$argName = $argName;');
       retains.add(param.type.generateRetain(argName) ?? argName);
     }
-    final blockingRetains = ['nil', ...retains];
-    final blockingListenerRetains = [_waiterParam.name, ...retains];
 
     final argStr = argsReceived.join(', ');
     final declArgStr = argStr.isEmpty ? 'void' : argStr;
@@ -456,7 +463,10 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       _waiterParam.getNativeType(context, varName: _waiterParam.name),
       ...argsReceived,
     ].join(', ');
+    final argDeclStr = argDecls.join('\n');
+    final argAssignStr = argAssigns.join('\n      ');
 
+    final argClassName = _argClass!.originalName;
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
     final listenerName = Namer.cSafeName(
@@ -468,26 +478,49 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     return '''
 
+__attribute__((visibility("default")))
+@interface $argClassName : NSObject
+@property (copy) id block;
+$argDeclStr
+@end
+@implementation $argClassName
+@end
+
 typedef ${returnType.getNativeType(context)} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
-$listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
-  return ^void($argStr) {
-    ${generateRetain('block')};
-    block(${retains.join(', ')});
-  };
+$listenerName $listenerWrapper(
+    int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  __block __weak $listenerName weakSelfBlock = nil;
+  $listenerName strongSelfBlock = [^void($argStr) {
+    @autoreleasepool {
+      $argClassName* args = [[$argClassName alloc] init];
+      args.block = weakSelfBlock;
+      $argAssignStr
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
+  } copy];
+  weakSelfBlock = strongSelfBlock;
+  return strongSelfBlock;
 }
 
 typedef ${returnType.getNativeType(context)} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
-$listenerName $blockingWrapper(
-    $blockingName block, $blockingName listenerBlock,
-    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void($argStr), {
-    ${generateRetain('block')};
-    block(${blockingRetains.join(', ')});
+$listenerName $blockingWrapper(int64_t port, DOBJC_Context* ctx,
+    void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, $listenerName, ^void($argStr), {
+    @autoreleasepool {
+      $argClassName* args = [[$argClassName alloc] init];
+      args.block = weakSelfBlock;
+      $argAssignStr
+      directInvoke((__bridge_retained void*)args);
+    }
   }, {
-    ${generateRetain('listenerBlock')};
-    listenerBlock(${blockingListenerRetains.join(', ')});
+    @autoreleasepool {
+      $argClassName* args = [[$argClassName alloc] init];
+      args.block = weakSelfBlock;
+      $argAssignStr
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
   });
 }
 ''';
@@ -589,6 +622,7 @@ $ret $fnName(id target, $argRecv) {
     visitor.visitAll(params);
     visitor.visit(_blockWrappers);
     visitor.visit(protocolTrampoline);
+    visitor.visit(_argClass);
     visitor.visit(ffiImport);
     visitor.visit(objcPkgImport);
     _helper.visitChildren(visitor);

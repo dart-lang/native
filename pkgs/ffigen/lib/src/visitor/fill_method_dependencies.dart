@@ -21,11 +21,17 @@ class FillMethodDependenciesVisitation extends Visitation {
   }
 
   @override
+  void visitObjCMethod(ObjCMethod node) {
+    _adder.visit(node.selObject);
+  }
+
+  @override
   void visitObjCInterface(ObjCInterface node) {
     if (!finalBindings.contains(node)) return;
 
     if (!node.generateAsStub) {
       node.visitChildren(visitor);
+      _adder.visit(node.classObject);
       for (final method in node.methods) {
         _adder.visit(method.fillMsgSend());
       }
@@ -49,10 +55,18 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!node.generateAsStub) {
       node.visitChildren(visitor);
       for (final method in node.methods) {
-        _adder.visit(method.fillProtocolBlock());
+        final blk = method.fillProtocolBlock();
+        _adder.visit(blk);
+        visitor.visit(blk);
         _adder.visit(method.fillMsgSend());
       }
     }
+  }
+
+  @override
+  void visitObjCBlock(ObjCBlock node) {
+    if (!finalBindings.contains(node)) return;
+    node.visitChildren(visitor);
   }
 }
 
@@ -77,9 +91,20 @@ class _MethodDepAdderVisitation extends Visitation {
       finalBindings.add(node);
 
   @override
+  void visitNoLookUpBinding(NoLookUpBinding node) => finalBindings.add(node);
+
+  @override
   void visitObjCBlock(ObjCBlock node) {
     node.visitChildren(visitor);
     finalBindings.add(node);
+  }
+
+  @override
+  void visitObjCInterface(ObjCInterface node) {
+    if (node.isInternal) {
+      finalBindings.add(node);
+      node.visitChildren(visitor);
+    }
   }
 
   @override

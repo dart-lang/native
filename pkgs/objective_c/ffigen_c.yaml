@@ -25,6 +25,8 @@ functions:
       - 'DOBJC_newFinalizableBool'
       - 'DOBJC_newFinalizableHandle'
       - 'DOBJC_awaitWaiter'
+      - 'DOBJC_invokeListenerPortBlock'
+      - 'DOBJC_invokeBlockingPortBlock'
   rename:
     'DOBJC_(.*)': '$1'
 typedefs:

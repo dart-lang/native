@@ -66,6 +66,11 @@ FFI_EXPORT void *DOBJC_newWaiter(void);
 FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
+FFI_EXPORT void DOBJC_invokeListenerPortBlock(int64_t port, void* args);
+FFI_EXPORT void DOBJC_invokeBlockingPortBlock(int64_t port, void* args,
+                                              void* waiter);
+FFI_EXPORT void DOBJC_attachPortBlockFinalizer(void *block, int64_t port);
+
 // Context object containing functions needed by the FFIgen bindings. Any
 // changes to this struct should bump the `version` field filled in by
 // package:objective_c, and checked by FFIgen. Never change or delete existing
@@ -79,6 +84,8 @@ typedef struct _DOBJC_Context {
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);
+  void (*invokeListenerPortBlock)(int64_t port, void*);
+  void (*invokeBlockingPortBlock)(int64_t port, void*, void*);
 } DOBJC_Context;
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context);
 

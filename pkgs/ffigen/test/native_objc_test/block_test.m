@@ -15,6 +15,10 @@
   return [[DummyObject alloc] initWithCounter:_counter];
 }
 
+- (instancetype)init {
+  return [super init];
+}
+
 - (instancetype)initWithCounter:(int32_t*)_counter {
   counter = _counter;
   ++*counter;
@@ -205,8 +209,10 @@ void objc_release(id value);
 }
 
 - (void)invokeAndReleaseListener:(id)_ {
-  myListener([DummyObject new]);
-  myListener = nil;
+  @autoreleasepool {
+    myListener([DummyObject new]);
+    myListener = nil;
+  }
 }
 
 + (void)blockingBlockTest:(IntPtrBlock)blockingBlock

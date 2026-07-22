@@ -1,11 +1,4 @@
-## 21.0.1-wip
-
-- Bump `package:meta` dependency to `^1.19.0` and stop generating
-  `experimental_member_use` lint ignore in generated bindings when
-  `@RecordUse()` is used.
-- Support versions 3.x of `package:package_config`.
-
-## 21.0.0
+## 21.0.0-wip
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart
   bindings. Deprecation messages from `__attribute__((deprecated("msg")))` and
@@ -50,6 +43,12 @@
   versions vs FFIgen's generated code.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3338) where ObjC
   bindings may not auto-load their dylib in some cases.
+- Fix memory leaks, deadlocks, and crashes that can happen in callbacks, if the
+  target isolate is shut down.
+- Bump `package:meta` dependency to `^1.19.0` and stop generating
+  `experimental_member_use` lint ignore in generated bindings when
+  `@RecordUse()` is used.
+- Support versions 3.x of `package:package_config`.
   
 ## 20.1.1
 

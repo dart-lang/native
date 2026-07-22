@@ -21,7 +21,7 @@
     withTrampoline:(void*)trampoline withSignature:(char*)signature;
 - (void)addProtocol:(Protocol*) protocol;
 - (void)registerClass;
-- (DOBJCDartProtocol*)buildInstance: (Dart_Port)port;
+- (DOBJCDartProtocol*)buildInstance: (Dart_Port)port NS_RETURNS_RETAINED;
 @end
 
 /**
