@@ -1,4 +1,4 @@
-## 1.3.0
+## 1.3.0-wip
 
 - Validate that a bundled dynamic library was built for the target operating
   system and architecture by reading its ELF, Mach-O, or PE header. Reject

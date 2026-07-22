@@ -147,6 +147,14 @@ final class _NativeLibraryHeaderValidator implements NativeLibraryValidator {
     }
 
     final recognized = header as RecognizedHeader;
+    if (recognized.format == BinaryFormat.machO &&
+        recognized.architectures.length > 1) {
+      return NativeLibraryValidation.rejected([
+        'is a multi-architecture Mach-O binary. Hooks run once per target '
+            'architecture and must output a thin Mach-O binary.',
+      ]);
+    }
+
     final expectedFormat = _expectedFormat(context.config.targetOS);
     if (expectedFormat == null) {
       return NativeLibraryValidation.inconclusive(
@@ -161,15 +169,15 @@ final class _NativeLibraryHeaderValidator implements NativeLibraryValidator {
       ]);
     }
 
-    if (recognized.format == BinaryFormat.machO &&
-        recognized.architectures.length > 1) {
-      return NativeLibraryValidation.rejected([
-        'is a multi-architecture Mach-O binary. Hooks run once per target '
-            'architecture and must output a thin Mach-O binary.',
-      ]);
+    final targetArchitecture = context.config.targetArchitecture;
+    if (!Architecture.values.contains(targetArchitecture)) {
+      return NativeLibraryValidation.inconclusive(
+        'The built-in validator does not know target architecture '
+        '$targetArchitecture.',
+      );
     }
 
-    if (recognized.architectures.contains(context.config.targetArchitecture)) {
+    if (recognized.architectures.contains(targetArchitecture)) {
       return const NativeLibraryValidation.matched();
     }
     final known = recognized.architectures.whereType<Architecture>().toList();
@@ -184,7 +192,7 @@ final class _NativeLibraryHeaderValidator implements NativeLibraryValidator {
     }
     return NativeLibraryValidation.rejected([
       'is built for ${known.join(', ')}, but the target architecture is '
-          '${context.config.targetArchitecture}.',
+          '$targetArchitecture.',
     ]);
   }
 }

@@ -8,7 +8,7 @@ import 'dart:typed_data';
 import 'architecture.dart';
 
 /// ELF identification and machine values from the
-/// [System V ABI](https://refspecs.linuxfoundation.org/elf/gabi4+/ch4.eheader.html)
+/// [System V ABI machine table](https://gabi.xinuos.com/elf/a-emachine.html)
 /// and the
 /// [RISC-V ELF psABI](https://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc).
 abstract final class _Elf {
@@ -27,9 +27,9 @@ abstract final class _Elf {
 
 /// Mach-O magic and CPU values from Apple's
 /// [`loader.h`](https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach-o/loader.h),
-/// [`fat.h`](https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach-o/fat.h),
+/// [`fat.h`](https://github.com/apple-oss-distributions/cctools/blob/main/include/mach-o/fat.h),
 /// and
-/// [`machine.h`](https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach/machine.h).
+/// [`machine.h`](https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/mach/machine.h).
 abstract final class _MachO {
   static const magic32 = 0xfeedface;
   static const magic64 = 0xfeedfacf;

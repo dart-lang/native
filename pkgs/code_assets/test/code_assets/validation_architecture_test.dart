@@ -344,6 +344,21 @@ void main() {
       expect(records, isEmpty);
     });
 
+    test('a custom match cannot override a fat Mach-O rejection', () async {
+      final (errors, records) = await validate(
+        machOFatHeader(cpuTypes: [0x01000007, 0x0100000c]),
+        targetOS: OS.macOS,
+        targetArchitecture: Architecture.arm64,
+        additionalLibraryValidators: [
+          _CallbackValidator(
+            (_) async => const NativeLibraryValidation.matched(),
+          ),
+        ],
+      );
+      expect(errors, contains(contains('multi-architecture Mach-O')));
+      expect(records, isEmpty);
+    });
+
     test('a match handles a file the built-in does not recognize', () async {
       final (errors, records) = await validate(
         [1, 2, 3],
