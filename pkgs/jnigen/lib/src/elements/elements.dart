@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -1004,7 +1006,15 @@ class JavaDocComment implements Element<JavaDocComment> {
     }
 
     final message = messageLines.join('\n').trim();
-    return message.isEmpty ? null : message;
+    if (message.isEmpty) return null;
+
+    final encoded = jsonEncode(message);
+    final contents = encoded
+        .substring(1, encoded.length - 1)
+        .replaceAll("'", r"\'")
+        .replaceAll(r'$', r'\$');
+
+    return "'$contents'";
   }
 
   factory JavaDocComment.fromJson(Map<String, dynamic> json) =>

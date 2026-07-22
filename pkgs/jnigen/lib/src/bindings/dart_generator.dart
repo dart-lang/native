@@ -1312,9 +1312,9 @@ ${modifier}final _$idName = $_protectedExtension
     }
     final params = defArgs.delimited(', ');
     if (node.isDeprecated) {
-      final message =
-          node.javadoc?.deprecatedMessage ?? 'This Java method is deprecated.';
-      s.writeln('  @core\$_.Deprecated(${jsonEncode(message)})');
+      final message = node.javadoc?.deprecatedMessage ??
+          "'This Java method is deprecated.'";
+      s.writeln('  @core\$_.Deprecated($message)');
     }
     if (node.methodKind == MethodKind.getter) {
       s.write('  $ifStatic$returnType get $name ');

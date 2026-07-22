@@ -1283,7 +1283,7 @@ extension Example$$Methods on Example {
 
   /// from: `public java.lang.String deprecatedMethod()`
   /// The returned object must be released after use, by calling the [release] method.
-  @core$_.Deprecated("This Java method is deprecated.")
+  @core$_.Deprecated('This Java method is deprecated.')
   jni$_.JString? deprecatedMethod() {
     final _$$selfRef = reference;
     return _deprecatedMethod(_$$selfRef.pointer, _id_deprecatedMethod.pointer)
