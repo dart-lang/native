@@ -66,6 +66,11 @@ class NativeAssetsBuildRunner {
   final FileSystem _fileSystemUntraced;
 
   final Logger logger;
+
+  /// Absolute path to the Dart executable.
+  ///
+  /// On Windows, must include the file extension (for example `.exe`).
+  /// [Platform.resolvedExecutable] is a valid value.
   final Uri dartExecutable;
   final Duration singleHookTimeout;
   final Map<String, String> hookEnvironment;
@@ -85,6 +90,13 @@ class NativeAssetsBuildRunner {
        hookEnvironment =
            hookEnvironment ??
            filteredEnvironment(includeHookEnvironmentVariable) {
+    if (!dartExecutable.isAbsolute) {
+      throw ArgumentError.value(
+        dartExecutable,
+        'dartExecutable',
+        'Must be an absolute path.',
+      );
+    }
     _fileSystem = TracingFileSystem(fileSystem, _task);
   }
 

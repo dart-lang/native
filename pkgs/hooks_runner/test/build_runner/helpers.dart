@@ -344,11 +344,7 @@ Future<void> expectSymbols({
 }) async {
   if (Platform.isLinux) {
     final assetUri = asset.file!;
-    final nmResult = await runProcess(
-      executable: Uri(path: 'nm'),
-      arguments: ['-D', assetUri.toFilePath()],
-      logger: logger,
-    );
+    final nmResult = await Process.run('nm', ['-D', assetUri.toFilePath()]);
 
     expect(nmResult.stdout, stringContainsInOrder(symbols));
   }
