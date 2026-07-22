@@ -65,45 +65,53 @@ void main() async {
     });
   });
 
-  test(
-    'unreadable cached output is invalidated',
-    timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('native_add/');
-        await runPubGet(workingDirectory: packageUri, logger: logger);
+  for (final (description, contents) in <(String, String)>[
+    ('malformed JSON', '{'),
+    ('a JSON list', '[]'),
+    ('JSON null', 'null'),
+  ]) {
+    test(
+      'cached output containing $description is invalidated',
+      timeout: longTimeout,
+      () async {
+        await inTempDir((tempUri) async {
+          await copyTestProjects(targetUri: tempUri);
+          final packageUri = tempUri.resolve('native_add/');
+          await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        expect((await buildCodeAssets(packageUri)).isSuccess, isTrue);
-        final buildDirectory = _singleBuildDirectory(packageUri);
-        final outputFile = File.fromUri(buildDirectory.resolve('output.json'));
-        final dependenciesHashFile = File.fromUri(
-          buildDirectory.resolve('dependencies.dependencies_hash_file.json'),
-        );
-        await outputFile.writeAsString('{');
+          expect((await buildCodeAssets(packageUri)).isSuccess, isTrue);
+          final buildDirectory = _singleBuildDirectory(packageUri);
+          final outputFile = File.fromUri(
+            buildDirectory.resolve('output.json'),
+          );
+          final dependenciesHashFile = File.fromUri(
+            buildDirectory.resolve('dependencies.dependencies_hash_file.json'),
+          );
+          await outputFile.writeAsString(contents);
 
-        final logMessages = <String>[];
-        final result = await buildCodeAssets(
-          packageUri,
-          capturedLogs: logMessages,
-        );
-        expect(result.isFailure, isTrue);
-        expect(logMessages.join('\n'), contains('contained a format error'));
-        expect(await outputFile.exists(), isFalse);
-        expect(await dependenciesHashFile.exists(), isFalse);
-
-        final rerunLogs = <String>[];
-        expect(
-          (await buildCodeAssets(
+          final logMessages = <String>[];
+          final result = await buildCodeAssets(
             packageUri,
-            capturedLogs: rerunLogs,
-          )).isSuccess,
-          isTrue,
-        );
-        expect(rerunLogs.join('\n'), isNot(contains('Skipping build')));
-      });
-    },
-  );
+            capturedLogs: logMessages,
+          );
+          expect(result.isFailure, isTrue);
+          expect(logMessages.join('\n'), contains('contained a format error'));
+          expect(await outputFile.exists(), isFalse);
+          expect(await dependenciesHashFile.exists(), isFalse);
+
+          final rerunLogs = <String>[];
+          expect(
+            (await buildCodeAssets(
+              packageUri,
+              capturedLogs: rerunLogs,
+            )).isSuccess,
+            isTrue,
+          );
+          expect(rerunLogs.join('\n'), isNot(contains('Skipping build')));
+        });
+      },
+    );
+  }
 
   test('cached build', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
