@@ -11,6 +11,7 @@ import 'code_asset.dart';
 import 'config.dart';
 import 'link_mode.dart';
 import 'link_mode_preference.dart';
+import 'native_library_validation.dart';
 import 'os.dart';
 import 'sanitizer.dart';
 import 'validation.dart';
@@ -60,6 +61,12 @@ final class CodeAssetExtension extends ProtocolExtension {
   /// such as an unrecognized native library header.
   final Logger? logger;
 
+  /// Additional validators for bundled dynamic libraries.
+  ///
+  /// These validators are supplied by the hook invoker, not by packages that
+  /// produce hook output. The iterable is copied during construction.
+  final List<NativeLibraryValidator> additionalLibraryValidators;
+
   /// Constructs a [CodeAssetExtension].
   CodeAssetExtension({
     required this.targetArchitecture,
@@ -71,7 +78,10 @@ final class CodeAssetExtension extends ProtocolExtension {
     this.macOS,
     this.sanitizer,
     this.logger,
-  });
+    Iterable<NativeLibraryValidator> additionalLibraryValidators = const [],
+  }) : additionalLibraryValidators = List.unmodifiable(
+         additionalLibraryValidators,
+       );
 
   @override
   void setupBuildInput(BuildInputBuilder input) {
@@ -109,13 +119,23 @@ final class CodeAssetExtension extends ProtocolExtension {
   Future<ValidationErrors> validateBuildOutput(
     BuildInput input,
     BuildOutput output,
-  ) => validateCodeAssetBuildOutput(input, output, logger: logger);
+  ) => validateCodeAssetBuildOutput(
+    input,
+    output,
+    logger: logger,
+    additionalLibraryValidators: additionalLibraryValidators,
+  );
 
   @override
   Future<ValidationErrors> validateLinkOutput(
     LinkInput input,
     LinkOutput output,
-  ) => validateCodeAssetLinkOutput(input, output, logger: logger);
+  ) => validateCodeAssetLinkOutput(
+    input,
+    output,
+    logger: logger,
+    additionalLibraryValidators: additionalLibraryValidators,
+  );
 
   @override
   Future<ValidationErrors> validateApplicationAssets(

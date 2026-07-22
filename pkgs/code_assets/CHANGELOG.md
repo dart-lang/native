@@ -1,12 +1,11 @@
 ## 1.3.0
 
-- Validate that a bundled dynamic library was built for the target
-  architecture by reading its ELF, Mach-O (including fat), or PE header. A
-  recognized library built for the wrong architecture or in the wrong format
-  for the target OS is a validation error; unrecognized files only produce a
-  warning on the new optional `logger` of `CodeAssetExtension`,
-  `validateCodeAssetBuildOutput`, and `validateCodeAssetLinkOutput`, with a
-  pointer to file an issue.
+- Validate that a bundled dynamic library was built for the target operating
+  system and architecture by reading its ELF, Mach-O, or PE header. Reject
+  multi-architecture Mach-O output because hooks run once per target
+  architecture. Unrecognized files produce a warning instead of failing.
+- Add `NativeLibraryValidator` so hook invokers can validate custom operating
+  systems and architectures without exposing the built-in header model.
 
 ## 1.2.1
 

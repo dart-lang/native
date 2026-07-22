@@ -59,6 +59,7 @@ void main() {
     required Architecture targetArchitecture,
     LinkMode? linkMode,
     LinkModePreference linkModePreference = LinkModePreference.dynamic,
+    Iterable<NativeLibraryValidator> additionalLibraryValidators = const [],
   }) async {
     final input = makeCodeBuildInput(
       targetOS: targetOS,
@@ -84,6 +85,7 @@ void main() {
       input,
       outputBuilder.build(),
       logger: logger,
+      additionalLibraryValidators: additionalLibraryValidators,
     );
     return (errors, records);
   }
@@ -177,13 +179,13 @@ void main() {
       expect(errors, isEmpty);
     });
 
-    test('fat file containing the target architecture is clean', () async {
+    test('multi-architecture file containing the target is an error', () async {
       final (errors, _) = await validate(
         machOFatHeader(cpuTypes: [0x01000007, 0x0100000c]),
         targetOS: OS.macOS,
         targetArchitecture: Architecture.arm64,
       );
-      expect(errors, isEmpty);
+      expect(errors, contains(contains('multi-architecture Mach-O')));
     });
 
     test('fat file without the target architecture is an error', () async {
@@ -323,6 +325,120 @@ void main() {
       expect(records, isEmpty);
     });
   });
+
+  group('additional validators', () {
+    test('a rejection wins over a built-in match', () async {
+      final (errors, records) = await validate(
+        elfHeader(machine: 183),
+        targetOS: OS.linux,
+        targetArchitecture: Architecture.arm64,
+        additionalLibraryValidators: [
+          _CallbackValidator(
+            (_) async => NativeLibraryValidation.rejected([
+              'failed a project-specific check.',
+            ]),
+          ),
+        ],
+      );
+      expect(errors, contains(contains('failed a project-specific check')));
+      expect(records, isEmpty);
+    });
+
+    test('a match handles a file the built-in does not recognize', () async {
+      final (errors, records) = await validate(
+        [1, 2, 3],
+        targetOS: OS.linux,
+        targetArchitecture: Architecture.arm64,
+        additionalLibraryValidators: [
+          _CallbackValidator(
+            (_) async => const NativeLibraryValidation.matched(),
+          ),
+        ],
+      );
+      expect(errors, isEmpty);
+      expect(records, isEmpty);
+    });
+
+    test('a match resolves an inconclusive result', () async {
+      final (errors, records) = await validate(
+        [1, 2, 3],
+        targetOS: OS.linux,
+        targetArchitecture: Architecture.arm64,
+        additionalLibraryValidators: [
+          _CallbackValidator(
+            (_) async => NativeLibraryValidation.inconclusive('not enough'),
+          ),
+          _CallbackValidator(
+            (_) async => const NativeLibraryValidation.matched(),
+          ),
+        ],
+      );
+      expect(errors, isEmpty);
+      expect(records, isEmpty);
+    });
+
+    test('an exception is an error and later validators still run', () async {
+      var laterValidatorRan = false;
+      final (errors, records) = await validate(
+        [1, 2, 3],
+        targetOS: OS.linux,
+        targetArchitecture: Architecture.arm64,
+        additionalLibraryValidators: [
+          _CallbackValidator((_) async => throw StateError('boom')),
+          _CallbackValidator((_) async {
+            laterValidatorRan = true;
+            return const NativeLibraryValidation.matched();
+          }),
+        ],
+      );
+      expect(laterValidatorRan, isTrue);
+      expect(errors, contains(contains('failed: Bad state: boom')));
+      expect(records, isEmpty);
+    });
+
+    test('rejection errors are snapshotted', () async {
+      final rejectionErrors = ['first error'];
+      final result = NativeLibraryValidation.rejected(rejectionErrors);
+      rejectionErrors.add('late error');
+      final (errors, _) = await validate(
+        [1, 2, 3],
+        targetOS: OS.linux,
+        targetArchitecture: Architecture.arm64,
+        additionalLibraryValidators: [_CallbackValidator((_) async => result)],
+      );
+      expect(errors, contains(contains('first error')));
+      expect(errors, isNot(contains(contains('late error'))));
+    });
+
+    test('empty diagnostics are rejected', () {
+      expect(
+        () => NativeLibraryValidation.inconclusive(''),
+        throwsArgumentError,
+      );
+      expect(
+        () => NativeLibraryValidation.rejected(const []),
+        throwsArgumentError,
+      );
+      expect(
+        () => NativeLibraryValidation.rejected(const ['']),
+        throwsArgumentError,
+      );
+    });
+  });
+}
+
+final class _CallbackValidator implements NativeLibraryValidator {
+  _CallbackValidator(this.callback);
+
+  final Future<NativeLibraryValidation> Function(
+    NativeLibraryValidationContext context,
+  )
+  callback;
+
+  @override
+  Future<NativeLibraryValidation> validate(
+    NativeLibraryValidationContext context,
+  ) => callback(context);
 }
 
 /// A minimal 64-byte ELF header with [machine] at offset 0x12.

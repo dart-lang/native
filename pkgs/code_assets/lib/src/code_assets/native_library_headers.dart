@@ -7,6 +7,55 @@ import 'dart:typed_data';
 
 import 'architecture.dart';
 
+/// ELF identification and machine values from the
+/// [System V ABI](https://refspecs.linuxfoundation.org/elf/gabi4+/ch4.eheader.html)
+/// and the
+/// [RISC-V ELF psABI](https://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc).
+abstract final class _Elf {
+  static const magic = [0x7f, 0x45, 0x4c, 0x46];
+  static const class32 = 1;
+  static const class64 = 2;
+  static const littleEndian = 1;
+  static const bigEndian = 2;
+  static const machineOffset = 18;
+  static const machineX86 = 3;
+  static const machineArm = 40;
+  static const machineX64 = 62;
+  static const machineArm64 = 183;
+  static const machineRiscV = 243;
+}
+
+/// Mach-O magic and CPU values from Apple's
+/// [`loader.h`](https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach-o/loader.h),
+/// [`fat.h`](https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach-o/fat.h),
+/// and
+/// [`machine.h`](https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach/machine.h).
+abstract final class _MachO {
+  static const magic32 = 0xfeedface;
+  static const magic64 = 0xfeedfacf;
+  static const swappedMagic32 = 0xcefaedfe;
+  static const swappedMagic64 = 0xcffaedfe;
+  static const fatMagic32 = 0xcafebabe;
+  static const fatMagic64 = 0xcafebabf;
+  static const cpuTypeX86 = 0x00000007;
+  static const cpuTypeX64 = 0x01000007;
+  static const cpuTypeArm = 0x0000000c;
+  static const cpuTypeArm64 = 0x0100000c;
+}
+
+/// PE offsets, signatures, and machine values from Microsoft's
+/// [PE format specification](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format).
+abstract final class _Pe {
+  static const dosMagic = [0x4d, 0x5a];
+  static const peHeaderOffset = 0x3c;
+  static const signature = [0x50, 0x45, 0x00, 0x00];
+  static const machineX86 = 0x014c;
+  static const machineArm = 0x01c4;
+  static const machineRiscV64 = 0x5064;
+  static const machineX64 = 0x8664;
+  static const machineArm64 = 0xaa64;
+}
+
 /// The binary format of a native library file.
 enum BinaryFormat {
   /// The Executable and Linkable Format used on Linux, Android, and Fuchsia.
@@ -72,13 +121,20 @@ NativeLibraryHeader readNativeLibraryHeader(File file) {
     if (head.length >= 20 && _hasElfMagic(head)) return _readElf(head);
     if (head.length >= 8) {
       final bigEndianMagic = _u32(head, 0, littleEndian: false);
-      if (bigEndianMagic == 0xcafebabe || bigEndianMagic == 0xcafebabf) {
-        return _readFatMachO(raf, head, is64: bigEndianMagic == 0xcafebabf);
+      if (bigEndianMagic == _MachO.fatMagic32 ||
+          bigEndianMagic == _MachO.fatMagic64) {
+        return _readFatMachO(
+          raf,
+          head,
+          is64: bigEndianMagic == _MachO.fatMagic64,
+        );
       }
       final thin = _readThinMachO(head);
       if (thin != null) return thin;
     }
-    if (head.length >= 0x40 && head[0] == 0x4d && head[1] == 0x5a) {
+    if (head.length >= _Pe.peHeaderOffset + 4 &&
+        head[0] == _Pe.dosMagic[0] &&
+        head[1] == _Pe.dosMagic[1]) {
       return _readPe(raf, head, length);
     }
     return const UnrecognizedHeader();
@@ -90,41 +146,54 @@ NativeLibraryHeader readNativeLibraryHeader(File file) {
 }
 
 bool _hasElfMagic(Uint8List head) =>
-    head[0] == 0x7f && head[1] == 0x45 && head[2] == 0x4c && head[3] == 0x46;
+    head[0] == _Elf.magic[0] &&
+    head[1] == _Elf.magic[1] &&
+    head[2] == _Elf.magic[2] &&
+    head[3] == _Elf.magic[3];
 
 NativeLibraryHeader _readElf(Uint8List head) {
   final elfClass = head[4];
   final elfData = head[5];
-  if ((elfClass != 1 && elfClass != 2) || (elfData != 1 && elfData != 2)) {
+  if ((elfClass != _Elf.class32 && elfClass != _Elf.class64) ||
+      (elfData != _Elf.littleEndian && elfData != _Elf.bigEndian)) {
     return const UnrecognizedHeader();
   }
-  final machine = _u16(head, 18, littleEndian: elfData == 1);
+  final machine = _u16(
+    head,
+    _Elf.machineOffset,
+    littleEndian: elfData == _Elf.littleEndian,
+  );
   final architecture = switch (machine) {
-    3 => Architecture.ia32,
-    40 => Architecture.arm,
-    62 => Architecture.x64,
-    183 => Architecture.arm64,
-    243 => elfClass == 1 ? Architecture.riscv32 : Architecture.riscv64,
+    _Elf.machineX86 => Architecture.ia32,
+    _Elf.machineArm => Architecture.arm,
+    _Elf.machineX64 => Architecture.x64,
+    _Elf.machineArm64 => Architecture.arm64,
+    _Elf.machineRiscV =>
+      elfClass == _Elf.class32 ? Architecture.riscv32 : Architecture.riscv64,
     _ => null,
   };
   return RecognizedHeader(BinaryFormat.elf, [architecture], [machine]);
 }
 
 Architecture? _machOArchitecture(int cpuType) => switch (cpuType) {
-  0x00000007 => Architecture.ia32,
-  0x01000007 => Architecture.x64,
-  0x0000000c => Architecture.arm,
-  0x0100000c => Architecture.arm64,
+  _MachO.cpuTypeX86 => Architecture.ia32,
+  _MachO.cpuTypeX64 => Architecture.x64,
+  _MachO.cpuTypeArm => Architecture.arm,
+  // arm64e uses CPU_TYPE_ARM64 and identifies the ABI in cpusubtype. Until
+  // TODO(https://github.com/dart-lang/native/issues/3379) reads that subtype,
+  // treat arm64e as arm64 rather than claiming to validate its ABI.
+  _MachO.cpuTypeArm64 => Architecture.arm64,
   _ => null,
 };
 
 NativeLibraryHeader? _readThinMachO(Uint8List head) {
   final littleEndianMagic = _u32(head, 0, littleEndian: true);
   final bool littleEndian;
-  if (littleEndianMagic == 0xfeedface || littleEndianMagic == 0xfeedfacf) {
+  if (littleEndianMagic == _MachO.magic32 ||
+      littleEndianMagic == _MachO.magic64) {
     littleEndian = true;
-  } else if (littleEndianMagic == 0xcefaedfe ||
-      littleEndianMagic == 0xcffaedfe) {
+  } else if (littleEndianMagic == _MachO.swappedMagic32 ||
+      littleEndianMagic == _MachO.swappedMagic64) {
     littleEndian = false;
   } else {
     return null;
@@ -163,24 +232,24 @@ NativeLibraryHeader _readFatMachO(
 }
 
 NativeLibraryHeader _readPe(RandomAccessFile raf, Uint8List head, int length) {
-  final peOffset = _u32(head, 0x3c, littleEndian: true);
+  final peOffset = _u32(head, _Pe.peHeaderOffset, littleEndian: true);
   if (peOffset + 6 > length) return const UnrecognizedHeader();
   raf.setPositionSync(peOffset);
   final signature = raf.readSync(6);
   if (signature.length < 6 ||
-      signature[0] != 0x50 ||
-      signature[1] != 0x45 ||
-      signature[2] != 0 ||
-      signature[3] != 0) {
+      signature[0] != _Pe.signature[0] ||
+      signature[1] != _Pe.signature[1] ||
+      signature[2] != _Pe.signature[2] ||
+      signature[3] != _Pe.signature[3]) {
     return const UnrecognizedHeader();
   }
   final machine = _u16(signature, 4, littleEndian: true);
   final architecture = switch (machine) {
-    0x014c => Architecture.ia32,
-    0x01c4 => Architecture.arm,
-    0x5064 => Architecture.riscv64,
-    0x8664 => Architecture.x64,
-    0xaa64 => Architecture.arm64,
+    _Pe.machineX86 => Architecture.ia32,
+    _Pe.machineArm => Architecture.arm,
+    _Pe.machineRiscV64 => Architecture.riscv64,
+    _Pe.machineX64 => Architecture.x64,
+    _Pe.machineArm64 => Architecture.arm64,
     _ => null,
   };
   return RecognizedHeader(BinaryFormat.pe, [architecture], [machine]);
