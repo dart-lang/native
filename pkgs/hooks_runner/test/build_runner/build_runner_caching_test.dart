@@ -19,6 +19,92 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
+  test('cached output is revalidated', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('native_add/');
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      expect((await buildCodeAssets(packageUri)).isSuccess, isTrue);
+      final buildDirectory = _singleBuildDirectory(packageUri);
+      final outputFile = File.fromUri(buildDirectory.resolve('output.json'));
+      final dependenciesHashFile = File.fromUri(
+        buildDirectory.resolve('dependencies.dependencies_hash_file.json'),
+      );
+      expect(await outputFile.exists(), isTrue);
+      expect(await dependenciesHashFile.exists(), isTrue);
+
+      final logMessages = <String>[];
+      final result = await build(
+        packageUri,
+        createCapturingLogger(logMessages, level: .ALL),
+        dartExecutable,
+        buildAssetTypes: [.code],
+        additionalLibraryValidators: [
+          _CallbackValidator(
+            (_) async => NativeLibraryValidation.rejected([
+              'failed a project-specific check.',
+            ]),
+          ),
+        ],
+      );
+      expect(result.isFailure, isTrue);
+      expect(
+        logMessages.join('\n'),
+        contains('has invalid cached output'),
+      );
+      expect(await outputFile.exists(), isFalse);
+      expect(await dependenciesHashFile.exists(), isFalse);
+
+      final rerunLogs = <String>[];
+      expect(
+        (await buildCodeAssets(packageUri, capturedLogs: rerunLogs)).isSuccess,
+        isTrue,
+      );
+      expect(rerunLogs.join('\n'), isNot(contains('Skipping build')));
+    });
+  });
+
+  test(
+    'unreadable cached output is invalidated',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add/');
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+
+        expect((await buildCodeAssets(packageUri)).isSuccess, isTrue);
+        final buildDirectory = _singleBuildDirectory(packageUri);
+        final outputFile = File.fromUri(buildDirectory.resolve('output.json'));
+        final dependenciesHashFile = File.fromUri(
+          buildDirectory.resolve('dependencies.dependencies_hash_file.json'),
+        );
+        await outputFile.writeAsString('{');
+
+        final logMessages = <String>[];
+        final result = await buildCodeAssets(
+          packageUri,
+          capturedLogs: logMessages,
+        );
+        expect(result.isFailure, isTrue);
+        expect(logMessages.join('\n'), contains('contained a format error'));
+        expect(await outputFile.exists(), isFalse);
+        expect(await dependenciesHashFile.exists(), isFalse);
+
+        final rerunLogs = <String>[];
+        expect(
+          (await buildCodeAssets(
+            packageUri,
+            capturedLogs: rerunLogs,
+          )).isSuccess,
+          isTrue,
+        );
+        expect(rerunLogs.join('\n'), isNot(contains('Skipping build')));
+      });
+    },
+  );
+
   test('cached build', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
@@ -399,4 +485,25 @@ void main() async {
       });
     },
   );
+}
+
+Uri _singleBuildDirectory(Uri packageUri) =>
+    (Directory.fromUri(
+              packageUri.resolve('.dart_tool/hooks_runner/native_add/'),
+            ).listSync().single
+            as Directory)
+        .uri;
+
+final class _CallbackValidator implements NativeLibraryValidator {
+  _CallbackValidator(this.callback);
+
+  final Future<NativeLibraryValidation> Function(
+    NativeLibraryValidationContext context,
+  )
+  callback;
+
+  @override
+  Future<NativeLibraryValidation> validate(
+    NativeLibraryValidationContext context,
+  ) => callback(context);
 }

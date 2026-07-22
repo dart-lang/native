@@ -511,6 +511,10 @@ class NativeAssetsBuildRunner {
                 input.packageName,
               );
               if (outputResult.isFailure) {
+                await _invalidateCachedHookResult(
+                  outputFile,
+                  dependenciesHashes,
+                );
                 return const Failure(HooksRunnerFailure.hookRun);
               }
               final output = outputResult.success;
@@ -522,6 +526,19 @@ class NativeAssetsBuildRunner {
                 // the hook.
                 outdatedDependencyString = outdatedDependency;
               } else {
+                final errors = await _validate(input, output, validator);
+                if (errors.isNotEmpty) {
+                  _printErrors(
+                    '$hook hook of package:${input.packageName} has invalid '
+                    'cached output',
+                    errors,
+                  );
+                  await _invalidateCachedHookResult(
+                    outputFile,
+                    dependenciesHashes,
+                  );
+                  return const Failure(HooksRunnerFailure.hookRun);
+                }
                 logger.info(
                   'Skipping ${hook.name} for ${input.packageName}'
                   ' in ${buildDirUri.toFilePath()}.'
@@ -575,6 +592,18 @@ class NativeAssetsBuildRunner {
       },
     ),
   );
+
+  Future<void> _invalidateCachedHookResult(
+    File outputFile,
+    DependenciesHashFile dependenciesHashes,
+  ) async {
+    if (await outputFile.exists()) {
+      await outputFile.delete();
+    }
+    if (await dependenciesHashes.exists()) {
+      await dependenciesHashes.delete();
+    }
+  }
 
   /// Environment variables respected by [HttpClient.findProxyFromEnvironment].
   ///
