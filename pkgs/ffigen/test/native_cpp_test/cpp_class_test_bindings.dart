@@ -24,7 +24,7 @@ class Animal implements ffi.Finalizable {
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
   _activeFinalizerFn;
 
-  Animal.fromPointer(this._ptr, {bool takeOwnership = true}) {
+  Animal.fromPointer(this._ptr, {bool takeOwnership = false}) {
     if (takeOwnership) {
       _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
@@ -90,7 +90,7 @@ class Animal implements ffi.Finalizable {
   }
 
   factory Animal(int age) {
-    return Animal.fromPointer(_Animal_new(age));
+    return Animal.fromPointer(_Animal_new(age), takeOwnership: true);
   }
   void speak() {
     if (_ptr == ffi.nullptr) {
@@ -134,6 +134,12 @@ class Animal implements ffi.Finalizable {
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError(
+        'Cannot dispose a non-owning wrapper. '
+        'Call retainOwnership() first to take ownership.',
+      );
     }
     _activeFinalizer!.detach(this);
     _activeFinalizer = null;
@@ -208,7 +214,7 @@ class FinalizerTestSubject implements ffi.Finalizable {
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
   _activeFinalizerFn;
 
-  FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = true}) {
+  FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = false}) {
     if (takeOwnership) {
       _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
@@ -274,11 +280,20 @@ class FinalizerTestSubject implements ffi.Finalizable {
   }
 
   factory FinalizerTestSubject(ffi.Pointer<ffi.Int> counter) {
-    return FinalizerTestSubject.fromPointer(_FinalizerTestSubject_new(counter));
+    return FinalizerTestSubject.fromPointer(
+      _FinalizerTestSubject_new(counter),
+      takeOwnership: true,
+    );
   }
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError(
+        'Cannot dispose a non-owning wrapper. '
+        'Call retainOwnership() first to take ownership.',
+      );
     }
     _activeFinalizer!.detach(this);
     _activeFinalizer = null;

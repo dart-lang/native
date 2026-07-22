@@ -131,7 +131,7 @@ class $name implements $ffiPrefix.Finalizable {
     $ffiPrefix.NativeFunction<$ffiPrefix.Void Function($ptrVoid)>
   >? _activeFinalizerFn;
 
-  $name.fromPointer(this._ptr, {bool takeOwnership = true}) {
+  $name.fromPointer(this._ptr, {bool takeOwnership = false}) {
     if (takeOwnership) {
       _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
@@ -220,7 +220,7 @@ class $name implements $ffiPrefix.Finalizable {
       s.write('''
   factory $name($dartParams) {
     ${localVars.generateDeclarations()}
-    return $name.fromPointer($privateName($callArgs));
+    return $name.fromPointer($privateName($callArgs), takeOwnership: true);
   }
 ''');
     }
@@ -230,23 +230,56 @@ class $name implements $ffiPrefix.Finalizable {
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
 
+      final localVars = LocalVariables(method.localScope);
       final callArgs = [
         if (!method.isStatic) '_ptr',
-        ...method.parameters.map((p) => p.name),
+        ...method.parameters.map(
+          (p) => p.type.sameDartAndFfiDartType
+              ? p.name
+              : p.type.convertDartTypeToFfiDartType(
+                  ctx,
+                  p.name,
+                  objCRetain: false,
+                  objCAutorelease: false,
+                  localVariables: localVars,
+                ),
+        ),
       ].join(', ');
+      final decls = localVars.generateDeclarations();
+      final declsCode = decls.isNotEmpty ? '$decls\n    ' : '';
+
+      final String returnExpr;
+      if (!method.returnType.sameDartAndFfiDartType) {
+        returnExpr = method.returnType.convertFfiDartTypeToDartType(
+          ctx,
+          '$glue($callArgs)',
+          objCRetain: false,
+        );
+      } else {
+        returnExpr = '$glue($callArgs)';
+      }
 
       if (method.isStatic) {
-        s.write(
-          '  static $dartReturn ${method.originalName}($dartParams) '
-          '=> $glue($callArgs);\n',
-        );
+        if (decls.isNotEmpty) {
+          s.write('''
+  static $dartReturn ${method.originalName}($dartParams) {
+    $decls
+    return $returnExpr;
+  }
+''');
+        } else {
+          s.write(
+            '  static $dartReturn ${method.originalName}($dartParams) '
+            '=> $returnExpr;\n',
+          );
+        }
       } else {
         s.write('''
   $dartReturn ${method.originalName}($dartParams) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    return $glue($callArgs);
+    ${declsCode}return $returnExpr;
   }
 ''');
       }
@@ -255,6 +288,10 @@ class $name implements $ffiPrefix.Finalizable {
   void dispose() {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError('Cannot dispose a non-owning wrapper. '
+          'Call retainOwnership() first to take ownership.');
     }
     _activeFinalizer!.detach(this);
     _activeFinalizer = null;

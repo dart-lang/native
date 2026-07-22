@@ -23,7 +23,7 @@ external Pointer<Void> _rawNodeNew(int value, Pointer<Int> counter);
 external void _rawNodeDelete(Pointer<Void> self);
 
 void main() {
-  group('takeOwnership: false', () {
+  group('NodeManager memory management', () {
     // Test A - GC does not delete a non-owning wrapper.
     @pragma('vm:never-inline')
     void gcNonOwningInner(Pointer<Void> rawPtr, Pointer<Int32> counter) {
@@ -64,6 +64,96 @@ void main() {
       final node = Node.fromPointer(rawPtr, takeOwnership: false);
       expect(node.releaseOwnership, throwsStateError);
       _rawNodeDelete(rawPtr);
+      calloc.free(counter);
+    });
+
+    test('getNode() returns unowned pointer by default', () {
+      final manager = NodeManager();
+      final node = manager.getNode();
+      expect(node.getValue(), 100);
+
+      // Wrapper is unowned by default, releaseOwnership throws StateError.
+      expect(node.releaseOwnership, throwsStateError);
+    });
+
+    test(
+      'releaseNode() returns unowned pointer, dev calls retainOwnership()',
+      () {
+        final counter = calloc<Int32>()..value = 0;
+        final manager = NodeManager();
+        // releaseNode() returns unowned by default even though C++ transferred
+        // ownership. Developer must call retainOwnership() explicitly.
+        final node = manager.releaseNode();
+        expect(node.getValue(), 200);
+
+        // Developer explicitly takes ownership after knowing C++ gave it.
+        node.retainOwnership();
+        node.dispose();
+        expect(counter.value, 0); // Node was created without a counter.
+        calloc.free(counter);
+      },
+    );
+
+    test('newNode() returns unowned by default, counter stays 0', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.newNode(100, counter.cast());
+      expect(node.getValue(), 100);
+
+      // Wrapper is unowned, Dart will never call Node_delete automatically.
+      // Counter must still be 0 because no finalizer was attached.
+      expect(counter.value, 0);
+      // Transfer ownership so the node can be cleaned up cleanly.
+      node.retainOwnership();
+      node.dispose();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    });
+
+    test('getSingletonNode() returns unowned pointer', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.getSingletonNode(200, counter.cast());
+      expect(node.getValue(), 200);
+
+      // Wrapper is unowned, releaseOwnership throws StateError.
+      expect(node.releaseOwnership, throwsStateError);
+      calloc.free(counter);
+    });
+
+    test('foo(node) passes pointer correctly', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(42, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: false);
+      final manager = NodeManager();
+      expect(manager.foo(node), 42);
+      _rawNodeDelete(rawPtr);
+      calloc.free(counter);
+    });
+
+    test('getValue(node) borrows argument without destroying it', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(300, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: false);
+      final manager = NodeManager();
+      expect(manager.getValue(node), 300);
+      expect(counter.value, 0); // Still alive!
+      _rawNodeDelete(rawPtr);
+      calloc.free(counter);
+    });
+
+    test('takeNode(node) takes ownership and deletes C++ object', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(400, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: true);
+
+      // Detach Dart finalizer before transferring ownership to C++.
+      node.releaseOwnership();
+      final manager = NodeManager();
+      expect(manager.takeNode(node), 400);
+
+      // C++ takeNode deleted the node.
+      expect(counter.value, 1);
       calloc.free(counter);
     });
   });
