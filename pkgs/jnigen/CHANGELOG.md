@@ -17,6 +17,7 @@
   elements.dart is no longer exported from the library, as these classes were
   always intended to be private. `Config.importedClasses` and
   `Config.importClasses()` have also been made private.
+- Support versions 3.x of `package:package_config`.
 
 ## 0.16.0
 
