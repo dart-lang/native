@@ -29,7 +29,8 @@ final class NativeLibraryValidationContext {
 /// Validators are trusted extensions supplied by the hook invoker. They must
 /// return [NativeLibraryValidation.notRecognized] for files outside their
 /// domain. A validator may return [NativeLibraryValidation.matched] only when
-/// it covers the target operating system and architecture in [CodeConfig].
+/// it covers the current contract: the expected container family for the
+/// target operating system and the target architecture family in [CodeConfig].
 abstract interface class NativeLibraryValidator {
   /// Validates the library described by [context].
   Future<NativeLibraryValidation> validate(
@@ -148,7 +149,7 @@ final class _NativeLibraryHeaderValidator implements NativeLibraryValidator {
 
     final recognized = header as RecognizedHeader;
     if (recognized.format == BinaryFormat.machO &&
-        recognized.architectures.length > 1) {
+        recognized.architectureCount > 1) {
       return NativeLibraryValidation.rejected([
         'is a multi-architecture Mach-O binary. Hooks run once per target '
             'architecture and must output a thin Mach-O binary.',

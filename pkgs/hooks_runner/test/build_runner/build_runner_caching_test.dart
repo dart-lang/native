@@ -69,6 +69,7 @@ void main() async {
     ('malformed JSON', '{'),
     ('a JSON list', '[]'),
     ('JSON null', 'null'),
+    ('an unknown status', '{"status":"unknown"}'),
   ]) {
     test(
       'cached output containing $description is invalidated',

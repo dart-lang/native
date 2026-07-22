@@ -1090,6 +1090,10 @@ ${e.message}''');
       if (decoded is! Map<String, Object?>) {
         throw const FormatException('Expected a JSON object.');
       }
+      final status = decoded['status'];
+      if (status != null && status != 'success' && status != 'failure') {
+        throw FormatException('Unknown status: $status.');
+      }
       switch (hook) {
         case .build:
           final output = BuildOutputMaybeFailure(decoded);
@@ -1113,14 +1117,28 @@ ${e.message}''');
           }
       }
     } on FormatException catch (e) {
-      logger.severe('''
+      return _invalidHookOutput(
+        hookOutputFile,
+        packageName,
+        fileContents,
+        e.message,
+      );
+    }
+  }
+
+  Result<HookOutput, HooksRunnerFailure> _invalidHookOutput(
+    File hookOutputFile,
+    String packageName,
+    String fileContents,
+    String message,
+  ) {
+    logger.severe('''
 Building assets for package:$packageName failed.
 ${hookOutputFile.uri.toFilePath()} contained a format error.
 
 Contents: $fileContents.
-${e.message}''');
-      return const Failure(HooksRunnerFailure.hookRun);
-    }
+$message''');
+    return const Failure(HooksRunnerFailure.hookRun);
   }
 
   /// Returns a list of errors for [_readHooksUserDefinesFromPubspec].

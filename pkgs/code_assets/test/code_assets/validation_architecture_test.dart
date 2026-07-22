@@ -188,6 +188,15 @@ void main() {
       expect(errors, contains(contains('multi-architecture Mach-O')));
     });
 
+    test('fat header with more than 32 slices is an error', () async {
+      final (errors, _) = await validate(
+        machOFatHeader(cpuTypes: List.filled(33, 0x0100000c)),
+        targetOS: OS.macOS,
+        targetArchitecture: Architecture.arm64,
+      );
+      expect(errors, contains(contains('multi-architecture Mach-O')));
+    });
+
     test('fat file without the target architecture is an error', () async {
       final (errors, _) = await validate(
         machOFatHeader(cpuTypes: [0x01000007]),

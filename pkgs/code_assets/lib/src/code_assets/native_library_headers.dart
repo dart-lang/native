@@ -81,7 +81,12 @@ sealed class NativeLibraryHeader {
 /// A header whose binary format was recognized.
 final class RecognizedHeader extends NativeLibraryHeader {
   /// Constructs a [RecognizedHeader].
-  const RecognizedHeader(this.format, this.architectures, this.machineValues);
+  const RecognizedHeader(
+    this.format,
+    this.architectures,
+    this.machineValues, {
+    int? architectureCount,
+  }) : architectureCount = architectureCount ?? architectures.length;
 
   /// The binary format of the file.
   final BinaryFormat format;
@@ -95,6 +100,12 @@ final class RecognizedHeader extends NativeLibraryHeader {
 
   /// The raw machine values from the header, for diagnostics.
   final List<int> machineValues;
+
+  /// The number of architectures declared by the header.
+  ///
+  /// This can exceed [architectures].length when a fat header contains too
+  /// many entries to read safely.
+  final int architectureCount;
 }
 
 /// A file whose binary format was not recognized.
@@ -212,14 +223,27 @@ NativeLibraryHeader _readFatMachO(
   required bool is64,
 }) {
   // The fat header and arch entries are always big-endian. The number of
-  // slices is tiny in practice; the bound also rejects Java class files,
-  // which share the 0xcafebabe magic but carry a version number here.
+  // slices is tiny in practice. Java class files share the 0xcafebabe magic,
+  // but their version number generally makes the implied architecture table
+  // larger than the file.
   final sliceCount = _u32(head, 4, littleEndian: false);
-  if (sliceCount == 0 || sliceCount > 32) return const UnrecognizedHeader();
+  if (sliceCount == 0) return const UnrecognizedHeader();
   final entrySize = is64 ? 32 : 20;
+  final entriesLength = sliceCount * entrySize;
+  if (raf.lengthSync() < 8 + entriesLength) {
+    return const UnrecognizedHeader();
+  }
+  if (sliceCount > 32) {
+    return RecognizedHeader(
+      BinaryFormat.machO,
+      const [],
+      const [],
+      architectureCount: sliceCount,
+    );
+  }
   raf.setPositionSync(8);
-  final entries = raf.readSync(sliceCount * entrySize);
-  if (entries.length < sliceCount * entrySize) {
+  final entries = raf.readSync(entriesLength);
+  if (entries.length < entriesLength) {
     return const UnrecognizedHeader();
   }
   final machineValues = [

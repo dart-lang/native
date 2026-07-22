@@ -13,6 +13,78 @@ import 'helpers.dart';
 void main() async {
   const packageName = 'simple_link';
 
+  test('cached link output with unknown status is invalidated', () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('$packageName/');
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      final buildResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      )).success;
+      final runnerDirectory = Directory.fromUri(
+        packageUri.resolve('.dart_tool/hooks_runner/$packageName/'),
+      );
+      Set<String> runnerSubdirectories() => runnerDirectory
+          .listSync()
+          .whereType<Directory>()
+          .map((directory) => directory.path)
+          .toSet();
+
+      final beforeLink = runnerSubdirectories();
+      expect(
+        (await link(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildResult: buildResult,
+          buildAssetTypes: [.data],
+        )).isSuccess,
+        isTrue,
+      );
+      final linkDirectoryPath = runnerSubdirectories()
+          .difference(beforeLink)
+          .single;
+      final linkDirectory = Directory(linkDirectoryPath).uri;
+      final outputFile = File.fromUri(linkDirectory.resolve('output.json'));
+      final dependenciesHashFile = File.fromUri(
+        linkDirectory.resolve('dependencies.dependencies_hash_file.json'),
+      );
+      expect(await outputFile.exists(), isTrue);
+      expect(await dependenciesHashFile.exists(), isTrue);
+      await outputFile.writeAsString('{"status":"unknown"}');
+
+      final logMessages = <String>[];
+      final result = await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        buildAssetTypes: [.data],
+        capturedLogs: logMessages,
+      );
+      expect(result.isFailure, isTrue);
+      expect(logMessages.join('\n'), contains('contained a format error'));
+      expect(await outputFile.exists(), isFalse);
+      expect(await dependenciesHashFile.exists(), isFalse);
+
+      final rerunLogs = <String>[];
+      expect(
+        (await link(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildResult: buildResult,
+          buildAssetTypes: [.data],
+          capturedLogs: rerunLogs,
+        )).isSuccess,
+        isTrue,
+      );
+      expect(rerunLogs.join('\n'), isNot(contains('Skipping link')));
+    });
+  });
+
   test('link hook caching', () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
