@@ -4,8 +4,9 @@
   system and architecture by reading its ELF, Mach-O, or PE header. Reject
   multi-architecture Mach-O output because hooks run once per target
   architecture. Unrecognized files produce a warning instead of failing.
-- Add `NativeLibraryValidator` so hook invokers can validate custom operating
-  systems and architectures without exposing the built-in header model.
+- Add `NativeLibraryValidator` for invoker-supplied validation without
+  exposing the built-in header model. The extension point is compatible with
+  future custom operating system and architecture support.
 
 ## 1.2.1
 
