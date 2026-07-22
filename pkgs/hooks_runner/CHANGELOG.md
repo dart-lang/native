@@ -1,8 +1,10 @@
-## 1.6.2
+## 1.6.2-wip
 
 - Revalidate cached hook output and invalidate output and dependency hashes
   when it can no longer be read or fails current validation.
 - Bump the dependency on `package:code_assets` to `^1.3.0`.
+- Require `dartExecutable` to be an absolute path, and on Windows to include a
+  file extension
 
 ## 1.6.1
 
