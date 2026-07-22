@@ -1,3 +1,13 @@
+## 9.4.2-wip
+
+- Add a deterministic regression test for the GC-safepoint bug in
+  `DartProtocolBuilder.buildInstance` (same family as
+  [#3209](https://github.com/dart-lang/native/issues/3209)). The bug itself is
+  structurally prevented by the ffigen change in
+  [#3352](https://github.com/dart-lang/native/pull/3352) (which extracts
+  `.ref.pointer` into a Finalizable local before every FFI call); this test
+  guards against future regressions of that pattern.
+
 ## 9.4.1
 
 - Fix a [bug](https://github.com/flutter/flutter/issues/186794) related to
