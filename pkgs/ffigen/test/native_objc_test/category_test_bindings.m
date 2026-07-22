@@ -76,7 +76,7 @@ _ListenerTrampoline _l3cf7j_wrapListenerBlock_pfv6jd(
       _l3cf7j_BlockArgs_pfv6jd* args = [[_l3cf7j_BlockArgs_pfv6jd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -93,7 +93,7 @@ _ListenerTrampoline _l3cf7j_wrapBlockingBlock_pfv6jd(int64_t port, DOBJC_Context
       _l3cf7j_BlockArgs_pfv6jd* args = [[_l3cf7j_BlockArgs_pfv6jd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -101,7 +101,7 @@ _ListenerTrampoline _l3cf7j_wrapBlockingBlock_pfv6jd(int64_t port, DOBJC_Context
       _l3cf7j_BlockArgs_pfv6jd* args = [[_l3cf7j_BlockArgs_pfv6jd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });

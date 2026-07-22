@@ -464,7 +464,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       ...argsReceived,
     ].join(', ');
     final argDeclStr = argDecls.join('\n');
-    final argAssignStr = argAssigns.join('\n    ');
+    final argAssignStr = argAssigns.join('\n      ');
 
     final argClassName = _argClass!.originalName;
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;

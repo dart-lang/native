@@ -148,7 +148,7 @@ _ListenerTrampoline_1 _z0xonr_wrapListenerBlock_18v1jvf(
       _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -165,7 +165,7 @@ _ListenerTrampoline_1 _z0xonr_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Cont
       _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -173,7 +173,7 @@ _ListenerTrampoline_1 _z0xonr_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Cont
       _z0xonr_BlockArgs_18v1jvf* args = [[_z0xonr_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });
@@ -204,7 +204,7 @@ _ListenerTrampoline_2 _z0xonr_wrapListenerBlock_6yc3kd(
       _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -221,7 +221,7 @@ _ListenerTrampoline_2 _z0xonr_wrapBlockingBlock_6yc3kd(int64_t port, DOBJC_Conte
       _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -229,7 +229,7 @@ _ListenerTrampoline_2 _z0xonr_wrapBlockingBlock_6yc3kd(int64_t port, DOBJC_Conte
       _z0xonr_BlockArgs_6yc3kd* args = [[_z0xonr_BlockArgs_6yc3kd alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });

@@ -105,7 +105,7 @@ _ListenerTrampoline _13hhotk_wrapListenerBlock_1pbq496(
       _13hhotk_BlockArgs_1pbq496* args = [[_13hhotk_BlockArgs_1pbq496 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -122,7 +122,7 @@ _ListenerTrampoline _13hhotk_wrapBlockingBlock_1pbq496(int64_t port, DOBJC_Conte
       _13hhotk_BlockArgs_1pbq496* args = [[_13hhotk_BlockArgs_1pbq496 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -130,7 +130,7 @@ _ListenerTrampoline _13hhotk_wrapBlockingBlock_1pbq496(int64_t port, DOBJC_Conte
       _13hhotk_BlockArgs_1pbq496* args = [[_13hhotk_BlockArgs_1pbq496 alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });
@@ -161,7 +161,7 @@ _ListenerTrampoline_1 _13hhotk_wrapListenerBlock_8r9qkg(
       _13hhotk_BlockArgs_8r9qkg* args = [[_13hhotk_BlockArgs_8r9qkg alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -178,7 +178,7 @@ _ListenerTrampoline_1 _13hhotk_wrapBlockingBlock_8r9qkg(int64_t port, DOBJC_Cont
       _13hhotk_BlockArgs_8r9qkg* args = [[_13hhotk_BlockArgs_8r9qkg alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -186,7 +186,7 @@ _ListenerTrampoline_1 _13hhotk_wrapBlockingBlock_8r9qkg(int64_t port, DOBJC_Cont
       _13hhotk_BlockArgs_8r9qkg* args = [[_13hhotk_BlockArgs_8r9qkg alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });
@@ -217,7 +217,7 @@ _ListenerTrampoline_2 _13hhotk_wrapListenerBlock_18v1jvf(
       _13hhotk_BlockArgs_18v1jvf* args = [[_13hhotk_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -234,7 +234,7 @@ _ListenerTrampoline_2 _13hhotk_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Con
       _13hhotk_BlockArgs_18v1jvf* args = [[_13hhotk_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -242,7 +242,7 @@ _ListenerTrampoline_2 _13hhotk_wrapBlockingBlock_18v1jvf(int64_t port, DOBJC_Con
       _13hhotk_BlockArgs_18v1jvf* args = [[_13hhotk_BlockArgs_18v1jvf alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
+      args.arg1 = arg1;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });

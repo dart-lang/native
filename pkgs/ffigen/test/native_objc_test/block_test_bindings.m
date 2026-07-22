@@ -260,8 +260,8 @@ _ListenerTrampoline_4 _18tji2r_wrapListenerBlock_li50va(
       _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
-    args.arg2 = arg2;
+      args.arg1 = arg1;
+      args.arg2 = arg2;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -278,8 +278,8 @@ _ListenerTrampoline_4 _18tji2r_wrapBlockingBlock_li50va(int64_t port, DOBJC_Cont
       _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
-    args.arg2 = arg2;
+      args.arg1 = arg1;
+      args.arg2 = arg2;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -287,8 +287,8 @@ _ListenerTrampoline_4 _18tji2r_wrapBlockingBlock_li50va(int64_t port, DOBJC_Cont
       _18tji2r_BlockArgs_li50va* args = [[_18tji2r_BlockArgs_li50va alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
-    args.arg2 = arg2;
+      args.arg1 = arg1;
+      args.arg2 = arg2;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });
@@ -360,8 +360,8 @@ _ListenerTrampoline_6 _18tji2r_wrapListenerBlock_ru30ue(
       _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
-    args.arg2 = arg2;
+      args.arg1 = arg1;
+      args.arg2 = arg2;
       ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
     }
   } copy];
@@ -378,8 +378,8 @@ _ListenerTrampoline_6 _18tji2r_wrapBlockingBlock_ru30ue(int64_t port, DOBJC_Cont
       _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
-    args.arg2 = arg2;
+      args.arg1 = arg1;
+      args.arg2 = arg2;
       directInvoke((__bridge_retained void*)args);
     }
   }, {
@@ -387,8 +387,8 @@ _ListenerTrampoline_6 _18tji2r_wrapBlockingBlock_ru30ue(int64_t port, DOBJC_Cont
       _18tji2r_BlockArgs_ru30ue* args = [[_18tji2r_BlockArgs_ru30ue alloc] init];
       args.block = weakSelfBlock;
       args.arg0 = arg0;
-    args.arg1 = arg1;
-    args.arg2 = arg2;
+      args.arg1 = arg1;
+      args.arg2 = arg2;
       ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
     }
   });

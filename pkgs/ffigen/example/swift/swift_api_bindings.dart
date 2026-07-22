@@ -10,7 +10,7 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
 
 /// SwiftClass
 extension type SwiftClass._(objc.ObjCObject object$)
@@ -101,7 +101,7 @@ extension SwiftClass$Methods on SwiftClass {
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_swift_module.SwiftClass',
+  symbol: 'OBJC_CLASS_\$__TtC12swift_module10SwiftClass',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_SwiftClass_raw;
 final _class_SwiftClass = objc.getClass(
