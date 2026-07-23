@@ -10,6 +10,7 @@ import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+import '../code_generator/utils.dart';
 import '../config_provider/config_types.dart';
 import '../context.dart';
 import '../strings.dart';
@@ -381,12 +382,12 @@ String? removeRawCommentMarkups(String? string) {
   if (string.contains(RegExp(r'^\s*\/\*+'))) {
     string = string.replaceFirst(RegExp(r'^\s*\/\*+\s*'), '');
     string = string.replaceFirst(RegExp(r'\s*\*+\/$'), '');
-    string.split('\n').forEach((element) {
+    string.split(lineBreakRegex).forEach((element) {
       element = element.replaceFirst(RegExp(r'^\s*\**\s*'), '');
       sb.writeln(element);
     });
   } else if (string.contains(RegExp(r'^\s*\/\/\/?\s*'))) {
-    string.split('\n').forEach((element) {
+    string.split(lineBreakRegex).forEach((element) {
       element = element.replaceFirst(RegExp(r'^\s*\/\/\/?\s*'), '');
       sb.writeln(element);
     });

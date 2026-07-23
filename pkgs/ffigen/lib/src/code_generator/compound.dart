@@ -173,11 +173,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     s.write('$ffiPrefix.$dartClassName{\n');
     const depth = '  ';
     for (final m in members) {
-      if (m.dartDoc != null) {
-        s.write('$depth/// ');
-        s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
-        s.write('\n');
-      }
+      s.write(makeDartDoc(m.dartDoc, indent: depth));
       if (m.type case final ConstantArray arrayType) {
         s.writeln(makeArrayAnnotation(w, arrayType));
         s.write('${depth}external ${_getInlineArrayTypeString(m.type, w)} ');

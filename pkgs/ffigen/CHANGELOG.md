@@ -24,9 +24,10 @@
   change to something more sensible.
 - __Breaking change__: Deleted the config option `Output.sort`. Sorting is now
   always enabled.
-- Fix(https://github.com/dart-lang/native/issues/2877) 
+- Fix(https://github.com/dart-lang/native/issues/2877)
   such that ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns
-  `false` when called with `null`, aligning its behavior with Dart’s `is`operator.
+  `false` when called with `null`, aligning its behavior with Dart’s `is`
+  operator.
 - Use `xcrun` for resolving macOS SDK paths, enabling support for non-standard
   Xcode installations. [#3134](https://github.com/dart-lang/native/issues/3134)
 - Add allocate constructor for native C structs:
@@ -49,7 +50,9 @@
   `experimental_member_use` lint ignore in generated bindings when
   `@RecordUse()` is used.
 - Support versions 3.x of `package:package_config`.
-  
+- Fix a bug where comments containing carriage return (\r) characters were not
+  properly split, causing comment text to spill out of Dart doc comments.
+
 ## 20.1.1
 
 - Update tests and examples now that package:objective_c is using native assets.

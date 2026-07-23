@@ -76,11 +76,7 @@ class EnumClass extends BindingType with HasLocalScope {
   /// have had.
   String _formatValue(EnumConstant ec, {bool asInt = false}) {
     final buffer = StringBuffer();
-    if (ec.dartDoc != null) {
-      buffer.write('  /// ');
-      buffer.writeAll(ec.dartDoc!.split('\n'), '\n  /// ');
-      buffer.write('\n');
-    }
+    buffer.write(makeDartDoc(ec.dartDoc, indent: '  '));
     if (asInt) {
       buffer.write('  static const ${ec.name} = ${ec.value};');
     } else {
@@ -113,11 +109,7 @@ class EnumClass extends BindingType with HasLocalScope {
     for (final entry in duplicateToOriginal.entries) {
       final duplicate = entry.key;
       final original = entry.value;
-      if (duplicate.dartDoc != null) {
-        s.write('  /// ');
-        s.writeAll(duplicate.dartDoc!.split('\n'), '\n  /// ');
-        s.write('\n');
-      }
+      s.write(makeDartDoc(duplicate.dartDoc, indent: '  '));
       s.write('  static const ${duplicate.name} = ${original.name};\n');
     }
   }
