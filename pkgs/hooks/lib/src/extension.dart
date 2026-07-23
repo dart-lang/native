@@ -4,6 +4,8 @@
 
 import 'dart:async';
 
+import 'package:logging/logging.dart';
+
 import 'config.dart';
 import 'encoded_asset.dart';
 import 'validation.dart';
@@ -31,6 +33,24 @@ typedef ValidationErrors = List<String>;
 abstract base class ProtocolExtension {
   /// The [HookConfig.buildAssetTypes] this extension adds.
   // List<String> get buildAssetTypes;
+
+  late Logger _logger;
+
+  /// The logger of the hooks_runner that drives this extension.
+  ///
+  /// Only valid after [setupLogger] has run, which the hooks_runner guarantees
+  /// to do before invoking any other method on this object.
+  Logger get logger => _logger;
+
+  /// Sets up the [logger] used by the hooks_runner that drives this extension.
+  ///
+  /// Guaranteed to be run before any other method is called on this object.
+  ///
+  /// The field backing [logger] is not `final` because the same extension
+  /// object can be reused across the build and link of a single run.
+  void setupLogger(Logger logger) {
+    _logger = logger;
+  }
 
   /// Setup the [BuildConfig] for this extension.
   void setupBuildInput(BuildInputBuilder input) {}

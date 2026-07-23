@@ -166,6 +166,12 @@ class NativeAssetsBuildRunner {
     }
     var hookResult = hookResultUserDefines.success;
 
+    // Give every extension the runner's logger before any other method is
+    // invoked on it.
+    for (final e in extensions) {
+      e.setupLogger(logger);
+    }
+
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
     for (final package in buildPlan) {
@@ -281,6 +287,12 @@ class NativeAssetsBuildRunner {
       return hookResultUserDefines;
     }
     var linkResult = hookResultUserDefines.success;
+
+    // Give every extension the runner's logger before any other method is
+    // invoked on it.
+    for (final e in extensions) {
+      e.setupLogger(logger);
+    }
 
     Recordings? packageRecordings;
     final targetRecordingsFile = recordUse?.file ?? resourceIdentifiers;

@@ -50,7 +50,6 @@ Future<Result<BuildResult, HooksRunnerFailure>> buildCodeAssets(
   Uri packageUri, {
   String? runPackageName,
   List<String>? capturedLogs,
-  Iterable<NativeLibraryValidator> additionalLibraryValidators = const [],
 }) => build(
   packageUri,
   logger,
@@ -58,7 +57,6 @@ Future<Result<BuildResult, HooksRunnerFailure>> buildCodeAssets(
   capturedLogs: capturedLogs,
   buildAssetTypes: [BuildAssetType.code],
   runPackageName: runPackageName,
-  additionalLibraryValidators: additionalLibraryValidators,
 );
 
 enum BuildAssetType { code, data }
@@ -80,7 +78,6 @@ Future<Result<BuildResult, HooksRunnerFailure>> build(
   required List<BuildAssetType> buildAssetTypes,
   Map<String, String>? hookEnvironment,
   UserDefines? userDefines,
-  Iterable<NativeLibraryValidator> additionalLibraryValidators = const [],
 }) async {
   final targetOS = target?.os ?? OS.current;
   final runPackageName_ =
@@ -124,8 +121,6 @@ Future<Result<BuildResult, HooksRunnerFailure>> build(
                 android: targetOS == OS.android
                     ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                     : null,
-                logger: logger,
-                additionalLibraryValidators: additionalLibraryValidators,
               ),
             if (buildAssetTypes.contains(BuildAssetType.data))
               DataAssetsExtension(),

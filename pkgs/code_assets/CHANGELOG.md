@@ -6,6 +6,7 @@
   run once per target architecture. A file the built-in validators do not
   recognize, or a recognized library built for an architecture they do not
   know, warns on the supplied logger instead of failing.
+- Bump the dependency on `package:hooks` to `^2.2.0-wip`.
 
 ## 1.2.1
 

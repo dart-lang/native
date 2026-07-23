@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 
 import 'architecture.dart';
 import 'c_compiler_config.dart';
@@ -11,7 +10,6 @@ import 'code_asset.dart';
 import 'config.dart';
 import 'link_mode.dart';
 import 'link_mode_preference.dart';
-import 'native_library_validation.dart';
 import 'os.dart';
 import 'sanitizer.dart';
 import 'validation.dart';
@@ -57,16 +55,6 @@ final class CodeAssetExtension extends ProtocolExtension {
   /// runtime libraries and memory allocators across the FFI boundary.
   final Sanitizer? sanitizer;
 
-  /// Receives warnings from validations which are skipped rather than failed,
-  /// such as an unrecognized native library header.
-  final Logger? logger;
-
-  /// Additional validators for bundled dynamic libraries.
-  ///
-  /// These validators are supplied by the hook invoker, not by packages that
-  /// produce hook output. The iterable is copied during construction.
-  final List<NativeLibraryValidator> additionalLibraryValidators;
-
   /// Constructs a [CodeAssetExtension].
   CodeAssetExtension({
     required this.targetArchitecture,
@@ -77,11 +65,7 @@ final class CodeAssetExtension extends ProtocolExtension {
     this.iOS,
     this.macOS,
     this.sanitizer,
-    this.logger,
-    Iterable<NativeLibraryValidator> additionalLibraryValidators = const [],
-  }) : additionalLibraryValidators = List.unmodifiable(
-         additionalLibraryValidators,
-       );
+  });
 
   @override
   void setupBuildInput(BuildInputBuilder input) {
@@ -119,23 +103,13 @@ final class CodeAssetExtension extends ProtocolExtension {
   Future<ValidationErrors> validateBuildOutput(
     BuildInput input,
     BuildOutput output,
-  ) => validateCodeAssetBuildOutput(
-    input,
-    output,
-    logger: logger,
-    additionalLibraryValidators: additionalLibraryValidators,
-  );
+  ) => validateCodeAssetBuildOutput(input, output, logger: logger);
 
   @override
   Future<ValidationErrors> validateLinkOutput(
     LinkInput input,
     LinkOutput output,
-  ) => validateCodeAssetLinkOutput(
-    input,
-    output,
-    logger: logger,
-    additionalLibraryValidators: additionalLibraryValidators,
-  );
+  ) => validateCodeAssetLinkOutput(input, output, logger: logger);
 
   @override
   Future<ValidationErrors> validateApplicationAssets(

@@ -1,3 +1,9 @@
+## 2.2.0-wip
+
+- Add `ProtocolExtension.setupLogger`, which the hooks runner calls to provide
+  the logger used for validation diagnostics before any other method is invoked
+  on the extension.
+
 ## 2.1.0
 
 - Graduate `LinkInput.recordedUses` out of experimental.
