@@ -13,14 +13,17 @@ import 'scope.dart';
 import 'type.dart';
 import 'writer.dart';
 
+/// The regex for line breaks (\r\n, \r, or \n).
+final lineBreakRegex = RegExp(r'\r\n|\r|\n');
+
 /// Converts [text] to a dart doc comment(`///`).
 ///
-/// Comment is split on new lines only.
-String makeDartDoc(String? text) {
+/// Comment is split on new lines (\r\n, \r, or \n).
+String makeDartDoc(String? text, {String indent = ''}) {
   if (text == null) return '';
   final s = StringBuffer();
-  s.write('/// ');
-  s.writeAll(text.split('\n'), '\n/// ');
+  s.write('$indent/// ');
+  s.writeAll(text.split(lineBreakRegex), '\n$indent/// ');
   s.write('\n');
 
   return s.toString();
@@ -28,11 +31,11 @@ String makeDartDoc(String? text) {
 
 /// Converts [text] to a dart comment (`//`).
 ///
-/// Comment is split on new lines only.
+/// Comment is split on new lines (\r\n, \r, or \n).
 String makeDoc(String text) {
   final s = StringBuffer();
   s.write('// ');
-  s.writeAll(text.split('\n'), '\n// ');
+  s.writeAll(text.split(lineBreakRegex), '\n// ');
   s.write('\n');
 
   return s.toString();
