@@ -96,7 +96,8 @@ Future<Uri> tempDirForTest({
 
 /// Runs a [Process].
 ///
-/// If [logger] is provided, stream stdout and stderr to it.
+/// See [run_process.runProcess]. [executable] must be absolute (and include a
+/// file extension on Windows); relative paths and PATHEXT are not supported.
 ///
 /// If [captureOutput], captures stdout and stderr.
 Future<run_process.RunProcessResult> runProcess({

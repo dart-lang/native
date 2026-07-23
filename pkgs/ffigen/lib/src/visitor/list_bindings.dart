@@ -13,6 +13,7 @@ enum _IncludeBehavior {
   configOrTransitive,
   configAndTransitive,
   configOrDirectTransitive,
+  transitive,
 }
 
 class ListBindingsVisitation extends Visitation {
@@ -45,6 +46,8 @@ class ListBindingsVisitation extends Visitation {
         return includes.contains(node) && transitives.contains(node);
       case _IncludeBehavior.configOrDirectTransitive:
         return includes.contains(node) || directTransitives.contains(node);
+      case _IncludeBehavior.transitive:
+        return transitives.contains(node);
     }
   }
 
@@ -62,14 +65,15 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    final omit =
-        node.unavailable ||
-        !_visitImpl(
-          node,
-          config.objectiveC?.interfaces.includeTransitive ?? false
-              ? _IncludeBehavior.configOrTransitive
-              : _IncludeBehavior.configOnly,
-        );
+    final _IncludeBehavior includeBehavior;
+    if (node.isInternal) {
+      includeBehavior = _IncludeBehavior.transitive;
+    } else if (config.objectiveC?.interfaces.includeTransitive ?? false) {
+      includeBehavior = _IncludeBehavior.configOrTransitive;
+    } else {
+      includeBehavior = _IncludeBehavior.configOnly;
+    }
+    final omit = node.unavailable || !_visitImpl(node, includeBehavior);
 
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;

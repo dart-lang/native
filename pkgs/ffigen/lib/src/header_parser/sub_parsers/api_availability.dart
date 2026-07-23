@@ -23,6 +23,8 @@ class ApiAvailability {
 
   late final Availability availability;
 
+  static final all = ApiAvailability(externalVersions: null);
+
   ApiAvailability({
     this.alwaysDeprecated = false,
     this.alwaysUnavailable = false,

@@ -31,6 +31,8 @@ class ObjCBuiltInFunctions {
   static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
   static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
   static const respondsToSelector = ObjCImport('respondsToSelector');
+  static const newBlockPort = ObjCImport('newBlockPort');
+  static const newBlockingBlockPort = ObjCImport('newBlockingBlockPort');
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
@@ -152,6 +154,7 @@ class ObjCBuiltInFunctions {
   ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
+      idHash,
       _blockTrampolineFunc('_${libraryId}_wrapListenerBlock_$idHash'),
       _blockTrampolineFunc(
         '_${libraryId}_wrapBlockingBlock_$idHash',
@@ -165,19 +168,32 @@ class ObjCBuiltInFunctions {
     returnType: PointerType(objCBlockType),
     parameters: [
       Parameter(
-        name: 'block',
-        type: PointerType(objCBlockType),
+        name: 'port',
+        type: NativeType(SupportedNativeType.int64),
+        objCConsumed: false,
+      ),
+      Parameter(
+        name: 'context',
+        type: PointerType(objCContextType),
         objCConsumed: false,
       ),
       if (blocking) ...[
         Parameter(
-          name: 'listnerBlock',
-          type: PointerType(objCBlockType),
-          objCConsumed: false,
-        ),
-        Parameter(
-          name: 'context',
-          type: PointerType(objCContextType),
+          name: 'directInvoke',
+          type: PointerType(
+            NativeFunc(
+              FunctionType(
+                returnType: voidType,
+                parameters: [
+                  Parameter(
+                    name: 'args',
+                    type: PointerType(objCObjectType),
+                    objCConsumed: false,
+                  ),
+                ],
+              ),
+            ),
+          ),
           objCConsumed: false,
         ),
       ],
@@ -232,11 +248,16 @@ class ObjCBuiltInFunctions {
 
 /// A native trampoline function for a listener block.
 class ObjCBlockWrapperFuncs extends AstNode {
+  final String idHash;
   final Func listenerWrapper;
   final Func blockingWrapper;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.listenerWrapper, this.blockingWrapper);
+  ObjCBlockWrapperFuncs(
+    this.idHash,
+    this.listenerWrapper,
+    this.blockingWrapper,
+  );
 
   @override
   void visitChildren(Visitor visitor) {

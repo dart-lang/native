@@ -52,10 +52,13 @@ class ApplyConfigFiltersVisitation extends Visitation {
     final objcInterfaces = config.objectiveC?.interfaces;
     if (objcInterfaces == null) return;
 
-    node.filterMethods(
-      (m) =>
-          !m.unavailable && objcInterfaces.includeMember(node, m.originalName),
-    );
+    if (!node.isInternal) {
+      node.filterMethods(
+        (m) =>
+            !m.unavailable &&
+            objcInterfaces.includeMember(node, m.originalName),
+      );
+    }
     _visitImpl(node, objcInterfaces);
 
     // If this node is included, include all its super types.

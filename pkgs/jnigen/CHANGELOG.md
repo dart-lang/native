@@ -19,6 +19,7 @@
   `Config.importClasses()` have also been made private.
 - Preserve Java `@deprecated` Javadoc messages in generated Dart
   `@Deprecated` annotations.
+- Support versions 3.x of `package:package_config`.
 
 ## 0.16.0
 

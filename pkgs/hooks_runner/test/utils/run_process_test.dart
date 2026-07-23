@@ -6,11 +6,10 @@
 // contain a space (e.g. the default pub cache under a Windows user name with
 // a space, `C:\Users\First Last\AppData\Local\Pub\Cache\...`).
 //
-// On Windows, `runProcess` only runs through `cmd.exe` (`runInShell`) when
-// strictly necessary: bare command names (resolved via `PATHEXT`) and
-// `.bat`/`.cmd` shims. For `.exe`/`.com` binaries it uses `CreateProcess`
-// directly so command lines with multiple quoted tokens are not mangled by
-// `cmd.exe`'s `/c` quote-stripping rule.
+// `runProcess` never runs through a shell. Absolute paths (with a file
+// extension on Windows) are required; relative paths and PATHEXT are not
+// supported. Spaces in the executable path and arguments are handled by
+// passing them as separate CreateProcess / exec arguments.
 
 import 'dart:io';
 
@@ -77,55 +76,6 @@ void main(List<String> args) {
     expect(result.stdout, contains('ARGV:first arg|second arg'));
   });
 
-  test(
-    'runProcess runs bare .bat shim from working directory on Windows',
-    () async {
-      if (!Platform.isWindows) return;
-
-      final binDir = await tempDirForTest();
-      final batUri = binDir.resolve('test shim.bat');
-      await File.fromUri(batUri).writeAsString(
-        '@echo off\r\necho SHIM_OK %*\r\n',
-      );
-
-      final result = await runProcess(
-        executable: Uri.parse('test shim'),
-        arguments: ['--help'],
-        workingDirectory: binDir,
-        logger: logger,
-      );
-
-      expect(result.exitCode, 0);
-      expect(result.stdout, contains('SHIM_OK'));
-      expect(result.stdout, contains('--help'));
-    },
-  );
-
-  test(
-    'runProcess runs bare .bat shim from PATH on Windows',
-    () async {
-      if (!Platform.isWindows) return;
-
-      final binDir = await tempDirForTest();
-      final batUri = binDir.resolve('test shim.bat');
-      await File.fromUri(batUri).writeAsString(
-        '@echo off\r\necho SHIM_OK %*\r\n',
-      );
-
-      final originalPath = Platform.environment['PATH'] ?? '';
-      final result = await runProcess(
-        executable: Uri.parse('test shim'),
-        arguments: ['--help'],
-        environment: {'PATH': '${binDir.toFilePath()};$originalPath'},
-        logger: logger,
-      );
-
-      expect(result.exitCode, 0);
-      expect(result.stdout, contains('SHIM_OK'));
-      expect(result.stdout, contains('--help'));
-    },
-  );
-
   test('runProcess handles arguments containing a space and quotes', () async {
     final workingDir = await tempDirForTest();
     final result = await runProcess(
@@ -139,4 +89,41 @@ void main(List<String> args) {
     expect(result.stdout, contains('ARGC:2'));
     expect(result.stdout, contains('ARGV:fir"st arg|sec\'ond arg'));
   });
+
+  test('runProcess rejects a relative executable path', () async {
+    await expectLater(
+      runProcess(
+        executable: Uri(path: 'dart'),
+        logger: logger,
+      ),
+      throwsA(
+        isA<ArgumentError>().having(
+          (e) => e.message,
+          'message',
+          contains('absolute'),
+        ),
+      ),
+    );
+  });
+
+  test(
+    'runProcess rejects a Windows executable without a file extension',
+    () async {
+      if (!Platform.isWindows) return;
+
+      await expectLater(
+        runProcess(
+          executable: Uri.file(r'C:\path\to\dart'),
+          logger: logger,
+        ),
+        throwsA(
+          isA<ArgumentError>().having(
+            (e) => e.message,
+            'message',
+            contains('PATHEXT'),
+          ),
+        ),
+      );
+    },
+  );
 }

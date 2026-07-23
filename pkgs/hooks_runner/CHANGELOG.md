@@ -1,4 +1,13 @@
-## 1.6.0-wip
+## 1.6.2-wip
+
+- Require `dartExecutable` to be an absolute path, and on Windows to include a
+  file extension
+
+## 1.6.1
+
+- Support versions 3.x of `package:package_config`.
+
+## 1.6.0
 
 - Fix record_use path changing caching issue.
 - Fix hook invocation when the Dart executable or an argument path contains a

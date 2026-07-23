@@ -242,14 +242,19 @@ extension CXCursorExt on clang_types.CXCursor {
     int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
     callback,
   ) {
-    final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
-      (
-        clang_types.CXCursor child,
-        clang_types.CXCursor parent,
-        Pointer<Void> clientData,
-      ) => callback(child, parent),
-      exceptionalReturn: exceptionalVisitorReturn,
-    );
+    final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal((
+      clang_types.CXCursor child,
+      clang_types.CXCursor parent,
+      Pointer<Void> clientData,
+    ) {
+      try {
+        return callback(child, parent);
+      } catch (e, st) {
+        print(e);
+        print(st);
+        rethrow;
+      }
+    }, exceptionalReturn: exceptionalVisitorReturn);
     final result = clang.clang_visitChildren(
       this,
       visitor.nativeFunction.cast(),

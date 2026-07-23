@@ -9,9 +9,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-const _$objcVersionCheck = objc.ObjCVersionCheck(9, 4);
+const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
 @ffi.Native<
-  ffi.Long Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>)
+  NSInteger Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>)
 >()
 external int _pyqkbm_protocolTrampoline_fai2e9(
   ffi.Pointer<objc.ObjCObjectImpl> target,
@@ -72,7 +72,7 @@ extension type MySwiftClass._(objc.ObjCObject object$)
 
 extension MySwiftClass$Methods on MySwiftClass {
   /// getValue
-  int getValue() {
+  DartNSInteger getValue() {
     final _$$ref = object$.ref;
     return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
   }
@@ -93,7 +93,7 @@ extension MySwiftClass$Methods on MySwiftClass {
   }
 
   /// setValueWithX:
-  void setValueWithX(int x) {
+  void setValueWithX(DartNSInteger x) {
     final _$$ref = object$.ref;
     _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setValueWithX_, x);
   }
@@ -124,7 +124,7 @@ extension type MySwiftProtocol._(objc.ObjCProtocol object$)
 
 extension MySwiftProtocol$Methods on MySwiftProtocol {
   /// getValue
-  int getValue() {
+  DartNSInteger getValue() {
     final _$$ref$1 = object$.ref;
     return _objc_msgSend_1hz7y9r(_$$ref$1.pointer, _sel_getValue);
   }
@@ -141,7 +141,7 @@ interface class MySwiftProtocol$Builder {
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static MySwiftProtocol implement({
-    required int Function() getValue,
+    required DartNSInteger Function() getValue,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'MySwiftProtocol');
@@ -158,7 +158,7 @@ interface class MySwiftProtocol$Builder {
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(
     objc.ObjCProtocolBuilder builder, {
-    required int Function() getValue,
+    required DartNSInteger Function() getValue,
     bool $keepIsolateAlive = true,
   }) {
     MySwiftProtocol$Builder.getValue.implement(builder, getValue);
@@ -166,12 +166,12 @@ interface class MySwiftProtocol$Builder {
   }
 
   /// getValue
-  static final getValue = objc.ObjCProtocolMethod<int Function()>(
+  static final getValue = objc.ObjCProtocolMethod<DartNSInteger Function()>(
     _protocol_MySwiftProtocol,
     _sel_getValue,
     ffi.Native.addressOf<
           ffi.NativeFunction<
-            ffi.Long Function(
+            NSInteger Function(
               ffi.Pointer<objc.ObjCObjectImpl>,
               ffi.Pointer<ffi.Void>,
             )
@@ -184,11 +184,14 @@ interface class MySwiftProtocol$Builder {
       isRequired: true,
       isInstanceMethod: true,
     ),
-    (int Function() func) => ObjCBlock_NSInteger_ffiVoid.fromFunction(
+    (DartNSInteger Function() func) => ObjCBlock_NSInteger_ffiVoid.fromFunction(
       (ffi.Pointer<ffi.Void> _) => func(),
     ),
   );
 }
+
+typedef NSInteger = ffi.Long;
+typedef DartNSInteger = int;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_NSInteger_ffiVoid {
@@ -211,7 +214,7 @@ abstract final class ObjCBlock_NSInteger_ffiVoid {
   static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)>
   fromFunctionPointer(
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Long Function(ffi.Pointer<ffi.Void> arg0)>
+      ffi.NativeFunction<NSInteger Function(ffi.Pointer<ffi.Void> arg0)>
     >
     ptr,
   ) => objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)>(
@@ -229,7 +232,7 @@ abstract final class ObjCBlock_NSInteger_ffiVoid {
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)> fromFunction(
-    int Function(ffi.Pointer<ffi.Void>) fn, {
+    DartNSInteger Function(ffi.Pointer<ffi.Void>) fn, {
     bool keepIsolateAlive = true,
   }) => objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)>(
     objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
@@ -243,11 +246,13 @@ abstract final class ObjCBlock_NSInteger_ffiVoid {
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> arg0,
   ) => block.ref.target
-      .cast<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<ffi.Void> arg0)>>()
+      .cast<
+        ffi.NativeFunction<NSInteger Function(ffi.Pointer<ffi.Void> arg0)>
+      >()
       .asFunction<int Function(ffi.Pointer<ffi.Void>)>()(arg0);
   static ffi.Pointer<ffi.Void> _fnPtrCallable =
       ffi.Pointer.fromFunction<
-            ffi.Long Function(
+            NSInteger Function(
               ffi.Pointer<objc.ObjCBlockImpl>,
               ffi.Pointer<ffi.Void>,
             )
@@ -261,7 +266,7 @@ abstract final class ObjCBlock_NSInteger_ffiVoid {
   );
   static ffi.Pointer<ffi.Void> _closureCallable =
       ffi.Pointer.fromFunction<
-            ffi.Long Function(
+            NSInteger Function(
               ffi.Pointer<objc.ObjCBlockImpl>,
               ffi.Pointer<ffi.Void>,
             )
@@ -272,11 +277,11 @@ abstract final class ObjCBlock_NSInteger_ffiVoid {
 /// Call operator for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)>`.
 extension ObjCBlock_NSInteger_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)> {
-  int call(ffi.Pointer<ffi.Void> arg0) {
+  DartNSInteger call(ffi.Pointer<ffi.Void> arg0) {
     return ref.pointer.ref.invoke
         .cast<
           ffi.NativeFunction<
-            ffi.Long Function(
+            NSInteger Function(
               ffi.Pointer<objc.ObjCBlockImpl> block,
               ffi.Pointer<ffi.Void> arg0,
             )

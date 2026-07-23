@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
@@ -15,6 +16,7 @@ import 'runtime_bindings_generated.dart' as r;
 typedef ObjectPtr = Pointer<r.ObjCObjectImpl>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
 typedef VoidPtr = Pointer<Void>;
+typedef ContextPtr = Pointer<c.DOBJC_Context>;
 
 final class UseAfterReleaseError extends StateError {
   UseAfterReleaseError() : super('Use after release error');
@@ -405,6 +407,78 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
+typedef BlockCallback = Void Function(ObjectPtr);
+typedef BlockCallbackPointer = Pointer<NativeFunction<BlockCallback>>;
+
+/// Only for use by FFIgen bindings.
+BlockPtr newBlockPort(
+  BlockPtr Function(int, ContextPtr) maker,
+  void Function(ObjectPtr) callback,
+  bool keepIsolateAlive,
+) {
+  _ensureDartAPI();
+  final zone = Zone.current;
+  final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
+  port.handler = (int? argsRaw) {
+    if (argsRaw == null) {
+      port.close();
+      port.handler = null;
+      return;
+    }
+    final argsPtr = ObjectPtr.fromAddress(argsRaw);
+    final pool = r.autoreleasePoolPush();
+    try {
+      zone.runGuarded(() => callback(argsPtr));
+    } finally {
+      r.autoreleasePoolPop(pool);
+      r.objectRelease(argsPtr);
+    }
+  };
+  final nativePort = port.sendPort.nativePort;
+  final blkPtr = maker(nativePort, objCContext);
+  c.attachPortBlockFinalizer(blkPtr.cast(), nativePort);
+  return blkPtr;
+}
+
+/// Only for use by FFIgen bindings.
+BlockPtr newBlockingBlockPort(
+  BlockPtr Function(int, ContextPtr, BlockCallbackPointer) maker,
+  void Function(ObjectPtr) callback,
+  bool keepIsolateAlive,
+) {
+  _ensureDartAPI();
+  final zone = Zone.current;
+  void runCallback(ObjectPtr argsPtr) {
+    final pool = r.autoreleasePoolPush();
+    try {
+      zone.runGuarded(() => callback(argsPtr));
+    } finally {
+      r.autoreleasePoolPop(pool);
+      r.objectRelease(argsPtr);
+    }
+  }
+
+  final direct = NativeCallable<BlockCallback>.isolateLocal(runCallback)
+    ..keepIsolateAlive = false;
+  final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
+  port.handler = (List<dynamic>? argsRaw) {
+    if (argsRaw == null) {
+      port.close();
+      direct.close();
+      return;
+    }
+    try {
+      runCallback(ObjectPtr.fromAddress(argsRaw[0] as int));
+    } finally {
+      c.signalWaiter(VoidPtr.fromAddress(argsRaw[1] as int));
+    }
+  };
+  final nativePort = port.sendPort.nativePort;
+  final blkPtr = maker(nativePort, objCContext, direct.nativeFunction);
+  c.attachPortBlockFinalizer(blkPtr.cast(), nativePort);
+  return blkPtr;
+}
+
 /// Only for use by FFIgen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
@@ -506,9 +580,7 @@ Function getBlockClosure(BlockPtr block) {
 }
 
 /// Only for use by FFIgen bindings.
-final Pointer<c.DOBJC_Context> objCContext = c.fillContext(
-  calloc<c.DOBJC_Context>(),
-);
+final ContextPtr objCContext = c.fillContext(calloc<c.DOBJC_Context>());
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>

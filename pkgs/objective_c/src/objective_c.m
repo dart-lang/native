@@ -6,6 +6,11 @@
 #import <Foundation/NSDate.h>
 #import <Foundation/NSThread.h>
 #import <dispatch/dispatch.h>
+#import <objc/message.h>
+
+#if !__has_feature(objc_arc)
+#error "This file must be compiled with ARC enabled"
+#endif
 
 #include "ffi.h"
 #include "include/dart_api_dl.h"
@@ -39,6 +44,7 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 
 @implementation DOBJCWaiter
 -(instancetype)init {
+  self = [super init];
   if (self) {
     _cond = [[NSCondition alloc] init];
     _done = false;
@@ -87,4 +93,86 @@ FFI_EXPORT Version DOBJC_getOsVesion(void) {
   c_version.minor = (int)objc_version.minorVersion;
   c_version.patch = (int)objc_version.patchVersion;
   return c_version;
+}
+
+void DOBJC_freePortBlockArgs(void* peer) {
+  @autoreleasepool {
+    id args = (__bridge_transfer id)peer;
+    (void)args;
+  }
+}
+
+void DOBJC_finalizePortBlockArgs(void* _, void* peer) {
+  DOBJC_runOnMainThread(DOBJC_freePortBlockArgs, peer);
+}
+
+void DOBJC_finalizePortBlockWaiter(void* _, void* peer) {
+  DOBJC_signalWaiter(peer);
+}
+
+FFI_EXPORT void DOBJC_invokeListenerPortBlock(int64_t port, void* args) {
+  Dart_CObject cobj;
+  cobj.type = Dart_CObject_kNativePointer;
+  cobj.value.as_native_pointer.ptr = (intptr_t)args;
+  cobj.value.as_native_pointer.size = 0;
+  cobj.value.as_native_pointer.callback = DOBJC_finalizePortBlockArgs;
+
+  if (!Dart_PostCObject_DL(port, &cobj)) {
+    DOBJC_finalizePortBlockArgs(NULL, args);
+  }
+}
+
+FFI_EXPORT void DOBJC_invokeBlockingPortBlock(
+    int64_t port, void* args, void* waiter) {
+  Dart_CObject cargs;
+  cargs.type = Dart_CObject_kNativePointer;
+  cargs.value.as_native_pointer.ptr = (intptr_t)args;
+  cargs.value.as_native_pointer.size = 0;
+  cargs.value.as_native_pointer.callback = DOBJC_finalizePortBlockArgs;
+
+  Dart_CObject cwaiter;
+  cwaiter.type = Dart_CObject_kNativePointer;
+  cwaiter.value.as_native_pointer.ptr = (intptr_t)waiter;
+  cwaiter.value.as_native_pointer.size = 0;
+  cwaiter.value.as_native_pointer.callback = DOBJC_finalizePortBlockWaiter;
+
+  Dart_CObject* cobjArray[] = {&cargs, &cwaiter};
+  Dart_CObject cobj;
+  cobj.type = Dart_CObject_kArray;
+  cobj.value.as_array.values = cobjArray;
+  cobj.value.as_array.length = sizeof(cobjArray) / sizeof(cobjArray[0]);
+
+  if (!Dart_PostCObject_DL(port, &cobj)) {
+    DOBJC_finalizePortBlockArgs(NULL, args);
+    DOBJC_finalizePortBlockWaiter(NULL, waiter);
+  }
+}
+
+@interface PortBlockFinalizer : NSObject {
+  int64_t port;
+}
+- (instancetype)initWithPort:(int64_t) _port;
+@end
+
+@implementation PortBlockFinalizer
+- (instancetype)initWithPort:(int64_t) _port {
+  if (self = [super init]) {
+    port = _port;
+  }
+  return self;
+}
+- (void)dealloc {
+  Dart_CObject cobj;
+  cobj.type = Dart_CObject_kNull;
+  Dart_PostCObject_DL(port, &cobj);
+}
+@end
+
+static const char BLOCK_FINALIZER_KEY;
+
+FFI_EXPORT void DOBJC_attachPortBlockFinalizer(void* block, int64_t port) {
+  PortBlockFinalizer* dtor = [[PortBlockFinalizer alloc] initWithPort:port];
+  objc_setAssociatedObject(
+      (__bridge id)block, &BLOCK_FINALIZER_KEY, dtor,
+      OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

@@ -31,7 +31,7 @@ dependencies:
   logging: ^1.0.0
   meta: ^1.11.0
   native_toolchain_c: ^0.19.0
-  package_config: ^2.1.0
+  package_config: '>=2.1.0 <4.0.0'
   path: ^1.8.0
   pub_semver: ^2.1.4
   quiver: ^3.0.0
