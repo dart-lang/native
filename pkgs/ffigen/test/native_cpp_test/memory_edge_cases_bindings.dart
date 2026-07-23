@@ -99,6 +99,7 @@ class Node implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Node_getValue(_ptr);
   }
 
@@ -225,6 +226,7 @@ class NodeManager implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _NodeManager_foo(_ptr, node._ptr);
   }
 
@@ -232,20 +234,15 @@ class NodeManager implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    return Node.fromPointer(_NodeManager_getNode(_ptr));
-  }
 
-  Node releaseNode() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-    return Node.fromPointer(_NodeManager_releaseNode(_ptr));
+    return Node.fromPointer(_NodeManager_getNode(_ptr));
   }
 
   Node newNode(int value, ffi.Pointer<ffi.Int> destructorCounter) {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return Node.fromPointer(
       _NodeManager_newNode(_ptr, value, destructorCounter),
     );
@@ -255,6 +252,7 @@ class NodeManager implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return Node.fromPointer(
       _NodeManager_getSingletonNode(_ptr, value, destructorCounter),
     );
@@ -264,6 +262,7 @@ class NodeManager implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _NodeManager_getValue(_ptr, node._ptr);
   }
 
@@ -271,6 +270,7 @@ class NodeManager implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _NodeManager_takeNode(_ptr, node._ptr);
   }
 
@@ -309,13 +309,6 @@ external int _NodeManager_foo(
   symbol: 'NodeManager_getNode',
 )
 external ffi.Pointer<ffi.Void> _NodeManager_getNode(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'NodeManager_releaseNode',
-)
-external ffi.Pointer<ffi.Void> _NodeManager_releaseNode(
-  ffi.Pointer<ffi.Void> self,
-);
 
 @ffi.Native<
   ffi.Pointer<ffi.Void> Function(

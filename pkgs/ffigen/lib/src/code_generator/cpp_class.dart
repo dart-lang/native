@@ -205,15 +205,13 @@ class $name implements $ffiPrefix.Finalizable {
       final localVars = LocalVariables(ctor.localScope);
       final callArgs = ctor.parameters
           .map(
-            (p) => p.type.sameDartAndFfiDartType
-                ? p.name
-                : p.type.convertDartTypeToFfiDartType(
-                    ctx,
-                    p.name,
-                    objCRetain: false,
-                    objCAutorelease: false,
-                    localVariables: localVars,
-                  ),
+            (p) => p.type.convertDartTypeToFfiDartType(
+              ctx,
+              p.name,
+              objCRetain: false,
+              objCAutorelease: false,
+              localVariables: localVars,
+            ),
           )
           .join(', ');
 
@@ -234,52 +232,38 @@ class $name implements $ffiPrefix.Finalizable {
       final callArgs = [
         if (!method.isStatic) '_ptr',
         ...method.parameters.map(
-          (p) => p.type.sameDartAndFfiDartType
-              ? p.name
-              : p.type.convertDartTypeToFfiDartType(
-                  ctx,
-                  p.name,
-                  objCRetain: false,
-                  objCAutorelease: false,
-                  localVariables: localVars,
-                ),
+          (p) => p.type.convertDartTypeToFfiDartType(
+            ctx,
+            p.name,
+            objCRetain: false,
+            objCAutorelease: false,
+            localVariables: localVars,
+          ),
         ),
       ].join(', ');
       final decls = localVars.generateDeclarations();
-      final declsCode = decls.isNotEmpty ? '$decls\n    ' : '';
 
-      final String returnExpr;
-      if (!method.returnType.sameDartAndFfiDartType) {
-        returnExpr = method.returnType.convertFfiDartTypeToDartType(
-          ctx,
-          '$glue($callArgs)',
-          objCRetain: false,
-        );
-      } else {
-        returnExpr = '$glue($callArgs)';
-      }
+      final returnExpr = method.returnType.convertFfiDartTypeToDartType(
+        ctx,
+        '$glue($callArgs)',
+        objCRetain: false,
+      );
 
       if (method.isStatic) {
-        if (decls.isNotEmpty) {
-          s.write('''
+        s.write('''\
   static $dartReturn ${method.originalName}($dartParams) {
     $decls
     return $returnExpr;
   }
 ''');
-        } else {
-          s.write(
-            '  static $dartReturn ${method.originalName}($dartParams) '
-            '=> $returnExpr;\n',
-          );
-        }
       } else {
-        s.write('''
+        s.write('''\
   $dartReturn ${method.originalName}($dartParams) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
-    ${declsCode}return $returnExpr;
+    $decls
+    return $returnExpr;
   }
 ''');
       }

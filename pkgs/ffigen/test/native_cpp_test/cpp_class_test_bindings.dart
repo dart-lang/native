@@ -96,6 +96,7 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_speak(_ptr);
   }
 
@@ -103,16 +104,27 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_getAge(_ptr);
   }
 
-  static int getCount() => _Animal_getCount();
-  static void Animal_new() => _Animal_Animal_new();
-  static void Animal_delete() => _Animal_Animal_delete();
+  static int getCount() {
+    return _Animal_getCount();
+  }
+
+  static void Animal_new() {
+    return _Animal_Animal_new();
+  }
+
+  static void Animal_delete() {
+    return _Animal_Animal_delete();
+  }
+
   bool isMammalClass() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_isMammalClass(_ptr);
   }
 
@@ -120,6 +132,7 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_getWeight(_ptr, multiplier);
   }
 
@@ -127,10 +140,14 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_addAges(_ptr, otherAge, scale);
   }
 
-  static int sum(int a, int b) => _Animal_sum(a, b);
+  static int sum(int a, int b) {
+    return _Animal_sum(a, b);
+  }
+
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');

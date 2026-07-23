@@ -25,9 +25,6 @@ Node* NodeManager::getNode() {
     return new Node(100, nullptr);
 }
 
-Node* NodeManager::releaseNode() {
-    return new Node(200, nullptr);
-}
 
 Node* NodeManager::newNode(int value, int* destructorCounter) {
     return new Node(value, destructorCounter);

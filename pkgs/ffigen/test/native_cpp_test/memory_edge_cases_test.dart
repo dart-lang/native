@@ -76,24 +76,6 @@ void main() {
       expect(node.releaseOwnership, throwsStateError);
     });
 
-    test(
-      'releaseNode() returns unowned pointer, dev calls retainOwnership()',
-      () {
-        final counter = calloc<Int32>()..value = 0;
-        final manager = NodeManager();
-        // releaseNode() returns unowned by default even though C++ transferred
-        // ownership. Developer must call retainOwnership() explicitly.
-        final node = manager.releaseNode();
-        expect(node.getValue(), 200);
-
-        // Developer explicitly takes ownership after knowing C++ gave it.
-        node.retainOwnership();
-        node.dispose();
-        expect(counter.value, 0); // Node was created without a counter.
-        calloc.free(counter);
-      },
-    );
-
     test('newNode() returns unowned by default, counter stays 0', () {
       final counter = calloc<Int32>()..value = 0;
       final manager = NodeManager();

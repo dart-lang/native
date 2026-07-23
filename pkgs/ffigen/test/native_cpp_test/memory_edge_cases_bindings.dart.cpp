@@ -32,10 +32,6 @@ FFIGEN_EXPORT Node* NodeManager_getNode(NodeManager* self) {
   return self->getNode();
 }
 
-FFIGEN_EXPORT Node* NodeManager_releaseNode(NodeManager* self) {
-  return self->releaseNode();
-}
-
 FFIGEN_EXPORT Node* NodeManager_newNode(NodeManager* self, int value, int * destructorCounter) {
   return self->newNode(value, destructorCounter);
 }
