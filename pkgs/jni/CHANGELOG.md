@@ -1,4 +1,4 @@
-## 1.0.1-wip
+## 1.0.1
 
 - Improve error message when JNI is used before Flutter plugin initialization.
 - Improve no such method error handling.

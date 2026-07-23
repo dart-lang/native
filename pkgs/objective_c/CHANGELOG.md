@@ -1,4 +1,4 @@
-## 9.5.0-wip
+## 9.5.0
 
 - Add internal utils required to support FFIgen's new port based blocks.
 

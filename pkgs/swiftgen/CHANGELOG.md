@@ -1,4 +1,4 @@
-## 0.1.3-wip
+## 0.1.3
 
 - Bump ffigen, objective_c, and swift2objc versions.
 - Fix omitted delegation of `target` property from `SwiftGenerator` to `Swift2ObjCGenerator`.

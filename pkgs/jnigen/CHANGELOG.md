@@ -1,4 +1,4 @@
-## 0.17.0-wip
+## 0.17.0
 
 - Update kotlin-metadata-jvm, allowing JNIgen to run on newer packages.
 - Fixed incorrect code generation for generic constructors in generic classes.
