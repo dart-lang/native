@@ -76,6 +76,13 @@ void main() {
       expect(node.releaseOwnership, throwsStateError);
     });
 
+    test('getNode() can take ownership via retainOwnership()', () {
+      final manager = NodeManager();
+      final node = manager.getNode()..retainOwnership();
+      expect(node.getValue(), 100);
+      node.dispose();
+    });
+
     test('newNode() returns unowned by default, counter stays 0', () {
       final counter = calloc<Int32>()..value = 0;
       final manager = NodeManager();
@@ -128,11 +135,10 @@ void main() {
       final counter = calloc<Int32>()..value = 0;
       final rawPtr = _rawNodeNew(400, counter.cast());
       final node = Node.fromPointer(rawPtr, takeOwnership: true);
-
-      // Detach Dart finalizer before transferring ownership to C++.
-      node.releaseOwnership();
       final manager = NodeManager();
-      expect(manager.takeNode(node), 400);
+
+      // Detach Dart finalizer and transfer ownership to C++.
+      expect(manager.takeNode(node..releaseOwnership()), 400);
 
       // C++ takeNode deleted the node.
       expect(counter.value, 1);
