@@ -32,10 +32,10 @@ String makeDartDoc(String? text, {String indent = ''}) {
 /// Converts [text] to a dart comment (`//`).
 ///
 /// Comment is split on new lines (\r\n, \r, or \n).
-String makeDoc(String text, {String indent = ''}) {
+String makeDoc(String text) {
   final s = StringBuffer();
-  s.write('$indent// ');
-  s.writeAll(text.split(lineBreakRegex), '\n$indent// ');
+  s.write('// ');
+  s.writeAll(text.split(lineBreakRegex), '\n// ');
   s.write('\n');
 
   return s.toString();

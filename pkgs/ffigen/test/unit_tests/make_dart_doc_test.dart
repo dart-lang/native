@@ -59,12 +59,5 @@ void main() {
     test('handles standalone carriage return (\\r)', () {
       expect(makeDoc('line1\rline2'), equals('// line1\n// line2\n'));
     });
-
-    test('handles indent option', () {
-      expect(
-        makeDoc('line1\nline2', indent: '  '),
-        equals('  // line1\n  // line2\n'),
-      );
-    });
   });
 }
