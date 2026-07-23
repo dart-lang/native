@@ -1,13 +1,11 @@
 ## 1.3.0-wip
 
-- Validate the container family expected for the target operating system and
-  the target architecture family of bundled dynamic libraries by reading
-  their ELF, Mach-O, or PE headers. Reject multi-architecture Mach-O output
-  because hooks run once per target architecture. Unrecognized files produce
-  a warning when a logger is supplied instead of failing.
-- Add `NativeLibraryValidator` for invoker-supplied validation without
-  exposing the built-in header model. The extension point is compatible with
-  future custom operating system and architecture support.
+- Validate bundled dynamic libraries by reading their header: when the file is
+  a recognized ELF, Mach-O, or PE binary, check that it was built for the
+  target architecture. Reject multi-architecture Mach-O output because hooks
+  run once per target architecture. A file the built-in validators do not
+  recognize, or a recognized library built for an architecture they do not
+  know, warns on the supplied logger instead of failing.
 
 ## 1.2.1
 

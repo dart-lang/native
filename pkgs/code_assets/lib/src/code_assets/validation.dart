@@ -97,7 +97,6 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
   BuildOutput output, {
   Logger? logger,
-  Iterable<NativeLibraryValidator> additionalLibraryValidators = const [],
 }) async {
   if (!input.config.buildCodeAssets) {
     return [];
@@ -115,7 +114,6 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
     output,
     true,
     logger,
-    additionalLibraryValidators,
   );
 }
 
@@ -124,7 +122,6 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
   LinkOutput output, {
   Logger? logger,
-  Iterable<NativeLibraryValidator> additionalLibraryValidators = const [],
 }) async {
   if (!input.config.buildCodeAssets) {
     return [];
@@ -137,7 +134,6 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
     output,
     false,
     logger,
-    additionalLibraryValidators,
   );
 }
 
@@ -169,7 +165,6 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookOutput output,
   bool isBuild,
   Logger? logger,
-  Iterable<NativeLibraryValidator> additionalLibraryValidators,
 ) async {
   final errors = <String>[];
 
@@ -190,7 +185,6 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       isBuild,
       true,
       logger: logger,
-      additionalLibraryValidators: additionalLibraryValidators,
     );
     codeAssetsBundled.add(codeAsset);
   }
@@ -214,7 +208,6 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       isBuild,
       false,
       logger: logger,
-      additionalLibraryValidators: additionalLibraryValidators,
     );
     codeAssetsNotBundled.add(codeAsset);
   }
@@ -252,7 +245,6 @@ Future<void> _validateCodeAsset(
   bool validateAssetId,
   bool validateLinkMode, {
   Logger? logger,
-  required Iterable<NativeLibraryValidator> additionalLibraryValidators,
 }) async {
   final id = codeAsset.id;
   final prefix = 'package:${input.packageName}/';
@@ -276,13 +268,7 @@ Future<void> _validateCodeAsset(
   }
 
   errors.addAll(_validateCodeAssetFile(codeAsset));
-  await _validateCodeAssetArchitecture(
-    codeConfig,
-    codeAsset,
-    errors,
-    logger,
-    additionalLibraryValidators,
-  );
+  await _validateCodeAssetArchitecture(codeConfig, codeAsset, errors, logger);
 }
 
 /// Checks that a bundled dynamic library was built for the target
@@ -296,7 +282,6 @@ Future<void> _validateCodeAssetArchitecture(
   CodeAsset codeAsset,
   ValidationErrors errors,
   Logger? logger,
-  Iterable<NativeLibraryValidator> additionalLibraryValidators,
 ) async {
   final fileUri = codeAsset.file;
   if (codeAsset.linkMode is! DynamicLoadingBundled || fileUri == null) {
@@ -307,7 +292,6 @@ Future<void> _validateCodeAssetArchitecture(
   final id = codeAsset.id;
   final result = await validateNativeLibrary(
     NativeLibraryValidationContext(file: fileUri, config: codeConfig),
-    additionalLibraryValidators,
   );
   for (final error in result.errors) {
     errors.add('Code asset "$id" file "${file.path}" $error');

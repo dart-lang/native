@@ -2,12 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
-import 'architecture.dart';
 import 'config.dart';
-import 'native_library_headers.dart';
-import 'os.dart';
+import 'elf_validator.dart';
+import 'mach_o_validator.dart';
+import 'portable_executable_validator.dart';
 
 /// The input supplied to a [NativeLibraryValidator].
 final class NativeLibraryValidationContext {
@@ -26,11 +24,16 @@ final class NativeLibraryValidationContext {
 
 /// Validates a bundled dynamic library produced by a build or link hook.
 ///
-/// Validators are trusted extensions supplied by the hook invoker. They must
-/// return [NativeLibraryValidation.notRecognized] for files outside their
-/// domain. A validator may return [NativeLibraryValidation.matched] only when
-/// it covers the current contract: the expected container family for the
-/// target operating system and the target architecture family in [CodeConfig].
+/// A validator must return [NativeLibraryValidation.notRecognized] for files
+/// outside its domain. A validator may return [NativeLibraryValidation.matched]
+/// only when it covers the current contract: the expected container family for
+/// the target operating system and the target architecture family in
+/// [CodeConfig].
+///
+/// There is one built-in validator per container format ([ElfValidator],
+/// [MachOValidator], and [PortableExecutableValidator]), each in its own file.
+/// A validator whose format is not the one expected for the target operating
+/// system returns early without opening the file.
 abstract interface class NativeLibraryValidator {
   /// Validates the library described by [context].
   Future<NativeLibraryValidation> validate(
@@ -90,19 +93,19 @@ final class _Rejected extends NativeLibraryValidation {
   final List<String> errors;
 }
 
-/// Runs the built-in validator and [additionalValidators] in registration
-/// order, without allowing one validator to bypass a rejection from another.
+/// Runs the built-in validators in registration order, without allowing one
+/// validator to bypass a rejection from another.
 Future<({List<String> errors, List<String> warnings})> validateNativeLibrary(
   NativeLibraryValidationContext context,
-  Iterable<NativeLibraryValidator> additionalValidators,
 ) async {
   final errors = <String>[];
   final inconclusiveReasons = <String>[];
   var matched = false;
 
   for (final validator in <NativeLibraryValidator>[
-    const _NativeLibraryHeaderValidator(),
-    ...additionalValidators,
+    const ElfValidator(),
+    const MachOValidator(),
+    const PortableExecutableValidator(),
   ]) {
     final NativeLibraryValidation result;
     try {
@@ -134,73 +137,3 @@ Future<({List<String> errors, List<String> warnings})> validateNativeLibrary(
     warnings: const ['No registered validator recognized the file and target.'],
   );
 }
-
-final class _NativeLibraryHeaderValidator implements NativeLibraryValidator {
-  const _NativeLibraryHeaderValidator();
-
-  @override
-  Future<NativeLibraryValidation> validate(
-    NativeLibraryValidationContext context,
-  ) async {
-    final header = readNativeLibraryHeader(File.fromUri(context.file));
-    if (header is UnrecognizedHeader) {
-      return const NativeLibraryValidation.notRecognized();
-    }
-
-    final recognized = header as RecognizedHeader;
-    if (recognized.format == BinaryFormat.machO &&
-        recognized.architectureCount > 1) {
-      return NativeLibraryValidation.rejected([
-        'is a multi-architecture Mach-O binary. Hooks run once per target '
-            'architecture and must output a thin Mach-O binary.',
-      ]);
-    }
-
-    final expectedFormat = _expectedFormat(context.config.targetOS);
-    if (expectedFormat == null) {
-      return NativeLibraryValidation.inconclusive(
-        'The built-in validator does not know the binary format for target '
-        'OS ${context.config.targetOS}.',
-      );
-    }
-    if (recognized.format != expectedFormat) {
-      return NativeLibraryValidation.rejected([
-        'is a ${recognized.format.displayName} binary, but '
-            '${context.config.targetOS} expects ${expectedFormat.displayName}.',
-      ]);
-    }
-
-    final targetArchitecture = context.config.targetArchitecture;
-    if (!Architecture.values.contains(targetArchitecture)) {
-      return NativeLibraryValidation.inconclusive(
-        'The built-in validator does not know target architecture '
-        '$targetArchitecture.',
-      );
-    }
-
-    if (recognized.architectures.contains(targetArchitecture)) {
-      return const NativeLibraryValidation.matched();
-    }
-    final known = recognized.architectures.whereType<Architecture>().toList();
-    if (known.isEmpty) {
-      final machineValues = recognized.machineValues.map(
-        (value) => '0x${value.toRadixString(16)}',
-      );
-      return NativeLibraryValidation.inconclusive(
-        'The built-in validator does not recognize machine value(s) '
-        '${machineValues.join(', ')}.',
-      );
-    }
-    return NativeLibraryValidation.rejected([
-      'is built for ${known.join(', ')}, but the target architecture is '
-          '$targetArchitecture.',
-    ]);
-  }
-}
-
-BinaryFormat? _expectedFormat(OS targetOS) => switch (targetOS) {
-  OS.android || OS.fuchsia || OS.linux => BinaryFormat.elf,
-  OS.iOS || OS.macOS => BinaryFormat.machO,
-  OS.windows => BinaryFormat.pe,
-  _ => null,
-};
