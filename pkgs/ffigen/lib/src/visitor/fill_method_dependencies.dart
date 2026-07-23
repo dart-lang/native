@@ -92,4 +92,12 @@ class _MethodDepAdderVisitation extends Visitation {
   @override
   void visitObjCBlockWrapperFuncs(ObjCBlockWrapperFuncs node) =>
       node.visitChildren(visitor);
+
+  @override
+  void visitObjCInterface(ObjCInterface node) {
+    if (!finalBindings.contains(node)) {
+      node.generateAsStub = true;
+      finalBindings.add(node);
+    }
+  }
 }

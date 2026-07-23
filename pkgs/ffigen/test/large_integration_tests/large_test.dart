@@ -7,6 +7,7 @@ import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart';
+import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -63,12 +64,8 @@ void main() {
             'Index.h',
           ].any((filename) => header.pathSegments.last == filename),
         ),
-        functions: Functions.includeAll,
-        structs: Structs.includeAll,
-        enums: Enums.includeAll,
-        macros: Macros.includeAll,
+        visitors: const [IncludeAllVisitor()],
         typedefs: Typedefs(
-          include: (_) => true,
           // ignore: deprecated_member_use_from_same_package
           imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
         ),
@@ -148,10 +145,6 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'cJSON.h',
         ),
-        functions: Functions.includeAll,
-        structs: Structs.includeAll,
-        macros: Macros.includeAll,
-        typedefs: Typedefs.includeAll,
       );
       final context = testContext(generator);
       final library = parse(context);
@@ -164,9 +157,6 @@ void main() {
     });
 
     test('SQLite test', () {
-      // Excluding functions etc that use 'va_list' because it can either be a
-      // Pointer<__va_list_tag> or int depending on the OS.
-      final vaRegex = RegExp(r'(^|[^a-z])va($|[^a-z])');
       final generator = FfiGenerator(
         output: Output(
           dartFile: Uri.file('unused'),
@@ -189,21 +179,7 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'sqlite3.h',
         ),
-        functions: Functions(
-          include: (declaration) => !{
-            'sqlite3_vmprintf',
-            'sqlite3_vsnprintf',
-            'sqlite3_str_vappendf',
-          }.contains(declaration.originalName),
-        ),
-        structs: Structs(
-          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
-        ),
-        globals: Globals.includeAll,
-        macros: Macros.includeAll,
-        typedefs: Typedefs(
-          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
-        ),
+        visitors: const [_LargeTestVisitor()],
       );
       final context = testContext(generator);
       final library = parse(context);
@@ -214,21 +190,33 @@ void main() {
         '_expected_sqlite_bindings.dart',
       ]);
     });
-
-    test('Libclang config test', () {
-      final config = testConfigFromPath(
-        path.join(packagePathForTests, 'tool', 'libclang_config.yaml'),
-      );
-      final context = testContext(config);
-      final library = parse(context);
-
-      matchLibraryWithExpected(context, library, 'libclang_config.dart', [
-        'lib',
-        'src',
-        'header_parser',
-        'clang_bindings',
-        'clang_bindings.dart',
-      ]);
-    });
   });
+}
+
+class _LargeTestVisitor extends Visitor {
+  static final vaRegex = RegExp(r'(^|[^a-z])va($|[^a-z])');
+
+  const _LargeTestVisitor();
+
+  @override
+  void visitFunc(Func node) {
+    if ({'sqlite3_vmprintf', 'sqlite3_vsnprintf', 'sqlite3_str_vappendf'}
+        .contains(node.originalName)) {
+      node.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitStruct(Struct node) {
+    if (vaRegex.hasMatch(node.originalName)) {
+      node.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitTypealias(Typealias node) {
+    if (vaRegex.hasMatch(node.originalName)) {
+      node.isExcluded = true;
+    }
+  }
 }

@@ -213,6 +213,21 @@ external bool _1wx624s_protocolTrampoline_e3qsqz(
     ffi.Pointer<objc.ObjCObjectImpl>,
     ffi.Pointer<ffi.Void>,
     ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+  )
+>()
+external void _1wx624s_protocolTrampoline_fjrv01(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ffi.Pointer<objc.ObjCObjectImpl> arg2,
+);
+
+@ffi.Native<
+  ffi.Void Function(
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
     ffi.UnsignedLong,
   )
 >()
@@ -265,6 +280,19 @@ external instancetype _1wx624s_protocolTrampoline_xr62hr(
   )
 >(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_18v1jvf(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
+  ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1a22wz(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -343,6 +371,19 @@ external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1q8ia8l(
   )
 >(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1sr3ozv(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
+  ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_fjrv01(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -501,6 +542,13 @@ external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_18v1jvf(
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1a22wz(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1b3bb6a(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
@@ -537,6 +585,13 @@ external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1q8ia8l(
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1sr3ozv(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_fjrv01(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
@@ -1395,8 +1450,6 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
   }
 }
 
-/// iOS: unavailable
-/// macOS: introduced 10.11.0
 sealed class NSAppleEventSendOptions {
   static const NSAppleEventSendNoReply = 1;
   static const NSAppleEventSendQueueReply = 2;
@@ -1722,9 +1775,6 @@ extension type NSAttributedString._(objc.ObjCObject object$)
   }
 
   /// localizedAttributedStringWithFormat:
-  ///
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
   static NSAttributedString localizedAttributedStringWithFormat(
     NSAttributedString format,
   ) {
@@ -1743,9 +1793,6 @@ extension type NSAttributedString._(objc.ObjCObject object$)
   }
 
   /// localizedAttributedStringWithFormat:context:
-  ///
-  /// iOS: introduced 17.0.0
-  /// macOS: introduced 14.0.0
   static NSAttributedString localizedAttributedStringWithFormat$1(
     NSAttributedString format, {
     required NSDictionary context,
@@ -1767,9 +1814,6 @@ extension type NSAttributedString._(objc.ObjCObject object$)
   }
 
   /// localizedAttributedStringWithFormat:options:
-  ///
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
   static NSAttributedString localizedAttributedStringWithFormat$2(
     NSAttributedString format, {
     required int options,
@@ -1790,9 +1834,6 @@ extension type NSAttributedString._(objc.ObjCObject object$)
   }
 
   /// localizedAttributedStringWithFormat:options:context:
-  ///
-  /// iOS: introduced 17.0.0
-  /// macOS: introduced 14.0.0
   static NSAttributedString localizedAttributedStringWithFormat$3(
     NSAttributedString format, {
     required int options,
@@ -1912,9 +1953,6 @@ extension NSAttributedString$Methods on NSAttributedString {
   }
 
   /// initWithContentsOfMarkdownFileAtURL:options:baseURL:error:
-  ///
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
   NSAttributedString? initWithContentsOfMarkdownFileAtURL(
     NSURL markdownFile, {
     NSAttributedStringMarkdownParsingOptions? options,
@@ -1949,9 +1987,6 @@ extension NSAttributedString$Methods on NSAttributedString {
   }
 
   /// initWithFormat:options:locale:
-  ///
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
   NSAttributedString initWithFormat(
     NSAttributedString format, {
     required int options,
@@ -1976,9 +2011,6 @@ extension NSAttributedString$Methods on NSAttributedString {
   }
 
   /// initWithFormat:options:locale:context:
-  ///
-  /// iOS: introduced 17.0.0
-  /// macOS: introduced 14.0.0
   NSAttributedString initWithFormat$1(
     NSAttributedString format, {
     required int options,
@@ -2006,9 +2038,6 @@ extension NSAttributedString$Methods on NSAttributedString {
   }
 
   /// initWithMarkdown:options:baseURL:error:
-  ///
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
   NSAttributedString? initWithMarkdown(
     NSData markdown, {
     NSAttributedStringMarkdownParsingOptions? options,
@@ -2043,9 +2072,6 @@ extension NSAttributedString$Methods on NSAttributedString {
   }
 
   /// initWithMarkdownString:options:baseURL:error:
-  ///
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
   NSAttributedString? initWithMarkdownString(
     NSString markdownString, {
     NSAttributedStringMarkdownParsingOptions? options,
@@ -2143,8 +2169,6 @@ sealed class NSAttributedStringFormattingOptions {
   static const NSAttributedStringFormattingApplyReplacementIndexAttribute = 2;
 }
 
-/// iOS: introduced 15.0.0
-/// macOS: introduced 12.0.0
 enum NSAttributedStringMarkdownInterpretedSyntax {
   NSAttributedStringMarkdownInterpretedSyntaxFull(0),
   NSAttributedStringMarkdownInterpretedSyntaxInlineOnly(1),
@@ -2166,8 +2190,6 @@ enum NSAttributedStringMarkdownInterpretedSyntax {
   };
 }
 
-/// iOS: introduced 15.0.0
-/// macOS: introduced 12.0.0
 enum NSAttributedStringMarkdownParsingFailurePolicy {
   NSAttributedStringMarkdownParsingFailureReturnError(0),
   NSAttributedStringMarkdownParsingFailureReturnPartiallyParsedIfPossible(1);
@@ -2188,9 +2210,6 @@ enum NSAttributedStringMarkdownParsingFailurePolicy {
 }
 
 /// NSAttributedStringMarkdownParsingOptions
-///
-/// iOS: introduced 15.0.0
-/// macOS: introduced 12.0.0
 extension type NSAttributedStringMarkdownParsingOptions._(
   objc.ObjCObject object$
 ) implements objc.ObjCObject, NSObject, NSCopying {
@@ -2276,8 +2295,7 @@ extension type NSAttributedStringMarkdownParsingOptions._(
 
 extension NSAttributedStringMarkdownParsingOptions$Methods
     on NSAttributedStringMarkdownParsingOptions {
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// allowsExtendedAttributes
   bool get allowsExtendedAttributes {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2288,8 +2306,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     return _objc_msgSend_91o635(_$$ref.pointer, _sel_allowsExtendedAttributes);
   }
 
-  /// iOS: introduced 16.0.0
-  /// macOS: introduced 13.0.0
+  /// appliesSourcePositionAttributes
   bool get appliesSourcePositionAttributes {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2303,8 +2320,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     );
   }
 
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// failurePolicy
   NSAttributedStringMarkdownParsingFailurePolicy get failurePolicy {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2335,8 +2351,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     );
   }
 
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// interpretedSyntax
   NSAttributedStringMarkdownInterpretedSyntax get interpretedSyntax {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2348,8 +2363,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     return NSAttributedStringMarkdownInterpretedSyntax.fromValue($ret);
   }
 
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// languageCode
   NSString? get languageCode {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2363,8 +2377,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
         : NSString.fromPointer($ret, retain: true, release: true);
   }
 
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// setAllowsExtendedAttributes:
   set allowsExtendedAttributes(bool value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2379,8 +2392,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     );
   }
 
-  /// iOS: introduced 16.0.0
-  /// macOS: introduced 13.0.0
+  /// setAppliesSourcePositionAttributes:
   set appliesSourcePositionAttributes(bool value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2395,8 +2407,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     );
   }
 
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// setFailurePolicy:
   set failurePolicy(NSAttributedStringMarkdownParsingFailurePolicy value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2407,8 +2418,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     _objc_msgSend_mt0t38(_$$ref.pointer, _sel_setFailurePolicy_, value.value);
   }
 
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// setInterpretedSyntax:
   set interpretedSyntax(NSAttributedStringMarkdownInterpretedSyntax value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -2423,8 +2433,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     );
   }
 
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
+  /// setLanguageCode:
   set languageCode(NSString? value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value?.ref;
@@ -3070,9 +3079,6 @@ extension NSBundle$Methods on NSBundle {
   }
 
   /// localizedAttributedStringForKey:value:table:
-  ///
-  /// iOS: introduced 15.0.0
-  /// macOS: introduced 12.0.0
   NSAttributedString localizedAttributedStringForKey(
     NSString key, {
     NSString? value,
@@ -4115,14 +4121,12 @@ interface class NSCoding$Builder {
           isInstanceMethod: true,
         ),
         (Dartinstancetype? Function(NSCoder) func) =>
-            ObjCBlock_instancetype_ffiVoid_NSCoder.fromFunction(
+            ObjCBlock_instancetype_ffiVoid_NSCoder_retained.fromFunction(
               (ffi.Pointer<ffi.Void> _, NSCoder arg1) => func(arg1),
             ),
       );
 }
 
-/// iOS: introduced 13.0.0
-/// macOS: introduced 10.15.0
 enum NSCollectionChangeType {
   NSCollectionChangeInsert(0),
   NSCollectionChangeRemove(1);
@@ -4153,6 +4157,35 @@ enum NSComparisonResult {
     1 => NSOrderedDescending,
     _ => throw ArgumentError('Unknown value for NSComparisonResult: $value'),
   };
+}
+
+/// NSConnection
+///
+/// NSConnection
+@Deprecated('Use NSXPCConnection instead')
+extension type NSConnection._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NSObject {
+  /// Constructs a [NSConnection] that points to the same underlying object as [other].
+  NSConnection.as(objc.ObjCObject other) : object$ = other {
+    objc.checkOsVersionInternal(
+      'NSConnection',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+  }
+
+  /// Constructs a [NSConnection] that wraps the given raw object pointer.
+  NSConnection.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSConnection',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+  }
 }
 
 /// NSCopying
@@ -4246,7 +4279,7 @@ interface class NSCopying$Builder {
           isInstanceMethod: true,
         ),
         (objc.ObjCObject Function(ffi.Pointer<NSZone>) func) =>
-            ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone.fromFunction(
+            ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone_retained.fromFunction(
               (ffi.Pointer<ffi.Void> _, ffi.Pointer<NSZone> arg1) => func(arg1),
             ),
       );
@@ -4447,9 +4480,6 @@ extension NSData$Methods on NSData {
   }
 
   /// compressedDataUsingAlgorithm:error:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSData? compressedDataUsingAlgorithm(NSDataCompressionAlgorithm algorithm) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -4475,9 +4505,6 @@ extension NSData$Methods on NSData {
   }
 
   /// decompressedDataUsingAlgorithm:error:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSData? decompressedDataUsingAlgorithm(NSDataCompressionAlgorithm algorithm) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -4751,8 +4778,6 @@ sealed class NSDataBase64EncodingOptions {
   static const NSDataBase64EncodingEndLineWithLineFeed = 32;
 }
 
-/// iOS: introduced 13.0.0
-/// macOS: introduced 10.15.0
 enum NSDataCompressionAlgorithm {
   NSDataCompressionAlgorithmLZFSE(0),
   NSDataCompressionAlgorithmLZ4(1),
@@ -5354,6 +5379,14 @@ extension NSDictionary$Methods on NSDictionary {
   }
 }
 
+sealed class NSDirectoryEnumerationOptions {
+  static const NSDirectoryEnumerationSkipsSubdirectoryDescendants = 1;
+  static const NSDirectoryEnumerationSkipsPackageDescendants = 2;
+  static const NSDirectoryEnumerationSkipsHiddenFiles = 4;
+  static const NSDirectoryEnumerationIncludesDirectoriesPostOrder = 8;
+  static const NSDirectoryEnumerationProducesRelativePathURLs = 16;
+}
+
 final class NSEdgeInsets extends ffi.Struct {
   @ffi.Double()
   external double top;
@@ -5747,8 +5780,7 @@ extension NSError$Methods on NSError {
         : objc.ObjCObject($ret, retain: true, release: true);
   }
 
-  /// iOS: introduced 14.5.0
-  /// macOS: introduced 11.3.0
+  /// underlyingErrors
   NSArray get underlyingErrors {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -5766,6 +5798,42 @@ extension NSError$Methods on NSError {
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_userInfo);
     return NSDictionary.fromPointer($ret, retain: true, release: true);
   }
+}
+
+enum NSExpressionType {
+  NSConstantValueExpressionType(0),
+  NSEvaluatedObjectExpressionType(1),
+  NSVariableExpressionType(2),
+  NSKeyPathExpressionType(3),
+  NSFunctionExpressionType(4),
+  NSUnionSetExpressionType(5),
+  NSIntersectSetExpressionType(6),
+  NSMinusSetExpressionType(7),
+  NSSubqueryExpressionType(13),
+  NSAggregateExpressionType(14),
+  NSAnyKeyExpressionType(15),
+  NSBlockExpressionType(19),
+  NSConditionalExpressionType(20);
+
+  final int value;
+  const NSExpressionType(this.value);
+
+  static NSExpressionType fromValue(int value) => switch (value) {
+    0 => NSConstantValueExpressionType,
+    1 => NSEvaluatedObjectExpressionType,
+    2 => NSVariableExpressionType,
+    3 => NSKeyPathExpressionType,
+    4 => NSFunctionExpressionType,
+    5 => NSUnionSetExpressionType,
+    6 => NSIntersectSetExpressionType,
+    7 => NSMinusSetExpressionType,
+    13 => NSSubqueryExpressionType,
+    14 => NSAggregateExpressionType,
+    15 => NSAnyKeyExpressionType,
+    19 => NSBlockExpressionType,
+    20 => NSConditionalExpressionType,
+    _ => throw ArgumentError('Unknown value for NSExpressionType: $value'),
+  };
 }
 
 /// NSExtendedArray
@@ -6632,6 +6700,23 @@ extension NSExtendedData on NSData {
 
 /// NSExtendedDate
 extension NSExtendedDate on NSDate {
+  /// addTimeInterval:
+  @Deprecated('Use dateByAddingTimeInterval instead')
+  objc.ObjCObject addTimeInterval(double seconds) {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSDate.addTimeInterval:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_oa8mke(
+      _$$ref.pointer,
+      _sel_addTimeInterval_,
+      seconds,
+    );
+    return objc.ObjCObject($ret, retain: true, release: true);
+  }
+
   /// compare:
   NSComparisonResult compare(NSDate other) {
     final _$$ref = object$.ref;
@@ -7195,6 +7280,26 @@ extension NSExtendedMutableArray on NSMutableArray {
       _$$ref.pointer,
       _sel_removeObjectsAtIndexes_,
       _$$ref$1.pointer,
+    );
+  }
+
+  /// removeObjectsFromIndices:numIndices:
+  @Deprecated('Not supported')
+  void removeObjectsFromIndices(
+    ffi.Pointer<ffi.UnsignedLong> indices, {
+    required int numIndices,
+  }) {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSMutableArray.removeObjectsFromIndices:numIndices:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_swohtd(
+      _$$ref.pointer,
+      _sel_removeObjectsFromIndices_numIndices_,
+      indices,
+      numIndices,
     );
   }
 
@@ -8964,6 +9069,61 @@ final class NSFastEnumerationState extends ffi.Struct {
   external ffi.Array<ffi.UnsignedLong> extra;
 }
 
+sealed class NSFileManagerItemReplacementOptions {
+  static const NSFileManagerItemReplacementUsingNewMetadataOnly = 1;
+  static const NSFileManagerItemReplacementWithoutDeletingBackupItem = 2;
+}
+
+enum NSFileManagerResumeSyncBehavior {
+  NSFileManagerResumeSyncBehaviorPreserveLocalChanges(0),
+  NSFileManagerResumeSyncBehaviorAfterUploadWithFailOnConflict(1),
+  NSFileManagerResumeSyncBehaviorDropLocalChanges(2);
+
+  final int value;
+  const NSFileManagerResumeSyncBehavior(this.value);
+
+  static NSFileManagerResumeSyncBehavior fromValue(int value) =>
+      switch (value) {
+        0 => NSFileManagerResumeSyncBehaviorPreserveLocalChanges,
+        1 => NSFileManagerResumeSyncBehaviorAfterUploadWithFailOnConflict,
+        2 => NSFileManagerResumeSyncBehaviorDropLocalChanges,
+        _ => throw ArgumentError(
+          'Unknown value for NSFileManagerResumeSyncBehavior: $value',
+        ),
+      };
+}
+
+sealed class NSFileManagerUnmountOptions {
+  static const NSFileManagerUnmountAllPartitionsAndEjectDisk = 1;
+  static const NSFileManagerUnmountWithoutUI = 2;
+}
+
+enum NSFileManagerUploadLocalVersionConflictPolicy {
+  NSFileManagerUploadConflictPolicyDefault(0),
+  NSFileManagerUploadConflictPolicyFailOnConflict(1);
+
+  final int value;
+  const NSFileManagerUploadLocalVersionConflictPolicy(this.value);
+
+  static NSFileManagerUploadLocalVersionConflictPolicy fromValue(
+    int value,
+  ) => switch (value) {
+    0 => NSFileManagerUploadConflictPolicyDefault,
+    1 => NSFileManagerUploadConflictPolicyFailOnConflict,
+    _ => throw ArgumentError(
+      'Unknown value for NSFileManagerUploadLocalVersionConflictPolicy: $value',
+    ),
+  };
+}
+
+sealed class NSFileVersionAddingOptions {
+  static const NSFileVersionAddingByMoving = 1;
+}
+
+sealed class NSFileVersionReplacingOptions {
+  static const NSFileVersionReplacingByMoving = 1;
+}
+
 /// NSIndexSet
 extension type NSIndexSet._(objc.ObjCObject object$)
     implements
@@ -9836,7 +9996,7 @@ extension NSInvocation$Methods on NSInvocation {
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> imp,
   ) {
     final _$$ref = object$.ref;
-    _objc_msgSend_hk6irj(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
+    _objc_msgSend_agmudd(_$$ref.pointer, _sel_invokeUsingIMP_, imp);
   }
 
   /// invokeWithTarget:
@@ -11515,7 +11675,7 @@ interface class NSMutableCopying$Builder {
           isInstanceMethod: true,
         ),
         (objc.ObjCObject Function(ffi.Pointer<NSZone>) func) =>
-            ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone.fromFunction(
+            ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone_retained.fromFunction(
               (ffi.Pointer<ffi.Void> _, ffi.Pointer<NSZone> arg1) => func(arg1),
             ),
       );
@@ -11732,9 +11892,6 @@ extension type NSMutableData._(objc.ObjCObject object$)
 
 extension NSMutableData$Methods on NSMutableData {
   /// compressedDataUsingAlgorithm:error:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSMutableData? compressedDataUsingAlgorithm(
     NSDataCompressionAlgorithm algorithm,
   ) {
@@ -11762,9 +11919,6 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// decompressedDataUsingAlgorithm:error:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSMutableData? decompressedDataUsingAlgorithm(
     NSDataCompressionAlgorithm algorithm,
   ) {
@@ -14022,9 +14176,6 @@ extension NSMutableString$Methods on NSMutableString {
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
-  ///
-  /// iOS: introduced 16.0.0
-  /// macOS: introduced 13.0.0
   NSMutableString? initWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
@@ -14056,9 +14207,6 @@ extension NSMutableString$Methods on NSMutableString {
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
-  ///
-  /// iOS: introduced 16.0.0
-  /// macOS: introduced 13.0.0
   NSMutableString? initWithValidatedFormat$1(
     NSString format, {
     required NSString validFormatSpecifiers,
@@ -15127,7 +15275,7 @@ extension type NSObject._(objc.ObjCObject object$)
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_1pa9f4m(
+    return _objc_msgSend_13lsk7w(
       _class_NSObject,
       _sel_instanceMethodForSelector_,
       aSelector,
@@ -15285,6 +15433,18 @@ extension NSObject$Methods on NSObject {
     );
   }
 
+  /// finalize
+  @Deprecated('Objective-C garbage collection is no longer supported')
+  void finalize() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSObject.finalize',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_finalize);
+  }
+
   /// forwardInvocation:
   void forwardInvocation(NSInvocation anInvocation) {
     final _$$ref = object$.ref;
@@ -15378,7 +15538,7 @@ extension NSObject$Methods on NSObject {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return _objc_msgSend_1pa9f4m(
+    return _objc_msgSend_13lsk7w(
       _$$ref.pointer,
       _sel_methodForSelector_,
       aSelector,
@@ -16743,9 +16903,6 @@ interface class NSObjectProtocol$Builder {
 }
 
 /// NSOrderedCollectionChange
-///
-/// iOS: introduced 13.0.0
-/// macOS: introduced 10.15.0
 extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
     implements objc.ObjCObject, NSObject {
   /// Constructs a [NSOrderedCollectionChange] that points to the same underlying object as [other].
@@ -16809,9 +16966,6 @@ extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
   }
 
   /// changeWithObject:type:index:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   static NSOrderedCollectionChange changeWithObject(
     objc.ObjCObject? anObject, {
     required NSCollectionChangeType type,
@@ -16838,9 +16992,6 @@ extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
   }
 
   /// changeWithObject:type:index:associatedIndex:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   static NSOrderedCollectionChange changeWithObject$1(
     objc.ObjCObject? anObject, {
     required NSCollectionChangeType type,
@@ -16886,8 +17037,7 @@ extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
 }
 
 extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
+  /// associatedIndex
   int get associatedIndex {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -16898,8 +17048,7 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
     return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_associatedIndex);
   }
 
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
+  /// changeType
   NSCollectionChangeType get changeType {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -16911,8 +17060,7 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
     return NSCollectionChangeType.fromValue($ret);
   }
 
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
+  /// index
   int get index {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -16924,9 +17072,6 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
   }
 
   /// initWithObject:type:index:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSOrderedCollectionChange initWithObject(
     objc.ObjCObject? anObject, {
     required NSCollectionChangeType type,
@@ -16954,9 +17099,6 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
   }
 
   /// initWithObject:type:index:associatedIndex:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSOrderedCollectionChange initWithObject$1(
     objc.ObjCObject? anObject, {
     required NSCollectionChangeType type,
@@ -16985,8 +17127,7 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
     );
   }
 
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
+  /// object
   objc.ObjCObject? get object {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -17002,9 +17143,6 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
 }
 
 /// NSOrderedCollectionDifference
-///
-/// iOS: introduced 13.0.0
-/// macOS: introduced 10.15.0
 extension type NSOrderedCollectionDifference._(objc.ObjCObject object$)
     implements objc.ObjCObject, NSObject, NSFastEnumeration {
   /// Constructs a [NSOrderedCollectionDifference] that points to the same underlying object as [other].
@@ -17103,9 +17241,6 @@ extension NSOrderedCollectionDifference$Methods
   }
 
   /// differenceByTransformingChangesWithBlock:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference differenceByTransformingChangesWithBlock(
     objc.ObjCBlock<
       NSOrderedCollectionChange Function(NSOrderedCollectionChange)
@@ -17131,8 +17266,7 @@ extension NSOrderedCollectionDifference$Methods
     );
   }
 
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
+  /// hasChanges
   bool get hasChanges {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -17163,9 +17297,6 @@ extension NSOrderedCollectionDifference$Methods
   }
 
   /// initWithChanges:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference initWithChanges(NSArray changes) {
     final _$$ref = object$.ref;
     final _$$ref$1 = changes.ref;
@@ -17187,9 +17318,6 @@ extension NSOrderedCollectionDifference$Methods
   }
 
   /// initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference initWithInsertIndexes(
     NSIndexSet inserts, {
     NSArray? insertedObjects,
@@ -17222,9 +17350,6 @@ extension NSOrderedCollectionDifference$Methods
   }
 
   /// initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:additionalChanges:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference initWithInsertIndexes$1(
     NSIndexSet inserts, {
     NSArray? insertedObjects,
@@ -17259,8 +17384,7 @@ extension NSOrderedCollectionDifference$Methods
     );
   }
 
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
+  /// insertions
   NSArray get insertions {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -17273,9 +17397,6 @@ extension NSOrderedCollectionDifference$Methods
   }
 
   /// inverseDifference
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference inverseDifference() {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -17291,8 +17412,7 @@ extension NSOrderedCollectionDifference$Methods
     );
   }
 
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
+  /// removals
   NSArray get removals {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -17305,8 +17425,6 @@ extension NSOrderedCollectionDifference$Methods
   }
 }
 
-/// iOS: introduced 13.0.0
-/// macOS: introduced 10.15.0
 sealed class NSOrderedCollectionDifferenceCalculationOptions {
   static const NSOrderedCollectionDifferenceCalculationOmitInsertedObjects = 1;
   static const NSOrderedCollectionDifferenceCalculationOmitRemovedObjects = 2;
@@ -18134,6 +18252,31 @@ extension type NSPort._(objc.ObjCObject object$)
 }
 
 extension NSPort$Methods on NSPort {
+  /// addConnection:toRunLoop:forMode:
+  @Deprecated('Use NSXPCConnection instead')
+  void addConnection(
+    NSConnection conn, {
+    required NSRunLoop toRunLoop,
+    required NSString forMode,
+  }) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = conn.ref;
+    final _$$ref$2 = toRunLoop.ref;
+    final _$$ref$3 = forMode.ref;
+    objc.checkOsVersionInternal(
+      'NSPort.addConnection:toRunLoop:forMode:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_r8gdi7(
+      _$$ref.pointer,
+      _sel_addConnection_toRunLoop_forMode_,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+      _$$ref$3.pointer,
+    );
+  }
+
   /// delegate
   NSPortDelegate? delegate() {
     final _$$ref = object$.ref;
@@ -18193,6 +18336,31 @@ extension NSPort$Methods on NSPort {
   bool get isValid {
     final _$$ref = object$.ref;
     return _objc_msgSend_91o635(_$$ref.pointer, _sel_isValid);
+  }
+
+  /// removeConnection:fromRunLoop:forMode:
+  @Deprecated('Use NSXPCConnection instead')
+  void removeConnection(
+    NSConnection conn, {
+    required NSRunLoop fromRunLoop,
+    required NSString forMode,
+  }) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = conn.ref;
+    final _$$ref$2 = fromRunLoop.ref;
+    final _$$ref$3 = forMode.ref;
+    objc.checkOsVersionInternal(
+      'NSPort.removeConnection:fromRunLoop:forMode:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_r8gdi7(
+      _$$ref.pointer,
+      _sel_removeConnection_fromRunLoop_forMode_,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+      _$$ref$3.pointer,
+    );
   }
 
   /// removeFromRunLoop:forMode:
@@ -18617,6 +18785,46 @@ extension NSPortMessage$Methods on NSPortMessage {
   }
 }
 
+enum NSPredicateOperatorType {
+  NSLessThanPredicateOperatorType(0),
+  NSLessThanOrEqualToPredicateOperatorType(1),
+  NSGreaterThanPredicateOperatorType(2),
+  NSGreaterThanOrEqualToPredicateOperatorType(3),
+  NSEqualToPredicateOperatorType(4),
+  NSNotEqualToPredicateOperatorType(5),
+  NSMatchesPredicateOperatorType(6),
+  NSLikePredicateOperatorType(7),
+  NSBeginsWithPredicateOperatorType(8),
+  NSEndsWithPredicateOperatorType(9),
+  NSInPredicateOperatorType(10),
+  NSCustomSelectorPredicateOperatorType(11),
+  NSContainsPredicateOperatorType(99),
+  NSBetweenPredicateOperatorType(100);
+
+  final int value;
+  const NSPredicateOperatorType(this.value);
+
+  static NSPredicateOperatorType fromValue(int value) => switch (value) {
+    0 => NSLessThanPredicateOperatorType,
+    1 => NSLessThanOrEqualToPredicateOperatorType,
+    2 => NSGreaterThanPredicateOperatorType,
+    3 => NSGreaterThanOrEqualToPredicateOperatorType,
+    4 => NSEqualToPredicateOperatorType,
+    5 => NSNotEqualToPredicateOperatorType,
+    6 => NSMatchesPredicateOperatorType,
+    7 => NSLikePredicateOperatorType,
+    8 => NSBeginsWithPredicateOperatorType,
+    9 => NSEndsWithPredicateOperatorType,
+    10 => NSInPredicateOperatorType,
+    11 => NSCustomSelectorPredicateOperatorType,
+    99 => NSContainsPredicateOperatorType,
+    100 => NSBetweenPredicateOperatorType,
+    _ => throw ArgumentError(
+      'Unknown value for NSPredicateOperatorType: $value',
+    ),
+  };
+}
+
 /// NSProgress
 extension type NSProgress._(objc.ObjCObject object$)
     implements objc.ObjCObject, NSObject {
@@ -18644,9 +18852,6 @@ extension type NSProgress._(objc.ObjCObject object$)
         );
 
   /// addSubscriberForFileURL:withPublishingHandler:
-  ///
-  /// iOS: unavailable
-  /// macOS: introduced 10.9.0
   static objc.ObjCObject addSubscriberForFileURL(
     NSURL url, {
     required objc.ObjCBlock<
@@ -18758,9 +18963,6 @@ extension type NSProgress._(objc.ObjCObject object$)
   }
 
   /// removeSubscriber:
-  ///
-  /// iOS: unavailable
-  /// macOS: introduced 10.9.0
   static void removeSubscriber(objc.ObjCObject subscriber) {
     final _$$ref = subscriber.ref;
     objc.checkOsVersionInternal(
@@ -19015,8 +19217,7 @@ extension NSProgress$Methods on NSProgress {
     return _objc_msgSend_91o635(_$$ref.pointer, _sel_isIndeterminate);
   }
 
-  /// iOS: unavailable
-  /// macOS: introduced 10.9.0
+  /// isOld
   bool get isOld {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -19139,9 +19340,6 @@ extension NSProgress$Methods on NSProgress {
   }
 
   /// publish
-  ///
-  /// iOS: unavailable
-  /// macOS: introduced 10.9.0
   void publish() {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -19471,9 +19669,6 @@ extension NSProgress$Methods on NSProgress {
   }
 
   /// unpublish
-  ///
-  /// iOS: unavailable
-  /// macOS: introduced 10.9.0
   void unpublish() {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
@@ -19716,6 +19911,78 @@ extension NSRunLoop$Methods on NSRunLoop {
   }
 }
 
+enum NSSearchPathDirectory {
+  NSApplicationDirectory(1),
+  NSDemoApplicationDirectory(2),
+  NSDeveloperApplicationDirectory(3),
+  NSAdminApplicationDirectory(4),
+  NSLibraryDirectory(5),
+  NSDeveloperDirectory(6),
+  NSUserDirectory(7),
+  NSDocumentationDirectory(8),
+  NSDocumentDirectory(9),
+  NSCoreServiceDirectory(10),
+  NSAutosavedInformationDirectory(11),
+  NSDesktopDirectory(12),
+  NSCachesDirectory(13),
+  NSApplicationSupportDirectory(14),
+  NSDownloadsDirectory(15),
+  NSInputMethodsDirectory(16),
+  NSMoviesDirectory(17),
+  NSMusicDirectory(18),
+  NSPicturesDirectory(19),
+  NSPrinterDescriptionDirectory(20),
+  NSSharedPublicDirectory(21),
+  NSPreferencePanesDirectory(22),
+  NSApplicationScriptsDirectory(23),
+  NSItemReplacementDirectory(99),
+  NSAllApplicationsDirectory(100),
+  NSAllLibrariesDirectory(101),
+  NSTrashDirectory(102);
+
+  final int value;
+  const NSSearchPathDirectory(this.value);
+
+  static NSSearchPathDirectory fromValue(int value) => switch (value) {
+    1 => NSApplicationDirectory,
+    2 => NSDemoApplicationDirectory,
+    3 => NSDeveloperApplicationDirectory,
+    4 => NSAdminApplicationDirectory,
+    5 => NSLibraryDirectory,
+    6 => NSDeveloperDirectory,
+    7 => NSUserDirectory,
+    8 => NSDocumentationDirectory,
+    9 => NSDocumentDirectory,
+    10 => NSCoreServiceDirectory,
+    11 => NSAutosavedInformationDirectory,
+    12 => NSDesktopDirectory,
+    13 => NSCachesDirectory,
+    14 => NSApplicationSupportDirectory,
+    15 => NSDownloadsDirectory,
+    16 => NSInputMethodsDirectory,
+    17 => NSMoviesDirectory,
+    18 => NSMusicDirectory,
+    19 => NSPicturesDirectory,
+    20 => NSPrinterDescriptionDirectory,
+    21 => NSSharedPublicDirectory,
+    22 => NSPreferencePanesDirectory,
+    23 => NSApplicationScriptsDirectory,
+    99 => NSItemReplacementDirectory,
+    100 => NSAllApplicationsDirectory,
+    101 => NSAllLibrariesDirectory,
+    102 => NSTrashDirectory,
+    _ => throw ArgumentError('Unknown value for NSSearchPathDirectory: $value'),
+  };
+}
+
+sealed class NSSearchPathDomainMask {
+  static const NSUserDomainMask = 1;
+  static const NSLocalDomainMask = 2;
+  static const NSNetworkDomainMask = 4;
+  static const NSSystemDomainMask = 8;
+  static const NSAllDomainsMask = 65535;
+}
+
 /// NSSecureCoding
 extension type NSSecureCoding._(objc.ObjCProtocol object$)
     implements objc.ObjCProtocol, NSCoding {
@@ -19952,7 +20219,7 @@ interface class NSSecureCoding$Builder {
           isInstanceMethod: true,
         ),
         (Dartinstancetype? Function(NSCoder) func) =>
-            ObjCBlock_instancetype_ffiVoid_NSCoder.fromFunction(
+            ObjCBlock_instancetype_ffiVoid_NSCoder_retained.fromFunction(
               (ffi.Pointer<ffi.Void> _, NSCoder arg1) => func(arg1),
             ),
       );
@@ -21289,9 +21556,6 @@ extension NSString$Methods on NSString {
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
-  ///
-  /// iOS: introduced 16.0.0
-  /// macOS: introduced 13.0.0
   NSString? initWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
@@ -21323,9 +21587,6 @@ extension NSString$Methods on NSString {
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
-  ///
-  /// iOS: introduced 16.0.0
-  /// macOS: introduced 13.0.0
   NSString? initWithValidatedFormat$1(
     NSString format, {
     required NSString validFormatSpecifiers,
@@ -22689,6 +22950,28 @@ extension NSStringExtensionMethods on NSString {
   }
 }
 
+enum NSTimeZoneNameStyle {
+  NSTimeZoneNameStyleStandard(0),
+  NSTimeZoneNameStyleShortStandard(1),
+  NSTimeZoneNameStyleDaylightSaving(2),
+  NSTimeZoneNameStyleShortDaylightSaving(3),
+  NSTimeZoneNameStyleGeneric(4),
+  NSTimeZoneNameStyleShortGeneric(5);
+
+  final int value;
+  const NSTimeZoneNameStyle(this.value);
+
+  static NSTimeZoneNameStyle fromValue(int value) => switch (value) {
+    0 => NSTimeZoneNameStyleStandard,
+    1 => NSTimeZoneNameStyleShortStandard,
+    2 => NSTimeZoneNameStyleDaylightSaving,
+    3 => NSTimeZoneNameStyleShortDaylightSaving,
+    4 => NSTimeZoneNameStyleGeneric,
+    5 => NSTimeZoneNameStyleShortGeneric,
+    _ => throw ArgumentError('Unknown value for NSTimeZoneNameStyle: $value'),
+  };
+}
+
 /// NSTimer
 extension type NSTimer._(objc.ObjCObject object$)
     implements objc.ObjCObject, NSObject {
@@ -23126,9 +23409,6 @@ extension type NSURL._(objc.ObjCObject object$)
   }
 
   /// URLWithString:encodingInvalidCharacters:
-  ///
-  /// iOS: introduced 17.0.0
-  /// macOS: introduced 14.0.0
   static NSURL? URLWithString$1(
     NSString URLString, {
     required bool encodingInvalidCharacters,
@@ -23782,6 +24062,36 @@ extension NSURL$Methods on NSURL {
     return NSURL.fromPointer($ret, retain: false, release: true);
   }
 
+  /// initWithScheme:host:path:
+  @Deprecated(
+    'Use NSURLComponents instead, which lets you create a valid URL with any valid combination of URL components and subcomponents (not just scheme, host and path), and lets you set components and subcomponents with either percent-encoded or un-percent-encoded strings.',
+  )
+  NSURL? initWithScheme(
+    NSString scheme, {
+    NSString? host,
+    required NSString path,
+  }) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = scheme.ref;
+    final _$$ref$2 = host?.ref;
+    final _$$ref$3 = path.ref;
+    objc.checkOsVersionInternal(
+      'NSURL.initWithScheme:host:path:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_11spmsz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithScheme_host_path_,
+      _$$ref$1.pointer,
+      _$$ref$2?.pointer ?? ffi.nullptr,
+      _$$ref$3.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NSURL.fromPointer($ret, retain: false, release: true);
+  }
+
   /// initWithString:
   NSURL? initWithString(NSString URLString) {
     final _$$ref = object$.ref;
@@ -23797,9 +24107,6 @@ extension NSURL$Methods on NSURL {
   }
 
   /// initWithString:encodingInvalidCharacters:
-  ///
-  /// iOS: introduced 17.0.0
-  /// macOS: introduced 14.0.0
   NSURL? initWithString$1(
     NSString URLString, {
     required bool encodingInvalidCharacters,
@@ -23855,8 +24162,7 @@ extension NSURL$Methods on NSURL {
     return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFileURL);
   }
 
-  /// iOS: introduced 2.0.0, deprecated 13.0.0
-  /// macOS: introduced 10.2.0, deprecated 10.15.0
+  /// parameterString
   @Deprecated(
     'The parameterString method is deprecated. Post deprecation for applications linked with or after the macOS 10.15, and for all iOS, watchOS, and tvOS applications, parameterString will always return nil, and the path method will return the complete path including the semicolon separator and params component if the URL string contains them.',
   )
@@ -24156,6 +24462,23 @@ extension type NSURLHandle._(objc.ObjCObject object$)
           _class_NSURLHandle,
         );
 
+  /// URLHandleClassForURL:
+  @Deprecated('Deprecated')
+  static objc.ObjCObject URLHandleClassForURL(NSURL anURL) {
+    final _$$ref = anURL.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.URLHandleClassForURL:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_1sotr3r(
+      _class_NSURLHandle,
+      _sel_URLHandleClassForURL_,
+      _$$ref.pointer,
+    );
+    return objc.ObjCObject($ret, retain: true, release: true);
+  }
+
   /// alloc
   static NSURLHandle alloc() {
     final $ret = _objc_msgSend_151sglz(_class_NSURLHandle, _sel_alloc);
@@ -24172,10 +24495,59 @@ extension type NSURLHandle._(objc.ObjCObject object$)
     return NSURLHandle.fromPointer($ret, retain: false, release: true);
   }
 
+  /// cachedHandleForURL:
+  @Deprecated('Deprecated')
+  static NSURLHandle cachedHandleForURL(NSURL anURL) {
+    final _$$ref = anURL.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.cachedHandleForURL:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_1sotr3r(
+      _class_NSURLHandle,
+      _sel_cachedHandleForURL_,
+      _$$ref.pointer,
+    );
+    return NSURLHandle.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// canInitWithURL:
+  @Deprecated('Deprecated')
+  static bool canInitWithURL(NSURL anURL) {
+    final _$$ref = anURL.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.canInitWithURL:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    return _objc_msgSend_19nvye5(
+      _class_NSURLHandle,
+      _sel_canInitWithURL_,
+      _$$ref.pointer,
+    );
+  }
+
   /// new
   static NSURLHandle new$() {
     final $ret = _objc_msgSend_151sglz(_class_NSURLHandle, _sel_new);
     return NSURLHandle.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// registerURLHandleClass:
+  @Deprecated('Deprecated')
+  static void registerURLHandleClass(objc.ObjCObject anURLHandleSubclass) {
+    final _$$ref = anURLHandleSubclass.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.registerURLHandleClass:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _class_NSURLHandle,
+      _sel_registerURLHandleClass_,
+      _$$ref.pointer,
+    );
   }
 
   /// Returns a new instance of NSURLHandle constructed with the default `new` method.
@@ -24183,6 +24555,143 @@ extension type NSURLHandle._(objc.ObjCObject object$)
 }
 
 extension NSURLHandle$Methods on NSURLHandle {
+  /// addClient:
+  @Deprecated('Deprecated')
+  void addClient(NSURLHandleClient client) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = client.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.addClient:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_addClient_, _$$ref$1.pointer);
+  }
+
+  /// availableResourceData
+  @Deprecated('Deprecated')
+  NSData availableResourceData() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.availableResourceData',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.pointer,
+      _sel_availableResourceData,
+    );
+    return NSData.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// backgroundLoadDidFailWithReason:
+  @Deprecated('Deprecated')
+  void backgroundLoadDidFailWithReason(NSString reason) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = reason.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.backgroundLoadDidFailWithReason:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_backgroundLoadDidFailWithReason_,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// beginLoadInBackground
+  @Deprecated('Deprecated')
+  void beginLoadInBackground() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.beginLoadInBackground',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_beginLoadInBackground);
+  }
+
+  /// cancelLoadInBackground
+  @Deprecated('Deprecated')
+  void cancelLoadInBackground() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.cancelLoadInBackground',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_cancelLoadInBackground);
+  }
+
+  /// didLoadBytes:loadComplete:
+  @Deprecated('Deprecated')
+  void didLoadBytes(NSData newBytes, {required bool loadComplete}) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = newBytes.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.didLoadBytes:loadComplete:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_6p7ndb(
+      _$$ref.pointer,
+      _sel_didLoadBytes_loadComplete_,
+      _$$ref$1.pointer,
+      loadComplete,
+    );
+  }
+
+  /// endLoadInBackground
+  @Deprecated('Deprecated')
+  void endLoadInBackground() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.endLoadInBackground',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_endLoadInBackground);
+  }
+
+  /// expectedResourceDataSize
+  @Deprecated('Deprecated')
+  int expectedResourceDataSize() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.expectedResourceDataSize',
+      iOS: (true, null),
+      macOS: (false, (10, 3, 0)),
+    );
+    return _objc_msgSend_1k101e3(_$$ref.pointer, _sel_expectedResourceDataSize);
+  }
+
+  /// failureReason
+  @Deprecated('Deprecated')
+  NSString failureReason() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.failureReason',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_failureReason);
+    return NSString.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// flushCachedData
+  @Deprecated('Deprecated')
+  void flushCachedData() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.flushCachedData',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_flushCachedData);
+  }
+
   /// init
   NSURLHandle init() {
     final _$$ref$44 = object$.ref;
@@ -24197,6 +24706,742 @@ extension NSURLHandle$Methods on NSURLHandle {
     );
     return NSURLHandle.fromPointer($ret, retain: false, release: true);
   }
+
+  /// initWithURL:cached:
+  @Deprecated('Deprecated')
+  objc.ObjCObject initWithURL(NSURL anURL, {required bool cached}) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = anURL.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.initWithURL:cached:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_17amj0z(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithURL_cached_,
+      _$$ref$1.pointer,
+      cached,
+    );
+    return objc.ObjCObject($ret, retain: false, release: true);
+  }
+
+  /// loadInBackground
+  @Deprecated('Deprecated')
+  void loadInBackground() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.loadInBackground',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_loadInBackground);
+  }
+
+  /// loadInForeground
+  @Deprecated('Deprecated')
+  NSData loadInForeground() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.loadInForeground',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_loadInForeground);
+    return NSData.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// propertyForKey:
+  @Deprecated('Deprecated')
+  objc.ObjCObject propertyForKey(NSString propertyKey) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = propertyKey.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.propertyForKey:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.pointer,
+      _sel_propertyForKey_,
+      _$$ref$1.pointer,
+    );
+    return objc.ObjCObject($ret, retain: true, release: true);
+  }
+
+  /// propertyForKeyIfAvailable:
+  @Deprecated('Deprecated')
+  objc.ObjCObject propertyForKeyIfAvailable(NSString propertyKey) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = propertyKey.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.propertyForKeyIfAvailable:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.pointer,
+      _sel_propertyForKeyIfAvailable_,
+      _$$ref$1.pointer,
+    );
+    return objc.ObjCObject($ret, retain: true, release: true);
+  }
+
+  /// removeClient:
+  @Deprecated('Deprecated')
+  void removeClient(NSURLHandleClient client) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = client.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.removeClient:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_removeClient_, _$$ref$1.pointer);
+  }
+
+  /// resourceData
+  @Deprecated('Deprecated')
+  NSData resourceData() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.resourceData',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_resourceData);
+    return NSData.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// status
+  @Deprecated('Deprecated')
+  NSURLHandleStatus status() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.status',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_jtzjjr(_$$ref.pointer, _sel_status);
+    return NSURLHandleStatus.fromValue($ret);
+  }
+
+  /// writeData:
+  @Deprecated('Deprecated')
+  bool writeData(NSData data) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = data.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.writeData:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    return _objc_msgSend_19nvye5(
+      _$$ref.pointer,
+      _sel_writeData_,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// writeProperty:forKey:
+  @Deprecated('Deprecated')
+  bool writeProperty(
+    objc.ObjCObject propertyValue, {
+    required NSString forKey,
+  }) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = propertyValue.ref;
+    final _$$ref$2 = forKey.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandle.writeProperty:forKey:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    return _objc_msgSend_1lsax7n(
+      _$$ref.pointer,
+      _sel_writeProperty_forKey_,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+    );
+  }
+}
+
+/// NSURLHandleClient
+@Deprecated('Deprecated')
+extension type NSURLHandleClient._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol {
+  /// Constructs a [NSURLHandleClient] that points to the same underlying object as [other].
+  NSURLHandleClient.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSURLHandleClient] that wraps the given raw object pointer.
+  NSURLHandleClient.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSURLHandleClient].
+  static bool conformsTo(objc.ObjCObject obj) {
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_NSURLHandleClient,
+    );
+  }
+}
+
+extension NSURLHandleClient$Methods on NSURLHandleClient {
+  /// URLHandle:resourceDataDidBecomeAvailable:
+  @Deprecated('Deprecated')
+  void URLHandle(
+    NSURLHandle sender, {
+    required NSData resourceDataDidBecomeAvailable,
+  }) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = sender.ref;
+    final _$$ref$2 = resourceDataDidBecomeAvailable.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandleClient.URLHandle:resourceDataDidBecomeAvailable:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_pfv6jd(
+      _$$ref.pointer,
+      _sel_URLHandle_resourceDataDidBecomeAvailable_,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+    );
+  }
+
+  /// URLHandle:resourceDidFailLoadingWithReason:
+  @Deprecated('Deprecated')
+  void URLHandle$1(
+    NSURLHandle sender, {
+    required NSString resourceDidFailLoadingWithReason,
+  }) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = sender.ref;
+    final _$$ref$2 = resourceDidFailLoadingWithReason.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandleClient.URLHandle:resourceDidFailLoadingWithReason:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_pfv6jd(
+      _$$ref.pointer,
+      _sel_URLHandle_resourceDidFailLoadingWithReason_,
+      _$$ref$1.pointer,
+      _$$ref$2.pointer,
+    );
+  }
+
+  /// URLHandleResourceDidBeginLoading:
+  @Deprecated('Deprecated')
+  void URLHandleResourceDidBeginLoading(NSURLHandle sender) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = sender.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandleClient.URLHandleResourceDidBeginLoading:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_URLHandleResourceDidBeginLoading_,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// URLHandleResourceDidCancelLoading:
+  @Deprecated('Deprecated')
+  void URLHandleResourceDidCancelLoading(NSURLHandle sender) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = sender.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandleClient.URLHandleResourceDidCancelLoading:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_URLHandleResourceDidCancelLoading_,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// URLHandleResourceDidFinishLoading:
+  @Deprecated('Deprecated')
+  void URLHandleResourceDidFinishLoading(NSURLHandle sender) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = sender.ref;
+    objc.checkOsVersionInternal(
+      'NSURLHandleClient.URLHandleResourceDidFinishLoading:',
+      iOS: (true, null),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_URLHandleResourceDidFinishLoading_,
+      _$$ref$1.pointer,
+    );
+  }
+}
+
+interface class NSURLHandleClient$Builder {
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.fromPointer(_protocol_NSURLHandleClient.cast());
+
+  /// Builds an object that implements the NSURLHandleClient protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NSURLHandleClient implement({
+    required void Function(NSURLHandle, NSData)
+    URLHandle_resourceDataDidBecomeAvailable_,
+    required void Function(NSURLHandle, NSString)
+    URLHandle_resourceDidFailLoadingWithReason_,
+    required void Function(NSURLHandle) URLHandleResourceDidBeginLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidCancelLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidFinishLoading_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSURLHandleClient');
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDataDidBecomeAvailable_.implement(
+      builder,
+      URLHandle_resourceDataDidBecomeAvailable_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDidFailLoadingWithReason_.implement(
+      builder,
+      URLHandle_resourceDidFailLoadingWithReason_,
+    );
+    NSURLHandleClient$Builder.URLHandleResourceDidBeginLoading_.implement(
+      builder,
+      URLHandleResourceDidBeginLoading_,
+    );
+    NSURLHandleClient$Builder.URLHandleResourceDidCancelLoading_.implement(
+      builder,
+      URLHandleResourceDidCancelLoading_,
+    );
+    NSURLHandleClient$Builder.URLHandleResourceDidFinishLoading_.implement(
+      builder,
+      URLHandleResourceDidFinishLoading_,
+    );
+    builder.addProtocol($protocol);
+    return NSURLHandleClient.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NSURLHandleClient protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilder(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(NSURLHandle, NSData)
+    URLHandle_resourceDataDidBecomeAvailable_,
+    required void Function(NSURLHandle, NSString)
+    URLHandle_resourceDidFailLoadingWithReason_,
+    required void Function(NSURLHandle) URLHandleResourceDidBeginLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidCancelLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidFinishLoading_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDataDidBecomeAvailable_.implement(
+      builder,
+      URLHandle_resourceDataDidBecomeAvailable_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDidFailLoadingWithReason_.implement(
+      builder,
+      URLHandle_resourceDidFailLoadingWithReason_,
+    );
+    NSURLHandleClient$Builder.URLHandleResourceDidBeginLoading_.implement(
+      builder,
+      URLHandleResourceDidBeginLoading_,
+    );
+    NSURLHandleClient$Builder.URLHandleResourceDidCancelLoading_.implement(
+      builder,
+      URLHandleResourceDidCancelLoading_,
+    );
+    NSURLHandleClient$Builder.URLHandleResourceDidFinishLoading_.implement(
+      builder,
+      URLHandleResourceDidFinishLoading_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NSURLHandleClient protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NSURLHandleClient implementAsListener({
+    required void Function(NSURLHandle, NSData)
+    URLHandle_resourceDataDidBecomeAvailable_,
+    required void Function(NSURLHandle, NSString)
+    URLHandle_resourceDidFailLoadingWithReason_,
+    required void Function(NSURLHandle) URLHandleResourceDidBeginLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidCancelLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidFinishLoading_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSURLHandleClient');
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDataDidBecomeAvailable_.implementAsListener(
+      builder,
+      URLHandle_resourceDataDidBecomeAvailable_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDidFailLoadingWithReason_.implementAsListener(
+      builder,
+      URLHandle_resourceDidFailLoadingWithReason_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidBeginLoading_.implementAsListener(
+      builder,
+      URLHandleResourceDidBeginLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidCancelLoading_.implementAsListener(
+      builder,
+      URLHandleResourceDidCancelLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidFinishLoading_.implementAsListener(
+      builder,
+      URLHandleResourceDidFinishLoading_,
+    );
+    builder.addProtocol($protocol);
+    return NSURLHandleClient.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NSURLHandleClient protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
+  /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsListener(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(NSURLHandle, NSData)
+    URLHandle_resourceDataDidBecomeAvailable_,
+    required void Function(NSURLHandle, NSString)
+    URLHandle_resourceDidFailLoadingWithReason_,
+    required void Function(NSURLHandle) URLHandleResourceDidBeginLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidCancelLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidFinishLoading_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDataDidBecomeAvailable_.implementAsListener(
+      builder,
+      URLHandle_resourceDataDidBecomeAvailable_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDidFailLoadingWithReason_.implementAsListener(
+      builder,
+      URLHandle_resourceDidFailLoadingWithReason_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidBeginLoading_.implementAsListener(
+      builder,
+      URLHandleResourceDidBeginLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidCancelLoading_.implementAsListener(
+      builder,
+      URLHandleResourceDidCancelLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidFinishLoading_.implementAsListener(
+      builder,
+      URLHandleResourceDidFinishLoading_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NSURLHandleClient protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NSURLHandleClient implementAsBlocking({
+    required void Function(NSURLHandle, NSData)
+    URLHandle_resourceDataDidBecomeAvailable_,
+    required void Function(NSURLHandle, NSString)
+    URLHandle_resourceDidFailLoadingWithReason_,
+    required void Function(NSURLHandle) URLHandleResourceDidBeginLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidCancelLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidFinishLoading_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSURLHandleClient');
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDataDidBecomeAvailable_.implementAsBlocking(
+      builder,
+      URLHandle_resourceDataDidBecomeAvailable_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDidFailLoadingWithReason_.implementAsBlocking(
+      builder,
+      URLHandle_resourceDidFailLoadingWithReason_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidBeginLoading_.implementAsBlocking(
+      builder,
+      URLHandleResourceDidBeginLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidCancelLoading_.implementAsBlocking(
+      builder,
+      URLHandleResourceDidCancelLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidFinishLoading_.implementAsBlocking(
+      builder,
+      URLHandleResourceDidFinishLoading_,
+    );
+    builder.addProtocol($protocol);
+    return NSURLHandleClient.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NSURLHandleClient protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
+  /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsBlocking(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(NSURLHandle, NSData)
+    URLHandle_resourceDataDidBecomeAvailable_,
+    required void Function(NSURLHandle, NSString)
+    URLHandle_resourceDidFailLoadingWithReason_,
+    required void Function(NSURLHandle) URLHandleResourceDidBeginLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidCancelLoading_,
+    required void Function(NSURLHandle) URLHandleResourceDidFinishLoading_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDataDidBecomeAvailable_.implementAsBlocking(
+      builder,
+      URLHandle_resourceDataDidBecomeAvailable_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandle_resourceDidFailLoadingWithReason_.implementAsBlocking(
+      builder,
+      URLHandle_resourceDidFailLoadingWithReason_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidBeginLoading_.implementAsBlocking(
+      builder,
+      URLHandleResourceDidBeginLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidCancelLoading_.implementAsBlocking(
+      builder,
+      URLHandleResourceDidCancelLoading_,
+    );
+    NSURLHandleClient$Builder
+        .URLHandleResourceDidFinishLoading_.implementAsBlocking(
+      builder,
+      URLHandleResourceDidFinishLoading_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// URLHandle:resourceDataDidBecomeAvailable:
+  static final URLHandle_resourceDataDidBecomeAvailable_ =
+      objc.ObjCProtocolListenableMethod<void Function(NSURLHandle, NSData)>(
+        _protocol_NSURLHandleClient,
+        _sel_URLHandle_resourceDataDidBecomeAvailable_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_1wx624s_protocolTrampoline_fjrv01)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NSURLHandleClient,
+          _sel_URLHandle_resourceDataDidBecomeAvailable_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(NSURLHandle, NSData) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSData.fromFunction(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1, NSData arg2) =>
+                  func(arg1, arg2),
+            ),
+        (void Function(NSURLHandle, NSData) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSData.listener(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1, NSData arg2) =>
+                  func(arg1, arg2),
+            ),
+        (void Function(NSURLHandle, NSData) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSData.blocking(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1, NSData arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+
+  /// URLHandle:resourceDidFailLoadingWithReason:
+  static final URLHandle_resourceDidFailLoadingWithReason_ =
+      objc.ObjCProtocolListenableMethod<void Function(NSURLHandle, NSString)>(
+        _protocol_NSURLHandleClient,
+        _sel_URLHandle_resourceDidFailLoadingWithReason_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_1wx624s_protocolTrampoline_fjrv01)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NSURLHandleClient,
+          _sel_URLHandle_resourceDidFailLoadingWithReason_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(NSURLHandle, NSString) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSString.fromFunction(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1, NSString arg2) =>
+                  func(arg1, arg2),
+            ),
+        (void Function(NSURLHandle, NSString) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSString.listener(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1, NSString arg2) =>
+                  func(arg1, arg2),
+            ),
+        (void Function(NSURLHandle, NSString) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSString.blocking(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1, NSString arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+
+  /// URLHandleResourceDidBeginLoading:
+  static final URLHandleResourceDidBeginLoading_ =
+      objc.ObjCProtocolListenableMethod<void Function(NSURLHandle)>(
+        _protocol_NSURLHandleClient,
+        _sel_URLHandleResourceDidBeginLoading_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_1wx624s_protocolTrampoline_18v1jvf)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NSURLHandleClient,
+          _sel_URLHandleResourceDidBeginLoading_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.fromFunction(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.listener(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.blocking(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+      );
+
+  /// URLHandleResourceDidCancelLoading:
+  static final URLHandleResourceDidCancelLoading_ =
+      objc.ObjCProtocolListenableMethod<void Function(NSURLHandle)>(
+        _protocol_NSURLHandleClient,
+        _sel_URLHandleResourceDidCancelLoading_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_1wx624s_protocolTrampoline_18v1jvf)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NSURLHandleClient,
+          _sel_URLHandleResourceDidCancelLoading_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.fromFunction(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.listener(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.blocking(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+      );
+
+  /// URLHandleResourceDidFinishLoading:
+  static final URLHandleResourceDidFinishLoading_ =
+      objc.ObjCProtocolListenableMethod<void Function(NSURLHandle)>(
+        _protocol_NSURLHandleClient,
+        _sel_URLHandleResourceDidFinishLoading_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_1wx624s_protocolTrampoline_18v1jvf)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NSURLHandleClient,
+          _sel_URLHandleResourceDidFinishLoading_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.fromFunction(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.listener(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+        (void Function(NSURLHandle) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSURLHandle.blocking(
+              (ffi.Pointer<ffi.Void> _, NSURLHandle arg1) => func(arg1),
+            ),
+      );
 }
 
 enum NSURLHandleStatus {
@@ -24214,6 +25459,22 @@ enum NSURLHandleStatus {
     2 => NSURLHandleLoadInProgress,
     3 => NSURLHandleLoadFailed,
     _ => throw ArgumentError('Unknown value for NSURLHandleStatus: $value'),
+  };
+}
+
+enum NSURLRelationship {
+  NSURLRelationshipContains(0),
+  NSURLRelationshipSame(1),
+  NSURLRelationshipOther(2);
+
+  final int value;
+  const NSURLRelationship(this.value);
+
+  static NSURLRelationship fromValue(int value) => switch (value) {
+    0 => NSURLRelationshipContains,
+    1 => NSURLRelationshipSame,
+    2 => NSURLRelationshipOther,
+    _ => throw ArgumentError('Unknown value for NSURLRelationship: $value'),
   };
 }
 
@@ -24346,6 +25607,11 @@ extension NSValue$Methods on NSValue {
     final _$$ref = object$.ref;
     return _objc_msgSend_1fuqfwb(_$$ref.pointer, _sel_objCType);
   }
+}
+
+sealed class NSVolumeEnumerationOptions {
+  static const NSVolumeEnumerationSkipHiddenVolumes = 2;
+  static const NSVolumeEnumerationProduceFileReferenceURLs = 4;
 }
 
 final class NSZone extends ffi.Opaque {}
@@ -33703,6 +34969,985 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSUInteger$CallExtension
   }
 }
 
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSURLHandle {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+        )
+      >
+    >
+    ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>
+  fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>(
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
+        arg0,
+        NSURLHandle.fromPointer(arg1, retain: true, release: true),
+      );
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>
+  listener(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
+        arg0,
+        NSURLHandle.fromPointer(arg1, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final wrapper = _1wx624s_wrapListenerBlock_18v1jvf(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)
+    >(wrapper, retain: false, release: true);
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>
+  blocking(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_blockingCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
+        arg0,
+        NSURLHandle.fromPointer(arg1, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final rawListener = objc.newClosureBlock(
+      _blockingListenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) {
+        return fn(
+          arg0,
+          NSURLHandle.fromPointer(arg1, retain: false, release: true),
+        );
+      },
+      keepIsolateAlive,
+    );
+    final wrapper = _1wx624s_wrapBlockingBlock_18v1jvf(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)
+    >(wrapper, retain: false, release: true);
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) {
+    (objc.getBlockClosure(block)
+        as void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        ))(arg0, arg1);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)
+      >()(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSURLHandle$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle)> {
+  void call(ffi.Pointer<ffi.Void> arg0, NSURLHandle arg1) {
+    final _$$ref = arg1.ref;
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            )
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(ref.pointer, arg0, _$$ref.pointer);
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSData {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+  >
+  fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData) fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+      >(
+        objc.newClosureBlock(_closureCallable, (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        ) {
+          return fn(
+            arg0,
+            NSURLHandle.fromPointer(arg1, retain: true, release: true),
+            NSData.fromPointer(arg2, retain: true, release: true),
+          );
+        }, keepIsolateAlive),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+  >
+  listener(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+      ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ) {
+      return fn(
+        arg0,
+        NSURLHandle.fromPointer(arg1, retain: false, release: true),
+        NSData.fromPointer(arg2, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final wrapper = _1wx624s_wrapListenerBlock_fjrv01(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+    >(wrapper, retain: false, release: true);
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+  >
+  blocking(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_blockingCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+      ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ) {
+      return fn(
+        arg0,
+        NSURLHandle.fromPointer(arg1, retain: false, release: true),
+        NSData.fromPointer(arg2, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final rawListener = objc
+        .newClosureBlock(_blockingListenerCallable.nativeFunction.cast(), (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        ) {
+          return fn(
+            arg0,
+            NSURLHandle.fromPointer(arg1, retain: false, release: true),
+            NSData.fromPointer(arg2, retain: false, release: true),
+          );
+        }, keepIsolateAlive);
+    final wrapper = _1wx624s_wrapBlockingBlock_fjrv01(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+    >(wrapper, retain: false, release: true);
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) {
+    (objc.getBlockClosure(block)
+        as void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        ))(arg0, arg1, arg2);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSData$CallExtension
+    on
+        objc.ObjCBlock<
+          ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSData)
+        > {
+  void call(ffi.Pointer<ffi.Void> arg0, NSURLHandle arg1, NSData arg2) {
+    final _$$ref = arg1.ref;
+    final _$$ref$1 = arg2.ref;
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              ffi.Pointer<objc.ObjCObjectImpl> arg2,
+            )
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(ref.pointer, arg0, _$$ref.pointer, _$$ref$1.pointer);
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSString {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+  >
+  fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString) fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+      >(
+        objc.newClosureBlock(_closureCallable, (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        ) {
+          return fn(
+            arg0,
+            NSURLHandle.fromPointer(arg1, retain: true, release: true),
+            NSString.fromPointer(arg2, retain: true, release: true),
+          );
+        }, keepIsolateAlive),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+  >
+  listener(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_listenerCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+      ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ) {
+      return fn(
+        arg0,
+        NSURLHandle.fromPointer(arg1, retain: false, release: true),
+        NSString.fromPointer(arg2, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final wrapper = _1wx624s_wrapListenerBlock_fjrv01(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+    >(wrapper, retain: false, release: true);
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+  >
+  blocking(
+    void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(_blockingCallable.nativeFunction.cast(), (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+      ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ) {
+      return fn(
+        arg0,
+        NSURLHandle.fromPointer(arg1, retain: false, release: true),
+        NSString.fromPointer(arg2, retain: false, release: true),
+      );
+    }, keepIsolateAlive);
+    final rawListener = objc
+        .newClosureBlock(_blockingListenerCallable.nativeFunction.cast(), (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        ) {
+          return fn(
+            arg0,
+            NSURLHandle.fromPointer(arg1, retain: false, release: true),
+            NSString.fromPointer(arg2, retain: false, release: true),
+          );
+        }, keepIsolateAlive);
+    final wrapper = _1wx624s_wrapBlockingBlock_fjrv01(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+    >(wrapper, retain: false, release: true);
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) {
+    (objc.getBlockClosure(block)
+        as void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        ))(arg0, arg1, arg2);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSURLHandle_NSString$CallExtension
+    on
+        objc.ObjCBlock<
+          ffi.Void Function(ffi.Pointer<ffi.Void>, NSURLHandle, NSString)
+        > {
+  void call(ffi.Pointer<ffi.Void> arg0, NSURLHandle arg1, NSString arg2) {
+    final _$$ref = arg1.ref;
+    final _$$ref$1 = arg2.ref;
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              ffi.Pointer<objc.ObjCObjectImpl> arg2,
+            )
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(ref.pointer, arg0, _$$ref.pointer, _$$ref$1.pointer);
+  }
+}
+
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)>`.
 abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
   /// Returns a block that wraps the given raw block pointer.
@@ -35418,7 +37663,7 @@ extension ObjCBlock_ffiVoid_unichar_NSUInteger$CallExtension
 }
 
 /// Construction methods for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>`.
-abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder {
+abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder_retained {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<
     objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>?> Function(
@@ -35559,7 +37804,7 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder {
 }
 
 /// Call operator for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>`.
-extension ObjCBlock_instancetype_ffiVoid_NSCoder$CallExtension
+extension ObjCBlock_instancetype_ffiVoid_NSCoder_retained$CallExtension
     on
         objc.ObjCBlock<
           objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>?> Function(
@@ -35922,7 +38167,7 @@ extension ObjCBlock_objcObjCObjectImpl_ffiVoid$CallExtension
 }
 
 /// Construction methods for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>`.
-abstract final class ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone {
+abstract final class ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone_retained {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<
     objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>> Function(
@@ -36060,7 +38305,7 @@ abstract final class ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone {
 }
 
 /// Call operator for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>`.
-extension ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone$CallExtension
+extension ObjCBlock_objcObjCObjectImpl_ffiVoid_NSZone_retained$CallExtension
     on
         objc.ObjCBlock<
           objc.Retained<ffi.Pointer<objc.ObjCObjectImpl>> Function(
@@ -37069,6 +39314,26 @@ final _class_DOBJCObservation = objc.getClass(
     _class_DOBJCObservation_raw,
   ).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSAppleEventDescriptor',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSAppleEventDescriptor_raw;
+final _class_NSAppleEventDescriptor = objc.getClass(
+  "NSAppleEventDescriptor",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSAppleEventDescriptor_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSArchiver',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSArchiver_raw;
+final _class_NSArchiver = objc.getClass(
+  "NSArchiver",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSArchiver_raw,
+  ).cast(),
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSArray')
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSArray_raw;
 final _class_NSArray = objc.getClass(
@@ -37107,6 +39372,16 @@ final _class_NSBundle = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSCalendarDate',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSCalendarDate_raw;
+final _class_NSCalendarDate = objc.getClass(
+  "NSCalendarDate",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSCalendarDate_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_NSCharacterSet',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSCharacterSet_raw;
@@ -37116,12 +39391,32 @@ final _class_NSCharacterSet = objc.getClass(
     _class_NSCharacterSet_raw,
   ).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSClassDescription',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSClassDescription_raw;
+final _class_NSClassDescription = objc.getClass(
+  "NSClassDescription",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSClassDescription_raw,
+  ).cast(),
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSCoder')
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSCoder_raw;
 final _class_NSCoder = objc.getClass(
   "NSCoder",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NSCoder_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSConnection',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSConnection_raw;
+final _class_NSConnection = objc.getClass(
+  "NSConnection",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSConnection_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSData')
@@ -37151,6 +39446,36 @@ final _class_NSDictionary = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSDirectoryEnumerator',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSDirectoryEnumerator_raw;
+final _class_NSDirectoryEnumerator = objc.getClass(
+  "NSDirectoryEnumerator",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSDirectoryEnumerator_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSDistantObject',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSDistantObject_raw;
+final _class_NSDistantObject = objc.getClass(
+  "NSDistantObject",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSDistantObject_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSDistantObjectRequest',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSDistantObjectRequest_raw;
+final _class_NSDistantObjectRequest = objc.getClass(
+  "NSDistantObjectRequest",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSDistantObjectRequest_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_NSEnumerator',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSEnumerator_raw;
@@ -37166,6 +39491,54 @@ final _class_NSError = objc.getClass(
   "NSError",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NSError_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSException',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSException_raw;
+final _class_NSException = objc.getClass(
+  "NSException",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSException_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSExpression',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSExpression_raw;
+final _class_NSExpression = objc.getClass(
+  "NSExpression",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSExpression_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSFileManager',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSFileManager_raw;
+final _class_NSFileManager = objc.getClass(
+  "NSFileManager",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSFileManager_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSFileVersion',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSFileVersion_raw;
+final _class_NSFileVersion = objc.getClass(
+  "NSFileVersion",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSFileVersion_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSHost')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSHost_raw;
+final _class_NSHost = objc.getClass(
+  "NSHost",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSHost_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
@@ -37206,6 +39579,27 @@ final _class_NSItemProvider = objc.getClass(
   "NSItemProvider",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NSItemProvider_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSKeyValueSharedObserversSnapshot',
+)
+external ffi.Pointer<objc.ObjCObjectImpl>
+_class_NSKeyValueSharedObserversSnapshot_raw;
+final _class_NSKeyValueSharedObserversSnapshot = objc.getClass(
+  "NSKeyValueSharedObserversSnapshot",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSKeyValueSharedObserversSnapshot_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSKeyedArchiver',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSKeyedArchiver_raw;
+final _class_NSKeyedArchiver = objc.getClass(
+  "NSKeyedArchiver",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSKeyedArchiver_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSLocale')
@@ -37362,6 +39756,16 @@ final _class_NSOrderedSet = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSOrthography',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSOrthography_raw;
+final _class_NSOrthography = objc.getClass(
+  "NSOrthography",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSOrthography_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_NSOutputStream',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSOutputStream_raw;
@@ -37371,12 +39775,32 @@ final _class_NSOutputStream = objc.getClass(
     _class_NSOutputStream_raw,
   ).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSPersonNameComponents',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSPersonNameComponents_raw;
+final _class_NSPersonNameComponents = objc.getClass(
+  "NSPersonNameComponents",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSPersonNameComponents_raw,
+  ).cast(),
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSPort')
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSPort_raw;
 final _class_NSPort = objc.getClass(
   "NSPort",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NSPort_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSPortCoder',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSPortCoder_raw;
+final _class_NSPortCoder = objc.getClass(
+  "NSPortCoder",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSPortCoder_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
@@ -37390,6 +39814,26 @@ final _class_NSPortMessage = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSPortNameServer',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSPortNameServer_raw;
+final _class_NSPortNameServer = objc.getClass(
+  "NSPortNameServer",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSPortNameServer_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSPredicate',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSPredicate_raw;
+final _class_NSPredicate = objc.getClass(
+  "NSPredicate",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSPredicate_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_NSProgress',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSProgress_raw;
@@ -37399,12 +39843,60 @@ final _class_NSProgress = objc.getClass(
     _class_NSProgress_raw,
   ).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSProxy')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSProxy_raw;
+final _class_NSProxy = objc.getClass(
+  "NSProxy",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSProxy_raw,
+  ).cast(),
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSRunLoop')
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NSRunLoop_raw;
 final _class_NSRunLoop = objc.getClass(
   "NSRunLoop",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NSRunLoop_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSScriptClassDescription',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSScriptClassDescription_raw;
+final _class_NSScriptClassDescription = objc.getClass(
+  "NSScriptClassDescription",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSScriptClassDescription_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSScriptCommand',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSScriptCommand_raw;
+final _class_NSScriptCommand = objc.getClass(
+  "NSScriptCommand",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSScriptCommand_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSScriptCommandDescription',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSScriptCommandDescription_raw;
+final _class_NSScriptCommandDescription = objc.getClass(
+  "NSScriptCommandDescription",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSScriptCommandDescription_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSScriptObjectSpecifier',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSScriptObjectSpecifier_raw;
+final _class_NSScriptObjectSpecifier = objc.getClass(
+  "NSScriptObjectSpecifier",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSScriptObjectSpecifier_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSSet')
@@ -37429,6 +39921,24 @@ final _class_NSString = objc.getClass(
   "NSString",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NSString_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSThread')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSThread_raw;
+final _class_NSThread = objc.getClass(
+  "NSThread",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSThread_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$_NSTimeZone',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSTimeZone_raw;
+final _class_NSTimeZone = objc.getClass(
+  "NSTimeZone",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSTimeZone_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSTimer')
@@ -37646,6 +40156,23 @@ final _objc_msgSend_134vhyh = objc.msgSendPointer
         ffi.Pointer<ffi.Void>,
         int,
         ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_13lsk7w = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_13mclwd = objc.msgSendPointer
@@ -39229,23 +41756,6 @@ final _objc_msgSend_1p4gbjy = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-final _objc_msgSend_1pa9f4m = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
 final _objc_msgSend_1pl40xc = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -40059,6 +42569,25 @@ final _objc_msgSend_6jmuyz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_6p7ndb = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Bool,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        bool,
+      )
+    >();
 final _objc_msgSend_6peh6o = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -40325,6 +42854,23 @@ final _objc_msgSend_a3wp08 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         int,
         ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_agmudd = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
       )
     >();
 final _objc_msgSend_arew0j = objc.msgSendPointer
@@ -40867,23 +43413,6 @@ final _objc_msgSend_hiwitm = objc.msgSendPointer
         bool,
       )
     >();
-final _objc_msgSend_hk6irj = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
-      )
-    >();
 final _objc_msgSend_hwm8nu = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -40964,6 +43493,21 @@ final _objc_msgSend_jsclrq = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
+      )
+    >();
+final _objc_msgSend_jtzjjr = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.UnsignedLong Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_k1x6mt = objc.msgSendPointer
@@ -41466,6 +44010,27 @@ final _objc_msgSend_r49ehc = objc.msgSendPointer
         bool,
       )
     >();
+final _objc_msgSend_r8gdi7 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
 final _objc_msgSend_rc4ypv = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -41527,6 +44092,25 @@ final _objc_msgSend_s92gih = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_swohtd = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.UnsignedLong>,
+          ffi.UnsignedLong,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.UnsignedLong>,
+        int,
       )
     >();
 final _objc_msgSend_sz90oi = objc.msgSendPointer
@@ -41899,6 +44483,15 @@ final _objc_msgSend_zug4wi = objc.msgSendPointer
 external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSCoding_raw();
 final _protocol_NSCoding = objc.getProtocol("NSCoding", _protocol_NSCoding_raw);
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSConnectionDelegate',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_NSConnectionDelegate_raw();
+final _protocol_NSConnectionDelegate = objc.getProtocol(
+  "NSConnectionDelegate",
+  _protocol_NSConnectionDelegate_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_1wx624s_NSCopying',
 )
 external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSCopying_raw();
@@ -41913,6 +44506,15 @@ external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSFastEnumeration_raw();
 final _protocol_NSFastEnumeration = objc.getProtocol(
   "NSFastEnumeration",
   _protocol_NSFastEnumeration_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSFileManagerDelegate',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_NSFileManagerDelegate_raw();
+final _protocol_NSFileManagerDelegate = objc.getProtocol(
+  "NSFileManagerDelegate",
+  _protocol_NSFileManagerDelegate_raw,
 );
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_1wx624s_NSItemProviderReading',
@@ -41931,6 +44533,15 @@ _protocol_NSItemProviderWriting_raw();
 final _protocol_NSItemProviderWriting = objc.getProtocol(
   "NSItemProviderWriting",
   _protocol_NSItemProviderWriting_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSKeyedArchiverDelegate',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_NSKeyedArchiverDelegate_raw();
+final _protocol_NSKeyedArchiverDelegate = objc.getProtocol(
+  "NSKeyedArchiverDelegate",
+  _protocol_NSKeyedArchiverDelegate_raw,
 );
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_1wx624s_NSMutableCopying',
@@ -41954,6 +44565,15 @@ final _protocol_NSPortDelegate = objc.getProtocol(
   _protocol_NSPortDelegate_raw,
 );
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSPredicateValidating',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl>
+_protocol_NSPredicateValidating_raw();
+final _protocol_NSPredicateValidating = objc.getProtocol(
+  "NSPredicateValidating",
+  _protocol_NSPredicateValidating_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_1wx624s_NSSecureCoding',
 )
 external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSSecureCoding_raw();
@@ -41970,10 +44590,37 @@ final _protocol_NSStreamDelegate = objc.getProtocol(
   _protocol_NSStreamDelegate_raw,
 );
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_1wx624s_NSURLHandleClient',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSURLHandleClient_raw();
+final _protocol_NSURLHandleClient = objc.getProtocol(
+  "NSURLHandleClient",
+  _protocol_NSURLHandleClient_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_1wx624s_Observer',
 )
 external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_Observer_raw();
 final _protocol_Observer = objc.getProtocol("Observer", _protocol_Observer_raw);
+late final _sel_ISOCountryCodes = objc.registerName("ISOCountryCodes");
+late final _sel_ISOCurrencyCodes = objc.registerName("ISOCurrencyCodes");
+late final _sel_ISOLanguageCodes = objc.registerName("ISOLanguageCodes");
+late final _sel_URL = objc.registerName("URL");
+late final _sel_URLByAppendingPathComponent_ = objc.registerName(
+  "URLByAppendingPathComponent:",
+);
+late final _sel_URLByAppendingPathComponent_isDirectory_ = objc.registerName(
+  "URLByAppendingPathComponent:isDirectory:",
+);
+late final _sel_URLByAppendingPathExtension_ = objc.registerName(
+  "URLByAppendingPathExtension:",
+);
+late final _sel_URLByDeletingLastPathComponent = objc.registerName(
+  "URLByDeletingLastPathComponent",
+);
+late final _sel_URLByDeletingPathExtension = objc.registerName(
+  "URLByDeletingPathExtension",
+);
 late final _sel_URLByResolvingAliasFileAtURL_options_error_ = objc.registerName(
   "URLByResolvingAliasFileAtURL:options:error:",
 );
@@ -41981,9 +44628,19 @@ late final _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsS
     objc.registerName(
       "URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:",
     );
+late final _sel_URLByResolvingSymlinksInPath = objc.registerName(
+  "URLByResolvingSymlinksInPath",
+);
+late final _sel_URLByStandardizingPath = objc.registerName(
+  "URLByStandardizingPath",
+);
 late final _sel_URLForAuxiliaryExecutable_ = objc.registerName(
   "URLForAuxiliaryExecutable:",
 );
+late final _sel_URLForDirectory_inDomain_appropriateForURL_create_error_ = objc
+    .registerName("URLForDirectory:inDomain:appropriateForURL:create:error:");
+late final _sel_URLForPublishingUbiquitousItemAtURL_expirationDate_error_ = objc
+    .registerName("URLForPublishingUbiquitousItemAtURL:expirationDate:error:");
 late final _sel_URLForResource_withExtension_ = objc.registerName(
   "URLForResource:withExtension:",
 );
@@ -41996,6 +44653,54 @@ late final _sel_URLForResource_withExtension_subdirectory_inBundleWithURL_ =
     );
 late final _sel_URLForResource_withExtension_subdirectory_localization_ = objc
     .registerName("URLForResource:withExtension:subdirectory:localization:");
+late final _sel_URLForUbiquityContainerIdentifier_ = objc.registerName(
+  "URLForUbiquityContainerIdentifier:",
+);
+late final _sel_URLFragmentAllowedCharacterSet = objc.registerName(
+  "URLFragmentAllowedCharacterSet",
+);
+late final _sel_URLHandleClassForURL_ = objc.registerName(
+  "URLHandleClassForURL:",
+);
+late final _sel_URLHandleResourceDidBeginLoading_ = objc.registerName(
+  "URLHandleResourceDidBeginLoading:",
+);
+late final _sel_URLHandleResourceDidCancelLoading_ = objc.registerName(
+  "URLHandleResourceDidCancelLoading:",
+);
+late final _sel_URLHandleResourceDidFinishLoading_ = objc.registerName(
+  "URLHandleResourceDidFinishLoading:",
+);
+late final _sel_URLHandleUsingCache_ = objc.registerName(
+  "URLHandleUsingCache:",
+);
+late final _sel_URLHandle_resourceDataDidBecomeAvailable_ = objc.registerName(
+  "URLHandle:resourceDataDidBecomeAvailable:",
+);
+late final _sel_URLHandle_resourceDidFailLoadingWithReason_ = objc.registerName(
+  "URLHandle:resourceDidFailLoadingWithReason:",
+);
+late final _sel_URLHostAllowedCharacterSet = objc.registerName(
+  "URLHostAllowedCharacterSet",
+);
+late final _sel_URLPasswordAllowedCharacterSet = objc.registerName(
+  "URLPasswordAllowedCharacterSet",
+);
+late final _sel_URLPathAllowedCharacterSet = objc.registerName(
+  "URLPathAllowedCharacterSet",
+);
+late final _sel_URLQueryAllowedCharacterSet = objc.registerName(
+  "URLQueryAllowedCharacterSet",
+);
+late final _sel_URLResourceDidCancelLoading_ = objc.registerName(
+  "URLResourceDidCancelLoading:",
+);
+late final _sel_URLResourceDidFinishLoading_ = objc.registerName(
+  "URLResourceDidFinishLoading:",
+);
+late final _sel_URLUserAllowedCharacterSet = objc.registerName(
+  "URLUserAllowedCharacterSet",
+);
 late final _sel_URLWithDataRepresentation_relativeToURL_ = objc.registerName(
   "URLWithDataRepresentation:relativeToURL:",
 );
@@ -42005,6 +44710,15 @@ late final _sel_URLWithString_encodingInvalidCharacters_ = objc.registerName(
 );
 late final _sel_URLWithString_relativeToURL_ = objc.registerName(
   "URLWithString:relativeToURL:",
+);
+late final _sel_URL_resourceDataDidBecomeAvailable_ = objc.registerName(
+  "URL:resourceDataDidBecomeAvailable:",
+);
+late final _sel_URL_resourceDidFailLoadingWithReason_ = objc.registerName(
+  "URL:resourceDidFailLoadingWithReason:",
+);
+late final _sel_URLsForDirectory_inDomains_ = objc.registerName(
+  "URLsForDirectory:inDomains:",
 );
 late final _sel_URLsForResourcesWithExtension_subdirectory_ = objc.registerName(
   "URLsForResourcesWithExtension:subdirectory:",
@@ -42016,6 +44730,13 @@ late final _sel_URLsForResourcesWithExtension_subdirectory_inBundleWithURL_ =
 late final _sel_URLsForResourcesWithExtension_subdirectory_localization_ = objc
     .registerName("URLsForResourcesWithExtension:subdirectory:localization:");
 late final _sel_UTF8String = objc.registerName("UTF8String");
+late final _sel_abbreviation = objc.registerName("abbreviation");
+late final _sel_abbreviationDictionary = objc.registerName(
+  "abbreviationDictionary",
+);
+late final _sel_abbreviationForDate_ = objc.registerName(
+  "abbreviationForDate:",
+);
 late final _sel_absoluteString = objc.registerName("absoluteString");
 late final _sel_absoluteURL = objc.registerName("absoluteURL");
 late final _sel_absoluteURLWithDataRepresentation_relativeToURL_ = objc
@@ -42023,9 +44744,16 @@ late final _sel_absoluteURLWithDataRepresentation_relativeToURL_ = objc
 late final _sel_acceptInputForMode_beforeDate_ = objc.registerName(
   "acceptInputForMode:beforeDate:",
 );
+late final _sel_accessInstanceVariablesDirectly = objc.registerName(
+  "accessInstanceVariablesDirectly",
+);
 late final _sel_adapter = objc.registerName("adapter");
 late final _sel_addChild_withPendingUnitCount_ = objc.registerName(
   "addChild:withPendingUnitCount:",
+);
+late final _sel_addClient_ = objc.registerName("addClient:");
+late final _sel_addConnection_toRunLoop_forMode_ = objc.registerName(
+  "addConnection:toRunLoop:forMode:",
 );
 late final _sel_addData_ = objc.registerName("addData:");
 late final _sel_addEntriesFromDictionary_ = objc.registerName(
@@ -42039,32 +44767,107 @@ late final _sel_addObjectsFromArray_ = objc.registerName(
   "addObjectsFromArray:",
 );
 late final _sel_addObjects_count_ = objc.registerName("addObjects:count:");
+late final _sel_addObserver_forKeyPath_options_context_ = objc.registerName(
+  "addObserver:forKeyPath:options:context:",
+);
+late final _sel_addObserver_toObjectsAtIndexes_forKeyPath_options_context_ =
+    objc.registerName(
+      "addObserver:toObjectsAtIndexes:forKeyPath:options:context:",
+    );
 late final _sel_addPort_forMode_ = objc.registerName("addPort:forMode:");
 late final _sel_addProtocol_ = objc.registerName("addProtocol:");
+late final _sel_addRequestMode_ = objc.registerName("addRequestMode:");
+late final _sel_addRunLoop_ = objc.registerName("addRunLoop:");
 late final _sel_addSubscriberForFileURL_withPublishingHandler_ = objc
     .registerName("addSubscriberForFileURL:withPublishingHandler:");
+late final _sel_addTimeInterval_ = objc.registerName("addTimeInterval:");
 late final _sel_addTimer_forMode_ = objc.registerName("addTimer:forMode:");
+late final _sel_addVersionOfItemAtURL_withContentsOfURL_options_error_ = objc
+    .registerName("addVersionOfItemAtURL:withContentsOfURL:options:error:");
+late final _sel_address = objc.registerName("address");
+late final _sel_addresses = objc.registerName("addresses");
+late final _sel_aeDesc = objc.registerName("aeDesc");
 late final _sel_allBundles = objc.registerName("allBundles");
+late final _sel_allConnections = objc.registerName("allConnections");
 late final _sel_allFrameworks = objc.registerName("allFrameworks");
 late final _sel_allKeys = objc.registerName("allKeys");
 late final _sel_allKeysForObject_ = objc.registerName("allKeysForObject:");
+late final _sel_allLanguages = objc.registerName("allLanguages");
 late final _sel_allObjects = objc.registerName("allObjects");
+late final _sel_allScripts = objc.registerName("allScripts");
 late final _sel_allValues = objc.registerName("allValues");
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _sel_allowEvaluation = objc.registerName("allowEvaluation");
+late final _sel_allowEvaluationWithValidator_error_ = objc.registerName(
+  "allowEvaluationWithValidator:error:",
+);
+late final _sel_allowedClasses = objc.registerName("allowedClasses");
 late final _sel_allowsExtendedAttributes = objc.registerName(
   "allowsExtendedAttributes",
 );
+late final _sel_allowsKeyedCoding = objc.registerName("allowsKeyedCoding");
+late final _sel_allowsWeakReference = objc.registerName("allowsWeakReference");
 late final _sel_alphanumericCharacterSet = objc.registerName(
   "alphanumericCharacterSet",
+);
+late final _sel_alternateQuotationBeginDelimiter = objc.registerName(
+  "alternateQuotationBeginDelimiter",
+);
+late final _sel_alternateQuotationEndDelimiter = objc.registerName(
+  "alternateQuotationEndDelimiter",
 );
 late final _sel_anyObject = objc.registerName("anyObject");
 late final _sel_appStoreReceiptURL = objc.registerName("appStoreReceiptURL");
 late final _sel_appendBytes_length_ = objc.registerName("appendBytes:length:");
 late final _sel_appendData_ = objc.registerName("appendData:");
+late final _sel_appendFormat_ = objc.registerName("appendFormat:");
+late final _sel_appendString_ = objc.registerName("appendString:");
+late final _sel_appleEvent = objc.registerName("appleEvent");
+late final _sel_appleEventClassCode = objc.registerName("appleEventClassCode");
+late final _sel_appleEventCode = objc.registerName("appleEventCode");
+late final _sel_appleEventCodeForArgumentWithName_ = objc.registerName(
+  "appleEventCodeForArgumentWithName:",
+);
+late final _sel_appleEventCodeForKey_ = objc.registerName(
+  "appleEventCodeForKey:",
+);
+late final _sel_appleEventCodeForReturnType = objc.registerName(
+  "appleEventCodeForReturnType",
+);
+late final _sel_appleEventWithEventClass_eventID_targetDescriptor_returnID_transactionID_ =
+    objc.registerName(
+      "appleEventWithEventClass:eventID:targetDescriptor:returnID:transactionID:",
+    );
 late final _sel_appliesSourcePositionAttributes = objc.registerName(
   "appliesSourcePositionAttributes",
 );
+late final _sel_applyDifference_ = objc.registerName("applyDifference:");
+late final _sel_applyTransform_reverse_range_updatedRange_ = objc.registerName(
+  "applyTransform:reverse:range:updatedRange:",
+);
+late final _sel_archiveRootObject_toFile_ = objc.registerName(
+  "archiveRootObject:toFile:",
+);
+late final _sel_archivedDataWithRootObject_ = objc.registerName(
+  "archivedDataWithRootObject:",
+);
+late final _sel_archivedDataWithRootObject_requiringSecureCoding_error_ = objc
+    .registerName("archivedDataWithRootObject:requiringSecureCoding:error:");
+late final _sel_archiverData = objc.registerName("archiverData");
+late final _sel_archiverDidFinish_ = objc.registerName("archiverDidFinish:");
+late final _sel_archiverWillFinish_ = objc.registerName("archiverWillFinish:");
+late final _sel_archiver_didEncodeObject_ = objc.registerName(
+  "archiver:didEncodeObject:",
+);
+late final _sel_archiver_willEncodeObject_ = objc.registerName(
+  "archiver:willEncodeObject:",
+);
+late final _sel_archiver_willReplaceObject_withObject_ = objc.registerName(
+  "archiver:willReplaceObject:withObject:",
+);
+late final _sel_argumentNames = objc.registerName("argumentNames");
+late final _sel_arguments = objc.registerName("arguments");
 late final _sel_argumentsRetained = objc.registerName("argumentsRetained");
 late final _sel_array = objc.registerName("array");
 late final _sel_arrayByAddingObject_ = objc.registerName(
@@ -42073,24 +44876,103 @@ late final _sel_arrayByAddingObject_ = objc.registerName(
 late final _sel_arrayByAddingObjectsFromArray_ = objc.registerName(
   "arrayByAddingObjectsFromArray:",
 );
+late final _sel_arrayByApplyingDifference_ = objc.registerName(
+  "arrayByApplyingDifference:",
+);
 late final _sel_arrayWithArray_ = objc.registerName("arrayWithArray:");
 late final _sel_arrayWithCapacity_ = objc.registerName("arrayWithCapacity:");
+late final _sel_arrayWithContentsOfFile_ = objc.registerName(
+  "arrayWithContentsOfFile:",
+);
+late final _sel_arrayWithContentsOfURL_ = objc.registerName(
+  "arrayWithContentsOfURL:",
+);
+late final _sel_arrayWithContentsOfURL_error_ = objc.registerName(
+  "arrayWithContentsOfURL:error:",
+);
 late final _sel_arrayWithObject_ = objc.registerName("arrayWithObject:");
 late final _sel_arrayWithObjects_ = objc.registerName("arrayWithObjects:");
 late final _sel_arrayWithObjects_count_ = objc.registerName(
   "arrayWithObjects:count:",
 );
 late final _sel_associatedIndex = objc.registerName("associatedIndex");
+late final _sel_attemptRecoveryFromError_optionIndex_ = objc.registerName(
+  "attemptRecoveryFromError:optionIndex:",
+);
+late final _sel_attemptRecoveryFromError_optionIndex_delegate_didRecoverSelector_contextInfo_ =
+    objc.registerName(
+      "attemptRecoveryFromError:optionIndex:delegate:didRecoverSelector:contextInfo:",
+    );
+late final _sel_attributeDescriptorForKeyword_ = objc.registerName(
+  "attributeDescriptorForKeyword:",
+);
+late final _sel_attributeKeys = objc.registerName("attributeKeys");
+late final _sel_attribute_atIndex_effectiveRange_ = objc.registerName(
+  "attribute:atIndex:effectiveRange:",
+);
+late final _sel_attribute_atIndex_longestEffectiveRange_inRange_ = objc
+    .registerName("attribute:atIndex:longestEffectiveRange:inRange:");
+late final _sel_attributedStringByInflectingString = objc.registerName(
+  "attributedStringByInflectingString",
+);
+late final _sel_attributedSubstringFromRange_ = objc.registerName(
+  "attributedSubstringFromRange:",
+);
 late final _sel_attributesAtIndex_effectiveRange_ = objc.registerName(
   "attributesAtIndex:effectiveRange:",
 );
+late final _sel_attributesAtIndex_longestEffectiveRange_inRange_ = objc
+    .registerName("attributesAtIndex:longestEffectiveRange:inRange:");
+late final _sel_attributesOfFileSystemForPath_error_ = objc.registerName(
+  "attributesOfFileSystemForPath:error:",
+);
+late final _sel_attributesOfItemAtPath_error_ = objc.registerName(
+  "attributesOfItemAtPath:error:",
+);
+late final _sel_authenticateComponents_withData_ = objc.registerName(
+  "authenticateComponents:withData:",
+);
+late final _sel_authenticationDataForComponents_ = objc.registerName(
+  "authenticationDataForComponents:",
+);
+late final _sel_autoContentAccessingProxy = objc.registerName(
+  "autoContentAccessingProxy",
+);
+late final _sel_automaticallyNotifiesObserversForKey_ = objc.registerName(
+  "automaticallyNotifiesObserversForKey:",
+);
 late final _sel_autorelease = objc.registerName("autorelease");
+late final _sel_autoupdatingCurrentLocale = objc.registerName(
+  "autoupdatingCurrentLocale",
+);
+late final _sel_availableLocaleIdentifiers = objc.registerName(
+  "availableLocaleIdentifiers",
+);
+late final _sel_availableResourceData = objc.registerName(
+  "availableResourceData",
+);
 late final _sel_availableStringEncodings = objc.registerName(
   "availableStringEncodings",
 );
+late final _sel_awakeAfterUsingCoder_ = objc.registerName(
+  "awakeAfterUsingCoder:",
+);
+late final _sel_backgroundLoadDidFailWithReason_ = objc.registerName(
+  "backgroundLoadDidFailWithReason:",
+);
+late final _sel_base64EncodedDataWithOptions_ = objc.registerName(
+  "base64EncodedDataWithOptions:",
+);
+late final _sel_base64EncodedStringWithOptions_ = objc.registerName(
+  "base64EncodedStringWithOptions:",
+);
+late final _sel_base64Encoding = objc.registerName("base64Encoding");
 late final _sel_baseURL = objc.registerName("baseURL");
 late final _sel_becomeCurrentWithPendingUnitCount_ = objc.registerName(
   "becomeCurrentWithPendingUnitCount:",
+);
+late final _sel_beginLoadInBackground = objc.registerName(
+  "beginLoadInBackground",
 );
 late final _sel_bitmapRepresentation = objc.registerName(
   "bitmapRepresentation",
@@ -42103,6 +44985,7 @@ late final _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeT
       "bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:",
     );
 late final _sel_boolValue = objc.registerName("boolValue");
+late final _sel_booleanValue = objc.registerName("booleanValue");
 late final _sel_buildInstance_ = objc.registerName("buildInstance:");
 late final _sel_builtInPlugInsPath = objc.registerName("builtInPlugInsPath");
 late final _sel_builtInPlugInsURL = objc.registerName("builtInPlugInsURL");
@@ -42116,17 +44999,48 @@ late final _sel_bundleWithIdentifier_ = objc.registerName(
 late final _sel_bundleWithPath_ = objc.registerName("bundleWithPath:");
 late final _sel_bundleWithURL_ = objc.registerName("bundleWithURL:");
 late final _sel_bytes = objc.registerName("bytes");
+late final _sel_cString = objc.registerName("cString");
+late final _sel_cStringLength = objc.registerName("cStringLength");
 late final _sel_cStringUsingEncoding_ = objc.registerName(
   "cStringUsingEncoding:",
 );
+late final _sel_cachedHandleForURL_ = objc.registerName("cachedHandleForURL:");
+late final _sel_calendarDate = objc.registerName("calendarDate");
+late final _sel_calendarFormat = objc.registerName("calendarFormat");
+late final _sel_calendarIdentifier = objc.registerName("calendarIdentifier");
+late final _sel_callStackReturnAddresses = objc.registerName(
+  "callStackReturnAddresses",
+);
+late final _sel_callStackSymbols = objc.registerName("callStackSymbols");
 late final _sel_canBeConvertedToEncoding_ = objc.registerName(
   "canBeConvertedToEncoding:",
 );
+late final _sel_canInitWithURL_ = objc.registerName("canInitWithURL:");
 late final _sel_canLoadObjectOfClass_ = objc.registerName(
   "canLoadObjectOfClass:",
 );
 late final _sel_cancel = objc.registerName("cancel");
+late final _sel_cancelLoadInBackground = objc.registerName(
+  "cancelLoadInBackground",
+);
+late final _sel_cancelPerformSelector_target_argument_ = objc.registerName(
+  "cancelPerformSelector:target:argument:",
+);
+late final _sel_cancelPerformSelectorsWithTarget_ = objc.registerName(
+  "cancelPerformSelectorsWithTarget:",
+);
+late final _sel_cancelPreviousPerformRequestsWithTarget_ = objc.registerName(
+  "cancelPreviousPerformRequestsWithTarget:",
+);
+late final _sel_cancelPreviousPerformRequestsWithTarget_selector_object_ = objc
+    .registerName("cancelPreviousPerformRequestsWithTarget:selector:object:");
 late final _sel_cancellationHandler = objc.registerName("cancellationHandler");
+late final _sel_canonicalLanguageIdentifierFromString_ = objc.registerName(
+  "canonicalLanguageIdentifierFromString:",
+);
+late final _sel_canonicalLocaleIdentifierFromString_ = objc.registerName(
+  "canonicalLocaleIdentifierFromString:",
+);
 late final _sel_capitalizedLetterCharacterSet = objc.registerName(
   "capitalizedLetterCharacterSet",
 );
@@ -42137,6 +45051,12 @@ late final _sel_capitalizedStringWithLocale_ = objc.registerName(
 late final _sel_caseInsensitiveCompare_ = objc.registerName(
   "caseInsensitiveCompare:",
 );
+late final _sel_changeCurrentDirectoryPath_ = objc.registerName(
+  "changeCurrentDirectoryPath:",
+);
+late final _sel_changeFileAttributes_atPath_ = objc.registerName(
+  "changeFileAttributes:atPath:",
+);
 late final _sel_changeType = objc.registerName("changeType");
 late final _sel_changeWithObject_type_index_ = objc.registerName(
   "changeWithObject:type:index:",
@@ -42145,6 +45065,9 @@ late final _sel_changeWithObject_type_index_associatedIndex_ = objc
     .registerName("changeWithObject:type:index:associatedIndex:");
 late final _sel_charValue = objc.registerName("charValue");
 late final _sel_characterAtIndex_ = objc.registerName("characterAtIndex:");
+late final _sel_characterDirectionForLanguage_ = objc.registerName(
+  "characterDirectionForLanguage:",
+);
 late final _sel_characterIsMember_ = objc.registerName("characterIsMember:");
 late final _sel_characterSetWithBitmapRepresentation_ = objc.registerName(
   "characterSetWithBitmapRepresentation:",
@@ -42158,10 +45081,55 @@ late final _sel_characterSetWithContentsOfFile_ = objc.registerName(
 late final _sel_characterSetWithRange_ = objc.registerName(
   "characterSetWithRange:",
 );
+late final _sel_checkPromisedItemIsReachableAndReturnError_ = objc.registerName(
+  "checkPromisedItemIsReachableAndReturnError:",
+);
+late final _sel_checkResourceIsReachableAndReturnError_ = objc.registerName(
+  "checkResourceIsReachableAndReturnError:",
+);
+late final _sel_childSpecifier = objc.registerName("childSpecifier");
 late final _sel_class = objc.registerName("class");
+late final _sel_classCode = objc.registerName("classCode");
+late final _sel_classDescription = objc.registerName("classDescription");
+late final _sel_classDescriptionForClass_ = objc.registerName(
+  "classDescriptionForClass:",
+);
+late final _sel_classDescriptionForKey_ = objc.registerName(
+  "classDescriptionForKey:",
+);
+late final _sel_classFallbacksForKeyedArchiver = objc.registerName(
+  "classFallbacksForKeyedArchiver",
+);
+late final _sel_classForArchiver = objc.registerName("classForArchiver");
+late final _sel_classForCoder = objc.registerName("classForCoder");
+late final _sel_classForKeyedArchiver = objc.registerName(
+  "classForKeyedArchiver",
+);
+late final _sel_classForKeyedUnarchiver = objc.registerName(
+  "classForKeyedUnarchiver",
+);
+late final _sel_classForPortCoder = objc.registerName("classForPortCoder");
+late final _sel_className = objc.registerName("className");
+late final _sel_classNameEncodedForTrueClassName_ = objc.registerName(
+  "classNameEncodedForTrueClassName:",
+);
+late final _sel_classNameForClass_ = objc.registerName("classNameForClass:");
 late final _sel_classNamed_ = objc.registerName("classNamed:");
 late final _sel_close = objc.registerName("close");
 late final _sel_code = objc.registerName("code");
+late final _sel_coerceToDescriptorType_ = objc.registerName(
+  "coerceToDescriptorType:",
+);
+late final _sel_coerceValue_forKey_ = objc.registerName("coerceValue:forKey:");
+late final _sel_collationIdentifier = objc.registerName("collationIdentifier");
+late final _sel_collatorIdentifier = objc.registerName("collatorIdentifier");
+late final _sel_collection = objc.registerName("collection");
+late final _sel_commandClassName = objc.registerName("commandClassName");
+late final _sel_commandDescription = objc.registerName("commandDescription");
+late final _sel_commandName = objc.registerName("commandName");
+late final _sel_commonISOCurrencyCodes = objc.registerName(
+  "commonISOCurrencyCodes",
+);
 late final _sel_commonPrefixWithString_options_ = objc.registerName(
   "commonPrefixWithString:options:",
 );
@@ -42173,8 +45141,15 @@ late final _sel_compare_options_range_ = objc.registerName(
 late final _sel_compare_options_range_locale_ = objc.registerName(
   "compare:options:range:locale:",
 );
+late final _sel_completePathIntoString_caseSensitive_matchesIntoArray_filterTypes_ =
+    objc.registerName(
+      "completePathIntoString:caseSensitive:matchesIntoArray:filterTypes:",
+    );
 late final _sel_completedUnitCount = objc.registerName("completedUnitCount");
 late final _sel_components = objc.registerName("components");
+late final _sel_componentsFromLocaleIdentifier_ = objc.registerName(
+  "componentsFromLocaleIdentifier:",
+);
 late final _sel_componentsJoinedByString_ = objc.registerName(
   "componentsJoinedByString:",
 );
@@ -42184,10 +45159,46 @@ late final _sel_componentsSeparatedByCharactersInSet_ = objc.registerName(
 late final _sel_componentsSeparatedByString_ = objc.registerName(
   "componentsSeparatedByString:",
 );
+late final _sel_componentsToDisplayForPath_ = objc.registerName(
+  "componentsToDisplayForPath:",
+);
+late final _sel_compressUsingAlgorithm_error_ = objc.registerName(
+  "compressUsingAlgorithm:error:",
+);
 late final _sel_compressedDataUsingAlgorithm_error_ = objc.registerName(
   "compressedDataUsingAlgorithm:error:",
 );
+late final _sel_configureAsServer = objc.registerName("configureAsServer");
 late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
+late final _sel_connection = objc.registerName("connection");
+late final _sel_connectionForProxy = objc.registerName("connectionForProxy");
+late final _sel_connectionWithReceivePort_sendPort_ = objc.registerName(
+  "connectionWithReceivePort:sendPort:",
+);
+late final _sel_connectionWithRegisteredName_host_ = objc.registerName(
+  "connectionWithRegisteredName:host:",
+);
+late final _sel_connectionWithRegisteredName_host_usingNameServer_ = objc
+    .registerName("connectionWithRegisteredName:host:usingNameServer:");
+late final _sel_connection_handleRequest_ = objc.registerName(
+  "connection:handleRequest:",
+);
+late final _sel_connection_shouldMakeNewConnection_ = objc.registerName(
+  "connection:shouldMakeNewConnection:",
+);
+late final _sel_constantValue = objc.registerName("constantValue");
+late final _sel_containerClassDescription = objc.registerName(
+  "containerClassDescription",
+);
+late final _sel_containerIsObjectBeingTested = objc.registerName(
+  "containerIsObjectBeingTested",
+);
+late final _sel_containerIsRangeContainerObject = objc.registerName(
+  "containerIsRangeContainerObject",
+);
+late final _sel_containerSpecifier = objc.registerName("containerSpecifier");
+late final _sel_containerURLForSecurityApplicationGroupIdentifier_ = objc
+    .registerName("containerURLForSecurityApplicationGroupIdentifier:");
 late final _sel_containsIndex_ = objc.registerName("containsIndex:");
 late final _sel_containsIndexesInRange_ = objc.registerName(
   "containsIndexesInRange:",
@@ -42195,8 +45206,35 @@ late final _sel_containsIndexesInRange_ = objc.registerName(
 late final _sel_containsIndexes_ = objc.registerName("containsIndexes:");
 late final _sel_containsObject_ = objc.registerName("containsObject:");
 late final _sel_containsString_ = objc.registerName("containsString:");
+late final _sel_containsValueForKey_ = objc.registerName(
+  "containsValueForKey:",
+);
+late final _sel_contentsAtPath_ = objc.registerName("contentsAtPath:");
+late final _sel_contentsEqualAtPath_andPath_ = objc.registerName(
+  "contentsEqualAtPath:andPath:",
+);
+late final _sel_contentsOfDirectoryAtPath_error_ = objc.registerName(
+  "contentsOfDirectoryAtPath:error:",
+);
+late final _sel_contentsOfDirectoryAtURL_includingPropertiesForKeys_options_error_ =
+    objc.registerName(
+      "contentsOfDirectoryAtURL:includingPropertiesForKeys:options:error:",
+    );
 late final _sel_controlCharacterSet = objc.registerName("controlCharacterSet");
+late final _sel_conversation = objc.registerName("conversation");
 late final _sel_copy = objc.registerName("copy");
+late final _sel_copyItemAtPath_toPath_error_ = objc.registerName(
+  "copyItemAtPath:toPath:error:",
+);
+late final _sel_copyItemAtURL_toURL_error_ = objc.registerName(
+  "copyItemAtURL:toURL:error:",
+);
+late final _sel_copyPath_toPath_handler_ = objc.registerName(
+  "copyPath:toPath:handler:",
+);
+late final _sel_copyScriptingValue_forKey_withProperties_ = objc.registerName(
+  "copyScriptingValue:forKey:withProperties:",
+);
 late final _sel_copyWithZone_ = objc.registerName("copyWithZone:");
 late final _sel_count = objc.registerName("count");
 late final _sel_countByEnumeratingWithState_objects_count_ = objc.registerName(
@@ -42205,9 +45243,56 @@ late final _sel_countByEnumeratingWithState_objects_count_ = objc.registerName(
 late final _sel_countOfIndexesInRange_ = objc.registerName(
   "countOfIndexesInRange:",
 );
+late final _sel_countryCode = objc.registerName("countryCode");
+late final _sel_createCommandInstance = objc.registerName(
+  "createCommandInstance",
+);
+late final _sel_createCommandInstanceWithZone_ = objc.registerName(
+  "createCommandInstanceWithZone:",
+);
+late final _sel_createConversationForConnection_ = objc.registerName(
+  "createConversationForConnection:",
+);
+late final _sel_createDirectoryAtPath_attributes_ = objc.registerName(
+  "createDirectoryAtPath:attributes:",
+);
+late final _sel_createDirectoryAtPath_withIntermediateDirectories_attributes_error_ =
+    objc.registerName(
+      "createDirectoryAtPath:withIntermediateDirectories:attributes:error:",
+    );
+late final _sel_createDirectoryAtURL_withIntermediateDirectories_attributes_error_ =
+    objc.registerName(
+      "createDirectoryAtURL:withIntermediateDirectories:attributes:error:",
+    );
+late final _sel_createFileAtPath_contents_attributes_ = objc.registerName(
+  "createFileAtPath:contents:attributes:",
+);
+late final _sel_createSymbolicLinkAtPath_pathContent_ = objc.registerName(
+  "createSymbolicLinkAtPath:pathContent:",
+);
+late final _sel_createSymbolicLinkAtPath_withDestinationPath_error_ = objc
+    .registerName("createSymbolicLinkAtPath:withDestinationPath:error:");
+late final _sel_createSymbolicLinkAtURL_withDestinationURL_error_ = objc
+    .registerName("createSymbolicLinkAtURL:withDestinationURL:error:");
+late final _sel_currencyCode = objc.registerName("currencyCode");
+late final _sel_currencySymbol = objc.registerName("currencySymbol");
+late final _sel_currentCommand = objc.registerName("currentCommand");
+late final _sel_currentConversation = objc.registerName("currentConversation");
+late final _sel_currentDirectoryPath = objc.registerName(
+  "currentDirectoryPath",
+);
+late final _sel_currentHost = objc.registerName("currentHost");
+late final _sel_currentLocale = objc.registerName("currentLocale");
 late final _sel_currentMode = objc.registerName("currentMode");
+late final _sel_currentProcessDescriptor = objc.registerName(
+  "currentProcessDescriptor",
+);
 late final _sel_currentProgress = objc.registerName("currentProgress");
 late final _sel_currentRunLoop = objc.registerName("currentRunLoop");
+late final _sel_currentThread = objc.registerName("currentThread");
+late final _sel_currentVersionOfItemAtURL_ = objc.registerName(
+  "currentVersionOfItemAtURL:",
+);
 late final _sel_data = objc.registerName("data");
 late final _sel_dataRepresentation = objc.registerName("dataRepresentation");
 late final _sel_dataUsingEncoding_ = objc.registerName("dataUsingEncoding:");
@@ -42230,6 +45315,9 @@ late final _sel_dataWithContentsOfFile_ = objc.registerName(
 late final _sel_dataWithContentsOfFile_options_error_ = objc.registerName(
   "dataWithContentsOfFile:options:error:",
 );
+late final _sel_dataWithContentsOfMappedFile_ = objc.registerName(
+  "dataWithContentsOfMappedFile:",
+);
 late final _sel_dataWithContentsOfURL_ = objc.registerName(
   "dataWithContentsOfURL:",
 );
@@ -42241,6 +45329,25 @@ late final _sel_dataWithLength_ = objc.registerName("dataWithLength:");
 late final _sel_date = objc.registerName("date");
 late final _sel_dateByAddingTimeInterval_ = objc.registerName(
   "dateByAddingTimeInterval:",
+);
+late final _sel_dateByAddingYears_months_days_hours_minutes_seconds_ = objc
+    .registerName("dateByAddingYears:months:days:hours:minutes:seconds:");
+late final _sel_dateValue = objc.registerName("dateValue");
+late final _sel_dateWithCalendarFormat_timeZone_ = objc.registerName(
+  "dateWithCalendarFormat:timeZone:",
+);
+late final _sel_dateWithNaturalLanguageString_ = objc.registerName(
+  "dateWithNaturalLanguageString:",
+);
+late final _sel_dateWithNaturalLanguageString_locale_ = objc.registerName(
+  "dateWithNaturalLanguageString:locale:",
+);
+late final _sel_dateWithString_ = objc.registerName("dateWithString:");
+late final _sel_dateWithString_calendarFormat_ = objc.registerName(
+  "dateWithString:calendarFormat:",
+);
+late final _sel_dateWithString_calendarFormat_locale_ = objc.registerName(
+  "dateWithString:calendarFormat:locale:",
 );
 late final _sel_dateWithTimeIntervalSince1970_ = objc.registerName(
   "dateWithTimeIntervalSince1970:",
@@ -42254,15 +45361,105 @@ late final _sel_dateWithTimeIntervalSinceReferenceDate_ = objc.registerName(
 late final _sel_dateWithTimeInterval_sinceDate_ = objc.registerName(
   "dateWithTimeInterval:sinceDate:",
 );
+late final _sel_dateWithYear_month_day_hour_minute_second_timeZone_ = objc
+    .registerName("dateWithYear:month:day:hour:minute:second:timeZone:");
+late final _sel_dayOfCommonEra = objc.registerName("dayOfCommonEra");
+late final _sel_dayOfMonth = objc.registerName("dayOfMonth");
+late final _sel_dayOfWeek = objc.registerName("dayOfWeek");
+late final _sel_dayOfYear = objc.registerName("dayOfYear");
+late final _sel_daylightSavingTimeOffset = objc.registerName(
+  "daylightSavingTimeOffset",
+);
+late final _sel_daylightSavingTimeOffsetForDate_ = objc.registerName(
+  "daylightSavingTimeOffsetForDate:",
+);
 late final _sel_dealloc = objc.registerName("dealloc");
 late final _sel_debugDescription = objc.registerName("debugDescription");
 late final _sel_debugObserver = objc.registerName("debugObserver");
 late final _sel_decimalDigitCharacterSet = objc.registerName(
   "decimalDigitCharacterSet",
 );
+late final _sel_decimalSeparator = objc.registerName("decimalSeparator");
+late final _sel_decodeArrayOfObjCType_count_at_ = objc.registerName(
+  "decodeArrayOfObjCType:count:at:",
+);
+late final _sel_decodeArrayOfObjectsOfClass_forKey_ = objc.registerName(
+  "decodeArrayOfObjectsOfClass:forKey:",
+);
+late final _sel_decodeArrayOfObjectsOfClasses_forKey_ = objc.registerName(
+  "decodeArrayOfObjectsOfClasses:forKey:",
+);
+late final _sel_decodeBoolForKey_ = objc.registerName("decodeBoolForKey:");
+late final _sel_decodeBytesForKey_minimumLength_ = objc.registerName(
+  "decodeBytesForKey:minimumLength:",
+);
+late final _sel_decodeBytesForKey_returnedLength_ = objc.registerName(
+  "decodeBytesForKey:returnedLength:",
+);
+late final _sel_decodeBytesWithMinimumLength_ = objc.registerName(
+  "decodeBytesWithMinimumLength:",
+);
+late final _sel_decodeBytesWithReturnedLength_ = objc.registerName(
+  "decodeBytesWithReturnedLength:",
+);
 late final _sel_decodeDataObject = objc.registerName("decodeDataObject");
+late final _sel_decodeDictionaryWithKeysOfClass_objectsOfClass_forKey_ = objc
+    .registerName("decodeDictionaryWithKeysOfClass:objectsOfClass:forKey:");
+late final _sel_decodeDictionaryWithKeysOfClasses_objectsOfClasses_forKey_ =
+    objc.registerName(
+      "decodeDictionaryWithKeysOfClasses:objectsOfClasses:forKey:",
+    );
+late final _sel_decodeDoubleForKey_ = objc.registerName("decodeDoubleForKey:");
+late final _sel_decodeFloatForKey_ = objc.registerName("decodeFloatForKey:");
+late final _sel_decodeInt32ForKey_ = objc.registerName("decodeInt32ForKey:");
+late final _sel_decodeInt64ForKey_ = objc.registerName("decodeInt64ForKey:");
+late final _sel_decodeIntForKey_ = objc.registerName("decodeIntForKey:");
+late final _sel_decodeIntegerForKey_ = objc.registerName(
+  "decodeIntegerForKey:",
+);
+late final _sel_decodeNXObject = objc.registerName("decodeNXObject");
+late final _sel_decodeObject = objc.registerName("decodeObject");
+late final _sel_decodeObjectForKey_ = objc.registerName("decodeObjectForKey:");
+late final _sel_decodeObjectOfClass_forKey_ = objc.registerName(
+  "decodeObjectOfClass:forKey:",
+);
+late final _sel_decodeObjectOfClasses_forKey_ = objc.registerName(
+  "decodeObjectOfClasses:forKey:",
+);
+late final _sel_decodePoint = objc.registerName("decodePoint");
+late final _sel_decodePointForKey_ = objc.registerName("decodePointForKey:");
+late final _sel_decodePortObject = objc.registerName("decodePortObject");
+late final _sel_decodePropertyList = objc.registerName("decodePropertyList");
+late final _sel_decodePropertyListForKey_ = objc.registerName(
+  "decodePropertyListForKey:",
+);
+late final _sel_decodeRect = objc.registerName("decodeRect");
+late final _sel_decodeRectForKey_ = objc.registerName("decodeRectForKey:");
+late final _sel_decodeSize = objc.registerName("decodeSize");
+late final _sel_decodeSizeForKey_ = objc.registerName("decodeSizeForKey:");
+late final _sel_decodeTopLevelObjectAndReturnError_ = objc.registerName(
+  "decodeTopLevelObjectAndReturnError:",
+);
+late final _sel_decodeTopLevelObjectForKey_error_ = objc.registerName(
+  "decodeTopLevelObjectForKey:error:",
+);
+late final _sel_decodeTopLevelObjectOfClass_forKey_error_ = objc.registerName(
+  "decodeTopLevelObjectOfClass:forKey:error:",
+);
+late final _sel_decodeTopLevelObjectOfClasses_forKey_error_ = objc.registerName(
+  "decodeTopLevelObjectOfClasses:forKey:error:",
+);
+late final _sel_decodeValueOfObjCType_at_ = objc.registerName(
+  "decodeValueOfObjCType:at:",
+);
 late final _sel_decodeValueOfObjCType_at_size_ = objc.registerName(
   "decodeValueOfObjCType:at:size:",
+);
+late final _sel_decodeValuesOfObjCTypes_ = objc.registerName(
+  "decodeValuesOfObjCTypes:",
+);
+late final _sel_decodingFailurePolicy = objc.registerName(
+  "decodingFailurePolicy",
 );
 late final _sel_decomposableCharacterSet = objc.registerName(
   "decomposableCharacterSet",
@@ -42273,22 +45470,96 @@ late final _sel_decomposedStringWithCanonicalMapping = objc.registerName(
 late final _sel_decomposedStringWithCompatibilityMapping = objc.registerName(
   "decomposedStringWithCompatibilityMapping",
 );
+late final _sel_decompressUsingAlgorithm_error_ = objc.registerName(
+  "decompressUsingAlgorithm:error:",
+);
 late final _sel_decompressedDataUsingAlgorithm_error_ = objc.registerName(
   "decompressedDataUsingAlgorithm:error:",
 );
 late final _sel_defaultCStringEncoding = objc.registerName(
   "defaultCStringEncoding",
 );
+late final _sel_defaultConnection = objc.registerName("defaultConnection");
+late final _sel_defaultManager = objc.registerName("defaultManager");
+late final _sel_defaultOrthographyForLanguage_ = objc.registerName(
+  "defaultOrthographyForLanguage:",
+);
+late final _sel_defaultSubcontainerAttributeKey = objc.registerName(
+  "defaultSubcontainerAttributeKey",
+);
+late final _sel_defaultTimeZone = objc.registerName("defaultTimeZone");
 late final _sel_delegate = objc.registerName("delegate");
+late final _sel_deleteCharactersInRange_ = objc.registerName(
+  "deleteCharactersInRange:",
+);
 late final _sel_description = objc.registerName("description");
 late final _sel_descriptionInStringsFileFormat = objc.registerName(
   "descriptionInStringsFileFormat",
 );
+late final _sel_descriptionWithCalendarFormat_ = objc.registerName(
+  "descriptionWithCalendarFormat:",
+);
+late final _sel_descriptionWithCalendarFormat_locale_ = objc.registerName(
+  "descriptionWithCalendarFormat:locale:",
+);
+late final _sel_descriptionWithCalendarFormat_timeZone_locale_ = objc
+    .registerName("descriptionWithCalendarFormat:timeZone:locale:");
 late final _sel_descriptionWithLocale_ = objc.registerName(
   "descriptionWithLocale:",
 );
 late final _sel_descriptionWithLocale_indent_ = objc.registerName(
   "descriptionWithLocale:indent:",
+);
+late final _sel_descriptor = objc.registerName("descriptor");
+late final _sel_descriptorAtIndex_ = objc.registerName("descriptorAtIndex:");
+late final _sel_descriptorForKeyword_ = objc.registerName(
+  "descriptorForKeyword:",
+);
+late final _sel_descriptorType = objc.registerName("descriptorType");
+late final _sel_descriptorWithApplicationURL_ = objc.registerName(
+  "descriptorWithApplicationURL:",
+);
+late final _sel_descriptorWithBoolean_ = objc.registerName(
+  "descriptorWithBoolean:",
+);
+late final _sel_descriptorWithBundleIdentifier_ = objc.registerName(
+  "descriptorWithBundleIdentifier:",
+);
+late final _sel_descriptorWithDate_ = objc.registerName("descriptorWithDate:");
+late final _sel_descriptorWithDescriptorType_bytes_length_ = objc.registerName(
+  "descriptorWithDescriptorType:bytes:length:",
+);
+late final _sel_descriptorWithDescriptorType_data_ = objc.registerName(
+  "descriptorWithDescriptorType:data:",
+);
+late final _sel_descriptorWithDouble_ = objc.registerName(
+  "descriptorWithDouble:",
+);
+late final _sel_descriptorWithEnumCode_ = objc.registerName(
+  "descriptorWithEnumCode:",
+);
+late final _sel_descriptorWithFileURL_ = objc.registerName(
+  "descriptorWithFileURL:",
+);
+late final _sel_descriptorWithInt32_ = objc.registerName(
+  "descriptorWithInt32:",
+);
+late final _sel_descriptorWithProcessIdentifier_ = objc.registerName(
+  "descriptorWithProcessIdentifier:",
+);
+late final _sel_descriptorWithString_ = objc.registerName(
+  "descriptorWithString:",
+);
+late final _sel_descriptorWithTypeCode_ = objc.registerName(
+  "descriptorWithTypeCode:",
+);
+late final _sel_destinationOfSymbolicLinkAtPath_error_ = objc.registerName(
+  "destinationOfSymbolicLinkAtPath:error:",
+);
+late final _sel_detachNewThreadSelector_toTarget_withObject_ = objc
+    .registerName("detachNewThreadSelector:toTarget:withObject:");
+late final _sel_detachNewThreadWithBlock_ = objc.registerName(
+  "detachNewThreadWithBlock:",
 );
 late final _sel_developmentLocalization = objc.registerName(
   "developmentLocalization",
@@ -42296,6 +45567,15 @@ late final _sel_developmentLocalization = objc.registerName(
 late final _sel_dictionary = objc.registerName("dictionary");
 late final _sel_dictionaryWithCapacity_ = objc.registerName(
   "dictionaryWithCapacity:",
+);
+late final _sel_dictionaryWithContentsOfFile_ = objc.registerName(
+  "dictionaryWithContentsOfFile:",
+);
+late final _sel_dictionaryWithContentsOfURL_ = objc.registerName(
+  "dictionaryWithContentsOfURL:",
+);
+late final _sel_dictionaryWithContentsOfURL_error_ = objc.registerName(
+  "dictionaryWithContentsOfURL:error:",
 );
 late final _sel_dictionaryWithDictionary_ = objc.registerName(
   "dictionaryWithDictionary:",
@@ -42312,26 +45592,136 @@ late final _sel_dictionaryWithObjects_forKeys_ = objc.registerName(
 late final _sel_dictionaryWithObjects_forKeys_count_ = objc.registerName(
   "dictionaryWithObjects:forKeys:count:",
 );
+late final _sel_dictionaryWithSharedKeySet_ = objc.registerName(
+  "dictionaryWithSharedKeySet:",
+);
+late final _sel_dictionaryWithValuesForKeys_ = objc.registerName(
+  "dictionaryWithValuesForKeys:",
+);
+late final _sel_didChangeValueForKey_ = objc.registerName(
+  "didChangeValueForKey:",
+);
+late final _sel_didChangeValueForKey_withSetMutation_usingObjects_ = objc
+    .registerName("didChangeValueForKey:withSetMutation:usingObjects:");
+late final _sel_didChange_valuesAtIndexes_forKey_ = objc.registerName(
+  "didChange:valuesAtIndexes:forKey:",
+);
+late final _sel_didLoadBytes_loadComplete_ = objc.registerName(
+  "didLoadBytes:loadComplete:",
+);
 late final _sel_differenceByTransformingChangesWithBlock_ = objc.registerName(
   "differenceByTransformingChangesWithBlock:",
+);
+late final _sel_differenceFromArray_ = objc.registerName(
+  "differenceFromArray:",
+);
+late final _sel_differenceFromArray_withOptions_ = objc.registerName(
+  "differenceFromArray:withOptions:",
+);
+late final _sel_differenceFromArray_withOptions_usingEquivalenceTest_ = objc
+    .registerName("differenceFromArray:withOptions:usingEquivalenceTest:");
+late final _sel_differenceFromOrderedSet_ = objc.registerName(
+  "differenceFromOrderedSet:",
+);
+late final _sel_differenceFromOrderedSet_withOptions_ = objc.registerName(
+  "differenceFromOrderedSet:withOptions:",
+);
+late final _sel_differenceFromOrderedSet_withOptions_usingEquivalenceTest_ =
+    objc.registerName(
+      "differenceFromOrderedSet:withOptions:usingEquivalenceTest:",
+    );
+late final _sel_directParameter = objc.registerName("directParameter");
+late final _sel_directoryAttributes = objc.registerName("directoryAttributes");
+late final _sel_directoryContentsAtPath_ = objc.registerName(
+  "directoryContentsAtPath:",
 );
 late final _sel_discreteProgressWithTotalUnitCount_ = objc.registerName(
   "discreteProgressWithTotalUnitCount:",
 );
+late final _sel_dispatch = objc.registerName("dispatch");
+late final _sel_dispatchWithComponents_ = objc.registerName(
+  "dispatchWithComponents:",
+);
+late final _sel_displayNameAtPath_ = objc.registerName("displayNameAtPath:");
 late final _sel_displayNameForKey_value_ = objc.registerName(
   "displayNameForKey:value:",
 );
+late final _sel_distantFuture = objc.registerName("distantFuture");
+late final _sel_distantPast = objc.registerName("distantPast");
+late final _sel_doesContain_ = objc.registerName("doesContain:");
 late final _sel_doesNotRecognizeSelector_ = objc.registerName(
   "doesNotRecognizeSelector:",
 );
 late final _sel_domain = objc.registerName("domain");
+late final _sel_dominantLanguage = objc.registerName("dominantLanguage");
+late final _sel_dominantLanguageForScript_ = objc.registerName(
+  "dominantLanguageForScript:",
+);
+late final _sel_dominantScript = objc.registerName("dominantScript");
 late final _sel_doubleValue = objc.registerName("doubleValue");
 late final _sel_earlierDate_ = objc.registerName("earlierDate:");
+late final _sel_edgeInsetsValue = objc.registerName("edgeInsetsValue");
+late final _sel_enableMultipleThreads = objc.registerName(
+  "enableMultipleThreads",
+);
+late final _sel_encodeArrayOfObjCType_count_at_ = objc.registerName(
+  "encodeArrayOfObjCType:count:at:",
+);
+late final _sel_encodeBool_forKey_ = objc.registerName("encodeBool:forKey:");
+late final _sel_encodeBycopyObject_ = objc.registerName("encodeBycopyObject:");
+late final _sel_encodeByrefObject_ = objc.registerName("encodeByrefObject:");
+late final _sel_encodeBytes_length_ = objc.registerName("encodeBytes:length:");
+late final _sel_encodeBytes_length_forKey_ = objc.registerName(
+  "encodeBytes:length:forKey:",
+);
+late final _sel_encodeClassName_intoClassName_ = objc.registerName(
+  "encodeClassName:intoClassName:",
+);
+late final _sel_encodeConditionalObject_ = objc.registerName(
+  "encodeConditionalObject:",
+);
+late final _sel_encodeConditionalObject_forKey_ = objc.registerName(
+  "encodeConditionalObject:forKey:",
+);
 late final _sel_encodeDataObject_ = objc.registerName("encodeDataObject:");
+late final _sel_encodeDouble_forKey_ = objc.registerName(
+  "encodeDouble:forKey:",
+);
+late final _sel_encodeFloat_forKey_ = objc.registerName("encodeFloat:forKey:");
+late final _sel_encodeInt32_forKey_ = objc.registerName("encodeInt32:forKey:");
+late final _sel_encodeInt64_forKey_ = objc.registerName("encodeInt64:forKey:");
+late final _sel_encodeInt_forKey_ = objc.registerName("encodeInt:forKey:");
+late final _sel_encodeInteger_forKey_ = objc.registerName(
+  "encodeInteger:forKey:",
+);
+late final _sel_encodeNXObject_ = objc.registerName("encodeNXObject:");
+late final _sel_encodeObject_ = objc.registerName("encodeObject:");
+late final _sel_encodeObject_forKey_ = objc.registerName(
+  "encodeObject:forKey:",
+);
+late final _sel_encodePoint_ = objc.registerName("encodePoint:");
+late final _sel_encodePoint_forKey_ = objc.registerName("encodePoint:forKey:");
+late final _sel_encodePortObject_ = objc.registerName("encodePortObject:");
+late final _sel_encodePropertyList_ = objc.registerName("encodePropertyList:");
+late final _sel_encodeRect_ = objc.registerName("encodeRect:");
+late final _sel_encodeRect_forKey_ = objc.registerName("encodeRect:forKey:");
+late final _sel_encodeRootObject_ = objc.registerName("encodeRootObject:");
+late final _sel_encodeSize_ = objc.registerName("encodeSize:");
+late final _sel_encodeSize_forKey_ = objc.registerName("encodeSize:forKey:");
 late final _sel_encodeValueOfObjCType_at_ = objc.registerName(
   "encodeValueOfObjCType:at:",
 );
+late final _sel_encodeValuesOfObjCTypes_ = objc.registerName(
+  "encodeValuesOfObjCTypes:",
+);
 late final _sel_encodeWithCoder_ = objc.registerName("encodeWithCoder:");
+late final _sel_encodedData = objc.registerName("encodedData");
+late final _sel_endLoadInBackground = objc.registerName("endLoadInBackground");
+late final _sel_enumCodeValue = objc.registerName("enumCodeValue");
+late final _sel_enumerateAttribute_inRange_options_usingBlock_ = objc
+    .registerName("enumerateAttribute:inRange:options:usingBlock:");
+late final _sel_enumerateAttributesInRange_options_usingBlock_ = objc
+    .registerName("enumerateAttributesInRange:options:usingBlock:");
 late final _sel_enumerateByteRangesUsingBlock_ = objc.registerName(
   "enumerateByteRangesUsingBlock:",
 );
@@ -42352,6 +45742,10 @@ late final _sel_enumerateKeysAndObjectsWithOptions_usingBlock_ = objc
 late final _sel_enumerateLinesUsingBlock_ = objc.registerName(
   "enumerateLinesUsingBlock:",
 );
+late final _sel_enumerateLinguisticTagsInRange_scheme_options_orthography_usingBlock_ =
+    objc.registerName(
+      "enumerateLinguisticTagsInRange:scheme:options:orthography:usingBlock:",
+    );
 late final _sel_enumerateObjectsAtIndexes_options_usingBlock_ = objc
     .registerName("enumerateObjectsAtIndexes:options:usingBlock:");
 late final _sel_enumerateObjectsUsingBlock_ = objc.registerName(
@@ -42371,11 +45765,37 @@ late final _sel_enumerateRangesWithOptions_usingBlock_ = objc.registerName(
 );
 late final _sel_enumerateSubstringsInRange_options_usingBlock_ = objc
     .registerName("enumerateSubstringsInRange:options:usingBlock:");
+late final _sel_enumeratorAtPath_ = objc.registerName("enumeratorAtPath:");
+late final _sel_enumeratorAtURL_includingPropertiesForKeys_options_errorHandler_ =
+    objc.registerName(
+      "enumeratorAtURL:includingPropertiesForKeys:options:errorHandler:",
+    );
+late final _sel_error = objc.registerName("error");
 late final _sel_errorWithDomain_code_userInfo_ = objc.registerName(
   "errorWithDomain:code:userInfo:",
 );
 late final _sel_estimatedTimeRemaining = objc.registerName(
   "estimatedTimeRemaining",
+);
+late final _sel_evaluateWithObject_ = objc.registerName("evaluateWithObject:");
+late final _sel_evaluateWithObject_substitutionVariables_ = objc.registerName(
+  "evaluateWithObject:substitutionVariables:",
+);
+late final _sel_evaluatedArguments = objc.registerName("evaluatedArguments");
+late final _sel_evaluatedReceivers = objc.registerName("evaluatedReceivers");
+late final _sel_evaluationErrorNumber = objc.registerName(
+  "evaluationErrorNumber",
+);
+late final _sel_evaluationErrorSpecifier = objc.registerName(
+  "evaluationErrorSpecifier",
+);
+late final _sel_eventClass = objc.registerName("eventClass");
+late final _sel_eventID = objc.registerName("eventID");
+late final _sel_evictUbiquitousItemAtURL_error_ = objc.registerName(
+  "evictUbiquitousItemAtURL:error:",
+);
+late final _sel_exceptionWithName_reason_userInfo_ = objc.registerName(
+  "exceptionWithName:reason:userInfo:",
 );
 late final _sel_exchangeObjectAtIndex_withObjectAtIndex_ = objc.registerName(
   "exchangeObjectAtIndex:withObjectAtIndex:",
@@ -42385,21 +45805,187 @@ late final _sel_executableArchitectures = objc.registerName(
 );
 late final _sel_executablePath = objc.registerName("executablePath");
 late final _sel_executableURL = objc.registerName("executableURL");
+late final _sel_executeCommand = objc.registerName("executeCommand");
+late final _sel_exemplarCharacterSet = objc.registerName(
+  "exemplarCharacterSet",
+);
+late final _sel_exit = objc.registerName("exit");
+late final _sel_expectedResourceDataSize = objc.registerName(
+  "expectedResourceDataSize",
+);
+late final _sel_expressionBlock = objc.registerName("expressionBlock");
+late final _sel_expressionForAggregate_ = objc.registerName(
+  "expressionForAggregate:",
+);
+late final _sel_expressionForAnyKey = objc.registerName("expressionForAnyKey");
+late final _sel_expressionForBlock_arguments_ = objc.registerName(
+  "expressionForBlock:arguments:",
+);
+late final _sel_expressionForConditional_trueExpression_falseExpression_ = objc
+    .registerName("expressionForConditional:trueExpression:falseExpression:");
+late final _sel_expressionForConstantValue_ = objc.registerName(
+  "expressionForConstantValue:",
+);
+late final _sel_expressionForEvaluatedObject = objc.registerName(
+  "expressionForEvaluatedObject",
+);
+late final _sel_expressionForFunction_arguments_ = objc.registerName(
+  "expressionForFunction:arguments:",
+);
+late final _sel_expressionForFunction_selectorName_arguments_ = objc
+    .registerName("expressionForFunction:selectorName:arguments:");
+late final _sel_expressionForIntersectSet_with_ = objc.registerName(
+  "expressionForIntersectSet:with:",
+);
+late final _sel_expressionForKeyPath_ = objc.registerName(
+  "expressionForKeyPath:",
+);
+late final _sel_expressionForMinusSet_with_ = objc.registerName(
+  "expressionForMinusSet:with:",
+);
+late final _sel_expressionForSubquery_usingIteratorVariable_predicate_ = objc
+    .registerName("expressionForSubquery:usingIteratorVariable:predicate:");
+late final _sel_expressionForUnionSet_with_ = objc.registerName(
+  "expressionForUnionSet:with:",
+);
+late final _sel_expressionForVariable_ = objc.registerName(
+  "expressionForVariable:",
+);
+late final _sel_expressionType = objc.registerName("expressionType");
+late final _sel_expressionValueWithObject_context_ = objc.registerName(
+  "expressionValueWithObject:context:",
+);
+late final _sel_expressionWithFormat_ = objc.registerName(
+  "expressionWithFormat:",
+);
+late final _sel_expressionWithFormat_argumentArray_ = objc.registerName(
+  "expressionWithFormat:argumentArray:",
+);
+late final _sel_failWithError_ = objc.registerName("failWithError:");
 late final _sel_failurePolicy = objc.registerName("failurePolicy");
+late final _sel_failureReason = objc.registerName("failureReason");
+late final _sel_falseExpression = objc.registerName("falseExpression");
+late final _sel_familyName = objc.registerName("familyName");
 late final _sel_fastestEncoding = objc.registerName("fastestEncoding");
+late final _sel_fetchLatestRemoteVersionOfItemAtURL_completionHandler_ = objc
+    .registerName("fetchLatestRemoteVersionOfItemAtURL:completionHandler:");
+late final _sel_fileAttributes = objc.registerName("fileAttributes");
+late final _sel_fileAttributesAtPath_traverseLink_ = objc.registerName(
+  "fileAttributesAtPath:traverseLink:",
+);
 late final _sel_fileCompletedCount = objc.registerName("fileCompletedCount");
+late final _sel_fileCreationDate = objc.registerName("fileCreationDate");
+late final _sel_fileExistsAtPath_ = objc.registerName("fileExistsAtPath:");
+late final _sel_fileExistsAtPath_isDirectory_ = objc.registerName(
+  "fileExistsAtPath:isDirectory:",
+);
+late final _sel_fileExtensionHidden = objc.registerName("fileExtensionHidden");
+late final _sel_fileGroupOwnerAccountID = objc.registerName(
+  "fileGroupOwnerAccountID",
+);
+late final _sel_fileGroupOwnerAccountName = objc.registerName(
+  "fileGroupOwnerAccountName",
+);
+late final _sel_fileHFSCreatorCode = objc.registerName("fileHFSCreatorCode");
+late final _sel_fileHFSTypeCode = objc.registerName("fileHFSTypeCode");
+late final _sel_fileIsAppendOnly = objc.registerName("fileIsAppendOnly");
+late final _sel_fileIsImmutable = objc.registerName("fileIsImmutable");
+late final _sel_fileManager_shouldCopyItemAtPath_toPath_ = objc.registerName(
+  "fileManager:shouldCopyItemAtPath:toPath:",
+);
+late final _sel_fileManager_shouldCopyItemAtURL_toURL_ = objc.registerName(
+  "fileManager:shouldCopyItemAtURL:toURL:",
+);
+late final _sel_fileManager_shouldLinkItemAtPath_toPath_ = objc.registerName(
+  "fileManager:shouldLinkItemAtPath:toPath:",
+);
+late final _sel_fileManager_shouldLinkItemAtURL_toURL_ = objc.registerName(
+  "fileManager:shouldLinkItemAtURL:toURL:",
+);
+late final _sel_fileManager_shouldMoveItemAtPath_toPath_ = objc.registerName(
+  "fileManager:shouldMoveItemAtPath:toPath:",
+);
+late final _sel_fileManager_shouldMoveItemAtURL_toURL_ = objc.registerName(
+  "fileManager:shouldMoveItemAtURL:toURL:",
+);
+late final _sel_fileManager_shouldProceedAfterError_ = objc.registerName(
+  "fileManager:shouldProceedAfterError:",
+);
+late final _sel_fileManager_shouldProceedAfterError_copyingItemAtPath_toPath_ =
+    objc.registerName(
+      "fileManager:shouldProceedAfterError:copyingItemAtPath:toPath:",
+    );
+late final _sel_fileManager_shouldProceedAfterError_copyingItemAtURL_toURL_ =
+    objc.registerName(
+      "fileManager:shouldProceedAfterError:copyingItemAtURL:toURL:",
+    );
+late final _sel_fileManager_shouldProceedAfterError_linkingItemAtPath_toPath_ =
+    objc.registerName(
+      "fileManager:shouldProceedAfterError:linkingItemAtPath:toPath:",
+    );
+late final _sel_fileManager_shouldProceedAfterError_linkingItemAtURL_toURL_ =
+    objc.registerName(
+      "fileManager:shouldProceedAfterError:linkingItemAtURL:toURL:",
+    );
+late final _sel_fileManager_shouldProceedAfterError_movingItemAtPath_toPath_ =
+    objc.registerName(
+      "fileManager:shouldProceedAfterError:movingItemAtPath:toPath:",
+    );
+late final _sel_fileManager_shouldProceedAfterError_movingItemAtURL_toURL_ =
+    objc.registerName(
+      "fileManager:shouldProceedAfterError:movingItemAtURL:toURL:",
+    );
+late final _sel_fileManager_shouldProceedAfterError_removingItemAtPath_ = objc
+    .registerName("fileManager:shouldProceedAfterError:removingItemAtPath:");
+late final _sel_fileManager_shouldProceedAfterError_removingItemAtURL_ = objc
+    .registerName("fileManager:shouldProceedAfterError:removingItemAtURL:");
+late final _sel_fileManager_shouldRemoveItemAtPath_ = objc.registerName(
+  "fileManager:shouldRemoveItemAtPath:",
+);
+late final _sel_fileManager_shouldRemoveItemAtURL_ = objc.registerName(
+  "fileManager:shouldRemoveItemAtURL:",
+);
+late final _sel_fileManager_willProcessPath_ = objc.registerName(
+  "fileManager:willProcessPath:",
+);
+late final _sel_fileModificationDate = objc.registerName(
+  "fileModificationDate",
+);
 late final _sel_fileOperationKind = objc.registerName("fileOperationKind");
+late final _sel_fileOwnerAccountID = objc.registerName("fileOwnerAccountID");
+late final _sel_fileOwnerAccountName = objc.registerName(
+  "fileOwnerAccountName",
+);
 late final _sel_filePathURL = objc.registerName("filePathURL");
+late final _sel_filePosixPermissions = objc.registerName(
+  "filePosixPermissions",
+);
 late final _sel_fileReferenceURL = objc.registerName("fileReferenceURL");
+late final _sel_fileSize = objc.registerName("fileSize");
+late final _sel_fileSystemAttributesAtPath_ = objc.registerName(
+  "fileSystemAttributesAtPath:",
+);
+late final _sel_fileSystemFileNumber = objc.registerName(
+  "fileSystemFileNumber",
+);
+late final _sel_fileSystemNumber = objc.registerName("fileSystemNumber");
 late final _sel_fileSystemRepresentation = objc.registerName(
   "fileSystemRepresentation",
 );
+late final _sel_fileSystemRepresentationWithPath_ = objc.registerName(
+  "fileSystemRepresentationWithPath:",
+);
 late final _sel_fileTotalCount = objc.registerName("fileTotalCount");
+late final _sel_fileType = objc.registerName("fileType");
 late final _sel_fileURL = objc.registerName("fileURL");
+late final _sel_fileURLValue = objc.registerName("fileURLValue");
 late final _sel_fileURLWithFileSystemRepresentation_isDirectory_relativeToURL_ =
     objc.registerName(
       "fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:",
     );
+late final _sel_fileURLWithPathComponents_ = objc.registerName(
+  "fileURLWithPathComponents:",
+);
 late final _sel_fileURLWithPath_ = objc.registerName("fileURLWithPath:");
 late final _sel_fileURLWithPath_isDirectory_ = objc.registerName(
   "fileURLWithPath:isDirectory:",
@@ -42410,6 +45996,20 @@ late final _sel_fileURLWithPath_isDirectory_relativeToURL_ = objc.registerName(
 late final _sel_fileURLWithPath_relativeToURL_ = objc.registerName(
   "fileURLWithPath:relativeToURL:",
 );
+late final _sel_filterUsingPredicate_ = objc.registerName(
+  "filterUsingPredicate:",
+);
+late final _sel_filteredArrayUsingPredicate_ = objc.registerName(
+  "filteredArrayUsingPredicate:",
+);
+late final _sel_filteredOrderedSetUsingPredicate_ = objc.registerName(
+  "filteredOrderedSetUsingPredicate:",
+);
+late final _sel_filteredSetUsingPredicate_ = objc.registerName(
+  "filteredSetUsingPredicate:",
+);
+late final _sel_finalize = objc.registerName("finalize");
+late final _sel_finishEncoding = objc.registerName("finishEncoding");
 late final _sel_fire = objc.registerName("fire");
 late final _sel_fireDate = objc.registerName("fireDate");
 late final _sel_firstIndex = objc.registerName("firstIndex");
@@ -42418,6 +46018,8 @@ late final _sel_firstObjectCommonWithArray_ = objc.registerName(
   "firstObjectCommonWithArray:",
 );
 late final _sel_floatValue = objc.registerName("floatValue");
+late final _sel_flushCachedData = objc.registerName("flushCachedData");
+late final _sel_flushHostCache = objc.registerName("flushHostCache");
 late final _sel_forwardInvocation_ = objc.registerName("forwardInvocation:");
 late final _sel_forwardingTargetForSelector_ = objc.registerName(
   "forwardingTargetForSelector:",
@@ -42425,13 +46027,17 @@ late final _sel_forwardingTargetForSelector_ = objc.registerName(
 late final _sel_fractionCompleted = objc.registerName("fractionCompleted");
 late final _sel_fragment = objc.registerName("fragment");
 late final _sel_frameLength = objc.registerName("frameLength");
+late final _sel_function = objc.registerName("function");
 late final _sel_getArgumentTypeAtIndex_ = objc.registerName(
   "getArgumentTypeAtIndex:",
 );
 late final _sel_getArgument_atIndex_ = objc.registerName(
   "getArgument:atIndex:",
 );
+late final _sel_getBoundStreamsWithBufferSize_inputStream_outputStream_ = objc
+    .registerName("getBoundStreamsWithBufferSize:inputStream:outputStream:");
 late final _sel_getBuffer_length_ = objc.registerName("getBuffer:length:");
+late final _sel_getBytes_ = objc.registerName("getBytes:");
 late final _sel_getBytes_length_ = objc.registerName("getBytes:length:");
 late final _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_ =
     objc.registerName(
@@ -42439,15 +46045,25 @@ late final _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRa
     );
 late final _sel_getBytes_range_ = objc.registerName("getBytes:range:");
 late final _sel_getCFRunLoop = objc.registerName("getCFRunLoop");
+late final _sel_getCString_ = objc.registerName("getCString:");
+late final _sel_getCString_maxLength_ = objc.registerName(
+  "getCString:maxLength:",
+);
 late final _sel_getCString_maxLength_encoding_ = objc.registerName(
   "getCString:maxLength:encoding:",
 );
+late final _sel_getCString_maxLength_range_remainingRange_ = objc.registerName(
+  "getCString:maxLength:range:remainingRange:",
+);
+late final _sel_getCharacters_ = objc.registerName("getCharacters:");
 late final _sel_getCharacters_range_ = objc.registerName(
   "getCharacters:range:",
 );
 late final _sel_getDOBJCDartProtocolMethodForSelector_ = objc.registerName(
   "getDOBJCDartProtocolMethodForSelector:",
 );
+late final _sel_getFileProviderServicesForItemAtURL_completionHandler_ = objc
+    .registerName("getFileProviderServicesForItemAtURL:completionHandler:");
 late final _sel_getFileSystemRepresentation_maxLength_ = objc.registerName(
   "getFileSystemRepresentation:maxLength:",
 );
@@ -42457,6 +46073,10 @@ late final _sel_getIndexes_maxCount_inIndexRange_ = objc.registerName(
 late final _sel_getLineStart_end_contentsEnd_forRange_ = objc.registerName(
   "getLineStart:end:contentsEnd:forRange:",
 );
+late final _sel_getNonlocalVersionsOfItemAtURL_completionHandler_ = objc
+    .registerName("getNonlocalVersionsOfItemAtURL:completionHandler:");
+late final _sel_getObjects_ = objc.registerName("getObjects:");
+late final _sel_getObjects_andKeys_ = objc.registerName("getObjects:andKeys:");
 late final _sel_getObjects_andKeys_count_ = objc.registerName(
   "getObjects:andKeys:count:",
 );
@@ -42464,34 +46084,81 @@ late final _sel_getObjects_range_ = objc.registerName("getObjects:range:");
 late final _sel_getParagraphStart_end_contentsEnd_forRange_ = objc.registerName(
   "getParagraphStart:end:contentsEnd:forRange:",
 );
+late final _sel_getPromisedItemResourceValue_forKey_error_ = objc.registerName(
+  "getPromisedItemResourceValue:forKey:error:",
+);
+late final _sel_getRelationship_ofDirectoryAtURL_toItemAtURL_error_ = objc
+    .registerName("getRelationship:ofDirectoryAtURL:toItemAtURL:error:");
+late final _sel_getRelationship_ofDirectory_inDomain_toItemAtURL_error_ = objc
+    .registerName("getRelationship:ofDirectory:inDomain:toItemAtURL:error:");
 late final _sel_getResourceValue_forKey_error_ = objc.registerName(
   "getResourceValue:forKey:error:",
 );
 late final _sel_getReturnValue_ = objc.registerName("getReturnValue:");
+late final _sel_getStreamsToHostWithName_port_inputStream_outputStream_ = objc
+    .registerName("getStreamsToHostWithName:port:inputStream:outputStream:");
+late final _sel_getStreamsToHost_port_inputStream_outputStream_ = objc
+    .registerName("getStreamsToHost:port:inputStream:outputStream:");
+late final _sel_getValue_ = objc.registerName("getValue:");
 late final _sel_getValue_size_ = objc.registerName("getValue:size:");
+late final _sel_givenName = objc.registerName("givenName");
+late final _sel_groupingSeparator = objc.registerName("groupingSeparator");
 late final _sel_handlePortMessage_ = objc.registerName("handlePortMessage:");
+late final _sel_handleQueryWithUnboundKey_ = objc.registerName(
+  "handleQueryWithUnboundKey:",
+);
+late final _sel_handleTakeValue_forUnboundKey_ = objc.registerName(
+  "handleTakeValue:forUnboundKey:",
+);
 late final _sel_hasBytesAvailable = objc.registerName("hasBytesAvailable");
 late final _sel_hasChanges = objc.registerName("hasChanges");
 late final _sel_hasDirectoryPath = objc.registerName("hasDirectoryPath");
 late final _sel_hasItemConformingToTypeIdentifier_ = objc.registerName(
   "hasItemConformingToTypeIdentifier:",
 );
+late final _sel_hasLocalContents = objc.registerName("hasLocalContents");
 late final _sel_hasMemberInPlane_ = objc.registerName("hasMemberInPlane:");
+late final _sel_hasOrderedToManyRelationshipForKey_ = objc.registerName(
+  "hasOrderedToManyRelationshipForKey:",
+);
 late final _sel_hasPrefix_ = objc.registerName("hasPrefix:");
+late final _sel_hasPropertyForKey_ = objc.registerName("hasPropertyForKey:");
+late final _sel_hasReadablePropertyForKey_ = objc.registerName(
+  "hasReadablePropertyForKey:",
+);
 late final _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_ = objc
     .registerName("hasRepresentationConformingToTypeIdentifier:fileOptions:");
 late final _sel_hasSpaceAvailable = objc.registerName("hasSpaceAvailable");
 late final _sel_hasSuffix_ = objc.registerName("hasSuffix:");
+late final _sel_hasThumbnail = objc.registerName("hasThumbnail");
+late final _sel_hasWritablePropertyForKey_ = objc.registerName(
+  "hasWritablePropertyForKey:",
+);
 late final _sel_hash = objc.registerName("hash");
 late final _sel_helpAnchor = objc.registerName("helpAnchor");
 late final _sel_holderWithInputStreamAdapter_ = objc.registerName(
   "holderWithInputStreamAdapter:",
 );
+late final _sel_homeDirectoryForCurrentUser = objc.registerName(
+  "homeDirectoryForCurrentUser",
+);
+late final _sel_homeDirectoryForUser_ = objc.registerName(
+  "homeDirectoryForUser:",
+);
 late final _sel_host = objc.registerName("host");
+late final _sel_hostWithAddress_ = objc.registerName("hostWithAddress:");
+late final _sel_hostWithName_ = objc.registerName("hostWithName:");
+late final _sel_hourOfDay = objc.registerName("hourOfDay");
 late final _sel_illegalCharacterSet = objc.registerName("illegalCharacterSet");
 late final _sel_implementMethod_withBlock_withTrampoline_withSignature_ = objc
     .registerName("implementMethod:withBlock:withTrampoline:withSignature:");
+late final _sel_implementationClassName = objc.registerName(
+  "implementationClassName",
+);
 late final _sel_increaseLengthBy_ = objc.registerName("increaseLengthBy:");
+late final _sel_independentConversationQueueing = objc.registerName(
+  "independentConversationQueueing",
+);
 late final _sel_index = objc.registerName("index");
 late final _sel_indexGreaterThanIndex_ = objc.registerName(
   "indexGreaterThanIndex:",
@@ -42551,6 +46218,10 @@ late final _sel_indexesPassingTest_ = objc.registerName("indexesPassingTest:");
 late final _sel_indexesWithOptions_passingTest_ = objc.registerName(
   "indexesWithOptions:passingTest:",
 );
+late final _sel_indicesOfObjectsByEvaluatingObjectSpecifier_ = objc
+    .registerName("indicesOfObjectsByEvaluatingObjectSpecifier:");
+late final _sel_indicesOfObjectsByEvaluatingWithContainer_count_ = objc
+    .registerName("indicesOfObjectsByEvaluatingWithContainer:count:");
 late final _sel_infoDictionary = objc.registerName("infoDictionary");
 late final _sel_init = objc.registerName("init");
 late final _sel_initAbsoluteURLWithDataRepresentation_relativeToURL_ = objc
@@ -42580,6 +46251,16 @@ late final _sel_initFileURLWithPath_relativeToURL_ = objc.registerName(
 );
 late final _sel_initForKeyPath_ofObject_withObserver_options_context_ = objc
     .registerName("initForKeyPath:ofObject:withObserver:options:context:");
+late final _sel_initForWritingWithMutableData_ = objc.registerName(
+  "initForWritingWithMutableData:",
+);
+late final _sel_initListDescriptor = objc.registerName("initListDescriptor");
+late final _sel_initRecordDescriptor = objc.registerName(
+  "initRecordDescriptor",
+);
+late final _sel_initRequiringSecureCoding_ = objc.registerName(
+  "initRequiringSecureCoding:",
+);
 late final _sel_initToBuffer_capacity_ = objc.registerName(
   "initToBuffer:capacity:",
 );
@@ -42587,6 +46268,9 @@ late final _sel_initToFileAtPath_append_ = objc.registerName(
   "initToFileAtPath:append:",
 );
 late final _sel_initToMemory = objc.registerName("initToMemory");
+late final _sel_initWithAEDescNoCopy_ = objc.registerName(
+  "initWithAEDescNoCopy:",
+);
 late final _sel_initWithArray_ = objc.registerName("initWithArray:");
 late final _sel_initWithArray_copyItems_ = objc.registerName(
   "initWithArray:copyItems:",
@@ -42603,6 +46287,10 @@ late final _sel_initWithBase64EncodedData_options_ = objc.registerName(
 late final _sel_initWithBase64EncodedString_options_ = objc.registerName(
   "initWithBase64EncodedString:options:",
 );
+late final _sel_initWithBase64Encoding_ = objc.registerName(
+  "initWithBase64Encoding:",
+);
+late final _sel_initWithBlock_ = objc.registerName("initWithBlock:");
 late final _sel_initWithBool_ = objc.registerName("initWithBool:");
 late final _sel_initWithBytesNoCopy_length_ = objc.registerName(
   "initWithBytesNoCopy:length:",
@@ -42626,8 +46314,15 @@ late final _sel_initWithBytes_length_encoding_ = objc.registerName(
 late final _sel_initWithBytes_objCType_ = objc.registerName(
   "initWithBytes:objCType:",
 );
+late final _sel_initWithCStringNoCopy_length_freeWhenDone_ = objc.registerName(
+  "initWithCStringNoCopy:length:freeWhenDone:",
+);
+late final _sel_initWithCString_ = objc.registerName("initWithCString:");
 late final _sel_initWithCString_encoding_ = objc.registerName(
   "initWithCString:encoding:",
+);
+late final _sel_initWithCString_length_ = objc.registerName(
+  "initWithCString:length:",
 );
 late final _sel_initWithCapacity_ = objc.registerName("initWithCapacity:");
 late final _sel_initWithChanges_ = objc.registerName("initWithChanges:");
@@ -42641,6 +46336,14 @@ late final _sel_initWithCharacters_length_ = objc.registerName(
 );
 late final _sel_initWithClassName_ = objc.registerName("initWithClassName:");
 late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
+late final _sel_initWithCommandDescription_ = objc.registerName(
+  "initWithCommandDescription:",
+);
+late final _sel_initWithContainerClassDescription_containerSpecifier_key_ = objc
+    .registerName("initWithContainerClassDescription:containerSpecifier:key:");
+late final _sel_initWithContainerSpecifier_key_ = objc.registerName(
+  "initWithContainerSpecifier:key:",
+);
 late final _sel_initWithContentsOfFile_ = objc.registerName(
   "initWithContentsOfFile:",
 );
@@ -42653,6 +46356,9 @@ late final _sel_initWithContentsOfFile_options_error_ = objc.registerName(
 late final _sel_initWithContentsOfFile_usedEncoding_error_ = objc.registerName(
   "initWithContentsOfFile:usedEncoding:error:",
 );
+late final _sel_initWithContentsOfMappedFile_ = objc.registerName(
+  "initWithContentsOfMappedFile:",
+);
 late final _sel_initWithContentsOfMarkdownFileAtURL_options_baseURL_error_ =
     objc.registerName(
       "initWithContentsOfMarkdownFileAtURL:options:baseURL:error:",
@@ -42662,6 +46368,9 @@ late final _sel_initWithContentsOfURL_ = objc.registerName(
 );
 late final _sel_initWithContentsOfURL_encoding_error_ = objc.registerName(
   "initWithContentsOfURL:encoding:error:",
+);
+late final _sel_initWithContentsOfURL_error_ = objc.registerName(
+  "initWithContentsOfURL:error:",
 );
 late final _sel_initWithContentsOfURL_options_error_ = objc.registerName(
   "initWithContentsOfURL:options:error:",
@@ -42676,6 +46385,12 @@ late final _sel_initWithData_ = objc.registerName("initWithData:");
 late final _sel_initWithData_encoding_ = objc.registerName(
   "initWithData:encoding:",
 );
+late final _sel_initWithDescriptorType_bytes_length_ = objc.registerName(
+  "initWithDescriptorType:bytes:length:",
+);
+late final _sel_initWithDescriptorType_data_ = objc.registerName(
+  "initWithDescriptorType:data:",
+);
 late final _sel_initWithDictionary_ = objc.registerName("initWithDictionary:");
 late final _sel_initWithDictionary_copyItems_ = objc.registerName(
   "initWithDictionary:copyItems:",
@@ -42683,7 +46398,17 @@ late final _sel_initWithDictionary_copyItems_ = objc.registerName(
 late final _sel_initWithDomain_code_userInfo_ = objc.registerName(
   "initWithDomain:code:userInfo:",
 );
+late final _sel_initWithDominantScript_languageMap_ = objc.registerName(
+  "initWithDominantScript:languageMap:",
+);
 late final _sel_initWithDouble_ = objc.registerName("initWithDouble:");
+late final _sel_initWithEventClass_eventID_targetDescriptor_returnID_transactionID_ =
+    objc.registerName(
+      "initWithEventClass:eventID:targetDescriptor:returnID:transactionID:",
+    );
+late final _sel_initWithExpressionType_ = objc.registerName(
+  "initWithExpressionType:",
+);
 late final _sel_initWithFileAtPath_ = objc.registerName("initWithFileAtPath:");
 late final _sel_initWithFireDate_interval_repeats_block_ = objc.registerName(
   "initWithFireDate:interval:repeats:block:",
@@ -42722,6 +46447,9 @@ late final _sel_initWithItem_typeIdentifier_ = objc.registerName(
   "initWithItem:typeIdentifier:",
 );
 late final _sel_initWithLength_ = objc.registerName("initWithLength:");
+late final _sel_initWithLocal_connection_ = objc.registerName(
+  "initWithLocal:connection:",
+);
 late final _sel_initWithLocaleIdentifier_ = objc.registerName(
   "initWithLocaleIdentifier:",
 );
@@ -42732,8 +46460,13 @@ late final _sel_initWithMarkdownString_options_baseURL_error_ = objc
 late final _sel_initWithMarkdown_options_baseURL_error_ = objc.registerName(
   "initWithMarkdown:options:baseURL:error:",
 );
+late final _sel_initWithName_ = objc.registerName("initWithName:");
+late final _sel_initWithName_data_ = objc.registerName("initWithName:data:");
 late final _sel_initWithName_object_userInfo_ = objc.registerName(
   "initWithName:object:userInfo:",
+);
+late final _sel_initWithName_reason_userInfo_ = objc.registerName(
+  "initWithName:reason:userInfo:",
 );
 late final _sel_initWithObject_ = objc.registerName("initWithObject:");
 late final _sel_initWithObject_type_index_ = objc.registerName(
@@ -42766,6 +46499,15 @@ late final _sel_initWithParent_userInfo_ = objc.registerName(
   "initWithParent:userInfo:",
 );
 late final _sel_initWithPath_ = objc.registerName("initWithPath:");
+late final _sel_initWithReceivePort_sendPort_ = objc.registerName(
+  "initWithReceivePort:sendPort:",
+);
+late final _sel_initWithReceivePort_sendPort_components_ = objc.registerName(
+  "initWithReceivePort:sendPort:components:",
+);
+late final _sel_initWithScheme_host_path_ = objc.registerName(
+  "initWithScheme:host:path:",
+);
 late final _sel_initWithSendPort_receivePort_components_ = objc.registerName(
   "initWithSendPort:receivePort:components:",
 );
@@ -42778,11 +46520,29 @@ late final _sel_initWithString_ = objc.registerName("initWithString:");
 late final _sel_initWithString_attributes_ = objc.registerName(
   "initWithString:attributes:",
 );
+late final _sel_initWithString_calendarFormat_ = objc.registerName(
+  "initWithString:calendarFormat:",
+);
+late final _sel_initWithString_calendarFormat_locale_ = objc.registerName(
+  "initWithString:calendarFormat:locale:",
+);
 late final _sel_initWithString_encodingInvalidCharacters_ = objc.registerName(
   "initWithString:encodingInvalidCharacters:",
 );
 late final _sel_initWithString_relativeToURL_ = objc.registerName(
   "initWithString:relativeToURL:",
+);
+late final _sel_initWithSuiteName_className_dictionary_ = objc.registerName(
+  "initWithSuiteName:className:dictionary:",
+);
+late final _sel_initWithSuiteName_commandName_dictionary_ = objc.registerName(
+  "initWithSuiteName:commandName:dictionary:",
+);
+late final _sel_initWithTarget_connection_ = objc.registerName(
+  "initWithTarget:connection:",
+);
+late final _sel_initWithTarget_selector_object_ = objc.registerName(
+  "initWithTarget:selector:object:",
 );
 late final _sel_initWithTimeIntervalSince1970_ = objc.registerName(
   "initWithTimeIntervalSince1970:",
@@ -42798,6 +46558,7 @@ late final _sel_initWithTimeInterval_sinceDate_ = objc.registerName(
 );
 late final _sel_initWithURL_ = objc.registerName("initWithURL:");
 late final _sel_initWithURL_append_ = objc.registerName("initWithURL:append:");
+late final _sel_initWithURL_cached_ = objc.registerName("initWithURL:cached:");
 late final _sel_initWithUTF8String_ = objc.registerName("initWithUTF8String:");
 late final _sel_initWithUnsignedChar_ = objc.registerName(
   "initWithUnsignedChar:",
@@ -42823,6 +46584,8 @@ late final _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_ =
     objc.registerName(
       "initWithValidatedFormat:validFormatSpecifiers:locale:error:",
     );
+late final _sel_initWithYear_month_day_hour_minute_second_timeZone_ = objc
+    .registerName("initWithYear:month:day:hour:minute:second:timeZone:");
 late final _sel_initialize = objc.registerName("initialize");
 late final _sel_inputStreamWithData_ = objc.registerName(
   "inputStreamWithData:",
@@ -42834,11 +46597,23 @@ late final _sel_inputStreamWithPort_ = objc.registerName(
   "inputStreamWithPort:",
 );
 late final _sel_inputStreamWithURL_ = objc.registerName("inputStreamWithURL:");
+late final _sel_insertDescriptor_atIndex_ = objc.registerName(
+  "insertDescriptor:atIndex:",
+);
 late final _sel_insertObject_atIndex_ = objc.registerName(
   "insertObject:atIndex:",
 );
 late final _sel_insertObjects_atIndexes_ = objc.registerName(
   "insertObjects:atIndexes:",
+);
+late final _sel_insertString_atIndex_ = objc.registerName(
+  "insertString:atIndex:",
+);
+late final _sel_insertValue_atIndex_inPropertyWithKey_ = objc.registerName(
+  "insertValue:atIndex:inPropertyWithKey:",
+);
+late final _sel_insertValue_inPropertyWithKey_ = objc.registerName(
+  "insertValue:inPropertyWithKey:",
 );
 late final _sel_insertions = objc.registerName("insertions");
 late final _sel_instanceMethodForSelector_ = objc.registerName(
@@ -42850,6 +46625,7 @@ late final _sel_instanceMethodSignatureForSelector_ = objc.registerName(
 late final _sel_instancesRespondToSelector_ = objc.registerName(
   "instancesRespondToSelector:",
 );
+late final _sel_int32Value = objc.registerName("int32Value");
 late final _sel_intValue = objc.registerName("intValue");
 late final _sel_integerValue = objc.registerName("integerValue");
 late final _sel_interpretedSyntax = objc.registerName("interpretedSyntax");
@@ -42865,23 +46641,54 @@ late final _sel_intersectsOrderedSet_ = objc.registerName(
 );
 late final _sel_intersectsSet_ = objc.registerName("intersectsSet:");
 late final _sel_invalidate = objc.registerName("invalidate");
+late final _sel_invalidateClassDescriptionCache = objc.registerName(
+  "invalidateClassDescriptionCache",
+);
 late final _sel_inverseDifference = objc.registerName("inverseDifference");
+late final _sel_inverseForRelationshipKey_ = objc.registerName(
+  "inverseForRelationshipKey:",
+);
 late final _sel_invertedSet = objc.registerName("invertedSet");
+late final _sel_invocation = objc.registerName("invocation");
 late final _sel_invocationWithMethodSignature_ = objc.registerName(
   "invocationWithMethodSignature:",
 );
 late final _sel_invoke = objc.registerName("invoke");
 late final _sel_invokeUsingIMP_ = objc.registerName("invokeUsingIMP:");
 late final _sel_invokeWithTarget_ = objc.registerName("invokeWithTarget:");
+late final _sel_isAbsolutePath = objc.registerName("isAbsolutePath");
 late final _sel_isBool = objc.registerName("isBool");
+late final _sel_isBycopy = objc.registerName("isBycopy");
+late final _sel_isByref = objc.registerName("isByref");
 late final _sel_isCancellable = objc.registerName("isCancellable");
 late final _sel_isCancelled = objc.registerName("isCancelled");
+late final _sel_isCaseInsensitiveLike_ = objc.registerName(
+  "isCaseInsensitiveLike:",
+);
+late final _sel_isConflict = objc.registerName("isConflict");
+late final _sel_isDaylightSavingTime = objc.registerName(
+  "isDaylightSavingTime",
+);
+late final _sel_isDaylightSavingTimeForDate_ = objc.registerName(
+  "isDaylightSavingTimeForDate:",
+);
+late final _sel_isDeletableFileAtPath_ = objc.registerName(
+  "isDeletableFileAtPath:",
+);
+late final _sel_isDiscardable = objc.registerName("isDiscardable");
+late final _sel_isEnumeratingDirectoryPostOrder = objc.registerName(
+  "isEnumeratingDirectoryPostOrder",
+);
 late final _sel_isEqualToArray_ = objc.registerName("isEqualToArray:");
+late final _sel_isEqualToAttributedString_ = objc.registerName(
+  "isEqualToAttributedString:",
+);
 late final _sel_isEqualToData_ = objc.registerName("isEqualToData:");
 late final _sel_isEqualToDate_ = objc.registerName("isEqualToDate:");
 late final _sel_isEqualToDictionary_ = objc.registerName(
   "isEqualToDictionary:",
 );
+late final _sel_isEqualToHost_ = objc.registerName("isEqualToHost:");
 late final _sel_isEqualToIndexSet_ = objc.registerName("isEqualToIndexSet:");
 late final _sel_isEqualToNumber_ = objc.registerName("isEqualToNumber:");
 late final _sel_isEqualToOrderedSet_ = objc.registerName(
@@ -42889,32 +46696,80 @@ late final _sel_isEqualToOrderedSet_ = objc.registerName(
 );
 late final _sel_isEqualToSet_ = objc.registerName("isEqualToSet:");
 late final _sel_isEqualToString_ = objc.registerName("isEqualToString:");
+late final _sel_isEqualToTimeZone_ = objc.registerName("isEqualToTimeZone:");
+late final _sel_isEqualToValue_ = objc.registerName("isEqualToValue:");
+late final _sel_isEqualTo_ = objc.registerName("isEqualTo:");
 late final _sel_isEqual_ = objc.registerName("isEqual:");
+late final _sel_isExecutableFileAtPath_ = objc.registerName(
+  "isExecutableFileAtPath:",
+);
+late final _sel_isExecuting = objc.registerName("isExecuting");
 late final _sel_isFileReferenceURL = objc.registerName("isFileReferenceURL");
 late final _sel_isFileURL = objc.registerName("isFileURL");
 late final _sel_isFinished = objc.registerName("isFinished");
 late final _sel_isFloat = objc.registerName("isFloat");
+late final _sel_isGreaterThanOrEqualTo_ = objc.registerName(
+  "isGreaterThanOrEqualTo:",
+);
+late final _sel_isGreaterThan_ = objc.registerName("isGreaterThan:");
+late final _sel_isHostCacheEnabled = objc.registerName("isHostCacheEnabled");
 late final _sel_isIndeterminate = objc.registerName("isIndeterminate");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_isLessThanOrEqualTo_ = objc.registerName(
+  "isLessThanOrEqualTo:",
+);
+late final _sel_isLessThan_ = objc.registerName("isLessThan:");
+late final _sel_isLike_ = objc.registerName("isLike:");
 late final _sel_isLoaded = objc.registerName("isLoaded");
+late final _sel_isLocationRequiredToCreateForKey_ = objc.registerName(
+  "isLocationRequiredToCreateForKey:",
+);
+late final _sel_isMainThread = objc.registerName("isMainThread");
 late final _sel_isMemberOfClass_ = objc.registerName("isMemberOfClass:");
+late final _sel_isMultiThreaded = objc.registerName("isMultiThreaded");
+late final _sel_isNotEqualTo_ = objc.registerName("isNotEqualTo:");
 late final _sel_isOld = objc.registerName("isOld");
 late final _sel_isOneway = objc.registerName("isOneway");
+late final _sel_isOptionalArgumentWithName_ = objc.registerName(
+  "isOptionalArgumentWithName:",
+);
 late final _sel_isPausable = objc.registerName("isPausable");
 late final _sel_isPaused = objc.registerName("isPaused");
 late final _sel_isProxy = objc.registerName("isProxy");
+late final _sel_isReadOnlyKey_ = objc.registerName("isReadOnlyKey:");
+late final _sel_isReadableFileAtPath_ = objc.registerName(
+  "isReadableFileAtPath:",
+);
+late final _sel_isRecordDescriptor = objc.registerName("isRecordDescriptor");
+late final _sel_isResolved = objc.registerName("isResolved");
 late final _sel_isSubclassOfClass_ = objc.registerName("isSubclassOfClass:");
 late final _sel_isSubsetOfOrderedSet_ = objc.registerName(
   "isSubsetOfOrderedSet:",
 );
 late final _sel_isSubsetOfSet_ = objc.registerName("isSubsetOfSet:");
 late final _sel_isSupersetOfSet_ = objc.registerName("isSupersetOfSet:");
+late final _sel_isUbiquitousItemAtURL_ = objc.registerName(
+  "isUbiquitousItemAtURL:",
+);
 late final _sel_isValid = objc.registerName("isValid");
+late final _sel_isWellFormed = objc.registerName("isWellFormed");
+late final _sel_isWritableFileAtPath_ = objc.registerName(
+  "isWritableFileAtPath:",
+);
 late final _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
     objc.registerName(
       "itemProviderVisibilityForRepresentationWithTypeIdentifier:",
     );
+late final _sel_key = objc.registerName("key");
+late final _sel_keyClassDescription = objc.registerName("keyClassDescription");
 late final _sel_keyEnumerator = objc.registerName("keyEnumerator");
+late final _sel_keyPath = objc.registerName("keyPath");
+late final _sel_keyPathsForValuesAffectingValueForKey_ = objc.registerName(
+  "keyPathsForValuesAffectingValueForKey:",
+);
+late final _sel_keyWithAppleEventCode_ = objc.registerName(
+  "keyWithAppleEventCode:",
+);
 late final _sel_keysOfEntriesPassingTest_ = objc.registerName(
   "keysOfEntriesPassingTest:",
 );
@@ -42929,18 +46784,45 @@ late final _sel_keysSortedByValueUsingSelector_ = objc.registerName(
 );
 late final _sel_keysSortedByValueWithOptions_usingComparator_ = objc
     .registerName("keysSortedByValueWithOptions:usingComparator:");
+late final _sel_keywordForDescriptorAtIndex_ = objc.registerName(
+  "keywordForDescriptorAtIndex:",
+);
 late final _sel_kind = objc.registerName("kind");
+late final _sel_knownTimeZoneNames = objc.registerName("knownTimeZoneNames");
 late final _sel_languageCode = objc.registerName("languageCode");
+late final _sel_languageIdentifier = objc.registerName("languageIdentifier");
+late final _sel_languageMap = objc.registerName("languageMap");
+late final _sel_languagesForScript_ = objc.registerName("languagesForScript:");
 late final _sel_lastIndex = objc.registerName("lastIndex");
 late final _sel_lastObject = objc.registerName("lastObject");
+late final _sel_lastPathComponent = objc.registerName("lastPathComponent");
 late final _sel_laterDate_ = objc.registerName("laterDate:");
+late final _sel_leftExpression = objc.registerName("leftExpression");
 late final _sel_length = objc.registerName("length");
 late final _sel_lengthOfBytesUsingEncoding_ = objc.registerName(
   "lengthOfBytesUsingEncoding:",
 );
 late final _sel_letterCharacterSet = objc.registerName("letterCharacterSet");
+late final _sel_level = objc.registerName("level");
 late final _sel_limitDateForMode_ = objc.registerName("limitDateForMode:");
+late final _sel_lineDirectionForLanguage_ = objc.registerName(
+  "lineDirectionForLanguage:",
+);
 late final _sel_lineRangeForRange_ = objc.registerName("lineRangeForRange:");
+late final _sel_linguisticTagsInRange_scheme_options_orthography_tokenRanges_ =
+    objc.registerName(
+      "linguisticTagsInRange:scheme:options:orthography:tokenRanges:",
+    );
+late final _sel_linkItemAtPath_toPath_error_ = objc.registerName(
+  "linkItemAtPath:toPath:error:",
+);
+late final _sel_linkItemAtURL_toURL_error_ = objc.registerName(
+  "linkItemAtURL:toURL:error:",
+);
+late final _sel_linkPath_toPath_handler_ = objc.registerName(
+  "linkPath:toPath:handler:",
+);
+late final _sel_listDescriptor = objc.registerName("listDescriptor");
 late final _sel_load = objc.registerName("load");
 late final _sel_loadAndReturnError_ = objc.registerName("loadAndReturnError:");
 late final _sel_loadDataRepresentationForTypeIdentifier_completionHandler_ =
@@ -42955,6 +46837,8 @@ late final _sel_loadFileRepresentationForTypeIdentifier_completionHandler_ =
     objc.registerName(
       "loadFileRepresentationForTypeIdentifier:completionHandler:",
     );
+late final _sel_loadInBackground = objc.registerName("loadInBackground");
+late final _sel_loadInForeground = objc.registerName("loadInForeground");
 late final _sel_loadInPlaceFileRepresentationForTypeIdentifier_completionHandler_ =
     objc.registerName(
       "loadInPlaceFileRepresentationForTypeIdentifier:completionHandler:",
@@ -42963,6 +46847,20 @@ late final _sel_loadItemForTypeIdentifier_options_completionHandler_ = objc
     .registerName("loadItemForTypeIdentifier:options:completionHandler:");
 late final _sel_loadObjectOfClass_completionHandler_ = objc.registerName(
   "loadObjectOfClass:completionHandler:",
+);
+late final _sel_loadPreviewImageWithOptions_completionHandler_ = objc
+    .registerName("loadPreviewImageWithOptions:completionHandler:");
+late final _sel_loadResourceDataNotifyingClient_usingCache_ = objc.registerName(
+  "loadResourceDataNotifyingClient:usingCache:",
+);
+late final _sel_localObjects = objc.registerName("localObjects");
+late final _sel_localTimeZone = objc.registerName("localTimeZone");
+late final _sel_localeIdentifier = objc.registerName("localeIdentifier");
+late final _sel_localeIdentifierFromComponents_ = objc.registerName(
+  "localeIdentifierFromComponents:",
+);
+late final _sel_localeIdentifierFromWindowsLocaleCode_ = objc.registerName(
+  "localeIdentifierFromWindowsLocaleCode:",
 );
 late final _sel_localeWithLocaleIdentifier_ = objc.registerName(
   "localeWithLocaleIdentifier:",
@@ -43004,8 +46902,15 @@ late final _sel_localizedInfoDictionary = objc.registerName(
 late final _sel_localizedLowercaseString = objc.registerName(
   "localizedLowercaseString",
 );
+late final _sel_localizedName = objc.registerName("localizedName");
+late final _sel_localizedNameOfSavingComputer = objc.registerName(
+  "localizedNameOfSavingComputer",
+);
 late final _sel_localizedNameOfStringEncoding_ = objc.registerName(
   "localizedNameOfStringEncoding:",
+);
+late final _sel_localizedName_locale_ = objc.registerName(
+  "localizedName:locale:",
 );
 late final _sel_localizedRecoveryOptions = objc.registerName(
   "localizedRecoveryOptions",
@@ -43022,8 +46927,35 @@ late final _sel_localizedStandardContainsString_ = objc.registerName(
 late final _sel_localizedStandardRangeOfString_ = objc.registerName(
   "localizedStandardRangeOfString:",
 );
+late final _sel_localizedStringForCalendarIdentifier_ = objc.registerName(
+  "localizedStringForCalendarIdentifier:",
+);
+late final _sel_localizedStringForCollationIdentifier_ = objc.registerName(
+  "localizedStringForCollationIdentifier:",
+);
+late final _sel_localizedStringForCollatorIdentifier_ = objc.registerName(
+  "localizedStringForCollatorIdentifier:",
+);
+late final _sel_localizedStringForCountryCode_ = objc.registerName(
+  "localizedStringForCountryCode:",
+);
+late final _sel_localizedStringForCurrencyCode_ = objc.registerName(
+  "localizedStringForCurrencyCode:",
+);
 late final _sel_localizedStringForKey_value_table_ = objc.registerName(
   "localizedStringForKey:value:table:",
+);
+late final _sel_localizedStringForLanguageCode_ = objc.registerName(
+  "localizedStringForLanguageCode:",
+);
+late final _sel_localizedStringForLocaleIdentifier_ = objc.registerName(
+  "localizedStringForLocaleIdentifier:",
+);
+late final _sel_localizedStringForScriptCode_ = objc.registerName(
+  "localizedStringForScriptCode:",
+);
+late final _sel_localizedStringForVariantCode_ = objc.registerName(
+  "localizedStringForVariantCode:",
 );
 late final _sel_localizedStringWithFormat_ = objc.registerName(
   "localizedStringWithFormat:",
@@ -43040,6 +46972,7 @@ late final _sel_longCharacterIsMember_ = objc.registerName(
 );
 late final _sel_longLongValue = objc.registerName("longLongValue");
 late final _sel_longValue = objc.registerName("longValue");
+late final _sel_lossyCString = objc.registerName("lossyCString");
 late final _sel_lowercaseLetterCharacterSet = objc.registerName(
   "lowercaseLetterCharacterSet",
 );
@@ -43047,13 +46980,21 @@ late final _sel_lowercaseString = objc.registerName("lowercaseString");
 late final _sel_lowercaseStringWithLocale_ = objc.registerName(
   "lowercaseStringWithLocale:",
 );
+late final _sel_main = objc.registerName("main");
 late final _sel_mainBundle = objc.registerName("mainBundle");
 late final _sel_mainRunLoop = objc.registerName("mainRunLoop");
+late final _sel_mainThread = objc.registerName("mainThread");
+late final _sel_makeNewConnection_sender_ = objc.registerName(
+  "makeNewConnection:sender:",
+);
 late final _sel_makeObjectsPerformSelector_ = objc.registerName(
   "makeObjectsPerformSelector:",
 );
 late final _sel_makeObjectsPerformSelector_withObject_ = objc.registerName(
   "makeObjectsPerformSelector:withObject:",
+);
+late final _sel_matchesAppleEventCode_ = objc.registerName(
+  "matchesAppleEventCode:",
 );
 late final _sel_maximumLengthOfBytesUsingEncoding_ = objc.registerName(
   "maximumLengthOfBytesUsingEncoding:",
@@ -43066,30 +47007,86 @@ late final _sel_methodSignature = objc.registerName("methodSignature");
 late final _sel_methodSignatureForSelector_ = objc.registerName(
   "methodSignatureForSelector:",
 );
+late final _sel_middleName = objc.registerName("middleName");
 late final _sel_minusOrderedSet_ = objc.registerName("minusOrderedSet:");
 late final _sel_minusSet_ = objc.registerName("minusSet:");
+late final _sel_minuteOfHour = objc.registerName("minuteOfHour");
+late final _sel_modificationDate = objc.registerName("modificationDate");
+late final _sel_monthOfYear = objc.registerName("monthOfYear");
+late final _sel_mountedVolumeURLsIncludingResourceValuesForKeys_options_ = objc
+    .registerName("mountedVolumeURLsIncludingResourceValuesForKeys:options:");
+late final _sel_moveItemAtPath_toPath_error_ = objc.registerName(
+  "moveItemAtPath:toPath:error:",
+);
+late final _sel_moveItemAtURL_toURL_error_ = objc.registerName(
+  "moveItemAtURL:toURL:error:",
+);
 late final _sel_moveObjectsAtIndexes_toIndex_ = objc.registerName(
   "moveObjectsAtIndexes:toIndex:",
 );
+late final _sel_movePath_toPath_handler_ = objc.registerName(
+  "movePath:toPath:handler:",
+);
 late final _sel_msgid = objc.registerName("msgid");
+late final _sel_multipleThreadsEnabled = objc.registerName(
+  "multipleThreadsEnabled",
+);
+late final _sel_mutableArrayValueForKeyPath_ = objc.registerName(
+  "mutableArrayValueForKeyPath:",
+);
+late final _sel_mutableArrayValueForKey_ = objc.registerName(
+  "mutableArrayValueForKey:",
+);
 late final _sel_mutableBytes = objc.registerName("mutableBytes");
 late final _sel_mutableCopy = objc.registerName("mutableCopy");
 late final _sel_mutableCopyWithZone_ = objc.registerName(
   "mutableCopyWithZone:",
 );
+late final _sel_mutableOrderedSetValueForKeyPath_ = objc.registerName(
+  "mutableOrderedSetValueForKeyPath:",
+);
+late final _sel_mutableOrderedSetValueForKey_ = objc.registerName(
+  "mutableOrderedSetValueForKey:",
+);
+late final _sel_mutableSetValueForKeyPath_ = objc.registerName(
+  "mutableSetValueForKeyPath:",
+);
+late final _sel_mutableSetValueForKey_ = objc.registerName(
+  "mutableSetValueForKey:",
+);
 late final _sel_name = objc.registerName("name");
+late final _sel_namePrefix = objc.registerName("namePrefix");
+late final _sel_nameSuffix = objc.registerName("nameSuffix");
+late final _sel_names = objc.registerName("names");
 late final _sel_new = objc.registerName("new");
+late final _sel_newScriptingObjectOfClass_forValueForKey_withContentsValue_properties_ =
+    objc.registerName(
+      "newScriptingObjectOfClass:forValueForKey:withContentsValue:properties:",
+    );
 late final _sel_newlineCharacterSet = objc.registerName("newlineCharacterSet");
+late final _sel_nextDaylightSavingTimeTransition = objc.registerName(
+  "nextDaylightSavingTimeTransition",
+);
+late final _sel_nextDaylightSavingTimeTransitionAfterDate_ = objc.registerName(
+  "nextDaylightSavingTimeTransitionAfterDate:",
+);
 late final _sel_nextObject = objc.registerName("nextObject");
+late final _sel_nickname = objc.registerName("nickname");
 late final _sel_nonBaseCharacterSet = objc.registerName("nonBaseCharacterSet");
+late final _sel_nonretainedObjectValue = objc.registerName(
+  "nonretainedObjectValue",
+);
 late final _sel_notificationWithName_object_ = objc.registerName(
   "notificationWithName:object:",
 );
 late final _sel_notificationWithName_object_userInfo_ = objc.registerName(
   "notificationWithName:object:userInfo:",
 );
+late final _sel_now = objc.registerName("now");
 late final _sel_null = objc.registerName("null");
+late final _sel_nullDescriptor = objc.registerName("nullDescriptor");
 late final _sel_numberOfArguments = objc.registerName("numberOfArguments");
+late final _sel_numberOfItems = objc.registerName("numberOfItems");
 late final _sel_numberWithBool_ = objc.registerName("numberWithBool:");
 late final _sel_numberWithChar_ = objc.registerName("numberWithChar:");
 late final _sel_numberWithDouble_ = objc.registerName("numberWithDouble:");
@@ -43131,7 +47128,18 @@ late final _sel_objectForKey_ = objc.registerName("objectForKey:");
 late final _sel_objectForKeyedSubscript_ = objc.registerName(
   "objectForKeyedSubscript:",
 );
+late final _sel_objectSpecifier = objc.registerName("objectSpecifier");
+late final _sel_objectSpecifierWithDescriptor_ = objc.registerName(
+  "objectSpecifierWithDescriptor:",
+);
+late final _sel_objectZone = objc.registerName("objectZone");
 late final _sel_objectsAtIndexes_ = objc.registerName("objectsAtIndexes:");
+late final _sel_objectsByEvaluatingSpecifier = objc.registerName(
+  "objectsByEvaluatingSpecifier",
+);
+late final _sel_objectsByEvaluatingWithContainers_ = objc.registerName(
+  "objectsByEvaluatingWithContainers:",
+);
 late final _sel_objectsForKeys_notFoundMarker_ = objc.registerName(
   "objectsForKeys:notFoundMarker:",
 );
@@ -43139,10 +47147,15 @@ late final _sel_objectsPassingTest_ = objc.registerName("objectsPassingTest:");
 late final _sel_objectsWithOptions_passingTest_ = objc.registerName(
   "objectsWithOptions:passingTest:",
 );
+late final _sel_observationInfo = objc.registerName("observationInfo");
 late final _sel_observeValueForKeyPath_ofObject_change_context_ = objc
     .registerName("observeValueForKeyPath:ofObject:change:context:");
 late final _sel_open = objc.registerName("open");
+late final _sel_operand = objc.registerName("operand");
 late final _sel_orderedSet = objc.registerName("orderedSet");
+late final _sel_orderedSetByApplyingDifference_ = objc.registerName(
+  "orderedSetByApplyingDifference:",
+);
 late final _sel_orderedSetWithArray_ = objc.registerName(
   "orderedSetWithArray:",
 );
@@ -43171,6 +47184,16 @@ late final _sel_orderedSetWithSet_ = objc.registerName("orderedSetWithSet:");
 late final _sel_orderedSetWithSet_copyItems_ = objc.registerName(
   "orderedSetWithSet:copyItems:",
 );
+late final _sel_originatorNameComponents = objc.registerName(
+  "originatorNameComponents",
+);
+late final _sel_orthographyWithDominantScript_languageMap_ = objc.registerName(
+  "orthographyWithDominantScript:languageMap:",
+);
+late final _sel_otherVersionsOfItemAtURL_ = objc.registerName(
+  "otherVersionsOfItemAtURL:",
+);
+late final _sel_outputFormat = objc.registerName("outputFormat");
 late final _sel_outputStreamToBuffer_capacity_ = objc.registerName(
   "outputStreamToBuffer:capacity:",
 );
@@ -43186,9 +47209,17 @@ late final _sel_outputStreamWithURL_append_ = objc.registerName(
 late final _sel_paragraphRangeForRange_ = objc.registerName(
   "paragraphRangeForRange:",
 );
+late final _sel_paramDescriptorForKeyword_ = objc.registerName(
+  "paramDescriptorForKeyword:",
+);
 late final _sel_parameterString = objc.registerName("parameterString");
 late final _sel_password = objc.registerName("password");
 late final _sel_path = objc.registerName("path");
+late final _sel_pathComponents = objc.registerName("pathComponents");
+late final _sel_pathContentOfSymbolicLinkAtPath_ = objc.registerName(
+  "pathContentOfSymbolicLinkAtPath:",
+);
+late final _sel_pathExtension = objc.registerName("pathExtension");
 late final _sel_pathForAuxiliaryExecutable_ = objc.registerName(
   "pathForAuxiliaryExecutable:",
 );
@@ -43200,29 +47231,91 @@ late final _sel_pathForResource_ofType_inDirectory_ = objc.registerName(
 );
 late final _sel_pathForResource_ofType_inDirectory_forLocalization_ = objc
     .registerName("pathForResource:ofType:inDirectory:forLocalization:");
+late final _sel_pathWithComponents_ = objc.registerName("pathWithComponents:");
 late final _sel_pathsForResourcesOfType_inDirectory_ = objc.registerName(
   "pathsForResourcesOfType:inDirectory:",
 );
 late final _sel_pathsForResourcesOfType_inDirectory_forLocalization_ = objc
     .registerName("pathsForResourcesOfType:inDirectory:forLocalization:");
+late final _sel_pathsMatchingExtensions_ = objc.registerName(
+  "pathsMatchingExtensions:",
+);
 late final _sel_pause = objc.registerName("pause");
+late final _sel_pauseSyncForUbiquitousItemAtURL_completionHandler_ = objc
+    .registerName("pauseSyncForUbiquitousItemAtURL:completionHandler:");
 late final _sel_pausingHandler = objc.registerName("pausingHandler");
 late final _sel_performAsCurrentWithPendingUnitCount_usingBlock_ = objc
     .registerName("performAsCurrentWithPendingUnitCount:usingBlock:");
+late final _sel_performBlock_ = objc.registerName("performBlock:");
+late final _sel_performDefaultImplementation = objc.registerName(
+  "performDefaultImplementation",
+);
+late final _sel_performInModes_block_ = objc.registerName(
+  "performInModes:block:",
+);
+late final _sel_performSelectorInBackground_withObject_ = objc.registerName(
+  "performSelectorInBackground:withObject:",
+);
+late final _sel_performSelectorOnMainThread_withObject_waitUntilDone_ = objc
+    .registerName("performSelectorOnMainThread:withObject:waitUntilDone:");
+late final _sel_performSelectorOnMainThread_withObject_waitUntilDone_modes_ =
+    objc.registerName(
+      "performSelectorOnMainThread:withObject:waitUntilDone:modes:",
+    );
 late final _sel_performSelector_ = objc.registerName("performSelector:");
+late final _sel_performSelector_onThread_withObject_waitUntilDone_ = objc
+    .registerName("performSelector:onThread:withObject:waitUntilDone:");
+late final _sel_performSelector_onThread_withObject_waitUntilDone_modes_ = objc
+    .registerName("performSelector:onThread:withObject:waitUntilDone:modes:");
+late final _sel_performSelector_target_argument_order_modes_ = objc
+    .registerName("performSelector:target:argument:order:modes:");
 late final _sel_performSelector_withObject_ = objc.registerName(
   "performSelector:withObject:",
 );
+late final _sel_performSelector_withObject_afterDelay_ = objc.registerName(
+  "performSelector:withObject:afterDelay:",
+);
+late final _sel_performSelector_withObject_afterDelay_inModes_ = objc
+    .registerName("performSelector:withObject:afterDelay:inModes:");
 late final _sel_performSelector_withObject_withObject_ = objc.registerName(
   "performSelector:withObject:withObject:",
 );
+late final _sel_persistentIdentifier = objc.registerName(
+  "persistentIdentifier",
+);
+late final _sel_phoneticRepresentation = objc.registerName(
+  "phoneticRepresentation",
+);
+late final _sel_pointValue = objc.registerName("pointValue");
+late final _sel_pointerValue = objc.registerName("pointerValue");
 late final _sel_port = objc.registerName("port");
+late final _sel_portCoderWithReceivePort_sendPort_components_ = objc
+    .registerName("portCoderWithReceivePort:sendPort:components:");
+late final _sel_portForName_ = objc.registerName("portForName:");
+late final _sel_portForName_host_ = objc.registerName("portForName:host:");
 late final _sel_precomposedStringWithCanonicalMapping = objc.registerName(
   "precomposedStringWithCanonicalMapping",
 );
 late final _sel_precomposedStringWithCompatibilityMapping = objc.registerName(
   "precomposedStringWithCompatibilityMapping",
 );
+late final _sel_predicate = objc.registerName("predicate");
+late final _sel_predicateFormat = objc.registerName("predicateFormat");
+late final _sel_predicateFromMetadataQueryString_ = objc.registerName(
+  "predicateFromMetadataQueryString:",
+);
+late final _sel_predicateWithBlock_ = objc.registerName("predicateWithBlock:");
+late final _sel_predicateWithFormat_ = objc.registerName(
+  "predicateWithFormat:",
+);
+late final _sel_predicateWithFormat_argumentArray_ = objc.registerName(
+  "predicateWithFormat:argumentArray:",
+);
+late final _sel_predicateWithSubstitutionVariables_ = objc.registerName(
+  "predicateWithSubstitutionVariables:",
+);
+late final _sel_predicateWithValue_ = objc.registerName("predicateWithValue:");
+late final _sel_preferredLanguages = objc.registerName("preferredLanguages");
 late final _sel_preferredLocalizations = objc.registerName(
   "preferredLocalizations",
 );
@@ -43234,6 +47327,10 @@ late final _sel_preferredLocalizationsFromArray_forPreferences_ = objc
 late final _sel_preflightAndReturnError_ = objc.registerName(
   "preflightAndReturnError:",
 );
+late final _sel_preservationPriorityForTag_ = objc.registerName(
+  "preservationPriorityForTag:",
+);
+late final _sel_previewImageHandler = objc.registerName("previewImageHandler");
 late final _sel_principalClass = objc.registerName("principalClass");
 late final _sel_privateFrameworksPath = objc.registerName(
   "privateFrameworksPath",
@@ -43246,12 +47343,37 @@ late final _sel_progressWithTotalUnitCount_ = objc.registerName(
 );
 late final _sel_progressWithTotalUnitCount_parent_pendingUnitCount_ = objc
     .registerName("progressWithTotalUnitCount:parent:pendingUnitCount:");
+late final _sel_promisedItemResourceValuesForKeys_error_ = objc.registerName(
+  "promisedItemResourceValuesForKeys:error:",
+);
+late final _sel_propertyForKeyIfAvailable_ = objc.registerName(
+  "propertyForKeyIfAvailable:",
+);
 late final _sel_propertyForKey_ = objc.registerName("propertyForKey:");
+late final _sel_propertyList = objc.registerName("propertyList");
+late final _sel_propertyListFromStringsFileFormat = objc.registerName(
+  "propertyListFromStringsFileFormat",
+);
+late final _sel_proxyWithLocal_connection_ = objc.registerName(
+  "proxyWithLocal:connection:",
+);
+late final _sel_proxyWithTarget_connection_ = objc.registerName(
+  "proxyWithTarget:connection:",
+);
 late final _sel_publish = objc.registerName("publish");
 late final _sel_punctuationCharacterSet = objc.registerName(
   "punctuationCharacterSet",
 );
+late final _sel_qualityOfService = objc.registerName("qualityOfService");
 late final _sel_query = objc.registerName("query");
+late final _sel_quotationBeginDelimiter = objc.registerName(
+  "quotationBeginDelimiter",
+);
+late final _sel_quotationEndDelimiter = objc.registerName(
+  "quotationEndDelimiter",
+);
+late final _sel_raise = objc.registerName("raise");
+late final _sel_raise_format_ = objc.registerName("raise:format:");
 late final _sel_rangeOfCharacterFromSet_ = objc.registerName(
   "rangeOfCharacterFromSet:",
 );
@@ -43280,10 +47402,22 @@ late final _sel_rangeOfString_options_range_ = objc.registerName(
 late final _sel_rangeOfString_options_range_locale_ = objc.registerName(
   "rangeOfString:options:range:locale:",
 );
+late final _sel_rangeValue = objc.registerName("rangeValue");
 late final _sel_read_maxLength_ = objc.registerName("read:maxLength:");
+late final _sel_readableTypeIdentifiersForItemProvider = objc.registerName(
+  "readableTypeIdentifiersForItemProvider",
+);
+late final _sel_reason = objc.registerName("reason");
 late final _sel_receivePort = objc.registerName("receivePort");
+late final _sel_receiversSpecifier = objc.registerName("receiversSpecifier");
+late final _sel_recordDescriptor = objc.registerName("recordDescriptor");
 late final _sel_recoveryAttempter = objc.registerName("recoveryAttempter");
+late final _sel_rectValue = objc.registerName("rectValue");
+late final _sel_regionCode = objc.registerName("regionCode");
 late final _sel_registerClass = objc.registerName("registerClass");
+late final _sel_registerClassDescription_forClass_ = objc.registerName(
+  "registerClassDescription:forClass:",
+);
 late final _sel_registerDataRepresentationForTypeIdentifier_visibility_loadHandler_ =
     objc.registerName(
       "registerDataRepresentationForTypeIdentifier:visibility:loadHandler:",
@@ -43295,10 +47429,18 @@ late final _sel_registerFileRepresentationForTypeIdentifier_fileOptions_visibili
 late final _sel_registerItemForTypeIdentifier_loadHandler_ = objc.registerName(
   "registerItemForTypeIdentifier:loadHandler:",
 );
+late final _sel_registerName_ = objc.registerName("registerName:");
+late final _sel_registerName_withNameServer_ = objc.registerName(
+  "registerName:withNameServer:",
+);
 late final _sel_registerObjectOfClass_visibility_loadHandler_ = objc
     .registerName("registerObjectOfClass:visibility:loadHandler:");
 late final _sel_registerObject_visibility_ = objc.registerName(
   "registerObject:visibility:",
+);
+late final _sel_registerPort_name_ = objc.registerName("registerPort:name:");
+late final _sel_registerURLHandleClass_ = objc.registerName(
+  "registerURLHandleClass:",
 );
 late final _sel_registeredTypeIdentifiers = objc.registerName(
   "registeredTypeIdentifiers",
@@ -43309,6 +47451,7 @@ late final _sel_registeredTypeIdentifiersWithFileOptions_ = objc.registerName(
 late final _sel_relativePath = objc.registerName("relativePath");
 late final _sel_relativeString = objc.registerName("relativeString");
 late final _sel_release = objc.registerName("release");
+late final _sel_remoteObjects = objc.registerName("remoteObjects");
 late final _sel_removals = objc.registerName("removals");
 late final _sel_remove = objc.registerName("remove");
 late final _sel_removeAllCachedResourceValues = objc.registerName(
@@ -43316,8 +47459,24 @@ late final _sel_removeAllCachedResourceValues = objc.registerName(
 );
 late final _sel_removeAllIndexes = objc.registerName("removeAllIndexes");
 late final _sel_removeAllObjects = objc.registerName("removeAllObjects");
+late final _sel_removeAndReturnError_ = objc.registerName(
+  "removeAndReturnError:",
+);
 late final _sel_removeCachedResourceValueForKey_ = objc.registerName(
   "removeCachedResourceValueForKey:",
+);
+late final _sel_removeClient_ = objc.registerName("removeClient:");
+late final _sel_removeConnection_fromRunLoop_forMode_ = objc.registerName(
+  "removeConnection:fromRunLoop:forMode:",
+);
+late final _sel_removeDescriptorAtIndex_ = objc.registerName(
+  "removeDescriptorAtIndex:",
+);
+late final _sel_removeDescriptorWithKeyword_ = objc.registerName(
+  "removeDescriptorWithKeyword:",
+);
+late final _sel_removeFileAtPath_handler_ = objc.registerName(
+  "removeFileAtPath:handler:",
 );
 late final _sel_removeFromRunLoop_forMode_ = objc.registerName(
   "removeFromRunLoop:forMode:",
@@ -43327,6 +47486,12 @@ late final _sel_removeIndexesInRange_ = objc.registerName(
   "removeIndexesInRange:",
 );
 late final _sel_removeIndexes_ = objc.registerName("removeIndexes:");
+late final _sel_removeItemAtPath_error_ = objc.registerName(
+  "removeItemAtPath:error:",
+);
+late final _sel_removeItemAtURL_error_ = objc.registerName(
+  "removeItemAtURL:error:",
+);
 late final _sel_removeLastObject = objc.registerName("removeLastObject");
 late final _sel_removeObjectAtIndex_ = objc.registerName(
   "removeObjectAtIndex:",
@@ -43348,14 +47513,39 @@ late final _sel_removeObjectsAtIndexes_ = objc.registerName(
 late final _sel_removeObjectsForKeys_ = objc.registerName(
   "removeObjectsForKeys:",
 );
+late final _sel_removeObjectsFromIndices_numIndices_ = objc.registerName(
+  "removeObjectsFromIndices:numIndices:",
+);
 late final _sel_removeObjectsInArray_ = objc.registerName(
   "removeObjectsInArray:",
 );
 late final _sel_removeObjectsInRange_ = objc.registerName(
   "removeObjectsInRange:",
 );
+late final _sel_removeObserver_forKeyPath_ = objc.registerName(
+  "removeObserver:forKeyPath:",
+);
+late final _sel_removeObserver_forKeyPath_context_ = objc.registerName(
+  "removeObserver:forKeyPath:context:",
+);
+late final _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_ = objc
+    .registerName("removeObserver:fromObjectsAtIndexes:forKeyPath:");
+late final _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_context_ = objc
+    .registerName("removeObserver:fromObjectsAtIndexes:forKeyPath:context:");
+late final _sel_removeOtherVersionsOfItemAtURL_error_ = objc.registerName(
+  "removeOtherVersionsOfItemAtURL:error:",
+);
+late final _sel_removeParamDescriptorWithKeyword_ = objc.registerName(
+  "removeParamDescriptorWithKeyword:",
+);
+late final _sel_removePortForName_ = objc.registerName("removePortForName:");
 late final _sel_removePort_forMode_ = objc.registerName("removePort:forMode:");
+late final _sel_removeRequestMode_ = objc.registerName("removeRequestMode:");
+late final _sel_removeRunLoop_ = objc.registerName("removeRunLoop:");
 late final _sel_removeSubscriber_ = objc.registerName("removeSubscriber:");
+late final _sel_removeValueAtIndex_fromPropertyWithKey_ = objc.registerName(
+  "removeValueAtIndex:fromPropertyWithKey:",
+);
 late final _sel_replaceBytesInRange_withBytes_ = objc.registerName(
   "replaceBytesInRange:withBytes:",
 );
@@ -43365,8 +47555,18 @@ late final _sel_replaceBytesInRange_withBytes_length_ = objc.registerName(
 late final _sel_replaceCharactersInRange_withString_ = objc.registerName(
   "replaceCharactersInRange:withString:",
 );
+late final _sel_replaceItemAtURL_options_error_ = objc.registerName(
+  "replaceItemAtURL:options:error:",
+);
+late final _sel_replaceItemAtURL_withItemAtURL_backupItemName_options_resultingItemURL_error_ =
+    objc.registerName(
+      "replaceItemAtURL:withItemAtURL:backupItemName:options:resultingItemURL:error:",
+    );
 late final _sel_replaceObjectAtIndex_withObject_ = objc.registerName(
   "replaceObjectAtIndex:withObject:",
+);
+late final _sel_replaceObject_withObject_ = objc.registerName(
+  "replaceObject:withObject:",
 );
 late final _sel_replaceObjectsAtIndexes_withObjects_ = objc.registerName(
   "replaceObjectsAtIndexes:withObjects:",
@@ -43379,12 +47579,40 @@ late final _sel_replaceObjectsInRange_withObjectsFromArray_range_ = objc
 late final _sel_replaceObjectsInRange_withObjects_count_ = objc.registerName(
   "replaceObjectsInRange:withObjects:count:",
 );
+late final _sel_replaceOccurrencesOfString_withString_options_range_ = objc
+    .registerName("replaceOccurrencesOfString:withString:options:range:");
+late final _sel_replaceValueAtIndex_inPropertyWithKey_withValue_ = objc
+    .registerName("replaceValueAtIndex:inPropertyWithKey:withValue:");
+late final _sel_replacementObjectForArchiver_ = objc.registerName(
+  "replacementObjectForArchiver:",
+);
+late final _sel_replacementObjectForCoder_ = objc.registerName(
+  "replacementObjectForCoder:",
+);
+late final _sel_replacementObjectForKeyedArchiver_ = objc.registerName(
+  "replacementObjectForKeyedArchiver:",
+);
+late final _sel_replacementObjectForPortCoder_ = objc.registerName(
+  "replacementObjectForPortCoder:",
+);
+late final _sel_replyTimeout = objc.registerName("replyTimeout");
+late final _sel_replyWithException_ = objc.registerName("replyWithException:");
+late final _sel_requestModes = objc.registerName("requestModes");
+late final _sel_requestTimeout = objc.registerName("requestTimeout");
+late final _sel_requiresSecureCoding = objc.registerName(
+  "requiresSecureCoding",
+);
 late final _sel_reservedSpaceLength = objc.registerName("reservedSpaceLength");
 late final _sel_resetBytesInRange_ = objc.registerName("resetBytesInRange:");
+late final _sel_resetSystemTimeZone = objc.registerName("resetSystemTimeZone");
 late final _sel_resignCurrent = objc.registerName("resignCurrent");
 late final _sel_resolveClassMethod_ = objc.registerName("resolveClassMethod:");
 late final _sel_resolveInstanceMethod_ = objc.registerName(
   "resolveInstanceMethod:",
+);
+late final _sel_resourceData = objc.registerName("resourceData");
+late final _sel_resourceDataUsingCache_ = objc.registerName(
+  "resourceDataUsingCache:",
 );
 late final _sel_resourcePath = objc.registerName("resourcePath");
 late final _sel_resourceSpecifier = objc.registerName("resourceSpecifier");
@@ -43397,14 +47625,37 @@ late final _sel_resourceValuesForKeys_fromBookmarkData_ = objc.registerName(
 );
 late final _sel_respondsToSelector_ = objc.registerName("respondsToSelector:");
 late final _sel_resume = objc.registerName("resume");
+late final _sel_resumeExecutionWithResult_ = objc.registerName(
+  "resumeExecutionWithResult:",
+);
+late final _sel_resumeSyncForUbiquitousItemAtURL_withBehavior_completionHandler_ =
+    objc.registerName(
+      "resumeSyncForUbiquitousItemAtURL:withBehavior:completionHandler:",
+    );
 late final _sel_resumingHandler = objc.registerName("resumingHandler");
 late final _sel_retain = objc.registerName("retain");
 late final _sel_retainArguments = objc.registerName("retainArguments");
 late final _sel_retainCount = objc.registerName("retainCount");
+late final _sel_retainWeakReference = objc.registerName("retainWeakReference");
+late final _sel_returnID = objc.registerName("returnID");
+late final _sel_returnType = objc.registerName("returnType");
 late final _sel_reverseObjectEnumerator = objc.registerName(
   "reverseObjectEnumerator",
 );
 late final _sel_reversedOrderedSet = objc.registerName("reversedOrderedSet");
+late final _sel_rightExpression = objc.registerName("rightExpression");
+late final _sel_rootObject = objc.registerName("rootObject");
+late final _sel_rootProxy = objc.registerName("rootProxy");
+late final _sel_rootProxyForConnectionWithRegisteredName_host_ = objc
+    .registerName("rootProxyForConnectionWithRegisteredName:host:");
+late final _sel_rootProxyForConnectionWithRegisteredName_host_usingNameServer_ =
+    objc.registerName(
+      "rootProxyForConnectionWithRegisteredName:host:usingNameServer:",
+    );
+late final _sel_run = objc.registerName("run");
+late final _sel_runInNewThread = objc.registerName("runInNewThread");
+late final _sel_runMode_beforeDate_ = objc.registerName("runMode:beforeDate:");
+late final _sel_runUntilDate_ = objc.registerName("runUntilDate:");
 late final _sel_scheduleInRunLoop_forMode_ = objc.registerName(
   "scheduleInRunLoop:forMode:",
 );
@@ -43417,7 +47668,44 @@ late final _sel_scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_
       "scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:",
     );
 late final _sel_scheme = objc.registerName("scheme");
+late final _sel_scriptCode = objc.registerName("scriptCode");
+late final _sel_scriptErrorExpectedTypeDescriptor = objc.registerName(
+  "scriptErrorExpectedTypeDescriptor",
+);
+late final _sel_scriptErrorNumber = objc.registerName("scriptErrorNumber");
+late final _sel_scriptErrorOffendingObjectDescriptor = objc.registerName(
+  "scriptErrorOffendingObjectDescriptor",
+);
+late final _sel_scriptErrorString = objc.registerName("scriptErrorString");
+late final _sel_scriptingBeginsWith_ = objc.registerName(
+  "scriptingBeginsWith:",
+);
+late final _sel_scriptingContains_ = objc.registerName("scriptingContains:");
+late final _sel_scriptingEndsWith_ = objc.registerName("scriptingEndsWith:");
+late final _sel_scriptingIsEqualTo_ = objc.registerName("scriptingIsEqualTo:");
+late final _sel_scriptingIsGreaterThanOrEqualTo_ = objc.registerName(
+  "scriptingIsGreaterThanOrEqualTo:",
+);
+late final _sel_scriptingIsGreaterThan_ = objc.registerName(
+  "scriptingIsGreaterThan:",
+);
+late final _sel_scriptingIsLessThanOrEqualTo_ = objc.registerName(
+  "scriptingIsLessThanOrEqualTo:",
+);
+late final _sel_scriptingIsLessThan_ = objc.registerName(
+  "scriptingIsLessThan:",
+);
+late final _sel_scriptingProperties = objc.registerName("scriptingProperties");
+late final _sel_scriptingValueForSpecifier_ = objc.registerName(
+  "scriptingValueForSpecifier:",
+);
+late final _sel_secondOfMinute = objc.registerName("secondOfMinute");
+late final _sel_secondsFromGMT = objc.registerName("secondsFromGMT");
+late final _sel_secondsFromGMTForDate_ = objc.registerName(
+  "secondsFromGMTForDate:",
+);
 late final _sel_selector = objc.registerName("selector");
+late final _sel_selectorForCommand_ = objc.registerName("selectorForCommand:");
 late final _sel_self = objc.registerName("self");
 late final _sel_sendBeforeDate_ = objc.registerName("sendBeforeDate:");
 late final _sel_sendBeforeDate_components_from_reserved_ = objc.registerName(
@@ -43425,8 +47713,19 @@ late final _sel_sendBeforeDate_components_from_reserved_ = objc.registerName(
 );
 late final _sel_sendBeforeDate_msgid_components_from_reserved_ = objc
     .registerName("sendBeforeDate:msgid:components:from:reserved:");
+late final _sel_sendEventWithOptions_timeout_error_ = objc.registerName(
+  "sendEventWithOptions:timeout:error:",
+);
 late final _sel_sendPort = objc.registerName("sendPort");
+late final _sel_serviceConnectionWithName_rootObject_ = objc.registerName(
+  "serviceConnectionWithName:rootObject:",
+);
+late final _sel_serviceConnectionWithName_rootObject_usingNameServer_ = objc
+    .registerName("serviceConnectionWithName:rootObject:usingNameServer:");
 late final _sel_set = objc.registerName("set");
+late final _sel_setAbbreviationDictionary_ = objc.registerName(
+  "setAbbreviationDictionary:",
+);
 late final _sel_setAllowsExtendedAttributes_ = objc.registerName(
   "setAllowsExtendedAttributes:",
 );
@@ -43436,7 +47735,14 @@ late final _sel_setAppliesSourcePositionAttributes_ = objc.registerName(
 late final _sel_setArgument_atIndex_ = objc.registerName(
   "setArgument:atIndex:",
 );
+late final _sel_setArguments_ = objc.registerName("setArguments:");
 late final _sel_setArray_ = objc.registerName("setArray:");
+late final _sel_setAttributeDescriptor_forKeyword_ = objc.registerName(
+  "setAttributeDescriptor:forKeyword:",
+);
+late final _sel_setAttributes_ofItemAtPath_error_ = objc.registerName(
+  "setAttributes:ofItemAtPath:error:",
+);
 late final _sel_setByAddingObject_ = objc.registerName("setByAddingObject:");
 late final _sel_setByAddingObjectsFromArray_ = objc.registerName(
   "setByAddingObjectsFromArray:",
@@ -43444,22 +47750,49 @@ late final _sel_setByAddingObjectsFromArray_ = objc.registerName(
 late final _sel_setByAddingObjectsFromSet_ = objc.registerName(
   "setByAddingObjectsFromSet:",
 );
+late final _sel_setCalendarFormat_ = objc.registerName("setCalendarFormat:");
 late final _sel_setCancellable_ = objc.registerName("setCancellable:");
 late final _sel_setCancellationHandler_ = objc.registerName(
   "setCancellationHandler:",
 );
+late final _sel_setChildSpecifier_ = objc.registerName("setChildSpecifier:");
+late final _sel_setClassName_forClass_ = objc.registerName(
+  "setClassName:forClass:",
+);
 late final _sel_setCompletedUnitCount_ = objc.registerName(
   "setCompletedUnitCount:",
 );
+late final _sel_setContainerClassDescription_ = objc.registerName(
+  "setContainerClassDescription:",
+);
+late final _sel_setContainerIsObjectBeingTested_ = objc.registerName(
+  "setContainerIsObjectBeingTested:",
+);
+late final _sel_setContainerIsRangeContainerObject_ = objc.registerName(
+  "setContainerIsRangeContainerObject:",
+);
+late final _sel_setContainerSpecifier_ = objc.registerName(
+  "setContainerSpecifier:",
+);
 late final _sel_setData_ = objc.registerName("setData:");
+late final _sel_setDefaultTimeZone_ = objc.registerName("setDefaultTimeZone:");
 late final _sel_setDelegate_ = objc.registerName("setDelegate:");
+late final _sel_setDescriptor_forKeyword_ = objc.registerName(
+  "setDescriptor:forKeyword:",
+);
 late final _sel_setDictionary_ = objc.registerName("setDictionary:");
+late final _sel_setDirectParameter_ = objc.registerName("setDirectParameter:");
+late final _sel_setDiscardable_ = objc.registerName("setDiscardable:");
 late final _sel_setDone = objc.registerName("setDone");
 late final _sel_setError_ = objc.registerName("setError:");
 late final _sel_setEstimatedTimeRemaining_ = objc.registerName(
   "setEstimatedTimeRemaining:",
 );
+late final _sel_setEvaluationErrorNumber_ = objc.registerName(
+  "setEvaluationErrorNumber:",
+);
 late final _sel_setFailurePolicy_ = objc.registerName("setFailurePolicy:");
+late final _sel_setFamilyName_ = objc.registerName("setFamilyName:");
 late final _sel_setFileCompletedCount_ = objc.registerName(
   "setFileCompletedCount:",
 );
@@ -43469,9 +47802,19 @@ late final _sel_setFileOperationKind_ = objc.registerName(
 late final _sel_setFileTotalCount_ = objc.registerName("setFileTotalCount:");
 late final _sel_setFileURL_ = objc.registerName("setFileURL:");
 late final _sel_setFireDate_ = objc.registerName("setFireDate:");
+late final _sel_setGivenName_ = objc.registerName("setGivenName:");
+late final _sel_setHostCacheEnabled_ = objc.registerName(
+  "setHostCacheEnabled:",
+);
+late final _sel_setIndependentConversationQueueing_ = objc.registerName(
+  "setIndependentConversationQueueing:",
+);
 late final _sel_setInterpretedSyntax_ = objc.registerName(
   "setInterpretedSyntax:",
 );
+late final _sel_setKey_ = objc.registerName("setKey:");
+late final _sel_setKeys_triggerChangeNotificationsForDependentKey_ = objc
+    .registerName("setKeys:triggerChangeNotificationsForDependentKey:");
 late final _sel_setKind_ = objc.registerName("setKind:");
 late final _sel_setLanguageCode_ = objc.registerName("setLanguageCode:");
 late final _sel_setLength_ = objc.registerName("setLength:");
@@ -43481,7 +47824,14 @@ late final _sel_setLocalizedAdditionalDescription_ = objc.registerName(
 late final _sel_setLocalizedDescription_ = objc.registerName(
   "setLocalizedDescription:",
 );
+late final _sel_setMiddleName_ = objc.registerName("setMiddleName:");
 late final _sel_setMsgid_ = objc.registerName("setMsgid:");
+late final _sel_setNamePrefix_ = objc.registerName("setNamePrefix:");
+late final _sel_setNameSuffix_ = objc.registerName("setNameSuffix:");
+late final _sel_setName_ = objc.registerName("setName:");
+late final _sel_setNickname_ = objc.registerName("setNickname:");
+late final _sel_setNilValueForKey_ = objc.registerName("setNilValueForKey:");
+late final _sel_setObjectZone_ = objc.registerName("setObjectZone:");
 late final _sel_setObject_atIndex_ = objc.registerName("setObject:atIndex:");
 late final _sel_setObject_atIndexedSubscript_ = objc.registerName(
   "setObject:atIndexedSubscript:",
@@ -43490,9 +47840,39 @@ late final _sel_setObject_forKey_ = objc.registerName("setObject:forKey:");
 late final _sel_setObject_forKeyedSubscript_ = objc.registerName(
   "setObject:forKeyedSubscript:",
 );
+late final _sel_setObservationInfo_ = objc.registerName("setObservationInfo:");
+late final _sel_setOutputFormat_ = objc.registerName("setOutputFormat:");
+late final _sel_setParamDescriptor_forKeyword_ = objc.registerName(
+  "setParamDescriptor:forKeyword:",
+);
 late final _sel_setPausable_ = objc.registerName("setPausable:");
 late final _sel_setPausingHandler_ = objc.registerName("setPausingHandler:");
+late final _sel_setPhoneticRepresentation_ = objc.registerName(
+  "setPhoneticRepresentation:",
+);
+late final _sel_setPreservationPriority_forTags_ = objc.registerName(
+  "setPreservationPriority:forTags:",
+);
+late final _sel_setPreviewImageHandler_ = objc.registerName(
+  "setPreviewImageHandler:",
+);
 late final _sel_setProperty_forKey_ = objc.registerName("setProperty:forKey:");
+late final _sel_setProtocolForProxy_ = objc.registerName(
+  "setProtocolForProxy:",
+);
+late final _sel_setQualityOfService_ = objc.registerName(
+  "setQualityOfService:",
+);
+late final _sel_setReceiversSpecifier_ = objc.registerName(
+  "setReceiversSpecifier:",
+);
+late final _sel_setReplyTimeout_ = objc.registerName("setReplyTimeout:");
+late final _sel_setRequestTimeout_ = objc.registerName("setRequestTimeout:");
+late final _sel_setRequiresSecureCoding_ = objc.registerName(
+  "setRequiresSecureCoding:",
+);
+late final _sel_setResolved_ = objc.registerName("setResolved:");
+late final _sel_setResourceData_ = objc.registerName("setResourceData:");
 late final _sel_setResourceValue_forKey_error_ = objc.registerName(
   "setResourceValue:forKey:error:",
 );
@@ -43501,22 +47881,56 @@ late final _sel_setResourceValues_error_ = objc.registerName(
 );
 late final _sel_setResumingHandler_ = objc.registerName("setResumingHandler:");
 late final _sel_setReturnValue_ = objc.registerName("setReturnValue:");
+late final _sel_setRootObject_ = objc.registerName("setRootObject:");
+late final _sel_setScriptErrorExpectedTypeDescriptor_ = objc.registerName(
+  "setScriptErrorExpectedTypeDescriptor:",
+);
+late final _sel_setScriptErrorNumber_ = objc.registerName(
+  "setScriptErrorNumber:",
+);
+late final _sel_setScriptErrorOffendingObjectDescriptor_ = objc.registerName(
+  "setScriptErrorOffendingObjectDescriptor:",
+);
+late final _sel_setScriptErrorString_ = objc.registerName(
+  "setScriptErrorString:",
+);
+late final _sel_setScriptingProperties_ = objc.registerName(
+  "setScriptingProperties:",
+);
 late final _sel_setSelector_ = objc.registerName("setSelector:");
 late final _sel_setSet_ = objc.registerName("setSet:");
+late final _sel_setSharedObservers_ = objc.registerName("setSharedObservers:");
+late final _sel_setStackSize_ = objc.registerName("setStackSize:");
+late final _sel_setString_ = objc.registerName("setString:");
 late final _sel_setSuggestedName_ = objc.registerName("setSuggestedName:");
 late final _sel_setTarget_ = objc.registerName("setTarget:");
 late final _sel_setTemporaryResourceValue_forKey_ = objc.registerName(
   "setTemporaryResourceValue:forKey:",
 );
+late final _sel_setThreadPriority_ = objc.registerName("setThreadPriority:");
 late final _sel_setThroughput_ = objc.registerName("setThroughput:");
+late final _sel_setTimeZone_ = objc.registerName("setTimeZone:");
 late final _sel_setTolerance_ = objc.registerName("setTolerance:");
 late final _sel_setTotalUnitCount_ = objc.registerName("setTotalUnitCount:");
+late final _sel_setUbiquitous_itemAtURL_destinationURL_error_ = objc
+    .registerName("setUbiquitous:itemAtURL:destinationURL:error:");
 late final _sel_setUserInfoObject_forKey_ = objc.registerName(
   "setUserInfoObject:forKey:",
 );
 late final _sel_setUserInfoValueProviderForDomain_provider_ = objc.registerName(
   "setUserInfoValueProviderForDomain:provider:",
 );
+late final _sel_setValue_forKeyPath_ = objc.registerName(
+  "setValue:forKeyPath:",
+);
+late final _sel_setValue_forKey_ = objc.registerName("setValue:forKey:");
+late final _sel_setValue_forUndefinedKey_ = objc.registerName(
+  "setValue:forUndefinedKey:",
+);
+late final _sel_setValuesForKeysWithDictionary_ = objc.registerName(
+  "setValuesForKeysWithDictionary:",
+);
+late final _sel_setVersion_ = objc.registerName("setVersion:");
 late final _sel_setWithArray_ = objc.registerName("setWithArray:");
 late final _sel_setWithCapacity_ = objc.registerName("setWithCapacity:");
 late final _sel_setWithObject_ = objc.registerName("setWithObject:");
@@ -43529,6 +47943,9 @@ late final _sel_sharedFrameworksPath = objc.registerName(
   "sharedFrameworksPath",
 );
 late final _sel_sharedFrameworksURL = objc.registerName("sharedFrameworksURL");
+late final _sel_sharedKeySetForKeys_ = objc.registerName(
+  "sharedKeySetForKeys:",
+);
 late final _sel_sharedSupportPath = objc.registerName("sharedSupportPath");
 late final _sel_sharedSupportURL = objc.registerName("sharedSupportURL");
 late final _sel_shiftIndexesStartingAtIndex_by_ = objc.registerName(
@@ -43538,12 +47955,22 @@ late final _sel_shortValue = objc.registerName("shortValue");
 late final _sel_signatureWithObjCTypes_ = objc.registerName(
   "signatureWithObjCTypes:",
 );
+late final _sel_sizeValue = objc.registerName("sizeValue");
+late final _sel_skipDescendants = objc.registerName("skipDescendants");
+late final _sel_skipDescendents = objc.registerName("skipDescendents");
+late final _sel_sleepForTimeInterval_ = objc.registerName(
+  "sleepForTimeInterval:",
+);
+late final _sel_sleepUntilDate_ = objc.registerName("sleepUntilDate:");
 late final _sel_smallestEncoding = objc.registerName("smallestEncoding");
 late final _sel_sortRange_options_usingComparator_ = objc.registerName(
   "sortRange:options:usingComparator:",
 );
 late final _sel_sortUsingComparator_ = objc.registerName(
   "sortUsingComparator:",
+);
+late final _sel_sortUsingDescriptors_ = objc.registerName(
+  "sortUsingDescriptors:",
 );
 late final _sel_sortUsingFunction_context_ = objc.registerName(
   "sortUsingFunction:context:",
@@ -43555,6 +47982,9 @@ late final _sel_sortWithOptions_usingComparator_ = objc.registerName(
 late final _sel_sortedArrayHint = objc.registerName("sortedArrayHint");
 late final _sel_sortedArrayUsingComparator_ = objc.registerName(
   "sortedArrayUsingComparator:",
+);
+late final _sel_sortedArrayUsingDescriptors_ = objc.registerName(
+  "sortedArrayUsingDescriptors:",
 );
 late final _sel_sortedArrayUsingFunction_context_ = objc.registerName(
   "sortedArrayUsingFunction:context:",
@@ -43568,19 +47998,41 @@ late final _sel_sortedArrayUsingSelector_ = objc.registerName(
 late final _sel_sortedArrayWithOptions_usingComparator_ = objc.registerName(
   "sortedArrayWithOptions:usingComparator:",
 );
+late final _sel_stackSize = objc.registerName("stackSize");
 late final _sel_standardizedURL = objc.registerName("standardizedURL");
+late final _sel_start = objc.registerName("start");
 late final _sel_startAccessingSecurityScopedResource = objc.registerName(
   "startAccessingSecurityScopedResource",
 );
+late final _sel_startDownloadingUbiquitousItemAtURL_error_ = objc.registerName(
+  "startDownloadingUbiquitousItemAtURL:error:",
+);
+late final _sel_statistics = objc.registerName("statistics");
+late final _sel_status = objc.registerName("status");
 late final _sel_stopAccessingSecurityScopedResource = objc.registerName(
   "stopAccessingSecurityScopedResource",
 );
+late final _sel_storedValueForKey_ = objc.registerName("storedValueForKey:");
 late final _sel_streamError = objc.registerName("streamError");
 late final _sel_streamStatus = objc.registerName("streamStatus");
 late final _sel_stream_handleEvent_ = objc.registerName("stream:handleEvent:");
 late final _sel_string = objc.registerName("string");
+late final _sel_stringByAbbreviatingWithTildeInPath = objc.registerName(
+  "stringByAbbreviatingWithTildeInPath",
+);
+late final _sel_stringByAddingPercentEncodingWithAllowedCharacters_ = objc
+    .registerName("stringByAddingPercentEncodingWithAllowedCharacters:");
+late final _sel_stringByAddingPercentEscapesUsingEncoding_ = objc.registerName(
+  "stringByAddingPercentEscapesUsingEncoding:",
+);
 late final _sel_stringByAppendingFormat_ = objc.registerName(
   "stringByAppendingFormat:",
+);
+late final _sel_stringByAppendingPathComponent_ = objc.registerName(
+  "stringByAppendingPathComponent:",
+);
+late final _sel_stringByAppendingPathExtension_ = objc.registerName(
+  "stringByAppendingPathExtension:",
 );
 late final _sel_stringByAppendingString_ = objc.registerName(
   "stringByAppendingString:",
@@ -43588,11 +48040,23 @@ late final _sel_stringByAppendingString_ = objc.registerName(
 late final _sel_stringByApplyingTransform_reverse_ = objc.registerName(
   "stringByApplyingTransform:reverse:",
 );
+late final _sel_stringByDeletingLastPathComponent = objc.registerName(
+  "stringByDeletingLastPathComponent",
+);
+late final _sel_stringByDeletingPathExtension = objc.registerName(
+  "stringByDeletingPathExtension",
+);
+late final _sel_stringByExpandingTildeInPath = objc.registerName(
+  "stringByExpandingTildeInPath",
+);
 late final _sel_stringByFoldingWithOptions_locale_ = objc.registerName(
   "stringByFoldingWithOptions:locale:",
 );
 late final _sel_stringByPaddingToLength_withString_startingAtIndex_ = objc
     .registerName("stringByPaddingToLength:withString:startingAtIndex:");
+late final _sel_stringByRemovingPercentEncoding = objc.registerName(
+  "stringByRemovingPercentEncoding",
+);
 late final _sel_stringByReplacingCharactersInRange_withString_ = objc
     .registerName("stringByReplacingCharactersInRange:withString:");
 late final _sel_stringByReplacingOccurrencesOfString_withString_ = objc
@@ -43601,26 +48065,52 @@ late final _sel_stringByReplacingOccurrencesOfString_withString_options_range_ =
     objc.registerName(
       "stringByReplacingOccurrencesOfString:withString:options:range:",
     );
+late final _sel_stringByReplacingPercentEscapesUsingEncoding_ = objc
+    .registerName("stringByReplacingPercentEscapesUsingEncoding:");
+late final _sel_stringByResolvingSymlinksInPath = objc.registerName(
+  "stringByResolvingSymlinksInPath",
+);
+late final _sel_stringByStandardizingPath = objc.registerName(
+  "stringByStandardizingPath",
+);
 late final _sel_stringByTrimmingCharactersInSet_ = objc.registerName(
   "stringByTrimmingCharactersInSet:",
 );
+late final _sel_stringEncodingForData_encodingOptions_convertedString_usedLossyConversion_ =
+    objc.registerName(
+      "stringEncodingForData:encodingOptions:convertedString:usedLossyConversion:",
+    );
 late final _sel_stringValue = objc.registerName("stringValue");
+late final _sel_stringWithCString_ = objc.registerName("stringWithCString:");
 late final _sel_stringWithCString_encoding_ = objc.registerName(
   "stringWithCString:encoding:",
 );
+late final _sel_stringWithCString_length_ = objc.registerName(
+  "stringWithCString:length:",
+);
+late final _sel_stringWithCapacity_ = objc.registerName("stringWithCapacity:");
 late final _sel_stringWithCharacters_length_ = objc.registerName(
   "stringWithCharacters:length:",
+);
+late final _sel_stringWithContentsOfFile_ = objc.registerName(
+  "stringWithContentsOfFile:",
 );
 late final _sel_stringWithContentsOfFile_encoding_error_ = objc.registerName(
   "stringWithContentsOfFile:encoding:error:",
 );
 late final _sel_stringWithContentsOfFile_usedEncoding_error_ = objc
     .registerName("stringWithContentsOfFile:usedEncoding:error:");
+late final _sel_stringWithContentsOfURL_ = objc.registerName(
+  "stringWithContentsOfURL:",
+);
 late final _sel_stringWithContentsOfURL_encoding_error_ = objc.registerName(
   "stringWithContentsOfURL:encoding:error:",
 );
 late final _sel_stringWithContentsOfURL_usedEncoding_error_ = objc.registerName(
   "stringWithContentsOfURL:usedEncoding:error:",
+);
+late final _sel_stringWithFileSystemRepresentation_length_ = objc.registerName(
+  "stringWithFileSystemRepresentation:length:",
 );
 late final _sel_stringWithFormat_ = objc.registerName("stringWithFormat:");
 late final _sel_stringWithString_ = objc.registerName("stringWithString:");
@@ -43629,18 +48119,52 @@ late final _sel_stringWithUTF8String_ = objc.registerName(
 );
 late final _sel_stringWithValidatedFormat_validFormatSpecifiers_error_ = objc
     .registerName("stringWithValidatedFormat:validFormatSpecifiers:error:");
+late final _sel_stringsByAppendingPaths_ = objc.registerName(
+  "stringsByAppendingPaths:",
+);
 late final _sel_subarrayWithRange_ = objc.registerName("subarrayWithRange:");
 late final _sel_subdataWithRange_ = objc.registerName("subdataWithRange:");
+late final _sel_subpathsAtPath_ = objc.registerName("subpathsAtPath:");
+late final _sel_subpathsOfDirectoryAtPath_error_ = objc.registerName(
+  "subpathsOfDirectoryAtPath:error:",
+);
 late final _sel_substringFromIndex_ = objc.registerName("substringFromIndex:");
 late final _sel_substringToIndex_ = objc.registerName("substringToIndex:");
 late final _sel_substringWithRange_ = objc.registerName("substringWithRange:");
 late final _sel_suggestedName = objc.registerName("suggestedName");
+late final _sel_suiteName = objc.registerName("suiteName");
 late final _sel_superclass = objc.registerName("superclass");
+late final _sel_superclassDescription = objc.registerName(
+  "superclassDescription",
+);
+late final _sel_supportsCommand_ = objc.registerName("supportsCommand:");
 late final _sel_supportsSecureCoding = objc.registerName(
   "supportsSecureCoding",
 );
+late final _sel_suspendExecution = objc.registerName("suspendExecution");
 late final _sel_symbolCharacterSet = objc.registerName("symbolCharacterSet");
+late final _sel_systemDefaultPortNameServer = objc.registerName(
+  "systemDefaultPortNameServer",
+);
+late final _sel_systemLocale = objc.registerName("systemLocale");
+late final _sel_systemTimeZone = objc.registerName("systemTimeZone");
+late final _sel_systemVersion = objc.registerName("systemVersion");
+late final _sel_takeStoredValue_forKey_ = objc.registerName(
+  "takeStoredValue:forKey:",
+);
+late final _sel_takeValue_forKeyPath_ = objc.registerName(
+  "takeValue:forKeyPath:",
+);
+late final _sel_takeValue_forKey_ = objc.registerName("takeValue:forKey:");
+late final _sel_takeValuesFromDictionary_ = objc.registerName(
+  "takeValuesFromDictionary:",
+);
 late final _sel_target = objc.registerName("target");
+late final _sel_temporaryDirectory = objc.registerName("temporaryDirectory");
+late final _sel_temporaryDirectoryURLForNewVersionOfItemAtURL_ = objc
+    .registerName("temporaryDirectoryURLForNewVersionOfItemAtURL:");
+late final _sel_threadDictionary = objc.registerName("threadDictionary");
+late final _sel_threadPriority = objc.registerName("threadPriority");
 late final _sel_throughput = objc.registerName("throughput");
 late final _sel_timeInterval = objc.registerName("timeInterval");
 late final _sel_timeIntervalSince1970 = objc.registerName(
@@ -43655,6 +48179,18 @@ late final _sel_timeIntervalSinceNow = objc.registerName(
 late final _sel_timeIntervalSinceReferenceDate = objc.registerName(
   "timeIntervalSinceReferenceDate",
 );
+late final _sel_timeZone = objc.registerName("timeZone");
+late final _sel_timeZoneDataVersion = objc.registerName("timeZoneDataVersion");
+late final _sel_timeZoneForSecondsFromGMT_ = objc.registerName(
+  "timeZoneForSecondsFromGMT:",
+);
+late final _sel_timeZoneWithAbbreviation_ = objc.registerName(
+  "timeZoneWithAbbreviation:",
+);
+late final _sel_timeZoneWithName_ = objc.registerName("timeZoneWithName:");
+late final _sel_timeZoneWithName_data_ = objc.registerName(
+  "timeZoneWithName:data:",
+);
 late final _sel_timerWithTimeInterval_invocation_repeats_ = objc.registerName(
   "timerWithTimeInterval:invocation:repeats:",
 );
@@ -43663,13 +48199,40 @@ late final _sel_timerWithTimeInterval_repeats_block_ = objc.registerName(
 );
 late final _sel_timerWithTimeInterval_target_selector_userInfo_repeats_ = objc
     .registerName("timerWithTimeInterval:target:selector:userInfo:repeats:");
+late final _sel_toManyRelationshipKeys = objc.registerName(
+  "toManyRelationshipKeys",
+);
+late final _sel_toOneRelationshipKeys = objc.registerName(
+  "toOneRelationshipKeys",
+);
 late final _sel_tolerance = objc.registerName("tolerance");
 late final _sel_totalUnitCount = objc.registerName("totalUnitCount");
+late final _sel_transactionID = objc.registerName("transactionID");
+late final _sel_trashItemAtURL_resultingItemURL_error_ = objc.registerName(
+  "trashItemAtURL:resultingItemURL:error:",
+);
+late final _sel_trueExpression = objc.registerName("trueExpression");
+late final _sel_typeCodeValue = objc.registerName("typeCodeValue");
+late final _sel_typeForArgumentWithName_ = objc.registerName(
+  "typeForArgumentWithName:",
+);
+late final _sel_typeForKey_ = objc.registerName("typeForKey:");
+late final _sel_ubiquityIdentityToken = objc.registerName(
+  "ubiquityIdentityToken",
+);
+late final _sel_unableToSetNilForKey_ = objc.registerName(
+  "unableToSetNilForKey:",
+);
 late final _sel_underlyingErrors = objc.registerName("underlyingErrors");
 late final _sel_unionOrderedSet_ = objc.registerName("unionOrderedSet:");
 late final _sel_unionSet_ = objc.registerName("unionSet:");
 late final _sel_unload = objc.registerName("unload");
+late final _sel_unmountVolumeAtURL_options_completionHandler_ = objc
+    .registerName("unmountVolumeAtURL:options:completionHandler:");
 late final _sel_unpublish = objc.registerName("unpublish");
+late final _sel_unresolvedConflictVersionsOfItemAtURL_ = objc.registerName(
+  "unresolvedConflictVersionsOfItemAtURL:",
+);
 late final _sel_unsignedCharValue = objc.registerName("unsignedCharValue");
 late final _sel_unsignedIntValue = objc.registerName("unsignedIntValue");
 late final _sel_unsignedIntegerValue = objc.registerName(
@@ -43680,6 +48243,10 @@ late final _sel_unsignedLongLongValue = objc.registerName(
 );
 late final _sel_unsignedLongValue = objc.registerName("unsignedLongValue");
 late final _sel_unsignedShortValue = objc.registerName("unsignedShortValue");
+late final _sel_uploadLocalVersionOfUbiquitousItemAtURL_withConflictResolutionPolicy_completionHandler_ =
+    objc.registerName(
+      "uploadLocalVersionOfUbiquitousItemAtURL:withConflictResolutionPolicy:completionHandler:",
+    );
 late final _sel_uppercaseLetterCharacterSet = objc.registerName(
   "uppercaseLetterCharacterSet",
 );
@@ -43687,13 +48254,72 @@ late final _sel_uppercaseString = objc.registerName("uppercaseString");
 late final _sel_uppercaseStringWithLocale_ = objc.registerName(
   "uppercaseStringWithLocale:",
 );
+late final _sel_useStoredAccessor = objc.registerName("useStoredAccessor");
 late final _sel_user = objc.registerName("user");
 late final _sel_userInfo = objc.registerName("userInfo");
 late final _sel_userInfoValueProviderForDomain_ = objc.registerName(
   "userInfoValueProviderForDomain:",
 );
+late final _sel_usesMetricSystem = objc.registerName("usesMetricSystem");
+late final _sel_validateValue_forKeyPath_error_ = objc.registerName(
+  "validateValue:forKeyPath:error:",
+);
+late final _sel_validateValue_forKey_error_ = objc.registerName(
+  "validateValue:forKey:error:",
+);
+late final _sel_valueAtIndex_inPropertyWithKey_ = objc.registerName(
+  "valueAtIndex:inPropertyWithKey:",
+);
+late final _sel_valueForKeyPath_ = objc.registerName("valueForKeyPath:");
+late final _sel_valueForKey_ = objc.registerName("valueForKey:");
+late final _sel_valueForUndefinedKey_ = objc.registerName(
+  "valueForUndefinedKey:",
+);
+late final _sel_valueWithBytes_objCType_ = objc.registerName(
+  "valueWithBytes:objCType:",
+);
+late final _sel_valueWithEdgeInsets_ = objc.registerName(
+  "valueWithEdgeInsets:",
+);
+late final _sel_valueWithName_inPropertyWithKey_ = objc.registerName(
+  "valueWithName:inPropertyWithKey:",
+);
+late final _sel_valueWithNonretainedObject_ = objc.registerName(
+  "valueWithNonretainedObject:",
+);
+late final _sel_valueWithPoint_ = objc.registerName("valueWithPoint:");
+late final _sel_valueWithPointer_ = objc.registerName("valueWithPointer:");
+late final _sel_valueWithRange_ = objc.registerName("valueWithRange:");
+late final _sel_valueWithRect_ = objc.registerName("valueWithRect:");
+late final _sel_valueWithSize_ = objc.registerName("valueWithSize:");
+late final _sel_valueWithUniqueID_inPropertyWithKey_ = objc.registerName(
+  "valueWithUniqueID:inPropertyWithKey:",
+);
+late final _sel_value_withObjCType_ = objc.registerName("value:withObjCType:");
+late final _sel_valuesForKeys_ = objc.registerName("valuesForKeys:");
+late final _sel_variable = objc.registerName("variable");
+late final _sel_variantCode = objc.registerName("variantCode");
+late final _sel_variantFittingPresentationWidth_ = objc.registerName(
+  "variantFittingPresentationWidth:",
+);
+late final _sel_version = objc.registerName("version");
 late final _sel_versionForClassName_ = objc.registerName(
   "versionForClassName:",
+);
+late final _sel_versionOfItemAtURL_forPersistentIdentifier_ = objc.registerName(
+  "versionOfItemAtURL:forPersistentIdentifier:",
+);
+late final _sel_visitExpressionKeyPath_scope_key_error_ = objc.registerName(
+  "visitExpressionKeyPath:scope:key:error:",
+);
+late final _sel_visitExpression_error_ = objc.registerName(
+  "visitExpression:error:",
+);
+late final _sel_visitOperatorType_error_ = objc.registerName(
+  "visitOperatorType:error:",
+);
+late final _sel_visitPredicate_error_ = objc.registerName(
+  "visitPredicate:error:",
 );
 late final _sel_whitespaceAndNewlineCharacterSet = objc.registerName(
   "whitespaceAndNewlineCharacterSet",
@@ -43701,11 +48327,26 @@ late final _sel_whitespaceAndNewlineCharacterSet = objc.registerName(
 late final _sel_whitespaceCharacterSet = objc.registerName(
   "whitespaceCharacterSet",
 );
+late final _sel_willChangeValueForKey_ = objc.registerName(
+  "willChangeValueForKey:",
+);
+late final _sel_willChangeValueForKey_withSetMutation_usingObjects_ = objc
+    .registerName("willChangeValueForKey:withSetMutation:usingObjects:");
+late final _sel_willChange_valuesAtIndexes_forKey_ = objc.registerName(
+  "willChange:valuesAtIndexes:forKey:",
+);
+late final _sel_windowsLocaleCodeFromLocaleIdentifier_ = objc.registerName(
+  "windowsLocaleCodeFromLocaleIdentifier:",
+);
 late final _sel_writableTypeIdentifiersForItemProvider = objc.registerName(
   "writableTypeIdentifiersForItemProvider",
 );
 late final _sel_writeBookmarkData_toURL_options_error_ = objc.registerName(
   "writeBookmarkData:toURL:options:error:",
+);
+late final _sel_writeData_ = objc.registerName("writeData:");
+late final _sel_writeProperty_forKey_ = objc.registerName(
+  "writeProperty:forKey:",
 );
 late final _sel_writeToFile_atomically_ = objc.registerName(
   "writeToFile:atomically:",
@@ -43727,6 +48368,9 @@ late final _sel_writeToURL_options_error_ = objc.registerName(
   "writeToURL:options:error:",
 );
 late final _sel_write_maxLength_ = objc.registerName("write:maxLength:");
+late final _sel_yearOfCommonEra = objc.registerName("yearOfCommonEra");
+late final _sel_years_months_days_hours_minutes_seconds_sinceDate_ = objc
+    .registerName("years:months:days:hours:minutes:seconds:sinceDate:");
 late final _sel_zone = objc.registerName("zone");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

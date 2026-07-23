@@ -12,6 +12,7 @@ import 'package:package_config/package_config_types.dart';
 import 'package:yaml/yaml.dart';
 
 import '../code_generator.dart';
+import '../public_ast/public_ast.dart' as public_ast;
 import '../strings.dart' as strings;
 import 'config.dart';
 import 'config_spec.dart';
@@ -1226,122 +1227,400 @@ final class YamlConfig {
     );
   }
 
-  FfiGenerator configAdapter() => FfiGenerator(
-    headers: Headers(
-      compilerOptions: compilerOpts,
-      entryPoints: entryPoints,
-      include: shouldIncludeHeader,
-      ignoreSourceErrors: ignoreSourceErrors,
-    ),
-    output: Output(
-      dartFile: output,
-      objectiveCFile: outputObjC,
-      symbolFile: symbolFile,
-      commentType: commentType,
-      preamble: preamble,
-      format: formatOutput,
-      style: ffiNativeConfig.enabled
-          ? NativeExternalBindings(assetId: ffiNativeConfig.assetId)
-          : DynamicLibraryBindings(
-              wrapperName: wrapperName,
-              wrapperDocComment: wrapperDocComment,
-            ),
-    ),
-    functions: Functions(
-      include: functionDecl.shouldInclude,
-      includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
-      rename: functionDecl.rename,
-      renameMember: functionDecl.renameMember,
-      varArgs: varArgFunctions,
-      includeTypedef: shouldExposeFunctionTypedef,
-      isLeaf: isLeafFunction,
-    ),
-    structs: Structs(
-      include: _structDecl.shouldInclude,
-      rename: _structDecl.rename,
-      renameMember: _structDecl.renameMember,
-      dependencies: _structDependencies,
-      packingOverride: (decl) =>
-          _structPackingOverride.getOverridenPackValue(decl.originalName),
+  FfiGenerator configAdapter() {
+    final yamlVisitor = YamlConfigAstVisitor(
+      functionDecl: _functionDecl,
+      structDecl: _structDecl,
+      unionDecl: _unionDecl,
+      enumClassDecl: _enumClassDecl,
+      unnamedEnumConstants: _unnamedEnumConstants,
+      globals: _globals,
+      macroDecl: _macroDecl,
+      typedefs: _typedefs,
+      objcInterfaces: _objcInterfaces,
+      objcProtocols: _objcProtocols,
+      objcCategories: _objcCategories,
+      exposeFunctionTypedefs: _exposeFunctionTypedefs,
+      leafFunctions: _leafFunctions,
+      enumsAsInt: _enumsAsInt,
+      structPackingOverride: _structPackingOverride,
+      objcInterfaceModules: _objcInterfaceModules,
+      objcProtocolModules: _objcProtocolModules,
+    );
+
+    return FfiGenerator(
+      visitors: [yamlVisitor],
+      headers: Headers(
+        compilerOptions: compilerOpts,
+        entryPoints: entryPoints,
+        include: shouldIncludeHeader,
+        ignoreSourceErrors: ignoreSourceErrors,
+      ),
+      output: Output(
+        dartFile: output,
+        objectiveCFile: outputObjC,
+        symbolFile: symbolFile,
+        commentType: commentType,
+        preamble: preamble,
+        format: formatOutput,
+        style: ffiNativeConfig.enabled
+            ? NativeExternalBindings(assetId: ffiNativeConfig.assetId)
+            : DynamicLibraryBindings(
+                wrapperName: wrapperName,
+                wrapperDocComment: wrapperDocComment,
+              ),
+      ),
+      functions: Functions(
+        varArgs: varArgFunctions,
+      ),
+      structs: Structs(
+        dependencies: _structDependencies,
+        // ignore: deprecated_member_use_from_same_package
+        imported: structTypeMappings.values.toList(),
+      ),
+      enums: Enums(
+        silenceWarning: silenceEnumWarning,
+      ),
+      unions: Unions(
+        dependencies: _unionDependencies,
+        // ignore: deprecated_member_use_from_same_package
+        imported: unionTypeMappings.values.toList(),
+      ),
+      typedefs: Typedefs(
+        useSupportedTypedefs: useSupportedTypedefs,
+        includeUnused: includeUnusedTypedefs,
+        // ignore: deprecated_member_use_from_same_package
+        imported: typedefTypeMappings.values.toList(),
+      ),
+      objectiveC: language == Language.objc
+          ? ObjectiveC(
+              interfaces: Interfaces(
+                includeTransitive: includeTransitiveObjCInterfaces,
+              ),
+              protocols: Protocols(
+                includeTransitive: includeTransitiveObjCProtocols,
+              ),
+              categories: Categories(
+                includeTransitive: includeTransitiveObjCCategories,
+              ),
+              externalVersions: externalVersions,
+              // ignore: deprecated_member_use_from_same_package
+              generateForPackageObjectiveC: generateForPackageObjectiveC,
+            )
+          : null,
       // ignore: deprecated_member_use_from_same_package
-      imported: structTypeMappings.values.toList(),
-    ),
-    enums: Enums(
-      include: _enumClassDecl.shouldInclude,
-      rename: _enumClassDecl.rename,
-      renameMember: _enumClassDecl.renameMember,
-      silenceWarning: silenceEnumWarning,
-      style: (e, suggestedStyle) {
-        if (suggestedStyle != null) return suggestedStyle;
-        return switch (enumShouldBeInt(e)) {
-          true => EnumStyle.intConstants,
-          false => EnumStyle.dartEnum,
-        };
-      },
-    ),
-    unions: Unions(
-      include: _unionDecl.shouldInclude,
-      rename: _unionDecl.rename,
-      renameMember: _unionDecl.renameMember,
-      dependencies: _unionDependencies,
+      libraryImports: libraryImports.values.toList(),
       // ignore: deprecated_member_use_from_same_package
-      imported: unionTypeMappings.values.toList(),
-    ),
-    unnamedEnums: UnnamedEnums(
-      include: _unnamedEnumConstants.shouldInclude,
-      rename: _unnamedEnumConstants.rename,
-    ),
-    globals: Globals(
-      include: globals.shouldInclude,
-      includeSymbolAddress: globals.shouldIncludeSymbolAddress,
-      rename: globals.rename,
-    ),
-    macros: Macros(include: macroDecl.shouldInclude, rename: macroDecl.rename),
-    typedefs: Typedefs(
-      include: typedefs.shouldInclude,
-      rename: typedefs.rename,
-      useSupportedTypedefs: useSupportedTypedefs,
-      includeUnused: includeUnusedTypedefs,
+      importedTypesByUsr: usrTypeMappings,
       // ignore: deprecated_member_use_from_same_package
-      imported: typedefTypeMappings.values.toList(),
-    ),
-    objectiveC: language == Language.objc
-        ? ObjectiveC(
-            interfaces: Interfaces(
-              include: objcInterfaces.shouldInclude,
-              includeMember: objcInterfaces.shouldIncludeMember,
-              rename: objcInterfaces.rename,
-              renameMember: objcInterfaces.renameMember,
-              includeTransitive: includeTransitiveObjCInterfaces,
-              module: interfaceModule,
-            ),
-            protocols: Protocols(
-              include: objcProtocols.shouldInclude,
-              includeMember: objcProtocols.shouldIncludeMember,
-              rename: objcProtocols.rename,
-              renameMember: objcProtocols.renameMember,
-              includeTransitive: includeTransitiveObjCProtocols,
-              module: protocolModule,
-            ),
-            categories: Categories(
-              include: objcCategories.shouldInclude,
-              includeMember: objcCategories.shouldIncludeMember,
-              rename: objcCategories.rename,
-              renameMember: objcCategories.renameMember,
-              includeTransitive: includeTransitiveObjCCategories,
-            ),
-            externalVersions: externalVersions,
-            // ignore: deprecated_member_use_from_same_package
-            generateForPackageObjectiveC: generateForPackageObjectiveC,
-          )
-        : null,
-    // ignore: deprecated_member_use_from_same_package
-    libraryImports: libraryImports.values.toList(),
-    // ignore: deprecated_member_use_from_same_package
-    importedTypesByUsr: usrTypeMappings,
-    // ignore: deprecated_member_use_from_same_package
-    integers: Integers(imported: nativeTypeMappings.values.toList()),
-    // ignore: deprecated_member_use_from_same_package
-    libclangDylib: libclangDylib,
-  );
+      integers: Integers(imported: nativeTypeMappings.values.toList()),
+      // ignore: deprecated_member_use_from_same_package
+      libclangDylib: libclangDylib,
+    );
+  }
+}
+
+final class YamlConfigAstVisitor extends public_ast.Visitor {
+  final YamlDeclarationFilters _functionDecl;
+  final YamlDeclarationFilters _structDecl;
+  final YamlDeclarationFilters _unionDecl;
+  final YamlDeclarationFilters _enumClassDecl;
+  final YamlDeclarationFilters _unnamedEnumConstants;
+  final YamlDeclarationFilters _globals;
+  final YamlDeclarationFilters _macroDecl;
+  final YamlDeclarationFilters _typedefs;
+  final YamlDeclarationFilters _objcInterfaces;
+  final YamlDeclarationFilters _objcProtocols;
+  final YamlDeclarationFilters _objcCategories;
+  final YamlIncluder _exposeFunctionTypedefs;
+  final YamlIncluder _leafFunctions;
+  final YamlIncluder _enumsAsInt;
+  final StructPackingOverride _structPackingOverride;
+  final ObjCModules _objcInterfaceModules;
+  final ObjCModules _objcProtocolModules;
+
+  YamlConfigAstVisitor({
+    required YamlDeclarationFilters functionDecl,
+    required YamlDeclarationFilters structDecl,
+    required YamlDeclarationFilters unionDecl,
+    required YamlDeclarationFilters enumClassDecl,
+    required YamlDeclarationFilters unnamedEnumConstants,
+    required YamlDeclarationFilters globals,
+    required YamlDeclarationFilters macroDecl,
+    required YamlDeclarationFilters typedefs,
+    required YamlDeclarationFilters objcInterfaces,
+    required YamlDeclarationFilters objcProtocols,
+    required YamlDeclarationFilters objcCategories,
+    required YamlIncluder exposeFunctionTypedefs,
+    required YamlIncluder leafFunctions,
+    required YamlIncluder enumsAsInt,
+    required StructPackingOverride structPackingOverride,
+    required ObjCModules objcInterfaceModules,
+    required ObjCModules objcProtocolModules,
+  })  : _functionDecl = functionDecl,
+        _structDecl = structDecl,
+        _unionDecl = unionDecl,
+        _enumClassDecl = enumClassDecl,
+        _unnamedEnumConstants = unnamedEnumConstants,
+        _globals = globals,
+        _macroDecl = macroDecl,
+        _typedefs = typedefs,
+        _objcInterfaces = objcInterfaces,
+        _objcProtocols = objcProtocols,
+        _objcCategories = objcCategories,
+        _exposeFunctionTypedefs = exposeFunctionTypedefs,
+        _leafFunctions = leafFunctions,
+        _enumsAsInt = enumsAsInt,
+        _structPackingOverride = structPackingOverride,
+        _objcInterfaceModules = objcInterfaceModules,
+        _objcProtocolModules = objcProtocolModules;
+
+  void _applyInclusion(public_ast.Decl node, YamlDeclarationFilters decl) {
+    if (decl.isExplicitlyIncluded(node.originalName)) {
+      node.isExcluded = false;
+    } else if (decl.isExplicitlyExcluded(node.originalName)) {
+      node.isExcluded = true;
+    } else if (decl.excludeAllByDefault) {
+      node.isExcluded = true;
+    } else {
+      node.isExcluded = false;
+    }
+  }
+
+  @override
+  void visitStruct(public_ast.Struct node) {
+    _applyInclusion(node, _structDecl);
+    final renamed = _structDecl.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    final pack = _structPackingOverride.getOverridenPackValue(node.originalName);
+    if (pack != null) {
+      node.pack = pack.value;
+    }
+    for (final field in node.fields) {
+      if (!_structDecl.shouldIncludeMember(
+          node.originalName, field.originalName)) {
+        field.isExcluded = true;
+      } else {
+        final fieldRenamed = _structDecl.renameMember(
+          node.originalName,
+          field.originalName,
+        );
+        if (fieldRenamed != field.originalName) {
+          field.name = fieldRenamed;
+        }
+      }
+    }
+  }
+
+  @override
+  void visitUnion(public_ast.Union node) {
+    _applyInclusion(node, _unionDecl);
+    final renamed = _unionDecl.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    for (final field in node.fields) {
+      if (!_unionDecl.shouldIncludeMember(
+          node.originalName, field.originalName)) {
+        field.isExcluded = true;
+      } else {
+        final fieldRenamed = _unionDecl.renameMember(
+          node.originalName,
+          field.originalName,
+        );
+        if (fieldRenamed != field.originalName) {
+          field.name = fieldRenamed;
+        }
+      }
+    }
+  }
+
+  @override
+  void visitEnum(public_ast.EnumClass node) {
+    if (node.originalName.isEmpty) return;
+    _applyInclusion(node, _enumClassDecl);
+    final renamed = _enumClassDecl.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    if (_enumsAsInt.shouldInclude(node.originalName)) {
+      node.style = EnumStyle.intConstants;
+    }
+    for (final constant in node.constants) {
+      if (constant.originalName != null &&
+          !_enumClassDecl.shouldIncludeMember(
+              node.originalName, constant.originalName!)) {
+        constant.isExcluded = true;
+      } else if (constant.originalName != null) {
+        final constantRenamed = _enumClassDecl.renameMember(
+          node.originalName,
+          constant.originalName!,
+        );
+        if (constantRenamed != constant.originalName) {
+          constant.name = constantRenamed;
+        }
+      }
+    }
+  }
+
+  @override
+  void visitUnnamedEnumConstant(public_ast.UnnamedEnumConstant node) {
+    _applyInclusion(node, _unnamedEnumConstants);
+    final renamed = _unnamedEnumConstants.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+  }
+
+  @override
+  void visitFunc(public_ast.Func node) {
+    _applyInclusion(node, _functionDecl);
+    final renamed = _functionDecl.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    if (_functionDecl.shouldIncludeSymbolAddress(node.originalName)) {
+      node.exposeSymbolAddress = true;
+    }
+    if (_exposeFunctionTypedefs.shouldInclude(node.originalName)) {
+      node.exposeFunctionTypedefs = true;
+    }
+    if (_leafFunctions.shouldInclude(node.originalName)) {
+      node.isLeaf = true;
+    }
+    for (final p in node.parameters) {
+      final pRenamed = _functionDecl.renameMember(
+        node.originalName,
+        p.originalName,
+      );
+      if (pRenamed != p.originalName) {
+        p.name = pRenamed;
+      }
+    }
+  }
+
+  @override
+  void visitGlobal(public_ast.Global node) {
+    _applyInclusion(node, _globals);
+    final renamed = _globals.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    if (_globals.shouldIncludeSymbolAddress(node.originalName)) {
+      node.exposeSymbolAddress = true;
+    }
+  }
+
+  @override
+  void visitMacroConstant(public_ast.MacroConstant node) {
+    _applyInclusion(node, _macroDecl);
+    final renamed = _macroDecl.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+  }
+
+  @override
+  void visitTypealias(public_ast.Typealias node) {
+    _applyInclusion(node, _typedefs);
+    final renamed = _typedefs.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+  }
+
+  @override
+  void visitObjCInterface(public_ast.ObjCInterface node) {
+    _applyInclusion(node, _objcInterfaces);
+    final renamed = _objcInterfaces.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    final mod = _objcInterfaceModules.getModule(node.originalName);
+    if (mod != null) node.module = mod;
+    for (final method in node.methods) {
+      if (!_objcInterfaces.shouldIncludeMember(
+          node.originalName, method.originalName)) {
+        method.isExcluded = true;
+      } else {
+        final methodRenamed = _objcInterfaces.renameMember(
+          node.originalName,
+          method.originalName,
+        );
+        if (methodRenamed != method.originalName) {
+          _renameObjCMethod(method, methodRenamed);
+        }
+      }
+    }
+  }
+
+  void _renameObjCMethod(public_ast.ObjCMethod method, String methodRenamed) {
+    final chunks = methodRenamed.split(':');
+    if (chunks.length == method.parameters.length + 1 &&
+        (chunks.length == 1 || chunks.last.isEmpty)) {
+      method.name = chunks.first;
+      for (var i = 1; i < method.parameters.length; i++) {
+        method.parameters[i].name = chunks[i];
+      }
+    } else {
+      method.name = methodRenamed.replaceAll(':', '_');
+      for (var i = 1; i < method.parameters.length; i++) {
+        method.parameters[i].name = method.parameters[i].originalName;
+      }
+    }
+  }
+
+  @override
+  void visitObjCProtocol(public_ast.ObjCProtocol node) {
+    _applyInclusion(node, _objcProtocols);
+    final renamed = _objcProtocols.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    final mod = _objcProtocolModules.getModule(node.originalName);
+    if (mod != null) node.module = mod;
+    for (final method in node.methods) {
+      if (!_objcProtocols.shouldIncludeMember(
+          node.originalName, method.originalName)) {
+        method.isExcluded = true;
+      } else {
+        final methodRenamed = _objcProtocols.renameMember(
+          node.originalName,
+          method.originalName,
+        );
+        if (methodRenamed != method.originalName) {
+          _renameObjCMethod(method, methodRenamed);
+        }
+      }
+    }
+  }
+
+  @override
+  void visitObjCCategory(public_ast.ObjCCategory node) {
+    if (node.originalName.isEmpty) return;
+    _applyInclusion(node, _objcCategories);
+    final renamed = _objcCategories.rename(node.originalName);
+    if (renamed != node.originalName) {
+      node.name = renamed;
+    }
+    for (final method in node.methods) {
+      if (!_objcCategories.shouldIncludeMember(
+          node.originalName, method.originalName)) {
+        method.isExcluded = true;
+      } else {
+        final methodRenamed = _objcCategories.renameMember(
+          node.originalName,
+          method.originalName,
+        );
+        if (methodRenamed != method.originalName) {
+          _renameObjCMethod(method, methodRenamed);
+        }
+      }
+    }
+  }
+
+  @override
+  void visitCppClass(public_ast.CppClass node) {}
 }

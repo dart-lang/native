@@ -80,6 +80,19 @@ class NativeLibraryASharedB {
       );
   late final _a_func5 = _a_func5Ptr
       .asFunction<void Function(imp$1.DartBaseNativeTypedef1)>();
+
+  void base_func1(imp$1.BaseTypedef1 t1, imp$1.BaseTypedef2 t2) {
+    return _base_func1(t1, t2);
+  }
+
+  late final _base_func1Ptr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Void Function(imp$1.BaseTypedef1, imp$1.BaseTypedef2)
+        >
+      >('base_func1');
+  late final _base_func1 = _base_func1Ptr
+      .asFunction<void Function(imp$1.BaseTypedef1, imp$1.BaseTypedef2)>();
 }
 
 enum A_Enum {

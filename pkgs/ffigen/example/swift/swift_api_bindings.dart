@@ -101,7 +101,7 @@ extension SwiftClass$Methods on SwiftClass {
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_swift_module.SwiftClass',
+  symbol: 'OBJC_CLASS_\$__TtC12swift_module10SwiftClass',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_SwiftClass_raw;
 final _class_SwiftClass = objc.getClass(

@@ -91,18 +91,11 @@ void main() {
 Library expectedLibrary() {
   final context = testContext(
     FfiGenerator(
+      visitors: const [IncludeAllVisitor()],
       output: Output(
         dartFile: Uri.file('unused'),
         style: const DynamicLibraryBindings(),
       ),
-      enums: Enums.includeAll,
-      functions: Functions.includeAll,
-      globals: Globals.includeAll,
-      macros: Macros.includeAll,
-      structs: Structs.includeAll,
-      typedefs: Typedefs.includeAll,
-      unions: Unions.includeAll,
-      unnamedEnums: UnnamedEnums.includeAll,
     ),
   );
   final globalStruct = Struct(context: context, name: 'EmptyStruct');

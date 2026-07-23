@@ -14,10 +14,7 @@ void main() {
     headers: Headers(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
-    functions: Functions(
-      include: (_) => true,
-      recordUse: (_) => true,
-    ),
+    visitors: [const IncludeAllVisitor(), const RecordUseVisitor()],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
@@ -39,10 +36,7 @@ void main() {
     headers: Headers(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
-    functions: Functions(
-      include: (_) => true,
-      recordUse: (_) => true,
-    ),
+    visitors: [const IncludeAllVisitor(), const RecordUseVisitor()],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file

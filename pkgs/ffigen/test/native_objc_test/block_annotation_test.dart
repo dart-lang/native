@@ -92,7 +92,7 @@ void main() {
     test('RetainedObjectProducer, defined dart, invoked dart', () {
       objectProducerTest(() {
         ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)> blk =
-            ObjCBlock_EmptyObject_ffiVoid$1.fromFunction(
+            ObjCBlock_EmptyObject_ffiVoid_retained.fromFunction(
               (Pointer<Void> _) => EmptyObject.alloc().init(),
             );
         return blk(nullptr);
@@ -102,7 +102,7 @@ void main() {
     test('RetainedObjectProducer, defined dart, invoked objC', () {
       objectProducerTest(() {
         ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)> blk =
-            ObjCBlock_EmptyObject_ffiVoid$1.fromFunction(
+            ObjCBlock_EmptyObject_ffiVoid_retained.fromFunction(
               (Pointer<Void> _) => EmptyObject.alloc().init(),
             );
         return BlockAnnotationTest.invokeRetainedObjectProducer(
@@ -345,7 +345,7 @@ void main() {
     test('RetainedBlockProducer, defined dart, invoked dart', () {
       blockProducerTest(() {
         ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)> blk =
-            ObjCBlock_EmptyBlock_ffiVoid$1.fromFunction(
+            ObjCBlock_EmptyBlock_ffiVoid_retained.fromFunction(
               (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}),
             );
         return blk(nullptr);
@@ -355,7 +355,7 @@ void main() {
     test('RetainedBlockProducer, defined dart, invoked objC', () {
       blockProducerTest(() {
         ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)> blk =
-            ObjCBlock_EmptyBlock_ffiVoid$1.fromFunction(
+            ObjCBlock_EmptyBlock_ffiVoid_retained.fromFunction(
               (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}),
             );
         return BlockAnnotationTest.invokeRetainedBlockProducer(

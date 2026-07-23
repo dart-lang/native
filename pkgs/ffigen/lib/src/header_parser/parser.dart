@@ -179,7 +179,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
 
   // Execute Public AST visitors.
   final publicAst = public_ast.PublicAst.fromBindings(allBindings.toList());
-  publicAst.accept(public_ast.LegacyCallbacksVisitor(config));
   for (final v in config.visitors ?? const <public_ast.Visitor>[]) {
     publicAst.accept(v);
   }
@@ -215,12 +214,12 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final semiFinalBindings = visit(
     context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
-    included,
+    included.union(transitives),
   ).bindings;
   final finalBindings = visit(
     context,
     FillMethodDependenciesVisitation(context, semiFinalBindings),
-    semiFinalBindings,
+    semiFinalBindings.union(indirectlyIncluded),
   ).finalBindings;
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
   visit(context, MarkImportsVisitation(context), finalBindings);
@@ -237,17 +236,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   /// Handle any declaration-declaration name conflicts and emit warnings.
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b, context.logger);
-  }
-
-  // Override pack values according to config. We do this after declaration
-  // conflicts have been handled so that users can target the generated names.
-  for (final b in finalBindingsList) {
-    if (b is Struct) {
-      final pack = config.structs.packingOverride(b);
-      if (pack != null) {
-        b.pack = pack.value;
-      }
-    }
   }
 
   return finalBindingsList;

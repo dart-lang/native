@@ -8,41 +8,25 @@ import 'package:test/test.dart';
 Declaration decl(String name) => Declaration(usr: '', originalName: name);
 
 void main() {
-  group('Declarations utils', () {
-    test('includeSet', () {
-      final includer = Declarations.includeSet({'foo', 'bar'});
-      expect(includer(decl('foo')), isTrue);
-      expect(includer(decl('bar')), isTrue);
-      expect(includer(decl('baz')), isFalse);
+  group('Visitor utils', () {
+    test('IncludeSetVisitor', () {
+      final visitor = IncludeSetVisitor({'foo', 'bar'});
+      final structFoo = Struct(originalName: 'foo', usr: 'foo');
+      final structBaz = Struct(originalName: 'baz', usr: 'baz');
+      visitor.visitStruct(structFoo);
+      visitor.visitStruct(structBaz);
+      expect(structFoo.isExcluded, isFalse);
+      expect(structBaz.isExcluded, isTrue);
     });
 
-    test('includeMemberSet', () {
-      final includer = Declarations.includeMemberSet({
-        'foo': {'bar'},
-      });
-      expect(includer(decl('foo'), 'bar'), isTrue);
-      expect(includer(decl('foo'), 'baz'), isFalse);
-      expect(includer(decl('goo'), 'bar'), isTrue);
-      expect(includer(decl('goo'), 'baz'), isTrue);
-    });
-
-    test('renameWithMap', () {
-      final renamer = Declarations.renameWithMap({'foo': 'bar'});
-      expect(renamer(decl('foo')), 'bar');
-      expect(renamer(decl('bar')), 'bar');
-      expect(renamer(decl('baz')), 'baz');
-    });
-
-    test('renameMemberWithMap', () {
-      final renamer = Declarations.renameMemberWithMap({
-        'foo': {'bar': 'baz'},
-      });
-      expect(renamer(decl('foo'), 'bar'), 'baz');
-      expect(renamer(decl('foo'), 'baz'), 'baz');
-      expect(renamer(decl('foo'), 'bop'), 'bop');
-      expect(renamer(decl('goo'), 'bar'), 'bar');
-      expect(renamer(decl('goo'), 'baz'), 'baz');
-      expect(renamer(decl('goo'), 'bop'), 'bop');
+    test('RenameMapVisitor', () {
+      final visitor = RenameMapVisitor({'foo': 'bar'});
+      final structFoo = Struct(originalName: 'foo', usr: 'foo');
+      final structBaz = Struct(originalName: 'baz', usr: 'baz');
+      visitor.visitStruct(structFoo);
+      visitor.visitStruct(structBaz);
+      expect(structFoo.name, 'bar');
+      expect(structBaz.name, 'baz');
     });
   });
 }

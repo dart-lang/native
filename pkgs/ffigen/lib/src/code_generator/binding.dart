@@ -38,7 +38,7 @@ abstract class Binding extends AstNode implements Declaration {
   /// Whether these bindings should be generated.
   ///
   /// Set by MarkBindingsVisitation.
-  bool generateBindings = true;
+  bool generateBindings = false;
 
   Binding({
     required this.usr,

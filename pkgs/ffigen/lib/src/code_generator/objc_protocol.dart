@@ -16,9 +16,19 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final superProtocols = <ObjCProtocol>[];
-  String? module;
   final Symbol loaderSymbol;
-  late final ObjCProtocolGlobal _protocolPointer;
+  String? _module;
+  String? get module => _module;
+  set module(String? value) {
+    _module = value;
+    _protocolPointer = ObjCProtocolGlobal(
+      '_protocol_$originalName',
+      originalName,
+      value,
+      loaderSymbol,
+    );
+  }
+  late ObjCProtocolGlobal _protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
   final ApiAvailability apiAvailability;
@@ -30,7 +40,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     super.usr,
     required String super.originalName,
     String? name,
-    this.module,
+    String? module,
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
@@ -46,12 +56,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    _protocolPointer = ObjCProtocolGlobal(
-      '_protocol_$originalName',
-      originalName,
-      module,
-      loaderSymbol,
-    );
+    this.module = module;
     _conformsTo = context.objCBuiltInFunctions.getSelObject(
       'conformsToProtocol:',
     );
@@ -67,6 +72,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
@@ -103,7 +109,9 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
 
     final sp = [
       protocolBase,
-      ...superProtocols.map((p) => p.getDartType(context)),
+      ...superProtocols
+          .where((p) => p.generateBindings || p.isObjCImport)
+          .map((p) => p.getDartType(context)),
     ];
     s.write('''
 extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
@@ -337,7 +345,7 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    if (generateAsStub) return null;
+    if (generateAsStub || !generateBindings) return null;
 
     final mainString =
         '''
@@ -357,8 +365,16 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
       PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Context context) =>
-      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
+  String getDartType(Context context) {
+    if (isObjCImport) {
+      context.libs.markUsed(objcPkgImport);
+      final builtinName =
+          context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) ??
+          originalName;
+      return '${context.libs.prefix(objcPkgImport)}.$builtinName';
+    }
+    return name;
+  }
 
   @override
   String getNativeType(Context context, {String varName = ''}) => 'id $varName';
@@ -442,11 +458,13 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
   void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
     if (!typeGraphOnly) {
       super.visitChildren(visitor);
-      visitor.visit(loaderSymbol);
-      visitor.visit(_protocolPointer);
-      visitor.visit(_conformsTo);
-      visitor.visit(_conformsToMsgSend);
-      visitMethods(visitor);
+      if (!generateAsStub) {
+        visitor.visit(loaderSymbol);
+        visitor.visit(_protocolPointer);
+        visitor.visit(_conformsTo);
+        visitor.visit(_conformsToMsgSend);
+        visitMethods(visitor);
+      }
       visitor.visit(ffiImport);
       visitor.visit(objcPkgImport);
     }

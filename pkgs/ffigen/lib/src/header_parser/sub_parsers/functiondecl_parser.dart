@@ -32,7 +32,6 @@ List<Func> parseFunctionDeclaration(
     return funcs;
   }
 
-  final decl = Declaration(usr: funcUsr, originalName: funcName);
   final cachedFunc = context.bindingsIndex.getSeenFunc(funcUsr);
   if (cachedFunc != null) {
     funcs.add(cachedFunc);
@@ -48,7 +47,6 @@ List<Func> parseFunctionDeclaration(
     ) = parseParameters(
       context,
       cursor,
-      renameFn: (paramName) => config.functions.renameMember(decl, paramName),
     );
 
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
@@ -120,7 +118,7 @@ List<Func> parseFunctionDeclaration(
             availability: apiAvailability.dartDoc,
           ),
           usr: usr,
-          name: config.functions.rename(decl) + (vaFunc?.postfix ?? ''),
+          name: funcName + (vaFunc?.postfix ?? ''),
           originalName: funcName,
           returnType: returnType,
           parameters: parameters,
@@ -128,10 +126,10 @@ List<Func> parseFunctionDeclaration(
             for (final ta in vaFunc?.types ?? const <Type>[])
               Parameter(type: ta, name: 'va', objCConsumed: false),
           ],
-          exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
-          exposeFunctionTypedefs: config.functions.includeTypedef(decl),
-          isLeaf: config.functions.isLeaf(decl),
-          recordUse: config.functions.recordUse(decl),
+          exposeSymbolAddress: false,
+          exposeFunctionTypedefs: false,
+          isLeaf: false,
+          recordUse: false,
           objCReturnsRetained: objCReturnsRetained,
           loadFromNativeAsset: config.output.style is NativeExternalBindings,
           apiAvailability: apiAvailability,

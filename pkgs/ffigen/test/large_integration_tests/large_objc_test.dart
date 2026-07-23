@@ -14,6 +14,7 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
+import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -32,29 +33,85 @@ Future<int> run(String exe, List<String> args) async {
   return await process.exitCode;
 }
 
+class _RandomIncludeVisitor extends Visitor {
+  static const inclusionRatio = 0.1;
+  static const seed = 1234;
+  static const forceIncludedProtocols = {'NSTextLocation'};
+
+  bool _randInclude(String kind, String usr, [String? member]) =>
+      fnvHash32('$seed.$kind.$usr.$member') < ((1 << 32) * inclusionRatio);
+
+  @override
+  void visitFunc(Func node) {
+    if (!_randInclude('functionDecl', node.usr)) node.isExcluded = true;
+  }
+
+  @override
+  void visitStruct(Struct node) {
+    if (!_randInclude('structDecl', node.usr)) node.isExcluded = true;
+  }
+
+  @override
+  void visitUnion(Union node) {
+    if (!_randInclude('unionDecl', node.usr)) node.isExcluded = true;
+  }
+
+  @override
+  void visitEnum(EnumClass node) {
+    if (!_randInclude('enums', node.usr)) node.isExcluded = true;
+  }
+
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
+    if (!_randInclude('unnamedEnumConstants', node.usr)) node.isExcluded = true;
+  }
+
+  @override
+  void visitGlobal(Global node) {
+    if (!_randInclude('globals', node.usr)) node.isExcluded = true;
+  }
+
+  @override
+  void visitTypealias(Typealias node) {
+    if (!_randInclude('typedefs', node.usr)) node.isExcluded = true;
+  }
+
+  @override
+  void visitObjCInterface(ObjCInterface node) {
+    if (!_randInclude('objcInterfaces', node.usr)) node.isExcluded = true;
+    for (final m in node.methods) {
+      if (!_randInclude('objcInterfaces.memb', node.usr, m.originalName)) {
+        m.isExcluded = true;
+      }
+    }
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    if (!forceIncludedProtocols.contains(node.originalName) &&
+        !_randInclude('objcProtocols', node.usr)) {
+      node.isExcluded = true;
+    }
+    for (final m in node.methods) {
+      if (!_randInclude('objcProtocols.memb', node.usr, m.originalName)) {
+        m.isExcluded = true;
+      }
+    }
+  }
+
+  @override
+  void visitObjCCategory(ObjCCategory node) {
+    if (!_randInclude('objcCategories', node.usr)) node.isExcluded = true;
+    for (final m in node.methods) {
+      if (!_randInclude('objcCategories.memb', node.usr, m.originalName)) {
+        m.isExcluded = true;
+      }
+    }
+  }
+}
+
 void main() {
   test('Large ObjC integration test', () async {
-    // Reducing the bindings to a random subset so that the test completes in a
-    // reasonable amount of time.
-    // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
-    const inclusionRatio = 0.1;
-    const seed = 1234;
-    bool randInclude(String kind, Declaration declaration, [String? member]) =>
-        fnvHash32('$seed.$kind.${declaration.usr}.$member') <
-        ((1 << 32) * inclusionRatio);
-    bool Function(Declaration clazz) includeRandom(
-      String kind, [
-      Set<String> forceIncludes = const {},
-    ]) =>
-        (Declaration declaration) =>
-            forceIncludes.contains(declaration.originalName) ||
-            randInclude(kind, declaration);
-    bool Function(Declaration declaration, String member) includeMemberRandom(
-      String kind,
-    ) =>
-        (Declaration clazz, String method) =>
-            randInclude('$kind.memb', clazz, method);
-
     final outFile = path.join(
       packagePathForTests,
       'test',
@@ -68,10 +125,8 @@ void main() {
       'large_objc_bindings.m',
     );
 
-    // TODO(https://github.com/dart-lang/native/issues/2517): Remove this.
-    const forceIncludedProtocols = {'NSTextLocation'};
-
     final generator = FfiGenerator(
+      visitors: [_RandomIncludeVisitor()],
       headers: Headers(
         entryPoints: [
           Uri.file(
@@ -94,42 +149,10 @@ void main() {
 // ignore_for_file: unused_field
 ''',
       ),
-      functions: () {
-        return Functions(include: includeRandom('functionDecl'));
-      }(),
-      structs: () {
-        return Structs(include: includeRandom('structDecl'));
-      }(),
-      unions: () {
-        return Unions(include: includeRandom('unionDecl'));
-      }(),
-      enums: () {
-        return Enums(include: includeRandom('enums'));
-      }(),
-      unnamedEnums: () {
-        return UnnamedEnums(include: includeRandom('unnamedEnumConstants'));
-      }(),
-      globals: Globals(include: includeRandom('globals')),
-      typedefs: Typedefs(include: includeRandom('typedefs')),
       objectiveC: ObjectiveC(
-        interfaces: Interfaces(
-          include: includeRandom('objcInterfaces'),
-          includeMember: includeMemberRandom('objcInterfaces'),
-          includeTransitive: false,
-        ),
-        protocols: Protocols(
-          include: includeRandom('objcProtocols', forceIncludedProtocols),
-          includeMember: includeMemberRandom('objcProtocols'),
-          includeTransitive: false,
-        ),
-        categories: Categories(
-          include: includeRandom('objcCategories'),
-          includeMember: includeMemberRandom('objcCategories'),
-          includeTransitive: false,
-        ),
         externalVersions: ExternalVersions(
-          ios: Versions(min: Version(12, 0, 0)),
-          macos: Versions(min: Version(10, 14, 0)),
+          ios: Versions(min: Version.parse('12.0.0')),
+          macos: Versions(min: Version.parse('10.14.0')),
         ),
       ),
     );

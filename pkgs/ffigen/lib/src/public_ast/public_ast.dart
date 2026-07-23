@@ -288,7 +288,10 @@ class Func implements Decl {
   String get name => _binding.symbol.oldName;
 
   @override
-  set name(String value) => _binding.symbol.oldName = value;
+  set name(String value) {
+    _binding.symbol.oldName = value;
+    _binding.funcVarSymbol.oldName = '_$value';
+  }
 
   @override
   bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
@@ -427,6 +430,8 @@ class ObjCInterface implements Decl {
   String? get module => _binding.module;
   set module(String? value) => _binding.module = value;
 
+  bool get isObjCImport => _binding.isObjCImport;
+
   List<ObjCMethod> get methods => _binding.methods.map(ObjCMethod.new).toList();
 
   @override
@@ -459,6 +464,8 @@ class ObjCProtocol implements Decl {
   String? get module => _binding.module;
   set module(String? value) => _binding.module = value;
 
+  bool get isObjCImport => _binding.isObjCImport;
+
   List<ObjCMethod> get methods => _binding.methods.map(ObjCMethod.new).toList();
 
   @override
@@ -487,6 +494,8 @@ class ObjCCategory implements Decl {
 
   @override
   set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+
+  bool get isObjCImport => _binding.isObjCImport;
 
   List<ObjCMethod> get methods => _binding.methods.map(ObjCMethod.new).toList();
 
@@ -594,7 +603,12 @@ class ObjCMethod implements AstNode {
 
   String get name => _method.symbol.oldName;
 
-  set name(String value) => _method.symbol.oldName = value;
+  set name(String value) {
+    _method.symbol.oldName = value;
+    if (_method.protocolMethodName != null) {
+      _method.protocolMethodName!.oldName = value;
+    }
+  }
 
   bool get isClassMethod => _method.isClassMethod;
 
@@ -603,6 +617,8 @@ class ObjCMethod implements AstNode {
   bool get isExcluded => _method.userDefinedIsExcluded ?? false;
 
   set isExcluded(bool value) => _method.userDefinedIsExcluded = value;
+
+  List<Parameter> get parameters => _method.params.map(Parameter.new).toList();
 
   @override
   void accept(Visitor visitor) => visitor.visitObjCMethod(this);
@@ -805,247 +821,4 @@ class RenameMapVisitor extends Visitor {
   void visitCppClass(CppClass node) => _rename(node);
 }
 
-class LegacyCallbacksVisitor extends Visitor {
-  final Config config;
 
-  const LegacyCallbacksVisitor(this.config);
-
-  @override
-  void visitStruct(Struct node) {
-    if (node._binding.isInternal) return;
-    if (!config.structs.include(node._binding)) return;
-    final renamed = config.structs.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    final pack = config.structs.packingOverride(node._binding);
-    if (pack != null) {
-      node.pack = pack.value;
-    }
-    for (final field in node.fields) {
-      if (!config.structs.includeMember(node._binding, field.originalName)) {
-        field.isExcluded = true;
-      } else {
-        final fieldRenamed = config.structs.renameMember(
-          node._binding,
-          field.originalName,
-        );
-        if (fieldRenamed != field.originalName) {
-          field.name = fieldRenamed;
-        }
-      }
-    }
-  }
-
-  @override
-  void visitUnion(Union node) {
-    if (node._binding.isInternal) return;
-    if (!config.unions.include(node._binding)) return;
-    final renamed = config.unions.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    for (final field in node.fields) {
-      if (!config.unions.includeMember(node._binding, field.originalName)) {
-        field.isExcluded = true;
-      } else {
-        final fieldRenamed = config.unions.renameMember(
-          node._binding,
-          field.originalName,
-        );
-        if (fieldRenamed != field.originalName) {
-          field.name = fieldRenamed;
-        }
-      }
-    }
-  }
-
-  @override
-  void visitEnum(EnumClass node) {
-    if (node._binding.isInternal) return;
-    if (!config.enums.include(node._binding)) return;
-    final renamed = config.enums.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    node.style = config.enums.style(node._binding, node.style);
-    for (final c in node.constants) {
-      if (c.originalName != null &&
-          !config.enums.includeMember(node._binding, c.originalName!)) {
-        c.isExcluded = true;
-      } else if (c.originalName != null) {
-        final cRenamed = config.enums.renameMember(
-          node._binding,
-          c.originalName!,
-        );
-        if (cRenamed != c.originalName) {
-          c.name = cRenamed;
-        }
-      }
-    }
-  }
-
-  @override
-  void visitFunc(Func node) {
-    if (node._binding.isInternal) return;
-    if (!config.functions.include(node._binding)) return;
-    final renamed = config.functions.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    if (config.functions.includeSymbolAddress(node._binding)) {
-      node.exposeSymbolAddress = true;
-    }
-    if (config.functions.includeTypedef(node._binding)) {
-      node.exposeFunctionTypedefs = true;
-    }
-    if (config.functions.isLeaf(node._binding)) {
-      node.isLeaf = true;
-    }
-    if (config.functions.recordUse(node._binding)) {
-      node.recordUse = true;
-    }
-  }
-
-  @override
-  void visitGlobal(Global node) {
-    if (node._binding.isInternal) return;
-    if (!config.globals.include(node._binding)) return;
-    final renamed = config.globals.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    if (config.globals.includeSymbolAddress(node._binding)) {
-      node.exposeSymbolAddress = true;
-    }
-  }
-
-  @override
-  void visitMacroConstant(MacroConstant node) {
-    if (node._binding.isInternal) return;
-    if (!config.macros.include(node._binding)) return;
-    final renamed = config.macros.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-  }
-
-  @override
-  void visitTypealias(Typealias node) {
-    if (node._binding.isInternal) return;
-    if (!config.typedefs.include(node._binding)) return;
-    final renamed = config.typedefs.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-  }
-
-  @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    if (node._binding.isInternal) return;
-    if (!config.unnamedEnums.include(node._binding)) return;
-    final renamed = config.unnamedEnums.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-  }
-
-  @override
-  void visitObjCInterface(ObjCInterface node) {
-    if (node._binding.isInternal) return;
-    final objcInterfaces = config.objectiveC?.interfaces;
-    if (objcInterfaces == null || !objcInterfaces.include(node._binding)) {
-      return;
-    }
-    final renamed = objcInterfaces.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    final mod = objcInterfaces.module(node._binding);
-    if (mod != null) node.module = mod;
-    for (final method in node.methods) {
-      if (!objcInterfaces.includeMember(node._binding, method.originalName)) {
-        method.isExcluded = true;
-      } else if (objcInterfaces.renameMember !=
-          Declarations.useMemberOriginalName) {
-        final methodRenamed = objcInterfaces.renameMember(
-          node._binding,
-          method.originalName,
-        );
-        if (methodRenamed != method.originalName) {
-          method.name = methodRenamed.split(':').first;
-        }
-      }
-    }
-  }
-
-  @override
-  void visitObjCProtocol(ObjCProtocol node) {
-    if (node._binding.isInternal) return;
-    final objcProtocols = config.objectiveC?.protocols;
-    if (objcProtocols == null || !objcProtocols.include(node._binding)) return;
-    final renamed = objcProtocols.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    final mod = objcProtocols.module(node._binding);
-    if (mod != null) node.module = mod;
-    for (final method in node.methods) {
-      if (!objcProtocols.includeMember(node._binding, method.originalName)) {
-        method.isExcluded = true;
-      } else if (objcProtocols.renameMember !=
-          Declarations.useMemberOriginalName) {
-        final methodRenamed = objcProtocols.renameMember(
-          node._binding,
-          method.originalName,
-        );
-        if (methodRenamed != method.originalName) {
-          method.name = methodRenamed.split(':').first;
-        }
-      }
-    }
-  }
-
-  @override
-  void visitObjCCategory(ObjCCategory node) {
-    if (node._binding.isInternal) return;
-    final objcCategories = config.objectiveC?.categories;
-    if (objcCategories == null || !objcCategories.include(node._binding)) {
-      return;
-    }
-    final renamed = objcCategories.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-    for (final method in node.methods) {
-      if (!objcCategories.includeMember(node._binding, method.originalName)) {
-        method.isExcluded = true;
-      } else if (objcCategories.renameMember !=
-          Declarations.useMemberOriginalName) {
-        final methodRenamed = objcCategories.renameMember(
-          node._binding,
-          method.originalName,
-        );
-        if (methodRenamed != method.originalName) {
-          method.name = methodRenamed.split(':').first;
-        }
-      }
-    }
-  }
-
-  @override
-  void visitObjCMethod(ObjCMethod node) {
-    // Member exclusion/renaming handled in parent ObjCInterface/ObjCCategory/ObjCProtocol.
-  }
-
-  @override
-  void visitCppClass(CppClass node) {
-    if (node._binding.isInternal) return;
-    final cppClasses = config.cpp?.classes;
-    if (cppClasses == null) return;
-    final renamed = cppClasses.rename(node._binding);
-    if (renamed != node.originalName) {
-      node.name = renamed;
-    }
-  }
-}

@@ -18,8 +18,13 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   ObjCInterface? superType;
   bool filled = false;
 
-  String? module;
-  late final NoLookUpBinding classObject;
+  String? _module;
+  String? get module => _module;
+  set module(String? value) {
+    _module = value;
+    classObject = ObjCClassGlobal('_class_$originalName', originalName, value);
+  }
+  late NoLookUpBinding classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
@@ -34,7 +39,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     super.usr,
     required String super.originalName,
     String? name,
-    this.module,
+    String? module,
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
@@ -46,7 +51,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    classObject = ObjCClassGlobal('_class_$originalName', originalName, module);
+    this.module = module;
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );
@@ -68,8 +73,9 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) !=
-      null;
+          null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
 
@@ -80,8 +86,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     s.write('\n');
     if (generateAsStub) {
       s.write('''
-/// WARNING: $name is a stub. To generate bindings for this class, include
-/// $originalName in your config's objc-interfaces list.
+/// $name
 ///
 ''');
     }
@@ -103,7 +108,10 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
     final protos = [
       wrapObjType,
-      ...[superType, ...protocols].nonNulls.map((p) => p.getDartType(context)),
+      if (superType != null) superType!.getDartType(context),
+      ...protocols
+          .where((p) => p.generateBindings || p.isObjCImport)
+          .map((p) => p.getDartType(context)),
     ];
 
     s.write('''
@@ -184,8 +192,16 @@ ${generateInstanceMethodBindings(w, this)}
       PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Context context) =>
-      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
+  String getDartType(Context context) {
+    if (isObjCImport) {
+      context.libs.markUsed(objcPkgImport);
+      final builtinName =
+          context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) ??
+          originalName;
+      return '${context.libs.prefix(objcPkgImport)}.$builtinName';
+    }
+    return name;
+  }
 
   @override
   String getNativeType(Context context, {String varName = ''}) => 'id $varName';

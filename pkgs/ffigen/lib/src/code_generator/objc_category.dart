@@ -44,6 +44,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.isBuiltInCategory(originalName);
 
   @override

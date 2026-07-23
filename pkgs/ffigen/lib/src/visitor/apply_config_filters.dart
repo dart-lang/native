@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config, Declarations;
+import '../config_provider/config.dart' show Config;
 
 import 'ast.dart';
 
@@ -13,66 +13,50 @@ class ApplyConfigFiltersVisitation extends Visitation {
   final indirectlyIncluded = <Binding>{};
   ApplyConfigFiltersVisitation(this.config);
 
-  void _visitImpl(Binding node, Declarations filters) {
+  void _visitImpl(Binding node) {
+    if (node.isObjCImport &&
+        !(config.objectiveC?.generateForPackageObjectiveC ?? false)) {
+      return;
+    }
     node.visitChildren(visitor);
     if (node.originalName == '') return;
-    if (config.importedTypesByUsr.containsKey(node.usr)) return;
     if (node.userDefinedIsExcluded == true) return;
-    if (node.userDefinedIsExcluded == false || filters.include(node)) {
+    if (node.userDefinedIsExcluded == false) {
       directlyIncluded.add(node);
     }
   }
 
   @override
-  void visitStruct(Struct node) => _visitImpl(node, config.structs);
+  void visitStruct(Struct node) => _visitImpl(node);
 
   @override
-  void visitUnion(Union node) => _visitImpl(node, config.unions);
+  void visitUnion(Union node) => _visitImpl(node);
 
   @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
-    _visitImpl(node, config.enums);
+    _visitImpl(node);
   }
 
   @override
   void visitCppClass(CppClass node) {
-    final cppClasses = config.cpp?.classes;
-    if (cppClasses == null) {
-      if (node.userDefinedIsExcluded == false) {
-        directlyIncluded.add(node);
-      }
-      return;
-    }
-    _visitImpl(node, cppClasses);
+    _visitImpl(node);
   }
 
   @override
-  void visitFunc(Func node) => _visitImpl(node, config.functions);
+  void visitFunc(Func node) => _visitImpl(node);
 
   @override
-  void visitMacroConstant(MacroConstant node) =>
-      _visitImpl(node, config.macros);
+  void visitMacroConstant(MacroConstant node) => _visitImpl(node);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
     if (node.unavailable) return;
-    final objcInterfaces = config.objectiveC?.interfaces;
-    if (objcInterfaces == null) {
-      if (node.userDefinedIsExcluded == false) {
-        directlyIncluded.add(node);
-      }
-      return;
-    }
 
     node.filterMethods(
-      (m) =>
-          m.userDefinedIsExcluded != true &&
-          !m.unavailable &&
-          (m.userDefinedIsExcluded == false ||
-              objcInterfaces.includeMember(node, m.originalName)),
+      (m) => m.userDefinedIsExcluded != true && !m.unavailable,
     );
-    _visitImpl(node, objcInterfaces);
+    _visitImpl(node);
 
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
@@ -84,66 +68,43 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    final objcCategories = config.objectiveC?.categories;
-    if (objcCategories == null) {
-      if (node.userDefinedIsExcluded == false) {
-        directlyIncluded.add(node);
-      }
-      return;
-    }
     node.filterMethods((m) {
       if (m.userDefinedIsExcluded == true) return false;
       if (m.unavailable) return false;
       if (node.shouldCopyMethodToInterface(m)) return false;
-      return m.userDefinedIsExcluded == false ||
-          objcCategories.includeMember(node, m.originalName);
+      return m.userDefinedIsExcluded != true;
     });
-    _visitImpl(node, objcCategories);
+    _visitImpl(node);
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     if (node.unavailable) return;
-    final objcProtocols = config.objectiveC?.protocols;
-    if (objcProtocols == null) {
-      if (node.userDefinedIsExcluded == false) {
-        directlyIncluded.add(node);
-      }
-      return;
-    }
 
     node.filterMethods((m) {
-      // TODO(https://github.com/dart-lang/native/issues/1149): Support class
-      // methods on protocols if there's a use case. For now filter them. We
-      // filter here instead of during parsing so that these methods are still
-      // copied to any interfaces that implement the protocol.
       if (m.userDefinedIsExcluded == true) return false;
       if (m.unavailable) return false;
       if (m.isClassMethod) return false;
 
-      return m.userDefinedIsExcluded == false ||
-          objcProtocols.includeMember(node, m.originalName);
+      return m.userDefinedIsExcluded != true;
     });
-    _visitImpl(node, objcProtocols);
+    _visitImpl(node);
   }
 
   @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      _visitImpl(node, config.unnamedEnums);
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) => _visitImpl(node);
 
   @override
-  void visitGlobal(Global node) => _visitImpl(node, config.globals);
+  void visitGlobal(Global node) => _visitImpl(node);
 
   @override
   void visitConstant(Constant node) {
-    // MacroConstant and UnnamedEnumConstant have their own overrides, so this
-    // only applies to base Constants (e.g. from static const variables).
-    _visitImpl(node, config.globals);
+    _visitImpl(node);
   }
 
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    _visitImpl(node, config.typedefs);
+    _visitImpl(node);
   }
 }

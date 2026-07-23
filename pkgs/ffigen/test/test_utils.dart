@@ -21,7 +21,11 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
+import 'package:ffigen/src/public_ast/public_ast.dart';
+
 export 'package:ffigen/src/config_provider/utils.dart';
+export 'package:ffigen/src/public_ast/public_ast.dart'
+    show ExcludeAllVisitor, IncludeAllVisitor, IncludeSetVisitor, Visitor;
 
 Context testContext([FfiGenerator? generator]) {
   final tmpDir = (Directory(
@@ -29,7 +33,7 @@ Context testContext([FfiGenerator? generator]) {
   )..createSync(recursive: true)).createTempSync();
   return Context(
     createTestLogger(),
-    generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
+    generator ?? FfiGenerator(visitors: const [IncludeAllVisitor()], output: Output(dartFile: Uri.file('unused'))),
     tmpDir: tmpDir.path,
   );
 }

@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -15,16 +14,13 @@ ObjCCategory? parseObjCCategoryDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
-  final objcCategories = context.config.objectiveC?.categories;
-  if (objcCategories == null) {
+  if (context.config.objectiveC == null) {
     return null;
   }
 
   final logger = context.logger;
   final usr = cursor.usr();
   final name = cursor.spelling();
-
-  final decl = Declaration(usr: usr, originalName: name);
 
   final cachedCategory = context.bindingsIndex.getSeenObjCCategory(usr);
   if (cachedCategory != null) {
@@ -62,7 +58,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
   final category = ObjCCategory(
     usr: usr,
     originalName: name,
-    name: objcCategories.rename(decl),
+    name: name,
     parent: parentInterface,
     dartDoc: getCursorDocComment(
       context,
@@ -88,8 +84,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
         final (getter, setter) = parseObjCProperty(
           context,
           child,
-          decl,
-          objcCategories,
+          name,
         );
         category.addMethod(getter);
         category.addMethod(setter);
@@ -97,7 +92,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
         category.addMethod(
-          parseObjCMethod(context, child, decl, objcCategories),
+          parseObjCMethod(context, child, name),
         );
         break;
     }

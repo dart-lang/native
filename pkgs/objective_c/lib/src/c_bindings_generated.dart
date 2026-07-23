@@ -243,7 +243,25 @@ final class ObjCBlockImpl extends ffi.Struct {
     ..ref.dispose_port = dispose_port;
 }
 
+final class ObjCMethodDesc extends ffi.Struct {
+  external ffi.Pointer<ObjCSelector> name;
+
+  external ffi.Pointer<ffi.Char> types;
+
+  static ffi.Pointer<ObjCMethodDesc> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ObjCSelector> name,
+    required ffi.Pointer<ffi.Char> types,
+  }) => $allocator<ObjCMethodDesc>()
+    ..ref.name = name
+    ..ref.types = types;
+}
+
 final class ObjCObjectImpl extends ffi.Opaque {}
+
+final class ObjCProtocolImpl extends ffi.Opaque {}
+
+final class ObjCSelector extends ffi.Opaque {}
 
 final class _Dart_Isolate extends ffi.Opaque {}
 

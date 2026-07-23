@@ -45,6 +45,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
       returnType,
       renamedParams.map((a) => a.type),
       reduced: false,
+      returnsRetained: returnsRetained,
     );
     final oldBlock = context.bindingsIndex.getSeenObjCBlock(usr);
     if (oldBlock != null) {
@@ -56,6 +57,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
           returnType,
           renamedParams.map((a) => a.type),
           reduced: true,
+          returnsRetained: returnsRetained,
         );
       }
       return oldBlock;
@@ -115,9 +117,11 @@ class ObjCBlock extends BindingType with HasLocalScope {
     Type returnType,
     Iterable<Type> argTypes, {
     required bool reduced,
+    bool returnsRetained = false,
   }) {
     final types = [returnType, ...argTypes].map((t) => _typeName(t, reduced));
-    return 'ObjCBlock_${types.join('_')}';
+    final name = 'ObjCBlock_${types.join('_')}';
+    return returnsRetained ? '${name}_retained' : name;
   }
 
   static String _typeName(Type type, bool reduced) =>
@@ -127,7 +131,12 @@ class ObjCBlock extends BindingType with HasLocalScope {
       );
   static final _illegalNameChar = RegExp(r'[^0-9a-zA-Z]');
   static Type _reducedType(Type type) {
-    if (type.baseType != type) return _reducedType(type.baseType);
+    if (type is ObjCNullable) {
+      final reducedChild = _reducedType(type.child);
+      return reducedChild is ObjCNullable
+          ? reducedChild
+          : ObjCNullable(reducedChild);
+    }
     if (type.typealiasType != type) return _reducedType(type.typealiasType);
     return type;
   }
@@ -141,9 +150,9 @@ class ObjCBlock extends BindingType with HasLocalScope {
     // with the same signature. Not intended to be human readable.
     return [
       '${strings.synthUsrChar} objcBlock:',
-      '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
+      '${_reducedType(returnType).cacheKey()} ${returnsRetained ? 'R' : ''}',
       for (final param in params)
-        '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
+        '${_reducedType(param.type).cacheKey()} ${param.objCConsumed ? 'C' : ''}',
     ].join(' ');
   }
 

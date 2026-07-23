@@ -646,6 +646,27 @@ interface class MyProtocol$Builder {
       );
 }
 
+/// NSString
+///
+/// NSString
+extension type NSString._(objc.ObjCObject object$)
+    implements
+        objc.ObjCObject,
+        objc.NSObject,
+        objc.NSCopying,
+        objc.NSMutableCopying,
+        objc.NSSecureCoding {
+  /// Constructs a [NSString] that points to the same underlying object as [other].
+  NSString.as(objc.ObjCObject other) : object$ = other {}
+
+  /// Constructs a [NSString] that wraps the given raw object pointer.
+  NSString.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
+}
+
 /// Construction methods for `objc.ObjCBlock<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_Int32_ffiVoid {
   /// Returns a block that wraps the given raw block pointer.
@@ -3270,6 +3291,14 @@ final _protocol_EmptyProtocol = objc.getProtocol(
   _protocol_EmptyProtocol_raw,
 );
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_13hhotk_FilteredProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_FilteredProtocol_raw();
+final _protocol_FilteredProtocol = objc.getProtocol(
+  "FilteredProtocol",
+  _protocol_FilteredProtocol_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_13hhotk_MyProtocol',
 )
 external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_MyProtocol_raw();
@@ -3284,6 +3313,14 @@ external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_SecondaryProtocol_raw();
 final _protocol_SecondaryProtocol = objc.getProtocol(
   "SecondaryProtocol",
   _protocol_SecondaryProtocol_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_13hhotk_SuperProtocol',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_SuperProtocol_raw();
+final _protocol_SuperProtocol = objc.getProtocol(
+  "SuperProtocol",
+  _protocol_SuperProtocol_raw,
 );
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_13hhotk_UnusedProtocol',

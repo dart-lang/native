@@ -192,6 +192,7 @@ class EnumClass extends BindingType with HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.isBuiltInEnum(originalName);
 
   @override

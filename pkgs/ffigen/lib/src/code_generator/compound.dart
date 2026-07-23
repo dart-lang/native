@@ -146,6 +146,7 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
 
   @override

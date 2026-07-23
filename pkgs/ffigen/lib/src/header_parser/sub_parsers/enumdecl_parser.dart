@@ -14,7 +14,6 @@ import 'unnamed_enumdecl_parser.dart';
 
 /// Parses an enum declaration.
 EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
-  final config = context.config;
   final logger = context.logger;
   EnumClass? enumClass;
   // Parse the cursor definition instead, if this is a forward declaration.
@@ -55,7 +54,6 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         .where((c) => c.rawValue.startsWith('-'))
         .isNotEmpty;
   } else {
-    final decl = Declaration(usr: usr, originalName: enumName);
     logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: usr,
@@ -65,7 +63,7 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         availability: apiAvailability.dartDoc,
       ),
       originalName: enumName,
-      name: config.enums.rename(decl),
+      name: enumName,
       nativeType: nativeType,
       context: context,
       apiAvailability: apiAvailability,
@@ -84,7 +82,7 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
                   indent: nesting.length + commentPrefix.length,
                 ),
                 originalName: child.spelling(),
-                name: config.enums.renameMember(decl, child.spelling()),
+                name: child.spelling(),
                 value: enumIntValue,
               ),
             );
@@ -107,8 +105,7 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         rethrow;
       }
     });
-    final suggestedStyle = isNSOptions ? EnumStyle.intConstants : null;
-    enumClass.style = config.enums.style(decl, suggestedStyle);
+    enumClass.style = isNSOptions ? EnumStyle.intConstants : EnumStyle.dartEnum;
     context.bindingsIndex.addEnumToSeen(usr, enumClass);
   }
 

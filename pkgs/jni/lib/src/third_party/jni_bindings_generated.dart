@@ -40,14 +40,6 @@
 // ignore_for_file: type=lint, unused_import, deprecated_member_use_from_same_package
 import 'dart:ffi' as ffi;
 
-/// Bindings for libdartjni.so which is part of jni plugin.
-///
-/// It also transitively includes type definitions such as JNIEnv from third_party/jni.h;
-///
-/// However, functions prefixed JNI_ are not usable because they are in a different shared library.
-///
-/// Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
-///
 class JniBindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
@@ -348,26 +340,19 @@ class JniBindings {
   late final _setCaptureStackTraceOnRelease =
       _setCaptureStackTraceOnReleasePtr.asFunction<void Function(int)>();
 
-  late final ffi.Pointer<pthread_key_t> _tlsKey =
-      _lookup<pthread_key_t>('tlsKey');
+  late final ffi.Pointer<ffi.Int> _tlsKey = _lookup<ffi.Int>('tlsKey');
 
-  Dart__darwin_pthread_key_t get tlsKey => _tlsKey.value;
+  int get tlsKey => _tlsKey.value;
 
-  set tlsKey(Dart__darwin_pthread_key_t value) => _tlsKey.value = value;
+  set tlsKey(int value) => _tlsKey.value = value;
 }
 
-final class CallbackResult extends ffi.Struct {
-  external MutexLock lock;
+typedef C_JNIEnv = ffi.Pointer<JNINativeInterface>;
 
-  external ConditionVariable cond;
+final class CallbackResult extends ffi.Opaque {}
 
-  @ffi.Int()
-  external int ready;
-
-  external JObjectPtr object;
-}
-
-typedef ConditionVariable = pthread_cond_t;
+typedef ConditionVariable = ffi.Int;
+typedef DartConditionVariable = int;
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
 final class Dart_FinalizableHandle_ extends ffi.Opaque {}
@@ -2700,114 +2685,32 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
 typedef JArrayPtr = JObjectPtr;
 typedef JBooleanArrayPtr = JArrayPtr;
-
-/// Primitive types that match up with Java equivalents.
 typedef JBooleanMarker = ffi.Uint8;
-typedef DartJBooleanMarker = int;
+typedef Dartjboolean = int;
 typedef JByteArrayPtr = JArrayPtr;
 typedef JByteMarker = ffi.Int8;
-typedef DartJByteMarker = int;
+typedef Dartjbyte = int;
 typedef JCharArrayPtr = JArrayPtr;
 typedef JCharMarker = ffi.Uint16;
-typedef DartJCharMarker = int;
+typedef Dartjchar = int;
 typedef JClassPtr = JObjectPtr;
 typedef JDoubleArrayPtr = JArrayPtr;
 typedef JDoubleMarker = ffi.Double;
-typedef DartJDoubleMarker = double;
+typedef Dartjdouble = double;
 typedef JFieldIDPtr = ffi.Pointer<jfieldID_>;
 typedef JFloatArrayPtr = JArrayPtr;
 typedef JFloatMarker = ffi.Float;
-typedef DartJFloatMarker = double;
+typedef Dartjfloat = double;
 typedef JIntArrayPtr = JArrayPtr;
 typedef JIntMarker = ffi.Int32;
-typedef DartJIntMarker = int;
+typedef Dartjint = int;
 typedef JLongArrayPtr = JArrayPtr;
 typedef JLongMarker = ffi.Int64;
-typedef DartJLongMarker = int;
+typedef Dartjlong = int;
 typedef JMethodIDPtr = ffi.Pointer<jmethodID_>;
 
-/// JNI invocation interface.
-final class JNIInvokeInterface extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> reserved0;
+final class JNIInvokeInterface extends ffi.Opaque {}
 
-  external ffi.Pointer<ffi.Void> reserved1;
-
-  external ffi.Pointer<ffi.Void> reserved2;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM$1> vm)>>
-      DestroyJavaVM;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JIntMarker Function(
-              ffi.Pointer<JavaVM$1> vm,
-              ffi.Pointer<ffi.Pointer<JniEnv>> p_env,
-              ffi.Pointer<ffi.Void> thr_args)>> AttachCurrentThread;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM$1> vm)>>
-      DetachCurrentThread;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JIntMarker Function(
-              ffi.Pointer<JavaVM$1> vm,
-              ffi.Pointer<ffi.Pointer<ffi.Void>> p_env,
-              JIntMarker version)>> GetEnv;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JIntMarker Function(
-              ffi.Pointer<JavaVM$1> vm,
-              ffi.Pointer<ffi.Pointer<JniEnv>> p_env,
-              ffi.Pointer<ffi.Void> thr_args)>> AttachCurrentThreadAsDaemon;
-
-  static ffi.Pointer<JNIInvokeInterface> $allocate(
-    ffi.Allocator $allocator, {
-    required ffi.Pointer<ffi.Void> reserved0,
-    required ffi.Pointer<ffi.Void> reserved1,
-    required ffi.Pointer<ffi.Void> reserved2,
-    required ffi.Pointer<
-            ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM$1> vm)>>
-        DestroyJavaVM,
-    required ffi.Pointer<
-            ffi.NativeFunction<
-                JIntMarker Function(
-                    ffi.Pointer<JavaVM$1> vm,
-                    ffi.Pointer<ffi.Pointer<JniEnv>> p_env,
-                    ffi.Pointer<ffi.Void> thr_args)>>
-        AttachCurrentThread,
-    required ffi.Pointer<
-            ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM$1> vm)>>
-        DetachCurrentThread,
-    required ffi.Pointer<
-            ffi.NativeFunction<
-                JIntMarker Function(
-                    ffi.Pointer<JavaVM$1> vm,
-                    ffi.Pointer<ffi.Pointer<ffi.Void>> p_env,
-                    JIntMarker version)>>
-        GetEnv,
-    required ffi.Pointer<
-            ffi.NativeFunction<
-                JIntMarker Function(
-                    ffi.Pointer<JavaVM$1> vm,
-                    ffi.Pointer<ffi.Pointer<JniEnv>> p_env,
-                    ffi.Pointer<ffi.Void> thr_args)>>
-        AttachCurrentThreadAsDaemon,
-  }) =>
-      $allocator<JNIInvokeInterface>()
-        ..ref.reserved0 = reserved0
-        ..ref.reserved1 = reserved1
-        ..ref.reserved2 = reserved2
-        ..ref.DestroyJavaVM = DestroyJavaVM
-        ..ref.AttachCurrentThread = AttachCurrentThread
-        ..ref.DetachCurrentThread = DetachCurrentThread
-        ..ref.GetEnv = GetEnv
-        ..ref.AttachCurrentThreadAsDaemon = AttachCurrentThreadAsDaemon;
-}
-
-/// Table of interface function pointers.
 final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;
 
@@ -2847,7 +2750,6 @@ final class JNINativeInterface extends ffi.Struct {
           JFieldIDPtr Function(
               ffi.Pointer<JniEnv$1> env, JObjectPtr field)>> FromReflectedField;
 
-  /// spec doesn't show jboolean parameter
   external ffi.Pointer<
       ffi.NativeFunction<
           JObjectPtr Function(
@@ -2866,7 +2768,6 @@ final class JNINativeInterface extends ffi.Struct {
           JBooleanMarker Function(ffi.Pointer<JniEnv$1> env, JClassPtr clazz1,
               JClassPtr clazz2)>> IsAssignableFrom;
 
-  /// spec doesn't show jboolean parameter
   external ffi.Pointer<
       ffi.NativeFunction<
           JObjectPtr Function(ffi.Pointer<JniEnv$1> env, JClassPtr cls,
@@ -4075,7 +3976,6 @@ final class JNINativeInterface extends ffi.Struct {
               JSizeMarker len,
               ffi.Pointer<JDoubleMarker> buf)>> GetDoubleArrayRegion;
 
-  /// spec shows these without const; some jni.h do, some don't
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
@@ -4174,7 +4074,7 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JIntMarker Function(ffi.Pointer<JniEnv$1> env,
-              ffi.Pointer<ffi.Pointer<JavaVM$1>> vm)>> GetJavaVM;
+              ffi.Pointer<ffi.Pointer<JavaVM>> vm)>> GetJavaVM;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -4254,7 +4154,6 @@ final class JNINativeInterface extends ffi.Struct {
               JLongMarker Function(ffi.Pointer<JniEnv$1> env, JObjectPtr buf)>>
       GetDirectBufferCapacity;
 
-  /// added in JNI 1.6
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.UnsignedInt Function(
@@ -5489,7 +5388,7 @@ final class JNINativeInterface extends ffi.Struct {
     required ffi.Pointer<
             ffi.NativeFunction<
                 JIntMarker Function(ffi.Pointer<JniEnv$1> env,
-                    ffi.Pointer<ffi.Pointer<JavaVM$1>> vm)>>
+                    ffi.Pointer<ffi.Pointer<JavaVM>> vm)>>
         GetJavaVM,
     required ffi.Pointer<
             ffi.NativeFunction<
@@ -5818,8 +5717,6 @@ final class JNINativeMethod extends ffi.Struct {
 }
 
 typedef JObjectArrayPtr = JArrayPtr;
-
-/// Reference types, in C.
 typedef JObjectPtr = ffi.Pointer<ffi.Void>;
 
 enum JObjectRefType {
@@ -5842,9 +5739,7 @@ enum JObjectRefType {
 
 typedef JShortArrayPtr = JArrayPtr;
 typedef JShortMarker = ffi.Int16;
-typedef DartJShortMarker = int;
-
-/// "cardinal indices and sizes"
+typedef Dartjshort = int;
 typedef JSizeMarker = JIntMarker;
 typedef JStringPtr = JObjectPtr;
 typedef JThrowablePtr = JObjectPtr;
@@ -5879,10 +5774,28 @@ final class JValue extends ffi.Union {
 
 typedef JWeakPtr = JObjectPtr;
 typedef JavaVM = ffi.Pointer<JNIInvokeInterface>;
-typedef JavaVM$1 = ffi.Pointer<JNIInvokeInterface>;
+
+final class JavaVMAttachArgs extends ffi.Struct {
+  @JIntMarker()
+  external int version;
+
+  external ffi.Pointer<ffi.Char> name;
+
+  external JObjectPtr group;
+
+  static ffi.Pointer<JavaVMAttachArgs> $allocate(
+    ffi.Allocator $allocator, {
+    required int version,
+    required ffi.Pointer<ffi.Char> name,
+    required JObjectPtr group,
+  }) =>
+      $allocator<JavaVMAttachArgs>()
+        ..ref.version = version
+        ..ref.name = name
+        ..ref.group = group;
+}
 
 final class JavaVMInitArgs extends ffi.Struct {
-  /// use JNI_VERSION_1_2 or later
   @JIntMarker()
   external int version;
 
@@ -5908,8 +5821,6 @@ final class JavaVMInitArgs extends ffi.Struct {
         ..ref.ignoreUnrecognized = ignoreUnrecognized;
 }
 
-/// JNI 1.2+ initialization.  (As of 1.6, the pre-1.2 structures are no
-/// longer supported.)
 final class JavaVMOption extends ffi.Struct {
   external ffi.Pointer<ffi.Char> optionString;
 
@@ -5940,10 +5851,7 @@ enum JniBooleanValues {
 }
 
 enum JniBufferWriteBack {
-  /// copy content, do not free buffer
   COMMIT(1),
-
-  /// free buffer w/o copying back
   ABORT(2);
 
   final int value;
@@ -6008,25 +5916,12 @@ typedef JniEnv = ffi.Pointer<JNINativeInterface>;
 typedef JniEnv$1 = ffi.Pointer<JNINativeInterface>;
 
 enum JniErrorCode {
-  /// no error
   OK(0),
-
-  /// generic error
   ERR(-1),
-
-  /// thread detached from the VM
   EDETACHED(-2),
-
-  /// JNI version error
   EVERSION(-3),
-
-  /// Out of memory
   ENOMEM(-4),
-
-  /// VM already created
   EEXIST(-5),
-
-  /// Invalid argument
   EINVAL(-6),
   SINGLETON_EXISTS(-99);
 
@@ -6107,32 +6002,13 @@ enum JniVersions {
       };
 }
 
-typedef MutexLock = pthread_mutex_t;
-typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
-typedef __darwin_pthread_key_t = ffi.UnsignedLong;
-typedef Dart__darwin_pthread_key_t = int;
-typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
+typedef MutexLock = ffi.Int;
+typedef DartMutexLock = int;
 
-final class _opaque_pthread_cond_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([40])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_mutex_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([56])
-  external ffi.Array<ffi.Char> __opaque;
+final class _JavaVM extends ffi.Struct {
+  external ffi.Pointer<JNIInvokeInterface> functions;
 }
 
 final class jfieldID_ extends ffi.Opaque {}
 
 final class jmethodID_ extends ffi.Opaque {}
-
-typedef pthread_cond_t = __darwin_pthread_cond_t;
-typedef pthread_key_t = __darwin_pthread_key_t;
-typedef pthread_mutex_t = __darwin_pthread_mutex_t;

@@ -35,7 +35,7 @@ class ListBindingsVisitation extends Visitation {
   }
 
   bool _shouldInclude(Binding node, _IncludeBehavior behavior) {
-    if (node.isObjCImport || node.userDefinedIsExcluded == true) return false;
+    if (node.isObjCImport) return false;
     switch (behavior) {
       case _IncludeBehavior.configOnly:
         return includes.contains(node);
@@ -71,7 +71,7 @@ class ListBindingsVisitation extends Visitation {
               : _IncludeBehavior.configOnly,
         );
 
-    if (omit && directTransitives.contains(node)) {
+    if (omit && !node.isObjCImport && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
 
@@ -109,7 +109,7 @@ class ListBindingsVisitation extends Visitation {
               : _IncludeBehavior.configOnly,
         );
 
-    if (omit && directTransitives.contains(node)) {
+    if (omit && !node.isObjCImport && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
 
@@ -120,11 +120,11 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitStruct(Struct node) =>
-      _visitImpl(node, _IncludeBehavior.configOrTransitive);
+      _visitImpl(node, _IncludeBehavior.configOrDirectTransitive);
 
   @override
   void visitUnion(Union node) =>
-      _visitImpl(node, _IncludeBehavior.configOrTransitive);
+      _visitImpl(node, _IncludeBehavior.configOrDirectTransitive);
 
   @override
   void visitTypealias(Typealias node) {
@@ -147,6 +147,10 @@ class ListBindingsVisitation extends Visitation {
       node.visitChildren(visitor);
     }
   }
+
+  @override
+  void visitObjCBlock(ObjCBlock node) =>
+      _visitImpl(node, _IncludeBehavior.configOrDirectTransitive);
 }
 
 class MarkBindingsVisitation extends Visitation {

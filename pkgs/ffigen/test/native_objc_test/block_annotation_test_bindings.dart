@@ -1011,7 +1011,7 @@ interface class BlockAnnotationTestProtocol$Builder {
           isInstanceMethod: true,
         ),
         (DartEmptyBlock Function() func) =>
-            ObjCBlock_EmptyBlock_ffiVoid$1.fromFunction(
+            ObjCBlock_EmptyBlock_ffiVoid_retained.fromFunction(
               (ffi.Pointer<ffi.Void> _) => func(),
             ),
       );
@@ -1037,7 +1037,7 @@ interface class BlockAnnotationTestProtocol$Builder {
           isInstanceMethod: true,
         ),
         (EmptyObject Function() func) =>
-            ObjCBlock_EmptyObject_ffiVoid$1.fromFunction(
+            ObjCBlock_EmptyObject_ffiVoid_retained.fromFunction(
               (ffi.Pointer<ffi.Void> _) => func(),
             ),
       );
@@ -1714,7 +1714,7 @@ extension ObjCBlock_EmptyBlock_ffiVoid$CallExtension
 }
 
 /// Construction methods for `objc.ObjCBlock<objc.Retained<objc.ObjCBlock<ffi.Void Function()>> Function(ffi.Pointer<ffi.Void>)>`.
-abstract final class ObjCBlock_EmptyBlock_ffiVoid$1 {
+abstract final class ObjCBlock_EmptyBlock_ffiVoid_retained {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<
     objc.Retained<objc.ObjCBlock<ffi.Void Function()>> Function(
@@ -1821,7 +1821,7 @@ abstract final class ObjCBlock_EmptyBlock_ffiVoid$1 {
 }
 
 /// Call operator for `objc.ObjCBlock<objc.Retained<objc.ObjCBlock<ffi.Void Function()>> Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_EmptyBlock_ffiVoid$1$CallExtension
+extension ObjCBlock_EmptyBlock_ffiVoid_retained$CallExtension
     on
         objc.ObjCBlock<
           objc.Retained<objc.ObjCBlock<ffi.Void Function()>> Function(
@@ -1964,138 +1964,6 @@ extension ObjCBlock_EmptyObject_ffiVoid$CallExtension
             )
           >()(ref.pointer, arg0),
       retain: true,
-      release: true,
-    );
-  }
-}
-
-/// Construction methods for `objc.ObjCBlock<objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)>`.
-abstract final class ObjCBlock_EmptyObject_ffiVoid$1 {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<
-    objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  fromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) =>
-      objc.ObjCBlock<
-        objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
-      >(pointer, retain: retain, release: release);
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<
-    objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void> arg0)
-      >
-    >
-    ptr,
-  ) =>
-      objc.ObjCBlock<
-        objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
-      >(
-        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
-        retain: false,
-        release: true,
-      );
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<
-    objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  fromFunction(
-    EmptyObject Function(ffi.Pointer<ffi.Void>) fn, {
-    bool keepIsolateAlive = true,
-  }) =>
-      objc.ObjCBlock<
-        objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
-      >(
-        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
-          final _$$ref = fn(arg0).ref;
-          return _$$ref.retainAndReturnPointer();
-        }, keepIsolateAlive),
-        retain: false,
-        release: true,
-      );
-
-  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-  ) => block.ref.target
-      .cast<
-        ffi.NativeFunction<
-          ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void> arg0)
-        >
-      >()
-      .asFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
-      >()(arg0);
-  static ffi.Pointer<ffi.Void> _fnPtrCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >(_fnPtrTrampoline)
-          .cast();
-  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-  ) =>
-      (objc.getBlockClosure(block)
-          as ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>))(
-        arg0,
-      );
-  static ffi.Pointer<ffi.Void> _closureCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >(_closureTrampoline)
-          .cast();
-}
-
-/// Call operator for `objc.ObjCBlock<objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_EmptyObject_ffiVoid$1$CallExtension
-    on
-        objc.ObjCBlock<
-          objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
-        > {
-  EmptyObject call(ffi.Pointer<ffi.Void> arg0) {
-    return EmptyObject.fromPointer(
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Pointer<objc.ObjCObjectImpl> Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-              )
-            >
-          >()
-          .asFunction<
-            ffi.Pointer<objc.ObjCObjectImpl> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >()(ref.pointer, arg0),
-      retain: false,
       release: true,
     );
   }
@@ -2406,6 +2274,138 @@ extension ObjCBlock_EmptyObject_ffiVoid_EmptyObject$1$CallExtension
             )
           >()(ref.pointer, arg0, _$$ref$1.retainAndReturnPointer()),
       retain: true,
+      release: true,
+    );
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)>`.
+abstract final class ObjCBlock_EmptyObject_ffiVoid_retained {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void> arg0)
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
+  >
+  fromFunction(
+    EmptyObject Function(ffi.Pointer<ffi.Void>) fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
+      >(
+        objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+          final _$$ref = fn(arg0).ref;
+          return _$$ref.retainAndReturnPointer();
+        }, keepIsolateAlive),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void> arg0)
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>)
+      >()(arg0);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(ffi.Pointer<ffi.Void>))(
+        arg0,
+      );
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)>`.
+extension ObjCBlock_EmptyObject_ffiVoid_retained$CallExtension
+    on
+        objc.ObjCBlock<
+          objc.Retained<EmptyObject> Function(ffi.Pointer<ffi.Void>)
+        > {
+  EmptyObject call(ffi.Pointer<ffi.Void> arg0) {
+    return EmptyObject.fromPointer(
+      ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Pointer<objc.ObjCObjectImpl> Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >()(ref.pointer, arg0),
+      retain: false,
       release: true,
     );
   }

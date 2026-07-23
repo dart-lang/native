@@ -51,7 +51,7 @@ class ClearOpaqueCompoundMembersVisitation extends Visitation {
     // the config filters, and the config is using opaque deps, convert the
     // compound to be opaque by deleting its members.
     if (!byValueCompounds.contains(node) &&
-        !included.contains(node) &&
+        (node.originalName.isEmpty || !included.contains(node)) &&
         compondDepsConfig == CompoundDependencies.opaque) {
       node.members.clear();
     }

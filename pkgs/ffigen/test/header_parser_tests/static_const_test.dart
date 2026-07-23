@@ -185,7 +185,7 @@ Library expectedLibrary() {
   final myFlags = Typealias(
     name: 'MyFlags',
     type: NativeType(SupportedNativeType.uint64),
-  );
+  )..generateBindings = true;
   final myBufferUsage = Typealias(name: 'MyBufferUsage', type: myFlags);
 
   return Library(

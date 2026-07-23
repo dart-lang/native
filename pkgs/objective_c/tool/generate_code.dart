@@ -2,18 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// Runs the FFIgen configs, then merges tool/data/extra_methods.dart.in into the
+// Re-compile trigger.
+
+// Runs the FFIgen visitors, then merges tool/data/extra_methods.dart.in into the
 // Objective C bindings.
 
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:args/args.dart';
-import 'package:ffigen/src/executables/ffigen.dart' as ffigen;
-import 'package:yaml/yaml.dart';
+import 'package:ffigen/ffigen.dart';
 
-const runtimeConfig = 'ffigen_runtime.yaml';
-const cConfig = 'ffigen_c.yaml';
-const objcConfig = 'ffigen_objc.yaml';
 const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
@@ -22,8 +21,6 @@ const extraMethodsFile = 'tool/data/extra_methods.dart.in';
 const builtInTypes =
     '../ffigen/lib/src/code_generator/objc_built_in_types.dart';
 const interfaceListTest = 'test/interface_lists_test.dart';
-
-const ffigenFlags = ['--no-format', '-v', 'severe', '--config'];
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;
@@ -64,13 +61,30 @@ Map<String, String> parseExtraMethods(String filename) {
 
 void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
   final out = StringBuffer();
+  String? pendingClass;
+  String? pendingExtra;
+
   for (final line in File(filename).readAsLinesSync()) {
     out.writeln(line);
-    final cls = parseClassDecl(line);
-    final extra = cls == null ? null : extraMethods[cls];
-    if (cls != null && extra != null) {
-      out.writeln(extra);
-      extraMethods.remove(cls);
+    if (pendingClass != null) {
+      if (line.contains('{')) {
+        out.writeln(pendingExtra);
+        pendingClass = null;
+        pendingExtra = null;
+      }
+    } else {
+      final cls = parseClassDecl(line);
+      final extra = cls == null ? null : extraMethods[cls];
+      if (cls != null && extra != null) {
+        if (line.contains('{')) {
+          out.writeln(extra);
+          extraMethods.remove(cls);
+        } else {
+          pendingClass = cls;
+          pendingExtra = extra;
+          extraMethods.remove(cls);
+        }
+      }
     }
   }
   assert(extraMethods.isEmpty);
@@ -78,8 +92,467 @@ void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
   File(filename).writeAsStringSync(out.toString());
 }
 
-List<String> writeBuiltInTypes(String config, String out) {
-  final yaml = loadYaml(File(config).readAsStringSync()) as YamlMap;
+class RuntimeBindingsVisitor extends Visitor {
+  static const functions = {
+    'object_getClass',
+    'sel_registerName',
+    'sel_getName',
+    'protocol_getMethodDescription',
+    'protocol_getName',
+  };
+
+  static const functionRenames = {
+    'sel_registerName': 'registerName',
+    'sel_getName': 'getName',
+    'objc_getClass': 'getClass',
+    'objc_retain': 'objectRetain',
+    'objc_retainBlock': 'blockRetain',
+    'objc_release': 'objectRelease',
+    'objc_autorelease': 'objectAutorelease',
+    'objc_msgSend': 'msgSend',
+    'objc_msgSend_fpret': 'msgSendFpret',
+    'objc_msgSend_stret': 'msgSendStret',
+    'object_getClass': 'getObjectClass',
+    'objc_copyClassList': 'copyClassList',
+    'objc_getProtocol': 'getProtocol',
+    'objc_autoreleasePoolPush': 'autoreleasePoolPush',
+    'objc_autoreleasePoolPop': 'autoreleasePoolPop',
+    'protocol_getMethodDescription': 'getMethodDescription',
+    'protocol_getName': 'getProtocolName',
+  };
+
+  static const globals = {
+    'NSKeyValueChangeIndexesKey',
+    'NSKeyValueChangeKindKey',
+    'NSKeyValueChangeNewKey',
+    'NSKeyValueChangeNotificationIsPriorKey',
+    'NSKeyValueChangeOldKey',
+    'NSLocalizedDescriptionKey',
+  };
+
+  const RuntimeBindingsVisitor();
+
+  @override
+  void visitFunc(Func node) {
+    final isObjc = node.originalName.startsWith('objc_');
+    if (!isObjc && !functions.contains(node.originalName)) {
+      node.isExcluded = true;
+      return;
+    }
+    node.isExcluded = false;
+    if (!node.originalName.startsWith('objc_msgSend')) {
+      node.isLeaf = true;
+    }
+    final renamed = functionRenames[node.originalName];
+    if (renamed != null) {
+      node.name = renamed;
+    }
+  }
+
+  @override
+  void visitGlobal(Global node) {
+    if (node.originalName.startsWith('_') &&
+        node.originalName.endsWith('Block')) {
+      node.isExcluded = false;
+      node.name = node.originalName.substring(1);
+    } else if (globals.contains(node.originalName)) {
+      node.isExcluded = false;
+      if (node.originalName.startsWith('_')) {
+        node.name = node.originalName.substring(1);
+      }
+    } else {
+      node.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitStruct(Struct node) {
+    if (node.originalName.startsWith('_ObjC')) {
+      node.isExcluded = false;
+      node.name = 'ObjC${node.originalName.substring(5)}';
+    }
+  }
+
+  @override
+  void visitEnum(EnumClass node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitMacroConstant(MacroConstant node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitUnion(Union node) {
+    node.isExcluded = true;
+  }
+}
+
+class CBindingsVisitor extends Visitor {
+  static const nonLeaf = {
+    'DOBJC_deleteFinalizableHandle',
+    'DOBJC_disposeObjCBlockWithClosure',
+    'DOBJC_newFinalizableBool',
+    'DOBJC_newFinalizableHandle',
+    'DOBJC_awaitWaiter',
+  };
+
+  const CBindingsVisitor();
+
+  @override
+  void visitFunc(Func node) {
+    final isDobjc = node.originalName.startsWith('DOBJC_');
+    final isNewFinalizable = node.originalName == 'newFinalizableHandle';
+    if (!isDobjc && !isNewFinalizable) {
+      node.isExcluded = true;
+      return;
+    }
+    node.isExcluded = false;
+    if (!nonLeaf.contains(node.originalName)) {
+      node.isLeaf = true;
+    }
+    if (isDobjc) {
+      node.name = node.originalName.substring(6);
+    }
+  }
+
+  @override
+  void visitTypealias(Typealias node) {
+    if (node.originalName == 'Dart_FinalizableHandle') {
+      node.isExcluded = false;
+    }
+  }
+
+  @override
+  void visitStruct(Struct node) {
+    if (node.originalName == '_DOBJC_Context') {
+      node.isExcluded = false;
+      node.name = 'DOBJC_Context';
+    } else if (node.originalName == '_Dart_FinalizableHandle') {
+      node.isExcluded = false;
+      node.name = 'Dart_FinalizableHandle_';
+    } else if (node.originalName.startsWith('_ObjC')) {
+      node.isExcluded = false;
+      node.name = 'ObjC${node.originalName.substring(5)}';
+    }
+  }
+
+  @override
+  void visitMacroConstant(MacroConstant node) {
+    if (node.originalName == 'ILLEGAL_PORT') {
+      node.isExcluded = false;
+    } else {
+      node.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitEnum(EnumClass node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitGlobal(Global node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitUnion(Union node) {
+    node.isExcluded = true;
+  }
+}
+
+class ObjCBindingsVisitor extends Visitor {
+  static const interfaces = {
+    'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
+    'DOBJCDartInputStreamAdapterWeakHolder':
+        'DartInputStreamAdapterWeakHolder',
+    'DOBJCObservation': 'DOBJCObservation',
+    'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
+    'DOBJCDartProtocol': 'DartProtocol',
+    'NSArray': 'NSArray',
+    'NSAttributedString': 'NSAttributedString',
+    'NSAttributedStringMarkdownParsingOptions':
+        'NSAttributedStringMarkdownParsingOptions',
+    'NSBundle': 'NSBundle',
+    'NSCharacterSet': 'NSCharacterSet',
+    'NSCoder': 'NSCoder',
+    'NSData': 'NSData',
+    'NSDate': 'NSDate',
+    'NSDictionary': 'NSDictionary',
+    'NSEnumerator': 'NSEnumerator',
+    'NSError': 'NSError',
+    'NSIndexSet': 'NSIndexSet',
+    'NSInputStream': 'NSInputStream',
+    'NSInvocation': 'NSInvocation',
+    'NSItemProvider': 'NSItemProvider',
+    'NSLocale': 'NSLocale',
+    'NSMethodSignature': 'NSMethodSignature',
+    'NSMutableArray': 'NSMutableArray',
+    'NSMutableData': 'NSMutableData',
+    'NSMutableDictionary': 'NSMutableDictionary',
+    'NSMutableIndexSet': 'NSMutableIndexSet',
+    'NSMutableOrderedSet': 'NSMutableOrderedSet',
+    'NSMutableSet': 'NSMutableSet',
+    'NSMutableString': 'NSMutableString',
+    'NSNotification': 'NSNotification',
+    'NSNull': 'NSNull',
+    'NSNumber': 'NSNumber',
+    'NSObject': 'NSObject',
+    'NSOutputStream': 'NSOutputStream',
+    'NSOrderedCollectionChange': 'NSOrderedCollectionChange',
+    'NSOrderedCollectionDifference': 'NSOrderedCollectionDifference',
+    'NSOrderedSet': 'NSOrderedSet',
+    'NSPort': 'NSPort',
+    'NSPortMessage': 'NSPortMessage',
+    'NSProgress': 'NSProgress',
+    'NSRunLoop': 'NSRunLoop',
+    'NSSet': 'NSSet',
+    'NSStream': 'NSStream',
+    'NSString': 'NSString',
+    'NSTimer': 'NSTimer',
+    'NSURL': 'NSURL',
+    'NSURLHandle': 'NSURLHandle',
+    'NSValue': 'NSValue',
+    'Protocol': 'Protocol',
+  };
+
+  static const protocols = {
+    'NSCoding': 'NSCoding',
+    'NSCopying': 'NSCopying',
+    'NSFastEnumeration': 'NSFastEnumeration',
+    'NSItemProviderReading': 'NSItemProviderReading',
+    'NSItemProviderWriting': 'NSItemProviderWriting',
+    'NSMutableCopying': 'NSMutableCopying',
+    'NSObject': 'NSObjectProtocol',
+    'NSPortDelegate': 'NSPortDelegate',
+    'NSSecureCoding': 'NSSecureCoding',
+    'NSStreamDelegate': 'NSStreamDelegate',
+    'NSURLHandleClient': 'NSURLHandleClient',
+    'Observer': 'Observer',
+  };
+
+  static const categories = {
+    'NSDataCreation',
+    'NSExtendedArray',
+    'NSExtendedData',
+    'NSExtendedDate',
+    'NSExtendedDictionary',
+    'NSExtendedEnumerator',
+    'NSExtendedMutableArray',
+    'NSExtendedMutableData',
+    'NSExtendedMutableDictionary',
+    'NSExtendedMutableOrderedSet',
+    'NSExtendedMutableSet',
+    'NSExtendedOrderedSet',
+    'NSExtendedSet',
+    'NSNumberCreation',
+    'NSNumberIsFloat',
+    'NSNumberIsBool',
+    'NSStringExtensionMethods',
+  };
+
+  static const structs = {
+    'AEDesc': 'AEDesc',
+    '__CFRunLoop': 'CFRunLoop',
+    '__CFString': 'CFString',
+    'CGPoint': 'CGPoint',
+    '_CGPoint': 'CGPoint',
+    'CGRect': 'CGRect',
+    '_CGRect': 'CGRect',
+    'CGSize': 'CGSize',
+    '_CGSize': 'CGSize',
+    'NSEdgeInsets': 'NSEdgeInsets',
+    '_NSEdgeInsets': 'NSEdgeInsets',
+    'NSFastEnumerationState': 'NSFastEnumerationState',
+    '_NSFastEnumerationState': 'NSFastEnumerationState',
+    '_NSRange': 'NSRange',
+    'NSRange': 'NSRange',
+    '_NSZone': 'NSZone',
+    'NSZone': 'NSZone',
+    'OpaqueAEDataStorageType': 'OpaqueAEDataStorageType',
+  };
+
+  static const enums = {
+    'NSAppleEventSendOptions',
+    'NSAttributedStringEnumerationOptions',
+    'NSAttributedStringFormattingOptions',
+    'NSAttributedStringMarkdownInterpretedSyntax',
+    'NSAttributedStringMarkdownParsingFailurePolicy',
+    'NSBinarySearchingOptions',
+    'NSCollectionChangeType',
+    'NSComparisonResult',
+    'NSDataBase64DecodingOptions',
+    'NSDataBase64EncodingOptions',
+    'NSDataCompressionAlgorithm',
+    'NSDataReadingOptions',
+    'NSDataSearchOptions',
+    'NSDataWritingOptions',
+    'NSDecodingFailurePolicy',
+    'NSEnumerationOptions',
+    'NSItemProviderFileOptions',
+    'NSItemProviderRepresentationVisibility',
+    'NSKeyValueChange',
+    'NSKeyValueObservingOptions',
+    'NSKeyValueSetMutationKind',
+    'NSLinguisticTaggerOptions',
+    'NSLocaleLanguageDirection',
+    'NSOrderedCollectionDifferenceCalculationOptions',
+    'NSPropertyListFormat',
+    'NSQualityOfService',
+    'NSSortOptions',
+    'NSStreamEvent',
+    'NSStreamStatus',
+    'NSStringCompareOptions',
+    'NSStringEncodingConversionOptions',
+    'NSStringEnumerationOptions',
+    'NSURLBookmarkCreationOptions',
+    'NSURLBookmarkResolutionOptions',
+    'NSURLHandleStatus',
+  };
+
+  const ObjCBindingsVisitor();
+
+  @override
+  void visitFunc(Func node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitObjCInterface(ObjCInterface node) {
+    final renamed = interfaces[node.originalName];
+    if (renamed != null) {
+      node.isExcluded = false;
+      node.name = renamed;
+    }
+    if (node.originalName == 'NSBundle') {
+      for (final method in node.methods) {
+        if (method.originalName ==
+            'localizedStringForKey:value:table:localizations:') {
+          method.isExcluded = true;
+        }
+      }
+    }
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    final renamed = protocols[node.originalName];
+    if (renamed != null) {
+      node.isExcluded = false;
+      node.name = renamed;
+    }
+  }
+
+  @override
+  void visitObjCCategory(ObjCCategory node) {
+    if (categories.contains(node.originalName)) {
+      node.isExcluded = false;
+    } else {
+      node.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitStruct(Struct node) {
+    if (node.originalName.isEmpty) {
+      node.isExcluded = true;
+      return;
+    }
+    final renamed = structs[node.originalName];
+    if (renamed != null) {
+      node.isExcluded = false;
+      node.name = renamed;
+    }
+  }
+
+  @override
+  void visitEnum(EnumClass node) {
+    if (enums.contains(node.originalName)) {
+      node.isExcluded = false;
+    } else {
+      node.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitTypealias(Typealias node) {
+    if (node.originalName == 'CFStringRef') {
+      node.isExcluded = false;
+    }
+  }
+
+  @override
+  void visitGlobal(Global node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitMacroConstant(MacroConstant node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
+    node.isExcluded = true;
+  }
+
+  @override
+  void visitUnion(Union node) {
+    node.isExcluded = true;
+  }
+}
+
+List<String> writeBuiltInTypes(String out, String bindingsFile) {
+  final bindingsLines = File(bindingsFile).readAsLinesSync();
+  Set<String> findBindings(RegExp re) =>
+      bindingsLines.map(re.firstMatch).nonNulls.map((match) => match[1]!).toSet();
+
+  final genInterfaces = findBindings(
+    RegExp(r'^extension type ([^_]\w*)\._\( *objc\.ObjCObject '),
+  ).toList()..sort();
+  final genStructs = findBindings(
+    RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)'),
+  ).toList()..sort();
+  final genEnums = findBindings(
+    RegExp(r'^(?:enum|sealed class) (\w+) {'),
+  ).toList()..sort();
+  final genProtocols = findBindings(
+    RegExp(r'^extension type ([^_]\w*)\._\(objc\.ObjCProtocol '),
+  ).toList()..sort();
+  final genCategories = findBindings(
+    RegExp(r'^extension (\w+) on \w+ {'),
+  ).toList()..sort();
+
+  final interfacesMap = {
+    for (final name in genInterfaces)
+      (ObjCBindingsVisitor.interfaces.entries
+          .firstWhere((e) => e.value == name, orElse: () => MapEntry(name, name))
+          .key): name,
+  };
+  final structsMap = {
+    for (final name in genStructs)
+      (ObjCBindingsVisitor.structs.entries
+          .firstWhere((e) => e.value == name, orElse: () => MapEntry(name, name))
+          .key): name,
+  };
+  final protocolsMap = {
+    for (final name in genProtocols)
+      (ObjCBindingsVisitor.protocols.entries
+          .firstWhere((e) => e.value == name, orElse: () => MapEntry(name, name))
+          .key): name,
+  };
 
   final s = StringBuffer();
   final exports = <String>{};
@@ -92,20 +565,22 @@ List<String> writeBuiltInTypes(String config, String out) {
 // Generated by package:objective_c's tool/generate_code.dart.
 ''');
 
-  Iterable<String> writeDecls(String name, String key) {
-    final decls = yaml[key] as YamlMap;
-    final renames = decls['rename'] as YamlMap? ?? YamlMap();
-    final includes = decls['include'] as YamlList;
-
-    final names = <String, String>{
-      for (final inc in includes.map<String>((i) => i as String))
-        inc: renames[inc] as String? ?? inc,
-    };
-    exports.addAll(names.values);
-    final anyRenames = names.entries.any((kv) => kv.key != kv.value);
-    final elements = anyRenames
-        ? names.entries.map((kv) => "  '${kv.key}': '${kv.value}',")
-        : names.keys.map((key) => "  '$key',");
+  void writeDecls(
+    String name,
+    Map<String, String> namesMap, [
+    Iterable<String>? namesIterable,
+  ]) {
+    final keys = namesIterable ?? namesMap.keys;
+    final map =
+        namesIterable != null
+            ? {for (final k in keys) k: k}
+            : Map<String, String>.from(namesMap);
+    exports.addAll(map.values);
+    final anyRenames = map.entries.any((kv) => kv.key != kv.value);
+    final elements =
+        anyRenames
+            ? map.entries.map((kv) => "  '${kv.key}': '${kv.value}',")
+            : map.keys.map((key) => "  '$key',");
 
     s.write('''
 
@@ -113,17 +588,22 @@ const $name = {
 ${elements.join('\n')}
 };
 ''');
-    return names.values;
   }
 
-  final interfaces = writeDecls('objCBuiltInInterfaces', 'objc-interfaces');
-  exports.addAll([for (final name in interfaces) '$name\$Methods']);
-  writeDecls('objCBuiltInCompounds', 'structs');
-  writeDecls('objCBuiltInEnums', 'enums');
-  final protocols = writeDecls('objCBuiltInProtocols', 'objc-protocols');
-  exports.addAll([for (final name in protocols) '$name\$Methods']);
-  exports.addAll([for (final name in protocols) '$name\$Builder']);
-  writeDecls('objCBuiltInCategories', 'objc-categories');
+  writeDecls('objCBuiltInInterfaces', interfacesMap);
+  exports.addAll([
+    for (final name in interfacesMap.values) '$name\$Methods',
+  ]);
+  writeDecls('objCBuiltInCompounds', structsMap);
+  writeDecls('objCBuiltInEnums', {}, genEnums);
+  writeDecls('objCBuiltInProtocols', protocolsMap);
+  exports.addAll([
+    for (final name in protocolsMap.values) '$name\$Methods',
+  ]);
+  exports.addAll([
+    for (final name in protocolsMap.values) '$name\$Builder',
+  ]);
+  writeDecls('objCBuiltInCategories', {}, genCategories);
 
   File(out).writeAsStringSync(s.toString());
 
@@ -145,18 +625,104 @@ export 'objective_c_bindings_generated.dart'
 }
 
 Future<void> run({required bool format}) async {
+  final pkgUri = await Isolate.resolvePackageUri(
+    Uri.parse('package:objective_c/objective_c.dart'),
+  );
+  final root = (pkgUri ?? Platform.script).resolve('../');
+
   print('Generating runtime bindings...');
-  await ffigen.main([...ffigenFlags, runtimeConfig]);
+  FfiGenerator(
+    headers: Headers(entryPoints: [root.resolve('src/objective_c_runtime.h')]),
+    visitors: [const RuntimeBindingsVisitor()],
+    output: Output(
+      preamble: '''
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// Bindings for `src/objective_c_runtime.h`.
+// Regenerate bindings with `dart run tool/generate_code.dart`.
+
+// ignore_for_file: always_specify_types
+// ignore_for_file: camel_case_types
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unused_element
+// coverage:ignore-file
+''',
+      style: const NativeExternalBindings(),
+      dartFile: root.resolve(runtimeBindings),
+    ),
+  ).generate();
 
   print('Generating C bindings...');
-  await ffigen.main([...ffigenFlags, cConfig]);
+  FfiGenerator(
+    headers: Headers(
+      entryPoints: [
+        root.resolve('src/include/dart_api_dl.h'),
+        root.resolve('src/objective_c.h'),
+        root.resolve('src/os_version.h'),
+      ],
+    ),
+    visitors: [const CBindingsVisitor()],
+    output: Output(
+      preamble: '''
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// Bindings for `src/objective_c.h` etc.
+// Regenerate bindings with `dart run tool/generate_code.dart`.
+
+// coverage:ignore-file
+''',
+      style: const NativeExternalBindings(
+        assetId: 'package:objective_c/objective_c.dylib',
+      ),
+      dartFile: root.resolve(cBindings),
+    ),
+  ).generate();
 
   print('Generating ObjC bindings...');
-  await ffigen.main([...ffigenFlags, objcConfig]);
+  FfiGenerator(
+    headers: Headers(
+      entryPoints: [
+        root.resolve('src/foundation.h'),
+        root.resolve('src/input_stream_adapter.h'),
+        root.resolve('src/ns_number.h'),
+        root.resolve('src/observer.h'),
+        root.resolve('src/protocol.h'),
+      ],
+    ),
+    structs: const Structs(dependencies: CompoundDependencies.opaque),
+    objectiveC: const ObjectiveC(
+      generateForPackageObjectiveC: true,
+      categories: Categories(includeTransitive: false),
+    ),
+    visitors: [const ObjCBindingsVisitor()],
+    output: Output(
+      preamble: '''
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// Bindings for package:objective_c's ObjC code and the Foundation framework.
+// Regenerate bindings with `dart run tool/generate_code.dart`.
+
+// coverage:ignore-file
+''',
+      format: false,
+      style: const NativeExternalBindings(
+        assetId: 'package:objective_c/objective_c.dylib',
+      ),
+      dartFile: root.resolve(objcBindings),
+      objectiveCFile: root.resolve('src/objective_c_bindings_generated.m'),
+    ),
+  ).generate();
+
   mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
 
   print('Generating objc_built_in_types.dart...');
-  final exports = writeBuiltInTypes(objcConfig, builtInTypes);
+  final exports = writeBuiltInTypes(builtInTypes, objcBindings);
 
   print('Generating objc_bindings_exported.dart...');
   writeExports(exports, objcExports);

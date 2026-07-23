@@ -9,6 +9,19 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
+import 'package:ffigen/src/public_ast/public_ast.dart';
+
+class _RecordUseVisitor extends Visitor {
+  @override
+  void visitFunc(Func node) {
+    if (node.originalName == 'sum') {
+      node.name = 'add';
+    }
+    node.isExcluded = false;
+    node.recordUse = true;
+  }
+}
+
 void main() {
   group('record_use_test', () {
     test('Expected Bindings', () {
@@ -16,13 +29,8 @@ void main() {
         p.join('test', 'header_parser_tests', 'record_use.h'),
       );
       final generator = FfiGenerator(
+        visitors: [_RecordUseVisitor()],
         headers: Headers(entryPoints: [Uri.file(headerFile)]),
-        functions: Functions(
-          include: (decl) => true,
-          recordUse: (decl) => true,
-          rename: (decl) =>
-              decl.originalName == 'sum' ? 'add' : decl.originalName,
-        ),
         output: Output(
           dartFile: Uri.file('unused.dart'),
           style: const NativeExternalBindings(),

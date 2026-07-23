@@ -4,7 +4,6 @@
 
 import '../../code_generator.dart';
 import '../../config_provider/config.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -21,12 +20,10 @@ Type? parseObjCInterfaceDeclaration(
   if (cachedItf != null) return cachedItf;
 
   final name = cursor.spelling();
-  final decl = Declaration(usr: usr, originalName: name);
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
   final config = context.config;
-  final objcInterfaces = config.objectiveC?.interfaces;
-  if (objcInterfaces == null) {
+  if (config.objectiveC == null) {
     return null;
   }
 
@@ -39,8 +36,8 @@ Type? parseObjCInterfaceDeclaration(
     context: context,
     usr: usr,
     originalName: name,
-    name: objcInterfaces.rename(decl),
-    module: objcInterfaces.module(decl),
+    name: name,
+    module: null,
     dartDoc: getCursorDocComment(
       context,
       cursor,
@@ -67,14 +64,11 @@ void fillObjCInterfaceMethodsIfNeeded(
   if (itf.filled) return;
   itf.filled = true; // Break cycles.
 
-  final objcInterfaces = context.config.objectiveC!.interfaces;
-
   context.logger.fine(
     '++++ Filling ObjC interface: '
     'Name: ${itf.originalName}, ${cursor.completeStringRepr()}',
   );
 
-  final itfDecl = Declaration(usr: itf.usr, originalName: itf.originalName);
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCSuperClassRef:
@@ -88,15 +82,14 @@ void fillObjCInterfaceMethodsIfNeeded(
         final (getter, setter) = parseObjCProperty(
           context,
           child,
-          itfDecl,
-          objcInterfaces,
+          itf.originalName,
         );
         itf.addMethod(getter);
         itf.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        itf.addMethod(parseObjCMethod(context, child, itfDecl, objcInterfaces));
+        itf.addMethod(parseObjCMethod(context, child, itf.originalName));
         break;
     }
   });
@@ -143,8 +136,7 @@ void _parseSuperType(
 (ObjCMethod?, ObjCMethod?) parseObjCProperty(
   Context context,
   clang_types.CXCursor cursor,
-  Declaration decl,
-  Declarations filters,
+  String declName,
 ) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType(context);
@@ -153,7 +145,7 @@ void _parseSuperType(
 
   if (fieldType.isIncompleteCompound) {
     context.logger.warning(
-      'Property "$fieldName" in instance "${decl.originalName}" '
+      'Property "$fieldName" in instance "$declName" '
       'has incomplete type: $fieldType.',
     );
     return (null, null);
@@ -190,7 +182,7 @@ void _parseSuperType(
   final getter = ObjCMethod(
     context: context,
     originalName: getterName,
-    name: filters.renameMember(decl, getterName),
+    name: getterName,
     dartDoc: dartDoc ?? getterName,
     kind: ObjCMethodKind.propertyGetter,
     isClassMethod: isClassMethod,
@@ -231,8 +223,7 @@ void _parseSuperType(
 ObjCMethod? parseObjCMethod(
   Context context,
   clang_types.CXCursor cursor,
-  Declaration itfDecl,
-  Declarations filters,
+  String declName,
 ) {
   final logger = context.logger;
   final methodName = cursor.spelling();
@@ -245,7 +236,7 @@ ObjCMethod? parseObjCMethod(
   if (returnType.isIncompleteCompound) {
     logger.warning(
       'Method "$methodName" in instance '
-      '"${itfDecl.originalName}" has incomplete '
+      '"$declName" has incomplete '
       'return type: $returnType.',
     );
     return null;
@@ -269,7 +260,7 @@ ObjCMethod? parseObjCMethod(
         final p = _parseMethodParam(
           context,
           child,
-          itfDecl.originalName,
+          declName,
           methodName,
         );
         if (p == null) {
@@ -298,7 +289,7 @@ ObjCMethod? parseObjCMethod(
   return ObjCMethod(
     context: context,
     originalName: methodName,
-    name: filters.renameMember(itfDecl, methodName),
+    name: methodName,
     dartDoc: getCursorDocComment(
       context,
       cursor,

@@ -31,12 +31,8 @@ void main() {
                 ),
               ],
             ),
-            structs: Structs.includeAll,
-            unions: Unions.includeAll,
-            typedefs: Typedefs(
-              include: (Declaration decl) => true,
-              includeUnused: true,
-            ),
+            visitors: const [IncludeAllVisitor()],
+            typedefs: const Typedefs(includeUnused: true),
           ),
         ),
       );

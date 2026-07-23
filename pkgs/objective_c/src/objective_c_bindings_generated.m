@@ -83,6 +83,9 @@ Protocol* _1wx624s_NSSecureCoding(void) { return @protocol(NSSecureCoding); }
 __attribute__((visibility("default"))) __attribute__((used))
 Protocol* _1wx624s_NSStreamDelegate(void) { return @protocol(NSStreamDelegate); }
 
+__attribute__((visibility("default"))) __attribute__((used))
+Protocol* _1wx624s_NSURLHandleClient(void) { return @protocol(NSURLHandleClient); }
+
 typedef id  (^_ProtocolTrampoline)(void * sel);
 __attribute__((visibility("default"))) __attribute__((used))
 id  _1wx624s_protocolTrampoline_1mbt9g9(id target, void * sel) {
@@ -529,19 +532,48 @@ _ListenerTrampoline_15 _1wx624s_wrapBlockingBlock_zuf90e(
   });
 }
 
-typedef void  (^_ListenerTrampoline_16)(id arg0, unsigned long arg1, BOOL * arg2);
+typedef void  (^_ListenerTrampoline_16)(void * arg0, id arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_16 _1wx624s_wrapListenerBlock_1p9ui4q(_ListenerTrampoline_16 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_16 _1wx624s_wrapListenerBlock_fjrv01(_ListenerTrampoline_16 block) NS_RETURNS_RETAINED {
+  return ^void(void * arg0, id arg1, id arg2) {
+    objc_retainBlock(block);
+    block(arg0, (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
+  };
+}
+
+typedef void  (^_BlockingTrampoline_16)(void * waiter, void * arg0, id arg1, id arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_16 _1wx624s_wrapBlockingBlock_fjrv01(
+    _BlockingTrampoline_16 block, _BlockingTrampoline_16 listenerBlock,
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, id arg1, id arg2), {
+    objc_retainBlock(block);
+    block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
+  });
+}
+
+typedef void  (^_ProtocolTrampoline_13)(void * sel, id arg1, id arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+void  _1wx624s_protocolTrampoline_fjrv01(id target, void * sel, id arg1, id arg2) {
+  return ((_ProtocolTrampoline_13)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
+}
+
+typedef void  (^_ListenerTrampoline_17)(id arg0, unsigned long arg1, BOOL * arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_17 _1wx624s_wrapListenerBlock_1p9ui4q(_ListenerTrampoline_17 block) NS_RETURNS_RETAINED {
   return ^void(id arg0, unsigned long arg1, BOOL * arg2) {
     objc_retainBlock(block);
     block((__bridge id)(__bridge_retained void*)(arg0), arg1, arg2);
   };
 }
 
-typedef void  (^_BlockingTrampoline_16)(void * waiter, id arg0, unsigned long arg1, BOOL * arg2);
+typedef void  (^_BlockingTrampoline_17)(void * waiter, id arg0, unsigned long arg1, BOOL * arg2);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_16 _1wx624s_wrapBlockingBlock_1p9ui4q(
-    _BlockingTrampoline_16 block, _BlockingTrampoline_16 listenerBlock,
+_ListenerTrampoline_17 _1wx624s_wrapBlockingBlock_1p9ui4q(
+    _BlockingTrampoline_17 block, _BlockingTrampoline_17 listenerBlock,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, ^void(id arg0, unsigned long arg1, BOOL * arg2), {
     objc_retainBlock(block);
@@ -552,19 +584,19 @@ _ListenerTrampoline_16 _1wx624s_wrapBlockingBlock_1p9ui4q(
   });
 }
 
-typedef void  (^_ListenerTrampoline_17)(unsigned short * arg0, unsigned long arg1);
+typedef void  (^_ListenerTrampoline_18)(unsigned short * arg0, unsigned long arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_17 _1wx624s_wrapListenerBlock_vhbh5h(_ListenerTrampoline_17 block) NS_RETURNS_RETAINED {
+_ListenerTrampoline_18 _1wx624s_wrapListenerBlock_vhbh5h(_ListenerTrampoline_18 block) NS_RETURNS_RETAINED {
   return ^void(unsigned short * arg0, unsigned long arg1) {
     objc_retainBlock(block);
     block(arg0, arg1);
   };
 }
 
-typedef void  (^_BlockingTrampoline_17)(void * waiter, unsigned short * arg0, unsigned long arg1);
+typedef void  (^_BlockingTrampoline_18)(void * waiter, unsigned short * arg0, unsigned long arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-_ListenerTrampoline_17 _1wx624s_wrapBlockingBlock_vhbh5h(
-    _BlockingTrampoline_17 block, _BlockingTrampoline_17 listenerBlock,
+_ListenerTrampoline_18 _1wx624s_wrapBlockingBlock_vhbh5h(
+    _BlockingTrampoline_18 block, _BlockingTrampoline_18 listenerBlock,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(ctx, ^void(unsigned short * arg0, unsigned long arg1), {
     objc_retainBlock(block);
@@ -575,34 +607,34 @@ _ListenerTrampoline_17 _1wx624s_wrapBlockingBlock_vhbh5h(
   });
 }
 
-typedef id  (^_ProtocolTrampoline_13)(void * sel, id arg1);
+typedef id  (^_ProtocolTrampoline_14)(void * sel, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 id  _1wx624s_protocolTrampoline_xr62hr(id target, void * sel, id arg1) {
-  return ((_ProtocolTrampoline_13)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
-}
-
-typedef id  (^_ProtocolTrampoline_14)(void * sel, struct _NSZone * arg1);
-__attribute__((visibility("default"))) __attribute__((used))
-id  _1wx624s_protocolTrampoline_18nsem0(id target, void * sel, struct _NSZone * arg1) {
   return ((_ProtocolTrampoline_14)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline_15)(void * sel, struct objc_selector * arg1);
+typedef id  (^_ProtocolTrampoline_15)(void * sel, struct _NSZone * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _1wx624s_protocolTrampoline_50as9u(id target, void * sel, struct objc_selector * arg1) {
+id  _1wx624s_protocolTrampoline_18nsem0(id target, void * sel, struct _NSZone * arg1) {
   return ((_ProtocolTrampoline_15)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline_16)(void * sel, struct objc_selector * arg1, id arg2);
+typedef id  (^_ProtocolTrampoline_16)(void * sel, struct objc_selector * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _1wx624s_protocolTrampoline_1mllhpc(id target, void * sel, struct objc_selector * arg1, id arg2) {
-  return ((_ProtocolTrampoline_16)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
+id  _1wx624s_protocolTrampoline_50as9u(id target, void * sel, struct objc_selector * arg1) {
+  return ((_ProtocolTrampoline_16)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline_17)(void * sel, struct objc_selector * arg1, id arg2, id arg3);
+typedef id  (^_ProtocolTrampoline_17)(void * sel, struct objc_selector * arg1, id arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+id  _1wx624s_protocolTrampoline_1mllhpc(id target, void * sel, struct objc_selector * arg1, id arg2) {
+  return ((_ProtocolTrampoline_17)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
+}
+
+typedef id  (^_ProtocolTrampoline_18)(void * sel, struct objc_selector * arg1, id arg2, id arg3);
 __attribute__((visibility("default"))) __attribute__((used))
 id  _1wx624s_protocolTrampoline_c7gk2u(id target, void * sel, struct objc_selector * arg1, id arg2, id arg3) {
-  return ((_ProtocolTrampoline_17)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
+  return ((_ProtocolTrampoline_18)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
 }
 
 __attribute__((visibility("default"))) __attribute__((used))

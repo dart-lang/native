@@ -42,13 +42,38 @@ class NativeLibrary {
       .asFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>();
 }
 
-final class A extends ffi.Opaque {}
+final class A extends ffi.Struct {
+  @ffi.Int()
+  external int a;
 
-final class B extends ffi.Opaque {}
+  static ffi.Pointer<A> $allocate(ffi.Allocator $allocator, {required int a}) =>
+      $allocator<A>()..ref.a = a;
+}
+
+final class B extends ffi.Struct {
+  @ffi.Int()
+  external int a;
+
+  static ffi.Pointer<B> $allocate(ffi.Allocator $allocator, {required int a}) =>
+      $allocator<B>()..ref.a = a;
+}
 
 typedef BAlias = B;
 
-final class C extends ffi.Opaque {}
+final class C extends ffi.Struct {
+  @ffi.Int()
+  external int a;
+
+  external ffi.Pointer<NoDefinitionStructInC> nds;
+
+  static ffi.Pointer<C> $allocate(
+    ffi.Allocator $allocator, {
+    required int a,
+    required ffi.Pointer<NoDefinitionStructInC> nds,
+  }) => $allocator<C>()
+    ..ref.a = a
+    ..ref.nds = nds;
+}
 
 final class D extends ffi.Struct {
   @ffi.Int()
@@ -89,13 +114,24 @@ final class E extends ffi.Struct {
   external ffi.Array<DArray> dArray;
 }
 
+final class NoDefinitionStructInC extends ffi.Opaque {}
+
 final class NoDefinitionStructInD extends ffi.Opaque {}
 
-final class UA extends ffi.Opaque {}
+final class UA extends ffi.Union {
+  @ffi.Int()
+  external int a;
+}
 
-final class UB extends ffi.Opaque {}
+final class UB extends ffi.Union {
+  @ffi.Int()
+  external int a;
+}
 
-final class UC extends ffi.Opaque {}
+final class UC extends ffi.Union {
+  @ffi.Int()
+  external int a;
+}
 
 final class UD extends ffi.Union {
   @ffi.Int()

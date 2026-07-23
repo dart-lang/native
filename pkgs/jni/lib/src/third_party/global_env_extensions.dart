@@ -45,17 +45,14 @@ class GlobalJniEnv {
   late final _GetVersion =
       ptr.ref.GetVersion.asFunction<JniResult Function()>(isLeaf: true);
 
-  DartJIntMarker GetVersion() => _GetVersion().integer;
+  Dartjint GetVersion() => _GetVersion().integer;
 
   late final _DefineClass = ptr.ref.DefineClass.asFunction<
-      JniClassLookupResult Function(
-          ffi.Pointer<ffi.Char> name,
-          JObjectPtr loader,
-          ffi.Pointer<JByteMarker> buf,
-          DartJIntMarker bufLen)>();
+      JniClassLookupResult Function(ffi.Pointer<ffi.Char> name,
+          JObjectPtr loader, ffi.Pointer<JByteMarker> buf, Dartjint bufLen)>();
 
   JClassPtr DefineClass(ffi.Pointer<ffi.Char> name, JObjectPtr loader,
-          ffi.Pointer<JByteMarker> buf, DartJIntMarker bufLen) =>
+          ffi.Pointer<JByteMarker> buf, Dartjint bufLen) =>
       _DefineClass(name, loader, buf, bufLen).value;
 
   late final _FindClass = ptr.ref.FindClass
@@ -78,10 +75,10 @@ class GlobalJniEnv {
 
   late final _ToReflectedMethod = ptr.ref.ToReflectedMethod.asFunction<
       JniResult Function(
-          JClassPtr cls, JMethodIDPtr methodId, DartJBooleanMarker isStatic)>();
+          JClassPtr cls, JMethodIDPtr methodId, Dartjboolean isStatic)>();
 
   JObjectPtr ToReflectedMethod(
-          JClassPtr cls, JMethodIDPtr methodId, DartJBooleanMarker isStatic) =>
+          JClassPtr cls, JMethodIDPtr methodId, Dartjboolean isStatic) =>
       _ToReflectedMethod(cls, methodId, isStatic).objectPointer;
 
   late final _GetSuperclass = ptr.ref.GetSuperclass
@@ -98,21 +95,21 @@ class GlobalJniEnv {
 
   late final _ToReflectedField = ptr.ref.ToReflectedField.asFunction<
       JniResult Function(
-          JClassPtr cls, JFieldIDPtr fieldID, DartJBooleanMarker isStatic)>();
+          JClassPtr cls, JFieldIDPtr fieldID, Dartjboolean isStatic)>();
 
   JObjectPtr ToReflectedField(
-          JClassPtr cls, JFieldIDPtr fieldID, DartJBooleanMarker isStatic) =>
+          JClassPtr cls, JFieldIDPtr fieldID, Dartjboolean isStatic) =>
       _ToReflectedField(cls, fieldID, isStatic).objectPointer;
 
   late final _Throw =
       ptr.ref.Throw.asFunction<JniResult Function(JThrowablePtr obj)>();
 
-  DartJIntMarker Throw(JThrowablePtr obj) => _Throw(obj).integer;
+  Dartjint Throw(JThrowablePtr obj) => _Throw(obj).integer;
 
   late final _ThrowNew = ptr.ref.ThrowNew.asFunction<
       JniResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> message)>();
 
-  DartJIntMarker ThrowNew(JClassPtr clazz, ffi.Pointer<ffi.Char> message) =>
+  Dartjint ThrowNew(JClassPtr clazz, ffi.Pointer<ffi.Char> message) =>
       _ThrowNew(clazz, message).integer;
 
   late final _ExceptionOccurred =
@@ -136,9 +133,9 @@ class GlobalJniEnv {
   void FatalError(ffi.Pointer<ffi.Char> msg) => _FatalError(msg).check();
 
   late final _PushLocalFrame = ptr.ref.PushLocalFrame
-      .asFunction<JniResult Function(DartJIntMarker capacity)>();
+      .asFunction<JniResult Function(Dartjint capacity)>();
 
-  DartJIntMarker PushLocalFrame(DartJIntMarker capacity) =>
+  Dartjint PushLocalFrame(Dartjint capacity) =>
       _PushLocalFrame(capacity).integer;
 
   late final _PopLocalFrame =
@@ -176,9 +173,9 @@ class GlobalJniEnv {
   JObjectPtr NewLocalRef(JObjectPtr obj) => _NewLocalRef(obj).objectPointer;
 
   late final _EnsureLocalCapacity = ptr.ref.EnsureLocalCapacity
-      .asFunction<JniResult Function(DartJIntMarker capacity)>();
+      .asFunction<JniResult Function(Dartjint capacity)>();
 
-  DartJIntMarker EnsureLocalCapacity(DartJIntMarker capacity) =>
+  Dartjint EnsureLocalCapacity(Dartjint capacity) =>
       _EnsureLocalCapacity(capacity).integer;
 
   late final _AllocObject =
@@ -250,98 +247,98 @@ class GlobalJniEnv {
   late final _CallByteMethod = ptr.ref.CallByteMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
-  DartJByteMarker CallByteMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
+  Dartjbyte CallByteMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
       _CallByteMethod(obj, methodID).byte;
 
   late final _CallByteMethodA = ptr.ref.CallByteMethodA.asFunction<
       JniResult Function(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJByteMarker CallByteMethodA(
+  Dartjbyte CallByteMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallByteMethodA(obj, methodID, args).byte;
 
   late final _CallCharMethod = ptr.ref.CallCharMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
-  DartJCharMarker CallCharMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
+  Dartjchar CallCharMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
       _CallCharMethod(obj, methodID).char;
 
   late final _CallCharMethodA = ptr.ref.CallCharMethodA.asFunction<
       JniResult Function(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJCharMarker CallCharMethodA(
+  Dartjchar CallCharMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallCharMethodA(obj, methodID, args).char;
 
   late final _CallShortMethod = ptr.ref.CallShortMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
-  DartJShortMarker CallShortMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
+  Dartjshort CallShortMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
       _CallShortMethod(obj, methodID).short;
 
   late final _CallShortMethodA = ptr.ref.CallShortMethodA.asFunction<
       JniResult Function(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJShortMarker CallShortMethodA(
+  Dartjshort CallShortMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallShortMethodA(obj, methodID, args).short;
 
   late final _CallIntMethod = ptr.ref.CallIntMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
-  DartJIntMarker CallIntMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
+  Dartjint CallIntMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
       _CallIntMethod(obj, methodID).integer;
 
   late final _CallIntMethodA = ptr.ref.CallIntMethodA.asFunction<
       JniResult Function(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJIntMarker CallIntMethodA(
+  Dartjint CallIntMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallIntMethodA(obj, methodID, args).integer;
 
   late final _CallLongMethod = ptr.ref.CallLongMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
-  DartJLongMarker CallLongMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
+  Dartjlong CallLongMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
       _CallLongMethod(obj, methodID).long;
 
   late final _CallLongMethodA = ptr.ref.CallLongMethodA.asFunction<
       JniResult Function(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJLongMarker CallLongMethodA(
+  Dartjlong CallLongMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallLongMethodA(obj, methodID, args).long;
 
   late final _CallFloatMethod = ptr.ref.CallFloatMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
-  DartJFloatMarker CallFloatMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
+  Dartjfloat CallFloatMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
       _CallFloatMethod(obj, methodID).float;
 
   late final _CallFloatMethodA = ptr.ref.CallFloatMethodA.asFunction<
       JniResult Function(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJFloatMarker CallFloatMethodA(
+  Dartjfloat CallFloatMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallFloatMethodA(obj, methodID, args).float;
 
   late final _CallDoubleMethod = ptr.ref.CallDoubleMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
-  DartJDoubleMarker CallDoubleMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
+  Dartjdouble CallDoubleMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
       _CallDoubleMethod(obj, methodID).doubleFloat;
 
   late final _CallDoubleMethodA = ptr.ref.CallDoubleMethodA.asFunction<
       JniResult Function(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJDoubleMarker CallDoubleMethodA(
+  Dartjdouble CallDoubleMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallDoubleMethodA(obj, methodID, args).doubleFloat;
 
@@ -400,7 +397,7 @@ class GlobalJniEnv {
           JniResult Function(
               JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJByteMarker CallNonvirtualByteMethod(
+  Dartjbyte CallNonvirtualByteMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallNonvirtualByteMethod(obj, clazz, methodID).byte;
 
@@ -409,7 +406,7 @@ class GlobalJniEnv {
           JniResult Function(JObjectPtr obj, JClassPtr clazz,
               JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJByteMarker CallNonvirtualByteMethodA(JObjectPtr obj, JClassPtr clazz,
+  Dartjbyte CallNonvirtualByteMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallNonvirtualByteMethodA(obj, clazz, methodID, args).byte;
 
@@ -418,7 +415,7 @@ class GlobalJniEnv {
           JniResult Function(
               JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJCharMarker CallNonvirtualCharMethod(
+  Dartjchar CallNonvirtualCharMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallNonvirtualCharMethod(obj, clazz, methodID).char;
 
@@ -427,7 +424,7 @@ class GlobalJniEnv {
           JniResult Function(JObjectPtr obj, JClassPtr clazz,
               JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJCharMarker CallNonvirtualCharMethodA(JObjectPtr obj, JClassPtr clazz,
+  Dartjchar CallNonvirtualCharMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallNonvirtualCharMethodA(obj, clazz, methodID, args).char;
 
@@ -436,7 +433,7 @@ class GlobalJniEnv {
           JniResult Function(
               JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJShortMarker CallNonvirtualShortMethod(
+  Dartjshort CallNonvirtualShortMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallNonvirtualShortMethod(obj, clazz, methodID).short;
 
@@ -445,7 +442,7 @@ class GlobalJniEnv {
           JniResult Function(JObjectPtr obj, JClassPtr clazz,
               JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJShortMarker CallNonvirtualShortMethodA(JObjectPtr obj, JClassPtr clazz,
+  Dartjshort CallNonvirtualShortMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallNonvirtualShortMethodA(obj, clazz, methodID, args).short;
 
@@ -454,7 +451,7 @@ class GlobalJniEnv {
           JniResult Function(
               JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJIntMarker CallNonvirtualIntMethod(
+  Dartjint CallNonvirtualIntMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallNonvirtualIntMethod(obj, clazz, methodID).integer;
 
@@ -463,7 +460,7 @@ class GlobalJniEnv {
           JniResult Function(JObjectPtr obj, JClassPtr clazz,
               JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJIntMarker CallNonvirtualIntMethodA(JObjectPtr obj, JClassPtr clazz,
+  Dartjint CallNonvirtualIntMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallNonvirtualIntMethodA(obj, clazz, methodID, args).integer;
 
@@ -472,7 +469,7 @@ class GlobalJniEnv {
           JniResult Function(
               JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJLongMarker CallNonvirtualLongMethod(
+  Dartjlong CallNonvirtualLongMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallNonvirtualLongMethod(obj, clazz, methodID).long;
 
@@ -481,7 +478,7 @@ class GlobalJniEnv {
           JniResult Function(JObjectPtr obj, JClassPtr clazz,
               JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJLongMarker CallNonvirtualLongMethodA(JObjectPtr obj, JClassPtr clazz,
+  Dartjlong CallNonvirtualLongMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallNonvirtualLongMethodA(obj, clazz, methodID, args).long;
 
@@ -490,7 +487,7 @@ class GlobalJniEnv {
           JniResult Function(
               JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJFloatMarker CallNonvirtualFloatMethod(
+  Dartjfloat CallNonvirtualFloatMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallNonvirtualFloatMethod(obj, clazz, methodID).float;
 
@@ -499,7 +496,7 @@ class GlobalJniEnv {
           JniResult Function(JObjectPtr obj, JClassPtr clazz,
               JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJFloatMarker CallNonvirtualFloatMethodA(JObjectPtr obj, JClassPtr clazz,
+  Dartjfloat CallNonvirtualFloatMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallNonvirtualFloatMethodA(obj, clazz, methodID, args).float;
 
@@ -508,7 +505,7 @@ class GlobalJniEnv {
           JniResult Function(
               JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJDoubleMarker CallNonvirtualDoubleMethod(
+  Dartjdouble CallNonvirtualDoubleMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallNonvirtualDoubleMethod(obj, clazz, methodID).doubleFloat;
 
@@ -517,7 +514,7 @@ class GlobalJniEnv {
           JniResult Function(JObjectPtr obj, JClassPtr clazz,
               JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJDoubleMarker CallNonvirtualDoubleMethodA(JObjectPtr obj, JClassPtr clazz,
+  Dartjdouble CallNonvirtualDoubleMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallNonvirtualDoubleMethodA(obj, clazz, methodID, args).doubleFloat;
 
@@ -565,49 +562,49 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJByteMarker GetByteField(JObjectPtr obj, JFieldIDPtr fieldID) =>
+  Dartjbyte GetByteField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetByteField(obj, fieldID).byte;
 
   late final _GetCharField = ptr.ref.GetCharField
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJCharMarker GetCharField(JObjectPtr obj, JFieldIDPtr fieldID) =>
+  Dartjchar GetCharField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetCharField(obj, fieldID).char;
 
   late final _GetShortField = ptr.ref.GetShortField
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJShortMarker GetShortField(JObjectPtr obj, JFieldIDPtr fieldID) =>
+  Dartjshort GetShortField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetShortField(obj, fieldID).short;
 
   late final _GetIntField = ptr.ref.GetIntField
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJIntMarker GetIntField(JObjectPtr obj, JFieldIDPtr fieldID) =>
+  Dartjint GetIntField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetIntField(obj, fieldID).integer;
 
   late final _GetLongField = ptr.ref.GetLongField
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJLongMarker GetLongField(JObjectPtr obj, JFieldIDPtr fieldID) =>
+  Dartjlong GetLongField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetLongField(obj, fieldID).long;
 
   late final _GetFloatField = ptr.ref.GetFloatField
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJFloatMarker GetFloatField(JObjectPtr obj, JFieldIDPtr fieldID) =>
+  Dartjfloat GetFloatField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetFloatField(obj, fieldID).float;
 
   late final _GetDoubleField = ptr.ref.GetDoubleField
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJDoubleMarker GetDoubleField(JObjectPtr obj, JFieldIDPtr fieldID) =>
+  Dartjdouble GetDoubleField(JObjectPtr obj, JFieldIDPtr fieldID) =>
       _GetDoubleField(obj, fieldID).doubleFloat;
 
   late final _SetObjectField = ptr.ref.SetObjectField.asFunction<
@@ -618,63 +615,59 @@ class GlobalJniEnv {
       _SetObjectField(obj, fieldID, val).check();
 
   late final _SetBooleanField = ptr.ref.SetBooleanField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJBooleanMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjboolean val)>(isLeaf: true);
 
-  void SetBooleanField(
-          JObjectPtr obj, JFieldIDPtr fieldID, DartJBooleanMarker val) =>
+  void SetBooleanField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjboolean val) =>
       _SetBooleanField(obj, fieldID, val).check();
 
   late final _SetByteField = ptr.ref.SetByteField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJByteMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjbyte val)>(isLeaf: true);
 
-  void SetByteField(JObjectPtr obj, JFieldIDPtr fieldID, DartJByteMarker val) =>
+  void SetByteField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjbyte val) =>
       _SetByteField(obj, fieldID, val).check();
 
   late final _SetCharField = ptr.ref.SetCharField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJCharMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjchar val)>(isLeaf: true);
 
-  void SetCharField(JObjectPtr obj, JFieldIDPtr fieldID, DartJCharMarker val) =>
+  void SetCharField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjchar val) =>
       _SetCharField(obj, fieldID, val).check();
 
   late final _SetShortField = ptr.ref.SetShortField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJShortMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjshort val)>(isLeaf: true);
 
-  void SetShortField(
-          JObjectPtr obj, JFieldIDPtr fieldID, DartJShortMarker val) =>
+  void SetShortField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjshort val) =>
       _SetShortField(obj, fieldID, val).check();
 
   late final _SetIntField = ptr.ref.SetIntField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJIntMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjint val)>(isLeaf: true);
 
-  void SetIntField(JObjectPtr obj, JFieldIDPtr fieldID, DartJIntMarker val) =>
+  void SetIntField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjint val) =>
       _SetIntField(obj, fieldID, val).check();
 
   late final _SetLongField = ptr.ref.SetLongField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJLongMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjlong val)>(isLeaf: true);
 
-  void SetLongField(JObjectPtr obj, JFieldIDPtr fieldID, DartJLongMarker val) =>
+  void SetLongField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjlong val) =>
       _SetLongField(obj, fieldID, val).check();
 
   late final _SetFloatField = ptr.ref.SetFloatField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJFloatMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjfloat val)>(isLeaf: true);
 
-  void SetFloatField(
-          JObjectPtr obj, JFieldIDPtr fieldID, DartJFloatMarker val) =>
+  void SetFloatField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjfloat val) =>
       _SetFloatField(obj, fieldID, val).check();
 
   late final _SetDoubleField = ptr.ref.SetDoubleField.asFunction<
-      JThrowablePtr Function(JObjectPtr obj, JFieldIDPtr fieldID,
-          DartJDoubleMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectPtr obj, JFieldIDPtr fieldID, Dartjdouble val)>(isLeaf: true);
 
-  void SetDoubleField(
-          JObjectPtr obj, JFieldIDPtr fieldID, DartJDoubleMarker val) =>
+  void SetDoubleField(JObjectPtr obj, JFieldIDPtr fieldID, Dartjdouble val) =>
       _SetDoubleField(obj, fieldID, val).check();
 
   late final _GetStaticMethodID = ptr.ref.GetStaticMethodID.asFunction<
@@ -718,38 +711,35 @@ class GlobalJniEnv {
   late final _CallStaticByteMethod = ptr.ref.CallStaticByteMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJByteMarker CallStaticByteMethod(
-          JClassPtr clazz, JMethodIDPtr methodID) =>
+  Dartjbyte CallStaticByteMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallStaticByteMethod(clazz, methodID).byte;
 
   late final _CallStaticByteMethodA = ptr.ref.CallStaticByteMethodA.asFunction<
       JniResult Function(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJByteMarker CallStaticByteMethodA(
+  Dartjbyte CallStaticByteMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallStaticByteMethodA(clazz, methodID, args).byte;
 
   late final _CallStaticCharMethod = ptr.ref.CallStaticCharMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJCharMarker CallStaticCharMethod(
-          JClassPtr clazz, JMethodIDPtr methodID) =>
+  Dartjchar CallStaticCharMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallStaticCharMethod(clazz, methodID).char;
 
   late final _CallStaticCharMethodA = ptr.ref.CallStaticCharMethodA.asFunction<
       JniResult Function(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJCharMarker CallStaticCharMethodA(
+  Dartjchar CallStaticCharMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallStaticCharMethodA(clazz, methodID, args).char;
 
   late final _CallStaticShortMethod = ptr.ref.CallStaticShortMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJShortMarker CallStaticShortMethod(
-          JClassPtr clazz, JMethodIDPtr methodID) =>
+  Dartjshort CallStaticShortMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallStaticShortMethod(clazz, methodID).short;
 
   late final _CallStaticShortMethodA = ptr.ref.CallStaticShortMethodA
@@ -757,44 +747,42 @@ class GlobalJniEnv {
           JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
               ffi.Pointer<JValue> args)>();
 
-  DartJShortMarker CallStaticShortMethodA(
+  Dartjshort CallStaticShortMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallStaticShortMethodA(clazz, methodID, args).short;
 
   late final _CallStaticIntMethod = ptr.ref.CallStaticIntMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJIntMarker CallStaticIntMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
+  Dartjint CallStaticIntMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallStaticIntMethod(clazz, methodID).integer;
 
   late final _CallStaticIntMethodA = ptr.ref.CallStaticIntMethodA.asFunction<
       JniResult Function(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJIntMarker CallStaticIntMethodA(
+  Dartjint CallStaticIntMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallStaticIntMethodA(clazz, methodID, args).integer;
 
   late final _CallStaticLongMethod = ptr.ref.CallStaticLongMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJLongMarker CallStaticLongMethod(
-          JClassPtr clazz, JMethodIDPtr methodID) =>
+  Dartjlong CallStaticLongMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallStaticLongMethod(clazz, methodID).long;
 
   late final _CallStaticLongMethodA = ptr.ref.CallStaticLongMethodA.asFunction<
       JniResult Function(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args)>();
 
-  DartJLongMarker CallStaticLongMethodA(
+  Dartjlong CallStaticLongMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallStaticLongMethodA(clazz, methodID, args).long;
 
   late final _CallStaticFloatMethod = ptr.ref.CallStaticFloatMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJFloatMarker CallStaticFloatMethod(
-          JClassPtr clazz, JMethodIDPtr methodID) =>
+  Dartjfloat CallStaticFloatMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallStaticFloatMethod(clazz, methodID).float;
 
   late final _CallStaticFloatMethodA = ptr.ref.CallStaticFloatMethodA
@@ -802,15 +790,14 @@ class GlobalJniEnv {
           JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
               ffi.Pointer<JValue> args)>();
 
-  DartJFloatMarker CallStaticFloatMethodA(
+  Dartjfloat CallStaticFloatMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallStaticFloatMethodA(clazz, methodID, args).float;
 
   late final _CallStaticDoubleMethod = ptr.ref.CallStaticDoubleMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
-  DartJDoubleMarker CallStaticDoubleMethod(
-          JClassPtr clazz, JMethodIDPtr methodID) =>
+  Dartjdouble CallStaticDoubleMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
       _CallStaticDoubleMethod(clazz, methodID).doubleFloat;
 
   late final _CallStaticDoubleMethodA = ptr.ref.CallStaticDoubleMethodA
@@ -818,7 +805,7 @@ class GlobalJniEnv {
           JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
               ffi.Pointer<JValue> args)>();
 
-  DartJDoubleMarker CallStaticDoubleMethodA(
+  Dartjdouble CallStaticDoubleMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
       _CallStaticDoubleMethodA(clazz, methodID, args).doubleFloat;
 
@@ -862,50 +849,49 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJByteMarker GetStaticByteField(JClassPtr clazz, JFieldIDPtr fieldID) =>
+  Dartjbyte GetStaticByteField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticByteField(clazz, fieldID).byte;
 
   late final _GetStaticCharField = ptr.ref.GetStaticCharField
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJCharMarker GetStaticCharField(JClassPtr clazz, JFieldIDPtr fieldID) =>
+  Dartjchar GetStaticCharField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticCharField(clazz, fieldID).char;
 
   late final _GetStaticShortField = ptr.ref.GetStaticShortField
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJShortMarker GetStaticShortField(JClassPtr clazz, JFieldIDPtr fieldID) =>
+  Dartjshort GetStaticShortField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticShortField(clazz, fieldID).short;
 
   late final _GetStaticIntField = ptr.ref.GetStaticIntField
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJIntMarker GetStaticIntField(JClassPtr clazz, JFieldIDPtr fieldID) =>
+  Dartjint GetStaticIntField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticIntField(clazz, fieldID).integer;
 
   late final _GetStaticLongField = ptr.ref.GetStaticLongField
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJLongMarker GetStaticLongField(JClassPtr clazz, JFieldIDPtr fieldID) =>
+  Dartjlong GetStaticLongField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticLongField(clazz, fieldID).long;
 
   late final _GetStaticFloatField = ptr.ref.GetStaticFloatField
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJFloatMarker GetStaticFloatField(JClassPtr clazz, JFieldIDPtr fieldID) =>
+  Dartjfloat GetStaticFloatField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticFloatField(clazz, fieldID).float;
 
   late final _GetStaticDoubleField = ptr.ref.GetStaticDoubleField
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>(
           isLeaf: true);
 
-  DartJDoubleMarker GetStaticDoubleField(
-          JClassPtr clazz, JFieldIDPtr fieldID) =>
+  Dartjdouble GetStaticDoubleField(JClassPtr clazz, JFieldIDPtr fieldID) =>
       _GetStaticDoubleField(clazz, fieldID).doubleFloat;
 
   late final _SetStaticObjectField = ptr.ref.SetStaticObjectField.asFunction<
@@ -918,80 +904,78 @@ class GlobalJniEnv {
 
   late final _SetStaticBooleanField = ptr.ref.SetStaticBooleanField.asFunction<
       JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJBooleanMarker val)>(isLeaf: true);
+          Dartjboolean val)>(isLeaf: true);
 
   void SetStaticBooleanField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJBooleanMarker val) =>
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjboolean val) =>
       _SetStaticBooleanField(clazz, fieldID, val).check();
 
   late final _SetStaticByteField = ptr.ref.SetStaticByteField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJByteMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjbyte val)>(isLeaf: true);
 
   void SetStaticByteField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJByteMarker val) =>
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjbyte val) =>
       _SetStaticByteField(clazz, fieldID, val).check();
 
   late final _SetStaticCharField = ptr.ref.SetStaticCharField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJCharMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjchar val)>(isLeaf: true);
 
   void SetStaticCharField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJCharMarker val) =>
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjchar val) =>
       _SetStaticCharField(clazz, fieldID, val).check();
 
   late final _SetStaticShortField = ptr.ref.SetStaticShortField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJShortMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjshort val)>(isLeaf: true);
 
   void SetStaticShortField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJShortMarker val) =>
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjshort val) =>
       _SetStaticShortField(clazz, fieldID, val).check();
 
   late final _SetStaticIntField = ptr.ref.SetStaticIntField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJIntMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjint val)>(isLeaf: true);
 
-  void SetStaticIntField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJIntMarker val) =>
+  void SetStaticIntField(JClassPtr clazz, JFieldIDPtr fieldID, Dartjint val) =>
       _SetStaticIntField(clazz, fieldID, val).check();
 
   late final _SetStaticLongField = ptr.ref.SetStaticLongField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJLongMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjlong val)>(isLeaf: true);
 
   void SetStaticLongField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJLongMarker val) =>
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjlong val) =>
       _SetStaticLongField(clazz, fieldID, val).check();
 
   late final _SetStaticFloatField = ptr.ref.SetStaticFloatField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJFloatMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjfloat val)>(isLeaf: true);
 
   void SetStaticFloatField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJFloatMarker val) =>
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjfloat val) =>
       _SetStaticFloatField(clazz, fieldID, val).check();
 
   late final _SetStaticDoubleField = ptr.ref.SetStaticDoubleField.asFunction<
-      JThrowablePtr Function(JClassPtr clazz, JFieldIDPtr fieldID,
-          DartJDoubleMarker val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjdouble val)>(isLeaf: true);
 
   void SetStaticDoubleField(
-          JClassPtr clazz, JFieldIDPtr fieldID, DartJDoubleMarker val) =>
+          JClassPtr clazz, JFieldIDPtr fieldID, Dartjdouble val) =>
       _SetStaticDoubleField(clazz, fieldID, val).check();
 
   late final _NewString = ptr.ref.NewString.asFunction<
       JniResult Function(
-          ffi.Pointer<JCharMarker> unicodeChars, DartJIntMarker len)>();
+          ffi.Pointer<JCharMarker> unicodeChars, Dartjint len)>();
 
-  JStringPtr NewString(
-          ffi.Pointer<JCharMarker> unicodeChars, DartJIntMarker len) =>
+  JStringPtr NewString(ffi.Pointer<JCharMarker> unicodeChars, Dartjint len) =>
       _NewString(unicodeChars, len).objectPointer;
 
   late final _GetStringLength = ptr.ref.GetStringLength
       .asFunction<JniResult Function(JStringPtr string)>(isLeaf: true);
 
-  DartJIntMarker GetStringLength(JStringPtr string) =>
+  Dartjint GetStringLength(JStringPtr string) =>
       _GetStringLength(string).integer;
 
   late final _GetStringChars = ptr.ref.GetStringChars.asFunction<
@@ -1018,7 +1002,7 @@ class GlobalJniEnv {
   late final _GetStringUTFLength = ptr.ref.GetStringUTFLength
       .asFunction<JniResult Function(JStringPtr string)>(isLeaf: true);
 
-  DartJIntMarker GetStringUTFLength(JStringPtr string) =>
+  Dartjint GetStringUTFLength(JStringPtr string) =>
       _GetStringUTFLength(string).integer;
 
   late final _GetStringUTFChars = ptr.ref.GetStringUTFChars.asFunction<
@@ -1038,79 +1022,77 @@ class GlobalJniEnv {
   late final _GetArrayLength = ptr.ref.GetArrayLength
       .asFunction<JniResult Function(JArrayPtr array)>(isLeaf: true);
 
-  DartJIntMarker GetArrayLength(JArrayPtr array) =>
-      _GetArrayLength(array).integer;
+  Dartjint GetArrayLength(JArrayPtr array) => _GetArrayLength(array).integer;
 
   late final _NewObjectArray = ptr.ref.NewObjectArray.asFunction<
-      JniResult Function(DartJIntMarker length, JClassPtr elementClass,
+      JniResult Function(Dartjint length, JClassPtr elementClass,
           JObjectPtr initialElement)>();
 
-  JObjectArrayPtr NewObjectArray(DartJIntMarker length, JClassPtr elementClass,
-          JObjectPtr initialElement) =>
+  JObjectArrayPtr NewObjectArray(
+          Dartjint length, JClassPtr elementClass, JObjectPtr initialElement) =>
       _NewObjectArray(length, elementClass, initialElement).objectPointer;
 
-  late final _GetObjectArrayElement = ptr.ref.GetObjectArrayElement.asFunction<
-      JniResult Function(
-          JObjectArrayPtr array, DartJIntMarker index)>(isLeaf: true);
+  late final _GetObjectArrayElement = ptr.ref.GetObjectArrayElement
+      .asFunction<JniResult Function(JObjectArrayPtr array, Dartjint index)>(
+          isLeaf: true);
 
-  JObjectPtr GetObjectArrayElement(
-          JObjectArrayPtr array, DartJIntMarker index) =>
+  JObjectPtr GetObjectArrayElement(JObjectArrayPtr array, Dartjint index) =>
       _GetObjectArrayElement(array, index).objectPointer;
 
   late final _SetObjectArrayElement = ptr.ref.SetObjectArrayElement.asFunction<
-      JThrowablePtr Function(JObjectArrayPtr array, DartJIntMarker index,
-          JObjectPtr val)>(isLeaf: true);
+      JThrowablePtr Function(
+          JObjectArrayPtr array, Dartjint index, JObjectPtr val)>(isLeaf: true);
 
   void SetObjectArrayElement(
-          JObjectArrayPtr array, DartJIntMarker index, JObjectPtr val) =>
+          JObjectArrayPtr array, Dartjint index, JObjectPtr val) =>
       _SetObjectArrayElement(array, index, val).check();
 
-  late final _NewBooleanArray = ptr.ref.NewBooleanArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewBooleanArray =
+      ptr.ref.NewBooleanArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JBooleanArrayPtr NewBooleanArray(DartJIntMarker length) =>
+  JBooleanArrayPtr NewBooleanArray(Dartjint length) =>
       _NewBooleanArray(length).objectPointer;
 
-  late final _NewByteArray = ptr.ref.NewByteArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewByteArray =
+      ptr.ref.NewByteArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JByteArrayPtr NewByteArray(DartJIntMarker length) =>
+  JByteArrayPtr NewByteArray(Dartjint length) =>
       _NewByteArray(length).objectPointer;
 
-  late final _NewCharArray = ptr.ref.NewCharArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewCharArray =
+      ptr.ref.NewCharArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JCharArrayPtr NewCharArray(DartJIntMarker length) =>
+  JCharArrayPtr NewCharArray(Dartjint length) =>
       _NewCharArray(length).objectPointer;
 
-  late final _NewShortArray = ptr.ref.NewShortArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewShortArray =
+      ptr.ref.NewShortArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JShortArrayPtr NewShortArray(DartJIntMarker length) =>
+  JShortArrayPtr NewShortArray(Dartjint length) =>
       _NewShortArray(length).objectPointer;
 
-  late final _NewIntArray = ptr.ref.NewIntArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewIntArray =
+      ptr.ref.NewIntArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JIntArrayPtr NewIntArray(DartJIntMarker length) =>
+  JIntArrayPtr NewIntArray(Dartjint length) =>
       _NewIntArray(length).objectPointer;
 
-  late final _NewLongArray = ptr.ref.NewLongArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewLongArray =
+      ptr.ref.NewLongArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JLongArrayPtr NewLongArray(DartJIntMarker length) =>
+  JLongArrayPtr NewLongArray(Dartjint length) =>
       _NewLongArray(length).objectPointer;
 
-  late final _NewFloatArray = ptr.ref.NewFloatArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewFloatArray =
+      ptr.ref.NewFloatArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JFloatArrayPtr NewFloatArray(DartJIntMarker length) =>
+  JFloatArrayPtr NewFloatArray(Dartjint length) =>
       _NewFloatArray(length).objectPointer;
 
-  late final _NewDoubleArray = ptr.ref.NewDoubleArray
-      .asFunction<JniResult Function(DartJIntMarker length)>();
+  late final _NewDoubleArray =
+      ptr.ref.NewDoubleArray.asFunction<JniResult Function(Dartjint length)>();
 
-  JDoubleArrayPtr NewDoubleArray(DartJIntMarker length) =>
+  JDoubleArrayPtr NewDoubleArray(Dartjint length) =>
       _NewDoubleArray(length).objectPointer;
 
   late final _GetBooleanArrayElements = ptr.ref.GetBooleanArrayElements
@@ -1182,248 +1164,248 @@ class GlobalJniEnv {
   late final _ReleaseBooleanArrayElements = ptr.ref.ReleaseBooleanArrayElements
       .asFunction<
           JThrowablePtr Function(JBooleanArrayPtr array,
-              ffi.Pointer<JBooleanMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JBooleanMarker> elems, Dartjint mode)>();
 
   void ReleaseBooleanArrayElements(JBooleanArrayPtr array,
-          ffi.Pointer<JBooleanMarker> elems, DartJIntMarker mode) =>
+          ffi.Pointer<JBooleanMarker> elems, Dartjint mode) =>
       _ReleaseBooleanArrayElements(array, elems, mode).check();
 
   late final _ReleaseByteArrayElements = ptr.ref.ReleaseByteArrayElements
       .asFunction<
           JThrowablePtr Function(JByteArrayPtr array,
-              ffi.Pointer<JByteMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JByteMarker> elems, Dartjint mode)>();
 
-  void ReleaseByteArrayElements(JByteArrayPtr array,
-          ffi.Pointer<JByteMarker> elems, DartJIntMarker mode) =>
+  void ReleaseByteArrayElements(
+          JByteArrayPtr array, ffi.Pointer<JByteMarker> elems, Dartjint mode) =>
       _ReleaseByteArrayElements(array, elems, mode).check();
 
   late final _ReleaseCharArrayElements = ptr.ref.ReleaseCharArrayElements
       .asFunction<
           JThrowablePtr Function(JCharArrayPtr array,
-              ffi.Pointer<JCharMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JCharMarker> elems, Dartjint mode)>();
 
-  void ReleaseCharArrayElements(JCharArrayPtr array,
-          ffi.Pointer<JCharMarker> elems, DartJIntMarker mode) =>
+  void ReleaseCharArrayElements(
+          JCharArrayPtr array, ffi.Pointer<JCharMarker> elems, Dartjint mode) =>
       _ReleaseCharArrayElements(array, elems, mode).check();
 
   late final _ReleaseShortArrayElements = ptr.ref.ReleaseShortArrayElements
       .asFunction<
           JThrowablePtr Function(JShortArrayPtr array,
-              ffi.Pointer<JShortMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JShortMarker> elems, Dartjint mode)>();
 
   void ReleaseShortArrayElements(JShortArrayPtr array,
-          ffi.Pointer<JShortMarker> elems, DartJIntMarker mode) =>
+          ffi.Pointer<JShortMarker> elems, Dartjint mode) =>
       _ReleaseShortArrayElements(array, elems, mode).check();
 
   late final _ReleaseIntArrayElements = ptr.ref.ReleaseIntArrayElements
       .asFunction<
           JThrowablePtr Function(JIntArrayPtr array,
-              ffi.Pointer<JIntMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JIntMarker> elems, Dartjint mode)>();
 
-  void ReleaseIntArrayElements(JIntArrayPtr array,
-          ffi.Pointer<JIntMarker> elems, DartJIntMarker mode) =>
+  void ReleaseIntArrayElements(
+          JIntArrayPtr array, ffi.Pointer<JIntMarker> elems, Dartjint mode) =>
       _ReleaseIntArrayElements(array, elems, mode).check();
 
   late final _ReleaseLongArrayElements = ptr.ref.ReleaseLongArrayElements
       .asFunction<
           JThrowablePtr Function(JLongArrayPtr array,
-              ffi.Pointer<JLongMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JLongMarker> elems, Dartjint mode)>();
 
-  void ReleaseLongArrayElements(JLongArrayPtr array,
-          ffi.Pointer<JLongMarker> elems, DartJIntMarker mode) =>
+  void ReleaseLongArrayElements(
+          JLongArrayPtr array, ffi.Pointer<JLongMarker> elems, Dartjint mode) =>
       _ReleaseLongArrayElements(array, elems, mode).check();
 
   late final _ReleaseFloatArrayElements = ptr.ref.ReleaseFloatArrayElements
       .asFunction<
           JThrowablePtr Function(JFloatArrayPtr array,
-              ffi.Pointer<JFloatMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JFloatMarker> elems, Dartjint mode)>();
 
   void ReleaseFloatArrayElements(JFloatArrayPtr array,
-          ffi.Pointer<JFloatMarker> elems, DartJIntMarker mode) =>
+          ffi.Pointer<JFloatMarker> elems, Dartjint mode) =>
       _ReleaseFloatArrayElements(array, elems, mode).check();
 
   late final _ReleaseDoubleArrayElements = ptr.ref.ReleaseDoubleArrayElements
       .asFunction<
           JThrowablePtr Function(JDoubleArrayPtr array,
-              ffi.Pointer<JDoubleMarker> elems, DartJIntMarker mode)>();
+              ffi.Pointer<JDoubleMarker> elems, Dartjint mode)>();
 
   void ReleaseDoubleArrayElements(JDoubleArrayPtr array,
-          ffi.Pointer<JDoubleMarker> elems, DartJIntMarker mode) =>
+          ffi.Pointer<JDoubleMarker> elems, Dartjint mode) =>
       _ReleaseDoubleArrayElements(array, elems, mode).check();
 
   late final _GetBooleanArrayRegion = ptr.ref.GetBooleanArrayRegion.asFunction<
-      JThrowablePtr Function(JBooleanArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JBooleanMarker> buf)>();
+      JThrowablePtr Function(JBooleanArrayPtr array, Dartjint start,
+          Dartjint len, ffi.Pointer<JBooleanMarker> buf)>();
 
-  void GetBooleanArrayRegion(JBooleanArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JBooleanMarker> buf) =>
+  void GetBooleanArrayRegion(JBooleanArrayPtr array, Dartjint start,
+          Dartjint len, ffi.Pointer<JBooleanMarker> buf) =>
       _GetBooleanArrayRegion(array, start, len, buf).check();
 
   late final _GetByteArrayRegion = ptr.ref.GetByteArrayRegion.asFunction<
-      JThrowablePtr Function(JByteArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JByteMarker> buf)>();
+      JThrowablePtr Function(JByteArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JByteMarker> buf)>();
 
-  void GetByteArrayRegion(JByteArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JByteMarker> buf) =>
+  void GetByteArrayRegion(JByteArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JByteMarker> buf) =>
       _GetByteArrayRegion(array, start, len, buf).check();
 
   late final _GetCharArrayRegion = ptr.ref.GetCharArrayRegion.asFunction<
-      JThrowablePtr Function(JCharArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JCharMarker> buf)>();
+      JThrowablePtr Function(JCharArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JCharMarker> buf)>();
 
-  void GetCharArrayRegion(JCharArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JCharMarker> buf) =>
+  void GetCharArrayRegion(JCharArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JCharMarker> buf) =>
       _GetCharArrayRegion(array, start, len, buf).check();
 
   late final _GetShortArrayRegion = ptr.ref.GetShortArrayRegion.asFunction<
-      JThrowablePtr Function(JShortArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JShortMarker> buf)>();
+      JThrowablePtr Function(JShortArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JShortMarker> buf)>();
 
-  void GetShortArrayRegion(JShortArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JShortMarker> buf) =>
+  void GetShortArrayRegion(JShortArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JShortMarker> buf) =>
       _GetShortArrayRegion(array, start, len, buf).check();
 
   late final _GetIntArrayRegion = ptr.ref.GetIntArrayRegion.asFunction<
-      JThrowablePtr Function(JIntArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JIntMarker> buf)>();
+      JThrowablePtr Function(JIntArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JIntMarker> buf)>();
 
-  void GetIntArrayRegion(JIntArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JIntMarker> buf) =>
+  void GetIntArrayRegion(JIntArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JIntMarker> buf) =>
       _GetIntArrayRegion(array, start, len, buf).check();
 
   late final _GetLongArrayRegion = ptr.ref.GetLongArrayRegion.asFunction<
-      JThrowablePtr Function(JLongArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JLongMarker> buf)>();
+      JThrowablePtr Function(JLongArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JLongMarker> buf)>();
 
-  void GetLongArrayRegion(JLongArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JLongMarker> buf) =>
+  void GetLongArrayRegion(JLongArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JLongMarker> buf) =>
       _GetLongArrayRegion(array, start, len, buf).check();
 
   late final _GetFloatArrayRegion = ptr.ref.GetFloatArrayRegion.asFunction<
-      JThrowablePtr Function(JFloatArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JFloatMarker> buf)>();
+      JThrowablePtr Function(JFloatArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JFloatMarker> buf)>();
 
-  void GetFloatArrayRegion(JFloatArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JFloatMarker> buf) =>
+  void GetFloatArrayRegion(JFloatArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JFloatMarker> buf) =>
       _GetFloatArrayRegion(array, start, len, buf).check();
 
   late final _GetDoubleArrayRegion = ptr.ref.GetDoubleArrayRegion.asFunction<
-      JThrowablePtr Function(JDoubleArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JDoubleMarker> buf)>();
+      JThrowablePtr Function(JDoubleArrayPtr array, Dartjint start,
+          Dartjint len, ffi.Pointer<JDoubleMarker> buf)>();
 
-  void GetDoubleArrayRegion(JDoubleArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JDoubleMarker> buf) =>
+  void GetDoubleArrayRegion(JDoubleArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JDoubleMarker> buf) =>
       _GetDoubleArrayRegion(array, start, len, buf).check();
 
   late final _SetBooleanArrayRegion = ptr.ref.SetBooleanArrayRegion.asFunction<
-      JThrowablePtr Function(JBooleanArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JBooleanMarker> buf)>();
+      JThrowablePtr Function(JBooleanArrayPtr array, Dartjint start,
+          Dartjint len, ffi.Pointer<JBooleanMarker> buf)>();
 
-  void SetBooleanArrayRegion(JBooleanArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JBooleanMarker> buf) =>
+  void SetBooleanArrayRegion(JBooleanArrayPtr array, Dartjint start,
+          Dartjint len, ffi.Pointer<JBooleanMarker> buf) =>
       _SetBooleanArrayRegion(array, start, len, buf).check();
 
   late final _SetByteArrayRegion = ptr.ref.SetByteArrayRegion.asFunction<
-      JThrowablePtr Function(JByteArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JByteMarker> buf)>();
+      JThrowablePtr Function(JByteArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JByteMarker> buf)>();
 
-  void SetByteArrayRegion(JByteArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JByteMarker> buf) =>
+  void SetByteArrayRegion(JByteArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JByteMarker> buf) =>
       _SetByteArrayRegion(array, start, len, buf).check();
 
   late final _SetCharArrayRegion = ptr.ref.SetCharArrayRegion.asFunction<
-      JThrowablePtr Function(JCharArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JCharMarker> buf)>();
+      JThrowablePtr Function(JCharArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JCharMarker> buf)>();
 
-  void SetCharArrayRegion(JCharArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JCharMarker> buf) =>
+  void SetCharArrayRegion(JCharArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JCharMarker> buf) =>
       _SetCharArrayRegion(array, start, len, buf).check();
 
   late final _SetShortArrayRegion = ptr.ref.SetShortArrayRegion.asFunction<
-      JThrowablePtr Function(JShortArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JShortMarker> buf)>();
+      JThrowablePtr Function(JShortArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JShortMarker> buf)>();
 
-  void SetShortArrayRegion(JShortArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JShortMarker> buf) =>
+  void SetShortArrayRegion(JShortArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JShortMarker> buf) =>
       _SetShortArrayRegion(array, start, len, buf).check();
 
   late final _SetIntArrayRegion = ptr.ref.SetIntArrayRegion.asFunction<
-      JThrowablePtr Function(JIntArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JIntMarker> buf)>();
+      JThrowablePtr Function(JIntArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JIntMarker> buf)>();
 
-  void SetIntArrayRegion(JIntArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JIntMarker> buf) =>
+  void SetIntArrayRegion(JIntArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JIntMarker> buf) =>
       _SetIntArrayRegion(array, start, len, buf).check();
 
   late final _SetLongArrayRegion = ptr.ref.SetLongArrayRegion.asFunction<
-      JThrowablePtr Function(JLongArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JLongMarker> buf)>();
+      JThrowablePtr Function(JLongArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JLongMarker> buf)>();
 
-  void SetLongArrayRegion(JLongArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JLongMarker> buf) =>
+  void SetLongArrayRegion(JLongArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JLongMarker> buf) =>
       _SetLongArrayRegion(array, start, len, buf).check();
 
   late final _SetFloatArrayRegion = ptr.ref.SetFloatArrayRegion.asFunction<
-      JThrowablePtr Function(JFloatArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JFloatMarker> buf)>();
+      JThrowablePtr Function(JFloatArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JFloatMarker> buf)>();
 
-  void SetFloatArrayRegion(JFloatArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JFloatMarker> buf) =>
+  void SetFloatArrayRegion(JFloatArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JFloatMarker> buf) =>
       _SetFloatArrayRegion(array, start, len, buf).check();
 
   late final _SetDoubleArrayRegion = ptr.ref.SetDoubleArrayRegion.asFunction<
-      JThrowablePtr Function(JDoubleArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JDoubleMarker> buf)>();
+      JThrowablePtr Function(JDoubleArrayPtr array, Dartjint start,
+          Dartjint len, ffi.Pointer<JDoubleMarker> buf)>();
 
-  void SetDoubleArrayRegion(JDoubleArrayPtr array, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JDoubleMarker> buf) =>
+  void SetDoubleArrayRegion(JDoubleArrayPtr array, Dartjint start, Dartjint len,
+          ffi.Pointer<JDoubleMarker> buf) =>
       _SetDoubleArrayRegion(array, start, len, buf).check();
 
   late final _RegisterNatives = ptr.ref.RegisterNatives.asFunction<
       JniResult Function(JClassPtr clazz, ffi.Pointer<JNINativeMethod> methods,
-          DartJIntMarker nMethods)>();
+          Dartjint nMethods)>();
 
-  DartJIntMarker RegisterNatives(JClassPtr clazz,
-          ffi.Pointer<JNINativeMethod> methods, DartJIntMarker nMethods) =>
+  Dartjint RegisterNatives(JClassPtr clazz,
+          ffi.Pointer<JNINativeMethod> methods, Dartjint nMethods) =>
       _RegisterNatives(clazz, methods, nMethods).integer;
 
   late final _UnregisterNatives = ptr.ref.UnregisterNatives
       .asFunction<JniResult Function(JClassPtr clazz)>();
 
-  DartJIntMarker UnregisterNatives(JClassPtr clazz) =>
+  Dartjint UnregisterNatives(JClassPtr clazz) =>
       _UnregisterNatives(clazz).integer;
 
   late final _MonitorEnter =
       ptr.ref.MonitorEnter.asFunction<JniResult Function(JObjectPtr obj)>();
 
-  DartJIntMarker MonitorEnter(JObjectPtr obj) => _MonitorEnter(obj).integer;
+  Dartjint MonitorEnter(JObjectPtr obj) => _MonitorEnter(obj).integer;
 
   late final _MonitorExit =
       ptr.ref.MonitorExit.asFunction<JniResult Function(JObjectPtr obj)>();
 
-  DartJIntMarker MonitorExit(JObjectPtr obj) => _MonitorExit(obj).integer;
+  Dartjint MonitorExit(JObjectPtr obj) => _MonitorExit(obj).integer;
 
   late final _GetJavaVM = ptr.ref.GetJavaVM
-      .asFunction<JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM$1>> vm)>(
+      .asFunction<JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM>> vm)>(
           isLeaf: true);
 
-  DartJIntMarker GetJavaVM(ffi.Pointer<ffi.Pointer<JavaVM$1>> vm) =>
+  Dartjint GetJavaVM(ffi.Pointer<ffi.Pointer<JavaVM>> vm) =>
       _GetJavaVM(vm).integer;
 
   late final _GetStringRegion = ptr.ref.GetStringRegion.asFunction<
-      JThrowablePtr Function(JStringPtr str, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<JCharMarker> buf)>();
+      JThrowablePtr Function(JStringPtr str, Dartjint start, Dartjint len,
+          ffi.Pointer<JCharMarker> buf)>();
 
-  void GetStringRegion(JStringPtr str, DartJIntMarker start, DartJIntMarker len,
+  void GetStringRegion(JStringPtr str, Dartjint start, Dartjint len,
           ffi.Pointer<JCharMarker> buf) =>
       _GetStringRegion(str, start, len, buf).check();
 
   late final _GetStringUTFRegion = ptr.ref.GetStringUTFRegion.asFunction<
-      JThrowablePtr Function(JStringPtr str, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<ffi.Char> buf)>();
+      JThrowablePtr Function(JStringPtr str, Dartjint start, Dartjint len,
+          ffi.Pointer<ffi.Char> buf)>();
 
-  void GetStringUTFRegion(JStringPtr str, DartJIntMarker start,
-          DartJIntMarker len, ffi.Pointer<ffi.Char> buf) =>
+  void GetStringUTFRegion(JStringPtr str, Dartjint start, Dartjint len,
+          ffi.Pointer<ffi.Char> buf) =>
       _GetStringUTFRegion(str, start, len, buf).check();
 
   late final _GetPrimitiveArrayCritical = ptr.ref.GetPrimitiveArrayCritical
@@ -1437,11 +1419,11 @@ class GlobalJniEnv {
 
   late final _ReleasePrimitiveArrayCritical =
       ptr.ref.ReleasePrimitiveArrayCritical.asFunction<
-          JThrowablePtr Function(JArrayPtr array, ffi.Pointer<ffi.Void> carray,
-              DartJIntMarker mode)>();
+          JThrowablePtr Function(
+              JArrayPtr array, ffi.Pointer<ffi.Void> carray, Dartjint mode)>();
 
   void ReleasePrimitiveArrayCritical(
-          JArrayPtr array, ffi.Pointer<ffi.Void> carray, DartJIntMarker mode) =>
+          JArrayPtr array, ffi.Pointer<ffi.Void> carray, Dartjint mode) =>
       _ReleasePrimitiveArrayCritical(array, carray, mode).check();
 
   late final _GetStringCritical = ptr.ref.GetStringCritical.asFunction<
@@ -1476,11 +1458,10 @@ class GlobalJniEnv {
   bool ExceptionCheck() => _ExceptionCheck().boolean;
 
   late final _NewDirectByteBuffer = ptr.ref.NewDirectByteBuffer.asFunction<
-      JniResult Function(
-          ffi.Pointer<ffi.Void> address, DartJLongMarker capacity)>();
+      JniResult Function(ffi.Pointer<ffi.Void> address, Dartjlong capacity)>();
 
   JObjectPtr NewDirectByteBuffer(
-          ffi.Pointer<ffi.Void> address, DartJLongMarker capacity) =>
+          ffi.Pointer<ffi.Void> address, Dartjlong capacity) =>
       _NewDirectByteBuffer(address, capacity).objectPointer;
 
   late final _GetDirectBufferAddress = ptr.ref.GetDirectBufferAddress
@@ -1492,7 +1473,7 @@ class GlobalJniEnv {
   late final _GetDirectBufferCapacity = ptr.ref.GetDirectBufferCapacity
       .asFunction<JniResult Function(JObjectPtr buf)>(isLeaf: true);
 
-  DartJLongMarker GetDirectBufferCapacity(JObjectPtr buf) =>
+  Dartjlong GetDirectBufferCapacity(JObjectPtr buf) =>
       _GetDirectBufferCapacity(buf).long;
 
   late final _GetObjectRefType = ptr.ref.GetObjectRefType
