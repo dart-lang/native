@@ -140,6 +140,10 @@ class NativeAssetsBuildRunner {
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
   ///
+  /// The validations contributed by [extensions] run only on freshly produced
+  /// hook output. When a cached hook result is reused, its output is not
+  /// re-validated, so a validation is never re-run against a cache hit.
+  ///
   /// Returns a [Future] that completes with a [Result]. On success, the
   /// [Result] is a [Success] containing the [BuildResult], which encapsulates
   /// the outputs of all successful build hook executions. On failure, the
@@ -261,6 +265,10 @@ class NativeAssetsBuildRunner {
   ///
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
+  ///
+  /// The validations contributed by [extensions] run only on freshly produced
+  /// hook output. When a cached hook result is reused, its output is not
+  /// re-validated, so a validation is never re-run against a cache hit.
   ///
   /// Returns a [Future] that completes with a [Result]. On success, the
   /// [Result] is a [Success] containing the [LinkResult], which encapsulates
@@ -535,10 +543,6 @@ class NativeAssetsBuildRunner {
                 input.packageName,
               );
               if (outputResult.isFailure) {
-                await _invalidateCachedHookResult(
-                  outputFile,
-                  dependenciesHashes,
-                );
                 return const Failure(HooksRunnerFailure.hookRun);
               }
               final output = outputResult.success;
@@ -550,19 +554,6 @@ class NativeAssetsBuildRunner {
                 // the hook.
                 outdatedDependencyString = outdatedDependency;
               } else {
-                final errors = await _validate(input, output, validator);
-                if (errors.isNotEmpty) {
-                  _printErrors(
-                    '$hook hook of package:${input.packageName} has invalid '
-                    'cached output',
-                    errors,
-                  );
-                  await _invalidateCachedHookResult(
-                    outputFile,
-                    dependenciesHashes,
-                  );
-                  return const Failure(HooksRunnerFailure.hookRun);
-                }
                 logger.info(
                   'Skipping ${hook.name} for ${input.packageName}'
                   ' in ${buildDirUri.toFilePath()}.'
@@ -616,18 +607,6 @@ class NativeAssetsBuildRunner {
       },
     ),
   );
-
-  Future<void> _invalidateCachedHookResult(
-    File outputFile,
-    DependenciesHashFile dependenciesHashes,
-  ) async {
-    if (await outputFile.exists()) {
-      await outputFile.delete();
-    }
-    if (await dependenciesHashes.exists()) {
-      await dependenciesHashes.delete();
-    }
-  }
 
   /// Environment variables respected by [HttpClient.findProxyFromEnvironment].
   ///
@@ -1097,60 +1076,40 @@ ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
     }
     logger.info('output.json contents:\n$fileContents');
+    final Map<String, Object?> hookOutputJson;
     try {
-      final decoded = jsonDecode(fileContents);
-      if (decoded is! Map<String, Object?>) {
-        throw const FormatException('Expected a JSON object.');
-      }
-      final status = decoded['status'];
-      if (status != null && status != 'success' && status != 'failure') {
-        throw FormatException('Unknown status: $status.');
-      }
-      switch (hook) {
-        case .build:
-          final output = BuildOutputMaybeFailure(decoded);
-          switch (output) {
-            case BuildOutput _:
-              return Success(output);
-            case BuildOutputFailure(type: FailureType.infra):
-              return const Failure(HooksRunnerFailure.infra);
-            case BuildOutputFailure _:
-              return const Failure(HooksRunnerFailure.hookRun);
-          }
-        case .link:
-          final output = LinkOutputMaybeFailure(decoded);
-          switch (output) {
-            case LinkOutput _:
-              return Success(output);
-            case LinkOutputFailure(type: FailureType.infra):
-              return const Failure(HooksRunnerFailure.infra);
-            case LinkOutputFailure _:
-              return const Failure(HooksRunnerFailure.hookRun);
-          }
-      }
+      hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
     } on FormatException catch (e) {
-      return _invalidHookOutput(
-        hookOutputFile,
-        packageName,
-        fileContents,
-        e.message,
-      );
-    }
-  }
-
-  Result<HookOutput, HooksRunnerFailure> _invalidHookOutput(
-    File hookOutputFile,
-    String packageName,
-    String fileContents,
-    String message,
-  ) {
-    logger.severe('''
+      logger.severe('''
 Building assets for package:$packageName failed.
 ${hookOutputFile.uri.toFilePath()} contained a format error.
 
 Contents: $fileContents.
-$message''');
-    return const Failure(HooksRunnerFailure.hookRun);
+${e.message}''');
+      return const Failure(HooksRunnerFailure.hookRun);
+    }
+    switch (hook) {
+      case .build:
+        final output = BuildOutputMaybeFailure(hookOutputJson);
+        switch (output) {
+          case BuildOutput _:
+            return Success(output);
+          case BuildOutputFailure(type: FailureType.infra):
+            return const Failure(HooksRunnerFailure.infra);
+          case BuildOutputFailure _:
+            return const Failure(HooksRunnerFailure.hookRun);
+        }
+      case .link:
+        final output = LinkOutputMaybeFailure(hookOutputJson);
+        switch (output) {
+          case LinkOutput _:
+            return Success(output);
+          case LinkOutputFailure(type: FailureType.infra):
+            return const Failure(HooksRunnerFailure.infra);
+          case LinkOutputFailure _:
+            return const Failure(HooksRunnerFailure.hookRun);
+        }
+    }
   }
 
   /// Returns a list of errors for [_readHooksUserDefinesFromPubspec].
