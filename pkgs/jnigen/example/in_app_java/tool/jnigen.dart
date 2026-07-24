@@ -22,7 +22,6 @@ void main(List<String> args) {
         'androidx.emoji2.text.EmojiCompat', // From gradle's compile classpath
         'androidx.emoji2.text.DefaultEmojiCompatConfig', // From gradle's compile classpath
         'android.os.Build', // from gradle's compile classpath
-        'java.util.HashMap', // from gradle's compile classpath
       ],
     ),
   );

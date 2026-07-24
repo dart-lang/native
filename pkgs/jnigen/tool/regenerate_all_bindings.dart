@@ -43,5 +43,7 @@ void main() async {
               dartExecutable, ['run', 'jnigen', '--config', 'jnigen.yaml']));
   }
 
-  await Future.wait(runners.map((runner) => runner.run()).toList());
+  for (final runner in runners) {
+    await runner.run();
+  }
 }

@@ -36,15 +36,14 @@ class JClass extends JObject {
     return JStaticFieldId._(this, name, signature);
   }
 
-  static const jni$_.JType<JClass> type = $JClass$Type$();
+  static const JType<JClass> type = $JClass$Type$();
 }
 
-final class $JClass$Type$ extends jni$_.JType<JClass> {
-  @jni$_.internal
+final class $JClass$Type$ extends JType<JClass> {
+  @internal
   const $JClass$Type$();
 
-  @jni$_.internal
-  @core$_.override
+  @override
   String get signature => r'Ljava/lang/Class;';
 }
 

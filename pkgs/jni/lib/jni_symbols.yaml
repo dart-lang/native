@@ -69,9 +69,6 @@ files:
     'java.lang.Class':
       name: JClass
       super_count: 1
-    'java.lang.Throwable':
-      name: JThrowable
-      super_count: 1
     'java.util.Collection':
       name: JCollection
       super_count: 1
