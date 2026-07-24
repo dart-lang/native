@@ -1919,7 +1919,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return This parser, to allow call chaining
   ///@since 2.3
   ///@deprecated Since 2.7, use \#overrideStdFeatures(int, int) instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'Since 2.7, use {@link #overrideStdFeatures(int, int)} instead')
   JsonParser? setFeatureMask(
     core$_.int mask,
   ) {
@@ -2558,7 +2559,7 @@ extension JsonParser$$Methods on JsonParser {
   /// Deprecated alias for \#currentTokenId().
   ///@return {@code int} matching one of constants from JsonTokenId.
   ///@deprecated Since 2.12 use \#currentTokenId instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.12 use {@link #currentTokenId} instead')
   core$_.int get currentTokenId$1 {
     final _$$selfRef = reference;
     return _get$currentTokenId$1(
