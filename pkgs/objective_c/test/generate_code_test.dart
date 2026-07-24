@@ -33,7 +33,7 @@ void main() {
       final cBindings = File(
         'lib/src/c_bindings_generated.dart',
       ).readAsStringSync();
-      expect(cBindings, contains('fillContext'));
+      expect(cBindings, contains('createContext'));
       expect(cBindings, contains('DOBJC_Context'));
       expect(cBindings, contains('Dart_FinalizableHandle'));
       expect(cBindings, contains('ILLEGAL_PORT'));
