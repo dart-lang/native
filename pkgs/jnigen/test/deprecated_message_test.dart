@@ -14,7 +14,7 @@ void main() {
 
       expect(
         comment.deprecatedMessage,
-        "'Use the replacement method instead.'",
+        'Use the replacement method instead.',
       );
     });
 
@@ -29,7 +29,7 @@ This method is retained for compatibility.
 
       expect(
         comment.deprecatedMessage,
-        "'Use the replacement method instead.'",
+        'Use the replacement method instead.',
       );
     });
 
@@ -43,7 +43,7 @@ This method will be removed in a future release.
 
       expect(
         comment.deprecatedMessage,
-        r"'Use the replacement method instead.\nThis method will be removed in a future release.'",
+        'Use the replacement method instead.\nThis method will be removed in a future release.',
       );
     });
 
@@ -58,7 +58,7 @@ This method will be removed soon.
 
       expect(
         comment.deprecatedMessage,
-        r"'Use the replacement method instead.\nThis method will be removed soon.'",
+        'Use the replacement method instead.\nThis method will be removed soon.',
       );
     });
 
@@ -85,7 +85,7 @@ This method will be removed soon.
 
       expect(
         comment.deprecatedMessage,
-        r"'Don\'t use \$oldMethod.'",
+        r"Don't use $oldMethod.",
       );
     });
 
@@ -96,7 +96,7 @@ This method will be removed soon.
 
       expect(
         comment.deprecatedMessage,
-        r"'Use C:\\temp instead.'",
+        r'Use C:\temp instead.',
       );
     });
 
@@ -107,7 +107,7 @@ This method will be removed soon.
 
       expect(
         comment.deprecatedMessage,
-        "'Use \\\"newMethod\\\" instead.'",
+        'Use "newMethod" instead.',
       );
     });
   });

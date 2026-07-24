@@ -122,7 +122,6 @@ String escapeDartString(String value) {
     0x0B: r'\v',
     0x0C: r'\f',
     0x0D: r'\r',
-    0x22: r'\"',
     0x24: r'\$',
     0x27: r"\'",
     0x5C: r'\\',

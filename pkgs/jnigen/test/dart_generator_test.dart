@@ -76,13 +76,6 @@ void main() async {
       );
     });
 
-    test('escapes double quote', () {
-      expect(
-        escapeDartString('"'),
-        r'\"',
-      );
-    });
-
     test('escapes backslash', () {
       expect(
         escapeDartString('\\'),
