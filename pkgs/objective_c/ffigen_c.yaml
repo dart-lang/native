@@ -33,8 +33,11 @@ typedefs:
   include:
     - 'Dart_FinalizableHandle'
 structs:
+  dependency-only: opaque
   include:
-    - '_DOBJC_Context'
+    - '_ObjCBlockImpl'
+    - '_ObjCBlockDesc'
+    - '_Version'
   rename:
     '_ObjC(.*)': 'ObjC$1'
     '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'

@@ -87,6 +87,6 @@ typedef struct _DOBJC_Context {
   void (*invokeListenerPortBlock)(int64_t port, void*);
   void (*invokeBlockingPortBlock)(int64_t port, void*, void*);
 } DOBJC_Context;
-FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context);
+FFI_EXPORT DOBJC_Context* DOBJC_createContext(void);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

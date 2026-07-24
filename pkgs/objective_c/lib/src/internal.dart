@@ -580,7 +580,7 @@ Function getBlockClosure(BlockPtr block) {
 }
 
 /// Only for use by FFIgen bindings.
-final ContextPtr objCContext = c.fillContext(calloc<c.DOBJC_Context>());
+final ContextPtr objCContext = c.createContext();
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>

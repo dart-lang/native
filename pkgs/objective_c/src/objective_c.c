@@ -50,7 +50,8 @@ FFI_EXPORT bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
   return pointer;
 }
 
-FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
+FFI_EXPORT DOBJC_Context* DOBJC_createContext(void) {
+  DOBJC_Context* context = (DOBJC_Context*)malloc(sizeof(DOBJC_Context));
   context->version = 2;
   context->newWaiter = DOBJC_newWaiter;
   context->awaitWaiter = DOBJC_awaitWaiter;
