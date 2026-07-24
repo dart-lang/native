@@ -43,7 +43,8 @@ This method will be removed in a future release.
 
       expect(
         comment.deprecatedMessage,
-        'Use the replacement method instead.\nThis method will be removed in a future release.',
+        'Use the replacement method instead.\n'
+        'This method will be removed in a future release.',
       );
     });
 
@@ -58,7 +59,8 @@ This method will be removed soon.
 
       expect(
         comment.deprecatedMessage,
-        'Use the replacement method instead.\nThis method will be removed soon.',
+        'Use the replacement method instead.\n'
+        'This method will be removed soon.',
       );
     });
 
