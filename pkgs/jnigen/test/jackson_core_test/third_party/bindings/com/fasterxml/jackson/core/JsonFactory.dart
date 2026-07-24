@@ -1014,7 +1014,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'since 2.10 use {@link JsonFactoryBuilder#configure(JsonFactory.Feature, boolean)} instead')
   JsonFactory? configure(
     JsonFactory$Feature? f,
     core$_.bool state,
@@ -1050,7 +1051,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'since 2.10 use {@link JsonFactoryBuilder#configure(JsonFactory.Feature, boolean)} instead')
   JsonFactory? enable(
     JsonFactory$Feature? f,
   ) {
@@ -1084,7 +1086,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'since 2.10 use {@link JsonFactoryBuilder#configure(JsonFactory.Feature, boolean)} instead')
   JsonFactory? disable(
     JsonFactory$Feature? f,
   ) {
@@ -1443,7 +1446,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@param d Decorator to configure for this factory, if any ({@code null} if none)
   ///@return This factory instance (to allow call chaining)
   ///@deprecated Since 2.10 use JsonFactoryBuilder\#inputDecorator(InputDecorator) instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'Since 2.10 use {@link JsonFactoryBuilder#inputDecorator(InputDecorator)} instead')
   JsonFactory? setInputDecorator(
     inputdecorator$_.InputDecorator? d,
   ) {
@@ -1734,7 +1738,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@return This factory instance (to allow call chaining)
   ///@param d Output decorator to use, if any
   ///@deprecated Since 2.10 use JsonFactoryBuilder\#outputDecorator(OutputDecorator) instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'Since 2.10 use {@link JsonFactoryBuilder#outputDecorator(OutputDecorator)} instead')
   JsonFactory? setOutputDecorator(
     outputdecorator$_.OutputDecorator? d,
   ) {
@@ -2588,7 +2593,7 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(File) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.2, use {@link #createParser(File)} instead.')
   jsonparser$_.JsonParser? createJsonParser(
     file$_.File? f,
   ) {
@@ -2635,7 +2640,7 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(URL) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.2, use {@link #createParser(URL)} instead.')
   jsonparser$_.JsonParser? createJsonParser$1(
     url$_.URL? url,
   ) {
@@ -2685,7 +2690,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(InputStream) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_
+      .Deprecated('Since 2.2, use {@link #createParser(InputStream)} instead.')
   jsonparser$_.JsonParser? createJsonParser$2(
     inputstream$_.InputStream? in$,
   ) {
@@ -2728,7 +2734,7 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(Reader) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.2, use {@link #createParser(Reader)} instead.')
   jsonparser$_.JsonParser? createJsonParser$3(
     reader$_.Reader? r,
   ) {
@@ -2764,7 +2770,7 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[]) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.2, use {@link #createParser(byte[])} instead.')
   jsonparser$_.JsonParser? createJsonParser$4(
     jni$_.JByteArray? data,
   ) {
@@ -2811,7 +2817,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[],int,int) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'Since 2.2, use {@link #createParser(byte[],int,int)} instead.')
   jsonparser$_.JsonParser? createJsonParser$5(
     jni$_.JByteArray? data,
     core$_.int offset,
@@ -2850,7 +2857,7 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(String) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.2, use {@link #createParser(String)} instead.')
   jsonparser$_.JsonParser? createJsonParser$6(
     jni$_.JString? content,
   ) {
@@ -2906,7 +2913,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(OutputStream, JsonEncoding) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'Since 2.2, use {@link #createGenerator(OutputStream, JsonEncoding)} instead.')
   jsongenerator$_.JsonGenerator? createJsonGenerator(
     outputstream$_.OutputStream? out,
     jsonencoding$_.JsonEncoding? enc,
@@ -2951,7 +2959,7 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(Writer) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.2, use {@link #createGenerator(Writer)} instead.')
   jsongenerator$_.JsonGenerator? createJsonGenerator$1(
     writer$_.Writer? out,
   ) {
@@ -2989,7 +2997,8 @@ extension JsonFactory$$Methods on JsonFactory {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(OutputStream) instead.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'Since 2.2, use {@link #createGenerator(OutputStream)} instead.')
   jsongenerator$_.JsonGenerator? createJsonGenerator$2(
     outputstream$_.OutputStream? out,
   ) {
