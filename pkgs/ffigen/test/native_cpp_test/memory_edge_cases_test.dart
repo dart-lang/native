@@ -69,7 +69,7 @@ void main() {
 
     test('getNode() returns unowned pointer by default', () {
       final manager = NodeManager();
-      final node = manager.getNode();
+      final node = manager.getNode(100, nullptr);
       expect(node.getValue(), 100);
 
       // Wrapper is unowned by default, releaseOwnership throws StateError.
@@ -77,10 +77,15 @@ void main() {
     });
 
     test('getNode() can take ownership via retainOwnership()', () {
+      final counter = calloc<Int32>()..value = 0;
       final manager = NodeManager();
-      final node = manager.getNode()..retainOwnership();
+      final node = manager.getNode(100, counter.cast())..retainOwnership();
       expect(node.getValue(), 100);
+      expect(counter.value, 0);
+
       node.dispose();
+      expect(counter.value, 1);
+      calloc.free(counter);
     });
 
     test('newNode() returns unowned by default, counter stays 0', () {

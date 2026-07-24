@@ -230,12 +230,14 @@ class NodeManager implements ffi.Finalizable {
     return _NodeManager_foo(_ptr, node._ptr);
   }
 
-  Node getNode() {
+  Node getNode(int value, ffi.Pointer<ffi.Int> destructorCounter) {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
 
-    return Node.fromPointer(_NodeManager_getNode(_ptr));
+    return Node.fromPointer(
+      _NodeManager_getNode(_ptr, value, destructorCounter),
+    );
   }
 
   Node newNode(int value, ffi.Pointer<ffi.Int> destructorCounter) {
@@ -305,10 +307,18 @@ external int _NodeManager_foo(
   ffi.Pointer<ffi.Void> node,
 );
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'NodeManager_getNode',
-)
-external ffi.Pointer<ffi.Void> _NodeManager_getNode(ffi.Pointer<ffi.Void> self);
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+    ffi.Pointer<ffi.Int>,
+  )
+>(symbol: 'NodeManager_getNode')
+external ffi.Pointer<ffi.Void> _NodeManager_getNode(
+  ffi.Pointer<ffi.Void> self,
+  int value,
+  ffi.Pointer<ffi.Int> destructorCounter,
+);
 
 @ffi.Native<
   ffi.Pointer<ffi.Void> Function(

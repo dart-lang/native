@@ -21,8 +21,8 @@ int NodeManager::foo(Node* node) {
     return node->getValue();
 }
 
-Node* NodeManager::getNode() {
-    return new Node(100, nullptr);
+Node* NodeManager::getNode(int value, int* destructorCounter) {
+    return new Node(value, destructorCounter);
 }
 
 

@@ -28,8 +28,8 @@ FFIGEN_EXPORT int NodeManager_foo(NodeManager* self, Node* node) {
   return self->foo(node);
 }
 
-FFIGEN_EXPORT Node* NodeManager_getNode(NodeManager* self) {
-  return self->getNode();
+FFIGEN_EXPORT Node* NodeManager_getNode(NodeManager* self, int value, int * destructorCounter) {
+  return self->getNode(value, destructorCounter);
 }
 
 FFIGEN_EXPORT Node* NodeManager_newNode(NodeManager* self, int value, int * destructorCounter) {

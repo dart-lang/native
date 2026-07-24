@@ -18,7 +18,7 @@ class NodeManager {
 public:
     NodeManager();
     int foo(Node* node);
-    Node* getNode();
+    Node* getNode(int value, int* destructorCounter);
     Node* newNode(int value, int* destructorCounter);
     Node* getSingletonNode(int value, int* destructorCounter);
     int getValue(Node* node);
