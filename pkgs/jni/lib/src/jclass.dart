@@ -35,6 +35,17 @@ class JClass extends JObject {
   JStaticFieldId staticFieldId(String name, String signature) {
     return JStaticFieldId._(this, name, signature);
   }
+
+  static const jni$_.JType<JClass> type = $JClass$Type$();
+}
+
+final class $JClass$Type$ extends jni$_.JType<JClass> {
+  @jni$_.internal
+  const $JClass$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Class;';
 }
 
 /// A thin wrapper over a [JFieldIDPtr] of an instance field.
