@@ -18,15 +18,17 @@ import 'os.dart';
 /// that is not a Mach-O binary is also [NativeLibraryValidation.notRecognized],
 /// leaving it to another validator or to a warning.
 ///
-/// The magic and CPU values come from Apple's
-/// [`loader.h`](https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach-o/loader.h),
-/// [`fat.h`](https://github.com/apple-oss-distributions/cctools/blob/main/include/mach-o/fat.h),
-/// and
-/// [`machine.h`](https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/mach/machine.h).
+/// The validator recognizes files according to the Mach-O format specified by
+/// Apple.
 final class MachOValidator implements NativeLibraryValidator {
   /// Creates a [MachOValidator].
   const MachOValidator();
 
+  // The magic and CPU type values come from Apple's loader.h, fat.h, and
+  // machine.h:
+  // https://github.com/apple-oss-distributions/xnu/blob/main/EXTERNAL_HEADERS/mach-o/loader.h
+  // https://github.com/apple-oss-distributions/cctools/blob/main/include/mach-o/fat.h
+  // https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/mach/machine.h
   static const _magic32 = 0xfeedface;
   static const _magic64 = 0xfeedfacf;
   static const _swappedMagic32 = 0xcefaedfe;
@@ -39,6 +41,12 @@ final class MachOValidator implements NativeLibraryValidator {
   static const _cpuTypeX64 = 0x01000007;
   static const _cpuTypeArm = 0x0000000c;
   static const _cpuTypeArm64 = 0x0100000c;
+
+  // The magic number and the 32-bit field after it (the CPU type for a thin
+  // binary, or the slice count for a fat binary) occupy the first 8 bytes. The
+  // fat path re-reads the architecture entries from the file directly, so
+  // nothing past this is read from the header here.
+  static const _minLength = 8;
 
   @override
   Future<NativeLibraryValidation> validate(
@@ -56,8 +64,10 @@ final class MachOValidator implements NativeLibraryValidator {
       return const NativeLibraryValidation.notRecognized();
     }
     try {
-      final head = raf.readSync(64);
-      if (head.length < 8) return const NativeLibraryValidation.notRecognized();
+      final head = raf.readSync(_minLength);
+      if (head.length < _minLength) {
+        return const NativeLibraryValidation.notRecognized();
+      }
       final data = ByteData.sublistView(head);
 
       // The fat header and its arch entries are always big-endian.

@@ -17,13 +17,13 @@ import 'os.dart';
 /// [NativeLibraryValidation.notRecognized] without opening the file. A file
 /// that is not a PE binary is also [NativeLibraryValidation.notRecognized],
 /// leaving it to another validator or to a warning.
-///
-/// The offsets, signatures, and machine values come from Microsoft's
-/// [PE format specification](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format).
 final class PortableExecutableValidator implements NativeLibraryValidator {
   /// Creates a [PortableExecutableValidator].
   const PortableExecutableValidator();
 
+  // The offsets, signatures, and machine values come from Microsoft's PE format
+  // specification:
+  // https://learn.microsoft.com/en-us/windows/win32/debug/pe-format
   static const _dosMagic = [0x4d, 0x5a];
   static const _peHeaderOffsetLocation = 0x3c;
   static const _signature = [0x50, 0x45, 0x00, 0x00];
@@ -32,6 +32,10 @@ final class PortableExecutableValidator implements NativeLibraryValidator {
   static const _machineRiscV64 = 0x5064;
   static const _machineX64 = 0x8664;
   static const _machineArm64 = 0xaa64;
+
+  // The smallest read that includes the 4-byte PE header offset stored at
+  // _peHeaderOffsetLocation (0x3c).
+  static const _minLength = _peHeaderOffsetLocation + 4;
 
   @override
   Future<NativeLibraryValidation> validate(
@@ -50,8 +54,8 @@ final class PortableExecutableValidator implements NativeLibraryValidator {
     }
     try {
       final length = raf.lengthSync();
-      final head = raf.readSync(64);
-      if (head.length < _peHeaderOffsetLocation + 4 ||
+      final head = raf.readSync(_minLength);
+      if (head.length < _minLength ||
           head[0] != _dosMagic[0] ||
           head[1] != _dosMagic[1]) {
         return const NativeLibraryValidation.notRecognized();

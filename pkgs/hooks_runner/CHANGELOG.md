@@ -1,7 +1,7 @@
 ## 1.6.2-wip
 
-- Bump the dependency on `package:code_assets` to `^1.3.0-wip`.
-- Bump the dependency on `package:hooks` to `^2.2.0-wip`.
+- Provide the runner's logger to protocol extensions before any other method is
+  invoked, so they can emit validation diagnostics.
 - Require `dartExecutable` to be an absolute path, and on Windows to include a
   file extension
 

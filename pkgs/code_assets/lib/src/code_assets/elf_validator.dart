@@ -17,15 +17,14 @@ import 'os.dart';
 /// [NativeLibraryValidation.notRecognized] without opening the file. A file
 /// that is not an ELF binary is also [NativeLibraryValidation.notRecognized],
 /// leaving it to another validator or to a warning.
-///
-/// The identification and machine values come from the
-/// [System V ABI machine table](https://gabi.xinuos.com/elf/a-emachine.html)
-/// and the
-/// [RISC-V ELF psABI](https://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc).
 final class ElfValidator implements NativeLibraryValidator {
   /// Creates an [ElfValidator].
   const ElfValidator();
 
+  // The identification and machine values come from the System V ABI machine
+  // table and the RISC-V ELF psABI:
+  // https://gabi.xinuos.com/elf/a-emachine.html
+  // https://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc
   static const _magic = [0x7f, 0x45, 0x4c, 0x46];
   static const _classOffset = 4;
   static const _class32 = 1;
@@ -58,7 +57,7 @@ final class ElfValidator implements NativeLibraryValidator {
     try {
       final raf = File.fromUri(context.file).openSync();
       try {
-        head = raf.readSync(64);
+        head = raf.readSync(_minLength);
       } finally {
         raf.closeSync();
       }
