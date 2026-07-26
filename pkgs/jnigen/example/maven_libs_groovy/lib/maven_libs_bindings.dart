@@ -280,7 +280,7 @@ extension Gson$$Methods on Gson {
   /// from: `public com.google.gson.TypeAdapter<T> getAdapter(java.lang.Class<T> class)`
   /// The returned object must be released after use, by calling the [release] method.
   TypeAdapter? getAdapter$1<$T extends jni$_.JObject?>(
-    Class? class$,
+    jni$_.JClass? class$,
   ) {
     final _$$selfRef = reference;
     final _$class$ = class$?.reference ?? jni$_.jNullReference;
@@ -709,7 +709,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson<$T extends jni$_.JObject?>(
     jni$_.JString? string,
-    Class? class$,
+    jni$_.JClass? class$,
   ) {
     final _$$selfRef = reference;
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -817,7 +817,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$3<$T extends jni$_.JObject?>(
     Reader? reader,
-    Class? class$,
+    jni$_.JClass? class$,
   ) {
     final _$$selfRef = reference;
     final _$reader = reader?.reference ?? jni$_.jNullReference;
@@ -997,7 +997,7 @@ extension Gson$$Methods on Gson {
   /// The returned object must be released after use, by calling the [release] method.
   $T? fromJson$8<$T extends jni$_.JObject?>(
     JsonElement? jsonElement,
-    Class? class$,
+    jni$_.JClass? class$,
   ) {
     final _$$selfRef = reference;
     final _$jsonElement = jsonElement?.reference ?? jni$_.jNullReference;
@@ -3344,24 +3344,6 @@ final class $TypeAdapterFactory$Type$ extends jni$_.JType<TypeAdapterFactory> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/google/gson/TypeAdapterFactory;';
-}
-
-/// from: `java.lang.Class`
-///
-/// WARNING: Class is a stub. To generate bindings for this class, include
-/// java.lang.Class in your config's classes list.
-///
-extension type Class._(jni$_.JObject _$this) implements jni$_.JObject {
-  static const jni$_.JType<Class> type = $Class$Type$();
-}
-
-final class $Class$Type$ extends jni$_.JType<Class> {
-  @jni$_.internal
-  const $Class$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Ljava/lang/Class;';
 }
 
 /// from: `com.google.gson.JsonElement`

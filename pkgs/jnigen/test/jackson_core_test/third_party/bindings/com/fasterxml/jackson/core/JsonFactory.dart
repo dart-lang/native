@@ -69,8 +69,6 @@ import '../../../../java/io/Serializable.dart' as serializable$_;
 
 import '../../../../java/io/Writer.dart' as writer$_;
 
-import '../../../../java/lang/Class.dart' as class$_;
-
 import '../../../../java/lang/Enum.dart' as enum$_;
 
 import '../../../../java/net/URL.dart' as url$_;
@@ -799,11 +797,11 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
-  class$_.Class? get formatReadFeatureType {
+  jni$_.JClass? get formatReadFeatureType {
     final _$$selfRef = reference;
     return _get$formatReadFeatureType(
             _$$selfRef.pointer, _id_get$formatReadFeatureType.pointer)
-        .object<class$_.Class?>();
+        .object<jni$_.JClass?>();
   }
 
   static final _id_get$formatWriteFeatureType =
@@ -827,11 +825,11 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
-  class$_.Class? get formatWriteFeatureType {
+  jni$_.JClass? get formatWriteFeatureType {
     final _$$selfRef = reference;
     return _get$formatWriteFeatureType(
             _$$selfRef.pointer, _id_get$formatWriteFeatureType.pointer)
-        .object<class$_.Class?>();
+        .object<jni$_.JClass?>();
   }
 
   static final _id_canUseSchema = JsonFactory._class.instanceMethodId(

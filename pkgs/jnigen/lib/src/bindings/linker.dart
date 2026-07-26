@@ -48,12 +48,12 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
     // Find all the imported classes.
     await config.importClasses();
 
-    if (config.importedClasses.keys
+    final intersection = config.importedClasses.keys
         .toSet()
-        .intersection(node.decls.keys.toSet())
-        .isNotEmpty) {
+        .intersection(node.decls.keys.toSet());
+    if (intersection.isNotEmpty) {
       log.fatal(
-        'Trying to re-import the generated classes.\n'
+        'Trying to re-import the generated classes: $intersection.\n'
         'Try hiding the class(es) in import.',
       );
     }
