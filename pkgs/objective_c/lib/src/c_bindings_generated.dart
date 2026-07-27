@@ -27,6 +27,12 @@ external void attachPortBlockFinalizer(ffi.Pointer<ffi.Void> block, int port);
 )
 external void awaitWaiter(ffi.Pointer<ffi.Void> waiter);
 
+@ffi.Native<ffi.Pointer<DOBJC_Context> Function()>(
+  symbol: 'DOBJC_createContext',
+  isLeaf: true,
+)
+external ffi.Pointer<DOBJC_Context> createContext();
+
 @ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>(
   symbol: 'DOBJC_deleteFinalizableHandle',
 )
@@ -39,14 +45,6 @@ external void deleteFinalizableHandle(
   symbol: 'DOBJC_disposeObjCBlockWithClosure',
 )
 external void disposeObjCBlockWithClosure(ffi.Pointer<ObjCBlockImpl> block);
-
-@ffi.Native<ffi.Pointer<DOBJC_Context> Function(ffi.Pointer<DOBJC_Context>)>(
-  symbol: 'DOBJC_fillContext',
-  isLeaf: true,
-)
-external ffi.Pointer<DOBJC_Context> fillContext(
-  ffi.Pointer<DOBJC_Context> context,
-);
 
 /// Returns the MacOS/iOS version we're running on.
 @ffi.Native<_Version Function()>(symbol: 'DOBJC_getOsVesion', isLeaf: true)
@@ -114,95 +112,7 @@ external void runOnMainThread(
 )
 external void signalWaiter(ffi.Pointer<ffi.Void> waiter);
 
-final class DOBJC_Context extends ffi.Struct {
-  @ffi.Int64()
-  external int version;
-
-  external ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
-  newWaiter$1;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
-  >
-  awaitWaiter$1;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>
-  >
-  currentIsolate;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>
-  >
-  enterIsolate;
-
-  external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> exitIsolate;
-
-  external ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function()>> getMainPortId;
-
-  external ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
-  getCurrentThreadOwnsIsolate;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>
-  >
-  invokeListenerPortBlock$1;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)
-    >
-  >
-  invokeBlockingPortBlock$1;
-
-  static ffi.Pointer<DOBJC_Context> $allocate(
-    ffi.Allocator $allocator, {
-    required int version,
-    required ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
-    newWaiter$1,
-    required ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
-    >
-    awaitWaiter$1,
-    required ffi.Pointer<
-      ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>
-    >
-    currentIsolate,
-    required ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>
-    >
-    enterIsolate,
-    required ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> exitIsolate,
-    required ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function()>>
-    getMainPortId,
-    required ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
-    getCurrentThreadOwnsIsolate,
-    required ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>
-    >
-    invokeListenerPortBlock$1,
-    required ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Int64,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>,
-        )
-      >
-    >
-    invokeBlockingPortBlock$1,
-  }) => $allocator<DOBJC_Context>()
-    ..ref.version = version
-    ..ref.newWaiter$1 = newWaiter$1
-    ..ref.awaitWaiter$1 = awaitWaiter$1
-    ..ref.currentIsolate = currentIsolate
-    ..ref.enterIsolate = enterIsolate
-    ..ref.exitIsolate = exitIsolate
-    ..ref.getMainPortId = getMainPortId
-    ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate
-    ..ref.invokeListenerPortBlock$1 = invokeListenerPortBlock$1
-    ..ref.invokeBlockingPortBlock$1 = invokeBlockingPortBlock$1;
-}
+final class DOBJC_Context extends ffi.Opaque {}
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
@@ -292,8 +202,6 @@ final class ObjCBlockImpl extends ffi.Struct {
 }
 
 final class ObjCObjectImpl extends ffi.Opaque {}
-
-final class _Dart_Isolate extends ffi.Opaque {}
 
 final class _Version extends ffi.Struct {
   @ffi.Int()

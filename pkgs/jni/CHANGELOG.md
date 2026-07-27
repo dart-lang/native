@@ -1,10 +1,13 @@
-## 1.0.1-wip
+## 1.0.1
 
 - Improve error message when JNI is used before Flutter plugin initialization.
 - Improve no such method error handling.
 - Fix memory leaks and deadlocks that can happen in callbacks, if the target
   isolate is shut down.
 - Support versions 3.x of `package:package_config`.
+- Make some internal-only FFI structs opaque. This is technically a breaking
+  change, but it's extremely unlikely that any users are using these internal
+  structs (and doing so would be a mistake).
 
 ## 1.0.0
 
