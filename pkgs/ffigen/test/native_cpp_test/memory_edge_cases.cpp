@@ -14,3 +14,37 @@ Node::~Node() {
 }
 
 int Node::getValue() const { return value_; }
+
+NodeManager::NodeManager() {}
+
+int NodeManager::foo(Node* node) {
+    return node->getValue();
+}
+
+Node* NodeManager::getNode(int value, int* destructorCounter) {
+    return new Node(value, destructorCounter);
+}
+
+
+Node* NodeManager::newNode(int value, int* destructorCounter) {
+    return new Node(value, destructorCounter);
+}
+
+static Node* gSingletonNode = nullptr;
+
+Node* NodeManager::getSingletonNode(int value, int* destructorCounter) {
+    if (gSingletonNode == nullptr) {
+        gSingletonNode = new Node(value, destructorCounter);
+    }
+    return gSingletonNode;
+}
+
+int NodeManager::getValue(Node* node) {
+    return node->getValue();
+}
+
+int NodeManager::takeNode(Node* node) {
+    int val = node->getValue();
+    delete node;
+    return val;
+}

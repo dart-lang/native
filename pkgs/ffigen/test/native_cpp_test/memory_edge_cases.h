@@ -13,3 +13,15 @@ private:
     int value_;
     int* destructorCounter_;
 };
+
+class NodeManager {
+public:
+    NodeManager();
+    int foo(Node* node);
+    Node* getNode(int value, int* destructorCounter);
+    Node* newNode(int value, int* destructorCounter);
+    Node* getSingletonNode(int value, int* destructorCounter);
+    int getValue(Node* node);
+    int takeNode(Node* node);
+};
+
