@@ -13,7 +13,7 @@ import 'android_utils.g.dart';
 
 JObject context = androidApplicationContext;
 
-final hashmap = HashMap<JString, JString>();
+final hashmap = JHashMap<JString, JString>();
 
 final emojiCompat = EmojiCompat.get();
 

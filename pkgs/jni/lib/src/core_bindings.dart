@@ -76,8 +76,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final java.lang.Class<java.lang.Boolean> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   static final _id_new$ = _class.constructorId(
     r'(Z)V',
@@ -541,8 +541,8 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
 
   /// from: `static public final java.lang.Class<java.lang.Byte> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   static final _id_new$ = _class.constructorId(
     r'(B)V',
@@ -7093,8 +7093,8 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final java.lang.Class<java.lang.Character> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   /// from: `static public final byte UNASSIGNED`
   static const UNASSIGNED = 0;
@@ -9549,8 +9549,8 @@ extension type JDouble._(jni$_.JObject _$this)
 
   /// from: `static public final java.lang.Class<java.lang.Double> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   static final _id_new$ = _class.constructorId(
     r'(D)V',
@@ -10344,8 +10344,8 @@ extension type JFloat._(jni$_.JObject _$this)
 
   /// from: `static public final java.lang.Class<java.lang.Float> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   static final _id_new$ = _class.constructorId(
     r'(F)V',
@@ -11143,8 +11143,8 @@ extension type JInteger._(jni$_.JObject _$this)
 
   /// from: `static public final java.lang.Class<java.lang.Integer> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   static final _id_new$ = _class.constructorId(
     r'(I)V',
@@ -12544,8 +12544,8 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
 
   /// from: `static public final java.lang.Class<java.lang.Long> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   static final _id_new$ = _class.constructorId(
     r'(J)V',
@@ -14075,8 +14075,8 @@ extension type JShort._(jni$_.JObject _$this)
 
   /// from: `static public final java.lang.Class<java.lang.Short> TYPE`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? get TYPE =>
-      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+  static jni$_.JClass? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JClass.type) as jni$_.JClass?;
 
   static final _id_new$ = _class.constructorId(
     r'(S)V',

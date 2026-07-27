@@ -59,8 +59,6 @@ import '../../../../java/io/OutputStream.dart' as outputstream$_;
 
 import '../../../../java/io/Writer.dart' as writer$_;
 
-import '../../../../java/lang/Class.dart' as class$_;
-
 import '../../../../java/lang/Enum.dart' as enum$_;
 
 import '../../../../java/math/BigDecimal.dart' as bigdecimal$_;
@@ -4477,7 +4475,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   $T? readValueAs<$T extends jni$_.JObject?>(
-    class$_.Class? valueType,
+    jni$_.JClass? valueType,
   ) {
     final _$$selfRef = reference;
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
@@ -4565,7 +4563,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   jni$_.JIterator<$T?>? readValuesAs<$T extends jni$_.JObject?>(
-    class$_.Class? valueType,
+    jni$_.JClass? valueType,
   ) {
     final _$$selfRef = reference;
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;

@@ -351,9 +351,9 @@ class JniBindings {
   late final ffi.Pointer<pthread_key_t> _tlsKey =
       _lookup<pthread_key_t>('tlsKey');
 
-  Dartpthread_key_t get tlsKey => _tlsKey.value;
+  Dart__darwin_pthread_key_t get tlsKey => _tlsKey.value;
 
-  set tlsKey(Dartpthread_key_t value) => _tlsKey.value = value;
+  set tlsKey(Dart__darwin_pthread_key_t value) => _tlsKey.value = value;
 }
 
 final class CallbackResult extends ffi.Opaque {}
@@ -3033,18 +3033,19 @@ enum JniVersions {
 }
 
 typedef MutexLock = pthread_mutex_t;
+typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
+typedef __darwin_pthread_key_t = ffi.UnsignedLong;
+typedef Dart__darwin_pthread_key_t = int;
+typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
 
-final class __pthread_internal_list extends ffi.Opaque {}
+final class _opaque_pthread_cond_t extends ffi.Opaque {}
 
-typedef __pthread_list_t = __pthread_internal_list;
+final class _opaque_pthread_mutex_t extends ffi.Opaque {}
 
 final class jfieldID_ extends ffi.Opaque {}
 
 final class jmethodID_ extends ffi.Opaque {}
 
-final class pthread_cond_t extends ffi.Opaque {}
-
-typedef pthread_key_t = ffi.UnsignedInt;
-typedef Dartpthread_key_t = int;
-
-final class pthread_mutex_t extends ffi.Opaque {}
+typedef pthread_cond_t = __darwin_pthread_cond_t;
+typedef pthread_key_t = __darwin_pthread_key_t;
+typedef pthread_mutex_t = __darwin_pthread_mutex_t;
