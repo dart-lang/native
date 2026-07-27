@@ -61,7 +61,7 @@ const trillion = 1024 * 1024 * 1024 * 1024;
 
 Future<void> _waitUntil(bool Function() predicate) async {
   for (var i = 0; i < 8; ++i) {
-    await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
+    await Future<void>.delayed(Duration(milliseconds: (1 << i) * 1000));
     if (predicate()) {
       return;
     }
