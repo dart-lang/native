@@ -264,6 +264,9 @@
 - user_defines/hook/build.dart
 - user_defines/pubspec.yaml
 - user_defines/test/user_defines_test.dart
+- wrong_architecture_asset/hook/build.dart
+- wrong_architecture_asset/pubspec.yaml
+- wrong_architecture_asset/src/wrong_architecture_asset.c
 - wrong_build_output/hook/build.dart
 - wrong_build_output/pubspec.yaml
 - wrong_build_output_2/hook/build.dart

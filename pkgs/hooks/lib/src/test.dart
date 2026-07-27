@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
 
 import 'config.dart';
@@ -75,6 +76,14 @@ Future<void> testBuildHook({
       )
       ..setupBuildInput(assets: assets)
       ..config.setupBuild(linkingEnabled: linkingEnabled);
+    // Uphold the same contract as the hooks_runner: give every extension a
+    // logger before any other method is invoked on it. A detached logger drops
+    // records, matching the previous behavior of not surfacing skipped-
+    // validation warnings from an isolated hook test.
+    final logger = Logger.detached('testBuildHook');
+    for (final extension in extensions) {
+      extension.setupLogger(logger);
+    }
     for (final extension in extensions) {
       extension.setupBuildInput(inputBuilder);
     }

@@ -5,11 +5,13 @@
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
+import 'package:logging/logging.dart';
 
 import 'code_asset.dart';
 import 'config.dart';
 import 'link_mode.dart';
 import 'link_mode_preference.dart';
+import 'native_library_validation.dart';
 import 'os.dart';
 import 'syntax.g.dart';
 
@@ -93,8 +95,9 @@ Future<ValidationErrors> _validateCodeAssetHookInput(
 /// Validates the code asset specific parts of a [BuildOutput].
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
-  BuildOutput output,
-) async {
+  BuildOutput output, {
+  Logger? logger,
+}) async {
   if (!input.config.buildCodeAssets) {
     return [];
   }
@@ -110,14 +113,16 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
     ],
     output,
     true,
+    logger,
   );
 }
 
 /// Validates the code asset specific parts of a [LinkOutput].
 Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
-  LinkOutput output,
-) async {
+  LinkOutput output, {
+  Logger? logger,
+}) async {
   if (!input.config.buildCodeAssets) {
     return [];
   }
@@ -128,6 +133,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
     output.assets.encodedAssetsForLink.values.expand((assets) => assets),
     output,
     false,
+    logger,
   );
 }
 
@@ -158,6 +164,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   Iterable<EncodedAsset> encodedAssetsNotBundled,
   HookOutput output,
   bool isBuild,
+  Logger? logger,
 ) async {
   final errors = <String>[];
 
@@ -170,7 +177,15 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       continue;
     }
     final codeAsset = CodeAsset.fromEncoded(asset);
-    _validateCodeAsset(input, codeConfig, codeAsset, errors, isBuild, true);
+    await _validateCodeAsset(
+      input,
+      codeConfig,
+      codeAsset,
+      errors,
+      isBuild,
+      true,
+      logger: logger,
+    );
     codeAssetsBundled.add(codeAsset);
   }
   _validateNoDuplicateDylibNames(errors, codeAssetsBundled);
@@ -185,7 +200,15 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       continue;
     }
     final codeAsset = CodeAsset.fromEncoded(asset);
-    _validateCodeAsset(input, codeConfig, codeAsset, errors, isBuild, false);
+    await _validateCodeAsset(
+      input,
+      codeConfig,
+      codeAsset,
+      errors,
+      isBuild,
+      false,
+      logger: logger,
+    );
     codeAssetsNotBundled.add(codeAsset);
   }
   _validateNoDuplicateDylibNames(errors, codeAssetsNotBundled);
@@ -214,14 +237,15 @@ String _semanticValidationSkippedMessage(List<Object> jsonPath) {
   return "Syntax errors in '$pathString'. Semantic validation skipped.";
 }
 
-void _validateCodeAsset(
+Future<void> _validateCodeAsset(
   HookInput input,
   CodeConfig codeConfig,
   CodeAsset codeAsset,
   ValidationErrors errors,
   bool validateAssetId,
-  bool validateLinkMode,
-) {
+  bool validateLinkMode, {
+  Logger? logger,
+}) async {
   final id = codeAsset.id;
   final prefix = 'package:${input.packageName}/';
   if (validateAssetId && !id.startsWith(prefix)) {
@@ -244,6 +268,41 @@ void _validateCodeAsset(
   }
 
   errors.addAll(_validateCodeAssetFile(codeAsset));
+  await _validateCodeAssetArchitecture(codeConfig, codeAsset, errors, logger);
+}
+
+/// Checks that a bundled dynamic library was built for the target
+/// architecture by reading its file header.
+///
+/// A file whose format or machine value is not recognized only produces a
+/// warning on [logger]: the goal is to catch mixed-up architectures early
+/// with a clear message, not to reject libraries this check does not know.
+Future<void> _validateCodeAssetArchitecture(
+  CodeConfig codeConfig,
+  CodeAsset codeAsset,
+  ValidationErrors errors,
+  Logger? logger,
+) async {
+  final fileUri = codeAsset.file;
+  if (codeAsset.linkMode is! DynamicLoadingBundled || fileUri == null) {
+    return;
+  }
+  final file = File.fromUri(fileUri);
+  if (!file.existsSync()) return;
+  final id = codeAsset.id;
+  final result = await validateNativeLibrary(
+    NativeLibraryValidationContext(file: fileUri, config: codeConfig),
+  );
+  for (final error in result.errors) {
+    errors.add('Code asset "$id" file "${file.path}" $error');
+  }
+  if (result.warnings.isNotEmpty) {
+    logger?.warning(
+      'Could not validate code asset "$id" file "${file.path}": '
+      '${result.warnings.join(' ')} If this is a valid native library, please '
+      'file an issue at https://github.com/dart-lang/native/issues.',
+    );
+  }
 }
 
 ValidationErrors _validateCodeAssetFile(CodeAsset codeAsset) {

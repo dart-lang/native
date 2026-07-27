@@ -103,13 +103,13 @@ final class CodeAssetExtension extends ProtocolExtension {
   Future<ValidationErrors> validateBuildOutput(
     BuildInput input,
     BuildOutput output,
-  ) => validateCodeAssetBuildOutput(input, output);
+  ) => validateCodeAssetBuildOutput(input, output, logger: logger);
 
   @override
   Future<ValidationErrors> validateLinkOutput(
     LinkInput input,
     LinkOutput output,
-  ) => validateCodeAssetLinkOutput(input, output);
+  ) => validateCodeAssetLinkOutput(input, output, logger: logger);
 
   @override
   Future<ValidationErrors> validateApplicationAssets(

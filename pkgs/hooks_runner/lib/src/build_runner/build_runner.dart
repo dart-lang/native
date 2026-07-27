@@ -140,6 +140,10 @@ class NativeAssetsBuildRunner {
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
   ///
+  /// The validations contributed by [extensions] run only on freshly produced
+  /// hook output. When a cached hook result is reused, its output is not
+  /// re-validated, so a validation is never re-run against a cache hit.
+  ///
   /// Returns a [Future] that completes with a [Result]. On success, the
   /// [Result] is a [Success] containing the [BuildResult], which encapsulates
   /// the outputs of all successful build hook executions. On failure, the
@@ -165,6 +169,12 @@ class NativeAssetsBuildRunner {
       return hookResultUserDefines;
     }
     var hookResult = hookResultUserDefines.success;
+
+    // Give every extension the runner's logger before any other method is
+    // invoked on it.
+    for (final e in extensions) {
+      e.setupLogger(logger);
+    }
 
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
@@ -256,6 +266,10 @@ class NativeAssetsBuildRunner {
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
   ///
+  /// The validations contributed by [extensions] run only on freshly produced
+  /// hook output. When a cached hook result is reused, its output is not
+  /// re-validated, so a validation is never re-run against a cache hit.
+  ///
   /// Returns a [Future] that completes with a [Result]. On success, the
   /// [Result] is a [Success] containing the [LinkResult], which encapsulates
   /// the outputs of all successful link hook executions. On failure, the
@@ -281,6 +295,12 @@ class NativeAssetsBuildRunner {
       return hookResultUserDefines;
     }
     var linkResult = hookResultUserDefines.success;
+
+    // Give every extension the runner's logger before any other method is
+    // invoked on it.
+    for (final e in extensions) {
+      e.setupLogger(logger);
+    }
 
     Recordings? packageRecordings;
     final targetRecordingsFile = recordUse?.file ?? resourceIdentifiers;

@@ -1,5 +1,7 @@
 ## 1.6.2-wip
 
+- Provide the runner's logger to protocol extensions before any other method is
+  invoked, so they can emit validation diagnostics.
 - Require `dartExecutable` to be an absolute path, and on Windows to include a
   file extension
 
