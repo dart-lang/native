@@ -740,12 +740,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
             final result = await callbackPort.first;
             expect(result, 'callback_executed');
-            expect(runner.isFinished, isTrue);
+            expect(runner.waitForFinished(1000), isTrue);
 
             isolate.kill(priority: Isolate.immediate);
             await exitPort.first;
 
             runJavaGC();
+            await _waitUntil(() => runner.isArgCollected);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -773,7 +774,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             arg.release();
 
             // Runner finished even though message isn't delivered.
-            expect(runner.isFinished, isTrue);
+            expect(runner.waitForFinished(1000), isTrue);
             expect(
               callbackPort.first.timeout(const Duration(milliseconds: 200)),
               throwsA(isA<TimeoutException>()),
@@ -781,6 +782,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
             // Arg is cleaned up even though message isn't delivered.
             runJavaGC();
+            await _waitUntil(() => runner.isArgCollected);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -818,6 +820,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
             // Arg is cleaned up even though message isn't delivered.
             runJavaGC();
+            await _waitUntil(() => runner.isArgCollected);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -848,6 +851,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             await exitPort.first;
 
             runJavaGC();
+            await _waitUntil(() => runner.isArgCollected);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -883,6 +887,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
             // Arg is cleaned up even though message isn't delivered.
             runJavaGC();
+            await _waitUntil(() => runner.isArgCollected);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -920,6 +925,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
             // Arg is cleaned up even though message isn't delivered.
             runJavaGC();
+            await _waitUntil(() => runner.isArgCollected);
             expect(runner.isArgCollected, isTrue);
           });
         }, skip: !canRunJavaGC);
