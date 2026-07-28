@@ -15,7 +15,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <main.class>com.github.dart_lang.jnigen.SuspendFun</main.class>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
-        <kotlin.version>2.2.20</kotlin.version>
+        <kotlin.version>2.4.0</kotlin.version>
     </properties>
 
     <repositories>

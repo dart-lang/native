@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Revert an unnecessary (and breaking) KGP migration.
+
 ## 1.0.1
 
 - Improve error message when JNI is used before Flutter plugin initialization.
