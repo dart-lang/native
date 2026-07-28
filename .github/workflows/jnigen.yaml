@@ -400,7 +400,7 @@ jobs:
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu ninja-build
       - run: dart pub get
       - name: Build package:jni for arm64 linux
-        run: dart run jni:setup -v -m -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -m -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
+        run: dart run jni:setup -v -m -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -m -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -m -DCMAKE_SYSTEM_NAME=Linux -m -DCMAKE_SYSTEM_PROCESSOR=aarch64
 
   ## Run tests for package:jni on windows, just to confirm it works.
   ## Do not, for example, collect coverage or check formatting.
