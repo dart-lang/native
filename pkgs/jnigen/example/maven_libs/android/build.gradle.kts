@@ -2,7 +2,7 @@ group = "com.example.maven_libs"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    val kotlinVersion = "2.2.20"
+    val kotlinVersion = "2.4.0"
     repositories {
         google()
         mavenCentral()
