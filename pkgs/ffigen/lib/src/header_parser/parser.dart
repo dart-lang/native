@@ -178,13 +178,18 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
   // Execute Public AST visitors.
-  final publicAst = public_ast.PublicAst.fromBindings(rawBindings);
+  final allBindingsWithImports = allBindings.union(
+    rawBindings.where((b) => b.isObjCImport).toSet(),
+  );
+  final publicAst = public_ast.PublicAst.fromBindings(
+    allBindingsWithImports.toList(),
+  );
   for (final v in config.visitors) {
     publicAst.accept(v);
   }
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
-  visit(context, applyConfigFiltersVisitation, rawBindings);
+  visit(context, applyConfigFiltersVisitation, allBindingsWithImports);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
   final indirectlyIncluded = applyConfigFiltersVisitation.indirectlyIncluded;
   final included = directlyIncluded.union(indirectlyIncluded);

@@ -95,6 +95,7 @@ class _MethodDepAdderVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
+    if (node.isObjCImport) return;
     if (!finalBindings.contains(node)) {
       node.generateAsStub = true;
       finalBindings.add(node);

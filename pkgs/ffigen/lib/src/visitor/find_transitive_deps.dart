@@ -31,14 +31,18 @@ class FindTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitEnumClass(EnumClass node) {
-    if (node.isAnonymous) return;
-    visitBinding(node);
+    node.visitChildren(visitor);
+    if (!node.isAnonymous) {
+      transitives.add(node);
+    }
   }
 
   @override
   void visitTypealias(Typealias node) {
-    if (node.isAnonymous) return;
-    visitBinding(node);
+    node.visitChildren(visitor);
+    if (!node.isAnonymous) {
+      transitives.add(node);
+    }
   }
 }
 

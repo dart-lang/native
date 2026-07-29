@@ -646,27 +646,6 @@ interface class MyProtocol$Builder {
       );
 }
 
-/// NSString
-///
-/// NSString
-extension type NSString._(objc.ObjCObject object$)
-    implements
-        objc.ObjCObject,
-        objc.NSObject,
-        objc.NSCopying,
-        objc.NSMutableCopying,
-        objc.NSSecureCoding {
-  /// Constructs a [NSString] that points to the same underlying object as [other].
-  NSString.as(objc.ObjCObject other) : object$ = other {}
-
-  /// Constructs a [NSString] that wraps the given raw object pointer.
-  NSString.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
-}
-
 /// Construction methods for `objc.ObjCBlock<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_Int32_ffiVoid {
   /// Returns a block that wraps the given raw block pointer.

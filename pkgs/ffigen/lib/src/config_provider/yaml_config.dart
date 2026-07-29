@@ -1333,6 +1333,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
       node.isIncluded = false;
     } else if (decl.excludeAllByDefault) {
       node.isIncluded = false;
+    } else if (node is public_ast.ObjCInterface && node.isObjCImport) {
+      node.isIncluded = false;
     } else {
       node.isIncluded = true;
     }
