@@ -38,7 +38,6 @@ class Library {
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
     // ignore: deprecated_member_use_from_same_package
     libraryImports: context.config.libraryImports,
-    silenceEnumWarning: context.config.enums.silenceWarning,
     nativeEntryPoints: context.config.headers.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
@@ -51,7 +50,6 @@ class Library {
     String? header,
     bool generateForPackageObjectiveC = false,
     List<LibraryImport> libraryImports = const <LibraryImport>[],
-    bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
     required Context context,
   }) {
@@ -90,7 +88,6 @@ class Library {
       header: header,
       additionalImports: libraryImports.map(context.libs.canonicalize).toList(),
       generateForPackageObjectiveC: generateForPackageObjectiveC,
-      silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
       context: context,
     );

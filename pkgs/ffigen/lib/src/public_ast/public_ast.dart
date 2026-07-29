@@ -321,6 +321,9 @@ class EnumClass implements Decl {
   EnumStyle get style => _binding.style;
   set style(EnumStyle value) => _binding.style = value;
 
+  bool get silenceWarning => _binding.silenceWarning;
+  set silenceWarning(bool value) => _binding.silenceWarning = value;
+
   List<EnumConstant> get constants =>
       _binding.enumConstants.map(EnumConstant.new).toList();
 

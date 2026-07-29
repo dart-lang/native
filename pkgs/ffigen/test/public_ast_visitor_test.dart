@@ -169,6 +169,28 @@ void main() {
         throwsA(isA<NotFoundException>()),
       );
     });
+
+    test('EnumClass.silenceWarning option on public AST', () {
+      final headerUri = Uri.file(
+        absPath('test/header_parser_tests/enum_int_mimic.h'),
+      );
+      final generator = FfiGenerator(
+        headers: Headers(entryPoints: [headerUri]),
+        output: Output(dartFile: Uri.file('unused.dart')),
+        visitors: [
+          const IncludeAllVisitor(),
+          Visitor(
+            visitEnum: (node) {
+              node.silenceWarning = true;
+            },
+          ),
+        ],
+      );
+
+      final library = parser.parse(testContext(generator));
+      final enumClass = library.getBinding('Simple') as code_gen.EnumClass;
+      expect(enumClass.silenceWarning, isTrue);
+    });
   });
 }
 

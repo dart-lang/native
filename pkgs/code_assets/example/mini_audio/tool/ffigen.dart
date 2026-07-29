@@ -25,7 +25,6 @@ void main() {
       ),
       RecordUseVisitor(),
     ],
-    enums: const Enums(silenceWarning: true),
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
       recordUseMapping: packageRoot.resolve(

@@ -1243,6 +1243,7 @@ final class YamlConfig {
       exposeFunctionTypedefs: _exposeFunctionTypedefs,
       leafFunctions: _leafFunctions,
       enumsAsInt: _enumsAsInt,
+      silenceEnumWarning: _silenceEnumWarning,
       structPackingOverride: _structPackingOverride,
       objcInterfaceModules: _objcInterfaceModules,
       objcProtocolModules: _objcProtocolModules,
@@ -1277,9 +1278,6 @@ final class YamlConfig {
         dependencies: _structDependencies,
         // ignore: deprecated_member_use_from_same_package
         imported: structTypeMappings.values.toList(),
-      ),
-      enums: Enums(
-        silenceWarning: silenceEnumWarning,
       ),
       unions: Unions(
         dependencies: _unionDependencies,
@@ -1354,6 +1352,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     required YamlIncluder exposeFunctionTypedefs,
     required YamlIncluder leafFunctions,
     required YamlIncluder enumsAsInt,
+    required bool silenceEnumWarning,
     required StructPackingOverride structPackingOverride,
     required ObjCModules objcInterfaceModules,
     required ObjCModules objcProtocolModules,
@@ -1371,9 +1370,12 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
         _exposeFunctionTypedefs = exposeFunctionTypedefs,
         _leafFunctions = leafFunctions,
         _enumsAsInt = enumsAsInt,
+        _silenceEnumWarning = silenceEnumWarning,
         _structPackingOverride = structPackingOverride,
         _objcInterfaceModules = objcInterfaceModules,
         _objcProtocolModules = objcProtocolModules;
+
+  final bool _silenceEnumWarning;
 
   void _applyInclusion(public_ast.Decl node, YamlDeclarationFilters decl) {
     if (decl.isExplicitlyIncluded(node.originalName)) {
@@ -1447,6 +1449,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     }
     if (_enumsAsInt.shouldInclude(node.originalName)) {
       node.style = EnumStyle.intConstants;
+    }
+    if (_silenceEnumWarning) {
+      node.silenceWarning = true;
     }
     for (final constant in node.constants) {
       if (constant.originalName != null &&

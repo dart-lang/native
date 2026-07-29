@@ -58,6 +58,9 @@ class EnumClass extends BindingType with HasLocalScope {
 
   final ApiAvailability? apiAvailability;
 
+  /// Whether to silence warning for enum integer type mimicking.
+  bool silenceWarning;
+
   EnumClass({
     super.usr,
     super.originalName,
@@ -69,6 +72,7 @@ class EnumClass extends BindingType with HasLocalScope {
     this.style = EnumStyle.dartEnum,
     this.isAnonymous = false,
     this.apiAvailability,
+    this.silenceWarning = false,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];
 

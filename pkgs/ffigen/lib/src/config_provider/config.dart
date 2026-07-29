@@ -22,9 +22,6 @@ final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
   final Headers headers;
 
-  /// Configuration for enums.
-  final Enums enums;
-
   /// Configuration for functions.
   final Functions functions;
 
@@ -85,7 +82,6 @@ final class FfiGenerator {
   const FfiGenerator({
     this.visitors = const [],
     this.headers = const Headers(),
-    this.enums = const Enums(),
     this.functions = const Functions(),
     this.integers = const Integers(),
     this.structs = const Structs(),
@@ -140,16 +136,6 @@ final class Headers {
     this.include = _includeDefault,
     this.compilerOptions,
     this.ignoreSourceErrors = false,
-  });
-}
-
-/// Configuration for enum declarations.
-final class Enums {
-  /// Whether to silence warning for enum integer type mimicking.
-  final bool silenceWarning;
-
-  const Enums({
-    this.silenceWarning = false,
   });
 }
 
