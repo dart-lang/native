@@ -20,6 +20,8 @@ abstract class Compound extends BindingType with HasLocalScope {
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
+  CompoundDependencies dependencies;
+
   final List<CompoundMember> members;
 
   bool get isOpaque => members.isEmpty;
@@ -45,6 +47,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     super.originalName,
     required super.name,
     this.isIncomplete = false,
+    this.dependencies = CompoundDependencies.full,
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,

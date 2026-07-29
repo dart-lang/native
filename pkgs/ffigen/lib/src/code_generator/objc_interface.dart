@@ -25,6 +25,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     _module = value;
     classObject = ObjCClassGlobal('_class_$originalName', originalName, value);
   }
+
   late NoLookUpBinding classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;

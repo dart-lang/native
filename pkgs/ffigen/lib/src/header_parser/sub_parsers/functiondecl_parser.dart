@@ -40,14 +40,8 @@ List<Func> parseFunctionDeclaration(
 
     final returnType = cursor.returnType().toCodeGenType(context);
 
-    final (
-      :parameters,
-      :hasIncompleteStruct,
-      :hasUnimplementedType,
-    ) = parseParameters(
-      context,
-      cursor,
-    );
+    final (:parameters, :hasIncompleteStruct, :hasUnimplementedType) =
+        parseParameters(context, cursor);
 
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
         clang.clang_Cursor_getStorageClass(cursor) !=

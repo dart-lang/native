@@ -3652,9 +3652,7 @@ class LibClang {
   }
 
   late final _clang_getFileTimePtr =
-      _lookup<ffi.NativeFunction<ffi.Int64 Function(CXFile)>>(
-        'clang_getFileTime',
-      );
+      _lookup<ffi.NativeFunction<time_t Function(CXFile)>>('clang_getFileTime');
   late final _clang_getFileTime = _clang_getFileTimePtr
       .asFunction<int Function(CXFile)>();
 
@@ -9124,3 +9122,7 @@ final class IndexerCallbacks extends ffi.Struct {
     ..ref.indexDeclaration = indexDeclaration
     ..ref.indexEntityReference = indexEntityReference;
 }
+
+typedef __darwin_time_t = ffi.Long;
+typedef Dart__darwin_time_t = int;
+typedef time_t = __darwin_time_t;

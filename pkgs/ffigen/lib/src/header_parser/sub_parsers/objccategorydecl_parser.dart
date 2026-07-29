@@ -81,19 +81,13 @@ ObjCCategory? parseObjCCategoryDeclaration(
         );
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) = parseObjCProperty(
-          context,
-          child,
-          name,
-        );
+        final (getter, setter) = parseObjCProperty(context, child, name);
         category.addMethod(getter);
         category.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        category.addMethod(
-          parseObjCMethod(context, child, name),
-        );
+        category.addMethod(parseObjCMethod(context, child, name));
         break;
     }
   });

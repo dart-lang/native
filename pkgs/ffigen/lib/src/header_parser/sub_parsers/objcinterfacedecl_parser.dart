@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
-import '../../config_provider/config.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -257,12 +256,7 @@ ObjCMethod? parseObjCMethod(
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ParmDecl:
-        final p = _parseMethodParam(
-          context,
-          child,
-          declName,
-          methodName,
-        );
+        final p = _parseMethodParam(context, child, declName, methodName);
         if (p == null) {
           hasError = true;
         } else {

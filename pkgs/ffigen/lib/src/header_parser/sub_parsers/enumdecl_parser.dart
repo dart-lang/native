@@ -4,7 +4,6 @@
 
 import '../../code_generator.dart';
 import '../../config_provider/config.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../type_extractor/cxtypekindmap.dart';

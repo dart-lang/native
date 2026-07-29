@@ -33,8 +33,10 @@ void main() {
                 ),
               ],
             ),
-            visitors: const [IncludeAllVisitor()],
-            typedefs: const Typedefs(includeUnused: true),
+            visitors: [
+              const IncludeAllVisitor(),
+              Visitor(visitTypealias: (node) => node.includeUnused = true),
+            ],
           ),
         ),
       );

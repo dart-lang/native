@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator/imports.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/context.dart';
@@ -65,10 +64,6 @@ void main() {
           ].any((filename) => header.pathSegments.last == filename),
         ),
         visitors: const [IncludeAllVisitor()],
-        typedefs: Typedefs(
-          // ignore: deprecated_member_use_from_same_package
-          imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
-        ),
       );
       final library = parse(Context(logger, generator));
       final context = testContext();
@@ -200,8 +195,11 @@ class _LargeTestVisitor extends Visitor {
 
   @override
   void visitFunc(Func node) {
-    if ({'sqlite3_vmprintf', 'sqlite3_vsnprintf', 'sqlite3_str_vappendf'}
-        .contains(node.originalName)) {
+    if ({
+      'sqlite3_vmprintf',
+      'sqlite3_vsnprintf',
+      'sqlite3_str_vappendf',
+    }.contains(node.originalName)) {
       node.isIncluded = false;
     }
   }

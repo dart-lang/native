@@ -1205,6 +1205,10 @@ final class YamlConfig {
       structPackingOverride: _structPackingOverride,
       objcInterfaceModules: _objcInterfaceModules,
       objcProtocolModules: _objcProtocolModules,
+      structDependencies: _structDependencies,
+      unionDependencies: _unionDependencies,
+      includeUnusedTypedefs: _includeUnusedTypedefs,
+      useSupportedTypedefs: _useSupportedTypedefs,
     );
 
     return FfiGenerator(
@@ -1229,25 +1233,7 @@ final class YamlConfig {
                 wrapperDocComment: wrapperDocComment,
               ),
       ),
-      functions: Functions(
-        varArgs: varArgFunctions,
-      ),
-      structs: Structs(
-        dependencies: _structDependencies,
-        // ignore: deprecated_member_use_from_same_package
-        imported: structTypeMappings.values.toList(),
-      ),
-      unions: Unions(
-        dependencies: _unionDependencies,
-        // ignore: deprecated_member_use_from_same_package
-        imported: unionTypeMappings.values.toList(),
-      ),
-      typedefs: Typedefs(
-        useSupportedTypedefs: useSupportedTypedefs,
-        includeUnused: includeUnusedTypedefs,
-        // ignore: deprecated_member_use_from_same_package
-        imported: typedefTypeMappings.values.toList(),
-      ),
+      functions: Functions(varArgs: varArgFunctions),
       objectiveC: language == Language.objc
           ? ObjectiveC(
               externalVersions: externalVersions,
@@ -1259,8 +1245,6 @@ final class YamlConfig {
       libraryImports: libraryImports.values.toList(),
       // ignore: deprecated_member_use_from_same_package
       importedTypesByUsr: usrTypeMappings,
-      // ignore: deprecated_member_use_from_same_package
-      integers: Integers(imported: nativeTypeMappings.values.toList()),
       // ignore: deprecated_member_use_from_same_package
       libclangDylib: libclangDylib,
     );
@@ -1285,6 +1269,10 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   final StructPackingOverride _structPackingOverride;
   final ObjCModules _objcInterfaceModules;
   final ObjCModules _objcProtocolModules;
+  final CompoundDependencies _structDependencies;
+  final CompoundDependencies _unionDependencies;
+  final bool _includeUnusedTypedefs;
+  final bool _useSupportedTypedefs;
 
   YamlConfigAstVisitor({
     required YamlDeclarationFilters functionDecl,
@@ -1305,24 +1293,32 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     required StructPackingOverride structPackingOverride,
     required ObjCModules objcInterfaceModules,
     required ObjCModules objcProtocolModules,
-  })  : _functionDecl = functionDecl,
-        _structDecl = structDecl,
-        _unionDecl = unionDecl,
-        _enumClassDecl = enumClassDecl,
-        _unnamedEnumConstants = unnamedEnumConstants,
-        _globals = globals,
-        _macroDecl = macroDecl,
-        _typedefs = typedefs,
-        _objcInterfaces = objcInterfaces,
-        _objcProtocols = objcProtocols,
-        _objcCategories = objcCategories,
-        _exposeFunctionTypedefs = exposeFunctionTypedefs,
-        _leafFunctions = leafFunctions,
-        _enumsAsInt = enumsAsInt,
-        _silenceEnumWarning = silenceEnumWarning,
-        _structPackingOverride = structPackingOverride,
-        _objcInterfaceModules = objcInterfaceModules,
-        _objcProtocolModules = objcProtocolModules;
+    required CompoundDependencies structDependencies,
+    required CompoundDependencies unionDependencies,
+    required bool includeUnusedTypedefs,
+    required bool useSupportedTypedefs,
+  }) : _functionDecl = functionDecl,
+       _structDecl = structDecl,
+       _unionDecl = unionDecl,
+       _enumClassDecl = enumClassDecl,
+       _unnamedEnumConstants = unnamedEnumConstants,
+       _globals = globals,
+       _macroDecl = macroDecl,
+       _typedefs = typedefs,
+       _objcInterfaces = objcInterfaces,
+       _objcProtocols = objcProtocols,
+       _objcCategories = objcCategories,
+       _exposeFunctionTypedefs = exposeFunctionTypedefs,
+       _leafFunctions = leafFunctions,
+       _enumsAsInt = enumsAsInt,
+       _silenceEnumWarning = silenceEnumWarning,
+       _structPackingOverride = structPackingOverride,
+       _objcInterfaceModules = objcInterfaceModules,
+       _objcProtocolModules = objcProtocolModules,
+       _structDependencies = structDependencies,
+       _unionDependencies = unionDependencies,
+       _includeUnusedTypedefs = includeUnusedTypedefs,
+       _useSupportedTypedefs = useSupportedTypedefs;
 
   final bool _silenceEnumWarning;
 
@@ -1342,18 +1338,23 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitStruct(public_ast.Struct node) {
+    node.dependencies = _structDependencies;
     _applyInclusion(node, _structDecl);
     final renamed = _structDecl.rename(node.originalName);
     if (renamed != node.originalName) {
       node.name = renamed;
     }
-    final pack = _structPackingOverride.getOverridenPackValue(node.originalName);
+    final pack = _structPackingOverride.getOverridenPackValue(
+      node.originalName,
+    );
     if (pack != null) {
       node.pack = pack.value;
     }
     for (final field in node.fields) {
       if (!_structDecl.shouldIncludeMember(
-          node.originalName, field.originalName)) {
+        node.originalName,
+        field.originalName,
+      )) {
         field.isIncluded = false;
       } else {
         final fieldRenamed = _structDecl.renameMember(
@@ -1369,6 +1370,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitUnion(public_ast.Union node) {
+    node.dependencies = _unionDependencies;
     _applyInclusion(node, _unionDecl);
     final renamed = _unionDecl.rename(node.originalName);
     if (renamed != node.originalName) {
@@ -1376,7 +1378,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     }
     for (final field in node.fields) {
       if (!_unionDecl.shouldIncludeMember(
-          node.originalName, field.originalName)) {
+        node.originalName,
+        field.originalName,
+      )) {
         field.isIncluded = false;
       } else {
         final fieldRenamed = _unionDecl.renameMember(
@@ -1407,7 +1411,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     for (final constant in node.constants) {
       if (constant.originalName != null &&
           !_enumClassDecl.shouldIncludeMember(
-              node.originalName, constant.originalName!)) {
+            node.originalName,
+            constant.originalName!,
+          )) {
         constant.isIncluded = false;
       } else if (constant.originalName != null) {
         final constantRenamed = _enumClassDecl.renameMember(
@@ -1480,6 +1486,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitTypealias(public_ast.Typealias node) {
+    node.includeUnused = _includeUnusedTypedefs;
+    node.useSupportedTypedefs = _useSupportedTypedefs;
     _applyInclusion(node, _typedefs);
     final renamed = _typedefs.rename(node.originalName);
     if (renamed != node.originalName) {
@@ -1498,7 +1506,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (mod != null) node.module = mod;
     for (final method in node.methods) {
       if (!_objcInterfaces.shouldIncludeMember(
-          node.originalName, method.originalName)) {
+        node.originalName,
+        method.originalName,
+      )) {
         method.isIncluded = false;
       } else {
         final methodRenamed = _objcInterfaces.renameMember(
@@ -1539,7 +1549,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (mod != null) node.module = mod;
     for (final method in node.methods) {
       if (!_objcProtocols.shouldIncludeMember(
-          node.originalName, method.originalName)) {
+        node.originalName,
+        method.originalName,
+      )) {
         method.isIncluded = false;
       } else {
         final methodRenamed = _objcProtocols.renameMember(
@@ -1558,7 +1570,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (node.originalName.isEmpty) return;
     final isParentInterfaceIncluded =
         _objcInterfaces.isExplicitlyIncluded(node.interface.originalName) &&
-            node.interface.includeCategories;
+        node.interface.includeCategories;
     if (_objcCategories.isExplicitlyIncluded(node.originalName)) {
       node.isIncluded = true;
     } else if (_objcCategories.isExplicitlyExcluded(node.originalName)) {
@@ -1579,7 +1591,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
       if (_objcCategories.isExplicitlyIncluded(node.originalName) ||
           isParentInterfaceIncluded) {
         if (!_objcCategories.shouldIncludeMember(
-            node.originalName, method.originalName)) {
+          node.originalName,
+          method.originalName,
+        )) {
           method.isIncluded = false;
         } else {
           final methodRenamed = _objcCategories.renameMember(

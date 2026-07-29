@@ -14,9 +14,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 
-String generate({
-  bool includeTransitiveObjCCategories = true,
-}) {
+String generate({bool includeTransitiveObjCCategories = true}) {
   FfiGenerator(
     output: Output(
       dartFile: Uri.file(
@@ -102,9 +100,7 @@ void main() {
       if (classDef && !isInst && any) return Inclusion.stubbed;
       if (classDef && isInst && any) return Inclusion.included;
       if (!classDef && !isInst && !any) return Inclusion.omitted;
-      throw Exception(
-        'Bad interface: $name ($classDef, $isInst, $any)',
-      );
+      throw Exception('Bad interface: $name ($classDef, $isInst, $any)');
     }
 
     Inclusion incProto(String name) {

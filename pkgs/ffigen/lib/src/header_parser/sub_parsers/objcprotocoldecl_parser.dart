@@ -87,19 +87,13 @@ ObjCProtocol? parseObjCProtocolDeclaration(
         }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) = parseObjCProperty(
-          context,
-          child,
-          name,
-        );
+        final (getter, setter) = parseObjCProperty(context, child, name);
         protocol.addMethod(getter);
         protocol.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        protocol.addMethod(
-          parseObjCMethod(context, child, name),
-        );
+        protocol.addMethod(parseObjCMethod(context, child, name));
         break;
     }
   });

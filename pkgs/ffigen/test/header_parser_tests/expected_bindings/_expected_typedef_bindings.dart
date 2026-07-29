@@ -61,7 +61,9 @@ class Bindings {
 
   late final _func3Ptr =
       _lookup<
-        ffi.NativeFunction<ffi.Void Function(ffi.IntPtr, NestingASpecifiedType)>
+        ffi.NativeFunction<
+          ffi.Void Function(SpecifiedTypeAsIntPtr, NestingASpecifiedType)
+        >
       >('func3');
   late final _func3 = _func3Ptr.asFunction<void Function(int, int)>();
 
@@ -101,8 +103,9 @@ typedef NamedFunctionProto =
 typedef NamedFunctionProtoFunction = ffi.Void Function();
 typedef DartNamedFunctionProtoFunction = void Function();
 typedef NamedStructInTypedef = _NamedStructInTypedef;
-typedef NestingASpecifiedType = ffi.IntPtr;
-typedef DartNestingASpecifiedType = int;
+typedef NestingASpecifiedType = SpecifiedTypeAsIntPtr;
+typedef SpecifiedTypeAsIntPtr = ffi.Char;
+typedef DartSpecifiedTypeAsIntPtr = int;
 
 final class Struct1 extends ffi.Struct {
   external NamedFunctionProto named;

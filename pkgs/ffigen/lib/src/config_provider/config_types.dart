@@ -12,7 +12,6 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
-import 'config.dart';
 import 'path_finder.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
@@ -138,10 +137,12 @@ final class YamlDeclarationFilters {
       _includer.shouldInclude(name, excludeAllByDefault);
 
   /// Checks if a name is explicitly included by an include pattern.
-  bool isExplicitlyIncluded(String name) => _includer.isExplicitlyIncluded(name);
+  bool isExplicitlyIncluded(String name) =>
+      _includer.isExplicitlyIncluded(name);
 
   /// Checks if a name is explicitly excluded by an exclude pattern.
-  bool isExplicitlyExcluded(String name) => _includer.isExplicitlyExcluded(name);
+  bool isExplicitlyExcluded(String name) =>
+      _includer.isExplicitlyExcluded(name);
 
   /// Checks if the symbol address should be included for this name.
   bool shouldIncludeSymbolAddress(String name) =>

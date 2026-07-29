@@ -118,8 +118,6 @@ class LibClangVisitor extends Visitor {
     'clang_Type_getObjCProtocolDecl',
   };
 
-  const LibClangVisitor();
-
   @override
   void visitEnum(EnumClass node) {
     node.style = EnumStyle.intConstants;
@@ -130,6 +128,7 @@ class LibClangVisitor extends Visitor {
 
   @override
   void visitStruct(Struct node) {
+    node.dependencies = CompoundDependencies.full;
     if (node.originalName.isNotEmpty &&
         !structs.contains(node.originalName) &&
         !node.originalName.contains('Version') &&
@@ -147,6 +146,7 @@ class LibClangVisitor extends Visitor {
 
   @override
   void visitTypealias(Typealias node) {
+    node.includeUnused = true;
     if (RegExp(r'.*time(64)?_t$').hasMatch(node.originalName)) {
       node.isIncluded = false;
     }
@@ -162,15 +162,12 @@ void main() {
       ],
       compilerOptions: ['-Ithird_party/libclang/include'],
       ignoreSourceErrors: true,
-      include:
-          (Uri header) =>
-              header.path.endsWith('wrapper.c') ||
-              header.path.endsWith('Index.h') ||
-              header.path.endsWith('CXString.h'),
+      include: (Uri header) =>
+          header.path.endsWith('wrapper.c') ||
+          header.path.endsWith('Index.h') ||
+          header.path.endsWith('CXString.h'),
     ),
     visitors: [const LibClangVisitor()],
-    typedefs: const Typedefs(includeUnused: true),
-    structs: const Structs(dependencies: CompoundDependencies.full),
     output: Output(
       preamble: '''
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM

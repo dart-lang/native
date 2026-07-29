@@ -12,20 +12,10 @@ import 'api_availability.dart';
 Compound? parseStructDeclaration(
   clang_types.CXCursor cursor,
   Context context,
-) => _parseCompoundDeclaration(
-  cursor,
-  context,
-  'Struct',
-  Struct.new,
-);
+) => _parseCompoundDeclaration(cursor, context, 'Struct', Struct.new);
 
 Compound? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
-    _parseCompoundDeclaration(
-      cursor,
-      context,
-      'Union',
-      Union.new,
-    );
+    _parseCompoundDeclaration(cursor, context, 'Union', Union.new);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {

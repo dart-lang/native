@@ -33,7 +33,11 @@ Context testContext([FfiGenerator? generator]) {
   )..createSync(recursive: true)).createTempSync();
   return Context(
     createTestLogger(),
-    generator ?? FfiGenerator(visitors: const [IncludeAllVisitor()], output: Output(dartFile: Uri.file('unused'))),
+    generator ??
+        FfiGenerator(
+          visitors: const [IncludeAllVisitor()],
+          output: Output(dartFile: Uri.file('unused')),
+        ),
     tmpDir: tmpDir.path,
   );
 }

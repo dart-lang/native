@@ -56,7 +56,13 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
       _parseAnyMethod(context, child, className, methods, CppMethodKind.method);
     } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
-      _parseAnyMethod(context, child, className, methods, CppMethodKind.constructor);
+      _parseAnyMethod(
+        context,
+        child,
+        className,
+        methods,
+        CppMethodKind.constructor,
+      );
     }
   });
 

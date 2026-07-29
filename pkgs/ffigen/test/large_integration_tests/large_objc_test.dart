@@ -14,7 +14,6 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
-import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -43,69 +42,64 @@ class _RandomIncludeVisitor extends Visitor {
 
   @override
   void visitFunc(Func node) {
-    if (!_randInclude('functionDecl', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('functionDecl', node.usr);
   }
 
   @override
   void visitStruct(Struct node) {
-    if (!_randInclude('structDecl', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('structDecl', node.usr);
   }
 
   @override
   void visitUnion(Union node) {
-    if (!_randInclude('unionDecl', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('unionDecl', node.usr);
   }
 
   @override
   void visitEnum(EnumClass node) {
-    if (!_randInclude('enums', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('enums', node.usr);
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    if (!_randInclude('unnamedEnumConstants', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('unnamedEnumConstants', node.usr);
   }
 
   @override
   void visitGlobal(Global node) {
-    if (!_randInclude('globals', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('globals', node.usr);
   }
 
   @override
   void visitTypealias(Typealias node) {
-    if (!_randInclude('typedefs', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('typedefs', node.usr);
   }
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    if (!_randInclude('objcInterfaces', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('objcInterfaces', node.usr);
     for (final m in node.methods) {
-      if (!_randInclude('objcInterfaces.memb', node.usr, m.originalName)) {
-        m.isIncluded = false;
-      }
+      m.isIncluded =
+          _randInclude('objcInterfaces.memb', node.usr, m.originalName);
     }
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    if (!forceIncludedProtocols.contains(node.originalName) &&
-        !_randInclude('objcProtocols', node.usr)) {
-      node.isIncluded = false;
-    }
+    node.isIncluded = forceIncludedProtocols.contains(node.originalName) ||
+        _randInclude('objcProtocols', node.usr);
     for (final m in node.methods) {
-      if (!_randInclude('objcProtocols.memb', node.usr, m.originalName)) {
-        m.isIncluded = false;
-      }
+      m.isIncluded =
+          _randInclude('objcProtocols.memb', node.usr, m.originalName);
     }
   }
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    if (!_randInclude('objcCategories', node.usr)) node.isIncluded = false;
+    node.isIncluded = _randInclude('objcCategories', node.usr);
     for (final m in node.methods) {
-      if (!_randInclude('objcCategories.memb', node.usr, m.originalName)) {
-        m.isIncluded = false;
-      }
+      m.isIncluded =
+          _randInclude('objcCategories.memb', node.usr, m.originalName);
     }
   }
 }

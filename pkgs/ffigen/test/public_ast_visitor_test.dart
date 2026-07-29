@@ -97,10 +97,7 @@ void main() {
       final generator = FfiGenerator(
         headers: Headers(entryPoints: [headerUri]),
         output: Output(dartFile: Uri.file('unused.dart')),
-        visitors: [
-          const IncludeAllVisitor(),
-          autoWalker,
-        ],
+        visitors: [const IncludeAllVisitor(), autoWalker],
       );
 
       parser.parse(testContext(generator));
@@ -149,10 +146,7 @@ void main() {
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
-          const IncludeSetVisitor(
-            functions: {'func1'},
-            structs: {'Struct1'},
-          ),
+          const IncludeSetVisitor(functions: {'func1'}, structs: {'Struct1'}),
         ],
       );
 

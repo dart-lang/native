@@ -28,6 +28,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
       loaderSymbol,
     );
   }
+
   late ObjCProtocolGlobal _protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;

@@ -189,8 +189,8 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
     final usedEnums = visit(context, _FindEnumsVisitation(), notEnums).enums;
     final unSilencedUsedEnums = usedEnums.where((e) => !e.silenceWarning);
     if (unSilencedUsedEnums.isNotEmpty) {
-      final names =
-          unSilencedUsedEnums.map((e) => e.originalName).toList()..sort();
+      final names = unSilencedUsedEnums.map((e) => e.originalName).toList()
+        ..sort();
       context.logger.severe(
         'The integer type used for enums is '
         'implementation-defined. FFIgen tries to mimic the integer sizes '

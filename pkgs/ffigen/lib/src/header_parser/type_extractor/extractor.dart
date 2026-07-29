@@ -148,10 +148,7 @@ Type getCodeGenType(
       if (typeSpellKey.startsWith('const ')) {
         typeSpellKey = typeSpellKey.replaceFirst('const ', '');
       }
-      if (context.config.importedIntegers.containsKey(typeSpellKey)) {
-        context.logger.fine('  Type $typeSpellKey mapped from type-map.');
-        return context.config.importedIntegers[typeSpellKey]!;
-      } else if (cxTypeKindToImportedTypes.containsKey(typeSpellKey)) {
+      if (cxTypeKindToImportedTypes.containsKey(typeSpellKey)) {
         return cxTypeKindToImportedTypes[typeSpellKey]!;
       } else {
         context.logger.fine(
@@ -184,19 +181,13 @@ Type? _createTypeFromCursor(
         // those two types are ABI compatible, so just return bool regardless.
         return BooleanType();
       }
-      if (config.typedefTypeMappings.containsKey(spelling)) {
-        logger.fine('  Type $spelling mapped from type-map');
-        return config.typedefTypeMappings[spelling]!;
-      }
       // Get name from supported typedef name if config allows.
-      if (config.typedefs.useSupportedTypedefs) {
-        if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
-        } else if (supportedTypedefToImportedType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return supportedTypedefToImportedType[spelling]!;
-        }
+      if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
+        logger.fine('  Type Mapped from supported typedef');
+        return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
+      } else if (supportedTypedefToImportedType.containsKey(spelling)) {
+        logger.fine('  Type Mapped from supported typedef');
+        return supportedTypedefToImportedType[spelling]!;
       }
 
       final typealias = parseTypedefDeclaration(context, cursor);
@@ -245,22 +236,12 @@ Type? _extractfromRecord(
   clang_types.CXCursor cursor,
 ) {
   final logger = context.logger;
-  final config = context.config;
   logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
 
-  final declSpelling = cursor.spelling();
   final cursorKind = clang.clang_getCursorKind(cursor);
   if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
-    if (config.structTypeMappings.containsKey(declSpelling)) {
-      logger.fine('  Type Mapped from type-map');
-      return config.structTypeMappings[declSpelling]!;
-    }
     return parseStructDeclaration(cursor, context);
   } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
-    if (config.unionTypeMappings.containsKey(declSpelling)) {
-      logger.fine('  Type Mapped from type-map');
-      return config.unionTypeMappings[declSpelling]!;
-    }
     return parseUnionDeclaration(cursor, context);
   }
 

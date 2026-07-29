@@ -63,11 +63,7 @@ class ListBindingsVisitation extends Visitation {
   @override
   void visitObjCInterface(ObjCInterface node) {
     final omit =
-        node.unavailable ||
-        !_visitImpl(
-          node,
-          _IncludeBehavior.configOnly,
-        );
+        node.unavailable || !_visitImpl(node, _IncludeBehavior.configOnly);
 
     if (omit && !node.isObjCImport && directTransitives.contains(node)) {
       node.generateAsStub = true;
@@ -97,11 +93,7 @@ class ListBindingsVisitation extends Visitation {
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     final omit =
-        node.unavailable ||
-        !_visitImpl(
-          node,
-          _IncludeBehavior.configOnly,
-        );
+        node.unavailable || !_visitImpl(node, _IncludeBehavior.configOnly);
 
     if (omit && !node.isObjCImport && directTransitives.contains(node)) {
       node.generateAsStub = true;
@@ -124,7 +116,7 @@ class ListBindingsVisitation extends Visitation {
   void visitTypealias(Typealias node) {
     _visitImpl(
       node,
-      config.typedefs.includeUnused
+      node.includeUnused
           ? _IncludeBehavior.configOnly
           : _IncludeBehavior.configAndTransitive,
     );

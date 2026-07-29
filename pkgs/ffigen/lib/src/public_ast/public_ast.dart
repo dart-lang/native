@@ -45,24 +45,24 @@ class Visitor {
     void Function(Parameter node)? visitParameter,
     void Function(ObjCMethod node)? visitObjCMethod,
     void Function(CppMethod node)? visitCppMethod,
-  })  : _visitLibrary = visitLibrary,
-        _visitStruct = visitStruct,
-        _visitUnion = visitUnion,
-        _visitEnum = visitEnum,
-        _visitUnnamedEnumConstant = visitUnnamedEnumConstant,
-        _visitFunc = visitFunc,
-        _visitGlobal = visitGlobal,
-        _visitMacroConstant = visitMacroConstant,
-        _visitTypealias = visitTypealias,
-        _visitObjCInterface = visitObjCInterface,
-        _visitObjCProtocol = visitObjCProtocol,
-        _visitObjCCategory = visitObjCCategory,
-        _visitCppClass = visitCppClass,
-        _visitField = visitField,
-        _visitEnumConstant = visitEnumConstant,
-        _visitParameter = visitParameter,
-        _visitObjCMethod = visitObjCMethod,
-        _visitCppMethod = visitCppMethod;
+  }) : _visitLibrary = visitLibrary,
+       _visitStruct = visitStruct,
+       _visitUnion = visitUnion,
+       _visitEnum = visitEnum,
+       _visitUnnamedEnumConstant = visitUnnamedEnumConstant,
+       _visitFunc = visitFunc,
+       _visitGlobal = visitGlobal,
+       _visitMacroConstant = visitMacroConstant,
+       _visitTypealias = visitTypealias,
+       _visitObjCInterface = visitObjCInterface,
+       _visitObjCProtocol = visitObjCProtocol,
+       _visitObjCCategory = visitObjCCategory,
+       _visitCppClass = visitCppClass,
+       _visitField = visitField,
+       _visitEnumConstant = visitEnumConstant,
+       _visitParameter = visitParameter,
+       _visitObjCMethod = visitObjCMethod,
+       _visitCppMethod = visitCppMethod;
 
   void visitLibrary(PublicAst ast) {
     _visitLibrary?.call(ast);
@@ -246,6 +246,9 @@ class Struct extends Decl {
   int? get pack => _binding.pack;
   set pack(int? value) => _binding.pack = value;
 
+  CompoundDependencies get dependencies => _binding.dependencies;
+  set dependencies(CompoundDependencies value) => _binding.dependencies = value;
+
   List<Field> get fields => _binding.members.map(Field.new).toList();
 
   @override
@@ -281,6 +284,9 @@ class Union implements Decl {
 
   @override
   set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
+
+  CompoundDependencies get dependencies => _binding.dependencies;
+  set dependencies(CompoundDependencies value) => _binding.dependencies = value;
 
   List<Field> get fields => _binding.members.map(Field.new).toList();
 
@@ -499,6 +505,12 @@ class Typealias extends Decl {
 
   @override
   set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
+
+  bool get includeUnused => _binding.includeUnused;
+  set includeUnused(bool value) => _binding.includeUnused = value;
+
+  bool get useSupportedTypedefs => _binding.useSupportedTypedefs;
+  set useSupportedTypedefs(bool value) => _binding.useSupportedTypedefs = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitTypealias(this);
@@ -990,5 +1002,3 @@ class RenameMapVisitor extends Visitor {
   @override
   void visitCppClass(CppClass node) => _rename(node);
 }
-
-
