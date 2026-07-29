@@ -124,7 +124,7 @@ class LibClangVisitor extends Visitor {
   void visitEnum(EnumClass node) {
     node.style = EnumStyle.intConstants;
     if (node.originalName.isNotEmpty && !enums.contains(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
@@ -134,21 +134,21 @@ class LibClangVisitor extends Visitor {
         !structs.contains(node.originalName) &&
         !node.originalName.contains('Version') &&
         !node.originalName.contains('PlatformAvailability')) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitFunc(Func node) {
     if (!functions.contains(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitTypealias(Typealias node) {
     if (RegExp(r'.*time(64)?_t$').hasMatch(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 }

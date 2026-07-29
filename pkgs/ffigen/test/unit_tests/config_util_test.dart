@@ -27,8 +27,8 @@ void main() {
       final structBaz = createStruct('baz');
       visitor.visitStruct(structFoo);
       visitor.visitStruct(structBaz);
-      expect(structFoo.isExcluded, isFalse);
-      expect(structBaz.isExcluded, isTrue);
+      expect(structFoo.isIncluded, isTrue);
+      expect(structBaz.isIncluded, isFalse);
     });
 
     test('RenameMapVisitor', () {

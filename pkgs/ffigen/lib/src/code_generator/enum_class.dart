@@ -308,7 +308,7 @@ class EnumConstant extends AstNode {
   final String? originalName;
   final String? dartDoc;
   final int value;
-  bool? userDefinedIsExcluded;
+  bool? userDefinedIsIncluded;
 
   final Symbol _symbol;
   Symbol get symbol => _symbol;

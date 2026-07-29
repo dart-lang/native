@@ -289,7 +289,7 @@ class Parameter extends AstNode {
   final String originalName;
   Type type;
   final bool objCConsumed;
-  bool? userDefinedIsExcluded;
+  bool? userDefinedIsIncluded;
 
   Symbol symbol;
   String get name => symbol.name;

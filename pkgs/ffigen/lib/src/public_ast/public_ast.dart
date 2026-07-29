@@ -216,8 +216,8 @@ abstract class Decl extends AstNode {
   set name(String value);
   String get usr;
 
-  bool get isExcluded;
-  set isExcluded(bool value);
+  bool get isIncluded;
+  set isIncluded(bool value);
 }
 
 class Struct extends Decl {
@@ -238,10 +238,10 @@ class Struct extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   int? get pack => _binding.pack;
   set pack(int? value) => _binding.pack = value;
@@ -277,10 +277,10 @@ class Union implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   List<Field> get fields => _binding.members.map(Field.new).toList();
 
@@ -313,10 +313,10 @@ class EnumClass implements Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   EnumStyle get style => _binding.style;
   set style(EnumStyle value) => _binding.style = value;
@@ -354,10 +354,10 @@ class UnnamedEnumConstant extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitUnnamedEnumConstant(this);
@@ -384,10 +384,10 @@ class Func extends Decl {
   }
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   bool get exposeSymbolAddress => _binding.exposeSymbolAddress;
   set exposeSymbolAddress(bool value) => _binding.exposeSymbolAddress = value;
@@ -434,10 +434,10 @@ class Global extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   bool get exposeSymbolAddress => _binding.exposeSymbolAddress;
   set exposeSymbolAddress(bool value) => _binding.exposeSymbolAddress = value;
@@ -465,10 +465,10 @@ class MacroConstant extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitMacroConstant(this);
@@ -492,10 +492,10 @@ class Typealias extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitTypealias(this);
@@ -519,10 +519,10 @@ class ObjCInterface extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   String? get module => _binding.module;
   set module(String? value) => _binding.module = value;
@@ -560,10 +560,10 @@ class ObjCProtocol extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   String? get module => _binding.module;
   set module(String? value) => _binding.module = value;
@@ -601,10 +601,10 @@ class ObjCCategory extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   bool get isObjCImport => _binding.isObjCImport;
 
@@ -639,10 +639,10 @@ class CppClass extends Decl {
   set name(String value) => _binding.symbol.oldName = value;
 
   @override
-  bool get isExcluded => _binding.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _binding.userDefinedIsIncluded ?? true;
 
   @override
-  set isExcluded(bool value) => _binding.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   List<CppMethod> get methods => _binding.methods.map(CppMethod.new).toList();
 
@@ -674,9 +674,9 @@ class Field extends AstNode {
 
   set name(String value) => _member.symbol.oldName = value;
 
-  bool get isExcluded => _member.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _member.userDefinedIsIncluded ?? true;
 
-  set isExcluded(bool value) => _member.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _member.userDefinedIsIncluded = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitField(this);
@@ -695,9 +695,9 @@ class EnumConstant extends AstNode {
 
   int get value => _constant.value;
 
-  bool get isExcluded => _constant.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _constant.userDefinedIsIncluded ?? true;
 
-  set isExcluded(bool value) => _constant.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _constant.userDefinedIsIncluded = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitEnumConstant(this);
@@ -714,9 +714,9 @@ class Parameter extends AstNode {
 
   set name(String value) => _param.symbol.oldName = value;
 
-  bool get isExcluded => _param.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _param.userDefinedIsIncluded ?? true;
 
-  set isExcluded(bool value) => _param.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _param.userDefinedIsIncluded = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitParameter(this);
@@ -742,9 +742,9 @@ class ObjCMethod extends AstNode {
 
   bool get isProperty => _method.isProperty;
 
-  bool get isExcluded => _method.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _method.userDefinedIsIncluded ?? true;
 
-  set isExcluded(bool value) => _method.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _method.userDefinedIsIncluded = value;
 
   List<Parameter> get parameters => _method.params.map(Parameter.new).toList();
 
@@ -770,9 +770,9 @@ class CppMethod extends AstNode {
 
   set name(String value) => _method.name.oldName = value;
 
-  bool get isExcluded => _method.userDefinedIsExcluded ?? false;
+  bool get isIncluded => _method.userDefinedIsIncluded ?? true;
 
-  set isExcluded(bool value) => _method.userDefinedIsExcluded = value;
+  set isIncluded(bool value) => _method.userDefinedIsIncluded = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitCppMethod(this);
@@ -783,82 +783,82 @@ class IncludeAllVisitor extends Visitor {
   const IncludeAllVisitor();
 
   @override
-  void visitStruct(Struct node) => node.isExcluded = false;
+  void visitStruct(Struct node) => node.isIncluded = true;
 
   @override
-  void visitUnion(Union node) => node.isExcluded = false;
+  void visitUnion(Union node) => node.isIncluded = true;
 
   @override
-  void visitEnum(EnumClass node) => node.isExcluded = false;
+  void visitEnum(EnumClass node) => node.isIncluded = true;
 
   @override
-  void visitFunc(Func node) => node.isExcluded = false;
+  void visitFunc(Func node) => node.isIncluded = true;
 
   @override
-  void visitGlobal(Global node) => node.isExcluded = false;
+  void visitGlobal(Global node) => node.isIncluded = true;
 
   @override
-  void visitMacroConstant(MacroConstant node) => node.isExcluded = false;
+  void visitMacroConstant(MacroConstant node) => node.isIncluded = true;
 
   @override
-  void visitTypealias(Typealias node) => node.isExcluded = false;
+  void visitTypealias(Typealias node) => node.isIncluded = true;
 
   @override
-  void visitObjCInterface(ObjCInterface node) => node.isExcluded = false;
+  void visitObjCInterface(ObjCInterface node) => node.isIncluded = true;
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) => node.isExcluded = false;
+  void visitObjCProtocol(ObjCProtocol node) => node.isIncluded = true;
 
   @override
-  void visitObjCCategory(ObjCCategory node) => node.isExcluded = false;
+  void visitObjCCategory(ObjCCategory node) => node.isIncluded = true;
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      node.isExcluded = false;
+      node.isIncluded = true;
 
   @override
-  void visitCppClass(CppClass node) => node.isExcluded = false;
+  void visitCppClass(CppClass node) => node.isIncluded = true;
 }
 
 class ExcludeAllVisitor extends Visitor {
   const ExcludeAllVisitor();
 
   @override
-  void visitStruct(Struct node) => node.isExcluded = true;
+  void visitStruct(Struct node) => node.isIncluded = false;
 
   @override
-  void visitUnion(Union node) => node.isExcluded = true;
+  void visitUnion(Union node) => node.isIncluded = false;
 
   @override
-  void visitEnum(EnumClass node) => node.isExcluded = true;
+  void visitEnum(EnumClass node) => node.isIncluded = false;
 
   @override
-  void visitFunc(Func node) => node.isExcluded = true;
+  void visitFunc(Func node) => node.isIncluded = false;
 
   @override
-  void visitGlobal(Global node) => node.isExcluded = true;
+  void visitGlobal(Global node) => node.isIncluded = false;
 
   @override
-  void visitMacroConstant(MacroConstant node) => node.isExcluded = true;
+  void visitMacroConstant(MacroConstant node) => node.isIncluded = false;
 
   @override
-  void visitTypealias(Typealias node) => node.isExcluded = true;
+  void visitTypealias(Typealias node) => node.isIncluded = false;
 
   @override
-  void visitObjCInterface(ObjCInterface node) => node.isExcluded = true;
+  void visitObjCInterface(ObjCInterface node) => node.isIncluded = false;
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) => node.isExcluded = true;
+  void visitObjCProtocol(ObjCProtocol node) => node.isIncluded = false;
 
   @override
-  void visitObjCCategory(ObjCCategory node) => node.isExcluded = true;
+  void visitObjCCategory(ObjCCategory node) => node.isIncluded = false;
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      node.isExcluded = true;
+      node.isIncluded = false;
 
   @override
-  void visitCppClass(CppClass node) => node.isExcluded = true;
+  void visitCppClass(CppClass node) => node.isIncluded = false;
 }
 
 class IncludeSetVisitor extends Visitor {
@@ -892,7 +892,7 @@ class IncludeSetVisitor extends Visitor {
 
   void _check(Decl node, Set<String>? set) {
     if (set != null) {
-      node.isExcluded = !set.contains(node.originalName);
+      node.isIncluded = set.contains(node.originalName);
     }
   }
 

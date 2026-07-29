@@ -43,45 +43,45 @@ class _RandomIncludeVisitor extends Visitor {
 
   @override
   void visitFunc(Func node) {
-    if (!_randInclude('functionDecl', node.usr)) node.isExcluded = true;
+    if (!_randInclude('functionDecl', node.usr)) node.isIncluded = false;
   }
 
   @override
   void visitStruct(Struct node) {
-    if (!_randInclude('structDecl', node.usr)) node.isExcluded = true;
+    if (!_randInclude('structDecl', node.usr)) node.isIncluded = false;
   }
 
   @override
   void visitUnion(Union node) {
-    if (!_randInclude('unionDecl', node.usr)) node.isExcluded = true;
+    if (!_randInclude('unionDecl', node.usr)) node.isIncluded = false;
   }
 
   @override
   void visitEnum(EnumClass node) {
-    if (!_randInclude('enums', node.usr)) node.isExcluded = true;
+    if (!_randInclude('enums', node.usr)) node.isIncluded = false;
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    if (!_randInclude('unnamedEnumConstants', node.usr)) node.isExcluded = true;
+    if (!_randInclude('unnamedEnumConstants', node.usr)) node.isIncluded = false;
   }
 
   @override
   void visitGlobal(Global node) {
-    if (!_randInclude('globals', node.usr)) node.isExcluded = true;
+    if (!_randInclude('globals', node.usr)) node.isIncluded = false;
   }
 
   @override
   void visitTypealias(Typealias node) {
-    if (!_randInclude('typedefs', node.usr)) node.isExcluded = true;
+    if (!_randInclude('typedefs', node.usr)) node.isIncluded = false;
   }
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    if (!_randInclude('objcInterfaces', node.usr)) node.isExcluded = true;
+    if (!_randInclude('objcInterfaces', node.usr)) node.isIncluded = false;
     for (final m in node.methods) {
       if (!_randInclude('objcInterfaces.memb', node.usr, m.originalName)) {
-        m.isExcluded = true;
+        m.isIncluded = false;
       }
     }
   }
@@ -90,21 +90,21 @@ class _RandomIncludeVisitor extends Visitor {
   void visitObjCProtocol(ObjCProtocol node) {
     if (!forceIncludedProtocols.contains(node.originalName) &&
         !_randInclude('objcProtocols', node.usr)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
     for (final m in node.methods) {
       if (!_randInclude('objcProtocols.memb', node.usr, m.originalName)) {
-        m.isExcluded = true;
+        m.isIncluded = false;
       }
     }
   }
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    if (!_randInclude('objcCategories', node.usr)) node.isExcluded = true;
+    if (!_randInclude('objcCategories', node.usr)) node.isIncluded = false;
     for (final m in node.methods) {
       if (!_randInclude('objcCategories.memb', node.usr, m.originalName)) {
-        m.isExcluded = true;
+        m.isIncluded = false;
       }
     }
   }

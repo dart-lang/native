@@ -17,7 +17,7 @@ import 'config_types.dart';
 // TODO: Add a code snippet example.
 final class FfiGenerator {
   /// User custom visitors to modify/filter AST elements.
-  final List<Visitor>? visitors;
+  final List<Visitor> visitors;
 
   /// The configuration for header parsing of [FfiGenerator].
   final Headers headers;
@@ -83,7 +83,7 @@ final class FfiGenerator {
   final Uri? libclangDylib;
 
   const FfiGenerator({
-    this.visitors,
+    this.visitors = const [],
     this.headers = const Headers(),
     this.enums = const Enums(),
     this.functions = const Functions(),

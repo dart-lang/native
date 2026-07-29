@@ -1377,13 +1377,13 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   void _applyInclusion(public_ast.Decl node, YamlDeclarationFilters decl) {
     if (decl.isExplicitlyIncluded(node.originalName)) {
-      node.isExcluded = false;
+      node.isIncluded = true;
     } else if (decl.isExplicitlyExcluded(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     } else if (decl.excludeAllByDefault) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     } else {
-      node.isExcluded = false;
+      node.isIncluded = true;
     }
   }
 
@@ -1401,7 +1401,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     for (final field in node.fields) {
       if (!_structDecl.shouldIncludeMember(
           node.originalName, field.originalName)) {
-        field.isExcluded = true;
+        field.isIncluded = false;
       } else {
         final fieldRenamed = _structDecl.renameMember(
           node.originalName,
@@ -1424,7 +1424,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     for (final field in node.fields) {
       if (!_unionDecl.shouldIncludeMember(
           node.originalName, field.originalName)) {
-        field.isExcluded = true;
+        field.isIncluded = false;
       } else {
         final fieldRenamed = _unionDecl.renameMember(
           node.originalName,
@@ -1452,7 +1452,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
       if (constant.originalName != null &&
           !_enumClassDecl.shouldIncludeMember(
               node.originalName, constant.originalName!)) {
-        constant.isExcluded = true;
+        constant.isIncluded = false;
       } else if (constant.originalName != null) {
         final constantRenamed = _enumClassDecl.renameMember(
           node.originalName,
@@ -1543,7 +1543,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     for (final method in node.methods) {
       if (!_objcInterfaces.shouldIncludeMember(
           node.originalName, method.originalName)) {
-        method.isExcluded = true;
+        method.isIncluded = false;
       } else {
         final methodRenamed = _objcInterfaces.renameMember(
           node.originalName,
@@ -1584,7 +1584,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     for (final method in node.methods) {
       if (!_objcProtocols.shouldIncludeMember(
           node.originalName, method.originalName)) {
-        method.isExcluded = true;
+        method.isIncluded = false;
       } else {
         final methodRenamed = _objcProtocols.renameMember(
           node.originalName,
@@ -1608,7 +1608,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     for (final method in node.methods) {
       if (!_objcCategories.shouldIncludeMember(
           node.originalName, method.originalName)) {
-        method.isExcluded = true;
+        method.isIncluded = false;
       } else {
         final methodRenamed = _objcCategories.renameMember(
           node.originalName,

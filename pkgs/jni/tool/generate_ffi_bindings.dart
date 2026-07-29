@@ -128,7 +128,7 @@ class JniVisitor extends ffigen.Visitor {
     if (renamed != null) {
       node.name = renamed;
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
   }
 
   @override
@@ -137,27 +137,27 @@ class JniVisitor extends ffigen.Visitor {
         excludedFuncs.contains(node.originalName) ||
         globalEnvNewObjectRegExp.hasMatch(node.originalName) ||
         globalEnvCallRegExp.hasMatch(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
       return;
     }
     final renamed = funcRenames[node.originalName];
     if (renamed != null) {
       node.name = renamed;
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
   }
 
   @override
   void visitStruct(ffigen.Struct node) {
     if (excludedStructs.contains(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
       return;
     }
     final renamed = structRenames[node.originalName];
     if (renamed != null) {
       node.name = renamed;
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
   }
 
   @override
@@ -165,22 +165,22 @@ class JniVisitor extends ffigen.Visitor {
     if (node.originalName == 'jvalue') {
       node.name = 'JValue';
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
   }
 
   @override
   void visitGlobal(ffigen.Global node) {
     if (excludedGlobals.contains(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
       return;
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
   }
 
   @override
   void visitTypealias(ffigen.Typealias node) {
     if (excludedTypeDefs.contains(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
       return;
     }
     final renamed = typedefRenames[node.originalName];
@@ -189,7 +189,7 @@ class JniVisitor extends ffigen.Visitor {
     } else if (node.originalName.startsWith('JNI')) {
       node.name = 'Jni${node.originalName.substring(3)}';
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
   }
 }
 

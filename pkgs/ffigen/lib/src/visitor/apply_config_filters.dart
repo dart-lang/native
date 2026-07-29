@@ -14,16 +14,16 @@ class ApplyConfigFiltersVisitation extends Visitation {
   ApplyConfigFiltersVisitation(this.config);
 
   void _visitImpl(Binding node) {
+    if (node.originalName == '') return;
+    if (node.userDefinedIsIncluded == false) return;
+    if (node.userDefinedIsIncluded == true) {
+      directlyIncluded.add(node);
+    }
     if (node.isObjCImport &&
         !(config.objectiveC?.generateForPackageObjectiveC ?? false)) {
       return;
     }
     node.visitChildren(visitor);
-    if (node.originalName == '') return;
-    if (node.userDefinedIsExcluded == true) return;
-    if (node.userDefinedIsExcluded == false) {
-      directlyIncluded.add(node);
-    }
   }
 
   @override
@@ -54,7 +54,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (node.unavailable) return;
 
     node.filterMethods(
-      (m) => m.userDefinedIsExcluded != true && !m.unavailable,
+      (m) => m.userDefinedIsIncluded != false && !m.unavailable,
     );
     _visitImpl(node);
 
@@ -69,10 +69,10 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     node.filterMethods((m) {
-      if (m.userDefinedIsExcluded == true) return false;
+      if (m.userDefinedIsIncluded == false) return false;
       if (m.unavailable) return false;
       if (node.shouldCopyMethodToInterface(m)) return false;
-      return m.userDefinedIsExcluded != true;
+      return m.userDefinedIsIncluded != false;
     });
     _visitImpl(node);
   }
@@ -82,11 +82,11 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (node.unavailable) return;
 
     node.filterMethods((m) {
-      if (m.userDefinedIsExcluded == true) return false;
+      if (m.userDefinedIsIncluded == false) return false;
       if (m.unavailable) return false;
       if (m.isClassMethod) return false;
 
-      return m.userDefinedIsExcluded != true;
+      return m.userDefinedIsIncluded != false;
     });
     _visitImpl(node);
   }

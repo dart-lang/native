@@ -17,7 +17,7 @@ class _RecordUseVisitor extends Visitor {
     if (node.originalName == 'sum') {
       node.name = 'add';
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
     node.recordUse = true;
   }
 }

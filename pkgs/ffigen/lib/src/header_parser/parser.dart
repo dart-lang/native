@@ -179,7 +179,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
 
   // Execute Public AST visitors.
   final publicAst = public_ast.PublicAst.fromBindings(allBindings.toList());
-  for (final v in config.visitors ?? const <public_ast.Visitor>[]) {
+  for (final v in config.visitors) {
     publicAst.accept(v);
   }
 

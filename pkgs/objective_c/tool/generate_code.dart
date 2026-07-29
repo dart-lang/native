@@ -136,10 +136,10 @@ class RuntimeBindingsVisitor extends Visitor {
   void visitFunc(Func node) {
     final isObjc = node.originalName.startsWith('objc_');
     if (!isObjc && !functions.contains(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
       return;
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
     if (!node.originalName.startsWith('objc_msgSend')) {
       node.isLeaf = true;
     }
@@ -153,44 +153,44 @@ class RuntimeBindingsVisitor extends Visitor {
   void visitGlobal(Global node) {
     if (node.originalName.startsWith('_') &&
         node.originalName.endsWith('Block')) {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = node.originalName.substring(1);
     } else if (globals.contains(node.originalName)) {
-      node.isExcluded = false;
+      node.isIncluded = true;
       if (node.originalName.startsWith('_')) {
         node.name = node.originalName.substring(1);
       }
     } else {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitStruct(Struct node) {
     if (node.originalName.startsWith('_ObjC')) {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = 'ObjC${node.originalName.substring(5)}';
     }
   }
 
   @override
   void visitEnum(EnumClass node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitMacroConstant(MacroConstant node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitUnion(Union node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 }
 
@@ -210,10 +210,10 @@ class CBindingsVisitor extends Visitor {
     final isDobjc = node.originalName.startsWith('DOBJC_');
     final isNewFinalizable = node.originalName == 'newFinalizableHandle';
     if (!isDobjc && !isNewFinalizable) {
-      node.isExcluded = true;
+      node.isIncluded = false;
       return;
     }
-    node.isExcluded = false;
+    node.isIncluded = true;
     if (!nonLeaf.contains(node.originalName)) {
       node.isLeaf = true;
     }
@@ -225,20 +225,20 @@ class CBindingsVisitor extends Visitor {
   @override
   void visitTypealias(Typealias node) {
     if (node.originalName == 'Dart_FinalizableHandle') {
-      node.isExcluded = false;
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitStruct(Struct node) {
     if (node.originalName == '_DOBJC_Context') {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = 'DOBJC_Context';
     } else if (node.originalName == '_Dart_FinalizableHandle') {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = 'Dart_FinalizableHandle_';
     } else if (node.originalName.startsWith('_ObjC')) {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = 'ObjC${node.originalName.substring(5)}';
     }
   }
@@ -246,30 +246,30 @@ class CBindingsVisitor extends Visitor {
   @override
   void visitMacroConstant(MacroConstant node) {
     if (node.originalName == 'ILLEGAL_PORT') {
-      node.isExcluded = false;
+      node.isIncluded = true;
     } else {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitEnum(EnumClass node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitGlobal(Global node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitUnion(Union node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 }
 
@@ -426,21 +426,21 @@ class ObjCBindingsVisitor extends Visitor {
 
   @override
   void visitFunc(Func node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitObjCInterface(ObjCInterface node) {
     final renamed = interfaces[node.originalName];
     if (renamed != null) {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = renamed;
     }
     if (node.originalName == 'NSBundle') {
       for (final method in node.methods) {
         if (method.originalName ==
             'localizedStringForKey:value:table:localizations:') {
-          method.isExcluded = true;
+          method.isIncluded = false;
         }
       }
     }
@@ -450,7 +450,7 @@ class ObjCBindingsVisitor extends Visitor {
   void visitObjCProtocol(ObjCProtocol node) {
     final renamed = protocols[node.originalName];
     if (renamed != null) {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = renamed;
     }
   }
@@ -458,21 +458,21 @@ class ObjCBindingsVisitor extends Visitor {
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (categories.contains(node.originalName)) {
-      node.isExcluded = false;
+      node.isIncluded = true;
     } else {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitStruct(Struct node) {
     if (node.originalName.isEmpty) {
-      node.isExcluded = true;
+      node.isIncluded = false;
       return;
     }
     final renamed = structs[node.originalName];
     if (renamed != null) {
-      node.isExcluded = false;
+      node.isIncluded = true;
       node.name = renamed;
     }
   }
@@ -480,37 +480,37 @@ class ObjCBindingsVisitor extends Visitor {
   @override
   void visitEnum(EnumClass node) {
     if (enums.contains(node.originalName)) {
-      node.isExcluded = false;
+      node.isIncluded = true;
     } else {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitTypealias(Typealias node) {
     if (node.originalName == 'CFStringRef') {
-      node.isExcluded = false;
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitGlobal(Global node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitMacroConstant(MacroConstant node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 
   @override
   void visitUnion(Union node) {
-    node.isExcluded = true;
+    node.isIncluded = false;
   }
 }
 

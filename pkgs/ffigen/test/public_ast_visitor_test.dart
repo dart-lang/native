@@ -37,14 +37,14 @@ class CustomExcluderVisitor extends Visitor {
   @override
   void visitFunc(Func node) {
     if (node.originalName == 'func2') {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitStruct(Struct node) {
     if (node.originalName == 'StructB') {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 }

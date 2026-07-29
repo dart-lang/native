@@ -202,21 +202,21 @@ class _LargeTestVisitor extends Visitor {
   void visitFunc(Func node) {
     if ({'sqlite3_vmprintf', 'sqlite3_vsnprintf', 'sqlite3_str_vappendf'}
         .contains(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitStruct(Struct node) {
     if (vaRegex.hasMatch(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 
   @override
   void visitTypealias(Typealias node) {
     if (vaRegex.hasMatch(node.originalName)) {
-      node.isExcluded = true;
+      node.isIncluded = false;
     }
   }
 }

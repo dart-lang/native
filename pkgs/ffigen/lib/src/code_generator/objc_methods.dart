@@ -183,7 +183,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
   final String? dartDoc;
   final String originalName;
   Symbol symbol;
-  bool? userDefinedIsExcluded;
+  bool? userDefinedIsIncluded;
   final String originalProtocolMethodName;
   Type returnType;
   final List<Parameter> _params;
