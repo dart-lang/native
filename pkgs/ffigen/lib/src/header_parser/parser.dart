@@ -178,13 +178,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
   // Execute Public AST visitors.
-  final publicAst = public_ast.PublicAst.fromBindings(allBindings.toList());
+  final publicAst = public_ast.PublicAst.fromBindings(rawBindings);
   for (final v in config.visitors) {
     publicAst.accept(v);
   }
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
-  visit(context, applyConfigFiltersVisitation, allBindings);
+  visit(context, applyConfigFiltersVisitation, rawBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
   final indirectlyIncluded = applyConfigFiltersVisitation.indirectlyIncluded;
   final included = directlyIncluded.union(indirectlyIncluded);
@@ -214,7 +214,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final semiFinalBindings = visit(
     context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
-    included.union(transitives),
+    included.union(transitives).union(directTransitives),
   ).bindings;
   final finalBindings = visit(
     context,

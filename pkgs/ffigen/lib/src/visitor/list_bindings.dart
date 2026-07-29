@@ -66,9 +66,7 @@ class ListBindingsVisitation extends Visitation {
         node.unavailable ||
         !_visitImpl(
           node,
-          config.objectiveC?.interfaces.includeTransitive ?? false
-              ? _IncludeBehavior.configOrTransitive
-              : _IncludeBehavior.configOnly,
+          _IncludeBehavior.configOnly,
         );
 
     if (omit && !node.isObjCImport && directTransitives.contains(node)) {
@@ -80,7 +78,7 @@ class ListBindingsVisitation extends Visitation {
       visitor.visitAll(node.protocols);
     }
 
-    if (includes.contains(node)) {
+    if (node.includeCategories && includes.contains(node)) {
       // Always visit the categories of explicitly included interfaces, even if
       // they're built-in types: https://github.com/dart-lang/native/issues/1820
       visitor.visitAll(node.categories);
@@ -90,9 +88,7 @@ class ListBindingsVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     final parentIncluded = includes.contains(node.parent);
-    final behavior =
-        (config.objectiveC?.categories.includeTransitive ?? false) &&
-            parentIncluded
+    final behavior = node.parent.includeCategories && parentIncluded
         ? _IncludeBehavior.configOrDirectTransitive
         : _IncludeBehavior.configOnly;
     _visitImpl(node, behavior);
@@ -104,9 +100,7 @@ class ListBindingsVisitation extends Visitation {
         node.unavailable ||
         !_visitImpl(
           node,
-          config.objectiveC?.protocols.includeTransitive ?? false
-              ? _IncludeBehavior.configOrTransitive
-              : _IncludeBehavior.configOnly,
+          _IncludeBehavior.configOnly,
         );
 
     if (omit && !node.isObjCImport && directTransitives.contains(node)) {

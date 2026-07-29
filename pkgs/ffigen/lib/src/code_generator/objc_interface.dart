@@ -17,6 +17,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   final Context context;
   ObjCInterface? superType;
   bool filled = false;
+  bool includeCategories = true;
 
   String? _module;
   String? get module => _module;

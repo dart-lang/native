@@ -17,7 +17,6 @@ export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
 export 'src/config_provider.dart'
     show
         BindingStyle,
-        Categories,
         CommentLength,
         CommentStyle,
         CommentType,
@@ -31,12 +30,10 @@ export 'src/config_provider.dart'
         Functions,
         Headers,
         Integers,
-        Interfaces,
         NativeExternalBindings,
         ObjectiveC,
         Output,
         PackingValue,
-        Protocols,
         Structs,
         SymbolFile,
         Typedefs,

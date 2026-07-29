@@ -530,6 +530,9 @@ class ObjCInterface extends Decl {
   String? get module => _binding.module;
   set module(String? value) => _binding.module = value;
 
+  bool get includeCategories => _binding.includeCategories;
+  set includeCategories(bool value) => _binding.includeCategories = value;
+
   bool get isObjCImport => _binding.isObjCImport;
 
   List<ObjCMethod> get methods => _binding.methods.map(ObjCMethod.new).toList();
@@ -610,6 +613,8 @@ class ObjCCategory extends Decl {
   set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
   bool get isObjCImport => _binding.isObjCImport;
+
+  ObjCInterface get interface => ObjCInterface(_binding.parent);
 
   List<ObjCMethod> get methods => _binding.methods.map(ObjCMethod.new).toList();
 

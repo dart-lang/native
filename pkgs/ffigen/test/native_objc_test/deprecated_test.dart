@@ -45,7 +45,6 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ],
     ),
     objectiveC: ObjectiveC(
-      categories: const Categories(includeTransitive: false),
       externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
     visitors: [

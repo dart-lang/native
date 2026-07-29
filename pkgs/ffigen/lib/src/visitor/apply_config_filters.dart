@@ -61,6 +61,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
       for (ObjCInterface? t = node; t != null; t = t.superType) {
+        if (t.isObjCImport) break;
         if (!indirectlyIncluded.add(t)) break;
       }
     }

@@ -191,6 +191,37 @@ void main() {
       final enumClass = library.getBinding('Simple') as code_gen.EnumClass;
       expect(enumClass.silenceWarning, isTrue);
     });
+
+    test('ObjCInterface.includeCategories option on public AST', () {
+      final headerUri = Uri.file(
+        absPath('test/native_objc_test/transitive_test.h'),
+      );
+      final generator = FfiGenerator(
+        headers: Headers(entryPoints: [headerUri]),
+        output: Output(dartFile: Uri.file('unused.dart')),
+        objectiveC: const ObjectiveC(),
+        visitors: [
+          const IncludeSetVisitor(
+            objcInterfaces: {'DirectlyIncludedIntForCat'},
+          ),
+          Visitor(
+            visitObjCInterface: (node) {
+              if (node.originalName == 'DirectlyIncludedIntForCat') {
+                expect(node.includeCategories, isTrue);
+                node.includeCategories = false;
+                expect(node.includeCategories, isFalse);
+              }
+            },
+          ),
+        ],
+      );
+
+      final library = parser.parse(testContext(generator));
+      final interface =
+          library.getBinding('DirectlyIncludedIntForCat')
+              as code_gen.ObjCInterface;
+      expect(interface.includeCategories, isFalse);
+    });
   });
 }
 

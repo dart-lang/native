@@ -252,16 +252,6 @@ final _class_PropertyInterface = objc.getClass(
     _class_PropertyInterface_raw,
   ).cast(),
 );
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_UndefinedTemplate',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class_UndefinedTemplate_raw;
-final _class_UndefinedTemplate = objc.getClass(
-  "UndefinedTemplate",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_UndefinedTemplate_raw,
-  ).cast(),
-);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

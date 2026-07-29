@@ -118,27 +118,6 @@ final class YamlConfig {
   bool get includeUnusedTypedefs => _includeUnusedTypedefs;
   late bool _includeUnusedTypedefs;
 
-  /// If enabled, Objective C interfaces that are not explicitly included by the
-  /// [YamlDeclarationFilters], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included interfaces will be generated as stubs instead.
-  bool get includeTransitiveObjCInterfaces => _includeTransitiveObjCInterfaces;
-  late bool _includeTransitiveObjCInterfaces;
-
-  /// If enabled, Objective C protocols that are not explicitly included by the
-  /// [YamlDeclarationFilters], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included protocols will not be generated at all.
-  bool get includeTransitiveObjCProtocols => _includeTransitiveObjCProtocols;
-  late bool _includeTransitiveObjCProtocols;
-
-  /// If enabled, Objective C categories that are not explicitly included by
-  /// the [YamlDeclarationFilters], but extend interfaces that are included,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included categories will not be generated at all.
-  bool get includeTransitiveObjCCategories => _includeTransitiveObjCCategories;
-  late bool _includeTransitiveObjCCategories;
-
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
   /// package:objective_c (the default) or code genned like any other class.
@@ -801,27 +780,6 @@ final class YamlConfig {
               _includeUnusedTypedefs = node.value as bool,
         ),
         HeterogeneousMapEntry(
-          key: strings.includeTransitiveObjCInterfaces,
-          valueConfigSpec: BoolConfigSpec(),
-          defaultValue: (node) => false,
-          resultOrDefault: (node) =>
-              _includeTransitiveObjCInterfaces = node.value as bool,
-        ),
-        HeterogeneousMapEntry(
-          key: strings.includeTransitiveObjCProtocols,
-          valueConfigSpec: BoolConfigSpec(),
-          defaultValue: (node) => false,
-          resultOrDefault: (node) =>
-              _includeTransitiveObjCProtocols = node.value as bool,
-        ),
-        HeterogeneousMapEntry(
-          key: strings.includeTransitiveObjCCategories,
-          valueConfigSpec: BoolConfigSpec(),
-          defaultValue: (node) => true,
-          resultOrDefault: (node) =>
-              _includeTransitiveObjCCategories = node.value as bool,
-        ),
-        HeterogeneousMapEntry(
           key: strings.generateForPackageObjectiveC,
           valueConfigSpec: BoolConfigSpec(),
           defaultValue: (node) => false,
@@ -1292,15 +1250,6 @@ final class YamlConfig {
       ),
       objectiveC: language == Language.objc
           ? ObjectiveC(
-              interfaces: Interfaces(
-                includeTransitive: includeTransitiveObjCInterfaces,
-              ),
-              protocols: Protocols(
-                includeTransitive: includeTransitiveObjCProtocols,
-              ),
-              categories: Categories(
-                includeTransitive: includeTransitiveObjCCategories,
-              ),
               externalVersions: externalVersions,
               // ignore: deprecated_member_use_from_same_package
               generateForPackageObjectiveC: generateForPackageObjectiveC,
@@ -1605,23 +1554,42 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   @override
   void visitObjCCategory(public_ast.ObjCCategory node) {
     if (node.originalName.isEmpty) return;
-    _applyInclusion(node, _objcCategories);
+    final isParentInterfaceIncluded =
+        _objcInterfaces.isExplicitlyIncluded(node.interface.originalName) &&
+            node.interface.includeCategories;
+    if (_objcCategories.isExplicitlyIncluded(node.originalName)) {
+      node.isIncluded = true;
+    } else if (_objcCategories.isExplicitlyExcluded(node.originalName)) {
+      node.isIncluded = false;
+    } else if (isParentInterfaceIncluded) {
+      // Category extends an explicitly included interface with includeCategories=true.
+    } else if (_objcCategories.excludeAllByDefault) {
+      node.isIncluded = false;
+    } else {
+      node.isIncluded = true;
+    }
+
     final renamed = _objcCategories.rename(node.originalName);
     if (renamed != node.originalName) {
       node.name = renamed;
     }
     for (final method in node.methods) {
-      if (!_objcCategories.shouldIncludeMember(
-          node.originalName, method.originalName)) {
-        method.isIncluded = false;
-      } else {
-        final methodRenamed = _objcCategories.renameMember(
-          node.originalName,
-          method.originalName,
-        );
-        if (methodRenamed != method.originalName) {
-          _renameObjCMethod(method, methodRenamed);
+      if (_objcCategories.isExplicitlyIncluded(node.originalName) ||
+          isParentInterfaceIncluded) {
+        if (!_objcCategories.shouldIncludeMember(
+            node.originalName, method.originalName)) {
+          method.isIncluded = false;
+        } else {
+          final methodRenamed = _objcCategories.renameMember(
+            node.originalName,
+            method.originalName,
+          );
+          if (methodRenamed != method.originalName) {
+            _renameObjCMethod(method, methodRenamed);
+          }
         }
+      } else if (_objcCategories.excludeAllByDefault) {
+        method.isIncluded = false;
       }
     }
   }

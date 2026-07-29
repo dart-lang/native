@@ -18,6 +18,18 @@ class FindTransitiveDepsVisitation extends Visitation {
   }
 
   @override
+  void visitObjCInterface(ObjCInterface node) {
+    if (node.isObjCImport) return;
+    transitives.add(node);
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    if (node.isObjCImport) return;
+    transitives.add(node);
+  }
+
+  @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
     visitBinding(node);
@@ -52,7 +64,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    _visitImpl(node, config.objectiveC?.interfaces.includeTransitive ?? false);
+    _visitImpl(node, false);
 
     // Always visit the super type, regardless of whether the node is directly
     // included. This ensures that super types of stubs are also stubs, rather
@@ -62,16 +74,17 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
     // Similarly, always visit the protocols.
     visitor.visitAll(node.protocols);
 
-    // Visit the categories of built-in interfaces that have been explicitly
-    // included. https://github.com/dart-lang/native/issues/1820
-    if (node.isObjCImport && directIncludes.contains(node)) {
+    // Visit categories of interfaces if includeCategories is true.
+    if (node.includeCategories &&
+        (includes.contains(node) ||
+            (node.isObjCImport && directIncludes.contains(node)))) {
       visitor.visitAll(node.categories);
     }
   }
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    _visitImpl(node, config.objectiveC?.categories.includeTransitive ?? false);
+    _visitImpl(node, node.parent.includeCategories);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visit(node.parent);
@@ -79,7 +92,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    _visitImpl(node, config.objectiveC?.protocols.includeTransitive ?? false);
+    _visitImpl(node, false);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visitAll(node.superProtocols);
