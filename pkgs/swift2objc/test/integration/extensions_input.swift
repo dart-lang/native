@@ -58,3 +58,18 @@ public extension MyEnum {
         return 0
     }
 }
+
+// Extension on a nested class
+public class OuterClass {
+    public class InnerClass {
+        public func originalNestedFunc() -> Int {
+            return 0
+        }
+    }
+}
+
+public extension OuterClass.InnerClass {
+    func nestedExtensionFunc() -> Int {
+        return 0
+    }
+}

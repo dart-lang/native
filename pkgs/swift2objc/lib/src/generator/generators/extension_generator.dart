@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/compounds/extension_declaration.dart';
 import '../_core/utils.dart';
 import 'class_generator.dart';
@@ -9,7 +10,7 @@ import 'class_generator.dart';
 List<String> generateExtension(ExtensionDeclaration declaration) {
   return [
     ...generateAvailability(declaration),
-    '@objc extension ${declaration.extendedType.declaration.name} {',
+    '@objc extension ${declaration.extendedType.declaration.fullName} {',
     ...[
       for (final method in declaration.methods) ...generateClassMethod(method),
       for (final property in declaration.properties)
