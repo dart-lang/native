@@ -108,6 +108,37 @@ void main() {
       // Verify fields were visited without manually looping inside visitStruct
       expect(autoWalker.visitedFieldNames, contains('a'));
     });
+
+    test('Inline callback-based Visitor constructor', () {
+      final headerUri = Uri.file(
+        absPath('test/header_parser_tests/function_n_struct.h'),
+      );
+      final visitedFields = <String>[];
+      final generator = FfiGenerator(
+        headers: Headers(entryPoints: [headerUri]),
+        output: Output(dartFile: Uri.file('unused.dart')),
+        visitors: [
+          const IncludeAllVisitor(),
+          Visitor(
+            visitFunc: (node) {
+              if (node.originalName == 'func1') {
+                node.name = 'inlineRenamedFunc1';
+              }
+            },
+            visitField: (node) {
+              visitedFields.add(node.originalName);
+            },
+          ),
+        ],
+      );
+
+      final library = parser.parse(testContext(generator));
+
+      final renamedFunc =
+          library.getBinding('inlineRenamedFunc1') as code_gen.Func;
+      expect(renamedFunc.name, 'inlineRenamedFunc1');
+      expect(visitedFields, contains('a'));
+    });
   });
 }
 

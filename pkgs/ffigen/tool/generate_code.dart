@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:ffigen/ffigen.dart';
 
 class LibClangVisitor extends Visitor {
+  const LibClangVisitor();
   static const enums = {
     'CXChildVisitResult',
     'CXCursorKind',

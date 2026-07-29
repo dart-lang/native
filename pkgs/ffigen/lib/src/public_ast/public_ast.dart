@@ -6,45 +6,153 @@ import '../code_generator.dart' as ast;
 import '../config_provider.dart';
 
 /// User-facing Visitor for FFIgen's Public AST.
-abstract class Visitor {
-  const Visitor();
+class Visitor {
+  final void Function(PublicAst ast)? _visitLibrary;
+  final void Function(Struct node)? _visitStruct;
+  final void Function(Union node)? _visitUnion;
+  final void Function(EnumClass node)? _visitEnum;
+  final void Function(UnnamedEnumConstant node)? _visitUnnamedEnumConstant;
+  final void Function(Func node)? _visitFunc;
+  final void Function(Global node)? _visitGlobal;
+  final void Function(MacroConstant node)? _visitMacroConstant;
+  final void Function(Typealias node)? _visitTypealias;
+  final void Function(ObjCInterface node)? _visitObjCInterface;
+  final void Function(ObjCProtocol node)? _visitObjCProtocol;
+  final void Function(ObjCCategory node)? _visitObjCCategory;
+  final void Function(CppClass node)? _visitCppClass;
+  final void Function(Field node)? _visitField;
+  final void Function(EnumConstant node)? _visitEnumConstant;
+  final void Function(Parameter node)? _visitParameter;
+  final void Function(ObjCMethod node)? _visitObjCMethod;
+  final void Function(CppMethod node)? _visitCppMethod;
 
-  void visitLibrary(PublicAst ast) => ast.visitChildren(this);
+  const Visitor({
+    void Function(PublicAst ast)? visitLibrary,
+    void Function(Struct node)? visitStruct,
+    void Function(Union node)? visitUnion,
+    void Function(EnumClass node)? visitEnum,
+    void Function(UnnamedEnumConstant node)? visitUnnamedEnumConstant,
+    void Function(Func node)? visitFunc,
+    void Function(Global node)? visitGlobal,
+    void Function(MacroConstant node)? visitMacroConstant,
+    void Function(Typealias node)? visitTypealias,
+    void Function(ObjCInterface node)? visitObjCInterface,
+    void Function(ObjCProtocol node)? visitObjCProtocol,
+    void Function(ObjCCategory node)? visitObjCCategory,
+    void Function(CppClass node)? visitCppClass,
+    void Function(Field node)? visitField,
+    void Function(EnumConstant node)? visitEnumConstant,
+    void Function(Parameter node)? visitParameter,
+    void Function(ObjCMethod node)? visitObjCMethod,
+    void Function(CppMethod node)? visitCppMethod,
+  })  : _visitLibrary = visitLibrary,
+        _visitStruct = visitStruct,
+        _visitUnion = visitUnion,
+        _visitEnum = visitEnum,
+        _visitUnnamedEnumConstant = visitUnnamedEnumConstant,
+        _visitFunc = visitFunc,
+        _visitGlobal = visitGlobal,
+        _visitMacroConstant = visitMacroConstant,
+        _visitTypealias = visitTypealias,
+        _visitObjCInterface = visitObjCInterface,
+        _visitObjCProtocol = visitObjCProtocol,
+        _visitObjCCategory = visitObjCCategory,
+        _visitCppClass = visitCppClass,
+        _visitField = visitField,
+        _visitEnumConstant = visitEnumConstant,
+        _visitParameter = visitParameter,
+        _visitObjCMethod = visitObjCMethod,
+        _visitCppMethod = visitCppMethod;
 
-  void visitStruct(Struct node) => node.visitChildren(this);
+  void visitLibrary(PublicAst ast) {
+    _visitLibrary?.call(ast);
+    ast.visitChildren(this);
+  }
 
-  void visitUnion(Union node) => node.visitChildren(this);
+  void visitStruct(Struct node) {
+    _visitStruct?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitEnum(EnumClass node) => node.visitChildren(this);
+  void visitUnion(Union node) {
+    _visitUnion?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      node.visitChildren(this);
+  void visitEnum(EnumClass node) {
+    _visitEnum?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitFunc(Func node) => node.visitChildren(this);
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
+    _visitUnnamedEnumConstant?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitGlobal(Global node) => node.visitChildren(this);
+  void visitFunc(Func node) {
+    _visitFunc?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitMacroConstant(MacroConstant node) => node.visitChildren(this);
+  void visitGlobal(Global node) {
+    _visitGlobal?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitTypealias(Typealias node) => node.visitChildren(this);
+  void visitMacroConstant(MacroConstant node) {
+    _visitMacroConstant?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitObjCInterface(ObjCInterface node) => node.visitChildren(this);
+  void visitTypealias(Typealias node) {
+    _visitTypealias?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitObjCProtocol(ObjCProtocol node) => node.visitChildren(this);
+  void visitObjCInterface(ObjCInterface node) {
+    _visitObjCInterface?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitObjCCategory(ObjCCategory node) => node.visitChildren(this);
+  void visitObjCProtocol(ObjCProtocol node) {
+    _visitObjCProtocol?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitCppClass(CppClass node) => node.visitChildren(this);
+  void visitObjCCategory(ObjCCategory node) {
+    _visitObjCCategory?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitField(Field node) => node.visitChildren(this);
+  void visitCppClass(CppClass node) {
+    _visitCppClass?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitEnumConstant(EnumConstant node) => node.visitChildren(this);
+  void visitField(Field node) {
+    _visitField?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitParameter(Parameter node) => node.visitChildren(this);
+  void visitEnumConstant(EnumConstant node) {
+    _visitEnumConstant?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitObjCMethod(ObjCMethod node) => node.visitChildren(this);
+  void visitParameter(Parameter node) {
+    _visitParameter?.call(node);
+    node.visitChildren(this);
+  }
 
-  void visitCppMethod(CppMethod node) => node.visitChildren(this);
+  void visitObjCMethod(ObjCMethod node) {
+    _visitObjCMethod?.call(node);
+    node.visitChildren(this);
+  }
+
+  void visitCppMethod(CppMethod node) {
+    _visitCppMethod?.call(node);
+    node.visitChildren(this);
+  }
 }
 
 typedef FfiVisitor = Visitor;
