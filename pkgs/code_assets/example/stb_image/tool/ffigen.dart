@@ -13,7 +13,7 @@ void main() {
       entryPoints: [packageRoot.resolve('third_party/stb_image.h')],
     ),
     visitors: const [
-      IncludeSetVisitor({'stbi_info'}),
+      IncludeSetVisitor(functions: {'stbi_info'}),
       RecordUseVisitor(),
     ],
     output: Output(

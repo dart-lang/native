@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  const visitors = [IncludeSetVisitor({'gethostname'})];
+  const visitors = [IncludeSetVisitor(functions: {'gethostname'})];
   final FfiGenerator generator;
   if (Platform.isWindows) {
     generator = FfiGenerator(

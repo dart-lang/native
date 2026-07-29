@@ -13,13 +13,16 @@ void main() {
       entryPoints: [packageRoot.resolve('third_party/miniaudio.h')],
     ),
     visitors: const [
-      IncludeSetVisitor({
-        'ma_engine_init',
-        'ma_engine_play_sound',
-        'ma_engine_uninit',
-        'ma_engine',
-        'ma_result',
-      }),
+      IncludeSetVisitor(
+        functions: {
+          'ma_engine_init',
+          'ma_engine_play_sound',
+          'ma_engine_uninit',
+        },
+        structs: {'ma_engine'},
+        enums: {'ma_result'},
+        typedefs: {'ma_result'},
+      ),
       RecordUseVisitor(),
     ],
     enums: const Enums(silenceWarning: true),

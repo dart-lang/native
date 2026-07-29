@@ -23,7 +23,7 @@ final config = FfiGenerator(
   // set the objectiveC field to a non-null value.
   objectiveC: const ObjectiveC(),
   visitors: const [
-    IncludeSetVisitor({'AVAudioPlayer'}),
+    IncludeSetVisitor(objcInterfaces: {'AVAudioPlayer'}),
   ],
 
   output: Output(

@@ -13,7 +13,7 @@ void main() {
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
     visitors: const [
-      IncludeSetVisitor({'sqlite3_libversion'}),
+      IncludeSetVisitor(functions: {'sqlite3_libversion'}),
       RecordUseVisitor(),
     ],
     output: Output(

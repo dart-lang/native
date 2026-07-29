@@ -862,38 +862,65 @@ class ExcludeAllVisitor extends Visitor {
 }
 
 class IncludeSetVisitor extends Visitor {
-  final Set<String> names;
+  final Set<String>? functions;
+  final Set<String>? structs;
+  final Set<String>? unions;
+  final Set<String>? enums;
+  final Set<String>? unnamedEnumConstants;
+  final Set<String>? globals;
+  final Set<String>? macros;
+  final Set<String>? typedefs;
+  final Set<String>? objcInterfaces;
+  final Set<String>? objcProtocols;
+  final Set<String>? objcCategories;
+  final Set<String>? cppClasses;
 
-  const IncludeSetVisitor(this.names);
+  const IncludeSetVisitor({
+    this.functions,
+    this.structs,
+    this.unions,
+    this.enums,
+    this.unnamedEnumConstants,
+    this.globals,
+    this.macros,
+    this.typedefs,
+    this.objcInterfaces,
+    this.objcProtocols,
+    this.objcCategories,
+    this.cppClasses,
+  });
 
-  void _check(Decl node) {
-    node.isExcluded = !names.contains(node.originalName);
+  void _check(Decl node, Set<String>? set) {
+    if (set != null) {
+      node.isExcluded = !set.contains(node.originalName);
+    }
   }
 
   @override
-  void visitStruct(Struct node) => _check(node);
+  void visitStruct(Struct node) => _check(node, structs);
   @override
-  void visitUnion(Union node) => _check(node);
+  void visitUnion(Union node) => _check(node, unions);
   @override
-  void visitEnum(EnumClass node) => _check(node);
+  void visitEnum(EnumClass node) => _check(node, enums);
   @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) => _check(node);
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      _check(node, unnamedEnumConstants);
   @override
-  void visitFunc(Func node) => _check(node);
+  void visitFunc(Func node) => _check(node, functions);
   @override
-  void visitGlobal(Global node) => _check(node);
+  void visitGlobal(Global node) => _check(node, globals);
   @override
-  void visitMacroConstant(MacroConstant node) => _check(node);
+  void visitMacroConstant(MacroConstant node) => _check(node, macros);
   @override
-  void visitTypealias(Typealias node) => _check(node);
+  void visitTypealias(Typealias node) => _check(node, typedefs);
   @override
-  void visitObjCInterface(ObjCInterface node) => _check(node);
+  void visitObjCInterface(ObjCInterface node) => _check(node, objcInterfaces);
   @override
-  void visitObjCProtocol(ObjCProtocol node) => _check(node);
+  void visitObjCProtocol(ObjCProtocol node) => _check(node, objcProtocols);
   @override
-  void visitObjCCategory(ObjCCategory node) => _check(node);
+  void visitObjCCategory(ObjCCategory node) => _check(node, objcCategories);
   @override
-  void visitCppClass(CppClass node) => _check(node);
+  void visitCppClass(CppClass node) => _check(node, cppClasses);
 }
 
 class RecordUseVisitor extends Visitor {

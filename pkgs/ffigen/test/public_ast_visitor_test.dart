@@ -139,6 +139,36 @@ void main() {
       expect(renamedFunc.name, 'inlineRenamedFunc1');
       expect(visitedFields, contains('a'));
     });
+
+    test('IncludeSetVisitor per-type inclusion', () {
+      final headerUri = Uri.file(
+        absPath('test/header_parser_tests/function_n_struct.h'),
+      );
+      final generator = FfiGenerator(
+        headers: Headers(entryPoints: [headerUri]),
+        output: Output(dartFile: Uri.file('unused.dart')),
+        visitors: [
+          const IncludeAllVisitor(),
+          const IncludeSetVisitor(
+            functions: {'func1'},
+            structs: {'Struct1'},
+          ),
+        ],
+      );
+
+      final library = parser.parse(testContext(generator));
+
+      expect(library.getBinding('func1'), isNotNull);
+      expect(
+        () => library.getBinding('func2'),
+        throwsA(isA<NotFoundException>()),
+      );
+      expect(library.getBinding('Struct1'), isNotNull);
+      expect(
+        () => library.getBinding('Struct6'),
+        throwsA(isA<NotFoundException>()),
+      );
+    });
   });
 }
 
