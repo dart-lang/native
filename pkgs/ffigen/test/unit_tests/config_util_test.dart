@@ -1,18 +1,30 @@
-// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/code_generator.dart' as code_gen;
 import 'package:test/test.dart';
 
-Declaration decl(String name) => Declaration(usr: '', originalName: name);
+import '../test_utils.dart';
+
+Struct createStruct(String name) {
+  final generator = FfiGenerator(
+    headers: Headers(entryPoints: []),
+    output: Output(dartFile: Uri.file('unused.dart')),
+  );
+  return Struct(
+    code_gen.Struct(
+      context: testContext(generator),
+      name: name,
+      originalName: name,
+      usr: name,
+    ),
+  );
+}
 
 void main() {
   group('Visitor utils', () {
     test('IncludeSetVisitor', () {
       final visitor = IncludeSetVisitor({'foo', 'bar'});
-      final structFoo = Struct(originalName: 'foo', usr: 'foo');
-      final structBaz = Struct(originalName: 'baz', usr: 'baz');
+      final structFoo = createStruct('foo');
+      final structBaz = createStruct('baz');
       visitor.visitStruct(structFoo);
       visitor.visitStruct(structBaz);
       expect(structFoo.isExcluded, isFalse);
@@ -21,8 +33,8 @@ void main() {
 
     test('RenameMapVisitor', () {
       final visitor = RenameMapVisitor({'foo': 'bar'});
-      final structFoo = Struct(originalName: 'foo', usr: 'foo');
-      final structBaz = Struct(originalName: 'baz', usr: 'baz');
+      final structFoo = createStruct('foo');
+      final structBaz = createStruct('baz');
       visitor.visitStruct(structFoo);
       visitor.visitStruct(structBaz);
       expect(structFoo.name, 'bar');

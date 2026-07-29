@@ -88,5 +88,34 @@ void main() {
         throwsA(isA<NotFoundException>()),
       );
     });
+
+    test('Automatic AST walking via visitChildren', () {
+      final headerUri = Uri.file(
+        absPath('test/header_parser_tests/function_n_struct.h'),
+      );
+      final autoWalker = _AutoWalkVisitor();
+      final generator = FfiGenerator(
+        headers: Headers(entryPoints: [headerUri]),
+        output: Output(dartFile: Uri.file('unused.dart')),
+        visitors: [
+          const IncludeAllVisitor(),
+          autoWalker,
+        ],
+      );
+
+      parser.parse(testContext(generator));
+
+      // Verify fields were visited without manually looping inside visitStruct
+      expect(autoWalker.visitedFieldNames, contains('a'));
+    });
   });
+}
+
+class _AutoWalkVisitor extends Visitor {
+  final visitedFieldNames = <String>[];
+
+  @override
+  void visitField(Field node) {
+    visitedFieldNames.add(node.originalName);
+  }
 }

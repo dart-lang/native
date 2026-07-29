@@ -9,88 +9,42 @@ import '../config_provider.dart';
 abstract class Visitor {
   const Visitor();
 
-  void visitLibrary(PublicAst ast) {
-    for (final decl in ast.declarations) {
-      decl.accept(this);
-    }
-  }
+  void visitLibrary(PublicAst ast) => ast.visitChildren(this);
 
-  void visitStruct(Struct node) {
-    if (node.isExcluded) return;
-    for (final field in node.fields) {
-      field.accept(this);
-    }
-  }
+  void visitStruct(Struct node) => node.visitChildren(this);
 
-  void visitUnion(Union node) {
-    if (node.isExcluded) return;
-    for (final field in node.fields) {
-      field.accept(this);
-    }
-  }
+  void visitUnion(Union node) => node.visitChildren(this);
 
-  void visitEnum(EnumClass node) {
-    if (node.isExcluded) return;
-    for (final constant in node.constants) {
-      constant.accept(this);
-    }
-  }
+  void visitEnum(EnumClass node) => node.visitChildren(this);
 
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {}
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      node.visitChildren(this);
 
-  void visitFunc(Func node) {
-    if (node.isExcluded) return;
-    for (final param in node.parameters) {
-      param.accept(this);
-    }
-  }
+  void visitFunc(Func node) => node.visitChildren(this);
 
-  void visitGlobal(Global node) {}
+  void visitGlobal(Global node) => node.visitChildren(this);
 
-  void visitMacroConstant(MacroConstant node) {}
+  void visitMacroConstant(MacroConstant node) => node.visitChildren(this);
 
-  void visitTypealias(Typealias node) {}
+  void visitTypealias(Typealias node) => node.visitChildren(this);
 
-  void visitObjCInterface(ObjCInterface node) {
-    if (node.isExcluded) return;
-    for (final method in node.methods) {
-      method.accept(this);
-    }
-  }
+  void visitObjCInterface(ObjCInterface node) => node.visitChildren(this);
 
-  void visitObjCProtocol(ObjCProtocol node) {
-    if (node.isExcluded) return;
-    for (final method in node.methods) {
-      method.accept(this);
-    }
-  }
+  void visitObjCProtocol(ObjCProtocol node) => node.visitChildren(this);
 
-  void visitObjCCategory(ObjCCategory node) {
-    if (node.isExcluded) return;
-    for (final method in node.methods) {
-      method.accept(this);
-    }
-  }
+  void visitObjCCategory(ObjCCategory node) => node.visitChildren(this);
 
-  void visitCppClass(CppClass node) {
-    if (node.isExcluded) return;
-    for (final method in node.methods) {
-      method.accept(this);
-    }
-    for (final field in node.fields) {
-      field.accept(this);
-    }
-  }
+  void visitCppClass(CppClass node) => node.visitChildren(this);
 
-  void visitField(Field node) {}
+  void visitField(Field node) => node.visitChildren(this);
 
-  void visitEnumConstant(EnumConstant node) {}
+  void visitEnumConstant(EnumConstant node) => node.visitChildren(this);
 
-  void visitParameter(Parameter node) {}
+  void visitParameter(Parameter node) => node.visitChildren(this);
 
-  void visitObjCMethod(ObjCMethod node) {}
+  void visitObjCMethod(ObjCMethod node) => node.visitChildren(this);
 
-  void visitCppMethod(CppMethod node) {}
+  void visitCppMethod(CppMethod node) => node.visitChildren(this);
 }
 
 typedef FfiVisitor = Visitor;
@@ -131,6 +85,12 @@ class PublicAst {
   void accept(Visitor visitor) {
     visitor.visitLibrary(this);
   }
+
+  void visitChildren(Visitor visitor) {
+    for (final decl in declarations) {
+      decl.accept(visitor);
+    }
+  }
 }
 
 typedef FfiAst = PublicAst;
@@ -138,10 +98,11 @@ typedef FfiAst = PublicAst;
 /// Abstract base for all public AST nodes.
 abstract class AstNode {
   void accept(Visitor visitor);
+  void visitChildren(Visitor visitor) {}
 }
 
 /// Top-level declaration public AST element.
-abstract class Decl implements AstNode {
+abstract class Decl extends AstNode {
   String get originalName;
   String get name;
   set name(String value);
@@ -151,7 +112,7 @@ abstract class Decl implements AstNode {
   set isExcluded(bool value);
 }
 
-class Struct implements Decl {
+class Struct extends Decl {
   final ast.Struct _binding;
 
   Struct(this._binding);
@@ -181,6 +142,13 @@ class Struct implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitStruct(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final field in fields) {
+      field.accept(visitor);
+    }
+  }
 }
 
 class Union implements Decl {
@@ -210,6 +178,13 @@ class Union implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitUnion(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final field in fields) {
+      field.accept(visitor);
+    }
+  }
 }
 
 class EnumClass implements Decl {
@@ -243,9 +218,16 @@ class EnumClass implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitEnum(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final constant in constants) {
+      constant.accept(visitor);
+    }
+  }
 }
 
-class UnnamedEnumConstant implements Decl {
+class UnnamedEnumConstant extends Decl {
   final ast.UnnamedEnumConstant _binding;
 
   UnnamedEnumConstant(this._binding);
@@ -273,7 +255,7 @@ class UnnamedEnumConstant implements Decl {
   void accept(Visitor visitor) => visitor.visitUnnamedEnumConstant(this);
 }
 
-class Func implements Decl {
+class Func extends Decl {
   final ast.Func _binding;
 
   Func(this._binding);
@@ -317,9 +299,16 @@ class Func implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitFunc(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final param in parameters) {
+      param.accept(visitor);
+    }
+  }
 }
 
-class Global implements Decl {
+class Global extends Decl {
   final ast.Global _binding;
 
   Global(this._binding);
@@ -349,7 +338,7 @@ class Global implements Decl {
   void accept(Visitor visitor) => visitor.visitGlobal(this);
 }
 
-class MacroConstant implements Decl {
+class MacroConstant extends Decl {
   final ast.MacroConstant _binding;
 
   MacroConstant(this._binding);
@@ -377,7 +366,7 @@ class MacroConstant implements Decl {
   void accept(Visitor visitor) => visitor.visitMacroConstant(this);
 }
 
-class Typealias implements Decl {
+class Typealias extends Decl {
   final ast.Typealias _binding;
 
   Typealias(this._binding);
@@ -404,7 +393,7 @@ class Typealias implements Decl {
   void accept(Visitor visitor) => visitor.visitTypealias(this);
 }
 
-class ObjCInterface implements Decl {
+class ObjCInterface extends Decl {
   final ast.ObjCInterface _binding;
 
   ObjCInterface(this._binding);
@@ -436,9 +425,16 @@ class ObjCInterface implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitObjCInterface(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final method in methods) {
+      method.accept(visitor);
+    }
+  }
 }
 
-class ObjCProtocol implements Decl {
+class ObjCProtocol extends Decl {
   final ast.ObjCProtocol _binding;
 
   ObjCProtocol(this._binding);
@@ -470,9 +466,16 @@ class ObjCProtocol implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitObjCProtocol(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final method in methods) {
+      method.accept(visitor);
+    }
+  }
 }
 
-class ObjCCategory implements Decl {
+class ObjCCategory extends Decl {
   final ast.ObjCCategory _binding;
 
   ObjCCategory(this._binding);
@@ -501,9 +504,16 @@ class ObjCCategory implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitObjCCategory(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final method in methods) {
+      method.accept(visitor);
+    }
+  }
 }
 
-class CppClass implements Decl {
+class CppClass extends Decl {
   final ast.CppClass _binding;
 
   CppClass(this._binding);
@@ -532,10 +542,20 @@ class CppClass implements Decl {
 
   @override
   void accept(Visitor visitor) => visitor.visitCppClass(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final method in methods) {
+      method.accept(visitor);
+    }
+    for (final field in fields) {
+      field.accept(visitor);
+    }
+  }
 }
 
 /// Member elements
-class Field implements AstNode {
+class Field extends AstNode {
   final ast.CompoundMember _member;
 
   Field(this._member);
@@ -554,7 +574,7 @@ class Field implements AstNode {
   void accept(Visitor visitor) => visitor.visitField(this);
 }
 
-class EnumConstant implements AstNode {
+class EnumConstant extends AstNode {
   final ast.EnumConstant _constant;
 
   EnumConstant(this._constant);
@@ -575,7 +595,7 @@ class EnumConstant implements AstNode {
   void accept(Visitor visitor) => visitor.visitEnumConstant(this);
 }
 
-class Parameter implements AstNode {
+class Parameter extends AstNode {
   final ast.Parameter _param;
 
   Parameter(this._param);
@@ -594,7 +614,7 @@ class Parameter implements AstNode {
   void accept(Visitor visitor) => visitor.visitParameter(this);
 }
 
-class ObjCMethod implements AstNode {
+class ObjCMethod extends AstNode {
   final ast.ObjCMethod _method;
 
   ObjCMethod(this._method);
@@ -622,9 +642,16 @@ class ObjCMethod implements AstNode {
 
   @override
   void accept(Visitor visitor) => visitor.visitObjCMethod(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    for (final param in parameters) {
+      param.accept(visitor);
+    }
+  }
 }
 
-class CppMethod implements AstNode {
+class CppMethod extends AstNode {
   final ast.CppMethod _method;
 
   CppMethod(this._method);
