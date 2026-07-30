@@ -514,9 +514,6 @@ class Typealias extends Decl {
   bool get includeUnused => _binding.includeUnused;
   set includeUnused(bool value) => _binding.includeUnused = value;
 
-  bool get useSupportedTypedefs => _binding.useSupportedTypedefs;
-  set useSupportedTypedefs(bool value) => _binding.useSupportedTypedefs = value;
-
   @override
   void accept(Visitor visitor) => visitor.visitTypealias(this);
 }

@@ -12,11 +12,11 @@ import 'package:package_config/package_config_types.dart';
 import 'package:yaml/yaml.dart';
 
 import '../code_generator.dart';
-import '../public_ast/public_ast.dart' as public_ast;
 import '../strings.dart' as strings;
 import 'config.dart';
 import 'config_spec.dart';
 import 'config_types.dart';
+import 'public_ast.dart' as public_ast;
 import 'spec_utils.dart';
 
 /// Provides configurations to other modules.
@@ -129,10 +129,6 @@ final class YamlConfig {
   /// If generated bindings should be sorted alphabetically.
   bool get sort => _sort;
   late bool _sort;
-
-  /// If typedef of supported types(int8_t) should be directly used.
-  bool get useSupportedTypedefs => _useSupportedTypedefs;
-  late bool _useSupportedTypedefs;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
@@ -788,12 +784,7 @@ final class YamlConfig {
           defaultValue: (node) => false,
           resultOrDefault: (node) => _sort = node.value as bool,
         ),
-        HeterogeneousMapEntry(
-          key: strings.useSupportedTypedefs,
-          valueConfigSpec: BoolConfigSpec(),
-          defaultValue: (node) => true,
-          resultOrDefault: (node) => _useSupportedTypedefs = node.value as bool,
-        ),
+
         HeterogeneousMapEntry(
           key: strings.comments,
           valueConfigSpec: _commentConfigSpec(),
@@ -1206,7 +1197,6 @@ final class YamlConfig {
       structDependencies: _structDependencies,
       unionDependencies: _unionDependencies,
       includeUnusedTypedefs: _includeUnusedTypedefs,
-      useSupportedTypedefs: _useSupportedTypedefs,
       varArgFunctions: _varArgFunctions,
     );
 
@@ -1273,7 +1263,6 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   final CompoundDependencies _structDependencies;
   final CompoundDependencies _unionDependencies;
   final bool _includeUnusedTypedefs;
-  final bool _useSupportedTypedefs;
   final Map<String, List<VarArgFunction>> _varArgFunctions;
 
   YamlConfigAstVisitor({
@@ -1300,7 +1289,6 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     required CompoundDependencies structDependencies,
     required CompoundDependencies unionDependencies,
     required bool includeUnusedTypedefs,
-    required bool useSupportedTypedefs,
     required Map<String, List<VarArgFunction>> varArgFunctions,
   }) : _usrTypeMappings = usrTypeMappings,
        _typedefTypeMappings = typedefTypeMappings,
@@ -1325,7 +1313,6 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
        _structDependencies = structDependencies,
        _unionDependencies = unionDependencies,
        _includeUnusedTypedefs = includeUnusedTypedefs,
-       _useSupportedTypedefs = useSupportedTypedefs,
        _varArgFunctions = varArgFunctions;
 
   final bool _silenceEnumWarning;
@@ -1495,7 +1482,6 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   @override
   void visitTypealias(public_ast.Typealias node) {
     node.includeUnused = _includeUnusedTypedefs;
-    node.useSupportedTypedefs = _useSupportedTypedefs;
     if (_typedefTypeMappings.containsKey(node.originalName)) {
       node.isIncluded = false;
     } else {

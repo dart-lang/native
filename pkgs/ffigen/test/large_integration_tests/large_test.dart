@@ -4,9 +4,9 @@
 
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart';
-import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';

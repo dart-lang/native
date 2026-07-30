@@ -43,4 +43,4 @@ export 'src/config_provider.dart'
         macSdkUri,
         xcodePath,
         xcodeUri;
-export 'src/public_ast/public_ast.dart';
+export 'src/config_provider/public_ast.dart';

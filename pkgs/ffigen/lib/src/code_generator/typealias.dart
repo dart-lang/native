@@ -27,7 +27,6 @@ class Typealias extends BindingType {
   bool isAnonymous;
 
   bool includeUnused;
-  bool useSupportedTypedefs;
 
   /// Creates a Typealias.
   ///
@@ -42,7 +41,6 @@ class Typealias extends BindingType {
     bool genFfiDartType = false,
     bool isInternal = false,
     bool includeUnused = false,
-    bool useSupportedTypedefs = true,
   }) {
     final funcType = _getFunctionTypeFromPointer(type);
     if (funcType != null) {
@@ -54,7 +52,6 @@ class Typealias extends BindingType {
             genFfiDartType: genFfiDartType,
             isInternal: isInternal,
             includeUnused: includeUnused,
-            useSupportedTypedefs: useSupportedTypedefs,
           ),
         ),
       );
@@ -70,7 +67,6 @@ class Typealias extends BindingType {
         genFfiDartType: genFfiDartType,
         isInternal: isInternal,
         includeUnused: includeUnused,
-        useSupportedTypedefs: useSupportedTypedefs,
       );
     }
     return Typealias._(
@@ -82,7 +78,6 @@ class Typealias extends BindingType {
       genFfiDartType: genFfiDartType,
       isInternal: isInternal,
       includeUnused: includeUnused,
-      useSupportedTypedefs: useSupportedTypedefs,
     );
   }
 
@@ -91,14 +86,12 @@ class Typealias extends BindingType {
     required String name,
     required Type type,
     bool includeUnused = false,
-    bool useSupportedTypedefs = true,
   }) : this._(
          usr: usr,
          name: name,
          type: type,
          isAnonymous: true,
          includeUnused: includeUnused,
-         useSupportedTypedefs: useSupportedTypedefs,
        );
 
   Typealias._({
@@ -111,7 +104,6 @@ class Typealias extends BindingType {
     super.isInternal,
     this.isAnonymous = false,
     this.includeUnused = false,
-    this.useSupportedTypedefs = true,
   }) : _ffiDartAliasName = genFfiDartType
            ? Symbol('Dart$name', SymbolKind.klass)
            : null,
@@ -267,7 +259,6 @@ class ObjCInstanceType extends Typealias {
     super.genFfiDartType,
     super.isInternal,
     super.includeUnused,
-    super.useSupportedTypedefs,
   }) : super._();
 
   @override

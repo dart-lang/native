@@ -433,9 +433,6 @@
     "sort": {
       "type": "boolean"
     },
-    "use-supported-typedefs": {
-      "type": "boolean"
-    },
     "comments": {
       "$oneOf": [
         {

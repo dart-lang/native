@@ -10,10 +10,10 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
-import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:ffigen/src/visitor/ast.dart';
 import 'package:ffigen/src/visitor/visitor.dart';
 import 'package:logging/logging.dart';
@@ -22,9 +22,9 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
-export 'package:ffigen/src/config_provider/utils.dart';
-export 'package:ffigen/src/public_ast/public_ast.dart'
+export 'package:ffigen/src/config_provider/public_ast.dart'
     show ExcludeAllVisitor, IncludeAllVisitor, IncludeSetVisitor, Visitor;
+export 'package:ffigen/src/config_provider/utils.dart';
 
 Context testContext([FfiGenerator? generator]) {
   final tmpDir = (Directory(

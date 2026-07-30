@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
-import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
