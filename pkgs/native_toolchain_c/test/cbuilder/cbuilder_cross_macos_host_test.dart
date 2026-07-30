@@ -191,6 +191,54 @@ void main() async {
     );
   }
 
+  test('CBuilder links macOS frameworks for C sources', () async {
+    const name = 'core_foundation';
+    final tempUri = await tempDirForTest();
+    final outputUri = await tempDirForTest();
+    final sourceUri = packageUri.resolve(
+      'test/cbuilder/testfiles/core_foundation/src/core_foundation.c',
+    );
+
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: outputUri,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: .macOS,
+          targetArchitecture: Architecture.current,
+          linkModePreference: .dynamic,
+          macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+          cCompiler: cCompiler,
+        ),
+      );
+    final buildInput = buildInputBuilder.build();
+    final buildOutput = BuildOutputBuilder();
+
+    final cbuilder = CBuilder.library(
+      name: name,
+      assetName: name,
+      sources: [sourceUri.toFilePath()],
+      language: .c,
+      frameworks: const ['CoreFoundation'],
+      buildMode: .release,
+    );
+    await cbuilder.run(
+      input: buildInput,
+      output: buildOutput,
+      logger: logger,
+    );
+
+    final libraryUri = buildInput.outputDirectory.resolve(
+      OS.macOS.libraryFileName(name, DynamicLoadingBundled()),
+    );
+    expect(await File.fromUri(libraryUri).exists(), isTrue);
+  });
+
   for (final macosVersion in [
     MacOSVersion.flutterLowestBestEffort,
     MacOSVersion.flutterLowestSupported,
