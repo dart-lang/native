@@ -401,7 +401,7 @@ void main() async {
   );
 
   test(
-    'cached output that is not a JSON object fails gracefully',
+    'cached output that is not a JSON object reports a format error',
     timeout: longTimeout,
     () async {
       await inTempDir((tempUri) async {

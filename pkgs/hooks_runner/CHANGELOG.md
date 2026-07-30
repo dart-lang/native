@@ -4,7 +4,7 @@
   invoked, so they can emit validation diagnostics.
 - Require `dartExecutable` to be an absolute path, and on Windows to include a
   file extension
-- Report a format error instead of throwing a `TypeError` when a hook's
+- Report a format error instead of throwing a `TypeError` when a hook's cached
   `output.json` contains valid JSON that is not an object.
 
 ## 1.6.1
