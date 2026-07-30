@@ -195,6 +195,12 @@ class RuntimeBindingsVisitor extends Visitor {
 }
 
 class CBindingsVisitor extends Visitor {
+  static const structs = {
+    '_ObjCBlockDesc',
+    '_ObjCBlockImpl',
+    '_ObjCObjectImpl',
+  };
+
   static const nonLeaf = {
     'DOBJC_deleteFinalizableHandle',
     'DOBJC_disposeObjCBlockWithClosure',
@@ -237,9 +243,11 @@ class CBindingsVisitor extends Visitor {
     } else if (node.originalName == '_Dart_FinalizableHandle') {
       node.isIncluded = true;
       node.name = 'Dart_FinalizableHandle_';
-    } else if (node.originalName.startsWith('_ObjC')) {
+    } else if (structs.contains(node.originalName)) {
       node.isIncluded = true;
       node.name = 'ObjC${node.originalName.substring(5)}';
+    } else {
+      node.isIncluded = false;
     }
   }
 
@@ -435,6 +443,8 @@ class ObjCBindingsVisitor extends Visitor {
     if (renamed != null) {
       node.isIncluded = true;
       node.name = renamed;
+    } else {
+      node.isIncluded = false;
     }
     if (node.originalName == 'NSBundle') {
       for (final method in node.methods) {
@@ -452,6 +462,8 @@ class ObjCBindingsVisitor extends Visitor {
     if (renamed != null) {
       node.isIncluded = true;
       node.name = renamed;
+    } else {
+      node.isIncluded = false;
     }
   }
 
@@ -466,6 +478,7 @@ class ObjCBindingsVisitor extends Visitor {
 
   @override
   void visitStruct(Struct node) {
+    node.dependencies = CompoundDependencies.opaque;
     if (node.originalName.isEmpty) {
       node.isIncluded = false;
       return;
@@ -474,6 +487,8 @@ class ObjCBindingsVisitor extends Visitor {
     if (renamed != null) {
       node.isIncluded = true;
       node.name = renamed;
+    } else {
+      node.isIncluded = false;
     }
   }
 
@@ -534,6 +549,9 @@ List<String> writeBuiltInTypes(String out, String bindingsFile) {
   final genCategories = findBindings(
     RegExp(r'^extension (\w+) on \w+ {'),
   ).toList()..sort();
+  final genAllExtensions = findBindings(
+    RegExp(r'^extension (?!type\b)([\w\$]+)'),
+  ).toSet();
 
   final interfacesMap = {
     for (final name in genInterfaces)
@@ -579,8 +597,13 @@ List<String> writeBuiltInTypes(String out, String bindingsFile) {
     final anyRenames = map.entries.any((kv) => kv.key != kv.value);
     final elements =
         anyRenames
-            ? map.entries.map((kv) => "  '${kv.key}': '${kv.value}',")
-            : map.keys.map((key) => "  '$key',");
+            ? map.entries.map(
+              (kv) =>
+                  "  '${kv.key.replaceAll(r'$', r'\$')}': '${kv.value.replaceAll(r'$', r'\$')}',",
+            )
+            : map.keys.map(
+              (key) => "  '${key.replaceAll(r'$', r'\$')}',",
+            );
 
     s.write('''
 
@@ -592,13 +615,15 @@ ${elements.join('\n')}
 
   writeDecls('objCBuiltInInterfaces', interfacesMap);
   exports.addAll([
-    for (final name in interfacesMap.values) '$name\$Methods',
+    for (final name in interfacesMap.values)
+      if (genAllExtensions.contains('$name\$Methods')) '$name\$Methods',
   ]);
   writeDecls('objCBuiltInCompounds', structsMap);
   writeDecls('objCBuiltInEnums', {}, genEnums);
   writeDecls('objCBuiltInProtocols', protocolsMap);
   exports.addAll([
-    for (final name in protocolsMap.values) '$name\$Methods',
+    for (final name in protocolsMap.values)
+      if (genAllExtensions.contains('$name\$Methods')) '$name\$Methods',
   ]);
   exports.addAll([
     for (final name in protocolsMap.values) '$name\$Builder',
@@ -693,10 +718,8 @@ Future<void> run({required bool format}) async {
         root.resolve('src/protocol.h'),
       ],
     ),
-    structs: const Structs(dependencies: CompoundDependencies.opaque),
     objectiveC: const ObjectiveC(
       generateForPackageObjectiveC: true,
-      categories: Categories(includeTransitive: false),
     ),
     visitors: [const ObjCBindingsVisitor()],
     output: Output(

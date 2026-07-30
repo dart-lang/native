@@ -40,6 +40,7 @@ dependencies:
 
 dev_dependencies:
   async: ^2.11.0
+  analyzer: ^8.1.1
   dart_flutter_team_lints: ^3.5.2
   json_schema: ^5.1.1
   leak_tracker: ^11.0.2
