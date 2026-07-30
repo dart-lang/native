@@ -1078,7 +1078,11 @@ ${e.message}''');
     logger.info('output.json contents:\n$fileContents');
     final Map<String, Object?> hookOutputJson;
     try {
-      hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
+      final decoded = jsonDecode(fileContents);
+      if (decoded is! Map<String, Object?>) {
+        throw const FormatException('Expected a JSON object.');
+      }
+      hookOutputJson = decoded;
     } on FormatException catch (e) {
       logger.severe('''
 Building assets for package:$packageName failed.
