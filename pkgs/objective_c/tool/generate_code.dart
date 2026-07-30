@@ -92,8 +92,38 @@ void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
   File(filename).writeAsStringSync(out.toString());
 }
 
-class RuntimeBindingsVisitor extends Visitor {
-  static const functions = {
+String renameRuntimeFunction(String name) {
+  const custom = {
+    'objc_retain': 'objectRetain',
+    'objc_retainBlock': 'blockRetain',
+    'objc_release': 'objectRelease',
+    'objc_autorelease': 'objectAutorelease',
+    'objc_msgSend_fpret': 'msgSendFpret',
+    'objc_msgSend_stret': 'msgSendStret',
+    'object_getClass': 'getObjectClass',
+    'protocol_getName': 'getProtocolName',
+  };
+  if (custom.containsKey(name)) return custom[name]!;
+  for (final prefix in ['sel_', 'objc_', 'protocol_', 'object_']) {
+    if (name.startsWith(prefix)) {
+      return name.substring(prefix.length);
+    }
+  }
+  return name;
+}
+
+String renameInterface(String name) =>
+    name.startsWith('DOBJCDart') ? name.substring(5) : name;
+
+String renameProtocol(String name) =>
+    name == 'NSObject' ? 'NSObjectProtocol' : name;
+
+String renameStruct(String name) => name.startsWith('__')
+    ? name.substring(2)
+    : (name.startsWith('_') ? name.substring(1) : name);
+
+void generateRuntimeBindings(Uri root) {
+  const functions = {
     'object_getClass',
     'sel_registerName',
     'sel_getName',
@@ -101,27 +131,7 @@ class RuntimeBindingsVisitor extends Visitor {
     'protocol_getName',
   };
 
-  static const functionRenames = {
-    'sel_registerName': 'registerName',
-    'sel_getName': 'getName',
-    'objc_getClass': 'getClass',
-    'objc_retain': 'objectRetain',
-    'objc_retainBlock': 'blockRetain',
-    'objc_release': 'objectRelease',
-    'objc_autorelease': 'objectAutorelease',
-    'objc_msgSend': 'msgSend',
-    'objc_msgSend_fpret': 'msgSendFpret',
-    'objc_msgSend_stret': 'msgSendStret',
-    'object_getClass': 'getObjectClass',
-    'objc_copyClassList': 'copyClassList',
-    'objc_getProtocol': 'getProtocol',
-    'objc_autoreleasePoolPush': 'autoreleasePoolPush',
-    'objc_autoreleasePoolPop': 'autoreleasePoolPop',
-    'protocol_getMethodDescription': 'getMethodDescription',
-    'protocol_getName': 'getProtocolName',
-  };
-
-  static const globals = {
+  const globals = {
     'NSKeyValueChangeIndexesKey',
     'NSKeyValueChangeKindKey',
     'NSKeyValueChangeNewKey',
@@ -130,78 +140,73 @@ class RuntimeBindingsVisitor extends Visitor {
     'NSLocalizedDescriptionKey',
   };
 
-  const RuntimeBindingsVisitor();
+  FfiGenerator(
+    input: Input(entryPoints: [root.resolve('src/objective_c_runtime.h')]),
+    visitors: [
+      Visitor.callback(
+        visitFunc: (node) {
+          final isObjc = node.originalName.startsWith('objc_');
+          if (!isObjc && !functions.contains(node.originalName)) {
+            node.isIncluded = false;
+            return;
+          }
+          node.isIncluded = true;
+          if (!node.originalName.startsWith('objc_msgSend')) {
+            node.isLeaf = true;
+          }
+          node.name = renameRuntimeFunction(node.originalName);
+        },
+        visitGlobal: (node) {
+          if (node.originalName.startsWith('_') &&
+              node.originalName.endsWith('Block')) {
+            node.isIncluded = true;
+            node.name = node.originalName.substring(1);
+          } else if (globals.contains(node.originalName)) {
+            node.isIncluded = true;
+            if (node.originalName.startsWith('_')) {
+              node.name = node.originalName.substring(1);
+            }
+          } else {
+            node.isIncluded = false;
+          }
+        },
+        visitStruct: (node) {
+          if (node.originalName.startsWith('_ObjC')) {
+            node.isIncluded = true;
+            node.name = 'ObjC${node.originalName.substring(5)}';
+          }
+        },
+        visitEnum: (node) => node.isIncluded = false,
+        visitMacroConstant: (node) => node.isIncluded = false,
+        visitUnnamedEnumConstant: (node) => node.isIncluded = false,
+        visitUnion: (node) => node.isIncluded = false,
+      ),
+    ],
+    output: Output(
+      preamble: '''
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-  @override
-  void visitFunc(Func node) {
-    final isObjc = node.originalName.startsWith('objc_');
-    if (!isObjc && !functions.contains(node.originalName)) {
-      node.isIncluded = false;
-      return;
-    }
-    node.isIncluded = true;
-    if (!node.originalName.startsWith('objc_msgSend')) {
-      node.isLeaf = true;
-    }
-    final renamed = functionRenames[node.originalName];
-    if (renamed != null) {
-      node.name = renamed;
-    }
-  }
+// Bindings for `src/objective_c_runtime.h`.
+// Regenerate bindings with `dart run tool/generate_code.dart`.
 
-  @override
-  void visitGlobal(Global node) {
-    if (node.originalName.startsWith('_') &&
-        node.originalName.endsWith('Block')) {
-      node.isIncluded = true;
-      node.name = node.originalName.substring(1);
-    } else if (globals.contains(node.originalName)) {
-      node.isIncluded = true;
-      if (node.originalName.startsWith('_')) {
-        node.name = node.originalName.substring(1);
-      }
-    } else {
-      node.isIncluded = false;
-    }
-  }
-
-  @override
-  void visitStruct(Struct node) {
-    if (node.originalName.startsWith('_ObjC')) {
-      node.isIncluded = true;
-      node.name = 'ObjC${node.originalName.substring(5)}';
-    }
-  }
-
-  @override
-  void visitEnum(EnumClass node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitMacroConstant(MacroConstant node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitUnion(Union node) {
-    node.isIncluded = false;
-  }
+// ignore_for_file: always_specify_types
+// ignore_for_file: camel_case_types
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unused_element
+// coverage:ignore-file
+''',
+      style: const NativeExternalBindings(),
+      dartFile: root.resolve(runtimeBindings),
+    ),
+  ).generate();
 }
 
-class CBindingsVisitor extends Visitor {
-  static const structs = {
-    '_ObjCBlockDesc',
-    '_ObjCBlockImpl',
-    '_ObjCObjectImpl',
-  };
+void generateCBindings(Uri root) {
+  const structs = {'_ObjCBlockDesc', '_ObjCBlockImpl', '_ObjCObjectImpl'};
 
-  static const nonLeaf = {
+  const nonLeaf = {
     'DOBJC_deleteFinalizableHandle',
     'DOBJC_disposeObjCBlockWithClosure',
     'DOBJC_newFinalizableBool',
@@ -209,148 +214,151 @@ class CBindingsVisitor extends Visitor {
     'DOBJC_awaitWaiter',
   };
 
-  const CBindingsVisitor();
+  FfiGenerator(
+    input: Input(
+      entryPoints: [
+        root.resolve('src/include/dart_api_dl.h'),
+        root.resolve('src/objective_c.h'),
+        root.resolve('src/os_version.h'),
+      ],
+    ),
+    visitors: [
+      Visitor.callback(
+        visitFunc: (node) {
+          final isDobjc = node.originalName.startsWith('DOBJC_');
+          final isNewFinalizable = node.originalName == 'newFinalizableHandle';
+          if (!isDobjc && !isNewFinalizable) {
+            node.isIncluded = false;
+            return;
+          }
+          node.isIncluded = true;
+          if (!nonLeaf.contains(node.originalName)) {
+            node.isLeaf = true;
+          }
+          if (isDobjc) {
+            node.name = node.originalName.substring(6);
+          }
+        },
+        visitTypealias: (node) {
+          if (node.originalName == 'Dart_FinalizableHandle') {
+            node.isIncluded = true;
+          }
+        },
+        visitStruct: (node) {
+          if (node.originalName == '_DOBJC_Context') {
+            node.isIncluded = true;
+            node.name = 'DOBJC_Context';
+          } else if (node.originalName == '_Dart_FinalizableHandle') {
+            node.isIncluded = true;
+            node.name = 'Dart_FinalizableHandle_';
+          } else if (structs.contains(node.originalName)) {
+            node.isIncluded = true;
+            node.name = 'ObjC${node.originalName.substring(5)}';
+          } else {
+            node.isIncluded = false;
+          }
+        },
+        visitMacroConstant: (node) {
+          if (node.originalName == 'ILLEGAL_PORT') {
+            node.isIncluded = true;
+          } else {
+            node.isIncluded = false;
+          }
+        },
+        visitEnum: (node) => node.isIncluded = false,
+        visitGlobal: (node) => node.isIncluded = false,
+        visitUnnamedEnumConstant: (node) => node.isIncluded = false,
+        visitUnion: (node) => node.isIncluded = false,
+      ),
+    ],
+    output: Output(
+      preamble: '''
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-  @override
-  void visitFunc(Func node) {
-    final isDobjc = node.originalName.startsWith('DOBJC_');
-    final isNewFinalizable = node.originalName == 'newFinalizableHandle';
-    if (!isDobjc && !isNewFinalizable) {
-      node.isIncluded = false;
-      return;
-    }
-    node.isIncluded = true;
-    if (!nonLeaf.contains(node.originalName)) {
-      node.isLeaf = true;
-    }
-    if (isDobjc) {
-      node.name = node.originalName.substring(6);
-    }
-  }
+// Bindings for `src/objective_c.h` etc.
+// Regenerate bindings with `dart run tool/generate_code.dart`.
 
-  @override
-  void visitTypealias(Typealias node) {
-    if (node.originalName == 'Dart_FinalizableHandle') {
-      node.isIncluded = true;
-    }
-  }
-
-  @override
-  void visitStruct(Struct node) {
-    if (node.originalName == '_DOBJC_Context') {
-      node.isIncluded = true;
-      node.name = 'DOBJC_Context';
-    } else if (node.originalName == '_Dart_FinalizableHandle') {
-      node.isIncluded = true;
-      node.name = 'Dart_FinalizableHandle_';
-    } else if (structs.contains(node.originalName)) {
-      node.isIncluded = true;
-      node.name = 'ObjC${node.originalName.substring(5)}';
-    } else {
-      node.isIncluded = false;
-    }
-  }
-
-  @override
-  void visitMacroConstant(MacroConstant node) {
-    if (node.originalName == 'ILLEGAL_PORT') {
-      node.isIncluded = true;
-    } else {
-      node.isIncluded = false;
-    }
-  }
-
-  @override
-  void visitEnum(EnumClass node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitGlobal(Global node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitUnion(Union node) {
-    node.isIncluded = false;
-  }
+// coverage:ignore-file
+''',
+      style: const NativeExternalBindings(
+        assetId: 'package:objective_c/objective_c.dylib',
+      ),
+      dartFile: root.resolve(cBindings),
+    ),
+  ).generate();
 }
 
-class ObjCBindingsVisitor extends Visitor {
-  static const interfaces = {
-    'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
-    'DOBJCDartInputStreamAdapterWeakHolder': 'DartInputStreamAdapterWeakHolder',
-    'DOBJCObservation': 'DOBJCObservation',
-    'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
-    'DOBJCDartProtocol': 'DartProtocol',
-    'NSArray': 'NSArray',
-    'NSAttributedString': 'NSAttributedString',
-    'NSAttributedStringMarkdownParsingOptions':
-        'NSAttributedStringMarkdownParsingOptions',
-    'NSBundle': 'NSBundle',
-    'NSCharacterSet': 'NSCharacterSet',
-    'NSCoder': 'NSCoder',
-    'NSData': 'NSData',
-    'NSDate': 'NSDate',
-    'NSDictionary': 'NSDictionary',
-    'NSEnumerator': 'NSEnumerator',
-    'NSError': 'NSError',
-    'NSIndexSet': 'NSIndexSet',
-    'NSInputStream': 'NSInputStream',
-    'NSInvocation': 'NSInvocation',
-    'NSItemProvider': 'NSItemProvider',
-    'NSLocale': 'NSLocale',
-    'NSMethodSignature': 'NSMethodSignature',
-    'NSMutableArray': 'NSMutableArray',
-    'NSMutableData': 'NSMutableData',
-    'NSMutableDictionary': 'NSMutableDictionary',
-    'NSMutableIndexSet': 'NSMutableIndexSet',
-    'NSMutableOrderedSet': 'NSMutableOrderedSet',
-    'NSMutableSet': 'NSMutableSet',
-    'NSMutableString': 'NSMutableString',
-    'NSNotification': 'NSNotification',
-    'NSNull': 'NSNull',
-    'NSNumber': 'NSNumber',
-    'NSObject': 'NSObject',
-    'NSOutputStream': 'NSOutputStream',
-    'NSOrderedCollectionChange': 'NSOrderedCollectionChange',
-    'NSOrderedCollectionDifference': 'NSOrderedCollectionDifference',
-    'NSOrderedSet': 'NSOrderedSet',
-    'NSPort': 'NSPort',
-    'NSPortMessage': 'NSPortMessage',
-    'NSProgress': 'NSProgress',
-    'NSRunLoop': 'NSRunLoop',
-    'NSSet': 'NSSet',
-    'NSStream': 'NSStream',
-    'NSString': 'NSString',
-    'NSTimer': 'NSTimer',
-    'NSURL': 'NSURL',
-    'NSURLHandle': 'NSURLHandle',
-    'NSValue': 'NSValue',
-    'Protocol': 'Protocol',
+void generateObjCBindings(Uri root) {
+  const interfaces = {
+    'DOBJCDartInputStreamAdapter',
+    'DOBJCDartInputStreamAdapterWeakHolder',
+    'DOBJCObservation',
+    'DOBJCDartProtocolBuilder',
+    'DOBJCDartProtocol',
+    'NSArray',
+    'NSAttributedString',
+    'NSAttributedStringMarkdownParsingOptions',
+    'NSBundle',
+    'NSCharacterSet',
+    'NSCoder',
+    'NSData',
+    'NSDate',
+    'NSDictionary',
+    'NSEnumerator',
+    'NSError',
+    'NSIndexSet',
+    'NSInputStream',
+    'NSInvocation',
+    'NSItemProvider',
+    'NSLocale',
+    'NSMethodSignature',
+    'NSMutableArray',
+    'NSMutableData',
+    'NSMutableDictionary',
+    'NSMutableIndexSet',
+    'NSMutableOrderedSet',
+    'NSMutableSet',
+    'NSMutableString',
+    'NSNotification',
+    'NSNull',
+    'NSNumber',
+    'NSObject',
+    'NSOutputStream',
+    'NSOrderedCollectionChange',
+    'NSOrderedCollectionDifference',
+    'NSOrderedSet',
+    'NSPort',
+    'NSPortMessage',
+    'NSProgress',
+    'NSRunLoop',
+    'NSSet',
+    'NSStream',
+    'NSString',
+    'NSTimer',
+    'NSURL',
+    'NSURLHandle',
+    'NSValue',
+    'Protocol',
   };
 
-  static const protocols = {
-    'NSCoding': 'NSCoding',
-    'NSCopying': 'NSCopying',
-    'NSFastEnumeration': 'NSFastEnumeration',
-    'NSItemProviderReading': 'NSItemProviderReading',
-    'NSItemProviderWriting': 'NSItemProviderWriting',
-    'NSMutableCopying': 'NSMutableCopying',
-    'NSObject': 'NSObjectProtocol',
-    'NSPortDelegate': 'NSPortDelegate',
-    'NSSecureCoding': 'NSSecureCoding',
-    'NSStreamDelegate': 'NSStreamDelegate',
-    'NSURLHandleClient': 'NSURLHandleClient',
-    'Observer': 'Observer',
+  const protocols = {
+    'NSCoding',
+    'NSCopying',
+    'NSFastEnumeration',
+    'NSItemProviderReading',
+    'NSItemProviderWriting',
+    'NSMutableCopying',
+    'NSObject',
+    'NSPortDelegate',
+    'NSSecureCoding',
+    'NSStreamDelegate',
+    'NSURLHandleClient',
+    'Observer',
   };
 
-  static const categories = {
+  const categories = {
     'NSDataCreation',
     'NSExtendedArray',
     'NSExtendedData',
@@ -370,28 +378,28 @@ class ObjCBindingsVisitor extends Visitor {
     'NSStringExtensionMethods',
   };
 
-  static const structs = {
-    'AEDesc': 'AEDesc',
-    '__CFRunLoop': 'CFRunLoop',
-    '__CFString': 'CFString',
-    'CGPoint': 'CGPoint',
-    '_CGPoint': 'CGPoint',
-    'CGRect': 'CGRect',
-    '_CGRect': 'CGRect',
-    'CGSize': 'CGSize',
-    '_CGSize': 'CGSize',
-    'NSEdgeInsets': 'NSEdgeInsets',
-    '_NSEdgeInsets': 'NSEdgeInsets',
-    'NSFastEnumerationState': 'NSFastEnumerationState',
-    '_NSFastEnumerationState': 'NSFastEnumerationState',
-    '_NSRange': 'NSRange',
-    'NSRange': 'NSRange',
-    '_NSZone': 'NSZone',
-    'NSZone': 'NSZone',
-    'OpaqueAEDataStorageType': 'OpaqueAEDataStorageType',
+  const structs = {
+    'AEDesc',
+    '__CFRunLoop',
+    '__CFString',
+    'CGPoint',
+    '_CGPoint',
+    'CGRect',
+    '_CGRect',
+    'CGSize',
+    '_CGSize',
+    'NSEdgeInsets',
+    '_NSEdgeInsets',
+    'NSFastEnumerationState',
+    '_NSFastEnumerationState',
+    '_NSRange',
+    'NSRange',
+    '_NSZone',
+    'NSZone',
+    'OpaqueAEDataStorageType',
   };
 
-  static const enums = {
+  const enums = {
     'NSAppleEventSendOptions',
     'NSAttributedStringEnumerationOptions',
     'NSAttributedStringFormattingOptions',
@@ -429,106 +437,113 @@ class ObjCBindingsVisitor extends Visitor {
     'NSURLHandleStatus',
   };
 
-  const ObjCBindingsVisitor();
+  FfiGenerator(
+    input: Input(
+      entryPoints: [
+        root.resolve('src/foundation.h'),
+        root.resolve('src/input_stream_adapter.h'),
+        root.resolve('src/ns_number.h'),
+        root.resolve('src/observer.h'),
+        root.resolve('src/protocol.h'),
+      ],
+    ),
+    objectiveC: const ObjectiveC(generateForPackageObjectiveC: true),
+    visitors: [
+      Visitor.callback(
+        visitFunc: (node) => node.isIncluded = false,
+        visitObjCInterface: (node) {
+          if (interfaces.contains(node.originalName)) {
+            node.isIncluded = true;
+            node.name = renameInterface(node.originalName);
+          } else {
+            node.isIncluded = false;
+          }
+          if (node.originalName == 'NSBundle') {
+            for (final method in node.methods) {
+              if (method.originalName ==
+                  'localizedStringForKey:value:table:localizations:') {
+                method.isIncluded = false;
+              }
+            }
+          }
+        },
+        visitObjCProtocol: (node) {
+          if (protocols.contains(node.originalName)) {
+            node.isIncluded = true;
+            node.name = renameProtocol(node.originalName);
+          } else {
+            node.isIncluded = false;
+          }
+        },
+        visitObjCCategory: (node) {
+          node.isIncluded = categories.contains(node.originalName);
+        },
+        visitStruct: (node) {
+          node.dependencies = CompoundDependencies.opaque;
+          if (node.originalName.isNotEmpty &&
+              structs.contains(node.originalName)) {
+            node.isIncluded = true;
+            node.name = renameStruct(node.originalName);
+          } else {
+            node.isIncluded = false;
+          }
+        },
+        visitEnum: (node) {
+          node.isIncluded = enums.contains(node.originalName);
+        },
+        visitTypealias: (node) {
+          if (node.originalName == 'CFStringRef') {
+            node.isIncluded = true;
+          }
+        },
+        visitGlobal: (node) => node.isIncluded = false,
+        visitMacroConstant: (node) => node.isIncluded = false,
+        visitUnnamedEnumConstant: (node) => node.isIncluded = false,
+        visitUnion: (node) => node.isIncluded = false,
+      ),
+    ],
+    output: Output(
+      preamble: '''
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-  @override
-  void visitFunc(Func node) {
-    node.isIncluded = false;
-  }
+// Bindings for package:objective_c's ObjC code and the Foundation framework.
+// Regenerate bindings with `dart run tool/generate_code.dart`.
 
-  @override
-  void visitObjCInterface(ObjCInterface node) {
-    final renamed = interfaces[node.originalName];
-    if (renamed != null) {
-      node.isIncluded = true;
-      node.name = renamed;
-    } else {
-      node.isIncluded = false;
-    }
-    if (node.originalName == 'NSBundle') {
-      for (final method in node.methods) {
-        if (method.originalName ==
-            'localizedStringForKey:value:table:localizations:') {
-          method.isIncluded = false;
-        }
-      }
-    }
-  }
+// coverage:ignore-file
+''',
+      format: false,
+      style: const NativeExternalBindings(
+        assetId: 'package:objective_c/objective_c.dylib',
+      ),
+      dartFile: root.resolve(objcBindings),
+      objectiveCFile: root.resolve('src/objective_c_bindings_generated.m'),
+    ),
+  ).generate();
 
-  @override
-  void visitObjCProtocol(ObjCProtocol node) {
-    final renamed = protocols[node.originalName];
-    if (renamed != null) {
-      node.isIncluded = true;
-      node.name = renamed;
-    } else {
-      node.isIncluded = false;
-    }
-  }
+  mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
 
-  @override
-  void visitObjCCategory(ObjCCategory node) {
-    if (categories.contains(node.originalName)) {
-      node.isIncluded = true;
-    } else {
-      node.isIncluded = false;
-    }
-  }
+  print('Generating objc_built_in_types.dart...');
+  final exports = writeBuiltInTypes(
+    builtInTypes,
+    objcBindings,
+    interfaces: interfaces,
+    structs: structs,
+    protocols: protocols,
+  );
 
-  @override
-  void visitStruct(Struct node) {
-    node.dependencies = CompoundDependencies.opaque;
-    if (node.originalName.isEmpty) {
-      node.isIncluded = false;
-      return;
-    }
-    final renamed = structs[node.originalName];
-    if (renamed != null) {
-      node.isIncluded = true;
-      node.name = renamed;
-    } else {
-      node.isIncluded = false;
-    }
-  }
-
-  @override
-  void visitEnum(EnumClass node) {
-    if (enums.contains(node.originalName)) {
-      node.isIncluded = true;
-    } else {
-      node.isIncluded = false;
-    }
-  }
-
-  @override
-  void visitTypealias(Typealias node) {
-    if (node.originalName == 'CFStringRef') {
-      node.isIncluded = true;
-    }
-  }
-
-  @override
-  void visitGlobal(Global node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitMacroConstant(MacroConstant node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
-    node.isIncluded = false;
-  }
-
-  @override
-  void visitUnion(Union node) {
-    node.isIncluded = false;
-  }
+  print('Generating objc_bindings_exported.dart...');
+  writeExports(exports, objcExports);
 }
 
-List<String> writeBuiltInTypes(String out, String bindingsFile) {
+List<String> writeBuiltInTypes(
+  String out,
+  String bindingsFile, {
+  required Set<String> interfaces,
+  required Set<String> structs,
+  required Set<String> protocols,
+}) {
   final bindingsLines = File(bindingsFile).readAsLinesSync();
   Set<String> findBindings(RegExp re) => bindingsLines
       .map(re.firstMatch)
@@ -557,33 +572,22 @@ List<String> writeBuiltInTypes(String out, String bindingsFile) {
 
   final interfacesMap = {
     for (final name in genInterfaces)
-      ObjCBindingsVisitor.interfaces.entries
-              .firstWhere(
-                (e) => e.value == name,
-                orElse: () => MapEntry(name, name),
-              )
-              .key:
-          name,
+      interfaces.firstWhere(
+        (i) => renameInterface(i) == name,
+        orElse: () => name,
+      ): name,
   };
   final structsMap = {
     for (final name in genStructs)
-      ObjCBindingsVisitor.structs.entries
-              .firstWhere(
-                (e) => e.value == name,
-                orElse: () => MapEntry(name, name),
-              )
-              .key:
+      structs.firstWhere((s) => renameStruct(s) == name, orElse: () => name):
           name,
   };
   final protocolsMap = {
     for (final name in genProtocols)
-      ObjCBindingsVisitor.protocols.entries
-              .firstWhere(
-                (e) => e.value == name,
-                orElse: () => MapEntry(name, name),
-              )
-              .key:
-          name,
+      protocols.firstWhere(
+        (p) => renameProtocol(p) == name,
+        orElse: () => name,
+      ): name,
   };
 
   final s = StringBuffer();
@@ -665,97 +669,13 @@ Future<void> run({required bool format}) async {
   final root = (pkgUri ?? Platform.script).resolve('../');
 
   print('Generating runtime bindings...');
-  FfiGenerator(
-    input: Input(entryPoints: [root.resolve('src/objective_c_runtime.h')]),
-    visitors: [const RuntimeBindingsVisitor()],
-    output: Output(
-      preamble: '''
-// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-// Bindings for `src/objective_c_runtime.h`.
-// Regenerate bindings with `dart run tool/generate_code.dart`.
-
-// ignore_for_file: always_specify_types
-// ignore_for_file: camel_case_types
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: unused_element
-// coverage:ignore-file
-''',
-      style: const NativeExternalBindings(),
-      dartFile: root.resolve(runtimeBindings),
-    ),
-  ).generate();
+  generateRuntimeBindings(root);
 
   print('Generating C bindings...');
-  FfiGenerator(
-    input: Input(
-      entryPoints: [
-        root.resolve('src/include/dart_api_dl.h'),
-        root.resolve('src/objective_c.h'),
-        root.resolve('src/os_version.h'),
-      ],
-    ),
-    visitors: [const CBindingsVisitor()],
-    output: Output(
-      preamble: '''
-// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-// Bindings for `src/objective_c.h` etc.
-// Regenerate bindings with `dart run tool/generate_code.dart`.
-
-// coverage:ignore-file
-''',
-      style: const NativeExternalBindings(
-        assetId: 'package:objective_c/objective_c.dylib',
-      ),
-      dartFile: root.resolve(cBindings),
-    ),
-  ).generate();
+  generateCBindings(root);
 
   print('Generating ObjC bindings...');
-  FfiGenerator(
-    input: Input(
-      entryPoints: [
-        root.resolve('src/foundation.h'),
-        root.resolve('src/input_stream_adapter.h'),
-        root.resolve('src/ns_number.h'),
-        root.resolve('src/observer.h'),
-        root.resolve('src/protocol.h'),
-      ],
-    ),
-    objectiveC: const ObjectiveC(generateForPackageObjectiveC: true),
-    visitors: [const ObjCBindingsVisitor()],
-    output: Output(
-      preamble: '''
-// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-// Bindings for package:objective_c's ObjC code and the Foundation framework.
-// Regenerate bindings with `dart run tool/generate_code.dart`.
-
-// coverage:ignore-file
-''',
-      format: false,
-      style: const NativeExternalBindings(
-        assetId: 'package:objective_c/objective_c.dylib',
-      ),
-      dartFile: root.resolve(objcBindings),
-      objectiveCFile: root.resolve('src/objective_c_bindings_generated.m'),
-    ),
-  ).generate();
-
-  mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
-
-  print('Generating objc_built_in_types.dart...');
-  final exports = writeBuiltInTypes(builtInTypes, objcBindings);
-
-  print('Generating objc_bindings_exported.dart...');
-  writeExports(exports, objcExports);
+  generateObjCBindings(root);
 
   if (format) {
     print('Formatting bindings...');

@@ -18,181 +18,6 @@ import 'wrapper_generators/generate_c_extensions.dart';
 import 'wrapper_generators/generate_dart_extensions.dart';
 import 'wrapper_generators/logging.dart';
 
-class JniVisitor extends ffigen.Visitor {
-  static const enumRenames = {
-    'JniType': 'JniCallType',
-    'jobjectRefType': 'JObjectRefType',
-  };
-
-  static const funcRenames = {
-    'FindClass': 'JniFindClass',
-    'GetJavaVM': 'JniGetJavaVM',
-  };
-
-  static const excludedFuncs = {
-    'GetJniContextPtr',
-    'setJniGetters',
-    'jni_log',
-    'acquire_lock',
-    'attach_thread',
-    'check_exception',
-    'destroy_cond',
-    'destroy_lock',
-    'init_cond',
-    'init_lock',
-    'load_class',
-    'load_class_global_ref',
-    'load_class_local_ref',
-    'load_class_platform',
-    'load_env',
-    'load_field',
-    'load_method',
-    'load_static_field',
-    'load_static_method',
-    'release_lock',
-    'signal_cond',
-    'thread_id',
-    'to_global_ref',
-    'to_global_ref_result',
-    'wait_for',
-  };
-
-  static final globalEnvNewObjectRegExp = RegExp(r'^globalEnv_NewObject$');
-  static final globalEnvCallRegExp = RegExp(
-    r'^globalEnv_Call(Static|Nonvirtual|)[A-Z][a-z]+Method$',
-  );
-
-  static const excludedStructs = {
-    'JniContext',
-    'JniLocks',
-    'JNIEnv',
-    '_JNIEnv',
-    'JNIInvokeInterface',
-    '__va_list_tag',
-    'CallbackResult',
-  };
-
-  static const structRenames = {
-    '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_',
-    '_jfieldID': 'jfieldID_',
-    '_jmethodID': 'jmethodID_',
-  };
-
-  static const excludedGlobals = {
-    'jni',
-    'jniEnv',
-    'context_getter',
-    'env_getter',
-  };
-
-  static const excludedTypeDefs = {
-    'va_list',
-    '__builtin_va_list',
-  };
-
-  static const typedefRenames = {
-    'jbyte': 'JByteMarker',
-    'jboolean': 'JBooleanMarker',
-    'jchar': 'JCharMarker',
-    'jshort': 'JShortMarker',
-    'jint': 'JIntMarker',
-    'jlong': 'JLongMarker',
-    'jfloat': 'JFloatMarker',
-    'jdouble': 'JDoubleMarker',
-    'jsize': 'JSizeMarker',
-    'jclass': 'JClassPtr',
-    'jobject': 'JObjectPtr',
-    'jmethodID': 'JMethodIDPtr',
-    'jfieldID': 'JFieldIDPtr',
-    'jthrowable': 'JThrowablePtr',
-    'jstring': 'JStringPtr',
-    'jarray': 'JArrayPtr',
-    'jobjectArray': 'JObjectArrayPtr',
-    'jbooleanArray': 'JBooleanArrayPtr',
-    'jbyteArray': 'JByteArrayPtr',
-    'jcharArray': 'JCharArrayPtr',
-    'jshortArray': 'JShortArrayPtr',
-    'jintArray': 'JIntArrayPtr',
-    'jlongArray': 'JLongArrayPtr',
-    'jfloatArray': 'JFloatArrayPtr',
-    'jdoubleArray': 'JDoubleArrayPtr',
-    'jweak': 'JWeakPtr',
-    'jvalue': 'JValue',
-  };
-
-  const JniVisitor();
-
-  @override
-  void visitEnum(ffigen.EnumClass node) {
-    final renamed = enumRenames[node.originalName];
-    if (renamed != null) {
-      node.name = renamed;
-    }
-    node.isIncluded = true;
-  }
-
-  @override
-  void visitFunc(ffigen.Func node) {
-    if (node.originalName.startsWith('JNI_') ||
-        excludedFuncs.contains(node.originalName) ||
-        globalEnvNewObjectRegExp.hasMatch(node.originalName) ||
-        globalEnvCallRegExp.hasMatch(node.originalName)) {
-      node.isIncluded = false;
-      return;
-    }
-    final renamed = funcRenames[node.originalName];
-    if (renamed != null) {
-      node.name = renamed;
-    }
-    node.isIncluded = true;
-  }
-
-  @override
-  void visitStruct(ffigen.Struct node) {
-    if (excludedStructs.contains(node.originalName)) {
-      node.isIncluded = false;
-      return;
-    }
-    final renamed = structRenames[node.originalName];
-    if (renamed != null) {
-      node.name = renamed;
-    }
-    node.isIncluded = true;
-  }
-
-  @override
-  void visitUnion(ffigen.Union node) {
-    if (node.originalName == 'jvalue') {
-      node.name = 'JValue';
-    }
-    node.isIncluded = true;
-  }
-
-  @override
-  void visitGlobal(ffigen.Global node) {
-    if (excludedGlobals.contains(node.originalName)) {
-      node.isIncluded = false;
-      return;
-    }
-    node.isIncluded = true;
-  }
-
-  @override
-  void visitTypealias(ffigen.Typealias node) {
-    if (excludedTypeDefs.contains(node.originalName)) {
-      node.isIncluded = false;
-      return;
-    }
-    final renamed = typedefRenames[node.originalName];
-    if (renamed != null) {
-      node.name = renamed;
-    } else if (node.originalName.startsWith('JNI')) {
-      node.name = 'Jni${node.originalName.substring(3)}';
-    }
-    node.isIncluded = true;
-  }
-}
-
 void main(List<String> args) {
   final levels = Map.fromEntries(
     Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)),
@@ -254,7 +79,161 @@ void main(List<String> args) {
       compilerOptions: ['-Ithird_party/'],
       ignoreSourceErrors: true,
     ),
-    visitors: const [JniVisitor()],
+    visitors: [
+      ffigen.Visitor.callback(
+        visitEnum: (node) {
+          const enumRenames = {
+            'JniType': 'JniCallType',
+            'jobjectRefType': 'JObjectRefType',
+          };
+          final renamed = enumRenames[node.originalName];
+          if (renamed != null) {
+            node.name = renamed;
+          }
+          node.isIncluded = true;
+        },
+        visitFunc: (node) {
+          const excludedFuncs = {
+            'GetJniContextPtr',
+            'setJniGetters',
+            'jni_log',
+            'acquire_lock',
+            'attach_thread',
+            'check_exception',
+            'destroy_cond',
+            'destroy_lock',
+            'init_cond',
+            'init_lock',
+            'load_class',
+            'load_class_global_ref',
+            'load_class_local_ref',
+            'load_class_platform',
+            'load_env',
+            'load_field',
+            'load_method',
+            'load_static_field',
+            'load_static_method',
+            'release_lock',
+            'signal_cond',
+            'thread_id',
+            'to_global_ref',
+            'to_global_ref_result',
+            'wait_for',
+          };
+          final globalEnvNewObjectRegExp = RegExp(r'^globalEnv_NewObject$');
+          final globalEnvCallRegExp = RegExp(
+            r'^globalEnv_Call(Static|Nonvirtual|)[A-Z][a-z]+Method$',
+          );
+          const funcRenames = {
+            'FindClass': 'JniFindClass',
+            'GetJavaVM': 'JniGetJavaVM',
+          };
+          if (node.originalName.startsWith('JNI_') ||
+              excludedFuncs.contains(node.originalName) ||
+              globalEnvNewObjectRegExp.hasMatch(node.originalName) ||
+              globalEnvCallRegExp.hasMatch(node.originalName)) {
+            node.isIncluded = false;
+            return;
+          }
+          final renamed = funcRenames[node.originalName];
+          if (renamed != null) {
+            node.name = renamed;
+          }
+          node.isIncluded = true;
+        },
+        visitStruct: (node) {
+          node.dependencies = ffigen.CompoundDependencies.opaque;
+          const excludedStructs = {
+            'JniContext',
+            'JniLocks',
+            'JNIEnv',
+            '_JNIEnv',
+            'JNIInvokeInterface',
+            '__va_list_tag',
+            'CallbackResult',
+          };
+          const structRenames = {
+            '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_',
+            '_jfieldID': 'jfieldID_',
+            '_jmethodID': 'jmethodID_',
+          };
+          if (excludedStructs.contains(node.originalName)) {
+            node.isIncluded = false;
+            return;
+          }
+          final renamed = structRenames[node.originalName];
+          if (renamed != null) {
+            node.name = renamed;
+          }
+          node.isIncluded = true;
+        },
+        visitUnion: (node) {
+          if (node.originalName == 'jvalue') {
+            node.name = 'JValue';
+          }
+          node.isIncluded = true;
+        },
+        visitGlobal: (node) {
+          const excludedGlobals = {
+            'jni',
+            'jniEnv',
+            'context_getter',
+            'env_getter',
+          };
+          if (excludedGlobals.contains(node.originalName)) {
+            node.isIncluded = false;
+            return;
+          }
+          node.isIncluded = true;
+        },
+        visitTypealias: (node) {
+          const excludedTypeDefs = {
+            'va_list',
+            '__builtin_va_list',
+          };
+          const typedefRenames = {
+            'jbyte': 'JByteMarker',
+            'jboolean': 'JBooleanMarker',
+            'jchar': 'JCharMarker',
+            'jshort': 'JShortMarker',
+            'jint': 'JIntMarker',
+            'jlong': 'JLongMarker',
+            'jfloat': 'JFloatMarker',
+            'jdouble': 'JDoubleMarker',
+            'jsize': 'JSizeMarker',
+            'jclass': 'JClassPtr',
+            'jobject': 'JObjectPtr',
+            'jmethodID': 'JMethodIDPtr',
+            'jfieldID': 'JFieldIDPtr',
+            'jthrowable': 'JThrowablePtr',
+            'jstring': 'JStringPtr',
+            'jarray': 'JArrayPtr',
+            'jobjectArray': 'JObjectArrayPtr',
+            'jbooleanArray': 'JBooleanArrayPtr',
+            'jbyteArray': 'JByteArrayPtr',
+            'jcharArray': 'JCharArrayPtr',
+            'jshortArray': 'JShortArrayPtr',
+            'jintArray': 'JIntArrayPtr',
+            'jlongArray': 'JLongArrayPtr',
+            'jfloatArray': 'JFloatArrayPtr',
+            'jdoubleArray': 'JDoubleArrayPtr',
+            'jweak': 'JWeakPtr',
+            'jvalue': 'JValue',
+          };
+          if (excludedTypeDefs.contains(node.originalName)) {
+            node.isIncluded = false;
+            return;
+          }
+          final renamed = typedefRenames[node.originalName];
+          if (renamed != null) {
+            node.name = renamed;
+          } else if (node.originalName.startsWith('JNI')) {
+            node.name = 'Jni${node.originalName.substring(3)}';
+          }
+          node.isIncluded = true;
+        },
+      ),
+    ],
     output: ffigen.Output(
       style: const ffigen.DynamicLibraryBindings(wrapperName: 'JniBindings'),
       preamble: '''
