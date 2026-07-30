@@ -35,7 +35,9 @@ void main() {
             ),
             visitors: [
               const IncludeAllVisitor(),
-              Visitor(visitTypealias: (node) => node.includeUnused = true),
+              Visitor.callback(
+                visitTypealias: (node) => node.includeUnused = true,
+              ),
             ],
           ),
         ),

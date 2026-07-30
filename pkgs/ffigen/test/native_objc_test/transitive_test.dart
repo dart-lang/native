@@ -45,7 +45,7 @@ String generate({bool includeTransitiveObjCCategories = true}) {
     ),
     objectiveC: const ObjectiveC(),
     visitors: [
-      Visitor(
+      Visitor.callback(
         visitObjCInterface: (node) {
           if ({
             'DirectlyIncluded',

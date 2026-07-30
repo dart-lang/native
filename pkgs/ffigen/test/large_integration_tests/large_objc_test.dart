@@ -36,6 +36,8 @@ Future<int> run(String exe, List<String> args) async {
 // reasonable amount of time.
 // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
 class _RandomIncludeVisitor extends Visitor {
+  _RandomIncludeVisitor();
+
   static const inclusionRatio = 0.1;
   static const seed = 1234;
   static const forceIncludedProtocols = {'NSTextLocation'};

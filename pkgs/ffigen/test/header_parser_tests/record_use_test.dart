@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 class _RecordUseVisitor extends Visitor {
+  _RecordUseVisitor();
+
   @override
   void visitFunc(Func node) {
     if (node.originalName == 'sum') {

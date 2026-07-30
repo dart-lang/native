@@ -10,6 +10,8 @@ import 'package:test/test.dart';
 import 'test_utils.dart';
 
 class CustomRenamerVisitor extends Visitor {
+  CustomRenamerVisitor();
+
   @override
   void visitFunc(Func node) {
     if (node.originalName == 'func1') {
@@ -34,6 +36,8 @@ class CustomRenamerVisitor extends Visitor {
 }
 
 class CustomExcluderVisitor extends Visitor {
+  CustomExcluderVisitor();
+
   @override
   void visitFunc(Func node) {
     if (node.originalName == 'func2') {
@@ -50,6 +54,8 @@ class CustomExcluderVisitor extends Visitor {
 }
 
 class CustomLeafVisitor extends Visitor {
+  CustomLeafVisitor();
+
   @override
   void visitFunc(Func node) {
     if (node.originalName == 'func1' || node.name == 'myCustomFunc') {
@@ -116,7 +122,7 @@ void main() {
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
-          Visitor(
+          Visitor.callback(
             visitFunc: (node) {
               if (node.originalName == 'func1') {
                 node.name = 'inlineRenamedFunc1';
@@ -173,7 +179,7 @@ void main() {
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
-          Visitor(
+          Visitor.callback(
             visitEnum: (node) {
               node.silenceWarning = true;
             },
@@ -198,7 +204,7 @@ void main() {
           const IncludeSetVisitor(
             objcInterfaces: {'DirectlyIncludedIntForCat'},
           ),
-          Visitor(
+          Visitor.callback(
             visitObjCInterface: (node) {
               if (node.originalName == 'DirectlyIncludedIntForCat') {
                 expect(node.includeCategories, isTrue);
@@ -224,7 +230,7 @@ void main() {
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
-          Visitor(
+          Visitor.callback(
             visitFunc: (Func node) {
               if (node.originalName == 'myfunc') {
                 node.varArgs = [
@@ -245,6 +251,8 @@ void main() {
 }
 
 class _AutoWalkVisitor extends Visitor {
+  _AutoWalkVisitor();
+
   final visitedFieldNames = <String>[];
 
   @override

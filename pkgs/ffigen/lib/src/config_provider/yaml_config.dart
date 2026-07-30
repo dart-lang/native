@@ -1313,7 +1313,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
        _structDependencies = structDependencies,
        _unionDependencies = unionDependencies,
        _includeUnusedTypedefs = includeUnusedTypedefs,
-       _varArgFunctions = varArgFunctions;
+       _varArgFunctions = varArgFunctions,
+       super();
 
   final bool _silenceEnumWarning;
 
