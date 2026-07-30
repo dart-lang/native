@@ -238,7 +238,7 @@ void main(List<String> args) {
   logger.info('Generating FFI bindings for package:jni');
 
   final generator = ffigen.FfiGenerator(
-    headers: ffigen.Headers(
+    input: ffigen.Input(
       entryPoints: [
         Uri.file('src/dartjni.h'),
         Uri.file('src/third_party/global_jni_env.h'),

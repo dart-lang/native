@@ -50,13 +50,13 @@ final class YamlConfig {
   late Language _language;
 
   /// Path to headers. May not contain globs.
-  List<Uri> get entryPoints => _headers.entryPoints;
+  List<Uri> get entryPoints => _input.entryPoints;
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
   bool shouldIncludeHeader(Uri header) =>
-      _headers.includeFilter.shouldInclude(header);
-  late YamlHeaders _headers;
+      _input.includeFilter.shouldInclude(header);
+  late YamlInput _input;
 
   /// CommandLine Arguments to pass to clang_compiler.
   List<String> get compilerOpts => _compilerOpts;
@@ -358,7 +358,7 @@ final class YamlConfig {
           key: strings.headers,
           required: true,
           valueConfigSpec:
-              HeterogeneousMapConfigSpec<List<String>, YamlHeaders>(
+              HeterogeneousMapConfigSpec<List<String>, YamlInput>(
                 entries: [
                   HeterogeneousMapEntry(
                     key: strings.entryPoints,
@@ -374,12 +374,12 @@ final class YamlConfig {
                     ),
                   ),
                 ],
-                transform: (node) => headersExtractor(
+                transform: (node) => inputExtractor(
                   logger,
                   node.value,
                   filename?.toFilePath(),
                 ),
-                result: (node) => _headers = node.value,
+                result: (node) => _input = node.value,
               ),
         ),
         HeterogeneousMapEntry(
@@ -1215,7 +1215,7 @@ final class YamlConfig {
 
     return FfiGenerator(
       visitors: [yamlVisitor],
-      headers: Headers(
+      input: Input(
         compilerOptions: compilerOpts,
         entryPoints: entryPoints,
         include: shouldIncludeHeader,

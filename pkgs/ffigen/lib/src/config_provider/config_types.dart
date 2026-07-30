@@ -60,7 +60,7 @@ class StructPackingOverride {
 }
 
 // Holds headers and filters for header.
-class YamlHeaders {
+class YamlInput {
   /// Path to headers.
   ///
   /// This contains all the headers, after extraction from Globs.
@@ -69,7 +69,7 @@ class YamlHeaders {
   /// Include filter for headers.
   final HeaderIncludeFilter includeFilter;
 
-  YamlHeaders({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
+  YamlInput({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
     : entryPoints = entryPoints?.map(Uri.file).toList() ?? [],
       includeFilter = includeFilter ?? GlobHeaderFilter();
 }

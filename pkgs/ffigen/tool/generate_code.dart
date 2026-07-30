@@ -156,7 +156,7 @@ class LibClangVisitor extends Visitor {
 void main() {
   final root = Platform.script.resolve('../');
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [
         root.resolve('third_party/libclang/include/clang-c/Index.h'),
       ],

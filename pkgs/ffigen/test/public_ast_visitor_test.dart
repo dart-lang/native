@@ -65,7 +65,7 @@ void main() {
         absPath('test/header_parser_tests/functions.h'),
       );
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [headerUri]),
+        input: Input(entryPoints: [headerUri]),
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
@@ -95,7 +95,7 @@ void main() {
       );
       final autoWalker = _AutoWalkVisitor();
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [headerUri]),
+        input: Input(entryPoints: [headerUri]),
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [const IncludeAllVisitor(), autoWalker],
       );
@@ -112,7 +112,7 @@ void main() {
       );
       final visitedFields = <String>[];
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [headerUri]),
+        input: Input(entryPoints: [headerUri]),
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
@@ -142,7 +142,7 @@ void main() {
         absPath('test/header_parser_tests/function_n_struct.h'),
       );
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [headerUri]),
+        input: Input(entryPoints: [headerUri]),
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
@@ -169,7 +169,7 @@ void main() {
         absPath('test/header_parser_tests/enum_int_mimic.h'),
       );
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [headerUri]),
+        input: Input(entryPoints: [headerUri]),
         output: Output(dartFile: Uri.file('unused.dart')),
         visitors: [
           const IncludeAllVisitor(),
@@ -191,7 +191,7 @@ void main() {
         absPath('test/native_objc_test/transitive_test.h'),
       );
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [headerUri]),
+        input: Input(entryPoints: [headerUri]),
         output: Output(dartFile: Uri.file('unused.dart')),
         objectiveC: const ObjectiveC(),
         visitors: [

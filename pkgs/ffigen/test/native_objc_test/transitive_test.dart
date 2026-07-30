@@ -31,7 +31,7 @@ String generate({bool includeTransitiveObjCCategories = true}) {
         wrapperDocComment: 'Tests transitive inclusion',
       ),
     ),
-    headers: Headers(
+    input: Input(
       entryPoints: [
         Uri.file(
           path.join(

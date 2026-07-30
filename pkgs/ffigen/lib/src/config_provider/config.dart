@@ -19,8 +19,8 @@ final class FfiGenerator {
   /// User custom visitors to modify/filter AST elements.
   final List<Visitor> visitors;
 
-  /// The configuration for header parsing of [FfiGenerator].
-  final Headers headers;
+  /// The input configuration for header parsing of [FfiGenerator].
+  final Input input;
 
   /// Configuration for functions.
   final Functions functions;
@@ -72,7 +72,7 @@ final class FfiGenerator {
 
   const FfiGenerator({
     this.visitors = const [],
-    this.headers = const Headers(),
+    this.input = const Input(),
     this.functions = const Functions(),
     this.cpp,
     this.objectiveC,
@@ -102,8 +102,8 @@ final class FfiGenerator {
   }
 }
 
-/// The configuration for header parsing of [FfiGenerator].
-final class Headers {
+/// The input configuration for header parsing of [FfiGenerator].
+final class Input {
   /// Path to headers. May not contain globs.
   final List<Uri> entryPoints;
 
@@ -119,7 +119,7 @@ final class Headers {
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
 
-  const Headers({
+  const Input({
     this.entryPoints = const [],
     this.include = _includeDefault,
     this.compilerOptions,

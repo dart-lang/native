@@ -657,7 +657,7 @@ Future<void> run({required bool format}) async {
 
   print('Generating runtime bindings...');
   FfiGenerator(
-    headers: Headers(entryPoints: [root.resolve('src/objective_c_runtime.h')]),
+    input: Input(entryPoints: [root.resolve('src/objective_c_runtime.h')]),
     visitors: [const RuntimeBindingsVisitor()],
     output: Output(
       preamble: '''
@@ -681,7 +681,7 @@ Future<void> run({required bool format}) async {
 
   print('Generating C bindings...');
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [
         root.resolve('src/include/dart_api_dl.h'),
         root.resolve('src/objective_c.h'),
@@ -709,7 +709,7 @@ Future<void> run({required bool format}) async {
 
   print('Generating ObjC bindings...');
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [
         root.resolve('src/foundation.h'),
         root.resolve('src/input_stream_adapter.h'),

@@ -38,7 +38,7 @@ class Library {
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
     // ignore: deprecated_member_use_from_same_package
     libraryImports: context.config.libraryImports,
-    nativeEntryPoints: context.config.headers.entryPoints
+    nativeEntryPoints: context.config.input.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
     context: context,

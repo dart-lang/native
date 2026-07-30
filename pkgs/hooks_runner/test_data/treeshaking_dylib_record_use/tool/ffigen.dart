@@ -11,7 +11,7 @@ void main() {
 
   // 1. Generate bindings for add.c
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
     visitors: [const IncludeAllVisitor(), const RecordUseVisitor()],
@@ -33,7 +33,7 @@ void main() {
 
   // 2. Generate bindings for multiply.c
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
     visitors: [const IncludeAllVisitor(), const RecordUseVisitor()],

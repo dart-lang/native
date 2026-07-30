@@ -30,7 +30,7 @@ void main() {
       );
       final generator = FfiGenerator(
         visitors: [_RecordUseVisitor()],
-        headers: Headers(entryPoints: [Uri.file(headerFile)]),
+        input: Input(entryPoints: [Uri.file(headerFile)]),
         output: Output(
           dartFile: Uri.file('unused.dart'),
           style: const NativeExternalBindings(),

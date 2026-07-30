@@ -27,7 +27,7 @@ export 'src/config_provider.dart'
         ExternalVersions,
         FfiGenerator,
         Functions,
-        Headers,
+        Input,
         NativeExternalBindings,
         ObjectiveC,
         Output,

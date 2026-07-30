@@ -121,7 +121,7 @@ void main() {
 
     final generator = FfiGenerator(
       visitors: [_RandomIncludeVisitor()],
-      headers: Headers(
+      input: Input(
         entryPoints: [
           Uri.file(
             path.join(

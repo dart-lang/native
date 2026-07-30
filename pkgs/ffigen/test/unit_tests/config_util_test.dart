@@ -6,7 +6,7 @@ import '../test_utils.dart';
 
 Struct createStruct(String name) {
   final generator = FfiGenerator(
-    headers: Headers(entryPoints: []),
+    input: const Input(entryPoints: []),
     output: Output(dartFile: Uri.file('unused.dart')),
   );
   return Struct(
