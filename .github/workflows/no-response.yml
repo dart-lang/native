@@ -17,6 +17,8 @@ permissions:
 jobs:
   no-response:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     if: ${{ github.repository_owner == 'dart-lang' }}
     steps:
       - uses: actions/stale@eb5cf3af3ac0a1aa4c9c45633dd1ae542a27a899

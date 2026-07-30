@@ -23,11 +23,15 @@ jobs:
   # Keep in sync with ffigen.yaml:test-mac
   test-mac-x64:
     runs-on: 'macos-14-large' # x64
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
