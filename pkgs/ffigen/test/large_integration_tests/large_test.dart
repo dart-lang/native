@@ -140,6 +140,7 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'cJSON.h',
         ),
+        visitors: const [IncludeAllVisitor()],
       );
       final context = testContext(generator);
       final library = parse(context);
@@ -174,7 +175,7 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'sqlite3.h',
         ),
-        visitors: const [_LargeTestVisitor()],
+        visitors: const [IncludeAllVisitor(), _LargeTestVisitor()],
       );
       final context = testContext(generator);
       final library = parse(context);

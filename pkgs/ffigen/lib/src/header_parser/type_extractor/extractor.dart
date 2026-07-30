@@ -181,6 +181,10 @@ Type? _createTypeFromCursor(
         // those two types are ABI compatible, so just return bool regardless.
         return BooleanType();
       }
+      if (config.typedefTypeMappings.containsKey(spelling)) {
+        logger.fine('  Type Mapped from custom typedefTypeMappings');
+        return config.typedefTypeMappings[spelling]!;
+      }
       // Get name from supported typedef name if config allows.
       if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
         logger.fine('  Type Mapped from supported typedef');

@@ -1187,6 +1187,8 @@ final class YamlConfig {
 
   FfiGenerator configAdapter() {
     final yamlVisitor = YamlConfigAstVisitor(
+      usrTypeMappings: _usrTypeMappings,
+      typedefTypeMappings: _typedefTypeMappings,
       functionDecl: _functionDecl,
       structDecl: _structDecl,
       unionDecl: _unionDecl,
@@ -1234,6 +1236,7 @@ final class YamlConfig {
               ),
       ),
       functions: Functions(varArgs: varArgFunctions),
+      typedefTypeMappings: _typedefTypeMappings,
       objectiveC: language == Language.objc
           ? ObjectiveC(
               externalVersions: externalVersions,
@@ -1252,6 +1255,8 @@ final class YamlConfig {
 }
 
 final class YamlConfigAstVisitor extends public_ast.Visitor {
+  final Map<String, ImportedType> _usrTypeMappings;
+  final Map<String, ImportedType> _typedefTypeMappings;
   final YamlDeclarationFilters _functionDecl;
   final YamlDeclarationFilters _structDecl;
   final YamlDeclarationFilters _unionDecl;
@@ -1275,6 +1280,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   final bool _useSupportedTypedefs;
 
   YamlConfigAstVisitor({
+    required Map<String, ImportedType> usrTypeMappings,
+    required Map<String, ImportedType> typedefTypeMappings,
     required YamlDeclarationFilters functionDecl,
     required YamlDeclarationFilters structDecl,
     required YamlDeclarationFilters unionDecl,
@@ -1297,7 +1304,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     required CompoundDependencies unionDependencies,
     required bool includeUnusedTypedefs,
     required bool useSupportedTypedefs,
-  }) : _functionDecl = functionDecl,
+  }) : _usrTypeMappings = usrTypeMappings,
+       _typedefTypeMappings = typedefTypeMappings,
+       _functionDecl = functionDecl,
        _structDecl = structDecl,
        _unionDecl = unionDecl,
        _enumClassDecl = enumClassDecl,
@@ -1323,16 +1332,12 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   final bool _silenceEnumWarning;
 
   void _applyInclusion(public_ast.Decl node, YamlDeclarationFilters decl) {
-    if (decl.isExplicitlyIncluded(node.originalName)) {
-      node.isIncluded = true;
-    } else if (decl.isExplicitlyExcluded(node.originalName)) {
+    if (node is public_ast.ObjCInterface && node.isObjCImport) {
       node.isIncluded = false;
-    } else if (decl.excludeAllByDefault) {
-      node.isIncluded = false;
-    } else if (node is public_ast.ObjCInterface && node.isObjCImport) {
+    } else if (_usrTypeMappings.containsKey(node.usr)) {
       node.isIncluded = false;
     } else {
-      node.isIncluded = true;
+      node.isIncluded = decl.shouldInclude(node.originalName);
     }
   }
 
@@ -1488,7 +1493,11 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   void visitTypealias(public_ast.Typealias node) {
     node.includeUnused = _includeUnusedTypedefs;
     node.useSupportedTypedefs = _useSupportedTypedefs;
-    _applyInclusion(node, _typedefs);
+    if (_typedefTypeMappings.containsKey(node.originalName)) {
+      node.isIncluded = false;
+    } else {
+      _applyInclusion(node, _typedefs);
+    }
     final renamed = _typedefs.rename(node.originalName);
     if (renamed != node.originalName) {
       node.name = renamed;
@@ -1577,6 +1586,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
       node.isIncluded = false;
     } else if (isParentInterfaceIncluded) {
       // Category extends an explicitly included interface with includeCategories=true.
+      node.isIncluded = true;
     } else if (_objcCategories.excludeAllByDefault) {
       node.isIncluded = false;
     } else {

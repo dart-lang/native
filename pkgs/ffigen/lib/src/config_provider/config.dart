@@ -61,6 +61,9 @@ final class FfiGenerator {
   )
   final List<LibraryImport> libraryImports;
 
+  /// Custom type mappings for typedefs.
+  final Map<String, ImportedType> typedefTypeMappings;
+
   /// Path to the clang library.
   ///
   /// Only visible for YamlConfig plumbing.
@@ -84,6 +87,7 @@ final class FfiGenerator {
       'https://github.com/dart-lang/native/issues/2597.',
     )
     this.libraryImports = const <LibraryImport>[],
+    this.typedefTypeMappings = const {},
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 

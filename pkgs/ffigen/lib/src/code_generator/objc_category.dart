@@ -49,6 +49,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
 
   @override
   BindingString toBindingString(Writer w) {
+    if (isObjCImport) return BindingString(type: BindingStringType.objcCategory, string: '');
     final s = StringBuffer();
     s.write('\n');
     s.write(makeDartDoc(dartDoc));
