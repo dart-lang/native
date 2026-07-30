@@ -4,12 +4,11 @@
 
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
+import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-
-import 'package:ffigen/src/public_ast/public_ast.dart';
 
 class _RecordUseVisitor extends Visitor {
   @override

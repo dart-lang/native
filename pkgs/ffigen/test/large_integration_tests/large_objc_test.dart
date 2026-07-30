@@ -32,6 +32,9 @@ Future<int> run(String exe, List<String> args) async {
   return await process.exitCode;
 }
 
+// Reducing the bindings to a random subset so that the test completes in a
+// reasonable amount of time.
+// TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
 class _RandomIncludeVisitor extends Visitor {
   static const inclusionRatio = 0.1;
   static const seed = 1234;
@@ -79,18 +82,25 @@ class _RandomIncludeVisitor extends Visitor {
   void visitObjCInterface(ObjCInterface node) {
     node.isIncluded = _randInclude('objcInterfaces', node.usr);
     for (final m in node.methods) {
-      m.isIncluded =
-          _randInclude('objcInterfaces.memb', node.usr, m.originalName);
+      m.isIncluded = _randInclude(
+        'objcInterfaces.memb',
+        node.usr,
+        m.originalName,
+      );
     }
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    node.isIncluded = forceIncludedProtocols.contains(node.originalName) ||
+    node.isIncluded =
+        forceIncludedProtocols.contains(node.originalName) ||
         _randInclude('objcProtocols', node.usr);
     for (final m in node.methods) {
-      m.isIncluded =
-          _randInclude('objcProtocols.memb', node.usr, m.originalName);
+      m.isIncluded = _randInclude(
+        'objcProtocols.memb',
+        node.usr,
+        m.originalName,
+      );
     }
   }
 
@@ -98,8 +108,11 @@ class _RandomIncludeVisitor extends Visitor {
   void visitObjCCategory(ObjCCategory node) {
     node.isIncluded = _randInclude('objcCategories', node.usr);
     for (final m in node.methods) {
-      m.isIncluded =
-          _randInclude('objcCategories.memb', node.usr, m.originalName);
+      m.isIncluded = _randInclude(
+        'objcCategories.memb',
+        node.usr,
+        m.originalName,
+      );
     }
   }
 }

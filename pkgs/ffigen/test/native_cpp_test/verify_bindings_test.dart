@@ -46,7 +46,9 @@ void main() {
         ),
         cpp: const Cpp(),
         visitors: [
-          const IncludeSetVisitor(cppClasses: {'Animal', 'FinalizerTestSubject'}),
+          const IncludeSetVisitor(
+            cppClasses: {'Animal', 'FinalizerTestSubject'},
+          ),
         ],
       ),
       'memory_edge_cases': FfiGenerator(

@@ -411,6 +411,11 @@ class Func extends Decl {
   bool get recordUse => _binding.recordUse;
   set recordUse(bool value) => _binding.recordUse = value;
 
+  bool get isVariadic => _binding.isVariadic;
+
+  List<VarArgFunction> get varArgs => _binding.varArgs;
+  set varArgs(List<VarArgFunction> value) => _binding.varArgs = value;
+
   List<Parameter> get parameters =>
       _binding.functionType.parameters.map(Parameter.new).toList();
 

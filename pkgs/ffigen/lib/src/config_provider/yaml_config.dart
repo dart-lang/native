@@ -357,30 +357,26 @@ final class YamlConfig {
         HeterogeneousMapEntry(
           key: strings.headers,
           required: true,
-          valueConfigSpec:
-              HeterogeneousMapConfigSpec<List<String>, YamlInput>(
-                entries: [
-                  HeterogeneousMapEntry(
-                    key: strings.entryPoints,
-                    valueConfigSpec: ListConfigSpec<String, List<String>>(
-                      childConfigSpec: StringConfigSpec(),
-                    ),
-                    required: true,
-                  ),
-                  HeterogeneousMapEntry(
-                    key: strings.includeDirectives,
-                    valueConfigSpec: ListConfigSpec<String, List<String>>(
-                      childConfigSpec: StringConfigSpec(),
-                    ),
-                  ),
-                ],
-                transform: (node) => inputExtractor(
-                  logger,
-                  node.value,
-                  filename?.toFilePath(),
+          valueConfigSpec: HeterogeneousMapConfigSpec<List<String>, YamlInput>(
+            entries: [
+              HeterogeneousMapEntry(
+                key: strings.entryPoints,
+                valueConfigSpec: ListConfigSpec<String, List<String>>(
+                  childConfigSpec: StringConfigSpec(),
                 ),
-                result: (node) => _input = node.value,
+                required: true,
               ),
+              HeterogeneousMapEntry(
+                key: strings.includeDirectives,
+                valueConfigSpec: ListConfigSpec<String, List<String>>(
+                  childConfigSpec: StringConfigSpec(),
+                ),
+              ),
+            ],
+            transform: (node) =>
+                inputExtractor(logger, node.value, filename?.toFilePath()),
+            result: (node) => _input = node.value,
+          ),
         ),
         HeterogeneousMapEntry(
           key: strings.ignoreSourceErrors,
@@ -1211,6 +1207,7 @@ final class YamlConfig {
       unionDependencies: _unionDependencies,
       includeUnusedTypedefs: _includeUnusedTypedefs,
       useSupportedTypedefs: _useSupportedTypedefs,
+      varArgFunctions: _varArgFunctions,
     );
 
     return FfiGenerator(
@@ -1235,7 +1232,6 @@ final class YamlConfig {
                 wrapperDocComment: wrapperDocComment,
               ),
       ),
-      functions: Functions(varArgs: varArgFunctions),
       typedefTypeMappings: _typedefTypeMappings,
       objectiveC: language == Language.objc
           ? ObjectiveC(
@@ -1278,6 +1274,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   final CompoundDependencies _unionDependencies;
   final bool _includeUnusedTypedefs;
   final bool _useSupportedTypedefs;
+  final Map<String, List<VarArgFunction>> _varArgFunctions;
 
   YamlConfigAstVisitor({
     required Map<String, ImportedType> usrTypeMappings,
@@ -1304,6 +1301,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     required CompoundDependencies unionDependencies,
     required bool includeUnusedTypedefs,
     required bool useSupportedTypedefs,
+    required Map<String, List<VarArgFunction>> varArgFunctions,
   }) : _usrTypeMappings = usrTypeMappings,
        _typedefTypeMappings = typedefTypeMappings,
        _functionDecl = functionDecl,
@@ -1327,7 +1325,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
        _structDependencies = structDependencies,
        _unionDependencies = unionDependencies,
        _includeUnusedTypedefs = includeUnusedTypedefs,
-       _useSupportedTypedefs = useSupportedTypedefs;
+       _useSupportedTypedefs = useSupportedTypedefs,
+       _varArgFunctions = varArgFunctions;
 
   final bool _silenceEnumWarning;
 
@@ -1457,6 +1456,10 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (_leafFunctions.shouldInclude(node.originalName)) {
       node.isLeaf = true;
     }
+    final varArgs = _varArgFunctions[node.originalName];
+    if (varArgs != null) {
+      node.varArgs = varArgs;
+    }
     for (final p in node.parameters) {
       final pRenamed = _functionDecl.renameMember(
         node.originalName,
@@ -1585,7 +1588,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     } else if (_objcCategories.isExplicitlyExcluded(node.originalName)) {
       node.isIncluded = false;
     } else if (isParentInterfaceIncluded) {
-      // Category extends an explicitly included interface with includeCategories=true.
+      // Category extends an explicitly included interface with
+      // includeCategories=true.
       node.isIncluded = true;
     } else if (_objcCategories.excludeAllByDefault) {
       node.isIncluded = false;

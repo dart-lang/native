@@ -22,7 +22,7 @@ Struct createStruct(String name) {
 void main() {
   group('Visitor utils', () {
     test('IncludeSetVisitor', () {
-      final visitor = IncludeSetVisitor(structs: {'foo', 'bar'});
+      final visitor = const IncludeSetVisitor(structs: {'foo', 'bar'});
       final structFoo = createStruct('foo');
       final structBaz = createStruct('baz');
       visitor.visitStruct(structFoo);
@@ -32,7 +32,7 @@ void main() {
     });
 
     test('RenameMapVisitor', () {
-      final visitor = RenameMapVisitor({'foo': 'bar'});
+      final visitor = const RenameMapVisitor({'foo': 'bar'});
       final structFoo = createStruct('foo');
       final structBaz = createStruct('baz');
       visitor.visitStruct(structFoo);

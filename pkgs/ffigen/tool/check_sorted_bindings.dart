@@ -58,7 +58,7 @@ String createUnifiedDiff(
     }
   }
 
-  int i = 0, j = 0;
+  var i = 0, j = 0;
   final edits = <_DiffOp>[];
   while (i < m && j < n) {
     if (oldLines[i] == newLines[j]) {
@@ -89,7 +89,7 @@ String createUnifiedDiff(
   buf.writeln('--- $oldHeader');
   buf.writeln('+++ $newHeader');
 
-  int idx = 0;
+  var idx = 0;
   while (idx < edits.length) {
     while (idx < edits.length && edits[idx].type == _DiffOpType.equal) {
       idx++;
@@ -97,16 +97,18 @@ String createUnifiedDiff(
     if (idx >= edits.length) break;
 
     final hunkStart = (idx - contextSize).clamp(0, edits.length);
-    int hunkEnd = idx;
+    var hunkEnd = idx;
     while (hunkEnd < edits.length) {
       if (edits[hunkEnd].type != _DiffOpType.equal) {
         hunkEnd = (hunkEnd + contextSize + 1).clamp(0, edits.length);
       } else {
-        int nextChange = hunkEnd;
-        while (nextChange < edits.length && edits[nextChange].type == _DiffOpType.equal) {
+        var nextChange = hunkEnd;
+        while (nextChange < edits.length &&
+            edits[nextChange].type == _DiffOpType.equal) {
           nextChange++;
         }
-        if (nextChange < edits.length && nextChange - hunkEnd <= contextSize * 2) {
+        if (nextChange < edits.length &&
+            nextChange - hunkEnd <= contextSize * 2) {
           hunkEnd = nextChange;
         } else {
           break;
@@ -116,9 +118,13 @@ String createUnifiedDiff(
 
     final hunkEdits = edits.sublist(hunkStart, hunkEnd);
     final oldStart = hunkEdits.first.oldLine;
-    final oldLength = hunkEdits.where((e) => e.type != _DiffOpType.insert).length;
+    final oldLength = hunkEdits
+        .where((e) => e.type != _DiffOpType.insert)
+        .length;
     final newStart = hunkEdits.first.newLine;
-    final newLength = hunkEdits.where((e) => e.type != _DiffOpType.delete).length;
+    final newLength = hunkEdits
+        .where((e) => e.type != _DiffOpType.delete)
+        .length;
 
     buf.writeln('@@ -$oldStart,$oldLength +$newStart,$newLength @@');
     for (final edit in hunkEdits) {
@@ -196,7 +202,9 @@ Future<void> main() async {
 
   final files = <FileInfo>[];
 
-  final result = Process.runSync('git', ['ls-files'], workingDirectory: repoRoot);
+  final result = Process.runSync('git', [
+    'ls-files',
+  ], workingDirectory: repoRoot);
   if (result.exitCode != 0) {
     print('Error: git ls-files failed with code ${result.exitCode}');
     print(result.stderr);
@@ -220,14 +228,15 @@ Future<void> main() async {
       continue;
     }
     if (isGeneratedBindingFile(file)) {
-      files.add(FileInfo(
-        file: file,
-        repoRelativePath: repoRelativePath,
-        size: file.lengthSync(),
-      ));
+      files.add(
+        FileInfo(
+          file: file,
+          repoRelativePath: repoRelativePath,
+          size: file.lengthSync(),
+        ),
+      );
     }
   }
-
 
   // Sort strictly by file size in bytes (smallest to largest)
   files.sort((a, b) {
@@ -250,15 +259,23 @@ Future<void> main() async {
 
     final currentContent = fileInfo.file.readAsStringSync();
 
-    var gitResult = await Process.run('git', ['show', 'main:${fileInfo.repoRelativePath}']);
+    var gitResult = await Process.run('git', [
+      'show',
+      'main:${fileInfo.repoRelativePath}',
+    ]);
     if (gitResult.exitCode != 0) {
-      final originResult = await Process.run('git', ['show', 'origin/main:${fileInfo.repoRelativePath}']);
+      final originResult = await Process.run('git', [
+        'show',
+        'origin/main:${fileInfo.repoRelativePath}',
+      ]);
       if (originResult.exitCode == 0) {
         gitResult = originResult;
       }
     }
 
-    final mainContent = gitResult.exitCode == 0 ? (gitResult.stdout as String) : '';
+    final mainContent = gitResult.exitCode == 0
+        ? (gitResult.stdout as String)
+        : '';
 
     final currentSummary = summarizeContent(currentContent);
     final mainSummary = summarizeContent(mainContent);

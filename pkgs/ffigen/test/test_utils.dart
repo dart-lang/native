@@ -4,8 +4,8 @@
 
 import 'dart:ffi';
 import 'dart:io';
-import 'package:ffi/ffi.dart';
 
+import 'package:ffi/ffi.dart';
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
@@ -13,6 +13,7 @@ import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
+import 'package:ffigen/src/public_ast/public_ast.dart';
 import 'package:ffigen/src/visitor/ast.dart';
 import 'package:ffigen/src/visitor/visitor.dart';
 import 'package:logging/logging.dart';
@@ -20,8 +21,6 @@ import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
-
-import 'package:ffigen/src/public_ast/public_ast.dart';
 
 export 'package:ffigen/src/config_provider/utils.dart';
 export 'package:ffigen/src/public_ast/public_ast.dart'

@@ -152,7 +152,8 @@ class ObjCBlock extends BindingType with HasLocalScope {
       '${strings.synthUsrChar} objcBlock:',
       '${_reducedType(returnType).cacheKey()} ${returnsRetained ? 'R' : ''}',
       for (final param in params)
-        '${_reducedType(param.type).cacheKey()} ${param.objCConsumed ? 'C' : ''}',
+        '${_reducedType(param.type).cacheKey()} '
+            '${param.objCConsumed ? 'C' : ''}',
     ].join(' ');
   }
 

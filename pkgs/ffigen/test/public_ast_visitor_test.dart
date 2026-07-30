@@ -216,6 +216,31 @@ void main() {
               as code_gen.ObjCInterface;
       expect(interface.includeCategories, isFalse);
     });
+
+    test('Visitor setting varArgs for variadic functions', () {
+      final headerUri = Uri.file(absPath('test/header_parser_tests/varargs.h'));
+      final generator = FfiGenerator(
+        input: Input(entryPoints: [headerUri]),
+        output: Output(dartFile: Uri.file('unused.dart')),
+        visitors: [
+          const IncludeAllVisitor(),
+          Visitor(
+            visitFunc: (Func node) {
+              if (node.originalName == 'myfunc') {
+                node.varArgs = [
+                  VarArgFunction('custom', [code_gen.intType]),
+                ];
+              }
+            },
+          ),
+        ],
+      );
+
+      final library = parser.parse(testContext(generator));
+      final func = library.getBinding('myfunccustom') as code_gen.Func;
+      expect(func, isNotNull);
+      expect(func.name, 'myfunccustom');
+    });
   });
 }
 

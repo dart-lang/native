@@ -4406,7 +4406,9 @@ class LibClang {
   }
 
   late final _clang_getFileTimePtr =
-      _lookup<ffi.NativeFunction<time_t Function(CXFile)>>('clang_getFileTime');
+      _lookup<ffi.NativeFunction<ffi.Int64 Function(CXFile)>>(
+        'clang_getFileTime',
+      );
   late final _clang_getFileTime = _clang_getFileTimePtr
       .asFunction<int Function(CXFile)>();
 
@@ -7480,7 +7482,7 @@ class _SymbolAddresses {
   get clang_getFileLocation => _library._clang_getFileLocationPtr;
   ffi.Pointer<ffi.NativeFunction<CXString Function(CXFile)>>
   get clang_getFileName => _library._clang_getFileNamePtr;
-  ffi.Pointer<ffi.NativeFunction<time_t Function(CXFile)>>
+  ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function(CXFile)>>
   get clang_getFileTime => _library._clang_getFileTimePtr;
   ffi.Pointer<
     ffi.NativeFunction<ffi.Int Function(CXFile, ffi.Pointer<CXFileUniqueID>)>
@@ -8133,46 +8135,6 @@ final class CXCodeCompleteResults extends ffi.Struct {
     ..ref.NumResults = NumResults;
 }
 
-/// Flags that can be passed to \c clang_codeCompleteAt() to
-/// modify its behavior.
-///
-/// The enumerators in this enumeration can be bitwise-OR'd together to
-/// provide multiple options to \c clang_codeCompleteAt().
-enum CXCodeComplete_Flags {
-  /// Whether to include macros within the set of code
-  /// completions returned.
-  CXCodeComplete_IncludeMacros(1),
-
-  /// Whether to include code patterns for language constructs
-  /// within the set of code completions, e.g., for loops.
-  CXCodeComplete_IncludeCodePatterns(2),
-
-  /// Whether to include brief documentation within the set of code
-  /// completions returned.
-  CXCodeComplete_IncludeBriefComments(4),
-
-  /// Whether to speed up completion by omitting top- or namespace-level entities
-  /// defined in the preamble. There's no guarantee any particular entity is
-  /// omitted. This may be useful if the headers are indexed externally.
-  CXCodeComplete_SkipPreamble(8),
-
-  /// Whether to include completions with small
-  /// fix-its, e.g. change '.' to '->' on member access, etc.
-  CXCodeComplete_IncludeCompletionsWithFixIts(16);
-
-  final int value;
-  const CXCodeComplete_Flags(this.value);
-
-  static CXCodeComplete_Flags fromValue(int value) => switch (value) {
-    1 => CXCodeComplete_IncludeMacros,
-    2 => CXCodeComplete_IncludeCodePatterns,
-    4 => CXCodeComplete_IncludeBriefComments,
-    8 => CXCodeComplete_SkipPreamble,
-    16 => CXCodeComplete_IncludeCompletionsWithFixIts,
-    _ => throw ArgumentError('Unknown value for CXCodeComplete_Flags: $value'),
-  };
-}
-
 /// Describes a single piece of text within a code-completion string.
 ///
 /// Each "chunk" within a code-completion string (\c CXCompletionString) is
@@ -8345,136 +8307,6 @@ enum CXCompletionChunkKind {
     19 => CXCompletionChunk_HorizontalSpace,
     20 => CXCompletionChunk_VerticalSpace,
     _ => throw ArgumentError('Unknown value for CXCompletionChunkKind: $value'),
-  };
-}
-
-/// Bits that represent the context under which completion is occurring.
-///
-/// The enumerators in this enumeration may be bitwise-OR'd together if multiple
-/// contexts are occurring simultaneously.
-enum CXCompletionContext {
-  /// The context for completions is unexposed, as only Clang results
-  /// should be included. (This is equivalent to having no context bits set.)
-  CXCompletionContext_Unexposed(0),
-
-  /// Completions for any possible type should be included in the results.
-  CXCompletionContext_AnyType(1),
-
-  /// Completions for any possible value (variables, function calls, etc.)
-  /// should be included in the results.
-  CXCompletionContext_AnyValue(2),
-
-  /// Completions for values that resolve to an Objective-C object should
-  /// be included in the results.
-  CXCompletionContext_ObjCObjectValue(4),
-
-  /// Completions for values that resolve to an Objective-C selector
-  /// should be included in the results.
-  CXCompletionContext_ObjCSelectorValue(8),
-
-  /// Completions for values that resolve to a C++ class type should be
-  /// included in the results.
-  CXCompletionContext_CXXClassTypeValue(16),
-
-  /// Completions for fields of the member being accessed using the dot
-  /// operator should be included in the results.
-  CXCompletionContext_DotMemberAccess(32),
-
-  /// Completions for fields of the member being accessed using the arrow
-  /// operator should be included in the results.
-  CXCompletionContext_ArrowMemberAccess(64),
-
-  /// Completions for properties of the Objective-C object being accessed
-  /// using the dot operator should be included in the results.
-  CXCompletionContext_ObjCPropertyAccess(128),
-
-  /// Completions for enum tags should be included in the results.
-  CXCompletionContext_EnumTag(256),
-
-  /// Completions for union tags should be included in the results.
-  CXCompletionContext_UnionTag(512),
-
-  /// Completions for struct tags should be included in the results.
-  CXCompletionContext_StructTag(1024),
-
-  /// Completions for C++ class names should be included in the results.
-  CXCompletionContext_ClassTag(2048),
-
-  /// Completions for C++ namespaces and namespace aliases should be
-  /// included in the results.
-  CXCompletionContext_Namespace(4096),
-
-  /// Completions for C++ nested name specifiers should be included in
-  /// the results.
-  CXCompletionContext_NestedNameSpecifier(8192),
-
-  /// Completions for Objective-C interfaces (classes) should be included
-  /// in the results.
-  CXCompletionContext_ObjCInterface(16384),
-
-  /// Completions for Objective-C protocols should be included in
-  /// the results.
-  CXCompletionContext_ObjCProtocol(32768),
-
-  /// Completions for Objective-C categories should be included in
-  /// the results.
-  CXCompletionContext_ObjCCategory(65536),
-
-  /// Completions for Objective-C instance messages should be included
-  /// in the results.
-  CXCompletionContext_ObjCInstanceMessage(131072),
-
-  /// Completions for Objective-C class messages should be included in
-  /// the results.
-  CXCompletionContext_ObjCClassMessage(262144),
-
-  /// Completions for Objective-C selector names should be included in
-  /// the results.
-  CXCompletionContext_ObjCSelectorName(524288),
-
-  /// Completions for preprocessor macro names should be included in
-  /// the results.
-  CXCompletionContext_MacroName(1048576),
-
-  /// Natural language completions should be included in the results.
-  CXCompletionContext_NaturalLanguage(2097152),
-
-  /// #include file completions should be included in the results.
-  CXCompletionContext_IncludedFile(4194304),
-
-  /// The current context is unknown, so set all contexts.
-  CXCompletionContext_Unknown(8388607);
-
-  final int value;
-  const CXCompletionContext(this.value);
-
-  static CXCompletionContext fromValue(int value) => switch (value) {
-    0 => CXCompletionContext_Unexposed,
-    1 => CXCompletionContext_AnyType,
-    2 => CXCompletionContext_AnyValue,
-    4 => CXCompletionContext_ObjCObjectValue,
-    8 => CXCompletionContext_ObjCSelectorValue,
-    16 => CXCompletionContext_CXXClassTypeValue,
-    32 => CXCompletionContext_DotMemberAccess,
-    64 => CXCompletionContext_ArrowMemberAccess,
-    128 => CXCompletionContext_ObjCPropertyAccess,
-    256 => CXCompletionContext_EnumTag,
-    512 => CXCompletionContext_UnionTag,
-    1024 => CXCompletionContext_StructTag,
-    2048 => CXCompletionContext_ClassTag,
-    4096 => CXCompletionContext_Namespace,
-    8192 => CXCompletionContext_NestedNameSpecifier,
-    16384 => CXCompletionContext_ObjCInterface,
-    32768 => CXCompletionContext_ObjCProtocol,
-    65536 => CXCompletionContext_ObjCCategory,
-    131072 => CXCompletionContext_ObjCInstanceMessage,
-    262144 => CXCompletionContext_ObjCClassMessage,
-    524288 => CXCompletionContext_ObjCSelectorName,
-    1048576 => CXCompletionContext_MacroName,
-    2097152 => CXCompletionContext_NaturalLanguage,
-    4194304 => CXCompletionContext_IncludedFile,
-    8388607 => CXCompletionContext_Unknown,
-    _ => throw ArgumentError('Unknown value for CXCompletionContext: $value'),
   };
 }
 
@@ -9680,133 +9512,9 @@ typedef DartCXCursorVisitorFunction =
       CXClientData client_data,
     );
 
-/// Describes the exception specification of a cursor.
-///
-/// A negative value indicates that the cursor is not a function declaration.
-enum CXCursor_ExceptionSpecificationKind {
-  /// The cursor has no exception specification.
-  CXCursor_ExceptionSpecificationKind_None(0),
-
-  /// The cursor has exception specification throw()
-  CXCursor_ExceptionSpecificationKind_DynamicNone(1),
-
-  /// The cursor has exception specification throw(T1, T2)
-  CXCursor_ExceptionSpecificationKind_Dynamic(2),
-
-  /// The cursor has exception specification throw(...).
-  CXCursor_ExceptionSpecificationKind_MSAny(3),
-
-  /// The cursor has exception specification basic noexcept.
-  CXCursor_ExceptionSpecificationKind_BasicNoexcept(4),
-
-  /// The cursor has exception specification computed noexcept.
-  CXCursor_ExceptionSpecificationKind_ComputedNoexcept(5),
-
-  /// The exception specification has not yet been evaluated.
-  CXCursor_ExceptionSpecificationKind_Unevaluated(6),
-
-  /// The exception specification has not yet been instantiated.
-  CXCursor_ExceptionSpecificationKind_Uninstantiated(7),
-
-  /// The exception specification has not been parsed yet.
-  CXCursor_ExceptionSpecificationKind_Unparsed(8),
-
-  /// The cursor has a __declspec(nothrow) exception specification.
-  CXCursor_ExceptionSpecificationKind_NoThrow(9);
-
-  final int value;
-  const CXCursor_ExceptionSpecificationKind(this.value);
-
-  static CXCursor_ExceptionSpecificationKind fromValue(int value) =>
-      switch (value) {
-        0 => CXCursor_ExceptionSpecificationKind_None,
-        1 => CXCursor_ExceptionSpecificationKind_DynamicNone,
-        2 => CXCursor_ExceptionSpecificationKind_Dynamic,
-        3 => CXCursor_ExceptionSpecificationKind_MSAny,
-        4 => CXCursor_ExceptionSpecificationKind_BasicNoexcept,
-        5 => CXCursor_ExceptionSpecificationKind_ComputedNoexcept,
-        6 => CXCursor_ExceptionSpecificationKind_Unevaluated,
-        7 => CXCursor_ExceptionSpecificationKind_Uninstantiated,
-        8 => CXCursor_ExceptionSpecificationKind_Unparsed,
-        9 => CXCursor_ExceptionSpecificationKind_NoThrow,
-        _ => throw ArgumentError(
-          'Unknown value for CXCursor_ExceptionSpecificationKind: $value',
-        ),
-      };
-}
-
 /// A single diagnostic, containing the diagnostic's severity,
 /// location, text, source ranges, and fix-it hints.
 typedef CXDiagnostic = ffi.Pointer<ffi.Void>;
-
-/// Options to control the display of diagnostics.
-///
-/// The values in this enum are meant to be combined to customize the
-/// behavior of \c clang_formatDiagnostic().
-enum CXDiagnosticDisplayOptions {
-  /// Display the source-location information where the
-  /// diagnostic was located.
-  ///
-  /// When set, diagnostics will be prefixed by the file, line, and
-  /// (optionally) column to which the diagnostic refers. For example,
-  ///
-  /// \code
-  /// test.c:28: warning: extra tokens at end of #endif directive
-  /// \endcode
-  ///
-  /// This option corresponds to the clang flag \c -fshow-source-location.
-  CXDiagnostic_DisplaySourceLocation(1),
-
-  /// If displaying the source-location information of the
-  /// diagnostic, also include the column number.
-  ///
-  /// This option corresponds to the clang flag \c -fshow-column.
-  CXDiagnostic_DisplayColumn(2),
-
-  /// If displaying the source-location information of the
-  /// diagnostic, also include information about source ranges in a
-  /// machine-parsable format.
-  ///
-  /// This option corresponds to the clang flag
-  /// \c -fdiagnostics-print-source-range-info.
-  CXDiagnostic_DisplaySourceRanges(4),
-
-  /// Display the option name associated with this diagnostic, if any.
-  ///
-  /// The option name displayed (e.g., -Wconversion) will be placed in brackets
-  /// after the diagnostic text. This option corresponds to the clang flag
-  /// \c -fdiagnostics-show-option.
-  CXDiagnostic_DisplayOption(8),
-
-  /// Display the category number associated with this diagnostic, if any.
-  ///
-  /// The category number is displayed within brackets after the diagnostic text.
-  /// This option corresponds to the clang flag
-  /// \c -fdiagnostics-show-category=id.
-  CXDiagnostic_DisplayCategoryId(16),
-
-  /// Display the category name associated with this diagnostic, if any.
-  ///
-  /// The category name is displayed within brackets after the diagnostic text.
-  /// This option corresponds to the clang flag
-  /// \c -fdiagnostics-show-category=name.
-  CXDiagnostic_DisplayCategoryName(32);
-
-  final int value;
-  const CXDiagnosticDisplayOptions(this.value);
-
-  static CXDiagnosticDisplayOptions fromValue(int value) => switch (value) {
-    1 => CXDiagnostic_DisplaySourceLocation,
-    2 => CXDiagnostic_DisplayColumn,
-    4 => CXDiagnostic_DisplaySourceRanges,
-    8 => CXDiagnostic_DisplayOption,
-    16 => CXDiagnostic_DisplayCategoryId,
-    32 => CXDiagnostic_DisplayCategoryName,
-    _ => throw ArgumentError(
-      'Unknown value for CXDiagnosticDisplayOptions: $value',
-    ),
-  };
-}
 
 /// A group of CXDiagnostics.
 typedef CXDiagnosticSet = ffi.Pointer<ffi.Void>;
@@ -10081,18 +9789,6 @@ final class CXIdxDeclInfo extends ffi.Struct {
 
   @ffi.UnsignedInt()
   external int flags;
-}
-
-enum CXIdxDeclInfoFlags {
-  CXIdxDeclFlag_Skipped(1);
-
-  final int value;
-  const CXIdxDeclInfoFlags(this.value);
-
-  static CXIdxDeclInfoFlags fromValue(int value) => switch (value) {
-    1 => CXIdxDeclFlag_Skipped,
-    _ => throw ArgumentError('Unknown value for CXIdxDeclInfoFlags: $value'),
-  };
 }
 
 /// Extra C++ template information for an entity. This can apply to:
@@ -10501,45 +10197,6 @@ typedef CXIndex = ffi.Pointer<ffi.Void>;
 /// translation units.
 typedef CXIndexAction = ffi.Pointer<ffi.Void>;
 
-enum CXIndexOptFlags {
-  /// Used to indicate that no special indexing options are needed.
-  CXIndexOpt_None(0),
-
-  /// Used to indicate that IndexerCallbacks#indexEntityReference should
-  /// be invoked for only one reference of an entity per source file that does
-  /// not also include a declaration/definition of the entity.
-  CXIndexOpt_SuppressRedundantRefs(1),
-
-  /// Function-local symbols should be indexed. If this is not set
-  /// function-local symbols will be ignored.
-  CXIndexOpt_IndexFunctionLocalSymbols(2),
-
-  /// Implicit function/class template instantiations should be indexed.
-  /// If this is not set, implicit instantiations will be ignored.
-  CXIndexOpt_IndexImplicitTemplateInstantiations(4),
-
-  /// Suppress all compiler warnings when parsing for indexing.
-  CXIndexOpt_SuppressWarnings(8),
-
-  /// Skip a function/method body that was already parsed during an
-  /// indexing session associated with a \c CXIndexAction object.
-  /// Bodies in system headers are always skipped.
-  CXIndexOpt_SkipParsedBodiesInSession(16);
-
-  final int value;
-  const CXIndexOptFlags(this.value);
-
-  static CXIndexOptFlags fromValue(int value) => switch (value) {
-    0 => CXIndexOpt_None,
-    1 => CXIndexOpt_SuppressRedundantRefs,
-    2 => CXIndexOpt_IndexFunctionLocalSymbols,
-    4 => CXIndexOpt_IndexImplicitTemplateInstantiations,
-    8 => CXIndexOpt_SuppressWarnings,
-    16 => CXIndexOpt_SkipParsedBodiesInSession,
-    _ => throw ArgumentError('Unknown value for CXIndexOptFlags: $value'),
-  };
-}
-
 /// Describe the "language" of the entity referred to by a cursor.
 enum CXLanguageKind {
   CXLanguage_Invalid(0),
@@ -10628,105 +10285,6 @@ enum CXLoadDiag_Error {
 ///
 /// @{
 typedef CXModule = ffi.Pointer<ffi.Void>;
-
-enum CXNameRefFlags {
-  /// Include the nested-name-specifier, e.g. Foo:: in x.Foo::y, in the
-  /// range.
-  CXNameRange_WantQualifier(1),
-
-  /// Include the explicit template arguments, e.g. \<int> in x.f<int>,
-  /// in the range.
-  CXNameRange_WantTemplateArgs(2),
-
-  /// If the name is non-contiguous, return the full spanning range.
-  ///
-  /// Non-contiguous names occur in Objective-C when a selector with two or more
-  /// parameters is used, or in C++ when using an operator:
-  /// \code
-  /// [object doSomething:here withValue:there]; // Objective-C
-  /// return some_vector[1]; // C++
-  /// \endcode
-  CXNameRange_WantSinglePiece(4);
-
-  final int value;
-  const CXNameRefFlags(this.value);
-
-  static CXNameRefFlags fromValue(int value) => switch (value) {
-    1 => CXNameRange_WantQualifier,
-    2 => CXNameRange_WantTemplateArgs,
-    4 => CXNameRange_WantSinglePiece,
-    _ => throw ArgumentError('Unknown value for CXNameRefFlags: $value'),
-  };
-}
-
-/// 'Qualifiers' written next to the return and parameter types in
-/// Objective-C method declarations.
-enum CXObjCDeclQualifierKind {
-  CXObjCDeclQualifier_None(0),
-  CXObjCDeclQualifier_In(1),
-  CXObjCDeclQualifier_Inout(2),
-  CXObjCDeclQualifier_Out(4),
-  CXObjCDeclQualifier_Bycopy(8),
-  CXObjCDeclQualifier_Byref(16),
-  CXObjCDeclQualifier_Oneway(32);
-
-  final int value;
-  const CXObjCDeclQualifierKind(this.value);
-
-  static CXObjCDeclQualifierKind fromValue(int value) => switch (value) {
-    0 => CXObjCDeclQualifier_None,
-    1 => CXObjCDeclQualifier_In,
-    2 => CXObjCDeclQualifier_Inout,
-    4 => CXObjCDeclQualifier_Out,
-    8 => CXObjCDeclQualifier_Bycopy,
-    16 => CXObjCDeclQualifier_Byref,
-    32 => CXObjCDeclQualifier_Oneway,
-    _ => throw ArgumentError(
-      'Unknown value for CXObjCDeclQualifierKind: $value',
-    ),
-  };
-}
-
-/// Property attributes for a \c CXCursor_ObjCPropertyDecl.
-enum CXObjCPropertyAttrKind {
-  CXObjCPropertyAttr_noattr(0),
-  CXObjCPropertyAttr_readonly(1),
-  CXObjCPropertyAttr_getter(2),
-  CXObjCPropertyAttr_assign(4),
-  CXObjCPropertyAttr_readwrite(8),
-  CXObjCPropertyAttr_retain(16),
-  CXObjCPropertyAttr_copy(32),
-  CXObjCPropertyAttr_nonatomic(64),
-  CXObjCPropertyAttr_setter(128),
-  CXObjCPropertyAttr_atomic(256),
-  CXObjCPropertyAttr_weak(512),
-  CXObjCPropertyAttr_strong(1024),
-  CXObjCPropertyAttr_unsafe_unretained(2048),
-  CXObjCPropertyAttr_class(4096);
-
-  final int value;
-  const CXObjCPropertyAttrKind(this.value);
-
-  static CXObjCPropertyAttrKind fromValue(int value) => switch (value) {
-    0 => CXObjCPropertyAttr_noattr,
-    1 => CXObjCPropertyAttr_readonly,
-    2 => CXObjCPropertyAttr_getter,
-    4 => CXObjCPropertyAttr_assign,
-    8 => CXObjCPropertyAttr_readwrite,
-    16 => CXObjCPropertyAttr_retain,
-    32 => CXObjCPropertyAttr_copy,
-    64 => CXObjCPropertyAttr_nonatomic,
-    128 => CXObjCPropertyAttr_setter,
-    256 => CXObjCPropertyAttr_atomic,
-    512 => CXObjCPropertyAttr_weak,
-    1024 => CXObjCPropertyAttr_strong,
-    2048 => CXObjCPropertyAttr_unsafe_unretained,
-    4096 => CXObjCPropertyAttr_class,
-    _ => throw ArgumentError(
-      'Unknown value for CXObjCPropertyAttrKind: $value',
-    ),
-  };
-}
 
 /// Describes the availability of a given entity on a particular platform, e.g.,
 /// a particular class might only be available on Mac OS 10.7 or newer.
@@ -10862,24 +10420,6 @@ enum CXRefQualifierKind {
 /// A remapping of original source files and their translated files.
 typedef CXRemapping = ffi.Pointer<ffi.Void>;
 
-/// Flags that control the reparsing of translation units.
-///
-/// The enumerators in this enumeration type are meant to be bitwise
-/// ORed together to specify which options should be used when
-/// reparsing the translation unit.
-enum CXReparse_Flags {
-  /// Used to indicate that no special reparsing options are needed.
-  CXReparse_None(0);
-
-  final int value;
-  const CXReparse_Flags(this.value);
-
-  static CXReparse_Flags fromValue(int value) => switch (value) {
-    0 => CXReparse_None,
-    _ => throw ArgumentError('Unknown value for CXReparse_Flags: $value'),
-  };
-}
-
 enum CXResult {
   /// Function returned successfully.
   CXResult_Success(0),
@@ -10899,62 +10439,6 @@ enum CXResult {
     1 => CXResult_Invalid,
     2 => CXResult_VisitBreak,
     _ => throw ArgumentError('Unknown value for CXResult: $value'),
-  };
-}
-
-/// Describes the kind of error that occurred (if any) in a call to
-/// \c clang_saveTranslationUnit().
-enum CXSaveError {
-  /// Indicates that no error occurred while saving a translation unit.
-  CXSaveError_None(0),
-
-  /// Indicates that an unknown error occurred while attempting to save
-  /// the file.
-  ///
-  /// This error typically indicates that file I/O failed when attempting to
-  /// write the file.
-  CXSaveError_Unknown(1),
-
-  /// Indicates that errors during translation prevented this attempt
-  /// to save the translation unit.
-  ///
-  /// Errors that prevent the translation unit from being saved can be
-  /// extracted using \c clang_getNumDiagnostics() and \c clang_getDiagnostic().
-  CXSaveError_TranslationErrors(2),
-
-  /// Indicates that the translation unit to be saved was somehow
-  /// invalid (e.g., NULL).
-  CXSaveError_InvalidTU(3);
-
-  final int value;
-  const CXSaveError(this.value);
-
-  static CXSaveError fromValue(int value) => switch (value) {
-    0 => CXSaveError_None,
-    1 => CXSaveError_Unknown,
-    2 => CXSaveError_TranslationErrors,
-    3 => CXSaveError_InvalidTU,
-    _ => throw ArgumentError('Unknown value for CXSaveError: $value'),
-  };
-}
-
-/// Flags that control how translation units are saved.
-///
-/// The enumerators in this enumeration type are meant to be bitwise
-/// ORed together to specify which options should be used when
-/// saving the translation unit.
-enum CXSaveTranslationUnit_Flags {
-  /// Used to indicate that no special saving options are needed.
-  CXSaveTranslationUnit_None(0);
-
-  final int value;
-  const CXSaveTranslationUnit_Flags(this.value);
-
-  static CXSaveTranslationUnit_Flags fromValue(int value) => switch (value) {
-    0 => CXSaveTranslationUnit_None,
-    _ => throw ArgumentError(
-      'Unknown value for CXSaveTranslationUnit_Flags: $value',
-    ),
   };
 }
 
@@ -11271,152 +10755,6 @@ typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
 
 final class CXTranslationUnitImpl extends ffi.Opaque {}
 
-/// Flags that control the creation of translation units.
-///
-/// The enumerators in this enumeration type are meant to be bitwise
-/// ORed together to specify which options should be used when
-/// constructing the translation unit.
-enum CXTranslationUnit_Flags {
-  /// Used to indicate that no special translation-unit options are
-  /// needed.
-  CXTranslationUnit_None(0),
-
-  /// Used to indicate that the parser should construct a "detailed"
-  /// preprocessing record, including all macro definitions and instantiations.
-  ///
-  /// Constructing a detailed preprocessing record requires more memory
-  /// and time to parse, since the information contained in the record
-  /// is usually not retained. However, it can be useful for
-  /// applications that require more detailed information about the
-  /// behavior of the preprocessor.
-  CXTranslationUnit_DetailedPreprocessingRecord(1),
-
-  /// Used to indicate that the translation unit is incomplete.
-  ///
-  /// When a translation unit is considered "incomplete", semantic
-  /// analysis that is typically performed at the end of the
-  /// translation unit will be suppressed. For example, this suppresses
-  /// the completion of tentative declarations in C and of
-  /// instantiation of implicitly-instantiation function templates in
-  /// C++. This option is typically used when parsing a header with the
-  /// intent of producing a precompiled header.
-  CXTranslationUnit_Incomplete(2),
-
-  /// Used to indicate that the translation unit should be built with an
-  /// implicit precompiled header for the preamble.
-  ///
-  /// An implicit precompiled header is used as an optimization when a
-  /// particular translation unit is likely to be reparsed many times
-  /// when the sources aren't changing that often. In this case, an
-  /// implicit precompiled header will be built containing all of the
-  /// initial includes at the top of the main file (what we refer to as
-  /// the "preamble" of the file). In subsequent parses, if the
-  /// preamble or the files in it have not changed, \c
-  /// clang_reparseTranslationUnit() will re-use the implicit
-  /// precompiled header to improve parsing performance.
-  CXTranslationUnit_PrecompiledPreamble(4),
-
-  /// Used to indicate that the translation unit should cache some
-  /// code-completion results with each reparse of the source file.
-  ///
-  /// Caching of code-completion results is a performance optimization that
-  /// introduces some overhead to reparsing but improves the performance of
-  /// code-completion operations.
-  CXTranslationUnit_CacheCompletionResults(8),
-
-  /// Used to indicate that the translation unit will be serialized with
-  /// \c clang_saveTranslationUnit.
-  ///
-  /// This option is typically used when parsing a header with the intent of
-  /// producing a precompiled header.
-  CXTranslationUnit_ForSerialization(16),
-
-  /// DEPRECATED: Enabled chained precompiled preambles in C++.
-  ///
-  /// Note: this is a *temporary* option that is available only while
-  /// we are testing C++ precompiled preamble support. It is deprecated.
-  CXTranslationUnit_CXXChainedPCH(32),
-
-  /// Used to indicate that function/method bodies should be skipped while
-  /// parsing.
-  ///
-  /// This option can be used to search for declarations/definitions while
-  /// ignoring the usages.
-  CXTranslationUnit_SkipFunctionBodies(64),
-
-  /// Used to indicate that brief documentation comments should be
-  /// included into the set of code completions returned from this translation
-  /// unit.
-  CXTranslationUnit_IncludeBriefCommentsInCodeCompletion(128),
-
-  /// Used to indicate that the precompiled preamble should be created on
-  /// the first parse. Otherwise it will be created on the first reparse. This
-  /// trades runtime on the first parse (serializing the preamble takes time) for
-  /// reduced runtime on the second parse (can now reuse the preamble).
-  CXTranslationUnit_CreatePreambleOnFirstParse(256),
-
-  /// Do not stop processing when fatal errors are encountered.
-  ///
-  /// When fatal errors are encountered while parsing a translation unit,
-  /// semantic analysis is typically stopped early when compiling code. A common
-  /// source for fatal errors are unresolvable include files. For the
-  /// purposes of an IDE, this is undesirable behavior and as much information
-  /// as possible should be reported. Use this flag to enable this behavior.
-  CXTranslationUnit_KeepGoing(512),
-
-  /// Sets the preprocessor in a mode for parsing a single file only.
-  CXTranslationUnit_SingleFileParse(1024),
-
-  /// Used in combination with CXTranslationUnit_SkipFunctionBodies to
-  /// constrain the skipping of function bodies to the preamble.
-  ///
-  /// The function bodies of the main file are not skipped.
-  CXTranslationUnit_LimitSkipFunctionBodiesToPreamble(2048),
-
-  /// Used to indicate that attributed types should be included in CXType.
-  CXTranslationUnit_IncludeAttributedTypes(4096),
-
-  /// Used to indicate that implicit attributes should be visited.
-  CXTranslationUnit_VisitImplicitAttributes(8192),
-
-  /// Used to indicate that non-errors from included files should be ignored.
-  ///
-  /// If set, clang_getDiagnosticSetFromTU() will not report e.g. warnings from
-  /// included files anymore. This speeds up clang_getDiagnosticSetFromTU() for
-  /// the case where these warnings are not of interest, as for an IDE for
-  /// example, which typically shows only the diagnostics in the main file.
-  CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles(16384),
-
-  /// Tells the preprocessor not to skip excluded conditional blocks.
-  CXTranslationUnit_RetainExcludedConditionalBlocks(32768);
-
-  final int value;
-  const CXTranslationUnit_Flags(this.value);
-
-  static CXTranslationUnit_Flags fromValue(int value) => switch (value) {
-    0 => CXTranslationUnit_None,
-    1 => CXTranslationUnit_DetailedPreprocessingRecord,
-    2 => CXTranslationUnit_Incomplete,
-    4 => CXTranslationUnit_PrecompiledPreamble,
-    8 => CXTranslationUnit_CacheCompletionResults,
-    16 => CXTranslationUnit_ForSerialization,
-    32 => CXTranslationUnit_CXXChainedPCH,
-    64 => CXTranslationUnit_SkipFunctionBodies,
-    128 => CXTranslationUnit_IncludeBriefCommentsInCodeCompletion,
-    256 => CXTranslationUnit_CreatePreambleOnFirstParse,
-    512 => CXTranslationUnit_KeepGoing,
-    1024 => CXTranslationUnit_SingleFileParse,
-    2048 => CXTranslationUnit_LimitSkipFunctionBodiesToPreamble,
-    4096 => CXTranslationUnit_IncludeAttributedTypes,
-    8192 => CXTranslationUnit_VisitImplicitAttributes,
-    16384 => CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles,
-    32768 => CXTranslationUnit_RetainExcludedConditionalBlocks,
-    _ => throw ArgumentError(
-      'Unknown value for CXTranslationUnit_Flags: $value',
-    ),
-  };
-}
-
 /// The type of an element in the abstract syntax tree.
 final class CXType extends ffi.Struct {
   @ffi.UnsignedInt()
@@ -11690,45 +11028,6 @@ enum CXTypeKind {
       return "CXTypeKind.CXType_ULongAccum, CXTypeKind.CXType_LastBuiltin";
     return super.toString();
   }
-}
-
-/// List the possible error codes for \c clang_Type_getSizeOf,
-/// \c clang_Type_getAlignOf, \c clang_Type_getOffsetOf and
-/// \c clang_Cursor_getOffsetOf.
-///
-/// A value of this enumeration type can be returned if the target type is not
-/// a valid argument to sizeof, alignof or offsetof.
-enum CXTypeLayoutError {
-  /// Type is of kind CXType_Invalid.
-  CXTypeLayoutError_Invalid(-1),
-
-  /// The type is an incomplete Type.
-  CXTypeLayoutError_Incomplete(-2),
-
-  /// The type is a dependent Type.
-  CXTypeLayoutError_Dependent(-3),
-
-  /// The type is not a constant size type.
-  CXTypeLayoutError_NotConstantSize(-4),
-
-  /// The Field name is not valid for this record.
-  CXTypeLayoutError_InvalidFieldName(-5),
-
-  /// The type is undeduced.
-  CXTypeLayoutError_Undeduced(-6);
-
-  final int value;
-  const CXTypeLayoutError(this.value);
-
-  static CXTypeLayoutError fromValue(int value) => switch (value) {
-    -1 => CXTypeLayoutError_Invalid,
-    -2 => CXTypeLayoutError_Incomplete,
-    -3 => CXTypeLayoutError_Dependent,
-    -4 => CXTypeLayoutError_NotConstantSize,
-    -5 => CXTypeLayoutError_InvalidFieldName,
-    -6 => CXTypeLayoutError_Undeduced,
-    _ => throw ArgumentError('Unknown value for CXTypeLayoutError: $value'),
-  };
 }
 
 enum CXTypeNullabilityKind {
@@ -12066,7 +11365,3 @@ final class IndexerCallbacks extends ffi.Struct {
     ..ref.indexDeclaration = indexDeclaration
     ..ref.indexEntityReference = indexEntityReference;
 }
-
-typedef __darwin_time_t = ffi.Long;
-typedef Dart__darwin_time_t = int;
-typedef time_t = __darwin_time_t;

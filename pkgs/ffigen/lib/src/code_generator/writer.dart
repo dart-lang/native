@@ -197,7 +197,8 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
         'chosen by the most common compilers for the various OS and '
         'architecture combinations. To prevent any crashes, remove the '
         'enums from your API surface. To rely on the (unsafe!) mimicking, '
-        'you can silence this warning on the EnumClass. Affected enums:\n\t${names.join('\n\t')}',
+        'you can silence this warning on the EnumClass. Affected enums:\n\t'
+        '${names.join('\n\t')}',
       );
     }
 

@@ -188,6 +188,19 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     publicAst.accept(v);
   }
 
+  final expandedBindings = <Binding>{};
+  for (final binding in allBindingsWithImports) {
+    if (binding is Func && binding.isVariadic && binding.varArgs.isNotEmpty) {
+      expandedBindings.addAll(binding.expandVarArgs());
+    } else {
+      expandedBindings.add(binding);
+    }
+  }
+  allBindingsWithImports.clear();
+  allBindingsWithImports.addAll(expandedBindings);
+  allBindings.clear();
+  allBindings.addAll(expandedBindings.where((b) => !b.isObjCImport));
+
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
   visit(context, applyConfigFiltersVisitation, allBindingsWithImports);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;

@@ -12,7 +12,8 @@ const objCBuiltInInterfaces = {
   'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
   'NSArray': 'NSArray',
   'NSAttributedString': 'NSAttributedString',
-  'NSAttributedStringMarkdownParsingOptions': 'NSAttributedStringMarkdownParsingOptions',
+  'NSAttributedStringMarkdownParsingOptions':
+      'NSAttributedStringMarkdownParsingOptions',
   'NSBundle': 'NSBundle',
   'NSCharacterSet': 'NSCharacterSet',
   'NSCoder': 'NSCoder',

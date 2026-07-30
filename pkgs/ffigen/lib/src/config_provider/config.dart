@@ -22,9 +22,6 @@ final class FfiGenerator {
   /// The input configuration for header parsing of [FfiGenerator].
   final Input input;
 
-  /// Configuration for functions.
-  final Functions functions;
-
   /// C++ specific configuration.
   ///
   /// If `null`, C++ class bindings will not be generated.
@@ -73,7 +70,6 @@ final class FfiGenerator {
   const FfiGenerator({
     this.visitors = const [],
     this.input = const Input(),
-    this.functions = const Functions(),
     this.cpp,
     this.objectiveC,
     required this.output,
@@ -136,19 +132,6 @@ enum EnumStyle {
   ///
   /// Useful when enum values are also used as bit masks.
   intConstants,
-}
-
-/// Configuration for function declarations.
-final class Functions {
-  /// Map from function's original name to [VarArgFunction]s.
-  ///
-  /// Dart doesn't support variadic functions. Instead, variadic functions are
-  /// handled by generating multiple versions of the same function, with
-  /// different signatures. Each [VarArgFunction] represents one of those
-  /// signatures.
-  final Map<String, List<VarArgFunction>> varArgs;
-
-  const Functions({this.varArgs = const <String, List<VarArgFunction>>{}});
 }
 
 /// Configuration for C++.

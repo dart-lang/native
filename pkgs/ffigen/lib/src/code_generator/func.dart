@@ -3,8 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/config_types.dart' show VarArgFunction;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
+import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';
@@ -50,6 +52,8 @@ class Func extends LookUpBinding with HasLocalScope {
   final bool useNameForLookup;
   bool recordUse;
   final ApiAvailability? apiAvailability;
+  final bool isVariadic;
+  List<VarArgFunction> varArgs;
 
   @override
   final bool loadFromNativeAsset;
@@ -82,6 +86,8 @@ class Func extends LookUpBinding with HasLocalScope {
     super.isInternal,
     this.loadFromNativeAsset = false,
     this.apiAvailability,
+    this.isVariadic = false,
+    this.varArgs = const [],
   }) : functionType = FunctionType(
          returnType: returnType,
          parameters: parameters,
@@ -105,6 +111,39 @@ class Func extends LookUpBinding with HasLocalScope {
         isInternal: true,
       );
     }
+  }
+
+  /// Expands variant [Func] bindings based on [varArgs].
+  List<Func> expandVarArgs() {
+    final expanded = <Func>[];
+    for (final vaFunc in varArgs) {
+      final f = Func(
+        dartDoc: dartDoc,
+        usr: usr.isNotEmpty
+            ? '$usr${strings.synthUsrChar} vaFunc: ${vaFunc.postfix}'
+            : '',
+        name: symbol.oldName + vaFunc.postfix,
+        originalName: originalName,
+        returnType: functionType.returnType,
+        parameters: functionType.parameters,
+        varArgParameters: [
+          for (final ta in vaFunc.types)
+            Parameter(type: ta, name: 'va', objCConsumed: false),
+        ],
+        exposeSymbolAddress: exposeSymbolAddress,
+        exposeFunctionTypedefs: exposeFunctionTypedefs,
+        isLeaf: isLeaf,
+        recordUse: recordUse,
+        objCReturnsRetained: objCReturnsRetained,
+        loadFromNativeAsset: loadFromNativeAsset,
+        apiAvailability: apiAvailability,
+        useNameForLookup: useNameForLookup,
+        isInternal: isInternal,
+      );
+      f.userDefinedIsIncluded = userDefinedIsIncluded;
+      expanded.add(f);
+    }
+    return expanded;
   }
 
   @override

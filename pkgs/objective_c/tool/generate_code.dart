@@ -284,8 +284,7 @@ class CBindingsVisitor extends Visitor {
 class ObjCBindingsVisitor extends Visitor {
   static const interfaces = {
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
-    'DOBJCDartInputStreamAdapterWeakHolder':
-        'DartInputStreamAdapterWeakHolder',
+    'DOBJCDartInputStreamAdapterWeakHolder': 'DartInputStreamAdapterWeakHolder',
     'DOBJCObservation': 'DOBJCObservation',
     'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
     'DOBJCDartProtocol': 'DartProtocol',
@@ -531,8 +530,11 @@ class ObjCBindingsVisitor extends Visitor {
 
 List<String> writeBuiltInTypes(String out, String bindingsFile) {
   final bindingsLines = File(bindingsFile).readAsLinesSync();
-  Set<String> findBindings(RegExp re) =>
-      bindingsLines.map(re.firstMatch).nonNulls.map((match) => match[1]!).toSet();
+  Set<String> findBindings(RegExp re) => bindingsLines
+      .map(re.firstMatch)
+      .nonNulls
+      .map((match) => match[1]!)
+      .toSet();
 
   final genInterfaces = findBindings(
     RegExp(r'^extension type ([^_]\w*)\._\( *objc\.ObjCObject '),
@@ -555,21 +557,33 @@ List<String> writeBuiltInTypes(String out, String bindingsFile) {
 
   final interfacesMap = {
     for (final name in genInterfaces)
-      (ObjCBindingsVisitor.interfaces.entries
-          .firstWhere((e) => e.value == name, orElse: () => MapEntry(name, name))
-          .key): name,
+      ObjCBindingsVisitor.interfaces.entries
+              .firstWhere(
+                (e) => e.value == name,
+                orElse: () => MapEntry(name, name),
+              )
+              .key:
+          name,
   };
   final structsMap = {
     for (final name in genStructs)
-      (ObjCBindingsVisitor.structs.entries
-          .firstWhere((e) => e.value == name, orElse: () => MapEntry(name, name))
-          .key): name,
+      ObjCBindingsVisitor.structs.entries
+              .firstWhere(
+                (e) => e.value == name,
+                orElse: () => MapEntry(name, name),
+              )
+              .key:
+          name,
   };
   final protocolsMap = {
     for (final name in genProtocols)
-      (ObjCBindingsVisitor.protocols.entries
-          .firstWhere((e) => e.value == name, orElse: () => MapEntry(name, name))
-          .key): name,
+      ObjCBindingsVisitor.protocols.entries
+              .firstWhere(
+                (e) => e.value == name,
+                orElse: () => MapEntry(name, name),
+              )
+              .key:
+          name,
   };
 
   final s = StringBuffer();
@@ -589,21 +603,18 @@ List<String> writeBuiltInTypes(String out, String bindingsFile) {
     Iterable<String>? namesIterable,
   ]) {
     final keys = namesIterable ?? namesMap.keys;
-    final map =
-        namesIterable != null
-            ? {for (final k in keys) k: k}
-            : Map<String, String>.from(namesMap);
+    final map = namesIterable != null
+        ? {for (final k in keys) k: k}
+        : Map<String, String>.from(namesMap);
     exports.addAll(map.values);
     final anyRenames = map.entries.any((kv) => kv.key != kv.value);
-    final elements =
-        anyRenames
-            ? map.entries.map(
-              (kv) =>
-                  "  '${kv.key.replaceAll(r'$', r'\$')}': '${kv.value.replaceAll(r'$', r'\$')}',",
-            )
-            : map.keys.map(
-              (key) => "  '${key.replaceAll(r'$', r'\$')}',",
-            );
+    final elements = anyRenames
+        ? map.entries.map(
+            (kv) =>
+                "  '${kv.key.replaceAll(r'$', r'\$')}': "
+                "'${kv.value.replaceAll(r'$', r'\$')}',",
+          )
+        : map.keys.map((key) => "  '${key.replaceAll(r'$', r'\$')}',");
 
     s.write('''
 
@@ -625,9 +636,7 @@ ${elements.join('\n')}
     for (final name in protocolsMap.values)
       if (genAllExtensions.contains('$name\$Methods')) '$name\$Methods',
   ]);
-  exports.addAll([
-    for (final name in protocolsMap.values) '$name\$Builder',
-  ]);
+  exports.addAll([for (final name in protocolsMap.values) '$name\$Builder']);
   writeDecls('objCBuiltInCategories', {}, genCategories);
 
   File(out).writeAsStringSync(s.toString());
@@ -718,9 +727,7 @@ Future<void> run({required bool format}) async {
         root.resolve('src/protocol.h'),
       ],
     ),
-    objectiveC: const ObjectiveC(
-      generateForPackageObjectiveC: true,
-    ),
+    objectiveC: const ObjectiveC(generateForPackageObjectiveC: true),
     visitors: [const ObjCBindingsVisitor()],
     output: Output(
       preamble: '''
