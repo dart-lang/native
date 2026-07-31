@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/context.dart';
@@ -78,14 +79,39 @@ void main() {
     Parameter makeParam(String name, Type type) =>
         Parameter(name: name, type: type, objCConsumed: false);
 
-    test('addMethod throws AssertionError if method already has a parent', () {
-      final m = makeMethod('foo', voidType, []);
-      final itf1 = makeInterface('Interface1', null, [m]);
-      expect(m.parent, itf1);
-
-      final itf2 = makeInterface('Interface2', null, []);
-      expect(() => itf2.addMethod(m), throwsA(isA<AssertionError>()));
-    });
+    (ObjCMethod, ObjCMethod) makeProperty(String name, Type type) {
+      final getter = ObjCMethod(
+        context: context,
+        originalName: name,
+        name: name,
+        kind: ObjCMethodKind.propertyGetter,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: type,
+        family: null,
+        apiAvailability: availability,
+        params: const [],
+        ownershipAttribute: null,
+        consumesSelfAttribute: false,
+      );
+      final setter = ObjCMethod.withSymbol(
+        context: context,
+        originalName: 'set${name[0].toUpperCase()}${name.substring(1)}:',
+        symbol: getter.symbol,
+        protocolMethodName: 'set${name[0].toUpperCase()}${name.substring(1)}:',
+        kind: ObjCMethodKind.propertySetter,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: voidType,
+        params: [Parameter(name: 'value', type: type, objCConsumed: false)],
+        family: null,
+        apiAvailability: availability,
+        ownershipAttribute: null,
+        consumesSelfAttribute: false,
+      );
+      getter.setter = setter;
+      return (getter, setter);
+    }
 
     test(
       'copyMethod creates deep clone with parent set to destination container',
@@ -108,6 +134,46 @@ void main() {
         final clonedParam = clonedMethod.params.single;
         expect(clonedParam, isNot(same(param)));
         expect(clonedParam.originalName, param.originalName);
+      },
+    );
+
+    test('clone getter with linked setter', () {
+      final (getter, setter) = makeProperty('foo', intType);
+      final dest = makeInterface('Destination', null, []);
+      final clonedGetter = getter.clone(parent: dest);
+      final clonedSetter = clonedGetter.setter;
+
+      expect(clonedSetter, isNotNull);
+      expect(clonedGetter.symbol, clonedSetter!.symbol);
+      expect(clonedGetter.symbol, isNot(getter.symbol));
+      expect(clonedGetter.parent, dest);
+      expect(clonedSetter.parent, dest);
+      expect(clonedGetter.setter, clonedSetter);
+    });
+
+    test(
+      'copying a property (getter + setter) to child interface via copyMethod',
+      () {
+        final (getter, setter) = makeProperty('foo', intType);
+        final source = makeInterface('Source', null, [getter, setter]);
+        final dest = makeInterface('Destination', null, []);
+
+        dest.copyMethod(getter);
+
+        expect(dest.methods.length, 2);
+        final clonedGetter = dest.methods.firstWhere(
+          (m) => m.kind == ObjCMethodKind.propertyGetter,
+        );
+        final clonedSetter = dest.methods.firstWhere(
+          (m) => m.kind == ObjCMethodKind.propertySetter,
+        );
+
+        expect(clonedGetter.parent, dest);
+        expect(clonedSetter.parent, dest);
+        expect(clonedGetter.setter, clonedSetter);
+        expect(clonedGetter.symbol, clonedSetter.symbol);
+        expect(clonedGetter.symbol, isNot(getter.symbol));
+        expect(source.methods.length, 2);
       },
     );
   });

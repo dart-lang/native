@@ -48,7 +48,15 @@ mixin ObjCMethods {
     }
   }
 
-  void copyMethod(ObjCMethod method) => addMethod(method.clone());
+  void copyMethod(ObjCMethod method) {
+    // To maintain the pairing between getters and setters after cloning,
+    // instead of directly cloning the setter, we clone the setter when we clone
+    // the getter. This lets us, for example, share the symbol between them.
+    if (method.kind == ObjCMethodKind.propertySetter) return;
+    final cloned = method.clone();
+    addMethod(cloned);
+    addMethod(cloned.setter);
+  }
 
   void visitMethods(Visitor visitor) {
     visitor.visitAll(methods);
@@ -202,6 +210,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ObjCBlock? protocolBlock;
   Symbol? protocolMethodName;
   ObjCMethods? parent;
+  ObjCMethod? setter;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -319,11 +328,11 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isInstanceMethod => !isClassMethod;
   bool get unavailable => apiAvailability.availability == Availability.none;
 
-  ObjCMethod clone({ObjCMethods? parent}) {
+  ObjCMethod _cloneWithSymbol(Symbol newSymbol, {ObjCMethods? parent}) {
     final clonedMethod = ObjCMethod.withSymbol(
       context: context,
       originalName: originalName,
-      symbol: symbol.clone(),
+      symbol: newSymbol,
       protocolMethodName: originalProtocolMethodName,
       dartDoc: dartDoc,
       kind: kind,
@@ -338,6 +347,22 @@ class ObjCMethod extends AstNode with HasLocalScope {
     );
     clonedMethod.parent = parent;
     clonedMethod.protocolMethodName = protocolMethodName?.clone();
+    return clonedMethod;
+  }
+
+  ObjCMethod clone({ObjCMethods? parent}) {
+    assert(kind != ObjCMethodKind.propertySetter);
+    final clonedSymbol = symbol.clone();
+    final clonedMethod = _cloneWithSymbol(clonedSymbol, parent: parent);
+    if (setter != null) {
+      assert(setter.kind == ObjCMethodKind.propertySetter);
+      assert(setter!.symbol == symbol);
+      final clonedSetter = setter!._cloneWithSymbol(
+        clonedSymbol,
+        parent: parent,
+      );
+      clonedMethod.setter = clonedSetter;
+    }
     return clonedMethod;
   }
 
