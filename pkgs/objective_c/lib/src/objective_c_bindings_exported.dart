@@ -272,6 +272,7 @@ export 'objective_c_bindings_generated.dart'
         NSStringExtensionMethods,
         NSStringPathExtensions,
         NSThread,
+        NSThread$Methods,
         NSThreadPerformAdditions,
         NSTimeZone,
         NSTimer,

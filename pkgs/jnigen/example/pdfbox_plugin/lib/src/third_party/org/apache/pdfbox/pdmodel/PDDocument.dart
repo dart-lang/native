@@ -1309,7 +1309,8 @@ extension PDDocument$$Methods on PDDocument {
   ///@throws IOException if there is an error creating required fields
   ///@deprecated The method is misleading, because only one signature may be
   /// added in a document. The method will be removed in the future.
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'The method is misleading, because only one signature may be\nadded in a document. The method will be removed in the future.')
   void addSignatureField(
     jni$_.JList<pdsignaturefield$_.PDSignatureField?>? sigFields,
     signatureinterface$_.SignatureInterface? signatureInterface,

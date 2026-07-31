@@ -30,6 +30,8 @@ jobs:
   # Check code formatting and static analysis.
   analyze:
     runs-on: macos-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/swiftgen/
@@ -37,6 +39,8 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: master
@@ -53,11 +57,15 @@ jobs:
   test-mac:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/swiftgen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: master

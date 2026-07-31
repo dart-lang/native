@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Use JNIgen 0.17.0.
+
 ## 1.0.1
 
 - Add an example app.

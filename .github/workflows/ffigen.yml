@@ -25,6 +25,8 @@ jobs:
   # Check code formatting and static analysis on a single OS (macos).
   analyze:
     runs-on: macos-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
@@ -32,6 +34,8 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -47,11 +51,15 @@ jobs:
   test-linux:
     needs: analyze
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -69,11 +77,15 @@ jobs:
   test-mac:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -109,11 +121,15 @@ jobs:
   test-mac-latest:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -129,11 +145,15 @@ jobs:
   test-mac-flutter:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -145,11 +165,15 @@ jobs:
   test-mac-aot:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -169,11 +193,15 @@ jobs:
   test-windows:
     needs: analyze
     runs-on: windows-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -198,11 +226,15 @@ jobs:
   test-windows-flutter:
     needs: analyze
     runs-on: windows-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable

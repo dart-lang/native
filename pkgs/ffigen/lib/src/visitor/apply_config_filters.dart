@@ -53,9 +53,11 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitObjCInterface(ObjCInterface node) {
     if (node.unavailable) return;
 
-    node.filterMethods(
-      (m) => m.userDefinedIsIncluded != false && !m.unavailable,
-    );
+    if (!node.isInternal) {
+      node.filterMethods(
+        (m) => m.userDefinedIsIncluded != false && !m.unavailable,
+      );
+    }
     _visitImpl(node);
 
     // If this node is included, include all its super types.

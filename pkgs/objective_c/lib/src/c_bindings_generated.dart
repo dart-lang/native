@@ -16,10 +16,22 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int64)>(
+  symbol: 'DOBJC_attachPortBlockFinalizer',
+  isLeaf: true,
+)
+external void attachPortBlockFinalizer(ffi.Pointer<ffi.Void> block, int port);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DOBJC_awaitWaiter',
 )
 external void awaitWaiter(ffi.Pointer<ffi.Void> waiter);
+
+@ffi.Native<ffi.Pointer<DOBJC_Context> Function()>(
+  symbol: 'DOBJC_createContext',
+  isLeaf: true,
+)
+external ffi.Pointer<DOBJC_Context> createContext();
 
 @ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>(
   symbol: 'DOBJC_deleteFinalizableHandle',
@@ -34,14 +46,6 @@ external void deleteFinalizableHandle(
 )
 external void disposeObjCBlockWithClosure(ffi.Pointer<ObjCBlockImpl> block);
 
-@ffi.Native<ffi.Pointer<DOBJC_Context> Function(ffi.Pointer<DOBJC_Context>)>(
-  symbol: 'DOBJC_fillContext',
-  isLeaf: true,
-)
-external ffi.Pointer<DOBJC_Context> fillContext(
-  ffi.Pointer<DOBJC_Context> context,
-);
-
 /// Returns the MacOS/iOS version we're running on.
 @ffi.Native<_Version Function()>(symbol: 'DOBJC_getOsVesion', isLeaf: true)
 external _Version getOsVesion();
@@ -51,6 +55,21 @@ external _Version getOsVesion();
   isLeaf: true,
 )
 external int initializeApi(ffi.Pointer<ffi.Void> data);
+
+@ffi.Native<
+  ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)
+>(symbol: 'DOBJC_invokeBlockingPortBlock', isLeaf: true)
+external void invokeBlockingPortBlock(
+  int port,
+  ffi.Pointer<ffi.Void> args,
+  ffi.Pointer<ffi.Void> waiter,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>(
+  symbol: 'DOBJC_invokeListenerPortBlock',
+  isLeaf: true,
+)
+external void invokeListenerPortBlock(int port, ffi.Pointer<ffi.Void> args);
 
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(
   symbol: 'DOBJC_isValidBlock',
@@ -123,6 +142,18 @@ final class DOBJC_Context extends ffi.Struct {
   external ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
   getCurrentThreadOwnsIsolate;
 
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>
+  >
+  invokeListenerPortBlock$1;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)
+    >
+  >
+  invokeBlockingPortBlock$1;
+
   static ffi.Pointer<DOBJC_Context> $allocate(
     ffi.Allocator $allocator, {
     required int version,
@@ -145,6 +176,20 @@ final class DOBJC_Context extends ffi.Struct {
     getMainPortId,
     required ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
     getCurrentThreadOwnsIsolate,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>
+    >
+    invokeListenerPortBlock$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Int64,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Void>,
+        )
+      >
+    >
+    invokeBlockingPortBlock$1,
   }) => $allocator<DOBJC_Context>()
     ..ref.version = version
     ..ref.newWaiter$1 = newWaiter$1
@@ -153,7 +198,9 @@ final class DOBJC_Context extends ffi.Struct {
     ..ref.enterIsolate = enterIsolate
     ..ref.exitIsolate = exitIsolate
     ..ref.getMainPortId = getMainPortId
-    ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate;
+    ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate
+    ..ref.invokeListenerPortBlock$1 = invokeListenerPortBlock$1
+    ..ref.invokeBlockingPortBlock$1 = invokeBlockingPortBlock$1;
 }
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;

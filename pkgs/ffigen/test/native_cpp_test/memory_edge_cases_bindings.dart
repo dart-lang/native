@@ -24,7 +24,7 @@ class Node implements ffi.Finalizable {
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
   _activeFinalizerFn;
 
-  Node.fromPointer(this._ptr, {bool takeOwnership = true}) {
+  Node.fromPointer(this._ptr, {bool takeOwnership = false}) {
     if (takeOwnership) {
       _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
@@ -90,18 +90,28 @@ class Node implements ffi.Finalizable {
   }
 
   factory Node(int value, ffi.Pointer<ffi.Int> destructorCounter) {
-    return Node.fromPointer(_Node_new(value, destructorCounter));
+    return Node.fromPointer(
+      _Node_new(value, destructorCounter),
+      takeOwnership: true,
+    );
   }
   int getValue() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Node_getValue(_ptr);
   }
 
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError(
+        'Cannot dispose a non-owning wrapper. '
+        'Call retainOwnership() first to take ownership.',
+      );
     }
     _activeFinalizer!.detach(this);
     _activeFinalizer = null;
@@ -126,3 +136,233 @@ external int _Node_getValue(ffi.Pointer<ffi.Void> self);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Node_delete')
 external void _Node_delete(ffi.Pointer<ffi.Void> self);
+
+class NodeManager implements ffi.Finalizable {
+  ffi.Pointer<ffi.Void> _ptr;
+  static final _defaultFinalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >(_NodeManager_delete),
+  );
+
+  /// The finalizer currently attached for this instance, or [null] if this
+  /// object does not own its pointer.
+  ffi.NativeFinalizer? _activeFinalizer;
+
+  /// The native function pointer used by [_activeFinalizer], stored so that
+  /// [dispose] can call the correct destructor directly.
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
+  _activeFinalizerFn;
+
+  NodeManager.fromPointer(this._ptr, {bool takeOwnership = false}) {
+    if (takeOwnership) {
+      _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
+      _activeFinalizer = _defaultFinalizer;
+      _activeFinalizerFn =
+          ffi.Native.addressOf<
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+          >(_NodeManager_delete);
+    }
+  }
+
+  /// Attaches a finalizer so this object takes ownership of the underlying
+  /// C++ pointer. If [customFinalizer] is provided it is used instead of the
+  /// default `delete` finalizer, which is useful when the object was not
+  /// allocated with `new` (e.g. `malloc` or a custom allocator).
+  ///
+  /// Both [customFinalizer] and [customFinalizerFn] must be provided together.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object already owns the pointer.
+  void retainOwnership([
+    ffi.NativeFinalizer? customFinalizer,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
+    customFinalizerFn,
+  ]) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer != null) {
+      throw StateError('This object already owns its pointer.');
+    }
+    if ((customFinalizer == null) != (customFinalizerFn == null)) {
+      throw ArgumentError(
+        'Both customFinalizer and customFinalizerFn must be provided together.',
+      );
+    }
+    final fin = customFinalizer ?? _defaultFinalizer;
+    final fnPtr =
+        customFinalizerFn ??
+        ffi.Native.addressOf<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+        >(_NodeManager_delete);
+    fin.attach(this, _ptr.cast(), detach: this);
+    _activeFinalizer = fin;
+    _activeFinalizerFn = fnPtr;
+  }
+
+  /// Detaches the finalizer so this object releases ownership of the
+  /// underlying C++ pointer. The caller becomes responsible for freeing
+  /// the memory.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  void releaseOwnership() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError('This object does not own its pointer.');
+    }
+    _activeFinalizer!.detach(this);
+    _activeFinalizer = null;
+    _activeFinalizerFn = null;
+  }
+
+  factory NodeManager() {
+    return NodeManager.fromPointer(_NodeManager_new(), takeOwnership: true);
+  }
+  int foo(Node node) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _NodeManager_foo(_ptr, node._ptr);
+  }
+
+  Node getNode(int value, ffi.Pointer<ffi.Int> destructorCounter) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return Node.fromPointer(
+      _NodeManager_getNode(_ptr, value, destructorCounter),
+    );
+  }
+
+  Node newNode(int value, ffi.Pointer<ffi.Int> destructorCounter) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return Node.fromPointer(
+      _NodeManager_newNode(_ptr, value, destructorCounter),
+    );
+  }
+
+  Node getSingletonNode(int value, ffi.Pointer<ffi.Int> destructorCounter) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return Node.fromPointer(
+      _NodeManager_getSingletonNode(_ptr, value, destructorCounter),
+    );
+  }
+
+  int getValue(Node node) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _NodeManager_getValue(_ptr, node._ptr);
+  }
+
+  int takeNode(Node node) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _NodeManager_takeNode(_ptr, node._ptr);
+  }
+
+  void dispose() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError(
+        'Cannot dispose a non-owning wrapper. '
+        'Call retainOwnership() first to take ownership.',
+      );
+    }
+    _activeFinalizer!.detach(this);
+    _activeFinalizer = null;
+    _activeFinalizerFn?.asFunction<void Function(ffi.Pointer<ffi.Void>)>()(
+      _ptr,
+    );
+    _activeFinalizerFn = null;
+    _ptr = ffi.nullptr;
+  }
+}
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function()>(symbol: 'NodeManager_new')
+external ffi.Pointer<ffi.Void> _NodeManager_new();
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: 'NodeManager_foo',
+)
+external int _NodeManager_foo(
+  ffi.Pointer<ffi.Void> self,
+  ffi.Pointer<ffi.Void> node,
+);
+
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+    ffi.Pointer<ffi.Int>,
+  )
+>(symbol: 'NodeManager_getNode')
+external ffi.Pointer<ffi.Void> _NodeManager_getNode(
+  ffi.Pointer<ffi.Void> self,
+  int value,
+  ffi.Pointer<ffi.Int> destructorCounter,
+);
+
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+    ffi.Pointer<ffi.Int>,
+  )
+>(symbol: 'NodeManager_newNode')
+external ffi.Pointer<ffi.Void> _NodeManager_newNode(
+  ffi.Pointer<ffi.Void> self,
+  int value,
+  ffi.Pointer<ffi.Int> destructorCounter,
+);
+
+@ffi.Native<
+  ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+    ffi.Pointer<ffi.Int>,
+  )
+>(symbol: 'NodeManager_getSingletonNode')
+external ffi.Pointer<ffi.Void> _NodeManager_getSingletonNode(
+  ffi.Pointer<ffi.Void> self,
+  int value,
+  ffi.Pointer<ffi.Int> destructorCounter,
+);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: 'NodeManager_getValue',
+)
+external int _NodeManager_getValue(
+  ffi.Pointer<ffi.Void> self,
+  ffi.Pointer<ffi.Void> node,
+);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>(
+  symbol: 'NodeManager_takeNode',
+)
+external int _NodeManager_takeNode(
+  ffi.Pointer<ffi.Void> self,
+  ffi.Pointer<ffi.Void> node,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'NodeManager_delete',
+)
+external void _NodeManager_delete(ffi.Pointer<ffi.Void> self);

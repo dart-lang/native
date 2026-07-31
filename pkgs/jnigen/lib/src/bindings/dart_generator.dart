@@ -113,6 +113,34 @@ String _newLine({int depth = 0}) {
   return '\n${'  ' * depth}';
 }
 
+@visibleForTesting
+String escapeDartString(String value) {
+  const escapes = <int, String>{
+    0x08: r'\b',
+    0x09: r'\t',
+    0x0A: r'\n',
+    0x0B: r'\v',
+    0x0C: r'\f',
+    0x0D: r'\r',
+    0x24: r'\$',
+    0x27: r"\'",
+    0x5C: r'\\',
+  };
+
+  final result = StringBuffer();
+
+  for (final codeUnit in value.codeUnits) {
+    final escaped = escapes[codeUnit];
+    if (escaped != null) {
+      result.write(escaped);
+    } else {
+      result.writeCharCode(codeUnit);
+    }
+  }
+
+  return result.toString();
+}
+
 /// **Naming Convention**
 ///
 /// Let's take the following code as an example:
@@ -1312,7 +1340,12 @@ ${modifier}final _$idName = $_protectedExtension
     }
     final params = defArgs.delimited(', ');
     if (node.isDeprecated) {
-      s.writeln("  @core\$_.Deprecated('This Java method is deprecated.')");
+      final message =
+          node.javadoc?.deprecatedMessage ?? 'This Java method is deprecated.';
+
+      s.writeln(
+        "  @core\$_.Deprecated('${escapeDartString(message)}')",
+      );
     }
     if (node.methodKind == MethodKind.getter) {
       s.write('  $ifStatic$returnType get $name ');

@@ -24,7 +24,7 @@ class Animal implements ffi.Finalizable {
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
   _activeFinalizerFn;
 
-  Animal.fromPointer(this._ptr, {bool takeOwnership = true}) {
+  Animal.fromPointer(this._ptr, {bool takeOwnership = false}) {
     if (takeOwnership) {
       _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
@@ -90,12 +90,13 @@ class Animal implements ffi.Finalizable {
   }
 
   factory Animal(int age) {
-    return Animal.fromPointer(_Animal_new(age));
+    return Animal.fromPointer(_Animal_new(age), takeOwnership: true);
   }
   void speak() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_speak(_ptr);
   }
 
@@ -103,16 +104,27 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_getAge(_ptr);
   }
 
-  static int getCount() => _Animal_getCount();
-  static void Animal_new() => _Animal_Animal_new();
-  static void Animal_delete() => _Animal_Animal_delete();
+  static int getCount() {
+    return _Animal_getCount();
+  }
+
+  static void Animal_new() {
+    return _Animal_Animal_new();
+  }
+
+  static void Animal_delete() {
+    return _Animal_Animal_delete();
+  }
+
   bool isMammalClass() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_isMammalClass(_ptr);
   }
 
@@ -120,6 +132,7 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_getWeight(_ptr, multiplier);
   }
 
@@ -127,13 +140,23 @@ class Animal implements ffi.Finalizable {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
     }
+
     return _Animal_addAges(_ptr, otherAge, scale);
   }
 
-  static int sum(int a, int b) => _Animal_sum(a, b);
+  static int sum(int a, int b) {
+    return _Animal_sum(a, b);
+  }
+
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError(
+        'Cannot dispose a non-owning wrapper. '
+        'Call retainOwnership() first to take ownership.',
+      );
     }
     _activeFinalizer!.detach(this);
     _activeFinalizer = null;
@@ -208,7 +231,7 @@ class FinalizerTestSubject implements ffi.Finalizable {
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>?
   _activeFinalizerFn;
 
-  FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = true}) {
+  FinalizerTestSubject.fromPointer(this._ptr, {bool takeOwnership = false}) {
     if (takeOwnership) {
       _defaultFinalizer.attach(this, _ptr.cast(), detach: this);
       _activeFinalizer = _defaultFinalizer;
@@ -274,11 +297,20 @@ class FinalizerTestSubject implements ffi.Finalizable {
   }
 
   factory FinalizerTestSubject(ffi.Pointer<ffi.Int> counter) {
-    return FinalizerTestSubject.fromPointer(_FinalizerTestSubject_new(counter));
+    return FinalizerTestSubject.fromPointer(
+      _FinalizerTestSubject_new(counter),
+      takeOwnership: true,
+    );
   }
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
+    }
+    if (_activeFinalizer == null) {
+      throw StateError(
+        'Cannot dispose a non-owning wrapper. '
+        'Call retainOwnership() first to take ownership.',
+      );
     }
     _activeFinalizer!.detach(this);
     _activeFinalizer = null;

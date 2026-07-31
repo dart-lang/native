@@ -9,6 +9,7 @@ import '../../code_generator.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../sub_parsers/classdecl_parser.dart';
 import '../sub_parsers/compounddecl_parser.dart';
 import '../sub_parsers/enumdecl_parser.dart';
 import '../sub_parsers/function_type_param_parser.dart';
@@ -243,6 +244,21 @@ Type? _extractfromRecord(
   logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
 
   final cursorKind = clang.clang_getCursorKind(cursor);
+
+  if (context.config.cpp != null) {
+    final seenCppClass = context.bindingsIndex.getSeenCppClass(cursor.usr());
+    if (seenCppClass != null) {
+      return seenCppClass;
+    }
+    if (cursorKind == clang_types.CXCursorKind.CXCursor_ClassDecl ||
+        cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
+      final cppClass = parseClassDeclaration(context, cursor);
+      if (cppClass != null) {
+        return cppClass;
+      }
+    }
+  }
+
   if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
     return parseStructDeclaration(cursor, context);
   } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {

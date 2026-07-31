@@ -337,6 +337,7 @@ void generateObjCBindings(Uri root) {
     'NSStream',
     'NSString',
     'NSTimer',
+    'NSThread',
     'NSURL',
     'NSURLHandle',
     'NSValue',
@@ -447,6 +448,7 @@ void generateObjCBindings(Uri root) {
         root.resolve('src/protocol.h'),
       ],
     ),
+    // ignore: deprecated_member_use
     objectiveC: const ObjectiveC(generateForPackageObjectiveC: true),
     visitors: [
       Visitor.callback(

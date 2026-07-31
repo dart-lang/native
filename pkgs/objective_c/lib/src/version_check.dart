@@ -9,7 +9,7 @@ class ObjCVersionCheck {
   static const int actualMajorVersion = 9;
 
   @visibleForTesting
-  static const int actualMinorVersion = 4;
+  static const int actualMinorVersion = 5;
 
   const ObjCVersionCheck(int major, int minor)
     : assert(

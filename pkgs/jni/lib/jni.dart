@@ -64,6 +64,12 @@ export 'package:ffi/ffi.dart' show Arena, using;
 
 export 'src/core_bindings.dart'
     show
+        $JCollection,
+        $JIterator,
+        $JList,
+        $JMap,
+        $JMap$JEntry,
+        $JSet,
         JArrayList,
         JArrayList$$Methods,
         JBoolean,

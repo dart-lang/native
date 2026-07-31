@@ -147,6 +147,11 @@ public class Example {
     return null;
   }
 
+  /**
+   * This method is retained for compatibility.
+   *
+   * @deprecated Use methodWithSeveralParams instead.
+   */
   @Deprecated
   public String deprecatedMethod() {
     return "deprecated";

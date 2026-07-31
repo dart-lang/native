@@ -89,10 +89,14 @@ extension SwiftGenGenerator on SwiftGenerator {
       visitors: [
         fg.Visitor.callback(
           visitObjCInterface: (node) {
-            node.module ??= output.module;
+            if (!node.originalName.startsWith('_')) {
+              node.module ??= output.module;
+            }
           },
           visitObjCProtocol: (node) {
-            node.module ??= output.module;
+            if (!node.originalName.startsWith('_')) {
+              node.module ??= output.module;
+            }
           },
         ),
         ...ffigen.visitors,

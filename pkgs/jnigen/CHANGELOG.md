@@ -1,4 +1,4 @@
-## 0.17.0-wip
+## 0.17.0
 
 - Update kotlin-metadata-jvm, allowing JNIgen to run on newer packages.
 - Fixed incorrect code generation for generic constructors in generic classes.
@@ -17,6 +17,8 @@
   elements.dart is no longer exported from the library, as these classes were
   always intended to be private. `Config.importedClasses` and
   `Config.importClasses()` have also been made private.
+- Preserve Java `@deprecated` Javadoc messages in generated Dart
+  `@Deprecated` annotations.
 - Support versions 3.x of `package:package_config`.
 
 ## 0.16.0

@@ -66,7 +66,7 @@ void main() {
         ),
         cpp: const Cpp(),
         visitors: [
-          const IncludeSetVisitor(cppClasses: {'Node'}),
+          const IncludeSetVisitor(cppClasses: {'Node', 'NodeManager'}),
         ],
       ),
     };

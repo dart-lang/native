@@ -18,7 +18,7 @@ on:
 jobs:
   publish:
     if: ${{ github.repository_owner == 'dart-lang' }}
-    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
+    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@edfdb3b4063b9034b708144633a700204f865f43
     permissions:
       id-token: write # Required for authentication using OIDC
       pull-requests: write # Required for writing the pull request note

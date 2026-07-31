@@ -59,8 +59,6 @@ import '../../../../java/io/OutputStream.dart' as outputstream$_;
 
 import '../../../../java/io/Writer.dart' as writer$_;
 
-import '../../../../java/lang/Class.dart' as class$_;
-
 import '../../../../java/lang/Enum.dart' as enum$_;
 
 import '../../../../java/math/BigDecimal.dart' as bigdecimal$_;
@@ -1919,7 +1917,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return This parser, to allow call chaining
   ///@since 2.3
   ///@deprecated Since 2.7, use \#overrideStdFeatures(int, int) instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated(
+      'Since 2.7, use {@link #overrideStdFeatures(int, int)} instead')
   JsonParser? setFeatureMask(
     core$_.int mask,
   ) {
@@ -2558,7 +2557,7 @@ extension JsonParser$$Methods on JsonParser {
   /// Deprecated alias for \#currentTokenId().
   ///@return {@code int} matching one of constants from JsonTokenId.
   ///@deprecated Since 2.12 use \#currentTokenId instead
-  @core$_.Deprecated('This Java method is deprecated.')
+  @core$_.Deprecated('Since 2.12 use {@link #currentTokenId} instead')
   core$_.int get currentTokenId$1 {
     final _$$selfRef = reference;
     return _get$currentTokenId$1(
@@ -4476,7 +4475,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   $T? readValueAs<$T extends jni$_.JObject?>(
-    class$_.Class? valueType,
+    jni$_.JClass? valueType,
   ) {
     final _$$selfRef = reference;
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
@@ -4564,7 +4563,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
   jni$_.JIterator<$T?>? readValuesAs<$T extends jni$_.JObject?>(
-    class$_.Class? valueType,
+    jni$_.JClass? valueType,
   ) {
     final _$$selfRef = reference;
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;

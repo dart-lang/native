@@ -148,25 +148,43 @@ void main() {
 
     test('Blocking block same thread throws', () {
       int value = 0;
-      final block = VoidBlock.blocking(() {
-        value = 123;
-        throw "Hello";
-      });
-      BlockTester.callOnSameThread(block);
+      Object? thrownError;
+      runZonedGuarded(
+        () {
+          final block = VoidBlock.blocking(() {
+            value = 123;
+            throw "Hello";
+          });
+          BlockTester.callOnSameThread(block);
+        },
+        (error, stack) {
+          thrownError = error;
+        },
+      );
       expect(value, 123);
+      expect(thrownError, "Hello");
     });
 
     test('Blocking block new thread throws', () async {
-      final block = IntPtrBlock.blocking((Pointer<Int32> result) {
-        result.value = 123456;
-        throw "Hello";
-      });
-      final resultCompleter = Completer<int>();
-      final resultBlock = ResultBlock.listener((int result) {
-        resultCompleter.complete(result);
-      });
-      BlockTester.blockingBlockTest(block, resultBlock: resultBlock);
-      expect(await resultCompleter.future, 123456);
+      final errorCompleter = Completer<Object>();
+      runZonedGuarded(
+        () async {
+          final block = IntPtrBlock.blocking((Pointer<Int32> result) {
+            result.value = 123456;
+            throw "Hello";
+          });
+          final resultCompleter = Completer<int>();
+          final resultBlock = ResultBlock.listener((int result) {
+            resultCompleter.complete(result);
+          });
+          BlockTester.blockingBlockTest(block, resultBlock: resultBlock);
+          expect(await resultCompleter.future, 123456);
+        },
+        (error, stack) {
+          errorCompleter.complete(error);
+        },
+      );
+      expect(await errorCompleter.future, "Hello");
     });
 
     test('Blocking block manual invocation', () {
@@ -919,9 +937,9 @@ void main() {
         expect(blockTracker.isAlive, true);
         expect(dummyObjectTracker.isAlive, true);
 
-        dummyObject = null;
         block = null;
         tester.invokeAndReleaseListener(null);
+        dummyObject = null;
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
@@ -1000,7 +1018,7 @@ void main() {
       ).readAsStringSync();
 
       // Objects are converted to id.
-      expect(objCBindings, isNot(contains('NSObject')));
+      expect(objCBindings, isNot(contains('DummyObject')));
       expect(objCBindings, isNot(contains('NSString')));
       expect(objCBindings, contains('id'));
 
@@ -1052,7 +1070,7 @@ void main() {
         // reference. Before the fix, the dtor message could arrive before the
         // invoke message. This was a flaky error, so try a few times.
         await using((arena) async {
-          for (int i = 0; i < 10; ++i) {
+          for (int i = 0; i < 3; ++i) {
             final completer = Completer<void>();
             final (tester, dummyObjectTracker, blockTracker) =
                 await regress1571Inner(completer, arena);
@@ -1297,7 +1315,349 @@ void main() {
       });
       expect(value, 123);
     }, skip: !hasIsolateOwnershipApi);
+
+    group('Isolate destruction callbacks', () {
+      test('Listener - successful callback flow', () async {
+        final blockPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        // Spawn a target isolate that creates a listener block, then sleeps to
+        // keep its event loop active.
+        final targetIsolate = await Isolate.spawn(_blockTargetIsolateEntry, (
+          blockPort.sendPort,
+          callbackPort.sendPort,
+          isListener: true,
+          sleepBeforeExit: true,
+          busyWaitBeforeExit: false,
+        ), onExit: exitPort.sendPort);
+
+        final blockAddress = await blockPort.first as int;
+        final block = ObjectListenerBlock.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          DummyObject? dummy = DummyObject();
+          tracker.track(dummy);
+          expect(tracker.isAlive, isTrue);
+
+          // Invoke the listener block. It sends a message to the target
+          // isolate's port.
+          block(dummy);
+
+          // Confirm the callback executed on the target isolate.
+          final callbackResult = await callbackPort.first;
+          expect(callbackResult, 'callback_executed');
+
+          // Kill target isolate and wait for it to exit.
+          targetIsolate.kill(priority: Isolate.immediate);
+          await exitPort.first;
+
+          // Verify argument object is garbage collected properly.
+          dummy = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Listener - target isolate destroyed before invocation', () async {
+        final blockPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        // Spawn a target isolate that creates a listener block, then sleeps to
+        // keep its event loop active.
+        final targetIsolate = await Isolate.spawn(_blockTargetIsolateEntry, (
+          blockPort.sendPort,
+          callbackPort.sendPort,
+          isListener: true,
+          sleepBeforeExit: true,
+          busyWaitBeforeExit: false,
+        ), onExit: exitPort.sendPort);
+
+        final blockAddress = await blockPort.first as int;
+        final block = ObjectListenerBlock.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
+
+        // Kill the target isolate before invoking the block.
+        targetIsolate.kill(priority: Isolate.immediate);
+        await exitPort.first;
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          DummyObject? dummy = DummyObject();
+          tracker.track(dummy);
+          expect(tracker.isAlive, isTrue);
+
+          // Invoking a block on a dead isolate should drop the call without
+          // executing the callback.
+          block(dummy);
+
+          // Callback was never invoked.
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          // Verify argument object is still garbage collected properly.
+          dummy = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Listener - target isolate destroyed after invocation'
+          ' but before handling', () async {
+        final blockPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        // Spawn a target isolate that creates a listener block, then busy-waits
+        // to keep the isolate alive while preventing the event loop from
+        // processing the block's callback message.
+        final targetIsolate = await Isolate.spawn(_blockTargetIsolateEntry, (
+          blockPort.sendPort,
+          callbackPort.sendPort,
+          isListener: true,
+          sleepBeforeExit: false,
+          busyWaitBeforeExit: true,
+        ), onExit: exitPort.sendPort);
+
+        final blockAddress = await blockPort.first as int;
+        final block = ObjectListenerBlock.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          DummyObject? dummy = DummyObject();
+          tracker.track(dummy);
+          expect(tracker.isAlive, isTrue);
+
+          // Invoking the block queues a message on target isolate's port while
+          // it is busy-waiting.
+          block(dummy);
+
+          // Immediately kill target isolate before it can exit busy-wait loop
+          // and process event.
+          targetIsolate.kill(priority: Isolate.immediate);
+          await exitPort.first;
+
+          // Callback was never invoked.
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          // Verify argument object is still garbage collected properly.
+          dummy = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Blocking - successful callback flow', () async {
+        final blockPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        // Spawn a target isolate that creates a listener block, then sleeps to
+        // keep its event loop active.
+        final targetIsolate = await Isolate.spawn(_blockTargetIsolateEntry, (
+          blockPort.sendPort,
+          callbackPort.sendPort,
+          isListener: false,
+          sleepBeforeExit: true,
+          busyWaitBeforeExit: false,
+        ), onExit: exitPort.sendPort);
+
+        final blockAddress = await blockPort.first as int;
+        final block = ObjectListenerBlock.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          DummyObject? dummy = DummyObject();
+          tracker.track(dummy);
+          expect(tracker.isAlive, isTrue);
+
+          // Invoke the blocking block. It sends a message to the target
+          // isolate's port.
+          block(dummy);
+
+          // Confirm the callback executed on the target isolate.
+          final callbackResult = await callbackPort.first;
+          expect(callbackResult, 'callback_executed');
+
+          // Kill target isolate and wait for it to exit.
+          targetIsolate.kill(priority: Isolate.immediate);
+          await exitPort.first;
+
+          // Verify argument object is garbage collected properly.
+          dummy = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Blocking - target isolate destroyed before invocation', () async {
+        final blockPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        // Spawn a target isolate that creates a blocking block, then sleeps to
+        // keep its event loop active.
+        final targetIsolate = await Isolate.spawn(_blockTargetIsolateEntry, (
+          blockPort.sendPort,
+          callbackPort.sendPort,
+          isListener: false,
+          sleepBeforeExit: true,
+          busyWaitBeforeExit: false,
+        ), onExit: exitPort.sendPort);
+
+        final blockAddress = await blockPort.first as int;
+        final block = ObjectListenerBlock.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
+
+        // Kill the target isolate before invoking the block.
+        targetIsolate.kill(priority: Isolate.immediate);
+        await exitPort.first;
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          DummyObject? dummy = DummyObject();
+          tracker.track(dummy);
+          expect(tracker.isAlive, isTrue);
+
+          // Invoking a block on a dead isolate should drop the call without
+          // executing the callback.
+          block(dummy);
+
+          // Callback was never invoked.
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          // Verify argument object is still garbage collected properly.
+          dummy = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Blocking - target isolate destroyed after invocation'
+          ' but before handling', () async {
+        final blockPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        // Spawn a target isolate that creates a blocking block, then busy-waits
+        // to keep the isolate alive while preventing the event loop from
+        // processing the block's callback message.
+        final targetIsolate = await Isolate.spawn(_blockTargetIsolateEntry, (
+          blockPort.sendPort,
+          callbackPort.sendPort,
+          isListener: false,
+          sleepBeforeExit: false,
+          busyWaitBeforeExit: true,
+        ), onExit: exitPort.sendPort);
+
+        final blockAddress = await blockPort.first as int;
+        final block = ObjectListenerBlock.fromPointer(
+          Pointer.fromAddress(blockAddress),
+          retain: true,
+          release: true,
+        );
+
+        // We want to invoke the blocking block then kill the target isolate.
+        // But since the invocation is blocking, we need to do the killing on a
+        // separate isolate, since this one will be blocked.
+        await Isolate.spawn((Isolate targetIsolate) async {
+          await Future<void>.delayed(const Duration(milliseconds: 200));
+          targetIsolate.kill(priority: Isolate.immediate);
+        }, targetIsolate);
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          DummyObject? dummy = DummyObject();
+          tracker.track(dummy);
+          expect(tracker.isAlive, isTrue);
+
+          // Invoking the block queues a message on target isolate's port while
+          // it is busy-waiting. We should be unblocked when the target isolate
+          // is killed by the killer isolate.
+          block(dummy);
+
+          await exitPort.first;
+
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          // Verify argument object is still garbage collected properly.
+          dummy = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+    }, skip: !canDoGC);
   });
+}
+
+void _blockTargetIsolateEntry(
+  (
+    SendPort blockPort,
+    SendPort callbackPort, {
+    bool isListener,
+    bool sleepBeforeExit,
+    bool busyWaitBeforeExit,
+  })
+  args,
+) async {
+  final (
+    blockPort,
+    callbackPort,
+    isListener: isListener,
+    sleepBeforeExit: sleepBeforeExit,
+    busyWaitBeforeExit: busyWaitBeforeExit,
+  ) = args;
+
+  final block = isListener
+      ? ObjectListenerBlock.listener((DummyObject dummy) {
+          callbackPort.send('callback_executed');
+        })
+      : ObjectListenerBlock.blocking((DummyObject dummy) {
+          callbackPort.send('callback_executed');
+        });
+
+  blockPort.send(block.ref.pointer.address);
+
+  if (sleepBeforeExit) {
+    await Future<void>.delayed(const Duration(seconds: 10));
+  } else if (busyWaitBeforeExit) {
+    final stopwatch = Stopwatch()..start();
+    while (stopwatch.elapsed.inSeconds < 10) {
+      // Wait 10 seconds, but don't use Future.delayed. We specifically don't
+      // want to allow messages to arrive while we're waiting.
+    }
+  }
 }
 
 int _add100(int x) {

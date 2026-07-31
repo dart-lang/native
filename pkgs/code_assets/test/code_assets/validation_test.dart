@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:code_assets/src/code_assets/validation.dart';
@@ -206,10 +207,10 @@ void main() {
 
     final fileName = input.config.code.targetOS.dylibFileName('foo');
     final assetFile = File.fromUri(outDirUri.resolve(fileName));
-    await assetFile.writeAsBytes([1, 2, 3]);
+    await assetFile.writeAsBytes(_arm64ElfHeader);
     final fileName2 = input.config.code.targetOS.dylibFileName('bar');
     final assetFile2 = File.fromUri(outDirUri.resolve(fileName2));
-    await assetFile2.writeAsBytes([1, 2, 3]);
+    await assetFile2.writeAsBytes(_arm64ElfHeader);
     final duplicateAssetIdAssets = [
       CodeAsset(
         package: input.packageName,
@@ -520,4 +521,17 @@ void main() {
       expect(linkOutputErrors, isEmpty);
     });
   });
+}
+
+/// A minimal little-endian 64-bit ELF header for arm64 (`e_machine` 183).
+///
+/// Bundled dynamic libraries are checked against the target architecture, so
+/// tests that exercise other validations write a header the check accepts.
+Uint8List get _arm64ElfHeader {
+  final bytes = Uint8List(64);
+  bytes.setAll(0, const [0x7f, 0x45, 0x4c, 0x46]);
+  bytes[4] = 2; // 64-bit.
+  bytes[5] = 1; // Little-endian.
+  ByteData.sublistView(bytes).setUint16(18, 183, Endian.little); // arm64.
+  return bytes;
 }

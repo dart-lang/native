@@ -129,7 +129,7 @@ const objcPkgImport = LibraryImport(
   importPathWhenImportedByPackageObjC: '../objective_c.dart',
 );
 const objcMajorVersion = 9;
-const objcMinorVersion = 4;
+const objcMinorVersion = 5;
 const selfImport = LibraryImport('self', '');
 final builtInLibraries = {
   for (final l in [
