@@ -355,7 +355,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final clonedSymbol = symbol.clone();
     final clonedMethod = _cloneWithSymbol(clonedSymbol, parent: parent);
     if (setter != null) {
-      assert(setter.kind == ObjCMethodKind.propertySetter);
+      assert(setter!.kind == ObjCMethodKind.propertySetter);
       assert(setter!.symbol == symbol);
       final clonedSetter = setter!._cloneWithSymbol(
         clonedSymbol,
