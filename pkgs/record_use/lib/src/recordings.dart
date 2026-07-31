@@ -722,7 +722,25 @@ Error: $e
       instances: newInstancesForDefinition,
     );
   }
+
+  /// Returns a new [Recordings] containing all usages from both `this` and
+  /// [other].
+  ///
+  /// If a definition is present in both recordings, its usages from both
+  /// are combined in the returned [Recordings].
+  Recordings operator +(Recordings other) => Recordings(
+    calls: _merge(calls, other.calls),
+    instances: _merge(instances, other.instances),
+  );
 }
+
+Map<K, List<V>> _merge<K, V>(Map<K, List<V>> a, Map<K, List<V>> b) => {
+  for (final k in {...a.keys, ...b.keys})
+    k: [
+      ...?a[k],
+      ...?b[k],
+    ],
+};
 
 extension RecordingsProtected on Recordings {
   Recordings canonicalizeChildren(CanonicalizationContext context) =>
