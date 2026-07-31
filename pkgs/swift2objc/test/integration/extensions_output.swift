@@ -2,6 +2,28 @@
 
 import Foundation
 
+@objc public class OuterClassWrapper: NSObject {
+  var wrappedInstance: OuterClass
+
+  init(_ wrappedInstance: OuterClass) {
+    self.wrappedInstance = wrappedInstance
+  }
+
+  @objc public class InnerClassWrapper: NSObject {
+    var wrappedInstance: OuterClass.InnerClass
+
+    init(_ wrappedInstance: OuterClass.InnerClass) {
+      self.wrappedInstance = wrappedInstance
+    }
+
+    @objc public func originalNestedFunc() -> Int {
+      return wrappedInstance.originalNestedFunc()
+    }
+
+  }
+
+}
+
 @objc public class MyEnumWrapper: NSObject {
   var wrappedInstance: MyEnum
 
@@ -48,6 +70,13 @@ import Foundation
 
   init(_ wrappedInstance: BareClass) {
     self.wrappedInstance = wrappedInstance
+  }
+
+}
+
+@objc extension OuterClassWrapper.InnerClassWrapper {
+  @objc public func nestedExtensionFunc() -> Int {
+    return wrappedInstance.nestedExtensionFunc()
   }
 
 }
