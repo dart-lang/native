@@ -296,9 +296,9 @@ class Parameter extends AstNode {
   Parameter._({
     required this.originalName,
     required this.symbol,
-    required this.type,
+    required Type type,
     required this.objCConsumed,
-  });
+  }) : type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
   Parameter({
     String? name,
