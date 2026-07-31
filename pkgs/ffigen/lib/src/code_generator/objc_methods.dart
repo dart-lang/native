@@ -37,11 +37,7 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
-    assert(
-      method.parent == null,
-      'Method already has a parent (${method.parent?.originalName}): '
-      '${method.originalName}',
-    );
+    assert(method.parent == null);
     method.parent = this;
     final oldMethod = getSimilarMethod(method);
     if (oldMethod == null) {
@@ -341,9 +337,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
       consumesSelfAttribute: consumesSelfAttribute,
     );
     clonedMethod.parent = parent;
-    if (protocolMethodName != null) {
-      clonedMethod.protocolMethodName = protocolMethodName!.clone();
-    }
+    clonedMethod.protocolMethodName = protocolMethodName?.clone();
     return clonedMethod;
   }
 

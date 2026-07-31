@@ -64,7 +64,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
       }
     }
     // Copy all methods from all the interface's protocols.
-    _copyMethodFromProtocols(node, node.protocols, node.copyMethod);
+    _copyMethodFromProtocols(node, node.protocols);
 
     // Copy methods from all the categories that extend this interface, if those
     // methods return instancetype, because the Dart inheritance rules don't
@@ -85,15 +85,14 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
   }
 
   void _copyMethodFromProtocols(
-    Binding node,
+    ObjCMethods node,
     List<ObjCProtocol> protocols,
-    void Function(ObjCMethod) copyMethod,
   ) {
     // Copy all methods from all the protocols.
     for (final proto in protocols) {
       for (final m in proto.methods) {
         if (!_excludedNSObjectMethods.contains(m.originalName)) {
-          copyMethod(m);
+          node.copyMethod(m);
         }
       }
     }
@@ -104,7 +103,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     node.visitChildren(visitor, typeGraphOnly: true);
 
     // Copy all methods from all the category's protocols.
-    _copyMethodFromProtocols(node, node.protocols, node.copyMethod);
+    _copyMethodFromProtocols(node, node.protocols);
   }
 
   @override

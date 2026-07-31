@@ -293,16 +293,24 @@ class Parameter extends AstNode {
   Symbol symbol;
   String get name => symbol.name;
 
-  Parameter({
-    String? originalName,
-    String name = '',
-    required Type type,
+  Parameter._({
+    required this.originalName,
+    required this.symbol,
+    required this.type,
     required this.objCConsumed,
-  }) : originalName = originalName ?? name,
-       symbol = Symbol(name, SymbolKind.field),
-       // A [NativeFunc] is wrapped with a pointer because this is a shorthand
-       // used in C for Pointer to function.
-       type = type.typealiasType is NativeFunc ? PointerType(type) : type;
+  });
+
+  Parameter({
+    String? name,
+    String? originalName,
+    required Type type,
+    bool objCConsumed = false,
+  }) : this._(
+         originalName: originalName ?? name ?? '',
+         symbol: Symbol(name ?? originalName ?? '', SymbolKind.field),
+         type: type,
+         objCConsumed: objCConsumed,
+       );
 
   String getNativeType(
     Context context, {
@@ -322,16 +330,12 @@ class Parameter extends AstNode {
     visitor.visit(type);
   }
 
-  Parameter clone() {
-    final clonedParam = Parameter(
-      originalName: originalName,
-      name: symbol.isFilled ? symbol.name : symbol.oldName,
-      type: type,
-      objCConsumed: objCConsumed,
-    );
-    clonedParam.symbol = symbol.clone();
-    return clonedParam;
-  }
+  Parameter clone() => Parameter._(
+    originalName: originalName,
+    symbol: symbol.clone(),
+    type: type,
+    objCConsumed: objCConsumed,
+  );
 
   bool get isNullable => type.typealiasType is ObjCNullable;
 }
