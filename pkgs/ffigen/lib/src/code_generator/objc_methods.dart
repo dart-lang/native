@@ -39,7 +39,7 @@ mixin ObjCMethods {
     if (method == null) return;
     assert(
       method.parent == null,
-      'Method already has a parent (${method.parent?.name}): '
+      'Method already has a parent (${method.parent?.originalName}): '
       '${method.originalName}',
     );
     method.parent = this;

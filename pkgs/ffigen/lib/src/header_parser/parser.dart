@@ -243,17 +243,12 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     }
   }
 
-  for (final b in finalBindingsList) {
-    if (b is ObjCMethods) {
-      for (final m in (b as ObjCMethods).methods) {
-        assert(
-          identical(m.parent, b),
-          'Method ${m.originalName} on ${(b as ObjCMethods).name} has '
-          'incorrect parent: ${m.parent?.name}',
-        );
-      }
-    }
-  }
+  // Check that all ObjCMethods have their parent set correctly.
+  assert(
+    finalBindingsList.whereType<ObjCMethods>().every(
+      (b) => b.methods.every((m) => m.parent == b),
+    ),
+  );
 
   return finalBindingsList;
 }

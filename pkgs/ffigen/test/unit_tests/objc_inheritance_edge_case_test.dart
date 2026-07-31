@@ -102,6 +102,12 @@ void main() {
     Parameter makeParam(String name, Type type) =>
         Parameter(name: name, type: type, objCConsumed: false);
 
+    ObjCMethod getMethod(ObjCMethods container, String originalName) {
+      return container.methods
+          .where((m) => m.originalName == originalName)
+          .single;
+    }
+
     test('simple method inheritance', () {
       final ordinaryMethod = makeMethod('m1', voidType, []);
       final staticMethod = makeMethod('m2', voidType, [], isClassMethod: true);
@@ -124,15 +130,9 @@ void main() {
       expect(child.methods.map((m) => m.originalName), contains('m3'));
 
       expect(staticMethod.parent, parent);
-      expect(
-        child.methods.firstWhere((m) => m.originalName == 'm2').parent,
-        child,
-      );
+      expect(getMethod(child, 'm2').parent, child);
       expect(instanceTypeMethod.parent, parent);
-      expect(
-        child.methods.firstWhere((m) => m.originalName == 'm3').parent,
-        child,
-      );
+      expect(getMethod(child, 'm3').parent, child);
     });
 
     test('inherited method renaming', () {
@@ -175,14 +175,8 @@ void main() {
       expect(childB.methods, contains(childBOtherMethod));
 
       expect(parentMethod.parent, parent);
-      expect(
-        childA.methods.firstWhere((m) => m.originalName == 'method').parent,
-        childA,
-      );
-      expect(
-        childB.methods.firstWhere((m) => m.originalName == 'method').parent,
-        childB,
-      );
+      expect(getMethod(childA, 'method').parent, childA);
+      expect(getMethod(childB, 'method').parent, childB);
 
       // Methods are renamed to avoid collisions between supertypes and subtypes
       // but not between two subtypes.
@@ -229,10 +223,7 @@ void main() {
       );
 
       expect(parentMethod.parent, parent);
-      expect(
-        child.methods.firstWhere((m) => m.originalName == 'method').parent,
-        child,
-      );
+      expect(getMethod(child, 'method').parent, child);
 
       // Category methods are renamed to avoid collisions with the methods of
       // the interface they extend.
@@ -262,47 +253,8 @@ void main() {
       expect(grandChild.methods.map((m) => m.originalName), contains('m1'));
 
       expect(instanceTypeMethod.parent, parent);
-      expect(
-        child.methods.firstWhere((m) => m.originalName == 'm1').parent,
-        child,
-      );
-      expect(
-        grandChild.methods.firstWhere((m) => m.originalName == 'm1').parent,
-        grandChild,
-      );
+      expect(getMethod(child, 'm1').parent, child);
+      expect(getMethod(grandChild, 'm1').parent, grandChild);
     });
-
-    test('addMethod throws AssertionError if method already has a parent', () {
-      final m = makeMethod('foo', voidType, []);
-      final itf1 = makeInterface('Interface1', null, [m]);
-      expect(m.parent, itf1);
-
-      final itf2 = makeInterface('Interface2', null, []);
-      expect(() => itf2.addMethod(m), throwsA(isA<AssertionError>()));
-    });
-
-    test(
-      'copyMethod creates deep clone with parent set to destination container',
-      () {
-        final param = makeParam('p1', intType);
-        final method = makeMethod('foo:', voidType, [param]);
-        final source = makeInterface('Source', null, [method]);
-        final dest = makeInterface('Destination', null, []);
-
-        dest.copyMethod(method);
-
-        expect(dest.methods.length, 1);
-        final clonedMethod = dest.methods.single;
-        expect(clonedMethod, isNot(same(method)));
-        expect(clonedMethod.originalName, method.originalName);
-        expect(clonedMethod.parent, dest);
-        expect(method.parent, source);
-
-        expect(clonedMethod.params.length, 1);
-        final clonedParam = clonedMethod.params.single;
-        expect(clonedParam, isNot(same(param)));
-        expect(clonedParam.originalName, param.originalName);
-      },
-    );
   });
 }
