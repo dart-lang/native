@@ -37,6 +37,12 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
+    assert(
+      method.parent == null,
+      'Method already has a parent (${method.parent?.name}): '
+      '${method.originalName}',
+    );
+    method.parent = this;
     final oldMethod = getSimilarMethod(method);
     if (oldMethod == null) {
       _methods[method.key] = method;
@@ -45,6 +51,8 @@ mixin ObjCMethods {
       _methods[method.key] = method;
     }
   }
+
+  void copyMethod(ObjCMethod method) => addMethod(method.clone());
 
   void visitMethods(Visitor visitor) {
     visitor.visitAll(methods);
@@ -197,6 +205,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
   Symbol? protocolMethodName;
+  ObjCMethods? parent;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -313,6 +322,31 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  ObjCMethod clone({ObjCMethods? parent}) {
+    final clonedMethod = ObjCMethod.withSymbol(
+      context: context,
+      originalName: originalName,
+      symbol: symbol.clone(),
+      protocolMethodName: originalProtocolMethodName,
+      dartDoc: dartDoc,
+      kind: kind,
+      isClassMethod: isClassMethod,
+      isOptional: isOptional,
+      returnType: returnType,
+      family: family,
+      apiAvailability: apiAvailability,
+      params: _params.map((p) => p.clone()).toList(),
+      ownershipAttribute: ownershipAttribute,
+      consumesSelfAttribute: consumesSelfAttribute,
+    );
+    clonedMethod.parent = parent;
+    if (protocolMethodName != null) {
+      clonedMethod.protocolMethodName = protocolMethodName!.clone();
+    }
+    return clonedMethod;
+  }
+
   ObjCMsgSendFunc fillMsgSend() {
     return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
       returnType,

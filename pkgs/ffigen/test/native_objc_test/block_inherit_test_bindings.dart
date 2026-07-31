@@ -242,14 +242,14 @@ extension BlockInheritTestChild$Methods on BlockInheritTestChild {
 
   /// init
   BlockInheritTestChild init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'BlockInheritTestChild.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return BlockInheritTestChild.fromPointer(
@@ -338,14 +338,14 @@ extension type Mammal._(objc.ObjCObject object$)
 extension Mammal$Methods on Mammal {
   /// init
   Mammal init() {
-    final _$$ref$2 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'Mammal.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$2.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return Mammal.fromPointer($ret, retain: false, release: true);
@@ -824,14 +824,14 @@ extension type Platypus._(objc.ObjCObject object$)
 extension Platypus$Methods on Platypus {
   /// init
   Platypus init() {
-    final _$$ref$3 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'Platypus.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$3.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return Platypus.fromPointer($ret, retain: false, release: true);

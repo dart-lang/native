@@ -322,5 +322,16 @@ class Parameter extends AstNode {
     visitor.visit(type);
   }
 
+  Parameter clone() {
+    final clonedParam = Parameter(
+      originalName: originalName,
+      name: symbol.isFilled ? symbol.name : symbol.oldName,
+      type: type,
+      objCConsumed: objCConsumed,
+    );
+    clonedParam.symbol = symbol.clone();
+    return clonedParam;
+  }
+
   bool get isNullable => type.typealiasType is ObjCNullable;
 }

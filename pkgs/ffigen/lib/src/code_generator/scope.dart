@@ -181,6 +181,13 @@ class Symbol extends AstNode {
 
   bool get isFilled => _name != null;
 
+  Symbol clone() {
+    final s = Symbol(_oldName, kind);
+    s._name = _name;
+    s.isImported = isImported;
+    return s;
+  }
+
   @override
   String toString() => _name ?? oldName;
 

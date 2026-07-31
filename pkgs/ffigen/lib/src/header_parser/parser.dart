@@ -243,6 +243,18 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     }
   }
 
+  for (final b in finalBindingsList) {
+    if (b is ObjCMethods) {
+      for (final m in (b as ObjCMethods).methods) {
+        assert(
+          identical(m.parent, b),
+          'Method ${m.originalName} on ${(b as ObjCMethods).name} has '
+          'incorrect parent: ${m.parent?.name}',
+        );
+      }
+    }
+  }
+
   return finalBindingsList;
 }
 

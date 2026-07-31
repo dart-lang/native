@@ -125,8 +125,8 @@ extension type MySwiftProtocol._(objc.ObjCProtocol object$)
 extension MySwiftProtocol$Methods on MySwiftProtocol {
   /// getValue
   DartNSInteger getValue() {
-    final _$$ref$1 = object$.ref;
-    return _objc_msgSend_1hz7y9r(_$$ref$1.pointer, _sel_getValue);
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
   }
 }
 
