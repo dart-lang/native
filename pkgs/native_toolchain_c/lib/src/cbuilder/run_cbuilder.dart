@@ -372,7 +372,7 @@ class RunCBuilder {
           )
         else
           ...sourceFiles,
-        if (language == .objectiveC) ...[
+        if (codeConfig.targetOS case .iOS || .macOS) ...[
           for (final framework in frameworks) ...['-framework', framework],
         ],
         if (executable != null) ...[

@@ -36,11 +36,15 @@ env:
 jobs:
   analyze_jni_util:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni_util
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -55,11 +59,15 @@ jobs:
   test_jni_util:
     needs: [analyze_jni_util]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni_util
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -71,6 +79,8 @@ jobs:
 
   analyze_jnigen:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jnigen
@@ -80,6 +90,8 @@ jobs:
         sdk: [stable]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: ${{ matrix.sdk }}
@@ -105,6 +117,8 @@ jobs:
   test_jnigen:
     needs: [analyze_jnigen]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jnigen
@@ -118,6 +132,8 @@ jobs:
             java-version: 'none'
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: ${{ matrix.sdk }}
@@ -172,11 +188,15 @@ jobs:
   test_jnigen_android:
     needs: [analyze_jnigen]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jnigen/android_test_runner
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -198,11 +218,15 @@ jobs:
 
   analyze_jni_flutter:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni_flutter
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -223,11 +247,15 @@ jobs:
   test_jni_flutter_android:
     needs: [analyze_jni_flutter]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni_flutter/android_test_runner
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -254,11 +282,15 @@ jobs:
 
   analyze_jni:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -289,6 +321,8 @@ jobs:
 
   test_jni:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [analyze_jni]
     defaults:
       run:
@@ -299,6 +333,8 @@ jobs:
         java-version: ['17', '21', 'none']
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -358,11 +394,15 @@ jobs:
   test_jni_android:
     needs: [analyze_jni]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -382,16 +422,40 @@ jobs:
           script: flutter test --timeout=1200s integration_test/on_device_jni_test.dart
           working-directory: ./pkgs/jni/example
 
-  ## Run tests for package:jni on windows, just to confirm it works.
-  ## Do not, for example, collect coverage or check formatting.
-  test_jni_windows_minimal:
+  cross_compile_jni_arm64:
     needs: [analyze_jni]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - run: |
+          sudo apt-get update -y
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu ninja-build
+      - run: dart pub get
+      - name: Build package:jni for arm64 linux
+        run: dart run jni:setup -v -m -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -m -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++ -m -DCMAKE_SYSTEM_NAME=Linux -m -DCMAKE_SYSTEM_PROCESSOR=aarch64
+
+  ## Run tests for package:jni on windows, just to confirm it works.
+  ## Do not, for example, collect coverage or check formatting.
+  test_jni_windows_minimal:
+    needs: [analyze_jni]
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: ./pkgs/jni
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -409,6 +473,8 @@ jobs:
   # Not having Java installed on a Desktop will not fail Flutter build.
   test_no_jdk_fallback:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni
@@ -424,6 +490,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -476,11 +544,15 @@ jobs:
   test_jnigen_windows_minimal:
     needs: [analyze_jnigen]
     runs-on: windows-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jnigen
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - name: Setup clang
         uses: egor-tensin/setup-clang@23bc15cd4207e45f1566447deb48f4ff3ef932cb
         with:
@@ -507,11 +579,15 @@ jobs:
   test_jni_macos_minimal:
     needs: [analyze_jni]
     runs-on: macos-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -524,11 +600,15 @@ jobs:
   test_jnigen_macos_minimal:
     needs: [analyze_jnigen]
     runs-on: macos-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jnigen
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - name: Setup clang format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
@@ -547,11 +627,15 @@ jobs:
 
   build_jni_example_linux:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -567,11 +651,15 @@ jobs:
 
   build_jni_example_windows:
     runs-on: windows-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -583,11 +671,15 @@ jobs:
 
   build_jni_example_android:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -598,11 +690,15 @@ jobs:
 
   run_pdfbox_example_linux:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: 'stable'
@@ -635,6 +731,8 @@ jobs:
   coveralls_finish:
     needs: [test_jnigen, test_jni]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Coveralls finished
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926

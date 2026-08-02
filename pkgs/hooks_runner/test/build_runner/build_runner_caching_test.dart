@@ -399,4 +399,34 @@ void main() async {
       });
     },
   );
+
+  test(
+    'cached output that is not a JSON object reports a format error',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add/');
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+
+        expect((await buildCodeAssets(packageUri)).isSuccess, isTrue);
+        final buildDirectory =
+            (Directory.fromUri(
+                      packageUri.resolve('.dart_tool/hooks_runner/native_add/'),
+                    ).listSync().single
+                    as Directory)
+                .uri;
+        final outputFile = File.fromUri(buildDirectory.resolve('output.json'));
+        await outputFile.writeAsString('[]');
+
+        final logMessages = <String>[];
+        final result = await buildCodeAssets(
+          packageUri,
+          capturedLogs: logMessages,
+        );
+        expect(result.isFailure, isTrue);
+        expect(logMessages.join('\n'), contains('contained a format error'));
+      });
+    },
+  );
 }

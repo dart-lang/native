@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Fix JNI build errors on Linux arm64.
+
 ## 1.0.2
 
 - Revert an unnecessary (and breaking) KGP migration.

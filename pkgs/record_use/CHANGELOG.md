@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Added `Recordings.+` to combine two recordings.
+
 ## 1.0.0
 
 - Stable release.

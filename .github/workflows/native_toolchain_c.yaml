@@ -1,7 +1,8 @@
 # Workflow that runs relevant tests with the clang from the Dart SDK.
 
 name: native_toolchain_c
-permissions: read-all
+permissions:
+      contents: read
 
 on:
   pull_request:
@@ -26,6 +27,8 @@ jobs:
         package: [native_toolchain_c]
 
     runs-on: ${{ matrix.os }}-latest
+    permissions:
+      contents: read
 
     defaults:
       run:
@@ -33,6 +36,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
 
       - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:

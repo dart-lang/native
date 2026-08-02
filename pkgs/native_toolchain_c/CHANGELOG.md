@@ -1,3 +1,8 @@
+## 0.19.4-wip
+
+- Link frameworks for C and C++ sources targeting macOS or iOS.
+  ([#3162](https://github.com/dart-lang/native/issues/3162))
+
 ## 0.19.3
 
 - Fixed building with MSVC on Windows when a source, include, or output path

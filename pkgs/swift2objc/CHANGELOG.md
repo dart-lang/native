@@ -1,3 +1,7 @@
+## 0.3.0-wip
+
+- Fix extensions of nested types to use fully qualified generated wrapper names.
+
 ## 0.2.0
 
 - Fix [a bug](https://github.com/dart-lang/native/issues/2666) where generated
