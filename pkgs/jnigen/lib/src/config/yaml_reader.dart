@@ -88,17 +88,55 @@ class YamlReader {
   /// from YAML config.
   Uri? getPath(String property) => _config.optionalPath(property);
 
-  List<String>? getStringList(String property) => _config.optionalStringList(
-        property,
-        splitCliPattern: ';',
-        combineAllConfigs: false,
-      );
+  /// Reports an entry left empty in [property], which reads as null.
+  ///
+  /// A list read from the config file is cast lazily, so such an entry only
+  /// fails where something reaches for it, with a message that names neither
+  /// the property nor the file. A list that came from `-D` holds its own
+  /// strings and cannot carry a null.
+  ///
+  /// Pass the list through `cast<Object?>()`: reading an element of the cast
+  /// list throws before this can see it, and casting again unwraps to the
+  /// source rather than stacking on top of it.
+  void _checkForEmptyEntries(String property, List<Object?> values) {
+    for (var i = 0; i < values.length; ++i) {
+      if (values[i] == null) {
+        throw ConfigException(
+            'Entry ${i + 1} of "$property" is empty in the config file.');
+      }
+    }
+  }
 
-  List<Uri>? getPathList(String property) => _config.optionalPathList(
-        property,
-        combineAllConfigs: false,
-        splitCliPattern: ';',
-      );
+  List<String>? getStringList(String property) {
+    final values = _config.optionalStringList(
+      property,
+      splitCliPattern: ';',
+      combineAllConfigs: false,
+    );
+    if (values == null) return null;
+    // The cast is what lets the check read a null; see the helper.
+    _checkForEmptyEntries(property, values.cast<Object?>());
+    return values;
+  }
+
+  List<Uri>? getPathList(String property) {
+    // `optionalPathList` reads the entries itself, so they have to be checked
+    // before it does.
+    final values = _config.optionalStringList(
+      property,
+      splitCliPattern: ';',
+      combineAllConfigs: false,
+    );
+    if (values != null) {
+      // The cast is what lets the check read a null; see the helper.
+      _checkForEmptyEntries(property, values.cast<Object?>());
+    }
+    return _config.optionalPathList(
+      property,
+      combineAllConfigs: false,
+      splitCliPattern: ';',
+    );
+  }
 
   String? getOneOf(String property, Set<String> values) =>
       _config.optionalString(property, validValues: values);
