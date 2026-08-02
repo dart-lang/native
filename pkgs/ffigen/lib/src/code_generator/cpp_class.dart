@@ -228,18 +228,36 @@ class $name implements $ffiPrefix.Finalizable {
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
 
+      final ownedParams = method.parameters
+          .where(
+            (p) =>
+                p.type is CppClassPointerType &&
+                (p.type as CppClassPointerType).ownership ==
+                    OwnershipKind.owned,
+          )
+          .toList();
+
       final localVars = LocalVariables(method.localScope);
+
+      final rawPtrVars = <String, String>{};
+      for (final p in ownedParams) {
+        rawPtrVars[p.name] = '_raw_${p.name}';
+      }
+
       final callArgs = [
         if (!method.isStatic) '_ptr',
-        ...method.parameters.map(
-          (p) => p.type.convertDartTypeToFfiDartType(
+        ...method.parameters.map((p) {
+          if (rawPtrVars.containsKey(p.name)) {
+            return rawPtrVars[p.name]!;
+          }
+          return p.type.convertDartTypeToFfiDartType(
             ctx,
             p.name,
             objCRetain: false,
             objCAutorelease: false,
             localVariables: localVars,
-          ),
-        ),
+          );
+        }),
       ].join(', ');
       final decls = localVars.generateDeclarations();
 
@@ -249,21 +267,57 @@ class $name implements $ffiPrefix.Finalizable {
         objCRetain: false,
       );
 
+      // Build the ownership-transfer preamble for owned parameters.
+      final ownershipChecks = StringBuffer();
+      if (ownedParams.isNotEmpty) {
+        for (final p in ownedParams) {
+          ownershipChecks.write('''
+    if (${p.name}._ptr == $ffiPrefix.nullptr) {
+      throw StateError('Argument "${p.name}" has already been disposed.');
+    }
+    if (${p.name}._activeFinalizer == null) {
+      throw StateError('Argument "${p.name}" does not own its pointer. '
+          'Call retainOwnership() first to transfer ownership.');
+    }
+''');
+        }
+        for (final p in ownedParams) {
+          final raw = rawPtrVars[p.name]!;
+          ownershipChecks.write('''
+    final $raw = ${p.name}._ptr;
+    ${p.name}._activeFinalizer!.detach(${p.name});
+    ${p.name}._activeFinalizer = null;
+    ${p.name}._activeFinalizerFn = null;
+    ${p.name}._ptr = $ffiPrefix.nullptr;
+''');
+        }
+      }
+
+      final hasReturn = method.returnType != voidType;
+
       if (method.isStatic) {
+        final callLine = hasReturn
+            ? 'return $returnExpr;'
+            : '$glue($callArgs);';
         s.write('''\
   static $dartReturn ${method.originalName}($dartParams) {
     $decls
-    return $returnExpr;
+    ${ownershipChecks.toString().trimLeft()}
+    $callLine
   }
 ''');
       } else {
+        final callLine = hasReturn
+            ? 'return $returnExpr;'
+            : '$glue($callArgs);';
         s.write('''\
   $dartReturn ${method.originalName}($dartParams) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
     $decls
-    return $returnExpr;
+    ${ownershipChecks.toString().trimLeft()}
+    $callLine
   }
 ''');
       }
@@ -356,6 +410,21 @@ class $name implements $ffiPrefix.Finalizable {
     String paramDecl(Parameter p) =>
         p.type.getNativeType(context, varName: p.name).trim();
 
+    // Check if any method uses unique_ptr (owned ownership) so we can emit
+    // #include <memory> conditionally rather than always.
+    final needsMemoryHeader = methods.any(
+      (m) =>
+          (m.returnType is CppClassPointerType &&
+              (m.returnType as CppClassPointerType).ownership ==
+                  OwnershipKind.owned) ||
+          m.parameters.any(
+            (p) =>
+                p.type is CppClassPointerType &&
+                (p.type as CppClassPointerType).ownership ==
+                    OwnershipKind.owned,
+          ),
+    );
+
     final deleteWrapper =
         '''
 FFIGEN_EXPORT void ${name}_delete($originalName* self) {
@@ -365,7 +434,6 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
     final methodBindings = methods
         .map((method) {
           final symbol = method.name.name;
-          final callArgs = method.parameters.map((p) => p.name).join(', ');
 
           final String returnTypeString;
           final String params;
@@ -374,12 +442,26 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
           if (method.isConstructor) {
             returnTypeString = '$originalName*';
             params = method.parameters.map(paramDecl).join(', ');
+            final callArgs = method.parameters.map((p) => p.name).join(', ');
             body = 'return new $originalName($callArgs);';
           } else {
             final nativeType = method.returnType.getNativeType(context);
             returnTypeString = nativeType.trim();
             final needsReturn = method.returnType != voidType;
             final returnPrefix = needsReturn ? 'return ' : '';
+
+            final callArgs = method.parameters
+                .map((p) {
+                  if (p.type is CppClassPointerType &&
+                      (p.type as CppClassPointerType).ownership ==
+                          OwnershipKind.owned) {
+                    final cppClass = (p.type as CppClassPointerType).cppClass;
+                    final n = cppClass.originalName;
+                    return 'std::unique_ptr<$n>(${p.name})';
+                  }
+                  return p.name;
+                })
+                .join(', ');
 
             final otherParams = method.parameters.map(paramDecl);
 
@@ -396,7 +478,17 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
                 selfType = originalName;
               }
               params = ['$selfType* self', ...otherParams].join(', ');
-              body = '${returnPrefix}self->${method.originalName}($callArgs);';
+              final isUniquePtrReturn =
+                  method.returnType is CppClassPointerType &&
+                  (method.returnType as CppClassPointerType).ownership ==
+                      OwnershipKind.owned;
+              if (isUniquePtrReturn) {
+                final m = method.originalName;
+                body = '${returnPrefix}self->$m($callArgs).release();';
+              } else {
+                body =
+                    '${returnPrefix}self->${method.originalName}($callArgs);';
+              }
             }
           }
 
@@ -407,7 +499,8 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
         })
         .join('\n\n');
 
-    return '$methodBindings\n\n$deleteWrapper\n\n';
+    final memoryInclude = needsMemoryHeader ? '#include <memory>\n' : '';
+    return '$memoryInclude$methodBindings\n\n$deleteWrapper\n\n';
   }
 
   @override

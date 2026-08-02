@@ -150,4 +150,128 @@ void main() {
       calloc.free(counter);
     });
   });
+
+  group('unique_ptr memory management', () {
+    test('makeNode() returns owned Node (takeOwnership: true)', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.makeNode(42, counter.cast());
+
+      expect(node.getValue(), 42);
+      expect(counter.value, 0); // not destroyed yet
+
+      node.dispose();
+      expect(counter.value, 1); // destructor called on dispose
+      calloc.free(counter);
+    });
+
+    test('makeNode() Node is GC-destroyed automatically', () {
+      final counter = calloc<Int32>()..value = 0;
+
+      @pragma('vm:never-inline')
+      void inner() {
+        final manager = NodeManager();
+        // ignore: unused_local_variable
+        final _ = manager.makeNode(99, counter.cast());
+      }
+
+      inner();
+      doGC();
+      expect(counter.value, 1);
+      calloc.free(counter);
+    }, skip: !canDoGC);
+
+    test('makeNode() cannot call retainOwnership() again (already owned)', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.makeNode(1, counter.cast());
+      expect(node.retainOwnership, throwsStateError);
+      node.dispose();
+      calloc.free(counter);
+    });
+
+    test(
+      'consumeNode() transfers ownership, destroys object, returns value',
+      () {
+        final counter = calloc<Int32>()..value = 0;
+        final manager = NodeManager();
+        final node = manager.makeNode(77, counter.cast());
+        expect(counter.value, 0); // not yet destroyed
+
+        final val = manager.consumeNode(node);
+        expect(val, 77);
+        expect(counter.value, 1); // unique_ptr destructor fired inside C++
+        calloc.free(counter);
+      },
+    );
+
+    test('consumeNode() invalidates the Dart wrapper', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.makeNode(55, counter.cast());
+
+      manager.consumeNode(node);
+
+      // Wrapper must be in disposed state after transfer.
+      expect(node.getValue, throwsStateError);
+      calloc.free(counter);
+    });
+
+    test('double consumeNode() throws StateError on second call', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.makeNode(33, counter.cast());
+
+      manager.consumeNode(node); // first call: succeeds
+      expect(
+        () => manager.consumeNode(node),
+        throwsStateError,
+      ); // second call: wrapper is nullptr
+      calloc.free(counter);
+    });
+
+    test('consumeNode() with non-owning wrapper throws StateError', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(111, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: false);
+      final manager = NodeManager();
+
+      expect(() => manager.consumeNode(node), throwsStateError);
+
+      // Wrapper must be unmodified after the failed call.
+      expect(node.getValue(), 111);
+      expect(counter.value, 0);
+
+      _rawNodeDelete(rawPtr);
+      calloc.free(counter);
+    });
+
+    test('consumeNode() with already-disposed wrapper throws StateError', () {
+      final counter = calloc<Int32>()..value = 0;
+      final manager = NodeManager();
+      final node = manager.makeNode(222, counter.cast());
+
+      node.dispose();
+      expect(counter.value, 1); // already destroyed by dispose()
+
+      expect(() => manager.consumeNode(node), throwsStateError);
+      calloc.free(counter);
+    });
+
+    test('retainOwnership() then consumeNode() works correctly', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(333, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: false)
+        ..retainOwnership();
+
+      final manager = NodeManager();
+      final val = manager.consumeNode(node); // should succeed
+
+      expect(val, 333);
+      expect(counter.value, 1); // C++ destroyed it inside consumeNode
+      // Dart wrapper is now invalid.
+      expect(node.getValue, throwsStateError);
+      calloc.free(counter);
+    });
+  });
 }

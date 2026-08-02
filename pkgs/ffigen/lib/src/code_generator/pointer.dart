@@ -254,13 +254,20 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
   }
 }
 
+enum OwnershipKind { unowned, owned }
+
 /// A pointer to a C++ class wrapper object.
-/// Returned pointers are always unowned by default. The developer must call
-/// `retainOwnership()` explicitly if ownership has been transferred.
+///
+/// When [ownership] is [OwnershipKind.unowned] (the default), the returned
+/// pointer is unowned — the developer must call `retainOwnership()` explicitly.
+/// When [ownership] is [OwnershipKind.owned] (used for `std::unique_ptr<T>`
+/// returns), the Dart wrapper is created with `takeOwnership: true`.
 class CppClassPointerType extends PointerType {
   final CppClass cppClass;
+  final OwnershipKind ownership;
 
-  CppClassPointerType(this.cppClass) : super._(cppClass);
+  CppClassPointerType(this.cppClass, {this.ownership = OwnershipKind.unowned})
+    : super._(cppClass);
 
   @override
   String getDartType(Context context) => cppClass.name;
@@ -299,13 +306,22 @@ class CppClassPointerType extends PointerType {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => '${cppClass.name}.fromPointer($value)';
+  }) {
+    if (ownership == OwnershipKind.owned) {
+      return '${cppClass.name}.fromPointer($value, takeOwnership: true)';
+    }
+    return '${cppClass.name}.fromPointer($value)';
+  }
 
   @override
-  String toString() => '${cppClass.name}*';
+  String toString() => ownership == OwnershipKind.owned
+      ? 'unique_ptr<${cppClass.name}>'
+      : '${cppClass.name}*';
 
   @override
-  String cacheKey() => '${cppClass.cacheKey()}*';
+  String cacheKey() => ownership == OwnershipKind.owned
+      ? 'unique_ptr<${cppClass.cacheKey()}>'
+      : '${cppClass.cacheKey()}*';
 
   @override
   void visitChildren(Visitor visitor) {

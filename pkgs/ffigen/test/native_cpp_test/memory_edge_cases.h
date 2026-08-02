@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+#include <memory>
+
+
 class Node {
 public:
     Node(int value, int* destructorCounter);
@@ -23,5 +26,7 @@ public:
     Node* getSingletonNode(int value, int* destructorCounter);
     int getValue(Node* node);
     int takeNode(Node* node);
+    std::unique_ptr<Node> makeNode(int value, int* destructorCounter);
+    int consumeNode(std::unique_ptr<Node> node);
 };
 

@@ -43,6 +43,22 @@ Type getCodeGenType(
     return getCodeGenType(context, clang.clang_Type_getNamedType(cxtype));
   }
 
+  // Handle C++ templates like std::unique_ptr.
+  if (context.config.cpp?.classes != null) {
+    final numTemplateArgs = clang.clang_Type_getNumTemplateArguments(cxtype);
+    if (numTemplateArgs >= 1) {
+      final spelling = clang.clang_getTypeSpelling(cxtype).toStringAndDispose();
+      if (spelling.contains('unique_ptr<')) {
+        return _extractUniquePtrType(
+          context,
+          cxtype,
+          numTemplateArgs,
+          spelling,
+        );
+      }
+    }
+  }
+
   // These basic Objective C types skip the cache, and are conditional on the
   // language flag.
   if (context.config.objectiveC != null) {
@@ -285,6 +301,42 @@ Type? _extractfromRecord(
     'Not Implemented, ${cursor.completeStringRepr()}',
   );
   return UnimplementedType('${cxtype.kindSpelling()} not implemented');
+}
+
+Type _extractUniquePtrType(
+  Context context,
+  clang_types.CXType cxtype,
+  int numTemplateArgs,
+  String spelling,
+) {
+  final logger = context.logger;
+
+  if (numTemplateArgs != 1) {
+    logger.warning(
+      'std::unique_ptr with a custom deleter is not supported '
+      '($numTemplateArgs template args in "$spelling"). Skipping.',
+    );
+    return UnimplementedType('unique_ptr with custom deleter not supported');
+  }
+
+  final innerCXType = clang.clang_Type_getTemplateArgumentAsType(cxtype, 0);
+  final innerType = getCodeGenType(context, innerCXType);
+
+  if (innerType is CppClass) {
+    final className = innerType.symbol.isFilled
+        ? innerType.name
+        : innerType.originalName;
+    logger.fine('  unique_ptr<$className> is an owned CppClassPointerType');
+    return CppClassPointerType(innerType, ownership: OwnershipKind.owned);
+  }
+
+  logger.warning(
+    'std::unique_ptr inner type is not a known C++ class '
+    '(got ${innerType.runtimeType} from "$spelling"). Skipping.',
+  );
+  return UnimplementedType(
+    'unique_ptr inner type is not a supported C++ class',
+  );
 }
 
 // Used for function pointer arguments.

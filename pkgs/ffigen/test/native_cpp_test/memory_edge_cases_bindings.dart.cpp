@@ -20,6 +20,7 @@ FFIGEN_EXPORT void Node_delete(Node* self) {
   delete self;
 }
 
+#include <memory>
 FFIGEN_EXPORT NodeManager* NodeManager_new() {
   return new NodeManager();
 }
@@ -46,6 +47,14 @@ FFIGEN_EXPORT int NodeManager_getValue(NodeManager* self, Node* node) {
 
 FFIGEN_EXPORT int NodeManager_takeNode(NodeManager* self, Node* node) {
   return self->takeNode(node);
+}
+
+FFIGEN_EXPORT Node* NodeManager_makeNode(NodeManager* self, int value, int * destructorCounter) {
+  return self->makeNode(value, destructorCounter).release();
+}
+
+FFIGEN_EXPORT int NodeManager_consumeNode(NodeManager* self, Node* node) {
+  return self->consumeNode(std::unique_ptr<Node>(node));
 }
 
 FFIGEN_EXPORT void NodeManager_delete(NodeManager* self) {

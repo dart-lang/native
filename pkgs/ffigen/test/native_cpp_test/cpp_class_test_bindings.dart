@@ -97,7 +97,7 @@ class Animal implements ffi.Finalizable {
       throw StateError('This object has already been disposed.');
     }
 
-    return _Animal_speak(_ptr);
+    _Animal_speak(_ptr);
   }
 
   int getAge() {
@@ -113,11 +113,11 @@ class Animal implements ffi.Finalizable {
   }
 
   static void Animal_new() {
-    return _Animal_Animal_new();
+    _Animal_Animal_new();
   }
 
   static void Animal_delete() {
-    return _Animal_Animal_delete();
+    _Animal_Animal_delete();
   }
 
   bool isMammalClass() {
