@@ -194,6 +194,17 @@ class $name implements $ffiPrefix.Finalizable {
     _activeFinalizerFn = null;
   }
 
+  /// Detaches the finalizer and invalidates this object, returning the
+  /// underlying C++ pointer.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  $ptrVoid detachPointer() {
+    final rawPtr = _ptr;
+    releaseOwnership();
+    _ptr = $ffiPrefix.nullptr;
+    return rawPtr;
+  }
 ''');
 
     for (final ctor in constructors) {
@@ -269,28 +280,9 @@ class $name implements $ffiPrefix.Finalizable {
 
       // Build the ownership-transfer preamble for owned parameters.
       final ownershipChecks = StringBuffer();
-      if (ownedParams.isNotEmpty) {
-        for (final p in ownedParams) {
-          ownershipChecks.write('''
-    if (${p.name}._ptr == $ffiPrefix.nullptr) {
-      throw StateError('Argument "${p.name}" has already been disposed.');
-    }
-    if (${p.name}._activeFinalizer == null) {
-      throw StateError('Argument "${p.name}" does not own its pointer. '
-          'Call retainOwnership() first to transfer ownership.');
-    }
-''');
-        }
-        for (final p in ownedParams) {
-          final raw = rawPtrVars[p.name]!;
-          ownershipChecks.write('''
-    final $raw = ${p.name}._ptr;
-    ${p.name}._activeFinalizer!.detach(${p.name});
-    ${p.name}._activeFinalizer = null;
-    ${p.name}._activeFinalizerFn = null;
-    ${p.name}._ptr = $ffiPrefix.nullptr;
-''');
-        }
+      for (final p in ownedParams) {
+        final raw = rawPtrVars[p.name]!;
+        ownershipChecks.write('    final $raw = ${p.name}.detachPointer();\n');
       }
 
       final hasReturn = method.returnType != voidType;

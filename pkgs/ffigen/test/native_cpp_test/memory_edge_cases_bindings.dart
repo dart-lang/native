@@ -89,6 +89,18 @@ class Node implements ffi.Finalizable {
     _activeFinalizerFn = null;
   }
 
+  /// Detaches the finalizer and invalidates this object, returning the
+  /// underlying C++ pointer.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  ffi.Pointer<ffi.Void> detachPointer() {
+    final rawPtr = _ptr;
+    releaseOwnership();
+    _ptr = ffi.nullptr;
+    return rawPtr;
+  }
+
   factory Node(int value, ffi.Pointer<ffi.Int> destructorCounter) {
     return Node.fromPointer(
       _Node_new(value, destructorCounter),
@@ -219,6 +231,18 @@ class NodeManager implements ffi.Finalizable {
     _activeFinalizerFn = null;
   }
 
+  /// Detaches the finalizer and invalidates this object, returning the
+  /// underlying C++ pointer.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  ffi.Pointer<ffi.Void> detachPointer() {
+    final rawPtr = _ptr;
+    releaseOwnership();
+    _ptr = ffi.nullptr;
+    return rawPtr;
+  }
+
   factory NodeManager() {
     return NodeManager.fromPointer(_NodeManager_new(), takeOwnership: true);
   }
@@ -292,20 +316,7 @@ class NodeManager implements ffi.Finalizable {
       throw StateError('This object has already been disposed.');
     }
 
-    if (node._ptr == ffi.nullptr) {
-      throw StateError('Argument "node" has already been disposed.');
-    }
-    if (node._activeFinalizer == null) {
-      throw StateError(
-        'Argument "node" does not own its pointer. '
-        'Call retainOwnership() first to transfer ownership.',
-      );
-    }
-    final _raw_node = node._ptr;
-    node._activeFinalizer!.detach(node);
-    node._activeFinalizer = null;
-    node._activeFinalizerFn = null;
-    node._ptr = ffi.nullptr;
+    final _raw_node = node.detachPointer();
 
     return _NodeManager_consumeNode(_ptr, _raw_node);
   }
