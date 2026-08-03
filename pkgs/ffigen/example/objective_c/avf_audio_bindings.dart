@@ -12,26 +12,6 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
 
-enum AVAudioCommonFormat {
-  AVAudioOtherFormat(0),
-  AVAudioPCMFormatFloat32(1),
-  AVAudioPCMFormatFloat64(2),
-  AVAudioPCMFormatInt16(3),
-  AVAudioPCMFormatInt32(4);
-
-  final int value;
-  const AVAudioCommonFormat(this.value);
-
-  static AVAudioCommonFormat fromValue(int value) => switch (value) {
-    0 => AVAudioOtherFormat,
-    1 => AVAudioPCMFormatFloat32,
-    2 => AVAudioPCMFormatFloat64,
-    3 => AVAudioPCMFormatInt16,
-    4 => AVAudioPCMFormatInt32,
-    _ => throw ArgumentError('Unknown value for AVAudioCommonFormat: $value'),
-  };
-}
-
 /// AVAudioFormat
 ///
 /// AVAudioFormat
@@ -764,7 +744,8 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 }
 
-/// AVAudioPlayerDelegate
+/// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
+/// AVAudioPlayerDelegate in your config's objc-protocols list.
 ///
 /// AVAudioPlayerDelegate
 extension type AVAudioPlayerDelegate._(objc.ObjCProtocol object$)
@@ -797,26 +778,6 @@ extension type CASpatialAudioExperience._(objc.ObjCObject object$)
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_AVAudioChannelLayout',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class_AVAudioChannelLayout_raw;
-final _class_AVAudioChannelLayout = objc.getClass(
-  "AVAudioChannelLayout",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_AVAudioChannelLayout_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_AVAudioFormat',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class_AVAudioFormat_raw;
-final _class_AVAudioFormat = objc.getClass(
-  "AVAudioFormat",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_AVAudioFormat_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_AVAudioPlayer',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_AVAudioPlayer_raw;
@@ -824,16 +785,6 @@ final _class_AVAudioPlayer = objc.getClass(
   "AVAudioPlayer",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_AVAudioPlayer_raw,
-  ).cast(),
-);
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$_CASpatialAudioExperience',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class_CASpatialAudioExperience_raw;
-final _class_CASpatialAudioExperience = objc.getClass(
-  "CASpatialAudioExperience",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_CASpatialAudioExperience_raw,
   ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer
@@ -1134,23 +1085,6 @@ final _objc_msgSend_91o635 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-final _objc_msgSend_e3qsqz = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCProtocolImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCProtocolImpl>,
-      )
-    >();
 final _objc_msgSend_hwm8nu = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1217,31 +1151,12 @@ final _objc_msgSend_xw2lbc = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
-  symbol: '_1uu024u_AVAudioPlayerDelegate',
-)
-external ffi.Pointer<objc.ObjCProtocolImpl>
-_protocol_AVAudioPlayerDelegate_raw();
-final _protocol_AVAudioPlayerDelegate = objc.getProtocol(
-  "AVAudioPlayerDelegate",
-  _protocol_AVAudioPlayerDelegate_raw,
-);
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
-late final _sel_audioPlayerDecodeErrorDidOccur_error_ = objc.registerName(
-  "audioPlayerDecodeErrorDidOccur:error:",
-);
-late final _sel_audioPlayerDidFinishPlaying_successfully_ = objc.registerName(
-  "audioPlayerDidFinishPlaying:successfully:",
-);
 late final _sel_averagePowerForChannel_ = objc.registerName(
   "averagePowerForChannel:",
 );
 late final _sel_channelAssignments = objc.registerName("channelAssignments");
-late final _sel_channelCount = objc.registerName("channelCount");
-late final _sel_channelLayout = objc.registerName("channelLayout");
-late final _sel_commonFormat = objc.registerName("commonFormat");
-late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
 late final _sel_currentDevice = objc.registerName("currentDevice");
 late final _sel_currentTime = objc.registerName("currentTime");
 late final _sel_data = objc.registerName("data");
@@ -1249,25 +1164,8 @@ late final _sel_delegate = objc.registerName("delegate");
 late final _sel_deviceCurrentTime = objc.registerName("deviceCurrentTime");
 late final _sel_duration = objc.registerName("duration");
 late final _sel_enableRate = objc.registerName("enableRate");
-late final _sel_encodeWithCoder_ = objc.registerName("encodeWithCoder:");
 late final _sel_format = objc.registerName("format");
-late final _sel_formatDescription = objc.registerName("formatDescription");
 late final _sel_init = objc.registerName("init");
-late final _sel_initStandardFormatWithSampleRate_channelLayout_ = objc
-    .registerName("initStandardFormatWithSampleRate:channelLayout:");
-late final _sel_initStandardFormatWithSampleRate_channels_ = objc.registerName(
-  "initStandardFormatWithSampleRate:channels:",
-);
-late final _sel_initWithCMAudioFormatDescription_ = objc.registerName(
-  "initWithCMAudioFormatDescription:",
-);
-late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
-late final _sel_initWithCommonFormat_sampleRate_channels_interleaved_ = objc
-    .registerName("initWithCommonFormat:sampleRate:channels:interleaved:");
-late final _sel_initWithCommonFormat_sampleRate_interleaved_channelLayout_ =
-    objc.registerName(
-      "initWithCommonFormat:sampleRate:interleaved:channelLayout:",
-    );
 late final _sel_initWithContentsOfURL_error_ = objc.registerName(
   "initWithContentsOfURL:error:",
 );
@@ -1278,31 +1176,12 @@ late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
 late final _sel_initWithData_fileTypeHint_error_ = objc.registerName(
   "initWithData:fileTypeHint:error:",
 );
-late final _sel_initWithLayoutTag_ = objc.registerName("initWithLayoutTag:");
-late final _sel_initWithLayout_ = objc.registerName("initWithLayout:");
-late final _sel_initWithSettings_ = objc.registerName("initWithSettings:");
-late final _sel_initWithStreamDescription_ = objc.registerName(
-  "initWithStreamDescription:",
-);
-late final _sel_initWithStreamDescription_channelLayout_ = objc.registerName(
-  "initWithStreamDescription:channelLayout:",
-);
 late final _sel_intendedSpatialExperience = objc.registerName(
   "intendedSpatialExperience",
 );
-late final _sel_isEqual_ = objc.registerName("isEqual:");
-late final _sel_isInterleaved = objc.registerName("isInterleaved");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_isMeteringEnabled = objc.registerName("isMeteringEnabled");
 late final _sel_isPlaying = objc.registerName("isPlaying");
-late final _sel_isStandard = objc.registerName("isStandard");
-late final _sel_layout = objc.registerName("layout");
-late final _sel_layoutTag = objc.registerName("layoutTag");
-late final _sel_layoutWithLayoutTag_ = objc.registerName(
-  "layoutWithLayoutTag:",
-);
-late final _sel_layoutWithLayout_ = objc.registerName("layoutWithLayout:");
-late final _sel_magicCookie = objc.registerName("magicCookie");
 late final _sel_new = objc.registerName("new");
 late final _sel_numberOfChannels = objc.registerName("numberOfChannels");
 late final _sel_numberOfLoops = objc.registerName("numberOfLoops");
@@ -1315,7 +1194,6 @@ late final _sel_play = objc.registerName("play");
 late final _sel_playAtTime_ = objc.registerName("playAtTime:");
 late final _sel_prepareToPlay = objc.registerName("prepareToPlay");
 late final _sel_rate = objc.registerName("rate");
-late final _sel_sampleRate = objc.registerName("sampleRate");
 late final _sel_setChannelAssignments_ = objc.registerName(
   "setChannelAssignments:",
 );
@@ -1326,7 +1204,6 @@ late final _sel_setEnableRate_ = objc.registerName("setEnableRate:");
 late final _sel_setIntendedSpatialExperience_ = objc.registerName(
   "setIntendedSpatialExperience:",
 );
-late final _sel_setMagicCookie_ = objc.registerName("setMagicCookie:");
 late final _sel_setMeteringEnabled_ = objc.registerName("setMeteringEnabled:");
 late final _sel_setNumberOfLoops_ = objc.registerName("setNumberOfLoops:");
 late final _sel_setPan_ = objc.registerName("setPan:");
@@ -1337,10 +1214,6 @@ late final _sel_setVolume_fadeDuration_ = objc.registerName(
 );
 late final _sel_settings = objc.registerName("settings");
 late final _sel_stop = objc.registerName("stop");
-late final _sel_streamDescription = objc.registerName("streamDescription");
-late final _sel_supportsSecureCoding = objc.registerName(
-  "supportsSecureCoding",
-);
 late final _sel_updateMeters = objc.registerName("updateMeters");
 late final _sel_url = objc.registerName("url");
 late final _sel_volume = objc.registerName("volume");

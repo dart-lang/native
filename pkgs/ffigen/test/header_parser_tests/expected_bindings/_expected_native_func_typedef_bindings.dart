@@ -71,10 +71,7 @@ class NativeLibrary {
       .asFunction<void Function(WithTypedefReturnType)>();
 }
 
-typedef InsideReturnType =
-    ffi.Pointer<ffi.NativeFunction<InsideReturnTypeFunction>>;
-typedef InsideReturnTypeFunction = ffi.Void Function();
-typedef DartInsideReturnTypeFunction = void Function();
+typedef InsideReturnType = ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>;
 
 final class Struct extends ffi.Struct {
   external ffi.Pointer<
@@ -108,10 +105,6 @@ final class Struct2 extends ffi.Struct {
   }) => $allocator<Struct2>()..ref.constFuncPointer = constFuncPointer;
 }
 
-typedef VoidFuncPointer =
-    ffi.Pointer<ffi.NativeFunction<VoidFuncPointerFunction>>;
-typedef VoidFuncPointerFunction = ffi.Void Function();
-typedef DartVoidFuncPointerFunction = void Function();
+typedef VoidFuncPointer = ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>;
 typedef WithTypedefReturnType =
-    ffi.Pointer<ffi.NativeFunction<WithTypedefReturnTypeFunction>>;
-typedef WithTypedefReturnTypeFunction = InsideReturnType Function();
+    ffi.Pointer<ffi.NativeFunction<InsideReturnType Function()>>;

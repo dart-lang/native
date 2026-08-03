@@ -39,8 +39,9 @@ class FindTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitTypealias(Typealias node) {
-    node.visitChildren(visitor);
-    if (!node.isAnonymous) {
+    if (node.isAnonymous) {
+      node.visitChildren(visitor);
+    } else {
       transitives.add(node);
     }
   }
