@@ -336,7 +336,6 @@ void generateObjCBindings(Uri root) {
     'NSSet',
     'NSStream',
     'NSString',
-    'NSThread',
     'NSTimer',
     'NSURL',
     'NSURLHandle',

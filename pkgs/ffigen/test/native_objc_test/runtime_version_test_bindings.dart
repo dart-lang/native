@@ -315,14 +315,6 @@ final _class_FutureAPIMethods = objc.getClass(
     _class_FutureAPIMethods_raw,
   ).cast(),
 );
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSObject')
-external ffi.Pointer<objc.ObjCObjectImpl> _class_NSObject_raw;
-final _class_NSObject = objc.getClass(
-  "NSObject",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class_NSObject_raw,
-  ).cast(),
-);
 final _objc_msgSend_13yqbb6 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<

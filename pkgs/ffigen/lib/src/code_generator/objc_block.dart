@@ -47,7 +47,6 @@ class ObjCBlock extends BindingType with HasLocalScope {
       returnType,
       renamedParams.map((a) => a.type),
       reduced: false,
-      returnsRetained: returnsRetained,
     );
     final oldBlock = context.bindingsIndex.getSeenObjCBlock(usr);
     if (oldBlock != null) {
@@ -59,7 +58,6 @@ class ObjCBlock extends BindingType with HasLocalScope {
           returnType,
           renamedParams.map((a) => a.type),
           reduced: true,
-          returnsRetained: returnsRetained,
         );
       }
       return oldBlock;
@@ -127,11 +125,9 @@ class ObjCBlock extends BindingType with HasLocalScope {
     Type returnType,
     Iterable<Type> argTypes, {
     required bool reduced,
-    bool returnsRetained = false,
   }) {
     final types = [returnType, ...argTypes].map((t) => _typeName(t, reduced));
-    final name = 'ObjCBlock_${types.join('_')}';
-    return returnsRetained ? '${name}_retained' : name;
+    return 'ObjCBlock_${types.join('_')}';
   }
 
   static String _typeName(Type type, bool reduced) =>
@@ -141,12 +137,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
       );
   static final _illegalNameChar = RegExp(r'[^0-9a-zA-Z]');
   static Type _reducedType(Type type) {
-    if (type is ObjCNullable) {
-      final reducedChild = _reducedType(type.child);
-      return reducedChild is ObjCNullable
-          ? reducedChild
-          : ObjCNullable(reducedChild);
-    }
+    if (type.baseType != type) return _reducedType(type.baseType);
     if (type.typealiasType != type) return _reducedType(type.typealiasType);
     return type;
   }
@@ -159,10 +150,9 @@ class ObjCBlock extends BindingType with HasLocalScope {
     bool returnsRetained,
   ) => [
     '${strings.synthUsrChar} objcBlock:',
-    '${_reducedType(returnType).cacheKey()} ${returnsRetained ? 'R' : ''}',
+    '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
     for (final param in params)
-      '${_reducedType(param.type).cacheKey()} '
-          '${param.objCConsumed ? 'C' : ''}',
+      '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
   ].join(' ');
 
   // Similar to _getBlockUsr, but not 100% garunteed to be unique, since it

@@ -182,8 +182,6 @@ export 'objective_c_bindings_generated.dart'
         NSStringEncodingConversionOptions,
         NSStringEnumerationOptions,
         NSStringExtensionMethods,
-        NSThread,
-        NSThread$Methods,
         NSTimer,
         NSTimer$Methods,
         NSURL,

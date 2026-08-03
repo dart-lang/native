@@ -50,7 +50,6 @@ const objCBuiltInInterfaces = {
   'NSSet': 'NSSet',
   'NSStream': 'NSStream',
   'NSString': 'NSString',
-  'NSThread': 'NSThread',
   'NSTimer': 'NSTimer',
   'NSURL': 'NSURL',
   'NSURLHandle': 'NSURLHandle',
