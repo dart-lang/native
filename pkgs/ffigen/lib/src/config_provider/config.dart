@@ -16,10 +16,44 @@ import 'public_ast.dart' show Visitor;
 /// headers.
 // TODO: Add a code snippet example.
 final class FfiGenerator {
-  /// User custom visitors to modify/filter AST elements.
+  /// Visitors to configure generation options for target language declarations.
+  ///
+  /// You can filter declarations:
+  /// ```dart
+  /// Visitor.callback(
+  ///   visitFunc: (node) {
+  ///     if (node.originalName.startsWith('_')) {
+  ///       node.isIncluded = false;
+  ///     }
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// You can rename declarations:
+  /// ```dart
+  /// Visitor.callback(
+  ///   visitStruct: (node) {
+  ///     if (node.originalName == 'custom_type') {
+  ///       node.name = 'CustomType';
+  ///     }
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// Multiple visitors can be provided, and are executed sequentially in order.
+  /// Nodes filtered out in an earlier pass (`node.isIncluded = false`) are
+  /// still visited in subsequent passes.
+  /// ```dart
+  /// Visitor.callback(
+  ///   visitFunc: (node) {
+  ///     if (!node.isIncluded) return;
+  ///     // Process only included functions...
+  ///   },
+  /// )
+  /// ```
   final List<Visitor> visitors;
 
-  /// The input configuration for header parsing of [FfiGenerator].
+  /// Input headers and compiler options.
   final Input input;
 
   /// C++ specific configuration.
@@ -59,6 +93,11 @@ final class FfiGenerator {
   final List<LibraryImport> libraryImports;
 
   /// Custom type mappings for typedefs.
+  // TODO(https://github.com/dart-lang/native/issues/2595): Remove/change this.
+  @Deprecated(
+    'This field will change type. See '
+    'https://github.com/dart-lang/native/issues/2595.',
+  )
   final Map<String, ImportedType> typedefTypeMappings;
 
   /// Path to the clang library.
@@ -110,6 +149,11 @@ final class Input {
   static bool _includeDefault(Uri header) => true;
 
   /// Command line arguments to pass to clang_compiler.
+  ///
+  /// If `null`, default options based on your platform and target language are
+  /// used (for example, automatic macOS SDK path detection).
+  /// If an empty list `[]` is provided, default platform options are
+  /// suppressed.
   final List<String>? compilerOptions;
 
   /// Where to ignore compiler warnings/errors in source header files.
