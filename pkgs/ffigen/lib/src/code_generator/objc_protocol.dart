@@ -99,9 +99,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
 
     final sp = [
       protocolBase,
-      ...superProtocols
-          .where((p) => p.generateBindings || p.isObjCImport)
-          .map((p) => p.getDartType(context)),
+      ...superProtocols.map((p) => p.getDartType(context)),
     ];
     s.write('''
 extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
@@ -355,16 +353,8 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
       PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Context context) {
-    if (isObjCImport) {
-      context.libs.markUsed(objcPkgImport);
-      final builtinName =
-          context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) ??
-          originalName;
-      return '${context.libs.prefix(objcPkgImport)}.$builtinName';
-    }
-    return name;
-  }
+  String getDartType(Context context) =>
+      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
   String getNativeType(Context context, {String varName = ''}) => 'id $varName';

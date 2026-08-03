@@ -140,10 +140,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
     final protos = [
       wrapObjType,
-      if (superType != null) superType!.getDartType(context),
-      ...protocols
-          .where((p) => p.generateBindings || p.isObjCImport)
-          .map((p) => p.getDartType(context)),
+      ...[superType, ...protocols].nonNulls.map((p) => p.getDartType(context)),
     ];
 
     s.write('''
