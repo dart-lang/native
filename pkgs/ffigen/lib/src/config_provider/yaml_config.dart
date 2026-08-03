@@ -141,8 +141,8 @@ final class YamlConfig {
   late Map<String, ImportedType> _usrTypeMappings;
 
   /// Stores typedef name to ImportedType mappings specified by user.
-  Map<String, ImportedType> get typedefTypeMappings => _typedefTypeMappings;
-  late Map<String, ImportedType> _typedefTypeMappings;
+  List<ImportedType> get typedefImports => _typedefImports;
+  late List<ImportedType> _typedefImports;
 
   /// Stores struct name to ImportedType mappings specified by user.
   Map<String, ImportedType> get structTypeMappings => _structTypeMappings;
@@ -742,11 +742,11 @@ final class YamlConfig {
             ],
             result: (node) {
               final nodeValue = node.value as Map;
-              _typedefTypeMappings = makeImportTypeMapping(
+              _typedefImports = makeImportTypeMapping(
                 (nodeValue[strings.typeMapTypedefs])
                     as Map<String, List<String>>,
                 _libraryImports,
-              );
+              ).values.toList();
               _structTypeMappings = makeImportTypeMapping(
                 (nodeValue[strings.typeMapStructs])
                     as Map<String, List<String>>,
@@ -1175,7 +1175,7 @@ final class YamlConfig {
   FfiGenerator configAdapter() {
     final yamlVisitor = YamlConfigAstVisitor(
       usrTypeMappings: _usrTypeMappings,
-      typedefTypeMappings: _typedefTypeMappings,
+      typedefImports: _typedefImports,
       functionDecl: _functionDecl,
       structDecl: _structDecl,
       unionDecl: _unionDecl,
@@ -1222,7 +1222,7 @@ final class YamlConfig {
                 wrapperDocComment: wrapperDocComment,
               ),
       ),
-      typedefTypeMappings: _typedefTypeMappings,
+      typedefImports: _typedefImports,
       objectiveC: language == Language.objc
           ? ObjectiveC(
               externalVersions: externalVersions,
@@ -1242,7 +1242,7 @@ final class YamlConfig {
 
 final class YamlConfigAstVisitor extends public_ast.Visitor {
   final Map<String, ImportedType> _usrTypeMappings;
-  final Map<String, ImportedType> _typedefTypeMappings;
+  final List<ImportedType> _typedefImports;
   final YamlDeclarationFilters _functionDecl;
   final YamlDeclarationFilters _structDecl;
   final YamlDeclarationFilters _unionDecl;
@@ -1267,7 +1267,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   YamlConfigAstVisitor({
     required Map<String, ImportedType> usrTypeMappings,
-    required Map<String, ImportedType> typedefTypeMappings,
+    required List<ImportedType> typedefImports,
     required YamlDeclarationFilters functionDecl,
     required YamlDeclarationFilters structDecl,
     required YamlDeclarationFilters unionDecl,
@@ -1291,7 +1291,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     required bool includeUnusedTypedefs,
     required Map<String, List<VarArgFunction>> varArgFunctions,
   }) : _usrTypeMappings = usrTypeMappings,
-       _typedefTypeMappings = typedefTypeMappings,
+       _typedefImports = typedefImports,
        _functionDecl = functionDecl,
        _structDecl = structDecl,
        _unionDecl = unionDecl,
@@ -1483,7 +1483,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   @override
   void visitTypealias(public_ast.Typealias node) {
     node.includeUnused = _includeUnusedTypedefs;
-    if (_typedefTypeMappings.containsKey(node.originalName)) {
+    if (_typedefImports.any((t) => t.nativeType == node.originalName)) {
       node.isIncluded = false;
     } else {
       _applyInclusion(node, _typedefs);

@@ -98,7 +98,7 @@ final class FfiGenerator {
     'This field will change type. See '
     'https://github.com/dart-lang/native/issues/2595.',
   )
-  final Map<String, ImportedType> typedefTypeMappings;
+  final List<ImportedType> typedefImports;
 
   /// Path to the clang library.
   ///
@@ -122,7 +122,7 @@ final class FfiGenerator {
       'https://github.com/dart-lang/native/issues/2597.',
     )
     this.libraryImports = const <LibraryImport>[],
-    this.typedefTypeMappings = const {},
+    this.typedefImports = const [],
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 
