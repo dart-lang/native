@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator.dart' as code_gen;
 import 'package:ffigen/src/header_parser.dart' as parser;
@@ -192,36 +194,40 @@ void main() {
       expect(enumClass.silenceWarning, isTrue);
     });
 
-    test('ObjCInterface.includeCategories option on public AST', () {
-      final headerUri = Uri.file(
-        absPath('test/native_objc_test/transitive_test.h'),
-      );
-      final generator = FfiGenerator(
-        input: Input(entryPoints: [headerUri]),
-        output: Output(dartFile: Uri.file('unused.dart')),
-        objectiveC: const ObjectiveC(),
-        visitors: [
-          const IncludeSetVisitor(
-            objcInterfaces: {'DirectlyIncludedIntForCat'},
-          ),
-          Visitor.callback(
-            visitObjCInterface: (node) {
-              if (node.originalName == 'DirectlyIncludedIntForCat') {
-                expect(node.includeCategories, isTrue);
-                node.includeCategories = false;
-                expect(node.includeCategories, isFalse);
-              }
-            },
-          ),
-        ],
-      );
+    test(
+      'ObjCInterface.includeCategories option on public AST',
+      () {
+        final headerUri = Uri.file(
+          absPath('test/native_objc_test/transitive_test.h'),
+        );
+        final generator = FfiGenerator(
+          input: Input(entryPoints: [headerUri]),
+          output: Output(dartFile: Uri.file('unused.dart')),
+          objectiveC: const ObjectiveC(),
+          visitors: [
+            const IncludeSetVisitor(
+              objcInterfaces: {'DirectlyIncludedIntForCat'},
+            ),
+            Visitor.callback(
+              visitObjCInterface: (node) {
+                if (node.originalName == 'DirectlyIncludedIntForCat') {
+                  expect(node.includeCategories, isTrue);
+                  node.includeCategories = false;
+                  expect(node.includeCategories, isFalse);
+                }
+              },
+            ),
+          ],
+        );
 
-      final library = parser.parse(testContext(generator));
-      final interface =
-          library.getBinding('DirectlyIncludedIntForCat')
-              as code_gen.ObjCInterface;
-      expect(interface.includeCategories, isFalse);
-    });
+        final library = parser.parse(testContext(generator));
+        final interface =
+            library.getBinding('DirectlyIncludedIntForCat')
+                as code_gen.ObjCInterface;
+        expect(interface.includeCategories, isFalse);
+      },
+      skip: !Platform.isMacOS ? 'macOS specific test' : null,
+    );
 
     test('Visitor setting varArgs for variadic functions', () {
       final headerUri = Uri.file(absPath('test/header_parser_tests/varargs.h'));
