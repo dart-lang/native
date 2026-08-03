@@ -17,19 +17,9 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   final Context context;
   final superProtocols = <ObjCProtocol>[];
   final Symbol loaderSymbol;
-  String? _module;
-  String? get module => _module;
-  set module(String? value) {
-    _module = value;
-    _protocolPointer = ObjCProtocolGlobal(
-      '_protocol_$originalName',
-      originalName,
-      value,
-      loaderSymbol,
-    );
-  }
+  String? module;
 
-  late ObjCProtocolGlobal _protocolPointer;
+  ObjCProtocolGlobal? protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
   final ApiAvailability apiAvailability;
@@ -41,7 +31,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     super.usr,
     required String super.originalName,
     String? name,
-    String? module,
+    this.module,
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
@@ -57,7 +47,6 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    this.module = module;
     _conformsTo = context.objCBuiltInFunctions.getSelObject(
       'conformsToProtocol:',
     );
@@ -130,7 +119,7 @@ extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
         context,
         'obj.ref.pointer',
         _conformsTo.name,
-        [_protocolPointer.name],
+        [protocolPointer!.name],
       );
 
       s.write('''
@@ -223,11 +212,11 @@ ${generateInstanceMethodBindings(w, this)}
 
         methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
         methodFields.write('''static final $fieldName = $methodClass<$funcType>(
-      ${_protocolPointer.name},
+      ${protocolPointer!.name},
       ${method.selObject.name},
       ${_trampolineAddress(block)},
       $getSignature(
-          ${_protocolPointer.name},
+          ${protocolPointer!.name},
           ${method.selObject.name},
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
@@ -244,7 +233,7 @@ ${generateInstanceMethodBindings(w, this)}
           '''
   /// Returns the [$protocolClass] object for this protocol.
   static $protocolClass get \$protocol =>
-      $protocolClass.fromPointer(${_protocolPointer.name}.cast());
+      $protocolClass.fromPointer(${protocolPointer!.name}.cast());
 
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
@@ -461,7 +450,7 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
       super.visitChildren(visitor);
       if (!generateAsStub) {
         visitor.visit(loaderSymbol);
-        visitor.visit(_protocolPointer);
+        visitor.visit(protocolPointer);
         visitor.visit(_conformsTo);
         visitor.visit(_conformsToMsgSend);
         visitMethods(visitor);

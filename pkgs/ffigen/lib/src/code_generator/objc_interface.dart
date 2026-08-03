@@ -19,14 +19,9 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   bool filled = false;
   bool includeCategories = true;
 
-  String? _module;
-  String? get module => _module;
-  set module(String? value) {
-    _module = value;
-    classObject = ObjCClassGlobal('_class_$originalName', originalName, value);
-  }
+  String? module;
 
-  late NoLookUpBinding classObject;
+  ObjCClassGlobal? classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
@@ -41,7 +36,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     super.usr,
     required String super.originalName,
     String? name,
-    String? module,
+    this.module,
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
@@ -54,8 +49,6 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    this.module = module;
-    classObject = ObjCClassGlobal('_class_$name', originalName, module);
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );
@@ -194,7 +187,7 @@ ${generateInstanceMethodBindings(w, this)}
       context,
       'obj.ref.pointer',
       _isKindOfClass.name,
-      [classObject.name],
+      [classObject!.name],
     );
 
     s.write('''
