@@ -117,7 +117,8 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     s.write('\n');
     if (generateAsStub) {
       s.write('''
-/// $name
+/// WARNING: $name is a stub. To generate bindings for this class, include
+/// $originalName in your config's objc-interfaces list.
 ///
 ''');
     }
