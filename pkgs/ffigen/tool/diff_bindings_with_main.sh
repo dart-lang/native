@@ -63,7 +63,7 @@ else
 fi
 
 DIFF_OUTPUT=$("${DIFF_CMD[@]}" \
-  <("${DART_CMD[@]}" <(git show "$MAIN_REF:$REPO_RELATIVE_PATH")) \
+  <(git show "$MAIN_REF:$REPO_RELATIVE_PATH" | "${DART_CMD[@]}" -) \
   <("${DART_CMD[@]}" "$FILE_PATH") || true)
 
 if [ -z "$DIFF_OUTPUT" ]; then

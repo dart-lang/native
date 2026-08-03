@@ -82,8 +82,7 @@ class FunctionType extends Type with HasLocalScope {
       (p) => p.type.getNativeType(context),
     );
     final returnTypeStr = returnType.getNativeType(context);
-    final argStr = arg.isEmpty ? 'void' : arg.join(', ');
-    return '$returnTypeStr (*$varName)($argStr)';
+    return '$returnTypeStr (*$varName)(${arg.join(', ')})';
   }
 
   @override
