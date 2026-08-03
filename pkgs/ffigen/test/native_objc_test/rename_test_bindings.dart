@@ -36,19 +36,19 @@ extension type Renamed._(objc.ObjCObject object$)
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class__Renamed,
+          _class_Renamed,
         );
 
   /// alloc
   static Renamed alloc() {
-    final $ret = _objc_msgSend_151sglz(_class__Renamed, _sel_alloc);
+    final $ret = _objc_msgSend_151sglz(_class_Renamed, _sel_alloc);
     return Renamed.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static Renamed allocWithZone(ffi.Pointer<objc.NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
-      _class__Renamed,
+      _class_Renamed,
       _sel_allocWithZone_,
       zone,
     );
@@ -57,7 +57,7 @@ extension type Renamed._(objc.ObjCObject object$)
 
   /// new
   static Renamed new$() {
-    final $ret = _objc_msgSend_151sglz(_class__Renamed, _sel_new);
+    final $ret = _objc_msgSend_151sglz(_class_Renamed, _sel_new);
     return Renamed.fromPointer($ret, retain: false, release: true);
   }
 
@@ -131,11 +131,11 @@ extension Renamed$Methods on Renamed {
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$__Renamed')
-external ffi.Pointer<objc.ObjCObjectImpl> _class__Renamed_raw;
-final _class__Renamed = objc.getClass(
+external ffi.Pointer<objc.ObjCObjectImpl> _class_Renamed_raw;
+final _class_Renamed = objc.getClass(
   "_Renamed",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__Renamed_raw,
+    _class_Renamed_raw,
   ).cast(),
 );
 final _objc_msgSend_151sglz = objc.msgSendPointer

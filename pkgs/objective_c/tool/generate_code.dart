@@ -336,8 +336,8 @@ void generateObjCBindings(Uri root) {
     'NSSet',
     'NSStream',
     'NSString',
-    'NSTimer',
     'NSThread',
+    'NSTimer',
     'NSURL',
     'NSURLHandle',
     'NSValue',
@@ -449,11 +449,18 @@ void generateObjCBindings(Uri root) {
       ],
     ),
     // ignore: deprecated_member_use
-    objectiveC: const ObjectiveC(generateForPackageObjectiveC: true),
+    objectiveC: ObjectiveC(
+      generateForPackageObjectiveC: true,
+      externalVersions: ExternalVersions(
+        ios: Versions(min: Version(12, 0, 0)),
+        macos: Versions(min: Version(10, 14, 0)),
+      ),
+    ),
     visitors: [
       Visitor.callback(
         visitFunc: (node) => node.isIncluded = false,
         visitObjCInterface: (node) {
+          node.includeCategories = false;
           if (interfaces.contains(node.originalName)) {
             node.isIncluded = true;
             node.name = renameInterface(node.originalName);
@@ -496,6 +503,8 @@ void generateObjCBindings(Uri root) {
         visitTypealias: (node) {
           if (node.originalName == 'CFStringRef') {
             node.isIncluded = true;
+          } else {
+            node.isIncluded = false;
           }
         },
         visitGlobal: (node) => node.isIncluded = false,
