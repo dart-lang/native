@@ -750,14 +750,14 @@ extension DummyObject$Methods on DummyObject {
 
   /// init
   DummyObject init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'DummyObject.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return DummyObject.fromPointer($ret, retain: false, release: true);
@@ -979,14 +979,14 @@ extension NSThread$Methods on NSThread {
 
   /// init
   NSThread init() {
-    final _$$ref$2 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSThread.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$2.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return NSThread.fromPointer($ret, retain: false, release: true);

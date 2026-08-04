@@ -160,21 +160,21 @@ extension ChildClass$Methods on ChildClass {
 
   /// getSelf
   ChildClass getSelf() {
-    final _$$ref$1 = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref$1.pointer, _sel_getSelf);
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getSelf);
     return ChildClass.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
   ChildClass init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ChildClass.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return ChildClass.fromPointer($ret, retain: false, release: true);

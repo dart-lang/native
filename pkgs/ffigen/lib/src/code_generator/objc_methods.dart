@@ -37,6 +37,8 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
+    assert(method.parent == null);
+    method.parent = this;
     final oldMethod = getSimilarMethod(method);
     if (oldMethod == null) {
       _methods[method.key] = method;
@@ -44,6 +46,16 @@ mixin ObjCMethods {
     } else if (_shouldReplaceMethod(oldMethod, method)) {
       _methods[method.key] = method;
     }
+  }
+
+  void copyMethod(ObjCMethod method) {
+    // To maintain the pairing between getters and setters after cloning,
+    // instead of directly cloning the setter, we clone the setter when we clone
+    // the getter. This lets us, for example, share the symbol between them.
+    if (method.kind == ObjCMethodKind.propertySetter) return;
+    final cloned = method.clone();
+    addMethod(cloned);
+    addMethod(cloned.setter);
   }
 
   void visitMethods(Visitor visitor) {
@@ -197,6 +209,8 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
   Symbol? protocolMethodName;
+  ObjCMethods? parent;
+  ObjCMethod? setter;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -313,6 +327,45 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  ObjCMethod _cloneWithSymbol(Symbol newSymbol, {ObjCMethods? parent}) {
+    final clonedMethod = ObjCMethod.withSymbol(
+      context: context,
+      originalName: originalName,
+      symbol: newSymbol,
+      protocolMethodName: originalProtocolMethodName,
+      dartDoc: dartDoc,
+      kind: kind,
+      isClassMethod: isClassMethod,
+      isOptional: isOptional,
+      returnType: returnType,
+      family: family,
+      apiAvailability: apiAvailability,
+      params: _params.map((p) => p.clone()).toList(),
+      ownershipAttribute: ownershipAttribute,
+      consumesSelfAttribute: consumesSelfAttribute,
+    );
+    clonedMethod.parent = parent;
+    clonedMethod.protocolMethodName = protocolMethodName?.clone();
+    return clonedMethod;
+  }
+
+  ObjCMethod clone({ObjCMethods? parent}) {
+    assert(kind != ObjCMethodKind.propertySetter);
+    final clonedSymbol = symbol.clone();
+    final clonedMethod = _cloneWithSymbol(clonedSymbol, parent: parent);
+    if (setter != null) {
+      assert(setter!.kind == ObjCMethodKind.propertySetter);
+      assert(setter!.symbol == symbol);
+      final clonedSetter = setter!._cloneWithSymbol(
+        clonedSymbol,
+        parent: parent,
+      );
+      clonedMethod.setter = clonedSetter;
+    }
+    return clonedMethod;
+  }
+
   ObjCMsgSendFunc fillMsgSend() {
     return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
       returnType,

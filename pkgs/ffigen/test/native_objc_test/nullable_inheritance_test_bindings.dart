@@ -175,14 +175,14 @@ extension type NullableChild._(objc.ObjCObject object$)
 extension NullableChild$Methods on NullableChild {
   /// init
   NullableChild init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NullableChild.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return NullableChild.fromPointer($ret, retain: false, release: true);
@@ -282,14 +282,14 @@ extension type NullableIntermediate._(objc.ObjCObject object$)
 extension NullableIntermediate$Methods on NullableIntermediate {
   /// init
   NullableIntermediate init() {
-    final _$$ref$2 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NullableIntermediate.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$2.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return NullableIntermediate.fromPointer($ret, retain: false, release: true);
