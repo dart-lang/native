@@ -298,7 +298,9 @@ class Parameter extends AstNode {
     required this.symbol,
     required Type type,
     required this.objCConsumed,
-  }) : type = type.typealiasType is NativeFunc ? PointerType(type) : type;
+  }) : // A [NativeFunc] is wrapped with a pointer because this is a shorthand
+       // used in C for Pointer to function.
+       type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
   Parameter({
     String? name,
