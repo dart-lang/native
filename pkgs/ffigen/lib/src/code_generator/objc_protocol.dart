@@ -20,6 +20,13 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   String? module;
 
   ObjCProtocolGlobal? protocolPointer;
+  ObjCProtocolGlobal fillProtocolObject() =>
+      protocolPointer ??= ObjCProtocolGlobal(
+        '_protocol_${symbol.oldName}',
+        originalName,
+        module,
+        loaderSymbol,
+      );
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
   final ApiAvailability apiAvailability;

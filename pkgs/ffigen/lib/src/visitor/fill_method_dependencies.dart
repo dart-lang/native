@@ -30,11 +30,7 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!finalBindings.contains(node)) return;
 
     if (!node.generateAsStub) {
-      node.classObject ??= ObjCClassGlobal(
-        '_class_${node.symbol.oldName}',
-        node.originalName,
-        node.module,
-      );
+      node.fillClassObject();
       node.visitChildren(visitor);
       _adder.visit(node.classObject);
       for (final method in node.methods) {
@@ -49,11 +45,7 @@ class FillMethodDependenciesVisitation extends Visitation {
     node.visitChildren(visitor);
 
     if (node.methods.any((m) => m.isClassMethod)) {
-      node.parent.classObject ??= ObjCClassGlobal(
-        '_class_${node.parent.symbol.oldName}',
-        node.parent.originalName,
-        node.parent.module,
-      );
+      node.parent.fillClassObject();
       _adder.visit(node.parent.classObject);
     }
     for (final method in node.methods) {
@@ -66,12 +58,7 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!finalBindings.contains(node)) return;
 
     if (!node.generateAsStub) {
-      node.protocolPointer ??= ObjCProtocolGlobal(
-        '_protocol_${node.originalName}',
-        node.originalName,
-        node.module,
-        node.loaderSymbol,
-      );
+      node.fillProtocolObject();
       node.visitChildren(visitor);
       _adder.visit(node.protocolPointer);
       for (final method in node.methods) {

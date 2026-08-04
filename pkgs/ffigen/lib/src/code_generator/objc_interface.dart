@@ -22,6 +22,11 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   String? module;
 
   ObjCClassGlobal? classObject;
+  ObjCClassGlobal fillClassObject() => classObject ??= ObjCClassGlobal(
+    '_class_${symbol.oldName}',
+    originalName,
+    module,
+  );
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
