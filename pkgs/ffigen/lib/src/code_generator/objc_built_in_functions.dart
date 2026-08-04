@@ -368,6 +368,9 @@ final $name = $getClass("$lookupName", () => $address.cast());
   }
 
   @override
+  bool get hasNativeHelperFunctions => true;
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(ffiImport);
@@ -395,6 +398,9 @@ class ObjCProtocolGlobal extends NoLookUpBinding {
         symbol: Symbol(name, SymbolKind.field),
         isInternal: true,
       );
+
+  @override
+  bool get hasNativeHelperFunctions => true;
 
   @override
   BindingString toBindingString(Writer w) {

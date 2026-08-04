@@ -1,3 +1,7 @@
+## 22.0.0-wip
+
+- Minor Objective-C code generator and function type signature fixes.
+
 ## 21.0.0
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart
