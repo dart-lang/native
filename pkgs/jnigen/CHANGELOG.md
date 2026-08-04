@@ -1,7 +1,7 @@
 ## 1.0.0-wip
 
 - **Breaking Change**: Restructured Dart `Config` API to align with
-  package:ffigen`. This is purely a cosmetic change: fields have just been
+  `package:ffigen`. This is purely a cosmetic change: fields have just been
   moved around and renamed. The YAML format has not changed.
 
 ## 0.17.0
