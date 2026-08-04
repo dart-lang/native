@@ -16,8 +16,8 @@ import '../config_provider/public_ast.dart' as public_ast;
 import '../config_provider/utils.dart';
 import '../context.dart';
 import '../strings.dart' as strings;
-import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
+import '../visitor/collect_included_bindings.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/create_scopes.dart';
 import '../visitor/fill_method_dependencies.dart';
@@ -201,10 +201,10 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   allBindings.clear();
   allBindings.addAll(expandedBindings.where((b) => !b.isObjCImport));
 
-  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
-  visit(context, applyConfigFiltersVisitation, allBindingsWithImports);
-  final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
-  final indirectlyIncluded = applyConfigFiltersVisitation.indirectlyIncluded;
+  final collectIncludedBindings = CollectIncludedBindingsVisitation(config);
+  visit(context, collectIncludedBindings, allBindingsWithImports);
+  final directlyIncluded = collectIncludedBindings.directlyIncluded;
+  final indirectlyIncluded = collectIncludedBindings.indirectlyIncluded;
   final included = directlyIncluded.union(indirectlyIncluded);
 
   final byValueCompounds = visit(

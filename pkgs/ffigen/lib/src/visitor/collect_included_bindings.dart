@@ -7,14 +7,15 @@ import '../config_provider/config.dart' show Config;
 
 import 'ast.dart';
 
-class ApplyConfigFiltersVisitation extends Visitation {
+class CollectIncludedBindingsVisitation extends Visitation {
   final Config config;
   final directlyIncluded = <Binding>{};
   final indirectlyIncluded = <Binding>{};
-  ApplyConfigFiltersVisitation(this.config);
+  CollectIncludedBindingsVisitation(this.config);
 
-  void _visitImpl(Binding node) {
-    if (node.originalName == '') return;
+  @override
+  void visitBinding(Binding node) {
+    if (node.originalName.isEmpty) return;
     if (node.userDefinedIsIncluded == false) return;
     if (node.userDefinedIsIncluded == true) {
       directlyIncluded.add(node);
@@ -27,27 +28,10 @@ class ApplyConfigFiltersVisitation extends Visitation {
   }
 
   @override
-  void visitStruct(Struct node) => _visitImpl(node);
-
-  @override
-  void visitUnion(Union node) => _visitImpl(node);
-
-  @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
-    _visitImpl(node);
+    visitBinding(node);
   }
-
-  @override
-  void visitCppClass(CppClass node) {
-    _visitImpl(node);
-  }
-
-  @override
-  void visitFunc(Func node) => _visitImpl(node);
-
-  @override
-  void visitMacroConstant(MacroConstant node) => _visitImpl(node);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
@@ -58,7 +42,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
         (m) => m.userDefinedIsIncluded != false && !m.unavailable,
       );
     }
-    _visitImpl(node);
+    visitBinding(node);
 
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
@@ -71,43 +55,31 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    node.filterMethods((m) {
-      if (m.userDefinedIsIncluded == false) return false;
-      if (m.unavailable) return false;
-      if (node.shouldCopyMethodToInterface(m)) return false;
-      return m.userDefinedIsIncluded != false;
-    });
-    _visitImpl(node);
+    node.filterMethods(
+      (m) =>
+          m.userDefinedIsIncluded != false &&
+          !m.unavailable &&
+          !node.shouldCopyMethodToInterface(m),
+    );
+    visitBinding(node);
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     if (node.unavailable) return;
 
-    node.filterMethods((m) {
-      if (m.userDefinedIsIncluded == false) return false;
-      if (m.unavailable) return false;
-      if (m.isClassMethod) return false;
-
-      return m.userDefinedIsIncluded != false;
-    });
-    _visitImpl(node);
-  }
-
-  @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) => _visitImpl(node);
-
-  @override
-  void visitGlobal(Global node) => _visitImpl(node);
-
-  @override
-  void visitConstant(Constant node) {
-    _visitImpl(node);
+    node.filterMethods(
+      (m) =>
+          m.userDefinedIsIncluded != false &&
+          !m.unavailable &&
+          !m.isClassMethod,
+    );
+    visitBinding(node);
   }
 
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    _visitImpl(node);
+    visitBinding(node);
   }
 }
