@@ -237,10 +237,9 @@ const _\$jniVersionCheck =
 
   @override
   Future<void> visit(Classes node) async {
-    final root = config.outputConfig.dartConfig.path;
-    final preamble = config.preamble ?? '';
-    if (config.outputConfig.dartConfig.structure ==
-        OutputStructure.singleFile) {
+    final root = config.output.dart.path;
+    final preamble = config.output.preamble ?? '';
+    if (config.output.dart.structure == OutputStructure.singleFile) {
       final file = File.fromUri(root);
       await file.create(recursive: true);
       log.info('Generating bindings');

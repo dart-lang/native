@@ -41,9 +41,17 @@ class MavenDownloads {
     this.jarOnlyDeps = const [],
     this.jarDir = defaultMavenJarDir,
   });
+
+  /// List of Maven dependencies to download sources for.
   List<String> sourceDeps;
+
+  /// Directory where Maven sources are extracted.
   String sourceDir;
+
+  /// List of Maven dependencies to download JARs for only.
   List<String> jarOnlyDeps;
+
+  /// Directory where Maven JARs are stored.
   String jarDir;
 }
 
@@ -145,8 +153,14 @@ T _getEnumValueFromString<T>(
 class SummarizerOptions {
   SummarizerOptions(
       {this.extraArgs = const [], this.workingDirectory, this.backend});
+
+  /// Extra arguments passed to the summarizer tool.
   List<String> extraArgs;
+
+  /// Working directory for running the summarizer tool.
   Uri? workingDirectory;
+
+  /// Backend engine used to generate summaries.
   SummarizerBackend? backend;
 }
 
@@ -177,7 +191,14 @@ void _ensureIsDirectory(String name, Uri path) {
   }
 }
 
-enum OutputStructure { packageStructure, singleFile }
+/// File structure of the generated Dart bindings.
+enum OutputStructure {
+  /// Generate package structure with multiple files.
+  packageStructure,
+
+  /// Generate all Dart bindings into a single file.
+  singleFile,
+}
 
 OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
   return _getEnumValueFromString(
@@ -187,6 +208,7 @@ OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
   );
 }
 
+/// Configuration for outputting generated Dart code.
 class DartCodeOutputConfig {
   DartCodeOutputConfig({
     required this.path,
@@ -209,8 +231,9 @@ class DartCodeOutputConfig {
   OutputStructure structure;
 }
 
+/// Configuration for outputting generated symbols YAML file.
 class SymbolsOutputConfig {
-  /// Path to write generated Dart bindings.
+  /// Path to write generated symbols YAML file.
   final Uri path;
 
   SymbolsOutputConfig(this.path) {
@@ -220,14 +243,33 @@ class SymbolsOutputConfig {
   }
 }
 
-class OutputConfig {
-  OutputConfig({
-    required this.dartConfig,
-    this.symbolsConfig,
-  });
+/// Configuration for importing symbol files (`symbols.yaml`) from other
+/// packages.
+final class SymbolImports {
+  /// Symbol file URIs (`package:...` or file paths) to import.
+  final List<Uri> symbolFiles;
 
-  DartCodeOutputConfig dartConfig;
-  SymbolsOutputConfig? symbolsConfig;
+  /// Concrete class names to hide/exclude from the imports.
+  final List<String> hide;
+
+  const SymbolImports({
+    this.symbolFiles = const [],
+    this.hide = const [],
+  });
+}
+
+/// Custom nullability annotations configuration.
+final class NullabilityAnnotations {
+  /// Fully-qualified class names of custom `@Nullable` annotations.
+  final List<String> nullable;
+
+  /// Fully-qualified class names of custom `@NonNull` annotations.
+  final List<String> nonNull;
+
+  const NullabilityAnnotations({
+    this.nullable = const [],
+    this.nonNull = const [],
+  });
 }
 
 bool _isCapitalized(String s) {
@@ -253,86 +295,89 @@ void _validateClassName(String className) {
   }
 }
 
-/// Configuration for JNIgen binding generation.
-class Config {
-  Config(
-      {required this.outputConfig,
-      required this.classes,
-      this.experiments,
-      this.sourcePath,
-      this.classPath,
-      this.preamble,
-      this.customClassBody,
-      this.androidSdkConfig,
-      this.mavenDownloads,
-      this.summarizerOptions,
-      this.nonNullAnnotations,
-      this.nullableAnnotations,
-      this.logLevel = Level.INFO,
-      this.dumpJsonTo,
-      this.imports,
-      this.hide,
-      this.generateStubs = true,
-      this.visitors}) {
+/// Configuration for input Java source files, classpaths, and SDK dependencies.
+final class Input {
+  /// Fully-qualified class or package names to generate bindings for.
+  List<String> classes;
+
+  /// Directories to search for Java source files.
+  final List<Uri>? sourcePath;
+
+  /// Classpaths/JARs to search for compiled Java classes and dependencies.
+  final List<Uri>? classPath;
+
+  /// Configuration for downloading dependencies using Maven.
+  final MavenDownloads? mavenDownloads;
+
+  /// Configuration for Android SDK libraries and Gradle dependency resolution.
+  final AndroidSdkConfig? androidSdkConfig;
+
+  /// Additional options passed to the OpenJDK Doclet / ASM summarizer.
+  SummarizerOptions? summarizerOptions;
+
+  /// External symbol file imports for cross-package type sharing.
+  final SymbolImports imports;
+
+  Input({
+    required this.classes,
+    this.sourcePath,
+    this.classPath,
+    this.mavenDownloads,
+    this.androidSdkConfig,
+    this.summarizerOptions,
+    this.imports = const SymbolImports(),
+  }) {
     for (final className in classes) {
       _validateClassName(className);
     }
   }
+}
 
-  /// Output configuration for generated bindings
-  OutputConfig outputConfig;
+/// Configuration for outputting generated Dart code and symbol files.
+final class Output {
+  /// Dart output configuration (path and layout structure).
+  final DartCodeOutputConfig dart;
 
-  /// List of classes or packages for which bindings have to be generated.
-  ///
-  /// The names must be fully qualified, and it's assumed that the directory
-  /// structure corresponds to package naming. For example, com.abc.MyClass
-  /// should be resolvable as `com/abc/MyClass.java` from one of the provided
-  /// source paths. Same applies if ASM backend is used, except that the file
-  /// name suffix is `.class`.
-  List<String> classes;
+  /// Symbol file output configuration (`symbols.yaml`).
+  final SymbolsOutputConfig? symbols;
 
-  Set<Experiment?>? experiments;
-
-  /// Paths to search for java source files.
-  ///
-  /// If a source package is downloaded through [mavenDownloads] option,
-  /// the corresponding source folder is automatically added and does not
-  /// need to be explicitly specified.
-  List<Uri>? sourcePath;
-
-  /// class path for scanning java libraries. If `backend` is `asm`, the
-  /// specified classpath is used to search for [classes], otherwise it's
-  /// merely used by the doclet API to find transitively referenced classes,
-  /// but not the specified classes / packages themselves.
-  List<Uri>? classPath;
-
-  /// Common text to be pasted on top of generated C and Dart files.
+  /// Common header text prepended to generated Dart and C files.
   final String? preamble;
 
-  /// Configuration to search for Android SDK libraries (Experimental).
-  final AndroidSdkConfig? androidSdkConfig;
-
-  /// Configuration for auto-downloading JAR / source packages using maven,
-  /// along with their transitive dependencies.
-  final MavenDownloads? mavenDownloads;
-
-  /// Additional options for the summarizer component.
-  SummarizerOptions? summarizerOptions;
-
-  /// List of dependencies.
-  final List<Uri>? imports;
-
-  /// Hide concrete classes from the imports
-  final List<String>? hide;
-
-  /// Whether to generate stubs for excluded classes.
+  /// Whether to generate stubs for unincluded dependent classes.
   final bool generateStubs;
 
-  /// Annotations specifying that this type is nullable.
-  final List<String>? nullableAnnotations;
+  /// Whether to format the generated Dart code with `dart format`.
+  final bool format;
 
-  /// Annotations specifying that this type is non-nullable.
-  final List<String>? nonNullAnnotations;
+  const Output({
+    required this.dart,
+    this.symbols,
+    this.preamble,
+    this.generateStubs = true,
+    this.format = true,
+  });
+}
+
+/// Configuration for JNIgen binding generation.
+final class Config {
+  /// Input source paths, classpaths, target classes, and SDK dependencies.
+  final Input input;
+
+  /// Output destination and file settings (Dart code, symbol files, preamble).
+  final Output output;
+
+  /// Custom nullability annotation configuration.
+  final NullabilityAnnotations nullability;
+
+  /// AST visitors for filtering, renaming, and AST transformation passes.
+  final List<j_ast.Visitor> visitors;
+
+  /// Enabled experimental feature flags.
+  final Set<Experiment> experiments;
+
+  /// Logging verbosity.
+  Level logLevel;
 
   /// Custom code that is added to the end of the class body with the specified
   /// binary name.
@@ -340,23 +385,21 @@ class Config {
   /// Used for testing package:jnigen.
   final Map<String, String>? customClassBody;
 
-  // User custom visitors.
-  List<j_ast.Visitor>? visitors;
+  Config({
+    required this.input,
+    required this.output,
+    this.nullability = const NullabilityAnnotations(),
+    this.visitors = const [],
+    this.experiments = const {},
+    this.logLevel = Level.INFO,
+    this.customClassBody,
+  });
 
   late final Map<String, ClassDecl> _importedClasses;
 
-  /// Directory containing the YAML configuration file, if any.
+  /// Directory containing the configuration file, if any.
   Uri? get configRoot => _configRoot;
   Uri? _configRoot;
-
-  /// Log verbosity. The possible values in decreasing order of verbosity
-  /// are verbose > debug > info > warning > error.
-  ///
-  /// Defaults to [Level.INFO].
-  Level logLevel = Level.INFO;
-
-  /// File to which JSON summary is written before binding generation.
-  final String? dumpJsonTo;
 
   static final _levels = Map.fromEntries(
       Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)));
@@ -395,73 +438,84 @@ class Config {
         configRoot?.resolve(reference).toFilePath() ?? reference;
 
     final config = Config(
-      sourcePath: prov.getPathList(_Props.sourcePath),
-      classPath: prov.getPathList(_Props.classPath),
-      classes: must(prov.getStringList, [], _Props.classes),
-      summarizerOptions: SummarizerOptions(
-        extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
-        backend: getSummarizerBackend(prov.getString(_Props.backend), null),
-        workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
+      input: Input(
+        classes: must(prov.getStringList, [], _Props.classes),
+        sourcePath: prov.getPathList(_Props.sourcePath),
+        classPath: prov.getPathList(_Props.classPath),
+        mavenDownloads: prov.hasValue(_Props.mavenDownloads)
+            ? MavenDownloads(
+                sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
+                sourceDir: prov.getPath(_Props.mavenSourceDir)?.toFilePath() ??
+                    resolveFromConfigRoot(MavenDownloads.defaultMavenSourceDir),
+                jarOnlyDeps: prov.getStringList(_Props.jarOnlyDeps) ?? const [],
+                jarDir: prov.getPath(_Props.mavenJarDir)?.toFilePath() ??
+                    resolveFromConfigRoot(MavenDownloads.defaultMavenJarDir),
+              )
+            : null,
+        androidSdkConfig: prov.hasValue(_Props.androidSdkConfig)
+            ? AndroidSdkConfig(
+                versions: prov
+                    .getStringList(_Props.androidSdkVersions)
+                    ?.map(int.parse)
+                    .toList(),
+                sdkRoot: getSdkRoot(),
+                addGradleDeps: prov.getBool(_Props.addGradleDeps) ?? false,
+                addGradleSources:
+                    prov.getBool(_Props.addGradleSources) ?? false,
+                // Leaving this as getString instead of getPath, because
+                // it's resolved later in android_sdk_tools.
+                androidExample: prov.getString(_Props.androidExample),
+              )
+            : null,
+        summarizerOptions: SummarizerOptions(
+          extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
+          backend: getSummarizerBackend(prov.getString(_Props.backend), null),
+          workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
+        ),
+        imports: SymbolImports(
+          symbolFiles: prov.getPathList(_Props.import) ?? const [],
+          hide: prov.getStringList(_Props.hide) ?? const [],
+        ),
       ),
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
+      output: Output(
+        dart: DartCodeOutputConfig(
           path: must(prov.getPath, Uri.parse('.'), _Props.dartRoot),
           structure: getOutputStructure(
             prov.getString(_Props.outputStructure),
             OutputStructure.packageStructure,
           ),
         ),
-        symbolsConfig: prov.hasValue(_Props.symbolsOutputConfig)
+        symbols: prov.hasValue(_Props.symbolsOutputConfig)
             ? SymbolsOutputConfig(
                 must(prov.getPath, Uri.parse('.'), _Props.symbolsOutputConfig),
               )
             : null,
+        preamble: prov.getString(_Props.preamble),
+        generateStubs: prov.getBool(_Props.generateStubs) ?? true,
+        format: prov.getBool(_Props.format) ?? true,
       ),
-      preamble: prov.getString(_Props.preamble),
+      nullability: NullabilityAnnotations(
+        nullable: prov.hasValue(_Props.nullableAnnotations)
+            ? (prov.getStringList(_Props.nullableAnnotations) ?? const [])
+            : const [],
+        nonNull: prov.hasValue(_Props.nonNullAnnotations)
+            ? (prov.getStringList(_Props.nonNullAnnotations) ?? const [])
+            : const [],
+      ),
       experiments: prov
-          .getStringList(_Props.experiments)
-          ?.map(
-            Experiment.fromString,
-          )
-          .toSet(),
-      imports: prov.getPathList(_Props.import),
-      nonNullAnnotations: prov.hasValue(_Props.nonNullAnnotations)
-          ? prov.getStringList(_Props.nonNullAnnotations)
-          : null,
-      nullableAnnotations: prov.hasValue(_Props.nullableAnnotations)
-          ? prov.getStringList(_Props.nullableAnnotations)
-          : null,
-      mavenDownloads: prov.hasValue(_Props.mavenDownloads)
-          ? MavenDownloads(
-              sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
-              sourceDir: prov.getPath(_Props.mavenSourceDir)?.toFilePath() ??
-                  resolveFromConfigRoot(MavenDownloads.defaultMavenSourceDir),
-              jarOnlyDeps: prov.getStringList(_Props.jarOnlyDeps) ?? const [],
-              jarDir: prov.getPath(_Props.mavenJarDir)?.toFilePath() ??
-                  resolveFromConfigRoot(MavenDownloads.defaultMavenJarDir),
-            )
-          : null,
-      androidSdkConfig: prov.hasValue(_Props.androidSdkConfig)
-          ? AndroidSdkConfig(
-              versions: prov
-                  .getStringList(_Props.androidSdkVersions)
-                  ?.map(int.parse)
-                  .toList(),
-              sdkRoot: getSdkRoot(),
-              addGradleDeps: prov.getBool(_Props.addGradleDeps) ?? false,
-              addGradleSources: prov.getBool(_Props.addGradleSources) ?? false,
-              // Leaving this as getString instead of getPath, because
-              // it's resolved later in android_sdk_tools.
-              androidExample: prov.getString(_Props.androidExample),
-            )
-          : null,
+              .getStringList(_Props.experiments)
+              ?.map(
+                Experiment.fromString,
+              )
+              .whereType<Experiment>()
+              .toSet() ??
+          const {},
       logLevel: logLevelFromString(
         prov.getOneOf(
           _Props.logLevel,
           _levels.keys.toSet(),
         ),
       ),
-      generateStubs: prov.getBool(_Props.generateStubs) ?? true,
     );
     if (missingValues.isNotEmpty) {
       stderr.write('Following config values are required but not provided\n'
@@ -490,7 +544,7 @@ extension ConfigInternal on Config {
     for (final import in [
       // Implicitly importing package:jni symbols.
       Uri.parse('package:jni/jni_symbols.yaml'),
-      ...?imports,
+      ...input.imports.symbolFiles,
     ]) {
       // Getting the actual uri in case of package uris.
       final Uri yamlUri;
@@ -531,7 +585,7 @@ extension ConfigInternal on Config {
         final classes = entry.value as YamlMap;
         for (final classEntry in classes.entries) {
           final binaryName = classEntry.key as String;
-          if (hide?.contains(binaryName) ?? false) {
+          if (input.imports.hide.contains(binaryName)) {
             continue;
           }
           final decl = classEntry.value as YamlMap;
@@ -598,6 +652,7 @@ class _Props {
 
   static const experiments = 'enable_experiment';
   static const import = 'import';
+  static const hide = 'hide';
   static const outputConfig = 'output';
   static const dartCodeOutputConfig = '$outputConfig.dart';
   static const symbolsOutputConfig = '$outputConfig.symbols';
@@ -606,6 +661,7 @@ class _Props {
   static const preamble = 'preamble';
   static const logLevel = 'log_level';
   static const generateStubs = 'generate_stubs';
+  static const format = 'format';
 
   static const nonNullAnnotations = 'non_null_annotations';
   static const nullableAnnotations = 'nullable_annotations';

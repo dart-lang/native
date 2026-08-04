@@ -20,7 +20,7 @@ class StubCollector extends Visitor<Classes, void> with TopLevelVisitor {
 
   @override
   void visit(Classes node) {
-    if (!config.generateStubs) {
+    if (!config.output.generateStubs) {
       node.decls.removeWhere((binaryName, classDecl) => classDecl.isExcluded);
       return;
     }

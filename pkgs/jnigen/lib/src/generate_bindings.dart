@@ -23,8 +23,8 @@ import 'tools/tools.dart';
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
 Future<void> generateJniBindings(Config config) async {
-  Annotated.nonNullAnnotations.addAll(config.nonNullAnnotations ?? []);
-  Annotated.nullableAnnotations.addAll(config.nullableAnnotations ?? []);
+  Annotated.nonNullAnnotations.addAll(config.nullability.nonNull);
+  Annotated.nullableAnnotations.addAll(config.nullability.nullable);
 
   setLoggingLevel(config.logLevel);
 
@@ -42,7 +42,7 @@ Future<void> generateJniBindings(Config config) async {
   }
 
   final userClasses = j_ast.Classes(classes);
-  config.visitors?.forEach(userClasses.accept);
+  config.visitors.forEach(userClasses.accept);
 
   // Keep the order in sync with `elements/elements.dart`.
   var stage = GenerationStage.userVisitors;

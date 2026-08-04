@@ -128,18 +128,18 @@ Future<Classes> getSummary(Config config) async {
   // warning.
   setLoggingLevel(config.logLevel);
   final summarizer = SummarizerCommand(
-    sourcePath: config.sourcePath,
-    classPath: config.classPath,
-    classes: config.classes,
-    workingDirectory: config.summarizerOptions?.workingDirectory,
-    extraArgs: config.summarizerOptions?.extraArgs ?? const [],
-    backend: config.summarizerOptions?.backend,
+    sourcePath: config.input.sourcePath,
+    classPath: config.input.classPath,
+    classes: config.input.classes,
+    workingDirectory: config.input.summarizerOptions?.workingDirectory,
+    extraArgs: config.input.summarizerOptions?.extraArgs ?? const [],
+    backend: config.input.summarizerOptions?.backend,
   );
 
   // Additional sources added using maven downloads and gradle trickery.
   final extraSources = <Uri>[];
   final extraJars = <Uri>[];
-  final mavenDl = config.mavenDownloads;
+  final mavenDl = config.input.mavenDownloads;
   if (mavenDl != null) {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
@@ -156,7 +156,7 @@ Future<Classes> getSummary(Config config) async {
         .map((entry) => entry.uri)
         .toList());
   }
-  final androidConfig = config.androidSdkConfig;
+  final androidConfig = config.input.androidSdkConfig;
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(
       configRoot: config.configRoot,
