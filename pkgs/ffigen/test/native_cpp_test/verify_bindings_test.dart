@@ -37,16 +37,19 @@ void main() {
             assetId: 'package:ffigen/cpp_test',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(path.join(testDir.path, 'cpp_class_test.h')),
             Uri.file(path.join(testDir.path, 'finalizer_test_subject.h')),
           ],
           compilerOptions: ['-x', 'c++'],
         ),
-        cpp: Cpp(
-          classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
-        ),
+        cpp: const Cpp(),
+        visitors: [
+          const IncludeSetVisitor(
+            cppClasses: {'Animal', 'FinalizerTestSubject'},
+          ),
+        ],
       ),
       'memory_edge_cases': FfiGenerator(
         output: Output(
@@ -55,13 +58,16 @@ void main() {
             assetId: 'package:ffigen/cpp_test',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(path.join(testDir.path, 'memory_edge_cases.h')),
           ],
           compilerOptions: ['-x', 'c++'],
         ),
-        cpp: Cpp(classes: CppClasses.includeSet({'Node', 'NodeManager'})),
+        cpp: const Cpp(),
+        visitors: [
+          const IncludeSetVisitor(cppClasses: {'Node', 'NodeManager'}),
+        ],
       ),
     };
 

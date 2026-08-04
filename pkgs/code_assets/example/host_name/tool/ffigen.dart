@@ -8,12 +8,13 @@ import 'package:ffigen/ffigen.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  final functions = Functions.includeSet({'gethostname'});
   final FfiGenerator generator;
   if (Platform.isWindows) {
     generator = FfiGenerator(
-      headers: Headers(entryPoints: [packageRoot.resolve('src/windows.h')]),
-      functions: functions,
+      input: Input(entryPoints: [packageRoot.resolve('src/windows.h')]),
+      visitors: const [
+        IncludeSetVisitor(functions: {'gethostname'}),
+      ],
       output: Output(
         dartFile: packageRoot.resolve('lib/src/third_party/windows.dart'),
         preamble: '''
@@ -26,8 +27,10 @@ void main() {
     );
   } else {
     generator = FfiGenerator(
-      headers: Headers(entryPoints: [packageRoot.resolve('src/unix.h')]),
-      functions: functions,
+      input: Input(entryPoints: [packageRoot.resolve('src/unix.h')]),
+      visitors: const [
+        IncludeSetVisitor(functions: {'gethostname'}),
+      ],
       output: Output(
         dartFile: packageRoot.resolve('lib/src/third_party/unix.dart'),
         preamble: '''

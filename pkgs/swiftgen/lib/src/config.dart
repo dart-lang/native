@@ -216,46 +216,14 @@ class SwiftModuleInput implements SwiftGenInput {
 
 /// Selected options from [ffigen.FfiGenerator].
 class FfiGeneratorOptions {
-  /// [ffigen.FfiGenerator.functions]
-  final ffigen.Functions functions;
-
-  /// [ffigen.FfiGenerator.structs]
-  final ffigen.Structs structs;
-
-  /// [ffigen.FfiGenerator.unions]
-  final ffigen.Unions unions;
-
-  /// [ffigen.FfiGenerator.enums]
-  final ffigen.Enums enums;
-
-  /// [ffigen.FfiGenerator.unnamedEnums]
-  final ffigen.UnnamedEnums unnamedEnums;
-
-  /// [ffigen.FfiGenerator.globals]
-  final ffigen.Globals globals;
-
-  /// Configuration for integer types.
-  final ffigen.Integers integers;
-
-  /// [ffigen.FfiGenerator.macros]
-  final ffigen.Macros macros;
-
-  /// [ffigen.FfiGenerator.typedefs]
-  final ffigen.Typedefs typedefs;
+  /// User custom visitors to modify/filter AST elements.
+  final List<ffigen.Visitor> visitors;
 
   /// [ffigen.FfiGenerator.objectiveC]
   final ffigen.ObjectiveC objectiveC;
 
   const FfiGeneratorOptions({
-    this.functions = ffigen.Functions.excludeAll,
-    this.structs = ffigen.Structs.excludeAll,
-    this.unions = ffigen.Unions.excludeAll,
-    this.enums = ffigen.Enums.excludeAll,
-    this.unnamedEnums = ffigen.UnnamedEnums.excludeAll,
-    this.globals = ffigen.Globals.excludeAll,
-    this.integers = const ffigen.Integers(),
-    this.macros = ffigen.Macros.excludeAll,
-    this.typedefs = ffigen.Typedefs.excludeAll,
+    this.visitors = const [],
     this.objectiveC = const ffigen.ObjectiveC(),
   });
 }

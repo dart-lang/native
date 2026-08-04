@@ -127,6 +127,7 @@ void main(List<String> args) async {
       // flags, so we need to use the CustomBuilder again.
       final mFiles = _findFiles(objcTestDir, '.m')
           .where((uri) => !uri.pathSegments.last.contains('swift_class_test'))
+          .where((uri) => !uri.pathSegments.last.contains('sdk_variable_test'))
           .toList();
       final hFiles = _findFiles(objcTestDir, '.h');
 

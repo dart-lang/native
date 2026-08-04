@@ -17,9 +17,16 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   final Context context;
   ObjCInterface? superType;
   bool filled = false;
+  bool includeCategories = true;
 
-  final String? module;
-  late final NoLookUpBinding classObject;
+  String? module;
+
+  ObjCClassGlobal? classObject;
+  ObjCClassGlobal fillClassObject() => classObject ??= ObjCClassGlobal(
+    '_class_${symbol.oldName}',
+    originalName,
+    module,
+  );
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
@@ -47,7 +54,6 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    classObject = ObjCClassGlobal('_class_$name', originalName, module);
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );
@@ -103,8 +109,9 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) !=
-      null;
+          null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
 
@@ -183,7 +190,7 @@ ${generateInstanceMethodBindings(w, this)}
       context,
       'obj.ref.pointer',
       _isKindOfClass.name,
-      [classObject.name],
+      [classObject!.name],
     );
 
     s.write('''
@@ -219,8 +226,16 @@ ${generateInstanceMethodBindings(w, this)}
       PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Context context) =>
-      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
+  String getDartType(Context context) {
+    if (isObjCImport) {
+      context.libs.markUsed(objcPkgImport);
+      final builtinName =
+          context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) ??
+          originalName;
+      return '${context.libs.prefix(objcPkgImport)}.$builtinName';
+    }
+    return name;
+  }
 
   @override
   String getNativeType(Context context, {String varName = ''}) => 'id $varName';

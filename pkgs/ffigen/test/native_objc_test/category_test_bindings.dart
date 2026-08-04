@@ -10,36 +10,6 @@ import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
-@ffi.Native<
-  ffi.Pointer<objc.ObjCBlockImpl> Function(
-    ffi.Int64,
-    ffi.Pointer<objc.DOBJC_Context>,
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)
-      >
-    >,
-  )
->(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _l3cf7j_wrapBlockingBlock_pfv6jd(
-  int port,
-  ffi.Pointer<objc.DOBJC_Context> context,
-  ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)>
-  >
-  directInvoke,
-);
-
-@ffi.Native<
-  ffi.Pointer<objc.ObjCBlockImpl> Function(
-    ffi.Int64,
-    ffi.Pointer<objc.DOBJC_Context>,
-  )
->(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _l3cf7j_wrapListenerBlock_pfv6jd(
-  int port,
-  ffi.Pointer<objc.DOBJC_Context> context,
-);
 
 /// CatImplementsProto
 extension CatImplementsProto on Thing {
@@ -289,171 +259,7 @@ extension Mul on Thing {
 }
 
 /// NSItemProvider
-extension NSItemProvider on objc.NSURL {
-  /// itemProviderVisibilityForRepresentationWithTypeIdentifier:
-  objc.NSItemProviderRepresentationVisibility
-  itemProviderVisibilityForRepresentationWithTypeIdentifier(
-    objc.NSString typeIdentifier,
-  ) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = typeIdentifier.ref;
-    objc.checkOsVersionInternal(
-      'NSURL.itemProviderVisibilityForRepresentationWithTypeIdentifier:',
-      iOS: (false, (11, 0, 0)),
-      macOS: (false, (10, 13, 0)),
-    );
-    if (!objc.respondsToSelector(
-      _$$ref.pointer,
-      _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
-    )) {
-      throw objc.UnimplementedOptionalMethodException(
-        'NSURL',
-        'itemProviderVisibilityForRepresentationWithTypeIdentifier:',
-      );
-    }
-    final $ret = _objc_msgSend_16fy0up(
-      _$$ref.pointer,
-      _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
-      _$$ref$1.pointer,
-    );
-    return objc.NSItemProviderRepresentationVisibility.fromValue($ret);
-  }
-
-  /// loadDataWithTypeIdentifier:forItemProviderCompletionHandler:
-  objc.NSProgress? loadDataWithTypeIdentifier(
-    objc.NSString typeIdentifier, {
-    required objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>
-    forItemProviderCompletionHandler,
-  }) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = typeIdentifier.ref;
-    final _$$ref$2 = forItemProviderCompletionHandler.ref;
-    objc.checkOsVersionInternal(
-      'NSURL.loadDataWithTypeIdentifier:forItemProviderCompletionHandler:',
-      iOS: (false, (11, 0, 0)),
-      macOS: (false, (10, 13, 0)),
-    );
-    final $ret = _objc_msgSend_r0bo0s(
-      _$$ref.pointer,
-      _sel_loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
-      _$$ref$1.pointer,
-      _$$ref$2.pointer,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.NSProgress.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// writableTypeIdentifiersForItemProvider
-  objc.NSArray get writableTypeIdentifiersForItemProvider {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'NSURL.writableTypeIdentifiersForItemProvider',
-      iOS: (false, (11, 0, 0)),
-      macOS: (false, (10, 13, 0)),
-    );
-    if (!objc.respondsToSelector(
-      _$$ref.pointer,
-      _sel_writableTypeIdentifiersForItemProvider,
-    )) {
-      throw objc.UnimplementedOptionalMethodException(
-        'NSURL',
-        'writableTypeIdentifiersForItemProvider',
-      );
-    }
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_writableTypeIdentifiersForItemProvider,
-    );
-    return objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// itemProviderVisibilityForRepresentationWithTypeIdentifier:
-  static objc.NSItemProviderRepresentationVisibility
-  itemProviderVisibilityForRepresentationWithTypeIdentifier$1(
-    objc.NSString typeIdentifier,
-  ) {
-    final _$$ref = typeIdentifier.ref;
-    objc.checkOsVersionInternal(
-      'NSURL.itemProviderVisibilityForRepresentationWithTypeIdentifier:',
-      iOS: (false, (11, 0, 0)),
-      macOS: (false, (10, 13, 0)),
-    );
-    if (!objc.respondsToSelector(
-      _class_NSURL,
-      _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
-    )) {
-      throw objc.UnimplementedOptionalMethodException(
-        'NSURL',
-        'itemProviderVisibilityForRepresentationWithTypeIdentifier:',
-      );
-    }
-    final $ret = _objc_msgSend_16fy0up(
-      _class_NSURL,
-      _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
-      _$$ref.pointer,
-    );
-    return objc.NSItemProviderRepresentationVisibility.fromValue($ret);
-  }
-
-  /// objectWithItemProviderData:typeIdentifier:error:
-  static objc.NSURL? objectWithItemProviderData(
-    objc.NSData data, {
-    required objc.NSString typeIdentifier,
-  }) {
-    final _$$ref = data.ref;
-    final _$$ref$1 = typeIdentifier.ref;
-    objc.checkOsVersionInternal(
-      'NSURL.objectWithItemProviderData:typeIdentifier:error:',
-      iOS: (false, (11, 0, 0)),
-      macOS: (false, (10, 13, 0)),
-    );
-    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
-    try {
-      final $ret = _objc_msgSend_1pnyuds(
-        _class_NSURL,
-        _sel_objectWithItemProviderData_typeIdentifier_error_,
-        _$$ref.pointer,
-        _$$ref$1.pointer,
-        $err,
-      );
-      objc.NSErrorException.checkErrorPointer($err.value);
-      return $ret.address == 0
-          ? null
-          : objc.NSURL.fromPointer($ret, retain: true, release: true);
-    } finally {
-      pkg_ffi.calloc.free($err);
-    }
-  }
-
-  /// readableTypeIdentifiersForItemProvider
-  static objc.NSArray getReadableTypeIdentifiersForItemProvider() {
-    objc.checkOsVersionInternal(
-      'NSURL.readableTypeIdentifiersForItemProvider',
-      iOS: (false, (11, 0, 0)),
-      macOS: (false, (10, 13, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSURL,
-      _sel_readableTypeIdentifiersForItemProvider,
-    );
-    return objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// writableTypeIdentifiersForItemProvider
-  static objc.NSArray getWritableTypeIdentifiersForItemProvider$1() {
-    objc.checkOsVersionInternal(
-      'NSURL.writableTypeIdentifiersForItemProvider',
-      iOS: (false, (11, 0, 0)),
-      macOS: (false, (10, 13, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      _class_NSURL,
-      _sel_writableTypeIdentifiersForItemProvider,
-    );
-    return objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-}
+extension NSItemProvider on objc.NSURL {}
 
 /// NSPromisedItems
 extension NSPromisedItems on objc.NSURL {
@@ -884,213 +690,6 @@ extension NSURLPathUtilities on objc.NSURL {
   }
 }
 
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>`.
-abstract final class ObjCBlock_ffiVoid_NSData_NSError {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>
-  fromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) => objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>(
-    pointer,
-    retain: retain,
-    release: release,
-  );
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>
-  fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl> arg0,
-          ffi.Pointer<objc.ObjCObjectImpl> arg1,
-        )
-      >
-    >
-    ptr,
-  ) => objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>(
-    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
-    retain: false,
-    release: true,
-  );
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>
-  fromFunction(
-    void Function(objc.NSData?, objc.NSError?) fn, {
-    bool keepIsolateAlive = true,
-  }) => objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>(
-    objc.newClosureBlock(_closureCallable, (
-      ffi.Pointer<objc.ObjCObjectImpl> arg0,
-      ffi.Pointer<objc.ObjCObjectImpl> arg1,
-    ) {
-      return fn(
-        arg0.address == 0
-            ? null
-            : objc.NSData.fromPointer(arg0, retain: true, release: true),
-        arg1.address == 0
-            ? null
-            : objc.NSError.fromPointer(arg1, retain: true, release: true),
-      );
-    }, keepIsolateAlive),
-    retain: false,
-    release: true,
-  );
-
-  /// Creates a listener block from a Dart function.
-  ///
-  /// This block can be invoked from any thread, but only supports void
-  /// functions, and is not run synchronously. Async functions (ie returning
-  /// Future<void>) are not supported.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>
-  listener(
-    void Function(objc.NSData?, objc.NSError?) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    return objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>(
-      objc.newBlockPort(_l3cf7j_wrapListenerBlock_pfv6jd, (
-        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
-      ) {
-        final args = _BlockArgs_x5cg0.fromPointer(
-          rawArgs,
-          retain: false,
-          release: false,
-        );
-
-        fn(args.arg0, args.arg1);
-      }, keepIsolateAlive),
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// Creates a blocking block from a Dart function.
-  ///
-  /// This callback can be invoked from any native thread, and will block the
-  /// caller until the callback is handled by the Dart isolate that created
-  /// the block. Async functions (ie returning Future<void>) are not supported.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
-  /// has shut down, and the block is invoked by native code, it may block
-  /// indefinitely, or have other undefined behavior.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>
-  blocking(
-    void Function(objc.NSData?, objc.NSError?) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    return objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>(
-      objc.newBlockingBlockPort(_l3cf7j_wrapBlockingBlock_pfv6jd, (
-        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
-      ) {
-        final args = _BlockArgs_x5cg0.fromPointer(
-          rawArgs,
-          retain: false,
-          release: false,
-        );
-
-        fn(args.arg0, args.arg1);
-      }, keepIsolateAlive),
-      retain: false,
-      release: true,
-    );
-  }
-
-  static void _fnPtrTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-    ffi.Pointer<objc.ObjCObjectImpl> arg1,
-  ) => block.ref.target
-      .cast<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCObjectImpl> arg0,
-            ffi.Pointer<objc.ObjCObjectImpl> arg1,
-          )
-        >
-      >()
-      .asFunction<
-        void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >()(arg0, arg1);
-  static ffi.Pointer<ffi.Void> _fnPtrCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >(_fnPtrTrampoline)
-          .cast();
-  static void _closureTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-    ffi.Pointer<objc.ObjCObjectImpl> arg1,
-  ) =>
-      (objc.getBlockClosure(block)
-          as void Function(
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          ))(arg0, arg1);
-  static ffi.Pointer<ffi.Void> _closureCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >(_closureTrampoline)
-          .cast();
-}
-
-/// Call operator for `objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>`.
-extension ObjCBlock_ffiVoid_NSData_NSError$CallExtension
-    on objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)> {
-  void call(objc.NSData? arg0, objc.NSError? arg1) {
-    final _$$ref = arg0?.ref;
-    final _$$ref$1 = arg1?.ref;
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<objc.ObjCObjectImpl> arg0,
-              ffi.Pointer<objc.ObjCObjectImpl> arg1,
-            )
-          >
-        >()
-        .asFunction<
-          void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >()(
-      ref.pointer,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-  }
-}
-
 /// StaticAndInstanceMethodsWithSameNameCategory
 extension StaticAndInstanceMethodsWithSameNameCategory on Thing {
   /// sameNameMethod
@@ -1214,50 +813,6 @@ extension Thing$Methods on Thing {
   }
 }
 
-extension type _BlockArgs_x5cg0._(objc.ObjCObject object$)
-    implements objc.ObjCObject {
-  /// Constructs a [_BlockArgs_x5cg0] that points to the same underlying object as [other].
-  _BlockArgs_x5cg0.as(objc.ObjCObject other) : object$ = other {
-    assert(isA(object$));
-  }
-
-  /// Constructs a [_BlockArgs_x5cg0] that wraps the given raw object pointer.
-  _BlockArgs_x5cg0.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
-    assert(isA(object$));
-  }
-
-  /// Returns whether [obj] is an instance of [_BlockArgs_x5cg0].
-  static bool isA(objc.ObjCObject? obj) => obj == null
-      ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class__BlockArgs_x5cg0,
-        );
-}
-
-extension _BlockArgs_x5cg0$Methods on _BlockArgs_x5cg0 {
-  objc.NSData? get arg0 {
-    final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg0);
-    return $ret.address == 0
-        ? null
-        : objc.NSData.fromPointer($ret, retain: true, release: true);
-  }
-
-  objc.NSError? get arg1 {
-    final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
-    return $ret.address == 0
-        ? null
-        : objc.NSError.fromPointer($ret, retain: true, release: true);
-  }
-}
-
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_ChildOfNSString',
 )
@@ -1302,16 +857,6 @@ final _class_Thing = objc.getClass(
     _class_Thing_raw,
   ).cast(),
 );
-@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
-  symbol: 'OBJC_CLASS_\$__l3cf7j_BlockArgs_pfv6jd',
-)
-external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_x5cg0_raw;
-final _class__BlockArgs_x5cg0 = objc.getClass(
-  "_l3cf7j_BlockArgs_pfv6jd",
-  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
-    _class__BlockArgs_x5cg0_raw,
-  ).cast(),
-);
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1325,23 +870,6 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
       ffi.Pointer<objc.ObjCObjectImpl> Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_16fy0up = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Long Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      int Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 final _objc_msgSend_17amj0z = objc.msgSendPointer
@@ -1488,27 +1016,6 @@ final _objc_msgSend_1lsax7n = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-final _objc_msgSend_1pnyuds = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
-      )
-    >();
 final _objc_msgSend_1q0lyci = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1596,25 +1103,6 @@ final _objc_msgSend_91o635 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-final _objc_msgSend_r0bo0s = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCBlockImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-      )
-    >();
 late final _sel_URLByAppendingPathComponent_ = objc.registerName(
   "URLByAppendingPathComponent:",
 );
@@ -1648,8 +1136,6 @@ late final _sel_anonymousCategoryMethod = objc.registerName(
 late final _sel_anonymousCategoryStaticMethod = objc.registerName(
   "anonymousCategoryStaticMethod",
 );
-late final _sel_arg0 = objc.registerName("arg0");
-late final _sel_arg1 = objc.registerName("arg1");
 late final _sel_checkPromisedItemIsReachableAndReturnError_ = objc.registerName(
   "checkPromisedItemIsReachableAndReturnError:",
 );
@@ -1667,15 +1153,7 @@ late final _sel_init = objc.registerName("init");
 late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
 late final _sel_instancetypeMethod = objc.registerName("instancetypeMethod");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-late final _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
-    objc.registerName(
-      "itemProviderVisibilityForRepresentationWithTypeIdentifier:",
-    );
 late final _sel_lastPathComponent = objc.registerName("lastPathComponent");
-late final _sel_loadDataWithTypeIdentifier_forItemProviderCompletionHandler_ =
-    objc.registerName(
-      "loadDataWithTypeIdentifier:forItemProviderCompletionHandler:",
-    );
 late final _sel_loadResourceDataNotifyingClient_usingCache_ = objc.registerName(
   "loadResourceDataNotifyingClient:usingCache:",
 );
@@ -1683,8 +1161,6 @@ late final _sel_method = objc.registerName("method");
 late final _sel_mul_Y_ = objc.registerName("mul:Y:");
 late final _sel_new = objc.registerName("new");
 late final _sel_nsStringExtension = objc.registerName("nsStringExtension");
-late final _sel_objectWithItemProviderData_typeIdentifier_error_ = objc
-    .registerName("objectWithItemProviderData:typeIdentifier:error:");
 late final _sel_pathComponents = objc.registerName("pathComponents");
 late final _sel_pathExtension = objc.registerName("pathExtension");
 late final _sel_promisedItemResourceValuesForKeys_error_ = objc.registerName(
@@ -1692,9 +1168,6 @@ late final _sel_promisedItemResourceValuesForKeys_error_ = objc.registerName(
 );
 late final _sel_propertyForKey_ = objc.registerName("propertyForKey:");
 late final _sel_protoMethod = objc.registerName("protoMethod");
-late final _sel_readableTypeIdentifiersForItemProvider = objc.registerName(
-  "readableTypeIdentifiersForItemProvider",
-);
 late final _sel_resourceDataUsingCache_ = objc.registerName(
   "resourceDataUsingCache:",
 );
@@ -1707,9 +1180,6 @@ late final _sel_staticProtoMethod = objc.registerName("staticProtoMethod");
 late final _sel_sub_Y_ = objc.registerName("sub:Y:");
 late final _sel_supportsSecureCoding = objc.registerName(
   "supportsSecureCoding",
-);
-late final _sel_writableTypeIdentifiersForItemProvider = objc.registerName(
-  "writableTypeIdentifiersForItemProvider",
 );
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

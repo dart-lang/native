@@ -183,6 +183,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
   final String? dartDoc;
   final String originalName;
   Symbol symbol;
+  bool? userDefinedIsIncluded;
   final String originalProtocolMethodName;
   Type returnType;
   final List<Parameter> _params;
@@ -456,7 +457,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     // Evaluate targetStr and msgSendParams first to populate localVars.
     late String targetStr;
     if (isClassMethod) {
-      targetStr = (target as ObjCInterface).classObject.name;
+      targetStr = (target as ObjCInterface).classObject!.name;
     } else {
       targetStr = target.convertDartTypeToFfiDartType(
         context,

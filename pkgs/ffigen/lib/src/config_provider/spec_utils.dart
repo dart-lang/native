@@ -286,7 +286,7 @@ List<String> compilerOptsExtractor(List<String> value) {
   return list;
 }
 
-YamlHeaders headersExtractor(
+YamlInput inputExtractor(
   Logger logger,
   Map<dynamic, List<String>> yamlConfig,
   String? configFilename,
@@ -322,7 +322,7 @@ YamlHeaders headersExtractor(
       }
     }
   }
-  return YamlHeaders(
+  return YamlInput(
     entryPoints: entryPoints,
     includeFilter: GlobHeaderFilter(includeGlobs: includeGlobs),
   );

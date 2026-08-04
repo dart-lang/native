@@ -11,13 +11,10 @@ void main() {
 
   // 1. Generate bindings for add.c
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
-    functions: Functions(
-      include: (_) => true,
-      recordUse: (_) => true,
-    ),
+    visitors: [const IncludeAllVisitor(), const RecordUseVisitor()],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
@@ -36,13 +33,10 @@ void main() {
 
   // 2. Generate bindings for multiply.c
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
-    functions: Functions(
-      include: (_) => true,
-      recordUse: (_) => true,
-    ),
+    visitors: [const IncludeAllVisitor(), const RecordUseVisitor()],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file

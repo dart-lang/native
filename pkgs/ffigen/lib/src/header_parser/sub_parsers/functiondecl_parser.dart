@@ -4,9 +4,7 @@
 
 import '../../code_generator.dart';
 import '../../config_provider/config.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
-import '../../strings.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
@@ -32,7 +30,6 @@ List<Func> parseFunctionDeclaration(
     return funcs;
   }
 
-  final decl = Declaration(usr: funcUsr, originalName: funcName);
   final cachedFunc = context.bindingsIndex.getSeenFunc(funcUsr);
   if (cachedFunc != null) {
     funcs.add(cachedFunc);
@@ -41,15 +38,8 @@ List<Func> parseFunctionDeclaration(
 
     final returnType = cursor.returnType().toCodeGenType(context);
 
-    final (
-      :parameters,
-      :hasIncompleteStruct,
-      :hasUnimplementedType,
-    ) = parseParameters(
-      context,
-      cursor,
-      renameFn: (paramName) => config.functions.renameMember(decl, paramName),
-    );
+    final (:parameters, :hasIncompleteStruct, :hasUnimplementedType) =
+        parseParameters(context, cursor);
 
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
         clang.clang_Cursor_getStorageClass(cursor) !=
@@ -96,49 +86,30 @@ List<Func> parseFunctionDeclaration(
       clang_types.CXCursorKind.CXCursor_NSReturnsRetained,
     );
 
-    // Initialized with a single value with no prefix and empty var args.
-    var varArgFunctions = <VarArgFunction?>[null];
-    if (config.functions.varArgs.containsKey(funcName)) {
-      if (clang.clang_isFunctionTypeVariadic(cursor.type()) == 1) {
-        varArgFunctions = config.functions.varArgs[funcName]!;
-      } else {
-        logger.warning(
-          'Skipping variadic-argument config for function '
-          "'$funcName' since its not variadic.",
-        );
-      }
-    }
-    for (final vaFunc in varArgFunctions) {
-      var usr = funcUsr;
-      if (vaFunc != null) usr += '$synthUsrChar vaFunc: ${vaFunc.postfix}';
-      funcs.add(
-        Func(
-          dartDoc: getCursorDocComment(
-            context,
-            cursor,
-            indent: nesting.length + commentPrefix.length,
-            availability: apiAvailability.dartDoc,
-          ),
-          usr: usr,
-          name: config.functions.rename(decl) + (vaFunc?.postfix ?? ''),
-          originalName: funcName,
-          returnType: returnType,
-          parameters: parameters,
-          varArgParameters: [
-            for (final ta in vaFunc?.types ?? const <Type>[])
-              Parameter(type: ta, name: 'va', objCConsumed: false),
-          ],
-          exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
-          exposeFunctionTypedefs: config.functions.includeTypedef(decl),
-          isLeaf: config.functions.isLeaf(decl),
-          recordUse: config.functions.recordUse(decl),
-          objCReturnsRetained: objCReturnsRetained,
-          loadFromNativeAsset: config.output.style is NativeExternalBindings,
-          apiAvailability: apiAvailability,
-        ),
-      );
-    }
-    context.bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
+    final isVariadic = clang.clang_isFunctionTypeVariadic(cursor.type()) == 1;
+    final func = Func(
+      dartDoc: getCursorDocComment(
+        context,
+        cursor,
+        indent: nesting.length + commentPrefix.length,
+        availability: apiAvailability.dartDoc,
+      ),
+      usr: funcUsr,
+      name: funcName,
+      originalName: funcName,
+      returnType: returnType,
+      parameters: parameters,
+      exposeSymbolAddress: false,
+      exposeFunctionTypedefs: false,
+      isLeaf: false,
+      recordUse: false,
+      objCReturnsRetained: objCReturnsRetained,
+      loadFromNativeAsset: config.output.style is NativeExternalBindings,
+      apiAvailability: apiAvailability,
+      isVariadic: isVariadic,
+    );
+    funcs.add(func);
+    context.bindingsIndex.addFuncToSeen(funcUsr, func);
   }
 
   return funcs;

@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -21,15 +20,12 @@ ObjCProtocol? parseObjCProtocolDeclaration(
     return null;
   }
 
-  final objcProtocols = config.objectiveC?.protocols;
-  if (objcProtocols == null) {
+  if (config.objectiveC == null) {
     return null;
   }
 
   final usr = cursor.usr();
   final name = cursor.spelling();
-
-  final decl = Declaration(usr: usr, originalName: name);
 
   final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
   if (cachedProtocol != null) {
@@ -63,8 +59,8 @@ ObjCProtocol? parseObjCProtocolDeclaration(
     context: context,
     usr: usr,
     originalName: name,
-    name: objcProtocols.rename(decl),
-    module: objcProtocols.module(decl),
+    name: name,
+    module: null,
     dartDoc: getCursorDocComment(
       context,
       cursor,
@@ -91,20 +87,13 @@ ObjCProtocol? parseObjCProtocolDeclaration(
         }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) = parseObjCProperty(
-          context,
-          child,
-          decl,
-          objcProtocols,
-        );
+        final (getter, setter) = parseObjCProperty(context, child, name);
         protocol.addMethod(getter);
         protocol.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        protocol.addMethod(
-          parseObjCMethod(context, child, decl, objcProtocols),
-        );
+        protocol.addMethod(parseObjCMethod(context, child, name));
         break;
     }
   });

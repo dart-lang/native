@@ -21,7 +21,7 @@ void main() {
               style: const DynamicLibraryBindings(),
             ),
 
-            headers: Headers(
+            input: Input(
               entryPoints: [
                 Uri.file(
                   path.join(
@@ -33,15 +33,12 @@ void main() {
                 ),
               ],
             ),
-            structs: Structs.includeAll,
-            unions: Unions.includeAll,
-            enums: Enums.includeAll,
-            functions: Functions.includeAll,
-            globals: Globals.includeAll,
-            typedefs: Typedefs(
-              include: (Declaration decl) => true,
-              includeUnused: true,
-            ),
+            visitors: [
+              const IncludeAllVisitor(),
+              Visitor.callback(
+                visitTypealias: (node) => node.includeUnused = true,
+              ),
+            ],
           ),
         ),
       );

@@ -10,7 +10,6 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 import '../../code_generator.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -23,7 +22,6 @@ void saveMacroDefinition(Context context, clang_types.CXCursor cursor) {
     return;
   }
   final originalMacroName = cursor.spelling();
-  final decl = Declaration(usr: macroUsr, originalName: originalMacroName);
   if (clang.clang_Cursor_isMacroBuiltin(cursor) == 0 &&
       clang.clang_Cursor_isMacroFunctionLike(cursor) == 0) {
     // Parse macro only if it's not builtin or function-like.
@@ -31,7 +29,7 @@ void saveMacroDefinition(Context context, clang_types.CXCursor cursor) {
       "++++ Saved Macro '$originalMacroName' for later : "
       '${cursor.completeStringRepr()}',
     );
-    final prefixedName = context.config.macros.rename(decl);
+    final prefixedName = originalMacroName;
     bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName, context);
   }
@@ -196,7 +194,7 @@ File createFileForMacros(Context context) {
 
   // Write file contents.
   final sb = StringBuffer();
-  for (final h in context.config.headers.entryPoints) {
+  for (final h in context.config.input.entryPoints) {
     final fullHeaderPath = File(h.toFilePath()).absolute.path;
     sb.writeln('#include "$fullHeaderPath"');
   }

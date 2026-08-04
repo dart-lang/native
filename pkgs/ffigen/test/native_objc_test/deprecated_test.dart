@@ -32,7 +32,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         wrapperDocComment: 'Tests API deprecation',
       ),
     ),
-    headers: Headers(
+    input: Input(
       entryPoints: [
         Uri.file(
           path.join(
@@ -45,35 +45,20 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ],
     ),
     objectiveC: ObjectiveC(
-      interfaces: Interfaces(
-        include: (decl) => {
-          'DeprecatedInterfaceMethods',
-          'DeprecatedInterface',
-        }.contains(decl.originalName),
-      ),
-      protocols: Protocols(
-        include: (decl) => {
-          'DeprecatedProtocolMethods',
-          'DeprecatedProtocol',
-        }.contains(decl.originalName),
-      ),
-      categories: Categories(
-        include: (decl) => {
-          'DeprecatedCategoryMethods',
-          'DeprecatedCategory',
-        }.contains(decl.originalName),
-        includeTransitive: false,
-      ),
       externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
-    functions: Functions.includeSet({'normalFunction', 'deprecatedFunction'}),
-    structs: Structs.includeSet({'NormalStruct', 'DeprecatedStruct'}),
-    unions: Unions.includeSet({'NormalUnion', 'DeprecatedUnion'}),
-    enums: Enums.includeSet({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnums: UnnamedEnums.includeSet({
-      'normalUnnamedEnum',
-      'deprecatedUnnamedEnum',
-    }),
+    visitors: [
+      const IncludeSetVisitor(
+        objcInterfaces: {'DeprecatedInterfaceMethods', 'DeprecatedInterface'},
+        objcProtocols: {'DeprecatedProtocolMethods', 'DeprecatedProtocol'},
+        objcCategories: {'DeprecatedCategoryMethods', 'DeprecatedCategory'},
+        functions: {'normalFunction', 'deprecatedFunction'},
+        structs: {'NormalStruct', 'DeprecatedStruct'},
+        unions: {'NormalUnion', 'DeprecatedUnion'},
+        enums: {'NormalEnum', 'DeprecatedEnum'},
+        unnamedEnumConstants: {'normalUnnamedEnum', 'deprecatedUnnamedEnum'},
+      ),
+    ],
   ).generate(logger: createTestLogger());
   final file = path.join(
     packagePathForTests,

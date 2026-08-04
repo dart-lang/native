@@ -71,6 +71,5 @@ final class Struct2 extends ffi.Struct {
   }) => $allocator<Struct2>()..ref.h = h;
 }
 
-typedef Typedef1 = ffi.Pointer<ffi.NativeFunction<Typedef1Function>>;
-typedef Typedef1Function = ffi.Void Function(ffi.Handle);
-typedef DartTypedef1Function = void Function(Object);
+typedef Typedef1 =
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Handle)>>;

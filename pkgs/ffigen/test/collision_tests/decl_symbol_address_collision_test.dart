@@ -15,16 +15,11 @@ void main() {
     setUpAll(() {
       final context = testContext(
         FfiGenerator(
+          visitors: const [IncludeAllVisitor()],
           output: Output(
             dartFile: Uri.file('unused'),
             style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
-          functions: Functions.includeAll,
-          structs: Structs.includeAll,
-          enums: Enums.includeAll,
-          globals: Globals.includeAll,
-          macros: Macros.includeAll,
-          typedefs: Typedefs.includeAll,
         ),
       );
       actual = Library(

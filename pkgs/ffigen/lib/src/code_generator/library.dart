@@ -38,8 +38,7 @@ class Library {
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
     // ignore: deprecated_member_use_from_same_package
     libraryImports: context.config.libraryImports,
-    silenceEnumWarning: context.config.enums.silenceWarning,
-    nativeEntryPoints: context.config.headers.entryPoints
+    nativeEntryPoints: context.config.input.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
     context: context,
@@ -51,7 +50,6 @@ class Library {
     String? header,
     bool generateForPackageObjectiveC = false,
     List<LibraryImport> libraryImports = const <LibraryImport>[],
-    bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
     required Context context,
   }) {
@@ -65,15 +63,27 @@ class Library {
         ? outputStyle.assetId
         : null;
 
-    for (final binding in bindings.whereType<LookUpBinding>()) {
-      final loadFromNativeAsset = binding.loadFromNativeAsset;
+    for (final binding in bindings) {
+      if (binding is LookUpBinding) {
+        if (binding is Global &&
+            !binding.exposeSymbolAddress &&
+            binding.constantValue != null) {
+          continue;
+        }
+        final loadFromNativeAsset = binding.loadFromNativeAsset;
 
-      // At the moment, all bindings share their native config.
-      if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
+        // At the moment, all bindings share their native config.
+        if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
 
-      (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
+        (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
+      }
     }
-    final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
+    final noLookUpBindings = [
+      ...bindings.whereType<NoLookUpBinding>(),
+      ...bindings.whereType<Global>().where(
+        (g) => !g.exposeSymbolAddress && g.constantValue != null,
+      ),
+    ];
     final hasNoLookupNativeHelper = noLookUpBindings.any(
       (b) => b.hasNativeHelperFunctions,
     );
@@ -90,7 +100,6 @@ class Library {
       header: header,
       additionalImports: libraryImports.map(context.libs.canonicalize).toList(),
       generateForPackageObjectiveC: generateForPackageObjectiveC,
-      silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
       context: context,
     );

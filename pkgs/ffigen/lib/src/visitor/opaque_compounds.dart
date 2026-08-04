@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart' show CompoundDependencies;
 import 'ast.dart';
 
@@ -36,31 +35,20 @@ class FindByValueCompoundsVisitation extends Visitation {
 }
 
 class ClearOpaqueCompoundMembersVisitation extends Visitation {
-  final Config config;
   final Set<Compound> byValueCompounds;
   final Set<Binding> included;
 
-  ClearOpaqueCompoundMembersVisitation(
-    this.config,
-    this.byValueCompounds,
-    this.included,
-  );
+  ClearOpaqueCompoundMembersVisitation(this.byValueCompounds, this.included);
 
-  void _visitImpl(Compound node, CompoundDependencies compondDepsConfig) {
+  @override
+  void visitCompound(Compound node) {
     // If a compound isn't referred to by value, isn't explicitly included by
     // the config filters, and the config is using opaque deps, convert the
     // compound to be opaque by deleting its members.
     if (!byValueCompounds.contains(node) &&
         !included.contains(node) &&
-        compondDepsConfig == CompoundDependencies.opaque) {
+        node.dependencies == CompoundDependencies.opaque) {
       node.members.clear();
     }
   }
-
-  @override
-  void visitStruct(Struct node) =>
-      _visitImpl(node, config.structs.dependencies);
-
-  @override
-  void visitUnion(Union node) => _visitImpl(node, config.unions.dependencies);
 }

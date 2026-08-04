@@ -26,6 +26,8 @@ class Typealias extends BindingType {
   // Don't code gen this alias at all, just use the [type] directly.
   bool isAnonymous;
 
+  bool includeUnused;
+
   /// Creates a Typealias.
   ///
   /// If [genFfiDartType] is true, a binding is generated for the Ffi Dart type
@@ -38,6 +40,7 @@ class Typealias extends BindingType {
     required Type type,
     bool genFfiDartType = false,
     bool isInternal = false,
+    bool includeUnused = false,
   }) {
     final funcType = _getFunctionTypeFromPointer(type);
     if (funcType != null) {
@@ -48,6 +51,7 @@ class Typealias extends BindingType {
             type: funcType,
             genFfiDartType: genFfiDartType,
             isInternal: isInternal,
+            includeUnused: includeUnused,
           ),
         ),
       );
@@ -62,6 +66,7 @@ class Typealias extends BindingType {
         type: type,
         genFfiDartType: genFfiDartType,
         isInternal: isInternal,
+        includeUnused: includeUnused,
       );
     }
     return Typealias._(
@@ -72,6 +77,7 @@ class Typealias extends BindingType {
       type: type,
       genFfiDartType: genFfiDartType,
       isInternal: isInternal,
+      includeUnused: includeUnused,
     );
   }
 
@@ -79,7 +85,14 @@ class Typealias extends BindingType {
     required String usr,
     required String name,
     required Type type,
-  }) : this._(usr: usr, name: name, type: type, isAnonymous: true);
+    bool includeUnused = false,
+  }) : this._(
+         usr: usr,
+         name: name,
+         type: type,
+         isAnonymous: true,
+         includeUnused: includeUnused,
+       );
 
   Typealias._({
     super.usr,
@@ -90,6 +103,7 @@ class Typealias extends BindingType {
     bool genFfiDartType = false,
     super.isInternal,
     this.isAnonymous = false,
+    this.includeUnused = false,
   }) : _ffiDartAliasName = genFfiDartType
            ? Symbol('Dart$name', SymbolKind.klass)
            : null,
@@ -244,6 +258,7 @@ class ObjCInstanceType extends Typealias {
     required super.type,
     super.genFfiDartType,
     super.isInternal,
+    super.includeUnused,
   }) : super._();
 
   @override

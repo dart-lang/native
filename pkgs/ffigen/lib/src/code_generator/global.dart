@@ -6,6 +6,7 @@ import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
+import 'constant.dart';
 import 'imports.dart';
 import 'local_variables.dart';
 import 'pointer.dart';
@@ -26,8 +27,9 @@ import 'writer.dart';
 /// ```
 class Global extends LookUpBinding with HasLocalScope {
   final Type type;
-  final bool exposeSymbolAddress;
+  bool exposeSymbolAddress;
   final bool constant;
+  final Constant? constantValue;
 
   @override
   final bool loadFromNativeAsset;
@@ -40,11 +42,16 @@ class Global extends LookUpBinding with HasLocalScope {
     super.dartDoc,
     this.exposeSymbolAddress = false,
     this.constant = false,
+    this.constantValue,
     this.loadFromNativeAsset = false,
   }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override
   BindingString toBindingString(Writer w) {
+    if (!exposeSymbolAddress && constantValue != null) {
+      constantValue!.symbol = symbol;
+      return constantValue!.toBindingString(w);
+    }
     final s = StringBuffer();
     final globalVarName = name;
     s.write(makeDartDoc(dartDoc));

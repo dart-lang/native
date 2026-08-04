@@ -19,7 +19,7 @@ void main() {
         testContext(
           FfiGenerator(
             output: Output(dartFile: Uri.file('unused')),
-            headers: Headers(
+            input: Input(
               entryPoints: [
                 Uri.file(
                   path.join(
@@ -31,12 +31,12 @@ void main() {
                 ),
               ],
             ),
-            structs: Structs.includeAll,
-            unions: Unions.includeAll,
-            typedefs: Typedefs(
-              include: (Declaration decl) => true,
-              includeUnused: true,
-            ),
+            visitors: [
+              const IncludeAllVisitor(),
+              Visitor.callback(
+                visitTypealias: (node) => node.includeUnused = true,
+              ),
+            ],
           ),
         ),
       );

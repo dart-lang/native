@@ -3652,9 +3652,7 @@ class LibClang {
   }
 
   late final _clang_getFileTimePtr =
-      _lookup<ffi.NativeFunction<ffi.Int64 Function(CXFile)>>(
-        'clang_getFileTime',
-      );
+      _lookup<ffi.NativeFunction<time_t Function(CXFile)>>('clang_getFileTime');
   late final _clang_getFileTime = _clang_getFileTimePtr
       .asFunction<int Function(CXFile)>();
 
@@ -6922,19 +6920,15 @@ final class CXCursorSetImpl extends ffi.Opaque {}
 
 /// Visitor invoked for each cursor found by a traversal.
 typedef CXCursorVisitor =
-    ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
-typedef CXCursorVisitorFunction =
-    ffi.UnsignedInt Function(
-      CXCursor cursor,
-      CXCursor parent,
-      CXClientData client_data,
-    );
-typedef DartCXCursorVisitorFunction =
-    CXChildVisitResult Function(
-      CXCursor cursor,
-      CXCursor parent,
-      CXClientData client_data,
-    );
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.UnsignedInt Function(
+          CXCursor cursor,
+          CXCursor parent,
+          CXClientData client_data,
+        )
+      >
+    >;
 
 /// Describes the exception specification of a cursor.
 enum CXCursor_ExceptionSpecificationKind {
@@ -7125,11 +7119,11 @@ enum CXEvalResultKind {
 
 /// Visitor invoked for each field found by a traversal.
 typedef CXFieldVisitor =
-    ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
-typedef CXFieldVisitorFunction =
-    ffi.UnsignedInt Function(CXCursor C, CXClientData client_data);
-typedef DartCXFieldVisitorFunction =
-    CXVisitorResult Function(CXCursor C, CXClientData client_data);
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.UnsignedInt Function(CXCursor C, CXClientData client_data)
+      >
+    >;
 
 /// A particular source file that is part of a translation unit.
 typedef CXFile = ffi.Pointer<ffi.Void>;
@@ -7653,21 +7647,16 @@ final class CXIdxObjCProtocolRefListInfo extends ffi.Struct {
 /// Visitor invoked for each file in a translation unit (used with
 /// clang_getInclusions()).
 typedef CXInclusionVisitor =
-    ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
-typedef CXInclusionVisitorFunction =
-    ffi.Void Function(
-      CXFile included_file,
-      ffi.Pointer<CXSourceLocation> inclusion_stack,
-      ffi.UnsignedInt include_len,
-      CXClientData client_data,
-    );
-typedef DartCXInclusionVisitorFunction =
-    void Function(
-      CXFile included_file,
-      ffi.Pointer<CXSourceLocation> inclusion_stack,
-      int include_len,
-      CXClientData client_data,
-    );
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          CXFile included_file,
+          ffi.Pointer<CXSourceLocation> inclusion_stack,
+          ffi.UnsignedInt include_len,
+          CXClientData client_data,
+        )
+      >
+    >;
 
 /// An "index" that consists of a set of translation units that would typically
 /// be linked together into an executable or library.
@@ -9124,3 +9113,5 @@ final class IndexerCallbacks extends ffi.Struct {
     ..ref.indexDeclaration = indexDeclaration
     ..ref.indexEntityReference = indexEntityReference;
 }
+
+typedef time_t = ffi.Long;

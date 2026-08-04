@@ -1,48 +1,44 @@
-// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/code_generator.dart' as code_gen;
 import 'package:test/test.dart';
 
-Declaration decl(String name) => Declaration(usr: '', originalName: name);
+import '../test_utils.dart';
+
+Struct createStruct(String name) {
+  final generator = FfiGenerator(
+    input: const Input(entryPoints: []),
+    output: Output(dartFile: Uri.file('unused.dart')),
+  );
+  return Struct(
+    code_gen.Struct(
+      context: testContext(generator),
+      name: name,
+      originalName: name,
+      usr: name,
+    ),
+  );
+}
 
 void main() {
-  group('Declarations utils', () {
-    test('includeSet', () {
-      final includer = Declarations.includeSet({'foo', 'bar'});
-      expect(includer(decl('foo')), isTrue);
-      expect(includer(decl('bar')), isTrue);
-      expect(includer(decl('baz')), isFalse);
+  group('Visitor utils', () {
+    test('IncludeSetVisitor', () {
+      final visitor = const IncludeSetVisitor(structs: {'foo', 'bar'});
+      final structFoo = createStruct('foo');
+      final structBaz = createStruct('baz');
+      visitor.visitStruct(structFoo);
+      visitor.visitStruct(structBaz);
+      expect(structFoo.isIncluded, isTrue);
+      expect(structBaz.isIncluded, isFalse);
     });
 
-    test('includeMemberSet', () {
-      final includer = Declarations.includeMemberSet({
-        'foo': {'bar'},
-      });
-      expect(includer(decl('foo'), 'bar'), isTrue);
-      expect(includer(decl('foo'), 'baz'), isFalse);
-      expect(includer(decl('goo'), 'bar'), isTrue);
-      expect(includer(decl('goo'), 'baz'), isTrue);
-    });
-
-    test('renameWithMap', () {
-      final renamer = Declarations.renameWithMap({'foo': 'bar'});
-      expect(renamer(decl('foo')), 'bar');
-      expect(renamer(decl('bar')), 'bar');
-      expect(renamer(decl('baz')), 'baz');
-    });
-
-    test('renameMemberWithMap', () {
-      final renamer = Declarations.renameMemberWithMap({
-        'foo': {'bar': 'baz'},
-      });
-      expect(renamer(decl('foo'), 'bar'), 'baz');
-      expect(renamer(decl('foo'), 'baz'), 'baz');
-      expect(renamer(decl('foo'), 'bop'), 'bop');
-      expect(renamer(decl('goo'), 'bar'), 'bar');
-      expect(renamer(decl('goo'), 'baz'), 'baz');
-      expect(renamer(decl('goo'), 'bop'), 'bop');
+    test('RenameMapVisitor', () {
+      final visitor = const RenameMapVisitor({'foo': 'bar'});
+      final structFoo = createStruct('foo');
+      final structBaz = createStruct('baz');
+      visitor.visitStruct(structFoo);
+      visitor.visitStruct(structBaz);
+      expect(structFoo.name, 'bar');
+      expect(structBaz.name, 'baz');
     });
   });
 }

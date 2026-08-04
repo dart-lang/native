@@ -20,6 +20,8 @@ abstract class Compound extends BindingType with HasLocalScope {
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
+  CompoundDependencies dependencies;
+
   final List<CompoundMember> members;
 
   bool get isOpaque => members.isEmpty;
@@ -45,6 +47,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     super.originalName,
     required super.name,
     this.isIncomplete = false,
+    this.dependencies = CompoundDependencies.full,
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,
@@ -80,7 +83,7 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   bool _isEnumDartStyleMember(CompoundMember member) {
     final type = member.type;
-    return type is EnumClass && type.style == EnumStyle.dartEnum;
+    return type is EnumClass && type.resolvedStyle == EnumStyle.dartEnum;
   }
 
   String _memberStorageName(CompoundMember member) {
@@ -146,6 +149,7 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
 
   @override
@@ -190,8 +194,8 @@ abstract class Compound extends BindingType with HasLocalScope {
         );
       }
       if (m.type case EnumClass(
-        :final style,
-      ) when style == EnumStyle.dartEnum) {
+        :final resolvedStyle,
+      ) when resolvedStyle == EnumStyle.dartEnum) {
         final enumName = m.type.getDartType(context);
         final memberName = m.name;
         s.write(
@@ -251,8 +255,10 @@ class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
   final Type type;
+  bool? userDefinedIsIncluded;
 
   final Symbol _symbol;
+  Symbol get symbol => _symbol;
   String get name => _symbol.name;
 
   CompoundMember({

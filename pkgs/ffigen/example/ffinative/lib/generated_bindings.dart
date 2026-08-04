@@ -24,7 +24,6 @@ external ffi.Pointer<ffi.Float> divide(int a, int b);
 @ffi.Native<ffi.Pointer<ffi.Double> Function(ffi.Float, ffi.Float)>()
 external ffi.Pointer<ffi.Double> dividePrecision(double a, double b);
 
-/// Version of the native C library
 @ffi.Native<ffi.Pointer<ffi.Char>>()
 external final ffi.Pointer<ffi.Char> library_version;
 

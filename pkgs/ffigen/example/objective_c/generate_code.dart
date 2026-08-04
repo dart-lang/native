@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 
 final config = FfiGenerator(
-  headers: Headers(
+  input: Input(
     // The entryPoints are the files that FFIgen should scan to find the APIs
     // you want to generate bindings for. You can use the macSdkPath or
     // iosSdkPath getters to find the Apple SDKs.
@@ -21,11 +21,10 @@ final config = FfiGenerator(
 
   // To tell FFIgen to generate Objective-C bindings, rather than C bindings,
   // set the objectiveC field to a non-null value.
-  objectiveC: ObjectiveC(
-    // The interfaces field is used to tell FFIgen which interfaces to generate
-    // bindings for. There's also a protocols and a categories field.
-    interfaces: Interfaces.includeSet({'AVAudioPlayer'}),
-  ),
+  objectiveC: const ObjectiveC(),
+  visitors: const [
+    IncludeSetVisitor(objcInterfaces: {'AVAudioPlayer'}),
+  ],
 
   output: Output(
     // The Dart file where the bindings will be generated.

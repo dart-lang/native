@@ -32,29 +32,95 @@ Future<int> run(String exe, List<String> args) async {
   return await process.exitCode;
 }
 
+// Reducing the bindings to a random subset so that the test completes in a
+// reasonable amount of time.
+// TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
+class _RandomIncludeVisitor extends Visitor {
+  _RandomIncludeVisitor();
+
+  static const inclusionRatio = 0.1;
+  static const seed = 1234;
+  static const forceIncludedProtocols = {'NSTextLocation'};
+
+  bool _randInclude(String kind, String usr, [String? member]) =>
+      fnvHash32('$seed.$kind.$usr.$member') < ((1 << 32) * inclusionRatio);
+
+  @override
+  void visitFunc(Func node) {
+    node.isIncluded = _randInclude('functionDecl', node.usr);
+  }
+
+  @override
+  void visitStruct(Struct node) {
+    node.isIncluded = _randInclude('structDecl', node.usr);
+  }
+
+  @override
+  void visitUnion(Union node) {
+    node.isIncluded = _randInclude('unionDecl', node.usr);
+  }
+
+  @override
+  void visitEnum(EnumClass node) {
+    node.isIncluded = _randInclude('enums', node.usr);
+  }
+
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) {
+    node.isIncluded = _randInclude('unnamedEnumConstants', node.usr);
+  }
+
+  @override
+  void visitGlobal(Global node) {
+    node.isIncluded = _randInclude('globals', node.usr);
+  }
+
+  @override
+  void visitTypealias(Typealias node) {
+    node.isIncluded = _randInclude('typedefs', node.usr);
+  }
+
+  @override
+  void visitObjCInterface(ObjCInterface node) {
+    node.isIncluded = _randInclude('objcInterfaces', node.usr);
+    for (final m in node.methods) {
+      m.isIncluded = _randInclude(
+        'objcInterfaces.memb',
+        node.usr,
+        m.originalName,
+      );
+    }
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    node.isIncluded =
+        forceIncludedProtocols.contains(node.originalName) ||
+        _randInclude('objcProtocols', node.usr);
+    for (final m in node.methods) {
+      m.isIncluded = _randInclude(
+        'objcProtocols.memb',
+        node.usr,
+        m.originalName,
+      );
+    }
+  }
+
+  @override
+  void visitObjCCategory(ObjCCategory node) {
+    node.isIncluded = _randInclude('objcCategories', node.usr);
+    for (final m in node.methods) {
+      m.isIncluded = _randInclude(
+        'objcCategories.memb',
+        node.usr,
+        m.originalName,
+      );
+    }
+  }
+}
+
 void main() {
   test('Large ObjC integration test', () async {
-    // Reducing the bindings to a random subset so that the test completes in a
-    // reasonable amount of time.
-    // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
-    const inclusionRatio = 0.1;
-    const seed = 1234;
-    bool randInclude(String kind, Declaration declaration, [String? member]) =>
-        fnvHash32('$seed.$kind.${declaration.usr}.$member') <
-        ((1 << 32) * inclusionRatio);
-    bool Function(Declaration clazz) includeRandom(
-      String kind, [
-      Set<String> forceIncludes = const {},
-    ]) =>
-        (Declaration declaration) =>
-            forceIncludes.contains(declaration.originalName) ||
-            randInclude(kind, declaration);
-    bool Function(Declaration declaration, String member) includeMemberRandom(
-      String kind,
-    ) =>
-        (Declaration clazz, String method) =>
-            randInclude('$kind.memb', clazz, method);
-
     final outFile = path.join(
       packagePathForTests,
       'test',
@@ -68,11 +134,9 @@ void main() {
       'large_objc_bindings.m',
     );
 
-    // TODO(https://github.com/dart-lang/native/issues/2517): Remove this.
-    const forceIncludedProtocols = {'NSTextLocation'};
-
     final generator = FfiGenerator(
-      headers: Headers(
+      visitors: [_RandomIncludeVisitor()],
+      input: Input(
         entryPoints: [
           Uri.file(
             path.join(
@@ -94,42 +158,10 @@ void main() {
 // ignore_for_file: unused_field
 ''',
       ),
-      functions: () {
-        return Functions(include: includeRandom('functionDecl'));
-      }(),
-      structs: () {
-        return Structs(include: includeRandom('structDecl'));
-      }(),
-      unions: () {
-        return Unions(include: includeRandom('unionDecl'));
-      }(),
-      enums: () {
-        return Enums(include: includeRandom('enums'));
-      }(),
-      unnamedEnums: () {
-        return UnnamedEnums(include: includeRandom('unnamedEnumConstants'));
-      }(),
-      globals: Globals(include: includeRandom('globals')),
-      typedefs: Typedefs(include: includeRandom('typedefs')),
       objectiveC: ObjectiveC(
-        interfaces: Interfaces(
-          include: includeRandom('objcInterfaces'),
-          includeMember: includeMemberRandom('objcInterfaces'),
-          includeTransitive: false,
-        ),
-        protocols: Protocols(
-          include: includeRandom('objcProtocols', forceIncludedProtocols),
-          includeMember: includeMemberRandom('objcProtocols'),
-          includeTransitive: false,
-        ),
-        categories: Categories(
-          include: includeRandom('objcCategories'),
-          includeMember: includeMemberRandom('objcCategories'),
-          includeTransitive: false,
-        ),
         externalVersions: ExternalVersions(
-          ios: Versions(min: Version(12, 0, 0)),
-          macos: Versions(min: Version(10, 14, 0)),
+          ios: Versions(min: Version.parse('12.0.0')),
+          macos: Versions(min: Version.parse('10.14.0')),
         ),
       ),
     );

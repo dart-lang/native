@@ -15712,7 +15712,7 @@ extension type NSObjectProtocol._(objc.ObjCProtocol object$)
     return _objc_msgSend_e3qsqz(
       obj.ref.pointer,
       _sel_conformsToProtocol_,
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
     );
   }
 }
@@ -15907,7 +15907,7 @@ extension NSObjectProtocol$Methods on NSObjectProtocol {
 interface class NSObjectProtocol$Builder {
   /// Returns the [objc.Protocol] object for this protocol.
   static objc.Protocol get $protocol =>
-      objc.Protocol.fromPointer(_protocol_NSObject.cast());
+      objc.Protocol.fromPointer(_protocol_NSObjectProtocol.cast());
 
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
@@ -16420,7 +16420,7 @@ interface class NSObjectProtocol$Builder {
   /// autorelease
   static final autorelease =
       objc.ObjCProtocolMethod<objc.ObjCObject Function()>(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_autorelease,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16432,7 +16432,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_1mbt9g9)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_autorelease,
           isRequired: true,
           isInstanceMethod: true,
@@ -16445,7 +16445,7 @@ interface class NSObjectProtocol$Builder {
 
   /// class
   static final class$ = objc.ObjCProtocolMethod<objc.ObjCObject Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_class,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16457,7 +16457,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_class,
       isRequired: true,
       isInstanceMethod: true,
@@ -16471,7 +16471,7 @@ interface class NSObjectProtocol$Builder {
   /// conformsToProtocol:
   static final conformsToProtocol_ =
       objc.ObjCProtocolMethod<bool Function(Protocol)>(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_conformsToProtocol_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16484,7 +16484,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_conformsToProtocol_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16497,7 +16497,7 @@ interface class NSObjectProtocol$Builder {
 
   /// debugDescription
   static final debugDescription = objc.ObjCProtocolMethod<NSString Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_debugDescription,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16509,7 +16509,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_debugDescription,
       isRequired: false,
       isInstanceMethod: true,
@@ -16521,7 +16521,7 @@ interface class NSObjectProtocol$Builder {
 
   /// description
   static final description = objc.ObjCProtocolMethod<NSString Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_description,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16533,7 +16533,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_description,
       isRequired: true,
       isInstanceMethod: true,
@@ -16545,7 +16545,7 @@ interface class NSObjectProtocol$Builder {
 
   /// hash
   static final hash = objc.ObjCProtocolMethod<DartNSUInteger Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_hash,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16557,7 +16557,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1ckyi24)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_hash,
       isRequired: true,
       isInstanceMethod: true,
@@ -16571,7 +16571,7 @@ interface class NSObjectProtocol$Builder {
   /// isEqual:
   static final isEqual_ =
       objc.ObjCProtocolMethod<bool Function(objc.ObjCObject)>(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_isEqual_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16584,7 +16584,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_isEqual_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16598,7 +16598,7 @@ interface class NSObjectProtocol$Builder {
   /// isKindOfClass:
   static final isKindOfClass_ =
       objc.ObjCProtocolMethod<bool Function(objc.ObjCObject)>(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_isKindOfClass_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16611,7 +16611,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_isKindOfClass_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16625,7 +16625,7 @@ interface class NSObjectProtocol$Builder {
   /// isMemberOfClass:
   static final isMemberOfClass_ =
       objc.ObjCProtocolMethod<bool Function(objc.ObjCObject)>(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_isMemberOfClass_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16638,7 +16638,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_isMemberOfClass_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16651,7 +16651,7 @@ interface class NSObjectProtocol$Builder {
 
   /// isProxy
   static final isProxy = objc.ObjCProtocolMethod<bool Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_isProxy,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16663,7 +16663,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_e3qsqz)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_isProxy,
       isRequired: true,
       isInstanceMethod: true,
@@ -16678,7 +16678,7 @@ interface class NSObjectProtocol$Builder {
       objc.ObjCProtocolMethod<
         objc.ObjCObject Function(ffi.Pointer<objc.ObjCSelector>)
       >(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_performSelector_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16691,7 +16691,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_50as9u)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_performSelector_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16711,7 +16711,7 @@ interface class NSObjectProtocol$Builder {
           objc.ObjCObject,
         )
       >(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_performSelector_withObject_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16725,7 +16725,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_1mllhpc)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_performSelector_withObject_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16755,7 +16755,7 @@ interface class NSObjectProtocol$Builder {
           objc.ObjCObject,
         )
       >(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_performSelector_withObject_withObject_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16770,7 +16770,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_c7gk2u)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_performSelector_withObject_withObject_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16795,7 +16795,7 @@ interface class NSObjectProtocol$Builder {
 
   /// release
   static final release = objc.ObjCProtocolListenableMethod<void Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_release,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16807,7 +16807,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_ovsamd)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_release,
       isRequired: true,
       isInstanceMethod: true,
@@ -16824,7 +16824,7 @@ interface class NSObjectProtocol$Builder {
   /// respondsToSelector:
   static final respondsToSelector_ =
       objc.ObjCProtocolMethod<bool Function(ffi.Pointer<objc.ObjCSelector>)>(
-        _protocol_NSObject,
+        _protocol_NSObjectProtocol,
         _sel_respondsToSelector_,
         ffi.Native.addressOf<
               ffi.NativeFunction<
@@ -16837,7 +16837,7 @@ interface class NSObjectProtocol$Builder {
             >(_1wx624s_protocolTrampoline_w1e3k0)
             .cast(),
         objc.getProtocolMethodSignature(
-          _protocol_NSObject,
+          _protocol_NSObjectProtocol,
           _sel_respondsToSelector_,
           isRequired: true,
           isInstanceMethod: true,
@@ -16851,7 +16851,7 @@ interface class NSObjectProtocol$Builder {
 
   /// retain
   static final retain = objc.ObjCProtocolMethod<objc.ObjCObject Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_retain,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16863,7 +16863,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_retain,
       isRequired: true,
       isInstanceMethod: true,
@@ -16876,7 +16876,7 @@ interface class NSObjectProtocol$Builder {
 
   /// retainCount
   static final retainCount = objc.ObjCProtocolMethod<DartNSUInteger Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_retainCount,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16888,7 +16888,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1ckyi24)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_retainCount,
       isRequired: true,
       isInstanceMethod: true,
@@ -16901,7 +16901,7 @@ interface class NSObjectProtocol$Builder {
 
   /// self
   static final self = objc.ObjCProtocolMethod<objc.ObjCObject Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_self,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16913,7 +16913,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_self,
       isRequired: true,
       isInstanceMethod: true,
@@ -16926,7 +16926,7 @@ interface class NSObjectProtocol$Builder {
 
   /// superclass
   static final superclass = objc.ObjCProtocolMethod<objc.ObjCObject Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_superclass,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16938,7 +16938,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_superclass,
       isRequired: true,
       isInstanceMethod: true,
@@ -16951,7 +16951,7 @@ interface class NSObjectProtocol$Builder {
 
   /// zone
   static final zone = objc.ObjCProtocolMethod<ffi.Pointer<NSZone> Function()>(
-    _protocol_NSObject,
+    _protocol_NSObjectProtocol,
     _sel_zone,
     ffi.Native.addressOf<
           ffi.NativeFunction<
@@ -16963,7 +16963,7 @@ interface class NSObjectProtocol$Builder {
         >(_1wx624s_protocolTrampoline_1a8cl66)
         .cast(),
     objc.getProtocolMethodSignature(
-      _protocol_NSObject,
+      _protocol_NSObjectProtocol,
       _sel_zone,
       isRequired: true,
       isInstanceMethod: true,
@@ -41103,8 +41103,11 @@ final _protocol_NSMutableCopying = objc.getProtocol(
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_1wx624s_NSObject',
 )
-external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSObject_raw();
-final _protocol_NSObject = objc.getProtocol("NSObject", _protocol_NSObject_raw);
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NSObjectProtocol_raw();
+final _protocol_NSObjectProtocol = objc.getProtocol(
+  "NSObject",
+  _protocol_NSObjectProtocol_raw,
+);
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_1wx624s_NSPortDelegate',
 )

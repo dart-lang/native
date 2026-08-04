@@ -83,9 +83,6 @@ const objcCategories = 'objc-categories';
 
 const excludeAllByDefault = 'exclude-all-by-default';
 const includeUnusedTypedefs = 'include-unused-typedefs';
-const includeTransitiveObjCInterfaces = 'include-transitive-objc-interfaces';
-const includeTransitiveObjCProtocols = 'include-transitive-objc-protocols';
-const includeTransitiveObjCCategories = 'include-transitive-objc-categories';
 const generateForPackageObjectiveC = 'generate-for-package-objective-c';
 
 // Sub-fields of Declarations.
@@ -211,7 +208,6 @@ const supportedNativeTypeMappings = <String, SupportedNativeType>{
 
 // Boolean flags.
 const sort = 'sort';
-const useSupportedTypedefs = 'use-supported-typedefs';
 const silenceEnumWarning = 'silence-enum-warning';
 const ignoreSourceErrors = 'ignore-source-errors';
 

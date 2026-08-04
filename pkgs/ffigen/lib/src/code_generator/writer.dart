@@ -41,8 +41,6 @@ class Writer {
   bool get canGenerateSymbolOutput => _canGenerateSymbolOutput;
   bool _canGenerateSymbolOutput = false;
 
-  final bool silenceEnumWarning;
-
   Writer({
     required this.lookUpBindings,
     required this.ffiNativeBindings,
@@ -52,7 +50,6 @@ class Writer {
     this.classDocComment,
     this.header,
     required this.generateForPackageObjectiveC,
-    required this.silenceEnumWarning,
     required this.nativeEntryPoints,
     required this.context,
   }) : symbolAddressWriter = SymbolAddressWriter(context);
@@ -186,23 +183,23 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
     result.write(s);
 
     // Warn about Enum usage in API surface.
-    if (!silenceEnumWarning) {
-      final notEnums = _allBindings.where(
-        (b) => b is! Type || (b as Type).typealiasType is! EnumClass,
+    final notEnums = _allBindings.where(
+      (b) => b is! Type || (b as Type).typealiasType is! EnumClass,
+    );
+    final usedEnums = visit(context, _FindEnumsVisitation(), notEnums).enums;
+    final unSilencedUsedEnums = usedEnums.where((e) => !e.silenceWarning);
+    if (unSilencedUsedEnums.isNotEmpty) {
+      final names = unSilencedUsedEnums.map((e) => e.originalName).toList()
+        ..sort();
+      context.logger.severe(
+        'The integer type used for enums is '
+        'implementation-defined. FFIgen tries to mimic the integer sizes '
+        'chosen by the most common compilers for the various OS and '
+        'architecture combinations. To prevent any crashes, remove the '
+        'enums from your API surface. To rely on the (unsafe!) mimicking, '
+        'you can silence this warning on the EnumClass. Affected enums:\n\t'
+        '${names.join('\n\t')}',
       );
-      final usedEnums = visit(context, _FindEnumsVisitation(), notEnums).enums;
-      if (usedEnums.isNotEmpty) {
-        final names = usedEnums.map((e) => e.originalName).toList()..sort();
-        context.logger.severe(
-          'The integer type used for enums is '
-          'implementation-defined. FFIgen tries to mimic the integer sizes '
-          'chosen by the most common compilers for the various OS and '
-          'architecture combinations. To prevent any crashes, remove the '
-          'enums from your API surface. To rely on the (unsafe!) mimicking, '
-          'you can silence this warning by adding silence-enum-warning: true '
-          'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
-        );
-      }
     }
 
     _canGenerateSymbolOutput = true;
@@ -420,7 +417,7 @@ id objc_retainBlock(id);
     final s = StringBuffer();
     final outDir = p.dirname(outFilename);
     // Emit each entry-point header exactly once.
-    for (final header in context.config.headers.entryPoints) {
+    for (final header in context.config.input.entryPoints) {
       s.write('#include "${p.relative(header.toFilePath(), from: outDir)}"\n');
     }
     s.write(r'''

@@ -30,6 +30,7 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!finalBindings.contains(node)) return;
 
     if (!node.generateAsStub) {
+      node.fillClassObject();
       node.visitChildren(visitor);
       _adder.visit(node.classObject);
       for (final method in node.methods) {
@@ -43,6 +44,10 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!finalBindings.contains(node)) return;
     node.visitChildren(visitor);
 
+    if (node.methods.any((m) => m.isClassMethod)) {
+      node.parent.fillClassObject();
+      _adder.visit(node.parent.classObject);
+    }
     for (final method in node.methods) {
       _adder.visit(method.fillMsgSend());
     }
@@ -53,7 +58,9 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!finalBindings.contains(node)) return;
 
     if (!node.generateAsStub) {
+      node.fillProtocolObject();
       node.visitChildren(visitor);
+      _adder.visit(node.protocolPointer);
       for (final method in node.methods) {
         final blk = method.fillProtocolBlock();
         _adder.visit(blk);
@@ -105,6 +112,7 @@ class _MethodDepAdderVisitation extends Visitation {
       finalBindings.add(node);
       node.visitChildren(visitor);
     }
+    if (!node.isObjCImport) finalBindings.add(node);
   }
 
   @override

@@ -58,7 +58,7 @@ external int initializeApi(ffi.Pointer<ffi.Void> data);
 
 @ffi.Native<
   ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)
->(symbol: 'DOBJC_invokeBlockingPortBlock')
+>(symbol: 'DOBJC_invokeBlockingPortBlock', isLeaf: true)
 external void invokeBlockingPortBlock(
   int port,
   ffi.Pointer<ffi.Void> args,
@@ -67,6 +67,7 @@ external void invokeBlockingPortBlock(
 
 @ffi.Native<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>(
   symbol: 'DOBJC_invokeListenerPortBlock',
+  isLeaf: true,
 )
 external void invokeListenerPortBlock(int port, ffi.Pointer<ffi.Void> args);
 
@@ -112,7 +113,95 @@ external void runOnMainThread(
 )
 external void signalWaiter(ffi.Pointer<ffi.Void> waiter);
 
-final class DOBJC_Context extends ffi.Opaque {}
+final class DOBJC_Context extends ffi.Struct {
+  @ffi.Int64()
+  external int version;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
+  newWaiter$1;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+  >
+  awaitWaiter$1;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>
+  >
+  currentIsolate;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>
+  >
+  enterIsolate;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> exitIsolate;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function()>> getMainPortId;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
+  getCurrentThreadOwnsIsolate;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>
+  >
+  invokeListenerPortBlock$1;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)
+    >
+  >
+  invokeBlockingPortBlock$1;
+
+  static ffi.Pointer<DOBJC_Context> $allocate(
+    ffi.Allocator $allocator, {
+    required int version,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
+    newWaiter$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >
+    awaitWaiter$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>
+    >
+    currentIsolate,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>
+    >
+    enterIsolate,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> exitIsolate,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function()>>
+    getMainPortId,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
+    getCurrentThreadOwnsIsolate,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<ffi.Void>)>
+    >
+    invokeListenerPortBlock$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Int64,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Void>,
+        )
+      >
+    >
+    invokeBlockingPortBlock$1,
+  }) => $allocator<DOBJC_Context>()
+    ..ref.version = version
+    ..ref.newWaiter$1 = newWaiter$1
+    ..ref.awaitWaiter$1 = awaitWaiter$1
+    ..ref.currentIsolate = currentIsolate
+    ..ref.enterIsolate = enterIsolate
+    ..ref.exitIsolate = exitIsolate
+    ..ref.getMainPortId = getMainPortId
+    ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate
+    ..ref.invokeListenerPortBlock$1 = invokeListenerPortBlock$1
+    ..ref.invokeBlockingPortBlock$1 = invokeBlockingPortBlock$1;
+}
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
@@ -202,6 +291,8 @@ final class ObjCBlockImpl extends ffi.Struct {
 }
 
 final class ObjCObjectImpl extends ffi.Opaque {}
+
+final class _Dart_Isolate extends ffi.Opaque {}
 
 final class _Version extends ffi.Struct {
   @ffi.Int()

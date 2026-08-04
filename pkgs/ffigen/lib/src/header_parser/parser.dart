@@ -12,11 +12,12 @@ import 'package:meta/meta.dart';
 import '../code_generator.dart';
 import '../code_generator/scope.dart';
 import '../config_provider.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../config_provider/utils.dart';
 import '../context.dart';
 import '../strings.dart' as strings;
-import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
+import '../visitor/collect_included_bindings.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/create_scopes.dart';
 import '../visitor/fill_method_dependencies.dart';
@@ -72,12 +73,12 @@ List<Binding> parseToBindings(Context context) {
   final bindings = <Binding>{};
 
   // Log all headers for user.
-  context.logger.info('Input Headers: ${config.headers.entryPoints}');
+  context.logger.info('Input Headers: ${config.input.entryPoints}');
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
-  for (final headerLocationUri in config.headers.entryPoints) {
+  for (final headerLocationUri in config.input.entryPoints) {
     final headerLocation = headerLocationUri.toFilePath();
     context.logger.fine('Creating TranslationUnit for header: $headerLocation');
 
@@ -114,7 +115,7 @@ List<Binding> parseToBindings(Context context) {
       'The compiler found warnings/errors in source files.',
     );
     context.logger.warning('This will likely generate invalid bindings.');
-    if (config.headers.ignoreSourceErrors) {
+    if (config.input.ignoreSourceErrors) {
       context.logger.warning(
         'Ignored source errors. (User supplied --ignore-source-errors)',
       );
@@ -176,12 +177,35 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
-  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
-  visit(context, applyConfigFiltersVisitation, allBindings);
-  final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
-  final included = directlyIncluded.union(
-    applyConfigFiltersVisitation.indirectlyIncluded,
+  // Execute Public AST visitors.
+  final allBindingsWithImports = allBindings.union(
+    rawBindings.where((b) => b.isObjCImport).toSet(),
   );
+  final publicAst = public_ast.PublicAst.fromBindings(
+    allBindingsWithImports.toList(),
+  );
+  for (final v in config.visitors) {
+    publicAst.accept(v);
+  }
+
+  final expandedBindings = <Binding>{};
+  for (final binding in allBindingsWithImports) {
+    if (binding is Func && binding.isVariadic && binding.varArgs.isNotEmpty) {
+      expandedBindings.addAll(binding.expandVarArgs());
+    } else {
+      expandedBindings.add(binding);
+    }
+  }
+  allBindingsWithImports.clear();
+  allBindingsWithImports.addAll(expandedBindings);
+  allBindings.clear();
+  allBindings.addAll(expandedBindings.where((b) => !b.isObjCImport));
+
+  final collectIncludedBindings = CollectIncludedBindingsVisitation(config);
+  visit(context, collectIncludedBindings, allBindingsWithImports);
+  final directlyIncluded = collectIncludedBindings.directlyIncluded;
+  final indirectlyIncluded = collectIncludedBindings.indirectlyIncluded;
+  final included = directlyIncluded.union(indirectlyIncluded);
 
   final byValueCompounds = visit(
     context,
@@ -190,7 +214,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   ).byValueCompounds;
   visit(
     context,
-    ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
+    ClearOpaqueCompoundMembersVisitation(byValueCompounds, included),
     allBindings,
   );
 
@@ -208,12 +232,12 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final semiFinalBindings = visit(
     context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
-    included,
+    included.union(transitives).union(directTransitives),
   ).bindings;
   final finalBindings = visit(
     context,
     FillMethodDependenciesVisitation(context, semiFinalBindings),
-    semiFinalBindings,
+    semiFinalBindings.union(indirectlyIncluded),
   ).finalBindings;
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
   visit(context, MarkImportsVisitation(context), finalBindings);
@@ -230,17 +254,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   /// Handle any declaration-declaration name conflicts and emit warnings.
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b, context.logger);
-  }
-
-  // Override pack values according to config. We do this after declaration
-  // conflicts have been handled so that users can target the generated names.
-  for (final b in finalBindingsList) {
-    if (b is Struct) {
-      final pack = config.structs.packingOverride(b);
-      if (pack != null) {
-        b.pack = pack.value;
-      }
-    }
   }
 
   return finalBindingsList;

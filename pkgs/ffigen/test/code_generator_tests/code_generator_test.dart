@@ -20,20 +20,13 @@ void main() {
 
   Context makeContext({Output? output}) => testContext(
     FfiGenerator(
+      visitors: const [IncludeAllVisitor()],
       output:
           output ??
           Output(
             dartFile: Uri.file('unused'),
             style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
-      enums: Enums.includeAll,
-      functions: Functions.includeAll,
-      globals: Globals.includeAll,
-      macros: Macros.includeAll,
-      structs: Structs.includeAll,
-      typedefs: Typedefs.includeAll,
-      unions: Unions.includeAll,
-      unnamedEnums: UnnamedEnums.includeAll,
     ),
   );
 
@@ -403,6 +396,7 @@ void main() {
         context: context,
         name: 'MyIntegerEnum',
         style: EnumStyle.intConstants,
+        silenceWarning: true,
         enumConstants: [
           EnumConstant(name: 'int1', value: 1),
           EnumConstant(name: 'int2', value: 2),
@@ -412,7 +406,6 @@ void main() {
       final library = Library(
         context: context,
         header: '$licenseHeader\n',
-        silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
           enum2,
@@ -450,6 +443,7 @@ void main() {
         context: context,
         name: 'Enum2',
         style: EnumStyle.intConstants,
+        silenceWarning: true,
         enumConstants: [
           EnumConstant(name: 'value1', value: 0),
           EnumConstant(name: 'value2', value: 1),
@@ -496,7 +490,6 @@ void main() {
       final lib = Library(
         context: context,
         header: '$licenseHeader\n',
-        silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
           enum2,

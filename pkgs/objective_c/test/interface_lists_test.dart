@@ -32,7 +32,9 @@ void expectSetsEqual(String name, Set<String> expected, Set<String> actual) {
 
 void mergeLinewithNext(List<String> lines, String toMerge) {
   final i = lines.indexOf(toMerge);
-  lines[i] += lines.removeAt(i + 1);
+  if (i != -1) {
+    lines[i] += lines.removeAt(i + 1);
+  }
 }
 
 void main() {
@@ -49,6 +51,10 @@ void main() {
       mergeLinewithNext(
         bindings,
         'extension type NSAttributedStringMarkdownParsingOptions._(',
+      );
+      mergeLinewithNext(
+        bindings,
+        'extension type NSAttributedStringMarkdownSourcePosition._(',
       );
     });
 

@@ -427,22 +427,10 @@
     "include-unused-typedefs": {
       "type": "boolean"
     },
-    "include-transitive-objc-interfaces": {
-      "type": "boolean"
-    },
-    "include-transitive-objc-protocols": {
-      "type": "boolean"
-    },
-    "include-transitive-objc-categories": {
-      "type": "boolean"
-    },
     "generate-for-package-objective-c": {
       "type": "boolean"
     },
     "sort": {
-      "type": "boolean"
-    },
-    "use-supported-typedefs": {
       "type": "boolean"
     },
     "comments": {

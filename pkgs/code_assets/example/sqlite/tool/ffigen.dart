@@ -9,13 +9,13 @@ import 'package:ffigen/ffigen.dart';
 void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
-    functions: Functions(
-      include: (decl) => {'sqlite3_libversion'}.contains(decl.originalName),
-      recordUse: (_) => true,
-    ),
+    visitors: const [
+      IncludeSetVisitor(functions: {'sqlite3_libversion'}),
+      RecordUseVisitor(),
+    ],
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
       recordUseMapping: packageRoot.resolve(

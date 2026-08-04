@@ -3,11 +3,25 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
+
+class _RecordUseVisitor extends Visitor {
+  _RecordUseVisitor();
+
+  @override
+  void visitFunc(Func node) {
+    if (node.originalName == 'sum') {
+      node.name = 'add';
+    }
+    node.isIncluded = true;
+    node.recordUse = true;
+  }
+}
 
 void main() {
   group('record_use_test', () {
@@ -16,13 +30,8 @@ void main() {
         p.join('test', 'header_parser_tests', 'record_use.h'),
       );
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [Uri.file(headerFile)]),
-        functions: Functions(
-          include: (decl) => true,
-          recordUse: (decl) => true,
-          rename: (decl) =>
-              decl.originalName == 'sum' ? 'add' : decl.originalName,
-        ),
+        visitors: [_RecordUseVisitor()],
+        input: Input(entryPoints: [Uri.file(headerFile)]),
         output: Output(
           dartFile: Uri.file('unused.dart'),
           style: const NativeExternalBindings(),

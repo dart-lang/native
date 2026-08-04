@@ -34,7 +34,7 @@ void main() {
             wrapperName: 'NSRangeTestObjCLibrary',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(
               path.join(
@@ -46,12 +46,10 @@ void main() {
             ),
           ],
         ),
-        objectiveC: ObjectiveC(
-          interfaces: Interfaces(
-            include: (decl) =>
-                {'SFTranscriptionSegment'}.contains(decl.originalName),
-          ),
-        ),
+        objectiveC: const ObjectiveC(),
+        visitors: const [
+          IncludeSetVisitor(objcInterfaces: {'SFTranscriptionSegment'}),
+        ],
       ).generate(logger: createTestLogger());
       final file = path.join(
         packagePathForTests,

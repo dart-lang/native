@@ -4,7 +4,6 @@
 
 import '../../code_generator.dart';
 import '../../code_generator/scope.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -17,8 +16,7 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
   final logger = context.logger;
 
   // If C++ support is not configured, skip all C++ class cursors immediately.
-  final cppClasses = config.cpp?.classes;
-  if (cppClasses == null) return null;
+  if (config.cpp == null) return null;
 
   final usr = cursor.usr();
 
@@ -47,8 +45,6 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     return null;
   }
 
-  final decl = Declaration(usr: usr, originalName: className);
-
   logger.fine(
     '++++ Adding C++ Class: Name: $className, ${cursor.completeStringRepr()}',
   );
@@ -58,9 +54,15 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
   cursor.visitChildren((child) {
     final kind = clang.clang_getCursorKind(child);
     if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
-      _parseAnyMethod(context, child, decl, methods, CppMethodKind.method);
+      _parseAnyMethod(context, child, className, methods, CppMethodKind.method);
     } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
-      _parseAnyMethod(context, child, decl, methods, CppMethodKind.constructor);
+      _parseAnyMethod(
+        context,
+        child,
+        className,
+        methods,
+        CppMethodKind.constructor,
+      );
     }
   });
 
@@ -72,7 +74,7 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
       availability: apiAvailability.dartDoc,
     ),
     originalName: className,
-    name: cppClasses.rename(decl),
+    name: className,
     context: context,
     methods: methods,
     fields: <CppMember>[],
@@ -86,7 +88,7 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
 void _parseAnyMethod(
   Context context,
   clang_types.CXCursor cursor,
-  Declaration classDecl,
+  String className,
   List<CppMethod> methods,
   CppMethodKind kind,
 ) {
@@ -99,7 +101,7 @@ void _parseAnyMethod(
       kind == CppMethodKind.method &&
       clang.clang_CXXMethod_isConst(cursor) != 0;
 
-  final parameters = _parseParameters(context, cursor, classDecl);
+  final parameters = _parseParameters(context, cursor);
   if (parameters == null) {
     logger.fine(
       '  ---- Skipping method $methodName due to unsupported parameter type',
@@ -107,7 +109,6 @@ void _parseAnyMethod(
     return;
   }
 
-  final className = context.config.cpp!.classes.rename(classDecl);
   final symbol = switch (kind) {
     CppMethodKind.constructor => '${className}_new',
     CppMethodKind.method => '${className}_$methodName',
@@ -132,7 +133,6 @@ void _parseAnyMethod(
 List<Parameter>? _parseParameters(
   Context context,
   clang_types.CXCursor cursor,
-  Declaration classDecl,
 ) {
   final logger = context.logger;
   var i = 0;

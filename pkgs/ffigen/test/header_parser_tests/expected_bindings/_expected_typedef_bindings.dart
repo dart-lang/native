@@ -97,9 +97,7 @@ typedef ExcludedStruct = _ExcludedStruct;
 typedef IncludedTypedef = ffi.Pointer<ffi.Void>;
 typedef NTyperef1 = ExcludedStruct;
 typedef NamedFunctionProto =
-    ffi.Pointer<ffi.NativeFunction<NamedFunctionProtoFunction>>;
-typedef NamedFunctionProtoFunction = ffi.Void Function();
-typedef DartNamedFunctionProtoFunction = void Function();
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>;
 typedef NamedStructInTypedef = _NamedStructInTypedef;
 typedef NestingASpecifiedType = ffi.IntPtr;
 typedef DartNestingASpecifiedType = int;

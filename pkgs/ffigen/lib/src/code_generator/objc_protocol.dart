@@ -16,9 +16,17 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final superProtocols = <ObjCProtocol>[];
-  final String? module;
   final Symbol loaderSymbol;
-  late final ObjCProtocolGlobal _protocolPointer;
+  String? module;
+
+  ObjCProtocolGlobal? protocolPointer;
+  ObjCProtocolGlobal fillProtocolObject() =>
+      protocolPointer ??= ObjCProtocolGlobal(
+        '_protocol_${symbol.oldName}',
+        originalName,
+        module,
+        loaderSymbol,
+      );
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
   final ApiAvailability apiAvailability;
@@ -46,12 +54,6 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    _protocolPointer = ObjCProtocolGlobal(
-      '_protocol_$originalName',
-      originalName,
-      module,
-      loaderSymbol,
-    );
     _conformsTo = context.objCBuiltInFunctions.getSelObject(
       'conformsToProtocol:',
     );
@@ -67,6 +69,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
 
   @override
   bool get isObjCImport =>
+      !(context.config.objectiveC?.generateForPackageObjectiveC ?? false) &&
       context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
@@ -121,7 +124,7 @@ extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
         context,
         'obj.ref.pointer',
         _conformsTo.name,
-        [_protocolPointer.name],
+        [protocolPointer!.name],
       );
 
       s.write('''
@@ -214,11 +217,11 @@ ${generateInstanceMethodBindings(w, this)}
 
         methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
         methodFields.write('''static final $fieldName = $methodClass<$funcType>(
-      ${_protocolPointer.name},
+      ${protocolPointer!.name},
       ${method.selObject.name},
       ${_trampolineAddress(block)},
       $getSignature(
-          ${_protocolPointer.name},
+          ${protocolPointer!.name},
           ${method.selObject.name},
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
@@ -235,7 +238,7 @@ ${generateInstanceMethodBindings(w, this)}
           '''
   /// Returns the [$protocolClass] object for this protocol.
   static $protocolClass get \$protocol =>
-      $protocolClass.fromPointer(${_protocolPointer.name}.cast());
+      $protocolClass.fromPointer(${protocolPointer!.name}.cast());
 
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
@@ -337,7 +340,7 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    if (generateAsStub) return null;
+    if (generateAsStub || !generateBindings) return null;
 
     final mainString =
         '''
@@ -442,11 +445,13 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
   void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
     if (!typeGraphOnly) {
       super.visitChildren(visitor);
-      visitor.visit(loaderSymbol);
-      visitor.visit(_protocolPointer);
-      visitor.visit(_conformsTo);
-      visitor.visit(_conformsToMsgSend);
-      visitMethods(visitor);
+      if (!generateAsStub) {
+        visitor.visit(loaderSymbol);
+        visitor.visit(protocolPointer);
+        visitor.visit(_conformsTo);
+        visitor.visit(_conformsToMsgSend);
+        visitMethods(visitor);
+      }
       visitor.visit(ffiImport);
       visitor.visit(objcPkgImport);
     }

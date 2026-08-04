@@ -12465,23 +12465,17 @@ final class fts5_api extends ffi.Struct {
 }
 
 typedef fts5_extension_function =
-    ffi.Pointer<ffi.NativeFunction<fts5_extension_functionFunction>>;
-typedef fts5_extension_functionFunction =
-    ffi.Void Function(
-      ffi.Pointer<Fts5ExtensionApi> pApi,
-      ffi.Pointer<Fts5Context> pFts,
-      ffi.Pointer<sqlite3_context> pCtx,
-      ffi.Int nVal,
-      ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal,
-    );
-typedef Dartfts5_extension_functionFunction =
-    void Function(
-      ffi.Pointer<Fts5ExtensionApi> pApi,
-      ffi.Pointer<Fts5Context> pFts,
-      ffi.Pointer<sqlite3_context> pCtx,
-      int nVal,
-      ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal,
-    );
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<Fts5ExtensionApi> pApi,
+          ffi.Pointer<Fts5Context> pFts,
+          ffi.Pointer<sqlite3_context> pCtx,
+          ffi.Int nVal,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal,
+        )
+      >
+    >;
 
 final class fts5_tokenizer extends ffi.Struct {
   external ffi.Pointer<
@@ -12585,21 +12579,16 @@ final class sqlite3_blob extends ffi.Opaque {}
 /// This is legacy and deprecated.  It is included for historical
 /// compatibility and is not documented.
 typedef sqlite3_callback =
-    ffi.Pointer<ffi.NativeFunction<sqlite3_callbackFunction>>;
-typedef sqlite3_callbackFunction =
-    ffi.Int Function(
-      ffi.Pointer<ffi.Void>,
-      ffi.Int,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
-    );
-typedef Dartsqlite3_callbackFunction =
-    int Function(
-      ffi.Pointer<ffi.Void>,
-      int,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
-    );
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Int Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Int,
+          ffi.Pointer<ffi.Pointer<ffi.Char>>,
+          ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        )
+      >
+    >;
 
 final class sqlite3_context extends ffi.Opaque {}
 
@@ -12616,11 +12605,7 @@ final class sqlite3_context extends ffi.Opaque {}
 /// The typedef is necessary to work around problems in certain
 /// C++ compilers.
 typedef sqlite3_destructor_type =
-    ffi.Pointer<ffi.NativeFunction<sqlite3_destructor_typeFunction>>;
-typedef sqlite3_destructor_typeFunction =
-    ffi.Void Function(ffi.Pointer<ffi.Void>);
-typedef Dartsqlite3_destructor_typeFunction =
-    void Function(ffi.Pointer<ffi.Void>);
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>;
 
 final class sqlite3_file extends ffi.Struct {
   /// Methods for an open file
@@ -14006,9 +13991,7 @@ final class sqlite3_stmt extends ffi.Opaque {}
 final class sqlite3_str extends ffi.Opaque {}
 
 typedef sqlite3_syscall_ptr =
-    ffi.Pointer<ffi.NativeFunction<sqlite3_syscall_ptrFunction>>;
-typedef sqlite3_syscall_ptrFunction = ffi.Void Function();
-typedef Dartsqlite3_syscall_ptrFunction = void Function();
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>;
 typedef sqlite3_uint64 = sqlite_uint64;
 
 final class sqlite3_value extends ffi.Opaque {}

@@ -68,14 +68,12 @@ class ListBindingsVisitation extends Visitation {
     final _IncludeBehavior includeBehavior;
     if (node.isInternal) {
       includeBehavior = _IncludeBehavior.transitive;
-    } else if (config.objectiveC?.interfaces.includeTransitive ?? false) {
-      includeBehavior = _IncludeBehavior.configOrTransitive;
     } else {
       includeBehavior = _IncludeBehavior.configOnly;
     }
     final omit = node.unavailable || !_visitImpl(node, includeBehavior);
 
-    if (omit && directTransitives.contains(node)) {
+    if (omit && !node.isObjCImport && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
 
@@ -84,7 +82,7 @@ class ListBindingsVisitation extends Visitation {
       visitor.visitAll(node.protocols);
     }
 
-    if (includes.contains(node)) {
+    if (node.includeCategories && includes.contains(node)) {
       // Always visit the categories of explicitly included interfaces, even if
       // they're built-in types: https://github.com/dart-lang/native/issues/1820
       visitor.visitAll(node.categories);
@@ -92,25 +90,20 @@ class ListBindingsVisitation extends Visitation {
   }
 
   @override
-  void visitObjCCategory(ObjCCategory node) => _visitImpl(
-    node,
-    config.objectiveC?.categories.includeTransitive ?? false
+  void visitObjCCategory(ObjCCategory node) {
+    final parentIncluded = includes.contains(node.parent);
+    final behavior = node.parent.includeCategories && parentIncluded
         ? _IncludeBehavior.configOrDirectTransitive
-        : _IncludeBehavior.configOnly,
-  );
+        : _IncludeBehavior.configOnly;
+    _visitImpl(node, behavior);
+  }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     final omit =
-        node.unavailable ||
-        !_visitImpl(
-          node,
-          config.objectiveC?.protocols.includeTransitive ?? false
-              ? _IncludeBehavior.configOrTransitive
-              : _IncludeBehavior.configOnly,
-        );
+        node.unavailable || !_visitImpl(node, _IncludeBehavior.configOnly);
 
-    if (omit && directTransitives.contains(node)) {
+    if (omit && !node.isObjCImport && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
 
@@ -120,10 +113,18 @@ class ListBindingsVisitation extends Visitation {
   }
 
   @override
+  void visitStruct(Struct node) =>
+      _visitImpl(node, _IncludeBehavior.configOrDirectTransitive);
+
+  @override
+  void visitUnion(Union node) =>
+      _visitImpl(node, _IncludeBehavior.configOrDirectTransitive);
+
+  @override
   void visitTypealias(Typealias node) {
     _visitImpl(
       node,
-      config.typedefs.includeUnused
+      node.includeUnused
           ? _IncludeBehavior.configOnly
           : _IncludeBehavior.configAndTransitive,
     );
@@ -140,6 +141,10 @@ class ListBindingsVisitation extends Visitation {
       node.visitChildren(visitor);
     }
   }
+
+  @override
+  void visitObjCBlock(ObjCBlock node) =>
+      _visitImpl(node, _IncludeBehavior.configOrDirectTransitive);
 }
 
 class MarkBindingsVisitation extends Visitation {

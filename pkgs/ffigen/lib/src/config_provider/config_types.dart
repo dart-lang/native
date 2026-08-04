@@ -12,7 +12,6 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
-import 'config.dart';
 import 'path_finder.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
@@ -61,7 +60,7 @@ class StructPackingOverride {
 }
 
 // Holds headers and filters for header.
-class YamlHeaders {
+class YamlInput {
   /// Path to headers.
   ///
   /// This contains all the headers, after extraction from Globs.
@@ -70,7 +69,7 @@ class YamlHeaders {
   /// Include filter for headers.
   final HeaderIncludeFilter includeFilter;
 
-  YamlHeaders({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
+  YamlInput({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
     : entryPoints = entryPoints?.map(Uri.file).toList() ?? [],
       includeFilter = includeFilter ?? GlobHeaderFilter();
 }
@@ -127,34 +126,31 @@ final class YamlDeclarationFilters {
        _memberIncluder = memberIncluder ?? YamlMemberIncluder();
 
   /// Applies renaming and returns the result.
-  String rename(Declaration declaration) =>
-      _renamer.rename(declaration.originalName);
+  String rename(String name) => _renamer.rename(name);
 
   /// Applies member renaming and returns the result.
-  String renameMember(Declaration declaration, String member) =>
-      _memberRenamer.rename(declaration.originalName, member);
+  String renameMember(String name, String member) =>
+      _memberRenamer.rename(name, member);
 
   /// Checks if a name is allowed by a filter.
-  bool shouldInclude(Declaration declaration) =>
-      _includer.shouldInclude(declaration.originalName, excludeAllByDefault);
+  bool shouldInclude(String name) =>
+      _includer.shouldInclude(name, excludeAllByDefault);
+
+  /// Checks if a name is explicitly included by an include pattern.
+  bool isExplicitlyIncluded(String name) =>
+      _includer.isExplicitlyIncluded(name);
+
+  /// Checks if a name is explicitly excluded by an exclude pattern.
+  bool isExplicitlyExcluded(String name) =>
+      _includer.isExplicitlyExcluded(name);
 
   /// Checks if the symbol address should be included for this name.
-  bool shouldIncludeSymbolAddress(Declaration declaration) =>
-      _symbolAddressIncluder.shouldInclude(declaration.originalName);
+  bool shouldIncludeSymbolAddress(String name) =>
+      _symbolAddressIncluder.shouldInclude(name);
 
   /// Checks if a member is allowed by a filter.
-  bool shouldIncludeMember(Declaration declaration, String member) =>
-      _memberIncluder.shouldInclude(declaration.originalName, member);
-
-  Declarations configAdapter() {
-    return Declarations(
-      include: shouldInclude,
-      includeSymbolAddress: shouldIncludeSymbolAddress,
-      includeMember: shouldIncludeMember,
-      rename: rename,
-      renameMember: renameMember,
-    );
-  }
+  bool shouldIncludeMember(String name, String member) =>
+      _memberIncluder.shouldInclude(name, member, false);
 }
 
 /// Matches `$<single_digit_int>`, value can be accessed in group 1 of match.
@@ -252,6 +248,9 @@ class YamlIncluder {
     // Otherwise, fall back to the default behavior for empty filters.
     return !excludeAllByDefault;
   }
+
+  bool isExplicitlyIncluded(String name) => _include.matches(name);
+  bool isExplicitlyExcluded(String name) => _exclude.matches(name);
 }
 
 /// Handles `full/regexp` renaming logic.
@@ -352,20 +351,26 @@ class YamlMemberIncluder {
   }) : _memberIncluderFull = memberIncluderFull ?? {},
        _memberIncluderMatchers = memberIncluderMatchers ?? [];
 
-  bool shouldInclude(String declaration, String member) {
+  bool shouldInclude(
+    String declaration,
+    String member, [
+    bool excludeAllByDefault = false,
+  ]) {
     // Full matches take priority.
     final fullMatch = _memberIncluderFull[declaration];
-    if (fullMatch != null) return fullMatch.shouldInclude(member);
+    if (fullMatch != null) {
+      return fullMatch.shouldInclude(member, excludeAllByDefault);
+    }
 
     // Check regex matchers.
     for (final (re, includer) in _memberIncluderMatchers) {
       if (quiver.matchesFull(re, declaration)) {
-        return includer.shouldInclude(member);
+        return includer.shouldInclude(member, excludeAllByDefault);
       }
     }
 
-    // By default, include all members.
-    return true;
+    // By default, include all members unless excludeAllByDefault is true.
+    return !excludeAllByDefault;
   }
 }
 

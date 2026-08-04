@@ -60,7 +60,10 @@ class TestGenerator {
         inputs: [
           isObjCCompatible
               ? ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)])
-              : SwiftFileInput(files: [Uri.file(inputFile)]),
+              : SwiftFileInput(
+                  files: [Uri.file(inputFile)],
+                  tempModuleName: name,
+                ),
         ],
         output: Output(
           swiftWrapperFile: isObjCCompatible
@@ -78,14 +81,16 @@ class TestGenerator {
 ''',
         ),
         ffigen: FfiGeneratorOptions(
-          objectiveC: fg.ObjectiveC(
-            interfaces: fg.Interfaces(
-              include: (decl) => decl.originalName.startsWith('Test'),
+          visitors: [
+            fg.Visitor.callback(
+              visitObjCInterface: (node) {
+                node.isIncluded = node.originalName.startsWith('Test');
+              },
+              visitObjCProtocol: (node) {
+                node.isIncluded = node.originalName.startsWith('Test');
+              },
             ),
-            protocols: fg.Protocols(
-              include: (decl) => decl.originalName.startsWith('Test'),
-            ),
-          ),
+          ],
         ),
       ).generate(
         logger: Logger.root..level = Level.SEVERE,

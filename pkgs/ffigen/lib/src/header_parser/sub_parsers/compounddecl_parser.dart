@@ -3,8 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
-import '../../config_provider/config.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -14,22 +12,10 @@ import 'api_availability.dart';
 Compound? parseStructDeclaration(
   clang_types.CXCursor cursor,
   Context context,
-) => _parseCompoundDeclaration(
-  cursor,
-  context,
-  'Struct',
-  context.config.structs,
-  Struct.new,
-);
+) => _parseCompoundDeclaration(cursor, context, 'Struct', Struct.new);
 
 Compound? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
-    _parseCompoundDeclaration(
-      cursor,
-      context,
-      'Union',
-      context.config.unions,
-      Union.new,
-    );
+    _parseCompoundDeclaration(cursor, context, 'Union', Union.new);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -71,9 +57,6 @@ class _ParsedCompound {
     return maxChildAlignment > alignment;
   }
 
-  Declarations get compoundConfig =>
-      compound is Struct ? context.config.structs : context.config.unions;
-
   /// Returns pack value of a struct depending on config, returns null for no
   /// packing.
   int? get packValue {
@@ -98,7 +81,6 @@ Compound? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   Context context,
   String className,
-  Declarations configDecl,
   Compound Function({
     String? usr,
     String? originalName,
@@ -136,7 +118,6 @@ Compound? _parseCompoundDeclaration(
     return null;
   }
 
-  final decl = Declaration(usr: usr, originalName: declName);
   final Compound compound;
   if (declName.isEmpty) {
     cursor = context.cursorIndex.getDefinition(cursor);
@@ -160,7 +141,7 @@ Compound? _parseCompoundDeclaration(
     compound = constructor(
       usr: usr,
       originalName: declName,
-      name: configDecl.rename(decl),
+      name: declName,
       dartDoc: getCursorDocComment(
         context,
         cursor,
@@ -271,11 +252,6 @@ void _compoundMembersVisitor(
   _ParsedCompound parsed,
 ) {
   final context = parsed.context;
-  final compoundConf = parsed.compoundConfig;
-  final decl = Declaration(
-    usr: parsed.compound.usr,
-    originalName: parsed.compound.originalName,
-  );
   try {
     switch (cursor.kind) {
       case clang_types.CXCursorKind.CXCursor_FieldDecl:
@@ -315,7 +291,7 @@ void _compoundMembersVisitor(
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: cursor.spelling(),
-            name: compoundConf.renameMember(decl, cursor.spelling()),
+            name: cursor.spelling(),
             type: mt,
           ),
         );
@@ -350,7 +326,7 @@ void _compoundMembersVisitor(
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: spelling,
-            name: compoundConf.renameMember(decl, spelling),
+            name: spelling,
             type: mt,
           ),
         );

@@ -9,24 +9,20 @@ import 'package:ffigen/ffigen.dart';
 void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
-    headers: Headers(
-      entryPoints: [packageRoot.resolve('third_party/miniaudio.h')],
-    ),
-    functions: Functions(
-      include: (decl) => {
-        'ma_engine_init',
-        'ma_engine_play_sound',
-        'ma_engine_uninit',
-      }.contains(decl.originalName),
-      recordUse: (_) => true,
-    ),
-    structs: Structs(
-      include: (decl) => {'ma_engine'}.contains(decl.originalName),
-    ),
-    enums: Enums(
-      include: (decl) => {'ma_result'}.contains(decl.originalName),
-      silenceWarning: true,
-    ),
+    input: Input(entryPoints: [packageRoot.resolve('third_party/miniaudio.h')]),
+    visitors: const [
+      IncludeSetVisitor(
+        functions: {
+          'ma_engine_init',
+          'ma_engine_play_sound',
+          'ma_engine_uninit',
+        },
+        structs: {'ma_engine'},
+        enums: {'ma_result'},
+        typedefs: {'ma_result'},
+      ),
+      RecordUseVisitor(),
+    ],
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
       recordUseMapping: packageRoot.resolve(
