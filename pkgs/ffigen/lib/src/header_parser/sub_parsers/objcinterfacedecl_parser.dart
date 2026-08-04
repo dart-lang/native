@@ -224,6 +224,7 @@ void _parseSuperType(
       ownershipAttribute: null,
       consumesSelfAttribute: false,
     );
+    getter.setter = setter;
   }
   return (getter, setter);
 }

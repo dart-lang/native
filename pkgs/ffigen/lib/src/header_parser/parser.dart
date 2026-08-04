@@ -243,6 +243,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     }
   }
 
+  // Check that all ObjCMethods have their parent set correctly.
+  assert(
+    finalBindingsList.whereType<ObjCMethods>().every(
+      (b) => b.methods.every((m) => m.parent == b),
+    ),
+  );
+
   return finalBindingsList;
 }
 

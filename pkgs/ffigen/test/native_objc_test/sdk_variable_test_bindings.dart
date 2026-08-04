@@ -567,14 +567,14 @@ extension NSTextList$Methods on NSTextList {
 
   /// init
   NSTextList init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return NSTextList.fromPointer($ret, retain: false, release: true);
@@ -837,23 +837,23 @@ extension UIPickerView$Methods on UIPickerView {
 
   /// encodeWithCoder:
   void encodeWithCoder(objc.NSCoder coder) {
-    final _$$ref$2 = object$.ref;
-    final _$$ref$3 = coder.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = coder.ref;
     _objc_msgSend_xtuoz7(
-      _$$ref$2.pointer,
+      _$$ref.pointer,
       _sel_encodeWithCoder_,
-      _$$ref$3.pointer,
+      _$$ref$1.pointer,
     );
   }
 
   /// initWithCoder:
   UIPickerView? initWithCoder(objc.NSCoder coder) {
-    final _$$ref$2 = object$.ref;
-    final _$$ref$3 = coder.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = coder.ref;
     final $ret = _objc_msgSend_1sotr3r(
-      _$$ref$2.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_initWithCoder_,
-      _$$ref$3.pointer,
+      _$$ref$1.pointer,
     );
     return $ret.address == 0
         ? null

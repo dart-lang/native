@@ -218,7 +218,7 @@ class ObjCBuiltInFunctions {
             type: PointerType(objCObjectType),
             objCConsumed: false,
           ),
-          ...block.params,
+          ...block.params.map((p) => p.clone()),
         ],
         objCReturnsRetained: false,
         isLeaf: false,

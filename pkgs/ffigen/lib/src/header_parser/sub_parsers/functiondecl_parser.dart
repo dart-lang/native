@@ -123,7 +123,7 @@ List<Func> parseFunctionDeclaration(
           name: config.functions.rename(decl) + (vaFunc?.postfix ?? ''),
           originalName: funcName,
           returnType: returnType,
-          parameters: parameters,
+          parameters: parameters.map((p) => p.clone()).toList(),
           varArgParameters: [
             for (final ta in vaFunc?.types ?? const <Type>[])
               Parameter(type: ta, name: 'va', objCConsumed: false),

@@ -54,17 +54,17 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     if (superType != null) {
       for (final m in superType.methods) {
         if (isNSObject) {
-          node.addMethod(m);
+          node.copyMethod(m);
         } else if (m.isClassMethod &&
             !_excludedNSObjectMethods.contains(m.originalName)) {
-          node.addMethod(m);
+          node.copyMethod(m);
         } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
-          node.addMethod(m);
+          node.copyMethod(m);
         }
       }
     }
     // Copy all methods from all the interface's protocols.
-    _copyMethodFromProtocols(node, node.protocols, node.addMethod);
+    _copyMethodFromProtocols(node, node.protocols);
 
     // Copy methods from all the categories that extend this interface, if those
     // methods return instancetype, because the Dart inheritance rules don't
@@ -78,22 +78,21 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     for (final category in node.categories) {
       for (final m in category.methods) {
         if (category.shouldCopyMethodToInterface(m)) {
-          node.addMethod(m);
+          node.copyMethod(m);
         }
       }
     }
   }
 
   void _copyMethodFromProtocols(
-    Binding node,
+    ObjCMethods node,
     List<ObjCProtocol> protocols,
-    void Function(ObjCMethod) addMethod,
   ) {
     // Copy all methods from all the protocols.
     for (final proto in protocols) {
       for (final m in proto.methods) {
         if (!_excludedNSObjectMethods.contains(m.originalName)) {
-          addMethod(m);
+          node.copyMethod(m);
         }
       }
     }
@@ -104,7 +103,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     node.visitChildren(visitor, typeGraphOnly: true);
 
     // Copy all methods from all the category's protocols.
-    _copyMethodFromProtocols(node, node.protocols, node.addMethod);
+    _copyMethodFromProtocols(node, node.protocols);
   }
 
   @override
@@ -125,7 +124,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
       // So copy across all the methods explicitly, rather than trying to use
       // Dart inheritance to get them implicitly.
       for (final method in superProtocol.methods) {
-        node.addMethod(method);
+        node.copyMethod(method);
       }
     }
   }
