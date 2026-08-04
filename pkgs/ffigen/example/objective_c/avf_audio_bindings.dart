@@ -12,7 +12,8 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
 
-/// AVAudioFormat
+/// WARNING: AVAudioFormat is a stub. To generate bindings for this class, include
+/// AVAudioFormat in your config's objc-interfaces list.
 ///
 /// AVAudioFormat
 extension type AVAudioFormat._(objc.ObjCObject object$)
@@ -761,7 +762,8 @@ extension type AVAudioPlayerDelegate._(objc.ObjCProtocol object$)
   }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
 }
 
-/// CASpatialAudioExperience
+/// WARNING: CASpatialAudioExperience is a stub. To generate bindings for this class, include
+/// CASpatialAudioExperience in your config's objc-interfaces list.
 ///
 /// CASpatialAudioExperience
 extension type CASpatialAudioExperience._(objc.ObjCObject object$)

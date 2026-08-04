@@ -48,6 +48,14 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!finalBindings.contains(node)) return;
     node.visitChildren(visitor);
 
+    if (node.methods.any((m) => m.isClassMethod)) {
+      node.parent.classObject ??= ObjCClassGlobal(
+        '_class_${node.parent.symbol.oldName}',
+        node.parent.originalName,
+        node.parent.module,
+      );
+      _adder.visit(node.parent.classObject);
+    }
     for (final method in node.methods) {
       _adder.visit(method.fillMsgSend());
     }

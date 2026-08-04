@@ -12,11 +12,10 @@ Future<void> main(List<String> args) async {
       ? ['../objective_c/lib/src/objective_c_bindings_generated.dart']
       : args;
 
-  final result = await Process.run(
-    '/bin/bash',
-    [shScript, ...targetArgs],
-    workingDirectory: path.dirname(scriptDir),
-  );
+  final result = await Process.run('/bin/bash', [
+    shScript,
+    ...targetArgs,
+  ], workingDirectory: path.dirname(scriptDir));
 
   if (result.stdout.toString().isNotEmpty) {
     stdout.write(result.stdout);

@@ -447,8 +447,8 @@ void generateObjCBindings(Uri root) {
         root.resolve('src/protocol.h'),
       ],
     ),
-    // ignore: deprecated_member_use
     objectiveC: ObjectiveC(
+      // ignore: deprecated_member_use, deprecated_member_use_from_same_package
       generateForPackageObjectiveC: true,
       externalVersions: ExternalVersions(
         ios: Versions(min: Version(12, 0, 0)),

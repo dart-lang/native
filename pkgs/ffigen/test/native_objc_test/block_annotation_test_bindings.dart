@@ -239,7 +239,7 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// invokeConsumedObjectListenerAsync:
-  static objc.NSThread invokeConsumedObjectListenerAsync(
+  static NSThread invokeConsumedObjectListenerAsync(
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)> block,
   ) {
     final _$$ref = block.ref;
@@ -248,7 +248,7 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
       _sel_invokeConsumedObjectListenerAsync_,
       _$$ref.pointer,
     );
-    return objc.NSThread.fromPointer($ret, retain: true, release: true);
+    return NSThread.fromPointer($ret, retain: true, release: true);
   }
 
   /// invokeConsumedObjectListenerSync:
@@ -278,7 +278,7 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// invokeObjectListenerAsync:
-  static objc.NSThread invokeObjectListenerAsync(
+  static NSThread invokeObjectListenerAsync(
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)> block,
   ) {
     final _$$ref = block.ref;
@@ -287,7 +287,7 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
       _sel_invokeObjectListenerAsync_,
       _$$ref.pointer,
     );
-    return objc.NSThread.fromPointer($ret, retain: true, release: true);
+    return NSThread.fromPointer($ret, retain: true, release: true);
   }
 
   /// invokeObjectListenerSync:
@@ -1199,6 +1199,426 @@ extension EmptyObject$Methods on EmptyObject {
       _sel_init,
     );
     return EmptyObject.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+/// NSThread
+extension type NSThread._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NSThread] that points to the same underlying object as [other].
+  NSThread.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NSThread] that wraps the given raw object pointer.
+  NSThread.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NSThread].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSThread,
+        );
+
+  /// alloc
+  static NSThread alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NSThread, _sel_alloc);
+    return NSThread.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NSThread allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NSThread,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NSThread.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// callStackReturnAddresses
+  static objc.NSArray getCallStackReturnAddresses() {
+    objc.checkOsVersionInternal(
+      'NSThread.callStackReturnAddresses',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _class_NSThread,
+      _sel_callStackReturnAddresses,
+    );
+    return objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callStackSymbols
+  static objc.NSArray getCallStackSymbols() {
+    objc.checkOsVersionInternal(
+      'NSThread.callStackSymbols',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_class_NSThread, _sel_callStackSymbols);
+    return objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// currentThread
+  static NSThread getCurrentThread() {
+    final $ret = _objc_msgSend_151sglz(_class_NSThread, _sel_currentThread);
+    return NSThread.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// detachNewThreadSelector:toTarget:withObject:
+  static void detachNewThreadSelector(
+    ffi.Pointer<objc.ObjCSelector> selector, {
+    required objc.ObjCObject toTarget,
+    objc.ObjCObject? withObject,
+  }) {
+    final _$$ref = toTarget.ref;
+    final _$$ref$1 = withObject?.ref;
+    _objc_msgSend_lzbvjm(
+      _class_NSThread,
+      _sel_detachNewThreadSelector_toTarget_withObject_,
+      selector,
+      _$$ref.pointer,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
+  }
+
+  /// detachNewThreadWithBlock:
+  static void detachNewThreadWithBlock(
+    objc.ObjCBlock<ffi.Void Function()> block,
+  ) {
+    final _$$ref = block.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.detachNewThreadWithBlock:',
+      iOS: (false, (10, 0, 0)),
+      macOS: (false, (10, 12, 0)),
+    );
+    _objc_msgSend_f167m6(
+      _class_NSThread,
+      _sel_detachNewThreadWithBlock_,
+      _$$ref.pointer,
+    );
+  }
+
+  /// exit
+  static void exit() {
+    _objc_msgSend_1pl9qdv(_class_NSThread, _sel_exit);
+  }
+
+  /// isMainThread
+  static bool getIsMainThread$1() {
+    objc.checkOsVersionInternal(
+      'NSThread.isMainThread',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_91o635(_class_NSThread, _sel_isMainThread);
+  }
+
+  /// isMultiThreaded
+  static bool isMultiThreaded() {
+    return _objc_msgSend_91o635(_class_NSThread, _sel_isMultiThreaded);
+  }
+
+  /// mainThread
+  static NSThread getMainThread() {
+    objc.checkOsVersionInternal(
+      'NSThread.mainThread',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_class_NSThread, _sel_mainThread);
+    return NSThread.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// new
+  static NSThread new$() {
+    final $ret = _objc_msgSend_151sglz(_class_NSThread, _sel_new);
+    return NSThread.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setThreadPriority:
+  static bool setThreadPriority(double p) {
+    return _objc_msgSend_18chyc(_class_NSThread, _sel_setThreadPriority_, p);
+  }
+
+  /// sleepForTimeInterval:
+  static void sleepForTimeInterval(double ti) {
+    _objc_msgSend_hwm8nu(_class_NSThread, _sel_sleepForTimeInterval_, ti);
+  }
+
+  /// sleepUntilDate:
+  static void sleepUntilDate(objc.NSDate date) {
+    final _$$ref = date.ref;
+    _objc_msgSend_xtuoz7(_class_NSThread, _sel_sleepUntilDate_, _$$ref.pointer);
+  }
+
+  /// threadPriority
+  static double threadPriority$1() {
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_1ukqyt8Fpret(_class_NSThread, _sel_threadPriority)
+        : _objc_msgSend_1ukqyt8(_class_NSThread, _sel_threadPriority);
+  }
+
+  /// Returns a new instance of NSThread constructed with the default `new` method.
+  NSThread() : this.as(new$().object$);
+}
+
+extension NSThread$Methods on NSThread {
+  /// cancel
+  void cancel() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.cancel',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_cancel);
+  }
+
+  /// init
+  NSThread init() {
+    final _$$ref$2 = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref$2.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSThread.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// initWithBlock:
+  NSThread initWithBlock(objc.ObjCBlock<ffi.Void Function()> block) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = block.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.initWithBlock:',
+      iOS: (false, (10, 0, 0)),
+      macOS: (false, (10, 12, 0)),
+    );
+    final $ret = _objc_msgSend_nnxkei(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithBlock_,
+      _$$ref$1.pointer,
+    );
+    return NSThread.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// initWithTarget:selector:object:
+  NSThread initWithTarget(
+    objc.ObjCObject target, {
+    required ffi.Pointer<objc.ObjCSelector> selector,
+    objc.ObjCObject? object,
+  }) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = target.ref;
+    final _$$ref$2 = object?.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.initWithTarget:selector:object:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    final $ret = _objc_msgSend_1eldwyi(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithTarget_selector_object_,
+      _$$ref$1.pointer,
+      selector,
+      _$$ref$2?.pointer ?? ffi.nullptr,
+    );
+    return NSThread.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// isCancelled
+  bool get isCancelled {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.isCancelled',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isCancelled);
+  }
+
+  /// isExecuting
+  bool get isExecuting {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.isExecuting',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isExecuting);
+  }
+
+  /// isFinished
+  bool get isFinished {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.isFinished',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isFinished);
+  }
+
+  /// isMainThread
+  bool get isMainThread {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.isMainThread',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_isMainThread);
+  }
+
+  /// main
+  void main() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.main',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_main);
+  }
+
+  /// name
+  objc.NSString? get name {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.name',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_name);
+    return $ret.address == 0
+        ? null
+        : objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// qualityOfService
+  objc.NSQualityOfService get qualityOfService {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.qualityOfService',
+      iOS: (false, (8, 0, 0)),
+      macOS: (false, (10, 10, 0)),
+    );
+    final $ret = _objc_msgSend_oi8iq9(_$$ref.pointer, _sel_qualityOfService);
+    return objc.NSQualityOfService.fromValue($ret);
+  }
+
+  /// setName:
+  set name(objc.NSString? value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value?.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.setName:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setName_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
+  }
+
+  /// setQualityOfService:
+  set qualityOfService(objc.NSQualityOfService value) {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.setQualityOfService:',
+      iOS: (false, (8, 0, 0)),
+      macOS: (false, (10, 10, 0)),
+    );
+    _objc_msgSend_n2da1l(
+      _$$ref.pointer,
+      _sel_setQualityOfService_,
+      value.value,
+    );
+  }
+
+  /// setStackSize:
+  set stackSize(int value) {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.setStackSize:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_setStackSize_, value);
+  }
+
+  /// setThreadPriority:
+  set threadPriority(double value) {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.setThreadPriority:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setThreadPriority_, value);
+  }
+
+  /// stackSize
+  int get stackSize {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.stackSize',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_xw2lbc(_$$ref.pointer, _sel_stackSize);
+  }
+
+  /// start
+  void start() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.start',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_start);
+  }
+
+  /// threadDictionary
+  objc.NSMutableDictionary get threadDictionary {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_threadDictionary);
+    return objc.NSMutableDictionary.fromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// threadPriority
+  double get threadPriority {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSThread.threadPriority',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_threadPriority)
+        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_threadPriority);
   }
 }
 
@@ -2694,6 +3114,14 @@ final _class_EmptyObject = objc.getClass(
     _class_EmptyObject_raw,
   ).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_NSThread')
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NSThread_raw;
+final _class_NSThread = objc.getClass(
+  "NSThread",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NSThread_raw,
+  ).cast(),
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__z0xonr_BlockArgs_18v1jvf',
 )
@@ -2739,6 +3167,23 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
+final _objc_msgSend_18chyc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Double,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+      )
+    >();
 final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -2771,6 +3216,59 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.NSZone>,
+      )
+    >();
+final _objc_msgSend_1eldwyi = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_1i9r4xy = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.UnsignedLong,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
+    >();
+final _objc_msgSend_1pl9qdv = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_1ploomx = objc.msgSendPointer
@@ -2807,6 +3305,36 @@ final _objc_msgSend_1sotr3r = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_1ukqyt8 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Double Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Double Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      double Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
 final _objc_msgSend_4js6t = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -2835,6 +3363,21 @@ final _objc_msgSend_6ex6p5 = objc.msgSendPointer
     >()
     .asFunction<
       ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_91o635 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
@@ -2873,6 +3416,61 @@ final _objc_msgSend_f167m6 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_hwm8nu = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Double,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+      )
+    >();
+final _objc_msgSend_lzbvjm = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_n2da1l = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Long,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
+    >();
 final _objc_msgSend_nnxkei = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -2888,6 +3486,21 @@ final _objc_msgSend_nnxkei = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_oi8iq9 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Long Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_uwvaik = objc.msgSendPointer
@@ -2939,6 +3552,21 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_xw2lbc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.UnsignedLong Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
 @ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
   symbol: '_z0xonr_BlockAnnotationTestProtocol',
 )
@@ -2952,8 +3580,24 @@ late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_arg0 = objc.registerName("arg0");
 late final _sel_arg1 = objc.registerName("arg1");
+late final _sel_callStackReturnAddresses = objc.registerName(
+  "callStackReturnAddresses",
+);
+late final _sel_callStackSymbols = objc.registerName("callStackSymbols");
+late final _sel_cancel = objc.registerName("cancel");
 late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
+late final _sel_currentThread = objc.registerName("currentThread");
+late final _sel_detachNewThreadSelector_toTarget_withObject_ = objc
+    .registerName("detachNewThreadSelector:toTarget:withObject:");
+late final _sel_detachNewThreadWithBlock_ = objc.registerName(
+  "detachNewThreadWithBlock:",
+);
+late final _sel_exit = objc.registerName("exit");
 late final _sel_init = objc.registerName("init");
+late final _sel_initWithBlock_ = objc.registerName("initWithBlock:");
+late final _sel_initWithTarget_selector_object_ = objc.registerName(
+  "initWithTarget:selector:object:",
+);
 late final _sel_invokeBlockProducer_ = objc.registerName(
   "invokeBlockProducer:",
 );
@@ -2984,11 +3628,19 @@ late final _sel_invokeRetainedBlockProducer_ = objc.registerName(
 late final _sel_invokeRetainedObjectProducer_ = objc.registerName(
   "invokeRetainedObjectProducer:",
 );
+late final _sel_isCancelled = objc.registerName("isCancelled");
+late final _sel_isExecuting = objc.registerName("isExecuting");
+late final _sel_isFinished = objc.registerName("isFinished");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_isMainThread = objc.registerName("isMainThread");
+late final _sel_isMultiThreaded = objc.registerName("isMultiThreaded");
 late final _sel_listenConsumedObject_ = objc.registerName(
   "listenConsumedObject:",
 );
 late final _sel_listenObject_ = objc.registerName("listenObject:");
+late final _sel_main = objc.registerName("main");
+late final _sel_mainThread = objc.registerName("mainThread");
+late final _sel_name = objc.registerName("name");
 late final _sel_new = objc.registerName("new");
 late final _sel_newBlockProducer = objc.registerName("newBlockProducer");
 late final _sel_newConsumedObjectReceiver = objc.registerName(
@@ -3010,9 +3662,24 @@ late final _sel_produceRetainedBlock = objc.registerName(
 late final _sel_produceRetainedObject = objc.registerName(
   "produceRetainedObject",
 );
+late final _sel_qualityOfService = objc.registerName("qualityOfService");
 late final _sel_receiveConsumedObject_ = objc.registerName(
   "receiveConsumedObject:",
 );
 late final _sel_receiveObject_ = objc.registerName("receiveObject:");
+late final _sel_setName_ = objc.registerName("setName:");
+late final _sel_setQualityOfService_ = objc.registerName(
+  "setQualityOfService:",
+);
+late final _sel_setStackSize_ = objc.registerName("setStackSize:");
+late final _sel_setThreadPriority_ = objc.registerName("setThreadPriority:");
+late final _sel_sleepForTimeInterval_ = objc.registerName(
+  "sleepForTimeInterval:",
+);
+late final _sel_sleepUntilDate_ = objc.registerName("sleepUntilDate:");
+late final _sel_stackSize = objc.registerName("stackSize");
+late final _sel_start = objc.registerName("start");
+late final _sel_threadDictionary = objc.registerName("threadDictionary");
+late final _sel_threadPriority = objc.registerName("threadPriority");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

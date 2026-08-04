@@ -79,7 +79,8 @@ extension type NSAppearanceCustomization._(objc.ObjCProtocol object$)
   }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
 }
 
-/// NSButtonCell
+/// WARNING: NSButtonCell is a stub. To generate bindings for this class, include
+/// NSButtonCell in your config's objc-interfaces list.
 ///
 /// NSButtonCell
 extension type NSButtonCell._(objc.ObjCObject object$)
@@ -95,7 +96,8 @@ extension type NSButtonCell._(objc.ObjCObject object$)
   }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
 }
 
-/// NSColorList
+/// WARNING: NSColorList is a stub. To generate bindings for this class, include
+/// NSColorList in your config's objc-interfaces list.
 ///
 /// NSColorList
 extension type NSColorList._(objc.ObjCObject object$)
@@ -111,7 +113,8 @@ extension type NSColorList._(objc.ObjCObject object$)
   }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
 }
 
-/// NSColorPanel
+/// WARNING: NSColorPanel is a stub. To generate bindings for this class, include
+/// NSColorPanel in your config's objc-interfaces list.
 ///
 /// NSColorPanel
 extension type NSColorPanel._(objc.ObjCObject object$)
@@ -407,7 +410,8 @@ extension type NSColorPickingDefault._(objc.ObjCProtocol object$)
   }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
 }
 
-/// NSImage
+/// WARNING: NSImage is a stub. To generate bindings for this class, include
+/// NSImage in your config's objc-interfaces list.
 ///
 /// NSImage
 extension type NSImage._(objc.ObjCObject object$) implements objc.ObjCObject {
@@ -439,7 +443,8 @@ extension type NSMenuItemValidation._(objc.ObjCProtocol object$)
   }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
 }
 
-/// NSPanel
+/// WARNING: NSPanel is a stub. To generate bindings for this class, include
+/// NSPanel in your config's objc-interfaces list.
 ///
 /// NSPanel
 extension type NSPanel._(objc.ObjCObject object$)
@@ -459,7 +464,8 @@ extension type NSPanel._(objc.ObjCObject object$)
   }
 }
 
-/// NSResponder
+/// WARNING: NSResponder is a stub. To generate bindings for this class, include
+/// NSResponder in your config's objc-interfaces list.
 ///
 /// NSResponder
 extension type NSResponder._(objc.ObjCObject object$)
@@ -746,7 +752,8 @@ extension type NSUserInterfaceValidations._(objc.ObjCProtocol object$)
   }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
 }
 
-/// NSWindow
+/// WARNING: NSWindow is a stub. To generate bindings for this class, include
+/// NSWindow in your config's objc-interfaces list.
 ///
 /// NSWindow
 extension type NSWindow._(objc.ObjCObject object$)

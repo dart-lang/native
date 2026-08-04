@@ -203,7 +203,8 @@ extension PropertyInterface$Methods on PropertyInterface {
   }
 }
 
-/// UndefinedTemplate
+/// WARNING: UndefinedTemplate is a stub. To generate bindings for this class, include
+/// UndefinedTemplate in your config's objc-interfaces list.
 ///
 /// UndefinedTemplate
 extension type UndefinedTemplate._(objc.ObjCObject object$)
