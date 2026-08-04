@@ -345,9 +345,6 @@ class ObjCClassGlobal extends NoLookUpBinding {
       );
 
   @override
-  bool get hasNativeHelperFunctions => true;
-
-  @override
   BindingString toBindingString(Writer w) {
     final context = w.context;
     final type = PointerType(objCObjectType).getCType(context);
