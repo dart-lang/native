@@ -226,14 +226,14 @@ extension type ChildOfThing._(objc.ObjCObject object$)
 extension ChildOfThing$Methods on ChildOfThing {
   /// init
   ChildOfThing init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ChildOfThing.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return ChildOfThing.fromPointer($ret, retain: false, release: true);
@@ -1190,14 +1190,14 @@ extension Thing$Methods on Thing {
 
   /// init
   Thing init() {
-    final _$$ref$2 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'Thing.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$2.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return Thing.fromPointer($ret, retain: false, release: true);
@@ -1205,11 +1205,8 @@ extension Thing$Methods on Thing {
 
   /// instancetypeMethod
   Thing instancetypeMethod() {
-    final _$$ref$1 = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.pointer,
-      _sel_instancetypeMethod,
-    );
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_instancetypeMethod);
     return Thing.fromPointer($ret, retain: true, release: true);
   }
 }
