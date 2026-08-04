@@ -94,16 +94,21 @@ class _MethodDepAdderVisitation extends Visitation {
       node.visitChildren(visitor);
 
   @override
-  void visitObjCMsgSendVariantFunc(ObjCMsgSendVariantFunc node) =>
-      finalBindings.add(node);
-
-  @override
   void visitNoLookUpBinding(NoLookUpBinding node) => finalBindings.add(node);
 
   @override
   void visitObjCBlock(ObjCBlock node) {
     node.visitChildren(visitor);
     finalBindings.add(node);
+  }
+
+  @override
+  void visitObjCInterface(ObjCInterface node) {
+    if (node.isInternal) {
+      finalBindings.add(node);
+      node.visitChildren(visitor);
+    }
+    if (!node.isObjCImport) finalBindings.add(node);
   }
 
   @override
@@ -116,17 +121,4 @@ class _MethodDepAdderVisitation extends Visitation {
   @override
   void visitObjCBlockWrapperFuncs(ObjCBlockWrapperFuncs node) =>
       node.visitChildren(visitor);
-
-  @override
-  void visitObjCInterface(ObjCInterface node) {
-    if (node.isInternal) {
-      finalBindings.add(node);
-      node.visitChildren(visitor);
-    }
-    if (node.isObjCImport) return;
-    if (!finalBindings.contains(node)) {
-      node.generateAsStub = true;
-      finalBindings.add(node);
-    }
-  }
 }
