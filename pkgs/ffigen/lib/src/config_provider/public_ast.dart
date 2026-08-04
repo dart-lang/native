@@ -440,8 +440,8 @@ class EnumClass implements Decl {
   @override
   set isIncluded(bool value) => _binding.userDefinedIsIncluded = value;
 
-  EnumStyle get style => _binding.style;
-  set style(EnumStyle value) => _binding.style = value;
+  EnumStyle? get style => _binding.style;
+  set style(EnumStyle? value) => _binding.style = value;
 
   bool get silenceWarning => _binding.silenceWarning;
   set silenceWarning(bool value) => _binding.silenceWarning = value;

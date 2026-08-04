@@ -83,7 +83,7 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   bool _isEnumDartStyleMember(CompoundMember member) {
     final type = member.type;
-    return type is EnumClass && type.style == EnumStyle.dartEnum;
+    return type is EnumClass && type.resolvedStyle == EnumStyle.dartEnum;
   }
 
   String _memberStorageName(CompoundMember member) {
@@ -194,8 +194,8 @@ abstract class Compound extends BindingType with HasLocalScope {
         );
       }
       if (m.type case EnumClass(
-        :final style,
-      ) when style == EnumStyle.dartEnum) {
+        :final resolvedStyle,
+      ) when resolvedStyle == EnumStyle.dartEnum) {
         final enumName = m.type.getDartType(context);
         final memberName = m.name;
         s.write(

@@ -104,7 +104,9 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         rethrow;
       }
     });
-    enumClass.style = isNSOptions ? EnumStyle.intConstants : EnumStyle.dartEnum;
+    if (isNSOptions) {
+      enumClass.style = EnumStyle.intConstants;
+    }
     context.bindingsIndex.addEnumToSeen(usr, enumClass);
   }
 

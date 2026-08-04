@@ -194,6 +194,32 @@ void main() {
       expect(enumClass.silenceWarning, isTrue);
     });
 
+    test('EnumClass.style nullability on public AST', () {
+      final headerUri = Uri.file(
+        absPath('test/header_parser_tests/enum_int_mimic.h'),
+      );
+      EnumStyle? initialStyle;
+      final generator = FfiGenerator(
+        input: Input(entryPoints: [headerUri]),
+        output: Output(dartFile: Uri.file('unused.dart')),
+        visitors: [
+          const IncludeAllVisitor(),
+          Visitor.callback(
+            visitEnum: (node) {
+              initialStyle = node.style;
+              node.style = EnumStyle.intConstants;
+            },
+          ),
+        ],
+      );
+
+      final library = parser.parse(testContext(generator));
+      final enumClass = library.getBinding('Simple') as code_gen.EnumClass;
+      expect(initialStyle, isNull);
+      expect(enumClass.style, EnumStyle.intConstants);
+      expect(enumClass.resolvedStyle, EnumStyle.intConstants);
+    });
+
     test(
       'ObjCInterface.includeCategories option on public AST',
       () {
