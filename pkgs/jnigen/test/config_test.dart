@@ -20,18 +20,16 @@ final testLib = absolute(thirdParty, 'test_', 'bindings');
 /// Compares 2 [Config] objects using [expect] to give useful errors when
 /// two fields are not equal.
 void expectConfigsAreEqual(Config a, Config b) {
-  expect(a.classes, equals(b.classes), reason: 'classes');
-  expect(a.outputConfig.dartConfig.path, equals(b.outputConfig.dartConfig.path),
-      reason: 'dartRoot');
-  expect(a.outputConfig.symbolsConfig?.path,
-      equals(b.outputConfig.symbolsConfig?.path),
+  expect(a.input.classes, equals(b.input.classes), reason: 'classes');
+  expect(a.output.dart.path, equals(b.output.dart.path), reason: 'dartRoot');
+  expect(a.output.symbols?.path, equals(b.output.symbols?.path),
       reason: 'symbolsRoot');
-  expect(a.sourcePath, equals(b.sourcePath), reason: 'sourcePath');
+  expect(a.input.sourcePath, equals(b.input.sourcePath), reason: 'sourcePath');
   expect(a.experiments, equals(b.experiments), reason: 'experiments');
-  expect(a.classPath, equals(b.classPath), reason: 'classPath');
-  expect(a.preamble, equals(b.preamble), reason: 'preamble');
-  final am = a.mavenDownloads;
-  final bm = b.mavenDownloads;
+  expect(a.input.classPath, equals(b.input.classPath), reason: 'classPath');
+  expect(a.output.preamble, equals(b.output.preamble), reason: 'preamble');
+  final am = a.input.mavenDownloads;
+  final bm = b.input.mavenDownloads;
   if (am != null) {
     expect(bm, isNotNull);
     expect(am.sourceDeps, bm!.sourceDeps, reason: 'mavenDownloads.sourceDeps');
@@ -44,8 +42,8 @@ void expectConfigsAreEqual(Config a, Config b) {
   } else {
     expect(bm, isNull, reason: 'mavenDownloads');
   }
-  final aa = a.androidSdkConfig;
-  final ba = b.androidSdkConfig;
+  final aa = a.input.androidSdkConfig;
+  final ba = b.input.androidSdkConfig;
   if (aa != null) {
     expect(ba, isNotNull, reason: 'androidSdkConfig');
     expect(aa.versions, ba!.versions, reason: 'androidSdkConfig.versions');
@@ -53,8 +51,8 @@ void expectConfigsAreEqual(Config a, Config b) {
   } else {
     expect(ba, isNull, reason: 'androidSdkConfig');
   }
-  final aso = a.summarizerOptions;
-  final bso = b.summarizerOptions;
+  final aso = a.input.summarizerOptions;
+  final bso = b.input.summarizerOptions;
   if (aso != null) {
     expect(bso, isNotNull, reason: 'summarizerOptions');
     expect(aso.extraArgs, bso!.extraArgs,

@@ -47,16 +47,18 @@ final summarizerClassesSpec = [
 Config getSummaryGenerationConfig(
     {List<String>? sourcePath, List<String>? classPath}) {
   return Config(
-    outputConfig: OutputConfig(
-      dartConfig: DartCodeOutputConfig(
+    input: Input(
+      // Make a defensive copy of class list, if some test mutates the list...
+      classes: summarizerClassesSpec.toList(),
+      sourcePath: sourcePath?.map(Uri.file).toList(),
+      classPath: classPath?.map(Uri.file).toList(),
+    ),
+    output: Output(
+      dart: DartCodeOutputConfig(
         path: Uri.file('unused.dart'),
         structure: OutputStructure.singleFile,
       ),
     ),
-    // Make a defensive copy of class list, if some test mutates the list...
-    classes: summarizerClassesSpec.toList(),
-    sourcePath: sourcePath?.map(Uri.file).toList(),
-    classPath: classPath?.map(Uri.file).toList(),
     logLevel: Level.WARNING,
   );
 }

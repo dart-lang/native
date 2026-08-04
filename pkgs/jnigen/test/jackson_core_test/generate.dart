@@ -35,27 +35,29 @@ Config getConfig({
 }) {
   final rootDir = root ?? thirdPartyDir;
   final config = Config(
-    mavenDownloads: MavenDownloads(
-      sourceDeps: deps,
-      sourceDir: join(thirdPartyDir, 'java'),
-      jarDir: join(thirdPartyDir, 'jar'),
-    ),
-    summarizerOptions: SummarizerOptions(
-      backend: useAsm ? SummarizerBackend.asm : null,
-    ),
-    preamble: jacksonPreamble,
-    outputConfig: OutputConfig(
-      dartConfig: DartCodeOutputConfig(
-        path: Uri.directory(join(rootDir, 'bindings')),
+    input: Input(
+      classes: generateFullVersion
+          ? ['com.fasterxml.jackson.core']
+          : [
+              'com.fasterxml.jackson.core.JsonFactory',
+              'com.fasterxml.jackson.core.JsonParser',
+              'com.fasterxml.jackson.core.JsonToken',
+            ],
+      mavenDownloads: MavenDownloads(
+        sourceDeps: deps,
+        sourceDir: join(thirdPartyDir, 'java'),
+        jarDir: join(thirdPartyDir, 'jar'),
+      ),
+      summarizerOptions: SummarizerOptions(
+        backend: useAsm ? SummarizerBackend.asm : null,
       ),
     ),
-    classes: generateFullVersion
-        ? ['com.fasterxml.jackson.core']
-        : [
-            'com.fasterxml.jackson.core.JsonFactory',
-            'com.fasterxml.jackson.core.JsonParser',
-            'com.fasterxml.jackson.core.JsonToken',
-          ],
+    output: Output(
+      dart: DartCodeOutputConfig(
+        path: Uri.directory(join(rootDir, 'bindings')),
+      ),
+      preamble: jacksonPreamble,
+    ),
     logLevel: Level.INFO,
   );
   return config;

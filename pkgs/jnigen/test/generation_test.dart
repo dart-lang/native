@@ -23,11 +23,16 @@ void main() {
     await expectLater(
       () => generateJniBindings(
         Config(
-          outputConfig: OutputConfig(
-              dartConfig: DartCodeOutputConfig(
-                  path: root.uri, structure: OutputStructure.packageStructure)),
-          classes: ['com.github.dart_lang.jnigen.simple_package'],
-          sourcePath: [Uri.directory(sourcePath)],
+          input: Input(
+            classes: ['com.github.dart_lang.jnigen.simple_package'],
+            sourcePath: [Uri.directory(sourcePath)],
+          ),
+          output: Output(
+            dart: DartCodeOutputConfig(
+              path: root.uri,
+              structure: OutputStructure.packageStructure,
+            ),
+          ),
         ),
       ),
       throwsA(allOf([

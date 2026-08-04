@@ -107,12 +107,11 @@ void comparePaths(String path1, String path2) {
 }
 
 Future<void> _generateTempBindings(Config config, Directory tempDir) async {
-  final singleFile =
-      config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+  final singleFile = config.output.dart.structure == OutputStructure.singleFile;
   final tempLib = singleFile
       ? tempDir.uri.resolve('generated.dart')
       : tempDir.uri.resolve('lib/');
-  config.outputConfig.dartConfig.path = tempLib;
+  config.output.dart.path = tempLib;
   config.logLevel = Level.WARNING;
   await generateJniBindings(config);
 }
@@ -122,12 +121,10 @@ Future<void> _generateTempBindings(Config config, Directory tempDir) async {
 /// `dartReferenceBindings` can be directory or file depending on output
 /// configuration.
 Future<void> generateAndCompareBindings(Config config) async {
-  final dartReferenceBindings =
-      config.outputConfig.dartConfig.path.toFilePath();
+  final dartReferenceBindings = config.output.dart.path.toFilePath();
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync('jnigen_test_temp');
-  final singleFile =
-      config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+  final singleFile = config.output.dart.structure == OutputStructure.singleFile;
   final tempLib = singleFile
       ? tempDir.uri.resolve('generated.dart')
       : tempDir.uri.resolve('lib/');
@@ -151,7 +148,7 @@ Future<void> generateAndAnalyzeBindings(Config config,
       fail('Analyzer exited with non-zero status (${analyzeResult.exitCode})');
     }
     final singleFile =
-        config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+        config.output.dart.structure == OutputStructure.singleFile;
     if (!singleFile && confirmExists.isNotEmpty) {
       throw UnimplementedError('Currently only supports single file mode '
           'for confirming that classes exists');

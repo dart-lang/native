@@ -23,7 +23,7 @@ void main() {
     test('Method descriptor generation for $name',
         timeout: const Timeout.factor(3), () async {
       final config = getConfig();
-      config.summarizerOptions =
+      config.input.summarizerOptions =
           SummarizerOptions(backend: SummarizerBackend.asm);
       final classes = await getSummary(config);
       final methodDescriptorsPreLinking = <Method, String?>{};

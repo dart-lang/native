@@ -89,13 +89,14 @@ class UserRenamer extends Visitor {
 
 Future<void> rename(ast.Classes classes) async {
   final config = Config(
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
-          path: Uri.file('test.dart'),
-          structure: OutputStructure.singleFile,
-        ),
+    input: Input(classes: []),
+    output: Output(
+      dart: DartCodeOutputConfig(
+        path: Uri.file('test.dart'),
+        structure: OutputStructure.singleFile,
       ),
-      classes: []);
+    ),
+  );
   await classes.accept(Linker(config));
   classes.accept(Renamer(config));
 }
