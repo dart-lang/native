@@ -81,20 +81,22 @@ Future<void> main() async {
   final packageRoot = Platform.script.resolve('..');
   await generateJniBindings(
     Config(
-      androidSdkConfig: AndroidSdkConfig(
-        addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/').toFilePath(),
+      input: Input(
+        classes: classes,
+        androidSdkConfig: AndroidSdkConfig(
+          addGradleDeps: true,
+          androidExample: packageRoot.resolve('example/').toFilePath(),
+        ),
+        imports: SymbolImports(hide: classes),
       ),
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
+      output: Output(
+        dart: DartCodeOutputConfig(
           path: packageRoot.resolve('lib/src/core_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),
+        preamble: preamble,
+        generateStubs: false,
       ),
-      classes: classes,
-      hide: classes,
-      preamble: preamble,
-      generateStubs: false,
       visitors: [Renamer()],
     ),
   );
