@@ -94,6 +94,10 @@ class _MethodDepAdderVisitation extends Visitation {
       node.visitChildren(visitor);
 
   @override
+  void visitObjCMsgSendVariantFunc(ObjCMsgSendVariantFunc node) =>
+      finalBindings.add(node);
+
+  @override
   void visitNoLookUpBinding(NoLookUpBinding node) => finalBindings.add(node);
 
   @override
