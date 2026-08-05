@@ -29,64 +29,6 @@ extension on Iterable<ast.Field> {
   List<String> get finalNames => map((f) => f.finalName).toList();
 }
 
-// This is customizable by the user
-class UserExcluder extends Visitor {
-  @override
-  void visitClass(ClassDecl c) {
-    if (c.binaryName.contains('y')) {
-      c.isExcluded = true;
-    }
-  }
-
-  @override
-  void visitMethod(Method method) {
-    if (method.name == 'Bar') {
-      method.isExcluded = true;
-    }
-  }
-
-  @override
-  void visitField(Field field) {
-    if (field.name == 'Bar') {
-      field.isExcluded = true;
-    }
-  }
-}
-
-// This is customizable by the user
-class UserRenamer extends Visitor {
-  @override
-  void visitClass(ClassDecl c) {
-    if (c.originalName.contains('Foo')) {
-      c.name = c.originalName.replaceAll('Foo', 'Bar');
-    }
-  }
-
-  @override
-  void visitMethod(Method method) {
-    if (method.originalName.contains('Foo')) {
-      method.name = method.originalName.replaceAll('Foo', 'Bar');
-    }
-    if (method.isConstructor) {
-      method.name = 'constructor';
-    }
-  }
-
-  @override
-  void visitField(Field field) {
-    if (field.originalName.contains('Foo')) {
-      field.name = field.originalName.replaceAll('Foo', 'Bar');
-    }
-  }
-
-  @override
-  void visitParam(Param parameter) {
-    if (parameter.originalName.contains('Foo')) {
-      parameter.name = parameter.originalName.replaceAll('Foo', 'Bar');
-    }
-  }
-}
-
 Future<void> rename(ast.Classes classes) async {
   final config = Config(
       outputConfig: OutputConfig(
@@ -135,7 +77,25 @@ void main() {
     });
 
     final simpleClasses = Classes(classes);
-    simpleClasses.accept(UserExcluder());
+    simpleClasses.accept(
+      Visitor.callback(
+        visitClass: (c) {
+          if (c.binaryName.contains('y')) {
+            c.isExcluded = true;
+          }
+        },
+        visitMethod: (method) {
+          if (method.name == 'Bar') {
+            method.isExcluded = true;
+          }
+        },
+        visitField: (field) {
+          if (field.name == 'Bar') {
+            field.isExcluded = true;
+          }
+        },
+      ),
+    );
 
     expect(classes.decls['y.Foo']?.isExcluded, true);
     expect(classes.decls['Foo']?.isExcluded, false);
@@ -181,7 +141,33 @@ void main() {
     });
 
     final simpleClasses = Classes(classes);
-    simpleClasses.accept(UserRenamer());
+    simpleClasses.accept(
+      Visitor.callback(
+        visitClass: (c) {
+          if (c.originalName.contains('Foo')) {
+            c.name = c.originalName.replaceAll('Foo', 'Bar');
+          }
+        },
+        visitMethod: (method) {
+          if (method.originalName.contains('Foo')) {
+            method.name = method.originalName.replaceAll('Foo', 'Bar');
+          }
+          if (method.isConstructor) {
+            method.name = 'constructor';
+          }
+        },
+        visitField: (field) {
+          if (field.originalName.contains('Foo')) {
+            field.name = field.originalName.replaceAll('Foo', 'Bar');
+          }
+        },
+        visitParam: (parameter) {
+          if (parameter.originalName.contains('Foo')) {
+            parameter.name = parameter.originalName.replaceAll('Foo', 'Bar');
+          }
+        },
+      ),
+    );
 
     await rename(classes);
 

@@ -21,36 +21,25 @@ const Map<String, String> _constructorAllowList = {
   'Short': 's',
 };
 
-class Renamer extends Visitor {
-  late ClassDecl _class;
-
-  @override
-  void visitClass(ClassDecl c) {
-    _class = c;
-    c.name = 'J${c.originalName}';
-  }
-
-  @override
-  void visitMethod(Method m) {
-    if (!m.isConstructor) return;
-    final sig = _constructorAllowList[_class.originalName];
-    if (sig == null) return;
-    final lister = ListParams();
-    m.accept(lister);
-    m.isExcluded = !(lister.params.length == 1 && lister.params.first == sig);
-  }
-}
-
-class ListParams extends Visitor {
-  List<String> params = [];
-
-  @override
-  void visitParam(Param p) {
-    params.add(p.originalName);
-  }
-}
-
 Future<void> main() async {
+  ClassDecl? currentClass;
+  final renamerVisitor = Visitor.callback(
+    visitClass: (c) {
+      currentClass = c;
+      c.name = 'J${c.originalName}';
+    },
+    visitMethod: (m) {
+      if (!m.isConstructor) return;
+      final sig = _constructorAllowList[currentClass?.originalName];
+      if (sig == null) return;
+      final params = <String>[];
+      m.accept(Visitor.callback(
+        visitParam: (p) => params.add(p.originalName),
+      ));
+      m.isExcluded = !(params.length == 1 && params.first == sig);
+    },
+  );
+
   final classes = [
     'java.lang.Boolean',
     'java.lang.Byte',
@@ -95,7 +84,7 @@ Future<void> main() async {
       hide: classes,
       preamble: preamble,
       generateStubs: false,
-      visitors: [Renamer()],
+      visitors: [renamerVisitor],
     ),
   );
 }
