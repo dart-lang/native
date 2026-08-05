@@ -31,5 +31,20 @@ void main(List<String> arguments) async {
     }
     final file = File.fromUri(someFile);
     output.dependencies.add(file.uri);
+
+    final nestedFile = input.userDefines.pathNested([
+      'nested',
+      'options',
+      'paths',
+      0,
+    ]);
+    if (nestedFile == null) {
+      throw Exception(
+        'User-define nested.options.paths.0 does not have the right value: '
+        '${input.userDefines['nested']}.',
+      );
+    }
+
+    output.dependencies.add(nestedFile);
   });
 }
