@@ -1302,9 +1302,9 @@ final class YamlConfig {
       rename: typedefs.rename,
       useSupportedTypedefs: useSupportedTypedefs,
       includeUnused: includeUnusedTypedefs,
-      // ignore: deprecated_member_use_from_same_package
-      imported: typedefTypeMappings.values.toList(),
     ),
+    // ignore: deprecated_member_use_from_same_package
+    typedefImports: typedefTypeMappings.values.toList(),
     objectiveC: language == Language.objc
         ? ObjectiveC(
             interfaces: Interfaces(

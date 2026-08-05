@@ -81,6 +81,13 @@ final class FfiGenerator {
   )
   final List<LibraryImport> libraryImports;
 
+  /// Typedefs imported from other Dart files.
+  @Deprecated(
+    'This field will change type. See '
+    'https://github.com/dart-lang/native/issues/2595.',
+  )
+  final List<ImportedType> typedefImports;
+
   /// Path to the clang library.
   ///
   /// Only visible for YamlConfig plumbing.
@@ -97,6 +104,7 @@ final class FfiGenerator {
     this.structs = Structs.excludeAll,
     this.cpp,
     this.typedefs = Typedefs.excludeAll,
+    this.typedefImports = const <ImportedType>[],
     this.unions = Unions.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
@@ -464,13 +472,6 @@ final class Structs extends Declarations {
 
 /// Configuration for typedefs.
 final class Typedefs extends Declarations {
-  /// Typedefs imported from other Dart files.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
@@ -480,11 +481,6 @@ final class Typedefs extends Declarations {
   const Typedefs({
     super.rename,
     super.include,
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
     this.includeUnused = false,
     this.useSupportedTypedefs = true,
   });
@@ -770,8 +766,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get typedefTypeMappings =>
       Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.typedefs.imported.map(
+        ffiGen.typedefImports.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
