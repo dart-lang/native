@@ -58,6 +58,15 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
+  /// Stores all the library imports specified by user including those for ffi
+  /// and pkg_ffi.
+  // TODO(https://github.com/dart-lang/native/issues/2597): Remove this.
+  @Deprecated(
+    'In the future, this shoud be inferred from ImportedTypes. See '
+    'https://github.com/dart-lang/native/issues/2597.',
+  )
+  final List<LibraryImport> libraryImports;
+
   /// Typedefs imported from other Dart files.
   @Deprecated(
     'This field will change type. See '
@@ -85,6 +94,11 @@ final class FfiGenerator {
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
+    @Deprecated(
+      'In the future, this shoud be inferred from ImportedTypes. See '
+      'https://github.com/dart-lang/native/issues/2597.',
+    )
+    this.libraryImports = const <LibraryImport>[],
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 

@@ -48,6 +48,7 @@ class Writer {
     required this.ffiNativeBindings,
     required this.noLookUpBindings,
     required this.nativeAssetId,
+    List<LibraryImport> additionalImports = const <LibraryImport>[],
     this.classDocComment,
     this.header,
     required this.generateForPackageObjectiveC,
