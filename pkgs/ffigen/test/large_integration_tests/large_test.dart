@@ -39,7 +39,7 @@ void main() {
             wrapperDocComment: 'Bindings to LibClang.',
           ),
         ),
-        input: Input(
+        headers: Headers(
           compilerOptions: [...defaultCompilerOpts(logger), '-I$includeDir'],
           entryPoints: [
             Uri.file(
@@ -133,7 +133,7 @@ void main() {
             wrapperDocComment: 'Bindings to Cjson.',
           ),
         ),
-        input: Input(
+        headers: Headers(
           entryPoints: [
             Uri.file(
               path.join(
@@ -174,7 +174,7 @@ void main() {
           ),
           commentType: const CommentType(CommentStyle.any, CommentLength.full),
         ),
-        input: Input(
+        headers: Headers(
           entryPoints: [
             Uri.file(
               path.join(

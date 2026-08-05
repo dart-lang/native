@@ -19,7 +19,7 @@ void main() {
         testContext(
           FfiGenerator(
             output: Output(dartFile: Uri.file('unused')),
-            input: Input(
+            headers: Headers(
               entryPoints: [
                 Uri.file(
                   path.join(

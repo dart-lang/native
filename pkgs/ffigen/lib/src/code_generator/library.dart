@@ -37,7 +37,7 @@ class Library {
         // ignore: deprecated_member_use_from_same_package
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
     silenceEnumWarning: context.config.enums.silenceWarning,
-    nativeEntryPoints: context.config.input.entryPoints
+    nativeEntryPoints: context.config.headers.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
     context: context,

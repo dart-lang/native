@@ -35,7 +35,7 @@ String generate({
         wrapperDocComment: 'Tests transitive inclusion',
       ),
     ),
-    input: Input(
+    headers: Headers(
       entryPoints: [
         Uri.file(
           path.join(

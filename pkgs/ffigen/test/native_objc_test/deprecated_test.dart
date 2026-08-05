@@ -32,7 +32,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         wrapperDocComment: 'Tests API deprecation',
       ),
     ),
-    input: Input(
+    headers: Headers(
       entryPoints: [
         Uri.file(
           path.join(

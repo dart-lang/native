@@ -72,7 +72,7 @@ void main() {
     const forceIncludedProtocols = {'NSTextLocation'};
 
     final generator = FfiGenerator(
-      input: Input(
+      headers: Headers(
         entryPoints: [
           Uri.file(
             path.join(

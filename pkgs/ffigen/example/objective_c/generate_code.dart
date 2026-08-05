@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 
 final config = FfiGenerator(
-  input: Input(
+  headers: Headers(
     // The entryPoints are the files that FFIgen should scan to find the APIs
     // you want to generate bindings for. You can use the macSdkPath or
     // iosSdkPath getters to find the Apple SDKs.

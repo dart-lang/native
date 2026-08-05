@@ -21,7 +21,7 @@ void main() {
               style: const DynamicLibraryBindings(),
             ),
 
-            input: Input(
+            headers: Headers(
               entryPoints: [
                 Uri.file(
                   path.join(

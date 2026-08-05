@@ -9,7 +9,7 @@ import 'package:ffigen/ffigen.dart';
 void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
-    input: Input(
+    headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
     functions: Functions(

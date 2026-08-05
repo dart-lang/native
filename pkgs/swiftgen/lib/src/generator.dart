@@ -119,7 +119,7 @@ extension SwiftGenGenerator on SwiftGenerator {
         categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,
       ),
-      input: fg.Input(
+      headers: fg.Headers(
         entryPoints: [Uri.file(objcHeader)],
         compilerOptions: [
           ...fg.defaultCompilerOpts(logger),

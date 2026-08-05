@@ -35,7 +35,7 @@ void main() {
             wrapperDocComment: 'Tests SWIFT_UNAVAILABLE annotation',
           ),
         ),
-        input: Input(
+        headers: Headers(
           entryPoints: [
             Uri.file(
               path.join(

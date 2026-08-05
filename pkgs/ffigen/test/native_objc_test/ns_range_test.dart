@@ -34,7 +34,7 @@ void main() {
             wrapperName: 'NSRangeTestObjCLibrary',
           ),
         ),
-        input: Input(
+        headers: Headers(
           entryPoints: [
             Uri.file(
               path.join(
