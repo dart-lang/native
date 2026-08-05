@@ -42,7 +42,76 @@ Future<void> rename(ast.Classes classes) async {
   classes.accept(Renamer(config));
 }
 
+class CustomVisitor extends Visitor {
+  CustomVisitor() : super.base();
+
+  @override
+  void visitClass(ClassDecl c) {
+    if (c.binaryName.contains('y')) {
+      c.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitMethod(Method method) {
+    if (method.name == 'Bar') {
+      method.isExcluded = true;
+    }
+  }
+
+  @override
+  void visitField(Field field) {
+    if (field.name == 'Bar') {
+      field.isExcluded = true;
+    }
+  }
+}
+
 void main() {
+  test('Exclude something using custom Visitor subclass', () async {
+    final classes = ast.Classes({
+      'Foo': ast.ClassDecl(
+        binaryName: 'Foo',
+        declKind: ast.DeclKind.classKind,
+        superclass: ast.DeclaredType.object,
+        methods: [
+          ast.Method(name: 'foo', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'foo1', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
+        ],
+        fields: [
+          ast.Field(name: 'foo', type: ast.DeclaredType.object),
+          ast.Field(name: 'Bar', type: ast.DeclaredType.object),
+          ast.Field(name: 'foo1', type: ast.DeclaredType.object),
+          ast.Field(name: 'Bar', type: ast.DeclaredType.object),
+        ],
+      ),
+      'y.Foo': ast.ClassDecl(
+          binaryName: 'y.Foo',
+          declKind: ast.DeclKind.classKind,
+          superclass: ast.DeclaredType.object,
+          methods: [
+            ast.Method(name: 'foo', returnType: ast.DeclaredType.object),
+            ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
+          ],
+          fields: [
+            ast.Field(name: 'foo', type: ast.DeclaredType.object),
+            ast.Field(name: 'Bar', type: ast.DeclaredType.object),
+          ]),
+    });
+
+    final simpleClasses = Classes(classes);
+    simpleClasses.accept(CustomVisitor());
+
+    expect(classes.decls['y.Foo']?.isExcluded, true);
+    expect(classes.decls['Foo']?.isExcluded, false);
+
+    expect(classes.decls['Foo']?.fields.isExcludedValues,
+        [false, true, false, true]);
+    expect(classes.decls['Foo']?.methods.isExcludedValues,
+        [false, true, false, true]);
+  });
   test('Exclude something using the user excluder, Simple AST', () async {
     final classes = ast.Classes({
       'Foo': ast.ClassDecl(
@@ -78,7 +147,7 @@ void main() {
 
     final simpleClasses = Classes(classes);
     simpleClasses.accept(
-      Visitor.callback(
+      Visitor(
         visitClass: (c) {
           if (c.binaryName.contains('y')) {
             c.isExcluded = true;
@@ -142,7 +211,7 @@ void main() {
 
     final simpleClasses = Classes(classes);
     simpleClasses.accept(
-      Visitor.callback(
+      Visitor(
         visitClass: (c) {
           if (c.originalName.contains('Foo')) {
             c.name = c.originalName.replaceAll('Foo', 'Bar');

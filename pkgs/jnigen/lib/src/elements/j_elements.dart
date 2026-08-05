@@ -15,9 +15,9 @@ abstract class _Element {
 /// Users can extend this class to create custom visitors that modify the AST
 /// before code generation.
 abstract class Visitor {
-  const Visitor();
+  const Visitor.base();
 
-  factory Visitor.callback({
+  factory Visitor({
     void Function(ClassDecl node)? visitClass,
     void Function(Method node)? visitMethod,
     void Function(Field node)? visitField,
@@ -46,7 +46,8 @@ class _VisitorImpl extends Visitor {
   })  : _visitClass = visitClass,
         _visitMethod = visitMethod,
         _visitField = visitField,
-        _visitParam = visitParam;
+        _visitParam = visitParam,
+        super.base();
 
   final void Function(ClassDecl node)? _visitClass;
   final void Function(Method node)? _visitMethod;
