@@ -47,8 +47,13 @@ Type getCodeGenType(
   if (context.config.cpp?.classes != null) {
     final numTemplateArgs = clang.clang_Type_getNumTemplateArguments(cxtype);
     if (numTemplateArgs >= 1) {
-      final spelling = clang.clang_getTypeSpelling(cxtype).toStringAndDispose();
-      if (spelling.contains('unique_ptr<')) {
+      final declCursor = clang.clang_getTypeDeclaration(cxtype);
+      final usr = clang.clang_getCursorUSR(declCursor).toStringAndDispose();
+      final isStdUniquePtr = usr.contains('std@') && usr.contains('unique_ptr');
+      if (isStdUniquePtr) {
+        final spelling = clang
+            .clang_getTypeSpelling(cxtype)
+            .toStringAndDispose();
         return _extractUniquePtrType(
           context,
           cxtype,
@@ -323,11 +328,10 @@ Type _extractUniquePtrType(
   final innerType = getCodeGenType(context, innerCXType);
 
   if (innerType is CppClass) {
-    final className = innerType.symbol.isFilled
-        ? innerType.name
-        : innerType.originalName;
-    logger.fine('  unique_ptr<$className> is an owned CppClassPointerType');
-    return CppClassPointerType(innerType, ownership: OwnershipKind.owned);
+    logger.fine(
+      '  unique_ptr<${innerType.originalName}> is an owned CppUniquePtrType',
+    );
+    return CppUniquePtrType(innerType);
   }
 
   logger.warning(

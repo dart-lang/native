@@ -1,3 +1,4 @@
+#include <memory>
 #include "cpp_class_test.h"
 #include "finalizer_test_subject.h"
 

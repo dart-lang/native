@@ -30,3 +30,11 @@ public:
     int consumeNode(std::unique_ptr<Node> node);
 };
 
+class NodeContainer {
+public:
+    NodeContainer(std::unique_ptr<Node> node);
+    int getValue() const;
+private:
+    std::unique_ptr<Node> node_;
+};
+

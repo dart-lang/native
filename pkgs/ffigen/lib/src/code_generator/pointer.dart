@@ -254,20 +254,11 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
   }
 }
 
-enum OwnershipKind { unowned, owned }
-
 /// A pointer to a C++ class wrapper object.
-///
-/// When [ownership] is [OwnershipKind.unowned] (the default), the returned
-/// pointer is unowned — the developer must call `retainOwnership()` explicitly.
-/// When [ownership] is [OwnershipKind.owned] (used for `std::unique_ptr<T>`
-/// returns), the Dart wrapper is created with `takeOwnership: true`.
 class CppClassPointerType extends PointerType {
   final CppClass cppClass;
-  final OwnershipKind ownership;
 
-  CppClassPointerType(this.cppClass, {this.ownership = OwnershipKind.unowned})
-    : super._(cppClass);
+  CppClassPointerType(this.cppClass) : super._(cppClass);
 
   @override
   String getDartType(Context context) => cppClass.name;
@@ -306,22 +297,13 @@ class CppClassPointerType extends PointerType {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) {
-    if (ownership == OwnershipKind.owned) {
-      return '${cppClass.name}.fromPointer($value, takeOwnership: true)';
-    }
-    return '${cppClass.name}.fromPointer($value)';
-  }
+  }) => '${cppClass.name}.fromPointer($value)';
 
   @override
-  String toString() => ownership == OwnershipKind.owned
-      ? 'unique_ptr<${cppClass.name}>'
-      : '${cppClass.name}*';
+  String toString() => '${cppClass.name}*';
 
   @override
-  String cacheKey() => ownership == OwnershipKind.owned
-      ? 'unique_ptr<${cppClass.cacheKey()}>'
-      : '${cppClass.cacheKey()}*';
+  String cacheKey() => '${cppClass.cacheKey()}*';
 
   @override
   void visitChildren(Visitor visitor) {
@@ -329,4 +311,23 @@ class CppClassPointerType extends PointerType {
     visitor.visit(cppClass);
     visitor.visit(ffiImport);
   }
+}
+
+/// A type representing `std::unique_ptr<T>` ownership transfer.
+class CppUniquePtrType extends CppClassPointerType {
+  CppUniquePtrType(super.cppClass);
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Context context,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) => '${cppClass.name}.fromPointer($value, takeOwnership: true)';
+
+  @override
+  String toString() => 'unique_ptr<${cppClass.name}>';
+
+  @override
+  String cacheKey() => 'unique_ptr<${cppClass.cacheKey()}>';
 }

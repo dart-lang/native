@@ -273,5 +273,39 @@ void main() {
       expect(node.getValue, throwsStateError);
       calloc.free(counter);
     });
+
+    test(
+      'Constructor taking std::unique_ptr transfers ownership correctly',
+      () {
+        final counter = calloc<Int32>()..value = 0;
+        final manager = NodeManager();
+        final node = manager.makeNode(444, counter.cast());
+
+        final container = NodeContainer(node);
+        expect(container.getValue(), 444);
+        // node was transferred, so node wrapper is now disposed
+        expect(node.getValue, throwsStateError);
+
+        container.dispose();
+        expect(
+          counter.value,
+          1,
+        ); // C++ destroyed Node when container was destroyed
+        calloc.free(counter);
+      },
+    );
+
+    test('Constructor taking std::unique_ptr with non-owning wrapper '
+        'throws StateError', () {
+      final counter = calloc<Int32>()..value = 0;
+      final rawPtr = _rawNodeNew(555, counter.cast());
+      final node = Node.fromPointer(rawPtr, takeOwnership: false);
+
+      expect(() => NodeContainer(node), throwsStateError);
+      expect(node.getValue(), 555);
+
+      _rawNodeDelete(rawPtr);
+      calloc.free(counter);
+    });
   });
 }
