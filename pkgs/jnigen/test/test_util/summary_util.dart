@@ -50,8 +50,8 @@ Config getSummaryGenerationConfig(
     input: Input(
       // Make a defensive copy of class list, if some test mutates the list...
       classes: summarizerClassesSpec.toList(),
-      sourcePath: sourcePath?.map(Uri.file).toList(),
-      classPath: classPath?.map(Uri.file).toList(),
+      sourcePath: sourcePath?.map(Uri.file).toList() ?? const [],
+      classPath: classPath?.map(Uri.file).toList() ?? const [],
     ),
     output: Output(
       dart: DartCodeOutputConfig(

@@ -77,7 +77,7 @@ class AndroidSdkConfig {
     this.sdkRoot,
     this.addGradleDeps = false,
     this.addGradleSources = false,
-    this.androidExample,
+    this.androidExample = '.',
   }) {
     if (versions != null && sdkRoot == null) {
       throw ConfigException('No SDK Root specified for finding Android SDK '
@@ -89,12 +89,19 @@ class AndroidSdkConfig {
     }
   }
 
-  /// Versions of android SDK to search for, in decreasing order of preference.
+  /// Versions of Android SDK to search for, in decreasing order of preference.
+  ///
+  /// If `null`, Android SDK platform versions are not searched directly. Note
+  /// that at least one of [versions], `addGradleDeps`, or `addGradleSources`
+  /// must be provided, otherwise a [ConfigException] is thrown.
   List<int>? versions;
 
-  /// Root of Android SDK installation, this should be normally given on
-  /// command line or by setting `ANDROID_SDK_ROOT`, since this varies from
-  /// system to system.
+  /// Root of Android SDK installation.
+  ///
+  /// If `null`, JNIgen attempts to find the SDK directory using the
+  /// `ANDROID_SDK_ROOT` environment variable. If [versions] is specified and
+  /// [sdkRoot] remains `null` (and `ANDROID_SDK_ROOT` is unset), a
+  /// [ConfigException] is thrown.
   String? sdkRoot;
 
   /// Attempt to determine exact compile time dependencies by running a gradle
@@ -120,7 +127,7 @@ class AndroidSdkConfig {
   /// compile time classpath using a gradle stub. For most Android plugin
   /// packages, 'example' will be the name of example application created inside
   /// the package.
-  String? androidExample;
+  String androidExample;
 }
 
 extension on String {
@@ -152,15 +159,19 @@ T _getEnumValueFromString<T>(
 /// Additional options to pass to the summary generator component.
 class SummarizerOptions {
   SummarizerOptions(
-      {this.extraArgs = const [], this.workingDirectory, this.backend});
+      {this.extraArgs = const [], Uri? workingDirectory, this.backend})
+      : workingDirectory = workingDirectory ?? Uri.directory('.');
 
   /// Extra arguments passed to the summarizer tool.
   List<String> extraArgs;
 
   /// Working directory for running the summarizer tool.
-  Uri? workingDirectory;
+  Uri workingDirectory;
 
   /// Backend engine used to generate summaries.
+  ///
+  /// If `null`, the summarizer tool defaults to auto-detection (preferring
+  /// `doclet` for source files and falling back to `asm` for compiled classes).
   SummarizerBackend? backend;
 }
 
@@ -278,10 +289,12 @@ final class Output {
   final DartCodeOutputConfig dart;
 
   /// Symbol file output configuration (`symbols.yaml`).
+  ///
+  /// If `null`, symbol file generation (`symbols.yaml`) is skipped.
   final SymbolsOutputConfig? symbols;
 
   /// Common header text prepended to generated Dart files.
-  final String? preamble;
+  final String preamble;
 
   /// Whether to generate stubs for unincluded dependent classes.
   final bool generateStubs;
@@ -292,7 +305,7 @@ final class Output {
   const Output({
     required this.dart,
     this.symbols,
-    this.preamble,
+    this.preamble = '',
     this.generateStubs = true,
     this.format = true,
   });
@@ -301,35 +314,40 @@ final class Output {
 /// Configuration for input Java source files, classpaths, and SDK dependencies.
 final class Input {
   /// Directories to search for Java source files.
-  final List<Uri>? sourcePath;
+  final List<Uri> sourcePath;
 
   /// Classpaths/JARs to search for compiled Java classes and dependencies.
-  final List<Uri>? classPath;
+  final List<Uri> classPath;
 
   /// Fully-qualified class or package names to generate bindings for.
   List<String> classes;
 
   /// Additional options passed to the OpenJDK Doclet / ASM summarizer.
-  SummarizerOptions? summarizerOptions;
+  SummarizerOptions summarizerOptions;
 
   /// External symbol file imports for cross-package type sharing.
   final SymbolImports imports;
 
   /// Configuration for downloading dependencies using Maven.
+  ///
+  /// If `null`, no dependencies are downloaded using Maven.
   final MavenDownloads? mavenDownloads;
 
   /// Configuration for Android SDK libraries and Gradle dependency resolution.
+  ///
+  /// If `null`, Android SDK library search and Gradle dependency resolution are
+  /// disabled.
   final AndroidSdkConfig? androidSdkConfig;
 
   Input({
-    this.sourcePath,
-    this.classPath,
+    this.sourcePath = const [],
+    this.classPath = const [],
     required this.classes,
-    this.summarizerOptions,
+    SummarizerOptions? summarizerOptions,
     this.imports = const SymbolImports(),
     this.mavenDownloads,
     this.androidSdkConfig,
-  }) {
+  }) : summarizerOptions = summarizerOptions ?? SummarizerOptions() {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -368,7 +386,7 @@ final class Config {
     this.visitors = const [],
     this.experiments = const {},
     this.logLevel = Level.INFO,
-    this.customClassBody,
+    this.customClassBody = const {},
   });
 
   /// Input source paths, classpaths, target classes, and SDK dependencies.
@@ -390,11 +408,13 @@ final class Config {
   /// binary name.
   ///
   /// Used for testing package:jnigen.
-  final Map<String, String>? customClassBody;
+  final Map<String, String> customClassBody;
 
   late final Map<String, ClassDecl> _importedClasses;
 
-  /// Directory containing the YAML configuration file, if any.
+  /// Directory containing the YAML configuration file.
+  ///
+  /// `null` if the configuration was not loaded from a YAML configuration file.
   Uri? get configRoot => _configRoot;
   Uri? _configRoot;
 
@@ -442,8 +462,8 @@ final class Config {
 
     final config = Config(
       input: Input(
-        sourcePath: prov.getPathList(_Props.sourcePath),
-        classPath: prov.getPathList(_Props.classPath),
+        sourcePath: prov.getPathList(_Props.sourcePath) ?? const [],
+        classPath: prov.getPathList(_Props.classPath) ?? const [],
         classes: must(prov.getStringList, [], _Props.classes),
         summarizerOptions: SummarizerOptions(
           extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
@@ -476,7 +496,7 @@ final class Config {
                     prov.getBool(_Props.addGradleSources) ?? false,
                 // Leaving this as getString instead of getPath, because
                 // it's resolved later in android_sdk_tools.
-                androidExample: prov.getString(_Props.androidExample),
+                androidExample: prov.getString(_Props.androidExample) ?? '.',
               )
             : null,
       ),
@@ -493,7 +513,7 @@ final class Config {
                 must(prov.getPath, Uri.parse('.'), _Props.symbolsOutputConfig),
               )
             : null,
-        preamble: prov.getString(_Props.preamble),
+        preamble: prov.getString(_Props.preamble) ?? '',
         generateStubs: prov.getBool(_Props.generateStubs) ?? true,
         format: prov.getBool(_Props.format) ?? true,
       ),

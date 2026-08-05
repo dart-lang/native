@@ -62,10 +62,11 @@ class SummarizerCommand {
     List<Uri>? classPath,
     this.extraArgs = const [],
     required this.classes,
-    this.workingDirectory,
+    Uri? workingDirectory,
     this.backend,
-  })  : sourcePaths = sourcePath ?? [],
-        classPaths = classPath ?? [];
+  })  : sourcePaths = [...?sourcePath],
+        classPaths = [...?classPath],
+        workingDirectory = workingDirectory ?? Uri.directory('.');
 
   static const sourcePathsOption = '-s';
   static const classPathsOption = '-c';
@@ -76,7 +77,7 @@ class SummarizerCommand {
   List<String> extraArgs;
   List<String> classes;
 
-  Uri? workingDirectory;
+  Uri workingDirectory;
   SummarizerBackend? backend;
 
   void addSourcePaths(List<Uri> paths) {
@@ -113,7 +114,7 @@ class SummarizerCommand {
     final proc = await Process.start(
       resolvedExec,
       args,
-      workingDirectory: workingDirectory?.toFilePath() ?? '.',
+      workingDirectory: workingDirectory.toFilePath(),
       environment: {
         ...javaEnvironment,
         'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8',
@@ -131,9 +132,9 @@ Future<Classes> getSummary(Config config) async {
     sourcePath: config.input.sourcePath,
     classPath: config.input.classPath,
     classes: config.input.classes,
-    workingDirectory: config.input.summarizerOptions?.workingDirectory,
-    extraArgs: config.input.summarizerOptions?.extraArgs ?? const [],
-    backend: config.input.summarizerOptions?.backend,
+    workingDirectory: config.input.summarizerOptions.workingDirectory,
+    extraArgs: config.input.summarizerOptions.extraArgs,
+    backend: config.input.summarizerOptions.backend,
   );
 
   // Additional sources added using maven downloads and gradle trickery.
@@ -160,14 +161,14 @@ Future<Classes> getSummary(Config config) async {
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(
       configRoot: config.configRoot,
-      androidProject: androidConfig.androidExample ?? '.',
+      androidProject: androidConfig.androidExample,
     );
     extraJars.addAll(deps.map(Uri.file));
   }
   if (androidConfig != null && androidConfig.addGradleSources) {
     final deps = AndroidSdkTools.getGradleSources(
       configRoot: config.configRoot,
-      androidProject: androidConfig.androidExample ?? '.',
+      androidProject: androidConfig.androidExample,
     );
     extraSources.addAll(deps.map(Uri.file));
   }

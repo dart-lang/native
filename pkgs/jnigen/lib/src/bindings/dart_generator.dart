@@ -238,7 +238,7 @@ const _\$jniVersionCheck =
   @override
   Future<void> visit(Classes node) async {
     final root = config.output.dart.path;
-    final preamble = config.output.preamble ?? '';
+    final preamble = config.output.preamble;
     if (config.output.dart.structure == OutputStructure.singleFile) {
       final file = File.fromUri(root);
       await file.create(recursive: true);
@@ -587,8 +587,9 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
     }
 
     // Writing any custom code provided for this class.
-    if (config.customClassBody?.containsKey(node.binaryName) ?? false) {
-      s.writeln(config.customClassBody![node.binaryName]);
+    final customBody = config.customClassBody[node.binaryName];
+    if (customBody != null) {
+      s.writeln(customBody);
     }
 
     s.write('''

@@ -53,16 +53,10 @@ void expectConfigsAreEqual(Config a, Config b) {
   }
   final aso = a.input.summarizerOptions;
   final bso = b.input.summarizerOptions;
-  if (aso != null) {
-    expect(bso, isNotNull, reason: 'summarizerOptions');
-    expect(aso.extraArgs, bso!.extraArgs,
-        reason: 'summarizerOptions.extraArgs');
-    expect(aso.workingDirectory, bso.workingDirectory,
-        reason: 'summarizerOptions.workingDirectory');
-    expect(aso.backend, bso.backend, reason: 'summarizerOptions.backend');
-  } else {
-    expect(bso, isNull, reason: 'summarizerOptions');
-  }
+  expect(aso.extraArgs, bso.extraArgs, reason: 'summarizerOptions.extraArgs');
+  expect(aso.workingDirectory, bso.workingDirectory,
+      reason: 'summarizerOptions.workingDirectory');
+  expect(aso.backend, bso.backend, reason: 'summarizerOptions.backend');
 }
 
 final jnigenYaml = join(jacksonCoreTests, 'jnigen.yaml');
