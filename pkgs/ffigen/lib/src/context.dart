@@ -19,8 +19,6 @@ import 'header_parser/utils.dart';
 class Context {
   final Logger logger;
   final FfiGenerator config;
-  final Map<String, ImportedType> importedTypesByUsr;
-  final Map<String, ImportedType> importedTypesByName;
   final CursorIndex cursorIndex;
   final bindingsIndex = BindingsIndex();
   final savedMacros = <String, Macro>{};
@@ -37,15 +35,7 @@ class Context {
   final String tmpDir;
 
   Context(this.logger, this.config, {Uri? libclangDylib, String? tmpDir})
-    : importedTypesByUsr = {
-        for (final imported in config.importedTypes)
-          if (imported.usr != null) imported.usr!: imported,
-      },
-      importedTypesByName = {
-        for (final imported in config.importedTypes)
-          imported.nativeType: imported,
-      },
-      cursorIndex = CursorIndex(logger),
+    : cursorIndex = CursorIndex(logger),
       tmpDir =
           tmpDir ??
           Directory.systemTemp.createTempSync('ffigen temp dir ').path {

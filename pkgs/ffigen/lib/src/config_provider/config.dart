@@ -58,12 +58,11 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
-  /// Types imported from other Dart files.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> importedTypes;
+  /// Returns an [ImportedType] if the given [Declaration] should be imported
+  /// from another Dart library, or `null` otherwise.
+  final ImportedType? Function(Declaration declaration) importType;
+
+  static ImportedType? _defaultImportType(Declaration declaration) => null;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
@@ -93,7 +92,7 @@ final class FfiGenerator {
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
-    this.importedTypes = const <ImportedType>[],
+    this.importType = _defaultImportType,
     @Deprecated(
       'In the future, this shoud be inferred from ImportedTypes. See '
       'https://github.com/dart-lang/native/issues/2597.',
