@@ -48,5 +48,17 @@ ${strings.headers}:
         ],
       );
     });
+
+    test('Zero-parameter function pointer native type includes (void)', () {
+      final typealias = actual.bindings.whereType<Typealias>().firstWhere(
+        (t) => t.name == 'VoidFuncPointer',
+      );
+      final nativeFunc = typealias.type as PointerType;
+      final funcType = (nativeFunc.child as NativeFunc).type;
+      expect(
+        funcType.getNativeType(testContext(), varName: 'ptr'),
+        'void (*ptr)(void)',
+      );
+    });
   });
 }
