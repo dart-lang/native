@@ -58,6 +58,13 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
+  /// Types imported from other Dart files.
+  @Deprecated(
+    'This field will change type. See '
+    'https://github.com/dart-lang/native/issues/2595.',
+  )
+  final List<ImportedType> importedTypes;
+
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
   // TODO(https://github.com/dart-lang/native/issues/2597): Remove this.
@@ -66,13 +73,6 @@ final class FfiGenerator {
     'https://github.com/dart-lang/native/issues/2597.',
   )
   final List<LibraryImport> libraryImports;
-
-  /// Typedefs imported from other Dart files.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> importedTypes;
 
   /// Path to the clang library.
   ///
@@ -89,11 +89,11 @@ final class FfiGenerator {
     this.structs = Structs.excludeAll,
     this.cpp,
     this.typedefs = Typedefs.excludeAll,
-    this.importedTypes = const <ImportedType>[],
     this.unions = Unions.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
+    this.importedTypes = const <ImportedType>[],
     @Deprecated(
       'In the future, this shoud be inferred from ImportedTypes. See '
       'https://github.com/dart-lang/native/issues/2597.',
