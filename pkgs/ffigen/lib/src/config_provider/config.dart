@@ -460,9 +460,6 @@ final class Typedefs extends Declarations {
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
-  /// If typedef of supported types(int8_t) should be directly used.
-  final bool useSupportedTypedefs;
-
   const Typedefs({
     super.rename,
     super.include,
@@ -472,7 +469,6 @@ final class Typedefs extends Declarations {
     )
     this.imported = const <ImportedType>[],
     this.includeUnused = false,
-    this.useSupportedTypedefs = true,
   });
 
   static const Typedefs excludeAll = Typedefs(include: Declarations.excludeAll);
