@@ -229,17 +229,17 @@ final class HookInputUserDefines {
 
   /// An absolute [Uri] that can be used to interpret user-defines as paths.
   ///
-  /// This uses the [keyPath] to traverse available options, starting at the
-  /// root. If the key path contains a string, this enters a YAML map. For an
-  /// integer element, this enters a YAML sequence. Any other key path element
-  /// is invalid and throws.
+  /// This uses the [keyPathDefine] to traverse available options, starting at
+  /// the root. If the key path contains a string, this enters a YAML map. For
+  /// an integer element, this enters a YAML sequence. Any other key path
+  /// element is invalid and throws.
   /// If no element exists for any position in the key path, null is returned.
   ///
   /// This is a generalized variant of [path] returning the base URI for all
-  /// options under [keyPath]. To resolve a top-level string option as a path,
-  /// use [path] directly.
-  Uri? baseUriForDefine(List<Object /* String|int */> keyPath) =>
-      _findDefine(keyPath)?.$2.basePath;
+  /// options under [keyPathDefine]. To resolve a top-level string option as a
+  /// path, use [path] directly.
+  Uri? baseUri(List<Object /* String|int */> keyPathDefine) =>
+      _findDefine(keyPathDefine)?.$2.basePath;
 
   /// Resolves the path provided in the user-define for [key] to an absolute
   /// [Uri] pointing to the file or directory on the host filesystem.
@@ -285,7 +285,9 @@ final class HookInputUserDefines {
     return null;
   }
 
-  (Object, PackageUserDefinesSource)? _findDefine(Iterable<Object?> keys) {
+  (Object, PackageUserDefinesSource)? _findDefine(
+    Iterable<Object?> keyPathDefine,
+  ) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
       return null;
@@ -304,7 +306,7 @@ final class HookInputUserDefines {
     for (final source in sources) {
       Object? options = source.defines;
 
-      for (final (i, key) in keys.indexed) {
+      for (final (i, key) in keyPathDefine.indexed) {
         if (key is String) {
           if (options is Map) {
             options = options[key];
@@ -319,8 +321,8 @@ final class HookInputUserDefines {
           }
         } else {
           throw ArgumentError.value(
-            keys,
-            'keys',
+            keyPathDefine,
+            'keyPathDefine',
             'Must contain only strings or ints (found `$key` at index $i).',
           );
         }
