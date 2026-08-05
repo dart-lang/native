@@ -52,7 +52,6 @@ class ImportedType extends Type {
 
   /// Whether the [dartType] is an import from the [libraryImport].
   final bool importedDartType;
-  final String? usr;
 
   ImportedType(
     this.libraryImport,
@@ -61,7 +60,6 @@ class ImportedType extends Type {
     this.nativeType, {
     this.defaultValue,
     this.importedDartType = false,
-    this.usr,
   });
 
   @override
