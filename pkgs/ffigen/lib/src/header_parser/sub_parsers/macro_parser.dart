@@ -196,7 +196,7 @@ File createFileForMacros(Context context) {
 
   // Write file contents.
   final sb = StringBuffer();
-  for (final h in context.config.headers.entryPoints) {
+  for (final h in context.config.input.entryPoints) {
     final fullHeaderPath = File(h.toFilePath()).absolute.path;
     sb.writeln('#include "$fullHeaderPath"');
   }

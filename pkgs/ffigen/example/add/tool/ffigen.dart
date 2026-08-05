@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 FfiGenerator getConfig(Uri packageRoot) {
   return FfiGenerator(
     output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
-    headers: Headers(entryPoints: [packageRoot.resolve('src/add.h')]),
+    input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),
     functions: Functions.includeSet({'add'}),
   );
 }
