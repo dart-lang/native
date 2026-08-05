@@ -93,7 +93,6 @@ extension SwiftGenGenerator on SwiftGenerator {
       enums: ffigen.enums,
       unnamedEnums: ffigen.unnamedEnums,
       globals: ffigen.globals,
-      integers: ffigen.integers,
       macros: ffigen.macros,
       typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(

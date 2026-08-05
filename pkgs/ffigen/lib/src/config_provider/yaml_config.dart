@@ -117,6 +117,11 @@ final class YamlConfig {
   bool get includeUnusedTypedefs => _includeUnusedTypedefs;
   late bool _includeUnusedTypedefs;
 
+  /// If enabled, supported typedefs (such as size_t, uint8_t, etc.) will be
+  /// mapped to their supported types.
+  bool get useSupportedTypedefs => _useSupportedTypedefs;
+  late bool _useSupportedTypedefs;
+
   /// If enabled, Objective C interfaces that are not explicitly included by the
   /// [YamlDeclarationFilters], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
@@ -832,6 +837,8 @@ final class YamlConfig {
         HeterogeneousMapEntry(
           key: strings.useSupportedTypedefs,
           valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => true,
+          resultOrDefault: (node) => _useSupportedTypedefs = node.value as bool,
         ),
         HeterogeneousMapEntry(
           key: strings.comments,
@@ -1220,119 +1227,127 @@ final class YamlConfig {
     );
   }
 
-  FfiGenerator configAdapter() => FfiGenerator(
-    input: Input(
-      compilerOptions: compilerOpts,
-      entryPoints: entryPoints,
-      include: shouldIncludeHeader,
-      ignoreSourceErrors: ignoreSourceErrors,
-    ),
-    output: Output(
-      dartFile: output,
-      objectiveCFile: outputObjC,
-      symbolFile: symbolFile,
-      commentType: commentType,
-      preamble: preamble,
-      format: formatOutput,
-      style: ffiNativeConfig.enabled
-          ? NativeExternalBindings(assetId: ffiNativeConfig.assetId)
-          : DynamicLibraryBindings(
-              wrapperName: wrapperName,
-              wrapperDocComment: wrapperDocComment,
-            ),
-    ),
-    functions: Functions(
-      include: functionDecl.shouldInclude,
-      includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
-      rename: functionDecl.rename,
-      renameMember: functionDecl.renameMember,
-      varArgs: varArgFunctions,
-      includeTypedef: shouldExposeFunctionTypedef,
-      isLeaf: isLeafFunction,
-    ),
-    structs: Structs(
-      include: _structDecl.shouldInclude,
-      rename: _structDecl.rename,
-      renameMember: _structDecl.renameMember,
-      dependencies: _structDependencies,
-      packingOverride: (decl) =>
-          _structPackingOverride.getOverridenPackValue(decl.originalName),
+  FfiGenerator configAdapter() {
+    ImportedType? importType(Declaration decl) {
+      if (decl.usr.isNotEmpty) {
+        final importedByUsr = usrTypeMappings[decl.usr];
+        if (importedByUsr != null) return importedByUsr;
+      }
+      return typedefTypeMappings[decl.originalName] ??
+          structTypeMappings[decl.originalName] ??
+          unionTypeMappings[decl.originalName] ??
+          nativeTypeMappings[decl.originalName];
+    }
+
+    return FfiGenerator(
+      input: Input(
+        compilerOptions: compilerOpts,
+        entryPoints: entryPoints,
+        include: shouldIncludeHeader,
+        ignoreSourceErrors: ignoreSourceErrors,
+      ),
+      output: Output(
+        dartFile: output,
+        objectiveCFile: outputObjC,
+        symbolFile: symbolFile,
+        commentType: commentType,
+        preamble: preamble,
+        format: formatOutput,
+        style: ffiNativeConfig.enabled
+            ? NativeExternalBindings(assetId: ffiNativeConfig.assetId)
+            : DynamicLibraryBindings(
+                wrapperName: wrapperName,
+                wrapperDocComment: wrapperDocComment,
+              ),
+      ),
+      functions: Functions(
+        include: functionDecl.shouldInclude,
+        includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
+        rename: functionDecl.rename,
+        renameMember: functionDecl.renameMember,
+        varArgs: varArgFunctions,
+        includeTypedef: shouldExposeFunctionTypedef,
+        isLeaf: isLeafFunction,
+      ),
+      structs: Structs(
+        include: _structDecl.shouldInclude,
+        rename: _structDecl.rename,
+        renameMember: _structDecl.renameMember,
+        dependencies: _structDependencies,
+        packingOverride: (decl) =>
+            _structPackingOverride.getOverridenPackValue(decl.originalName),
+      ),
+      enums: Enums(
+        include: _enumClassDecl.shouldInclude,
+        rename: _enumClassDecl.rename,
+        renameMember: _enumClassDecl.renameMember,
+        silenceWarning: silenceEnumWarning,
+        style: (e, suggestedStyle) {
+          if (suggestedStyle != null) return suggestedStyle;
+          return switch (enumShouldBeInt(e)) {
+            true => EnumStyle.intConstants,
+            false => EnumStyle.dartEnum,
+          };
+        },
+      ),
+      unions: Unions(
+        include: _unionDecl.shouldInclude,
+        rename: _unionDecl.rename,
+        renameMember: _unionDecl.renameMember,
+        dependencies: _unionDependencies,
+      ),
+      unnamedEnums: UnnamedEnums(
+        include: _unnamedEnumConstants.shouldInclude,
+        rename: _unnamedEnumConstants.rename,
+      ),
+      globals: Globals(
+        include: globals.shouldInclude,
+        includeSymbolAddress: globals.shouldIncludeSymbolAddress,
+        rename: globals.rename,
+      ),
+      macros: Macros(
+        include: macroDecl.shouldInclude,
+        rename: macroDecl.rename,
+      ),
+      typedefs: Typedefs(
+        include: typedefs.shouldInclude,
+        rename: typedefs.rename,
+        useSupportedTypedefs: useSupportedTypedefs,
+        includeUnused: includeUnusedTypedefs,
+      ),
+      importType: importType,
+      objectiveC: language == Language.objc
+          ? ObjectiveC(
+              interfaces: Interfaces(
+                include: objcInterfaces.shouldInclude,
+                includeMember: objcInterfaces.shouldIncludeMember,
+                rename: objcInterfaces.rename,
+                renameMember: objcInterfaces.renameMember,
+                includeTransitive: includeTransitiveObjCInterfaces,
+                module: interfaceModule,
+              ),
+              protocols: Protocols(
+                include: objcProtocols.shouldInclude,
+                includeMember: objcProtocols.shouldIncludeMember,
+                rename: objcProtocols.rename,
+                renameMember: objcProtocols.renameMember,
+                includeTransitive: includeTransitiveObjCProtocols,
+                module: protocolModule,
+              ),
+              categories: Categories(
+                include: objcCategories.shouldInclude,
+                includeMember: objcCategories.shouldIncludeMember,
+                rename: objcCategories.rename,
+                renameMember: objcCategories.renameMember,
+                includeTransitive: includeTransitiveObjCCategories,
+              ),
+              externalVersions: externalVersions,
+              // ignore: deprecated_member_use_from_same_package
+              generateForPackageObjectiveC: generateForPackageObjectiveC,
+            )
+          : null,
       // ignore: deprecated_member_use_from_same_package
-      imported: structTypeMappings.values.toList(),
-    ),
-    enums: Enums(
-      include: _enumClassDecl.shouldInclude,
-      rename: _enumClassDecl.rename,
-      renameMember: _enumClassDecl.renameMember,
-      silenceWarning: silenceEnumWarning,
-      style: (e, suggestedStyle) {
-        if (suggestedStyle != null) return suggestedStyle;
-        return switch (enumShouldBeInt(e)) {
-          true => EnumStyle.intConstants,
-          false => EnumStyle.dartEnum,
-        };
-      },
-    ),
-    unions: Unions(
-      include: _unionDecl.shouldInclude,
-      rename: _unionDecl.rename,
-      renameMember: _unionDecl.renameMember,
-      dependencies: _unionDependencies,
-      // ignore: deprecated_member_use_from_same_package
-      imported: unionTypeMappings.values.toList(),
-    ),
-    unnamedEnums: UnnamedEnums(
-      include: _unnamedEnumConstants.shouldInclude,
-      rename: _unnamedEnumConstants.rename,
-    ),
-    globals: Globals(
-      include: globals.shouldInclude,
-      includeSymbolAddress: globals.shouldIncludeSymbolAddress,
-      rename: globals.rename,
-    ),
-    macros: Macros(include: macroDecl.shouldInclude, rename: macroDecl.rename),
-    typedefs: Typedefs(
-      include: typedefs.shouldInclude,
-      rename: typedefs.rename,
-      includeUnused: includeUnusedTypedefs,
-      // ignore: deprecated_member_use_from_same_package
-      imported: typedefTypeMappings.values.toList(),
-    ),
-    objectiveC: language == Language.objc
-        ? ObjectiveC(
-            interfaces: Interfaces(
-              include: objcInterfaces.shouldInclude,
-              includeMember: objcInterfaces.shouldIncludeMember,
-              rename: objcInterfaces.rename,
-              renameMember: objcInterfaces.renameMember,
-              includeTransitive: includeTransitiveObjCInterfaces,
-              module: interfaceModule,
-            ),
-            protocols: Protocols(
-              include: objcProtocols.shouldInclude,
-              includeMember: objcProtocols.shouldIncludeMember,
-              rename: objcProtocols.rename,
-              renameMember: objcProtocols.renameMember,
-              includeTransitive: includeTransitiveObjCProtocols,
-              module: protocolModule,
-            ),
-            categories: Categories(
-              include: objcCategories.shouldInclude,
-              includeMember: objcCategories.shouldIncludeMember,
-              rename: objcCategories.rename,
-              renameMember: objcCategories.renameMember,
-              includeTransitive: includeTransitiveObjCCategories,
-            ),
-            externalVersions: externalVersions,
-            // ignore: deprecated_member_use_from_same_package
-            generateForPackageObjectiveC: generateForPackageObjectiveC,
-          )
-        : null,
-    // ignore: deprecated_member_use_from_same_package
-    importedTypesByUsr: usrTypeMappings,
-    // ignore: deprecated_member_use_from_same_package
-    integers: Integers(imported: nativeTypeMappings.values.toList()),
-    // ignore: deprecated_member_use_from_same_package
-    libclangDylib: libclangDylib,
-  );
+      libclangDylib: libclangDylib,
+    );
+  }
 }

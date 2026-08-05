@@ -1,6 +1,9 @@
 ## 22.0.0-wip
 
 - __Breaking change__: Major overhaul of Dart config API:
+  - Consolidate `imported` fields and `importedTypesByUsr` into
+    `FfiGenerator.importType`, switching it to a callback pattern
+  - Deleted empty `Integers` class
   - Rename `Headers` to `Input`
   - Remove `libraryImports`, which was dead code
   - Remove `useSupportedTypedefs`, treating it as always true
