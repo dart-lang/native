@@ -189,15 +189,13 @@ Type? _createTypeFromCursor(
         logger.fine('  Type $spelling mapped from type-map');
         return config.typedefTypeMappings[spelling]!;
       }
-      // Get name from supported typedef name if config allows.
-      if (config.typedefs.useSupportedTypedefs) {
-        if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
-        } else if (supportedTypedefToImportedType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return supportedTypedefToImportedType[spelling]!;
-        }
+      // Get name from supported typedef name.
+      if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
+        logger.fine('  Type Mapped from supported typedef');
+        return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
+      } else if (supportedTypedefToImportedType.containsKey(spelling)) {
+        logger.fine('  Type Mapped from supported typedef');
+        return supportedTypedefToImportedType[spelling]!;
       }
 
       final typealias = parseTypedefDeclaration(context, cursor);

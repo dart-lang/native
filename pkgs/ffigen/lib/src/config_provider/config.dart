@@ -16,7 +16,7 @@ import 'config_types.dart';
 // TODO: Add a code snippet example.
 final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
-  final Headers headers;
+  final Input input;
 
   /// Configuration for enums.
   final Enums enums;
@@ -72,15 +72,6 @@ final class FfiGenerator {
   )
   final Map<String, ImportedType> importedTypesByUsr;
 
-  /// Stores all the library imports specified by user including those for ffi
-  /// and pkg_ffi.
-  // TODO(https://github.com/dart-lang/native/issues/2597): Remove this.
-  @Deprecated(
-    'In the future, this shoud be inferred from ImportedTypes. See '
-    'https://github.com/dart-lang/native/issues/2597.',
-  )
-  final List<LibraryImport> libraryImports;
-
   /// Path to the clang library.
   ///
   /// Only visible for YamlConfig plumbing.
@@ -88,7 +79,7 @@ final class FfiGenerator {
   final Uri? libclangDylib;
 
   const FfiGenerator({
-    this.headers = const Headers(),
+    this.input = const Input(),
     this.enums = Enums.excludeAll,
     this.functions = Functions.excludeAll,
     this.globals = Globals.excludeAll,
@@ -106,11 +97,6 @@ final class FfiGenerator {
       'https://github.com/dart-lang/native/issues/2596.',
     )
     this.importedTypesByUsr = const <String, ImportedType>{},
-    @Deprecated(
-      'In the future, this shoud be inferred from ImportedTypes. See '
-      'https://github.com/dart-lang/native/issues/2597.',
-    )
-    this.libraryImports = const <LibraryImport>[],
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 
@@ -126,7 +112,7 @@ final class FfiGenerator {
 }
 
 /// The configuration for header parsing of [FfiGenerator].
-final class Headers {
+final class Input {
   /// Path to headers. May not contain globs.
   final List<Uri> entryPoints;
 
@@ -142,7 +128,7 @@ final class Headers {
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
 
-  const Headers({
+  const Input({
     this.entryPoints = const [],
     this.include = _includeDefault,
     this.compilerOptions,
@@ -474,9 +460,6 @@ final class Typedefs extends Declarations {
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
-  /// If typedef of supported types(int8_t) should be directly used.
-  final bool useSupportedTypedefs;
-
   const Typedefs({
     super.rename,
     super.include,
@@ -486,7 +469,6 @@ final class Typedefs extends Declarations {
     )
     this.imported = const <ImportedType>[],
     this.includeUnused = false,
-    this.useSupportedTypedefs = true,
   });
 
   static const Typedefs excludeAll = Typedefs(include: Declarations.excludeAll);

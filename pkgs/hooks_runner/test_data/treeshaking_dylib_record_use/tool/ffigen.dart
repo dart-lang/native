@@ -11,7 +11,7 @@ void main() {
 
   // 1. Generate bindings for add.c
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
     functions: Functions(
@@ -36,7 +36,7 @@ void main() {
 
   // 2. Generate bindings for multiply.c
   FfiGenerator(
-    headers: Headers(
+    input: Input(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
     functions: Functions(

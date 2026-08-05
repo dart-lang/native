@@ -64,7 +64,7 @@ app has been created via `dart create ffigen_example`.
        // Required. Output path for the generated bindings.
        output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
        // Optional. Where to look for header files.
-       headers: Headers(entryPoints: [packageRoot.resolve('src/add.h')]),
+       input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),
        // Optional. What functions to generate bindings for.
        functions: Functions.includeSet({'add'}),
      ).generate();

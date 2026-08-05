@@ -150,10 +150,6 @@ final class YamlConfig {
   bool get sort => _sort;
   late bool _sort;
 
-  /// If typedef of supported types(int8_t) should be directly used.
-  bool get useSupportedTypedefs => _useSupportedTypedefs;
-  late bool _useSupportedTypedefs;
-
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
   Map<String, LibraryImport> get libraryImports => _libraryImports;
@@ -836,8 +832,6 @@ final class YamlConfig {
         HeterogeneousMapEntry(
           key: strings.useSupportedTypedefs,
           valueConfigSpec: BoolConfigSpec(),
-          defaultValue: (node) => true,
-          resultOrDefault: (node) => _useSupportedTypedefs = node.value as bool,
         ),
         HeterogeneousMapEntry(
           key: strings.comments,
@@ -1227,7 +1221,7 @@ final class YamlConfig {
   }
 
   FfiGenerator configAdapter() => FfiGenerator(
-    headers: Headers(
+    input: Input(
       compilerOptions: compilerOpts,
       entryPoints: entryPoints,
       include: shouldIncludeHeader,
@@ -1300,7 +1294,6 @@ final class YamlConfig {
     typedefs: Typedefs(
       include: typedefs.shouldInclude,
       rename: typedefs.rename,
-      useSupportedTypedefs: useSupportedTypedefs,
       includeUnused: includeUnusedTypedefs,
       // ignore: deprecated_member_use_from_same_package
       imported: typedefTypeMappings.values.toList(),
@@ -1335,8 +1328,6 @@ final class YamlConfig {
             generateForPackageObjectiveC: generateForPackageObjectiveC,
           )
         : null,
-    // ignore: deprecated_member_use_from_same_package
-    libraryImports: libraryImports.values.toList(),
     // ignore: deprecated_member_use_from_same_package
     importedTypesByUsr: usrTypeMappings,
     // ignore: deprecated_member_use_from_same_package
