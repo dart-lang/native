@@ -172,9 +172,9 @@ Type? _createTypeFromCursor(
   final logger = context.logger;
   final config = context.config;
   final usr = cursor.usr();
-  if (config.importedTypesByUsr.containsKey(usr)) {
+  if (config.typedefTypeMappings.containsKey(usr)) {
     logger.fine('  Type $usr mapped from usr');
-    return config.importedTypesByUsr[usr]!;
+    return config.typedefTypeMappings[usr]!;
   }
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:

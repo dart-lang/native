@@ -69,7 +69,7 @@ void main() {
         macros: Macros.includeAll,
         typedefs: Typedefs(include: (_) => true),
         // ignore: deprecated_member_use_from_same_package
-        typedefImports: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
+        importedTypes: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
       );
       final library = parse(Context(logger, generator));
       final context = testContext();

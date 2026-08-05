@@ -1263,8 +1263,6 @@ final class YamlConfig {
       dependencies: _structDependencies,
       packingOverride: (decl) =>
           _structPackingOverride.getOverridenPackValue(decl.originalName),
-      // ignore: deprecated_member_use_from_same_package
-      imported: structTypeMappings.values.toList(),
     ),
     enums: Enums(
       include: _enumClassDecl.shouldInclude,
@@ -1284,8 +1282,6 @@ final class YamlConfig {
       rename: _unionDecl.rename,
       renameMember: _unionDecl.renameMember,
       dependencies: _unionDependencies,
-      // ignore: deprecated_member_use_from_same_package
-      imported: unionTypeMappings.values.toList(),
     ),
     unnamedEnums: UnnamedEnums(
       include: _unnamedEnumConstants.shouldInclude,
@@ -1304,7 +1300,13 @@ final class YamlConfig {
       includeUnused: includeUnusedTypedefs,
     ),
     // ignore: deprecated_member_use_from_same_package
-    typedefImports: typedefTypeMappings.values.toList(),
+    importedTypes: [
+      ...typedefTypeMappings.values,
+      ...structTypeMappings.values,
+      ...unionTypeMappings.values,
+      ...nativeTypeMappings.values,
+      ...usrTypeMappings.values,
+    ],
     objectiveC: language == Language.objc
         ? ObjectiveC(
             interfaces: Interfaces(
@@ -1337,10 +1339,6 @@ final class YamlConfig {
         : null,
     // ignore: deprecated_member_use_from_same_package
     libraryImports: libraryImports.values.toList(),
-    // ignore: deprecated_member_use_from_same_package
-    importedTypesByUsr: usrTypeMappings,
-    // ignore: deprecated_member_use_from_same_package
-    integers: Integers(imported: nativeTypeMappings.values.toList()),
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,
   );

@@ -46,7 +46,7 @@ void loadImportedTypes(
       libraryImport,
       name,
       dartName,
-      name,
+      usr,
       importedDartType: true,
     );
   }

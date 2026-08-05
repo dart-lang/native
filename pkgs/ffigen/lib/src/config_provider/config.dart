@@ -27,9 +27,6 @@ final class FfiGenerator {
   /// Configuration for globals.
   final Globals globals;
 
-  /// Configuration for integer types.
-  final Integers integers;
-
   /// Configuration for macro constants.
   final Macros macros;
 
@@ -61,17 +58,6 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
-  /// Types imported from other Dart files, specified via the
-  /// unique-resource-identifer used in Clang.
-  ///
-  /// Applies to all kinds of definitions.
-  // TODO(https://github.com/dart-lang/native/issues/2596): Remove this.
-  @Deprecated(
-    'Will be folded into imported fields of the various declarations. See '
-    'https://github.com/dart-lang/native/issues/2596.',
-  )
-  final Map<String, ImportedType> importedTypesByUsr;
-
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
   // TODO(https://github.com/dart-lang/native/issues/2597): Remove this.
@@ -86,7 +72,7 @@ final class FfiGenerator {
     'This field will change type. See '
     'https://github.com/dart-lang/native/issues/2595.',
   )
-  final List<ImportedType> typedefImports;
+  final List<ImportedType> importedTypes;
 
   /// Path to the clang library.
   ///
@@ -99,21 +85,15 @@ final class FfiGenerator {
     this.enums = Enums.excludeAll,
     this.functions = Functions.excludeAll,
     this.globals = Globals.excludeAll,
-    this.integers = const Integers(),
     this.macros = Macros.excludeAll,
     this.structs = Structs.excludeAll,
     this.cpp,
     this.typedefs = Typedefs.excludeAll,
-    this.typedefImports = const <ImportedType>[],
+    this.importedTypes = const <ImportedType>[],
     this.unions = Unions.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
-    @Deprecated(
-      'Will be folded into imported fields of the various declarations. See '
-      'https://github.com/dart-lang/native/issues/2596.',
-    )
-    this.importedTypesByUsr = const <String, ImportedType>{},
     @Deprecated(
       'In the future, this shoud be inferred from ImportedTypes. See '
       'https://github.com/dart-lang/native/issues/2597.',
@@ -400,25 +380,6 @@ final class Globals extends Declarations {
       Globals(include: Declarations.includeSet(names));
 }
 
-/// Configuration for integer types.
-final class Integers {
-  /// Integer types imported from other Dart files.
-  // TODO(https://github.com/dart-lang/native/issues/2595): Change type.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
-  const Integers({
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
-  });
-}
-
 /// Configuration for macros.
 final class Macros extends Declarations {
   const Macros({super.rename, super.include});
@@ -436,14 +397,6 @@ final class Structs extends Declarations {
   /// Whether structs that are dependencies should be included.
   final CompoundDependencies dependencies;
 
-  /// Structs imported from other Dart files.
-  // TODO(https://github.com/dart-lang/native/issues/2595): Change type.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
   /// Whether, and how, to override struct packing for the given struct.
   final PackingValue? Function(Declaration declaration) packingOverride;
 
@@ -454,11 +407,6 @@ final class Structs extends Declarations {
     super.rename,
     super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
     this.packingOverride = _packingOverrideDefault,
   });
 
@@ -517,23 +465,11 @@ final class Unions extends Declarations {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies dependencies;
 
-  /// Unions imported from other Dart files.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
   const Unions({
     super.include,
     super.rename,
     super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
   });
 
   static const excludeAll = Unions(include: Declarations.excludeAll);
@@ -760,40 +696,26 @@ final class DynamicLibraryBindings implements BindingStyle {
 }
 
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
-  // ignore: deprecated_member_use_from_same_package
-  Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get typedefTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        ffiGen.typedefImports.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
-
-  Map<String, ImportedType> get structTypeMappings =>
+  Map<String, ImportedType> get _nativeTypeToImportedType =>
       Map<String, ImportedType>.fromEntries(
         // ignore: deprecated_member_use_from_same_package
-        ffiGen.structs.imported.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ffiGen.importedTypes.expand(
+          (import) => [
+            MapEntry<String, ImportedType>(import.nativeType, import),
+            MapEntry<String, ImportedType>(import.cType, import),
+          ],
         ),
       );
 
   // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get unionTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.unions.imported.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
+  Map<String, ImportedType> get typedefTypeMappings =>
+      _nativeTypeToImportedType;
+
+  Map<String, ImportedType> get structTypeMappings => _nativeTypeToImportedType;
 
   // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get importedIntegers =>
-      Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.integers.imported.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
+  Map<String, ImportedType> get unionTypeMappings => _nativeTypeToImportedType;
+
+  // Override declarative user spec with what FFIgen internals expect.
+  Map<String, ImportedType> get importedIntegers => _nativeTypeToImportedType;
 }
