@@ -72,15 +72,6 @@ final class FfiGenerator {
   )
   final Map<String, ImportedType> importedTypesByUsr;
 
-  /// Stores all the library imports specified by user including those for ffi
-  /// and pkg_ffi.
-  // TODO(https://github.com/dart-lang/native/issues/2597): Remove this.
-  @Deprecated(
-    'In the future, this shoud be inferred from ImportedTypes. See '
-    'https://github.com/dart-lang/native/issues/2597.',
-  )
-  final List<LibraryImport> libraryImports;
-
   /// Path to the clang library.
   ///
   /// Only visible for YamlConfig plumbing.
@@ -106,11 +97,6 @@ final class FfiGenerator {
       'https://github.com/dart-lang/native/issues/2596.',
     )
     this.importedTypesByUsr = const <String, ImportedType>{},
-    @Deprecated(
-      'In the future, this shoud be inferred from ImportedTypes. See '
-      'https://github.com/dart-lang/native/issues/2597.',
-    )
-    this.libraryImports = const <LibraryImport>[],
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 
