@@ -32,7 +32,7 @@ void main(List<String> arguments) async {
     final file = File.fromUri(someFile);
     output.dependencies.add(file.uri);
 
-    final base = input.userDefines.baseUriForDefine([
+    final base = input.userDefines.baseUri([
       'nested',
       'options',
       'paths',
