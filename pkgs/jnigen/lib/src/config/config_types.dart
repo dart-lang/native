@@ -260,77 +260,16 @@ final class SymbolImports {
 
 /// Custom nullability annotations configuration.
 final class NullabilityAnnotations {
-  /// Fully-qualified class names of custom `@Nullable` annotations.
-  final List<String> nullable;
-
   /// Fully-qualified class names of custom `@NonNull` annotations.
   final List<String> nonNull;
 
+  /// Fully-qualified class names of custom `@Nullable` annotations.
+  final List<String> nullable;
+
   const NullabilityAnnotations({
-    this.nullable = const [],
     this.nonNull = const [],
+    this.nullable = const [],
   });
-}
-
-bool _isCapitalized(String s) {
-  final firstLetter = s.substring(0, 1);
-  return firstLetter == firstLetter.toUpperCase();
-}
-
-void _validateClassName(String className) {
-  final parts = className.split('.');
-  assert(parts.isNotEmpty);
-  const nestedClassesInfo =
-      'Nested classes cannot be specified separately. Specifying the '
-      'parent class will pull the nested classes.';
-  if (parts.length > 1 && _isCapitalized(parts[parts.length - 2])) {
-    // Try to detect possible nested classes specified using dot notation eg:
-    // `com.package.Class.NestedClass` and emit a warning.
-    log.warning('It appears a nested class $className is specified in the '
-        'config. $nestedClassesInfo');
-  }
-  if (className.contains('\$')) {
-    throw ConfigException(
-        'Nested class $className not allowed. $nestedClassesInfo');
-  }
-}
-
-/// Configuration for input Java source files, classpaths, and SDK dependencies.
-final class Input {
-  /// Fully-qualified class or package names to generate bindings for.
-  List<String> classes;
-
-  /// Directories to search for Java source files.
-  final List<Uri>? sourcePath;
-
-  /// Classpaths/JARs to search for compiled Java classes and dependencies.
-  final List<Uri>? classPath;
-
-  /// Configuration for downloading dependencies using Maven.
-  final MavenDownloads? mavenDownloads;
-
-  /// Configuration for Android SDK libraries and Gradle dependency resolution.
-  final AndroidSdkConfig? androidSdkConfig;
-
-  /// Additional options passed to the OpenJDK Doclet / ASM summarizer.
-  SummarizerOptions? summarizerOptions;
-
-  /// External symbol file imports for cross-package type sharing.
-  final SymbolImports imports;
-
-  Input({
-    required this.classes,
-    this.sourcePath,
-    this.classPath,
-    this.mavenDownloads,
-    this.androidSdkConfig,
-    this.summarizerOptions,
-    this.imports = const SymbolImports(),
-  }) {
-    for (final className in classes) {
-      _validateClassName(className);
-    }
-  }
 }
 
 /// Configuration for outputting generated Dart code and symbol files.
@@ -359,8 +298,79 @@ final class Output {
   });
 }
 
+/// Configuration for input Java source files, classpaths, and SDK dependencies.
+final class Input {
+  /// Directories to search for Java source files.
+  final List<Uri>? sourcePath;
+
+  /// Classpaths/JARs to search for compiled Java classes and dependencies.
+  final List<Uri>? classPath;
+
+  /// Fully-qualified class or package names to generate bindings for.
+  List<String> classes;
+
+  /// Additional options passed to the OpenJDK Doclet / ASM summarizer.
+  SummarizerOptions? summarizerOptions;
+
+  /// External symbol file imports for cross-package type sharing.
+  final SymbolImports imports;
+
+  /// Configuration for downloading dependencies using Maven.
+  final MavenDownloads? mavenDownloads;
+
+  /// Configuration for Android SDK libraries and Gradle dependency resolution.
+  final AndroidSdkConfig? androidSdkConfig;
+
+  Input({
+    this.sourcePath,
+    this.classPath,
+    required this.classes,
+    this.summarizerOptions,
+    this.imports = const SymbolImports(),
+    this.mavenDownloads,
+    this.androidSdkConfig,
+  }) {
+    for (final className in classes) {
+      _validateClassName(className);
+    }
+  }
+}
+
+bool _isCapitalized(String s) {
+  final firstLetter = s.substring(0, 1);
+  return firstLetter == firstLetter.toUpperCase();
+}
+
+void _validateClassName(String className) {
+  final parts = className.split('.');
+  assert(parts.isNotEmpty);
+  const nestedClassesInfo =
+      'Nested classes cannot be specified separately. Specifying the '
+      'parent class will pull the nested classes.';
+  if (parts.length > 1 && _isCapitalized(parts[parts.length - 2])) {
+    // Try to detect possible nested classes specified using dot notation eg:
+    // `com.package.Class.NestedClass` and emit a warning.
+    log.warning('It appears a nested class $className is specified in the '
+        'config. $nestedClassesInfo');
+  }
+  if (className.contains('\$')) {
+    throw ConfigException(
+        'Nested class $className not allowed. $nestedClassesInfo');
+  }
+}
+
 /// Configuration for JNIgen binding generation.
 final class Config {
+  Config({
+    required this.input,
+    required this.output,
+    this.nullability = const NullabilityAnnotations(),
+    this.visitors = const [],
+    this.experiments = const {},
+    this.logLevel = Level.INFO,
+    this.customClassBody,
+  });
+
   /// Input source paths, classpaths, target classes, and SDK dependencies.
   final Input input;
 
@@ -376,30 +386,23 @@ final class Config {
   /// Enabled experimental feature flags.
   final Set<Experiment> experiments;
 
-  /// Logging verbosity.
-  Level logLevel;
-
   /// Custom code that is added to the end of the class body with the specified
   /// binary name.
   ///
   /// Used for testing package:jnigen.
   final Map<String, String>? customClassBody;
 
-  Config({
-    required this.input,
-    required this.output,
-    this.nullability = const NullabilityAnnotations(),
-    this.visitors = const [],
-    this.experiments = const {},
-    this.logLevel = Level.INFO,
-    this.customClassBody,
-  });
-
   late final Map<String, ClassDecl> _importedClasses;
 
-  /// Directory containing the configuration file, if any.
+  /// Directory containing the YAML configuration file, if any.
   Uri? get configRoot => _configRoot;
   Uri? _configRoot;
+
+  /// Log verbosity. The possible values in decreasing order of verbosity
+  /// are verbose > debug > info > warning > error.
+  ///
+  /// Defaults to [Level.INFO].
+  Level logLevel = Level.INFO;
 
   static final _levels = Map.fromEntries(
       Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)));
@@ -439,9 +442,18 @@ final class Config {
 
     final config = Config(
       input: Input(
-        classes: must(prov.getStringList, [], _Props.classes),
         sourcePath: prov.getPathList(_Props.sourcePath),
         classPath: prov.getPathList(_Props.classPath),
+        classes: must(prov.getStringList, [], _Props.classes),
+        summarizerOptions: SummarizerOptions(
+          extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
+          backend: getSummarizerBackend(prov.getString(_Props.backend), null),
+          workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
+        ),
+        imports: SymbolImports(
+          symbolFiles: prov.getPathList(_Props.import) ?? const [],
+          hide: prov.getStringList(_Props.hide) ?? const [],
+        ),
         mavenDownloads: prov.hasValue(_Props.mavenDownloads)
             ? MavenDownloads(
                 sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
@@ -467,15 +479,6 @@ final class Config {
                 androidExample: prov.getString(_Props.androidExample),
               )
             : null,
-        summarizerOptions: SummarizerOptions(
-          extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
-          backend: getSummarizerBackend(prov.getString(_Props.backend), null),
-          workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
-        ),
-        imports: SymbolImports(
-          symbolFiles: prov.getPathList(_Props.import) ?? const [],
-          hide: prov.getStringList(_Props.hide) ?? const [],
-        ),
       ),
       output: Output(
         dart: DartCodeOutputConfig(
@@ -495,11 +498,11 @@ final class Config {
         format: prov.getBool(_Props.format) ?? true,
       ),
       nullability: NullabilityAnnotations(
-        nullable: prov.hasValue(_Props.nullableAnnotations)
-            ? (prov.getStringList(_Props.nullableAnnotations) ?? const [])
-            : const [],
         nonNull: prov.hasValue(_Props.nonNullAnnotations)
             ? (prov.getStringList(_Props.nonNullAnnotations) ?? const [])
+            : const [],
+        nullable: prov.hasValue(_Props.nullableAnnotations)
+            ? (prov.getStringList(_Props.nullableAnnotations) ?? const [])
             : const [],
       ),
       experiments: prov
