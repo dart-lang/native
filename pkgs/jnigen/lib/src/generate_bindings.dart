@@ -23,8 +23,14 @@ import 'tools/tools.dart';
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
 Future<void> generateJniBindings(Config config) async {
-  Annotated.nonNullAnnotations.addAll(config.nullability.nonNull);
-  Annotated.nullableAnnotations.addAll(config.nullability.nullable);
+  Annotated.nonNullAnnotations
+    ..clear()
+    ..addAll(Annotated.defaultNonNullAnnotations)
+    ..addAll(config.nullability.nonNull);
+  Annotated.nullableAnnotations
+    ..clear()
+    ..addAll(Annotated.defaultNullableAnnotations)
+    ..addAll(config.nullability.nullable);
 
   setLoggingLevel(config.logLevel);
 

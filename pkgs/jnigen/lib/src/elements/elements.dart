@@ -608,7 +608,7 @@ class ArrayType extends ReferredType {
 mixin Annotated {
   abstract List<Annotation>? annotations;
 
-  static final nullableAnnotations = [
+  static const List<String> defaultNullableAnnotations = [
     // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
     'org.jetbrains.annotations.Nullable',
     'org.jspecify.nullness.Nullable',
@@ -620,6 +620,10 @@ mixin Annotated {
     'lombok.Nullable',
     'io.reactivex.rxjava3.annotations.Nullable',
   ];
+  static final List<String> nullableAnnotations = [
+    ...defaultNullableAnnotations
+  ];
+
   bool get hasNullable {
     return annotations?.any(
           (annotation) =>
@@ -630,7 +634,7 @@ mixin Annotated {
         false;
   }
 
-  static final nonNullAnnotations = [
+  static const List<String> defaultNonNullAnnotations = [
     // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
     'org.jetbrains.annotations.NotNull',
     'org.jspecify.nullness.NonNull',
@@ -642,6 +646,7 @@ mixin Annotated {
     'lombok.NonNull',
     'io.reactivex.rxjava3.annotations.NonNull',
   ];
+  static final List<String> nonNullAnnotations = [...defaultNonNullAnnotations];
   bool get hasNonNull {
     return annotations?.any(
           (annotation) =>
