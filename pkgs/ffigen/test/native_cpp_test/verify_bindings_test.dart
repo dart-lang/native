@@ -37,7 +37,7 @@ void main() {
             assetId: 'package:ffigen/cpp_test',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(path.join(testDir.path, 'cpp_class_test.h')),
             Uri.file(path.join(testDir.path, 'finalizer_test_subject.h')),
@@ -55,7 +55,7 @@ void main() {
             assetId: 'package:ffigen/cpp_test',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(path.join(testDir.path, 'memory_edge_cases.h')),
           ],

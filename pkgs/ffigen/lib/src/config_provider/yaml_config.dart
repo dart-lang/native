@@ -117,6 +117,11 @@ final class YamlConfig {
   bool get includeUnusedTypedefs => _includeUnusedTypedefs;
   late bool _includeUnusedTypedefs;
 
+  /// If enabled, supported typedefs (such as size_t, uint8_t, etc.) will be
+  /// mapped to their supported types.
+  bool get useSupportedTypedefs => _useSupportedTypedefs;
+  late bool _useSupportedTypedefs;
+
   /// If enabled, Objective C interfaces that are not explicitly included by the
   /// [YamlDeclarationFilters], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
@@ -149,10 +154,6 @@ final class YamlConfig {
   /// If generated bindings should be sorted alphabetically.
   bool get sort => _sort;
   late bool _sort;
-
-  /// If typedef of supported types(int8_t) should be directly used.
-  bool get useSupportedTypedefs => _useSupportedTypedefs;
-  late bool _useSupportedTypedefs;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
@@ -1239,7 +1240,7 @@ final class YamlConfig {
     }
 
     return FfiGenerator(
-      headers: Headers(
+      input: Input(
         compilerOptions: compilerOpts,
         entryPoints: entryPoints,
         include: shouldIncludeHeader,
@@ -1345,8 +1346,6 @@ final class YamlConfig {
               generateForPackageObjectiveC: generateForPackageObjectiveC,
             )
           : null,
-      // ignore: deprecated_member_use_from_same_package
-      libraryImports: libraryImports.values.toList(),
       // ignore: deprecated_member_use_from_same_package
       libclangDylib: libclangDylib,
     );
