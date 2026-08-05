@@ -225,17 +225,21 @@ final class HookInputUserDefines {
   /// Then:
   /// - `input.userDefines['enable_experimental_features']` returns `true`.
   /// - `input.userDefines['optimization_level']` returns `"O3"`.
-  Object? operator [](String key) {
-    final syntaxNode = _input._syntax.userDefines;
-    if (syntaxNode == null) {
-      return null;
-    }
-    final packageUserDefines = PackageUserDefinesSyntaxExtension.fromSyntax(
-      syntaxNode,
-    );
-    final pubspecSource = packageUserDefines.workspacePubspec;
-    return pubspecSource?.defines[key];
-  }
+  Object? operator [](String key) => _findDefine([key])?.$1;
+
+  /// An absolute [Uri] that can be used to interpret user-defines as paths.
+  ///
+  /// This uses the [keyPath] to traverse available options, starting at the
+  /// root. If the key path contains a string, this enters a YAML map. For an
+  /// integer element, this enters a YAML sequence. Any other key path element
+  /// is invalid and throws.
+  /// If no element exists for any position in the key path, null is returned.
+  ///
+  /// This is a generalized variant of [path] returning the base URI for all
+  /// options under [keyPath]. To resolve a top-level string option as a path,
+  /// use [path] directly.
+  Uri? baseUriForDefine(List<Object /* String|int */> keyPath) =>
+      _findDefine(keyPath)?.$2.basePath;
 
   /// Resolves the relative path provided in the user-define for [key] to an
   /// absolute [Uri] pointing to the file or directory on the host filesystem.
@@ -268,33 +272,15 @@ final class HookInputUserDefines {
   ///   // Read assets from the directory...
   /// }
   /// ```
-  Uri? path(String key) => pathNested([key]);
+  Uri? path(String key) {
+    if (_findDefine([key]) case (final String value, final source)?) {
+      return source.basePath.resolve(value);
+    }
 
-  /// Traverses a structure of options through [keys], interpreting the found
-  /// value as a relative path.
-  ///
-  /// This is similar to [path], except that it can also look up nested objects.
-  ///
-  ///  For example, if a project's `pubspec.yaml` contains:
-  ///
-  /// ```yaml
-  /// hooks:
-  ///   user_defines:
-  ///     my_package:
-  ///       additional_sources:
-  ///         - src/additional_foo.c
-  ///         - src/additional_bar.c
-  /// ```
-  ///
-  /// Then `pathNested(['additional_sources', 0])` resolves
-  /// `src/additional_foo.c` against that pubspec, and
-  /// `pathNested(['additional_sources', 1])` resolves `src/additional_bar.c`.
-  ///
-  /// If the user-define is `null` or not a [String], returns `null`. If it's
-  /// not possible to traverse [keys] (e.g. due to a yaml map where a key
-  /// passes an array index), `null` is returned too. Use the `[]` operator to
-  /// load and validate nested options according to the schema you expect.
-  Uri? pathNested(Iterable<Object /*String|int*/> keys) {
+    return null;
+  }
+
+  (Object, PackageUserDefinesSource)? _findDefine(Iterable<Object?> keys) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
       return null;
@@ -335,8 +321,8 @@ final class HookInputUserDefines {
         }
       }
 
-      if (options is String) {
-        return source.basePath.resolve(options);
+      if (options != null) {
+        return (options, source);
       }
     }
     return null;

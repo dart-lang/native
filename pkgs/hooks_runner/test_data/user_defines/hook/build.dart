@@ -32,19 +32,23 @@ void main(List<String> arguments) async {
     final file = File.fromUri(someFile);
     output.dependencies.add(file.uri);
 
-    final nestedFile = input.userDefines.pathNested([
+    final base = input.userDefines.baseUriForDefine([
       'nested',
       'options',
       'paths',
       0,
     ]);
-    if (nestedFile == null) {
+    if (base == null) {
       throw Exception(
         'User-define nested.options.paths.0 does not have the right value: '
         '${input.userDefines['nested']}.',
       );
     }
 
-    output.dependencies.add(nestedFile);
+    final pathOption =
+        (((input.userDefines['nested'] as Map)['options'] as Map)['paths']
+                as List)[0]
+            as String;
+    output.dependencies.add(base.resolve(pathOption));
   });
 }
