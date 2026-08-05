@@ -270,11 +270,38 @@ final class HookInputUserDefines {
   ///   // Read assets from the directory...
   /// }
   /// ```
-  Uri? path(String key) {
+  Uri? path(String key) => pathNested([key]);
+
+  /// Traverses a structure of options through [keys], interpreting the found
+  /// value as a relative path.
+  ///
+  /// This is similar to [path], except that it can also look up nested objects.
+  ///
+  ///  For example, if a project's `pubspec.yaml` contains:
+  ///
+  /// ```yaml
+  /// hooks:
+  ///   user_defines:
+  ///     my_package:
+  ///       additional_sources:
+  ///         - src/additional_foo.c
+  ///         - src/additional_bar.c
+  /// ```
+  ///
+  /// Then `pathNested(['additional_sources', 0])` resolves
+  /// `src/additional_foo.c` against that pubspec, and
+  /// `pathNested(['additional_sources', 1])` resolves `src/additional_bar.c`.
+  ///
+  /// If the user-define is `null` or not a [String], returns `null`. If it's
+  /// not possible to traverse [keys] (e.g. due to a yaml map where a key
+  /// passes an array index), `null` is returned too. Use the `[]` operator to
+  /// load and validate nested options according to the schema you expect.
+  Uri? pathNested(Iterable<Object /*String|int*/> keys) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
       return null;
     }
+
     final packageUserDefines = PackageUserDefinesSyntaxExtension.fromSyntax(
       syntaxNode,
     );
@@ -286,12 +313,35 @@ final class HookInputUserDefines {
     // TODO(https://github.com/dart-lang/native/issues/2215): Add commandline
     // arguments.
     for (final source in sources) {
-      final path = source.defines[key];
-      if (path is String) {
-        if (File(path).isAbsolute) {
-          return Uri.file(path);
+      Object? options = source.defines;
+
+      for (final (i, key) in keys.indexed) {
+        if (key is String) {
+          if (options is Map) {
+            options = options[key];
+          } else {
+            return null;
+          }
+        } else if (key is int) {
+          if (options is List) {
+            options = options[key];
+          } else {
+            return null;
+          }
+        } else {
+          throw ArgumentError.value(
+            keys,
+            'keys',
+            'Must contain only strings or ints (found `$key` at index $i).',
+          );
         }
-        return source.basePath.resolve(path);
+      }
+
+      if (options is String) {
+        if (File(options).isAbsolute) {
+          return Uri.file(options);
+        }
+        return source.basePath.resolve(options);
       }
     }
     return null;

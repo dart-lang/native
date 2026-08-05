@@ -34,11 +34,17 @@ void main() async {
         userDefines: UserDefines(workspacePubspec: pubspecUri),
       )).success;
 
-      expect(result.encodedAssets.length, 0);
-
       // The native assets build runner must be reinvoked if the pubspec
       // changes, as the pubspec could contain user-defines.
       expect(result.dependencies, contains(pubspecUri));
+      expect(
+        result.dependencies,
+        contains(packageUri.resolve('assets/data.json')),
+      );
+      expect(
+        result.dependencies,
+        contains(packageUri.resolve('assets/second.json')),
+      );
     }),
   );
 }
