@@ -341,7 +341,7 @@ final class Output {
   /// Symbol file output configuration (`symbols.yaml`).
   final SymbolsOutputConfig? symbols;
 
-  /// Common header text prepended to generated Dart and C files.
+  /// Common header text prepended to generated Dart files.
   final String? preamble;
 
   /// Whether to generate stubs for unincluded dependent classes.
