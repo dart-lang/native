@@ -16,7 +16,7 @@ void main() {
         p.join('test', 'header_parser_tests', 'record_use.h'),
       );
       final generator = FfiGenerator(
-        headers: Headers(entryPoints: [Uri.file(headerFile)]),
+        input: Input(entryPoints: [Uri.file(headerFile)]),
         functions: Functions(
           include: (decl) => true,
           recordUse: (decl) => true,

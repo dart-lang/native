@@ -16,7 +16,7 @@ import 'config_types.dart';
 // TODO: Add a code snippet example.
 final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
-  final Headers headers;
+  final Input input;
 
   /// Configuration for enums.
   final Enums enums;
@@ -88,7 +88,7 @@ final class FfiGenerator {
   final Uri? libclangDylib;
 
   const FfiGenerator({
-    this.headers = const Headers(),
+    this.input = const Input(),
     this.enums = Enums.excludeAll,
     this.functions = Functions.excludeAll,
     this.globals = Globals.excludeAll,
@@ -126,7 +126,7 @@ final class FfiGenerator {
 }
 
 /// The configuration for header parsing of [FfiGenerator].
-final class Headers {
+final class Input {
   /// Path to headers. May not contain globs.
   final List<Uri> entryPoints;
 
@@ -142,7 +142,7 @@ final class Headers {
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
 
-  const Headers({
+  const Input({
     this.entryPoints = const [],
     this.include = _includeDefault,
     this.compilerOptions,

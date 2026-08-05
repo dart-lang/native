@@ -39,7 +39,7 @@ class Library {
     // ignore: deprecated_member_use_from_same_package
     libraryImports: context.config.libraryImports,
     silenceEnumWarning: context.config.enums.silenceWarning,
-    nativeEntryPoints: context.config.headers.entryPoints
+    nativeEntryPoints: context.config.input.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
     context: context,

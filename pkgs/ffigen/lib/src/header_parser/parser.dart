@@ -72,12 +72,12 @@ List<Binding> parseToBindings(Context context) {
   final bindings = <Binding>{};
 
   // Log all headers for user.
-  context.logger.info('Input Headers: ${config.headers.entryPoints}');
+  context.logger.info('Input Headers: ${config.input.entryPoints}');
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
-  for (final headerLocationUri in config.headers.entryPoints) {
+  for (final headerLocationUri in config.input.entryPoints) {
     final headerLocation = headerLocationUri.toFilePath();
     context.logger.fine('Creating TranslationUnit for header: $headerLocation');
 
@@ -114,7 +114,7 @@ List<Binding> parseToBindings(Context context) {
       'The compiler found warnings/errors in source files.',
     );
     context.logger.warning('This will likely generate invalid bindings.');
-    if (config.headers.ignoreSourceErrors) {
+    if (config.input.ignoreSourceErrors) {
       context.logger.warning(
         'Ignored source errors. (User supplied --ignore-source-errors)',
       );

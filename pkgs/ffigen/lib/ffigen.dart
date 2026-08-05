@@ -31,7 +31,7 @@ export 'src/config_provider.dart'
         FfiGenerator,
         Functions,
         Globals,
-        Headers,
+        Input,
         Integers,
         Interfaces,
         Macros,
