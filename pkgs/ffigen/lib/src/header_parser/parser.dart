@@ -176,7 +176,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
-  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
+  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
   visit(context, applyConfigFiltersVisitation, allBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
   final included = directlyIncluded.union(

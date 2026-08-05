@@ -18,7 +18,9 @@ import 'header_parser/utils.dart';
 /// Wrapper around various FFIgen-wide variables.
 class Context {
   final Logger logger;
-  final Config config;
+  final FfiGenerator config;
+  final Map<String, ImportedType> importedTypesByUsr;
+  final Map<String, ImportedType> importedTypesByName;
   final CursorIndex cursorIndex;
   final bindingsIndex = BindingsIndex();
   final savedMacros = <String, Macro>{};
@@ -34,25 +36,28 @@ class Context {
   late final ExtraSymbols extraSymbols;
   final String tmpDir;
 
-  Context(
-    this.logger,
-    FfiGenerator generator, {
-    Uri? libclangDylib,
-    String? tmpDir,
-  }) : config = Config(generator),
-       cursorIndex = CursorIndex(logger),
-       tmpDir =
-           tmpDir ??
-           Directory.systemTemp.createTempSync('ffigen temp dir ').path {
+  Context(this.logger, this.config, {Uri? libclangDylib, String? tmpDir})
+    : importedTypesByUsr = {
+        for (final imported in config.importedTypes)
+          if (imported.usr != null) imported.usr!: imported,
+      },
+      importedTypesByName = {
+        for (final imported in config.importedTypes)
+          imported.nativeType: imported,
+      },
+      cursorIndex = CursorIndex(logger),
+      tmpDir =
+          tmpDir ??
+          Directory.systemTemp.createTempSync('ffigen temp dir ').path {
     objCBuiltInFunctions = ObjCBuiltInFunctions(
       this,
       // ignore: deprecated_member_use_from_same_package
-      generator.objectiveC?.generateForPackageObjectiveC ?? false,
+      config.objectiveC?.generateForPackageObjectiveC ?? false,
     );
 
     final libclangDylibPath =
         // ignore: deprecated_member_use_from_same_package
-        generator.libclangDylib?.toFilePath() ??
+        config.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);
 

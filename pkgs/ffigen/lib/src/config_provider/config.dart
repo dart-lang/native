@@ -680,28 +680,3 @@ final class DynamicLibraryBindings implements BindingStyle {
     this.wrapperDocComment,
   });
 }
-
-extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
-  Map<String, ImportedType> get _nativeTypeToImportedType =>
-      Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.importedTypes.expand(
-          (import) => [
-            MapEntry<String, ImportedType>(import.nativeType, import),
-            MapEntry<String, ImportedType>(import.cType, import),
-          ],
-        ),
-      );
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get typedefTypeMappings =>
-      _nativeTypeToImportedType;
-
-  Map<String, ImportedType> get structTypeMappings => _nativeTypeToImportedType;
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get unionTypeMappings => _nativeTypeToImportedType;
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get importedIntegers => _nativeTypeToImportedType;
-}

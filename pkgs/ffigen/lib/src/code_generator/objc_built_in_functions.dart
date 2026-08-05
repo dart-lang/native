@@ -237,7 +237,7 @@ class ObjCBuiltInFunctions {
 
   // A unique (but not human readable) ID for the generated library based on
   // a hash of parts of the config.
-  static String _libraryIdFromConfigHash(Config config) => fnvHash32(
+  static String _libraryIdFromConfigHash(FfiGenerator config) => fnvHash32(
     [
       ...config.input.entryPoints,
       config.output.dartFile,
