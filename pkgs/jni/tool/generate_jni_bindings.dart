@@ -21,7 +21,7 @@ const Map<String, String> _constructorAllowList = {
   'Short': 's',
 };
 
-class Renamer extends Visitor {
+base class Renamer extends Visitor {
   Renamer() : super.base();
 
   ClassDecl? _currentClass;
