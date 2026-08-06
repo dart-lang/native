@@ -15,7 +15,7 @@ abstract class AstNode {
 /// Implementations can extend [Visitor] by calling [Visitor.base] or use the
 /// [Visitor] factory constructor to provide inline callbacks for specific
 /// nodes.
-abstract class Visitor {
+abstract base class Visitor {
   /// Base constructor for subclasses extending [Visitor].
   const Visitor.base();
 
@@ -67,7 +67,7 @@ abstract class Visitor {
   void visitCppMethod(CppMethod node) {}
 }
 
-class _CallbackVisitor extends Visitor {
+final class _CallbackVisitor extends Visitor {
   final void Function(Func) _visitFunc;
   final void Function(Struct) _visitStruct;
   final void Function(Union) _visitUnion;

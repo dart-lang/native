@@ -12,7 +12,7 @@ import 'package:yaml/yaml.dart';
 
 import '../test_utils.dart';
 
-class CustomRenamerVisitor extends public_ast.Visitor {
+final class CustomRenamerVisitor extends public_ast.Visitor {
   CustomRenamerVisitor() : super.base();
   @override
   void visitFunc(public_ast.Func node) {

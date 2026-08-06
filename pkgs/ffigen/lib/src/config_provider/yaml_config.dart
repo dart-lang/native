@@ -1333,7 +1333,7 @@ final class YamlConfig {
 }
 
 /// AST Visitor that applies renames configured in [YamlConfig].
-class YamlConfigAstVisitor extends public_ast.Visitor {
+final class YamlConfigAstVisitor extends public_ast.Visitor {
   final YamlConfig config;
 
   const YamlConfigAstVisitor(this.config) : super.base();

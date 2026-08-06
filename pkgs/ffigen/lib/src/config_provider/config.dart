@@ -86,7 +86,7 @@ final class FfiGenerator {
   ///
   /// Custom visitor class extending [Visitor]:
   /// ```dart
-  /// class PrefixStripperVisitor extends Visitor {
+  /// final class PrefixStripperVisitor extends Visitor {
   ///   final String prefix;
   ///   const PrefixStripperVisitor(this.prefix) : super.base();
   ///

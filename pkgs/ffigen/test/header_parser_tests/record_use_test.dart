@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
-class _RenamingVisitor extends public_ast.Visitor {
+final class _RenamingVisitor extends public_ast.Visitor {
   const _RenamingVisitor() : super.base();
 
   @override
