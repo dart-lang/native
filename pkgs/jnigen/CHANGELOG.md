@@ -1,8 +1,19 @@
 ## 1.0.0-wip
 
 - **Breaking Change**: Restructured Dart `Config` API to align with
-  `package:ffigen`. This is purely a cosmetic change: fields have just been
-  moved around and renamed. The YAML format has not changed.
+  `package:ffigen`. The YAML format has not changed.
+  - Group `classes`, `sourcePath`, `classPath`, `summarizerOptions`,
+    `mavenDownloads`, and `androidSdkConfig` into `Input`.
+  - Group `import` and `hide` into `SymbolImports`, which lives in
+    `Input.imports`.
+  - `OutputConfig` renamed to `Output`, and still contains
+    `dartConfig` -> `dart` and `symbolsConfig` -> `symbols`. Now also contains
+    `preamble`, `generateStubs`, and `format`.
+  - `nonNullAnnotations` and `nullableAnnotations` now grouped under
+    `NullabilityAnnotations`.
+  - Flip `isExcluded` to `isIncluded`.
+  - Make a bunch of nullable fields non-null, if null was functionally
+    identical to a default value.
 
 ## 0.17.0
 
