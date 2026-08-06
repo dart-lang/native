@@ -21,19 +21,19 @@ class StubCollector extends Visitor<Classes, void> with TopLevelVisitor {
   @override
   void visit(Classes node) {
     if (!config.output.generateStubs) {
-      node.decls.removeWhere((binaryName, classDecl) => classDecl.isExcluded);
+      node.decls.removeWhere((binaryName, classDecl) => !classDecl.isIncluded);
       return;
     }
     final stubFinder = _StubFinder();
     for (final classDecl in node.decls.values) {
-      if (!classDecl.isExcluded) {
+      if (classDecl.isIncluded) {
         classDecl.accept(stubFinder);
       }
     }
 
     // Mark collected classes as stubs and remove other excluded classes.
     node.decls.removeWhere((binaryName, classDecl) {
-      if (classDecl.isExcluded) {
+      if (!classDecl.isIncluded) {
         if (stubFinder.referencedExcludedClasses.contains(classDecl)) {
           classDecl.bindingMode = BindingMode.stub;
           return false;
@@ -78,7 +78,7 @@ class _TypeStubFinder extends TypeVisitor<void> {
 
   @override
   void visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isExcluded) {
+    if (!node.classDecl.isIncluded) {
       finder.referencedExcludedClasses.add(node.classDecl);
     }
     for (final param in node.params) {

@@ -44,7 +44,7 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
       } else if (classDecl.isPrivate) {
         classDecl.bindingMode = BindingMode.excluded;
       }
-      if (classDecl.isExcluded) {
+      if (!classDecl.isIncluded) {
         log.fine('Excluded class ${classDecl.binaryName}');
       }
     }
@@ -64,12 +64,12 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
   @override
   void visit(ClassDecl node) {
     node.methods = node.methods.where((method) {
-      final isExcluded = method.userDefinedIsExcluded;
+      final isIncluded = method.userDefinedIsIncluded;
       final isPrivate = method.isPrivate;
       final isAbstractCtor = method.isConstructor && node.isAbstract;
       final isBridgeMethod = method.isSynthetic && method.isBridge;
       final excluded =
-          isPrivate || isAbstractCtor || isBridgeMethod || isExcluded;
+          isPrivate || isAbstractCtor || isBridgeMethod || !isIncluded;
       if (excluded) {
         log.fine('Excluded method ${node.binaryName}#${method.name}');
       }
@@ -82,7 +82,7 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       return !excluded;
     }).toList();
     node.fields = node.fields.where((field) {
-      final excluded = field.isExcluded || field.isPrivate;
+      final excluded = !field.isIncluded || field.isPrivate;
       if (excluded) {
         log.fine('Excluded field ${node.binaryName}#${field.name}');
       }

@@ -37,7 +37,7 @@ class Renamer extends Visitor {
     if (sig == null) return;
     final lister = ListParams();
     m.accept(lister);
-    m.isExcluded = !(lister.params.length == 1 && lister.params.first == sig);
+    m.isIncluded = lister.params.length == 1 && lister.params.first == sig;
   }
 }
 

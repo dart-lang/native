@@ -102,7 +102,7 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   BindingMode bindingMode;
 
-  bool get isExcluded => bindingMode == BindingMode.excluded;
+  bool get isIncluded => bindingMode != BindingMode.excluded;
   bool get isStub => bindingMode == BindingMode.stub;
 
   @JsonKey(includeFromJson: false)
@@ -691,7 +691,7 @@ enum MethodKind {
 @JsonSerializable(createToJson: false)
 class Method with ClassMember, Annotated implements Element<Method> {
   Method({
-    this.userDefinedIsExcluded = false,
+    this.userDefinedIsIncluded = true,
     this.annotations,
     this.javadoc,
     this.modifiers = const {},
@@ -722,7 +722,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
 
   /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
-  bool userDefinedIsExcluded;
+  bool userDefinedIsIncluded;
 
   /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
@@ -772,7 +772,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       returnType: returnType.clone(until: until),
       annotations: [...?annotations],
       descriptor: descriptor,
-      userDefinedIsExcluded: userDefinedIsExcluded,
+      userDefinedIsIncluded: userDefinedIsIncluded,
       javadoc: javadoc,
       modifiers: {...modifiers},
       params: params.map((param) => param.clone(until: until)).toList(),
@@ -810,7 +810,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       excluder:
       case GenerationStage.excluder:
       case GenerationStage.userVisitors:
-        cloned.userDefinedIsExcluded = userDefinedIsExcluded;
+        cloned.userDefinedIsIncluded = userDefinedIsIncluded;
         cloned.userDefinedName = userDefinedName;
       case GenerationStage.unprocessed:
     }
@@ -883,7 +883,7 @@ class Param with Annotated implements Element<Param> {
 @JsonSerializable(createToJson: false)
 class Field with ClassMember, Annotated implements Element<Field> {
   Field({
-    this.isExcluded = false,
+    this.isIncluded = true,
     this.annotations,
     this.javadoc,
     this.modifiers = const {},
@@ -893,7 +893,7 @@ class Field with ClassMember, Annotated implements Element<Field> {
   });
 
   @JsonKey(includeFromJson: false)
-  bool isExcluded;
+  bool isIncluded;
 
   @JsonKey(includeFromJson: false)
   String? userDefinedName;
