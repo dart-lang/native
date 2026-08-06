@@ -14,7 +14,7 @@ abstract class _Element {
 ///
 /// Users can extend this class to create custom visitors that modify the AST
 /// before code generation.
-abstract class Visitor {
+abstract base class Visitor {
   const Visitor.base();
 
   factory Visitor({
