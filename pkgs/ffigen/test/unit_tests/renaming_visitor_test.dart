@@ -12,6 +12,7 @@ import 'package:yaml/yaml.dart';
 import '../test_utils.dart';
 
 class CustomRenamerVisitor extends public_ast.Visitor {
+  CustomRenamerVisitor() : super.base();
   @override
   void visitFunc(public_ast.Func node) {
     if (node.name == 'c_foo') {
@@ -423,6 +424,68 @@ objc-interfaces:
         (nodes[11] as public_ast.UnnamedEnumConstant).usr,
         'c_unnamed_usr',
       );
+    });
+
+    test('Visitor callback-based factory constructor', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final func = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+        parameters: [Parameter(name: 'arg_0', type: intType)],
+      );
+
+      final struct = Struct(
+        name: 'c_struct',
+        originalName: 'c_struct',
+        context: context,
+        members: [
+          CompoundMember(
+            name: 'field_a',
+            originalName: 'field_a',
+            type: intType,
+          ),
+        ],
+      );
+
+      final visitedFuncs = <String>[];
+      final visitedStructs = <String>[];
+      final visitedParams = <String>[];
+
+      final visitor = public_ast.Visitor(
+        visitFunc: (node) {
+          visitedFuncs.add(node.name);
+          if (node.name == 'c_foo') {
+            node.name = 'dartFoo';
+          }
+        },
+        visitStruct: (node) {
+          visitedStructs.add(node.name);
+          if (node.name == 'c_struct') {
+            node.name = 'DartStruct';
+          }
+        },
+        visitParam: (node) {
+          visitedParams.add(node.name);
+          if (node.name == 'arg_0') {
+            node.name = 'renamedArg0';
+          }
+        },
+      );
+
+      final publicAst = public_ast.PublicAst([func, struct]);
+      publicAst.accept(visitor);
+
+      expect(visitedFuncs, ['c_foo']);
+      expect(visitedStructs, ['c_struct']);
+      expect(visitedParams, ['arg_0']);
+
+      expect(func.symbol.oldName, 'dartFoo');
+      expect(struct.symbol.oldName, 'DartStruct');
+      expect(func.functionType.parameters[0].symbol.oldName, 'renamedArg0');
     });
   });
 }

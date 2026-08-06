@@ -1336,7 +1336,7 @@ final class YamlConfig {
 class YamlConfigAstVisitor extends public_ast.Visitor {
   final YamlConfig config;
 
-  const YamlConfigAstVisitor(this.config);
+  const YamlConfigAstVisitor(this.config) : super.base();
 
   Declaration _decl(String originalName, [String usr = '']) =>
       Declaration(usr: usr, originalName: originalName);

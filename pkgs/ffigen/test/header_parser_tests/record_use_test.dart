@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 class _RenamingVisitor extends public_ast.Visitor {
-  const _RenamingVisitor();
+  const _RenamingVisitor() : super.base();
 
   @override
   void visitFunc(public_ast.Func node) {
