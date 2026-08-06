@@ -61,6 +61,9 @@ abstract class Binding extends AstNode implements Declaration {
   /// Returns the Cpp glue code for this binding, if any.
   String? toCppBindingString(Writer w) => null;
 
+  /// Returns the public AST node wrapper for this binding, or null.
+  Object? toPublicAstNode() => null;
+
   @override
   void visit(Visitation visitation) => visitation.visitBinding(this);
 

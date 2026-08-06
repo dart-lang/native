@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
@@ -42,6 +43,9 @@ class Global extends LookUpBinding with HasLocalScope {
     this.constant = false,
     this.loadFromNativeAsset = false,
   }) : super(symbol: Symbol(name, SymbolKind.field));
+
+  @override
+  Object? toPublicAstNode() => public_ast.Global(this);
 
   @override
   BindingString toBindingString(Writer w) {

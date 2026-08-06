@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 
 import 'compound.dart';
@@ -44,6 +45,9 @@ class Union extends Compound {
 
   @override
   int? get pack => null;
+
+  @override
+  Object? toPublicAstNode() => public_ast.Union(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitUnion(this);

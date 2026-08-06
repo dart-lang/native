@@ -151,8 +151,6 @@ final class YamlDeclarationFilters {
       include: shouldInclude,
       includeSymbolAddress: shouldIncludeSymbolAddress,
       includeMember: shouldIncludeMember,
-      rename: rename,
-      renameMember: renameMember,
     );
   }
 }

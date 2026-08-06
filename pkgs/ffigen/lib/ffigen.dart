@@ -55,3 +55,4 @@ export 'src/config_provider.dart'
         macSdkUri,
         xcodePath,
         xcodeUri;
+export 'src/public_ast.dart' hide PublicAst;

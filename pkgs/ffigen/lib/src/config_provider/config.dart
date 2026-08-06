@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../ffigen.dart';
+import '../public_ast.dart';
 import 'config_types.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
@@ -58,6 +59,9 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
+  /// AST visitors to run on the generated bindings.
+  final List<Visitor> visitors;
+
   /// Returns an [ImportedType] if the given [Declaration] should be imported
   /// from another Dart library, or `null` otherwise.
   final ImportedType? Function(Declaration declaration) importType;
@@ -83,6 +87,7 @@ final class FfiGenerator {
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
+    this.visitors = const [],
     this.importType = _defaultImportType,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
@@ -181,69 +186,10 @@ final class Declarations {
   /// The address is exposed as an FFI pointer.
   final bool Function(Declaration declaration) includeSymbolAddress;
 
-  /// Returns a new name for the declaration, to replace its `originalName`.
-  ///
-  /// ```dart
-  /// // This renames `Foo` to `Bar`, and nothing else:
-  /// rename: (Declaration decl) =>
-  ///     decl.originalName == 'Foo' ? 'Bar' : decl.originalName
-  /// ```
-  final String Function(Declaration declaration) rename;
-
-  /// A function to pass to [rename] that doesn't rename the declaration.
-  static String useOriginalName(Declaration declaration) =>
-      declaration.originalName;
-
-  /// A function to pass to [rename] that applies a rename map.
-  ///
-  /// The key of the map is the declaration's `originalName`, and the value is
-  /// the new name to use. If the declaration is not in the map, it is not
-  /// renamed.
-  static String Function(Declaration) renameWithMap(
-    Map<String, String> renames,
-  ) =>
-      (Declaration declaration) =>
-          renames[declaration.originalName] ?? declaration.originalName;
-
-  /// Returns a new name for the member of the declaration, to replace its
-  /// `originalName`.
-  ///
-  /// Used for struct/union fields, enum elements, function params, and
-  /// Objective-C interface/protocol/category methods/properties.
-  ///
-  /// ```dart
-  /// // This renames `Foo.bar` to `Foo.baz`, and nothing else:
-  /// rename: (Declaration decl, String member) {
-  ///   if (decl.originalName == 'Foo' && member == 'baz') {
-  ///     return 'baz';
-  ///   }
-  ///   return member;
-  /// }
-  /// ```
-  final String Function(Declaration declaration, String member) renameMember;
-
-  /// A function to pass to [renameMember] that doesn't rename the member.
-  static String useMemberOriginalName(Declaration declaration, String member) =>
-      member;
-
-  /// A function to pass to [renameMember] that applies a rename map.
-  ///
-  /// The key of the map is the declaration's `originalName`, and the value is
-  /// a map from member name to renamed member name. If the declaration is not
-  /// in the map, or the member isn't in the declaration's map, the member is
-  /// not renamed.
-  static String Function(Declaration, String) renameMemberWithMap(
-    Map<String, Map<String, String>> renames,
-  ) =>
-      (Declaration declaration, String member) =>
-          renames[declaration.originalName]?[member] ?? member;
-
   const Declarations({
     this.include = excludeAll,
     this.includeMember = includeAllMembers,
     this.includeSymbolAddress = excludeAll,
-    this.rename = useOriginalName,
-    this.renameMember = useMemberOriginalName,
   });
 }
 
@@ -277,8 +223,6 @@ final class Enums extends Declarations {
 
   const Enums({
     super.include,
-    super.rename,
-    super.renameMember,
     this.style = _styleDefault,
     this.silenceWarning = false,
   });
@@ -337,8 +281,6 @@ final class Functions extends Declarations {
   const Functions({
     super.include,
     super.includeSymbolAddress,
-    super.rename,
-    super.renameMember,
     this.includeTypedef = _includeTypedefDefault,
     this.isLeaf = _isLeafDefault,
     this.recordUse = _recordUseDefault,
@@ -355,7 +297,7 @@ final class Functions extends Declarations {
 
 /// Configuration for globals.
 final class Globals extends Declarations {
-  const Globals({super.rename, super.include, super.includeSymbolAddress});
+  const Globals({super.include, super.includeSymbolAddress});
 
   static const excludeAll = Globals(include: Declarations.excludeAll);
 
@@ -367,7 +309,7 @@ final class Globals extends Declarations {
 
 /// Configuration for macros.
 final class Macros extends Declarations {
-  const Macros({super.rename, super.include});
+  const Macros({super.include});
 
   static const excludeAll = Macros(include: Declarations.excludeAll);
 
@@ -389,8 +331,6 @@ final class Structs extends Declarations {
 
   const Structs({
     super.include,
-    super.rename,
-    super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
     this.packingOverride = _packingOverrideDefault,
   });
@@ -413,7 +353,6 @@ final class Typedefs extends Declarations {
   final bool useSupportedTypedefs;
 
   const Typedefs({
-    super.rename,
     super.include,
     this.useSupportedTypedefs = true,
     this.includeUnused = false,
@@ -429,7 +368,7 @@ final class Typedefs extends Declarations {
 
 /// Configuration for C++ class declarations.
 final class CppClasses extends Declarations {
-  const CppClasses({super.include, super.rename, super.renameMember});
+  const CppClasses({super.include});
 
   static const excludeAll = CppClasses(include: Declarations.excludeAll);
   static const includeAll = CppClasses(include: Declarations.includeAll);
@@ -453,8 +392,6 @@ final class Unions extends Declarations {
 
   const Unions({
     super.include,
-    super.rename,
-    super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
   });
 
@@ -468,7 +405,7 @@ final class Unions extends Declarations {
 
 /// Configuration for unnamed enum constants.
 final class UnnamedEnums extends Declarations {
-  const UnnamedEnums({super.include, super.rename, super.renameMember});
+  const UnnamedEnums({super.include});
 
   static const excludeAll = UnnamedEnums(include: Declarations.excludeAll);
 
@@ -522,8 +459,6 @@ final class Categories extends Declarations {
   const Categories({
     super.include,
     super.includeMember,
-    super.rename,
-    super.renameMember,
     this.includeTransitive = true,
   });
 
@@ -549,8 +484,6 @@ final class Interfaces extends Declarations {
   const Interfaces({
     super.include,
     super.includeMember,
-    super.rename,
-    super.renameMember,
     this.includeTransitive = false,
     this.module = noModule,
   });
@@ -579,8 +512,6 @@ final class Protocols extends Declarations {
   const Protocols({
     super.include,
     super.includeMember,
-    super.rename,
-    super.renameMember,
     this.includeTransitive = false,
     this.module = noModule,
   });

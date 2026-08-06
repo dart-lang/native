@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'scope.dart';
@@ -44,6 +45,9 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   @override
   bool get isObjCImport =>
       context.objCBuiltInFunctions.isBuiltInCategory(originalName);
+
+  @override
+  Object? toPublicAstNode() => public_ast.ObjCCategory(this);
 
   @override
   BindingString toBindingString(Writer w) {

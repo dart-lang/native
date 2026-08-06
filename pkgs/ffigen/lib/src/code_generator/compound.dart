@@ -252,8 +252,8 @@ class CompoundMember extends AstNode {
   final String originalName;
   final Type type;
 
-  final Symbol _symbol;
-  String get name => _symbol.name;
+  final Symbol symbol;
+  String get name => symbol.name;
 
   CompoundMember({
     String? originalName,
@@ -261,12 +261,12 @@ class CompoundMember extends AstNode {
     required this.type,
     this.dartDoc,
   }) : originalName = originalName ?? name,
-       _symbol = Symbol(name, SymbolKind.field);
+       symbol = Symbol(name, SymbolKind.field);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(_symbol);
+    visitor.visit(symbol);
     visitor.visit(type);
   }
 }

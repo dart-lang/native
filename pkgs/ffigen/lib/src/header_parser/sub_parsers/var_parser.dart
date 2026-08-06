@@ -41,7 +41,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
         constant = Constant(
           usr: usr,
           originalName: name,
-          name: config.globals.rename(decl),
+          name: name,
           dartDoc: getCursorDocComment(context, cursor),
           rawType: 'int',
           rawValue: value.toString(),
@@ -52,7 +52,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
         constant = Constant(
           usr: usr,
           originalName: name,
-          name: config.globals.rename(decl),
+          name: name,
           dartDoc: getCursorDocComment(context, cursor),
           rawType: 'double',
           rawValue: writeDoubleAsString(value),
@@ -64,7 +64,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
         constant = Constant(
           usr: usr,
           originalName: name,
-          name: config.globals.rename(decl),
+          name: name,
           dartDoc: getCursorDocComment(context, cursor),
           rawType: 'String',
           rawValue: "'$rawValue'",
@@ -101,7 +101,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
 
   final global = Global(
     originalName: name,
-    name: config.globals.rename(decl),
+    name: name,
     usr: usr,
     type: type,
     dartDoc: getCursorDocComment(context, cursor),

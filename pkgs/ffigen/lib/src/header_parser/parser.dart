@@ -14,6 +14,7 @@ import '../code_generator/scope.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
 import '../context.dart';
+import '../public_ast.dart' show PublicAst;
 import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
@@ -166,6 +167,11 @@ List<String> _findObjectiveCSysroot() => [
 @visibleForTesting
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
+
+  final publicAst = PublicAst(rawBindings);
+  for (final visitor in context.config.visitors) {
+    publicAst.accept(visitor);
+  }
 
   final allBindings = visit(
     context,
