@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'code_generator.dart' as cg;
+import 'code_generator.dart' as internal;
 
 /// Abstract base class for all public AST nodes.
 abstract class AstNode {
@@ -178,24 +178,9 @@ class _CallbackVisitor extends Visitor {
   void visitCppMethod(CppMethod node) => _visitCppMethod(node);
 }
 
-/// A container holding top-level public AST nodes for visitor traversal.
-class PublicAst {
-  final List<AstNode> nodes;
-
-  PublicAst(List<cg.Binding> rawBindings)
-    : nodes = rawBindings
-          .map((b) => b.toPublicAstNode())
-          .whereType<AstNode>()
-          .toList();
-
-  void accept(Visitor visitor) {
-    visitor.visitAll(nodes);
-  }
-}
-
 /// Public AST node representing a C function declaration.
 class Func extends AstNode {
-  final cg.Func _func;
+  final internal.Func _func;
 
   /// The parameters of this function.
   final List<Param> params;
@@ -228,7 +213,7 @@ class Func extends AstNode {
 
 /// Public AST node representing a C struct declaration.
 class Struct extends AstNode {
-  final cg.Struct _struct;
+  final internal.Struct _struct;
 
   /// The fields belonging to this struct.
   final List<Field> members;
@@ -256,7 +241,7 @@ class Struct extends AstNode {
 
 /// Public AST node representing a C union declaration.
 class Union extends AstNode {
-  final cg.Union _union;
+  final internal.Union _union;
 
   /// The fields belonging to this union.
   final List<Field> members;
@@ -284,7 +269,7 @@ class Union extends AstNode {
 
 /// Public AST node representing an enum declaration.
 class EnumClass extends AstNode {
-  final cg.EnumClass _enumClass;
+  final internal.EnumClass _enumClass;
 
   /// The constants belonging to this enum.
   final List<EnumConstant> constants;
@@ -314,7 +299,7 @@ class EnumClass extends AstNode {
 
 /// Public AST node representing a C global variable declaration.
 class Global extends AstNode {
-  final cg.Global _global;
+  final internal.Global _global;
 
   /// Creates a public [Global] AST node wrapper.
   Global(this._global);
@@ -334,7 +319,7 @@ class Global extends AstNode {
 
 /// Public AST node representing a C macro constant declaration.
 class MacroConstant extends AstNode {
-  final cg.MacroConstant _macro;
+  final internal.MacroConstant _macro;
 
   /// Creates a public [MacroConstant] AST node wrapper.
   MacroConstant(this._macro);
@@ -354,7 +339,7 @@ class MacroConstant extends AstNode {
 
 /// Public AST node representing a C typedef (type alias) declaration.
 class Typealias extends AstNode {
-  final cg.Typealias _typealias;
+  final internal.Typealias _typealias;
 
   /// Creates a public [Typealias] AST node wrapper.
   Typealias(this._typealias);
@@ -374,7 +359,7 @@ class Typealias extends AstNode {
 
 /// Public AST node representing an Objective-C interface (class) declaration.
 class ObjCInterface extends AstNode {
-  final cg.ObjCInterface _interface;
+  final internal.ObjCInterface _interface;
 
   /// The methods belonging to this Objective-C interface.
   final List<ObjCMethod> methods;
@@ -407,7 +392,7 @@ class ObjCInterface extends AstNode {
 
 /// Public AST node representing an Objective-C protocol declaration.
 class ObjCProtocol extends AstNode {
-  final cg.ObjCProtocol _protocol;
+  final internal.ObjCProtocol _protocol;
 
   /// The methods belonging to this Objective-C protocol.
   final List<ObjCMethod> methods;
@@ -436,7 +421,7 @@ class ObjCProtocol extends AstNode {
 
 /// Public AST node representing an Objective-C category declaration.
 class ObjCCategory extends AstNode {
-  final cg.ObjCCategory _category;
+  final internal.ObjCCategory _category;
 
   /// The methods belonging to this Objective-C category.
   final List<ObjCMethod> methods;
@@ -468,7 +453,7 @@ class ObjCCategory extends AstNode {
 
 /// Public AST node representing a C++ class declaration.
 class CppClass extends AstNode {
-  final cg.CppClass _cppClass;
+  final internal.CppClass _cppClass;
 
   /// The methods belonging to this C++ class.
   final List<CppMethod> methods;
@@ -496,7 +481,7 @@ class CppClass extends AstNode {
 
 /// Public AST node representing a field in a struct or union.
 class Field extends AstNode {
-  final cg.CompoundMember _member;
+  final internal.CompoundMember _member;
 
   /// The parent AST node containing this field (a [Struct] or [Union]).
   final AstNode? parent;
@@ -516,7 +501,7 @@ class Field extends AstNode {
 
 /// Public AST node representing a constant inside a named enum.
 class EnumConstant extends AstNode {
-  final cg.EnumConstant _constant;
+  final internal.EnumConstant _constant;
 
   /// The parent [EnumClass] containing this constant.
   final EnumClass? parent;
@@ -536,7 +521,7 @@ class EnumConstant extends AstNode {
 
 /// Public AST node representing a function or method parameter.
 class Param extends AstNode {
-  final cg.Parameter _parameter;
+  final internal.Parameter _parameter;
 
   /// The parent AST node containing this parameter (a [Func], [ObjCMethod], or
   /// [CppMethod]).
@@ -557,7 +542,7 @@ class Param extends AstNode {
 
 /// Public AST node representing a C++ method declaration.
 class CppMethod extends AstNode {
-  final cg.CppMethod _method;
+  final internal.CppMethod _method;
 
   /// The parameters of this C++ method.
   final List<Param> params;
@@ -585,7 +570,7 @@ class CppMethod extends AstNode {
 
 /// Public AST node representing an Objective-C method declaration.
 class ObjCMethod extends AstNode {
-  final cg.ObjCMethod _method;
+  final internal.ObjCMethod _method;
 
   /// The parameters of this Objective-C method.
   final List<Param> params;
@@ -623,7 +608,7 @@ class ObjCMethod extends AstNode {
 
 /// Public AST node representing an unnamed enum constant.
 class UnnamedEnumConstant extends AstNode {
-  final cg.UnnamedEnumConstant _constant;
+  final internal.UnnamedEnumConstant _constant;
 
   /// Creates a public [UnnamedEnumConstant] AST node wrapper.
   UnnamedEnumConstant(this._constant);

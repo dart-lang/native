@@ -140,7 +140,10 @@ void main() {
       )..addMethod(objcMethod);
 
       final rawBindings = <Binding>[func, struct, enumClass, objcInterface];
-      final publicAst = public_ast.PublicAst(rawBindings);
+      final nodes = rawBindings
+          .map((b) => b.toPublicAstNode())
+          .nonNulls
+          .toList();
 
       expect(func.symbol.oldName, 'c_foo');
       expect(struct.symbol.oldName, 'c_struct');
@@ -152,7 +155,7 @@ void main() {
       expect(objcMethod.params.elementAt(1).symbol.oldName, 'options');
       expect(objcMethod.params.elementAt(2).symbol.oldName, 'range');
 
-      publicAst.accept(CustomRenamerVisitor());
+      CustomRenamerVisitor().visitAll(nodes);
 
       expect(func.symbol.oldName, 'dartFoo');
       expect(struct.symbol.oldName, 'DartStruct');
@@ -197,16 +200,16 @@ void main() {
         expect(method.params.elementAt(1).symbol.oldName, 'withArg');
         expect(method.params.elementAt(2).symbol.oldName, 'andOther');
 
-        final publicAst = public_ast.PublicAst([
+        final nodes = <Binding>[
           ObjCInterface(
             context: context,
             originalName: 'TestItf',
             name: 'TestItf',
             apiAvailability: ApiAvailability.all,
           )..addMethod(method),
-        ]);
+        ].map((b) => b.toPublicAstNode()).nonNulls.toList();
 
-        publicAst.accept(CustomRenamerVisitor());
+        CustomRenamerVisitor().visitAll(nodes);
 
         expect(method.symbol.oldName, 'doSomething');
         expect(method.params.elementAt(1).symbol.oldName, 'withArg');
@@ -293,8 +296,12 @@ objc-interfaces:
         apiAvailability: ApiAvailability.all,
       )..addMethod(objcMethod);
 
-      final publicAst = public_ast.PublicAst([func, struct, objcInterface]);
-      publicAst.accept(generator.visitors.first);
+      final nodes = <Binding>[
+        func,
+        struct,
+        objcInterface,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+      generator.visitors.first.visitAll(nodes);
 
       expect(func.symbol.oldName, 'dart_func');
       expect(func.functionType.parameters[0].symbol.oldName, 'renamedParam1');
@@ -407,8 +414,10 @@ objc-interfaces:
         unnamedEnumConst,
       ];
 
-      final publicAst = public_ast.PublicAst(rawBindings);
-      final nodes = publicAst.nodes;
+      final nodes = rawBindings
+          .map((b) => b.toPublicAstNode())
+          .nonNulls
+          .toList();
 
       expect((nodes[0] as public_ast.Func).usr, 'c_foo_usr');
       expect((nodes[1] as public_ast.Struct).usr, 'c_struct_usr');
@@ -477,8 +486,11 @@ objc-interfaces:
         },
       );
 
-      final publicAst = public_ast.PublicAst([func, struct]);
-      publicAst.accept(visitor);
+      final nodes = <Binding>[
+        func,
+        struct,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+      visitor.visitAll(nodes);
 
       expect(visitedFuncs, ['c_foo']);
       expect(visitedStructs, ['c_struct']);
