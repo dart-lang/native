@@ -8,6 +8,8 @@
 # the equivalent in that script as well.
 
 name: jnigen
+permissions:
+  contents: read
 
 on:
   # Run on PRs and pushes to the default branch.
