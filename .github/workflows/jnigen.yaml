@@ -175,7 +175,7 @@ jobs:
         run: dart pub global activate coverage
       - name: Collect coverage
         if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
-        run: dart pub global run coverage:test_with_coverage
+        run: dart pub global run coverage:test_with_coverage -- -x bindings
       - name: Upload coverage
         if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
