@@ -42,7 +42,7 @@ Future<void> rename(ast.Classes classes) async {
   classes.accept(Renamer(config));
 }
 
-class CustomVisitor extends Visitor {
+base class CustomVisitor extends Visitor {
   CustomVisitor() : super.base();
 
   @override

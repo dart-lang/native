@@ -37,7 +37,7 @@ abstract base class Visitor {
   void visitParam(Param parameter) {}
 }
 
-class _VisitorImpl extends Visitor {
+final class _VisitorImpl extends Visitor {
   const _VisitorImpl({
     void Function(ClassDecl node)? visitClass,
     void Function(Method node)? visitMethod,
