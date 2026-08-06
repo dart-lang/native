@@ -28,7 +28,7 @@ void main() {
       // compiler options. It can't use absolute paths because it's checked in
       // yaml code. To support concurrent tests, we can't set Directory.current.
       // As a workaround, add an extra '-I' option that uses the absolute path.
-      generator.headers.compilerOptions!.add(
+      generator.input.compilerOptions!.add(
         '-I${path.join(packagePathForTests, 'third_party/libclang/include')}',
       );
 

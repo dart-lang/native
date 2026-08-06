@@ -26,7 +26,7 @@ Set<Binding> parseTranslationUnit(
   translationUnitCursor.visitChildren((cursor) {
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
-    if (headers[file] ??= context.config.headers.include(Uri.file(file))) {
+    if (headers[file] ??= context.config.input.include(Uri.file(file))) {
       try {
         logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
         switch (clang.clang_getCursorKind(cursor)) {

@@ -39,7 +39,7 @@ void main() {
             wrapperDocComment: 'Bindings to LibClang.',
           ),
         ),
-        headers: Headers(
+        input: Input(
           compilerOptions: [...defaultCompilerOpts(logger), '-I$includeDir'],
           entryPoints: [
             Uri.file(
@@ -67,11 +67,10 @@ void main() {
         structs: Structs.includeAll,
         enums: Enums.includeAll,
         macros: Macros.includeAll,
-        typedefs: Typedefs(
-          include: (_) => true,
-          // ignore: deprecated_member_use_from_same_package
-          imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
-        ),
+        typedefs: Typedefs(include: (_) => true),
+        importType: (decl) => decl.originalName == 'time_t'
+            ? ImportedType(ffiImport, 'Int64', 'int', 'time_t')
+            : null,
       );
       final library = parse(Context(logger, generator));
       final context = testContext();
@@ -135,7 +134,7 @@ void main() {
             wrapperDocComment: 'Bindings to Cjson.',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(
               path.join(
@@ -176,7 +175,7 @@ void main() {
           ),
           commentType: const CommentType(CommentStyle.any, CommentLength.full),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(
               path.join(

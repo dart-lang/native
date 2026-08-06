@@ -79,10 +79,11 @@ class FunctionType extends Type with HasLocalScope {
   @override
   String getNativeType(Context context, {String varName = ''}) {
     final arg = dartTypeParameters.map<String>(
-      (p) => p.type.getNativeType(context),
+      (p) => p.type.getNativeType(context).trim(),
     );
-    final returnTypeStr = returnType.getNativeType(context);
-    return '$returnTypeStr (*$varName)(${arg.join(', ')})';
+    final returnTypeStr = returnType.getNativeType(context).trim();
+    final argStr = arg.isEmpty ? 'void' : arg.join(', ');
+    return '$returnTypeStr (*$varName)($argStr)';
   }
 
   @override

@@ -237,9 +237,9 @@ class ObjCBuiltInFunctions {
 
   // A unique (but not human readable) ID for the generated library based on
   // a hash of parts of the config.
-  static String _libraryIdFromConfigHash(Config config) => fnvHash32(
+  static String _libraryIdFromConfigHash(FfiGenerator config) => fnvHash32(
     [
-      ...config.headers.entryPoints,
+      ...config.input.entryPoints,
       config.output.dartFile,
       config.output.objCFile,
     ].map((uri) => path.basename(uri.toFilePath())).join('\n'),
@@ -368,6 +368,9 @@ final $name = $getClass("$lookupName", () => $address.cast());
   }
 
   @override
+  bool get hasNativeHelperFunctions => true;
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(ffiImport);
@@ -395,6 +398,9 @@ class ObjCProtocolGlobal extends NoLookUpBinding {
         symbol: Symbol(name, SymbolKind.field),
         isInternal: true,
       );
+
+  @override
+  bool get hasNativeHelperFunctions => true;
 
   @override
   BindingString toBindingString(Writer w) {

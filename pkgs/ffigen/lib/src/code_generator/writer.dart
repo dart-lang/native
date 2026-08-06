@@ -48,7 +48,6 @@ class Writer {
     required this.ffiNativeBindings,
     required this.noLookUpBindings,
     required this.nativeAssetId,
-    List<LibraryImport> additionalImports = const <LibraryImport>[],
     this.classDocComment,
     this.header,
     required this.generateForPackageObjectiveC,
@@ -420,7 +419,7 @@ id objc_retainBlock(id);
     final s = StringBuffer();
     final outDir = p.dirname(outFilename);
     // Emit each entry-point header exactly once.
-    for (final header in context.config.headers.entryPoints) {
+    for (final header in context.config.input.entryPoints) {
       s.write('#include "${p.relative(header.toFilePath(), from: outDir)}"\n');
     }
     s.write(r'''
