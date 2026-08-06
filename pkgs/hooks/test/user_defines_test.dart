@@ -65,6 +65,14 @@ void main() {
       expect(uri, Uri.parse('file:///D:/proj/example/some/dir/model.bin'));
       expect(uri.toFilePath(), r'D:\proj\example\some\dir\model.bin');
     });
+
+    test('relative path with Windows separators resolves against basePath', () {
+      if (!Platform.isWindows) return;
+      final input = makeInput({'file': r'some\dir\model.bin'}, basePath);
+      final uri = input.userDefines.path('file')!;
+      expect(uri, Uri.parse('file:///D:/proj/example/some/dir/model.bin'));
+      expect(uri.toFilePath(), r'D:\proj\example\some\dir\model.bin');
+    });
   });
 
   group('path() on POSIX', () {
@@ -81,6 +89,17 @@ void main() {
     test('relative path resolves against basePath', () {
       if (Platform.isWindows) return;
       final input = makeInput({'file': 'some/dir/model.bin'}, basePath);
+      final uri = input.userDefines.path('file')!;
+      expect(
+        uri,
+        Uri.parse('file:///home/user/proj/example/some/dir/model.bin'),
+      );
+      expect(uri.toFilePath(), '/home/user/proj/example/some/dir/model.bin');
+    });
+
+    test('relative path with Windows separators resolves against basePath', () {
+      if (Platform.isWindows) return;
+      final input = makeInput({'file': r'some\dir\model.bin'}, basePath);
       final uri = input.userDefines.path('file')!;
       expect(
         uri,
