@@ -14,7 +14,16 @@ abstract class _Element {
 ///
 /// Users can extend this class to create custom visitors that modify the AST
 /// before code generation.
-abstract class Visitor {
+abstract base class Visitor {
+  const Visitor.base();
+
+  factory Visitor({
+    void Function(ClassDecl node)? visitClass,
+    void Function(Method node)? visitMethod,
+    void Function(Field node)? visitField,
+    void Function(Param node)? visitParam,
+  }) = _VisitorImpl;
+
   /// Visits a class declaration.
   void visitClass(ClassDecl c) {}
 
@@ -26,6 +35,44 @@ abstract class Visitor {
 
   /// Visits a parameter declaration.
   void visitParam(Param parameter) {}
+}
+
+final class _VisitorImpl extends Visitor {
+  const _VisitorImpl({
+    void Function(ClassDecl node)? visitClass,
+    void Function(Method node)? visitMethod,
+    void Function(Field node)? visitField,
+    void Function(Param node)? visitParam,
+  })  : _visitClass = visitClass,
+        _visitMethod = visitMethod,
+        _visitField = visitField,
+        _visitParam = visitParam,
+        super.base();
+
+  final void Function(ClassDecl node)? _visitClass;
+  final void Function(Method node)? _visitMethod;
+  final void Function(Field node)? _visitField;
+  final void Function(Param node)? _visitParam;
+
+  @override
+  void visitClass(ClassDecl c) {
+    _visitClass?.call(c);
+  }
+
+  @override
+  void visitMethod(Method method) {
+    _visitMethod?.call(method);
+  }
+
+  @override
+  void visitField(Field field) {
+    _visitField?.call(field);
+  }
+
+  @override
+  void visitParam(Param parameter) {
+    _visitParam?.call(parameter);
+  }
 }
 
 /// A collection of class declarations.

@@ -21,32 +21,27 @@ const Map<String, String> _constructorAllowList = {
   'Short': 's',
 };
 
-class Renamer extends Visitor {
-  late ClassDecl _class;
+base class Renamer extends Visitor {
+  Renamer() : super.base();
+
+  ClassDecl? _currentClass;
 
   @override
   void visitClass(ClassDecl c) {
-    _class = c;
+    _currentClass = c;
     c.name = 'J${c.originalName}';
   }
 
   @override
   void visitMethod(Method m) {
     if (!m.isConstructor) return;
-    final sig = _constructorAllowList[_class.originalName];
+    final sig = _constructorAllowList[_currentClass?.originalName];
     if (sig == null) return;
-    final lister = ListParams();
-    m.accept(lister);
-    m.isExcluded = !(lister.params.length == 1 && lister.params.first == sig);
-  }
-}
-
-class ListParams extends Visitor {
-  List<String> params = [];
-
-  @override
-  void visitParam(Param p) {
-    params.add(p.originalName);
+    final params = <String>[];
+    m.accept(Visitor(
+      visitParam: (p) => params.add(p.originalName),
+    ));
+    m.isExcluded = !(params.length == 1 && params.first == sig);
   }
 }
 
