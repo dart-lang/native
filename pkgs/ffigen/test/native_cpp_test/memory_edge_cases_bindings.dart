@@ -244,10 +244,8 @@ class NodeContainer implements ffi.Finalizable {
   }
 
   factory NodeContainer(Node node) {
-    final _raw_node = node.detachPointer();
-
     return NodeContainer.fromPointer(
-      _NodeContainer_new(_raw_node),
+      _NodeContainer_new(node.detachPointer()),
       takeOwnership: true,
     );
   }
@@ -461,9 +459,7 @@ class NodeManager implements ffi.Finalizable {
       throw StateError('This object has already been disposed.');
     }
 
-    final _raw_node = node.detachPointer();
-
-    return _NodeManager_consumeNode(_ptr, _raw_node);
+    return _NodeManager_consumeNode(_ptr, node.detachPointer());
   }
 
   void dispose() {

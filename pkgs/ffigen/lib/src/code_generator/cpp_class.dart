@@ -212,43 +212,23 @@ class $name implements $ffiPrefix.Finalizable {
       final privateName = '_$glueName';
 
       final dartParams = dartParamList(ctor.parameters);
-
-      final ownedParams = ctor.parameters
-          .where((p) => p.type is CppUniquePtrType)
-          .toList();
-
       final localVars = LocalVariables(ctor.localScope);
 
-      final rawPtrVars = <String, String>{};
-      for (final p in ownedParams) {
-        rawPtrVars[p.name] = '_raw_${p.name}';
-      }
-
       final callArgs = ctor.parameters
-          .map((p) {
-            if (rawPtrVars.containsKey(p.name)) {
-              return rawPtrVars[p.name]!;
-            }
-            return p.type.convertDartTypeToFfiDartType(
+          .map(
+            (p) => p.type.convertDartTypeToFfiDartType(
               ctx,
               p.name,
               objCRetain: false,
               objCAutorelease: false,
               localVariables: localVars,
-            );
-          })
+            ),
+          )
           .join(', ');
-
-      final ownershipChecks = StringBuffer();
-      for (final p in ownedParams) {
-        final raw = rawPtrVars[p.name]!;
-        ownershipChecks.write('    final $raw = ${p.name}.detachPointer();\n');
-      }
 
       s.write('''
   factory $name($dartParams) {
     ${localVars.generateDeclarations()}
-    ${ownershipChecks.toString().trimLeft()}
     return $name.fromPointer($privateName($callArgs), takeOwnership: true);
   }
 ''');
@@ -258,32 +238,19 @@ class $name implements $ffiPrefix.Finalizable {
       final glue = '_${method.name.name}';
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
-
-      final ownedParams = method.parameters
-          .where((p) => p.type is CppUniquePtrType)
-          .toList();
-
       final localVars = LocalVariables(method.localScope);
-
-      final rawPtrVars = <String, String>{};
-      for (final p in ownedParams) {
-        rawPtrVars[p.name] = '_raw_${p.name}';
-      }
 
       final callArgs = [
         if (!method.isStatic) '_ptr',
-        ...method.parameters.map((p) {
-          if (rawPtrVars.containsKey(p.name)) {
-            return rawPtrVars[p.name]!;
-          }
-          return p.type.convertDartTypeToFfiDartType(
+        ...method.parameters.map(
+          (p) => p.type.convertDartTypeToFfiDartType(
             ctx,
             p.name,
             objCRetain: false,
             objCAutorelease: false,
             localVariables: localVars,
-          );
-        }),
+          ),
+        ),
       ].join(', ');
       final decls = localVars.generateDeclarations();
 
@@ -293,37 +260,23 @@ class $name implements $ffiPrefix.Finalizable {
         objCRetain: false,
       );
 
-      // Build the ownership-transfer preamble for owned parameters.
-      final ownershipChecks = StringBuffer();
-      for (final p in ownedParams) {
-        final raw = rawPtrVars[p.name]!;
-        ownershipChecks.write('    final $raw = ${p.name}.detachPointer();\n');
-      }
-
       final hasReturn = method.returnType != voidType;
+      final callLine = hasReturn ? 'return $returnExpr;' : '$returnExpr;';
 
       if (method.isStatic) {
-        final callLine = hasReturn
-            ? 'return $returnExpr;'
-            : '$glue($callArgs);';
         s.write('''\
   static $dartReturn ${method.originalName}($dartParams) {
     $decls
-    ${ownershipChecks.toString().trimLeft()}
     $callLine
   }
 ''');
       } else {
-        final callLine = hasReturn
-            ? 'return $returnExpr;'
-            : '$glue($callArgs);';
         s.write('''\
   $dartReturn ${method.originalName}($dartParams) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
     $decls
-    ${ownershipChecks.toString().trimLeft()}
     $callLine
   }
 ''');

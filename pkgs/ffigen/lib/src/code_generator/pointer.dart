@@ -255,6 +255,9 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
 }
 
 /// A pointer to a C++ class wrapper object.
+///
+/// Returned pointers are unowned by default. The developer must call
+/// `retainOwnership()` explicitly  if ownership has been transferred.
 class CppClassPointerType extends PointerType {
   final CppClass cppClass;
 
@@ -316,6 +319,15 @@ class CppClassPointerType extends PointerType {
 /// A type representing `std::unique_ptr<T>` ownership transfer.
 class CppUniquePtrType extends CppClassPointerType {
   CppUniquePtrType(super.cppClass);
+
+  @override
+  String convertDartTypeToFfiDartType(
+    Context context,
+    String value, {
+    required bool objCRetain,
+    required bool objCAutorelease,
+    required LocalVariables localVariables,
+  }) => '$value.detachPointer()';
 
   @override
   String convertFfiDartTypeToDartType(

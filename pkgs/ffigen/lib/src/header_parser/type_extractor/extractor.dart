@@ -48,12 +48,10 @@ Type getCodeGenType(
     final numTemplateArgs = clang.clang_Type_getNumTemplateArguments(cxtype);
     if (numTemplateArgs >= 1) {
       final declCursor = clang.clang_getTypeDeclaration(cxtype);
-      final usr = clang.clang_getCursorUSR(declCursor).toStringAndDispose();
-      final isStdUniquePtr = usr.contains('std@') && usr.contains('unique_ptr');
+      final usr = declCursor.usr();
+      final isStdUniquePtr = usr.startsWith('c:@N@std@S@unique_ptr');
       if (isStdUniquePtr) {
-        final spelling = clang
-            .clang_getTypeSpelling(cxtype)
-            .toStringAndDispose();
+        final spelling = cxtype.spelling();
         return _extractUniquePtrType(
           context,
           cxtype,
