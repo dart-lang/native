@@ -8,7 +8,6 @@ import 'code_generator.dart' as cg;
 abstract class _AstNode {
   const _AstNode();
   void accept(Visitor visitor);
-  void visitChildren(Visitor visitor) {}
 }
 
 /// Base class for AST visitors.
@@ -22,54 +21,23 @@ abstract class Visitor {
     }
   }
 
-  void visitFunc(Func node) {
-    node.visitChildren(this);
-  }
-
-  void visitStruct(Struct node) {
-    node.visitChildren(this);
-  }
-
-  void visitUnion(Union node) {
-    node.visitChildren(this);
-  }
-
-  void visitEnum(EnumClass node) {
-    node.visitChildren(this);
-  }
-
+  void visitFunc(Func node) {}
+  void visitStruct(Struct node) {}
+  void visitUnion(Union node) {}
+  void visitEnum(EnumClass node) {}
   void visitGlobal(Global node) {}
   void visitMacro(MacroConstant node) {}
   void visitTypealias(Typealias node) {}
-
-  void visitObjCInterface(ObjCInterface node) {
-    node.visitChildren(this);
-  }
-
-  void visitObjCProtocol(ObjCProtocol node) {
-    node.visitChildren(this);
-  }
-
-  void visitObjCCategory(ObjCCategory node) {
-    node.visitChildren(this);
-  }
-
-  void visitCppClass(CppClass node) {
-    node.visitChildren(this);
-  }
-
+  void visitObjCInterface(ObjCInterface node) {}
+  void visitObjCProtocol(ObjCProtocol node) {}
+  void visitObjCCategory(ObjCCategory node) {}
+  void visitCppClass(CppClass node) {}
   void visitField(Field node) {}
   void visitEnumConstant(EnumConstant node) {}
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {}
   void visitParameter(Parameter node) {}
-
-  void visitObjCMethod(ObjCMethod node) {
-    node.visitChildren(this);
-  }
-
-  void visitCppMethod(CppMethod node) {
-    node.visitChildren(this);
-  }
+  void visitObjCMethod(ObjCMethod node) {}
+  void visitCppMethod(CppMethod node) {}
 }
 
 /// A container holding the AST node wrappers for public AST traversal.
@@ -97,10 +65,8 @@ class Func extends _AstNode {
     : params = _func.functionType.parameters.map(Parameter.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitFunc(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitFunc(this);
     visitor.visitAll(params);
   }
 
@@ -120,10 +86,8 @@ class Struct extends _AstNode {
   Struct(this._struct) : members = _struct.members.map(Field.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitStruct(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitStruct(this);
     visitor.visitAll(members);
   }
 
@@ -140,10 +104,8 @@ class Union extends _AstNode {
   Union(this._union) : members = _union.members.map(Field.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitUnion(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitUnion(this);
     visitor.visitAll(members);
   }
 
@@ -161,10 +123,8 @@ class EnumClass extends _AstNode {
     : constants = _enumClass.enumConstants.map(EnumConstant.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitEnum(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitEnum(this);
     visitor.visitAll(constants);
   }
 
@@ -224,10 +184,8 @@ class ObjCInterface extends _AstNode {
     : methods = _interface.methods.map(ObjCMethod.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitObjCInterface(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitObjCInterface(this);
     visitor.visitAll(methods);
   }
 
@@ -249,10 +207,8 @@ class ObjCProtocol extends _AstNode {
     : methods = _protocol.methods.map(ObjCMethod.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitObjCProtocol(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitObjCProtocol(this);
     visitor.visitAll(methods);
   }
 
@@ -270,10 +226,8 @@ class ObjCCategory extends _AstNode {
     : methods = _category.methods.map(ObjCMethod.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitObjCCategory(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitObjCCategory(this);
     visitor.visitAll(methods);
   }
 
@@ -291,10 +245,8 @@ class CppClass extends _AstNode {
     : methods = _cppClass.methods.map(CppMethod.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitCppClass(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitCppClass(this);
     visitor.visitAll(methods);
   }
 
@@ -354,10 +306,8 @@ class CppMethod extends _AstNode {
     : params = _method.parameters.map(Parameter.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitCppMethod(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitCppMethod(this);
     visitor.visitAll(params);
   }
 
@@ -375,10 +325,8 @@ class ObjCMethod extends _AstNode {
     : params = _method.params.map(Parameter.new).toList();
 
   @override
-  void accept(Visitor visitor) => visitor.visitObjCMethod(this);
-
-  @override
-  void visitChildren(Visitor visitor) {
+  void accept(Visitor visitor) {
+    visitor.visitObjCMethod(this);
     visitor.visitAll(params);
   }
 
