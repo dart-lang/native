@@ -274,6 +274,14 @@ final class HookInputUserDefines {
   ///   // Read assets from the directory...
   /// }
   /// ```
+  ///
+  /// See also:
+  ///
+  ///  - [baseUri], which returns the equivalent of [Uri.base] for the source
+  ///    defining a key (e.g. the directory containing a workspace pubspec with
+  ///    a `hooks` entry). Unlike this method, which directly interprets a
+  ///    value as a path, the base uri can be used to [Uri.resolve] arbitrary
+  ///    path values.
   Uri? path(String key) {
     if (_findDefine([key]) case (final String path, final source)?) {
       if (File(path).isAbsolute) {
