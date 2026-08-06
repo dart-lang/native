@@ -47,7 +47,7 @@ class Union extends Compound {
   int? get pack => null;
 
   @override
-  Object? toPublicAstNode() => public_ast.Union(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.Union(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitUnion(this);

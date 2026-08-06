@@ -45,7 +45,7 @@ class Global extends LookUpBinding with HasLocalScope {
   }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override
-  Object? toPublicAstNode() => public_ast.Global(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.Global(this);
 
   @override
   BindingString toBindingString(Writer w) {

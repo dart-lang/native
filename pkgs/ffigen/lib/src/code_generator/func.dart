@@ -109,7 +109,7 @@ class Func extends LookUpBinding with HasLocalScope {
   }
 
   @override
-  Object? toPublicAstNode() => public_ast.Func(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.Func(this);
 
   @override
   BindingString toBindingString(Writer w) {

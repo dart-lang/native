@@ -4,6 +4,7 @@
 
 import 'package:ffigen/ffigen.dart' show FfiGenerator, Output, YamlConfig;
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:ffigen/src/public_ast.dart' as public_ast;
 import 'package:test/test.dart';
@@ -486,6 +487,148 @@ objc-interfaces:
       expect(func.symbol.oldName, 'dartFoo');
       expect(struct.symbol.oldName, 'DartStruct');
       expect(func.functionType.parameters[0].symbol.oldName, 'renamedArg0');
+    });
+
+    test('Parent and child pointers in public AST nodes', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final cgFunc = Func(
+        name: 'my_func',
+        originalName: 'my_func',
+        returnType: voidType,
+        parameters: [Parameter(name: 'p1', type: intType)],
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+      expect(publicFunc.params[0].parent, same(publicFunc));
+
+      final cgStruct = Struct(
+        name: 'my_struct',
+        originalName: 'my_struct',
+        context: context,
+        members: [
+          CompoundMember(name: 'f1', originalName: 'f1', type: intType),
+        ],
+      );
+      final publicStruct = public_ast.Struct(cgStruct);
+      expect(publicStruct.members[0].parent, same(publicStruct));
+
+      final cgUnion = Union(
+        name: 'my_union',
+        originalName: 'my_union',
+        context: context,
+        members: [
+          CompoundMember(name: 'u1', originalName: 'u1', type: intType),
+        ],
+      );
+      final publicUnion = public_ast.Union(cgUnion);
+      expect(publicUnion.members[0].parent, same(publicUnion));
+
+      final cgEnum = EnumClass(
+        name: 'my_enum',
+        originalName: 'my_enum',
+        context: context,
+        enumConstants: [EnumConstant(name: 'C1', originalName: 'C1', value: 0)],
+      );
+      final publicEnum = public_ast.EnumClass(cgEnum);
+      expect(publicEnum.constants[0].parent, same(publicEnum));
+
+      final cgObjCMethod = ObjCMethod(
+        context: context,
+        originalName: 'doIt:',
+        name: 'doIt:',
+        kind: ObjCMethodKind.method,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: voidType,
+        family: null,
+        apiAvailability: ApiAvailability.all,
+        params: [Parameter(name: 'arg1', type: intType)],
+        ownershipAttribute: null,
+        consumesSelfAttribute: false,
+      );
+      final cgObjCInterface = ObjCInterface(
+        context: context,
+        originalName: 'MyItf',
+        name: 'MyItf',
+        apiAvailability: ApiAvailability.all,
+      )..addMethod(cgObjCMethod);
+      final publicObjCInterface = public_ast.ObjCInterface(cgObjCInterface);
+      expect(publicObjCInterface.methods[0].parent, same(publicObjCInterface));
+      expect(
+        publicObjCInterface.methods[0].params[0].parent,
+        same(publicObjCInterface.methods[0]),
+      );
+
+      final cgObjCProtoMethod = ObjCMethod(
+        context: context,
+        originalName: 'protoMethod:',
+        name: 'protoMethod:',
+        kind: ObjCMethodKind.method,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: voidType,
+        family: null,
+        apiAvailability: ApiAvailability.all,
+        params: [Parameter(name: 'pArg', type: intType)],
+        ownershipAttribute: null,
+        consumesSelfAttribute: false,
+      );
+      final cgObjCProtocol = ObjCProtocol(
+        context: context,
+        originalName: 'MyProto',
+        name: 'MyProto',
+        apiAvailability: ApiAvailability.all,
+      )..addMethod(cgObjCProtoMethod);
+      final publicObjCProtocol = public_ast.ObjCProtocol(cgObjCProtocol);
+      expect(publicObjCProtocol.methods[0].parent, same(publicObjCProtocol));
+
+      final cgObjCCatMethod = ObjCMethod(
+        context: context,
+        originalName: 'catMethod:',
+        name: 'catMethod:',
+        kind: ObjCMethodKind.method,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: voidType,
+        family: null,
+        apiAvailability: ApiAvailability.all,
+        params: [Parameter(name: 'cArg', type: intType)],
+        ownershipAttribute: null,
+        consumesSelfAttribute: false,
+      );
+      final cgObjCCategory = ObjCCategory(
+        context: context,
+        originalName: 'MyCat',
+        name: 'MyCat',
+        parent: cgObjCInterface,
+        apiAvailability: ApiAvailability.all,
+      )..addMethod(cgObjCCatMethod);
+      final publicObjCCategory = public_ast.ObjCCategory(cgObjCCategory);
+      expect(publicObjCCategory.methods[0].parent, same(publicObjCCategory));
+      expect(publicObjCCategory.interface.name, 'MyItf');
+
+      final cgCppMethod = CppMethod(
+        name: Symbol('cppFunc', SymbolKind.method),
+        originalName: 'cppFunc',
+        returnType: voidType,
+        parameters: [Parameter(name: 'cppArg', type: intType)],
+        isConstant: false,
+      );
+      final cgCppClass = CppClass(
+        context: context,
+        originalName: 'CppClass',
+        name: 'CppClass',
+        methods: [cgCppMethod],
+        fields: [],
+      );
+      final publicCppClass = public_ast.CppClass(cgCppClass);
+      expect(publicCppClass.methods[0].parent, same(publicCppClass));
+      expect(
+        publicCppClass.methods[0].params[0].parent,
+        same(publicCppClass.methods[0]),
+      );
     });
   });
 }

@@ -50,7 +50,7 @@ class Struct extends Compound {
   int? pack;
 
   @override
-  Object? toPublicAstNode() => public_ast.Struct(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.Struct(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitStruct(this);

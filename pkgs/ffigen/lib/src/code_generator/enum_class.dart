@@ -74,7 +74,8 @@ class EnumClass extends BindingType with HasLocalScope {
        enumConstants = enumConstants ?? [];
 
   @override
-  Object? toPublicAstNode() => isAnonymous ? null : public_ast.EnumClass(this);
+  public_ast.AstNode? toPublicAstNode() =>
+      isAnonymous ? null : public_ast.EnumClass(this);
 
   /// Returns a string to declare the enum member and any documentation it may
   /// have had.

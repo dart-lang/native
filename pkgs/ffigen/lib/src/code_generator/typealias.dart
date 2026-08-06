@@ -108,7 +108,7 @@ class Typealias extends BindingType {
   }
 
   @override
-  Object? toPublicAstNode() => public_ast.Typealias(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.Typealias(this);
 
   @override
   BindingString toBindingString(Writer w) {

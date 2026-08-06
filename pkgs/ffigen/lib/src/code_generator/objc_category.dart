@@ -47,7 +47,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
       context.objCBuiltInFunctions.isBuiltInCategory(originalName);
 
   @override
-  Object? toPublicAstNode() => public_ast.ObjCCategory(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCCategory(this);
 
   @override
   BindingString toBindingString(Writer w) {

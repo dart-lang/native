@@ -82,7 +82,7 @@ class CppClass extends BindingType with HasLocalScope {
   });
 
   @override
-  Object? toPublicAstNode() => public_ast.CppClass(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.CppClass(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitCppClass(this);

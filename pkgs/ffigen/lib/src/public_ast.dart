@@ -5,8 +5,8 @@
 import 'code_generator.dart' as cg;
 
 /// Abstract base class for all public AST nodes.
-abstract class _AstNode {
-  const _AstNode();
+abstract class AstNode {
+  const AstNode();
   void accept(Visitor visitor);
 }
 
@@ -42,8 +42,7 @@ abstract class Visitor {
     void Function(CppMethod) visitCppMethod,
   }) = _CallbackVisitor;
 
-  // ignore: library_private_types_in_public_api
-  void visitAll(Iterable<_AstNode> nodes) {
+  void visitAll(Iterable<AstNode> nodes) {
     for (final node in nodes) {
       node.accept(this);
     }
@@ -181,13 +180,12 @@ class _CallbackVisitor extends Visitor {
 
 /// A container holding top-level public AST nodes for visitor traversal.
 class PublicAst {
-  // ignore: library_private_types_in_public_api
-  final List<_AstNode> nodes;
+  final List<AstNode> nodes;
 
   PublicAst(List<cg.Binding> rawBindings)
     : nodes = rawBindings
           .map((b) => b.toPublicAstNode())
-          .whereType<_AstNode>()
+          .whereType<AstNode>()
           .toList();
 
   void accept(Visitor visitor) {
@@ -196,15 +194,18 @@ class PublicAst {
 }
 
 /// Public AST node representing a C function declaration.
-class Func extends _AstNode {
+class Func extends AstNode {
   final cg.Func _func;
 
   /// The parameters of this function.
   final List<Param> params;
 
   /// Creates a public [Func] AST node wrapper.
-  Func(this._func)
-    : params = _func.functionType.parameters.map(Param.new).toList();
+  Func(this._func) : params = [] {
+    params.addAll(
+      _func.functionType.parameters.map((p) => Param(p, parent: this)),
+    );
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -226,14 +227,16 @@ class Func extends _AstNode {
 }
 
 /// Public AST node representing a C struct declaration.
-class Struct extends _AstNode {
+class Struct extends AstNode {
   final cg.Struct _struct;
 
   /// The fields belonging to this struct.
   final List<Field> members;
 
   /// Creates a public [Struct] AST node wrapper.
-  Struct(this._struct) : members = _struct.members.map(Field.new).toList();
+  Struct(this._struct) : members = [] {
+    members.addAll(_struct.members.map((m) => Field(m, parent: this)));
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -252,14 +255,16 @@ class Struct extends _AstNode {
 }
 
 /// Public AST node representing a C union declaration.
-class Union extends _AstNode {
+class Union extends AstNode {
   final cg.Union _union;
 
   /// The fields belonging to this union.
   final List<Field> members;
 
   /// Creates a public [Union] AST node wrapper.
-  Union(this._union) : members = _union.members.map(Field.new).toList();
+  Union(this._union) : members = [] {
+    members.addAll(_union.members.map((m) => Field(m, parent: this)));
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -278,15 +283,18 @@ class Union extends _AstNode {
 }
 
 /// Public AST node representing an enum declaration.
-class EnumClass extends _AstNode {
+class EnumClass extends AstNode {
   final cg.EnumClass _enumClass;
 
   /// The constants belonging to this enum.
   final List<EnumConstant> constants;
 
   /// Creates a public [EnumClass] AST node wrapper.
-  EnumClass(this._enumClass)
-    : constants = _enumClass.enumConstants.map(EnumConstant.new).toList();
+  EnumClass(this._enumClass) : constants = [] {
+    constants.addAll(
+      _enumClass.enumConstants.map((c) => EnumConstant(c, parent: this)),
+    );
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -305,7 +313,7 @@ class EnumClass extends _AstNode {
 }
 
 /// Public AST node representing a C global variable declaration.
-class Global extends _AstNode {
+class Global extends AstNode {
   final cg.Global _global;
 
   /// Creates a public [Global] AST node wrapper.
@@ -325,7 +333,7 @@ class Global extends _AstNode {
 }
 
 /// Public AST node representing a C macro constant declaration.
-class MacroConstant extends _AstNode {
+class MacroConstant extends AstNode {
   final cg.MacroConstant _macro;
 
   /// Creates a public [MacroConstant] AST node wrapper.
@@ -345,7 +353,7 @@ class MacroConstant extends _AstNode {
 }
 
 /// Public AST node representing a C typedef (type alias) declaration.
-class Typealias extends _AstNode {
+class Typealias extends AstNode {
   final cg.Typealias _typealias;
 
   /// Creates a public [Typealias] AST node wrapper.
@@ -365,15 +373,16 @@ class Typealias extends _AstNode {
 }
 
 /// Public AST node representing an Objective-C interface (class) declaration.
-class ObjCInterface extends _AstNode {
+class ObjCInterface extends AstNode {
   final cg.ObjCInterface _interface;
 
   /// The methods belonging to this Objective-C interface.
   final List<ObjCMethod> methods;
 
   /// Creates a public [ObjCInterface] AST node wrapper.
-  ObjCInterface(this._interface)
-    : methods = _interface.methods.map(ObjCMethod.new).toList();
+  ObjCInterface(this._interface) : methods = [] {
+    methods.addAll(_interface.methods.map((m) => ObjCMethod(m, parent: this)));
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -397,15 +406,16 @@ class ObjCInterface extends _AstNode {
 }
 
 /// Public AST node representing an Objective-C protocol declaration.
-class ObjCProtocol extends _AstNode {
+class ObjCProtocol extends AstNode {
   final cg.ObjCProtocol _protocol;
 
   /// The methods belonging to this Objective-C protocol.
   final List<ObjCMethod> methods;
 
   /// Creates a public [ObjCProtocol] AST node wrapper.
-  ObjCProtocol(this._protocol)
-    : methods = _protocol.methods.map(ObjCMethod.new).toList();
+  ObjCProtocol(this._protocol) : methods = [] {
+    methods.addAll(_protocol.methods.map((m) => ObjCMethod(m, parent: this)));
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -425,15 +435,19 @@ class ObjCProtocol extends _AstNode {
 }
 
 /// Public AST node representing an Objective-C category declaration.
-class ObjCCategory extends _AstNode {
+class ObjCCategory extends AstNode {
   final cg.ObjCCategory _category;
 
   /// The methods belonging to this Objective-C category.
   final List<ObjCMethod> methods;
 
   /// Creates a public [ObjCCategory] AST node wrapper.
-  ObjCCategory(this._category)
-    : methods = _category.methods.map(ObjCMethod.new).toList();
+  ObjCCategory(this._category) : methods = [] {
+    methods.addAll(_category.methods.map((m) => ObjCMethod(m, parent: this)));
+  }
+
+  /// The [ObjCInterface] that this category extends.
+  ObjCInterface get interface => ObjCInterface(_category.parent);
 
   @override
   void accept(Visitor visitor) {
@@ -453,15 +467,16 @@ class ObjCCategory extends _AstNode {
 }
 
 /// Public AST node representing a C++ class declaration.
-class CppClass extends _AstNode {
+class CppClass extends AstNode {
   final cg.CppClass _cppClass;
 
   /// The methods belonging to this C++ class.
   final List<CppMethod> methods;
 
   /// Creates a public [CppClass] AST node wrapper.
-  CppClass(this._cppClass)
-    : methods = _cppClass.methods.map(CppMethod.new).toList();
+  CppClass(this._cppClass) : methods = [] {
+    methods.addAll(_cppClass.methods.map((m) => CppMethod(m, parent: this)));
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -480,11 +495,14 @@ class CppClass extends _AstNode {
 }
 
 /// Public AST node representing a field in a struct or union.
-class Field extends _AstNode {
+class Field extends AstNode {
   final cg.CompoundMember _member;
 
+  /// The parent AST node containing this field (a [Struct] or [Union]).
+  final AstNode? parent;
+
   /// Creates a public [Field] AST node wrapper.
-  Field(this._member);
+  Field(this._member, {this.parent});
 
   @override
   void accept(Visitor visitor) => visitor.visitField(this);
@@ -497,11 +515,14 @@ class Field extends _AstNode {
 }
 
 /// Public AST node representing a constant inside a named enum.
-class EnumConstant extends _AstNode {
+class EnumConstant extends AstNode {
   final cg.EnumConstant _constant;
 
+  /// The parent [EnumClass] containing this constant.
+  final EnumClass? parent;
+
   /// Creates a public [EnumConstant] AST node wrapper.
-  EnumConstant(this._constant);
+  EnumConstant(this._constant, {this.parent});
 
   @override
   void accept(Visitor visitor) => visitor.visitEnumConstant(this);
@@ -514,11 +535,15 @@ class EnumConstant extends _AstNode {
 }
 
 /// Public AST node representing a function or method parameter.
-class Param extends _AstNode {
+class Param extends AstNode {
   final cg.Parameter _parameter;
 
+  /// The parent AST node containing this parameter (a [Func], [ObjCMethod], or
+  /// [CppMethod]).
+  final AstNode? parent;
+
   /// Creates a public [Param] AST node wrapper.
-  Param(this._parameter);
+  Param(this._parameter, {this.parent});
 
   @override
   void accept(Visitor visitor) => visitor.visitParam(this);
@@ -531,14 +556,19 @@ class Param extends _AstNode {
 }
 
 /// Public AST node representing a C++ method declaration.
-class CppMethod extends _AstNode {
+class CppMethod extends AstNode {
   final cg.CppMethod _method;
 
   /// The parameters of this C++ method.
   final List<Param> params;
 
+  /// The parent [CppClass] containing this C++ method.
+  final CppClass? parent;
+
   /// Creates a public [CppMethod] AST node wrapper.
-  CppMethod(this._method) : params = _method.parameters.map(Param.new).toList();
+  CppMethod(this._method, {this.parent}) : params = [] {
+    params.addAll(_method.parameters.map((p) => Param(p, parent: this)));
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -554,14 +584,20 @@ class CppMethod extends _AstNode {
 }
 
 /// Public AST node representing an Objective-C method declaration.
-class ObjCMethod extends _AstNode {
+class ObjCMethod extends AstNode {
   final cg.ObjCMethod _method;
 
   /// The parameters of this Objective-C method.
   final List<Param> params;
 
+  /// The parent AST node containing this Objective-C method (an
+  /// [ObjCInterface], [ObjCProtocol], or [ObjCCategory]).
+  final AstNode? parent;
+
   /// Creates a public [ObjCMethod] AST node wrapper.
-  ObjCMethod(this._method) : params = _method.params.map(Param.new).toList();
+  ObjCMethod(this._method, {this.parent}) : params = [] {
+    params.addAll(_method.params.map((p) => Param(p, parent: this)));
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -586,7 +622,7 @@ class ObjCMethod extends _AstNode {
 }
 
 /// Public AST node representing an unnamed enum constant.
-class UnnamedEnumConstant extends _AstNode {
+class UnnamedEnumConstant extends AstNode {
   final cg.UnnamedEnumConstant _constant;
 
   /// Creates a public [UnnamedEnumConstant] AST node wrapper.

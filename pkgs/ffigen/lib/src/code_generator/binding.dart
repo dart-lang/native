@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../config_provider/config_types.dart' show Declaration;
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'scope.dart';
@@ -62,7 +63,7 @@ abstract class Binding extends AstNode implements Declaration {
   String? toCppBindingString(Writer w) => null;
 
   /// Returns the public AST node wrapper for this binding, or null.
-  Object? toPublicAstNode() => null;
+  public_ast.AstNode? toPublicAstNode() => null;
 
   @override
   void visit(Visitation visitation) => visitation.visitBinding(this);

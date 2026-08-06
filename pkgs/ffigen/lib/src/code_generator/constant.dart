@@ -78,7 +78,7 @@ class UnnamedEnumConstant extends Constant {
   });
 
   @override
-  Object? toPublicAstNode() => public_ast.UnnamedEnumConstant(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.UnnamedEnumConstant(this);
 
   @override
   void visit(Visitation visitation) =>
@@ -98,7 +98,7 @@ class MacroConstant extends Constant {
   });
 
   @override
-  Object? toPublicAstNode() => public_ast.MacroConstant(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.MacroConstant(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitMacroConstant(this);
