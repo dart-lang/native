@@ -324,6 +324,8 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
       kind == ObjCMethodKind.propertySetter;
+  bool get isPropertyGetter => kind == ObjCMethodKind.propertyGetter;
+  bool get isPropertySetter => kind == ObjCMethodKind.propertySetter;
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
   bool get unavailable => apiAvailability.availability == Availability.none;

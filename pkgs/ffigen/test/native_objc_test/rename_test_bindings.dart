@@ -94,13 +94,13 @@ extension Renamed$Methods on Renamed {
   }
 
   /// renamedMethod:otherArg:
-  int fooBarBaz(int x, {required int y}) {
+  int fooBarBaz(int x, {required int otherArg}) {
     final _$$ref = object$.ref;
     return _objc_msgSend_1q0lyci(
       _$$ref.pointer,
       _sel_renamedMethod_otherArg_,
       x,
-      y,
+      otherArg,
     );
   }
 

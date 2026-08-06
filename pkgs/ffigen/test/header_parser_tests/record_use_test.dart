@@ -15,7 +15,7 @@ class _RenamingVisitor extends public_ast.Visitor {
 
   @override
   void visitFunc(public_ast.Func node) {
-    if (node.originalName == 'sum') {
+    if (node.name == 'sum') {
       node.name = 'add';
     }
   }

@@ -14,7 +14,7 @@ import '../test_utils.dart';
 class CustomRenamerVisitor extends public_ast.Visitor {
   @override
   void visitFunc(public_ast.Func node) {
-    if (node.originalName == 'c_foo') {
+    if (node.name == 'c_foo') {
       node.name = 'dartFoo';
     }
     super.visitFunc(node);
@@ -22,7 +22,7 @@ class CustomRenamerVisitor extends public_ast.Visitor {
 
   @override
   void visitStruct(public_ast.Struct node) {
-    if (node.originalName == 'c_struct') {
+    if (node.name == 'c_struct') {
       node.name = 'DartStruct';
     }
     super.visitStruct(node);
@@ -30,14 +30,14 @@ class CustomRenamerVisitor extends public_ast.Visitor {
 
   @override
   void visitField(public_ast.Field node) {
-    if (node.originalName == 'field_a') {
+    if (node.name == 'field_a') {
       node.name = 'renamedFieldA';
     }
   }
 
   @override
   void visitEnum(public_ast.EnumClass node) {
-    if (node.originalName == 'c_enum') {
+    if (node.name == 'c_enum') {
       node.name = 'DartEnum';
     }
     super.visitEnum(node);
@@ -45,14 +45,14 @@ class CustomRenamerVisitor extends public_ast.Visitor {
 
   @override
   void visitEnumConstant(public_ast.EnumConstant node) {
-    if (node.originalName == 'K_VALUE_A') {
+    if (node.name == 'K_VALUE_A') {
       node.name = 'valueA';
     }
   }
 
   @override
   void visitObjCInterface(public_ast.ObjCInterface node) {
-    if (node.originalName == 'MyClass') {
+    if (node.name == 'MyClass') {
       node.name = 'RenamedMyClass';
     }
     super.visitObjCInterface(node);
@@ -64,6 +64,13 @@ class CustomRenamerVisitor extends public_ast.Visitor {
       node.name = 'customCompare';
       node.params[1].name = 'customOptions';
       node.params[2].name = 'customRange';
+    }
+  }
+
+  @override
+  void visitParam(public_ast.Param node) {
+    if (node.name == 'arg_0') {
+      node.name = 'renamedArg0';
     }
   }
 }
@@ -296,6 +303,126 @@ objc-interfaces:
       expect(objcInterface.symbol.oldName, 'NewClass');
       expect(objcMethod.symbol.oldName, 'customFoo');
       expect(objcMethod.params.elementAt(1).symbol.oldName, 'customBar');
+    });
+
+    test('Public AST nodes expose usr getter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final func = Func(
+        usr: 'c_foo_usr',
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+      );
+      final struct = Struct(
+        usr: 'c_struct_usr',
+        name: 'c_struct',
+        originalName: 'c_struct',
+        context: context,
+      );
+      final union = Union(
+        usr: 'c_union_usr',
+        name: 'c_union',
+        originalName: 'c_union',
+        context: context,
+      );
+      final enumClass = EnumClass(
+        usr: 'c_enum_usr',
+        name: 'c_enum',
+        originalName: 'c_enum',
+        context: context,
+      );
+      final global = Global(
+        usr: 'c_global_usr',
+        name: 'c_global',
+        originalName: 'c_global',
+        type: intType,
+      );
+      final macro = MacroConstant(
+        usr: 'c_macro_usr',
+        name: 'c_macro',
+        originalName: 'c_macro',
+        rawType: 'int',
+        rawValue: '42',
+      );
+      final typealias = Typealias(
+        usr: 'c_typealias_usr',
+        name: 'c_typealias',
+        type: intType,
+      );
+      final objcInterface = ObjCInterface(
+        usr: 'c_interface_usr',
+        context: context,
+        originalName: 'MyClass',
+        name: 'MyClass',
+        apiAvailability: ApiAvailability.all,
+      );
+      final objcProtocol = ObjCProtocol(
+        usr: 'c_protocol_usr',
+        context: context,
+        originalName: 'MyProto',
+        name: 'MyProto',
+        apiAvailability: ApiAvailability.all,
+      );
+      final objcCategory = ObjCCategory(
+        usr: 'c_category_usr',
+        context: context,
+        originalName: 'MyCat',
+        name: 'MyCat',
+        parent: objcInterface,
+        apiAvailability: ApiAvailability.all,
+      );
+      final cppClass = CppClass(
+        usr: 'c_cppclass_usr',
+        name: 'CppClass',
+        originalName: 'CppClass',
+        context: context,
+        methods: [],
+        fields: [],
+      );
+      final unnamedEnumConst = UnnamedEnumConstant(
+        usr: 'c_unnamed_usr',
+        name: 'c_unnamed',
+        originalName: 'c_unnamed',
+        rawType: 'int',
+        rawValue: '0',
+      );
+
+      final rawBindings = <Binding>[
+        func,
+        struct,
+        union,
+        enumClass,
+        global,
+        macro,
+        typealias,
+        objcInterface,
+        objcProtocol,
+        objcCategory,
+        cppClass,
+        unnamedEnumConst,
+      ];
+
+      final publicAst = public_ast.PublicAst(rawBindings);
+      final nodes = publicAst.nodes;
+
+      expect((nodes[0] as public_ast.Func).usr, 'c_foo_usr');
+      expect((nodes[1] as public_ast.Struct).usr, 'c_struct_usr');
+      expect((nodes[2] as public_ast.Union).usr, 'c_union_usr');
+      expect((nodes[3] as public_ast.EnumClass).usr, 'c_enum_usr');
+      expect((nodes[4] as public_ast.Global).usr, 'c_global_usr');
+      expect((nodes[5] as public_ast.MacroConstant).usr, 'c_macro_usr');
+      expect((nodes[6] as public_ast.Typealias).usr, 'c_typealias_usr');
+      expect((nodes[7] as public_ast.ObjCInterface).usr, 'c_interface_usr');
+      expect((nodes[8] as public_ast.ObjCProtocol).usr, 'c_protocol_usr');
+      expect((nodes[9] as public_ast.ObjCCategory).usr, 'c_category_usr');
+      expect((nodes[10] as public_ast.CppClass).usr, 'c_cppclass_usr');
+      expect(
+        (nodes[11] as public_ast.UnnamedEnumConstant).usr,
+        'c_unnamed_usr',
+      );
     });
   });
 }

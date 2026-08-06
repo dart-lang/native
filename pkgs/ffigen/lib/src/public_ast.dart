@@ -35,7 +35,7 @@ abstract class Visitor {
   void visitField(Field node) {}
   void visitEnumConstant(EnumConstant node) {}
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) {}
-  void visitParameter(Parameter node) {}
+  void visitParam(Param node) {}
   void visitObjCMethod(ObjCMethod node) {}
   void visitCppMethod(CppMethod node) {}
 }
@@ -59,10 +59,10 @@ class PublicAst {
 /// Public wrapper for [cg.Func].
 class Func extends _AstNode {
   final cg.Func _func;
-  final List<Parameter> params;
+  final List<Param> params;
 
   Func(this._func)
-    : params = _func.functionType.parameters.map(Parameter.new).toList();
+    : params = _func.functionType.parameters.map(Param.new).toList();
 
   @override
   void accept(Visitor visitor) {
@@ -70,7 +70,7 @@ class Func extends _AstNode {
     visitor.visitAll(params);
   }
 
-  String get originalName => _func.originalName;
+  String get usr => _func.usr;
   String get name => _func.symbol.oldName;
   set name(String value) {
     _func.symbol.oldName = value;
@@ -91,7 +91,7 @@ class Struct extends _AstNode {
     visitor.visitAll(members);
   }
 
-  String get originalName => _struct.originalName;
+  String get usr => _struct.usr;
   String get name => _struct.symbol.oldName;
   set name(String value) => _struct.symbol.oldName = value;
 }
@@ -109,7 +109,7 @@ class Union extends _AstNode {
     visitor.visitAll(members);
   }
 
-  String get originalName => _union.originalName;
+  String get usr => _union.usr;
   String get name => _union.symbol.oldName;
   set name(String value) => _union.symbol.oldName = value;
 }
@@ -128,7 +128,7 @@ class EnumClass extends _AstNode {
     visitor.visitAll(constants);
   }
 
-  String get originalName => _enumClass.originalName;
+  String get usr => _enumClass.usr;
   String get name => _enumClass.symbol.oldName;
   set name(String value) => _enumClass.symbol.oldName = value;
 }
@@ -142,7 +142,7 @@ class Global extends _AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitGlobal(this);
 
-  String get originalName => _global.originalName;
+  String get usr => _global.usr;
   String get name => _global.symbol.oldName;
   set name(String value) => _global.symbol.oldName = value;
 }
@@ -156,7 +156,7 @@ class MacroConstant extends _AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitMacro(this);
 
-  String get originalName => _macro.originalName;
+  String get usr => _macro.usr;
   String get name => _macro.symbol.oldName;
   set name(String value) => _macro.symbol.oldName = value;
 }
@@ -170,7 +170,7 @@ class Typealias extends _AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitTypealias(this);
 
-  String get originalName => _typealias.originalName;
+  String get usr => _typealias.usr;
   String get name => _typealias.symbol.oldName;
   set name(String value) => _typealias.symbol.oldName = value;
 }
@@ -189,7 +189,7 @@ class ObjCInterface extends _AstNode {
     visitor.visitAll(methods);
   }
 
-  String get originalName => _interface.originalName;
+  String get usr => _interface.usr;
   String get name => _interface.symbol.oldName;
   set name(String value) {
     _interface.symbol.oldName = value;
@@ -212,7 +212,7 @@ class ObjCProtocol extends _AstNode {
     visitor.visitAll(methods);
   }
 
-  String get originalName => _protocol.originalName;
+  String get usr => _protocol.usr;
   String get name => _protocol.symbol.oldName;
   set name(String value) => _protocol.symbol.oldName = value;
 }
@@ -231,7 +231,7 @@ class ObjCCategory extends _AstNode {
     visitor.visitAll(methods);
   }
 
-  String get originalName => _category.originalName;
+  String get usr => _category.usr;
   String get name => _category.symbol.oldName;
   set name(String value) => _category.symbol.oldName = value;
 }
@@ -250,7 +250,7 @@ class CppClass extends _AstNode {
     visitor.visitAll(methods);
   }
 
-  String get originalName => _cppClass.originalName;
+  String get usr => _cppClass.usr;
   String get name => _cppClass.symbol.oldName;
   set name(String value) => _cppClass.symbol.oldName = value;
 }
@@ -264,7 +264,6 @@ class Field extends _AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitField(this);
 
-  String get originalName => _member.originalName;
   String get name => _member.symbol.oldName;
   set name(String value) => _member.symbol.oldName = value;
 }
@@ -278,21 +277,19 @@ class EnumConstant extends _AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitEnumConstant(this);
 
-  String get originalName => _constant.originalName ?? _constant.name;
   String get name => _constant.symbol.oldName;
   set name(String value) => _constant.symbol.oldName = value;
 }
 
 /// Public wrapper for [cg.Parameter].
-class Parameter extends _AstNode {
+class Param extends _AstNode {
   final cg.Parameter _parameter;
 
-  Parameter(this._parameter);
+  Param(this._parameter);
 
   @override
-  void accept(Visitor visitor) => visitor.visitParameter(this);
+  void accept(Visitor visitor) => visitor.visitParam(this);
 
-  String get originalName => _parameter.originalName;
   String get name => _parameter.symbol.oldName;
   set name(String value) => _parameter.symbol.oldName = value;
 }
@@ -300,10 +297,9 @@ class Parameter extends _AstNode {
 /// Public wrapper for [cg.CppMethod].
 class CppMethod extends _AstNode {
   final cg.CppMethod _method;
-  final List<Parameter> params;
+  final List<Param> params;
 
-  CppMethod(this._method)
-    : params = _method.parameters.map(Parameter.new).toList();
+  CppMethod(this._method) : params = _method.parameters.map(Param.new).toList();
 
   @override
   void accept(Visitor visitor) {
@@ -311,7 +307,6 @@ class CppMethod extends _AstNode {
     visitor.visitAll(params);
   }
 
-  String get originalName => _method.originalName;
   String get name => _method.name.oldName;
   set name(String value) => _method.name.oldName = value;
 }
@@ -319,10 +314,9 @@ class CppMethod extends _AstNode {
 /// Public wrapper for [cg.ObjCMethod].
 class ObjCMethod extends _AstNode {
   final cg.ObjCMethod _method;
-  final List<Parameter> params;
+  final List<Param> params;
 
-  ObjCMethod(this._method)
-    : params = _method.params.map(Parameter.new).toList();
+  ObjCMethod(this._method) : params = _method.params.map(Param.new).toList();
 
   @override
   void accept(Visitor visitor) {
@@ -331,10 +325,10 @@ class ObjCMethod extends _AstNode {
   }
 
   String get selector => _method.originalName;
-  String get originalName => _method.originalName;
   String get name => _method.symbol.oldName;
   set name(String value) => _method.symbol.oldName = value;
-  bool get isPropertySetter => _method.kind == cg.ObjCMethodKind.propertySetter;
+  bool get isPropertyGetter => _method.isPropertyGetter;
+  bool get isPropertySetter => _method.isPropertySetter;
 }
 
 /// Public wrapper for [cg.UnnamedEnumConstant].
@@ -346,7 +340,7 @@ class UnnamedEnumConstant extends _AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitUnnamedEnumConstant(this);
 
-  String get originalName => _constant.originalName;
+  String get usr => _constant.usr;
   String get name => _constant.symbol.oldName;
   set name(String value) => _constant.symbol.oldName = value;
 }

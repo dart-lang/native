@@ -1338,24 +1338,31 @@ class YamlConfigAstVisitor extends public_ast.Visitor {
 
   const YamlConfigAstVisitor(this.config);
 
-  Declaration _decl(String originalName) =>
-      Declaration(usr: '', originalName: originalName);
+  Declaration _decl(String originalName, [String usr = '']) =>
+      Declaration(usr: usr, originalName: originalName);
 
   @override
   void visitFunc(public_ast.Func node) {
-    final renamed = config.functionDecl.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
-      final postfix = node.name.startsWith(node.originalName)
-          ? node.name.substring(node.originalName.length)
-          : '';
-      node.name = renamed + postfix;
+    final declName = node.name;
+    final renamed = config.functionDecl.rename(_decl(declName, node.usr));
+    if (renamed != declName) {
+      node.name = renamed;
     }
     for (final param in node.params) {
-      final renamedParam = config.functionDecl.renameMember(
-        _decl(node.originalName),
-        param.originalName,
+      var renamedParam = config.functionDecl.renameMember(
+        _decl(declName, node.usr),
+        param.name,
       );
-      if (renamedParam != param.originalName && renamedParam.isNotEmpty) {
+      if (renamedParam == param.name && param.name.startsWith('arg')) {
+        final unnamedRenamed = config.functionDecl.renameMember(
+          _decl(declName, node.usr),
+          '',
+        );
+        if (unnamedRenamed.isNotEmpty && unnamedRenamed != '') {
+          renamedParam = unnamedRenamed;
+        }
+      }
+      if (renamedParam != param.name && renamedParam.isNotEmpty) {
         param.name = renamedParam;
       }
     }
@@ -1364,25 +1371,26 @@ class YamlConfigAstVisitor extends public_ast.Visitor {
   @override
   void visitUnnamedEnumConstant(public_ast.UnnamedEnumConstant node) {
     final renamed = config.unnamedEnumConstants.rename(
-      _decl(node.originalName),
+      _decl(node.name, node.usr),
     );
-    if (renamed != node.originalName) {
+    if (renamed != node.name) {
       node.name = renamed;
     }
   }
 
   @override
   void visitStruct(public_ast.Struct node) {
-    final renamed = config.structDecl.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final declName = node.name;
+    final renamed = config.structDecl.rename(_decl(declName, node.usr));
+    if (renamed != declName) {
       node.name = renamed;
     }
     for (final member in node.members) {
       final renamedMember = config.structDecl.renameMember(
-        _decl(node.originalName),
-        member.originalName,
+        _decl(declName, node.usr),
+        member.name,
       );
-      if (renamedMember != member.originalName) {
+      if (renamedMember != member.name) {
         member.name = renamedMember;
       }
     }
@@ -1390,16 +1398,17 @@ class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitUnion(public_ast.Union node) {
-    final renamed = config.unionDecl.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final declName = node.name;
+    final renamed = config.unionDecl.rename(_decl(declName, node.usr));
+    if (renamed != declName) {
       node.name = renamed;
     }
     for (final member in node.members) {
       final renamedMember = config.unionDecl.renameMember(
-        _decl(node.originalName),
-        member.originalName,
+        _decl(declName, node.usr),
+        member.name,
       );
-      if (renamedMember != member.originalName) {
+      if (renamedMember != member.name) {
         member.name = renamedMember;
       }
     }
@@ -1407,16 +1416,17 @@ class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitEnum(public_ast.EnumClass node) {
-    final renamed = config.enumClassDecl.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final declName = node.name;
+    final renamed = config.enumClassDecl.rename(_decl(declName, node.usr));
+    if (renamed != declName) {
       node.name = renamed;
     }
     for (final constant in node.constants) {
       final renamedMember = config.enumClassDecl.renameMember(
-        _decl(node.originalName),
-        constant.originalName,
+        _decl(declName, node.usr),
+        constant.name,
       );
-      if (renamedMember != constant.originalName) {
+      if (renamedMember != constant.name) {
         constant.name = renamedMember;
       }
     }
@@ -1424,70 +1434,74 @@ class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitGlobal(public_ast.Global node) {
-    final renamed = config.globals.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final renamed = config.globals.rename(_decl(node.name, node.usr));
+    if (renamed != node.name) {
       node.name = renamed;
     }
   }
 
   @override
   void visitMacro(public_ast.MacroConstant node) {
-    final renamed = config.macroDecl.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final renamed = config.macroDecl.rename(_decl(node.name, node.usr));
+    if (renamed != node.name) {
       node.name = renamed;
     }
   }
 
   @override
   void visitTypealias(public_ast.Typealias node) {
-    final renamed = config.typedefs.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final renamed = config.typedefs.rename(_decl(node.name, node.usr));
+    if (renamed != node.name) {
       node.name = renamed;
     }
   }
 
   @override
   void visitObjCInterface(public_ast.ObjCInterface node) {
-    final renamed = config.objcInterfaces.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final declName = node.name;
+    final renamed = config.objcInterfaces.rename(_decl(declName, node.usr));
+    if (renamed != declName) {
       node.name = renamed;
     }
     for (final method in node.methods) {
-      _renameObjCMethod(method, node.originalName, config.objcInterfaces);
+      _renameObjCMethod(method, declName, node.usr, config.objcInterfaces);
     }
   }
 
   @override
   void visitObjCProtocol(public_ast.ObjCProtocol node) {
-    final renamed = config.objcProtocols.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final declName = node.name;
+    final renamed = config.objcProtocols.rename(_decl(declName, node.usr));
+    if (renamed != declName) {
       node.name = renamed;
     }
     for (final method in node.methods) {
-      _renameObjCMethod(method, node.originalName, config.objcProtocols);
+      _renameObjCMethod(method, declName, node.usr, config.objcProtocols);
     }
   }
 
   @override
   void visitObjCCategory(public_ast.ObjCCategory node) {
-    final renamed = config.objcCategories.rename(_decl(node.originalName));
-    if (renamed != node.originalName) {
+    final declName = node.name;
+    final renamed = config.objcCategories.rename(_decl(declName, node.usr));
+    if (renamed != declName) {
       node.name = renamed;
     }
     for (final method in node.methods) {
-      _renameObjCMethod(method, node.originalName, config.objcCategories);
+      _renameObjCMethod(method, declName, node.usr, config.objcCategories);
     }
   }
 
   void _renameObjCMethod(
     public_ast.ObjCMethod method,
-    String declOriginalName,
+    String declName,
+    String usr,
     YamlDeclarationFilters filters,
   ) {
     if (method.isPropertySetter) return;
 
     final renamedSelector = filters.renameMember(
-      _decl(declOriginalName),
+      _decl(declName, usr),
       method.selector,
     );
 
@@ -1504,7 +1518,7 @@ class YamlConfigAstVisitor extends public_ast.Visitor {
     } else {
       method.name = renamedSelector.replaceAll(':', '_');
       for (var i = 1; i < method.params.length; ++i) {
-        method.params[i].name = method.params[i].originalName;
+        method.params[i].name = method.params[i].name;
       }
     }
   }
