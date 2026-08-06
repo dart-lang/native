@@ -237,12 +237,14 @@ final class HookInputUserDefines {
     return pubspecSource?.defines[key];
   }
 
-  /// Resolves the relative path provided in the user-define for [key] to an
-  /// absolute [Uri] pointing to the file or directory on the host filesystem.
+  /// Resolves the path provided in the user-define for [key] to an absolute
+  /// [Uri] pointing to the file or directory on the host filesystem.
   ///
-  /// The relative path is resolved against the directory containing the
-  /// `pubspec.yaml` where the user-define was declared (or the command-line
-  /// working directory if provided via command-line arguments).
+  /// Absolute paths are converted to a file [Uri] without further
+  /// resolution. Relative paths are resolved against the directory
+  /// containing the `pubspec.yaml` where the user-define was declared (or
+  /// the command-line working directory if provided via command-line
+  /// arguments).
   ///
   /// If the user-define is `null` or not a [String], returns `null`.
   ///
@@ -284,9 +286,12 @@ final class HookInputUserDefines {
     // TODO(https://github.com/dart-lang/native/issues/2215): Add commandline
     // arguments.
     for (final source in sources) {
-      final relativepath = source.defines[key];
-      if (relativepath is String) {
-        return source.basePath.resolve(relativepath);
+      final path = source.defines[key];
+      if (path is String) {
+        if (File(path).isAbsolute) {
+          return Uri.file(path);
+        }
+        return source.basePath.resolve(path);
       }
     }
     return null;
