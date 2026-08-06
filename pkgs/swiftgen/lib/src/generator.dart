@@ -99,8 +99,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         interfaces: fg.Interfaces(
           include: interfaces.include,
           includeMember: interfaces.includeMember,
-          rename: interfaces.rename,
-          renameMember: interfaces.renameMember,
           includeTransitive: interfaces.includeTransitive,
           module: interfaces.module != fg.Interfaces.noModule
               ? interfaces.module
@@ -109,8 +107,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         protocols: fg.Protocols(
           include: protocols.include,
           includeMember: protocols.includeMember,
-          rename: protocols.rename,
-          renameMember: protocols.renameMember,
           includeTransitive: protocols.includeTransitive,
           module: protocols.module != fg.Protocols.noModule
               ? protocols.module
@@ -119,6 +115,7 @@ extension SwiftGenGenerator on SwiftGenerator {
         categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,
       ),
+      visitors: ffigen.visitors,
       input: fg.Input(
         entryPoints: [Uri.file(objcHeader)],
         compilerOptions: [

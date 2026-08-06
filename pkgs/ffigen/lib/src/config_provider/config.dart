@@ -59,7 +59,45 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
-  /// AST visitors to run on the generated bindings.
+  /// AST visitors to run on the generated bindings to perform transformations
+  /// before Dart code generation occurs.
+  ///
+  /// Visitors are executed sequentially in the order they appear in this list.
+  /// Each visitor can inspect or mutate AST node names and properties (such as
+  /// renaming functions, parameters, struct fields, enum constants, etc.).
+  ///
+  /// Examples:
+  ///
+  /// Inline visitor using the constructor callbacks:
+  /// ```dart
+  /// FfiGenerator(
+  ///   // ...
+  ///   visitors: [
+  ///     Visitor(
+  ///       visitFunc: (func) {
+  ///         if (func.name.startsWith('custom_')) {
+  ///           func.name = func.name.substring(7);
+  ///         }
+  ///       },
+  ///     ),
+  ///   ],
+  /// )
+  /// ```
+  ///
+  /// Custom visitor class extending [Visitor]:
+  /// ```dart
+  /// class PrefixStripperVisitor extends Visitor {
+  ///   final String prefix;
+  ///   const PrefixStripperVisitor(this.prefix) : super.base();
+  ///
+  ///   @override
+  ///   void visitFunc(Func node) {
+  ///     if (node.name.startsWith(prefix)) {
+  ///       node.name = node.name.substring(prefix.length);
+  ///     }
+  ///   }
+  /// }
+  /// ```
   final List<Visitor> visitors;
 
   /// Returns an [ImportedType] if the given [Declaration] should be imported
