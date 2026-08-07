@@ -32,6 +32,7 @@ Config getConfig({
   String? root,
   bool generateFullVersion = false,
   bool useAsm = false,
+  SummarizerBackend? backend,
 }) {
   final rootDir = root ?? thirdPartyDir;
   final config = Config(
@@ -48,9 +49,7 @@ Config getConfig({
         sourceDir: join(thirdPartyDir, 'java'),
         jarDir: join(thirdPartyDir, 'jar'),
       ),
-      summarizerOptions: SummarizerOptions(
-        backend: useAsm ? SummarizerBackend.asm : null,
-      ),
+      backend: backend ?? (useAsm ? SummarizerBackend.asm : null),
     ),
     output: Output(
       dart: DartCodeOutput(

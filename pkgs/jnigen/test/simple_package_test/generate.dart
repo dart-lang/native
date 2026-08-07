@@ -92,7 +92,7 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
     input: Input(
       sourcePath: [Uri.directory(javaPath)],
       classPath: [Uri.directory(javaPath)],
-      summarizerOptions: SummarizerOptions(backend: backend),
+      backend: backend,
       classes: [
         'com.github.dart_lang.jnigen.simple_package',
         'com.github.dart_lang.jnigen.pkg2',

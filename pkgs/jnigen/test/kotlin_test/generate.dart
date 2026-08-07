@@ -39,7 +39,7 @@ void compileKotlinSources(String workingDir) async {
   }
 }
 
-Config getConfig() {
+Config getConfig({SummarizerBackend? backend}) {
   compileKotlinSources(kotlinPath);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
@@ -54,7 +54,7 @@ Config getConfig() {
         // make its way to the generated code.
         'com.github.dart_lang.jnigen',
       ],
-      summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
+      backend: backend ?? SummarizerBackend.asm,
     ),
     output: Output(
       dart: DartCodeOutput(

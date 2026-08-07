@@ -51,12 +51,13 @@ void expectConfigsAreEqual(Config a, Config b) {
   } else {
     expect(ba, isNull, reason: 'androidSdk');
   }
-  final aso = a.input.summarizerOptions;
-  final bso = b.input.summarizerOptions;
-  expect(aso.extraArgs, bso.extraArgs, reason: 'summarizerOptions.extraArgs');
-  expect(aso.workingDirectory, bso.workingDirectory,
-      reason: 'summarizerOptions.workingDirectory');
-  expect(aso.backend, bso.backend, reason: 'summarizerOptions.backend');
+  expect(a.input.extraArgs, b.input.extraArgs, reason: 'extraArgs');
+  expect(a.input.workingDirectory, b.input.workingDirectory,
+      reason: 'workingDirectory');
+  expect(a.input.backend, b.input.backend, reason: 'backend');
+  expect(a.imports.symbolFiles, b.imports.symbolFiles,
+      reason: 'imports.symbolFiles');
+  expect(a.imports.hide, b.imports.hide, reason: 'imports.hide');
 }
 
 final jnigenYaml = join(jacksonCoreTests, 'jnigen.yaml');

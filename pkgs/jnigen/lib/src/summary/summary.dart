@@ -132,9 +132,9 @@ Future<Classes> getSummary(Config config) async {
     sourcePath: config.input.sourcePath,
     classPath: config.input.classPath,
     classes: config.input.classes,
-    workingDirectory: config.input.summarizerOptions.workingDirectory,
-    extraArgs: config.input.summarizerOptions.extraArgs,
-    backend: config.input.summarizerOptions.backend,
+    workingDirectory: config.input.workingDirectory,
+    extraArgs: config.input.extraArgs,
+    backend: config.input.backend,
   );
 
   // Additional sources added using maven downloads and gradle trickery.

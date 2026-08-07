@@ -156,25 +156,6 @@ T _getEnumValueFromString<T>(
   return value;
 }
 
-/// Additional options to pass to the summary generator component.
-class SummarizerOptions {
-  SummarizerOptions(
-      {this.extraArgs = const [], Uri? workingDirectory, this.backend})
-      : workingDirectory = workingDirectory ?? Uri.directory('.');
-
-  /// Extra arguments passed to the summarizer tool.
-  List<String> extraArgs;
-
-  /// Working directory for running the summarizer tool.
-  Uri workingDirectory;
-
-  /// Backend engine used to generate summaries.
-  ///
-  /// If `null`, the summarizer tool defaults to auto-detection (preferring
-  /// `doclet` for source files and falling back to `asm` for compiled classes).
-  SummarizerBackend? backend;
-}
-
 /// Backend for reading summary of Java libraries
 enum SummarizerBackend {
   /// Generate Java API summaries using JARs in provided `classPath`s.
@@ -322,11 +303,17 @@ final class Input {
   /// Fully-qualified class or package names to generate bindings for.
   List<String> classes;
 
-  /// Additional options passed to the OpenJDK Doclet / ASM summarizer.
-  SummarizerOptions summarizerOptions;
+  /// Extra arguments passed to the summarizer tool.
+  final List<String> extraArgs;
 
-  /// External symbol file imports for cross-package type sharing.
-  final SymbolImports imports;
+  /// Working directory for running the summarizer tool.
+  final Uri workingDirectory;
+
+  /// Backend engine used to generate summaries.
+  ///
+  /// If `null`, the summarizer tool defaults to auto-detection (preferring
+  /// `doclet` for source files and falling back to `asm` for compiled classes).
+  final SummarizerBackend? backend;
 
   /// Configuration for downloading dependencies using Maven.
   ///
@@ -343,11 +330,12 @@ final class Input {
     this.sourcePath = const [],
     this.classPath = const [],
     required this.classes,
-    SummarizerOptions? summarizerOptions,
-    this.imports = const SymbolImports(),
+    this.extraArgs = const [],
+    Uri? workingDirectory,
+    this.backend,
     this.mavenDownloads,
     this.androidSdk,
-  }) : summarizerOptions = summarizerOptions ?? SummarizerOptions() {
+  }) : workingDirectory = workingDirectory ?? Uri.directory('.') {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -382,6 +370,7 @@ final class Config {
   Config({
     required this.input,
     required this.output,
+    this.imports = const SymbolImports(),
     this.nullability = const NullabilityAnnotations(),
     this.visitors = const [],
     this.experiments = const {},
@@ -394,6 +383,9 @@ final class Config {
 
   /// Output destination and file settings (Dart code, symbol files, preamble).
   final Output output;
+
+  /// External symbol file imports for cross-package type sharing.
+  final SymbolImports imports;
 
   /// Custom nullability annotation configuration.
   final NullabilityAnnotations nullability;
@@ -465,15 +457,9 @@ final class Config {
         sourcePath: prov.getPathList(_Props.sourcePath) ?? const [],
         classPath: prov.getPathList(_Props.classPath) ?? const [],
         classes: must(prov.getStringList, [], _Props.classes),
-        summarizerOptions: SummarizerOptions(
-          extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
-          backend: getSummarizerBackend(prov.getString(_Props.backend), null),
-          workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
-        ),
-        imports: SymbolImports(
-          symbolFiles: prov.getPathList(_Props.import) ?? const [],
-          hide: prov.getStringList(_Props.hide) ?? const [],
-        ),
+        extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
+        backend: getSummarizerBackend(prov.getString(_Props.backend), null),
+        workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
         mavenDownloads: prov.hasValue(_Props.mavenDownloads)
             ? MavenDownloads(
                 sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
@@ -516,6 +502,10 @@ final class Config {
         preamble: prov.getString(_Props.preamble) ?? '',
         generateStubs: prov.getBool(_Props.generateStubs) ?? true,
         format: prov.getBool(_Props.format) ?? true,
+      ),
+      imports: SymbolImports(
+        symbolFiles: prov.getPathList(_Props.import) ?? const [],
+        hide: prov.getStringList(_Props.hide) ?? const [],
       ),
       nullability: NullabilityAnnotations(
         nonNull: prov.hasValue(_Props.nonNullAnnotations)
@@ -567,7 +557,7 @@ extension ConfigInternal on Config {
     for (final import in [
       // Implicitly importing package:jni symbols.
       Uri.parse('package:jni/jni_symbols.yaml'),
-      ...input.imports.symbolFiles,
+      ...imports.symbolFiles,
     ]) {
       // Getting the actual uri in case of package uris.
       final Uri yamlUri;
@@ -608,7 +598,7 @@ extension ConfigInternal on Config {
         final classes = entry.value as YamlMap;
         for (final classEntry in classes.entries) {
           final binaryName = classEntry.key as String;
-          if (input.imports.hide.contains(binaryName)) {
+          if (imports.hide.contains(binaryName)) {
             continue;
           }
           final decl = classEntry.value as YamlMap;
