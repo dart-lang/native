@@ -20,10 +20,7 @@ void main() {
       'simple_package',
       () => simple_package_test.getConfig(backend: SummarizerBackend.asm)
     ),
-    (
-      'kotlin',
-      () => kotlin_test.getConfig(backend: SummarizerBackend.asm)
-    ),
+    ('kotlin', () => kotlin_test.getConfig(backend: SummarizerBackend.asm)),
     (
       'jackson_core',
       () => jackson_core_test.getConfig(backend: SummarizerBackend.asm)

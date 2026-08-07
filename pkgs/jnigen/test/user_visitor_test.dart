@@ -67,6 +67,7 @@ base class CustomVisitor extends Visitor {
     }
   }
 }
+
 void main() {
   test('Exclude something using custom Visitor subclass', () async {
     final classes = ast.Classes({
