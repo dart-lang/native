@@ -127,11 +127,11 @@ final class YamlDeclarationFilters {
        _memberIncluder = memberIncluder ?? YamlMemberIncluder();
 
   /// Applies renaming and returns the result.
-  String rename(Declaration declaration) =>
+  String? rename(Declaration declaration) =>
       _renamer.rename(declaration.originalName);
 
   /// Applies member renaming and returns the result.
-  String renameMember(Declaration declaration, String member) =>
+  String? renameMember(Declaration declaration, String member) =>
       _memberRenamer.rename(declaration.originalName, member);
 
   /// Checks if a name is allowed by a filter.
@@ -170,8 +170,8 @@ class RegExpRenamer {
 
   /// Renames [str] according to [replacementPattern].
   ///
-  /// Returns [str] if [regExp] doesn't have a full match.
-  String rename(String str) {
+  /// Returns `null` if [regExp] doesn't have a full match.
+  String? rename(String str) {
     if (matches(str)) {
       // Get match.
       final regExpMatch = regExp.firstMatch(str)!;
@@ -193,7 +193,7 @@ class RegExpRenamer {
       });
       return result;
     } else {
-      return str;
+      return null;
     }
   }
 
@@ -265,7 +265,7 @@ class YamlRenamer {
 
   YamlRenamer.noRename() : _renameMatchers = [], _renameFull = {};
 
-  String rename(String name) {
+  String? rename(String name) {
     // Apply full rename (if any).
     if (_renameFull.containsKey(name)) {
       return _renameFull[name]!;
@@ -273,13 +273,13 @@ class YamlRenamer {
 
     // Apply rename regexp (if matches).
     for (final renamer in _renameMatchers) {
-      if (renamer.matches(name)) {
-        return renamer.rename(name);
+      if (renamer.rename(name) case final rename?) {
+        return rename;
       }
     }
 
-    // No renaming is provided for this declaration, return unchanged.
-    return name;
+    // No renaming is provided for this declaration, return null.
+    return null;
   }
 }
 
@@ -314,7 +314,7 @@ class YamlMemberRenamer {
   }) : _memberRenameFull = memberRenameFull ?? {},
        _memberRenameMatchers = memberRenamePattern ?? [];
 
-  String rename(String declaration, String member) {
+  String? rename(String declaration, String member) {
     if (_cache.containsKey(declaration)) {
       return _cache[declaration]!.rename(member);
     }
@@ -335,8 +335,8 @@ class YamlMemberRenamer {
       }
     }
 
-    // No renaming is provided for this declaration, return unchanged.
-    return member;
+    // No renaming is provided for this declaration, return null.
+    return null;
   }
 }
 
