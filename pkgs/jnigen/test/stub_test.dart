@@ -15,16 +15,18 @@ Config _getConfig(Uri output, bool generateStubs) {
   final testRoot = join('test', 'stub_test');
   final javaPath = join(testRoot, 'java');
   return Config(
-    sourcePath: [Uri.directory(javaPath)],
-    classPath: [Uri.directory(javaPath)],
-    classes: ['com.example.A', 'com.example.C'],
-    outputConfig: OutputConfig(
-      dartConfig: DartCodeOutputConfig(
+    input: Input(
+      sourcePath: [Uri.directory(javaPath)],
+      classPath: [Uri.directory(javaPath)],
+      classes: ['com.example.A', 'com.example.C'],
+    ),
+    output: Output(
+      dart: DartCodeOutput(
         path: output,
         structure: OutputStructure.singleFile,
       ),
+      generateStubs: generateStubs,
     ),
-    generateStubs: generateStubs,
   );
 }
 

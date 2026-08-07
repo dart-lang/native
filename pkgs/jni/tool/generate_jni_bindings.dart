@@ -41,7 +41,7 @@ base class Renamer extends Visitor {
     m.accept(Visitor(
       visitParam: (p) => params.add(p.originalName),
     ));
-    m.isExcluded = !(params.length == 1 && params.first == sig);
+    m.isIncluded = params.length == 1 && params.first == sig;
   }
 }
 
@@ -76,20 +76,22 @@ Future<void> main() async {
   final packageRoot = Platform.script.resolve('..');
   await generateJniBindings(
     Config(
-      androidSdkConfig: AndroidSdkConfig(
-        addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/').toFilePath(),
+      input: Input(
+        classes: classes,
+        androidSdk: AndroidSdk(
+          addGradleDeps: true,
+          androidExample: packageRoot.resolve('example/').toFilePath(),
+        ),
       ),
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
+      output: Output(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/src/core_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),
+        preamble: preamble,
+        generateStubs: false,
       ),
-      classes: classes,
-      hide: classes,
-      preamble: preamble,
-      generateStubs: false,
+      imports: SymbolImports(hide: classes),
       visitors: [Renamer()],
     ),
   );

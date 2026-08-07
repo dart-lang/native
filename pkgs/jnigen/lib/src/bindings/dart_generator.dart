@@ -18,7 +18,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '0.17.0';
+const String version = '1.0.0';
 
 /// Version of package:jni. Keep in sync with package:jni's `pubspec.yaml`.
 @visibleForTesting
@@ -237,10 +237,9 @@ const _\$jniVersionCheck =
 
   @override
   Future<void> visit(Classes node) async {
-    final root = config.outputConfig.dartConfig.path;
-    final preamble = config.preamble ?? '';
-    if (config.outputConfig.dartConfig.structure ==
-        OutputStructure.singleFile) {
+    final root = config.output.dart.path;
+    final preamble = config.output.preamble;
+    if (config.output.dart.structure == OutputStructure.singleFile) {
       final file = File.fromUri(root);
       await file.create(recursive: true);
       log.info('Generating bindings');
@@ -588,8 +587,9 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
     }
 
     // Writing any custom code provided for this class.
-    if (config.customClassBody?.containsKey(node.binaryName) ?? false) {
-      s.writeln(config.customClassBody![node.binaryName]);
+    final customBody = config.customClassBody[node.binaryName];
+    if (customBody != null) {
+      s.writeln(customBody);
     }
 
     s.write('''
@@ -792,7 +792,7 @@ class _TypeGenerator extends TypeVisitor<String> {
 
   @override
   String visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject || node.classDecl.isExcluded) {
+    if (node.classDecl.isObject || !node.classDecl.isIncluded) {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }
@@ -939,7 +939,7 @@ class _TypeClassGenerator extends TypeVisitor<String> {
 
   @override
   String visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject || node.classDecl.isExcluded) {
+    if (node.classDecl.isObject || !node.classDecl.isIncluded) {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }

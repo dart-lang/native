@@ -15,18 +15,10 @@ dependencies:
     path: ../../../jni
 
 dependency_overrides:
-  code_assets:
-    path: ../../../code_assets
-  ffigen:
-    path: ../../../ffigen
-  hooks:
-    path: ../../../hooks
+  jni:
+    path: ../../../jni
   jni_util:
     path: ../../../jni_util
-  native_toolchain_c:
-    path: ../../../native_toolchain_c
-  record_use:
-    path: ../../../record_use
 
 dev_dependencies:
   flutter_test:
