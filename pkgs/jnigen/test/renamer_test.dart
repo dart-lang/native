@@ -21,12 +21,17 @@ extension on Iterable<Method> {
       }).toList();
 }
 
-Future<void> rename(Classes classes) async {
+Future<void> rename(
+  Classes classes, {
+  OutputStructure structure = OutputStructure.singleFile,
+}) async {
   final config = Config(
     outputConfig: OutputConfig(
       dartConfig: DartCodeOutputConfig(
-        path: Uri.file('test.dart'),
-        structure: OutputStructure.singleFile,
+        path: structure == OutputStructure.singleFile
+            ? Uri.file('test.dart')
+            : Uri.directory('test_output/'),
+        structure: structure,
       ),
     ),
     classes: [],
@@ -301,6 +306,67 @@ void main() {
     expect(interfaceRenamedMethods, [r'implement$1', r'implementIn$1']);
     final classRenamedMethods = classes.decls['MyClass']!.methods.finalNames;
     expect(classRenamedMethods, [r'implement', r'implementIn']);
+  });
+
+  test('Interface mixin names', () async {
+    final classes = Classes({
+      'Foo': ClassDecl(
+        binaryName: 'Foo',
+        declKind: DeclKind.interfaceKind,
+        superclass: DeclaredType.object,
+      ),
+      'Bar': ClassDecl(
+        binaryName: 'Bar',
+        declKind: DeclKind.interfaceKind,
+        superclass: DeclaredType.object,
+      )..userDefinedInterfaceMixinName = 'Foo',
+      'Baz': ClassDecl(
+        binaryName: 'Baz',
+        declKind: DeclKind.interfaceKind,
+        superclass: DeclaredType.object,
+      )..userDefinedInterfaceMixinName = 'class',
+    });
+
+    await rename(classes);
+
+    expect(classes.decls['Foo']!.finalInterfaceMixinName, r'$Foo');
+    expect(classes.decls['Bar']!.finalInterfaceMixinName, r'Foo$1');
+    expect(classes.decls['Baz']!.finalInterfaceMixinName, r'class$');
+  });
+
+  test('Interface mixin name preprocessing', () async {
+    final classes = Classes({
+      'Foo': ClassDecl(
+        binaryName: 'Foo',
+        declKind: DeclKind.interfaceKind,
+        superclass: DeclaredType.object,
+      )..userDefinedInterfaceMixinName = r'_Foo$',
+    });
+
+    await rename(classes);
+
+    expect(
+      classes.decls['Foo']!.finalInterfaceMixinName,
+      r'$_Foo$$',
+    );
+  });
+
+  test('Interface mixin name conflicts in package structure', () async {
+    final classes = Classes({
+      'Foo': ClassDecl(
+        binaryName: 'Foo',
+        declKind: DeclKind.interfaceKind,
+        superclass: DeclaredType.object,
+      )..userDefinedInterfaceMixinName = 'Foo',
+    });
+
+    await rename(
+      classes,
+      structure: OutputStructure.packageStructure,
+    );
+
+    expect(classes.decls['Foo']!.finalName, 'Foo');
+    expect(classes.decls['Foo']!.finalInterfaceMixinName, r'Foo$1');
   });
 
   test('Inner classes vs classes with dollar signs', () async {

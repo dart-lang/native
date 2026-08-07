@@ -450,7 +450,9 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
       ),
     );
     final implementsClause = {superName, ...interfaces}.join(', ');
-    final implClassName = '\$$name';
+    final implClassName = node.declKind == DeclKind.interfaceKind
+        ? node.finalInterfaceMixinName
+        : '';
     final typeParamsDef = node.allTypeParams
         .accept(const _TypeParamDef())
         .join(', ')

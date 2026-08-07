@@ -108,6 +108,9 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   String? userDefinedName;
 
+  @JsonKey(includeFromJson: false)
+  String? userDefinedInterfaceMixinName;
+
   @override
   final Set<String> modifiers;
 
@@ -148,6 +151,9 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   @override
   late String finalName;
+
+  @JsonKey(includeFromJson: false)
+  late String finalInterfaceMixinName;
 
   /// Name of the type class.
   @JsonKey(includeFromJson: false)

@@ -186,6 +186,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     ..._reservedTopLevelNames,
   };
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
+  final Map<String, Map<String, int>> fileNameCounts = {};
 
   _ClassRenamer(
     this.config,
@@ -224,6 +225,32 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     node.finalName = uniquifyName
         ? _renameConflict(topLevelNameCounts, className, _ElementKind.klass)
         : className;
+
+    final generatedFileNameCounts = uniquifyName
+        ? topLevelNameCounts
+        : fileNameCounts.putIfAbsent(
+            node.path,
+            () => {
+              ..._definedSyms,
+              ..._reservedTopLevelNames,
+            },
+          );
+
+    if (!uniquifyName) {
+      generatedFileNameCounts[node.finalName] = 1;
+    }
+
+    if (node.declKind == DeclKind.interfaceKind) {
+      final interfaceMixinName = node.userDefinedInterfaceMixinName == null
+          ? '\$${node.finalName}'
+          : _preprocess(node.userDefinedInterfaceMixinName!);
+
+      node.finalInterfaceMixinName = _renameConflict(
+        generatedFileNameCounts,
+        interfaceMixinName,
+        _ElementKind.klass,
+      );
+    }
 
     if (node.userDefinedName == null ||
         node.userDefinedName == node.finalName) {
