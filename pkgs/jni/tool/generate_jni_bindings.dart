@@ -83,14 +83,14 @@ Future<void> main() async {
     Config(
       input: Input(
         classes: classes,
-        androidSdkConfig: AndroidSdkConfig(
+        androidSdk: AndroidSdk(
           addGradleDeps: true,
           androidExample: packageRoot.resolve('example/').toFilePath(),
         ),
         imports: SymbolImports(hide: classes),
       ),
       output: Output(
-        dart: DartCodeOutputConfig(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/src/core_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),

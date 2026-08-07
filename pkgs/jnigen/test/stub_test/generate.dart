@@ -44,7 +44,7 @@ Config getConfig() {
       classes: ['com.example.A', 'com.example.C'],
     ),
     output: Output(
-      dart: DartCodeOutputConfig(
+      dart: DartCodeOutput(
         path: Uri.file(dartPath),
         structure: OutputStructure.singleFile,
       ),

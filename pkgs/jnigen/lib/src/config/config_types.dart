@@ -71,8 +71,8 @@ class MavenDownloads {
 /// specified, an attempt is made to find out SDK installation directory using
 /// environment variable `ANDROID_SDK_ROOT` if it's defined, else an error
 /// will be thrown.
-class AndroidSdkConfig {
-  AndroidSdkConfig({
+class AndroidSdk {
+  AndroidSdk({
     this.versions,
     this.sdkRoot,
     this.addGradleDeps = false,
@@ -220,8 +220,8 @@ OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
 }
 
 /// Configuration for outputting generated Dart code.
-class DartCodeOutputConfig {
-  DartCodeOutputConfig({
+class DartCodeOutput {
+  DartCodeOutput({
     required this.path,
     this.structure = OutputStructure.packageStructure,
   }) {
@@ -243,11 +243,11 @@ class DartCodeOutputConfig {
 }
 
 /// Configuration for outputting generated symbols YAML file.
-class SymbolsOutputConfig {
+class SymbolsOutput {
   /// Path to write generated symbols YAML file.
   final Uri path;
 
-  SymbolsOutputConfig(this.path) {
+  SymbolsOutput(this.path) {
     if (p.extension(path.toFilePath()) != '.yaml') {
       throw ConfigException('Symbol\'s output path must end with ".yaml".');
     }
@@ -286,12 +286,12 @@ final class NullabilityAnnotations {
 /// Configuration for outputting generated Dart code and symbol files.
 final class Output {
   /// Dart output configuration (path and layout structure).
-  final DartCodeOutputConfig dart;
+  final DartCodeOutput dart;
 
   /// Symbol file output configuration (`symbols.yaml`).
   ///
   /// If `null`, symbol file generation (`symbols.yaml`) is skipped.
-  final SymbolsOutputConfig? symbols;
+  final SymbolsOutput? symbols;
 
   /// Common header text prepended to generated Dart files.
   final String preamble;
@@ -337,7 +337,7 @@ final class Input {
   ///
   /// If `null`, Android SDK library search and Gradle dependency resolution are
   /// disabled.
-  final AndroidSdkConfig? androidSdkConfig;
+  final AndroidSdk? androidSdk;
 
   Input({
     this.sourcePath = const [],
@@ -346,7 +346,7 @@ final class Input {
     SummarizerOptions? summarizerOptions,
     this.imports = const SymbolImports(),
     this.mavenDownloads,
-    this.androidSdkConfig,
+    this.androidSdk,
   }) : summarizerOptions = summarizerOptions ?? SummarizerOptions() {
     for (final className in classes) {
       _validateClassName(className);
@@ -484,8 +484,8 @@ final class Config {
                     resolveFromConfigRoot(MavenDownloads.defaultMavenJarDir),
               )
             : null,
-        androidSdkConfig: prov.hasValue(_Props.androidSdkConfig)
-            ? AndroidSdkConfig(
+        androidSdk: prov.hasValue(_Props.androidSdkConfig)
+            ? AndroidSdk(
                 versions: prov
                     .getStringList(_Props.androidSdkVersions)
                     ?.map(int.parse)
@@ -501,7 +501,7 @@ final class Config {
             : null,
       ),
       output: Output(
-        dart: DartCodeOutputConfig(
+        dart: DartCodeOutput(
           path: must(prov.getPath, Uri.parse('.'), _Props.dartRoot),
           structure: getOutputStructure(
             prov.getString(_Props.outputStructure),
@@ -509,7 +509,7 @@ final class Config {
           ),
         ),
         symbols: prov.hasValue(_Props.symbolsOutputConfig)
-            ? SymbolsOutputConfig(
+            ? SymbolsOutput(
                 must(prov.getPath, Uri.parse('.'), _Props.symbolsOutputConfig),
               )
             : null,

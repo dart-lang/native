@@ -42,14 +42,14 @@ void expectConfigsAreEqual(Config a, Config b) {
   } else {
     expect(bm, isNull, reason: 'mavenDownloads');
   }
-  final aa = a.input.androidSdkConfig;
-  final ba = b.input.androidSdkConfig;
+  final aa = a.input.androidSdk;
+  final ba = b.input.androidSdk;
   if (aa != null) {
-    expect(ba, isNotNull, reason: 'androidSdkConfig');
-    expect(aa.versions, ba!.versions, reason: 'androidSdkConfig.versions');
-    expect(aa.sdkRoot, ba.sdkRoot, reason: 'androidSdkConfig.sdkRoot');
+    expect(ba, isNotNull, reason: 'androidSdk');
+    expect(aa.versions, ba!.versions, reason: 'androidSdk.versions');
+    expect(aa.sdkRoot, ba.sdkRoot, reason: 'androidSdk.sdkRoot');
   } else {
-    expect(ba, isNull, reason: 'androidSdkConfig');
+    expect(ba, isNull, reason: 'androidSdk');
   }
   final aso = a.input.summarizerOptions;
   final bso = b.input.summarizerOptions;

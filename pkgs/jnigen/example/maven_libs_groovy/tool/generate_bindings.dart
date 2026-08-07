@@ -13,13 +13,13 @@ void main() async {
     Config(
       input: Input(
         classes: ['com.google.gson.Gson', 'okhttp3.OkHttpClient'],
-        androidSdkConfig: AndroidSdkConfig(
+        androidSdk: AndroidSdk(
           addGradleDeps: true,
           androidExample: packageRoot.resolve('example/').toFilePath(),
         ),
       ),
       output: Output(
-        dart: DartCodeOutputConfig(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/maven_libs_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),

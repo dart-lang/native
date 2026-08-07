@@ -57,7 +57,7 @@ Config getConfig() {
       summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
     ),
     output: Output(
-      dart: DartCodeOutputConfig(
+      dart: DartCodeOutput(
         path: dartWrappersRoot.resolve('kotlin.dart'),
         structure: OutputStructure.singleFile,
       ),

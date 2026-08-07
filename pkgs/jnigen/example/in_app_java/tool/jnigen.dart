@@ -14,13 +14,13 @@ void main(List<String> args) {
           'androidx.emoji2.text.DefaultEmojiCompatConfig', // From gradle's compile classpath
           'android.os.Build', // from gradle's compile classpath
         ],
-        androidSdkConfig: AndroidSdkConfig(
+        androidSdk: AndroidSdk(
           addGradleDeps: true,
           androidExample: packageRoot.toFilePath(),
         ),
       ),
       output: Output(
-        dart: DartCodeOutputConfig(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/android_utils.g.dart'),
           structure: OutputStructure.singleFile,
         ),

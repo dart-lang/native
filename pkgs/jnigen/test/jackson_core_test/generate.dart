@@ -53,7 +53,7 @@ Config getConfig({
       ),
     ),
     output: Output(
-      dart: DartCodeOutputConfig(
+      dart: DartCodeOutput(
         path: Uri.directory(join(rootDir, 'bindings')),
       ),
       preamble: jacksonPreamble,

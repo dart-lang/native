@@ -91,7 +91,7 @@ Future<void> rename(ast.Classes classes) async {
   final config = Config(
     input: Input(classes: []),
     output: Output(
-      dart: DartCodeOutputConfig(
+      dart: DartCodeOutput(
         path: Uri.file('test.dart'),
         structure: OutputStructure.singleFile,
       ),

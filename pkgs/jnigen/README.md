@@ -76,10 +76,10 @@ instructions.
            // Optional. List of directories that contain the source files for which to generate bindings.
            sourcePath: [packageRoot.resolve('android/app/src/main/java')],
            // Optional. Configuration to search for Android SDK libraries.
-           androidSdkConfig: AndroidSdkConfig(addGradleDeps: true),
+           androidSdk: AndroidSdk(addGradleDeps: true),
          ),
          output: Output(
-           dart: DartCodeOutputConfig(
+           dart: DartCodeOutput(
              // Required. Output path for generated bindings.
              path: packageRoot.resolve('lib/android_utils.g.dart'),
              // Optional. Write bindings into a single file (instead of one file per class).

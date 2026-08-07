@@ -157,7 +157,7 @@ Future<Classes> getSummary(Config config) async {
         .map((entry) => entry.uri)
         .toList());
   }
-  final androidConfig = config.input.androidSdkConfig;
+  final androidConfig = config.input.androidSdk;
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(
       configRoot: config.configRoot,

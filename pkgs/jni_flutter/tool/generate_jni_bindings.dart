@@ -19,14 +19,14 @@ Future<void> main() async {
     Config(
       input: Input(
         classes: ['com.github.dart_lang.jni_flutter.JniFlutterPlugin'],
-        androidSdkConfig: AndroidSdkConfig(
+        androidSdk: AndroidSdk(
           addGradleDeps: true,
           androidExample:
               packageRoot.resolve('android_test_runner/').toFilePath(),
         ),
       ),
       output: Output(
-        dart: DartCodeOutputConfig(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/src/generated_plugin.dart'),
           structure: OutputStructure.singleFile,
         ),

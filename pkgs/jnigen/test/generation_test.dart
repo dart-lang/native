@@ -28,7 +28,7 @@ void main() {
             sourcePath: [Uri.directory(sourcePath)],
           ),
           output: Output(
-            dart: DartCodeOutputConfig(
+            dart: DartCodeOutput(
               path: root.uri,
               structure: OutputStructure.packageStructure,
             ),

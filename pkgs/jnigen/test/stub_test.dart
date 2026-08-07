@@ -21,7 +21,7 @@ Config _getConfig(Uri output, bool generateStubs) {
       classes: ['com.example.A', 'com.example.C'],
     ),
     output: Output(
-      dart: DartCodeOutputConfig(
+      dart: DartCodeOutput(
         path: output,
         structure: OutputStructure.singleFile,
       ),

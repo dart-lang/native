@@ -105,7 +105,7 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
       ],
     ),
     output: Output(
-      dart: DartCodeOutputConfig(
+      dart: DartCodeOutput(
         path: dartWrappersRoot.resolve('simple_package.dart'),
         structure: OutputStructure.singleFile,
       ),

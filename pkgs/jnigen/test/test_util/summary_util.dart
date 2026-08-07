@@ -54,7 +54,7 @@ Config getSummaryGenerationConfig(
       classPath: classPath?.map(Uri.file).toList() ?? const [],
     ),
     output: Output(
-      dart: DartCodeOutputConfig(
+      dart: DartCodeOutput(
         path: Uri.file('unused.dart'),
         structure: OutputStructure.singleFile,
       ),
