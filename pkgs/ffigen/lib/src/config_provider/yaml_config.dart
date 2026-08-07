@@ -1338,7 +1338,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   const YamlConfigAstVisitor(this.config) : super.base();
 
-  Declaration _decl(public_ast.AstNode node) =>
+  Declaration _decl(public_ast.DeclNode node) =>
       Declaration(usr: node.usr, originalName: node.originalName);
 
   @override
@@ -1396,7 +1396,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     node.name = config.objcCategories.rename(_decl(node));
   }
 
-  YamlDeclarationFilters? _getObjCDecl(public_ast.ObjCMethod node) {
+  YamlDeclarationFilters? _getObjCDecl(public_ast.DeclNode node) {
     if (node is public_ast.ObjCInterface) {
       return config.objcInterfaces;
     } else if (node is public_ast.ObjCProtocol) {
@@ -1417,7 +1417,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     )!.renameMember(_decl(node.parent), node.originalName);
   }
 
-  YamlDeclarationFilters? _getCompoundDecl(public_ast.ObjCMethod node) {
+  YamlDeclarationFilters? _getCompoundDecl(public_ast.DeclNode node) {
     if (node is public_ast.Struct) {
       return config.structDecl;
     } else if (node is public_ast.Union) {
@@ -1446,12 +1446,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitEnumConstant(public_ast.EnumConstant node) {
-    final parent = node.parent;
-    if (parent is public_ast.EnumClass) {
-      node.name = config.enumClassDecl.renameMember(
-        _decl(parent),
-        node.originalName,
-      );
-    }
+    node.name = config.enumClassDecl.renameMember(
+      _decl(node.parent),
+      node.originalName,
+    );
   }
 }
