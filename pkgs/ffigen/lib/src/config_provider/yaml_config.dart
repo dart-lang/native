@@ -1397,11 +1397,11 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   }
 
   YamlDeclarationFilters? _getObjCDecl(public_ast.ObjCMethod node) {
-    if (parent is public_ast.ObjCInterface) {
+    if (node is public_ast.ObjCInterface) {
       return config.objcInterfaces;
-    } else if (parent is public_ast.ObjCProtocol) {
+    } else if (node is public_ast.ObjCProtocol) {
       return config.objcProtocols;
-    } else if (parent is public_ast.ObjCCategory) {
+    } else if (node is public_ast.ObjCCategory) {
       return config.objcCategories;
     }
     return null;
@@ -1413,14 +1413,14 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (node.isPropertySetter) return;
 
     node.name = _getObjCDecl(
-      node,
-    ).renameMember(_decl(node.parent), node.originalName);
+      node.parent,
+    )!.renameMember(_decl(node.parent), node.originalName);
   }
 
   YamlDeclarationFilters? _getCompoundDecl(public_ast.ObjCMethod node) {
-    if (parent is public_ast.Struct) {
+    if (node is public_ast.Struct) {
       return config.structDecl;
-    } else if (parent is public_ast.Union) {
+    } else if (node is public_ast.Union) {
       return config.unionDecl;
     }
     return null;
@@ -1429,8 +1429,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   @override
   void visitField(public_ast.Field node) {
     node.name = _getCompoundDecl(
-      node,
-    ).renameMember(_decl(node.parent), node.originalName);
+      node.parent,
+    )!.renameMember(_decl(node.parent), node.originalName);
   }
 
   @override
