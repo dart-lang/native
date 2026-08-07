@@ -12,16 +12,13 @@ abstract class AstNode {
 
 /// Base class for AST visitors that inspect and transform AST nodes.
 ///
-/// Implementations can extend [Visitor] by calling [Visitor.base] or use the
-/// [Visitor] factory constructor to provide inline callbacks for specific
-/// nodes.
+/// Implementations can extend [Visitor] (must call the [Visitor.base]
+/// constructor) or use the [Visitor] factory constructor to provide inline
+/// callbacks for specific nodes.
 abstract base class Visitor {
-  /// Base constructor for subclasses extending [Visitor].
   const Visitor.base();
 
   /// Creates a [Visitor] that delegates visiting to the provided callbacks.
-  ///
-  /// Unprovided callbacks default to no-op handlers.
   factory Visitor({
     void Function(Func) visitFunc,
     void Function(Struct) visitStruct,
@@ -178,14 +175,13 @@ final class _CallbackVisitor extends Visitor {
   void visitCppMethod(CppMethod node) => _visitCppMethod(node);
 }
 
-/// Public AST node representing a C function declaration.
+/// A C function declaration.
 class Func extends AstNode {
   final internal.Func _func;
 
   /// The parameters of this function.
   final List<Param> params;
 
-  /// Creates a public [Func] AST node wrapper.
   Func(this._func) : params = [] {
     params.addAll(
       _func.functionType.parameters.map((p) => Param(p, parent: this)),
@@ -198,7 +194,7 @@ class Func extends AstNode {
     visitor.visitAll(params);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this function.
+  /// USR identifier of this function.
   String get usr => _func.usr;
 
   /// The generated Dart name for this function.
@@ -211,14 +207,13 @@ class Func extends AstNode {
   }
 }
 
-/// Public AST node representing a C struct declaration.
+/// A C struct declaration.
 class Struct extends AstNode {
   final internal.Struct _struct;
 
   /// The fields belonging to this struct.
   final List<Field> members;
 
-  /// Creates a public [Struct] AST node wrapper.
   Struct(this._struct) : members = [] {
     members.addAll(_struct.members.map((m) => Field(m, parent: this)));
   }
@@ -229,7 +224,7 @@ class Struct extends AstNode {
     visitor.visitAll(members);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this struct.
+  /// USR identifier of this struct.
   String get usr => _struct.usr;
 
   /// The generated Dart name for this struct.
@@ -239,14 +234,13 @@ class Struct extends AstNode {
   set name(String value) => _struct.symbol.oldName = value;
 }
 
-/// Public AST node representing a C union declaration.
+/// A C union declaration.
 class Union extends AstNode {
   final internal.Union _union;
 
   /// The fields belonging to this union.
   final List<Field> members;
 
-  /// Creates a public [Union] AST node wrapper.
   Union(this._union) : members = [] {
     members.addAll(_union.members.map((m) => Field(m, parent: this)));
   }
@@ -257,7 +251,7 @@ class Union extends AstNode {
     visitor.visitAll(members);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this union.
+  /// USR identifier of this union.
   String get usr => _union.usr;
 
   /// The generated Dart name for this union.
@@ -267,14 +261,13 @@ class Union extends AstNode {
   set name(String value) => _union.symbol.oldName = value;
 }
 
-/// Public AST node representing an enum declaration.
+/// An enum declaration.
 class EnumClass extends AstNode {
   final internal.EnumClass _enumClass;
 
   /// The constants belonging to this enum.
   final List<EnumConstant> constants;
 
-  /// Creates a public [EnumClass] AST node wrapper.
   EnumClass(this._enumClass) : constants = [] {
     constants.addAll(
       _enumClass.enumConstants.map((c) => EnumConstant(c, parent: this)),
@@ -287,7 +280,7 @@ class EnumClass extends AstNode {
     visitor.visitAll(constants);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this enum.
+  /// USR identifier of this enum.
   String get usr => _enumClass.usr;
 
   /// The generated Dart name for this enum.
@@ -297,17 +290,16 @@ class EnumClass extends AstNode {
   set name(String value) => _enumClass.symbol.oldName = value;
 }
 
-/// Public AST node representing a C global variable declaration.
+/// A C global variable declaration.
 class Global extends AstNode {
   final internal.Global _global;
 
-  /// Creates a public [Global] AST node wrapper.
   Global(this._global);
 
   @override
   void accept(Visitor visitor) => visitor.visitGlobal(this);
 
-  /// The Unified Symbol Resolution (USR) identifier of this global variable.
+  /// USR identifier of this global variable.
   String get usr => _global.usr;
 
   /// The generated Dart name for this global variable.
@@ -317,17 +309,16 @@ class Global extends AstNode {
   set name(String value) => _global.symbol.oldName = value;
 }
 
-/// Public AST node representing a C macro constant declaration.
+/// A C macro constant declaration.
 class MacroConstant extends AstNode {
   final internal.MacroConstant _macro;
 
-  /// Creates a public [MacroConstant] AST node wrapper.
   MacroConstant(this._macro);
 
   @override
   void accept(Visitor visitor) => visitor.visitMacro(this);
 
-  /// The Unified Symbol Resolution (USR) identifier of this macro constant.
+  /// USR identifier of this macro constant.
   String get usr => _macro.usr;
 
   /// The generated Dart name for this macro constant.
@@ -337,17 +328,16 @@ class MacroConstant extends AstNode {
   set name(String value) => _macro.symbol.oldName = value;
 }
 
-/// Public AST node representing a C typedef (type alias) declaration.
+/// A C typedef (type alias) declaration.
 class Typealias extends AstNode {
   final internal.Typealias _typealias;
 
-  /// Creates a public [Typealias] AST node wrapper.
   Typealias(this._typealias);
 
   @override
   void accept(Visitor visitor) => visitor.visitTypealias(this);
 
-  /// The Unified Symbol Resolution (USR) identifier of this typedef.
+  /// USR identifier of this typedef.
   String get usr => _typealias.usr;
 
   /// The generated Dart name for this typedef.
@@ -357,14 +347,13 @@ class Typealias extends AstNode {
   set name(String value) => _typealias.symbol.oldName = value;
 }
 
-/// Public AST node representing an Objective-C interface (class) declaration.
+/// An Objective-C interface (class) declaration.
 class ObjCInterface extends AstNode {
   final internal.ObjCInterface _interface;
 
   /// The methods belonging to this Objective-C interface.
   final List<ObjCMethod> methods;
 
-  /// Creates a public [ObjCInterface] AST node wrapper.
   ObjCInterface(this._interface) : methods = [] {
     methods.addAll(_interface.methods.map((m) => ObjCMethod(m, parent: this)));
   }
@@ -375,8 +364,7 @@ class ObjCInterface extends AstNode {
     visitor.visitAll(methods);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this Objective-C
-  /// interface.
+  /// USR identifier of this Objective-C interface.
   String get usr => _interface.usr;
 
   /// The generated Dart name for this Objective-C interface.
@@ -390,14 +378,13 @@ class ObjCInterface extends AstNode {
   }
 }
 
-/// Public AST node representing an Objective-C protocol declaration.
+/// An Objective-C protocol declaration.
 class ObjCProtocol extends AstNode {
   final internal.ObjCProtocol _protocol;
 
   /// The methods belonging to this Objective-C protocol.
   final List<ObjCMethod> methods;
 
-  /// Creates a public [ObjCProtocol] AST node wrapper.
   ObjCProtocol(this._protocol) : methods = [] {
     methods.addAll(_protocol.methods.map((m) => ObjCMethod(m, parent: this)));
   }
@@ -408,8 +395,7 @@ class ObjCProtocol extends AstNode {
     visitor.visitAll(methods);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this Objective-C
-  /// protocol.
+  /// USR identifier of this Objective-C protocol.
   String get usr => _protocol.usr;
 
   /// The generated Dart name for this Objective-C protocol.
@@ -419,14 +405,13 @@ class ObjCProtocol extends AstNode {
   set name(String value) => _protocol.symbol.oldName = value;
 }
 
-/// Public AST node representing an Objective-C category declaration.
+/// An Objective-C category declaration.
 class ObjCCategory extends AstNode {
   final internal.ObjCCategory _category;
 
   /// The methods belonging to this Objective-C category.
   final List<ObjCMethod> methods;
 
-  /// Creates a public [ObjCCategory] AST node wrapper.
   ObjCCategory(this._category) : methods = [] {
     methods.addAll(_category.methods.map((m) => ObjCMethod(m, parent: this)));
   }
@@ -440,8 +425,7 @@ class ObjCCategory extends AstNode {
     visitor.visitAll(methods);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this Objective-C
-  /// category.
+  /// USR identifier of this Objective-C category.
   String get usr => _category.usr;
 
   /// The generated Dart name for this Objective-C category.
@@ -451,14 +435,13 @@ class ObjCCategory extends AstNode {
   set name(String value) => _category.symbol.oldName = value;
 }
 
-/// Public AST node representing a C++ class declaration.
+/// A C++ class declaration.
 class CppClass extends AstNode {
   final internal.CppClass _cppClass;
 
   /// The methods belonging to this C++ class.
   final List<CppMethod> methods;
 
-  /// Creates a public [CppClass] AST node wrapper.
   CppClass(this._cppClass) : methods = [] {
     methods.addAll(_cppClass.methods.map((m) => CppMethod(m, parent: this)));
   }
@@ -469,7 +452,7 @@ class CppClass extends AstNode {
     visitor.visitAll(methods);
   }
 
-  /// The Unified Symbol Resolution (USR) identifier of this C++ class.
+  /// USR identifier of this C++ class.
   String get usr => _cppClass.usr;
 
   /// The generated Dart name for this C++ class.
@@ -479,14 +462,13 @@ class CppClass extends AstNode {
   set name(String value) => _cppClass.symbol.oldName = value;
 }
 
-/// Public AST node representing a field in a struct or union.
+/// A field in a struct or union.
 class Field extends AstNode {
   final internal.CompoundMember _member;
 
   /// The parent AST node containing this field (a [Struct] or [Union]).
   final AstNode? parent;
 
-  /// Creates a public [Field] AST node wrapper.
   Field(this._member, {this.parent});
 
   @override
@@ -499,14 +481,13 @@ class Field extends AstNode {
   set name(String value) => _member.symbol.oldName = value;
 }
 
-/// Public AST node representing a constant inside a named enum.
+/// A constant inside a named enum.
 class EnumConstant extends AstNode {
   final internal.EnumConstant _constant;
 
   /// The parent [EnumClass] containing this constant.
   final EnumClass? parent;
 
-  /// Creates a public [EnumConstant] AST node wrapper.
   EnumConstant(this._constant, {this.parent});
 
   @override
@@ -519,7 +500,7 @@ class EnumConstant extends AstNode {
   set name(String value) => _constant.symbol.oldName = value;
 }
 
-/// Public AST node representing a function or method parameter.
+/// A function or method parameter.
 class Param extends AstNode {
   final internal.Parameter _parameter;
 
@@ -527,7 +508,6 @@ class Param extends AstNode {
   /// [CppMethod]).
   final AstNode? parent;
 
-  /// Creates a public [Param] AST node wrapper.
   Param(this._parameter, {this.parent});
 
   @override
@@ -540,7 +520,7 @@ class Param extends AstNode {
   set name(String value) => _parameter.symbol.oldName = value;
 }
 
-/// Public AST node representing a C++ method declaration.
+/// A C++ method declaration.
 class CppMethod extends AstNode {
   final internal.CppMethod _method;
 
@@ -550,7 +530,6 @@ class CppMethod extends AstNode {
   /// The parent [CppClass] containing this C++ method.
   final CppClass? parent;
 
-  /// Creates a public [CppMethod] AST node wrapper.
   CppMethod(this._method, {this.parent}) : params = [] {
     params.addAll(_method.parameters.map((p) => Param(p, parent: this)));
   }
@@ -568,7 +547,7 @@ class CppMethod extends AstNode {
   set name(String value) => _method.name.oldName = value;
 }
 
-/// Public AST node representing an Objective-C method declaration.
+/// An Objective-C method declaration.
 class ObjCMethod extends AstNode {
   final internal.ObjCMethod _method;
 
@@ -579,7 +558,6 @@ class ObjCMethod extends AstNode {
   /// [ObjCInterface], [ObjCProtocol], or [ObjCCategory]).
   final AstNode? parent;
 
-  /// Creates a public [ObjCMethod] AST node wrapper.
   ObjCMethod(this._method, {this.parent}) : params = [] {
     params.addAll(_method.params.map((p) => Param(p, parent: this)));
   }
@@ -606,18 +584,16 @@ class ObjCMethod extends AstNode {
   bool get isPropertySetter => _method.isPropertySetter;
 }
 
-/// Public AST node representing an unnamed enum constant.
+/// An unnamed enum constant.
 class UnnamedEnumConstant extends AstNode {
   final internal.UnnamedEnumConstant _constant;
 
-  /// Creates a public [UnnamedEnumConstant] AST node wrapper.
   UnnamedEnumConstant(this._constant);
 
   @override
   void accept(Visitor visitor) => visitor.visitUnnamedEnumConstant(this);
 
-  /// The Unified Symbol Resolution (USR) identifier of this unnamed enum
-  /// constant.
+  /// USR identifier of this unnamed enum constant.
   String get usr => _constant.usr;
 
   /// The generated Dart name for this unnamed enum constant.

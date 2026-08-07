@@ -66,37 +66,28 @@ final class FfiGenerator {
   /// Each visitor can inspect or mutate AST node names and properties (such as
   /// renaming functions, parameters, struct fields, enum constants, etc.).
   ///
-  /// Examples:
+  /// ### Examples
   ///
-  /// Inline visitor using the constructor callbacks:
+  /// Filtering declarations:
   /// ```dart
-  /// FfiGenerator(
-  ///   // ...
-  ///   visitors: [
-  ///     Visitor(
-  ///       visitFunc: (func) {
-  ///         if (func.name.startsWith('custom_')) {
-  ///           func.name = func.name.substring(7);
-  ///         }
-  ///       },
-  ///     ),
-  ///   ],
+  /// Visitor(
+  ///   visitFunc: (node) {
+  ///     if (node.name.startsWith('_')) {
+  ///       node.isIncluded = false;
+  ///     }
+  ///   },
   /// )
   /// ```
   ///
-  /// Custom visitor class extending [Visitor]:
+  /// Renaming declarations:
   /// ```dart
-  /// final class PrefixStripperVisitor extends Visitor {
-  ///   final String prefix;
-  ///   const PrefixStripperVisitor(this.prefix) : super.base();
-  ///
-  ///   @override
-  ///   void visitFunc(Func node) {
-  ///     if (node.name.startsWith(prefix)) {
-  ///       node.name = node.name.substring(prefix.length);
+  /// Visitor(
+  ///   visitStruct: (node) {
+  ///     if (node.name == 'custom_type') {
+  ///       node.name = 'CustomType';
   ///     }
-  ///   }
-  /// }
+  ///   },
+  /// )
   /// ```
   final List<Visitor> visitors;
 
