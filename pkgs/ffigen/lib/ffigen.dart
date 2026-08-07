@@ -56,3 +56,4 @@ export 'src/config_provider.dart'
         xcodePath,
         xcodeUri;
 export 'src/public_ast.dart';
+export 'src/public_visitor.dart';

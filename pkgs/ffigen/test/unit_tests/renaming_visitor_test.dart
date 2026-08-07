@@ -310,8 +310,8 @@ objc-interfaces:
       expect(struct.members[0].symbol.oldName, 'newField');
 
       expect(objcInterface.symbol.oldName, 'NewClass');
-      expect(objcMethod.symbol.oldName, 'customFoo');
-      expect(objcMethod.params.elementAt(1).symbol.oldName, 'customBar');
+      expect(objcMethod.symbol.oldName, 'customFoo:customBar:');
+      expect(objcMethod.params.elementAt(1).symbol.oldName, 'bar');
     });
 
     test('Public AST nodes expose usr getter', () {
