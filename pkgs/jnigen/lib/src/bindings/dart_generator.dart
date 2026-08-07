@@ -449,7 +449,6 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
       ),
     );
     final implementsClause = {superName, ...interfaces}.join(', ');
-    final implClassName = '\$$name';
     final typeParamsDef = node.allTypeParams
         .accept(const _TypeParamDef())
         .join(', ')
@@ -493,9 +492,10 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
     node.compareTo?.accept(_ComparatorGenerator(resolver, instanceSink));
 
     if (node.declKind == DeclKind.interfaceKind) {
+      final interfaceMixinName = node.finalInterfaceMixinName;
       s.write('''
   /// Maps a specific port to the implemented interface.
-  static final $_core.Map<$_core.int, $implClassName> _\$impls = {};
+  static final $_core.Map<$_core.int, $interfaceMixinName> _\$impls = {};
 ''');
       s.write('''
   static $_jni.JObjectPtr _\$invoke(
@@ -540,7 +540,7 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
 
   static void implementIn$typeParamsDef(
     $_jni.JImplementer implementer,
-    $implClassName$typeParamsCall \$impl,
+    $interfaceMixinName$typeParamsCall \$impl,
   ) {
     late final $_jni.RawReceivePort \$p;
     \$p = $_jni.RawReceivePort((\$m) {
@@ -564,7 +564,7 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
       final interfaceAsyncMethod = _InterfaceIfAsyncMethod(
         resolver,
         s,
-        implClassName: implClassName,
+        implClassName: interfaceMixinName,
       );
       for (final method in node.methods) {
         method.accept(interfaceAsyncMethod);
@@ -577,7 +577,7 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
   }
 
   factory $name.implement(
-    $implClassName$typeParamsCall \$impl,
+    $interfaceMixinName$typeParamsCall \$impl,
   ) {
     final \$i = $_jni.JImplementer();
     implementIn(\$i, \$impl);
@@ -608,16 +608,17 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
     // Abstract and concrete Impl class definition.
     // Used for interface implementation.
     if (node.declKind == DeclKind.interfaceKind) {
+      final interfaceMixinName = node.finalInterfaceMixinName;
       // Abstract Impl class.
       final abstractFactoryArgs = node.methods
           .accept(_AbstractImplFactoryArg(resolver))
           .join(_newLine(depth: 2))
           .encloseIfNotEmpty('{', '}');
       s.write('''
-abstract base mixin class $implClassName$typeParamsDef {
-  factory $implClassName(
+abstract base mixin class $interfaceMixinName$typeParamsDef {
+  factory $interfaceMixinName(
     $abstractFactoryArgs
-  ) = _$implClassName$typeParamsCall;
+  ) = _$interfaceMixinName$typeParamsCall;
 
 ''');
       final abstractImplMethod = _AbstractImplMethod(resolver, s);
@@ -638,8 +639,8 @@ abstract base mixin class $implClassName$typeParamsDef {
           .encloseIfNotEmpty(' :  ', '');
       s.write('''
 
-final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
-  _$implClassName(
+final class _$interfaceMixinName$typeParamsDef with $interfaceMixinName$typeParamsCall {
+  _$interfaceMixinName(
     $concreteCtorArgs
   )$setClosures;
 

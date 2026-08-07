@@ -181,15 +181,22 @@ class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
   final Set<ClassDecl> renamed;
-  final Map<String, int> topLevelNameCounts = {
-    ..._definedSyms,
-    ..._reservedTopLevelNames,
-  };
+  final Map<String, Map<String, int>> topLevelNameCounts = {};
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
     this.config,
   ) : renamed = {...config.importedClasses.values};
+
+  Map<String, int> _getTopLevelNameCounts(ClassDecl node) {
+    return topLevelNameCounts.putIfAbsent(
+      node.path,
+      () => {
+        ..._definedSyms,
+        ..._reservedTopLevelNames,
+      },
+    );
+  }
 
   @override
   void visit(ClassDecl node) {
@@ -217,13 +224,25 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     final className =
         '$outerClassName${_preprocess(node.userDefinedName ?? node.name)}';
 
-    // When generating all the classes in a single file
-    // the names need to be unique.
-    final uniquifyName =
-        config.output.dart.structure == OutputStructure.singleFile;
-    node.finalName = uniquifyName
-        ? _renameConflict(topLevelNameCounts, className, _ElementKind.klass)
-        : className;
+    final generatedFileNameCounts = _getTopLevelNameCounts(node);
+
+    node.finalName = _renameConflict(
+      generatedFileNameCounts,
+      className,
+      _ElementKind.klass,
+    );
+
+    if (node.declKind == DeclKind.interfaceKind) {
+      final interfaceMixinName = node.userDefinedInterfaceMixinName == null
+          ? '\$${node.finalName}'
+          : _preprocess(node.userDefinedInterfaceMixinName!);
+
+      node.finalInterfaceMixinName = _renameConflict(
+        generatedFileNameCounts,
+        interfaceMixinName,
+        _ElementKind.klass,
+      );
+    }
 
     if (node.userDefinedName == null ||
         node.userDefinedName == node.finalName) {
@@ -238,7 +257,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     // method will be renamed.
     final fieldRenamer = _FieldRenamer(
       config,
-      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
+      node.isTopLevel ? generatedFileNameCounts : nameCounts[node]!,
     );
     for (final field in node.fields) {
       field.accept(fieldRenamer);
@@ -246,7 +265,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
 
     final methodRenamer = _MethodRenamer(
       config,
-      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
+      node.isTopLevel ? generatedFileNameCounts : nameCounts[node]!,
       node.declKind == DeclKind.interfaceKind,
     );
     for (final method in node.methods) {
