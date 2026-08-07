@@ -733,16 +733,20 @@ void main() {
       return (inputBlockTracker, blockBlockTracker, outputBlockTracker);
     }
 
-    test('Calling a native block block from Dart has correct ref counting', () {
-      using((Arena arena) {
-        final (inputBlockTracker, blockBlockTracker, outputBlockTracker) =
-            nativeBlockBlockDartCallRefCountTest(arena);
-        doGC();
-        expect(inputBlockTracker.isAlive, false);
-        expect(blockBlockTracker.isAlive, false);
-        expect(outputBlockTracker.isAlive, false);
-      });
-    }, skip: !canDoGC);
+    test(
+      'Calling a native block block from Dart has correct ref counting',
+      () {
+        using((Arena arena) {
+          final (inputBlockTracker, blockBlockTracker, outputBlockTracker) =
+              nativeBlockBlockDartCallRefCountTest(arena);
+          doGC();
+          expect(inputBlockTracker.isAlive, false);
+          expect(blockBlockTracker.isAlive, false);
+          expect(outputBlockTracker.isAlive, false);
+        });
+      },
+      skip: !canDoGC,
+    );
 
     @pragma('vm:never-inline')
     (ReferenceTracker, ReferenceTracker) nativeBlockBlockObjCCallRefCountTest(
@@ -768,15 +772,19 @@ void main() {
       return (blockBlockTracker, outputBlockTracker);
     }
 
-    test('Calling a native block block from ObjC has correct ref counting', () {
-      using((Arena arena) {
-        final (blockBlockTracker, outputBlockTracker) =
-            nativeBlockBlockObjCCallRefCountTest(arena);
-        doGC();
-        expect(blockBlockTracker.isAlive, false);
-        expect(outputBlockTracker.isAlive, false);
-      });
-    }, skip: !canDoGC);
+    test(
+      'Calling a native block block from ObjC has correct ref counting',
+      () {
+        using((Arena arena) {
+          final (blockBlockTracker, outputBlockTracker) =
+              nativeBlockBlockObjCCallRefCountTest(arena);
+          doGC();
+          expect(blockBlockTracker.isAlive, false);
+          expect(outputBlockTracker.isAlive, false);
+        });
+      },
+      skip: !canDoGC,
+    );
 
     @pragma('vm:never-inline')
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
@@ -799,14 +807,18 @@ void main() {
       return (inputCounter, outputCounter);
     }
 
-    test('Objects received and returned by blocks have correct ref counts', () {
-      using((Arena arena) {
-        final (inputCounter, outputCounter) = objectBlockRefCountTest(arena);
-        doGC();
-        expect(inputCounter.value, 0);
-        expect(outputCounter.value, 0);
-      });
-    }, skip: !canDoGC);
+    test(
+      'Objects received and returned by blocks have correct ref counts',
+      () {
+        using((Arena arena) {
+          final (inputCounter, outputCounter) = objectBlockRefCountTest(arena);
+          doGC();
+          expect(inputCounter.value, 0);
+          expect(outputCounter.value, 0);
+        });
+      },
+      skip: !canDoGC,
+    );
 
     @pragma('vm:never-inline')
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(

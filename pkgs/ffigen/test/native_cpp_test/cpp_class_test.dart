@@ -110,14 +110,18 @@ void main() {
       expect(subject, isNotNull);
     }
 
-    test('retainOwnership after releaseOwnership re-enables GC finalizer', () {
-      final counter = calloc<Int>().cast<Int32>();
-      counter.value = 0;
-      retainAfterReleaseInner(counter);
-      doGC();
-      expect(counter.value, 1);
-      calloc.free(counter);
-    }, skip: !canDoGC);
+    test(
+      'retainOwnership after releaseOwnership re-enables GC finalizer',
+      () {
+        final counter = calloc<Int>().cast<Int32>();
+        counter.value = 0;
+        retainAfterReleaseInner(counter);
+        doGC();
+        expect(counter.value, 1);
+        calloc.free(counter);
+      },
+      skip: !canDoGC,
+    );
 
     test('retainOwnership throws StateError if already owned', () {
       final counter = calloc<Int>().cast<Int32>();
