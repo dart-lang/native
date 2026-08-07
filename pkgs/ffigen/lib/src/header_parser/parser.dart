@@ -167,6 +167,11 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
+  final nodes = rawBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
+  for (final visitor in config.visitors) {
+    visitor.visitAll(nodes);
+  }
+
   final allBindings = visit(
     context,
     FindTransitiveDepsVisitation(),
@@ -218,6 +223,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+  visit(context, DefaultParameterNamesVisitation(), finalBindings);
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.

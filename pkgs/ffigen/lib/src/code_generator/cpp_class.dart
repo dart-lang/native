@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -79,6 +80,9 @@ class CppClass extends BindingType with HasLocalScope {
     required this.methods,
     required this.fields,
   });
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.CppClass(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitCppClass(this);

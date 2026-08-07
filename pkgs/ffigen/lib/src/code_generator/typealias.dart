@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../public_ast.dart' as public_ast;
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
@@ -105,6 +106,9 @@ class Typealias extends BindingType {
     if (pointee is! NativeFunc) return null;
     return pointee.type;
   }
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Typealias(this);
 
   @override
   BindingString toBindingString(Writer w) {

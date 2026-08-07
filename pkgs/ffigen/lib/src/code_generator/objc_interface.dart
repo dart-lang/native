@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';
@@ -19,7 +20,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   bool filled = false;
 
   final String? module;
-  late final NoLookUpBinding classObject;
+  late final ObjCClassGlobal classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
@@ -107,6 +108,9 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
       null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCInterface(this);
 
   @override
   BindingString toBindingString(Writer w) {

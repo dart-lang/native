@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 
 import 'compound.dart';
@@ -47,6 +48,9 @@ class Struct extends Compound {
 
   @override
   int? pack;
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Struct(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitStruct(this);

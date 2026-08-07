@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../header_parser/sub_parsers/api_availability.dart';
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
@@ -77,6 +78,9 @@ class UnnamedEnumConstant extends Constant {
   });
 
   @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.UnnamedEnumConstant(this);
+
+  @override
   void visit(Visitation visitation) =>
       visitation.visitUnnamedEnumConstant(this);
 }
@@ -92,6 +96,9 @@ class MacroConstant extends Constant {
     required super.rawValue,
     super.apiAvailability,
   });
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.MacroConstant(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitMacroConstant(this);

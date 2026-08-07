@@ -7,6 +7,8 @@ import '../code_generator/scope.dart';
 import '../context.dart';
 import 'ast.dart';
 
+export 'default_param_names.dart';
+
 /// Wrapper around [Visitation] to be used by callers.
 final class Visitor {
   Visitor(this.context, this._visitation, {bool debug = false})

@@ -2,12 +2,24 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
+import 'package:ffigen/src/public_ast.dart' as public_ast;
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
+
+final class _RenamingVisitor extends public_ast.Visitor {
+  const _RenamingVisitor() : super.base();
+
+  @override
+  void visitFunc(public_ast.Func node) {
+    if (node.name == 'sum') {
+      node.name = 'add';
+    }
+  }
+}
 
 void main() {
   group('record_use_test', () {
@@ -20,9 +32,8 @@ void main() {
         functions: Functions(
           include: (decl) => true,
           recordUse: (decl) => true,
-          rename: (decl) =>
-              decl.originalName == 'sum' ? 'add' : decl.originalName,
         ),
+        visitors: const [_RenamingVisitor()],
         output: Output(
           dartFile: Uri.file('unused.dart'),
           style: const NativeExternalBindings(),

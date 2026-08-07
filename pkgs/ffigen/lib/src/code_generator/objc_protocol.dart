@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
+import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';
@@ -70,6 +71,9 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
       context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCProtocol(this);
 
   @override
   BindingString toBindingString(Writer w) {

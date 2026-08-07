@@ -63,7 +63,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(
     context: context,
     usr: usr,
     originalName: name,
-    name: objcProtocols.rename(decl),
+    name: name,
     module: objcProtocols.module(decl),
     dartDoc: getCursorDocComment(
       context,
@@ -91,20 +91,13 @@ ObjCProtocol? parseObjCProtocolDeclaration(
         }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) = parseObjCProperty(
-          context,
-          child,
-          decl,
-          objcProtocols,
-        );
+        final (getter, setter) = parseObjCProperty(context, child, decl);
         protocol.addMethod(getter);
         protocol.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        protocol.addMethod(
-          parseObjCMethod(context, child, decl, objcProtocols),
-        );
+        protocol.addMethod(parseObjCMethod(context, child, decl));
         break;
     }
   });
