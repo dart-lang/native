@@ -1,3 +1,4 @@
+#include <memory>
 #include "memory_edge_cases.h"
 
 #if defined(_WIN32)
@@ -17,6 +18,18 @@ FFIGEN_EXPORT int Node_getValue(const Node* self) {
 }
 
 FFIGEN_EXPORT void Node_delete(Node* self) {
+  delete self;
+}
+
+FFIGEN_EXPORT NodeContainer* NodeContainer_new(Node* node) {
+  return new NodeContainer(std::unique_ptr<Node>(node));
+}
+
+FFIGEN_EXPORT int NodeContainer_getValue(const NodeContainer* self) {
+  return self->getValue();
+}
+
+FFIGEN_EXPORT void NodeContainer_delete(NodeContainer* self) {
   delete self;
 }
 
@@ -46,6 +59,14 @@ FFIGEN_EXPORT int NodeManager_getValue(NodeManager* self, Node* node) {
 
 FFIGEN_EXPORT int NodeManager_takeNode(NodeManager* self, Node* node) {
   return self->takeNode(node);
+}
+
+FFIGEN_EXPORT Node* NodeManager_makeNode(NodeManager* self, int value, int * destructorCounter) {
+  return self->makeNode(value, destructorCounter).release();
+}
+
+FFIGEN_EXPORT int NodeManager_consumeNode(NodeManager* self, Node* node) {
+  return self->consumeNode(std::unique_ptr<Node>(node));
 }
 
 FFIGEN_EXPORT void NodeManager_delete(NodeManager* self) {

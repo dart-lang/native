@@ -61,7 +61,13 @@ void main() {
           ],
           compilerOptions: ['-x', 'c++'],
         ),
-        cpp: Cpp(classes: CppClasses.includeSet({'Node', 'NodeManager'})),
+        cpp: Cpp(
+          classes: CppClasses.includeSet({
+            'Node',
+            'NodeManager',
+            'NodeContainer',
+          }),
+        ),
       ),
     };
 
