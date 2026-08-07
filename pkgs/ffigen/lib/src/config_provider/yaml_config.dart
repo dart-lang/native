@@ -1343,57 +1343,90 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitFunc(public_ast.Func node) {
-    node.name = config.functionDecl.rename(_decl(node));
+    final rename = config.functionDecl.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitUnnamedEnumConstant(public_ast.UnnamedEnumConstant node) {
-    node.name = config.unnamedEnumConstants.rename(_decl(node));
+    final rename = config.unnamedEnumConstants.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitStruct(public_ast.Struct node) {
-    node.name = config.structDecl.rename(_decl(node));
+    final rename = config.structDecl.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitUnion(public_ast.Union node) {
-    node.name = config.unionDecl.rename(_decl(node));
+    final rename = config.unionDecl.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitEnum(public_ast.EnumClass node) {
-    node.name = config.enumClassDecl.rename(_decl(node));
+    final rename = config.enumClassDecl.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitGlobal(public_ast.Global node) {
-    node.name = config.globals.rename(_decl(node));
+    final rename = config.globals.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitMacro(public_ast.MacroConstant node) {
-    node.name = config.macroDecl.rename(_decl(node));
+    final rename = config.macroDecl.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitTypealias(public_ast.Typealias node) {
-    node.name = config.typedefs.rename(_decl(node));
+    final rename = config.typedefs.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitObjCInterface(public_ast.ObjCInterface node) {
-    node.name = config.objcInterfaces.rename(_decl(node));
+    final rename = config.objcInterfaces.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitObjCProtocol(public_ast.ObjCProtocol node) {
-    node.name = config.objcProtocols.rename(_decl(node));
+    final rename = config.objcProtocols.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   @override
   void visitObjCCategory(public_ast.ObjCCategory node) {
-    node.name = config.objcCategories.rename(_decl(node));
+    final rename = config.objcCategories.rename(_decl(node));
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   YamlDeclarationFilters? _getObjCDecl(public_ast.DeclNode node) {
@@ -1412,9 +1445,12 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     // Getters and setters share a symbol, so we only rename the getter.
     if (node.isPropertySetter) return;
 
-    node.name = _getObjCDecl(
+    final rename = _getObjCDecl(
       node.parent,
     )!.renameMember(_decl(node.parent), node.originalName);
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 
   YamlDeclarationFilters? _getCompoundDecl(public_ast.DeclNode node) {
@@ -1428,27 +1464,37 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitField(public_ast.Field node) {
-    node.name = _getCompoundDecl(
-      node.parent,
-    )!.renameMember(_decl(node.parent), node.originalName);
+    final decl = _getCompoundDecl(node.parent);
+    if (decl != null) {
+      final rename = decl.renameMember(_decl(node.parent), node.originalName);
+      if (rename != node.originalName) {
+        node.name = rename;
+      }
+    }
   }
 
   @override
   void visitParam(public_ast.Param node) {
     final parent = node.parent;
     if (parent is public_ast.Func) {
-      node.name = config.functionDecl.renameMember(
+      final rename = config.functionDecl.renameMember(
         _decl(parent),
         node.originalName,
       );
+      if (rename != node.originalName) {
+        node.name = rename;
+      }
     }
   }
 
   @override
   void visitEnumConstant(public_ast.EnumConstant node) {
-    node.name = config.enumClassDecl.renameMember(
+    final rename = config.enumClassDecl.renameMember(
       _decl(node.parent),
       node.originalName,
     );
+    if (rename != node.originalName) {
+      node.name = rename;
+    }
   }
 }

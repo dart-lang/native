@@ -223,6 +223,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+  visit(context, DefaultParameterNamesVisitation(), finalBindings);
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
