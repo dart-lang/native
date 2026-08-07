@@ -7,6 +7,14 @@ import 'code_generator.dart' as internal;
 /// Abstract base class for all public AST nodes.
 abstract class AstNode {
   const AstNode();
+
+  /// Original C/C++/Objective-C name of this AST node.
+  String get originalName;
+
+  /// The generated Dart name for this AST node.
+  String get name;
+  set name(String value);
+
   void accept(Visitor visitor);
 }
 
@@ -197,10 +205,13 @@ class Func extends AstNode {
   /// USR identifier of this function.
   String get usr => _func.usr;
 
-  /// The generated Dart name for this function.
+  @override
+  String get originalName => _func.originalName;
+
+  @override
   String get name => _func.symbol.oldName;
 
-  /// Sets the generated Dart name for this function.
+  @override
   set name(String value) {
     _func.symbol.oldName = value;
     _func.funcVarSymbol.oldName = '_$value';
@@ -227,10 +238,13 @@ class Struct extends AstNode {
   /// USR identifier of this struct.
   String get usr => _struct.usr;
 
-  /// The generated Dart name for this struct.
+  @override
+  String get originalName => _struct.originalName;
+
+  @override
   String get name => _struct.symbol.oldName;
 
-  /// Sets the generated Dart name for this struct.
+  @override
   set name(String value) => _struct.symbol.oldName = value;
 }
 
@@ -254,10 +268,13 @@ class Union extends AstNode {
   /// USR identifier of this union.
   String get usr => _union.usr;
 
-  /// The generated Dart name for this union.
+  @override
+  String get originalName => _union.originalName;
+
+  @override
   String get name => _union.symbol.oldName;
 
-  /// Sets the generated Dart name for this union.
+  @override
   set name(String value) => _union.symbol.oldName = value;
 }
 
@@ -283,10 +300,13 @@ class EnumClass extends AstNode {
   /// USR identifier of this enum.
   String get usr => _enumClass.usr;
 
-  /// The generated Dart name for this enum.
+  @override
+  String get originalName => _enumClass.originalName;
+
+  @override
   String get name => _enumClass.symbol.oldName;
 
-  /// Sets the generated Dart name for this enum.
+  @override
   set name(String value) => _enumClass.symbol.oldName = value;
 }
 
@@ -302,10 +322,13 @@ class Global extends AstNode {
   /// USR identifier of this global variable.
   String get usr => _global.usr;
 
-  /// The generated Dart name for this global variable.
+  @override
+  String get originalName => _global.originalName;
+
+  @override
   String get name => _global.symbol.oldName;
 
-  /// Sets the generated Dart name for this global variable.
+  @override
   set name(String value) => _global.symbol.oldName = value;
 }
 
@@ -321,10 +344,13 @@ class MacroConstant extends AstNode {
   /// USR identifier of this macro constant.
   String get usr => _macro.usr;
 
-  /// The generated Dart name for this macro constant.
+  @override
+  String get originalName => _macro.originalName;
+
+  @override
   String get name => _macro.symbol.oldName;
 
-  /// Sets the generated Dart name for this macro constant.
+  @override
   set name(String value) => _macro.symbol.oldName = value;
 }
 
@@ -340,10 +366,13 @@ class Typealias extends AstNode {
   /// USR identifier of this typedef.
   String get usr => _typealias.usr;
 
-  /// The generated Dart name for this typedef.
+  @override
+  String get originalName => _typealias.originalName;
+
+  @override
   String get name => _typealias.symbol.oldName;
 
-  /// Sets the generated Dart name for this typedef.
+  @override
   set name(String value) => _typealias.symbol.oldName = value;
 }
 
@@ -367,10 +396,13 @@ class ObjCInterface extends AstNode {
   /// USR identifier of this Objective-C interface.
   String get usr => _interface.usr;
 
-  /// The generated Dart name for this Objective-C interface.
+  @override
+  String get originalName => _interface.originalName;
+
+  @override
   String get name => _interface.symbol.oldName;
 
-  /// Sets the generated Dart name for this Objective-C interface.
+  @override
   set name(String value) {
     _interface.symbol.oldName = value;
     _interface.classObject.symbol.oldName = '_class_$value';
@@ -398,10 +430,13 @@ class ObjCProtocol extends AstNode {
   /// USR identifier of this Objective-C protocol.
   String get usr => _protocol.usr;
 
-  /// The generated Dart name for this Objective-C protocol.
+  @override
+  String get originalName => _protocol.originalName;
+
+  @override
   String get name => _protocol.symbol.oldName;
 
-  /// Sets the generated Dart name for this Objective-C protocol.
+  @override
   set name(String value) => _protocol.symbol.oldName = value;
 }
 
@@ -428,10 +463,13 @@ class ObjCCategory extends AstNode {
   /// USR identifier of this Objective-C category.
   String get usr => _category.usr;
 
-  /// The generated Dart name for this Objective-C category.
+  @override
+  String get originalName => _category.originalName;
+
+  @override
   String get name => _category.symbol.oldName;
 
-  /// Sets the generated Dart name for this Objective-C category.
+  @override
   set name(String value) => _category.symbol.oldName = value;
 }
 
@@ -455,10 +493,13 @@ class CppClass extends AstNode {
   /// USR identifier of this C++ class.
   String get usr => _cppClass.usr;
 
-  /// The generated Dart name for this C++ class.
+  @override
+  String get originalName => _cppClass.originalName;
+
+  @override
   String get name => _cppClass.symbol.oldName;
 
-  /// Sets the generated Dart name for this C++ class.
+  @override
   set name(String value) => _cppClass.symbol.oldName = value;
 }
 
@@ -474,10 +515,13 @@ class Field extends AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitField(this);
 
-  /// The generated Dart name for this field.
+  @override
+  String get originalName => _member.originalName;
+
+  @override
   String get name => _member.symbol.oldName;
 
-  /// Sets the generated Dart name for this field.
+  @override
   set name(String value) => _member.symbol.oldName = value;
 }
 
@@ -493,10 +537,13 @@ class EnumConstant extends AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitEnumConstant(this);
 
-  /// The generated Dart name for this enum constant.
+  @override
+  String get originalName => _constant.originalName ?? _constant.name;
+
+  @override
   String get name => _constant.symbol.oldName;
 
-  /// Sets the generated Dart name for this enum constant.
+  @override
   set name(String value) => _constant.symbol.oldName = value;
 }
 
@@ -513,10 +560,13 @@ class Param extends AstNode {
   @override
   void accept(Visitor visitor) => visitor.visitParam(this);
 
-  /// The generated Dart name for this parameter.
+  @override
+  String get originalName => _parameter.originalName;
+
+  @override
   String get name => _parameter.symbol.oldName;
 
-  /// Sets the generated Dart name for this parameter.
+  @override
   set name(String value) => _parameter.symbol.oldName = value;
 }
 
@@ -540,10 +590,13 @@ class CppMethod extends AstNode {
     visitor.visitAll(params);
   }
 
-  /// The generated Dart name for this C++ method.
+  @override
+  String get originalName => _method.originalName;
+
+  @override
   String get name => _method.name.oldName;
 
-  /// Sets the generated Dart name for this C++ method.
+  @override
   set name(String value) => _method.name.oldName = value;
 }
 
@@ -571,10 +624,13 @@ class ObjCMethod extends AstNode {
   /// The Objective-C method selector string.
   String get selector => _method.originalName;
 
-  /// The generated Dart name for this Objective-C method.
+  @override
+  String get originalName => _method.originalName;
+
+  @override
   String get name => _method.symbol.oldName;
 
-  /// Sets the generated Dart name for this Objective-C method.
+  @override
   set name(String value) => _method.symbol.oldName = value;
 
   /// Whether this method is a property getter.
@@ -596,9 +652,12 @@ class UnnamedEnumConstant extends AstNode {
   /// USR identifier of this unnamed enum constant.
   String get usr => _constant.usr;
 
-  /// The generated Dart name for this unnamed enum constant.
+  @override
+  String get originalName => _constant.originalName;
+
+  @override
   String get name => _constant.symbol.oldName;
 
-  /// Sets the generated Dart name for this unnamed enum constant.
+  @override
   set name(String value) => _constant.symbol.oldName = value;
 }
