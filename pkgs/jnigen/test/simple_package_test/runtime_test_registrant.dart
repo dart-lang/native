@@ -719,6 +719,19 @@ void registerTests(String groupName, TestRunnerCallback test) {
         });
 
         group('Interface implementation on destroyed isolate', () {
+          Future<void> waitUntilCollected(MyConsumerRunner runner) async {
+            for (var i = 0; i < 8; ++i) {
+              if (i > 0) {
+                await Future<void>.delayed(
+                    Duration(milliseconds: (1 << i) * 100));
+              }
+              await runBothGC();
+              if (runner.isArgCollected) {
+                return;
+              }
+            }
+          }
+
           test('non-blocking callback - successful callback flow', () async {
             final runnerPort = ReceivePort();
             final callbackPort = ReceivePort();
@@ -740,12 +753,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
             final result = await callbackPort.first;
             expect(result, 'callback_executed');
-            expect(runner.isFinished, isTrue);
+            expect(runner.waitForFinished(1000), isTrue);
 
             isolate.kill(priority: Isolate.immediate);
             await exitPort.first;
 
-            runJavaGC();
+            await waitUntilCollected(runner);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -773,14 +786,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
             arg.release();
 
             // Runner finished even though message isn't delivered.
-            expect(runner.isFinished, isTrue);
+            expect(runner.waitForFinished(1000), isTrue);
             expect(
               callbackPort.first.timeout(const Duration(milliseconds: 200)),
               throwsA(isA<TimeoutException>()),
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            runJavaGC();
+            await waitUntilCollected(runner);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -817,7 +830,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            runJavaGC();
+            await waitUntilCollected(runner);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -847,7 +860,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             isolate.kill(priority: Isolate.immediate);
             await exitPort.first;
 
-            runJavaGC();
+            await waitUntilCollected(runner);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -882,7 +895,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            runJavaGC();
+            await waitUntilCollected(runner);
             expect(runner.isArgCollected, isTrue);
           });
 
@@ -919,10 +932,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
             );
 
             // Arg is cleaned up even though message isn't delivered.
-            runJavaGC();
+            await waitUntilCollected(runner);
             expect(runner.isArgCollected, isTrue);
           });
-        }, skip: !canRunJavaGC);
+        }, skip: !canRunJavaGC || !canDoGC);
       }
 
       group('Dart exceptions are handled', () {

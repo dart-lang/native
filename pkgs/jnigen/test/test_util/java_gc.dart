@@ -5,7 +5,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:jni/_internal.dart';
+import 'package:ffi/ffi.dart';
 import 'package:jni/jni.dart';
 
 // Can't reliably force GC on Android.
@@ -28,6 +28,34 @@ void runJavaGC() {
     result = Process.runSync('jcmd', [pid.toString(), 'GC.run']);
     sleep(const Duration(milliseconds: 100));
   } while (result.exitCode != 0);
+}
+
+final _executeInternalCommand = () {
+  final dylib = DynamicLibrary.process();
+  if (dylib.providesSymbol('Dart_ExecuteInternalCommand')) {
+    return dylib
+        .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
+          'Dart_ExecuteInternalCommand',
+        )
+        .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
+  }
+  return null;
+}();
+
+final canDoGC = _executeInternalCommand != null;
+
+void runDartGC() {
+  if (_executeInternalCommand == null) return;
+  final gcNow = 'gc-now'.toNativeUtf8();
+  _executeInternalCommand!(gcNow.cast(), nullptr);
+  calloc.free(gcNow);
+}
+
+Future<void> runBothGC() async {
+  runDartGC();
+  await Future<void>.delayed(Duration.zero);
+  runDartGC();
+  runJavaGC();
 }
 
 /// A wrapper around Java's `java.lang.ref.WeakReference` for testing GC
