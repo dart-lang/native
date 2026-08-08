@@ -36,8 +36,12 @@ final class OS {
   /// operating system.
   static const OS windows = OS._('windows');
 
+  /// The
+  /// [OpenHarmony / HarmonyOS NEXT](https://harmonyos.com) operating system.
+  static const OS ohos = OS._('ohos');
+
   /// Known values for [OS].
-  static const List<OS> values = [android, fuchsia, iOS, linux, macOS, windows];
+  static const List<OS> values = [android, fuchsia, iOS, linux, macOS, windows, ohos];
 
   /// Typical cross compilation between OSes.
   static const osCrossCompilationDefault = {

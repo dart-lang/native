@@ -908,7 +908,9 @@ class OSSyntax {
 
   static const windows = OSSyntax._('windows');
 
-  static const List<OSSyntax> values = [android, iOS, linux, macOS, windows];
+  static const ohos = OSSyntax._('ohos');
+
+  static const List<OSSyntax> values = [android, iOS, linux, macOS, windows, ohos];
 
   static final Map<String, OSSyntax> _byName = {
     for (final value in values) value.name: value,
