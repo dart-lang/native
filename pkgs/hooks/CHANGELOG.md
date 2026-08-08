@@ -3,6 +3,8 @@
 - Add `ProtocolExtension.setupLogger`, which the hooks runner calls to provide
   the logger used for validation diagnostics before any other method is invoked
   on the extension.
+- Add `HookInputUserDefines.baseUri`, which can be used to resolve paths
+  from nested user-defined options.
 
 ## 2.1.0
 

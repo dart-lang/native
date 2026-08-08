@@ -225,17 +225,21 @@ final class HookInputUserDefines {
   /// Then:
   /// - `input.userDefines['enable_experimental_features']` returns `true`.
   /// - `input.userDefines['optimization_level']` returns `"O3"`.
-  Object? operator [](String key) {
-    final syntaxNode = _input._syntax.userDefines;
-    if (syntaxNode == null) {
-      return null;
-    }
-    final packageUserDefines = PackageUserDefinesSyntaxExtension.fromSyntax(
-      syntaxNode,
-    );
-    final pubspecSource = packageUserDefines.workspacePubspec;
-    return pubspecSource?.defines[key];
-  }
+  Object? operator [](String key) => _findDefine([key])?.$1;
+
+  /// An absolute [Uri] that can be used to interpret user-defines as paths.
+  ///
+  /// This uses the [keyPathDefine] to traverse available options, starting at
+  /// the root. If the key path contains a string, this enters a YAML map. For
+  /// an integer element, this enters a YAML sequence. Any other key path
+  /// element is invalid and throws.
+  /// If no element exists for any position in the key path, null is returned.
+  ///
+  /// This is a generalized variant of [path] returning the base URI for all
+  /// options under [keyPathDefine]. To resolve a top-level string option as a
+  /// path, use [path] directly.
+  Uri? baseUri(List<Object /* String|int */> keyPathDefine) =>
+      _findDefine(keyPathDefine)?.$2.basePath;
 
   /// Resolves the relative path provided in the user-define for [key] to an
   /// absolute [Uri] pointing to the file or directory on the host filesystem.
@@ -268,11 +272,30 @@ final class HookInputUserDefines {
   ///   // Read assets from the directory...
   /// }
   /// ```
+  ///
+  /// See also:
+  ///
+  ///  - [baseUri], which returns the equivalent of [Uri.base] for the source
+  ///    defining a key (e.g. the directory containing a workspace pubspec with
+  ///    a `hooks` entry). Unlike this method, which directly interprets a
+  ///    value as a path, the base uri can be used to [Uri.resolve] arbitrary
+  ///    path values.
   Uri? path(String key) {
+    if (_findDefine([key]) case (final String value, final source)?) {
+      return source.basePath.resolve(value);
+    }
+
+    return null;
+  }
+
+  (Object, PackageUserDefinesSource)? _findDefine(
+    Iterable<Object?> keyPathDefine,
+  ) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
       return null;
     }
+
     final packageUserDefines = PackageUserDefinesSyntaxExtension.fromSyntax(
       syntaxNode,
     );
@@ -284,9 +307,32 @@ final class HookInputUserDefines {
     // TODO(https://github.com/dart-lang/native/issues/2215): Add commandline
     // arguments.
     for (final source in sources) {
-      final relativepath = source.defines[key];
-      if (relativepath is String) {
-        return source.basePath.resolve(relativepath);
+      Object? options = source.defines;
+
+      for (final (i, key) in keyPathDefine.indexed) {
+        if (key is String) {
+          if (options is Map) {
+            options = options[key];
+          } else {
+            return null;
+          }
+        } else if (key is int) {
+          if (options is List) {
+            options = options[key];
+          } else {
+            return null;
+          }
+        } else {
+          throw ArgumentError.value(
+            keyPathDefine,
+            'keyPathDefine',
+            'Must contain only strings or ints (found `$key` at index $i).',
+          );
+        }
+      }
+
+      if (options != null) {
+        return (options, source);
       }
     }
     return null;
