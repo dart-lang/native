@@ -26,8 +26,15 @@ class FillMethodDependenciesVisitation extends Visitation {
   }
 
   @override
+  void visitFunc(Func node) {
+    if (!finalBindings.contains(node)) return;
+    node.fillFuncVarSymbol();
+  }
+
+  @override
   void visitObjCInterface(ObjCInterface node) {
     if (!finalBindings.contains(node)) return;
+    node.fillClassObject();
 
     if (!node.generateAsStub) {
       node.visitChildren(visitor);
@@ -41,6 +48,11 @@ class FillMethodDependenciesVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (!finalBindings.contains(node)) return;
+
+    if (!node.parent.generateAsStub) {
+      node.parent.fillClassObject();
+      _adder.visit(node.classObject);
+    }
     node.visitChildren(visitor);
 
     for (final method in node.methods) {
@@ -51,9 +63,11 @@ class FillMethodDependenciesVisitation extends Visitation {
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     if (!finalBindings.contains(node)) return;
+    node.fillProtocolPointer();
 
     if (!node.generateAsStub) {
       node.visitChildren(visitor);
+      _adder.visit(node.protocolPointer);
       for (final method in node.methods) {
         final blk = method.fillProtocolBlock();
         _adder.visit(blk);

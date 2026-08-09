@@ -57,7 +57,7 @@ class Func extends LookUpBinding with HasLocalScope {
 
   /// The symbol for the internal function or method name, used for record use
   /// mapping and avoiding collisions.
-  final Symbol funcVarSymbol;
+  Symbol? funcVarSymbol;
 
   bool get needsWrapper => !functionType.sameDartAndFfiDartType && !isInternal;
 
@@ -88,7 +88,6 @@ class Func extends LookUpBinding with HasLocalScope {
          parameters: parameters,
          varArgParameters: varArgParameters,
        ),
-       funcVarSymbol = Symbol('_$name', SymbolKind.method),
        super(symbol: Symbol(name, SymbolKind.method)) {
     for (var i = 0; i < functionType.parameters.length; i++) {
       if (functionType.parameters[i].symbol.oldName.isEmpty) {
@@ -111,6 +110,10 @@ class Func extends LookUpBinding with HasLocalScope {
   @override
   public_ast.AstNode? toPublicAstNode() => public_ast.Func(this);
 
+  void fillFuncVarSymbol() {
+    funcVarSymbol ??= Symbol('_${symbol.oldName}', SymbolKind.method);
+  }
+
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
@@ -131,7 +134,7 @@ class Func extends LookUpBinding with HasLocalScope {
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final funcVarName = funcVarSymbol.name;
+    final funcVarName = funcVarSymbol!.name;
     final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
@@ -271,7 +274,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
   (String, String)? get recordUseMapping => recordUse
       ? (
-          needsWrapper ? funcVarSymbol.name : name,
+          needsWrapper ? funcVarSymbol!.name : name,
           useNameForLookup ? name : originalName,
         )
       : null;

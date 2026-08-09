@@ -16,7 +16,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final ObjCInterface parent;
-  final NoLookUpBinding classObject;
+  NoLookUpBinding? get classObject => parent.classObject;
 
   final protocols = <ObjCProtocol>[];
 
@@ -30,8 +30,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
     super.dartDoc,
     required this.context,
     required this.apiAvailability,
-  }) : classObject = parent.classObject,
-       super(symbol: Symbol(name ?? originalName, SymbolKind.klass));
+  }) : super(symbol: Symbol(name ?? originalName, SymbolKind.klass));
 
   void addProtocol(ObjCProtocol? proto) {
     if (proto != null) protocols.add(proto);

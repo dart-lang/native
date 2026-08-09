@@ -61,10 +61,7 @@ class Func extends DeclNode {
   String get name => _func.symbol.oldName;
 
   @override
-  set name(String value) {
-    _func.symbol.oldName = value;
-    _func.funcVarSymbol.oldName = '_$value';
-  }
+  set name(String value) => _func.symbol.oldName = value;
 }
 
 /// A C struct declaration.
@@ -252,11 +249,7 @@ class ObjCInterface extends DeclNode {
   String get name => _interface.symbol.oldName;
 
   @override
-  set name(String value) {
-    _interface.symbol.oldName = value;
-    _interface.classObject.symbol.oldName = '_class_$value';
-    _interface.classObject.rawSymbol.oldName = '_class_${value}_raw';
-  }
+  set name(String value) => _interface.symbol.oldName = value;
 }
 
 /// An Objective-C protocol declaration.
