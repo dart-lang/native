@@ -9,10 +9,58 @@ import 'public_ast.dart';
 /// Implementations can extend [Visitor] (must call the [Visitor.base]
 /// constructor) or use the [Visitor] factory constructor to provide inline
 /// callbacks for specific nodes.
+///
+/// ### Examples
+///
+/// Filtering declarations:
+/// ```dart
+/// Visitor(
+///   visitFunc: (node) {
+///     if (node.name.startsWith('_')) {
+///       node.isIncluded = false;
+///     }
+///   },
+/// )
+/// ```
+///
+/// Renaming declarations:
+/// ```dart
+/// Visitor(
+///   visitStruct: (node) {
+///     if (node.name == 'custom_type') {
+///       node.name = 'CustomType';
+///     }
+///   },
+/// )
+/// ```
 abstract base class Visitor {
   const Visitor.base();
 
   /// Creates a [Visitor] that delegates visiting to the provided callbacks.
+  ///
+  /// ### Examples
+  ///
+  /// Filtering declarations:
+  /// ```dart
+  /// Visitor(
+  ///   visitFunc: (node) {
+  ///     if (node.name.startsWith('_')) {
+  ///       node.isIncluded = false;
+  ///     }
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// Renaming declarations:
+  /// ```dart
+  /// Visitor(
+  ///   visitStruct: (node) {
+  ///     if (node.name == 'custom_type') {
+  ///       node.name = 'CustomType';
+  ///     }
+  ///   },
+  /// )
+  /// ```
   factory Visitor({
     void Function(Func) visitFunc,
     void Function(Struct) visitStruct,
