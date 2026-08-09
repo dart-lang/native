@@ -8,6 +8,8 @@
 # the equivalent in that script as well.
 
 name: jnigen
+permissions:
+  contents: read
 
 on:
   # Run on PRs and pushes to the default branch.
@@ -159,7 +161,7 @@ jobs:
         run: dart run jnigen:setup
       - name: Run VM tests
         run: |
-          if [ "${{ matrix.java-version }}" != "17" ]; then
+          if [ "${{ matrix.java-version }}" != "21" ]; then
             dart test -x bindings --test-randomize-ordering-seed random
           else
             dart test --test-randomize-ordering-seed random
@@ -175,7 +177,7 @@ jobs:
         run: dart pub global activate coverage
       - name: Collect coverage
         if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
-        run: dart pub global run coverage:test_with_coverage
+        run: dart pub global run coverage:test_with_coverage -- -x bindings
       - name: Upload coverage
         if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
         uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
@@ -372,7 +374,7 @@ jobs:
         working-directory: ./pkgs/jni/example/
         run: flutter pub get
       - name: regenerate & compare jnigen bindings
-        if: ${{ matrix.java-version == '17' }}
+        if: ${{ matrix.java-version == '21' }}
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src/plugin

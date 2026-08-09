@@ -9,12 +9,12 @@ import 'package:jnigen/src/elements/elements.dart' as ast;
 import 'package:test/test.dart';
 
 extension on Iterable<ast.Method> {
-  List<bool> get isExcludedValues =>
-      map((c) => c.userDefinedIsExcluded).toList();
+  List<bool> get isIncludedValues =>
+      map((c) => c.userDefinedIsIncluded).toList();
 }
 
 extension on Iterable<ast.Field> {
-  List<bool> get isExcludedValues => map((c) => c.isExcluded).toList();
+  List<bool> get isIncludedValues => map((c) => c.isIncluded).toList();
 }
 
 extension on Iterable<ast.Method> {
@@ -31,13 +31,14 @@ extension on Iterable<ast.Field> {
 
 Future<void> rename(ast.Classes classes) async {
   final config = Config(
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
-          path: Uri.file('test.dart'),
-          structure: OutputStructure.singleFile,
-        ),
+    input: Input(classes: []),
+    output: Output(
+      dart: DartCodeOutput(
+        path: Uri.file('test.dart'),
+        structure: OutputStructure.singleFile,
       ),
-      classes: []);
+    ),
+  );
   await classes.accept(Linker(config));
   classes.accept(Renamer(config));
 }
@@ -48,21 +49,21 @@ base class CustomVisitor extends Visitor {
   @override
   void visitClass(ClassDecl c) {
     if (c.binaryName.contains('y')) {
-      c.isExcluded = true;
+      c.isIncluded = false;
     }
   }
 
   @override
   void visitMethod(Method method) {
     if (method.name == 'Bar') {
-      method.isExcluded = true;
+      method.isIncluded = false;
     }
   }
 
   @override
   void visitField(Field field) {
     if (field.name == 'Bar') {
-      field.isExcluded = true;
+      field.isIncluded = false;
     }
   }
 }
@@ -104,13 +105,13 @@ void main() {
     final simpleClasses = Classes(classes);
     simpleClasses.accept(CustomVisitor());
 
-    expect(classes.decls['y.Foo']?.isExcluded, true);
-    expect(classes.decls['Foo']?.isExcluded, false);
+    expect(classes.decls['y.Foo']?.isIncluded, false);
+    expect(classes.decls['Foo']?.isIncluded, true);
 
-    expect(classes.decls['Foo']?.fields.isExcludedValues,
-        [false, true, false, true]);
-    expect(classes.decls['Foo']?.methods.isExcludedValues,
-        [false, true, false, true]);
+    expect(classes.decls['Foo']?.fields.isIncludedValues,
+        [true, false, true, false]);
+    expect(classes.decls['Foo']?.methods.isIncludedValues,
+        [true, false, true, false]);
   });
   test('Exclude something using the user excluder, Simple AST', () async {
     final classes = ast.Classes({
@@ -150,29 +151,29 @@ void main() {
       Visitor(
         visitClass: (c) {
           if (c.binaryName.contains('y')) {
-            c.isExcluded = true;
+            c.isIncluded = false;
           }
         },
         visitMethod: (method) {
           if (method.name == 'Bar') {
-            method.isExcluded = true;
+            method.isIncluded = false;
           }
         },
         visitField: (field) {
           if (field.name == 'Bar') {
-            field.isExcluded = true;
+            field.isIncluded = false;
           }
         },
       ),
     );
 
-    expect(classes.decls['y.Foo']?.isExcluded, true);
-    expect(classes.decls['Foo']?.isExcluded, false);
+    expect(classes.decls['y.Foo']?.isIncluded, false);
+    expect(classes.decls['Foo']?.isIncluded, true);
 
-    expect(classes.decls['Foo']?.fields.isExcludedValues,
-        [false, true, false, true]);
-    expect(classes.decls['Foo']?.methods.isExcludedValues,
-        [false, true, false, true]);
+    expect(classes.decls['Foo']?.fields.isIncludedValues,
+        [true, false, true, false]);
+    expect(classes.decls['Foo']?.methods.isIncludedValues,
+        [true, false, true, false]);
   });
 
   test('Rename classes, fields, methods and params using the user renamer',

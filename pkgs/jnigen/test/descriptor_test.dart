@@ -16,15 +16,19 @@ import 'test_util/test_util.dart';
 void main() {
   checkLocallyBuiltDependencies();
   for (final (name, getConfig) in [
-    ('simple_package', simple_package_test.getConfig),
-    ('kotlin', kotlin_test.getConfig),
-    ('jackson_core', jackson_core_test.getConfig),
+    (
+      'simple_package',
+      () => simple_package_test.getConfig(backend: SummarizerBackend.asm)
+    ),
+    ('kotlin', () => kotlin_test.getConfig(backend: SummarizerBackend.asm)),
+    (
+      'jackson_core',
+      () => jackson_core_test.getConfig(backend: SummarizerBackend.asm)
+    ),
   ]) {
     test('Method descriptor generation for $name',
         timeout: const Timeout.factor(3), () async {
       final config = getConfig();
-      config.summarizerOptions =
-          SummarizerOptions(backend: SummarizerBackend.asm);
       final classes = await getSummary(config);
       final methodDescriptorsPreLinking = <Method, String?>{};
       for (final decl in classes.decls.values) {

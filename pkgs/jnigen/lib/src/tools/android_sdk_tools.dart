@@ -493,7 +493,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
             .replaceAll(_gradleGetClasspathStub, '')
             .replaceAll(_gradleGetSourcesStub, ''),
       );
-      File(buildGradleOld).deleteSync();
+      if (File(buildGradleOld).existsSync()) {
+        File(buildGradleOld).deleteSync();
+      }
     }
     if (procRes.exitCode != 0) {
       final inAndroidProject = _inAndroidProject(androidProject);

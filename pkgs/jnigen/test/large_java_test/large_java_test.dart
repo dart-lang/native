@@ -40,14 +40,16 @@ Future<void> main() async {
     final thisDir = Uri.directory(p.join(pkgDir, 'test', 'large_java_test'));
     await generateJniBindings(
       Config(
-        outputConfig: OutputConfig(
-          dartConfig: DartCodeOutputConfig(
+        input: Input(
+          sourcePath: [thisDir.resolve('java/')],
+          classes: ['com.example'],
+        ),
+        output: Output(
+          dart: DartCodeOutput(
             path: thisDir.resolve('temp/large_bindings.dart'),
             structure: OutputStructure.singleFile,
           ),
         ),
-        sourcePath: [thisDir.resolve('java/')],
-        classes: ['com.example'],
       ),
     );
 
