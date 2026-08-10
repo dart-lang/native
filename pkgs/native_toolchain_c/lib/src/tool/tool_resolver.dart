@@ -79,7 +79,9 @@ class PathToolResolver extends ToolResolver {
     return toolInstances;
   }
 
-  static Uri get which => Uri.file(Platform.isWindows ? 'where' : 'which');
+  // `package:process` resolves extension-less names via `PATHEXT`, which hook
+  // environments may not define, so the extension is spelled out on Windows.
+  static Uri get which => Uri.file(Platform.isWindows ? 'where.exe' : 'which');
 
   Future<Uri?> runWhich(ToolResolvingContext context) async {
     final process = await runProcess(

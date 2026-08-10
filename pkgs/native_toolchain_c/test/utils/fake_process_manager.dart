@@ -26,30 +26,55 @@ class RecordedInvocation {
   });
 }
 
-/// The scripted output of a faked process.
-class ScriptedResult {
+/// A single expected process invocation and its scripted output.
+class FakeCommand {
+  /// When set, the actual invocation must match this list exactly.
+  final List<String>? command;
+
   final String stdout;
   final String stderr;
   final int exitCode;
 
-  const ScriptedResult({
+  /// Called with the actual command when this invocation is consumed.
+  final void Function(List<String> command)? onRun;
+
+  const FakeCommand({
+    this.command,
     this.stdout = '',
     this.stderr = '',
     this.exitCode = 0,
+    this.onRun,
   });
 }
 
 /// A [ProcessManager] that never spawns a real process.
 ///
-/// It records every invocation in [invocations] and hands back the scripted
-/// [result] for both [start] and [run], so tests can assert on how processes
-/// were invoked without depending on the host machine.
+/// It consumes the given [FakeCommand]s in order, one per [start] or [run],
+/// records every invocation in [invocations], and hands back the scripted
+/// output, so tests can assert on how processes were invoked without depending
+/// on the host machine.
 class FakeProcessManager implements ProcessManager {
-  FakeProcessManager({this.result = const ScriptedResult()});
+  FakeProcessManager(this._commands);
 
-  final ScriptedResult result;
+  final List<FakeCommand> _commands;
+  int _nextCommand = 0;
 
   final List<RecordedInvocation> invocations = [];
+
+  /// Consumes the next [FakeCommand], checking it against [command].
+  FakeCommand _consume(List<String> command) {
+    if (_nextCommand >= _commands.length) {
+      throw StateError('Unexpected command: $command');
+    }
+    final fake = _commands[_nextCommand++];
+    if (fake.command != null && !_listEquals(fake.command!, command)) {
+      throw StateError(
+        'Expected command ${fake.command} but got $command.',
+      );
+    }
+    fake.onRun?.call(command);
+    return fake;
+  }
 
   @override
   Future<Process> start(
@@ -60,14 +85,16 @@ class FakeProcessManager implements ProcessManager {
     bool runInShell = false,
     ProcessStartMode mode = ProcessStartMode.normal,
   }) async {
+    final commandList = command.map((e) => '$e').toList();
+    final fake = _consume(commandList);
     invocations.add(
       RecordedInvocation(
-        command: command.map((e) => '$e').toList(),
+        command: commandList,
         workingDirectory: workingDirectory,
         environment: environment,
       ),
     );
-    return _FakeProcess(result);
+    return _FakeProcess(fake);
   }
 
   @override
@@ -80,19 +107,16 @@ class FakeProcessManager implements ProcessManager {
     Encoding? stdoutEncoding = systemEncoding,
     Encoding? stderrEncoding = systemEncoding,
   }) async {
+    final commandList = command.map((e) => '$e').toList();
+    final fake = _consume(commandList);
     invocations.add(
       RecordedInvocation(
-        command: command.map((e) => '$e').toList(),
+        command: commandList,
         workingDirectory: workingDirectory,
         environment: environment,
       ),
     );
-    return ProcessResult(
-      _fakePid,
-      result.exitCode,
-      result.stdout,
-      result.stderr,
-    );
+    return ProcessResult(_fakePid, fake.exitCode, fake.stdout, fake.stderr);
   }
 
   @override
@@ -113,26 +137,34 @@ class FakeProcessManager implements ProcessManager {
   bool killPid(int pid, [ProcessSignal signal = ProcessSignal.sigterm]) => true;
 }
 
+bool _listEquals(List<String> a, List<String> b) {
+  if (a.length != b.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
+}
+
 const _fakePid = 1234;
 
 class _FakeProcess implements Process {
-  _FakeProcess(this._result);
+  _FakeProcess(this._command);
 
-  final ScriptedResult _result;
+  final FakeCommand _command;
 
   @override
   int get pid => _fakePid;
 
   @override
-  Future<int> get exitCode async => _result.exitCode;
+  Future<int> get exitCode async => _command.exitCode;
 
   @override
   Stream<List<int>> get stdout =>
-      Stream.value(systemEncoding.encode(_result.stdout));
+      Stream.value(systemEncoding.encode(_command.stdout));
 
   @override
   Stream<List<int>> get stderr =>
-      Stream.value(systemEncoding.encode(_result.stderr));
+      Stream.value(systemEncoding.encode(_command.stderr));
 
   @override
   IOSink get stdin =>

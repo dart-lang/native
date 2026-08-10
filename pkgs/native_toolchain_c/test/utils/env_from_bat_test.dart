@@ -14,9 +14,9 @@ void main() {
     // changed. Each half is a sequence of `KEY=value` lines separated by CRLF.
     const before = 'EXISTING=old\r\nCHANGED=1';
     const after = 'EXISTING=old\r\nCHANGED=2\r\nNEWVAR=NEWVALUE';
-    final processManager = FakeProcessManager(
-      result: const ScriptedResult(stdout: '$before\r\n=======\r\n$after'),
-    );
+    final processManager = FakeProcessManager([
+      const FakeCommand(stdout: '$before\r\n=======\r\n$after'),
+    ]);
 
     final result = await environmentFromBatchFile(
       Uri.file('C:/some/path/vcvars64.bat'),

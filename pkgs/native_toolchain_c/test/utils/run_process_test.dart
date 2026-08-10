@@ -54,12 +54,12 @@ void main() {
     final executableUri = Uri.file('/bin/echo');
 
     test('captures stdout and stderr and passes the command through', () async {
-      final processManager = FakeProcessManager(
-        result: const ScriptedResult(
+      final processManager = FakeProcessManager([
+        const FakeCommand(
           stdout: 'the standard output',
           stderr: 'the standard error',
         ),
-      );
+      ]);
       final result = await runProcess(
         executable: executableUri,
         arguments: ['hello', 'world'],
@@ -81,9 +81,9 @@ void main() {
     test(
       'a non-zero exit code is returned without throwing by default',
       () async {
-        final processManager = FakeProcessManager(
-          result: const ScriptedResult(exitCode: 3, stderr: 'boom'),
-        );
+        final processManager = FakeProcessManager([
+          const FakeCommand(exitCode: 3, stderr: 'boom'),
+        ]);
         // By default a non-zero exit code is returned, not thrown.
         final result = await runProcess(
           executable: executableUri,
@@ -98,9 +98,9 @@ void main() {
     test(
       'throwOnUnexpectedExitCode throws on a mismatching exit code',
       () async {
-        final processManager = FakeProcessManager(
-          result: const ScriptedResult(exitCode: 3),
-        );
+        final processManager = FakeProcessManager([
+          const FakeCommand(exitCode: 3),
+        ]);
         await expectLater(
           runProcess(
             executable: executableUri,
@@ -114,7 +114,7 @@ void main() {
     );
 
     test('forwards the environment and working directory', () async {
-      final processManager = FakeProcessManager();
+      final processManager = FakeProcessManager([const FakeCommand()]);
       final workingDirectory = Uri.directory('/tmp/work');
       await runProcess(
         executable: executableUri,
@@ -126,6 +126,45 @@ void main() {
       final invocation = processManager.invocations.single;
       expect(invocation.environment, {'FOO': 'BAR'});
       expect(invocation.workingDirectory, workingDirectory.toFilePath());
+    });
+
+    test('a matching command is accepted', () async {
+      final processManager = FakeProcessManager([
+        FakeCommand(command: [executableUri.toFilePath(), 'hello']),
+      ]);
+      final result = await runProcess(
+        executable: executableUri,
+        arguments: ['hello'],
+        logger: null,
+        processManager: processManager,
+      );
+      expect(result.exitCode, 0);
+    });
+
+    test('onRun is invoked with the actual command', () async {
+      List<String>? seen;
+      final processManager = FakeProcessManager([
+        FakeCommand(onRun: (command) => seen = command),
+      ]);
+      await runProcess(
+        executable: executableUri,
+        arguments: ['hello', 'world'],
+        logger: null,
+        processManager: processManager,
+      );
+      expect(seen, [executableUri.toFilePath(), 'hello', 'world']);
+    });
+
+    test('an exhausted command list throws a StateError', () async {
+      final processManager = FakeProcessManager([]);
+      await expectLater(
+        runProcess(
+          executable: executableUri,
+          logger: null,
+          processManager: processManager,
+        ),
+        throwsA(isA<StateError>()),
+      );
     });
   });
 }
