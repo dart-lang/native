@@ -510,7 +510,7 @@ class RunCBuilder {
     return '$baseName.obj';
   }
 
-  static const androidNdkClangTargetFlags = {
+  static final androidNdkClangTargetFlags = {
     Architecture.arm: 'armv7a-linux-androideabi',
     Architecture.arm64: 'aarch64-linux-android',
     Architecture.ia32: 'i686-linux-android',
@@ -518,12 +518,12 @@ class RunCBuilder {
     Architecture.riscv64: 'riscv64-linux-android',
   };
 
-  static const appleClangMacosTargetFlags = {
+  static final appleClangMacosTargetFlags = {
     Architecture.arm64: 'arm64-apple-darwin',
     Architecture.x64: 'x86_64-apple-darwin',
   };
 
-  static const appleClangIosTargetFlags = {
+  static final appleClangIosTargetFlags = {
     Architecture.arm64: {
       IOSSdk.iPhoneOS: 'arm64-apple-ios',
       IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
@@ -531,7 +531,7 @@ class RunCBuilder {
     Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
   };
 
-  static const clangLinuxTargetFlags = {
+  static final clangLinuxTargetFlags = {
     Architecture.arm: 'arm-linux-gnueabihf',
     Architecture.arm64: 'aarch64-linux-gnu',
     Architecture.ia32: 'i686-linux-gnu',
@@ -540,19 +540,19 @@ class RunCBuilder {
     Architecture.riscv64: 'riscv64-linux-gnu',
   };
 
-  static const clangWindowsTargetFlags = {
+  static final clangWindowsTargetFlags = {
     Architecture.arm64: 'arm64-pc-windows-msvc',
     Architecture.ia32: 'i386-pc-windows-msvc',
     Architecture.x64: 'x86_64-pc-windows-msvc',
   };
 
-  static const clTargetFlags = {
+  static final clTargetFlags = {
     Architecture.arm64: 'ARM64',
     Architecture.ia32: 'X86',
     Architecture.x64: 'X64',
   };
 
-  static const defaultCppLinkStdLib = {
+  static final defaultCppLinkStdLib = {
     OS.android: 'c++_shared',
     OS.fuchsia: 'c++',
     OS.iOS: 'c++',
@@ -560,13 +560,13 @@ class RunCBuilder {
     OS.macOS: 'c++',
   };
 
-  static const _clangSanitizers = {
+  static final _clangSanitizers = {
     Sanitizer.asan: '-fsanitize=address',
     Sanitizer.msan: '-fsanitize=memory',
     Sanitizer.tsan: '-fsanitize=thread',
   };
 
-  static const _msvcSanitizers = {
+  static final _msvcSanitizers = {
     Sanitizer.asan: '/fsanitize=address',
   };
 }

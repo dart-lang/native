@@ -23,6 +23,16 @@ class EnumGenerator {
       );
     }
 
+    final unknownConstructor = classInfo.isOpen
+        ? '''
+$className.unknown(this.name) : assert(!_byName.keys.contains(name));'''
+        : '';
+    final unknownReturn = classInfo.isOpen
+        ? '''
+return $className.unknown(name);'''
+        : '''
+_throwFormatException(name, path, expectedValues: _byName.keys.toSet());''';
+
     buffer.writeln('''
 class $className {
   final String name;
@@ -39,14 +49,17 @@ class $className {
     for (final value in values) value.name: value,
   };
 
-  $className.unknown(this.name) : assert(!_byName.keys.contains(name));
+  $unknownConstructor
 
-  factory $className.fromJson(String name) {
+  factory $className.fromJson(
+    String name, {
+    List<Object> path = const [],
+  }) {
     final knownValue = _byName[name];
     if(knownValue != null) {
       return knownValue;
     }
-    return $className.unknown(name);
+    $unknownReturn
   }
 
   bool get isKnown => _byName[name] != null;

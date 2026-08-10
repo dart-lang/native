@@ -66,15 +66,24 @@ static const ${tagProperty}Value = '$tagValue';
 
     final className = classInfo.className;
     final factorySubclassReturns = <String>[];
+    final taggedUnionValues = <String>[];
     for (final subclass in classInfo.subclasses) {
       if (subclass.taggedUnionValue != null) {
+        taggedUnionValues.add("'${subclass.taggedUnionValue}'");
         factorySubclassReturns.add('''
         if (result.is${subclass.name}) {
           return result.as${subclass.name};
         }''');
       }
     }
+    taggedUnionValues.sort();
     final factorySubclassReturnsString = factorySubclassReturns.join('\n');
+    final expectedValuesString = taggedUnionValues.join(', ');
+    final unknownReturn = classInfo.isOpenTaggedUnion
+        ? 'return result;'
+        : '_throwFormatException(result.${classInfo.taggedUnionProperty}, '
+              "[...path, '${classInfo.taggedUnionProperty}'], "
+              'expectedValues: {$expectedValuesString});';
 
     return '''
   factory $className.fromJson(
@@ -83,7 +92,7 @@ static const ${tagProperty}Value = '$tagValue';
   }) {
     final result = $className._fromJson(json, path: path);
     $factorySubclassReturnsString
-    return result;
+    $unknownReturn
   }
 ''';
   }
