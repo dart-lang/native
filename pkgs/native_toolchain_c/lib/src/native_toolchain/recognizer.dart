@@ -31,6 +31,7 @@ class CompilerRecognizer implements ToolResolver {
         uri,
         arguments: ['--version'],
         logger: logger,
+        processManager: context.processManager,
       );
       if (stdout.contains('Apple clang')) {
         tool = appleClang;
@@ -48,6 +49,7 @@ class CompilerRecognizer implements ToolResolver {
         await CliVersionResolver.lookupVersion(
           toolInstance,
           logger: logger,
+          processManager: context.processManager,
           arguments: [if (tool != cl) '--version'],
         ),
       ];
@@ -85,7 +87,11 @@ class LinkerRecognizer implements ToolResolver {
       final toolInstance = ToolInstance(tool: tool, uri: uri);
       if (tool == lld) {
         return [
-          await CliVersionResolver.lookupVersion(toolInstance, logger: logger),
+          await CliVersionResolver.lookupVersion(
+            toolInstance,
+            logger: logger,
+            processManager: context.processManager,
+          ),
         ];
       }
       if (tool == msvcLink) {
@@ -93,6 +99,7 @@ class LinkerRecognizer implements ToolResolver {
           await CliVersionResolver.lookupVersion(
             toolInstance,
             logger: logger,
+            processManager: context.processManager,
             arguments: ['/help'],
             expectedExitCode: 1100,
           ),
@@ -133,7 +140,11 @@ class ArchiverRecognizer implements ToolResolver {
       final toolInstance = ToolInstance(tool: tool, uri: uri);
       if (tool == llvmAr) {
         return [
-          await CliVersionResolver.lookupVersion(toolInstance, logger: logger),
+          await CliVersionResolver.lookupVersion(
+            toolInstance,
+            logger: logger,
+            processManager: context.processManager,
+          ),
         ];
       }
       return [toolInstance];

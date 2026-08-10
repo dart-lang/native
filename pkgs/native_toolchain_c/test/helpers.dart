@@ -15,6 +15,7 @@ import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 /// Returns a suffix for a test that is parameterized.
@@ -158,6 +159,7 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
     executable: otoolUri,
     arguments: ['-l', libraryUri.path],
     logger: logger,
+    processManager: const LocalProcessManager(),
   );
   expect(otoolResult.exitCode, 0);
   // Leading space on purpose to differentiate from other types of names.
@@ -200,6 +202,7 @@ Future<String> readelf(String filePath, String flags) async {
     executable: Uri.file('readelf'),
     arguments: ['-$flags', filePath],
     logger: logger,
+    processManager: const LocalProcessManager(),
   );
 
   expect(result.exitCode, 0);
@@ -227,6 +230,7 @@ Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
         executable: Uri(path: 'nm'),
         arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
         logger: logger,
+        processManager: const LocalProcessManager(),
       );
       expect(result.exitCode, 0);
       return result.stdout;
@@ -297,6 +301,7 @@ Future<RunProcessResult?> _runDumpbin(
     executable: dumpbinTools.first.uri,
     arguments: [...arguments, libUri.toFilePath()],
     logger: logger,
+    processManager: const LocalProcessManager(),
   );
 }
 
@@ -308,6 +313,7 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
       executable: Uri.file('objdump'),
       arguments: ['-p', dylib.toFilePath()],
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     expect(result.exitCode, 0);
     final loadHeader = result.stdout
@@ -469,6 +475,7 @@ Future<void> expectMachineArchitecture(
         libUri.path,
       ],
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     expect(result.exitCode, 0);
     final machine = result.stdout
@@ -485,6 +492,7 @@ Future<void> expectMachineArchitecture(
       executable: Uri.file('wsl'),
       arguments: ['$triple-objdump', isStatic ? '-t' : '-T', toWslPath(libUri)],
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     expect(result.exitCode, 0);
     final machine = result.stdout

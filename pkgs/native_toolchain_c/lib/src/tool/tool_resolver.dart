@@ -9,6 +9,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/run_process.dart';
@@ -28,14 +29,21 @@ abstract class ToolResolver {
 /// global state not available in this context. Not all resolvers adhere to that
 /// though, since some need to run subprocesses to resolve tools.
 final class ToolResolvingContext {
-  // TODO: Expose package:file and package:process environments here and use
-  // them in resolvers to consistently mock external state.
+  // TODO: Expose a package:file file system here and use it in resolvers to
+  // consistently mock external file system state.
 
   final Logger? logger;
   final Map<String, String> environment;
 
-  ToolResolvingContext({required this.logger, Map<String, String>? environment})
-    : environment = environment ?? Platform.environment;
+  /// Used to spawn processes so they can be mocked in tests.
+  final ProcessManager processManager;
+
+  ToolResolvingContext({
+    required this.logger,
+    Map<String, String>? environment,
+    ProcessManager? processManager,
+  }) : environment = environment ?? Platform.environment,
+       processManager = processManager ?? const LocalProcessManager();
 }
 
 /// Tries to resolve a tool on the `PATH`.
@@ -78,6 +86,7 @@ class PathToolResolver extends ToolResolver {
       executable: which,
       arguments: [executableName],
       logger: context.logger,
+      processManager: context.processManager,
     );
     if (process.exitCode == 0) {
       final file = File(LineSplitter.split(process.stdout).first);
@@ -115,6 +124,7 @@ class CliVersionResolver implements ToolResolver {
           arguments: arguments,
           expectedExitCode: expectedExitCode,
           logger: context.logger,
+          processManager: context.processManager,
         ),
     ];
   }
@@ -124,6 +134,7 @@ class CliVersionResolver implements ToolResolver {
     List<String> arguments = const ['--version'],
     int expectedExitCode = 0,
     required Logger? logger,
+    required ProcessManager processManager,
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Looking up version with --version for $toolInstance.');
@@ -133,6 +144,7 @@ class CliVersionResolver implements ToolResolver {
       arguments: arguments,
       expectedExitCode: expectedExitCode,
       logger: logger,
+      processManager: processManager,
     );
     final result = toolInstance.copyWith(version: version);
     logger?.fine('Found version for $result.');
@@ -145,12 +157,14 @@ class CliVersionResolver implements ToolResolver {
     List<String> arguments = const ['--version'],
     int expectedExitCode = 0,
     required Logger? logger,
+    required ProcessManager processManager,
   }) async {
     final process = await runProcess(
       executable: executable,
       launcher: launcher,
       arguments: arguments,
       logger: logger,
+      processManager: processManager,
     );
     if (process.exitCode != expectedExitCode) {
       final executablePath = executable.toFilePath();
@@ -392,13 +406,18 @@ class CliFilter implements ToolResolver {
     final toolInstances = await wrappedResolver.resolve(context);
     return [
       for (final toolInstance in toolInstances)
-        await filter(toolInstance, logger: context.logger),
+        await filter(
+          toolInstance,
+          logger: context.logger,
+          processManager: context.processManager,
+        ),
     ].whereType<ToolInstance>().toList();
   }
 
   Future<ToolInstance?> filter(
     ToolInstance toolInstance, {
     required Logger? logger,
+    required ProcessManager processManager,
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Checking if $toolInstance satisfies CLI filter.');
@@ -406,6 +425,7 @@ class CliFilter implements ToolResolver {
       toolInstance.uri,
       arguments: cliArguments,
       logger: logger,
+      processManager: processManager,
     );
     final doKeep = keepIf(stdout: stdout);
     if (doKeep) {
@@ -421,11 +441,13 @@ class CliFilter implements ToolResolver {
     required List<String> arguments,
     int expectedExitCode = 0,
     required Logger? logger,
+    required ProcessManager processManager,
   }) async {
     final process = await runProcess(
       executable: executable,
       arguments: arguments,
       logger: logger,
+      processManager: processManager,
     );
     final exitCode = process.exitCode;
     assert(exitCode == expectedExitCode);

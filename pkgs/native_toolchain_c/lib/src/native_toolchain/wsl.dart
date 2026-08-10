@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -46,18 +47,24 @@ class WslToolResolver implements ToolResolver {
     final wslToolInstances = await wsl.defaultResolver!.resolve(context);
     return [
       for (final wslInstance in wslToolInstances)
-        ...await _tryResolve(wslInstance, context.logger),
+        ...await _tryResolve(
+          wslInstance,
+          context.logger,
+          context.processManager,
+        ),
     ];
   }
 
   Future<List<ToolInstance>> _tryResolve(
     ToolInstance wslToolInstance,
     Logger? logger,
+    ProcessManager processManager,
   ) async {
     final result = await runProcess(
       executable: wslToolInstance.uri,
       arguments: ['which', executableName],
       logger: logger,
+      processManager: processManager,
     );
     if (result.exitCode != 0) return [];
     final uri = Uri.file(result.stdout.trim(), windows: false);

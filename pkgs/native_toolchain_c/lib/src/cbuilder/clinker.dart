@@ -8,6 +8,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:process/process.dart';
 
 import 'cbuilder.dart';
 import 'clibrary.dart';
@@ -63,6 +64,9 @@ class CLinker extends CTool implements Linker {
   /// [defines] are merged with the [CTool.defines] of this [CLinker]. See
   /// [CTool.defines] for more documentation.
   ///
+  /// If provided, uses [processManager] to spawn processes. Otherwise, uses a
+  /// [LocalProcessManager] that spawns real processes.
+  ///
   /// If you're using [CBuilder] in a build hook and [CLinker] in a link hook,
   /// see [CLibrary] to combine them.
   @override
@@ -70,12 +74,14 @@ class CLinker extends CTool implements Linker {
     required LinkInput input,
     required LinkOutputBuilder output,
     Logger? logger,
+    ProcessManager? processManager,
     LinkerOptions? linkerOptions,
     LinkModePreference? linkModePreference,
     List<String>? sources,
     Map<String, String?>? defines,
   }) async {
     logger ??= createDefaultLogger();
+    processManager ??= const LocalProcessManager();
     final effectiveLinkerOptions = linkerOptions ?? this.linkerOptions;
     if (effectiveLinkerOptions != null &&
         effectiveLinkerOptions.skipWholeLibrary) {
@@ -110,6 +116,7 @@ class CLinker extends CTool implements Linker {
       codeConfig: input.config.code,
       linkerOptions: linkerOptions ?? this.linkerOptions,
       logger: logger,
+      processManager: processManager,
       sources: resolvedSources,
       includes: includes,
       frameworks: frameworks,

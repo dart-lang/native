@@ -268,6 +268,7 @@ class VisualStudioResolver implements ToolResolver {
         executable: vswhereInstance.uri,
         arguments: ['-format', 'json', '-utf8', '-latest', '-products', '*'],
         logger: logger,
+        processManager: context.processManager,
       );
       final instances = parseVswhere(vswhereResult.stdout, logger);
       result.addAll(instances);

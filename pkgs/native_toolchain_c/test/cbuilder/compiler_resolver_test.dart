@@ -13,6 +13,7 @@ import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart' as msvc;
 import 'package:native_toolchain_c/src/tool/tool_error.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -76,6 +77,7 @@ void main() {
     final resolver = CompilerResolver(
       codeConfig: buildInput.config.code,
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
@@ -114,6 +116,7 @@ void main() {
     final resolver = CompilerResolver(
       codeConfig: buildInput.config.code,
       logger: logger,
+      processManager: const LocalProcessManager(),
       hostOS: .android, // This is never a host.
       hostArchitecture: .arm64, // This is never a host.
     );

@@ -6,10 +6,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 
 /// Runs a [Process].
 ///
 /// If [logger] is provided, stream stdout and stderr to it.
+///
+/// The process is spawned through [processManager], which allows the process
+/// invocation to be mocked out in tests.
 ///
 /// If [captureOutput], captures stdout and stderr.
 Future<RunProcessResult> runProcess({
@@ -19,6 +23,7 @@ Future<RunProcessResult> runProcess({
   Uri? workingDirectory,
   Map<String, String>? environment,
   required Logger? logger,
+  required ProcessManager processManager,
   bool captureOutput = true,
   Level stdoutLogLevel = .FINE,
   int expectedExitCode = 0,
@@ -46,9 +51,9 @@ Future<RunProcessResult> runProcess({
     if (launcher != null) executable.toFilePath(windows: false),
     ...arguments,
   ];
-  final process = await Process.start(
-    (launcher ?? executable).toFilePath(),
-    resolvedArguments,
+  final process = await processManager.start(
+    // The executable is the first element of the command list.
+    [(launcher ?? executable).toFilePath(), ...resolvedArguments],
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
     // Never run through a shell. On Windows, running an executable through
