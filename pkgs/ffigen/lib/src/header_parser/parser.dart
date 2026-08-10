@@ -224,11 +224,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, MarkImportsVisitation(context), finalBindings);
 
   visit(context, DefaultParameterNamesVisitation(), finalBindings);
-  for (final b in finalBindings) {
-    if (b is Func) b.fillFuncVarSymbol();
-    if (b is ObjCInterface && !b.generateAsStub) b.fillClassObject();
-    if (b is ObjCProtocol && !b.generateAsStub) b.fillProtocolPointer();
-  }
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.

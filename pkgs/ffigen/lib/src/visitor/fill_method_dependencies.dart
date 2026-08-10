@@ -115,6 +115,7 @@ class _MethodDepAdderVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
+    node.fillClassObject();
     if (node.isInternal) {
       finalBindings.add(node);
       node.visitChildren(visitor);
@@ -122,7 +123,16 @@ class _MethodDepAdderVisitation extends Visitation {
   }
 
   @override
-  void visitFunc(Func node) => finalBindings.add(node);
+  void visitFunc(Func node) {
+    node.fillFuncVarSymbol();
+    finalBindings.add(node);
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    node.fillProtocolPointer();
+    finalBindings.add(node);
+  }
 
   @override
   void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>
