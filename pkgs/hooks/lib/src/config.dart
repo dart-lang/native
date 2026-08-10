@@ -293,9 +293,7 @@ final class HookInputUserDefines {
     return null;
   }
 
-  (Object, PackageUserDefinesSource)? _findDefine(
-    Iterable<Object?> keyPathDefine,
-  ) {
+  (Object, PackageUserDefinesSource)? _findDefine(List<Object> keyPathDefine) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
       return null;
