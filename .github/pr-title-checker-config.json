@@ -13,7 +13,6 @@
             "[jni_flutter] ",
             "[jnigen] ",
             "[json_syntax_generator] ",
-            "[native_doc_dartifier] ",
             "[native_test_helpers] ",
             "[native_toolchain_c] ",
             "[objective_c] ",
