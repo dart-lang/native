@@ -51,9 +51,7 @@ String generate({
       interfaces: Interfaces(
         includeTransitive: includeTransitiveObjCInterfaces,
       ),
-      protocols: Protocols(
-        includeTransitive: includeTransitiveObjCProtocols,
-      ),
+      protocols: Protocols(includeTransitive: includeTransitiveObjCProtocols),
       categories: Categories(
         includeTransitive: includeTransitiveObjCCategories,
       ),

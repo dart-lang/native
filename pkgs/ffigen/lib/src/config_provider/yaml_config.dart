@@ -67,91 +67,58 @@ final class YamlConfig {
   late Map<String, List<VarArgFunction>> _varArgFunctions = {};
 
   /// Declaration config for Functions.
-  YamlDeclarationFilters get functionDecl =>
-      _functionDecl ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+  YamlDeclarationFilters get functionDecl => _functionDecl ??=
+      declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _functionDecl;
 
   /// Declaration config for Structs.
-  YamlDeclarationFilters get structDecl =>
-      _structDecl ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+  YamlDeclarationFilters get structDecl => _structDecl ??=
+      declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _structDecl;
 
   /// Declaration config for Unions.
   YamlDeclarationFilters get unionDecl =>
-      _unionDecl ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+      _unionDecl ??= declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _unionDecl;
 
   /// Declaration config for Enums.
-  YamlDeclarationFilters get enumClassDecl =>
-      _enumClassDecl ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+  YamlDeclarationFilters get enumClassDecl => _enumClassDecl ??=
+      declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _enumClassDecl;
 
   /// Declaration config for Unnamed enum constants.
-  YamlDeclarationFilters get unnamedEnumConstants =>
-      _unnamedEnumConstants ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+  YamlDeclarationFilters get unnamedEnumConstants => _unnamedEnumConstants ??=
+      declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _unnamedEnumConstants;
 
   /// Declaration config for Globals.
   YamlDeclarationFilters get globals =>
-      _globals ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+      _globals ??= declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _globals;
 
   /// Declaration config for Macro constants.
   YamlDeclarationFilters get macroDecl =>
-      _macroDecl ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+      _macroDecl ??= declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _macroDecl;
 
   /// Declaration config for Typedefs.
   YamlDeclarationFilters get typedefs =>
-      _typedefs ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+      _typedefs ??= declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _typedefs;
 
   /// Declaration config for Objective C interfaces.
-  YamlDeclarationFilters get objcInterfaces =>
-      _objcInterfaces ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+  YamlDeclarationFilters get objcInterfaces => _objcInterfaces ??=
+      declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _objcInterfaces;
 
   /// Declaration config for Objective C protocols.
-  YamlDeclarationFilters get objcProtocols =>
-      _objcProtocols ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+  YamlDeclarationFilters get objcProtocols => _objcProtocols ??=
+      declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _objcProtocols;
 
   /// Declaration config for Objective C categories.
-  YamlDeclarationFilters get objcCategories =>
-      _objcCategories ??= declarationConfigExtractor(
-        const {},
-        _excludeAllByDefault,
-      );
+  YamlDeclarationFilters get objcCategories => _objcCategories ??=
+      declarationConfigExtractor(const {}, _excludeAllByDefault);
   YamlDeclarationFilters? _objcCategories;
 
   /// If enabled, the default behavior of all declaration filters is to exclude

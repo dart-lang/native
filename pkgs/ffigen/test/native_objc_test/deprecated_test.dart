@@ -75,12 +75,18 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
           }
         },
         visitFunc: (node) {
-          if (!{'normalFunction', 'deprecatedFunction'}.contains(node.originalName)) {
+          if (!{
+            'normalFunction',
+            'deprecatedFunction',
+          }.contains(node.originalName)) {
             node.isIncluded = false;
           }
         },
         visitStruct: (node) {
-          if (!{'NormalStruct', 'DeprecatedStruct'}.contains(node.originalName)) {
+          if (!{
+            'NormalStruct',
+            'DeprecatedStruct',
+          }.contains(node.originalName)) {
             node.isIncluded = false;
           }
         },

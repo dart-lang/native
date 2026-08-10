@@ -21,26 +21,38 @@ class ApplyConfigFiltersVisitation extends Visitation {
     }
   }
 
-  @override
-  void visitStruct(Struct node) => _visitImpl(node);
+  void _visitWithChildren(Binding node) {
+    _visitImpl(node);
+    if (directlyIncluded.contains(node)) {
+      node.visitChildren(visitor);
+    }
+  }
 
   @override
-  void visitUnion(Union node) => _visitImpl(node);
+  void visitStruct(Struct node) => _visitWithChildren(node);
+
+  @override
+  void visitUnion(Union node) => _visitWithChildren(node);
 
   @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
-    _visitImpl(node);
+    _visitWithChildren(node);
   }
 
   @override
   void visitCppClass(CppClass node) {
     if (context.config.cpp == null) return;
-    _visitImpl(node);
+    _visitWithChildren(node);
   }
 
   @override
-  void visitFunc(Func node) => _visitImpl(node);
+  void visitFunc(Func node) {
+    _visitImpl(node);
+    if (directlyIncluded.contains(node)) {
+      visitor.visit(node.exposedFunctionTypealias);
+    }
+  }
 
   @override
   void visitMacroConstant(MacroConstant node) => _visitImpl(node);
@@ -117,6 +129,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    _visitImpl(node);
+    _visitWithChildren(node);
   }
 }
