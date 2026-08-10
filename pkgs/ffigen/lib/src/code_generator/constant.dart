@@ -62,6 +62,9 @@ class Constant extends NoLookUpBinding {
   }
 
   @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Constant(this);
+
+  @override
   void visit(Visitation visitation) => visitation.visitConstant(this);
 }
 

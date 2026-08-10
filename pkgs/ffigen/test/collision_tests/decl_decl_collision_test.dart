@@ -17,12 +17,6 @@ void main() {
             dartFile: Uri.file('unused'),
             style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
-          functions: Functions.includeAll,
-          structs: Structs.includeAll,
-          enums: Enums.includeAll,
-          globals: Globals.includeAll,
-          macros: Macros.includeAll,
-          typedefs: Typedefs.includeAll,
         ),
       );
       final library = Library(

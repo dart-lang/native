@@ -12,6 +12,9 @@ abstract class AstNode {
   const AstNode();
 
   void accept(Visitor visitor);
+
+  bool get isIncluded => true;
+  set isIncluded(bool value) {}
 }
 
 /// Base class for AST nodes with a name.
@@ -62,6 +65,12 @@ class Func extends DeclNode {
 
   @override
   set name(String value) => _func.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _func.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _func.isIncluded = value;
 }
 
 /// A C struct declaration.
@@ -92,6 +101,17 @@ class Struct extends DeclNode {
 
   @override
   set name(String value) => _struct.symbol.oldName = value;
+
+  bool get isInternal => _struct.isInternal;
+
+  @override
+  bool get isIncluded => _struct.isIncluded;
+
+  @override
+  set isIncluded(bool value) {
+    if (_struct.isInternal) return;
+    _struct.isIncluded = value;
+  }
 }
 
 /// A C union declaration.
@@ -122,6 +142,12 @@ class Union extends DeclNode {
 
   @override
   set name(String value) => _union.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _union.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _union.isIncluded = value;
 }
 
 /// An enum declaration.
@@ -154,6 +180,12 @@ class EnumClass extends DeclNode {
 
   @override
   set name(String value) => _enumClass.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _enumClass.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _enumClass.isIncluded = value;
 }
 
 /// A C global variable declaration.
@@ -176,6 +208,40 @@ class Global extends DeclNode {
 
   @override
   set name(String value) => _global.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _global.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _global.isIncluded = value;
+}
+
+/// A C constant declaration.
+class Constant extends DeclNode {
+  final internal.Constant _constant;
+
+  Constant(this._constant);
+
+  @override
+  void accept(Visitor visitor) => visitor.visitConstant(this);
+
+  @override
+  String get usr => _constant.usr;
+
+  @override
+  String get originalName => _constant.originalName;
+
+  @override
+  String get name => _constant.symbol.oldName;
+
+  @override
+  set name(String value) => _constant.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _constant.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _constant.isIncluded = value;
 }
 
 /// A C macro constant declaration.
@@ -198,6 +264,12 @@ class MacroConstant extends DeclNode {
 
   @override
   set name(String value) => _macro.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _macro.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _macro.isIncluded = value;
 }
 
 /// A C typedef (type alias) declaration.
@@ -220,6 +292,12 @@ class Typealias extends DeclNode {
 
   @override
   set name(String value) => _typealias.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _typealias.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _typealias.isIncluded = value;
 }
 
 /// An Objective-C interface (class) declaration.
@@ -250,6 +328,17 @@ class ObjCInterface extends DeclNode {
 
   @override
   set name(String value) => _interface.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _interface.isIncluded;
+
+  @override
+  set isIncluded(bool value) {
+    if (_interface.isInternal) return;
+    _interface.isIncluded = value;
+  }
+
+  bool get isInternal => _interface.isInternal;
 }
 
 /// An Objective-C protocol declaration.
@@ -280,6 +369,12 @@ class ObjCProtocol extends DeclNode {
 
   @override
   set name(String value) => _protocol.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _protocol.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _protocol.isIncluded = value;
 }
 
 /// An Objective-C category declaration.
@@ -313,6 +408,12 @@ class ObjCCategory extends DeclNode {
 
   @override
   set name(String value) => _category.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _category.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _category.isIncluded = value;
 }
 
 /// A C++ class declaration.
@@ -343,6 +444,12 @@ class CppClass extends DeclNode {
 
   @override
   set name(String value) => _cppClass.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _cppClass.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _cppClass.isIncluded = value;
 }
 
 /// A field in a struct or union.
@@ -480,6 +587,15 @@ class ObjCMethod extends NamedNode {
 
   /// Whether this method is a property setter.
   bool get isPropertySetter => _method.isPropertySetter;
+
+  @override
+  bool get isIncluded => _method.isIncluded;
+
+  @override
+  set isIncluded(bool value) {
+    if (parent case ObjCInterface itf when itf.isInternal) return;
+    _method.isIncluded = value;
+  }
 }
 
 /// An unnamed enum constant.
@@ -502,4 +618,10 @@ class UnnamedEnumConstant extends DeclNode {
 
   @override
   set name(String value) => _constant.symbol.oldName = value;
+
+  @override
+  bool get isIncluded => _constant.isIncluded;
+
+  @override
+  set isIncluded(bool value) => _constant.isIncluded = value;
 }

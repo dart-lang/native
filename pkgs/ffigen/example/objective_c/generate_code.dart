@@ -21,11 +21,14 @@ final config = FfiGenerator(
 
   // To tell FFIgen to generate Objective-C bindings, rather than C bindings,
   // set the objectiveC field to a non-null value.
-  objectiveC: ObjectiveC(
-    // The interfaces field is used to tell FFIgen which interfaces to generate
-    // bindings for. There's also a protocols and a categories field.
-    interfaces: Interfaces.includeSet({'AVAudioPlayer'}),
-  ),
+  objectiveC: const ObjectiveC(),
+  visitors: [
+    Visitor(
+      visitObjCInterface: (node) {
+        if (node.name != 'AVAudioPlayer') node.isIncluded = false;
+      },
+    ),
+  ],
 
   output: Output(
     // The Dart file where the bindings will be generated.

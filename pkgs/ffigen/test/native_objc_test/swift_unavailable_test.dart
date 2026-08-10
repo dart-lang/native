@@ -47,11 +47,16 @@ void main() {
             ),
           ],
         ),
-        objectiveC: ObjectiveC(
-          interfaces: Interfaces(
-            include: (decl) => {'Animal'}.contains(decl.originalName),
+        objectiveC: const ObjectiveC(),
+        visitors: [
+          Visitor(
+            visitObjCInterface: (node) {
+              if (node.originalName != 'Animal') {
+                node.isIncluded = false;
+              }
+            },
           ),
-        ),
+        ],
       ).generate(logger: createTestLogger());
       final file = path.join(
         packagePathForTests,

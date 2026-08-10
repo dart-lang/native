@@ -22,6 +22,8 @@ export 'src/config_provider.dart'
         CommentStyle,
         CommentType,
         CompoundDependencies,
+        Cpp,
+        CppClasses,
         Declaration,
         Declarations,
         DynamicLibraryBindings,

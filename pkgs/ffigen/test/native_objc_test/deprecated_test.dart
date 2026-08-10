@@ -45,35 +45,65 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ],
     ),
     objectiveC: ObjectiveC(
-      interfaces: Interfaces(
-        include: (decl) => {
-          'DeprecatedInterfaceMethods',
-          'DeprecatedInterface',
-        }.contains(decl.originalName),
-      ),
-      protocols: Protocols(
-        include: (decl) => {
-          'DeprecatedProtocolMethods',
-          'DeprecatedProtocol',
-        }.contains(decl.originalName),
-      ),
-      categories: Categories(
-        include: (decl) => {
-          'DeprecatedCategoryMethods',
-          'DeprecatedCategory',
-        }.contains(decl.originalName),
-        includeTransitive: false,
-      ),
+      categories: const Categories(includeTransitive: false),
       externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
-    functions: Functions.includeSet({'normalFunction', 'deprecatedFunction'}),
-    structs: Structs.includeSet({'NormalStruct', 'DeprecatedStruct'}),
-    unions: Unions.includeSet({'NormalUnion', 'DeprecatedUnion'}),
-    enums: Enums.includeSet({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnums: UnnamedEnums.includeSet({
-      'normalUnnamedEnum',
-      'deprecatedUnnamedEnum',
-    }),
+    visitors: [
+      Visitor(
+        visitObjCInterface: (node) {
+          if (!{
+            'DeprecatedInterfaceMethods',
+            'DeprecatedInterface',
+          }.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+        visitObjCProtocol: (node) {
+          if (!{
+            'DeprecatedProtocolMethods',
+            'DeprecatedProtocol',
+          }.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+        visitObjCCategory: (node) {
+          if (!{
+            'DeprecatedCategoryMethods',
+            'DeprecatedCategory',
+          }.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+        visitFunc: (node) {
+          if (!{'normalFunction', 'deprecatedFunction'}.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+        visitStruct: (node) {
+          if (!{'NormalStruct', 'DeprecatedStruct'}.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+        visitUnion: (node) {
+          if (!{'NormalUnion', 'DeprecatedUnion'}.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+        visitEnum: (node) {
+          if (!{'NormalEnum', 'DeprecatedEnum'}.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+        visitUnnamedEnumConstant: (node) {
+          if (!{
+            'normalUnnamedEnum',
+            'deprecatedUnnamedEnum',
+          }.contains(node.originalName)) {
+            node.isIncluded = false;
+          }
+        },
+      ),
+    ],
   ).generate(logger: createTestLogger());
   final file = path.join(
     packagePathForTests,

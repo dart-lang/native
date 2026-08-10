@@ -140,6 +140,22 @@ class ListBindingsVisitation extends Visitation {
       node.visitChildren(visitor);
     }
   }
+
+  @override
+  void visitMacroConstant(MacroConstant node) =>
+      _visitImpl(node, _IncludeBehavior.configOnly);
+
+  @override
+  void visitConstant(Constant node) =>
+      _visitImpl(node, _IncludeBehavior.configOnly);
+
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      _visitImpl(node, _IncludeBehavior.configOnly);
+
+  @override
+  void visitGlobal(Global node) =>
+      _visitImpl(node, _IncludeBehavior.configOnly);
 }
 
 class MarkBindingsVisitation extends Visitation {

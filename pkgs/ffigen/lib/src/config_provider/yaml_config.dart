@@ -67,48 +67,92 @@ final class YamlConfig {
   late Map<String, List<VarArgFunction>> _varArgFunctions = {};
 
   /// Declaration config for Functions.
-  YamlDeclarationFilters get functionDecl => _functionDecl;
-  late YamlDeclarationFilters _functionDecl;
+  YamlDeclarationFilters get functionDecl =>
+      _functionDecl ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _functionDecl;
 
   /// Declaration config for Structs.
-  YamlDeclarationFilters get structDecl => _structDecl;
-  late YamlDeclarationFilters _structDecl;
+  YamlDeclarationFilters get structDecl =>
+      _structDecl ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _structDecl;
 
   /// Declaration config for Unions.
-  YamlDeclarationFilters get unionDecl => _unionDecl;
-  late YamlDeclarationFilters _unionDecl;
+  YamlDeclarationFilters get unionDecl =>
+      _unionDecl ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _unionDecl;
 
   /// Declaration config for Enums.
-  YamlDeclarationFilters get enumClassDecl => _enumClassDecl;
-  late YamlDeclarationFilters _enumClassDecl;
+  YamlDeclarationFilters get enumClassDecl =>
+      _enumClassDecl ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _enumClassDecl;
 
   /// Declaration config for Unnamed enum constants.
-  YamlDeclarationFilters get unnamedEnumConstants => _unnamedEnumConstants;
-  late YamlDeclarationFilters _unnamedEnumConstants;
+  YamlDeclarationFilters get unnamedEnumConstants =>
+      _unnamedEnumConstants ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _unnamedEnumConstants;
 
   /// Declaration config for Globals.
-  YamlDeclarationFilters get globals => _globals;
-  late YamlDeclarationFilters _globals;
+  YamlDeclarationFilters get globals =>
+      _globals ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _globals;
 
   /// Declaration config for Macro constants.
-  YamlDeclarationFilters get macroDecl => _macroDecl;
-  late YamlDeclarationFilters _macroDecl;
+  YamlDeclarationFilters get macroDecl =>
+      _macroDecl ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _macroDecl;
 
   /// Declaration config for Typedefs.
-  YamlDeclarationFilters get typedefs => _typedefs;
-  late YamlDeclarationFilters _typedefs;
+  YamlDeclarationFilters get typedefs =>
+      _typedefs ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _typedefs;
 
   /// Declaration config for Objective C interfaces.
-  YamlDeclarationFilters get objcInterfaces => _objcInterfaces;
-  late YamlDeclarationFilters _objcInterfaces;
+  YamlDeclarationFilters get objcInterfaces =>
+      _objcInterfaces ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _objcInterfaces;
 
   /// Declaration config for Objective C protocols.
-  YamlDeclarationFilters get objcProtocols => _objcProtocols;
-  late YamlDeclarationFilters _objcProtocols;
+  YamlDeclarationFilters get objcProtocols =>
+      _objcProtocols ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _objcProtocols;
 
   /// Declaration config for Objective C categories.
-  YamlDeclarationFilters get objcCategories => _objcCategories;
-  late YamlDeclarationFilters _objcCategories;
+  YamlDeclarationFilters get objcCategories =>
+      _objcCategories ??= declarationConfigExtractor(
+        const {},
+        _excludeAllByDefault,
+      );
+  YamlDeclarationFilters? _objcCategories;
 
   /// If enabled, the default behavior of all declaration filters is to exclude
   /// everything, rather than include everything.
@@ -1263,20 +1307,17 @@ final class YamlConfig {
               ),
       ),
       functions: Functions(
-        include: functionDecl.shouldInclude,
         includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
         varArgs: varArgFunctions,
         includeTypedef: shouldExposeFunctionTypedef,
         isLeaf: isLeafFunction,
       ),
       structs: Structs(
-        include: _structDecl.shouldInclude,
         dependencies: _structDependencies,
         packingOverride: (decl) =>
             _structPackingOverride.getOverridenPackValue(decl.originalName),
       ),
       enums: Enums(
-        include: _enumClassDecl.shouldInclude,
         silenceWarning: silenceEnumWarning,
         style: (e, suggestedStyle) {
           if (suggestedStyle != null) return suggestedStyle;
@@ -1286,18 +1327,13 @@ final class YamlConfig {
           };
         },
       ),
-      unions: Unions(
-        include: _unionDecl.shouldInclude,
-        dependencies: _unionDependencies,
-      ),
-      unnamedEnums: UnnamedEnums(include: _unnamedEnumConstants.shouldInclude),
+      unions: Unions(dependencies: _unionDependencies),
+      unnamedEnums: const UnnamedEnums(),
       globals: Globals(
-        include: globals.shouldInclude,
         includeSymbolAddress: globals.shouldIncludeSymbolAddress,
       ),
-      macros: Macros(include: macroDecl.shouldInclude),
+      macros: const Macros(),
       typedefs: Typedefs(
-        include: typedefs.shouldInclude,
         useSupportedTypedefs: useSupportedTypedefs,
         includeUnused: includeUnusedTypedefs,
       ),
@@ -1305,20 +1341,14 @@ final class YamlConfig {
       objectiveC: language == Language.objc
           ? ObjectiveC(
               interfaces: Interfaces(
-                include: objcInterfaces.shouldInclude,
-                includeMember: objcInterfaces.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCInterfaces,
                 module: interfaceModule,
               ),
               protocols: Protocols(
-                include: objcProtocols.shouldInclude,
-                includeMember: objcProtocols.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCProtocols,
                 module: protocolModule,
               ),
               categories: Categories(
-                include: objcCategories.shouldInclude,
-                includeMember: objcCategories.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCCategories,
               ),
               externalVersions: externalVersions,
@@ -1343,6 +1373,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitFunc(public_ast.Func node) {
+    if (!config.functionDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.functionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1350,6 +1383,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitUnnamedEnumConstant(public_ast.UnnamedEnumConstant node) {
+    if (!config.unnamedEnumConstants.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.unnamedEnumConstants.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1357,6 +1393,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitStruct(public_ast.Struct node) {
+    if (!config.structDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.structDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1364,6 +1403,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitUnion(public_ast.Union node) {
+    if (!config.unionDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.unionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1371,6 +1413,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitEnum(public_ast.EnumClass node) {
+    if (!config.enumClassDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.enumClassDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1378,6 +1423,19 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitGlobal(public_ast.Global node) {
+    if (!config.globals.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
+    if (config.globals.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitConstant(public_ast.Constant node) {
+    if (!config.globals.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.globals.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1385,6 +1443,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitMacro(public_ast.MacroConstant node) {
+    if (!config.macroDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.macroDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1392,6 +1453,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitTypealias(public_ast.Typealias node) {
+    if (!config.typedefs.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.typedefs.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1399,13 +1463,21 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitObjCInterface(public_ast.ObjCInterface node) {
-    if (config.objcInterfaces.rename(_decl(node)) case final rename?) {
-      node.name = rename;
+    if (!config.objcInterfaces.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
+    if (!node.isInternal) {
+      if (config.objcInterfaces.rename(_decl(node)) case final rename?) {
+        node.name = rename;
+      }
     }
   }
 
   @override
   void visitObjCProtocol(public_ast.ObjCProtocol node) {
+    if (!config.objcProtocols.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.objcProtocols.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1413,6 +1485,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitObjCCategory(public_ast.ObjCCategory node) {
+    if (!config.objcCategories.shouldInclude(_decl(node))) {
+      node.isIncluded = false;
+    }
     if (config.objcCategories.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1431,12 +1506,16 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitObjCMethod(public_ast.ObjCMethod node) {
-    if (node.isPropertySetter) return;
     final decl = _getObjCDecl(node.parent);
     if (decl != null) {
-      if (decl.renameMember(_decl(node.parent), node.originalName)
-          case final rename?) {
-        node.name = rename;
+      if (!decl.shouldIncludeMember(_decl(node.parent), node.originalName)) {
+        node.isIncluded = false;
+      }
+      if (!node.isPropertySetter) {
+        if (decl.renameMember(_decl(node.parent), node.originalName)
+            case final rename?) {
+          node.name = rename;
+        }
       }
     }
   }

@@ -38,6 +38,9 @@ abstract class Binding extends AstNode implements Declaration {
   /// Set by MarkBindingsVisitation.
   bool generateBindings = true;
 
+  /// Whether this binding is included by filter configuration.
+  bool isIncluded = true;
+
   Binding({
     required this.usr,
     required this.originalName,
