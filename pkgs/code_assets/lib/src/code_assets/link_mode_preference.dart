@@ -51,20 +51,27 @@ final class LinkModePreference {
   static const values = [dynamic, static, preferDynamic, preferStatic];
 
   @override
+  bool operator ==(Object other) =>
+      other is LinkModePreference && other.name == name;
+
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
   String toString() => name;
 }
 
 /// Extension methods for [LinkModePreference] to convert to and from the
 /// syntax model.
 extension LinkModePreferenceSyntaxExtension on LinkModePreference {
-  static const _toSyntax = {
+  static final _toSyntax = {
     LinkModePreference.dynamic: LinkModePreferenceSyntax.dynamic,
     LinkModePreference.preferDynamic: LinkModePreferenceSyntax.preferDynamic,
     LinkModePreference.preferStatic: LinkModePreferenceSyntax.preferStatic,
     LinkModePreference.static: LinkModePreferenceSyntax.static,
   };
 
-  static const _fromSyntax = {
+  static final _fromSyntax = {
     LinkModePreferenceSyntax.dynamic: LinkModePreference.dynamic,
     LinkModePreferenceSyntax.preferDynamic: LinkModePreference.preferDynamic,
     LinkModePreferenceSyntax.preferStatic: LinkModePreference.preferStatic,

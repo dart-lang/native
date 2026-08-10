@@ -38,14 +38,14 @@ class _JsonReader {
   T get<T extends Object?>(String key) {
     final value = json[key];
     if (value is T) return value;
-    throwFormatException(value, T, [key]);
+    throwFormatException(value, [key], expectedType: T);
   }
 
   List<String> validate<T extends Object?>(String key) {
     final value = json[key];
     if (value is T) return [];
     return [
-      errorString(value, T, [key]),
+      errorString(value, [key], expectedType: T),
     ];
   }
 
@@ -82,7 +82,7 @@ class _JsonReader {
   List<T> _castList<T extends Object?>(List<Object?> list, String key) {
     for (final (index, value) in list.indexed) {
       if (value is! T) {
-        throwFormatException(value, T, [key, index]);
+        throwFormatException(value, [key, index], expectedType: T);
       }
     }
     return list.cast();
@@ -95,7 +95,7 @@ class _JsonReader {
     final result = <String>[];
     for (final (index, value) in list.indexed) {
       if (value is! T) {
-        result.add(errorString(value, T, [key, index]));
+        result.add(errorString(value, [key, index], expectedType: T));
       }
     }
     return result;
@@ -163,7 +163,7 @@ class _JsonReader {
   ) {
     for (final MapEntry(:key, :value) in map_.entries) {
       if (value is! T) {
-        throwFormatException(value, T, [parentKey, key]);
+        throwFormatException(value, [parentKey, key], expectedType: T);
       }
     }
     return map_.cast();
@@ -193,7 +193,7 @@ class _JsonReader {
     final result = <String>[];
     for (final MapEntry(:key, :value) in map_.entries) {
       if (value is! T) {
-        result.add(errorString(value, T, [parentKey, key]));
+        result.add(errorString(value, [parentKey, key], expectedType: T));
       }
     }
     return result;
@@ -210,7 +210,7 @@ class _JsonReader {
           valuePattern != null &&
           !valuePattern.hasMatch(value)) {
         result.add(
-          errorString(value, T, [parentKey, key], pattern: valuePattern),
+          errorString(value, [parentKey, key], expectedType: T, pattern: valuePattern),
         );
       }
     }
@@ -220,7 +220,7 @@ class _JsonReader {
   String string(String key, RegExp? pattern) {
     final value = get<String>(key);
     if (pattern != null && !pattern.hasMatch(value)) {
-      throwFormatException(value, String, [key], pattern: pattern);
+      throwFormatException(value, [key], expectedType: String, pattern: pattern);
     }
     return value;
   }
@@ -229,7 +229,7 @@ class _JsonReader {
     final value = get<String?>(key);
     if (value == null) return null;
     if (pattern != null && !pattern.hasMatch(value)) {
-      throwFormatException(value, String, [key], pattern: pattern);
+      throwFormatException(value, [key], expectedType: String, pattern: pattern);
     }
     return value;
   }
@@ -242,7 +242,7 @@ class _JsonReader {
     final value = get<String>(key);
     if (pattern != null && !pattern.hasMatch(value)) {
       return [
-        errorString(value, String, [key], pattern: pattern),
+        errorString(value, [key], expectedType: String, pattern: pattern),
       ];
     }
     return [];
@@ -257,7 +257,7 @@ class _JsonReader {
     if (value == null) return [];
     if (pattern != null && !pattern.hasMatch(value)) {
       return [
-        errorString(value, String, [key], pattern: pattern),
+        errorString(value, [key], expectedType: String, pattern: pattern),
       ];
     }
     return [];
@@ -307,30 +307,31 @@ class _JsonReader {
 
   Never throwFormatException(
     Object? value,
-    Type expectedType,
     List<Object> pathExtension, {
+    Type? expectedType,
     RegExp? pattern,
-  }) {
-    throw FormatException(
-      errorString(value, expectedType, pathExtension, pattern: pattern),
-    );
-  }
+    Set<String>? expectedValues,
+  }) => _throwFormatException(
+    value,
+    [...path, ...pathExtension],
+    expectedType: expectedType,
+    pattern: pattern,
+    expectedValues: expectedValues,
+  );
 
   String errorString(
     Object? value,
-    Type expectedType,
     List<Object> pathExtension, {
+    Type? expectedType,
     RegExp? pattern,
-  }) {
-    final pathString = _jsonPathToString(pathExtension);
-    if (value == null) {
-      return "No value was provided for '$pathString'."
-          ' Expected a $expectedType.';
-    }
-    final satisfying = pattern == null ? '' : ' satisfying ${pattern.pattern}';
-    return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
-        ' Expected a $expectedType$satisfying.';
-  }
+    Set<String>? expectedValues,
+  }) => _errorString(
+    value,
+    [...path, ...pathExtension],
+    expectedType: expectedType,
+    pattern: pattern,
+    expectedValues: expectedValues,
+  );
 
   String keyErrorString(
     String key, {
@@ -393,6 +394,47 @@ void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
       );
     }
   }
+}
+
+Never _throwFormatException(
+  Object? value,
+  List<Object> path, {
+  Type? expectedType,
+  RegExp? pattern,
+  Set<String>? expectedValues,
+}) {
+  throw FormatException(
+    _errorString(
+      value,
+      path,
+      expectedType: expectedType,
+      pattern: pattern,
+      expectedValues: expectedValues,
+    ),
+  );
+}
+
+String _errorString(
+  Object? value,
+  List<Object> path, {
+  Type? expectedType,
+  RegExp? pattern,
+  Set<String>? expectedValues,
+}) {
+  final pathString = path.join('.');
+  final String expected;
+  if (expectedValues != null) {
+    expected = "one of ${expectedValues.map((e) => "'$e'").join(', ')}";
+  } else {
+    final satisfying = pattern == null ? '' : ' satisfying ${pattern.pattern}';
+    expected = 'a $expectedType$satisfying';
+  }
+  if (value == null) {
+    return "No value was provided for '$pathString'."
+        ' Expected $expected.';
+  }
+  return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
+      ' Expected $expected.';
 }
 
 void _checkArgumentMapStringElements(
