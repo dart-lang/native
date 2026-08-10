@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
@@ -105,6 +106,9 @@ class Typealias extends BindingType {
     if (pointee is! NativeFunc) return null;
     return pointee.type;
   }
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Typealias(this);
 
   @override
   BindingString toBindingString(Writer w) {

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
@@ -18,7 +19,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   final superProtocols = <ObjCProtocol>[];
   final String? module;
   final Symbol loaderSymbol;
-  late final ObjCProtocolGlobal _protocolPointer;
+  ObjCProtocolGlobal? protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
   final ApiAvailability apiAvailability;
@@ -46,12 +47,6 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    _protocolPointer = ObjCProtocolGlobal(
-      '_protocol_$originalName',
-      originalName,
-      module,
-      loaderSymbol,
-    );
     _conformsTo = context.objCBuiltInFunctions.getSelObject(
       'conformsToProtocol:',
     );
@@ -70,6 +65,18 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
       context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCProtocol(this);
+
+  void fillProtocolPointer() {
+    protocolPointer ??= ObjCProtocolGlobal(
+      '_protocol_$originalName',
+      originalName,
+      module,
+      loaderSymbol,
+    );
+  }
 
   @override
   BindingString toBindingString(Writer w) {
@@ -121,7 +128,7 @@ extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
         context,
         'obj.ref.pointer',
         _conformsTo.name,
-        [_protocolPointer.name],
+        [protocolPointer!.name],
       );
 
       s.write('''
@@ -214,11 +221,11 @@ ${generateInstanceMethodBindings(w, this)}
 
         methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
         methodFields.write('''static final $fieldName = $methodClass<$funcType>(
-      ${_protocolPointer.name},
+      ${protocolPointer!.name},
       ${method.selObject.name},
       ${_trampolineAddress(block)},
       $getSignature(
-          ${_protocolPointer.name},
+          ${protocolPointer!.name},
           ${method.selObject.name},
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
@@ -235,7 +242,7 @@ ${generateInstanceMethodBindings(w, this)}
           '''
   /// Returns the [$protocolClass] object for this protocol.
   static $protocolClass get \$protocol =>
-      $protocolClass.fromPointer(${_protocolPointer.name}.cast());
+      $protocolClass.fromPointer(${protocolPointer!.name}.cast());
 
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
@@ -443,7 +450,7 @@ Protocol* ${loaderSymbol.name}(void) { return @protocol($originalName); }
     if (!typeGraphOnly) {
       super.visitChildren(visitor);
       visitor.visit(loaderSymbol);
-      visitor.visit(_protocolPointer);
+      visitor.visit(protocolPointer);
       visitor.visit(_conformsTo);
       visitor.visit(_conformsToMsgSend);
       visitMethods(visitor);

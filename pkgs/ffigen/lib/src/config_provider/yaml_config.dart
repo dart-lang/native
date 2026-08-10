@@ -16,6 +16,7 @@ import '../strings.dart' as strings;
 import 'config.dart';
 import 'config_spec.dart';
 import 'config_types.dart';
+import 'public_ast.dart' as public_ast;
 import 'spec_utils.dart';
 
 /// Provides configurations to other modules.
@@ -1240,6 +1241,7 @@ final class YamlConfig {
     }
 
     return FfiGenerator(
+      visitors: [YamlConfigAstVisitor(this)],
       input: Input(
         compilerOptions: compilerOpts,
         entryPoints: entryPoints,
@@ -1263,24 +1265,18 @@ final class YamlConfig {
       functions: Functions(
         include: functionDecl.shouldInclude,
         includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
-        rename: functionDecl.rename,
-        renameMember: functionDecl.renameMember,
         varArgs: varArgFunctions,
         includeTypedef: shouldExposeFunctionTypedef,
         isLeaf: isLeafFunction,
       ),
       structs: Structs(
         include: _structDecl.shouldInclude,
-        rename: _structDecl.rename,
-        renameMember: _structDecl.renameMember,
         dependencies: _structDependencies,
         packingOverride: (decl) =>
             _structPackingOverride.getOverridenPackValue(decl.originalName),
       ),
       enums: Enums(
         include: _enumClassDecl.shouldInclude,
-        rename: _enumClassDecl.rename,
-        renameMember: _enumClassDecl.renameMember,
         silenceWarning: silenceEnumWarning,
         style: (e, suggestedStyle) {
           if (suggestedStyle != null) return suggestedStyle;
@@ -1292,26 +1288,16 @@ final class YamlConfig {
       ),
       unions: Unions(
         include: _unionDecl.shouldInclude,
-        rename: _unionDecl.rename,
-        renameMember: _unionDecl.renameMember,
         dependencies: _unionDependencies,
       ),
-      unnamedEnums: UnnamedEnums(
-        include: _unnamedEnumConstants.shouldInclude,
-        rename: _unnamedEnumConstants.rename,
-      ),
+      unnamedEnums: UnnamedEnums(include: _unnamedEnumConstants.shouldInclude),
       globals: Globals(
         include: globals.shouldInclude,
         includeSymbolAddress: globals.shouldIncludeSymbolAddress,
-        rename: globals.rename,
       ),
-      macros: Macros(
-        include: macroDecl.shouldInclude,
-        rename: macroDecl.rename,
-      ),
+      macros: Macros(include: macroDecl.shouldInclude),
       typedefs: Typedefs(
         include: typedefs.shouldInclude,
-        rename: typedefs.rename,
         useSupportedTypedefs: useSupportedTypedefs,
         includeUnused: includeUnusedTypedefs,
       ),
@@ -1321,24 +1307,18 @@ final class YamlConfig {
               interfaces: Interfaces(
                 include: objcInterfaces.shouldInclude,
                 includeMember: objcInterfaces.shouldIncludeMember,
-                rename: objcInterfaces.rename,
-                renameMember: objcInterfaces.renameMember,
                 includeTransitive: includeTransitiveObjCInterfaces,
                 module: interfaceModule,
               ),
               protocols: Protocols(
                 include: objcProtocols.shouldInclude,
                 includeMember: objcProtocols.shouldIncludeMember,
-                rename: objcProtocols.rename,
-                renameMember: objcProtocols.renameMember,
                 includeTransitive: includeTransitiveObjCProtocols,
                 module: protocolModule,
               ),
               categories: Categories(
                 include: objcCategories.shouldInclude,
                 includeMember: objcCategories.shouldIncludeMember,
-                rename: objcCategories.rename,
-                renameMember: objcCategories.renameMember,
                 includeTransitive: includeTransitiveObjCCategories,
               ),
               externalVersions: externalVersions,
@@ -1349,5 +1329,154 @@ final class YamlConfig {
       // ignore: deprecated_member_use_from_same_package
       libclangDylib: libclangDylib,
     );
+  }
+}
+
+/// AST Visitor that applies renames configured in [YamlConfig].
+final class YamlConfigAstVisitor extends public_ast.Visitor {
+  final YamlConfig config;
+
+  const YamlConfigAstVisitor(this.config) : super.base();
+
+  Declaration _decl(public_ast.DeclNode node) =>
+      Declaration(usr: node.usr, originalName: node.originalName);
+
+  @override
+  void visitFunc(public_ast.Func node) {
+    if (config.functionDecl.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitUnnamedEnumConstant(public_ast.UnnamedEnumConstant node) {
+    if (config.unnamedEnumConstants.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitStruct(public_ast.Struct node) {
+    if (config.structDecl.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitUnion(public_ast.Union node) {
+    if (config.unionDecl.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitEnum(public_ast.EnumClass node) {
+    if (config.enumClassDecl.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitGlobal(public_ast.Global node) {
+    if (config.globals.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitMacro(public_ast.MacroConstant node) {
+    if (config.macroDecl.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitTypealias(public_ast.Typealias node) {
+    if (config.typedefs.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitObjCInterface(public_ast.ObjCInterface node) {
+    if (config.objcInterfaces.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitObjCProtocol(public_ast.ObjCProtocol node) {
+    if (config.objcProtocols.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  @override
+  void visitObjCCategory(public_ast.ObjCCategory node) {
+    if (config.objcCategories.rename(_decl(node)) case final rename?) {
+      node.name = rename;
+    }
+  }
+
+  YamlDeclarationFilters? _getObjCDecl(public_ast.DeclNode node) {
+    if (node is public_ast.ObjCInterface) {
+      return config.objcInterfaces;
+    } else if (node is public_ast.ObjCProtocol) {
+      return config.objcProtocols;
+    } else if (node is public_ast.ObjCCategory) {
+      return config.objcCategories;
+    }
+    return null;
+  }
+
+  @override
+  void visitObjCMethod(public_ast.ObjCMethod node) {
+    if (node.isPropertySetter) return;
+    final decl = _getObjCDecl(node.parent);
+    if (decl != null) {
+      if (decl.renameMember(_decl(node.parent), node.originalName)
+          case final rename?) {
+        node.name = rename;
+      }
+    }
+  }
+
+  YamlDeclarationFilters? _getCompoundDecl(public_ast.DeclNode node) {
+    if (node is public_ast.Struct) {
+      return config.structDecl;
+    } else if (node is public_ast.Union) {
+      return config.unionDecl;
+    }
+    return null;
+  }
+
+  @override
+  void visitField(public_ast.Field node) {
+    final decl = _getCompoundDecl(node.parent);
+    if (decl != null) {
+      if (decl.renameMember(_decl(node.parent), node.originalName)
+          case final rename?) {
+        node.name = rename;
+      }
+    }
+  }
+
+  @override
+  void visitParam(public_ast.Param node) {
+    final parent = node.parent;
+    if (parent is public_ast.Func) {
+      if (config.functionDecl.renameMember(_decl(parent), node.originalName)
+          case final rename?) {
+        node.name = rename;
+      }
+    }
+  }
+
+  @override
+  void visitEnumConstant(public_ast.EnumConstant node) {
+    if (config.enumClassDecl.renameMember(_decl(node.parent), node.originalName)
+        case final rename?) {
+      node.name = rename;
+    }
   }
 }

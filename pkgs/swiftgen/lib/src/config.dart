@@ -243,6 +243,9 @@ class FfiGeneratorOptions {
   /// [ffigen.FfiGenerator.objectiveC]
   final ffigen.ObjectiveC objectiveC;
 
+  /// [ffigen.FfiGenerator.visitors]
+  final List<ffigen.Visitor> visitors;
+
   const FfiGeneratorOptions({
     this.functions = ffigen.Functions.excludeAll,
     this.structs = ffigen.Structs.excludeAll,
@@ -253,5 +256,6 @@ class FfiGeneratorOptions {
     this.macros = ffigen.Macros.excludeAll,
     this.typedefs = ffigen.Typedefs.excludeAll,
     this.objectiveC = const ffigen.ObjectiveC(),
+    this.visitors = const [],
   });
 }

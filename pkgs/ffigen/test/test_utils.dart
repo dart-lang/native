@@ -92,6 +92,24 @@ class _FakeRenamer extends Visitation {
     }
     node.visitChildren(visitor);
   }
+
+  @override
+  void visitFunc(Func node) {
+    node.fillFuncVarSymbol();
+    visitBinding(node);
+  }
+
+  @override
+  void visitObjCInterface(ObjCInterface node) {
+    if (!node.generateAsStub) node.fillClassObject();
+    visitBinding(node);
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    if (!node.generateAsStub) node.fillProtocolPointer();
+    visitBinding(node);
+  }
 }
 
 // Remove '\r' for Windows compatibility, then apply user's normalizer.

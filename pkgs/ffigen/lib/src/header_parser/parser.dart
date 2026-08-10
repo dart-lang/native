@@ -19,6 +19,7 @@ import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/create_scopes.dart';
+import '../visitor/default_param_names.dart';
 import '../visitor/fill_method_dependencies.dart';
 import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';
@@ -167,6 +168,11 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
+  final nodes = rawBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
+  for (final visitor in config.visitors) {
+    visitor.visitAll(nodes);
+  }
+
   final allBindings = visit(
     context,
     FindTransitiveDepsVisitation(),
@@ -218,6 +224,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+  visit(context, DefaultParameterNamesVisitation(), finalBindings);
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
