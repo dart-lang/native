@@ -49,7 +49,7 @@ void main() {
     await ssmsDir.create(recursive: true);
     await visualStudioDir.create(recursive: true);
 
-    final instances = VisualStudioResolver().parseVswhere(
+    final instances = VisualStudioResolverX64().parseVswhere(
       jsonEncode([
         {
           'installationName': 'SSMS/22.5.0+11709.299',

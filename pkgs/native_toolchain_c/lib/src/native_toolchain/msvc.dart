@@ -48,7 +48,7 @@ final Tool vswhere = Tool(
 /// https://visualstudio.microsoft.com/
 final Tool visualStudio = Tool(
   name: 'Visual Studio',
-  defaultResolver: VisualStudioResolver(),
+  defaultResolver: VisualStudioResolverX64(),
 );
 
 /// A Visual Studio installation that ships the MSVC tools for arm64.
@@ -297,11 +297,11 @@ Tool _msvcTool({
 
 /// Resolves Visual Studio installations that ship the arm64 MSVC tools.
 ///
-/// Same as [VisualStudioResolver] but requires the
+/// Same as [VisualStudioResolverX64] but requires the
 /// `Microsoft.VisualStudio.Component.VC.Tools.arm64` component. On machines
 /// with multiple VS installations these resolvers may pick different
 /// installs.
-class VisualStudioResolverArm64 extends VisualStudioResolver {
+class VisualStudioResolverArm64 extends VisualStudioResolverX64 {
   @override
   Future<List<ToolInstance>> resolve(ToolResolvingContext context) async =>
       resolveArch(context, 'arm64');
@@ -314,7 +314,7 @@ class VisualStudioResolverArm64 extends VisualStudioResolver {
 /// filter is necessary because tools like SSMS share the VS installer and
 /// can outrank Visual Studio under `-latest` when sorted by version alone
 /// (see https://github.com/dart-lang/native/issues/3327).
-class VisualStudioResolver implements ToolResolver {
+class VisualStudioResolverX64 implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve(ToolResolvingContext context) async =>
       resolveArch(context, 'x86.x64');
