@@ -12,25 +12,11 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'bad_override_bindings.dart';
+import 'bad_override_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('bad overrides', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('bad_override');
-    });
-
     test('Method vs getter', () {
       // In ObjC, supertypes and subtypes can have a method that's an ordinary
       // method in some classes of the heirarchy, and a property in others. This

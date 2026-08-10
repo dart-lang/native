@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
+import 'sub_parsers/classdecl_parser.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objccategorydecl_parser.dart';
@@ -25,7 +26,7 @@ Set<Binding> parseTranslationUnit(
   translationUnitCursor.visitChildren((cursor) {
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
-    if (headers[file] ??= context.config.headers.include(Uri.file(file))) {
+    if (headers[file] ??= context.config.input.include(Uri.file(file))) {
       try {
         logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
         switch (clang.clang_getCursorKind(cursor)) {
@@ -56,6 +57,9 @@ Set<Binding> parseTranslationUnit(
             break;
           case clang_types.CXCursorKind.CXCursor_VarDecl:
             addToBindings(bindings, parseVarDeclaration(context, cursor));
+            break;
+          case clang_types.CXCursorKind.CXCursor_ClassDecl:
+            addToBindings(bindings, parseClassDeclaration(context, cursor));
             break;
           default:
             logger.finer('rootCursorVisitor: CursorKind not implemented');

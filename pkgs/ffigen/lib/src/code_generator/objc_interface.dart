@@ -3,10 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -17,8 +19,8 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   ObjCInterface? superType;
   bool filled = false;
 
-  final String lookupName;
-  late final ObjCInternalGlobal classObject;
+  final String? module;
+  ObjCClassGlobal? classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
@@ -33,12 +35,12 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     super.usr,
     required String super.originalName,
     String? name,
-    String? lookupName,
+    this.module,
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
-  }) : lookupName = lookupName ?? originalName,
-       super(
+    super.isInternal = false,
+  }) : super(
          name:
              context.objCBuiltInFunctions.getBuiltInInterfaceName(
                originalName,
@@ -46,10 +48,6 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    classObject = ObjCInternalGlobal(
-      '_class_$originalName',
-      () => '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
-    );
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );
@@ -65,8 +63,50 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     );
   }
 
+  static ObjCInterface forBlockArgs(
+    Context context,
+    String name,
+    String originalName,
+    List<Parameter> params,
+  ) {
+    final itf = ObjCInterface(
+      originalName: originalName,
+      name: name,
+      apiAvailability: ApiAvailability.all,
+      context: context,
+      isInternal: true,
+    );
+    for (final p in params) {
+      itf.addMethod(
+        ObjCMethod(
+          context: context,
+          originalName: p.originalName,
+          name: p.originalName,
+          kind: ObjCMethodKind.propertyGetter,
+          isClassMethod: false,
+          isOptional: false,
+          returnType: p.type,
+          params: const [],
+          family: null,
+          apiAvailability: ApiAvailability.all,
+          ownershipAttribute: ObjCMethodOwnership.notRetained,
+          consumesSelfAttribute: false,
+        ),
+      );
+    }
+    return itf;
+  }
+
   void addProtocol(ObjCProtocol? proto) {
     if (proto != null) protocols.add(proto);
+  }
+
+  void fillClassObject() {
+    classObject ??= ObjCClassGlobal(
+      '_class_${symbol.oldName}',
+      originalName,
+      module,
+    );
   }
 
   @override
@@ -75,6 +115,9 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
       null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCInterface(this);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -151,7 +194,7 @@ ${generateInstanceMethodBindings(w, this)}
       context,
       'obj.ref.pointer',
       _isKindOfClass.name,
-      [classObject.name],
+      [classObject!.name],
     );
 
     s.write('''
@@ -191,7 +234,7 @@ ${generateInstanceMethodBindings(w, this)}
       isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
-  String getNativeType({String varName = ''}) => 'id $varName';
+  String getNativeType(Context context, {String varName = ''}) => 'id $varName';
 
   @override
   String getObjCBlockSignatureType(Context context) => getDartType(context);
@@ -211,17 +254,38 @@ ${generateInstanceMethodBindings(w, this)}
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    context,
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   static String generateGetId(
+    Context context,
     String value,
     bool objCRetain,
     bool objCAutorelease,
-  ) => objCRetain
-      ? (objCAutorelease
-            ? '$value.ref.retainAndAutorelease()'
-            : '$value.ref.retainAndReturnPointer()')
-      : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
+    LocalVariables localVariables, {
+    bool isNullable = false,
+  }) {
+    final dot = isNullable ? '?.' : '.';
+    final fallback = isNullable
+        ? ' ?? ${context.libs.prefix(ffiImport)}.nullptr'
+        : '';
+    final refExpr = '$value${dot}ref';
+    // We store object.ref in a local variable to work around a limitation of
+    // Finalizable. See https://dartbug.com/63348 for context.
+    final refName = localVariables.addVariable('ref', refExpr);
+    final method = objCRetain
+        ? (objCAutorelease
+              ? 'retainAndAutorelease()'
+              : 'retainAndReturnPointer()')
+        : (objCAutorelease ? 'autorelease()' : 'pointer');
+    return '$refName$dot$method$fallback';
+  }
 
   @override
   String convertFfiDartTypeToDartType(

@@ -1,6 +1,37 @@
-## 0.18.1
+## 0.19.4-wip
 
 - Fix [native_toolchain_c failing with MSSSMS installed](https://github.com/dart-lang/native/issues/3327) by requiring vswhere to only show output that includes the necessary build tools
+- Link frameworks for C and C++ sources targeting macOS or iOS.
+  ([#3162](https://github.com/dart-lang/native/issues/3162))
+- Bump `package:code_assets` dependency to `^2.0.0`.
+## 0.19.3
+
+- Fixed building with MSVC on Windows when a source, include, or output path
+  contains a space (e.g. a user name with a space in the default pub cache
+  location). The compiler and archiver are now invoked directly instead of
+  through `cmd.exe`, whose quote handling mangled such command lines. As a
+  consequence, `cmd.exe` environment variable expansion (`%VAR%`) no longer
+  applies to compiler flags and defines; they are passed to the tools
+  verbatim.
+- The MSVC archiver is now passed the object file names derived from the
+  sources instead of `*.obj`, so object files left in the output directory by
+  other builds are no longer swept into the archive, and archive member names
+  no longer embed the local build directory path.
+- Support cross-compiling to Linux from macOS and Windows hosts. ([#2185](https://github.com/dart-lang/native/issues/2185))
+
+## 0.19.2
+
+- Fixed compatibility with newer Xcode versions when cross-compiling static
+  libraries on macOS hosts targeting Android and Linux.
+
+## 0.19.1
+
+- Added support for passing sanitizer flags (`-fsanitize=address`, `-fsanitize=memory`, `-fsanitize=thread`) to C compilers and linkers.
+- Depend on `package:code_assets` `^1.2.0`.
+
+## 0.19.0
+
+- Bumped dependency on `package:code_assets` to `^1.1.0` and `package:hooks` to `^2.0.0`.
 
 ## 0.18.0
 

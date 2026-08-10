@@ -17,19 +17,22 @@ Future<void> main() async {
   final packageRoot = Platform.script.resolve('..');
   await generateJniBindings(
     Config(
-      androidSdkConfig: AndroidSdkConfig(
-        addGradleDeps: true,
-        androidExample:
-            packageRoot.resolve('android_test_runner/').toFilePath(),
+      input: Input(
+        classes: ['com.github.dart_lang.jni_flutter.JniFlutterPlugin'],
+        androidSdk: AndroidSdk(
+          addGradleDeps: true,
+          androidExample:
+              packageRoot.resolve('android_test_runner/').toFilePath(),
+        ),
       ),
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
+      output: Output(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/src/generated_plugin.dart'),
           structure: OutputStructure.singleFile,
         ),
+        preamble: preamble,
+        generateStubs: false,
       ),
-      classes: ['com.github.dart_lang.jni_flutter.JniFlutterPlugin'],
-      preamble: preamble,
     ),
   );
 }

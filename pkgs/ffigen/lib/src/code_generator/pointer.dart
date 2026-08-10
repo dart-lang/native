@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'local_variables.dart';
 
 /// Represents a pointer.
 class PointerType extends Type {
@@ -17,6 +18,8 @@ class PointerType extends Type {
       return ObjCObjectPointer();
     } else if (child == objCBlockType) {
       return ObjCBlockPointer();
+    } else if (child is CppClass) {
+      return CppClassPointerType(child);
     }
     return PointerType._(child);
   }
@@ -29,8 +32,8 @@ class PointerType extends Type {
       '${context.libs.prefix(ffiImport)}.Pointer<${child.getCType(context)}>';
 
   @override
-  String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()}* $varName';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${child.getNativeType(context)}* $varName';
 
   // Both the C type and the FFI Dart type are 'Pointer<$cType>'.
   @override
@@ -77,8 +80,8 @@ class ConstantArray extends PointerType {
   bool get isIncompleteCompound => baseArrayType.isIncompleteCompound;
 
   @override
-  String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()} $varName[$length]';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${child.getNativeType(context)} $varName[$length]';
 
   @override
   String toString() => '$child[$length]';
@@ -105,8 +108,8 @@ class IncompleteArray extends PointerType {
   Type get baseArrayType => child.baseArrayType;
 
   @override
-  String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()}* $varName';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${child.getNativeType(context)}* $varName';
 
   @override
   String toString() => '$child[]';
@@ -128,7 +131,7 @@ class ObjCObjectPointer extends PointerType {
       '${context.libs.prefix(objcPkgImport)}.ObjCObject';
 
   @override
-  String getNativeType({String varName = ''}) => 'id $varName';
+  String getNativeType(Context context, {String varName = ''}) => 'id $varName';
 
   @override
   bool get sameDartAndCType => false;
@@ -142,7 +145,14 @@ class ObjCObjectPointer extends PointerType {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    context,
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   @override
   String convertFfiDartTypeToDartType(
@@ -241,5 +251,66 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(protocols);
+  }
+}
+
+/// A pointer to a C++ class wrapper object.
+/// Returned pointers are always unowned by default. The developer must call
+/// `retainOwnership()` explicitly if ownership has been transferred.
+class CppClassPointerType extends PointerType {
+  final CppClass cppClass;
+
+  CppClassPointerType(this.cppClass) : super._(cppClass);
+
+  @override
+  String getDartType(Context context) => cppClass.name;
+
+  @override
+  String getCType(Context context) {
+    final ffi = context.libs.prefix(ffiImport);
+    return '$ffi.Pointer<$ffi.Void>';
+  }
+
+  @override
+  String getFfiDartType(Context context) => getCType(context);
+
+  @override
+  String getNativeType(Context context, {String varName = ''}) =>
+      '${cppClass.originalName}* $varName';
+
+  @override
+  bool get sameDartAndCType => false;
+
+  @override
+  bool get sameDartAndFfiDartType => false;
+
+  @override
+  String convertDartTypeToFfiDartType(
+    Context context,
+    String value, {
+    required bool objCRetain,
+    required bool objCAutorelease,
+    required LocalVariables localVariables,
+  }) => '$value._ptr';
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Context context,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) => '${cppClass.name}.fromPointer($value)';
+
+  @override
+  String toString() => '${cppClass.name}*';
+
+  @override
+  String cacheKey() => '${cppClass.cacheKey()}*';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(cppClass);
+    visitor.visit(ffiImport);
   }
 }

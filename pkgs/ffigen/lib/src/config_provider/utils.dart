@@ -41,7 +41,14 @@ final _macSdk = _LazyVariable('MACOS_SDK', 'xcrun', [
 
 String firstLineOfStdout(String cmd, List<String> args) {
   final result = Process.runSync(cmd, args);
-  assert(result.exitCode == 0);
+  if (result.exitCode != 0) {
+    throw Exception(
+      'Command "$cmd ${args.join(' ')}" failed with exit code '
+      '${result.exitCode}.\n'
+      'STDOUT:\n${result.stdout}\n'
+      'STDERR:\n${result.stderr}',
+    );
+  }
   return (result.stdout as String)
       .split('\n')
       .where((line) => line.isNotEmpty)

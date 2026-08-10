@@ -76,7 +76,8 @@ class ImportedType extends Type {
   }
 
   @override
-  String getNativeType({String varName = ''}) => '$nativeType $varName';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '$nativeType $varName';
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;
@@ -127,6 +128,8 @@ const objcPkgImport = LibraryImport(
   'package:objective_c/objective_c.dart',
   importPathWhenImportedByPackageObjC: '../objective_c.dart',
 );
+const objcMajorVersion = 9;
+const objcMinorVersion = 5;
 const selfImport = LibraryImport('self', '');
 final builtInLibraries = {
   for (final l in [

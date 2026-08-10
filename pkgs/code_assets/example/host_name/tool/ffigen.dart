@@ -12,7 +12,7 @@ void main() {
   final FfiGenerator generator;
   if (Platform.isWindows) {
     generator = FfiGenerator(
-      headers: Headers(entryPoints: [packageRoot.resolve('src/windows.h')]),
+      input: Input(entryPoints: [packageRoot.resolve('src/windows.h')]),
       functions: functions,
       output: Output(
         dartFile: packageRoot.resolve('lib/src/third_party/windows.dart'),
@@ -26,7 +26,7 @@ void main() {
     );
   } else {
     generator = FfiGenerator(
-      headers: Headers(entryPoints: [packageRoot.resolve('src/unix.h')]),
+      input: Input(entryPoints: [packageRoot.resolve('src/unix.h')]),
       functions: functions,
       output: Output(
         dartFile: packageRoot.resolve('lib/src/third_party/unix.dart'),

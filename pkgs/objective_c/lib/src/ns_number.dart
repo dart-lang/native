@@ -22,6 +22,10 @@ extension NumToNSNumber on num {
   }
 }
 
+extension BoolToNSNumber on bool {
+  NSNumber toNSNumber() => NSNumberCreation.numberWithBool(this);
+}
+
 extension NSNumberToNum on NSNumber {
   num get numValue => isFloat ? doubleValue : longLongValue;
 }

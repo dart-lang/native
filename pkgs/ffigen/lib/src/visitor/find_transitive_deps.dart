@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config;
+import '../config_provider/config.dart' show FfiGenerator;
 
 import 'ast.dart';
 
@@ -31,7 +31,7 @@ class FindTransitiveDepsVisitation extends Visitation {
 }
 
 class FindDirectTransitiveDepsVisitation extends Visitation {
-  final Config config;
+  final FfiGenerator config;
   final Set<Binding> includes;
   final Set<Binding> directIncludes;
   final directTransitives = <Binding>{};
@@ -79,7 +79,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    _visitImpl(node, config.objectiveC?.interfaces.includeTransitive ?? false);
+    _visitImpl(node, config.objectiveC?.protocols.includeTransitive ?? false);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visitAll(node.superProtocols);

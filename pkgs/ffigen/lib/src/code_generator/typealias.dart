@@ -3,10 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -106,6 +108,9 @@ class Typealias extends BindingType {
   }
 
   @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Typealias(this);
+
+  @override
   BindingString toBindingString(Writer w) {
     assert(!isAnonymous);
     final context = w.context;
@@ -137,8 +142,8 @@ class Typealias extends BindingType {
       generateBindings ? name : type.getCType(context);
 
   @override
-  String getNativeType({String varName = ''}) =>
-      type.getNativeType(varName: varName);
+  String getNativeType(Context context, {String varName = ''}) =>
+      type.getNativeType(context, varName: varName);
 
   @override
   String getFfiDartType(Context context) {
@@ -183,11 +188,13 @@ class Typealias extends BindingType {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => type.convertDartTypeToFfiDartType(
     context,
     value,
     objCRetain: objCRetain,
     objCAutorelease: objCAutorelease,
+    localVariables: localVariables,
   );
 
   @override
@@ -249,7 +256,14 @@ class ObjCInstanceType extends Typealias {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+    required LocalVariables localVariables,
+  }) => ObjCInterface.generateGetId(
+    context,
+    value,
+    objCRetain,
+    objCAutorelease,
+    localVariables,
+  );
 
   @override
   String convertFfiDartTypeToDartType(
@@ -271,5 +285,5 @@ class ObjCInstanceType extends Typealias {
         );
 
   @override
-  String getNativeType({String varName = ''}) => 'id $varName';
+  String getNativeType(Context context, {String varName = ''}) => 'id $varName';
 }

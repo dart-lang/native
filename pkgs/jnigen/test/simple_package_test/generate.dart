@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:logging/logging.dart';
@@ -54,6 +55,8 @@ final javaFiles = [
   join(javaPrefix, 'interfaces', 'GenericInterface.java'),
   join(javaPrefix, 'interfaces', 'InheritedFromMyInterface.java'),
   join(javaPrefix, 'interfaces', 'InheritedFromMyRunnable.java'),
+  join(javaPrefix, 'interfaces', 'MyConsumer.java'),
+  join(javaPrefix, 'interfaces', 'MyConsumerRunner.java'),
   join(javaPrefix, 'interfaces', 'MyInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterfaceConsumer.java'),
   join(javaPrefix, 'interfaces', 'MyRunnable.java'),
@@ -71,7 +74,9 @@ final javaFiles = [
 ];
 
 void compileJavaSources(String workingDir, List<String> files) async {
-  final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
+  final javac = jni_util.resolveJavaExecutable('javac');
+  final procRes = Process.runSync(javac, files,
+      workingDirectory: workingDir, environment: jni_util.javaEnvironment);
   if (procRes.exitCode != 0) {
     log.fatal('javac exited with ${procRes.exitCode}\n'
         '${procRes.stderr}');
@@ -84,23 +89,37 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
     join(testRoot, 'bindings'),
   );
   final config = Config(
-    sourcePath: [Uri.directory(javaPath)],
-    classPath: [Uri.directory(javaPath)],
-    summarizerOptions: SummarizerOptions(backend: backend),
-    classes: [
-      'com.github.dart_lang.jnigen.simple_package',
-      'com.github.dart_lang.jnigen.pkg2',
-      'com.github.dart_lang.jnigen.enums',
-      'com.github.dart_lang.jnigen.generics',
-      'com.github.dart_lang.jnigen.interfaces',
-      'com.github.dart_lang.jnigen.inheritance',
-      'com.github.dart_lang.jnigen.annotations',
-      'com.github.dart_lang.jnigen.regressions',
-    ],
+    input: Input(
+      sourcePath: [Uri.directory(javaPath)],
+      classPath: [Uri.directory(javaPath)],
+      backend: backend,
+      classes: [
+        'com.github.dart_lang.jnigen.simple_package',
+        'com.github.dart_lang.jnigen.pkg2',
+        'com.github.dart_lang.jnigen.enums',
+        'com.github.dart_lang.jnigen.generics',
+        'com.github.dart_lang.jnigen.interfaces',
+        'com.github.dart_lang.jnigen.inheritance',
+        'com.github.dart_lang.jnigen.annotations',
+        'com.github.dart_lang.jnigen.regressions',
+      ],
+    ),
+    output: Output(
+      dart: DartCodeOutput(
+        path: dartWrappersRoot.resolve('simple_package.dart'),
+        structure: OutputStructure.singleFile,
+      ),
+      preamble: preamble,
+    ),
+    nullability: const NullabilityAnnotations(
+      nonNull: ['com.github.dart_lang.jnigen.annotations.NotNull'],
+      nullable: ['com.github.dart_lang.jnigen.annotations.Nullable'],
+    ),
     logLevel: Level.INFO,
-    nonNullAnnotations: ['com.github.dart_lang.jnigen.annotations.NotNull'],
-    nullableAnnotations: ['com.github.dart_lang.jnigen.annotations.Nullable'],
     customClassBody: {
+      'com.github.dart_lang.jnigen.interfaces.MyConsumer': r'''
+  static core$_.Map<core$_.int, $MyConsumer> get $impls => _$impls;
+''',
       'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
   static core$_.Map<core$_.int, $MyInterface> get $impls => _$impls;
 ''',
@@ -108,13 +127,6 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
   static core$_.Map<core$_.int, $MyRunnable> get $impls => _$impls;
 '''
     },
-    outputConfig: OutputConfig(
-      dartConfig: DartCodeOutputConfig(
-        path: dartWrappersRoot.resolve('simple_package.dart'),
-        structure: OutputStructure.singleFile,
-      ),
-    ),
-    preamble: preamble,
   );
   return config;
 }

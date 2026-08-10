@@ -14,6 +14,7 @@ final class LoadingUnit {
   /// The name of the loading unit.
   final String name;
 
+  /// Creates a [LoadingUnit] with [name].
   const LoadingUnit(this.name);
 
   /// Canonicalizes the children of this [LoadingUnit].
@@ -38,6 +39,7 @@ final class LoadingUnit {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension LoadingUnitProtected on LoadingUnit {
+  /// Canonicalizes the children of this loading unit.
   LoadingUnit canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context);
 }

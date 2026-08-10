@@ -10,6 +10,7 @@ import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+import '../code_generator/utils.dart';
 import '../config_provider/config_types.dart';
 import '../context.dart';
 import '../strings.dart';
@@ -242,14 +243,19 @@ extension CXCursorExt on clang_types.CXCursor {
     int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
     callback,
   ) {
-    final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
-      (
-        clang_types.CXCursor child,
-        clang_types.CXCursor parent,
-        Pointer<Void> clientData,
-      ) => callback(child, parent),
-      exceptionalReturn: exceptionalVisitorReturn,
-    );
+    final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal((
+      clang_types.CXCursor child,
+      clang_types.CXCursor parent,
+      Pointer<Void> clientData,
+    ) {
+      try {
+        return callback(child, parent);
+      } catch (e, st) {
+        print(e);
+        print(st);
+        rethrow;
+      }
+    }, exceptionalReturn: exceptionalVisitorReturn);
     final result = clang.clang_visitChildren(
       this,
       visitor.nativeFunction.cast(),
@@ -376,12 +382,12 @@ String? removeRawCommentMarkups(String? string) {
   if (string.contains(RegExp(r'^\s*\/\*+'))) {
     string = string.replaceFirst(RegExp(r'^\s*\/\*+\s*'), '');
     string = string.replaceFirst(RegExp(r'\s*\*+\/$'), '');
-    string.split('\n').forEach((element) {
+    string.split(lineBreakRegex).forEach((element) {
       element = element.replaceFirst(RegExp(r'^\s*\**\s*'), '');
       sb.writeln(element);
     });
   } else if (string.contains(RegExp(r'^\s*\/\/\/?\s*'))) {
-    string.split('\n').forEach((element) {
+    string.split(lineBreakRegex).forEach((element) {
       element = element.replaceFirst(RegExp(r'^\s*\/\/\/?\s*'), '');
       sb.writeln(element);
     });
@@ -513,6 +519,7 @@ class BindingsIndex {
   final Map<String, Typealias> _typealiases = {};
   final Map<String, EnumClass> _enums = {};
   final Map<String, Compound> _compounds = {};
+  final Map<String, CppClass> _cppClasses = {};
   final Map<String, ObjCBlock> _objcBlocks = {};
   final Map<String, ObjCInterface> _objcInterfaces = {};
   final Map<String, ObjCProtocol> _objcProtocols = {};
@@ -545,6 +552,9 @@ class BindingsIndex {
   bool isSeenCompound(String usr) => _compounds.containsKey(usr);
   void addCompoundToSeen(String usr, Compound t) => _compounds[usr] = t;
   Compound? getSeenCompound(String usr) => _compounds[usr];
+  bool isSeenCppClass(String usr) => _cppClasses.containsKey(usr);
+  void addCppClassToSeen(String usr, CppClass t) => _cppClasses[usr] = t;
+  CppClass? getSeenCppClass(String usr) => _cppClasses[usr];
   bool isSeenMacro(String usr) => _macros.containsKey(usr);
   void addMacroToSeen(String usr, String macro) => _macros[usr] = macro;
   bool isSeenUnsupportedTypealias(String usr) =>

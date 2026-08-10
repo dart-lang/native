@@ -5,11 +5,13 @@
 import 'package:collection/collection.dart';
 
 import '../config_provider.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'imports.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'type.dart';
 import 'utils.dart';
@@ -71,15 +73,15 @@ class EnumClass extends BindingType with HasLocalScope {
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];
 
+  @override
+  public_ast.AstNode? toPublicAstNode() =>
+      isAnonymous ? null : public_ast.EnumClass(this);
+
   /// Returns a string to declare the enum member and any documentation it may
   /// have had.
   String _formatValue(EnumConstant ec, {bool asInt = false}) {
     final buffer = StringBuffer();
-    if (ec.dartDoc != null) {
-      buffer.write('  /// ');
-      buffer.writeAll(ec.dartDoc!.split('\n'), '\n  /// ');
-      buffer.write('\n');
-    }
+    buffer.write(makeDartDoc(ec.dartDoc, indent: '  '));
     if (asInt) {
       buffer.write('  static const ${ec.name} = ${ec.value};');
     } else {
@@ -112,11 +114,7 @@ class EnumClass extends BindingType with HasLocalScope {
     for (final entry in duplicateToOriginal.entries) {
       final duplicate = entry.key;
       final original = entry.value;
-      if (duplicate.dartDoc != null) {
-        s.write('  /// ');
-        s.writeAll(duplicate.dartDoc!.split('\n'), '\n  /// ');
-        s.write('\n');
-      }
+      s.write(makeDartDoc(duplicate.dartDoc, indent: '  '));
       s.write('  static const ${duplicate.name} = ${original.name};\n');
     }
   }
@@ -258,7 +256,8 @@ class EnumClass extends BindingType with HasLocalScope {
   }
 
   @override
-  String getNativeType({String varName = ''}) => '$originalName $varName';
+  String getNativeType(Context context, {String varName = ''}) =>
+      '$originalName $varName';
 
   @override
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
@@ -275,6 +274,7 @@ class EnumClass extends BindingType with HasLocalScope {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => sameDartAndFfiDartType ? value : '$value.value';
 
   @override
@@ -305,8 +305,8 @@ class EnumConstant extends AstNode {
   final String? dartDoc;
   final int value;
 
-  final Symbol _symbol;
-  String get name => _symbol.name;
+  final Symbol symbol;
+  String get name => symbol.name;
 
   EnumConstant({
     String? originalName,
@@ -314,11 +314,11 @@ class EnumConstant extends AstNode {
     required this.value,
     this.dartDoc,
   }) : originalName = originalName ?? name,
-       _symbol = Symbol(name, SymbolKind.field);
+       symbol = Symbol(name, SymbolKind.field);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(_symbol);
+    visitor.visit(symbol);
   }
 }

@@ -15,20 +15,6 @@ import 'util.dart';
 
 void main() {
   group('bad_method_test', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('bad_method');
-    });
-
     test("Test incomplete struct methods that weren't skipped", () {
       final obj = BadMethodTestObject();
       final structPtr = obj.incompletePointerReturn();

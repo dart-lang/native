@@ -1,0 +1,35 @@
+name: path_provider_example
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: 2.1.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+dependency_overrides:
+  code_assets:
+    path: ../../../code_assets
+  hooks:
+    path: ../../../hooks
+  meta: ^1.19.0
+  native_toolchain_c:
+    path: ../../../native_toolchain_c
+  record_use:
+    path: ../../../record_use
+  objective_c:
+    path: ../..
+
+flutter:
+  uses-material-design: true

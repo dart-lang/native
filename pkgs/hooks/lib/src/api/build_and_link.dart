@@ -78,6 +78,16 @@ import '../validation.dart';
 /// }
 /// ```
 ///
+/// ## User-defines
+///
+/// Build hooks can read custom, package-specific configuration settings passed
+/// by the end-user from the root package `pubspec.yaml` (or the root package
+/// pub workspace `pubspec.yaml` if using a workspace) via the
+/// `input.userDefines` property.
+///
+/// See [HookInput.userDefines] for detailed documentation, configuration
+/// schema, and code snippets.
+///
 /// ## Environment
 ///
 /// Build hooks are executed in a semi-hermetic environment. This means that
@@ -92,9 +102,12 @@ import '../validation.dart';
 /// *   **Path and system roots:**
 ///     *   `PATH`: Invoke native tools.
 ///     *   `HOME`, `USERPROFILE`: Find tools in default install locations.
+///     *   `APPDATA`, `LOCALAPPDATA`: NuGet, dart_data_home, and pub on
+///         Windows.
 ///     *   `SYSTEMDRIVE`, `SYSTEMROOT`, `WINDIR`: Process invocations and CMake
 ///         on Windows.
 ///     *   `PROGRAMDATA`: For `vswhere.exe` on Windows.
+///     *   `PROCESSOR_ARCHITECTURE`: CMake Android on Windows.
 /// *   **Temporary directories:**
 ///     *   `TEMP`, `TMP`, `TMPDIR`: Temporary directories.
 /// *   **HTTP proxies:**
@@ -110,11 +123,57 @@ import '../validation.dart';
 ///     *   Any variable starting with `CCACHE_`.
 /// *   **Nix:**
 ///     *   Any variable starting with `NIX_`.
+/// *   **.NET and NuGet:**
+///     *   Any variable starting with `DOTNET_`.
+///     *   Any variable starting with `NUGET_`.
 ///
 /// Any changes to these environment variables will cause cache invalidation for
 /// hooks.
 ///
 /// All other environment variables are stripped.
+///
+/// ## Caching
+///
+/// Hook execution is automatically cached by the hooks runner to avoid
+/// unnecessary runs.
+///
+/// An execution of this hook is skipped, and the cached output is reused, if
+/// and only if:
+///
+/// * The input to the hook didn't change (including the configuration fields
+///   accessed via [BuildInput.config] and the `user-defines` in the workspace
+///   `pubspec.yaml`).
+/// * No environment variables (that are not filtered out) changed.
+/// * None of the files or directories declared in
+///   [HookOutputBuilder.dependencies] changed.
+/// * None of the transitive Dart sources of the hook script itself changed.
+/// * The workspace `package_config.json` didn't change.
+/// * The Dart SDK version didn't change.
+///
+/// If any of these conditions are not met, the hook is re-run.
+///
+/// ### Hook Output Dependencies
+///
+/// To ensure cache correctness when external files or assets are modified,
+/// hooks must explicitly declare their file and directory dependencies using
+/// [HookOutputBuilder.dependencies] (e.g., via
+/// `output.dependencies.add(uri)`).
+///
+/// If your hook resolves and reads local files referenced in user-defines (e.g.
+/// using `input.userDefines.path('key')`), you **must** manually register those
+/// files in [HookOutputBuilder.dependencies] to ensure the hook is re-run
+/// when the referenced files' contents change.
+///
+/// ### Cache Isolation
+///
+/// Outputs are cached in a configuration-specific subdirectory inside
+/// `.dart_tool/hooks_runner/`. This directory is unique per hook and is
+/// derived from the configuration fields in [BuildInput.config]. Therefore,
+/// different configurations (e.g., building for a different target OS or
+/// architecture) do not collide.
+///
+/// The cache is reused for identical configurations across different builds,
+/// even when inputs outside the configuration or environment variables change.
 ///
 /// ## Debugging
 ///
@@ -246,6 +305,16 @@ Future<void> build(
 /// non-zero exit code on failure. Throwing will lead to an uncaught exception,
 /// causing a non-zero exit code.
 ///
+/// ## Custom Configurations (User-Defines)
+///
+/// Link hooks can read custom, package-specific configuration settings passed
+/// by the end-user from the root package `pubspec.yaml` (or the root package
+/// pub workspace `pubspec.yaml` if using a workspace) via the
+/// `input.userDefines` property.
+///
+/// See [HookInput.userDefines] for detailed documentation, configuration
+/// schema, and code snippets.
+///
 /// ## Environment
 ///
 /// Link hooks are executed in a semi-hermetic environment. This means that
@@ -260,9 +329,12 @@ Future<void> build(
 /// *   **Path and system roots:**
 ///     *   `PATH`: Invoke native tools.
 ///     *   `HOME`, `USERPROFILE`: Find tools in default install locations.
+///     *   `APPDATA`, `LOCALAPPDATA`: NuGet, dart_data_home, and pub on
+///         Windows.
 ///     *   `SYSTEMDRIVE`, `SYSTEMROOT`, `WINDIR`: Process invocations and CMake
 ///         on Windows.
 ///     *   `PROGRAMDATA`: For `vswhere.exe` on Windows.
+///     *   `PROCESSOR_ARCHITECTURE`: CMake Android on Windows.
 /// *   **Temporary directories:**
 ///     *   `TEMP`, `TMP`, `TMPDIR`: Temporary directories.
 /// *   **HTTP proxies:**
@@ -278,11 +350,57 @@ Future<void> build(
 ///     *   Any variable starting with `CCACHE_`.
 /// *   **Nix:**
 ///     *   Any variable starting with `NIX_`.
+/// *   **.NET and NuGet:**
+///     *   Any variable starting with `DOTNET_`.
+///     *   Any variable starting with `NUGET_`.
 ///
 /// Any changes to these environment variables will cause cache invalidation for
 /// hooks.
 ///
 /// All other environment variables are stripped.
+///
+/// ## Caching
+///
+/// Hook execution is automatically cached by the hooks runner to avoid
+/// unnecessary runs.
+///
+/// An execution of this hook is skipped, and the cached output is reused, if
+/// and only if:
+///
+/// * The input to the hook didn't change (including the configuration fields
+///   accessed via [LinkInput.config] and the `user-defines` in the workspace
+///   `pubspec.yaml`).
+/// * No environment variables (that are not filtered out) changed.
+/// * None of the files or directories declared in
+///   [HookOutputBuilder.dependencies] changed.
+/// * None of the transitive Dart sources of the hook script itself changed.
+/// * The workspace `package_config.json` didn't change.
+/// * The Dart SDK version didn't change.
+///
+/// If any of these conditions are not met, the hook is re-run.
+///
+/// ### Hook Output Dependencies
+///
+/// To ensure cache correctness when external files or assets are modified,
+/// hooks must explicitly declare their file and directory dependencies using
+/// [HookOutputBuilder.dependencies] (e.g., via
+/// `output.dependencies.add(uri)`).
+///
+/// If your hook resolves and reads local files referenced in user-defines (e.g.
+/// using `input.userDefines.path('key')`), you **must** manually register those
+/// files in [HookOutputBuilder.dependencies] to ensure the hook is re-run
+/// when the referenced files' contents change.
+///
+/// ### Cache Isolation
+///
+/// Outputs are cached in a configuration-specific subdirectory inside
+/// `.dart_tool/hooks_runner/`. This directory is unique per hook and is
+/// derived from the configuration fields in [LinkInput.config]. Therefore,
+/// different configurations (e.g., building for a different target OS or
+/// architecture) do not collide.
+///
+/// The cache is reused for identical configurations across different builds,
+/// even when inputs outside the configuration or environment variables change.
 ///
 /// ## Debugging
 ///

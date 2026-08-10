@@ -17,20 +17,6 @@ import 'util.dart';
 
 void main() {
   group('error_method_test', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('error_method');
-    });
-
     test("Error method that returns bool", () {
       final obj = ErrorMethodTestObject();
       expect(obj.errorMethodReturningBool(true), isTrue);

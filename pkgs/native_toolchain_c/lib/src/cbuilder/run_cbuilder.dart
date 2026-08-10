@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:code_assets/code_assets.dart';
@@ -10,6 +11,7 @@ import 'package:logging/logging.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
+import '../native_toolchain/wsl.dart';
 import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
@@ -95,7 +97,15 @@ class RunCBuilder {
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
-  Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
+  Future<ToolInstance> archiver() async => await _resolver.resolveArchiver();
+
+  /// Renders [uri] as a path the [tool] can open.
+  ///
+  /// A tool that runs through the WSL launcher sees the Windows drives mounted
+  /// under `/mnt`, so its paths are mapped (see [toWslPath]). Tools run on the
+  /// host use the host path rendering.
+  String _toolPath(Uri uri, ToolInstance tool) =>
+      tool.launcher?.tool.isWsl == true ? toWslPath(uri) : uri.toFilePath();
 
   Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
     if (iosSdk == .iPhoneOS) {
@@ -120,6 +130,20 @@ class RunCBuilder {
   Future<void> run() async {
     final toolInstance_ = await compiler();
     final tool = toolInstance_.tool;
+
+    if (codeConfig.sanitizer != null) {
+      final sanitizer = codeConfig.sanitizer!;
+      final isMsvc = tool == cl;
+      final supportedSanitizers = isMsvc ? _msvcSanitizers : _clangSanitizers;
+      if (!supportedSanitizers.containsKey(sanitizer)) {
+        final compilerName = isMsvc ? 'MSVC' : 'Clang-like compilers';
+        logger?.warning(
+          'The sanitizer \'$sanitizer\' is not supported on $compilerName '
+          'and will be ignored.',
+        );
+      }
+    }
+
     if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
       return;
@@ -135,7 +159,7 @@ class RunCBuilder {
     final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
-    Uri? archiver_;
+    ToolInstance? archiver_;
     if (isStaticLib) {
       archiver_ = await archiver();
     }
@@ -168,7 +192,7 @@ class RunCBuilder {
         : null;
 
     final architecture = codeConfig.targetArchitecture;
-    final sourceFiles = sources.map((e) => e.toFilePath()).toList();
+    final sourceFiles = sources.map((e) => _toolPath(e, tool)).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
       for (var i = 0; i < sourceFiles.length; i++) {
@@ -186,12 +210,19 @@ class RunCBuilder {
         );
         objectFiles.add(objectFile);
       }
+      final isMacToElfCross =
+          Platform.isMacOS &&
+          (codeConfig.targetOS == OS.linux ||
+              codeConfig.targetOS == OS.android);
       await runProcess(
-        executable: archiver_!,
+        launcher: archiver_!.launcher?.uri,
+        executable: archiver_.uri,
         arguments: [
-          'rc',
-          outDir.resolveUri(staticLibrary!).toFilePath(),
-          ...objectFiles.map((objectFile) => objectFile.toFilePath()),
+          isMacToElfCross ? 'rcS' : 'rc',
+          _toolPath(outDir.resolveUri(staticLibrary!), archiver_),
+          ...objectFiles.map(
+            (objectFile) => _toolPath(objectFile, archiver_!),
+          ),
         ],
         logger: logger,
         captureOutput: false,
@@ -227,7 +258,10 @@ class RunCBuilder {
   ) async {
     final context = ToolResolvingContext(logger: logger);
 
+    String toolPath(Uri uri) => _toolPath(uri, toolInstance);
+
     await runProcess(
+      launcher: toolInstance.launcher?.uri,
       executable: toolInstance.uri,
       environment: environment,
       arguments: [
@@ -243,6 +277,10 @@ class RunCBuilder {
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (codeConfig.targetOS == .iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
+        if (codeConfig.targetOS == .linux &&
+            OS.current != .linux &&
+            toolInstance.tool.isClang)
+          '--target=${clangLinuxTargetFlags[architecture]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
@@ -291,6 +329,7 @@ class RunCBuilder {
             ],
           ],
         if (std != null) '-std=$std',
+        ?_clangSanitizers[codeConfig.sanitizer],
         if (language == .cpp) ...[
           '-x',
           'c++',
@@ -321,9 +360,9 @@ class RunCBuilder {
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
-        for (final include in includes) '-I${include.toFilePath()}',
+        for (final include in includes) '-I${toolPath(include)}',
         for (final forcedInclude in forcedIncludes)
-          '-include${forcedInclude.toFilePath()}',
+          '-include${toolPath(forcedInclude)}',
         if (linkerOptions != null)
           ...linkerOptions!.sourceFilesToFlags(
             toolInstance.tool,
@@ -333,20 +372,20 @@ class RunCBuilder {
           )
         else
           ...sourceFiles,
-        if (language == .objectiveC) ...[
+        if (codeConfig.targetOS case .iOS || .macOS) ...[
           for (final framework in frameworks) ...['-framework', framework],
         ],
         if (executable != null) ...[
           '-o',
-          outDir.resolveUri(executable!).toFilePath(),
+          toolPath(outDir.resolveUri(executable!)),
         ] else if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
-          outFile!.toFilePath(),
+          toolPath(outFile!),
         ] else if (staticLibrary != null) ...[
           '-c',
           '-o',
-          outFile!.toFilePath(),
+          toolPath(outFile!),
         ],
         if (executable != null || dynamicLibrary != null) ...[
           if (codeConfig.targetOS case .android || .linux)
@@ -355,7 +394,7 @@ class RunCBuilder {
             // it is linked against.
             '-Wl,-rpath,\$ORIGIN',
           for (final directory in libraryDirectories)
-            '-L${directory.toFilePath()}',
+            '-L${toolPath(directory)}',
           for (final library in libraries) '-l$library',
         ],
       ],
@@ -369,7 +408,7 @@ class RunCBuilder {
     final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
-    Uri? archiver_;
+    ToolInstance? archiver_;
     if (isStaticLib) {
       archiver_ = await archiver();
     }
@@ -380,6 +419,8 @@ class RunCBuilder {
       arguments: [
         if (optimizationLevel != .unspecified) optimizationLevel.msvcFlag(),
         if (std != null) '/std:$std',
+        if (codeConfig.sanitizer == Sanitizer.asan) '/Zi',
+        ?_msvcSanitizers[codeConfig.sanitizer],
         if (language == .cpp) '/TP',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
@@ -411,6 +452,7 @@ class RunCBuilder {
           for (final directory in libraryDirectories)
             '/LIBPATH:${directory.toFilePath()}',
           for (final library in libraries) '$library.lib',
+          if (codeConfig.sanitizer == Sanitizer.asan) '/DEBUG',
         ],
       ],
       workingDirectory: outDir,
@@ -422,9 +464,18 @@ class RunCBuilder {
     );
 
     if (staticLibrary != null) {
+      // `cl.exe /c` writes one object file per source into the working
+      // directory ([outDir]), named after the source file with its extension
+      // replaced by `.obj`. Pass exactly those file names to the archiver
+      // instead of `*.obj`, so that object files left in [outDir] by other
+      // builds are not swept into this archive, and so that the archive
+      // member names stay independent of the build directory location.
+      final objectFiles = {
+        for (final source in sources) _objectFileName(source),
+      }.toList();
       await runProcess(
-        executable: archiver_!,
-        arguments: ['/out:${staticLibrary!.toFilePath()}', '*.obj'],
+        executable: archiver_!.uri,
+        arguments: ['/out:${staticLibrary!.toFilePath()}', ...objectFiles],
         workingDirectory: outDir,
         environment: environment,
         logger: logger,
@@ -437,7 +488,18 @@ class RunCBuilder {
     assert(result.exitCode == 0);
   }
 
-  static const androidNdkClangTargetFlags = {
+  /// The name of the object file `cl.exe /c` produces for [source]: the
+  /// source file name with its extension replaced by `.obj`.
+  static String _objectFileName(Uri source) {
+    final fileName = source.pathSegments.last;
+    final extensionIndex = fileName.lastIndexOf('.');
+    final baseName = extensionIndex > 0
+        ? fileName.substring(0, extensionIndex)
+        : fileName;
+    return '$baseName.obj';
+  }
+
+  static final androidNdkClangTargetFlags = {
     Architecture.arm: 'armv7a-linux-androideabi',
     Architecture.arm64: 'aarch64-linux-android',
     Architecture.ia32: 'i686-linux-android',
@@ -445,12 +507,12 @@ class RunCBuilder {
     Architecture.riscv64: 'riscv64-linux-android',
   };
 
-  static const appleClangMacosTargetFlags = {
+  static final appleClangMacosTargetFlags = {
     Architecture.arm64: 'arm64-apple-darwin',
     Architecture.x64: 'x86_64-apple-darwin',
   };
 
-  static const appleClangIosTargetFlags = {
+  static final appleClangIosTargetFlags = {
     Architecture.arm64: {
       IOSSdk.iPhoneOS: 'arm64-apple-ios',
       IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
@@ -458,23 +520,42 @@ class RunCBuilder {
     Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
   };
 
-  static const clangWindowsTargetFlags = {
+  static final clangLinuxTargetFlags = {
+    Architecture.arm: 'arm-linux-gnueabihf',
+    Architecture.arm64: 'aarch64-linux-gnu',
+    Architecture.ia32: 'i686-linux-gnu',
+    Architecture.x64: 'x86_64-linux-gnu',
+    Architecture.riscv32: 'riscv32-linux-gnu',
+    Architecture.riscv64: 'riscv64-linux-gnu',
+  };
+
+  static final clangWindowsTargetFlags = {
     Architecture.arm64: 'arm64-pc-windows-msvc',
     Architecture.ia32: 'i386-pc-windows-msvc',
     Architecture.x64: 'x86_64-pc-windows-msvc',
   };
 
-  static const clTargetFlags = {
+  static final clTargetFlags = {
     Architecture.arm64: 'ARM64',
     Architecture.ia32: 'X86',
     Architecture.x64: 'X64',
   };
 
-  static const defaultCppLinkStdLib = {
+  static final defaultCppLinkStdLib = {
     OS.android: 'c++_shared',
     OS.fuchsia: 'c++',
     OS.iOS: 'c++',
     OS.linux: 'stdc++',
     OS.macOS: 'c++',
+  };
+
+  static final _clangSanitizers = {
+    Sanitizer.asan: '-fsanitize=address',
+    Sanitizer.msan: '-fsanitize=memory',
+    Sanitizer.tsan: '-fsanitize=thread',
+  };
+
+  static final _msvcSanitizers = {
+    Sanitizer.asan: '/fsanitize=address',
   };
 }

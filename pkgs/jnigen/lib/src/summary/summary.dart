@@ -6,6 +6,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart';
+
 import '../../tools.dart';
 import '../config/config.dart';
 import '../elements/elements.dart';
@@ -36,9 +38,9 @@ String? getActionableSummaryParseMessage(String stderr) {
   return 'Cannot generate summary: Java class file version $majorVersion is '
       'not supported by the summarizer. This usually means your input classes '
       'were compiled with a newer JDK target than JNIgen supports. Use a '
-      'supported JDK version (11 to 17) (see JNIgen README), or recompile '
-      'your Java inputs with a lower target (for example: javac --release '
-      '17 <your-java-files>).';
+      'supported JDK version ($minJavaVersion to $maxJavaVersion), or '
+      'recompile your Java inputs with a lower target (for example: javac '
+      '--release $minJavaVersion <your-java-files>).';
 }
 
 /// A command based summary source which calls the ApiSummarizer command.
@@ -60,10 +62,11 @@ class SummarizerCommand {
     List<Uri>? classPath,
     this.extraArgs = const [],
     required this.classes,
-    this.workingDirectory,
+    Uri? workingDirectory,
     this.backend,
-  })  : sourcePaths = sourcePath ?? [],
-        classPaths = classPath ?? [];
+  })  : sourcePaths = [...?sourcePath],
+        classPaths = [...?classPath],
+        workingDirectory = workingDirectory ?? Uri.directory('.');
 
   static const sourcePathsOption = '-s';
   static const classPathsOption = '-c';
@@ -74,7 +77,7 @@ class SummarizerCommand {
   List<String> extraArgs;
   List<String> classes;
 
-  Uri? workingDirectory;
+  Uri workingDirectory;
   SummarizerBackend? backend;
 
   void addSourcePaths(List<Uri> paths) {
@@ -106,12 +109,16 @@ class SummarizerCommand {
     }
     args.addAll(extraArgs);
     args.addAll(classes);
-    log.info('execute $exec ${args.join(' ')}');
+    final resolvedExec = resolveJavaExecutable(exec);
+    log.info('execute $resolvedExec ${args.join(' ')}');
     final proc = await Process.start(
-      exec,
+      resolvedExec,
       args,
-      workingDirectory: workingDirectory?.toFilePath() ?? '.',
-      environment: {'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8'},
+      workingDirectory: workingDirectory.toFilePath(),
+      environment: {
+        ...javaEnvironment,
+        'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8',
+      },
     );
     return proc;
   }
@@ -122,18 +129,18 @@ Future<Classes> getSummary(Config config) async {
   // warning.
   setLoggingLevel(config.logLevel);
   final summarizer = SummarizerCommand(
-    sourcePath: config.sourcePath,
-    classPath: config.classPath,
-    classes: config.classes,
-    workingDirectory: config.summarizerOptions?.workingDirectory,
-    extraArgs: config.summarizerOptions?.extraArgs ?? const [],
-    backend: config.summarizerOptions?.backend,
+    sourcePath: config.input.sourcePath,
+    classPath: config.input.classPath,
+    classes: config.input.classes,
+    workingDirectory: config.input.workingDirectory,
+    extraArgs: config.input.extraArgs,
+    backend: config.input.backend,
   );
 
   // Additional sources added using maven downloads and gradle trickery.
   final extraSources = <Uri>[];
   final extraJars = <Uri>[];
-  final mavenDl = config.mavenDownloads;
+  final mavenDl = config.input.mavenDownloads;
   if (mavenDl != null) {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
@@ -150,18 +157,18 @@ Future<Classes> getSummary(Config config) async {
         .map((entry) => entry.uri)
         .toList());
   }
-  final androidConfig = config.androidSdkConfig;
+  final androidConfig = config.input.androidSdk;
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(
       configRoot: config.configRoot,
-      androidProject: androidConfig.androidExample ?? '.',
+      androidProject: androidConfig.androidExample,
     );
     extraJars.addAll(deps.map(Uri.file));
   }
   if (androidConfig != null && androidConfig.addGradleSources) {
     final deps = AndroidSdkTools.getGradleSources(
       configRoot: config.configRoot,
-      androidProject: androidConfig.androidExample ?? '.',
+      androidProject: androidConfig.androidExample,
     );
     extraSources.addAll(deps.map(Uri.file));
   }

@@ -59,7 +59,7 @@ Future<void> createJar({
 final random = Random.secure();
 
 void testSuccessCase(String description, Config config) {
-  config.classes = summarizerClassesSpec;
+  config.input.classes = summarizerClassesSpec;
   test(description, () async {
     final classes = await getSummary(config);
     expectSummaryHasAllClasses(classes);
@@ -69,8 +69,8 @@ void testSuccessCase(String description, Config config) {
 void testFailureCase(
     String description, Config config, String nonExistingClass) {
   test(description, () async {
-    final insertPosition = random.nextInt(config.classes.length + 1);
-    config.classes = summarizerClassesSpec.sublist(0, insertPosition) +
+    final insertPosition = random.nextInt(config.input.classes.length + 1);
+    config.input.classes = summarizerClassesSpec.sublist(0, insertPosition) +
         [nonExistingClass] +
         summarizerClassesSpec.sublist(insertPosition);
     try {
@@ -172,13 +172,13 @@ void main() async {
     test('- should provide actionable guidance for unsupported versions',
         () async {
       final config = getSummaryGenerationConfig(classPath: [classesDir.path]);
-      config.classes = ['com.example.Hello'];
+      config.input.classes = ['com.example.Hello'];
 
       try {
         await getSummary(config);
       } on SummaryParseException catch (e) {
         expect(e.message, contains('Java class file version 74'));
-        expect(e.message, contains('supported JDK version (11 to 17)'));
+        expect(e.message, contains('supported JDK version (17 to 21)'));
         expect(e.message, contains('javac --release 17'));
         expect(e.message, isNot(contains('FormatException')));
         return;

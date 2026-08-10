@@ -212,6 +212,7 @@ sealed class MaybeConstant {
 
 /// A value that is not a constant.
 final class NonConstant extends MaybeConstant {
+  /// Creates a [NonConstant] object representing a non-constant expression.
   const NonConstant();
 
   @override
@@ -1459,21 +1460,27 @@ final class RecordConstant extends Constant {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension MaybeConstantProtected on MaybeConstant {
+  /// Converts this constant to a syntax representation.
   ConstantSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
+  /// Canonicalizes the children of this constant.
   MaybeConstant canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context);
 
+  /// Returns a filtered copy of this constant.
   MaybeConstant filter({String? definitionPackageName}) =>
       _filter(definitionPackageName: definitionPackageName);
 
+  /// Compares this constant to [other] for ordering.
   int compareTo(MaybeConstant other) => _compareTo(other);
 
+  /// Creates a [MaybeConstant] from a [ConstantSyntax].
   static MaybeConstant fromSyntax(
     ConstantSyntax syntax,
     DeserializationContext context,
   ) => MaybeConstant._fromSyntax(syntax, context);
 
+  /// Compares this constant to [other] for semantic equality.
   @visibleForTesting
   bool semanticEquals(
     MaybeConstant other, {

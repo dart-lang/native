@@ -1,6 +1,10 @@
-## 0.6.1-wip
+## 1.1.0
 
-- Nothing yet.
+- Added `Recordings.+` to combine two recordings.
+
+## 1.0.0
+
+- Stable release.
 
 ## 0.6.0
 

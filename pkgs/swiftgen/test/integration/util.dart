@@ -54,9 +54,9 @@ class TestGenerator {
     actualOutputFile = path.join(testDir, '${name}_bindings.dart');
   }
 
-  Future<void> generateBindings() async =>
+  Future<void> generateBindings([Target? target]) async =>
       await SwiftGenerator(
-        target: await hostTarget,
+        target: target ?? await hostTarget,
         inputs: [
           isObjCCompatible
               ? ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)])
@@ -92,10 +92,10 @@ class TestGenerator {
         tempDirectory: Uri.directory(tempDir),
       );
 
-  Future<void> generateAndVerifyBindings() async {
+  Future<void> generateAndVerifyBindings([Target? compileTarget]) async {
     // Run the generation pipeline. This produces the swift compatability
     // wrapper, and the ffigen wrapper.
-    await generateBindings();
+    await generateBindings(compileTarget);
 
     expect(File(inputFile).existsSync(), isTrue);
     expect(File(wrapperFile).existsSync(), !isObjCCompatible);
@@ -104,7 +104,7 @@ class TestGenerator {
     // The generation pipeline also an obj file as a byproduct.
     expect(File(objInputFile).existsSync(), isTrue);
 
-    final target = await hostTarget;
+    final target = compileTarget ?? await hostTarget;
     await run('swiftc', [
       '-c',
       inputFile,
@@ -127,6 +127,10 @@ class TestGenerator {
         '-c',
         outputObjCFile,
         '-fpic',
+        '-target',
+        target.triple,
+        '-isysroot',
+        path.absolute(target.sdk.toFilePath()),
         '-o',
         objObjCFile,
       ], tempDir);
@@ -138,6 +142,10 @@ class TestGenerator {
       '-shared',
       '-framework',
       'Foundation',
+      '-target',
+      target.triple,
+      '-isysroot',
+      path.absolute(target.sdk.toFilePath()),
       objInputFile,
       if (!isObjCCompatible) objWrapperFile,
       if (hasOutputObjCFile) objObjCFile,

@@ -4,18 +4,79 @@
 
 import 'elements.dart' as ast;
 
-abstract class Element {
+/// An element in the Java AST that can be visited.
+abstract class _Element {
+  /// Accepts a [Visitor] to traverse this element and its children.
   void accept(Visitor visitor);
 }
 
-abstract class Visitor {
+/// A visitor that can traverse the AST of Java elements.
+///
+/// Users can extend this class to create custom visitors that modify the AST
+/// before code generation.
+abstract base class Visitor {
+  const Visitor.base();
+
+  factory Visitor({
+    void Function(ClassDecl node)? visitClass,
+    void Function(Method node)? visitMethod,
+    void Function(Field node)? visitField,
+    void Function(Param node)? visitParam,
+  }) = _VisitorImpl;
+
+  /// Visits a class declaration.
   void visitClass(ClassDecl c) {}
+
+  /// Visits a method declaration.
   void visitMethod(Method method) {}
+
+  /// Visits a field declaration.
   void visitField(Field field) {}
+
+  /// Visits a parameter declaration.
   void visitParam(Param parameter) {}
 }
 
-class Classes implements Element {
+final class _VisitorImpl extends Visitor {
+  const _VisitorImpl({
+    void Function(ClassDecl node)? visitClass,
+    void Function(Method node)? visitMethod,
+    void Function(Field node)? visitField,
+    void Function(Param node)? visitParam,
+  })  : _visitClass = visitClass,
+        _visitMethod = visitMethod,
+        _visitField = visitField,
+        _visitParam = visitParam,
+        super.base();
+
+  final void Function(ClassDecl node)? _visitClass;
+  final void Function(Method node)? _visitMethod;
+  final void Function(Field node)? _visitField;
+  final void Function(Param node)? _visitParam;
+
+  @override
+  void visitClass(ClassDecl c) {
+    _visitClass?.call(c);
+  }
+
+  @override
+  void visitMethod(Method method) {
+    _visitMethod?.call(method);
+  }
+
+  @override
+  void visitField(Field field) {
+    _visitField?.call(field);
+  }
+
+  @override
+  void visitParam(Param parameter) {
+    _visitParam?.call(parameter);
+  }
+}
+
+/// A collection of class declarations.
+class Classes implements _Element {
   Classes(this._classes);
   final ast.Classes _classes;
 
@@ -26,28 +87,33 @@ class Classes implements Element {
       classDecl.accept(visitor);
     }
   }
-
-  void let(void Function(dynamic userClasses) param0) {}
 }
 
-class ClassDecl implements Element {
+/// Represents a Java class declaration.
+class ClassDecl implements _Element {
   ClassDecl(this._classDecl);
   final ast.ClassDecl _classDecl;
 
+  /// The binary name of the class (e.g., "java.lang.Object").
   String get binaryName => _classDecl.binaryName;
 
-  bool get isExcluded => _classDecl.isExcluded;
-  set isExcluded(bool value) => _classDecl.isExcluded = value;
+  /// Whether this class should be included in code generation.
+  bool get isIncluded => _classDecl.isIncluded;
+  set isIncluded(bool value) => _classDecl.bindingMode =
+      value ? ast.BindingMode.full : ast.BindingMode.excluded;
 
+  /// The name of the class that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _classDecl.userDefinedName ?? _classDecl.name;
   set name(String newName) => _classDecl.userDefinedName = newName;
 
+  /// The original name of the class in Java.
   String get originalName => _classDecl.name;
 
   @override
   void accept(Visitor visitor) {
     visitor.visitClass(this);
-    if (_classDecl.isExcluded) return;
+    if (!_classDecl.isIncluded) return;
     for (final method in _classDecl.methods) {
       Method(method).accept(visitor);
     }
@@ -57,39 +123,49 @@ class ClassDecl implements Element {
   }
 }
 
-class Method implements Element {
+/// Represents a Java method declaration.
+class Method implements _Element {
   Method(this._method);
 
   final ast.Method _method;
 
-  bool get isExcluded => _method.userDefinedIsExcluded;
-  set isExcluded(bool value) => _method.userDefinedIsExcluded = value;
+  /// Whether this method should be included in code generation.
+  bool get isIncluded => _method.userDefinedIsIncluded;
+  set isIncluded(bool value) => _method.userDefinedIsIncluded = value;
 
+  /// The name of the method that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _method.userDefinedName ?? _method.name;
   set name(String newName) => _method.userDefinedName = newName;
 
+  /// The original name of the method in Java.
   String get originalName => _method.name;
 
+  /// Whether this method is a constructor.
   bool get isConstructor => _method.isConstructor;
 
   @override
   void accept(Visitor visitor) {
     visitor.visitMethod(this);
-    if (_method.userDefinedIsExcluded) return;
+    if (!_method.userDefinedIsIncluded) return;
     for (final param in _method.params) {
       Param(param).accept(visitor);
     }
   }
 }
 
-class Param implements Element {
+/// Represents a Java parameter declaration.
+class Param implements _Element {
   Param(this._param);
 
   final ast.Param _param;
 
+  /// The name of the parameter that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _param.userDefinedName ?? _param.name;
   set name(String newName) => _param.userDefinedName = newName;
 
+  /// The original name of the parameter in Java.
   String get originalName => _param.name;
 
   @override
@@ -98,17 +174,22 @@ class Param implements Element {
   }
 }
 
-class Field implements Element {
+/// Represents a Java field declaration.
+class Field implements _Element {
   Field(this._field);
 
   final ast.Field _field;
 
-  bool get isExcluded => _field.isExcluded;
-  set isExcluded(bool value) => _field.isExcluded = value;
+  /// Whether this field should be included in code generation.
+  bool get isIncluded => _field.isIncluded;
+  set isIncluded(bool value) => _field.isIncluded = value;
 
+  /// The name of the field that will appear in generated code, subject to
+  /// renaming to resolve conflicts (eg with keywords or other names).
   String get name => _field.userDefinedName ?? _field.name;
   set name(String newName) => _field.userDefinedName = newName;
 
+  /// The original name of the field in Java.
   String get originalName => _field.name;
 
   @override

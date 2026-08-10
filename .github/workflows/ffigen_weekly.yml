@@ -21,13 +21,17 @@ env:
 
 jobs:
   # Keep in sync with ffigen.yaml:test-mac
-  test-mac-arm64:
+  test-mac-x64:
     runs-on: 'macos-14-large' # x64
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
@@ -37,8 +41,6 @@ jobs:
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
           brew: clang-format
-      - name: Build test dylib and bindings
-        run: dart --enable-asserts test/setup.dart
       - name: Run VM tests
         run: dart test
       - name: Generate package:jni bindings

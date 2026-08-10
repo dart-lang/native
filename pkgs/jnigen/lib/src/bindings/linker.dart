@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../config/config.dart';
+import '../config/config_types.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
 import 'visitor.dart';
@@ -26,17 +26,11 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
 
   @override
   Future<void> visit(Classes node) async {
-    // Specify paths for this package's classes.
-    final root = config.outputConfig.dartConfig.path;
-    if (config.outputConfig.dartConfig.structure ==
-        OutputStructure.singleFile) {
-      // Connect all to the root if the output is in single file mode.
-      final path = root.toFilePath();
-      for (final decl in node.decls.values) {
-        decl.path = path;
-      }
-    } else {
-      for (final decl in node.decls.values) {
+    void assignPath(ClassDecl decl) {
+      final root = config.output.dart.path;
+      if (config.output.dart.structure == OutputStructure.singleFile) {
+        decl.path = root.toFilePath();
+      } else {
         final dollarSign = decl.binaryName.indexOf('\$');
         final className = dollarSign != -1
             ? decl.binaryName.substring(0, dollarSign)
@@ -46,15 +40,19 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
       }
     }
 
+    for (final decl in node.decls.values) {
+      assignPath(decl);
+    }
+
     // Find all the imported classes.
     await config.importClasses();
 
-    if (config.importedClasses.keys
+    final intersection = config.importedClasses.keys
         .toSet()
-        .intersection(node.decls.keys.toSet())
-        .isNotEmpty) {
+        .intersection(node.decls.keys.toSet());
+    if (intersection.isNotEmpty) {
       log.fatal(
-        'Trying to re-import the generated classes.\n'
+        'Trying to re-import the generated classes: $intersection.\n'
         'Try hiding the class(es) in import.',
       );
     }
@@ -64,9 +62,26 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
     }
 
     ClassDecl resolve(String? binaryName) {
-      return config.importedClasses[binaryName] ??
-          node.decls[binaryName] ??
-          resolve(DeclaredType.object.name);
+      if (binaryName != null) {
+        final decl =
+            config.importedClasses[binaryName] ?? node.decls[binaryName];
+        if (decl != null) return decl;
+
+        if (config.output.generateStubs) {
+          log.fine('Class $binaryName not found. Creating a stub.');
+          // Create a synthetic stub. Mark it excluded for now. StubCollector
+          // will mark it as a stub later.
+          final stub = ClassDecl(
+            declKind: DeclKind.classKind,
+            binaryName: binaryName,
+            bindingMode: BindingMode.excluded,
+          );
+          assignPath(stub);
+          node.decls[binaryName] = stub;
+          return stub;
+        }
+      }
+      return resolve(DeclaredType.object.name);
     }
 
     DeclaredType.object.classDecl = resolve(DeclaredType.object.name);
@@ -74,8 +89,16 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
       config,
       resolve,
     );
-    for (final classDecl in node.decls.values) {
-      classDecl.accept(classLinker);
+    while (true) {
+      final toLink = node.decls.values
+          .where((classDecl) => !classLinker.linked.contains(classDecl))
+          .toList();
+      if (toLink.isEmpty) {
+        break;
+      }
+      for (final classDecl in toLink) {
+        classDecl.accept(classLinker);
+      }
     }
   }
 }

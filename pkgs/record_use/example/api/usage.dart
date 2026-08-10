@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use, unreachable_from_main
+// ignore_for_file: unreachable_from_main
 
 import 'package:meta/meta.dart' show RecordUse;
 
@@ -17,8 +17,8 @@ abstract class PirateTranslator {
   @RecordUse()
   static String speak(String english) => 'Ahoy $english';
 }
-// snippet-end#static-call
 
+// snippet-end#static-call
 // snippet-start#const-instance
 @RecordUse()
 final class PirateShip {

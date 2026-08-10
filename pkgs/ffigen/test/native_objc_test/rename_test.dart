@@ -11,25 +11,11 @@ import 'package:objective_c/objective_c.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'rename_bindings.dart';
+import 'rename_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('rename_test', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('rename');
-    });
-
     test('Renamed class', () {
       final renamed = Renamed();
 
@@ -54,7 +40,7 @@ void main() {
     test('Renamed method', () {
       final renamed = Renamed();
 
-      expect(renamed.fooBarBaz(123, y: 456), 579);
+      expect(renamed.fooBarBaz(123, otherArg: 456), 579);
     });
 
     test('Renamed property', () {

@@ -9,6 +9,7 @@ import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'func.dart';
 import 'imports.dart';
+import 'local_variables.dart';
 import 'native_type.dart';
 import 'objc_block.dart';
 import 'objc_built_in_functions.dart';
@@ -36,6 +37,8 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
+    assert(method.parent == null);
+    method.parent = this;
     final oldMethod = getSimilarMethod(method);
     if (oldMethod == null) {
       _methods[method.key] = method;
@@ -43,6 +46,16 @@ mixin ObjCMethods {
     } else if (_shouldReplaceMethod(oldMethod, method)) {
       _methods[method.key] = method;
     }
+  }
+
+  void copyMethod(ObjCMethod method) {
+    // To maintain the pairing between getters and setters after cloning,
+    // instead of directly cloning the setter, we clone the setter when we clone
+    // the getter. This lets us, for example, share the symbol between them.
+    if (method.kind == ObjCMethodKind.propertySetter) return;
+    final cloned = method.clone();
+    addMethod(cloned);
+    addMethod(cloned.setter);
   }
 
   void visitMethods(Visitor visitor) {
@@ -196,6 +209,8 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
   Symbol? protocolMethodName;
+  ObjCMethods? parent;
+  ObjCMethod? setter;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -309,9 +324,50 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
       kind == ObjCMethodKind.propertySetter;
+  bool get isPropertyGetter => kind == ObjCMethodKind.propertyGetter;
+  bool get isPropertySetter => kind == ObjCMethodKind.propertySetter;
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  ObjCMethod _cloneWithSymbol(Symbol newSymbol, {ObjCMethods? parent}) {
+    final clonedMethod = ObjCMethod.withSymbol(
+      context: context,
+      originalName: originalName,
+      symbol: newSymbol,
+      protocolMethodName: originalProtocolMethodName,
+      dartDoc: dartDoc,
+      kind: kind,
+      isClassMethod: isClassMethod,
+      isOptional: isOptional,
+      returnType: returnType,
+      family: family,
+      apiAvailability: apiAvailability,
+      params: _params.map((p) => p.clone()).toList(),
+      ownershipAttribute: ownershipAttribute,
+      consumesSelfAttribute: consumesSelfAttribute,
+    );
+    clonedMethod.parent = parent;
+    clonedMethod.protocolMethodName = protocolMethodName?.clone();
+    return clonedMethod;
+  }
+
+  ObjCMethod clone({ObjCMethods? parent}) {
+    assert(kind != ObjCMethodKind.propertySetter);
+    final clonedSymbol = symbol.clone();
+    final clonedMethod = _cloneWithSymbol(clonedSymbol, parent: parent);
+    if (setter != null) {
+      assert(setter!.kind == ObjCMethodKind.propertySetter);
+      assert(setter!.symbol == symbol);
+      final clonedSetter = setter!._cloneWithSymbol(
+        clonedSymbol,
+        parent: parent,
+      );
+      clonedMethod.setter = clonedSetter;
+    }
+    return clonedMethod;
+  }
+
   ObjCMsgSendFunc fillMsgSend() {
     return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
       returnType,
@@ -446,10 +502,39 @@ class ObjCMethod extends AstNode with HasLocalScope {
     const finalizableVar = '\$finalizable';
     const errVar = '\$err';
 
-    final s = StringBuffer();
     final targetType = target.getDartType(context);
     final returnTypeStr = _getConvertedReturnType(context, targetType);
     final paramStr = _joinParamStr(context, params);
+
+    final localVars = LocalVariables(localScope);
+
+    // Evaluate targetStr and msgSendParams first to populate localVars.
+    late String targetStr;
+    if (isClassMethod) {
+      targetStr = (target as ObjCInterface).classObject!.name;
+    } else {
+      targetStr = target.convertDartTypeToFfiDartType(
+        context,
+        'object\$',
+        objCRetain: consumesSelf,
+        objCAutorelease: false,
+        localVariables: localVars,
+      );
+    }
+
+    final msgSendParams = [
+      for (final p in params)
+        p.type.convertDartTypeToFfiDartType(
+          context,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+          localVariables: localVars,
+        ),
+      if (throwNSError) errVar,
+    ];
+
+    final s = StringBuffer();
 
     // The method declaration.
     final deprecatedAnnotation = apiAvailability.deprecatedAnnotation;
@@ -458,9 +543,8 @@ class ObjCMethod extends AstNode with HasLocalScope {
       s.write('  $deprecatedAnnotation\n');
     }
     s.write('  ');
-    late String targetStr;
+
     if (isClassMethod) {
-      targetStr = (target as ObjCInterface).classObject.name;
       switch (kind) {
         case ObjCMethodKind.method:
           s.write('static $returnTypeStr $methodName($paramStr)');
@@ -473,12 +557,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
           break;
       }
     } else {
-      targetStr = target.convertDartTypeToFfiDartType(
-        context,
-        'object\$',
-        objCRetain: consumesSelf,
-        objCAutorelease: false,
-      );
       switch (kind) {
         case ObjCMethodKind.method:
           s.write('$returnTypeStr $methodName($paramStr)');
@@ -492,6 +570,9 @@ class ObjCMethod extends AstNode with HasLocalScope {
       }
     }
     s.write(' {\n');
+
+    // Emit local variable declarations.
+    s.write(localVars.generateDeclarations());
 
     // Implementation.
     final versionCheck = apiAvailability.runtimeCheck(
@@ -527,16 +608,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final convertReturn =
         kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
-    final msgSendParams = [
-      for (final p in params)
-        p.type.convertDartTypeToFfiDartType(
-          context,
-          p.name,
-          objCRetain: p.objCConsumed,
-          objCAutorelease: false,
-        ),
-      if (throwNSError) errVar,
-    ];
 
     if (msgSend!.isStret) {
       assert(!convertReturn);

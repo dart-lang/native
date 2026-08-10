@@ -1,27 +1,34 @@
-> [!CAUTION]
-> This is an experimental package. Its API and the underlying JSON format
-> **will break** as we are actively iterating. Use at your own discretion.
->
-> We are continuously changing the implementation, so a released version of the
-> package may only work with one or two [dev releases] of the Dart SDK. This
-> version will work with the first dev release _after_ `3.12.0-203.0.dev`.
+Dart API to access `@RecordUse()` recorded usages in link hooks.
 
-This package provides the data classes for the usage recording feature in the
-Dart SDK.
+During compilation, usages of declarations annotated with `@RecordUse()` in
+reachable code are recorded, and information about these usages is made available
+to post-compile steps (such as link hooks). Usages in unreachable code are not
+recorded.
 
-Dart objects with the `@RecordUse()` annotation are being recorded at compile 
-time, providing the user with information. The information depends on the object
-being recorded.
+- If placed on a statically resolved function or member (such as a top-level
+  function, static method, non-redirecting factory constructor, getter,
+  setter, operator, extension method, or extension type method), all calls
+  to or tear-offs of that member in reachable code will be recorded, along
+  with arguments passed to the call as far as they can be evaluated as
+  constant expressions at compile time. Generative constructors and
+  redirecting factory constructors cannot be annotated directly.
+- If placed on a `final class` or `enum`:
+  - For a `final class`: any constant instance of the class (including instances
+    created via `const` redirecting factory constructors), any non-const
+    generative constructor invocation, and any generative constructor tear-off
+    in reachable code will be recorded. Calls to non-const factory constructors
+    are not recorded directly by annotating the class; rather, any generative
+    constructor invocation within the factory body will be recorded.
+  - For an `enum`: any constant enum element in reachable code will be
+    recorded.
+  - The `@RecordUse()` annotation cannot be placed directly on an
+    `extension type` to record instances.
 
-- If placed on a static method, the annotation means that arguments passed to
-the method will be recorded, as far as they can be inferred at compile time.
-- If placed on a class, the annotation means that any constant instance of the
-class and any constructor invocation will be recorded.
+Only usages in executable code are recorded. Usages appearing within metadata
+(annotations) are ignored.
 
-> [!NOTE]
-> The `@RecordUse()` annotation is only allowed on definitions within a package's
-> `lib/` directory. This includes definitions that are members of a class, such
-> as static methods.
+The `@RecordUse()` annotation is only allowed on declarations within a package's
+`lib/` directory.
 
 ## Example
 
@@ -90,7 +97,7 @@ void main(List<String> arguments) {
 }
 ```
 
+For complete end-to-end examples combining link hooks (`hook/link.dart`) and `package:record_use` to tree-shake native C libraries (`LinkerOptions.treeshake`), see the [examples index](example/README.md).
+
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
-
-[dev releases]: https://dart.dev/get-dart/archive#dev-channel

@@ -39,7 +39,7 @@ void main(List<String> args) async {
   });
 }
 
-const _windowsDownloadInfo = {
+final _windowsDownloadInfo = {
   Architecture.arm64: (
     url: 'https://sqlite.org/2025/sqlite-dll-win-arm64-3500400.zip',
     sha256: 'c4f3d245377f4ee2da5c08e882ecaff376b35a609198dc399dd8cec0add1ea43',
@@ -50,7 +50,7 @@ const _windowsDownloadInfo = {
   ),
 };
 
-const _linuxPaths = {
+final _linuxPaths = {
   Architecture.arm64: <String>[],
   Architecture.x64: ['/usr/lib/x86_64-linux-gnu/libsqlite3.so'],
 };

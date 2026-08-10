@@ -12,10 +12,16 @@ import 'package:logging/logging.dart';
 
 /// Runs a [Process].
 ///
+/// [executable] must be an absolute path. Relative paths and `PATH` lookup are
+/// not supported. On Windows, [executable] must also include a file extension
+/// (for example `.exe`); `PATHEXT` lookup is not supported.
+///
+/// Supports [executable] paths and [arguments] that contain spaces. Never runs
+/// through a shell, so Windows `cmd.exe` quote-stripping does not apply.
+///
 /// If [logger] is provided, stream stdout and stderr to it.
 ///
 /// If [captureOutput], captures stdout and stderr.
-// TODO(dacoharkes): Share between package:native_toolchain_c and here.
 Future<RunProcessResult> runProcess({
   required FileSystem filesystem,
   required Uri executable,
@@ -29,14 +35,17 @@ Future<RunProcessResult> runProcess({
   bool throwOnUnexpectedExitCode = false,
   TimelineTask? task,
 }) async {
+  _validateExecutable(executable);
+
   final printWorkingDir =
       workingDirectory != null &&
       workingDirectory != filesystem.currentDirectory.uri;
+  String quoteIfSpaced(String s) => s.contains(' ') ? '"$s"' : s;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
-    executable.toFilePath(),
-    ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
+    quoteIfSpaced(executable.toFilePath()),
+    ...arguments.map(quoteIfSpaced),
     if (printWorkingDir) ')',
   ].join(' ');
   logger?.info('Running `$commandString`.');
@@ -58,9 +67,11 @@ Future<RunProcessResult> runProcess({
       workingDirectory: workingDirectory?.toFilePath(),
       environment: environment,
       includeParentEnvironment: includeParentEnvironment,
-      runInShell:
-          Platform.isWindows &&
-          (!includeParentEnvironment || workingDirectory != null),
+      // Never run through a shell. On Windows, running an executable through
+      // `cmd.exe /c` mangles the command line when more than one argument is
+      // quoted (cmd strips the outer quotes when the line contains more than
+      // two quote characters), which breaks any invocation whose executable
+      // and arguments contain spaces.
     );
 
     final stdoutSub = process.stdout.listen((List<int> data) {
@@ -113,6 +124,33 @@ Future<RunProcessResult> runProcess({
   } finally {
     task?.finish();
   }
+}
+
+void _validateExecutable(Uri executable) {
+  if (!executable.isAbsolute) {
+    throw ArgumentError.value(
+      executable,
+      'executable',
+      'Must be an absolute path. Relative paths and PATH lookup are not '
+          'supported.',
+    );
+  }
+  // Without a shell, Windows does not apply PATHEXT, so callers must pass the
+  // real file name including its extension (e.g. `dart.exe`, not `dart`).
+  if (Platform.isWindows && !_hasFileExtension(executable.toFilePath())) {
+    throw ArgumentError.value(
+      executable,
+      'executable',
+      'Must include a file extension (e.g. .exe). PATHEXT lookup is not '
+          'supported.',
+    );
+  }
+}
+
+bool _hasFileExtension(String filePath) {
+  final basename = filePath.replaceAll('\\', '/').split('/').last;
+  final dot = basename.lastIndexOf('.');
+  return dot > 0 && dot < basename.length - 1;
 }
 
 /// Drop in replacement of [ProcessResult].

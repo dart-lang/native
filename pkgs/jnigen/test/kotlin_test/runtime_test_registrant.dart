@@ -2,11 +2,52 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+import 'dart:isolate';
+
+import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
 import '../test_util/callback_types.dart';
+import '../test_util/java_gc.dart';
 import 'bindings/kotlin.dart';
+
+void _portContinuationIsolateEntry(
+    (
+      SendPort runnerPort,
+      SendPort callbackPort,
+      bool handleResult,
+      bool busyWaitBeforeExit,
+    ) args) async {
+  final (runnerPort, callbackPort, handleResult, busyWaitBeforeExit) = args;
+  final receivePort = ReceivePort();
+  // ignore: invalid_use_of_internal_member
+  final continuation = ProtectedJniExtensions.newPortContinuation(receivePort);
+  // ignore: invalid_use_of_internal_member
+  final continuationRefPtr = Jni.env.NewGlobalRef(continuation.pointer);
+  runnerPort.send(continuationRefPtr.address);
+
+  if (handleResult) {
+    final rawAddress = await receivePort.first as int;
+    // ignore: invalid_use_of_internal_member
+    final jobj = JObject.fromReference(
+      // ignore: invalid_use_of_internal_member
+      JGlobalReference(JObjectPtr.fromAddress(rawAddress)),
+    );
+    final jstr = jobj.as(JString.type, releaseOriginal: true);
+    callbackPort.send(jstr.toDartString(releaseOriginal: true));
+  } else {
+    receivePort.listen((_) {
+      callbackPort.send('continuation resumed');
+    });
+    if (busyWaitBeforeExit) {
+      final stopwatch = Stopwatch()..start();
+      while (stopwatch.elapsed.inSeconds < 10) {}
+    }
+  }
+  Isolate.current.kill();
+}
 
 void registerTests(String groupName, TestRunnerCallback test) {
   group(groupName, () {
@@ -607,5 +648,133 @@ kotlin.Unit
             consumeOnAnotherThread(itf), throwsA(isA<JThrowable>()));
       });
     });
+
+    group('PortContinuation', () {
+      test('successful flow', () async {
+        final continuationPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+        final isolate = await Isolate.spawn(
+          _portContinuationIsolateEntry,
+          (continuationPort.sendPort, callbackPort.sendPort, true, false),
+          onExit: exitPort.sendPort,
+        );
+        final continuationAddress = await continuationPort.first as int;
+        // ignore: invalid_use_of_internal_member
+        final continuation = JObject.fromReference(
+          JGlobalReference(Pointer<Void>.fromAddress(continuationAddress)),
+        );
+
+        final arg = 'testObject'.toJString();
+        final weakRef = JWeakReference(arg);
+
+        final continuationClass =
+            JClass.forName('com/github/dart_lang/jni/PortContinuation');
+        final resumeWithMethod = continuationClass.instanceMethodId(
+          'resumeWith',
+          '(Ljava/lang/Object;)V',
+        );
+
+        resumeWithMethod.call(continuation, jvoid.type, [arg]);
+        arg.release();
+        continuation.release();
+
+        final resultStr = await callbackPort.first as String;
+        expect(resultStr, 'testObject');
+
+        isolate.kill(priority: Isolate.immediate);
+        await exitPort.first;
+
+        runJavaGC();
+        expect(weakRef.isCollected, isTrue);
+        weakRef.release();
+      });
+
+      test('destroyed before result is resumed', () async {
+        final continuationPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+        await Isolate.spawn(
+          _portContinuationIsolateEntry,
+          (continuationPort.sendPort, callbackPort.sendPort, false, false),
+          onExit: exitPort.sendPort,
+        );
+        final continuationAddress = await continuationPort.first as int;
+        // ignore: invalid_use_of_internal_member
+        final continuation = JObject.fromReference(
+          JGlobalReference(Pointer<Void>.fromAddress(continuationAddress)),
+        );
+
+        // Wait for the target isolate to exit before calling resumeWith.
+        await exitPort.first;
+
+        final arg = 'testObject'.toJString();
+        final weakRef = JWeakReference(arg);
+
+        final continuationClass =
+            JClass.forName('com/github/dart_lang/jni/PortContinuation');
+        final resumeWithMethod = continuationClass.instanceMethodId(
+          'resumeWith',
+          '(Ljava/lang/Object;)V',
+        );
+
+        resumeWithMethod.call(continuation, jvoid.type, [arg]);
+        arg.release();
+        continuation.release();
+
+        expect(
+          callbackPort.first.timeout(const Duration(milliseconds: 200)),
+          throwsA(isA<TimeoutException>()),
+        );
+
+        // Arg is cleaned up even though message isn't delivered.
+        runJavaGC();
+        expect(weakRef.isCollected, isTrue);
+        weakRef.release();
+      });
+
+      test('destroyed after resuming but before handling', () async {
+        final continuationPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+        final isolate = await Isolate.spawn(
+          _portContinuationIsolateEntry,
+          (continuationPort.sendPort, callbackPort.sendPort, false, true),
+          onExit: exitPort.sendPort,
+        );
+        final continuationAddress = await continuationPort.first as int;
+        // ignore: invalid_use_of_internal_member
+        final continuation = JObject.fromReference(
+          JGlobalReference(Pointer<Void>.fromAddress(continuationAddress)),
+        );
+
+        final arg = 'testObject'.toJString();
+        final weakRef = JWeakReference(arg);
+
+        final continuationClass =
+            JClass.forName('com/github/dart_lang/jni/PortContinuation');
+        final resumeWithMethod = continuationClass.instanceMethodId(
+          'resumeWith',
+          '(Ljava/lang/Object;)V',
+        );
+
+        resumeWithMethod.call(continuation, jvoid.type, [arg]);
+        await Future<void>.delayed(const Duration(milliseconds: 200));
+        isolate.kill(priority: Isolate.immediate);
+        await exitPort.first;
+        arg.release();
+        continuation.release();
+
+        expect(
+          callbackPort.first.timeout(const Duration(milliseconds: 200)),
+          throwsA(isA<TimeoutException>()),
+        );
+
+        // Arg is cleaned up even though message isn't delivered.
+        runJavaGC();
+        expect(weakRef.isCollected, isTrue);
+        weakRef.release();
+      });
+    }, skip: !canRunJavaGC);
   });
 }

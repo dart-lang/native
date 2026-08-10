@@ -1,3 +1,37 @@
+## 1.6.2-wip
+
+- Provide the runner's logger to protocol extensions before any other method is
+  invoked, so they can emit validation diagnostics.
+- Require `dartExecutable` to be an absolute path, and on Windows to include a
+  file extension
+- Report a format error instead of throwing a `TypeError` when a hook's cached
+  `output.json` contains valid JSON that is not an object.
+- Bump `package:code_assets` dependency to `^2.0.0`.
+## 1.6.1
+
+- Support versions 3.x of `package:package_config`.
+## 1.6.0
+
+- Fix record_use path changing caching issue.
+- Fix hook invocation when the Dart executable or an argument path contains a
+  space on Windows.
+
+## 1.5.0
+
+- Add `GOPATH`, and prefix `CONAN_` to the environment variables allowlist.
+
+## 1.4.0
+
+- Add cache-isolation for recorded usages under link hooks using `RecordUseConfig`, and deprecate the legacy `resourceIdentifiers` parameters.
+- Add `APPDATA`, `LOCALAPPDATA`, and prefixes `DOTNET_` and `NUGET_` to the
+  environment variables allowlist.
+- Bumped dependency on `package:code_assets` to `^1.2.0`.
+
+## 1.3.0
+
+- Resolved caching abstraction violation by delegating generated output file identification to `ProtocolExtension.outputFiles`.
+- Bumped dependency on `package:hooks` to `^2.0.0`.
+
 ## 1.2.1
 
 - Add `PROCESSOR_ARCHITECTURE` to environment variables allowlist.
@@ -49,12 +83,12 @@
 
 * Fix caches not being invalidated on (1) user-defines changing, (2) metadata
   changing, and (3) assets sent to link hooks.
-  
+
 
 ## 0.22.0
 
 * Bump `package:hooks` to 0.20.0.
-* Enable passing metadata from link hooks of a package to the link hooks in 
+* Enable passing metadata from link hooks of a package to the link hooks in
   depending packages, by fixing the link hook execution order. This brings an
   order in which the link hooks are run - reverse to the build hook run order.
   Starting at the application link hook, then it's dependencies, and so on. This

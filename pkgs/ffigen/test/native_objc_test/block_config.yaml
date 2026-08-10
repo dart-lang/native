@@ -2,8 +2,8 @@ name: BlockTestObjCLibrary
 description: 'Tests calling Objective-C blocks.'
 language: objc
 output:
-  bindings: 'block_bindings.dart'
-  objc-bindings: 'block_bindings.m'
+  bindings: 'block_test_bindings.dart'
+  objc-bindings: 'block_test_bindings.m'
 exclude-all-by-default: true
 objc-interfaces:
   include:
@@ -31,6 +31,8 @@ functions:
   include:
     - objc_autoreleasePoolPop
     - objc_autoreleasePoolPush
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'block_test.h'

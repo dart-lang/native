@@ -4,14 +4,17 @@
 
 import 'package:collection/collection.dart';
 
+/// Performs a deep equality check on two collections or objects.
 final deepEquals = const DeepCollectionEquality().equals;
 
+/// Computes a deep hash code for a collection or object.
 final deepHash = const DeepCollectionEquality().hash;
 
 final _hashCodeCache = Expando<int>();
 final _depthCache = Expando<int>();
 final _sizeCache = Expando<int>();
 
+/// Extension providing caching for expensive structural properties.
 extension HashCodeCaching on Object {
   /// Caches the hash code of this object.
   int cacheHashCode(int Function() compute) =>

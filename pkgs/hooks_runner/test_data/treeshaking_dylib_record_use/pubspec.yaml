@@ -1,0 +1,25 @@
+name: treeshaking_dylib_record_use
+description: A test project for treeshaking native libraries using record-use.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  code_assets: any
+  hooks: any
+  logging: ^1.3.0
+  native_toolchain_c: any
+  record_use: any
+
+dev_dependencies:
+  ffigen: ^20.0.0-dev.1
+  lints: ^6.0.0
+  test: ^1.31.2-wip
+
+executables:
+  dart_app:

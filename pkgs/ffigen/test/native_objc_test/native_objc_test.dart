@@ -16,20 +16,6 @@ import 'util.dart';
 
 void main() {
   group('native_objc_test', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('native_objc');
-    });
-
     test('Basic types', () {
       final foo = Foo();
       final obj = NSObject();

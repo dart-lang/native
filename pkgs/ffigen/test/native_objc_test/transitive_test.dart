@@ -26,7 +26,7 @@ String generate({
           packagePathForTests,
           'test',
           'native_objc_test',
-          'transitive_bindings.dart',
+          'transitive_test_bindings.dart',
         ),
       ),
       format: false,
@@ -35,7 +35,7 @@ String generate({
         wrapperDocComment: 'Tests transitive inclusion',
       ),
     ),
-    headers: Headers(
+    input: Input(
       entryPoints: [
         Uri.file(
           path.join(
@@ -69,14 +69,14 @@ String generate({
       ),
     ),
   ).generate(logger: createTestLogger());
-  return File(
-    path.join(
-      packagePathForTests,
-      'test',
-      'native_objc_test',
-      'transitive_bindings.dart',
-    ),
-  ).readAsStringSync();
+  final file = path.join(
+    packagePathForTests,
+    'test',
+    'native_objc_test',
+    'transitive_test_bindings.dart',
+  );
+  expectNoAnalysisErrors(file);
+  return File(file).readAsStringSync();
 }
 
 enum Inclusion { omitted, stubbed, included }

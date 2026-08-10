@@ -125,6 +125,9 @@
         "macos": {
           "$ref": "#/definitions/MacOSCodeConfig"
         },
+        "sanitizer": {
+          "$ref": "#/definitions/Sanitizer"
+        },
         "target_architecture": {
           "$ref": "#/definitions/Architecture"
         },
@@ -236,19 +239,12 @@
       "properties": {
         "type": {
           "type": "string",
-          "anyOf": [
-            {
-              "enum": [
-                "dynamic_loading_bundle",
-                "dynamic_loading_executable",
-                "dynamic_loading_process",
-                "dynamic_loading_system",
-                "static"
-              ]
-            },
-            {
-              "type": "string"
-            }
+          "enum": [
+            "dynamic_loading_bundle",
+            "dynamic_loading_executable",
+            "dynamic_loading_process",
+            "dynamic_loading_system",
+            "static"
           ]
         }
       },
@@ -275,18 +271,11 @@
     },
     "LinkModePreference": {
       "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "dynamic",
-            "prefer_dynamic",
-            "prefer_static",
-            "static"
-          ]
-        },
-        {
-          "type": "string"
-        }
+      "enum": [
+        "dynamic",
+        "prefer_dynamic",
+        "prefer_static",
+        "static"
       ]
     },
     "MacOSCodeConfig": {
@@ -351,6 +340,21 @@
             "linux",
             "macos",
             "windows"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "Sanitizer": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "asan",
+            "msan",
+            "tsan"
           ]
         },
         {

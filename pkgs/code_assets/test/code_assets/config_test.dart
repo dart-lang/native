@@ -49,6 +49,7 @@ void main() async {
   Map<String, Object> inputJson({
     String hookType = 'build',
     OS targetOS = OS.android,
+    String? sanitizer,
   }) {
     final codeConfig = {
       'target_architecture': 'arm64',
@@ -69,6 +70,7 @@ void main() async {
       if (targetOS == OS.macOS) 'macos': {'target_version': 13},
       if (targetOS == OS.iOS)
         'ios': {'target_sdk': 'iphoneos', 'target_version': 13},
+      'sanitizer': ?sanitizer,
     };
     return {
       if (hookType == 'link')
@@ -129,6 +131,7 @@ void main() async {
   void expectCorrectCodeConfig(
     CodeConfig codeCondig, {
     OS targetOS = OS.android,
+    Sanitizer? sanitizer,
   }) {
     expect(codeCondig.targetArchitecture, Architecture.arm64);
     if (targetOS == OS.android) {
@@ -145,6 +148,7 @@ void main() async {
     expect(codeCondig.cCompiler?.compiler, fakeClang);
     expect(codeCondig.cCompiler?.linker, fakeLd);
     expect(codeCondig.cCompiler?.archiver, fakeAr);
+    expect(codeCondig.sanitizer, sanitizer);
   }
 
   test('BuildInput.config.code', () {
@@ -180,6 +184,40 @@ void main() async {
     expectCorrectCodeConfig(input.config.code);
   });
 
+  test('BuildInput.config.code throws StateError when buildCodeAssets is '
+      'false', () {
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(linkingEnabled: false);
+    final input = inputBuilder.build();
+    expect(input.config.buildCodeAssets, isFalse);
+    expect(() => input.config.code, throwsStateError);
+  });
+
+  test('LinkInput.config.code throws StateError when buildCodeAssets is '
+      'false', () {
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLink(
+        assets: assets,
+        recordedUsesFile: null,
+        assetsFromLinking: [],
+      );
+    final input = inputBuilder.build();
+    expect(input.config.buildCodeAssets, isFalse);
+    expect(() => input.config.code, throwsStateError);
+  });
+
   test('BuildInput from json ', () {
     for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
       final input = BuildInput(inputJson(targetOS: targetOS));
@@ -190,6 +228,45 @@ void main() async {
       expect(input.config.buildAssetTypes, [CodeAssetType.type]);
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
+  });
+
+  test('BuildInput with sanitizer', () {
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.android,
+          targetArchitecture: Architecture.arm64,
+          android: AndroidCodeConfig(targetNdkApi: 30),
+          linkModePreference: LinkModePreference.preferStatic,
+          sanitizer: Sanitizer.asan,
+          cCompiler: CCompilerConfig(
+            compiler: fakeClang,
+            linker: fakeLd,
+            archiver: fakeAr,
+            windows: WindowsCCompilerConfig(
+              developerCommandPrompt: DeveloperCommandPrompt(
+                script: fakeVcVars,
+                arguments: ['arg0', 'arg1'],
+              ),
+            ),
+          ),
+        ),
+      );
+    final input = inputBuilder.build();
+    expect(input.json, inputJson(sanitizer: 'asan'));
+    expectCorrectCodeConfig(input.config.code, sanitizer: Sanitizer.asan);
+  });
+
+  test('BuildInput with custom sanitizer', () {
+    final input = BuildInput(inputJson(sanitizer: 'custom_sanitizer'));
+    expect(input.config.code.sanitizer?.name, 'custom_sanitizer');
   });
 
   test('LinkInput.{code,codeAssets}', () {
@@ -248,27 +325,24 @@ void main() async {
     }
   });
 
-  test('BuildInput.config.code: invalid architecture', () {
+  test('BuildInput.config.code: custom architecture', () {
     final input = inputJson();
     traverseJson<Map<String, Object?>>(input, [
       'config',
       'extensions',
       'code_assets',
-    ])['target_architecture'] = 'invalid_architecture';
-    expect(
-      () => BuildInput(input).config.code.targetArchitecture,
-      throwsFormatException,
-    );
+    ])['target_architecture'] = 'mips';
+    expect(BuildInput(input).config.code.targetArchitecture.name, 'mips');
   });
 
-  test('LinkInput.config.code: invalid os', () {
+  test('LinkInput.config.code: custom os', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
       'config',
       'extensions',
       'code_assets',
-    ])['target_os'] = 'invalid_os';
-    expect(() => LinkInput(input).config.code.targetOS, throwsFormatException);
+    ])['target_os'] = 'ohos';
+    expect(LinkInput(input).config.code.targetOS.name, 'ohos');
   });
 
   test('LinkInput.config.code.target_os invalid type', () {

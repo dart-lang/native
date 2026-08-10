@@ -12,25 +12,11 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'category_bindings.dart';
+import 'category_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('categories', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('category');
-    });
-
     test('Category methods', () {
       final thing = Thing();
       expect(thing.add(1000, Y: 234), 1234);
@@ -93,7 +79,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'category_bindings.dart',
+          'category_test_bindings.dart',
         ),
       ).readAsStringSync();
       expect(bindings, isNot(contains('excludedExtensionMethod')));
@@ -110,7 +96,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'category_bindings.dart',
+          'category_test_bindings.dart',
         ),
       ).readAsStringSync();
 

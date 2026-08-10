@@ -10,13 +10,13 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:objective_c/objective_c.dart' hide ObjCProtocolImpl;
+import 'package:objective_c/objective_c.dart' hide ObjCProtocolImpl, getClass;
 import 'package:objective_c/src/internal.dart' show getProtocol;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'protocol_bindings.dart';
+import 'protocol_test_bindings.dart';
 import 'util.dart';
 
 typedef InstanceMethodBlock = ObjCBlock_NSString_ffiVoid_NSString_ffiDouble;
@@ -25,23 +25,7 @@ typedef VoidMethodBlock = ObjCBlock_ffiVoid_ffiVoid_Int32;
 typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
 
 void main() {
-  late ProtocolTestObjCLibrary lib;
-
   group('protocol', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      generateBindingsForCoverage('protocol');
-    });
-
     group('ObjC implementation', () {
       test('Method implementation', () {
         final protocolImpl = ObjCProtocolImpl();
@@ -406,7 +390,7 @@ void main() {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'protocol_bindings.dart',
+          'protocol_test_bindings.dart',
         ),
       ).readAsStringSync();
 
@@ -484,50 +468,57 @@ void main() {
       expect(count, 1000);
     });
 
-    (NSObject, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
-      final pool = lib.objc_autoreleasePoolPush();
+    @pragma('vm:never-inline')
+    (NSObject, ReferenceTracker) blockRefCountTestInner(Arena arena) {
+      final pool = objc_autoreleasePoolPush();
       final protocolBuilder = ObjCProtocolBuilder();
 
       final block = InstanceMethodBlock.fromFunction(
         (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString(),
       );
+      final blockTracker = ReferenceTracker(arena);
+      blockTracker.trackBlock(block);
+
       MyProtocol$Builder.instanceMethod_withDouble_.implementWithBlock(
         protocolBuilder,
         block,
       );
       final protocol = protocolBuilder.build();
-      lib.objc_autoreleasePoolPop(pool);
-
-      final blockPtr = block.ref.pointer;
+      objc_autoreleasePoolPop(pool);
 
       // There are 2 references to the block. One owned by the Dart wrapper
       // object, and the other owned by the protocol.
       doGC();
-      expect(blockRetainCount(blockPtr), 2);
+      expect(blockTracker.isAlive, true);
 
-      return (protocol, blockPtr);
+      return (protocol, blockTracker);
     }
 
-    Pointer<ObjCBlockImpl> blockRefCountTest() {
-      final (protocol, blockPtr) = blockRefCountTestInner();
+    @pragma('vm:never-inline')
+    ReferenceTracker blockRefCountTest(Arena arena) {
+      final (protocol, blockTracker) = blockRefCountTestInner(arena);
 
-      // The Dart side block pointer has gone out of scope, but the protocol
+      // The Dart side block wrapper has gone out of scope, but the protocol
       // still owns a reference to it.
       doGC();
-      expect(blockRetainCount(blockPtr), 1);
+      expect(blockTracker.isAlive, true);
 
       expect(protocol, isNotNull); // Force protocol to stay in scope.
 
-      return blockPtr;
+      return blockTracker;
     }
 
-    test('Block ref counting', () {
-      final blockPtr = blockRefCountTest();
+    test('Block ref counting', () async {
+      await using((arena) async {
+        final blockTracker = blockRefCountTest(arena);
 
-      // The protocol object has gone out of scope, so it should be cleaned up.
-      // So should the block.
-      doGC();
-      expect(blockRetainCount(blockPtr), 0);
+        // The protocol object has gone out of scope, so it should be cleaned up.
+        // So should the block.
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(blockTracker.isAlive, false);
+      });
     }, skip: !canDoGC);
 
     test('keepIsolateAlive', () async {
@@ -599,23 +590,24 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, builder first', () {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(
         debugName: 'Foo',
       );
 
       NSObject? protocol = protocolBuilder.build();
-      final clazz = lib.getClass(protocol);
+      final clazz = getClass(protocol);
       expect(
-        lib.getClassName(clazz).cast<Utf8>().toDartString(),
+        getClassName(clazz).cast<Utf8>().toDartString(),
         startsWith('Foo'),
       );
       expect(isValidClass(clazz), isTrue);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();
       expect(isValidClass(clazz), isTrue);
+      expect(protocol, isNotNull);
 
       protocol = null;
       doGC();
@@ -623,23 +615,24 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, instance first', () {
-      final pool = lib.objc_autoreleasePoolPush();
+      final pool = objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(
         debugName: 'Foo',
       );
 
       NSObject? protocol = protocolBuilder.build();
-      final clazz = lib.getClass(protocol);
+      final clazz = getClass(protocol);
       expect(
-        lib.getClassName(clazz).cast<Utf8>().toDartString(),
+        getClassName(clazz).cast<Utf8>().toDartString(),
         startsWith('Foo'),
       );
       expect(isValidClass(clazz), isTrue);
-      lib.objc_autoreleasePoolPop(pool);
+      objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();
       expect(isValidClass(clazz), isTrue);
+      expect(protocol, isNotNull);
 
       protocol = null;
       doGC();
@@ -682,5 +675,291 @@ void main() {
       );
       expect(result.toDartString(), 'ObjCProtocolImpl: abc: 123.00');
     });
+
+    group('Isolate destruction callbacks', () {
+      test('Listener - successful callback flow', () async {
+        final protoPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        final targetIsolate = await Isolate.spawn(_protocolTargetIsolateEntry, (
+          protoPort.sendPort,
+          callbackPort.sendPort,
+          true,
+          true,
+          false,
+        ), onExit: exitPort.sendPort);
+
+        final proto = await protoPort.first as NSObject;
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          NSObject? arg = NSObject();
+          tracker.track(arg);
+          expect(tracker.isAlive, isTrue);
+
+          final myProto = MyProtocol.as(proto);
+          myProto.objectMethod(arg);
+
+          final callbackResult = await callbackPort.first;
+          expect(callbackResult, 'callback_executed');
+
+          targetIsolate.kill(priority: Isolate.immediate);
+          await exitPort.first;
+
+          arg = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Listener - target isolate destroyed before invocation', () async {
+        final protoPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        final targetIsolate = await Isolate.spawn(_protocolTargetIsolateEntry, (
+          protoPort.sendPort,
+          callbackPort.sendPort,
+          true,
+          false,
+          false,
+        ), onExit: exitPort.sendPort);
+
+        final proto = await protoPort.first as NSObject;
+        targetIsolate.kill(priority: Isolate.immediate);
+        await exitPort.first;
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          NSObject? arg = NSObject();
+          tracker.track(arg);
+          expect(tracker.isAlive, isTrue);
+
+          final myProto = MyProtocol.as(proto);
+          myProto.objectMethod(arg);
+
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          arg = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Listener - target isolate destroyed after invocation'
+          ' but before handling', () async {
+        final protoPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        final targetIsolate = await Isolate.spawn(_protocolTargetIsolateEntry, (
+          protoPort.sendPort,
+          callbackPort.sendPort,
+          true,
+          false,
+          true,
+        ), onExit: exitPort.sendPort);
+
+        final proto = await protoPort.first as NSObject;
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          NSObject? arg = NSObject();
+          tracker.track(arg);
+          expect(tracker.isAlive, isTrue);
+
+          final myProto = MyProtocol.as(proto);
+          myProto.objectMethod(arg);
+
+          targetIsolate.kill(priority: Isolate.immediate);
+          await exitPort.first;
+
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          arg = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Blocking - successful callback flow', () async {
+        final protoPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        final targetIsolate = await Isolate.spawn(_protocolTargetIsolateEntry, (
+          protoPort.sendPort,
+          callbackPort.sendPort,
+          false,
+          true,
+          false,
+        ), onExit: exitPort.sendPort);
+
+        final proto = await protoPort.first as NSObject;
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          NSObject? arg = NSObject();
+          tracker.track(arg);
+          expect(tracker.isAlive, isTrue);
+
+          final myProto = MyProtocol.as(proto);
+          myProto.objectMethod(arg);
+
+          final callbackResult = await callbackPort.first;
+          expect(callbackResult, 'callback_executed');
+
+          targetIsolate.kill(priority: Isolate.immediate);
+          await exitPort.first;
+
+          arg = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Blocking - target isolate destroyed before invocation', () async {
+        final protoPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        final targetIsolate = await Isolate.spawn(_protocolTargetIsolateEntry, (
+          protoPort.sendPort,
+          callbackPort.sendPort,
+          false,
+          false,
+          false,
+        ), onExit: exitPort.sendPort);
+
+        final proto = await protoPort.first as NSObject;
+        targetIsolate.kill(priority: Isolate.immediate);
+        await exitPort.first;
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          NSObject? arg = NSObject();
+          tracker.track(arg);
+          expect(tracker.isAlive, isTrue);
+
+          final myProto = MyProtocol.as(proto);
+          myProto.objectMethod(arg);
+
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          arg = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+
+      test('Blocking - target isolate destroyed after invocation'
+          ' but before handling', () async {
+        final protoPort = ReceivePort();
+        final callbackPort = ReceivePort();
+        final exitPort = ReceivePort();
+
+        final targetIsolate = await Isolate.spawn(_protocolTargetIsolateEntry, (
+          protoPort.sendPort,
+          callbackPort.sendPort,
+          false,
+          false,
+          true,
+        ), onExit: exitPort.sendPort);
+
+        final proto = await protoPort.first as NSObject;
+
+        // Spawn a killer isolate to kill the target isolate after 200ms.
+        await Isolate.spawn((args) async {
+          final (targetIsolate, exitPort) = args;
+          await Future<void>.delayed(const Duration(milliseconds: 200));
+          targetIsolate.kill(priority: Isolate.immediate);
+        }, (targetIsolate, exitPort.sendPort));
+
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          NSObject? arg = NSObject();
+          tracker.track(arg);
+          expect(tracker.isAlive, isTrue);
+
+          final myProto = MyProtocol.as(proto);
+          myProto.objectMethod(arg);
+
+          await exitPort.first;
+
+          expect(
+            callbackPort.first.timeout(const Duration(milliseconds: 200)),
+            throwsA(isA<TimeoutException>()),
+          );
+
+          arg = null;
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
+      });
+    }, skip: !canDoGC);
   });
+}
+
+void _protocolTargetIsolateEntry(
+  (
+    SendPort protoPort,
+    SendPort callbackPort,
+    bool isListener,
+    bool sleepBeforeExit,
+    bool busyWaitBeforeExit,
+  )
+  args,
+) async {
+  final (
+    protoPort,
+    callbackPort,
+    isListener,
+    sleepBeforeExit,
+    busyWaitBeforeExit,
+  ) = args;
+
+  final builder = ObjCProtocolBuilder();
+  if (isListener) {
+    MyProtocol$Builder.objectMethod_.implementAsListener(builder, (
+      NSObject obj,
+    ) {
+      callbackPort.send('callback_executed');
+    });
+  } else {
+    MyProtocol$Builder.objectMethod_.implementAsBlocking(builder, (
+      NSObject obj,
+    ) {
+      callbackPort.send('callback_executed');
+    });
+  }
+
+  MyProtocol$Builder.instanceMethod_withDouble_.implement(builder, (
+    NSString s,
+    double x,
+  ) {
+    return 'unused'.toNSString();
+  });
+
+  final proto = builder.build();
+  protoPort.send(proto);
+
+  if (sleepBeforeExit) {
+    await Future<void>.delayed(const Duration(seconds: 10));
+  } else if (busyWaitBeforeExit) {
+    final stopwatch = Stopwatch()..start();
+    while (stopwatch.elapsed.inSeconds < 10) {
+      // Wait 10 seconds, but don't use Future.delayed. We specifically don't
+      // want to allow messages to arrive while we're waiting.
+    }
+  }
 }

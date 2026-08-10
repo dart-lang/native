@@ -1,3 +1,9 @@
+## 0.1.3
+
+- Bump ffigen, objective_c, and swift2objc versions.
+- Fix omitted delegation of `target` property from `SwiftGenerator` to `Swift2ObjCGenerator`.
+- Support versions 3.x of `package:package_config`.
+
 ## 0.1.2
 
 - Fix ffigen dependency version.

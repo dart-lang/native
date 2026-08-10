@@ -139,5 +139,6 @@ const objCBuiltInCategories = {
   'NSExtendedSet',
   'NSNumberCreation',
   'NSNumberIsFloat',
+  'NSNumberIsBool',
   'NSStringExtensionMethods',
 };

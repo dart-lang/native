@@ -59,7 +59,7 @@ Future<void> main() async {
     final treeshakeOption = LinkerOptions.treeshake(
       symbolsToKeep: ['my_other_func'],
     );
-    final symbols = await _link(
+    final asset = await _link(
       staticLib,
       treeshakeOption,
       linkInput,
@@ -67,11 +67,12 @@ Future<void> main() async {
       targetArchitecture,
       targetOS,
     );
-    final skipReason = symbols == null
-        ? 'tool to extract symbols unavailable'
-        : false;
-    expect(symbols, contains('my_other_func'), skip: skipReason);
-    expect(symbols, isNot(contains('my_func')), skip: skipReason);
+    await expectSymbols(
+      asset: asset,
+      targetOS: targetOS,
+      symbols: ['my_other_func'],
+      symbolsNotToContain: ['my_func'],
+    );
   });
 
   test('link rust binary without script keeps symbols', () async {
@@ -83,7 +84,7 @@ Future<void> main() async {
       stripDebug: true,
       gcSections: true,
     );
-    final symbols = await _link(
+    final asset = await _link(
       staticLib,
       manualOption,
       linkInput,
@@ -91,15 +92,15 @@ Future<void> main() async {
       targetArchitecture,
       targetOS,
     );
-    final skipReason = symbols == null
-        ? 'tool to extract symbols unavailable'
-        : false;
-    expect(symbols, contains('my_other_func'), skip: skipReason);
-    expect(symbols, contains('my_func'), skip: skipReason);
+    await expectSymbols(
+      asset: asset,
+      targetOS: targetOS,
+      symbols: ['my_other_func', 'my_func'],
+    );
   });
 }
 
-Future<String?> _link(
+Future<CodeAsset> _link(
   Uri staticLib,
   LinkerOptions manualOption,
   LinkInput linkInput,
@@ -119,5 +120,5 @@ Future<String?> _link(
 
   await expectMachineArchitecture(asset.file!, targetArchitecture, targetOS);
 
-  return await readSymbols(asset, targetOS);
+  return asset;
 }

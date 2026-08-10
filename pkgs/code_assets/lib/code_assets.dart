@@ -104,4 +104,5 @@ export 'src/code_assets/link_mode.dart'
         StaticLinking;
 export 'src/code_assets/link_mode_preference.dart' show LinkModePreference;
 export 'src/code_assets/os.dart' show OS;
+export 'src/code_assets/sanitizer.dart' show Sanitizer;
 export 'src/code_assets/testing.dart' show testCodeBuildHook;

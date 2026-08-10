@@ -66,7 +66,7 @@ abstract class CTool {
 
   /// Frameworks to link.
   ///
-  /// Only effective if [language] is [Language.objectiveC].
+  /// Only effective when targeting macOS or iOS.
   ///
   /// Defaults to `['Foundation']`.
   ///

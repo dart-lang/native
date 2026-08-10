@@ -13,7 +13,7 @@ import 'android_utils.g.dart';
 
 JObject context = androidApplicationContext;
 
-final hashmap = HashMap<JString, JString>();
+final hashmap = JHashMap<JString, JString>();
 
 final emojiCompat = EmojiCompat.get();
 
@@ -34,20 +34,21 @@ void showToast() {
   );
   final newToastCount = (int.parse(toastCount!.toDartString()) + 1).toJString();
   hashmap.put("toastCount".toJString(), newToastCount);
-  final emoji = emojiCompat.hasEmojiGlyph(sunglassEmoji.toJString())
-      ? sunglassEmoji
-      : ':cool:';
+  final emoji =
+      emojiCompat.hasEmojiGlyph(sunglassEmoji.toJString().as(CharSequence.type))
+          ? sunglassEmoji
+          : ':cool:';
   final message =
       '${newToastCount.toDartString()} - ${Build.MODEL!.toDartString()} $emoji';
   AndroidUtils.showToast(
-    androidActivity(PlatformDispatcher.instance.engineId!),
-    message.toJString(),
+    androidActivity(PlatformDispatcher.instance.engineId!)?.as(Activity.type),
+    message.toJString().as(CharSequence.type),
     0,
   );
 }
 
 void main() {
-  EmojiCompat.init(context);
+  EmojiCompat.init(context.as(Context.type));
   runApp(const MyApp());
 }
 

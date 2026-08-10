@@ -29,7 +29,8 @@ by the *Objective-C* runtime type. In fact, the Dart runtime type is
 completely irrelevant when doing Objective-C interop. Moreover, the
 Dart wrapper around the Objective-C object is an [extension type](
 https://dart.dev/language/extension-types#type-considerations),
-which means the Dart runtime type will always be [`ObjCObject`](
+which means the Dart runtime type (aka representation type) will always be
+[`ObjCObject`](
 https://pub.dev/documentation/objective_c/latest/objective_c/ObjCObject-class.html).
 
 Dart's `is` keyword checks the Dart runtime type. You shouldn't use

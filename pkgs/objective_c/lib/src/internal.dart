@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
@@ -15,6 +16,7 @@ import 'runtime_bindings_generated.dart' as r;
 typedef ObjectPtr = Pointer<r.ObjCObjectImpl>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
 typedef VoidPtr = Pointer<Void>;
+typedef ContextPtr = Pointer<c.DOBJC_Context>;
 
 final class UseAfterReleaseError extends StateError {
   UseAfterReleaseError() : super('Use after release error');
@@ -122,12 +124,35 @@ Pointer<r.ObjCSelector> registerName(String name) {
   return sel;
 }
 
-/// Only for use by FFIgen bindings.
-ObjectPtr getClass(String name) {
+Pointer<T> _getClassOrProto<T extends NativeType>(
+  String name,
+  Pointer<T> Function()? loader,
+  Pointer<T> Function(Pointer<Char>) fallback,
+) {
   _ensureDartAPI();
+
+  if (loader != null) {
+    try {
+      final p = loader();
+      if (p != nullptr) {
+        return p;
+      }
+      // ignore: avoid_catching_errors
+    } on ArgumentError {
+      // The class is not in the user's dylib. This means the class is probably
+      // part of a built-in framework. Try to load it by name instead.
+    }
+  }
+
   final cstr = name.toNativeUtf8();
-  final clazz = r.getClass(cstr.cast());
+  final p = fallback(cstr.cast());
   calloc.free(cstr);
+  return p;
+}
+
+/// Only for use by FFIgen bindings.
+ObjectPtr getClass(String name, [ObjectPtr Function()? loader]) {
+  final clazz = _getClassOrProto(name, loader, r.getClass);
   if (clazz == nullptr) {
     throw FailedToLoadClassException(name);
   }
@@ -135,15 +160,15 @@ ObjectPtr getClass(String name) {
 }
 
 /// Only for use by ffigen bindings.
-Pointer<r.ObjCProtocolImpl> getProtocol(String name) {
-  _ensureDartAPI();
-  final cstr = name.toNativeUtf8();
-  final clazz = r.getProtocol(cstr.cast());
-  calloc.free(cstr);
-  if (clazz == nullptr) {
+Pointer<r.ObjCProtocolImpl> getProtocol(
+  String name, [
+  Pointer<r.ObjCProtocolImpl> Function()? loader,
+]) {
+  final protocol = _getClassOrProto(name, loader, r.getProtocol);
+  if (protocol == nullptr) {
     throw FailedToLoadProtocolException(name);
   }
-  return clazz;
+  return protocol;
 }
 
 /// Only for use by FFIgen bindings.
@@ -382,6 +407,78 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
+typedef BlockCallback = Void Function(ObjectPtr);
+typedef BlockCallbackPointer = Pointer<NativeFunction<BlockCallback>>;
+
+/// Only for use by FFIgen bindings.
+BlockPtr newBlockPort(
+  BlockPtr Function(int, ContextPtr) maker,
+  void Function(ObjectPtr) callback,
+  bool keepIsolateAlive,
+) {
+  _ensureDartAPI();
+  final zone = Zone.current;
+  final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
+  port.handler = (int? argsRaw) {
+    if (argsRaw == null) {
+      port.close();
+      port.handler = null;
+      return;
+    }
+    final argsPtr = ObjectPtr.fromAddress(argsRaw);
+    final pool = r.autoreleasePoolPush();
+    try {
+      zone.runGuarded(() => callback(argsPtr));
+    } finally {
+      r.autoreleasePoolPop(pool);
+      r.objectRelease(argsPtr);
+    }
+  };
+  final nativePort = port.sendPort.nativePort;
+  final blkPtr = maker(nativePort, objCContext);
+  c.attachPortBlockFinalizer(blkPtr.cast(), nativePort);
+  return blkPtr;
+}
+
+/// Only for use by FFIgen bindings.
+BlockPtr newBlockingBlockPort(
+  BlockPtr Function(int, ContextPtr, BlockCallbackPointer) maker,
+  void Function(ObjectPtr) callback,
+  bool keepIsolateAlive,
+) {
+  _ensureDartAPI();
+  final zone = Zone.current;
+  void runCallback(ObjectPtr argsPtr) {
+    final pool = r.autoreleasePoolPush();
+    try {
+      zone.runGuarded(() => callback(argsPtr));
+    } finally {
+      r.autoreleasePoolPop(pool);
+      r.objectRelease(argsPtr);
+    }
+  }
+
+  final direct = NativeCallable<BlockCallback>.isolateLocal(runCallback)
+    ..keepIsolateAlive = false;
+  final port = RawReceivePort()..keepIsolateAlive = keepIsolateAlive;
+  port.handler = (List<dynamic>? argsRaw) {
+    if (argsRaw == null) {
+      port.close();
+      direct.close();
+      return;
+    }
+    try {
+      runCallback(ObjectPtr.fromAddress(argsRaw[0] as int));
+    } finally {
+      c.signalWaiter(VoidPtr.fromAddress(argsRaw[1] as int));
+    }
+  };
+  final nativePort = port.sendPort.nativePort;
+  final blkPtr = maker(nativePort, objCContext, direct.nativeFunction);
+  c.attachPortBlockFinalizer(blkPtr.cast(), nativePort);
+  return blkPtr;
+}
+
 /// Only for use by FFIgen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
@@ -483,9 +580,7 @@ Function getBlockClosure(BlockPtr block) {
 }
 
 /// Only for use by FFIgen bindings.
-final Pointer<c.DOBJC_Context> objCContext = c.fillContext(
-  calloc<c.DOBJC_Context>(),
-);
+final ContextPtr objCContext = c.createContext();
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>

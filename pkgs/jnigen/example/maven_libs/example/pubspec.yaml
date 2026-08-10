@@ -12,6 +12,11 @@ dependencies:
   maven_libs:
     path: ../
   cupertino_icons: ^1.0.8
+dependency_overrides:
+  jni:
+    path: ../../../../jni
+  jni_util:
+    path: ../../../../jni_util
 
 dev_dependencies:
   integration_test:

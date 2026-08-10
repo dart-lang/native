@@ -102,6 +102,12 @@ void main() {
     Parameter makeParam(String name, Type type) =>
         Parameter(name: name, type: type, objCConsumed: false);
 
+    ObjCMethod getMethod(ObjCMethods container, String originalName) {
+      return container.methods
+          .where((m) => m.originalName == originalName)
+          .single;
+    }
+
     test('simple method inheritance', () {
       final ordinaryMethod = makeMethod('m1', voidType, []);
       final staticMethod = makeMethod('m2', voidType, [], isClassMethod: true);
@@ -119,9 +125,14 @@ void main() {
       expect(bindings, contains(parent));
       expect(bindings, contains(child));
 
-      expect(child.methods, isNot(contains(ordinaryMethod)));
-      expect(child.methods, contains(staticMethod));
-      expect(child.methods, contains(instanceTypeMethod));
+      expect(child.methods.map((m) => m.originalName), isNot(contains('m1')));
+      expect(child.methods.map((m) => m.originalName), contains('m2'));
+      expect(child.methods.map((m) => m.originalName), contains('m3'));
+
+      expect(staticMethod.parent, parent);
+      expect(getMethod(child, 'm2').parent, child);
+      expect(instanceTypeMethod.parent, parent);
+      expect(getMethod(child, 'm3').parent, child);
     });
 
     test('inherited method renaming', () {
@@ -157,11 +168,15 @@ void main() {
       expect(bindings, contains(childA));
       expect(bindings, contains(childB));
 
-      expect(childA.methods, contains(parentMethod));
+      expect(childA.methods.map((m) => m.originalName), contains('method'));
       expect(childA.methods, contains(childAMethod));
-      expect(childB.methods, contains(parentMethod));
+      expect(childB.methods.map((m) => m.originalName), contains('method'));
       expect(childB.methods, contains(childBMethod));
       expect(childB.methods, contains(childBOtherMethod));
+
+      expect(parentMethod.parent, parent);
+      expect(getMethod(childA, 'method').parent, childA);
+      expect(getMethod(childB, 'method').parent, childB);
 
       // Methods are renamed to avoid collisions between supertypes and subtypes
       // but not between two subtypes.
@@ -195,11 +210,20 @@ void main() {
       expect(bindings, contains(child));
       expect(bindings, contains(category));
 
-      expect(child.methods, contains(parentMethod));
+      expect(child.methods.map((m) => m.originalName), contains('method'));
       expect(child.methods, contains(childMethod));
-      expect(child.methods, isNot(contains(categoryMethod)));
+      expect(
+        child.methods.map((m) => m.originalName),
+        isNot(contains('method:b:')),
+      );
       expect(category.methods, contains(categoryMethod));
-      expect(category.methods, isNot(contains(childMethod)));
+      expect(
+        category.methods.map((m) => m.originalName),
+        isNot(contains('method:')),
+      );
+
+      expect(parentMethod.parent, parent);
+      expect(getMethod(child, 'method').parent, child);
 
       // Category methods are renamed to avoid collisions with the methods of
       // the interface they extend.
@@ -225,8 +249,12 @@ void main() {
       expect(bindings, contains(child));
       expect(bindings, contains(grandChild));
 
-      expect(child.methods, contains(instanceTypeMethod));
-      expect(grandChild.methods, contains(instanceTypeMethod));
+      expect(child.methods.map((m) => m.originalName), contains('m1'));
+      expect(grandChild.methods.map((m) => m.originalName), contains('m1'));
+
+      expect(instanceTypeMethod.parent, parent);
+      expect(getMethod(child, 'm1').parent, child);
+      expect(getMethod(grandChild, 'm1').parent, grandChild);
     });
   });
 }

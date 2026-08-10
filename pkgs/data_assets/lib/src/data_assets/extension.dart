@@ -9,7 +9,7 @@ import 'validation.dart';
 
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
 /// with [DataAsset]s.
-final class DataAssetsExtension implements ProtocolExtension {
+final class DataAssetsExtension extends ProtocolExtension {
   DataAssetsExtension();
 
   @override
@@ -50,4 +50,13 @@ final class DataAssetsExtension implements ProtocolExtension {
   Future<ValidationErrors> validateApplicationAssets(
     List<EncodedAsset> assets,
   ) async => [];
+
+  @override
+  Iterable<Uri> outputFiles(List<EncodedAsset> assets) sync* {
+    for (final encodedAsset in assets) {
+      if (encodedAsset.isDataAsset) {
+        yield encodedAsset.asDataAsset.file;
+      }
+    }
+  }
 }

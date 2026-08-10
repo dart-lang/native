@@ -1,3 +1,28 @@
+## 2.2.0-wip
+
+- Add `ProtocolExtension.setupLogger`, which the hooks runner calls to provide
+  the logger used for validation diagnostics before any other method is invoked
+  on the extension.
+- Fix `HookInputUserDefines.path` mangling absolute Windows paths: the drive
+  letter was parsed as a URI scheme. Absolute paths are now returned as-is;
+  relative paths are resolved against the source of the path.
+
+## 2.1.0
+
+- Graduate `LinkInput.recordedUses` out of experimental.
+
+## 2.0.2
+
+- Update documentation for user-defines.
+
+## 2.0.1
+
+- Updated documentation for hook caching behavior and semi-hermetic environment variables.
+
+## 2.0.0
+
+- **Breaking change**: Turned `ProtocolExtension` into a base class instead of an interface, with default implementations for all methods including the newly added `outputFiles`.
+
 ## 1.0.3
 
 - Deprecated `recordedUsagesFile` in `LinkInput`.

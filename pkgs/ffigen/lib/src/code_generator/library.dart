@@ -36,10 +36,8 @@ class Library {
     generateForPackageObjectiveC:
         // ignore: deprecated_member_use_from_same_package
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
-    // ignore: deprecated_member_use_from_same_package
-    libraryImports: context.config.libraryImports,
     silenceEnumWarning: context.config.enums.silenceWarning,
-    nativeEntryPoints: context.config.headers.entryPoints
+    nativeEntryPoints: context.config.input.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
     context: context,
@@ -50,7 +48,6 @@ class Library {
     required List<Binding> bindings,
     String? header,
     bool generateForPackageObjectiveC = false,
-    List<LibraryImport> libraryImports = const <LibraryImport>[],
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
     required Context context,
@@ -74,6 +71,12 @@ class Library {
       (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
     }
     final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
+    final hasNoLookupNativeHelper = noLookUpBindings.any(
+      (b) => b.hasNativeHelperFunctions,
+    );
+    if (hasNoLookupNativeHelper) {
+      nativeAssetId = outputStyleAssetId;
+    }
 
     final writer = Writer(
       lookUpBindings: lookupBindings,
@@ -82,7 +85,6 @@ class Library {
       noLookUpBindings: noLookUpBindings,
       classDocComment: description,
       header: header,
-      additionalImports: libraryImports.map(context.libs.canonicalize).toList(),
       generateForPackageObjectiveC: generateForPackageObjectiveC,
       silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
@@ -128,6 +130,24 @@ class Library {
 
     if (!file.existsSync()) file.createSync(recursive: true);
     file.writeAsStringSync(objCString);
+    return true;
+  }
+
+  /// Generates [file] with the Cpp glue code needed for the bindings, if any.
+  ///
+  /// Returns whether bindings were generated.
+  bool generateCppFile(File file) {
+    final cppString = writer.generateCpp(file.path);
+
+    if (cppString == null) {
+      // No C++ glue needed. If there's already a file (eg from an earlier
+      // run), delete it so it's not accidentally included in the build.
+      if (file.existsSync()) file.deleteSync();
+      return false;
+    }
+
+    if (!file.existsSync()) file.createSync(recursive: true);
+    file.writeAsStringSync(cppString);
     return true;
   }
 

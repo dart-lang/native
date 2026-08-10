@@ -19,6 +19,7 @@ import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/create_scopes.dart';
+import '../visitor/default_param_names.dart';
 import '../visitor/fill_method_dependencies.dart';
 import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';
@@ -48,7 +49,7 @@ List<Binding> parseToBindings(Context context) {
   final config = context.config;
 
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
-  final compilerOpts = <String>[
+  final compilerOpts = overrideCompilerOpts(<String>[
     // Add compiler opt for comment parsing for clang based on config.
     if (config.output.commentType.length != CommentLength.none &&
         config.output.commentType.style == CommentStyle.any)
@@ -62,7 +63,7 @@ List<Binding> parseToBindings(Context context) {
 
     // Add the user options last so they can override any other options.
     ...context.compilerOpts,
-  ];
+  ]);
 
   context.logger.fine('CompilerOpts used: $compilerOpts');
   clangCmdArgs = createDynamicStringArray(compilerOpts);
@@ -72,12 +73,12 @@ List<Binding> parseToBindings(Context context) {
   final bindings = <Binding>{};
 
   // Log all headers for user.
-  context.logger.info('Input Headers: ${config.headers.entryPoints}');
+  context.logger.info('Input Headers: ${config.input.entryPoints}');
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
-  for (final headerLocationUri in config.headers.entryPoints) {
+  for (final headerLocationUri in config.input.entryPoints) {
     final headerLocation = headerLocationUri.toFilePath();
     context.logger.fine('Creating TranslationUnit for header: $headerLocation');
 
@@ -114,7 +115,7 @@ List<Binding> parseToBindings(Context context) {
       'The compiler found warnings/errors in source files.',
     );
     context.logger.warning('This will likely generate invalid bindings.');
-    if (config.headers.ignoreSourceErrors) {
+    if (config.input.ignoreSourceErrors) {
       context.logger.warning(
         'Ignored source errors. (User supplied --ignore-source-errors)',
       );
@@ -167,6 +168,11 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
+  final nodes = rawBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
+  for (final visitor in config.visitors) {
+    visitor.visitAll(nodes);
+  }
+
   final allBindings = visit(
     context,
     FindTransitiveDepsVisitation(),
@@ -176,7 +182,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
-  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
+  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
   visit(context, applyConfigFiltersVisitation, allBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
   final included = directlyIncluded.union(
@@ -218,6 +224,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+  visit(context, DefaultParameterNamesVisitation(), finalBindings);
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
@@ -242,6 +249,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
       }
     }
   }
+
+  // Check that all ObjCMethods have their parent set correctly.
+  assert(
+    finalBindingsList.whereType<ObjCMethods>().every(
+      (b) => b.methods.every((m) => m.parent == b),
+    ),
+  );
 
   return finalBindingsList;
 }

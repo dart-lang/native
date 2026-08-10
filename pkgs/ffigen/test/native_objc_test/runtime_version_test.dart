@@ -12,25 +12,11 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'runtime_version_bindings.dart';
+import 'runtime_version_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('runtime version check', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('runtime_version');
-    });
-
     test('Interface', () {
       expect(() => FutureAPIInterface(), throwsA(isA<OsVersionError>()));
     });

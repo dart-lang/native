@@ -4,12 +4,17 @@
 
 import 'dart:io';
 
+import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
-import 'package:jnigen/src/util/find_package.dart';
+import 'package:jnigen/src/util/dart_executable.dart';
+import 'package:jnigen/src/util/find_package.dart' hide findPackageRoot;
 import 'package:logging/logging.dart' show Level;
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
+
+final pkgDir = findPackageRoot('jnigen').toFilePath();
 
 final _currentDirectory = Directory('.');
 
@@ -30,8 +35,11 @@ Future<bool> isEmptyOrNotExistDir(String path) async {
 /// Runs command, and prints output only if the exit status is non-zero.
 Future<int> runCommandReturningStatus(String exec, List<String> args,
     {String? workingDirectory, bool runInShell = false}) async {
-  final proc = await Process.run(exec, args,
-      workingDirectory: workingDirectory, runInShell: runInShell);
+  final resolvedExec = jni_util.resolveJavaExecutable(exec);
+  final proc = await Process.run(resolvedExec, args,
+      workingDirectory: workingDirectory,
+      runInShell: runInShell,
+      environment: jni_util.javaEnvironment);
   if (proc.exitCode != 0) {
     printError('command exited with exit status ${proc.exitCode}:\n'
         '$exec ${args.join(" ")}\n');
@@ -85,26 +93,23 @@ void comparePaths(String path1, String path2) {
   ];
   final diffProc = Process.runSync('git', [...diffCommand, path1, path2]);
   if (diffProc.exitCode != 0) {
-    final originalDiff = diffProc.stdout;
     log.warning(
         'Paths $path1 and $path2 differ, Running dart format on $path1.');
-    Process.runSync('dart', ['format', path1]);
+    Process.runSync(dartExecutable, ['format', path1]);
     final fallbackDiffProc =
         Process.runSync('git', [...diffCommand, path1, path2]);
     if (fallbackDiffProc.exitCode != 0) {
-      stderr.writeln(originalDiff);
-      throw Exception('Paths $path1 and $path2 differ');
+      fail('Paths $path1 and $path2 differ:\n\n${fallbackDiffProc.stdout}');
     }
   }
 }
 
 Future<void> _generateTempBindings(Config config, Directory tempDir) async {
-  final singleFile =
-      config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+  final singleFile = config.output.dart.structure == OutputStructure.singleFile;
   final tempLib = singleFile
       ? tempDir.uri.resolve('generated.dart')
       : tempDir.uri.resolve('lib/');
-  config.outputConfig.dartConfig.path = tempLib;
+  config.output.dart.path = tempLib;
   config.logLevel = Level.WARNING;
   await generateJniBindings(config);
 }
@@ -114,12 +119,10 @@ Future<void> _generateTempBindings(Config config, Directory tempDir) async {
 /// `dartReferenceBindings` can be directory or file depending on output
 /// configuration.
 Future<void> generateAndCompareBindings(Config config) async {
-  final dartReferenceBindings =
-      config.outputConfig.dartConfig.path.toFilePath();
+  final dartReferenceBindings = config.output.dart.path.toFilePath();
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync('jnigen_test_temp');
-  final singleFile =
-      config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+  final singleFile = config.output.dart.structure == OutputStructure.singleFile;
   final tempLib = singleFile
       ? tempDir.uri.resolve('generated.dart')
       : tempDir.uri.resolve('lib/');
@@ -136,13 +139,14 @@ Future<void> generateAndAnalyzeBindings(Config config,
   final tempDir = Directory.current.createTempSync('jnigen_test_temp');
   try {
     await _generateTempBindings(config, tempDir);
-    final analyzeResult = Process.runSync('dart', ['analyze', tempDir.path]);
+    final analyzeResult =
+        Process.runSync(dartExecutable, ['analyze', tempDir.path]);
     if (analyzeResult.exitCode != 0) {
       stderr.write(analyzeResult.stdout);
       fail('Analyzer exited with non-zero status (${analyzeResult.exitCode})');
     }
     final singleFile =
-        config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+        config.output.dart.structure == OutputStructure.singleFile;
     if (!singleFile && confirmExists.isNotEmpty) {
       throw UnimplementedError('Currently only supports single file mode '
           'for confirming that classes exists');
@@ -200,7 +204,7 @@ void generateAndCompare(
 ) {
   test(description, () async {
     await generateAndCompareBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)));
+  }, timeout: const Timeout(Duration(minutes: 2)), tags: 'bindings');
 }
 
 List<String> findFilesWithSuffix(Directory dir, String suffix) {

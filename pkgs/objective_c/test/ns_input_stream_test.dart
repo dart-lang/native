@@ -318,58 +318,62 @@ void main() {
         await completionPort.first;
       });
       test('with self delegate', () async {
-        late DartInputStreamAdapter? inputStream;
-        late Pointer<ObjCObjectImpl> ptr;
-        autoReleasePool(() {
-          inputStream =
-              Stream.fromIterable([
-                    [1, 2, 3],
-                  ]).toNSInputStream()
-                  as DartInputStreamAdapter;
+        await using((arena) async {
+          final inputStreamTracker = ReferenceTracker(arena);
+          late DartInputStreamAdapter? inputStream;
+          autoReleasePool(() {
+            inputStream =
+                Stream.fromIterable([
+                      [1, 2, 3],
+                    ]).toNSInputStream()
+                    as DartInputStreamAdapter;
 
-          expect(inputStream!.delegate, inputStream);
+            expect(inputStream!.delegate, inputStream);
 
-          ptr = inputStream!.ref.pointer;
+            inputStreamTracker.track(inputStream!);
+          });
+          expect(inputStreamTracker.isAlive, true);
+
+          inputStream!.open();
+          inputStream!.close();
+          inputStream = null;
+
+          doGC();
+          await Future<void>.delayed(Duration.zero);
+          doGC();
+
+          expect(inputStreamTracker.isAlive, false);
         });
-        expect(objectRetainCount(ptr), greaterThan(0));
-
-        inputStream!.open();
-        inputStream!.close();
-        inputStream = null;
-
-        doGC();
-        await Future<void>.delayed(Duration.zero);
-        doGC();
-
-        expect(objectRetainCount(ptr), 0);
       });
 
       test('with non-self delegate', () async {
-        late DartInputStreamAdapter? inputStream;
-        late Pointer<ObjCObjectImpl> ptr;
-        autoReleasePool(() {
-          inputStream =
-              Stream.fromIterable([
-                    [1, 2, 3],
-                  ]).toNSInputStream()
-                  as DartInputStreamAdapter;
+        await using((arena) async {
+          final inputStreamTracker = ReferenceTracker(arena);
+          late DartInputStreamAdapter? inputStream;
+          autoReleasePool(() {
+            inputStream =
+                Stream.fromIterable([
+                      [1, 2, 3],
+                    ]).toNSInputStream()
+                    as DartInputStreamAdapter;
 
-          inputStream!.delegate = NSStreamDelegate.as(NSObject());
-          expect(inputStream!.delegate, isNot(inputStream));
+            inputStream!.delegate = NSStreamDelegate.as(NSObject());
+            expect(inputStream!.delegate, isNot(inputStream));
 
-          ptr = inputStream!.ref.pointer;
+            inputStreamTracker.track(inputStream!);
+          });
+          expect(inputStreamTracker.isAlive, true);
+
+          inputStream!.open();
+          inputStream!.close();
+          inputStream = null;
+
+          doGC();
+          await Future<void>.delayed(Duration.zero);
+          doGC();
+
+          expect(inputStreamTracker.isAlive, false);
         });
-        expect(objectRetainCount(ptr), greaterThan(0));
-
-        inputStream!.open();
-        inputStream!.close();
-        inputStream = null;
-
-        doGC();
-        await Future<void>.delayed(Duration.zero);
-        doGC();
-
-        expect(objectRetainCount(ptr), 0);
       });
     });
   });

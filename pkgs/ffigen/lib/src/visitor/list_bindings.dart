@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config;
+import '../config_provider/config.dart' show FfiGenerator;
 import '../strings.dart' as strings;
 
 import 'ast.dart';
@@ -13,10 +13,11 @@ enum _IncludeBehavior {
   configOrTransitive,
   configAndTransitive,
   configOrDirectTransitive,
+  transitive,
 }
 
 class ListBindingsVisitation extends Visitation {
-  final Config config;
+  final FfiGenerator config;
   final Set<Binding> includes;
   final Set<Binding> transitives;
   final Set<Binding> directTransitives;
@@ -45,6 +46,8 @@ class ListBindingsVisitation extends Visitation {
         return includes.contains(node) && transitives.contains(node);
       case _IncludeBehavior.configOrDirectTransitive:
         return includes.contains(node) || directTransitives.contains(node);
+      case _IncludeBehavior.transitive:
+        return transitives.contains(node);
     }
   }
 
@@ -62,14 +65,15 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    final omit =
-        node.unavailable ||
-        !_visitImpl(
-          node,
-          config.objectiveC?.interfaces.includeTransitive ?? false
-              ? _IncludeBehavior.configOrTransitive
-              : _IncludeBehavior.configOnly,
-        );
+    final _IncludeBehavior includeBehavior;
+    if (node.isInternal) {
+      includeBehavior = _IncludeBehavior.transitive;
+    } else if (config.objectiveC?.interfaces.includeTransitive ?? false) {
+      includeBehavior = _IncludeBehavior.configOrTransitive;
+    } else {
+      includeBehavior = _IncludeBehavior.configOnly;
+    }
+    final omit = node.unavailable || !_visitImpl(node, includeBehavior);
 
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;

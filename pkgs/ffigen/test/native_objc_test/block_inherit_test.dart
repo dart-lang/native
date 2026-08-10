@@ -12,26 +12,11 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'block_inherit_bindings.dart';
+import 'block_inherit_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('Block inheritance', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-
-      generateBindingsForCoverage('block_inherit');
-    });
-
     test('BlockInheritTestBase', () {
       final BlockInheritTestBase baseObj = BlockInheritTestBase();
       expect(baseObj.getAnimal().laysEggs(), false);

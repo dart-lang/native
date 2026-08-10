@@ -13,6 +13,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
@@ -24,7 +25,7 @@ import 'package:test_case_selector/test_case_selector.dart';
 import '../helpers.dart';
 
 // Dont include 'mach-o' or 'Mach-O', different spelling is used.
-const objdumpFileFormat = {
+final objdumpFileFormat = {
   (OS.macOS, Architecture.arm64): 'arm64',
   (OS.macOS, Architecture.x64): '64-bit x86-64',
   (OS.linux, Architecture.arm): 'elf32-littlearm',
@@ -104,11 +105,6 @@ void main() async {
     stderr.writeln("Install with 'brew install lld' on macOS.");
   }
 
-  if (!Platform.isMacOS) {
-    // Avoid needing status files on Dart SDK CI.
-    return;
-  }
-
   for (final config in configurations) {
     final language = config.get<Language>();
     final linkMode = config.get<LinkMode>();
@@ -130,10 +126,8 @@ void main() async {
         };
         const name = 'add';
 
-        // When cross-compiling from MacOS, explicitly specify apple clang.
-        //
-        // The default tool-finding does not support macos cross compiling
-        // right now.
+        // For Linux targets, explicitly use Apple Clang + lld
+        // (see flags below).
         var chosenCCompiler = cCompiler;
         if (os == .linux) {
           // still respect the CI-provided compiler
@@ -170,18 +164,6 @@ void main() async {
           optimizationLevel: optimizationLevel,
           buildMode: .release,
           flags: [
-            if (os == .linux)
-              switch (arch) {
-                .arm => '--target=arm-linux-gnueabihf',
-                .arm64 => '--target=aarch64-linux-gnu',
-                .ia32 => '--target=i686-linux-gnu',
-                .x64 => '--target=x86_64-linux-gnu',
-                .riscv32 => '--target=riscv32-linux-gnu',
-                .riscv64 => '--target=riscv64-linux-gnu',
-                _ => throw UnsupportedError(
-                  'Unexpected linux architecture: $arch',
-                ),
-              },
             // Only homebrew lld can link for linux, and we don't have a
             // sysroot so we can't use stdlibs / C-runtime files.
             if (os == .linux) ...[
@@ -200,20 +182,62 @@ void main() async {
         final libUri = buildInput.outputDirectory.resolve(
           os.libraryFileName(name, linkMode),
         );
-        final result = await runProcess(
-          executable: Uri.file('objdump'),
-          arguments: ['-t', libUri.path],
-          logger: logger,
-        );
-        expect(result.exitCode, 0);
-        final machine = result.stdout
-            .split('\n')
-            .firstWhere((e) => e.contains('file format'));
-        expect(machine, contains(objdumpFileFormat[(os, arch)]));
+        await expectMachineArchitecture(libUri, arch, os);
       },
-      skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,
+      skip: skipLocal(
+        os == OS.linux && !lldAvailable,
+        'ld.lld not available',
+      ),
     );
   }
+
+  test('CBuilder links macOS frameworks for C sources', () async {
+    const name = 'core_foundation';
+    final tempUri = await tempDirForTest();
+    final outputUri = await tempDirForTest();
+    final sourceUri = packageUri.resolve(
+      'test/cbuilder/testfiles/core_foundation/src/core_foundation.c',
+    );
+
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: outputUri,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: .macOS,
+          targetArchitecture: Architecture.current,
+          linkModePreference: .dynamic,
+          macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+          cCompiler: cCompiler,
+        ),
+      );
+    final buildInput = buildInputBuilder.build();
+    final buildOutput = BuildOutputBuilder();
+
+    final cbuilder = CBuilder.library(
+      name: name,
+      assetName: name,
+      sources: [sourceUri.toFilePath()],
+      language: .c,
+      frameworks: const ['CoreFoundation'],
+      buildMode: .release,
+    );
+    await cbuilder.run(
+      input: buildInput,
+      output: buildOutput,
+      logger: logger,
+    );
+
+    final libraryUri = buildInput.outputDirectory.resolve(
+      OS.macOS.libraryFileName(name, DynamicLoadingBundled()),
+    );
+    expect(await File.fromUri(libraryUri).exists(), isTrue);
+  });
 
   for (final macosVersion in [
     MacOSVersion.flutterLowestBestEffort,
@@ -244,6 +268,66 @@ void main() async {
         expect(otoolResult.stdout, contains('minos $macosVersion.0'));
       });
     }
+  }
+
+  for (final arch in const [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    // Risc-V no messense macOS cross-toolchain available for CI.
+  ]) {
+    final triple = targetTriple(OS.linux, arch);
+    test(
+      'CBuilder discovers a macOS cross toolchain and builds linux-$arch',
+      () async {
+        final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
+        final sourceUri = packageUri.resolve(
+          'test/cbuilder/testfiles/add/src/add.c',
+        );
+        const name = 'add';
+
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.linux,
+              targetArchitecture: arch,
+              linkModePreference: .dynamic,
+            ),
+          );
+        final buildInput = buildInputBuilder.build();
+        final buildOutput = BuildOutputBuilder();
+
+        final cbuilder = CBuilder.library(
+          name: name,
+          assetName: name,
+          sources: [sourceUri.toFilePath()],
+          buildMode: .release,
+        );
+        await cbuilder.run(
+          input: buildInput,
+          output: buildOutput,
+          logger: logger,
+        );
+
+        final libUri = buildInput.outputDirectory.resolve(
+          OS.linux.libraryFileName(name, DynamicLoadingBundled()),
+        );
+        await expectMachineArchitecture(libUri, arch, OS.linux);
+      },
+      skip: skipLocal(
+        Process.runSync('which', ['$triple-gcc']).exitCode != 0,
+        '$triple-gcc not found on PATH',
+      ),
+    );
   }
 }
 
@@ -289,7 +373,7 @@ Future<Uri> buildLib(
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
   final libUri = buildInput.outputDirectory.resolve(
-    OS.iOS.libraryFileName(name, linkMode),
+    OS.macOS.libraryFileName(name, linkMode),
   );
   return libUri;
 }

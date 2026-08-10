@@ -42,6 +42,10 @@ String normalizePath(String path, String? configFilename) {
 /// clones can use a non-null value for this path to search here first.
 final libclangOverridePaths = const <String>[];
 
+/// Returns the compiler options to use, potentially overriding the ones from
+/// the config. Downstream clones can use this to add or remove flags.
+List<String> overrideCompilerOpts(List<String> opts) => opts;
+
 /// Returns the root path of the package, for use during tests.
 ///
 /// Note that `dart test` sets the current directory to the package root.
@@ -61,6 +65,9 @@ String configPathForTest(String directory, String file) =>
 ///
 /// https://github.com/dart-lang/test/issues/110
 Uri _findPackageRoot(String packageName) {
+  final envPackageRoot = Platform.environment['PACKAGE_ROOT'];
+  if (envPackageRoot != null) return Uri.directory(envPackageRoot);
+
   final script = Platform.script;
   final fileName = script.name;
   if (fileName.endsWith('.dart')) {

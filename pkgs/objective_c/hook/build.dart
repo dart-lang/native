@@ -7,15 +7,10 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
-import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
 const assetName = 'objective_c.dylib';
-
-// TODO(https://github.com/dart-lang/native/issues/2272): Remove this from the
-// main build.
-const testFiles = ['test/util.c'];
 
 final logger = Logger('')
   ..level = Level.INFO
@@ -30,7 +25,7 @@ void main(List<String> args) async {
       return;
     }
 
-    const supportedOSs = {OS.iOS, OS.macOS};
+    final supportedOSs = {OS.iOS, OS.macOS};
     final codeConfig = input.config.code;
     final os = codeConfig.targetOS;
     if (!supportedOSs.contains(os)) {
@@ -59,22 +54,26 @@ void main(List<String> args) async {
       }
     }
 
-    // Only include the test utils on mac OS. They use memory functions that
-    // aren't supported on iOS, like mach_vm_region. We don't need them on iOS
-    // anyway since we only run memory tests on mac.
-    if (os == OS.macOS) {
-      cFiles.addAll(
-        testFiles.map((f) => input.packageRoot.resolve(f).toFilePath()),
+    final testMode = input.userDefines['include_test_utils'] == true;
+    if (testMode) {
+      mFiles.add(input.packageRoot.resolve('test/gc_inject.m').toFilePath());
+      mFiles.add(
+        input.packageRoot.resolve('test/reference_tracker.m').toFilePath(),
       );
     }
 
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
+
+    // TODO(https://github.com/flutter/flutter/issues/186856): Remove this
+    // workaround and just use -target. Atm this is necessary for AOT testing.
+    final useArm64e =
+        testMode && codeConfig.targetArchitecture == Architecture.arm64;
+
     final cFlags = <String>[
       '-isysroot',
       sysroot,
-      '-target',
-      target,
+      if (useArm64e) ...['-arch', 'arm64e'] else ...['-target', target],
       minVersion,
     ];
     final mFlags = [...cFlags, ...objCFlags];
@@ -104,21 +103,31 @@ void main(List<String> args) async {
 }
 
 class Builder {
-  final String _comp;
+  final String _compiler;
   final String _rootDir;
   final Uri _tempOutDir;
-  Builder._(this._comp, this._rootDir, this._tempOutDir);
+  Builder._(this._compiler, this._rootDir, this._tempOutDir);
 
   static Future<Builder> create(BuildInput input, String rootDir) async {
-    final resolver = CompilerResolver(
-      codeConfig: input.config.code,
-      logger: logger,
-    );
     return Builder._(
-      (await resolver.resolveCompiler()).uri.toFilePath(),
+      await _findCompiler(input.config.code),
       rootDir,
       input.outputDirectory.resolve('obj/'),
     );
+  }
+
+  static Future<String> _findCompiler(CodeConfig codeConfig) async {
+    final compiler = codeConfig.cCompiler?.compiler.toFilePath();
+    if (compiler != null) {
+      assert(await File(compiler).exists());
+      logger.info('Using compiler $compiler from BuildInput.cCompiler.cc.');
+      return compiler;
+    }
+    logger.info(
+      'No compiler set in BuildInput.cCompiler.cc. Falling back to '
+      'assuming clang is in the PATH.',
+    );
+    return 'clang';
   }
 
   Future<String> buildObject(String input, List<String> flags) async {
@@ -153,13 +162,13 @@ class Builder {
 
   Future<void> _compile(List<String> flags, String output) async {
     final args = [...flags, '-o', output];
-    logger.info('Running: $_comp ${args.join(" ")}');
-    final proc = await Process.run(_comp, args);
+    logger.info('Running: $_compiler ${args.join(" ")}');
+    final proc = await Process.run(_compiler, args);
     logger.info(proc.stdout);
     logger.info(proc.stderr);
     if (proc.exitCode != 0) {
       exitCode = proc.exitCode;
-      throw Exception('Command failed: $_comp ${args.join(" ")}');
+      throw Exception('Command failed: $_compiler ${args.join(" ")}');
     }
     logger.info('Generated $output');
   }
@@ -208,12 +217,12 @@ String toTargetTriple(CodeConfig codeConfig) {
   return appleClangMacosTargetFlags[architecture]!;
 }
 
-const appleClangMacosTargetFlags = {
+final appleClangMacosTargetFlags = {
   Architecture.arm64: 'arm64-apple-darwin',
   Architecture.x64: 'x86_64-apple-darwin',
 };
 
-const appleClangIosTargetFlags = {
+final appleClangIosTargetFlags = {
   Architecture.arm64: {
     IOSSdk.iPhoneOS: 'arm64-apple-ios',
     IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',

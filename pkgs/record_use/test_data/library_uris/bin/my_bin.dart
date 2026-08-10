@@ -4,7 +4,6 @@
 
 import 'package:library_uris/library_uris.dart';
 import 'package:library_uris_helper/library_uris_helper.dart';
-import 'package:meta/meta.dart';
 
 void main() {
   helloFoo();
@@ -14,8 +13,7 @@ void main() {
   methodInBin();
 }
 
-// ignore: experimental_member_use
-@RecordUse()
+// Methods outside lib may not be recorded.
 void methodInBin() {
   print('The answer to the universe, life, and everything.');
 }

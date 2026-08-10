@@ -13,6 +13,10 @@ dependencies:
   pdfbox_plugin:
     path: ../
 
+dependency_overrides:
+  jni_util:
+    path: ../../../../jni_util
+
 dev_dependencies:
   lints: ^6.0.0
   test: ^1.16.0

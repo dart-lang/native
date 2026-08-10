@@ -1,3 +1,7 @@
+## 0.20.0
+
+- Bumped dependency on `package:hooks` to `^2.0.0` and implemented the new `outputFiles` protocol extension method to track generated data asset files for cache invalidation.
+
 ## 0.19.6
 
 - Bump `package:hooks` to 1.0.0.

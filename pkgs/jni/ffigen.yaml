@@ -65,6 +65,16 @@ functions:
     - 'wait_for'
     # keep-sorted end
 structs:
+  dependency-only: opaque
+  include:
+    - 'JniResult'
+    - 'JniPointerResult'
+    - 'JniClassLookupResult'
+    - 'JniExceptionDetails'
+    - 'JavaVMInitArgs'
+    - 'JavaVMOption'
+    - 'GlobalJniEnvStruct'
+    - 'JNINativeMethod'
   exclude:
     - 'JniContext'
     - 'JniLocks'
@@ -72,15 +82,15 @@ structs:
     - '_JNIEnv'
     - 'JNIInvokeInterface'
     - '__va_list_tag'
-    - 'CallbackResult'
   rename:
     ## opaque struct definitions, base types of jfieldID and jmethodID
     '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'
     '_jfieldID': 'jfieldID_'
-    '_jmethodID':
-      'jmethodID_'
-      #'JNI(.*)': 'Jni$1'
+    '_jmethodID': 'jmethodID_'
 unions:
+  dependency-only: opaque
+  include:
+    - 'jvalue'
   rename:
     'jvalue': 'JValue'
 globals:

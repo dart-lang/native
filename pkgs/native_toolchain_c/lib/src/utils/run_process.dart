@@ -13,6 +13,7 @@ import 'package:logging/logging.dart';
 ///
 /// If [captureOutput], captures stdout and stderr.
 Future<RunProcessResult> runProcess({
+  Uri? launcher,
   required Uri executable,
   List<String> arguments = const [],
   Uri? workingDirectory,
@@ -25,23 +26,38 @@ Future<RunProcessResult> runProcess({
 }) async {
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
+  String quoteIfSpaced(String s) => s.contains(' ') ? '"$s"' : s;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
-    executable.toFilePath(),
-    ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
+    quoteIfSpaced((launcher ?? executable).toFilePath()),
+    // WSL is the only launcher, so the executable and any file paths in
+    // [arguments] are Linux style.
+    if (launcher != null) quoteIfSpaced(executable.toFilePath(windows: false)),
+    ...arguments.map(quoteIfSpaced),
     if (printWorkingDir) ')',
   ].join(' ');
   logger?.info('Running `$commandString`.');
 
   final stdoutBuffer = StringBuffer();
   final stderrBuffer = StringBuffer();
+
+  final resolvedArguments = [
+    if (launcher != null) executable.toFilePath(windows: false),
+    ...arguments,
+  ];
   final process = await Process.start(
-    executable.toFilePath(),
-    arguments,
+    (launcher ?? executable).toFilePath(),
+    resolvedArguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: Platform.isWindows && workingDirectory != null,
+    // Never run through a shell. On Windows, running an executable through
+    // `cmd.exe /c` mangles the command line when more than one argument is
+    // quoted (cmd strips the outer quotes when the line contains more than
+    // two quote characters), which breaks any invocation whose executable and
+    // arguments contain spaces. A shell is also not needed for wildcard
+    // arguments: on Windows, programs expand wildcards themselves; `cmd.exe`
+    // performs no glob expansion.
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {

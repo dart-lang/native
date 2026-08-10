@@ -122,6 +122,8 @@ functions:
     - clang_Cursor_isFunctionInlined
     - clang_getCursorDefinition
     - clang_isCursorDefinition
+    - clang_CXXMethod_isConst
+    - clang_CXXMethod_isStatic
     - clang_getCursorAvailability
     - clang_getCursorPlatformAvailability
     - clang_disposeCXPlatformAvailability

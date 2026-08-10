@@ -21,11 +21,24 @@ class FillMethodDependenciesVisitation extends Visitation {
   }
 
   @override
+  void visitObjCMethod(ObjCMethod node) {
+    _adder.visit(node.selObject);
+  }
+
+  @override
+  void visitFunc(Func node) {
+    if (!finalBindings.contains(node)) return;
+    node.fillFuncVarSymbol();
+  }
+
+  @override
   void visitObjCInterface(ObjCInterface node) {
     if (!finalBindings.contains(node)) return;
+    node.fillClassObject();
 
     if (!node.generateAsStub) {
       node.visitChildren(visitor);
+      _adder.visit(node.classObject);
       for (final method in node.methods) {
         _adder.visit(method.fillMsgSend());
       }
@@ -35,6 +48,11 @@ class FillMethodDependenciesVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (!finalBindings.contains(node)) return;
+
+    if (!node.parent.generateAsStub) {
+      node.parent.fillClassObject();
+      _adder.visit(node.classObject);
+    }
     node.visitChildren(visitor);
 
     for (final method in node.methods) {
@@ -45,14 +63,24 @@ class FillMethodDependenciesVisitation extends Visitation {
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     if (!finalBindings.contains(node)) return;
+    node.fillProtocolPointer();
 
     if (!node.generateAsStub) {
       node.visitChildren(visitor);
+      _adder.visit(node.protocolPointer);
       for (final method in node.methods) {
-        _adder.visit(method.fillProtocolBlock());
+        final blk = method.fillProtocolBlock();
+        _adder.visit(blk);
+        visitor.visit(blk);
         _adder.visit(method.fillMsgSend());
       }
     }
+  }
+
+  @override
+  void visitObjCBlock(ObjCBlock node) {
+    if (!finalBindings.contains(node)) return;
+    node.visitChildren(visitor);
   }
 }
 
@@ -77,13 +105,34 @@ class _MethodDepAdderVisitation extends Visitation {
       finalBindings.add(node);
 
   @override
+  void visitNoLookUpBinding(NoLookUpBinding node) => finalBindings.add(node);
+
+  @override
   void visitObjCBlock(ObjCBlock node) {
     node.visitChildren(visitor);
     finalBindings.add(node);
   }
 
   @override
-  void visitFunc(Func node) => finalBindings.add(node);
+  void visitObjCInterface(ObjCInterface node) {
+    node.fillClassObject();
+    if (node.isInternal) {
+      finalBindings.add(node);
+      node.visitChildren(visitor);
+    }
+  }
+
+  @override
+  void visitFunc(Func node) {
+    node.fillFuncVarSymbol();
+    finalBindings.add(node);
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    node.fillProtocolPointer();
+    finalBindings.add(node);
+  }
 
   @override
   void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>

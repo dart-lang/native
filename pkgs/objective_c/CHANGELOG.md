@@ -1,4 +1,23 @@
-## 9.4.0-wip
+## 9.5.1-wip
+
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
+## 9.5.0
+
+- Add internal utils required to support FFIgen's new port based blocks.
+- Make an internal-only FFI struct, `DOBJC_Context`, opaque. This is
+  technically a breaking change, but it's extremely unlikely that any users are
+  using these internal structs (and doing so would be a mistake).
+## 9.4.1
+
+- Fix a [bug](https://github.com/flutter/flutter/issues/186794) related to
+  a misconfigured build hook.
+
+## 9.4.0
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/3209) where a Dart GC
+  safepoint during a non-leaf FFI call could prematurely release an ObjC block
+  before ObjC retained it, causing an EXC_BAD_ACCESS crash.
 - Fix (https://github.com/dart-lang/native/issues/2877) such that all
   occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and
   returns `false` when input is`null`
@@ -7,14 +26,23 @@
   Objective-C.
 - Fix a [bug](https://github.com/dart-lang/native/issues/3290) where missing
   debug symbols caused app store valiadtion warnings.
+- Removed some test-only utilities from the release dylib (fixes [#2999](https://github.com/dart-lang/native/issues/2999)).
+- Added `bool.toNSNumber()` extension method, `NSNumber.isBool` check and
+  converter support for bool.
+- Remove dependency on native_toolchain_c.
+- Add an optional `loader` param to `getClass` and `getProtocol`, which will be
+  called to load the class/protocol. If the `loader` fails, it falls back to the
+  ObjC runtime functions, `objc_getClass` and `objc_getProtocol`.
 
 ## 9.3.0
+
 - `autoReleasePool` now returns the value produced by its callback.
 
 ## 9.2.5
+
 - Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
   minimum OS version flags to the build script.
- 
+
 ## 9.2.4
 
 - Fix a [bug](https://github.com/dart-lang/native/issues/2990) build hook path

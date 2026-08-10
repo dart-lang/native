@@ -31,6 +31,8 @@ class ObjCBuiltInFunctions {
   static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
   static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
   static const respondsToSelector = ObjCImport('respondsToSelector');
+  static const newBlockPort = ObjCImport('newBlockPort');
+  static const newBlockingBlockPort = ObjCImport('newBlockingBlockPort');
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
@@ -104,9 +106,12 @@ class ObjCBuiltInFunctions {
       // and blocks both have `id` as their native type, but need separate
       // trampolines since they have different retain functions. So add the
       // retain function (if any) to all the param IDs.
-      paramIds.add(p.getNativeType(varName: p.type.generateRetain('') ?? ''));
+      paramIds.add(
+        p.getNativeType(context, varName: p.type.generateRetain('') ?? ''),
+      );
     }
     final rt = returnType.getNativeType(
+      context,
       varName: returnType.generateRetain('') ?? '',
     );
     final id = '$rt,${paramIds.join(',')}';
@@ -149,6 +154,7 @@ class ObjCBuiltInFunctions {
   ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
+      idHash,
       _blockTrampolineFunc('_${libraryId}_wrapListenerBlock_$idHash'),
       _blockTrampolineFunc(
         '_${libraryId}_wrapBlockingBlock_$idHash',
@@ -162,19 +168,32 @@ class ObjCBuiltInFunctions {
     returnType: PointerType(objCBlockType),
     parameters: [
       Parameter(
-        name: 'block',
-        type: PointerType(objCBlockType),
+        name: 'port',
+        type: NativeType(SupportedNativeType.int64),
+        objCConsumed: false,
+      ),
+      Parameter(
+        name: 'context',
+        type: PointerType(objCContextType),
         objCConsumed: false,
       ),
       if (blocking) ...[
         Parameter(
-          name: 'listnerBlock',
-          type: PointerType(objCBlockType),
-          objCConsumed: false,
-        ),
-        Parameter(
-          name: 'context',
-          type: PointerType(objCContextType),
+          name: 'directInvoke',
+          type: PointerType(
+            NativeFunc(
+              FunctionType(
+                returnType: voidType,
+                parameters: [
+                  Parameter(
+                    name: 'args',
+                    type: PointerType(objCObjectType),
+                    objCConsumed: false,
+                  ),
+                ],
+              ),
+            ),
+          ),
           objCConsumed: false,
         ),
       ],
@@ -199,7 +218,7 @@ class ObjCBuiltInFunctions {
             type: PointerType(objCObjectType),
             objCConsumed: false,
           ),
-          ...block.params,
+          ...block.params.map((p) => p.clone()),
         ],
         objCReturnsRetained: false,
         isLeaf: false,
@@ -218,9 +237,9 @@ class ObjCBuiltInFunctions {
 
   // A unique (but not human readable) ID for the generated library based on
   // a hash of parts of the config.
-  static String _libraryIdFromConfigHash(Config config) => fnvHash32(
+  static String _libraryIdFromConfigHash(FfiGenerator config) => fnvHash32(
     [
-      ...config.headers.entryPoints,
+      ...config.input.entryPoints,
       config.output.dartFile,
       config.output.objCFile,
     ].map((uri) => path.basename(uri.toFilePath())).join('\n'),
@@ -229,11 +248,16 @@ class ObjCBuiltInFunctions {
 
 /// A native trampoline function for a listener block.
 class ObjCBlockWrapperFuncs extends AstNode {
+  final String idHash;
   final Func listenerWrapper;
   final Func blockingWrapper;
   bool objCBindingsGenerated = false;
 
-  ObjCBlockWrapperFuncs(this.listenerWrapper, this.blockingWrapper);
+  ObjCBlockWrapperFuncs(
+    this.idHash,
+    this.listenerWrapper,
+    this.blockingWrapper,
+  );
 
   @override
   void visitChildren(Visitor visitor) {
@@ -276,7 +300,7 @@ class ObjCImport {
   String gen(Context context) => '${context.libs.prefix(objcPkgImport)}.$name';
 }
 
-/// Globals only used internally by ObjC bindings, such as classes and SELs.
+/// Globals only used internally by ObjC bindings, such as selectors.
 class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function() makeValue;
 
@@ -291,6 +315,121 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = 'late final $name = ${makeValue()};\n';
     return BindingString(type: BindingStringType.global, string: s);
+  }
+}
+
+String _makeLookupName(String originalName, String? module) =>
+    module == null ? originalName : '$module.$originalName';
+
+String _makeSymbolLookupName(String originalName, String? module) {
+  final mangledName = module == null
+      ? originalName
+      : '_TtC${module.length}$module${originalName.length}$originalName';
+  return 'OBJC_CLASS_\$_$mangledName';
+}
+
+/// A global variable for an ObjC class, loaded via @Native.
+class ObjCClassGlobal extends NoLookUpBinding {
+  final String lookupName;
+  final String symbolLookupName;
+  final Symbol rawSymbol;
+
+  ObjCClassGlobal(String name, String originalName, String? module)
+    : lookupName = _makeLookupName(originalName, module),
+      symbolLookupName = _makeSymbolLookupName(originalName, module),
+      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+      super(
+        originalName: name,
+        symbol: Symbol(name, SymbolKind.field),
+        isInternal: true,
+      );
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final context = w.context;
+    final type = PointerType(objCObjectType).getCType(context);
+    final nativeAnnotation = makeNativeAnnotation(
+      w,
+      nativeType: type,
+      dartName: rawSymbol.name,
+      nativeSymbolName: symbolLookupName,
+    );
+    final getClass = ObjCBuiltInFunctions.getClass.gen(context);
+    final address =
+        '${context.libs.prefix(ffiImport)}.Native.addressOf<$type>'
+        '(${rawSymbol.name})';
+    final s =
+        '''
+$nativeAnnotation
+external $type ${rawSymbol.name};
+final $name = $getClass("$lookupName", () => $address.cast());
+''';
+    return BindingString(type: BindingStringType.global, string: s);
+  }
+
+  @override
+  bool get hasNativeHelperFunctions => true;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
+    visitor.visit(objCObjectType);
+    visitor.visit(rawSymbol);
+  }
+}
+
+/// A global variable for an ObjC protocol, loaded via @Native.
+class ObjCProtocolGlobal extends NoLookUpBinding {
+  final Symbol loaderSymbol;
+  final String lookupName;
+  final Symbol rawSymbol;
+
+  ObjCProtocolGlobal(
+    String name,
+    String originalName,
+    String? module,
+    this.loaderSymbol,
+  ) : lookupName = _makeLookupName(originalName, module),
+      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+      super(
+        originalName: name,
+        symbol: Symbol(name, SymbolKind.field),
+        isInternal: true,
+      );
+
+  @override
+  bool get hasNativeHelperFunctions => true;
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final context = w.context;
+    final ptrType = PointerType(objCProtocolType).getCType(context);
+    final getProtocol = ObjCBuiltInFunctions.getProtocol.gen(context);
+    final nativeAnnotation = makeNativeAnnotation(
+      w,
+      nativeType: '$ptrType Function()',
+      dartName: rawSymbol.name,
+      nativeSymbolName: loaderSymbol.name,
+    );
+    final s =
+        '''
+$nativeAnnotation
+external $ptrType ${rawSymbol.name}();
+final $name = $getProtocol("$lookupName", ${rawSymbol.name});
+''';
+    return BindingString(type: BindingStringType.global, string: s);
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
+    visitor.visit(objCProtocolType);
+    visitor.visit(rawSymbol);
+    visitor.visit(loaderSymbol);
   }
 }
 

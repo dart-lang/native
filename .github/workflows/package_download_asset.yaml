@@ -24,15 +24,19 @@ jobs:
         os: [ubuntu, macos, windows]
 
     runs-on: ${{ matrix.os }}-latest
+    permissions:
+      contents: read
 
     defaults:
       run:
         working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      with:
+        persist-credentials: false
 
-    - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
+    - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1
       with:
         sdk: stable
 
@@ -80,7 +84,7 @@ jobs:
         dart tool/build.dart -owindows -ax64
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
       with:
         name: ${{ matrix.os }}-host
         path: |
@@ -92,15 +96,18 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     defaults:
       run:
         working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           submodules: true
+          persist-credentials: false
 
       - name: Download assets
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
@@ -112,7 +119,8 @@ jobs:
         run: ls -R .dart_tool/download_asset/
 
       - name: Release
-        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe
+        # zizmor: ignore[superfluous-actions]
+        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228
         if: startsWith(github.ref, 'refs/tags/download_asset-prebuild-assets')
         with:
           files: 'pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**'

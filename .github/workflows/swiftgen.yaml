@@ -30,13 +30,17 @@ jobs:
   # Check code formatting and static analysis.
   analyze:
     runs-on: macos-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/swiftgen/
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: master
@@ -53,11 +57,15 @@ jobs:
   test-mac:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/swiftgen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: master
@@ -67,15 +75,17 @@ jobs:
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
         run: dart pub global run coverage:test_with_coverage --scope-output=swiftgen
+      - name: Trust Coveralls tap
+        run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           flag-name: swiftgen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/swiftgen/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}

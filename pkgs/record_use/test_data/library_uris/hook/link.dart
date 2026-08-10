@@ -12,10 +12,12 @@ void main(List<String> arguments) async {
   await link(
     arguments,
     (input, output) async {
-      // ignore: experimental_member_use
       final recordings = input.recordedUses;
       if (recordings == null) {
-        throw UnsupportedError('Run with --enable-experiment=record-use.');
+        throw UnsupportedError(
+          'Update to Dart 3.13 or run with --enable-experiment=record-use'
+          ' on older Dart versions.',
+        );
       }
 
       // This package.
@@ -34,17 +36,6 @@ void main(List<String> arguments) async {
       expect(
         helperMethodDefinition.library.uri,
         'package:library_uris_helper/src/helper_definition.dart',
-      );
-
-      // Outside the lib dir, no package: uri.
-      final methodInBinDefinition = recordings.calls.keys.firstWhere(
-        (i) => i.name == 'methodInBin',
-      );
-      expect(
-        methodInBinDefinition.library.uri,
-        // TODO(https://github.com/dart-lang/native/issues/2891): What should
-        // this be? We don't have library uris for bin.
-        'package:library_uris/../bin/my_bin.dart',
       );
     },
   );

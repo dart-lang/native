@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:data_assets/data_assets.dart';
+import 'package:hooks_runner/hooks_runner.dart';
 import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
@@ -50,7 +51,11 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        resourceIdentifiers: resourcesUri,
+        recordUse: RecordUseConfig(
+          file: resourcesUri,
+          entryPoints: [Uri.file('bin/simple_link.dart')],
+          compiler: 'dart_aot_compiler_v1',
+        ),
         buildAssetTypes: [.data],
       );
       expect(buildFiles(), anyElement(endsWith('recorded_uses.json')));
@@ -80,7 +85,11 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        resourceIdentifiers: resourcesUri,
+        recordUse: RecordUseConfig(
+          file: resourcesUri,
+          entryPoints: [Uri.file('bin/pirate_adventure.dart')],
+          compiler: 'dart_aot_compiler_v1',
+        ),
         buildAssetTypes: [.data],
       )).success;
 
@@ -134,35 +143,52 @@ void main() async {
       )).success;
 
       final logMessages = <String>[];
-      Future<void> runLink() async {
+      Future<void> runLink(Uri file) async {
         logMessages.clear();
         await link(
           packageUri,
           logger,
           dartExecutable,
           buildResult: buildResult,
-          resourceIdentifiers: resourcesUri,
+          recordUse: RecordUseConfig(
+            file: file,
+            entryPoints: [Uri.file('bin/pirate_adventure.dart')],
+            compiler: 'dart_aot_compiler_v1',
+          ),
           buildAssetTypes: [.data],
           capturedLogs: logMessages,
         );
       }
 
       // Initial run: should run hooks.
-      await runLink();
+      await runLink(resourcesUri);
       expect(
         logMessages.join('\n'),
         stringContainsInOrder(['pirate_speak', 'hook.dill']),
       );
 
       // Second run: should be cached.
-      await runLink();
+      await runLink(resourcesUri);
       expect(
         logMessages.join('\n'),
         contains('Skipping link for pirate_speak'),
       );
 
-      // Change resources: should re-run hooks.
-      final newRecordings = Recordings(
+      // Change file path but keep contents: should be cached.
+      final resourcesUriDifferentPath = tempUri.resolve(
+        'treeshaking_info_different_path.json',
+      );
+      await File.fromUri(resourcesUriDifferentPath).writeAsString(
+        jsonEncode(_pirateAdventureRecordings.toJson()),
+      );
+      await runLink(resourcesUriDifferentPath);
+      expect(
+        logMessages.join('\n'),
+        contains('Skipping link for pirate_speak'),
+      );
+
+      // Change irrelevant recorded uses (unrelated package): should be cached.
+      final irrelevantRecordings = Recordings(
         calls: {
           ..._pirateAdventureRecordings.calls,
           const Method(
@@ -178,18 +204,44 @@ void main() async {
         },
         instances: {},
       );
+      await File.fromUri(resourcesUri).writeAsString(
+        jsonEncode(irrelevantRecordings.toJson()),
+      );
+      await runLink(resourcesUri);
+      expect(
+        logMessages.join('\n'),
+        contains('Skipping link for pirate_speak'),
+      );
+
+      // Change relevant recorded uses (this package): should re-run hooks.
+      final newRecordings = Recordings(
+        calls: {
+          ..._pirateAdventureRecordings.calls,
+          const Method(
+            'dummy',
+            Library('package:pirate_speak/src/definitions.dart'),
+          ): [
+            const CallWithArguments(
+              loadingUnit: loadingUnitRoot,
+              positionalArguments: [],
+              namedArguments: {},
+            ),
+          ],
+        },
+        instances: {},
+      );
       await File.fromUri(
         resourcesUri,
       ).writeAsString(jsonEncode(newRecordings.toJson()));
 
-      await runLink();
+      await runLink(resourcesUri);
       expect(
         logMessages.join('\n'),
         stringContainsInOrder(['pirate_speak', 'hook.dill']),
       );
 
       // Run again: should be cached again.
-      await runLink();
+      await runLink(resourcesUri);
       expect(
         logMessages.join('\n'),
         contains('Skipping link for pirate_speak'),

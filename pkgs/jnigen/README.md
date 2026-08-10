@@ -70,20 +70,22 @@ instructions.
      final packageRoot = Platform.script.resolve('../');
      generateJniBindings(
        Config(
-         outputConfig: OutputConfig(
-           dartConfig: DartCodeOutputConfig(
+         input: Input(
+           // Required. List of classes or packages for which bindings should be generated.
+           classes: ['com.example.in_app_java'],
+           // Optional. List of directories that contain the source files for which to generate bindings.
+           sourcePath: [packageRoot.resolve('android/app/src/main/java')],
+           // Optional. Configuration to search for Android SDK libraries.
+           androidSdk: AndroidSdk(addGradleDeps: true),
+         ),
+         output: Output(
+           dart: DartCodeOutput(
              // Required. Output path for generated bindings.
              path: packageRoot.resolve('lib/android_utils.g.dart'),
              // Optional. Write bindings into a single file (instead of one file per class).
              structure: OutputStructure.singleFile,
            ),
          ),
-         // Optional. Configuration to search for Android SDK libraries.
-         androidSdkConfig: AndroidSdkConfig(addGradleDeps: true),
-         // Optional. List of directories that contain the source files for which to generate bindings.
-         sourcePath: [packageRoot.resolve('android/app/src/main/java')],
-         // Required. List of classes or packages for which bindings should be generated.
-         classes: ['com.example.in_app_java'],
        ),
      );
    }
@@ -170,10 +172,13 @@ format, the `dart` command must be from the Flutter SDK and not Dart SDK. See
 
 ### Java tooling
 
-Use JDK versions 11 to 17. The newer versions will not work because of their
-lack of
-[compatibility](https://docs.gradle.org/current/userguide/compatibility.html)
-with Gradle.
+JNIgen requires a JDK to be installed. JNIgen officially supports Java
+versions 17 to 21.
+
+By default, JNIgen uses the JDK configured in Flutter (which is typically
+Android Studio's bundled JDK). If that fails (eg because Flutter is not
+installed, or isn't set up for Android development) it falls back to
+relying on the `JAVA_HOME` and `PATH` environment variables.
 
 #### Windows
 
@@ -186,7 +191,7 @@ $env:Path += ";${env:JAVA_HOME}\bin\server"
 The above will only add `jvm.dll` to `PATH` for the current PowerShell session,
 use the Control Panel to add it to the path permanently.
 
-If JAVA_HOME not set, find the `java.exe` executable and set the environment
+If `JAVA_HOME` not set, find the `java.exe` executable and set the environment
 variable in Control Panel. If java is installed through a package manager, there
 may be a more automatic way to do this. (e.g. `scoop reset`).
 

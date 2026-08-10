@@ -27,6 +27,7 @@ ObjCObject toObjCObject(
 }) => switch (dartObject) {
   null => NSNull.null$(),
   ObjCObject() => dartObject,
+  bool() => dartObject.toNSNumber(),
   num() => dartObject.toNSNumber(),
   String() => dartObject.toNSString(),
   DateTime() => dartObject.toNSDate(),
@@ -81,7 +82,11 @@ Object toDartObject(
   // object could have a Dart runtime type of eg NSObject, even if the
   // underlying ObjC object that the Dart object is wrapping is a NSNumber.
   if (NSNumber.isA(objCObject)) {
-    return NSNumber.as(objCObject).numValue;
+    final nsNumber = NSNumber.as(objCObject);
+    if (nsNumber.isBool) {
+      return nsNumber.boolValue;
+    }
+    return nsNumber.numValue;
   }
   if (NSString.isA(objCObject)) {
     return NSString.as(objCObject).toDartString();

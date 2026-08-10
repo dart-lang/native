@@ -1,0 +1,15 @@
+name: wrong_architecture_asset
+description: Builds a native library for the wrong architecture.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  code_assets: any
+  hooks: any
+  native_toolchain_c: any

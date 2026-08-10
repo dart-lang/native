@@ -8,6 +8,7 @@ library;
 
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -16,65 +17,76 @@ import 'util.dart';
 void main() {
   group('autoReleasePool', () {
     test('basics', () async {
-      late Pointer<ObjCObjectImpl> pointer;
-      autoReleasePool(() {
-        {
-          final object = NSObject();
-          pointer = object.ref.retainAndAutorelease();
-          expect(objectRetainCount(pointer), greaterThan(0));
-        }
+      await using((arena) async {
+        final objectTracker = ReferenceTracker(arena);
+        autoReleasePool(() {
+          {
+            final object = NSObject();
+            objectTracker.track(object);
+            object.ref.retainAndAutorelease();
+            expect(objectTracker.isAlive, true);
+          }
+          doGC();
+          expect(objectTracker.isAlive, true);
+        });
+
         doGC();
-        expect(objectRetainCount(pointer), greaterThan(0));
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+
+        expect(objectTracker.isAlive, false);
       });
-
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
-
-      expect(objectRetainCount(pointer), 0);
     });
 
     test('exception safe', () async {
-      late Pointer<ObjCObjectImpl> pointer;
-      expect(
-        () => autoReleasePool(() {
-          {
-            final object = NSObject();
-            pointer = object.ref.retainAndAutorelease();
-            expect(objectRetainCount(pointer), greaterThan(0));
-          }
-          doGC();
-          expect(objectRetainCount(pointer), greaterThan(0));
-          throw Exception();
-        }),
-        throwsException,
-      );
+      await using((arena) async {
+        final objectTracker = ReferenceTracker(arena);
+        expect(
+          () => autoReleasePool(() {
+            {
+              final object = NSObject();
+              objectTracker.track(object);
+              object.ref.retainAndAutorelease();
+              expect(objectTracker.isAlive, true);
+            }
+            doGC();
+            expect(objectTracker.isAlive, true);
+            throw Exception();
+          }),
+          throwsException,
+        );
 
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
 
-      expect(objectRetainCount(pointer), 0);
+        expect(objectTracker.isAlive, false);
+      });
     });
 
     test('returns callback value', () async {
-      late Pointer<ObjCObjectImpl> pointer;
+      await using((arena) async {
+        final objectTracker = ReferenceTracker(arena);
+        late Pointer<ObjCObjectImpl> pointer;
 
-      final returnedPointer = autoReleasePool(() {
-        final object = NSObject();
-        pointer = object.ref.retainAndAutorelease();
-        return pointer;
+        final returnedPointer = autoReleasePool(() {
+          final object = NSObject();
+          objectTracker.track(object);
+          pointer = object.ref.retainAndAutorelease();
+          expect(objectTracker.isAlive, true);
+          return pointer;
+        });
+
+        // Returned value should be exactly what the callback returned
+        expect(returnedPointer, same(pointer));
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+
+        // Object should be released once the pool is popped
+        expect(objectTracker.isAlive, false);
       });
-
-      // Returned value should be exactly what the callback returned
-      expect(returnedPointer, same(pointer));
-
-      doGC();
-      await Future<void>.delayed(Duration.zero);
-      doGC();
-
-      // Object should be released once the pool is popped
-      expect(objectRetainCount(pointer), 0);
     });
   });
 }

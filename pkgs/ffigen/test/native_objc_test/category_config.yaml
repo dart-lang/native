@@ -1,7 +1,9 @@
 name: CategoryTestObjCLibrary
 description: 'Tests handling Objective-C categories'
 language: objc
-output: 'category_bindings.dart'
+output:
+  bindings: 'category_test_bindings.dart'
+  objc-bindings: 'category_test_bindings.m'
 exclude-all-by-default: true
 objc-interfaces:
   include:
@@ -18,6 +20,8 @@ objc-categories:
     - InterfaceOnBuiltInType
     - StaticAndInstanceMethodsWithSameNameCategory
     - NSString
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
 headers:
   entry-points:
     - 'category_test.h'

@@ -27,4 +27,5 @@ enum BindingStringType {
   objcProtocol,
   objcCategory,
   objcBlock,
+  cppClass,
 }

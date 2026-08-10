@@ -26,7 +26,7 @@ void main() {
               packagePathForTests,
               'test',
               'native_objc_test',
-              'swift_unavailable_bindings.dart',
+              'swift_unavailable_test_bindings.dart',
             ),
           ),
           format: false,
@@ -35,7 +35,7 @@ void main() {
             wrapperDocComment: 'Tests SWIFT_UNAVAILABLE annotation',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(
               path.join(
@@ -53,15 +53,14 @@ void main() {
           ),
         ),
       ).generate(logger: createTestLogger());
-
-      bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'swift_unavailable_bindings.dart',
-        ),
-      ).readAsStringSync();
+      final file = path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'swift_unavailable_test_bindings.dart',
+      );
+      expectNoAnalysisErrors(file);
+      bindings = File(file).readAsStringSync();
     });
 
     test('initWithName is generated (designated initializer)', () {

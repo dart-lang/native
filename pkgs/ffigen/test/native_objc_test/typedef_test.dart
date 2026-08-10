@@ -10,25 +10,11 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'typedef_bindings.dart';
+import 'typedef_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('typedef', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('typedef');
-    });
-
     test('Regression test for #386', () {
       // https://github.com/dart-lang/ffigen/issues/386
       // Make sure that the typedef DartSomeClassPtr is for SomeClass.

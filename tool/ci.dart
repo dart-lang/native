@@ -190,7 +190,10 @@ class WorkspaceTask extends Task {
     final rootDir = Directory.fromUri(repositoryRoot.resolve('pkgs'));
     for (final entity in rootDir.listSync(recursive: true)) {
       if (entity is File && entity.path.endsWith('pubspec.yaml')) {
-        if (entity.path.split(Platform.pathSeparator).contains('.dart_tool')) {
+        final pathSegments = entity.path.split(Platform.pathSeparator);
+        if (pathSegments.contains('.dart_tool') ||
+            pathSegments.contains('ephemeral')) {
+          // Can contain generated or symlinked pubspecs.
           continue;
         }
         packages.add(
@@ -427,6 +430,9 @@ class ExampleTask extends Task {
       'pkgs/code_assets/example/sqlite_prebuilt/',
       'pkgs/code_assets/example/sqlite/',
       'pkgs/code_assets/example/stb_image/',
+      // TODO(https://github.com/dart-lang/sdk/issues/63372): Run this on ci
+      // after dev/stable support it.
+      // 'pkgs/hooks_runner/test_data/treeshaking_dylib_record_use/',
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',
@@ -454,7 +460,7 @@ class ExampleTask extends Task {
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      ['build', 'cli', 'bin/native_add_app.dart'],
+      ['build', 'cli'],
     );
     await _runProcess(
       repositoryRoot

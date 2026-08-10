@@ -2,9 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/jnigen.dart'
+    show Config, DartCodeOutput, Input, Output, OutputStructure;
 import 'package:jnigen/src/bindings/linker.dart';
 import 'package:jnigen/src/bindings/renamer.dart';
+import 'package:jnigen/src/elements/elements.dart';
 import 'package:test/test.dart';
 
 extension on Iterable<ClassMember> {
@@ -21,13 +23,13 @@ extension on Iterable<Method> {
 
 Future<void> rename(Classes classes) async {
   final config = Config(
-    outputConfig: OutputConfig(
-      dartConfig: DartCodeOutputConfig(
+    input: Input(classes: []),
+    output: Output(
+      dart: DartCodeOutput(
         path: Uri.file('test.dart'),
         structure: OutputStructure.singleFile,
       ),
     ),
-    classes: [],
   );
   await classes.accept(Linker(config));
   classes.accept(Renamer(config));

@@ -7,7 +7,6 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart' show sha256;
-import 'package:meta/meta.dart';
 import 'package:record_use/record_use.dart';
 
 import 'api/build_and_link.dart';
@@ -32,7 +31,7 @@ sealed class HookInput {
   ///
   /// This directory is unique per hook and per [config]. The directory is
   /// nested inside [outputDirectoryShared] and has a short checksum to avoid
-  /// running out of path length on Winddows.
+  /// running out of path length on Windows.
   ///
   /// Prefer using a sub directory in [outputDirectoryShared] with a
   /// checksum of the fields on the [config] that influence your build. Reusing
@@ -106,7 +105,101 @@ sealed class HookInput {
   /// The configuration for this hook input.
   HookConfig get config => HookConfig._(this);
 
-  /// The user-defines for this hook input.
+  /// Custom configurations specified in the root package `pubspec.yaml`
+  /// (or root package pub workspace `pubspec.yaml` if using a workspace) under
+  /// the `hooks.user_defines` block.
+  ///
+  /// These are used to pass custom parameters or local file paths to build and
+  /// link hooks from the project's build environment.
+  ///
+  /// ### Workspace Scope
+  /// The SDK hook runner reads user-defines from the root package's
+  /// `pubspec.yaml` (or the root package pub workspace's `pubspec.yaml` if
+  /// using a workspace). As a result, only end-users (the authors of the root
+  /// app/package consuming the dependencies) can configure user-defines.
+  /// Dependencies cannot supply their own default user-defines.
+  ///
+  /// ### Caching
+  /// Hook user-defines are workspace-wide. If any user-defines inside the
+  /// root package `pubspec.yaml` (or the root package pub workspace
+  /// `pubspec.yaml` if using a workspace) change, the hook is re-run.
+  /// However, if the user-defines for the package are identical, the hook is
+  /// not re-run.
+  ///
+  /// ### Supported Types
+  /// Configured values inside `pubspec.yaml` can be any JSON-compatible type,
+  /// such as booleans, strings, numbers, nested maps, or lists:
+  /// ```yaml
+  /// hooks:
+  ///   user_defines:
+  ///     my_package:
+  ///       supported_archs:
+  ///         - arm64
+  ///         - x64
+  /// ```
+  ///
+  /// ### Package Filtering
+  /// User-defines are filtered per package. A hook inside `my_package` can only
+  /// access keys configured under `hooks.user_defines.my_package`. It cannot
+  /// access defines of other packages.
+  ///
+  /// ### Common Use Cases
+  /// End-users can configure user-defines to:
+  /// - Select whether to download a prebuilt binary or build from source:
+  ///   ```yaml
+  ///   hooks:
+  ///     user_defines:
+  ///       my_package:
+  ///         local_build: false
+  ///   ```
+  /// - Enable/disable debug options or configure a custom compiler flag:
+  ///   ```yaml
+  ///   hooks:
+  ///     user_defines:
+  ///       my_package:
+  ///         debug_mode: true
+  ///   ```
+  ///
+  /// ### Example Hook Usage
+  /// In `pubspec.yaml`:
+  /// ```yaml
+  /// hooks:
+  ///   user_defines:
+  ///     my_package:
+  ///       enable_experimental: true
+  ///       custom_lib: assets/libnative.so
+  /// ```
+  ///
+  /// In `hook/build.dart`:
+  /// <!-- file://./../../example/api/config_snippet_6.dart -->
+  /// ```dart
+  /// import 'dart:io';
+  /// import 'package:hooks/hooks.dart';
+  ///
+  /// void main(List<String> args) async {
+  ///   await build(args, (input, output) async {
+  ///     // Access raw user-defines value
+  ///     final debugLogging = input.userDefines['enable_debug_logging'];
+  ///     if (debugLogging is! bool?) {
+  ///       throw const FormatException(
+  ///         'hooks.user_defines.my_package.enable_debug_logging must be a '
+  ///         'boolean (or omitted)',
+  ///       );
+  ///     }
+  ///     if (debugLogging == true) {
+  ///       print('Debug logging is enabled.');
+  ///     }
+  ///
+  ///     // Resolve relative path against pubspec.yaml base path
+  ///     final customAssetUri = input.userDefines.path('custom_asset');
+  ///     if (customAssetUri != null) {
+  ///       final file = File.fromUri(customAssetUri);
+  ///       output.dependencies.add(file.uri); // Declare cache dependency
+  ///       // Use the file...
+  ///     }
+  ///   });
+  /// }
+  /// ```
   HookInputUserDefines get userDefines => HookInputUserDefines._(this);
 }
 
@@ -118,8 +211,20 @@ final class HookInputUserDefines {
 
   /// The value for the user-define for [key] for this package.
   ///
-  /// This can be arbitrary JSON/YAML if provided from the SDK from such source.
+  /// This can be arbitrary JSON if provided from the SDK from such source.
   /// If it's provided from command-line arguments, it's likely a string.
+  ///
+  /// For example, if a project's `pubspec.yaml` contains:
+  /// ```yaml
+  /// hooks:
+  ///   user_defines:
+  ///     my_package:
+  ///       enable_experimental_features: true
+  ///       optimization_level: "O3"
+  /// ```
+  /// Then:
+  /// - `input.userDefines['enable_experimental_features']` returns `true`.
+  /// - `input.userDefines['optimization_level']` returns `"O3"`.
   Object? operator [](String key) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
@@ -132,14 +237,39 @@ final class HookInputUserDefines {
     return pubspecSource?.defines[key];
   }
 
-  /// The absolute path for user-defines for [key] for this package.key
+  /// Resolves the path provided in the user-define for [key] to an absolute
+  /// [Uri] pointing to the file or directory on the host filesystem.
   ///
-  /// The relative path passed as user-define is resolved against the base path.
-  /// For user-defines originating from a JSON/YAML, the base path is this
-  /// JSON/YAML. For user-defines originating from command-line aruments, the
-  /// base path is the working directory of the command-line invocation.
+  /// Absolute paths are converted to a file [Uri] without further
+  /// resolution. Relative paths are resolved against the directory
+  /// containing the `pubspec.yaml` where the user-define was declared (or
+  /// the command-line working directory if provided via command-line
+  /// arguments).
   ///
   /// If the user-define is `null` or not a [String], returns `null`.
+  ///
+  /// > If the hook reads the resolved file or directory, the hook author
+  /// > **must** register it as a dependency in
+  /// > [HookOutputBuilder.dependencies] (e.g. using
+  /// > `output.dependencies.add(resolvedUri)`) to ensure the build cache is
+  /// > invalidated and the hook is re-run when the file changes.
+  ///
+  /// For example, if a project's `pubspec.yaml` contains:
+  /// ```yaml
+  /// hooks:
+  ///   user_defines:
+  ///     my_package:
+  ///       prebuilt_assets_dir: assets/prebuilt/
+  /// ```
+  /// The resolved path can be accessed and registered as a dependency:
+  /// <!-- file://./../../example/api/config_snippet_7.dart -->
+  /// ```dart
+  /// final assetsUri = input.userDefines.path('prebuilt_assets_dir');
+  /// if (assetsUri != null) {
+  ///   output.dependencies.add(assetsUri);
+  ///   // Read assets from the directory...
+  /// }
+  /// ```
   Uri? path(String key) {
     final syntaxNode = _input._syntax.userDefines;
     if (syntaxNode == null) {
@@ -156,9 +286,12 @@ final class HookInputUserDefines {
     // TODO(https://github.com/dart-lang/native/issues/2215): Add commandline
     // arguments.
     for (final source in sources) {
-      final relativepath = source.defines[key];
-      if (relativepath is String) {
-        return source.basePath.resolve(relativepath);
+      final path = source.defines[key];
+      if (path is String) {
+        if (File(path).isAbsolute) {
+          return Uri.file(path);
+        }
+        return source.basePath.resolve(path);
       }
     }
     return null;
@@ -348,22 +481,10 @@ final class LinkInput extends HookInput {
   List<EncodedAsset> get _encodedAssets => assets.encodedAssets;
 
   /// The file containing recorded usages, if any.
-  ///
-  /// Experimental: The record uses feature needs to be enabled as experiment.
-  /// The experiment is only available in the Dart SDK, not in Flutter. We
-  /// reserve the right to break this API at any point without respecting
-  /// semantic versioning of this package.
-  @experimental
   @Deprecated('Use recordedUses instead')
   Uri? get recordedUsagesFile => _syntaxLinkInput.resourceIdentifiers;
 
   /// The recorded usages, if any.
-  ///
-  /// Experimental: The record uses feature needs to be enabled as experiment.
-  /// The experiment is only available in the Dart SDK, not in Flutter. We
-  /// reserve the right to break this API at any point without respecting
-  /// semantic versioning of this package.
-  @experimental
   late final Recordings? recordedUses = () {
     final file = _syntaxLinkInput.resourceIdentifiers;
     if (file == null) return null;

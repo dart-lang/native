@@ -35,6 +35,16 @@ class JClass extends JObject {
   JStaticFieldId staticFieldId(String name, String signature) {
     return JStaticFieldId._(this, name, signature);
   }
+
+  static const JType<JClass> type = $JClass$Type$();
+}
+
+final class $JClass$Type$ extends JType<JClass> {
+  @internal
+  const $JClass$Type$();
+
+  @override
+  String get signature => r'Ljava/lang/Class;';
 }
 
 /// A thin wrapper over a [JFieldIDPtr] of an instance field.
@@ -42,11 +52,15 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   JInstanceFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          return Jni.env.GetFieldID(
+          final ptr = Jni.env.GetFieldID(
             jClassRef.pointer,
             name.toNativeChars(arena),
             signature.toNativeChars(arena),
           );
+          if (ptr == nullptr) {
+            throw NoSuchMethodError(name);
+          }
+          return ptr;
         });
 
   DartT get<JavaT, DartT>(JObject object, JAccessible<JavaT, DartT> type) {
@@ -72,11 +86,15 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   JStaticFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          return Jni.env.GetStaticFieldID(
+          final ptr = Jni.env.GetStaticFieldID(
             jClassRef.pointer,
             name.toNativeChars(arena),
             signature.toNativeChars(arena),
           );
+          if (ptr == nullptr) {
+            throw NoSuchMethodError(name);
+          }
+          return ptr;
         });
 
   DartT get<JavaT, DartT>(JClass jClass, JAccessible<JavaT, DartT> type) {
@@ -107,11 +125,15 @@ class JInstanceMethodId {
     String signature,
   ) : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          return Jni.env.GetMethodID(
+          final ptr = Jni.env.GetMethodID(
             jClassRef.pointer,
             name.toNativeChars(arena),
             signature.toNativeChars(arena),
           );
+          if (ptr == nullptr) {
+            throw NoSuchMethodError(name);
+          }
+          return ptr;
         });
 
   /// Calls the instance method on [object] with the given arguments.
@@ -149,11 +171,15 @@ extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
     String signature,
   ) : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          return Jni.env.GetStaticMethodID(
+          final ptr = Jni.env.GetStaticMethodID(
             jClassRef.pointer,
             name.toNativeChars(arena),
             signature.toNativeChars(arena),
           );
+          if (ptr == nullptr) {
+            throw NoSuchMethodError(name);
+          }
+          return ptr;
         });
 
   /// Calls the static method on [jClass] with the given arguments.
@@ -186,11 +212,15 @@ extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
     String signature,
   ) : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          return Jni.env.GetMethodID(
+          final ptr = Jni.env.GetMethodID(
             jClassRef.pointer,
             '<init>'.toNativeChars(arena),
             signature.toNativeChars(arena),
           );
+          if (ptr == nullptr) {
+            throw NoSuchMethodError('<init>');
+          }
+          return ptr;
         });
 
   /// Constructs an instance of [jClass] with the given arguments.

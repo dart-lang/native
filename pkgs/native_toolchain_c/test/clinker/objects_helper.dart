@@ -95,11 +95,10 @@ void runObjectsTests(
       expect(codeAssets, hasLength(1));
       final asset = codeAssets.first;
       expect(asset, isA<CodeAsset>());
-      final symbols = await readSymbols(asset, targetOS);
-      expect(
-        symbols,
-        stringContainsInOrder(['my_func', 'my_other_func']),
-        skip: symbols == null ? 'tool to extract symbols unavailable' : false,
+      await expectSymbols(
+        asset: asset,
+        targetOS: targetOS,
+        symbols: ['my_func', 'my_other_func'],
       );
     });
   }

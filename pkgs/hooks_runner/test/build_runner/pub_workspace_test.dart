@@ -56,6 +56,7 @@ dependency_overrides:
       'data_assets',
       'hooks',
       'native_toolchain_c',
+      'record_use',
     ];
     for (final package in packagesToOverride) {
       workspacePubSpec +=

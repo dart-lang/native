@@ -21,10 +21,11 @@ See the [doc](doc/) directory for more documentation.
 | [hooks_runner](pkgs/hooks_runner/) | This package is the backend that invokes `hook/build.dart` and `hook/link.dart` from Dart and Flutter. | [![issues](https://img.shields.io/badge/package:hooks__runner-4774bc)][hooks_runner_issues] | [![pub package](https://img.shields.io/pub/v/hooks_runner.svg)](https://pub.dev/packages/hooks_runner) |
 | [jni](pkgs/jni/) | A library to access JNI from Dart and Flutter that acts as a support library for package:jnigen. | [![issues](https://img.shields.io/badge/package:jni-4774bc)][jni_issues] | [![pub package](https://img.shields.io/pub/v/jni.svg)](https://pub.dev/packages/jni) |
 | [jni_flutter](pkgs/jni_flutter/) | A library to access Flutter Android specific APIs from Dart. | [![issues](https://img.shields.io/badge/package:jni_flutter-4774bc)][jni_flutter_issues] | [![pub package](https://img.shields.io/pub/v/jni_flutter.svg)](https://pub.dev/packages/jni_flutter) |
+| [jni_util](pkgs/jni_util/) | A library to access Flutter Android specific APIs from Dart. | [![issues](https://img.shields.io/badge/package:jni_util-4774bc)][jni_util_issues] | [![pub package](https://img.shields.io/pub/v/jni_util.svg)](https://pub.dev/packages/jni_util) |
 | [jnigen](pkgs/jnigen/) | A Dart bindings generator for Java and Kotlin that uses JNI under the hood to interop with Java virtual machine. | [![issues](https://img.shields.io/badge/package:jnigen-4774bc)][jnigen_issues] | [![pub package](https://img.shields.io/pub/v/jnigen.svg)](https://pub.dev/packages/jnigen) |
-| [native_doc_dartifier](pkgs/native_doc_dartifier/) | A library that converts code snippets from other languages into Dart. | [![issues](https://img.shields.io/badge/package:native__doc__dartifier-4774bc)][native_doc_dartifier_issues] | [![pub package](https://img.shields.io/pub/v/native_doc_dartifier.svg)](https://pub.dev/packages/native_doc_dartifier) |
 | [native_toolchain_c](pkgs/native_toolchain_c/) | A library to invoke the native C compiler installed on the host machine. | [![issues](https://img.shields.io/badge/package:native__toolchain__c-4774bc)][native_toolchain_c_issues] | [![pub package](https://img.shields.io/pub/v/native_toolchain_c.svg)](https://pub.dev/packages/native_toolchain_c) |
 | [objective_c](pkgs/objective_c/) | A library to access Objective C from Flutter that acts as a support library for package:ffigen. | [![issues](https://img.shields.io/badge/package:objective__c-4774bc)][objective_c_issues] | [![pub package](https://img.shields.io/pub/v/objective_c.svg)](https://pub.dev/packages/objective_c) |
+| [record_use](pkgs/record_use/) | Dart API to access `@RecordUse()` recorded usages in link hooks. | [![issues](https://img.shields.io/badge/package:record__use-4774bc)][record_use_issues] | [![pub package](https://img.shields.io/pub/v/record_use.svg)](https://pub.dev/packages/record_use) |
 | [swift2objc](pkgs/swift2objc/) | A tool for generating bindings that allow interop between Dart and Swift code. | [![issues](https://img.shields.io/badge/package:swift2objc-4774bc)][swift2objc_issues] | [![pub package](https://img.shields.io/pub/v/swift2objc.svg)](https://pub.dev/packages/swift2objc) |
 | [swiftgen](pkgs/swiftgen/) | A tool for generating bindings that allow interop between Dart and Swift code. | [![issues](https://img.shields.io/badge/package:swiftgen-4774bc)][swiftgen_issues] | [![pub package](https://img.shields.io/pub/v/swiftgen.svg)](https://pub.dev/packages/swiftgen) |
 
@@ -36,10 +37,11 @@ See the [doc](doc/) directory for more documentation.
 [hooks_runner_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ahooks_runner
 [jni_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni
 [jni_flutter_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni_flutter
+[jni_util_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni_util
 [jnigen_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajnigen
-[native_doc_dartifier_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Anative_doc_dartifier
 [native_toolchain_c_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Anative_toolchain_c
 [objective_c_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aobjective_c
+[record_use_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Arecord_use
 [swift2objc_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aswift2objc
 [swiftgen_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aswiftgen
 

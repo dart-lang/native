@@ -25,6 +25,7 @@ import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';
 import 'failure.dart';
+import 'record_use_config.dart';
 import 'result.dart';
 import 'tracing_file_system.dart';
 
@@ -65,6 +66,11 @@ class NativeAssetsBuildRunner {
   final FileSystem _fileSystemUntraced;
 
   final Logger logger;
+
+  /// Absolute path to the Dart executable.
+  ///
+  /// On Windows, must include the file extension (for example `.exe`).
+  /// [Platform.resolvedExecutable] is a valid value.
   final Uri dartExecutable;
   final Duration singleHookTimeout;
   final Map<String, String> hookEnvironment;
@@ -84,6 +90,13 @@ class NativeAssetsBuildRunner {
        hookEnvironment =
            hookEnvironment ??
            filteredEnvironment(includeHookEnvironmentVariable) {
+    if (!dartExecutable.isAbsolute) {
+      throw ArgumentError.value(
+        dartExecutable,
+        'dartExecutable',
+        'Must be an absolute path.',
+      );
+    }
     _fileSystem = TracingFileSystem(fileSystem, _task);
   }
 
@@ -127,6 +140,10 @@ class NativeAssetsBuildRunner {
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
   ///
+  /// The validations contributed by [extensions] run only on freshly produced
+  /// hook output. When a cached hook result is reused, its output is not
+  /// re-validated, so a validation is never re-run against a cache hit.
+  ///
   /// Returns a [Future] that completes with a [Result]. On success, the
   /// [Result] is a [Success] containing the [BuildResult], which encapsulates
   /// the outputs of all successful build hook executions. On failure, the
@@ -152,6 +169,12 @@ class NativeAssetsBuildRunner {
       return hookResultUserDefines;
     }
     var hookResult = hookResultUserDefines.success;
+
+    // Give every extension the runner's logger before any other method is
+    // invoked on it.
+    for (final e in extensions) {
+      e.setupLogger(logger);
+    }
 
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
@@ -207,6 +230,7 @@ class NativeAssetsBuildRunner {
         null,
         buildDirUri,
         outDirUri,
+        extensions: extensions,
       );
       if (result.isFailure) {
         return result.asFailure;
@@ -242,6 +266,10 @@ class NativeAssetsBuildRunner {
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
   ///
+  /// The validations contributed by [extensions] run only on freshly produced
+  /// hook output. When a cached hook result is reused, its output is not
+  /// re-validated, so a validation is never re-run against a cache hit.
+  ///
   /// Returns a [Future] that completes with a [Result]. On success, the
   /// [Result] is a [Success] containing the [LinkResult], which encapsulates
   /// the outputs of all successful link hook executions. On failure, the
@@ -249,7 +277,8 @@ class NativeAssetsBuildRunner {
   /// reason for the failure.
   Future<Result<LinkResult, HooksRunnerFailure>> link({
     required List<ProtocolExtension> extensions,
-    Uri? resourceIdentifiers,
+    @Deprecated('Use recordUse instead') Uri? resourceIdentifiers,
+    RecordUseConfig? recordUse,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
     final planResult = await _makePlan(hook: .link, buildResult: buildResult);
@@ -267,9 +296,16 @@ class NativeAssetsBuildRunner {
     }
     var linkResult = hookResultUserDefines.success;
 
+    // Give every extension the runner's logger before any other method is
+    // invoked on it.
+    for (final e in extensions) {
+      e.setupLogger(logger);
+    }
+
     Recordings? packageRecordings;
-    if (resourceIdentifiers != null) {
-      final file = _fileSystem.file(resourceIdentifiers);
+    final targetRecordingsFile = recordUse?.file ?? resourceIdentifiers;
+    if (targetRecordingsFile != null) {
+      final file = _fileSystem.file(targetRecordingsFile);
       try {
         final content = await file.readAsString();
         packageRecordings = Recordings.fromJson(
@@ -277,7 +313,7 @@ class NativeAssetsBuildRunner {
         );
       } on FormatException catch (e) {
         logger.severe(
-          'Failed to parse resource identifiers from $resourceIdentifiers: $e',
+          'Failed to parse resource identifiers from $targetRecordingsFile: $e',
         );
         return const Failure(HooksRunnerFailure.internal);
       }
@@ -301,6 +337,7 @@ class NativeAssetsBuildRunner {
       for (final e in extensions) {
         e.setupLinkInput(inputBuilder);
       }
+      inputBuilder.config.setupHooksRunner(recordUse: recordUse);
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.link,
@@ -356,9 +393,10 @@ class NativeAssetsBuildRunner {
               output as LinkOutput,
             ),
         ],
-        resourceIdentifiers,
+        resourcesFile?.uri,
         buildDirUri,
         outDirUri,
+        extensions: extensions,
       );
       if (result.isFailure) {
         return result.asFailure;
@@ -434,8 +472,9 @@ class NativeAssetsBuildRunner {
     _HookValidator validator,
     Uri? resources,
     Uri buildDirUri,
-    Uri outputDirectory,
-  ) async => _timeAsync(
+    Uri outputDirectory, {
+    required List<ProtocolExtension> extensions,
+  }) async => _timeAsync(
     '_runHookForPackageCached',
     arguments: {'hook': hook.name, 'package': input.packageName},
     () async => await runUnderDirectoriesLock(
@@ -551,10 +590,11 @@ class NativeAssetsBuildRunner {
           return result.asFailure;
         } else {
           final success = result.success;
-          final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+          final modifiedDuringBuild = await dependenciesHashes.updateHashes(
             [...success.dependencies, ?resources],
             lastModifiedCutoffTime,
             hookEnvironment,
+            outputFiles: _assetFiles(success, extensions),
           );
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
@@ -600,8 +640,11 @@ class NativeAssetsBuildRunner {
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
       ...nonStandardNdkEnvironmentVariables,
+      'APPDATA', // Needed for NuGet.
+      'GOPATH', // Needed for installed Go apps.
       'HOME', // Needed to find tools in default install locations.
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
+      'LOCALAPPDATA', // Needed for dart_data_home and pub.
       'PATH', // Needed to invoke native tools.
       'PROGRAMDATA', // Needed for vswhere.exe.
       'PROCESSOR_ARCHITECTURE', // Needed for CMake Android on Windows.
@@ -614,9 +657,13 @@ class NativeAssetsBuildRunner {
       'WINDIR', // Needed for CMake.
       ..._httpProxyEnvironmentVariables,
     };
+
     const variablePrefixesFilter = {
       'CCACHE_', // Needed for Ccache.
+      'DOTNET_', // Needed for .Net.
       'NIX_', // Needed for Nix-installed toolchains.
+      'NUGET_', // Needed for NuGet.
+      'CONAN_', // Needed for Conan Package Manager.
     };
 
     return staticVariablesFilter.contains(environmentVariableName) ||
@@ -830,7 +877,7 @@ class NativeAssetsBuildRunner {
 
       final dartSources = await _readDepFile(depFile);
 
-      final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+      final modifiedDuringBuild = await dependenciesHashes.updateHashes(
         [
           ...dartSources.where(
             (e) => e != packageLayout.packageConfigUri && !_isImmutable(e),
@@ -1031,7 +1078,11 @@ ${e.message}''');
     logger.info('output.json contents:\n$fileContents');
     final Map<String, Object?> hookOutputJson;
     try {
-      hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
+      final decoded = jsonDecode(fileContents);
+      if (decoded is! Map<String, Object?>) {
+        throw const FormatException('Expected a JSON object.');
+      }
+      hookOutputJson = decoded;
     } on FormatException catch (e) {
       logger.severe('''
 Building assets for package:$packageName failed.
@@ -1277,3 +1328,26 @@ Map<String, String> filteredEnvironment(bool Function(String) include) => {
   for (final entry in Platform.environment.entries)
     if (include(entry.key.toUpperCase())) entry.key: entry.value,
 };
+
+Iterable<EncodedAsset> _allEncodedAssets(HookOutput output) {
+  if (output is BuildOutput) {
+    return [
+      ...output.assets.encodedAssets,
+      ...output.assets.encodedAssetsForBuild,
+      ...output.assets.encodedAssetsForLinking.values.expand((e) => e),
+    ];
+  } else if (output is LinkOutput) {
+    return [
+      ...output.assets.encodedAssets,
+      ...output.assets.encodedAssetsForLink.values.expand((e) => e),
+    ];
+  }
+  return [];
+}
+
+List<Uri> _assetFiles(HookOutput output, List<ProtocolExtension> extensions) {
+  final allAssets = _allEncodedAssets(output).toList();
+  return [
+    for (final ext in extensions) ...ext.outputFiles(allAssets),
+  ];
+}

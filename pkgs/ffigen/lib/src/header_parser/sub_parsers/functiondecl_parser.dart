@@ -41,37 +41,8 @@ List<Func> parseFunctionDeclaration(
 
     final returnType = cursor.returnType().toCodeGenType(context);
 
-    final parameters = <Parameter>[];
-    var incompleteStructParameter = false;
-    var unimplementedParameterType = false;
-    final totalArgs = clang.clang_Cursor_getNumArguments(cursor);
-    for (var i = 0; i < totalArgs; i++) {
-      final paramCursor = clang.clang_Cursor_getArgument(cursor, i);
-
-      logger.finer('===== parameter: ${paramCursor.completeStringRepr()}');
-
-      final paramType = paramCursor.toCodeGenType(context);
-      if (paramType.isIncompleteCompound) {
-        incompleteStructParameter = true;
-      } else if (paramType.baseType is UnimplementedType) {
-        logger.finer('Unimplemented type: ${paramType.baseType}');
-        unimplementedParameterType = true;
-      }
-
-      final paramName = paramCursor.spelling();
-      final objCConsumed = paramCursor.hasChildWithKind(
-        clang_types.CXCursorKind.CXCursor_NSConsumed,
-      );
-
-      parameters.add(
-        Parameter(
-          originalName: paramName,
-          name: config.functions.renameMember(decl, paramName),
-          type: paramType,
-          objCConsumed: objCConsumed,
-        ),
-      );
-    }
+    final (:parameters, :hasIncompleteStruct, :hasUnimplementedType) =
+        parseParameters(context, cursor);
 
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
         clang.clang_Cursor_getStorageClass(cursor) !=
@@ -87,7 +58,7 @@ List<Func> parseFunctionDeclaration(
       return funcs;
     }
 
-    if (returnType.isIncompleteCompound || incompleteStructParameter) {
+    if (returnType.isIncompleteCompound || hasIncompleteStruct) {
       logger.fine(
         '---- Removed Function, reason: Incomplete struct pass/return by '
         'value: ${cursor.completeStringRepr()}',
@@ -100,8 +71,7 @@ List<Func> parseFunctionDeclaration(
       return funcs;
     }
 
-    if (returnType.baseType is UnimplementedType ||
-        unimplementedParameterType) {
+    if (returnType.baseType is UnimplementedType || hasUnimplementedType) {
       logger.fine(
         '---- Removed Function, reason: unsupported return type or '
         'parameter type: ${cursor.completeStringRepr()}',
@@ -143,10 +113,10 @@ List<Func> parseFunctionDeclaration(
             availability: apiAvailability.dartDoc,
           ),
           usr: usr,
-          name: config.functions.rename(decl) + (vaFunc?.postfix ?? ''),
+          name: funcName + (vaFunc?.postfix ?? ''),
           originalName: funcName,
           returnType: returnType,
-          parameters: parameters,
+          parameters: parameters.map((p) => p.clone()).toList(),
           varArgParameters: [
             for (final ta in vaFunc?.types ?? const <Type>[])
               Parameter(type: ta, name: 'va', objCConsumed: false),
@@ -165,4 +135,51 @@ List<Func> parseFunctionDeclaration(
   }
 
   return funcs;
+}
+
+({
+  List<Parameter> parameters,
+  bool hasIncompleteStruct,
+  bool hasUnimplementedType,
+})
+parseParameters(
+  Context context,
+  clang_types.CXCursor cursor, {
+  String Function(String)? renameFn,
+}) {
+  final parameters = <Parameter>[];
+  var incompleteStructParameter = false;
+  var unimplementedParameterType = false;
+  final totalArgs = clang.clang_Cursor_getNumArguments(cursor);
+  for (var i = 0; i < totalArgs; i++) {
+    final paramCursor = clang.clang_Cursor_getArgument(cursor, i);
+    context.logger.finer(
+      '===== parameter: ${paramCursor.completeStringRepr()}',
+    );
+    final paramType = paramCursor.toCodeGenType(context);
+    if (paramType.isIncompleteCompound) {
+      incompleteStructParameter = true;
+    } else if (paramType.baseType is UnimplementedType) {
+      context.logger.finer('Unimplemented type: ${paramType.baseType}');
+      unimplementedParameterType = true;
+    }
+    final spelling = paramCursor.spelling();
+    final name = spelling.isEmpty ? 'arg$i' : spelling;
+    final objCConsumed = paramCursor.hasChildWithKind(
+      clang_types.CXCursorKind.CXCursor_NSConsumed,
+    );
+    parameters.add(
+      Parameter(
+        originalName: spelling,
+        name: name,
+        type: paramType,
+        objCConsumed: objCConsumed,
+      ),
+    );
+  }
+  return (
+    parameters: parameters,
+    hasIncompleteStruct: incompleteStructParameter,
+    hasUnimplementedType: unimplementedParameterType,
+  );
 }

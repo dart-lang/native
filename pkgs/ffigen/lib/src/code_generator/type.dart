@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 
 /// Type class for return types, variable types, etc.
@@ -71,7 +72,7 @@ abstract class Type extends AstNode {
   /// This method takes a [varName] arg because some C/ObjC types embed the
   /// variable name inside the type. Eg, to pass an ObjC block as a function
   /// argument, the syntax is `int (^arg)(int)`, where arg is the [varName].
-  String getNativeType({String varName = ''}) =>
+  String getNativeType(Context context, {String varName = ''}) =>
       throw UnsupportedError('No native mapping for type: $this');
 
   /// Returns whether the FFI dart type and C type string are same.
@@ -93,6 +94,7 @@ abstract class Type extends AstNode {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => value;
 
   /// Returns generated Dart code that converts the given value from its
@@ -202,7 +204,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   String getObjCBlockSignatureType(Context context) => getCType(context);
 
   @override
-  String getNativeType({String varName = ''}) =>
+  String getNativeType(Context context, {String varName = ''}) =>
       throw UnsupportedError('No native mapping for type: $this');
 
   @override
@@ -217,6 +219,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
+    required LocalVariables localVariables,
   }) => value;
 
   @override

@@ -10,25 +10,11 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'forward_decl_bindings.dart';
+import 'forward_decl_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('forward decl', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('forward_decl');
-    });
-
     test('Forward declared class', () {
       expect(ForwardDeclaredClass.get123(), 123);
     });

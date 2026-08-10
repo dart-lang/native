@@ -66,3 +66,32 @@ files:
     'java.nio.ByteBuffer':
       name: JByteBuffer
       super_count: 2
+    'java.lang.Class':
+      name: JClass
+      super_count: 1
+    'java.util.Collection':
+      name: JCollection
+      super_count: 1
+      type_params:
+        E:
+          'java.lang.Object': DECLARED
+    'java.util.ArrayList':
+      name: JArrayList
+      super_count: 3
+      type_params:
+        E:
+          'java.lang.Object': DECLARED
+    'java.util.HashSet':
+      name: JHashSet
+      super_count: 3
+      type_params:
+        E:
+          'java.lang.Object': DECLARED
+    'java.util.HashMap':
+      name: JHashMap
+      super_count: 2
+      type_params:
+        K:
+          'java.lang.Object': DECLARED
+        V:
+          'java.lang.Object': DECLARED

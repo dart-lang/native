@@ -37,6 +37,7 @@ workspace:
   - pkgs/hooks_runner/test_data/add_asset_link
   - pkgs/hooks_runner/test_data/complex_link
   - pkgs/hooks_runner/test_data/complex_link_helper
+  - pkgs/hooks_runner/test_data/custom_os_arch
   - pkgs/hooks_runner/test_data/cyclic_link_package_1
   - pkgs/hooks_runner/test_data/cyclic_link_package_2
   - pkgs/hooks_runner/test_data/cyclic_package_1
@@ -78,13 +79,16 @@ workspace:
   - pkgs/hooks_runner/test_data/reusable_dynamic_library
   - pkgs/hooks_runner/test_data/reuse_dynamic_library
   - pkgs/hooks_runner/test_data/simple_data_asset
+  - pkgs/hooks_runner/test_data/simple_data_asset_generated
   - pkgs/hooks_runner/test_data/simple_link
   - pkgs/hooks_runner/test_data/some_dev_dep
   - pkgs/hooks_runner/test_data/system_library
   - pkgs/hooks_runner/test_data/transformer
+  - pkgs/hooks_runner/test_data/treeshaking_dylib_record_use
   - pkgs/hooks_runner/test_data/treeshaking_native_libs
   - pkgs/hooks_runner/test_data/use_all_api
   - pkgs/hooks_runner/test_data/user_defines
+  - pkgs/hooks_runner/test_data/wrong_architecture_asset
   - pkgs/hooks_runner/test_data/wrong_build_output
   - pkgs/hooks_runner/test_data/wrong_build_output_2
   - pkgs/hooks_runner/test_data/wrong_build_output_3
@@ -94,6 +98,7 @@ workspace:
   # - pkgs/jni_flutter  # TODO
   # - pkgs/jni_flutter/android_test_runner  # TODO
   # - pkgs/jni_flutter/example  # TODO
+  # - pkgs/jni_util  # TODO
   # - pkgs/jni/example  # TODO
   # - pkgs/jnigen  # TODO
   # - pkgs/jnigen/android_test_runner  # TODO
@@ -110,12 +115,12 @@ workspace:
   # - pkgs/jnigen/example/pdfbox_plugin/dart_example  # TODO
   # - pkgs/jnigen/example/pdfbox_plugin/example  # TODO
   - pkgs/json_syntax_generator
-  # - pkgs/native_doc_dartifier  # Cannot update to latest dependencies due to https://github.com/dart-lang/native/issues/2839
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
   # - pkgs/objective_c  # TODO
   # - pkgs/objective_c/example/command_line  # TODO
   # - pkgs/objective_c/example/flutter_app  # Requires Flutter.
+  # - pkgs/objective_c/example/path_provider_example  # Requires Flutter.
   - pkgs/pub_formats
   - pkgs/record_use
   - pkgs/record_use/test_data/drop_data_asset

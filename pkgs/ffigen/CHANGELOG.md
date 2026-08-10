@@ -1,3 +1,17 @@
+## 22.0.0-wip
+
+- __Breaking change__: Major overhaul of Dart config API:
+  - Replace various callback based config elements with a `Visitor` pattern.
+    - `rename` and `renameMember` replaced with `.name` setters on AST nodes.
+  - Consolidate `imported` fields and `importedTypesByUsr` into
+    `FfiGenerator.importType`, switching it to a callback pattern
+  - Deleted empty `Integers` class
+  - Rename `Headers` to `Input`
+  - Remove `libraryImports`, which was dead code
+  - Remove `useSupportedTypedefs`, treating it as always true
+- Minor Objective-C code generator and function type signature fixes.
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
 ## 21.0.0
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart
@@ -24,9 +38,10 @@
   change to something more sensible.
 - __Breaking change__: Deleted the config option `Output.sort`. Sorting is now
   always enabled.
-- Fix(https://github.com/dart-lang/native/issues/2877) 
+- Fix(https://github.com/dart-lang/native/issues/2877)
   such that ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns
-  `false` when called with `null`, aligning its behavior with Dart’s `is`operator.
+  `false` when called with `null`, aligning its behavior with Dart’s `is`
+  operator.
 - Use `xcrun` for resolving macOS SDK paths, enabling support for non-standard
   Xcode installations. [#3134](https://github.com/dart-lang/native/issues/3134)
 - Add allocate constructor for native C structs:
@@ -36,7 +51,22 @@
   generating runtime-crashing no-arg constructors.
 - Fix a bug where methods marked with `__attribute__((unavailable))` were
   incorrectly included in bindings when no platform version info was configured.
-  
+- Add some more lint ignores to the generated bindings.
+- Fix a bug where the config option `Protocols.includeTransitive` was not
+  working correctly.
+- Add compile time version checks to verify consistency of package:objective_c's
+  versions vs FFIgen's generated code.
+- Fix [a bug](https://github.com/dart-lang/native/issues/3338) where ObjC
+  bindings may not auto-load their dylib in some cases.
+- Fix memory leaks, deadlocks, and crashes that can happen in callbacks, if the
+  target isolate is shut down.
+- Bump `package:meta` dependency to `^1.19.0` and stop generating
+  `experimental_member_use` lint ignore in generated bindings when
+  `@RecordUse()` is used.
+- Support versions 3.x of `package:package_config`.
+- Fix a bug where comments containing carriage return (\r) characters were not
+  properly split, causing comment text to spill out of Dart doc comments.
+
 ## 20.1.1
 
 - Update tests and examples now that package:objective_c is using native assets.

@@ -23,7 +23,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
           packagePathForTests,
           'test',
           'native_objc_test',
-          'deprecated_bindings.dart',
+          'deprecated_test_bindings.dart',
         ),
       ),
       format: false,
@@ -32,7 +32,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         wrapperDocComment: 'Tests API deprecation',
       ),
     ),
-    headers: Headers(
+    input: Input(
       entryPoints: [
         Uri.file(
           path.join(
@@ -75,14 +75,14 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'deprecatedUnnamedEnum',
     }),
   ).generate(logger: createTestLogger());
-  return File(
-    path.join(
-      packagePathForTests,
-      'test',
-      'native_objc_test',
-      'deprecated_bindings.dart',
-    ),
-  ).readAsStringSync();
+  final file = path.join(
+    packagePathForTests,
+    'test',
+    'native_objc_test',
+    'deprecated_test_bindings.dart',
+  );
+  expectNoAnalysisErrors(file);
+  return File(file).readAsStringSync();
 }
 
 void main() {

@@ -25,14 +25,19 @@ functions:
       - 'DOBJC_newFinalizableBool'
       - 'DOBJC_newFinalizableHandle'
       - 'DOBJC_awaitWaiter'
+      - 'DOBJC_invokeListenerPortBlock'
+      - 'DOBJC_invokeBlockingPortBlock'
   rename:
     'DOBJC_(.*)': '$1'
 typedefs:
   include:
     - 'Dart_FinalizableHandle'
 structs:
+  dependency-only: opaque
   include:
-    - '_DOBJC_Context'
+    - '_ObjCBlockImpl'
+    - '_ObjCBlockDesc'
+    - '_Version'
   rename:
     '_ObjC(.*)': 'ObjC$1'
     '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'

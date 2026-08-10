@@ -21,8 +21,10 @@ import 'syntax.g.dart';
 /// record to be able to piece together which loading units are "related", for
 /// example all needing the same asset.
 sealed class Reference {
+  /// The loading unit in which this usage was recorded.
   final LoadingUnit loadingUnit;
 
+  /// Creates a [Reference] in [loadingUnit].
   const Reference({required this.loadingUnit});
 
   /// Canonicalizes this [Reference].
@@ -292,11 +294,16 @@ sealed class CallReference extends Reference {
 /// Any non-provided arguments with default values will have their default
 /// values filled in.
 final class CallWithArguments extends CallReference with _HasArguments {
+  /// The positional arguments passed to the call.
   @override
   final List<MaybeConstant> positionalArguments;
+
+  /// The named arguments passed to the call, keyed by parameter name.
   @override
   final Map<String, MaybeConstant> namedArguments;
 
+  /// Creates a [CallWithArguments] with [positionalArguments] and
+  /// [namedArguments].
   const CallWithArguments({
     required this.positionalArguments,
     required this.namedArguments,
@@ -429,6 +436,7 @@ final class CallWithArguments extends CallReference with _HasArguments {
 /// A reference to a tear-off use of the [Definition]. This means that we can't
 /// record the arguments possibly passed to the method somewhere else.
 final class CallTearoff extends CallReference {
+  /// Creates a [CallTearoff] in [loadingUnit].
   const CallTearoff({required super.loadingUnit, super.receiver});
 
   @override
@@ -494,12 +502,19 @@ final class CallTearoff extends CallReference {
   }
 }
 
-// TODO(https://github.com/dart-lang/native/issues/2908): Support enum
-// constant instances here as well. Enums cannot have constructor calls or
-// constructor tearoffs though. So how to do the type hierarchy here?
-// TODO(https://github.com/dart-lang/native/issues/3057): Extension type const
-// instances?
-//
+/// A reference to an instance usage of a [DefinitionWithInstances] (`final`
+/// class or `enum`).
+///
+/// For a `final class`, this might be a constant instance
+/// ([InstanceConstantReference]), a generative constructor invocation
+/// ([InstanceCreationReference]), or a generative constructor tear-off
+/// ([ConstructorTearoffReference]).
+///
+/// For an `enum`, only constant enum elements ([InstanceConstantReference]) are
+/// recorded, because enums cannot be instantiated dynamically or torn off.
+///
+/// The `@RecordUse()` annotation cannot be placed directly on an `extension
+/// type` to record instances.
 sealed class InstanceReference extends Reference {
   const InstanceReference({required super.loadingUnit});
 
@@ -571,9 +586,12 @@ sealed class InstanceReference extends Reference {
   });
 }
 
+/// A reference to a constant instance of a class or enum element.
 final class InstanceConstantReference extends InstanceReference {
+  /// The constant value of this instance or enum element.
   final Constant instanceConstant;
 
+  /// Creates an [InstanceConstantReference] for [instanceConstant].
   const InstanceConstantReference({
     required this.instanceConstant,
     required super.loadingUnit,
@@ -663,12 +681,19 @@ final class InstanceConstantReference extends InstanceReference {
 /// values filled in.
 final class InstanceCreationReference extends InstanceReference
     with _HasArguments {
+  /// The class or enum being instantiated.
   final Definition definition;
+
+  /// The positional arguments passed to the constructor invocation.
   @override
   final List<MaybeConstant> positionalArguments;
+
+  /// The named arguments passed to the constructor invocation, keyed by
+  /// parameter name.
   @override
   final Map<String, MaybeConstant> namedArguments;
 
+  /// Creates an [InstanceCreationReference] for [definition].
   const InstanceCreationReference({
     required this.definition,
     required this.positionalArguments,
@@ -797,9 +822,15 @@ final class InstanceCreationReference extends InstanceReference
   }
 }
 
+/// A reference to a tear-off of a generative constructor on [definition].
+///
+/// Because only the constructor function object is referenced, argument
+/// values are not available.
 final class ConstructorTearoffReference extends InstanceReference {
+  /// The class or enum whose constructor was torn off.
   final Definition definition;
 
+  /// Creates a [ConstructorTearoffReference] for [definition].
   const ConstructorTearoffReference({
     required this.definition,
     required super.loadingUnit,
@@ -877,12 +908,15 @@ final class ConstructorTearoffReference extends InstanceReference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension ReferenceProtected on Reference {
+  /// Canonicalizes the children of this reference.
   Reference canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context);
 
+  /// Returns a filtered copy of this reference.
   Reference filter({String? definitionPackageName}) =>
       _filter(definitionPackageName: definitionPackageName);
 
+  /// Compares this reference to [other] for ordering.
   int compareTo(Reference other) => _compareTo(other);
 }
 
@@ -891,16 +925,21 @@ extension ReferenceProtected on Reference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension CallReferenceProtected on CallReference {
+  /// Converts this reference to a syntax representation.
   CallSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
+  /// Canonicalizes the children of this reference.
   CallReference canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context) as CallReference;
 
+  /// Returns a filtered copy of this reference.
   CallReference filter({String? definitionPackageName}) =>
       _filter(definitionPackageName: definitionPackageName);
 
+  /// Compares this reference to [other] for ordering.
   int compareTo(Reference other) => _compareTo(other);
 
+  /// Creates a [CallReference] from a [CallSyntax].
   static CallReference fromSyntax(
     CallSyntax syntax,
     DeserializationContext context,
@@ -912,16 +951,21 @@ extension CallReferenceProtected on CallReference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension InstanceReferenceProtected on InstanceReference {
+  /// Converts this reference to a syntax representation.
   InstanceSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
+  /// Canonicalizes the children of this reference.
   InstanceReference canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context) as InstanceReference;
 
+  /// Returns a filtered copy of this reference.
   InstanceReference filter({String? definitionPackageName}) =>
       _filter(definitionPackageName: definitionPackageName);
 
+  /// Compares this reference to [other] for ordering.
   int compareTo(Reference other) => _compareTo(other);
 
+  /// Creates an [InstanceReference] from an [InstanceSyntax].
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,
     DeserializationContext context,

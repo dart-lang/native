@@ -10,6 +10,7 @@ import 'code_asset.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
+import 'sanitizer.dart';
 import 'syntax.g.dart';
 
 /// Extension to the [HookConfig] providing access to configuration specific
@@ -18,7 +19,17 @@ extension HookConfigCodeConfig on HookConfig {
   /// Code asset specific configuration.
   ///
   /// Only available if [buildCodeAssets] is true.
-  CodeConfig get code => CodeConfig._fromJson(json, path);
+  CodeConfig get code {
+    if (!buildCodeAssets) {
+      throw StateError(
+        'HookConfig.code should only be accessed when building code assets. '
+        'Check HookConfig.buildCodeAssets '
+        '(e.g. `input.config.buildCodeAssets`) '
+        'before accessing HookConfig.code.',
+      );
+    }
+    return CodeConfig._fromJson(json, path);
+  }
 
   /// Whether the hook invoker (e.g. the Dart or Flutter SDK) expects this
   /// hook to build code assets.
@@ -73,6 +84,21 @@ final class CodeConfig {
 
   /// The operating system being compiled for.
   OS get targetOS => OSSyntaxExtension.fromSyntax(_syntax.targetOs);
+
+  /// The compiler sanitizer to use, if any.
+  ///
+  /// Sanitizers (like AddressSanitizer, MemorySanitizer, or ThreadSanitizer)
+  /// instrument binaries for runtime diagnostics.
+  ///
+  /// The Dart SDK JIT or AOT runtime itself can be compiled with a sanitizer.
+  /// To run native code alongside a sanitized Dart SDK, the code assets
+  /// must be compiled with the exact same sanitizer, ensuring they share
+  /// compatible runtime libraries and memory allocators across the FFI
+  /// boundary.
+  Sanitizer? get sanitizer => switch (_syntax.sanitizer) {
+    null => null,
+    final s => SanitizerSyntaxExtension.fromSyntax(s),
+  };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   IOSCodeConfig get iOS => switch (_syntax.iOS) {
@@ -234,6 +260,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     AndroidCodeConfig? android,
     IOSCodeConfig? iOS,
     MacOSCodeConfig? macOS,
+    Sanitizer? sanitizer,
   }) {
     final codeConfig = CodeConfigSyntax(
       linkModePreference: linkModePreference.toSyntax(),
@@ -243,6 +270,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
       android: android?.toSyntax(),
       iOS: iOS?.toSyntax(),
       macOS: macOS?.toSyntax(),
+      sanitizer: sanitizer?.toSyntax(),
     );
     final baseHookConfig = ConfigSyntax.fromJson(json);
     baseHookConfig.extensions ??= ConfigExtensionsSyntax.fromJson({});

@@ -53,8 +53,10 @@ import 'syntax.g.dart';
 /// Context providing access to the loading unit pool during deserialization.
 @immutable
 base class LoadingUnitDeserializationContext {
+  /// The list of resolved [LoadingUnit] objects indexed by ID.
   final List<LoadingUnit> loadingUnits;
 
+  /// Creates a [LoadingUnitDeserializationContext] with [loadingUnits].
   const LoadingUnitDeserializationContext(this.loadingUnits);
 }
 
@@ -62,8 +64,11 @@ base class LoadingUnitDeserializationContext {
 @immutable
 base class DefinitionDeserializationContext
     extends LoadingUnitDeserializationContext {
+  /// The list of resolved [Definition] objects indexed by ID.
   final List<Definition> definitions;
 
+  /// Creates a [DefinitionDeserializationContext] extending [previous] with
+  /// [definitions].
   DefinitionDeserializationContext.fromPrevious(
     LoadingUnitDeserializationContext previous,
     this.definitions,
@@ -77,6 +82,7 @@ final class DeserializationContext extends DefinitionDeserializationContext {
   /// [RecordedUsesSyntax.constants] to the semantic [MaybeConstant]s.
   final List<MaybeConstant> constants;
 
+  /// Creates a [DeserializationContext] extending [previous] with [constants].
   DeserializationContext.fromPrevious(
     DefinitionDeserializationContext previous,
     this.constants,
@@ -101,6 +107,8 @@ final class SerializationContext {
   /// index within the constants pool ([RecordedUsesSyntax.constants]).
   final Map<MaybeConstant, int> constants;
 
+  /// Creates a [SerializationContext] with mappings for [loadingUnits],
+  /// [definitions], and [constants].
   const SerializationContext({
     required this.loadingUnits,
     required this.definitions,

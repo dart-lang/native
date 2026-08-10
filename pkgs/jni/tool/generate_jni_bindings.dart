@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
-import 'package:jnigen/src/elements/j_elements.dart' as j;
 
 // These core classes each have multiple constructors, such as a constructor
 // that converts a String to an Integer. We only want the constructor that takes
@@ -22,32 +21,27 @@ const Map<String, String> _constructorAllowList = {
   'Short': 's',
 };
 
-class Renamer extends j.Visitor {
-  late j.ClassDecl _class;
+base class Renamer extends Visitor {
+  Renamer() : super.base();
+
+  ClassDecl? _currentClass;
 
   @override
-  void visitClass(j.ClassDecl c) {
-    _class = c;
+  void visitClass(ClassDecl c) {
+    _currentClass = c;
     c.name = 'J${c.originalName}';
   }
 
   @override
-  void visitMethod(j.Method m) {
+  void visitMethod(Method m) {
     if (!m.isConstructor) return;
-    final sig = _constructorAllowList[_class.originalName];
+    final sig = _constructorAllowList[_currentClass?.originalName];
     if (sig == null) return;
-    final lister = ListParams();
-    m.accept(lister);
-    m.isExcluded = !(lister.params.length == 1 && lister.params.first == sig);
-  }
-}
-
-class ListParams extends j.Visitor {
-  List<String> params = [];
-
-  @override
-  void visitParam(j.Param p) {
-    params.add(p.originalName);
+    final params = <String>[];
+    m.accept(Visitor(
+      visitParam: (p) => params.add(p.originalName),
+    ));
+    m.isIncluded = params.length == 1 && params.first == sig;
   }
 }
 
@@ -82,19 +76,22 @@ Future<void> main() async {
   final packageRoot = Platform.script.resolve('..');
   await generateJniBindings(
     Config(
-      androidSdkConfig: AndroidSdkConfig(
-        addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/').toFilePath(),
+      input: Input(
+        classes: classes,
+        androidSdk: AndroidSdk(
+          addGradleDeps: true,
+          androidExample: packageRoot.resolve('example/').toFilePath(),
+        ),
       ),
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
+      output: Output(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/src/core_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),
+        preamble: preamble,
+        generateStubs: false,
       ),
-      classes: classes,
-      hide: classes,
-      preamble: preamble,
+      imports: SymbolImports(hide: classes),
       visitors: [Renamer()],
     ),
   );

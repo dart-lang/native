@@ -11,6 +11,7 @@ import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
 import 'bindings/renamer.dart';
+import 'bindings/stub_collector.dart';
 import 'bindings/visitor.dart';
 import 'config/config.dart';
 import 'elements/elements.dart';
@@ -22,8 +23,14 @@ import 'tools/tools.dart';
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
 Future<void> generateJniBindings(Config config) async {
-  Annotated.nonNullAnnotations.addAll(config.nonNullAnnotations ?? []);
-  Annotated.nullableAnnotations.addAll(config.nullableAnnotations ?? []);
+  Annotated.nonNullAnnotations
+    ..clear()
+    ..addAll(Annotated.defaultNonNullAnnotations)
+    ..addAll(config.nullability.nonNull);
+  Annotated.nullableAnnotations
+    ..clear()
+    ..addAll(Annotated.defaultNullableAnnotations)
+    ..addAll(config.nullability.nullable);
 
   setLoggingLevel(config.logLevel);
 
@@ -41,7 +48,7 @@ Future<void> generateJniBindings(Config config) async {
   }
 
   final userClasses = j_ast.Classes(classes);
-  config.visitors?.forEach(userClasses.accept);
+  config.visitors.forEach(userClasses.accept);
 
   // Keep the order in sync with `elements/elements.dart`.
   var stage = GenerationStage.userVisitors;
@@ -54,6 +61,7 @@ Future<void> generateJniBindings(Config config) async {
   runStage(Excluder(config));
   runStage(KotlinProcessor());
   await runStage(Linker(config));
+  runStage(StubCollector(config));
   runStage(Renamer(config));
   // classes.accept(const Printer());
 

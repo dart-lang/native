@@ -12,32 +12,18 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'log_bindings.dart';
+import 'log_test_bindings.dart';
 import 'util.dart';
 
 void main() {
   group('log_test', () {
-    setUpAll(() {
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
-      verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
-      generateBindingsForCoverage('log');
-    });
-
     test('Duplicate method log spam', () {
       final logs = <String>[];
       final logger = createTestLogger(
         capturedMessages: logs,
         level: Level.SEVERE,
       );
-      generateBindingsForCoverage('log', logger);
+      verifyBindings('log', logger: logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));
     });

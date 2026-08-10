@@ -3,10 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'local_variables.dart';
 import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -55,7 +57,7 @@ class Func extends LookUpBinding with HasLocalScope {
 
   /// The symbol for the internal function or method name, used for record use
   /// mapping and avoiding collisions.
-  final Symbol funcVarSymbol;
+  Symbol? funcVarSymbol;
 
   bool get needsWrapper => !functionType.sameDartAndFfiDartType && !isInternal;
 
@@ -86,7 +88,6 @@ class Func extends LookUpBinding with HasLocalScope {
          parameters: parameters,
          varArgParameters: varArgParameters,
        ),
-       funcVarSymbol = Symbol('_$name', SymbolKind.method),
        super(symbol: Symbol(name, SymbolKind.method)) {
     for (var i = 0; i < functionType.parameters.length; i++) {
       if (functionType.parameters[i].symbol.oldName.isEmpty) {
@@ -104,6 +105,13 @@ class Func extends LookUpBinding with HasLocalScope {
         isInternal: true,
       );
     }
+  }
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Func(this);
+
+  void fillFuncVarSymbol() {
+    funcVarSymbol ??= Symbol('_${symbol.oldName}', SymbolKind.method);
   }
 
   @override
@@ -126,7 +134,7 @@ class Func extends LookUpBinding with HasLocalScope {
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final funcVarName = funcVarSymbol.name;
+    final funcVarName = funcVarSymbol!.name;
     final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
@@ -136,6 +144,8 @@ class Func extends LookUpBinding with HasLocalScope {
     final String dartReturnType;
     final String dartArgDeclString;
     final String funcImplCall;
+    final localVars = LocalVariables(localScope);
+
     if (needsWrapper) {
       dartReturnType = functionType.returnType.getDartType(context);
       dartArgDeclString = functionType.dartTypeParameters
@@ -149,6 +159,7 @@ class Func extends LookUpBinding with HasLocalScope {
               p.name,
               objCRetain: p.objCConsumed,
               objCAutorelease: false,
+              localVariables: localVars,
             );
             return '$type,\n';
           })
@@ -188,7 +199,10 @@ external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 ''');
       if (needsWrapper) {
         s.write('''
-$dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
+$dartReturnType $enclosingFuncName($dartArgDeclString) {
+  ${localVars.generateDeclarations()}
+  return $funcImplCall;
+}
 
 ''');
       }
@@ -209,6 +223,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
       // Write enclosing function.
       s.write('''
 $dartReturnType $enclosingFuncName($dartArgDeclString) {
+  ${localVars.generateDeclarations()}
   return $funcImplCall;
 }
 
@@ -259,7 +274,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
   (String, String)? get recordUseMapping => recordUse
       ? (
-          needsWrapper ? funcVarSymbol.name : name,
+          needsWrapper ? funcVarSymbol!.name : name,
           useNameForLookup ? name : originalName,
         )
       : null;
@@ -285,20 +300,34 @@ class Parameter extends AstNode {
   Symbol symbol;
   String get name => symbol.name;
 
-  Parameter({
-    String? originalName,
-    String name = '',
+  Parameter._({
+    required this.originalName,
+    required this.symbol,
     required Type type,
     required this.objCConsumed,
-  }) : originalName = originalName ?? name,
-       symbol = Symbol(name, SymbolKind.field),
-       // A [NativeFunc] is wrapped with a pointer because this is a shorthand
+  }) : // A [NativeFunc] is wrapped with a pointer because this is a shorthand
        // used in C for Pointer to function.
        type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
-  String getNativeType({String varName = ''}) =>
-      '${type.getNativeType(varName: varName)}'
-      '${objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
+  Parameter({
+    String? name,
+    String? originalName,
+    required Type type,
+    bool objCConsumed = false,
+  }) : this._(
+         originalName: originalName ?? name ?? '',
+         symbol: Symbol(name ?? originalName ?? '', SymbolKind.field),
+         type: type,
+         objCConsumed: objCConsumed,
+       );
+
+  String getNativeType(
+    Context context, {
+    String varName = '',
+    bool withAttr = true,
+  }) =>
+      '${type.getNativeType(context, varName: varName)}'
+      '${withAttr && objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
 
   @override
   String toString() => '$type $symbol';
@@ -309,6 +338,13 @@ class Parameter extends AstNode {
     visitor.visit(symbol);
     visitor.visit(type);
   }
+
+  Parameter clone() => Parameter._(
+    originalName: originalName,
+    symbol: symbol.clone(),
+    type: type,
+    objCConsumed: objCConsumed,
+  );
 
   bool get isNullable => type.typealiasType is ObjCNullable;
 }

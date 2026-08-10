@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
+import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -25,7 +26,7 @@ void main() {
               packagePathForTests,
               'test',
               'native_objc_test',
-              'ns_range_bindings.dart',
+              'ns_range_test_bindings.dart',
             ),
           ),
           format: false,
@@ -33,7 +34,7 @@ void main() {
             wrapperName: 'NSRangeTestObjCLibrary',
           ),
         ),
-        headers: Headers(
+        input: Input(
           entryPoints: [
             Uri.file(
               path.join(
@@ -52,14 +53,14 @@ void main() {
           ),
         ),
       ).generate(logger: createTestLogger());
-      bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'ns_range_bindings.dart',
-        ),
-      ).readAsStringSync();
+      final file = path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'ns_range_test_bindings.dart',
+      );
+      expectNoAnalysisErrors(file);
+      bindings = File(file).readAsStringSync();
     });
 
     test('interfaces', () {

@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: experimental_member_use
-
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -15,8 +13,8 @@ void main(List<String> arguments) async {
     final usages = input.recordedUses;
     if (usages == null) {
       throw ArgumentError(
-        'Enable the --enable-experiment=record-use experiment'
-        ' to use this app.',
+        'Update to Dart 3.13 or run with --enable-experiment=record-use'
+        ' on older Dart versions.',
       );
     }
     final codeAssets = input.assets.code;

@@ -124,7 +124,6 @@ class FixOverriddenMethodsVisitation extends Visitation {
   void _fixMethodSymbols(ObjCInterface node) {
     // If a method overrides a super method, they should have the same name.
     for (final method in node.methods) {
-      if (method.isClassMethod) continue;
       final (superType, superMethod) = _findRootWithMethod(node, method);
       method.symbol = superMethod.symbol;
     }

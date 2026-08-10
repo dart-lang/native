@@ -9,6 +9,8 @@
 name: NativeLibrary
 description: 'Native tests.'
 output: '_expected_native_test_bindings.dart'
+ffi-native:
+  asset-id: 'package:ffigen/native_test'
 headers:
   entry-points:
     - 'native_test.c'

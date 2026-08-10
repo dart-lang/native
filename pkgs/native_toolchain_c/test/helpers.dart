@@ -12,6 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -186,7 +187,7 @@ Future<String> readelfMachine(String path) async {
   return result.split('\n').firstWhere((e) => e.contains('Machine:'));
 }
 
-const readElfMachine = {
+final readElfMachine = {
   Architecture.arm: 'ARM',
   Architecture.arm64: 'AArch64',
   Architecture.ia32: 'Intel 80386',
@@ -256,6 +257,30 @@ Future<void> expectSymbolNotUndefined(
     isEmpty,
     reason: '$symbol should not be an undefined symbol',
   );
+}
+
+/// Asserts that the library described by [asset] contains [symbols] and does
+/// not contain [symbolsNotToContain].
+Future<void> expectSymbols({
+  required CodeAsset asset,
+  required OS targetOS,
+  List<String> symbols = const [],
+  List<String> symbolsNotToContain = const [],
+}) async {
+  final symbolsString = await readSymbols(asset, targetOS);
+  final skip = skipLocal(
+    symbolsString == null,
+    'tool to extract symbols unavailable',
+    // The Dart SDK CI does not have dumpbin.
+    skipDartSdkCI: true,
+  );
+  expect(symbolsString, isNotNull, skip: skip);
+  for (final symbol in symbols) {
+    expect(symbolsString, contains(symbol), skip: skip);
+  }
+  for (final symbol in symbolsNotToContain) {
+    expect(symbolsString, isNot(contains(symbol)), skip: skip);
+  }
 }
 
 /// Returns null if the dumpbin tool is not available.
@@ -357,7 +382,7 @@ int defaultMacOSVersion = MacOSVersion.flutterLowestSupported.value;
 
 /// File-format strings used by the `objdump` tool for Android binaries that
 /// run on a given architecture.
-const objdumpFileFormatAndroid = {
+final objdumpFileFormatAndroid = {
   Architecture.arm: 'elf32-littlearm',
   Architecture.arm64: 'elf64-littleaarch64',
   Architecture.ia32: 'elf32-i386',
@@ -365,24 +390,56 @@ const objdumpFileFormatAndroid = {
   Architecture.riscv64: 'elf64-littleriscv',
 };
 
-const objdumpFileFormatMacOS = {
+final objdumpFileFormatMacOS = {
   Architecture.arm64: 'mach-o arm64',
   Architecture.x64: 'mach-o 64-bit x86-64',
 };
 
 // Don't include 'mach-o' or 'Mach-O', different spelling is used.
-const objdumpFileFormatIOS = {
+final objdumpFileFormatIOS = {
   Architecture.arm64: 'arm64',
   Architecture.x64: '64-bit x86-64',
 };
 
-const targetOSToObjdumpFileFormat = {
+final objdumpFileFormatLinux = {
+  Architecture.arm: 'elf32-littlearm',
+  Architecture.arm64: 'elf64-littleaarch64',
+  Architecture.ia32: 'elf32-i386',
+  Architecture.x64: 'elf64-x86-64',
+  Architecture.riscv32: 'elf32-riscv32',
+  Architecture.riscv64: 'elf64-riscv64',
+};
+
+/// The target triple identifying the cross toolchain for [targetOS]/
+/// [targetArch], e.g. to invoke its executables (`<triple>-gcc`,
+/// `<triple>-objdump`) or to pass to `objdump --triple=`.
+///
+/// Returns `null` for combinations without a dedicated triple (e.g. native
+/// macOS/iOS or Windows targets).
+String? targetTriple(OS targetOS, Architecture targetArch) =>
+    switch ((targetOS, targetArch)) {
+      (OS.linux, Architecture.arm) => 'arm-linux-gnueabihf',
+      (OS.linux, Architecture.arm64) => 'aarch64-linux-gnu',
+      (OS.linux, Architecture.ia32) => 'i686-linux-gnu',
+      (OS.linux, Architecture.x64) => 'x86_64-linux-gnu',
+      (OS.linux, Architecture.riscv32) => 'riscv32-linux-gnu',
+      (OS.linux, Architecture.riscv64) => 'riscv64-linux-gnu',
+      (OS.android, Architecture.arm) => 'arm-linux-androideabi',
+      (OS.android, Architecture.arm64) => 'aarch64-linux-android',
+      (OS.android, Architecture.ia32) => 'i686-linux-android',
+      (OS.android, Architecture.x64) => 'x86_64-linux-android',
+      (OS.android, Architecture.riscv64) => 'riscv64-linux-android',
+      _ => null,
+    };
+
+final targetOSToObjdumpFileFormat = {
   OS.android: objdumpFileFormatAndroid,
   OS.macOS: objdumpFileFormatMacOS,
   OS.iOS: objdumpFileFormatMacOS,
+  OS.linux: objdumpFileFormatLinux,
 };
 
-const dumpbinFileFormat = {
+final dumpbinFileFormat = {
   Architecture.arm64: 'ARM64',
   Architecture.ia32: 'x86',
   Architecture.x64: 'x64',
@@ -402,9 +459,15 @@ Future<void> expectMachineArchitecture(
     final machine = await readelfMachine(libUri.path);
     expect(machine, contains(readElfMachine[targetArch]));
   } else if (Platform.isMacOS) {
+    final triple = targetTriple(targetOS, targetArch);
+    final isStatic = libUri.path.endsWith('.a') || libUri.path.endsWith('.lib');
     final result = await runProcess(
       executable: Uri.file('objdump'),
-      arguments: ['-T', libUri.path],
+      arguments: [
+        if (triple != null) '--triple=$triple',
+        isStatic ? '-t' : '-T',
+        libUri.path,
+      ],
       logger: logger,
     );
     expect(result.exitCode, 0);
@@ -415,16 +478,37 @@ Future<void> expectMachineArchitecture(
       machine,
       contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
     );
+  } else if (Platform.isWindows && targetOS == OS.linux) {
+    final triple = targetTriple(targetOS, targetArch);
+    final isStatic = libUri.path.endsWith('.a') || libUri.path.endsWith('.lib');
+    final result = await runProcess(
+      executable: Uri.file('wsl'),
+      arguments: ['$triple-objdump', isStatic ? '-t' : '-T', toWslPath(libUri)],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final machine = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('file format'));
+    // GNU binutils objdump names RISC-V `elf64-littleriscv`, unlike the LLVM
+    // objdump (`elf64-riscv64`) that the macOS branch above relies on.
+    final expectedFormat = targetArch == Architecture.riscv64
+        ? 'elf64-littleriscv'
+        : objdumpFileFormatLinux[targetArch];
+    expect(machine, contains(expectedFormat));
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await _runDumpbin(['/HEADERS'], libUri);
-    final skipReason = result == null
-        ? 'tool to determine binary architecture unavailable'
-        : false;
-    expect(result?.exitCode, 0, skip: skipReason);
+    final skip = skipLocal(
+      result == null,
+      'tool to determine binary architecture unavailable',
+      // The Dart SDK CI does not have dumpbin.
+      skipDartSdkCI: true,
+    );
+    expect(result?.exitCode, 0, skip: skip);
     final machine = result?.stdout
         .split('\n')
         .firstWhere((e) => e.contains('machine'));
-    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skipReason);
+    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skip);
   }
 }
 

@@ -26,19 +26,23 @@ jobs:
   # Check code formatting and static analysis.
   analyze:
     runs-on: macos-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/objective_c/
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
       - id: install
         name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/command_line" && flutter pub get --directory="example/flutter_app"
+        run: flutter pub get && flutter pub get --directory="example/command_line" && flutter pub get --directory="example/flutter_app" && flutter pub get --directory="example/path_provider_example"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
@@ -49,12 +53,16 @@ jobs:
   test-mac:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/objective_c/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-      - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1
         with:
           sdk: stable
       - name: Install dependencies
@@ -67,15 +75,17 @@ jobs:
         # test/generate_code_test.dart runs the code generator, so if there are
         # any git-diffs at this point, it means the generated code is outdated.
         run: if [[ -n $(git status --porcelain | tee /dev/stderr) ]]; then echo -e "\nDIFF:"; git diff; false; fi
+      - name: Trust Coveralls tap
+        run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           flag-name: objective_c
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/objective_c/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -83,20 +93,33 @@ jobs:
 
   build-flutter-example:
     needs: analyze
-    runs-on: 'macos-latest'
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/objective_c/example/flutter_app
     strategy:
       fail-fast: false
       matrix:
-        xcode_version: ["16.1", "26.1.1"]
+        runner: ["macos-15", "macos-latest"]
         ios_version: ["18.1"]
+        include:
+          - runner: "macos-15"
+            xcode_version: "16.1"
+          - runner: "macos-latest"
+            xcode_version: "26.3"
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         with:
           channel: stable
+      - name: List installed Xcodes
+        run: ls -l /Applications | grep Xcode
+      - name: List Installed SDKs
+        run: xcodebuild -showsdks
       - name: Select the XCode version
         run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
       - name: Install iOS SDK
@@ -115,17 +138,19 @@ jobs:
   build-command-line-example:
     needs: analyze
     runs-on: 'macos-latest'
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: pkgs/objective_c/example/command_line
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-      - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1
         with:
           sdk: stable
       - name: Install dependencies
         run: dart pub get
       - name: Run the example app
         run: dart run lib/main.dart
-
-

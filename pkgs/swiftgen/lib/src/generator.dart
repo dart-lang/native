@@ -53,6 +53,8 @@ extension SwiftGenGenerator on SwiftGenerator {
     outputFile: swiftWrapperFile.path,
     tempDir: Uri.directory(absTempDir),
     preamble: swiftWrapperFile.preamble,
+    target: target.triple,
+    sdk: target.sdk,
   ).generate(logger: logger);
 
   Future<void> _generateObjCFile(
@@ -91,15 +93,12 @@ extension SwiftGenGenerator on SwiftGenerator {
       enums: ffigen.enums,
       unnamedEnums: ffigen.unnamedEnums,
       globals: ffigen.globals,
-      integers: ffigen.integers,
       macros: ffigen.macros,
       typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
         interfaces: fg.Interfaces(
           include: interfaces.include,
           includeMember: interfaces.includeMember,
-          rename: interfaces.rename,
-          renameMember: interfaces.renameMember,
           includeTransitive: interfaces.includeTransitive,
           module: interfaces.module != fg.Interfaces.noModule
               ? interfaces.module
@@ -108,8 +107,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         protocols: fg.Protocols(
           include: protocols.include,
           includeMember: protocols.includeMember,
-          rename: protocols.rename,
-          renameMember: protocols.renameMember,
           includeTransitive: protocols.includeTransitive,
           module: protocols.module != fg.Protocols.noModule
               ? protocols.module
@@ -118,7 +115,8 @@ extension SwiftGenGenerator on SwiftGenerator {
         categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,
       ),
-      headers: fg.Headers(
+      visitors: ffigen.visitors,
+      input: fg.Input(
         entryPoints: [Uri.file(objcHeader)],
         compilerOptions: [
           ...fg.defaultCompilerOpts(logger),

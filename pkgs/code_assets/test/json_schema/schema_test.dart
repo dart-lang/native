@@ -104,6 +104,7 @@ FieldsFunction _codeFields(AllTestData allTestData) {
         ([..._codeConfigPath, 'c_compiler', 'ar'], expectRequiredFieldMissing),
         ([..._codeConfigPath, 'c_compiler', 'cc'], expectRequiredFieldMissing),
         ([..._codeConfigPath, 'c_compiler', 'ld'], expectRequiredFieldMissing),
+        ([..._codeConfigPath, 'sanitizer'], expectOptionalFieldMissing),
         ([..._codeConfigPath, 'macos'], expectRequiredFieldMissing),
         (
           [..._codeConfigPath, 'macos', 'target_version'],

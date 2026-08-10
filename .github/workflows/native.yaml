@@ -3,7 +3,8 @@
 # Combined into a single workflow so that deps are configured and installed once.
 
 name: native
-permissions: read-all
+permissions:
+  contents: read
 
 on:
   pull_request:
@@ -54,9 +55,11 @@ jobs:
         working-directory: .
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
 
-      - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
+      - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1
         with:
           sdk: ${{ matrix.sdk }}
 
@@ -73,13 +76,39 @@ jobs:
         run: brew install lld
         if: ${{ matrix.os == 'macos' }}
 
+      - name: Install Linux cross gcc (macOS)
+        run: |
+          brew install \
+            messense/macos-cross-toolchains/x86_64-unknown-linux-gnu \
+            messense/macos-cross-toolchains/aarch64-unknown-linux-gnu \
+            messense/macos-cross-toolchains/arm-unknown-linux-gnueabihf \
+            messense/macos-cross-toolchains/i686-unknown-linux-gnu
+        if: ${{ matrix.os == 'macos' }}
+
+      - name: Install Linux cross gcc in WSL (Windows)
+        uses: Vampire/setup-wsl@d1da7f2c0322a5ee4f24975344f67fc0f5baf364
+        with:
+          distribution: Ubuntu-24.04
+          wsl-version: '1'
+          additional-packages: >-
+            gcc-x86-64-linux-gnu binutils-x86-64-linux-gnu libc6-dev-amd64-cross
+            gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross
+            gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf libc6-dev-armhf-cross
+            gcc-i686-linux-gnu binutils-i686-linux-gnu libc6-dev-i386-cross
+            gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu libc6-dev-riscv64-cross
+        if: ${{ matrix.os == 'windows' }}
+
       - run: dart pub get
 
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
         run: dart tool/ci.dart --all --no-apitool ${{ matrix.sdk == 'stable' && '--no-format' || '' }}
 
+      - name: Trust Coveralls tap
+        run: brew trust coverallsapp/coveralls
+        if: ${{ matrix.os == 'macos' }}
+
       - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           flag-name: native_pkgs_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -90,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
           github-token: ${{ secrets.GITHUB_TOKEN }}

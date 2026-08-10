@@ -2,11 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../config_provider/public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
 import 'imports.dart';
+import 'local_variables.dart';
 import 'pointer.dart';
 import 'scope.dart';
 import 'type.dart';
@@ -23,7 +25,7 @@ import 'writer.dart';
 /// ```dart
 /// final int a = _dylib.lookup<ffi.Int32>('a').value;
 /// ```
-class Global extends LookUpBinding {
+class Global extends LookUpBinding with HasLocalScope {
   final Type type;
   final bool exposeSymbolAddress;
   final bool constant;
@@ -41,6 +43,9 @@ class Global extends LookUpBinding {
     this.constant = false,
     this.loadFromNativeAsset = false,
   }) : super(symbol: Symbol(name, SymbolKind.field));
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Global(this);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -72,14 +77,17 @@ class Global extends LookUpBinding {
           pointerValue,
           objCRetain: false,
         );
+        final localVars = LocalVariables(localScope);
         final newValue = type.convertDartTypeToFfiDartType(
           context,
           'value',
           objCRetain: true,
           objCAutorelease: false,
+          localVariables: localVars,
         );
         s.write('''set $globalVarName($dartType value) {
   $releaseOldValue.ref.release();
+  ${localVars.generateDeclarations()}
   $pointerValue = $newValue;
 }''');
       }

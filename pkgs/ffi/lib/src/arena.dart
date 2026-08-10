@@ -84,7 +84,7 @@ class Arena implements Allocator {
     if (!reuse) {
       _inUse = false;
     }
-    // The code below is deliberately wirtten to allow allocations to happen
+    // The code below is deliberately written to allow allocations to happen
     // during `releaseAll(reuse:true)`. The arena will still be guaranteed
     // empty when the `releaseAll` call returns.
     while (_managedResourceReleaseCallbacks.isNotEmpty) {
