@@ -14,24 +14,30 @@ import 'public_ast.dart';
 ///
 /// Filtering declarations:
 /// ```dart
-/// Visitor(
-///   visitFunc: (node) {
+/// final class FilterVisitor extends Visitor {
+///   FilterVisitor() : super.base();
+///
+///   @override
+///   void visitFunc(Func node) {
 ///     if (node.name.startsWith('_')) {
 ///       node.isIncluded = false;
 ///     }
-///   },
-/// )
+///   }
+/// }
 /// ```
 ///
 /// Renaming declarations:
 /// ```dart
-/// Visitor(
-///   visitStruct: (node) {
+/// final class RenameVisitor extends Visitor {
+///   RenameVisitor() : super.base();
+///
+///   @override
+///   void visitStruct(Struct node) {
 ///     if (node.name == 'custom_type') {
 ///       node.name = 'CustomType';
 ///     }
-///   },
-/// )
+///   }
+/// }
 /// ```
 abstract base class Visitor {
   const Visitor.base();

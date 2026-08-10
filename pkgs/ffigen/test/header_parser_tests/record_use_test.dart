@@ -4,22 +4,10 @@
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
-import 'package:ffigen/src/public_ast.dart' as public_ast;
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-
-final class _RenamingVisitor extends public_ast.Visitor {
-  const _RenamingVisitor() : super.base();
-
-  @override
-  void visitFunc(public_ast.Func node) {
-    if (node.name == 'sum') {
-      node.name = 'add';
-    }
-  }
-}
 
 void main() {
   group('record_use_test', () {
@@ -33,7 +21,15 @@ void main() {
           include: (decl) => true,
           recordUse: (decl) => true,
         ),
-        visitors: const [_RenamingVisitor()],
+        visitors: [
+          Visitor(
+            visitFunc: (node) {
+              if (node.name == 'sum') {
+                node.name = 'add';
+              }
+            },
+          ),
+        ],
         output: Output(
           dartFile: Uri.file('unused.dart'),
           style: const NativeExternalBindings(),
