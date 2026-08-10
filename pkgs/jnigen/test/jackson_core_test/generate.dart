@@ -32,30 +32,31 @@ Config getConfig({
   String? root,
   bool generateFullVersion = false,
   bool useAsm = false,
+  SummarizerBackend? backend,
 }) {
   final rootDir = root ?? thirdPartyDir;
   final config = Config(
-    mavenDownloads: MavenDownloads(
-      sourceDeps: deps,
-      sourceDir: join(thirdPartyDir, 'java'),
-      jarDir: join(thirdPartyDir, 'jar'),
+    input: Input(
+      classes: generateFullVersion
+          ? ['com.fasterxml.jackson.core']
+          : [
+              'com.fasterxml.jackson.core.JsonFactory',
+              'com.fasterxml.jackson.core.JsonParser',
+              'com.fasterxml.jackson.core.JsonToken',
+            ],
+      mavenDownloads: MavenDownloads(
+        sourceDeps: deps,
+        sourceDir: join(thirdPartyDir, 'java'),
+        jarDir: join(thirdPartyDir, 'jar'),
+      ),
+      backend: backend ?? (useAsm ? SummarizerBackend.asm : null),
     ),
-    summarizerOptions: SummarizerOptions(
-      backend: useAsm ? SummarizerBackend.asm : null,
-    ),
-    preamble: jacksonPreamble,
-    outputConfig: OutputConfig(
-      dartConfig: DartCodeOutputConfig(
+    output: Output(
+      dart: DartCodeOutput(
         path: Uri.directory(join(rootDir, 'bindings')),
       ),
+      preamble: jacksonPreamble,
     ),
-    classes: generateFullVersion
-        ? ['com.fasterxml.jackson.core']
-        : [
-            'com.fasterxml.jackson.core.JsonFactory',
-            'com.fasterxml.jackson.core.JsonParser',
-            'com.fasterxml.jackson.core.JsonToken',
-          ],
     logLevel: Level.INFO,
   );
   return config;

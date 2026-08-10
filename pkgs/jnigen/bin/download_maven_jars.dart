@@ -13,7 +13,7 @@ import 'package:jnigen/tools.dart';
 /// Useful for running standalone examples on already generated sources.
 void main(List<String> args) async {
   final config = Config.parseArgs(args);
-  final mavenDownloads = config.mavenDownloads;
+  final mavenDownloads = config.input.mavenDownloads;
   if (mavenDownloads != null) {
     await GradleTools.downloadMavenSources(
         GradleTools.deps(mavenDownloads.sourceDeps), mavenDownloads.sourceDir);

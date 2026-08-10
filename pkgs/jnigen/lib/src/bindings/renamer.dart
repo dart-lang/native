@@ -220,7 +220,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     // When generating all the classes in a single file
     // the names need to be unique.
     final uniquifyName =
-        config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+        config.output.dart.structure == OutputStructure.singleFile;
     node.finalName = uniquifyName
         ? _renameConflict(topLevelNameCounts, className, _ElementKind.klass)
         : className;
