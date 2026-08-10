@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart' as internal;
+import 'config.dart';
 import 'public_visitor.dart';
 
 export 'public_visitor.dart';
@@ -136,6 +137,13 @@ class EnumClass extends DeclNode {
       _enumClass.enumConstants.map((c) => EnumConstant(this, c)),
     );
   }
+
+  /// The [EnumStyle] for this enum declaration.
+  EnumStyle? get style => _enumClass.style;
+  set style(EnumStyle? value) => _enumClass.style = value;
+
+  /// The suggested [EnumStyle] for this enum declaration.
+  EnumStyle? get suggestedStyle => _enumClass.suggestedStyle;
 
   @override
   void accept(Visitor visitor) {

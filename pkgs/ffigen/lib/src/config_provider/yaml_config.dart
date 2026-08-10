@@ -1278,13 +1278,6 @@ final class YamlConfig {
       enums: Enums(
         include: _enumClassDecl.shouldInclude,
         silenceWarning: silenceEnumWarning,
-        style: (e, suggestedStyle) {
-          if (suggestedStyle != null) return suggestedStyle;
-          return switch (enumShouldBeInt(e)) {
-            true => EnumStyle.intConstants,
-            false => EnumStyle.dartEnum,
-          };
-        },
       ),
       unions: Unions(
         include: _unionDecl.shouldInclude,
@@ -1373,6 +1366,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   void visitEnum(public_ast.EnumClass node) {
     if (config.enumClassDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
+    }
+    if (config.enumShouldBeInt(_decl(node))) {
+      node.style = EnumStyle.intConstants;
     }
   }
 

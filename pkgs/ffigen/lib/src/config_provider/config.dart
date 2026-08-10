@@ -224,37 +224,10 @@ final class Declarations {
 
 /// Configuration for enum declarations.
 final class Enums extends Declarations {
-  /// The [EnumStyle] to use for the given enum declaration.
-  ///
-  /// The `suggestedStyle` is a suggested [EnumStyle] based on the declaration
-  /// of the enum, if any. For example, Objective-C enums declared using
-  /// NS_OPTIONS are suggested to use [EnumStyle.intConstants].
-  ///
-  /// ```dart
-  /// // This uses `intConstants` for `Foo`, and the default style otherwise:
-  /// style: (Declaration decl, EnumStyle? suggestedStyle) {
-  ///   if (decl.originalName == 'Foo') {
-  ///     return EnumStyle.intConstants;
-  ///   }
-  ///   return suggestedStyle ?? EnumStyle.dartEnum;
-  /// }
-  /// ```
-  final EnumStyle Function(Declaration declaration, EnumStyle? suggestedStyle)
-  style;
-
-  static EnumStyle _styleDefault(
-    Declaration declaration,
-    EnumStyle? suggestedStyle,
-  ) => suggestedStyle ?? EnumStyle.dartEnum;
-
   /// Whether to silence warning for enum integer type mimicking.
   final bool silenceWarning;
 
-  const Enums({
-    super.include,
-    this.style = _styleDefault,
-    this.silenceWarning = false,
-  });
+  const Enums({super.include, this.silenceWarning = false});
 
   static const excludeAll = Enums(include: Declarations.excludeAll);
 

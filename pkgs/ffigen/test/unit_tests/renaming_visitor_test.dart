@@ -5,6 +5,7 @@
 import 'package:ffigen/ffigen.dart' show FfiGenerator, Output, YamlConfig;
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
@@ -642,5 +643,95 @@ objc-interfaces:
         same(publicCppClass.methods[0]),
       );
     });
+
+    test('EnumClass style, suggestedStyle, and effectiveStyle', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final cgEnum = EnumClass(
+        name: 'my_enum',
+        originalName: 'my_enum',
+        context: context,
+      );
+      final publicEnum = public_ast.EnumClass(cgEnum);
+
+      // Verify style is null by default, suggestedStyle is null,
+      // effectiveStyle is dartEnum.
+      expect(cgEnum.style, isNull);
+      expect(cgEnum.suggestedStyle, isNull);
+      expect(cgEnum.effectiveStyle, EnumStyle.dartEnum);
+      expect(publicEnum.style, isNull);
+      expect(publicEnum.suggestedStyle, isNull);
+
+      // Setting style on publicEnum updates both.
+      publicEnum.style = EnumStyle.intConstants;
+      expect(publicEnum.style, EnumStyle.intConstants);
+      expect(cgEnum.style, EnumStyle.intConstants);
+      expect(cgEnum.effectiveStyle, EnumStyle.intConstants);
+
+      // Resetting style to null.
+      publicEnum.style = null;
+      expect(publicEnum.style, isNull);
+      expect(cgEnum.style, isNull);
+
+      // Setting suggestedStyle to intConstants (e.g. for NSOptions).
+      cgEnum.suggestedStyle = EnumStyle.intConstants;
+      expect(cgEnum.suggestedStyle, EnumStyle.intConstants);
+      expect(publicEnum.suggestedStyle, EnumStyle.intConstants);
+      expect(cgEnum.effectiveStyle, EnumStyle.intConstants);
+
+      // Overriding suggestedStyle with explicit style.
+      publicEnum.style = EnumStyle.dartEnum;
+      expect(cgEnum.effectiveStyle, EnumStyle.dartEnum);
+    });
+
+    test(
+      'YamlConfigAstVisitor sets EnumClass.style when enumShouldBeInt is true',
+      () {
+        final yamlConfig = YamlConfig.fromYaml(
+          loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+enums:
+  as-int:
+    include:
+      - 'MyIntEnum'
+''')
+              as YamlMap,
+          createTestLogger(),
+        );
+
+        final generator = yamlConfig.configAdapter();
+        final context = testContext(generator);
+
+        final cgIntEnum = EnumClass(
+          name: 'MyIntEnum',
+          originalName: 'MyIntEnum',
+          context: context,
+        );
+        final cgNormalEnum = EnumClass(
+          name: 'MyNormalEnum',
+          originalName: 'MyNormalEnum',
+          context: context,
+        );
+
+        final nodes = <Binding>[
+          cgIntEnum,
+          cgNormalEnum,
+        ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+        generator.visitors.first.visitAll(nodes);
+
+        expect(
+          (nodes[0] as public_ast.EnumClass).style,
+          EnumStyle.intConstants,
+        );
+        expect((nodes[1] as public_ast.EnumClass).style, isNull);
+        expect(cgNormalEnum.effectiveStyle, EnumStyle.dartEnum);
+      },
+    );
   });
 }

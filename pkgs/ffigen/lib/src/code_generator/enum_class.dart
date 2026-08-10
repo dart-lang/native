@@ -52,7 +52,13 @@ class EnumClass extends BindingType with HasLocalScope {
   Context context;
 
   /// Whether this enum should be generated as a collection of integers.
-  EnumStyle style;
+  EnumStyle? style;
+
+  /// Suggested style for this enum, set during parsing.
+  EnumStyle? suggestedStyle;
+
+  /// Effective style for this enum (style if set, otherwise suggestedStyle).
+  EnumStyle get effectiveStyle => style ?? suggestedStyle ?? EnumStyle.dartEnum;
 
   /// Don't code gen this alias at all, just use the [nativeType] directly.
   bool isAnonymous;
@@ -67,7 +73,8 @@ class EnumClass extends BindingType with HasLocalScope {
     Type? nativeType,
     List<EnumConstant>? enumConstants,
     required this.context,
-    this.style = EnumStyle.dartEnum,
+    this.style,
+    this.suggestedStyle,
     this.isAnonymous = false,
     this.apiAvailability,
   }) : nativeType = nativeType ?? intType,
@@ -217,7 +224,7 @@ class EnumClass extends BindingType with HasLocalScope {
     _writeDartDoc(s);
     if (enumConstants.isEmpty) {
       _writeEmptyEnum(s);
-    } else if (style == EnumStyle.intConstants) {
+    } else if (effectiveStyle == EnumStyle.intConstants) {
       s.write('sealed class $name {\n');
       _writeIntegerConstants(s);
       s.write('}\n\n');
@@ -246,7 +253,7 @@ class EnumClass extends BindingType with HasLocalScope {
 
   @override
   String getDartType(Context context) {
-    if (style == EnumStyle.intConstants) {
+    if (effectiveStyle == EnumStyle.intConstants) {
       return nativeType.getDartType(context);
     } else if (isObjCImport) {
       return '${context.libs.prefix(objcPkgImport)}.$name';
@@ -263,7 +270,7 @@ class EnumClass extends BindingType with HasLocalScope {
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
 
   @override
-  bool get sameDartAndFfiDartType => style == EnumStyle.intConstants;
+  bool get sameDartAndFfiDartType => effectiveStyle == EnumStyle.intConstants;
 
   @override
   String? getDefaultValue(Context context) => '0';
