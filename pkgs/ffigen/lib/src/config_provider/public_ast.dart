@@ -51,7 +51,7 @@ class Func extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitFunc(this);
-    visitor.visitAll(params);
+    if (isIncluded) visitor.visitAll(params);
   }
 
   @override
@@ -87,7 +87,7 @@ class Struct extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitStruct(this);
-    visitor.visitAll(members);
+    if (isIncluded) visitor.visitAll(members);
   }
 
   @override
@@ -128,7 +128,7 @@ class Union extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitUnion(this);
-    visitor.visitAll(members);
+    if (isIncluded) visitor.visitAll(members);
   }
 
   @override
@@ -164,7 +164,7 @@ class EnumClass extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitEnum(this);
-    visitor.visitAll(constants);
+    if (isIncluded) visitor.visitAll(constants);
   }
 
   @override
@@ -312,7 +312,7 @@ class ObjCInterface extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitObjCInterface(this);
-    visitor.visitAll(methods);
+    if (isIncluded) visitor.visitAll(methods);
   }
 
   @override
@@ -353,7 +353,7 @@ class ObjCProtocol extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitObjCProtocol(this);
-    visitor.visitAll(methods);
+    if (isIncluded) visitor.visitAll(methods);
   }
 
   @override
@@ -392,7 +392,7 @@ class ObjCCategory extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitObjCCategory(this);
-    visitor.visitAll(methods);
+    if (isIncluded) visitor.visitAll(methods);
   }
 
   @override
@@ -428,7 +428,7 @@ class CppClass extends DeclNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitCppClass(this);
-    visitor.visitAll(methods);
+    if (isIncluded) visitor.visitAll(methods);
   }
 
   @override
@@ -534,7 +534,7 @@ class CppMethod extends NamedNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitCppMethod(this);
-    visitor.visitAll(params);
+    if (isIncluded) visitor.visitAll(params);
   }
 
   @override
@@ -565,7 +565,7 @@ class ObjCMethod extends NamedNode {
   @override
   void accept(Visitor visitor) {
     visitor.visitObjCMethod(this);
-    visitor.visitAll(params);
+    if (isIncluded) visitor.visitAll(params);
   }
 
   /// The Objective-C method selector string.

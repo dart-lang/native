@@ -4,6 +4,7 @@
 
 import 'package:ffigen/ffigen.dart' show FfiGenerator, Output, YamlConfig;
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:ffigen/src/visitor/apply_config_filters.dart';
@@ -211,7 +212,8 @@ functions:
 structs:
   include:
     - 'StructA'
-''') as YamlMap,
+''')
+              as YamlMap,
           createTestLogger(),
         );
 
@@ -239,5 +241,200 @@ structs:
         expect(funcB.isIncluded, isFalse);
       },
     );
+
+    test(
+      'node.accept(visitor) does not visit children when isIncluded is false',
+      () {
+        final context = testContext(
+          FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        );
+
+        final func =
+            Func(
+                  name: 'func',
+                  originalName: 'func',
+                  returnType: voidType,
+                  parameters: [Parameter(name: 'p1', type: intType)],
+                ).toPublicAstNode()
+                as public_ast.Func;
+
+        final struct =
+            Struct(
+                  name: 'struct',
+                  originalName: 'struct',
+                  context: context,
+                  members: [
+                    CompoundMember(
+                      name: 'm1',
+                      originalName: 'm1',
+                      type: intType,
+                    ),
+                  ],
+                ).toPublicAstNode()
+                as public_ast.Struct;
+
+        final union =
+            Union(
+                  name: 'union',
+                  originalName: 'union',
+                  context: context,
+                  members: [
+                    CompoundMember(
+                      name: 'm1',
+                      originalName: 'm1',
+                      type: intType,
+                    ),
+                  ],
+                ).toPublicAstNode()
+                as public_ast.Union;
+
+        final enumClass =
+            EnumClass(
+                  name: 'enum',
+                  originalName: 'enum',
+                  context: context,
+                  enumConstants: [
+                    EnumConstant(name: 'c1', originalName: 'c1', value: 0),
+                  ],
+                ).toPublicAstNode()
+                as public_ast.EnumClass;
+
+        ObjCMethod createObjCMethod() => ObjCMethod(
+          context: context,
+          originalName: 'm1',
+          name: 'm1',
+          kind: ObjCMethodKind.method,
+          isClassMethod: false,
+          isOptional: false,
+          returnType: voidType,
+          family: null,
+          apiAvailability: ApiAvailability.all,
+          params: [Parameter(name: 'p1', type: intType)],
+          ownershipAttribute: null,
+          consumesSelfAttribute: false,
+        );
+
+        final objcInterfaceInternal = ObjCInterface(
+          context: context,
+          originalName: 'itf',
+          name: 'itf',
+          apiAvailability: ApiAvailability.all,
+        )..addMethod(createObjCMethod());
+        final objcInterface =
+            objcInterfaceInternal.toPublicAstNode() as public_ast.ObjCInterface;
+
+        final objcProtocolInternal = ObjCProtocol(
+          context: context,
+          originalName: 'proto',
+          name: 'proto',
+          apiAvailability: ApiAvailability.all,
+        )..addMethod(createObjCMethod());
+        final objcProtocol =
+            objcProtocolInternal.toPublicAstNode() as public_ast.ObjCProtocol;
+
+        final objcCategoryInternal = ObjCCategory(
+          context: context,
+          originalName: 'cat',
+          name: 'cat',
+          parent: objcInterfaceInternal,
+          apiAvailability: ApiAvailability.all,
+        )..addMethod(createObjCMethod());
+        final objcCategory =
+            objcCategoryInternal.toPublicAstNode() as public_ast.ObjCCategory;
+
+        final cppMethodInternal = CppMethod(
+          name: Symbol('m1', SymbolKind.method),
+          originalName: 'm1',
+          returnType: voidType,
+          parameters: [Parameter(name: 'p1', type: intType)],
+          isConstant: false,
+        );
+        final cppClassInternal = CppClass(
+          name: 'cppClass',
+          originalName: 'cppClass',
+          context: context,
+          methods: [cppMethodInternal],
+          fields: [],
+        );
+        final cppClass =
+            cppClassInternal.toPublicAstNode() as public_ast.CppClass;
+
+        final cppMethod = TestCppMethod(cppClass, cppMethodInternal);
+        final objcMethod = objcInterface.methods.first;
+
+        final testCases = <(String, public_ast.AstNode)>[
+          ('Func', func),
+          ('Struct', struct),
+          ('Union', union),
+          ('EnumClass', enumClass),
+          ('ObjCInterface', objcInterface),
+          ('ObjCProtocol', objcProtocol),
+          ('ObjCCategory', objcCategory),
+          ('CppClass', cppClass),
+          ('CppMethod', cppMethod),
+          ('ObjCMethod', objcMethod),
+        ];
+
+        for (final (name, node) in testCases) {
+          final visitedWhenIncluded = <public_ast.AstNode>[];
+          final visitorIncluded = public_ast.Visitor(
+            visitFunc: visitedWhenIncluded.add,
+            visitStruct: visitedWhenIncluded.add,
+            visitUnion: visitedWhenIncluded.add,
+            visitEnum: visitedWhenIncluded.add,
+            visitObjCInterface: visitedWhenIncluded.add,
+            visitObjCProtocol: visitedWhenIncluded.add,
+            visitObjCCategory: visitedWhenIncluded.add,
+            visitCppClass: visitedWhenIncluded.add,
+            visitCppMethod: visitedWhenIncluded.add,
+            visitObjCMethod: visitedWhenIncluded.add,
+            visitField: visitedWhenIncluded.add,
+            visitEnumConstant: visitedWhenIncluded.add,
+            visitParam: visitedWhenIncluded.add,
+          );
+
+          node.isIncluded = true;
+          node.accept(visitorIncluded);
+          expect(
+            visitedWhenIncluded.length,
+            greaterThan(1),
+            reason: '$name should visit children when included',
+          );
+          expect(visitedWhenIncluded.first, same(node));
+
+          final visitedWhenExcluded = <public_ast.AstNode>[];
+          final visitorExcluded = public_ast.Visitor(
+            visitFunc: visitedWhenExcluded.add,
+            visitStruct: visitedWhenExcluded.add,
+            visitUnion: visitedWhenExcluded.add,
+            visitEnum: visitedWhenExcluded.add,
+            visitObjCInterface: visitedWhenExcluded.add,
+            visitObjCProtocol: visitedWhenExcluded.add,
+            visitObjCCategory: visitedWhenExcluded.add,
+            visitCppClass: visitedWhenExcluded.add,
+            visitCppMethod: visitedWhenExcluded.add,
+            visitObjCMethod: visitedWhenExcluded.add,
+            visitField: visitedWhenExcluded.add,
+            visitEnumConstant: visitedWhenExcluded.add,
+            visitParam: visitedWhenExcluded.add,
+          );
+
+          node.isIncluded = false;
+          node.accept(visitorExcluded);
+          expect(
+            visitedWhenExcluded,
+            [same(node)],
+            reason: '$name should NOT visit children when not included',
+          );
+        }
+      },
+    );
   });
+}
+
+final class TestCppMethod extends public_ast.CppMethod {
+  TestCppMethod(super.parent, super.method);
+
+  @override
+  bool isIncluded = true;
 }
