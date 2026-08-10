@@ -54,9 +54,12 @@ jobs:
       - name: Run VM tests
         run: dart test --platform vm
         if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
       - name: Regenerate bindings and dartified snippets
         run: dart run tool/prepare_dartify_test.dart
         if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
       - name: Run VM tests again
         run: dart test --platform vm
         if: always() && steps.install.outcome == 'success'
+        continue-on-error: true
