@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../config_provider/public_ast.dart' as public_ast;
 import '../header_parser/sub_parsers/api_availability.dart';
-import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';

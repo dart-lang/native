@@ -19,6 +19,7 @@ import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/create_scopes.dart';
+import '../visitor/default_param_names.dart';
 import '../visitor/fill_method_dependencies.dart';
 import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';

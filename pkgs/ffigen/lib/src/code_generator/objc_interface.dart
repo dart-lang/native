@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
-import '../public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'local_variables.dart';

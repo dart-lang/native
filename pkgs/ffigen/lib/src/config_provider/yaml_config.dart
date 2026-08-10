@@ -12,11 +12,11 @@ import 'package:package_config/package_config_types.dart';
 import 'package:yaml/yaml.dart';
 
 import '../code_generator.dart';
-import '../public_ast.dart' as public_ast;
 import '../strings.dart' as strings;
 import 'config.dart';
 import 'config_spec.dart';
 import 'config_types.dart';
+import 'public_ast.dart' as public_ast;
 import 'spec_utils.dart';
 
 /// Provides configurations to other modules.

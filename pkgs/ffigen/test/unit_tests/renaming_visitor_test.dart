@@ -5,8 +5,8 @@
 import 'package:ffigen/ffigen.dart' show FfiGenerator, Output, YamlConfig;
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
-import 'package:ffigen/src/public_ast.dart' as public_ast;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 

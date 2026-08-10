@@ -9,8 +9,8 @@ import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../ffigen.dart';
-import '../public_ast.dart';
 import 'config_types.dart';
+import 'public_ast.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.

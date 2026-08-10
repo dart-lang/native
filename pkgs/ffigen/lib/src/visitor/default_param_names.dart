@@ -30,30 +30,25 @@ class DefaultParameterNamesVisitation extends Visitation {
       node.varArgParameters,
       startIndex: node.parameters.length,
     );
-    visitor.visit(node.returnType);
-    visitor.visitAll(node.parameters);
-    visitor.visitAll(node.varArgParameters);
+    node.visitChildren(visitor);
   }
 
   @override
   void visitObjCMethod(ObjCMethod node) {
     _defaultParamNames(node.params);
-    visitor.visit(node.returnType);
-    visitor.visitAll(node.params);
+    node.visitChildren(visitor);
   }
 
   @override
   void visitCppMethod(CppMethod node) {
     _defaultParamNames(node.parameters);
-    visitor.visit(node.returnType);
-    visitor.visitAll(node.parameters);
+    node.visitChildren(visitor);
   }
 
   @override
   void visitObjCBlock(ObjCBlock node) {
     _defaultParamNames(node.params);
-    visitor.visit(node.returnType);
-    visitor.visitAll(node.params);
+    node.visitChildren(visitor);
   }
 
   @override

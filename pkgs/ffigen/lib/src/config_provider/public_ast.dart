@@ -2,12 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'code_generator.dart' as internal;
+import '../code_generator.dart' as internal;
 import 'public_visitor.dart';
 
 export 'public_visitor.dart';
 
-/// Abstract base class for all public AST nodes.
+/// Base class for all AST nodes.
 abstract class AstNode {
   const AstNode();
 
