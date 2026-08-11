@@ -29,6 +29,13 @@ void main() {
             .toList()
           ..sort();
 
+    final defaultCppCompilerOptions = [
+      '-x',
+      'c++',
+      '-std=c++17',
+      if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+    ];
+
     final configs = <String, FfiGenerator>{
       'cpp_class': FfiGenerator(
         output: Output(
@@ -42,7 +49,7 @@ void main() {
             Uri.file(path.join(testDir.path, 'cpp_class_test.h')),
             Uri.file(path.join(testDir.path, 'finalizer_test_subject.h')),
           ],
-          compilerOptions: ['-x', 'c++'],
+          compilerOptions: defaultCppCompilerOptions,
         ),
         cpp: Cpp(
           classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
@@ -59,7 +66,7 @@ void main() {
           entryPoints: [
             Uri.file(path.join(testDir.path, 'memory_edge_cases.h')),
           ],
-          compilerOptions: ['-x', 'c++'],
+          compilerOptions: defaultCppCompilerOptions,
         ),
         cpp: Cpp(
           classes: CppClasses.includeSet({
