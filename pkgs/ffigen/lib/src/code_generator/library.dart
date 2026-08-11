@@ -117,6 +117,9 @@ class Library {
   /// Generates [file] with the Objective C code needed for the bindings, if
   /// any.
   ///
+  /// Any relative path `#include` statements are written relative to
+  /// [headerPath], or [file] if it isn't provided.
+  ///
   /// Returns whether bindings were generated.
   bool generateObjCFile(File file, {String? headerPath}) {
     final objCString = writer.generateObjC(headerPath ?? file.path);
@@ -134,6 +137,9 @@ class Library {
   }
 
   /// Generates [file] with the Cpp glue code needed for the bindings, if any.
+  ///
+  /// Any relative path `#include` statements are written relative to
+  /// [headerPath], or [file] if it isn't provided.
   ///
   /// Returns whether bindings were generated.
   bool generateCppFile(File file, {String? headerPath}) {
