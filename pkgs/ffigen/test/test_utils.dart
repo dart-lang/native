@@ -181,9 +181,8 @@ void matchObjCFileWithExpected(
     context: context,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter:
-        (File file, String expectedPath) =>
-            library.generateObjCFile(file, headerPath: expectedPath),
+    fileWriter: (File file, String expectedPath) =>
+        library.generateObjCFile(file, headerPath: expectedPath),
     verify: verify,
   );
 }
@@ -202,9 +201,8 @@ void matchCppFileWithExpected(
     context: context,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter:
-        (File file, String expectedPath) =>
-            library.generateCppFile(file, headerPath: expectedPath),
+    fileWriter: (File file, String expectedPath) =>
+        library.generateCppFile(file, headerPath: expectedPath),
     verify: verify,
   );
 }
