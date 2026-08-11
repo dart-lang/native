@@ -61,7 +61,7 @@ Protocol* _pyqkbm_MySwiftProtocol(void) { return @protocol(MySwiftProtocol); }
 
 typedef long  (^_ProtocolTrampoline)(void * sel);
 __attribute__((visibility("default"))) __attribute__((used))
-long  _pyqkbm_protocolTrampoline_fai2e9(id target, void * sel) {
+long  _pyqkbm_protocolTrampoline_1er77tf(id target, void * sel) {
   return ((_ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
 }
 #undef BLOCKING_BLOCK_IMPL

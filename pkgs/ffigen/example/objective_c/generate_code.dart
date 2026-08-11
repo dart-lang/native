@@ -22,6 +22,7 @@ final config = FfiGenerator(
   // To tell FFIgen to generate Objective-C bindings, rather than C bindings,
   // set the objectiveC field to a non-null value.
   objectiveC: const ObjectiveC(),
+  enums: const Enums(silenceWarning: true),
   visitors: [
     Visitor(
       visitObjCInterface: (node) {

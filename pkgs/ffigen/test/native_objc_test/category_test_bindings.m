@@ -1,7 +1,8 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
-#import "method_filtering_test.m"
+#import "category_test.h"
+#import "category_test.h"
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
@@ -56,13 +57,54 @@ id objc_retainBlock(id);
   return strongSelfBlock;
 
 
-__attribute__((visibility("default"))) __attribute__((used))
-Protocol* _n85dd5_MethodFilteringTestProtocol(void) { return @protocol(MethodFilteringTestProtocol); }
+__attribute__((visibility("default")))
+@interface _l3cf7j_BlockArgs_1k6sg8i : NSObject
+@property (copy) id block;
+@property (strong) id arg0;
+@property (strong) id arg1;
+@end
+@implementation _l3cf7j_BlockArgs_1k6sg8i
+@end
 
-typedef id  (^_ProtocolTrampoline)(void * sel);
+typedef void  (^_ListenerTrampoline)(id arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _n85dd5_protocolTrampoline_1jnam6p(id target, void * sel) {
-  return ((_ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
+_ListenerTrampoline _l3cf7j_wrapListenerBlock_1k6sg8i(
+    int64_t port, DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  __block __weak _ListenerTrampoline weakSelfBlock = nil;
+  _ListenerTrampoline strongSelfBlock = [^void(id arg0, id arg1) {
+    @autoreleasepool {
+      _l3cf7j_BlockArgs_1k6sg8i* args = [[_l3cf7j_BlockArgs_1k6sg8i alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      args.arg1 = arg1;
+      ctx->invokeListenerPortBlock(port, (__bridge_retained void*)args);
+    }
+  } copy];
+  weakSelfBlock = strongSelfBlock;
+  return strongSelfBlock;
+}
+
+typedef void  (^_BlockingTrampoline)(void * waiter, id arg0, id arg1);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline _l3cf7j_wrapBlockingBlock_1k6sg8i(int64_t port, DOBJC_Context* ctx,
+    void (*directInvoke)(void*)) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, _ListenerTrampoline, ^void(id arg0, id arg1), {
+    @autoreleasepool {
+      _l3cf7j_BlockArgs_1k6sg8i* args = [[_l3cf7j_BlockArgs_1k6sg8i alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      args.arg1 = arg1;
+      directInvoke((__bridge_retained void*)args);
+    }
+  }, {
+    @autoreleasepool {
+      _l3cf7j_BlockArgs_1k6sg8i* args = [[_l3cf7j_BlockArgs_1k6sg8i alloc] init];
+      args.block = weakSelfBlock;
+      args.arg0 = arg0;
+      args.arg1 = arg1;
+      ctx->invokeBlockingPortBlock(port, (__bridge_retained void*)args, waiter);
+    }
+  });
 }
 #undef BLOCKING_BLOCK_IMPL
 

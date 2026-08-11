@@ -31,7 +31,7 @@ void main() {
         output,
         contains(
           'ignore_for_file: type=lint, unused_import, unused_element, '
-          'deprecated_member_use_from_same_package',
+          'unused_field, deprecated_member_use_from_same_package',
         ),
       );
 

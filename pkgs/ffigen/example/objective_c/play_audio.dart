@@ -6,7 +6,7 @@ import 'dart:ffi';
 
 import 'package:objective_c/objective_c.dart';
 
-import 'avf_audio_bindings.dart';
+import 'avf_audio_bindings.dart' hide Duration;
 
 const _dylibPath =
     '/System/Library/Frameworks/AVFAudio.framework/Versions/Current/AVFAudio';

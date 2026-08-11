@@ -102,18 +102,19 @@ class ObjCBuiltInFunctions {
   (String, String) _methodSigId(Type returnType, List<Parameter> params) {
     final paramIds = <String>[];
     for (final p in params) {
-      // The trampoline ID is based on the getNativeType of the param. Objects
-      // and blocks both have `id` as their native type, but need separate
-      // trampolines since they have different retain functions. So add the
-      // retain function (if any) to all the param IDs.
-      paramIds.add(
-        p.getNativeType(context, varName: p.type.generateRetain('') ?? ''),
-      );
+      // The trampoline ID is based on getNativeType and toString of param.
+      // Objects and blocks both have `id` as native type, but need
+      // separate trampolines since they have different retain functions.
+      // So add retain function (if any) and type toString to param IDs.
+      final sigType = _methodSigType(p.type);
+      final retain = p.type.generateRetain('') ?? '';
+      final nativeType = p.getNativeType(context, varName: retain);
+      paramIds.add('$nativeType:$sigType');
     }
-    final rt = returnType.getNativeType(
-      context,
-      varName: returnType.generateRetain('') ?? '',
-    );
+    final sigRt = _methodSigType(returnType);
+    final retainRt = returnType.generateRetain('') ?? '';
+    final nativeTypeRt = returnType.getNativeType(context, varName: retainRt);
+    final rt = '$nativeTypeRt:$sigRt';
     final id = '$rt,${paramIds.join(',')}';
     return (id, fnvHash32(id).toRadixString(36));
   }

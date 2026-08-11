@@ -47,6 +47,7 @@ void main() {
           ],
         ),
         objectiveC: const ObjectiveC(),
+        enums: const Enums(silenceWarning: true),
         visitors: [
           Visitor(
             visitObjCInterface: (node) {

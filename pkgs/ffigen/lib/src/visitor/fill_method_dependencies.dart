@@ -105,11 +105,7 @@ class _MethodDepAdderVisitation extends Visitation {
       finalBindings.add(node);
 
   @override
-  void visitNoLookUpBinding(NoLookUpBinding node) {
-    if (node.isIncluded) {
-      finalBindings.add(node);
-    }
-  }
+  void visitNoLookUpBinding(NoLookUpBinding node) => finalBindings.add(node);
 
   @override
   void visitObjCBlock(ObjCBlock node) {

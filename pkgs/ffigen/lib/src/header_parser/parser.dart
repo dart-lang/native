@@ -176,6 +176,9 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     visitor.visitAll(rawNodes);
   }
 
+  visit(context, CopyMethodsFromSuperTypesVisitation(), rawBindings);
+  visit(context, FixOverriddenMethodsVisitation(context), rawBindings);
+
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
   visit(context, applyConfigFiltersVisitation, rawBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
@@ -189,9 +192,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     included,
   ).transitives;
   final allBindings = included.union(transitives);
-
-  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
-  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
   final byValueCompounds = visit(
     context,

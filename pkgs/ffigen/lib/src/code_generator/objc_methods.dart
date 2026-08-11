@@ -13,6 +13,7 @@ import 'local_variables.dart';
 import 'native_type.dart';
 import 'objc_block.dart';
 import 'objc_built_in_functions.dart';
+import 'objc_category.dart';
 import 'objc_interface.dart';
 import 'objc_nullable.dart';
 import 'pointer.dart';
@@ -216,6 +217,20 @@ class ObjCMethod extends AstNode with HasLocalScope {
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
     super.visitChildren(visitor);
+    if (isClassMethod && parent != null) {
+      final interface = parent is ObjCInterface
+          ? (parent as ObjCInterface)
+          : parent is ObjCCategory
+          ? (parent as ObjCCategory).parent
+          : null;
+      if (interface != null) {
+        interface.fillClassObject();
+        final clsObj = interface.classObject;
+        if (clsObj != null) {
+          visitor.visit(clsObj);
+        }
+      }
+    }
     if (!omitMethodName) {
       visitor.visit(symbol);
       visitor.visit(protocolMethodName);
