@@ -20,9 +20,6 @@ ${strings.excludeAllByDefault}: false
 ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/config_tests/exclude_all_by_default.h')}'
-${strings.macros}:
-  ${strings.include}:
-    - 'MACRO'
 ''');
 
       final library = parse(testContext(config));

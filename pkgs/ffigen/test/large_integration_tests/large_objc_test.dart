@@ -100,52 +100,31 @@ void main() {
       ),
       visitors: [
         Visitor(
-          visitFunc: (node) {
-            if (!shouldIncludeNode('functionDecl', node)) {
-              node.isIncluded = false;
-            }
-          },
-          visitStruct: (node) {
-            if (!shouldIncludeNode('structDecl', node)) node.isIncluded = false;
-          },
-          visitUnion: (node) {
-            if (!shouldIncludeNode('unionDecl', node)) node.isIncluded = false;
-          },
-          visitEnum: (node) {
-            if (!shouldIncludeNode('enums', node)) node.isIncluded = false;
-          },
-          visitUnnamedEnumConstant: (node) {
-            if (!shouldIncludeNode('unnamedEnumConstants', node)) {
-              node.isIncluded = false;
-            }
-          },
-          visitGlobal: (node) {
-            if (!shouldIncludeNode('globals', node)) node.isIncluded = false;
-          },
-          visitTypealias: (node) {
-            if (!shouldIncludeNode('typedefs', node)) node.isIncluded = false;
-          },
+          visitFunc: (node) =>
+              node.isIncluded = shouldIncludeNode('functionDecl', node),
+          visitStruct: (node) =>
+              node.isIncluded = shouldIncludeNode('structDecl', node),
+          visitUnion: (node) =>
+              node.isIncluded = shouldIncludeNode('unionDecl', node),
+          visitEnum: (node) =>
+              node.isIncluded = shouldIncludeNode('enums', node),
+          visitUnnamedEnumConstant: (node) =>
+              node.isIncluded = shouldIncludeNode('unnamedEnumConstants', node),
+          visitGlobal: (node) =>
+              node.isIncluded = shouldIncludeNode('globals', node),
+          visitTypealias: (node) =>
+              node.isIncluded = shouldIncludeNode('typedefs', node),
           visitMacro: (node) => node.isIncluded = false,
           visitConstant: (node) => node.isIncluded = false,
-          visitObjCInterface: (node) {
-            if (!shouldIncludeNode('objcInterfaces', node)) {
-              node.isIncluded = false;
-            }
-          },
-          visitObjCProtocol: (node) {
-            if (!shouldIncludeNode(
-              'objcProtocols',
-              node,
-              forceIncludedProtocols,
-            )) {
-              node.isIncluded = false;
-            }
-          },
-          visitObjCCategory: (node) {
-            if (!shouldIncludeNode('objcCategories', node)) {
-              node.isIncluded = false;
-            }
-          },
+          visitObjCInterface: (node) =>
+              node.isIncluded = shouldIncludeNode('objcInterfaces', node),
+          visitObjCProtocol: (node) => node.isIncluded = shouldIncludeNode(
+            'objcProtocols',
+            node,
+            forceIncludedProtocols,
+          ),
+          visitObjCCategory: (node) =>
+              node.isIncluded = shouldIncludeNode('objcCategories', node),
           visitObjCMethod: (node) {
             final kind = switch (node.parent) {
               ObjCInterface() => 'objcInterfaces',
@@ -154,9 +133,11 @@ void main() {
               _ => null,
             };
             if (kind != null) {
-              if (!randInclude('$kind.memb', node.parent, node.originalName)) {
-                node.isIncluded = false;
-              }
+              node.isIncluded = randInclude(
+                '$kind.memb',
+                node.parent,
+                node.originalName,
+              );
             }
           },
         ),

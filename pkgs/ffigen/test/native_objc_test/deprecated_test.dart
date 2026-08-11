@@ -50,68 +50,38 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
     ),
     visitors: [
       Visitor(
-        visitObjCInterface: (node) {
-          if (!{
-            'DeprecatedInterfaceMethods',
-            'DeprecatedInterface',
-          }.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitObjCProtocol: (node) {
-          if (!{
-            'DeprecatedProtocolMethods',
-            'DeprecatedProtocol',
-          }.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitObjCCategory: (node) {
-          if (!{
-            'DeprecatedCategoryMethods',
-            'DeprecatedCategory',
-          }.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitFunc: (node) {
-          if (!{
-            'normalFunction',
-            'deprecatedFunction',
-          }.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitStruct: (node) {
-          if (!{
-            'NormalStruct',
-            'DeprecatedStruct',
-          }.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitUnion: (node) {
-          if (!{'NormalUnion', 'DeprecatedUnion'}.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitEnum: (node) {
-          if (!{'NormalEnum', 'DeprecatedEnum'}.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitUnnamedEnumConstant: (node) {
-          if (!{
-            'normalUnnamedEnum',
-            'deprecatedUnnamedEnum',
-          }.contains(node.originalName)) {
-            node.isIncluded = false;
-          }
-        },
-        visitGlobal: (node) => node.isIncluded = false,
-        visitMacro: (node) => node.isIncluded = false,
-        visitConstant: (node) => node.isIncluded = false,
-        visitTypealias: (node) => node.isIncluded = false,
+        visitObjCInterface: (node) => node.isIncluded = {
+          'DeprecatedInterfaceMethods',
+          'DeprecatedInterface',
+        }.contains(node.originalName),
+        visitObjCProtocol: (node) => node.isIncluded = {
+          'DeprecatedProtocolMethods',
+          'DeprecatedProtocol',
+        }.contains(node.originalName),
+        visitObjCCategory: (node) => node.isIncluded = {
+          'DeprecatedCategoryMethods',
+          'DeprecatedCategory',
+        }.contains(node.originalName),
+        visitFunc: (node) => node.isIncluded = {
+          'normalFunction',
+          'deprecatedFunction',
+        }.contains(node.originalName),
+        visitStruct: (node) => node.isIncluded = {
+          'NormalStruct',
+          'DeprecatedStruct',
+        }.contains(node.originalName),
+        visitUnion: (node) => node.isIncluded = {
+          'NormalUnion',
+          'DeprecatedUnion',
+        }.contains(node.originalName),
+        visitEnum: (node) => node.isIncluded = {
+          'NormalEnum',
+          'DeprecatedEnum',
+        }.contains(node.originalName),
+        visitUnnamedEnumConstant: (node) => node.isIncluded = {
+          'normalUnnamedEnum',
+          'deprecatedUnnamedEnum',
+        }.contains(node.originalName),
       ),
     ],
   ).generate(logger: createTestLogger());

@@ -47,14 +47,10 @@ void main() {
         cpp: const Cpp(),
         visitors: [
           Visitor(
-            visitCppClass: (node) {
-              if (!{
-                'Animal',
-                'FinalizerTestSubject',
-              }.contains(node.originalName)) {
-                node.isIncluded = false;
-              }
-            },
+            visitCppClass: (node) => node.isIncluded = {
+              'Animal',
+              'FinalizerTestSubject',
+            }.contains(node.originalName),
           ),
         ],
       ),
@@ -74,11 +70,10 @@ void main() {
         cpp: const Cpp(),
         visitors: [
           Visitor(
-            visitCppClass: (node) {
-              if (!{'Node', 'NodeManager'}.contains(node.originalName)) {
-                node.isIncluded = false;
-              }
-            },
+            visitCppClass: (node) => node.isIncluded = {
+              'Node',
+              'NodeManager',
+            }.contains(node.originalName),
           ),
         ],
       ),

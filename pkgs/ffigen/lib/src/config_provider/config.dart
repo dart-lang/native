@@ -105,15 +105,15 @@ final class FfiGenerator {
 
   const FfiGenerator({
     this.input = const Input(),
-    this.enums = const Enums(),
-    this.functions = const Functions(),
-    this.globals = const Globals(),
-    this.macros = const Macros(),
-    this.structs = const Structs(),
+    this.enums = Enums.excludeAll,
+    this.functions = Functions.excludeAll,
+    this.globals = Globals.excludeAll,
+    this.macros = Macros.excludeAll,
+    this.structs = Structs.excludeAll,
     this.cpp,
-    this.typedefs = const Typedefs(),
-    this.unions = const Unions(),
-    this.unnamedEnums = const UnnamedEnums(),
+    this.typedefs = Typedefs.excludeAll,
+    this.unions = Unions.excludeAll,
+    this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
     this.visitors = const [],
@@ -159,16 +159,67 @@ final class Input {
 
 /// Configuration for declarations.
 final class Declarations {
+  /// Whether to include the given declaration.
+  ///
+  /// ```dart
+  /// // This includes `Foo`, and nothing else:
+  /// include: (Declaration decl) => decl.originalName == 'Foo'
+  /// ```
+  final bool Function(Declaration declaration) include;
+
+  /// A function to pass to [include] that excludes all declarations.
+  static bool excludeAll(Declaration declaration) => false;
+
+  /// A function to pass to [include] that includes all declarations.
+  static bool includeAll(Declaration declaration) => true;
+
+  /// Returns a function to pass to [include] that includes all declarations
+  /// whose `originalName`s are in [names].
+  static bool Function(Declaration) includeSet(Set<String> names) =>
+      (Declaration decl) => names.contains(decl.originalName);
+
+  /// Whether the member of the declaration should be included.
+  ///
+  /// Only used for [Categories], [Interfaces], and [Protocols] methods and
+  /// properties. For Objective-C methods, this is the method selector, eg
+  /// `"arrayWithObjects:count:"`.
+  ///
+  /// Note that using [includeMember] to include a member of a class doesn't
+  /// affect whether the class is included. You'll also need to set [include]
+  /// for the class (this will be fixed in a future version of the API).
+  ///
+  /// ```dart
+  /// // This includes `Foo.bar`, and no other methods of `Foo`:
+  /// includeMember: (Declaration declaration, String member) =>
+  /// ```
+  // TODO(https://github.com/dart-lang/native/issues/2770): Merge with include.
+  final bool Function(Declaration declaration, String member) includeMember;
+
+  /// A function to pass to [includeMember] that includes all members of all
+  /// declarations.
+  static bool includeAllMembers(Declaration declaration, String member) => true;
+
+  /// A function to pass to [includeMember] that includes specific members.
+  ///
+  /// The map key is the declaration's `originalName`, and the value is the set
+  /// of member names to include. If the declaration is not in the map, all its
+  /// members are included.
+  static bool Function(Declaration, String) includeMemberSet(
+    Map<String, Set<String>> members,
+  ) =>
+      (Declaration decl, String member) =>
+          members[decl.originalName]?.contains(member) ?? true;
+
   /// Whether the symbol address should be exposed for this declaration.
   ///
   /// The address is exposed as an FFI pointer.
   final bool Function(Declaration declaration) includeSymbolAddress;
 
   const Declarations({
-    this.includeSymbolAddress = _includeSymbolAddressDefault,
+    this.include = excludeAll,
+    this.includeMember = includeAllMembers,
+    this.includeSymbolAddress = excludeAll,
   });
-
-  static bool _includeSymbolAddressDefault(Declaration declaration) => false;
 }
 
 /// Configuration for enum declarations.
@@ -199,7 +250,18 @@ final class Enums extends Declarations {
   /// Whether to silence warning for enum integer type mimicking.
   final bool silenceWarning;
 
-  const Enums({this.style = _styleDefault, this.silenceWarning = false});
+  const Enums({
+    super.include,
+    this.style = _styleDefault,
+    this.silenceWarning = false,
+  });
+
+  static const excludeAll = Enums(include: Declarations.excludeAll);
+
+  static const includeAll = Enums(include: Declarations.includeAll);
+
+  static Enums includeSet(Set<String> names) =>
+      Enums(include: Declarations.includeSet(names));
 }
 
 /// Configuration for how to generate enums.
@@ -246,22 +308,44 @@ final class Functions extends Declarations {
   final Map<String, List<VarArgFunction>> varArgs;
 
   const Functions({
+    super.include,
     super.includeSymbolAddress,
     this.includeTypedef = _includeTypedefDefault,
     this.isLeaf = _isLeafDefault,
     this.recordUse = _recordUseDefault,
     this.varArgs = const <String, List<VarArgFunction>>{},
   });
+
+  static const excludeAll = Functions(include: Declarations.excludeAll);
+
+  static const includeAll = Functions(include: Declarations.includeAll);
+
+  static Functions includeSet(Set<String> names) =>
+      Functions(include: Declarations.includeSet(names));
 }
 
 /// Configuration for globals.
 final class Globals extends Declarations {
-  const Globals({super.includeSymbolAddress});
+  const Globals({super.include, super.includeSymbolAddress});
+
+  static const excludeAll = Globals(include: Declarations.excludeAll);
+
+  static const includeAll = Globals(include: Declarations.includeAll);
+
+  static Globals includeSet(Set<String> names) =>
+      Globals(include: Declarations.includeSet(names));
 }
 
 /// Configuration for macros.
 final class Macros extends Declarations {
-  const Macros();
+  const Macros({super.include});
+
+  static const excludeAll = Macros(include: Declarations.excludeAll);
+
+  static const includeAll = Macros(include: Declarations.includeAll);
+
+  static Macros includeSet(Set<String> names) =>
+      Macros(include: Declarations.includeSet(names));
 }
 
 /// Configuration for struct declarations.
@@ -275,9 +359,17 @@ final class Structs extends Declarations {
   static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
 
   const Structs({
+    super.include,
     this.dependencies = CompoundDependencies.opaque,
     this.packingOverride = _packingOverrideDefault,
   });
+
+  static const excludeAll = Structs(include: Declarations.excludeAll);
+
+  static const includeAll = Structs(include: Declarations.includeAll);
+
+  static Structs includeSet(Set<String> names) =>
+      Structs(include: Declarations.includeSet(names));
 }
 
 /// Configuration for typedefs.
@@ -290,14 +382,28 @@ final class Typedefs extends Declarations {
   final bool useSupportedTypedefs;
 
   const Typedefs({
+    super.include,
     this.useSupportedTypedefs = true,
     this.includeUnused = false,
   });
+
+  static const Typedefs excludeAll = Typedefs(include: Declarations.excludeAll);
+
+  static const Typedefs includeAll = Typedefs(include: Declarations.includeAll);
+
+  static Typedefs includeSet(Set<String> names) =>
+      Typedefs(include: Declarations.includeSet(names));
 }
 
 /// Configuration for C++ class declarations.
 final class CppClasses extends Declarations {
-  const CppClasses();
+  const CppClasses({super.include});
+
+  static const excludeAll = CppClasses(include: Declarations.excludeAll);
+  static const includeAll = CppClasses(include: Declarations.includeAll);
+
+  static CppClasses includeSet(Set<String> names) =>
+      CppClasses(include: Declarations.includeSet(names));
 }
 
 /// Configuration for C++.
@@ -305,7 +411,7 @@ final class Cpp {
   /// Declaration filters for C++ classes.
   final CppClasses classes;
 
-  const Cpp({this.classes = const CppClasses()});
+  const Cpp({this.classes = CppClasses.excludeAll});
 }
 
 /// Configuration for union declarations.
@@ -313,12 +419,29 @@ final class Unions extends Declarations {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies dependencies;
 
-  const Unions({this.dependencies = CompoundDependencies.opaque});
+  const Unions({
+    super.include,
+    this.dependencies = CompoundDependencies.opaque,
+  });
+
+  static const excludeAll = Unions(include: Declarations.excludeAll);
+
+  static const includeAll = Unions(include: Declarations.includeAll);
+
+  static Unions includeSet(Set<String> names) =>
+      Unions(include: Declarations.includeSet(names));
 }
 
 /// Configuration for unnamed enum constants.
 final class UnnamedEnums extends Declarations {
-  const UnnamedEnums();
+  const UnnamedEnums({super.include});
+
+  static const excludeAll = UnnamedEnums(include: Declarations.excludeAll);
+
+  static const includeAll = UnnamedEnums(include: Declarations.includeAll);
+
+  static UnnamedEnums includeSet(Set<String> names) =>
+      UnnamedEnums(include: Declarations.includeSet(names));
 }
 
 /// Configuration for Objective-C.
@@ -345,9 +468,9 @@ final class ObjectiveC {
   final ExternalVersions externalVersions;
 
   const ObjectiveC({
-    this.categories = const Categories(),
-    this.interfaces = const Interfaces(),
-    this.protocols = const Protocols(),
+    this.categories = Categories.excludeAll,
+    this.interfaces = Interfaces.excludeAll,
+    this.protocols = Protocols.excludeAll,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only for internal use.')
     this.generateForPackageObjectiveC = false,
@@ -362,7 +485,18 @@ final class Categories extends Declarations {
   /// transitively included categories will not be generated at all.
   final bool includeTransitive;
 
-  const Categories({this.includeTransitive = true});
+  const Categories({
+    super.include,
+    super.includeMember,
+    this.includeTransitive = true,
+  });
+
+  static const excludeAll = Categories(include: Declarations.excludeAll);
+
+  static const includeAll = Categories(include: Declarations.includeAll);
+
+  static Categories includeSet(Set<String> names) =>
+      Categories(include: Declarations.includeSet(names));
 }
 
 /// Configuration for Objective-C interfaces.
@@ -376,7 +510,19 @@ final class Interfaces extends Declarations {
   /// The module that the Objective-C interface belongs to.
   final String? Function(Declaration declaration) module;
 
-  const Interfaces({this.includeTransitive = false, this.module = noModule});
+  const Interfaces({
+    super.include,
+    super.includeMember,
+    this.includeTransitive = false,
+    this.module = noModule,
+  });
+
+  static const excludeAll = Interfaces(include: Declarations.excludeAll);
+
+  static const includeAll = Interfaces(include: Declarations.includeAll);
+
+  static Interfaces includeSet(Set<String> names) =>
+      Interfaces(include: Declarations.includeSet(names));
 
   static String? noModule(Declaration declaration) => null;
 }
@@ -392,7 +538,19 @@ final class Protocols extends Declarations {
   /// The module that the Objective-C protocol belongs to.
   final String? Function(Declaration declaration) module;
 
-  const Protocols({this.includeTransitive = false, this.module = noModule});
+  const Protocols({
+    super.include,
+    super.includeMember,
+    this.includeTransitive = false,
+    this.module = noModule,
+  });
+
+  static const excludeAll = Protocols(include: Declarations.excludeAll);
+
+  static const includeAll = Protocols(include: Declarations.includeAll);
+
+  static Protocols includeSet(Set<String> names) =>
+      Protocols(include: Declarations.includeSet(names));
 
   static String? noModule(Declaration declaration) => null;
 }

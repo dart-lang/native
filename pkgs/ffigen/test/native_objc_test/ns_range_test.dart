@@ -49,22 +49,8 @@ void main() {
         objectiveC: const ObjectiveC(),
         visitors: [
           Visitor(
-            visitFunc: (node) => node.isIncluded = false,
-            visitStruct: (node) => node.isIncluded = false,
-            visitUnion: (node) => node.isIncluded = false,
-            visitEnum: (node) => node.isIncluded = false,
-            visitUnnamedEnumConstant: (node) => node.isIncluded = false,
-            visitGlobal: (node) => node.isIncluded = false,
-            visitMacro: (node) => node.isIncluded = false,
-            visitConstant: (node) => node.isIncluded = false,
-            visitTypealias: (node) => node.isIncluded = false,
-            visitObjCInterface: (node) {
-              if (node.originalName != 'SFTranscriptionSegment') {
-                node.isIncluded = false;
-              }
-            },
-            visitObjCCategory: (node) => node.isIncluded = false,
-            visitObjCProtocol: (node) => node.isIncluded = false,
+            visitObjCInterface: (node) =>
+                node.isIncluded = node.originalName == 'SFTranscriptionSegment',
           ),
         ],
       ).generate(logger: createTestLogger());
