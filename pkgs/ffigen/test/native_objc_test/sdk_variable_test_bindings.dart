@@ -547,11 +547,6 @@ extension type NSTextList._(objc.ObjCObject object$)
     return NSTextList.fromPointer($ret, retain: false, release: true);
   }
 
-  /// supportsSecureCoding
-  static bool getSupportsSecureCoding() {
-    return _objc_msgSend_91o635(_class_NSTextList, _sel_supportsSecureCoding);
-  }
-
   /// Returns a new instance of NSTextList constructed with the default `new` method.
   NSTextList() : this.as(new$().object$);
 }
@@ -1580,9 +1575,6 @@ late final _sel_showsSelectionIndicator = objc.registerName(
   "showsSelectionIndicator",
 );
 late final _sel_startingItemNumber = objc.registerName("startingItemNumber");
-late final _sel_supportsSecureCoding = objc.registerName(
-  "supportsSecureCoding",
-);
 late final _sel_viewForRow_forComponent_ = objc.registerName(
   "viewForRow:forComponent:",
 );

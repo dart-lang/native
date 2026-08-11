@@ -2315,48 +2315,6 @@ extension type ObjCProtocolImpl._(objc.ObjCObject object$)
     return ObjCProtocolImpl.fromPointer($ret, retain: false, release: true);
   }
 
-  /// optionalClassMethod
-  static int optionalClassMethod() {
-    if (!objc.respondsToSelector(
-      _class_ObjCProtocolImpl,
-      _sel_optionalClassMethod,
-    )) {
-      throw objc.UnimplementedOptionalMethodException(
-        'ObjCProtocolImpl',
-        'optionalClassMethod',
-      );
-    }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImpl,
-      _sel_optionalClassMethod,
-    );
-  }
-
-  /// requiredClassMethod
-  static int requiredClassMethod() {
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImpl,
-      _sel_requiredClassMethod,
-    );
-  }
-
-  /// unimplementedOtionalClassMethod
-  static int unimplementedOtionalClassMethod() {
-    if (!objc.respondsToSelector(
-      _class_ObjCProtocolImpl,
-      _sel_unimplementedOtionalClassMethod,
-    )) {
-      throw objc.UnimplementedOptionalMethodException(
-        'ObjCProtocolImpl',
-        'unimplementedOtionalClassMethod',
-      );
-    }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImpl,
-      _sel_unimplementedOtionalClassMethod,
-    );
-  }
-
   /// Returns a new instance of ObjCProtocolImpl constructed with the default `new` method.
   ObjCProtocolImpl() : this.as(new$().object$);
 }
@@ -2567,48 +2525,6 @@ extension type ObjCProtocolImplMissingMethod._(objc.ObjCObject object$)
       $ret,
       retain: false,
       release: true,
-    );
-  }
-
-  /// optionalClassMethod
-  static int optionalClassMethod() {
-    if (!objc.respondsToSelector(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_optionalClassMethod,
-    )) {
-      throw objc.UnimplementedOptionalMethodException(
-        'ObjCProtocolImplMissingMethod',
-        'optionalClassMethod',
-      );
-    }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_optionalClassMethod,
-    );
-  }
-
-  /// requiredClassMethod
-  static int requiredClassMethod() {
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_requiredClassMethod,
-    );
-  }
-
-  /// unimplementedOtionalClassMethod
-  static int unimplementedOtionalClassMethod() {
-    if (!objc.respondsToSelector(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_unimplementedOtionalClassMethod,
-    )) {
-      throw objc.UnimplementedOptionalMethodException(
-        'ObjCProtocolImplMissingMethod',
-        'unimplementedOtionalClassMethod',
-      );
-    }
-    return _objc_msgSend_1gcq84o(
-      _class_ObjCProtocolImplMissingMethod,
-      _sel_unimplementedOtionalClassMethod,
     );
   }
 
@@ -3679,16 +3595,11 @@ late final _sel_intPtrMethod_ = objc.registerName("intPtrMethod:");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
 late final _sel_objectMethod_ = objc.registerName("objectMethod:");
-late final _sel_optionalClassMethod = objc.registerName("optionalClassMethod");
 late final _sel_optionalMethod_ = objc.registerName("optionalMethod:");
 late final _sel_otherMethod_b_c_d_ = objc.registerName("otherMethod:b:c:d:");
-late final _sel_requiredClassMethod = objc.registerName("requiredClassMethod");
 late final _sel_returnsInstanceType = objc.registerName("returnsInstanceType");
 late final _sel_returnsMyProtocol = objc.registerName("returnsMyProtocol");
 late final _sel_someMethod = objc.registerName("someMethod");
-late final _sel_unimplementedOtionalClassMethod = objc.registerName(
-  "unimplementedOtionalClassMethod",
-);
 late final _sel_voidMethod_ = objc.registerName("voidMethod:");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

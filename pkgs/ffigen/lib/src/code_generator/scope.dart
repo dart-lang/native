@@ -75,7 +75,7 @@ class Scope {
 
   void _fillNames(Set<String> parentUsedNames) {
     assert(!_filled);
-    final namer = Namer(parentUsedNames.union(_preUsedNames));
+    final namer = Namer(parentUsedNames, Set<String>.of(_preUsedNames));
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {
@@ -93,8 +93,13 @@ class Scope {
         );
       }
     }
+    final currentUsedNames = namer._used.isEmpty
+        ? parentUsedNames
+        : (parentUsedNames.isEmpty
+              ? namer._used
+              : parentUsedNames.union(namer._used));
     for (final ns in _children) {
-      ns._fillNames(namer._used);
+      ns._fillNames(currentUsedNames);
     }
   }
 
@@ -128,9 +133,10 @@ class Scope {
 /// This class is used internally by [Scope] to name [Symbol]s, and 99% of the
 /// time you should use those instead of this.
 class Namer {
+  final Set<String>? _parentUsed;
   final Set<String> _used;
 
-  Namer(this._used);
+  Namer([this._parentUsed, Set<String>? preUsed]) : _used = preUsed ?? {};
 
   String add(String name, SymbolKind kind) {
     if (name.isEmpty) name = 'unnamed';
@@ -145,7 +151,8 @@ class Namer {
     return newName;
   }
 
-  bool isUsed(String name) => _used.contains(name);
+  bool isUsed(String name) =>
+      _used.contains(name) || (_parentUsed?.contains(name) ?? false);
   void markUsed(String name) => _used.add(name);
 
   /// Returns a version of [name] that can safely be used in C code. Not
