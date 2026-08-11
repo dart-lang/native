@@ -1275,10 +1275,7 @@ final class YamlConfig {
         packingOverride: (decl) =>
             _structPackingOverride.getOverridenPackValue(decl.originalName),
       ),
-      enums: Enums(
-        include: _enumClassDecl.shouldInclude,
-        silenceWarning: silenceEnumWarning,
-      ),
+      enums: Enums(include: _enumClassDecl.shouldInclude),
       unions: Unions(
         include: _unionDecl.shouldInclude,
         dependencies: _unionDependencies,
@@ -1370,6 +1367,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.enumShouldBeInt(_decl(node))) {
       node.style = EnumStyle.intConstants;
     }
+    node.silenceWarning = config.silenceEnumWarning;
   }
 
   @override

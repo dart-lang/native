@@ -63,6 +63,9 @@ class EnumClass extends BindingType with HasLocalScope {
   /// Don't code gen this alias at all, just use the [nativeType] directly.
   bool isAnonymous;
 
+  /// Whether warnings should be silenced for this enum.
+  bool silenceWarning;
+
   final ApiAvailability? apiAvailability;
 
   EnumClass({
@@ -76,6 +79,7 @@ class EnumClass extends BindingType with HasLocalScope {
     this.style,
     this.suggestedStyle,
     this.isAnonymous = false,
+    this.silenceWarning = false,
     this.apiAvailability,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];

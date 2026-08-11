@@ -145,6 +145,10 @@ class EnumClass extends DeclNode {
   /// The suggested [EnumStyle] for this enum declaration.
   EnumStyle? get suggestedStyle => _enumClass.suggestedStyle;
 
+  /// Whether warnings should be silenced for this enum.
+  bool get silenceWarning => _enumClass.silenceWarning;
+  set silenceWarning(bool value) => _enumClass.silenceWarning = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitEnum(this);

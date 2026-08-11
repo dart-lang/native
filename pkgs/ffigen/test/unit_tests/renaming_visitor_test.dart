@@ -733,5 +733,64 @@ enums:
         expect(cgNormalEnum.effectiveStyle, EnumStyle.dartEnum);
       },
     );
+
+    test('EnumClass silenceWarning getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final cgEnum = EnumClass(
+        name: 'my_enum',
+        originalName: 'my_enum',
+        context: context,
+      );
+      final publicEnum = public_ast.EnumClass(cgEnum);
+
+      expect(cgEnum.silenceWarning, false);
+      expect(publicEnum.silenceWarning, false);
+
+      publicEnum.silenceWarning = true;
+      expect(publicEnum.silenceWarning, true);
+      expect(cgEnum.silenceWarning, true);
+
+      publicEnum.silenceWarning = false;
+      expect(publicEnum.silenceWarning, false);
+      expect(cgEnum.silenceWarning, false);
+    });
+
+    test(
+      'YamlConfigAstVisitor sets EnumClass.silenceWarning from config',
+      () {
+        final yamlConfig = YamlConfig.fromYaml(
+          loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+silence-enum-warning: true
+''')
+              as YamlMap,
+          createTestLogger(),
+        );
+
+        final generator = yamlConfig.configAdapter();
+        final context = testContext(generator);
+
+        final cgEnum = EnumClass(
+          name: 'MyEnum',
+          originalName: 'MyEnum',
+          context: context,
+        );
+
+        final nodes = <Binding>[
+          cgEnum,
+        ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+        generator.visitors.first.visitAll(nodes);
+
+        expect((nodes[0] as public_ast.EnumClass).silenceWarning, true);
+        expect(cgEnum.silenceWarning, true);
+      },
+    );
   });
 }

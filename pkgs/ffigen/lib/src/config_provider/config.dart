@@ -224,10 +224,7 @@ final class Declarations {
 
 /// Configuration for enum declarations.
 final class Enums extends Declarations {
-  /// Whether to silence warning for enum integer type mimicking.
-  final bool silenceWarning;
-
-  const Enums({super.include, this.silenceWarning = false});
+  const Enums({super.include});
 
   static const excludeAll = Enums(include: Declarations.excludeAll);
 
