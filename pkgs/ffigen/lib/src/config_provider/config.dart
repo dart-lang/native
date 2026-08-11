@@ -252,14 +252,6 @@ final class Functions extends Declarations {
 
   static bool _includeTypedefDefault(Declaration declaration) => false;
 
-  /// Whether to add the `@RecordUse()` annotation to the given function.
-  ///
-  /// Experimental: The record uses feature needs to be enabled as experiment.
-  @experimental
-  final bool Function(Declaration declaration) recordUse;
-
-  static bool _recordUseDefault(Declaration declaration) => false;
-
   /// Map from function's original name to [VarArgFunction]s.
   ///
   /// Dart doesn't support variadic functions. Instead, variadic functions are
@@ -272,7 +264,6 @@ final class Functions extends Declarations {
     super.include,
     super.includeSymbolAddress,
     this.includeTypedef = _includeTypedefDefault,
-    this.recordUse = _recordUseDefault,
     this.varArgs = const <String, List<VarArgFunction>>{},
   });
 

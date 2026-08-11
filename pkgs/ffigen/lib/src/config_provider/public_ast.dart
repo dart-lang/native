@@ -54,6 +54,14 @@ class Func extends DeclNode {
   bool get isLeaf => _func.isLeaf;
   set isLeaf(bool value) => _func.isLeaf = value;
 
+  /// Whether usage of this function should be recorded.
+  ///
+  /// When `true`, the generated Dart function is annotated with `@RecordUse()`
+  /// from `package:meta`, allowing build tools and static analyzers to track
+  /// references to this native function.
+  bool get recordUse => _func.recordUse;
+  set recordUse(bool value) => _func.recordUse = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitFunc(this);
@@ -146,14 +154,24 @@ class EnumClass extends DeclNode {
     );
   }
 
-  /// The [EnumStyle] for this enum declaration.
+  /// The explicit [EnumStyle] configured for generating this enum declaration.
+  ///
+  /// If specified, this takes precedence over [suggestedStyle]. If `null`,
+  /// [suggestedStyle] or the default style ([EnumStyle.dartEnum]) will be used.
   EnumStyle? get style => _enumClass.style;
   set style(EnumStyle? value) => _enumClass.style = value;
 
-  /// The suggested [EnumStyle] for this enum declaration.
+  /// The suggested [EnumStyle] for this enum declaration inferred during header
+  /// parsing.
+  ///
+  /// Used when [style] is `null`.
   EnumStyle? get suggestedStyle => _enumClass.suggestedStyle;
 
-  /// Whether warnings should be silenced for this enum.
+  /// Whether warnings associated with this enum declaration should be
+  /// suppressed.
+  ///
+  /// When `true`, warnings generated during processing of this enum (such as
+  /// name collisions or unsupported enum features) will be silenced.
   bool get silenceWarning => _enumClass.silenceWarning;
   set silenceWarning(bool value) => _enumClass.silenceWarning = value;
 

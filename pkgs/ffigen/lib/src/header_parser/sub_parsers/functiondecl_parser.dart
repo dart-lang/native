@@ -123,7 +123,6 @@ List<Func> parseFunctionDeclaration(
           ],
           exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
           exposeFunctionTypedefs: config.functions.includeTypedef(decl),
-          recordUse: config.functions.recordUse(decl),
           objCReturnsRetained: objCReturnsRetained,
           loadFromNativeAsset: config.output.style is NativeExternalBindings,
           apiAvailability: apiAvailability,

@@ -810,6 +810,26 @@ silence-enum-warning: true
       expect(cgFunc.isLeaf, false);
     });
 
+    test('public_ast.Func.recordUse getter and setter', () {
+      final cgFunc = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+
+      expect(publicFunc.recordUse, false);
+      expect(cgFunc.recordUse, false);
+
+      publicFunc.recordUse = true;
+      expect(publicFunc.recordUse, true);
+      expect(cgFunc.recordUse, true);
+
+      publicFunc.recordUse = false;
+      expect(publicFunc.recordUse, false);
+      expect(cgFunc.recordUse, false);
+    });
+
     test('YamlConfigAstVisitor sets Func.isLeaf from config', () {
       final yamlConfig = YamlConfig.fromYaml(
         loadYaml(r'''

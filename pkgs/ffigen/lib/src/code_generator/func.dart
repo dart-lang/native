@@ -49,7 +49,7 @@ class Func extends LookUpBinding with HasLocalScope {
   bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
-  final bool recordUse;
+  bool recordUse;
   final ApiAvailability? apiAvailability;
 
   @override
