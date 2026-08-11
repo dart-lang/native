@@ -89,6 +89,18 @@ class Animal implements ffi.Finalizable {
     _activeFinalizerFn = null;
   }
 
+  /// Detaches the finalizer and invalidates this object, returning the
+  /// underlying C++ pointer.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  ffi.Pointer<ffi.Void> detachPointer() {
+    final rawPtr = _ptr;
+    releaseOwnership();
+    _ptr = ffi.nullptr;
+    return rawPtr;
+  }
+
   factory Animal(int age) {
     return Animal.fromPointer(_Animal_new(age), takeOwnership: true);
   }
@@ -97,7 +109,7 @@ class Animal implements ffi.Finalizable {
       throw StateError('This object has already been disposed.');
     }
 
-    return _Animal_speak(_ptr);
+    _Animal_speak(_ptr);
   }
 
   int getAge() {
@@ -113,11 +125,11 @@ class Animal implements ffi.Finalizable {
   }
 
   static void Animal_new() {
-    return _Animal_Animal_new();
+    _Animal_Animal_new();
   }
 
   static void Animal_delete() {
-    return _Animal_Animal_delete();
+    _Animal_Animal_delete();
   }
 
   bool isMammalClass() {
@@ -294,6 +306,18 @@ class FinalizerTestSubject implements ffi.Finalizable {
     _activeFinalizer!.detach(this);
     _activeFinalizer = null;
     _activeFinalizerFn = null;
+  }
+
+  /// Detaches the finalizer and invalidates this object, returning the
+  /// underlying C++ pointer.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  ffi.Pointer<ffi.Void> detachPointer() {
+    final rawPtr = _ptr;
+    releaseOwnership();
+    _ptr = ffi.nullptr;
+    return rawPtr;
   }
 
   factory FinalizerTestSubject(ffi.Pointer<ffi.Int> counter) {
