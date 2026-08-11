@@ -12,6 +12,7 @@ import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 import '../../ffigen.dart';
+import '../header_parser.dart';
 
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 final logger = () {
@@ -60,7 +61,11 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  generator.generate(logger: logger);
+  try {
+    generator.generate(logger: logger);
+  } on HeaderParserException {
+    exit(1);
+  }
 }
 
 FfiGenerator getGenerator(ArgResults result, PackageConfig? packageConfig) {
