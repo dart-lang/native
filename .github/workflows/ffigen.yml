@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -57,7 +57,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -83,7 +83,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -105,14 +105,14 @@ jobs:
       - name: Trust Coveralls tap
         run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           flag-name: ffigen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/ffigen/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@0a51d2e0b5417d06e4ecceb534aec87defc53926
+        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -127,7 +127,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -151,7 +151,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -171,7 +171,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -199,7 +199,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -232,7 +232,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2

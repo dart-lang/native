@@ -10,6 +10,7 @@
   - Remove `libraryImports`, which was dead code
   - Remove `useSupportedTypedefs`, treating it as always true
 - Minor Objective-C code generator and function type signature fixes.
+- Bump `package:code_assets` dependency to `^2.0.0`.
 
 ## 21.0.0
 

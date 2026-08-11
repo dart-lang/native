@@ -12,6 +12,6 @@ on:
 
 jobs:
   upload:
-    uses: dart-lang/ecosystem/.github/workflows/post_summaries.yaml@edfdb3b4063b9034b708144633a700204f865f43
+    uses: dart-lang/ecosystem/.github/workflows/post_summaries.yaml@ed9c592c1d35106c0a8a52044426515017a60646
     permissions:
       pull-requests: write
