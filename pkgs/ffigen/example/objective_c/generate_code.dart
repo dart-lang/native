@@ -22,12 +22,22 @@ final config = FfiGenerator(
   // To tell FFIgen to generate Objective-C bindings, rather than C bindings,
   // set the objectiveC field to a non-null value.
   objectiveC: const ObjectiveC(),
-  enums: const Enums(silenceWarning: true),
   visitors: [
     Visitor(
+      visitFunc: (node) => node.isIncluded = false,
+      visitStruct: (node) => node.isIncluded = false,
+      visitUnion: (node) => node.isIncluded = false,
+      visitEnum: (node) => node.isIncluded = false,
+      visitUnnamedEnumConstant: (node) => node.isIncluded = false,
+      visitGlobal: (node) => node.isIncluded = false,
+      visitMacro: (node) => node.isIncluded = false,
+      visitConstant: (node) => node.isIncluded = false,
+      visitTypealias: (node) => node.isIncluded = false,
       visitObjCInterface: (node) {
         if (node.name != 'AVAudioPlayer') node.isIncluded = false;
       },
+      visitObjCCategory: (node) => node.isIncluded = false,
+      visitObjCProtocol: (node) => node.isIncluded = false,
     ),
   ],
 

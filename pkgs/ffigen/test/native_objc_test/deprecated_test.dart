@@ -108,6 +108,10 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
             node.isIncluded = false;
           }
         },
+        visitGlobal: (node) => node.isIncluded = false,
+        visitMacro: (node) => node.isIncluded = false,
+        visitConstant: (node) => node.isIncluded = false,
+        visitTypealias: (node) => node.isIncluded = false,
       ),
     ],
   ).generate(logger: createTestLogger());

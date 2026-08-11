@@ -21,38 +21,26 @@ class ApplyConfigFiltersVisitation extends Visitation {
     }
   }
 
-  void _visitWithChildren(Binding node) {
-    _visitImpl(node);
-    if (directlyIncluded.contains(node)) {
-      node.visitChildren(visitor);
-    }
-  }
+  @override
+  void visitStruct(Struct node) => _visitImpl(node);
 
   @override
-  void visitStruct(Struct node) => _visitWithChildren(node);
-
-  @override
-  void visitUnion(Union node) => _visitWithChildren(node);
+  void visitUnion(Union node) => _visitImpl(node);
 
   @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
-    _visitWithChildren(node);
+    _visitImpl(node);
   }
 
   @override
   void visitCppClass(CppClass node) {
     if (context.config.cpp == null) return;
-    _visitWithChildren(node);
+    _visitImpl(node);
   }
 
   @override
-  void visitFunc(Func node) {
-    _visitImpl(node);
-    if (directlyIncluded.contains(node)) {
-      visitor.visit(node.exposedFunctionTypealias);
-    }
-  }
+  void visitFunc(Func node) => _visitImpl(node);
 
   @override
   void visitMacroConstant(MacroConstant node) => _visitImpl(node);
@@ -71,10 +59,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
-      for (var t = node.superType; t != null; t = t.superType) {
-        if (!t.isObjCImport) {
-          if (!indirectlyIncluded.add(t)) break;
-        }
+      for (ObjCInterface? t = node; t != null; t = t.superType) {
+        if (!indirectlyIncluded.add(t)) break;
       }
     }
   }
@@ -129,6 +115,9 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    _visitWithChildren(node);
+    _visitImpl(node);
+    if (directlyIncluded.contains(node)) {
+      node.visitChildren(visitor);
+    }
   }
 }

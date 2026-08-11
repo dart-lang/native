@@ -64,14 +64,15 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitTypealias(Typealias node) {
-    // If the typealias is not in the bindings, that means we're not generating
-    // bindings for it, so we shouldn't add its name to the scope. But we
-    // still need to visit its target type. Otherwise, if the target type is
-    // only referred to via this alias, then we won't visit it at all.
-    if (!bindings.contains(node)) {
-      visitor.visit(node.type);
+    // If the typealias is not in the bindings and not generating bindings, that
+    // means we're not generating bindings for it, so we shouldn't add its name
+    // to the scope. But we still need to visit its target type. Otherwise, if
+    // the target type is only referred to via this alias, then we won't visit
+    // it at all.
+    if (!bindings.contains(node) && !node.generateBindings) {
+      node.visitChildren(visitor);
     } else {
-      visitInsideScope(node, context.rootScope);
+      visitBinding(node);
     }
   }
 

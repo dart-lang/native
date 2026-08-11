@@ -138,21 +138,31 @@ class Typealias extends BindingType {
   bool get isIncompleteCompound => type.isIncompleteCompound;
 
   @override
-  String getCType(Context context) =>
-      generateBindings ? name : type.getCType(context);
+  String getCType(Context context, {bool writeArgumentNames = true}) {
+    if (generateBindings) {
+      return name;
+    }
+    if (type case final FunctionType f) {
+      return f.getCType(context, writeArgumentNames: writeArgumentNames);
+    }
+    return type.getCType(context);
+  }
 
   @override
   String getNativeType(Context context, {String varName = ''}) =>
       type.getNativeType(context, varName: varName);
 
   @override
-  String getFfiDartType(Context context) {
+  String getFfiDartType(Context context, {bool writeArgumentNames = true}) {
     if (generateBindings) {
       if (_ffiDartAliasName != null) {
         return _ffiDartAliasName!.name;
       } else if (type.sameFfiDartAndCType) {
         return name;
       }
+    }
+    if (type case final FunctionType f) {
+      return f.getFfiDartType(context, writeArgumentNames: writeArgumentNames);
     }
     return type.getFfiDartType(context);
   }

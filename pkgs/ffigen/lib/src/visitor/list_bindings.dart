@@ -121,12 +121,12 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitTypealias(Typealias node) {
-    _visitImpl(
-      node,
-      config.typedefs.includeUnused
-          ? _IncludeBehavior.configOnly
-          : _IncludeBehavior.configAndTransitive,
-    );
+    final behavior = node.isInternal
+        ? _IncludeBehavior.transitive
+        : (config.typedefs.includeUnused
+            ? _IncludeBehavior.configOnly
+            : _IncludeBehavior.configAndTransitive);
+    _visitImpl(node, behavior);
 
     // Objective C has some core typedefs that are important to keep.
     if (config.objectiveC != null &&
@@ -167,5 +167,8 @@ class MarkBindingsVisitation extends Visitation {
   void visitBinding(Binding node) {
     node.visitChildren(visitor);
     node.generateBindings = bindings.contains(node);
+    if (node is Func && node.generateBindings && node.exposedFunctionTypealias != null) {
+      node.exposedFunctionTypealias!.generateBindings = true;
+    }
   }
 }

@@ -33,7 +33,7 @@ void main() {
             actual,
             contains('AVAudioPlayer? initWithContentsOfURL(objc.NSURL url) {'),
           );
-          expect(actual, contains('get duration {'));
+          expect(actual, contains('double get duration {'));
           expect(actual, contains('bool play() {'));
 
           return true;

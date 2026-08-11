@@ -168,6 +168,7 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
+  visit(context, CopyMethodsFromSuperTypesVisitation(), rawBindings);
   final rawNodes = rawBindings
       .map((b) => b.toPublicAstNode())
       .nonNulls
@@ -175,8 +176,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   for (final visitor in config.visitors) {
     visitor.visitAll(rawNodes);
   }
-
-  visit(context, CopyMethodsFromSuperTypesVisitation(), rawBindings);
   visit(context, FixOverriddenMethodsVisitation(context), rawBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);

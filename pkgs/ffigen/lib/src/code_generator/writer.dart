@@ -83,7 +83,6 @@ class Writer {
       //   unused imports.
       if (!_hasLintIgnore('unused_import')) 'unused_import',
       if (!_hasLintIgnore('unused_element')) 'unused_element',
-      if (!_hasLintIgnore('unused_field')) 'unused_field',
       if (!_hasLintIgnore('deprecated_member_use_from_same_package'))
         'deprecated_member_use_from_same_package',
     ];

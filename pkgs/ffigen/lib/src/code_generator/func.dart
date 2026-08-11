@@ -128,10 +128,16 @@ class Func extends LookUpBinding with HasLocalScope {
 
     final context = w.context;
     final cType =
-        _exposedFunctionTypealias?.getCType(context) ??
+        _exposedFunctionTypealias?.getCType(
+          context,
+          writeArgumentNames: false,
+        ) ??
         functionType.getCType(context, writeArgumentNames: false);
     final dartType =
-        _exposedFunctionTypealias?.getFfiDartType(context) ??
+        _exposedFunctionTypealias?.getFfiDartType(
+          context,
+          writeArgumentNames: false,
+        ) ??
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 

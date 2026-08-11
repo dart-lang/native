@@ -125,6 +125,8 @@ void main() {
           visitTypealias: (node) {
             if (!shouldIncludeNode('typedefs', node)) node.isIncluded = false;
           },
+          visitMacro: (node) => node.isIncluded = false,
+          visitConstant: (node) => node.isIncluded = false,
           visitObjCInterface: (node) {
             if (!shouldIncludeNode('objcInterfaces', node)) {
               node.isIncluded = false;
