@@ -10,13 +10,14 @@ import 'package:meta/meta.dart';
 import '../code_generator.dart';
 import '../ffigen.dart';
 import 'config_types.dart';
+import 'public_ast.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.
 // TODO: Add a code snippet example.
 final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
-  final Headers headers;
+  final Input input;
 
   /// Configuration for enums.
   final Enums enums;
@@ -26,9 +27,6 @@ final class FfiGenerator {
 
   /// Configuration for globals.
   final Globals globals;
-
-  /// Configuration for integer types.
-  final Integers integers;
 
   /// Configuration for macro constants.
   final Macros macros;
@@ -61,25 +59,43 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
-  /// Types imported from other Dart files, specified via the
-  /// unique-resource-identifer used in Clang.
+  /// AST visitors to run on the generated bindings to perform transformations
+  /// before Dart code generation occurs.
   ///
-  /// Applies to all kinds of definitions.
-  // TODO(https://github.com/dart-lang/native/issues/2596): Remove this.
-  @Deprecated(
-    'Will be folded into imported fields of the various declarations. See '
-    'https://github.com/dart-lang/native/issues/2596.',
-  )
-  final Map<String, ImportedType> importedTypesByUsr;
+  /// Visitors are executed sequentially in the order they appear in this list.
+  /// Each visitor can inspect or mutate AST node names and properties (such as
+  /// renaming functions, parameters, struct fields, enum constants, etc.).
+  ///
+  /// ### Examples
+  ///
+  /// Filtering declarations:
+  /// ```dart
+  /// Visitor(
+  ///   visitFunc: (node) {
+  ///     if (node.name.startsWith('_')) {
+  ///       node.isIncluded = false;
+  ///     }
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// Renaming declarations:
+  /// ```dart
+  /// Visitor(
+  ///   visitStruct: (node) {
+  ///     if (node.name == 'custom_type') {
+  ///       node.name = 'CustomType';
+  ///     }
+  ///   },
+  /// )
+  /// ```
+  final List<Visitor> visitors;
 
-  /// Stores all the library imports specified by user including those for ffi
-  /// and pkg_ffi.
-  // TODO(https://github.com/dart-lang/native/issues/2597): Remove this.
-  @Deprecated(
-    'In the future, this shoud be inferred from ImportedTypes. See '
-    'https://github.com/dart-lang/native/issues/2597.',
-  )
-  final List<LibraryImport> libraryImports;
+  /// Returns an [ImportedType] if the given [Declaration] should be imported
+  /// from another Dart library, or `null` otherwise.
+  final ImportedType? Function(Declaration declaration) importType;
+
+  static ImportedType? _defaultImportType(Declaration declaration) => null;
 
   /// Path to the clang library.
   ///
@@ -88,11 +104,10 @@ final class FfiGenerator {
   final Uri? libclangDylib;
 
   const FfiGenerator({
-    this.headers = const Headers(),
+    this.input = const Input(),
     this.enums = Enums.excludeAll,
     this.functions = Functions.excludeAll,
     this.globals = Globals.excludeAll,
-    this.integers = const Integers(),
     this.macros = Macros.excludeAll,
     this.structs = Structs.excludeAll,
     this.cpp,
@@ -101,16 +116,8 @@ final class FfiGenerator {
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
-    @Deprecated(
-      'Will be folded into imported fields of the various declarations. See '
-      'https://github.com/dart-lang/native/issues/2596.',
-    )
-    this.importedTypesByUsr = const <String, ImportedType>{},
-    @Deprecated(
-      'In the future, this shoud be inferred from ImportedTypes. See '
-      'https://github.com/dart-lang/native/issues/2597.',
-    )
-    this.libraryImports = const <LibraryImport>[],
+    this.visitors = const [],
+    this.importType = _defaultImportType,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 
@@ -126,7 +133,7 @@ final class FfiGenerator {
 }
 
 /// The configuration for header parsing of [FfiGenerator].
-final class Headers {
+final class Input {
   /// Path to headers. May not contain globs.
   final List<Uri> entryPoints;
 
@@ -142,7 +149,7 @@ final class Headers {
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
 
-  const Headers({
+  const Input({
     this.entryPoints = const [],
     this.include = _includeDefault,
     this.compilerOptions,
@@ -208,69 +215,10 @@ final class Declarations {
   /// The address is exposed as an FFI pointer.
   final bool Function(Declaration declaration) includeSymbolAddress;
 
-  /// Returns a new name for the declaration, to replace its `originalName`.
-  ///
-  /// ```dart
-  /// // This renames `Foo` to `Bar`, and nothing else:
-  /// rename: (Declaration decl) =>
-  ///     decl.originalName == 'Foo' ? 'Bar' : decl.originalName
-  /// ```
-  final String Function(Declaration declaration) rename;
-
-  /// A function to pass to [rename] that doesn't rename the declaration.
-  static String useOriginalName(Declaration declaration) =>
-      declaration.originalName;
-
-  /// A function to pass to [rename] that applies a rename map.
-  ///
-  /// The key of the map is the declaration's `originalName`, and the value is
-  /// the new name to use. If the declaration is not in the map, it is not
-  /// renamed.
-  static String Function(Declaration) renameWithMap(
-    Map<String, String> renames,
-  ) =>
-      (Declaration declaration) =>
-          renames[declaration.originalName] ?? declaration.originalName;
-
-  /// Returns a new name for the member of the declaration, to replace its
-  /// `originalName`.
-  ///
-  /// Used for struct/union fields, enum elements, function params, and
-  /// Objective-C interface/protocol/category methods/properties.
-  ///
-  /// ```dart
-  /// // This renames `Foo.bar` to `Foo.baz`, and nothing else:
-  /// rename: (Declaration decl, String member) {
-  ///   if (decl.originalName == 'Foo' && member == 'baz') {
-  ///     return 'baz';
-  ///   }
-  ///   return member;
-  /// }
-  /// ```
-  final String Function(Declaration declaration, String member) renameMember;
-
-  /// A function to pass to [renameMember] that doesn't rename the member.
-  static String useMemberOriginalName(Declaration declaration, String member) =>
-      member;
-
-  /// A function to pass to [renameMember] that applies a rename map.
-  ///
-  /// The key of the map is the declaration's `originalName`, and the value is
-  /// a map from member name to renamed member name. If the declaration is not
-  /// in the map, or the member isn't in the declaration's map, the member is
-  /// not renamed.
-  static String Function(Declaration, String) renameMemberWithMap(
-    Map<String, Map<String, String>> renames,
-  ) =>
-      (Declaration declaration, String member) =>
-          renames[declaration.originalName]?[member] ?? member;
-
   const Declarations({
     this.include = excludeAll,
     this.includeMember = includeAllMembers,
     this.includeSymbolAddress = excludeAll,
-    this.rename = useOriginalName,
-    this.renameMember = useMemberOriginalName,
   });
 }
 
@@ -304,8 +252,6 @@ final class Enums extends Declarations {
 
   const Enums({
     super.include,
-    super.rename,
-    super.renameMember,
     this.style = _styleDefault,
     this.silenceWarning = false,
   });
@@ -364,8 +310,6 @@ final class Functions extends Declarations {
   const Functions({
     super.include,
     super.includeSymbolAddress,
-    super.rename,
-    super.renameMember,
     this.includeTypedef = _includeTypedefDefault,
     this.isLeaf = _isLeafDefault,
     this.recordUse = _recordUseDefault,
@@ -382,7 +326,7 @@ final class Functions extends Declarations {
 
 /// Configuration for globals.
 final class Globals extends Declarations {
-  const Globals({super.rename, super.include, super.includeSymbolAddress});
+  const Globals({super.include, super.includeSymbolAddress});
 
   static const excludeAll = Globals(include: Declarations.excludeAll);
 
@@ -392,28 +336,9 @@ final class Globals extends Declarations {
       Globals(include: Declarations.includeSet(names));
 }
 
-/// Configuration for integer types.
-final class Integers {
-  /// Integer types imported from other Dart files.
-  // TODO(https://github.com/dart-lang/native/issues/2595): Change type.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
-  const Integers({
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
-  });
-}
-
 /// Configuration for macros.
 final class Macros extends Declarations {
-  const Macros({super.rename, super.include});
+  const Macros({super.include});
 
   static const excludeAll = Macros(include: Declarations.excludeAll);
 
@@ -428,14 +353,6 @@ final class Structs extends Declarations {
   /// Whether structs that are dependencies should be included.
   final CompoundDependencies dependencies;
 
-  /// Structs imported from other Dart files.
-  // TODO(https://github.com/dart-lang/native/issues/2595): Change type.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
   /// Whether, and how, to override struct packing for the given struct.
   final PackingValue? Function(Declaration declaration) packingOverride;
 
@@ -443,14 +360,7 @@ final class Structs extends Declarations {
 
   const Structs({
     super.include,
-    super.rename,
-    super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
     this.packingOverride = _packingOverrideDefault,
   });
 
@@ -464,29 +374,17 @@ final class Structs extends Declarations {
 
 /// Configuration for typedefs.
 final class Typedefs extends Declarations {
-  /// Typedefs imported from other Dart files.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
-  /// If typedef of supported types(int8_t) should be directly used.
+  /// If enabled, supported typedefs (such as size_t, uint8_t, etc.) will be
+  /// mapped to their supported types.
   final bool useSupportedTypedefs;
 
   const Typedefs({
-    super.rename,
     super.include,
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
-    this.includeUnused = false,
     this.useSupportedTypedefs = true,
+    this.includeUnused = false,
   });
 
   static const Typedefs excludeAll = Typedefs(include: Declarations.excludeAll);
@@ -499,7 +397,7 @@ final class Typedefs extends Declarations {
 
 /// Configuration for C++ class declarations.
 final class CppClasses extends Declarations {
-  const CppClasses({super.include, super.rename, super.renameMember});
+  const CppClasses({super.include});
 
   static const excludeAll = CppClasses(include: Declarations.excludeAll);
   static const includeAll = CppClasses(include: Declarations.includeAll);
@@ -521,23 +419,9 @@ final class Unions extends Declarations {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies dependencies;
 
-  /// Unions imported from other Dart files.
-  @Deprecated(
-    'This field will change type. See '
-    'https://github.com/dart-lang/native/issues/2595.',
-  )
-  final List<ImportedType> imported;
-
   const Unions({
     super.include,
-    super.rename,
-    super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
-    @Deprecated(
-      'This field will change type. See '
-      'https://github.com/dart-lang/native/issues/2595.',
-    )
-    this.imported = const <ImportedType>[],
   });
 
   static const excludeAll = Unions(include: Declarations.excludeAll);
@@ -550,7 +434,7 @@ final class Unions extends Declarations {
 
 /// Configuration for unnamed enum constants.
 final class UnnamedEnums extends Declarations {
-  const UnnamedEnums({super.include, super.rename, super.renameMember});
+  const UnnamedEnums({super.include});
 
   static const excludeAll = UnnamedEnums(include: Declarations.excludeAll);
 
@@ -604,8 +488,6 @@ final class Categories extends Declarations {
   const Categories({
     super.include,
     super.includeMember,
-    super.rename,
-    super.renameMember,
     this.includeTransitive = true,
   });
 
@@ -631,8 +513,6 @@ final class Interfaces extends Declarations {
   const Interfaces({
     super.include,
     super.includeMember,
-    super.rename,
-    super.renameMember,
     this.includeTransitive = false,
     this.module = noModule,
   });
@@ -661,8 +541,6 @@ final class Protocols extends Declarations {
   const Protocols({
     super.include,
     super.includeMember,
-    super.rename,
-    super.renameMember,
     this.includeTransitive = false,
     this.module = noModule,
   });
@@ -761,44 +639,4 @@ final class DynamicLibraryBindings implements BindingStyle {
     this.wrapperName = 'NativeLibrary',
     this.wrapperDocComment,
   });
-}
-
-extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
-  // ignore: deprecated_member_use_from_same_package
-  Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get typedefTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.typedefs.imported.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
-
-  Map<String, ImportedType> get structTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.structs.imported.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get unionTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.unions.imported.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get importedIntegers =>
-      Map<String, ImportedType>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.integers.imported.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
 }

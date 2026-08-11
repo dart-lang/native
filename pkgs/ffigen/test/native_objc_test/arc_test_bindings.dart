@@ -256,14 +256,14 @@ extension ArcTestObject$Methods on ArcTestObject {
 
   /// init
   ArcTestObject init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ArcTestObject.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return ArcTestObject.fromPointer($ret, retain: false, release: true);

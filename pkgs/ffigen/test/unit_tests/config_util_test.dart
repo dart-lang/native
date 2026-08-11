@@ -25,24 +25,5 @@ void main() {
       expect(includer(decl('goo'), 'bar'), isTrue);
       expect(includer(decl('goo'), 'baz'), isTrue);
     });
-
-    test('renameWithMap', () {
-      final renamer = Declarations.renameWithMap({'foo': 'bar'});
-      expect(renamer(decl('foo')), 'bar');
-      expect(renamer(decl('bar')), 'bar');
-      expect(renamer(decl('baz')), 'baz');
-    });
-
-    test('renameMemberWithMap', () {
-      final renamer = Declarations.renameMemberWithMap({
-        'foo': {'bar': 'baz'},
-      });
-      expect(renamer(decl('foo'), 'bar'), 'baz');
-      expect(renamer(decl('foo'), 'baz'), 'baz');
-      expect(renamer(decl('foo'), 'bop'), 'bop');
-      expect(renamer(decl('goo'), 'bar'), 'bar');
-      expect(renamer(decl('goo'), 'baz'), 'baz');
-      expect(renamer(decl('goo'), 'bop'), 'bop');
-    });
   });
 }

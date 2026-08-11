@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
@@ -15,7 +16,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final ObjCInterface parent;
-  final NoLookUpBinding classObject;
+  NoLookUpBinding? get classObject => parent.classObject;
 
   final protocols = <ObjCProtocol>[];
 
@@ -29,8 +30,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
     super.dartDoc,
     required this.context,
     required this.apiAvailability,
-  }) : classObject = parent.classObject,
-       super(symbol: Symbol(name ?? originalName, SymbolKind.klass));
+  }) : super(symbol: Symbol(name ?? originalName, SymbolKind.klass));
 
   void addProtocol(ObjCProtocol? proto) {
     if (proto != null) protocols.add(proto);
@@ -44,6 +44,9 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   @override
   bool get isObjCImport =>
       context.objCBuiltInFunctions.isBuiltInCategory(originalName);
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCCategory(this);
 
   @override
   BindingString toBindingString(Writer w) {

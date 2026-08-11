@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
-import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -39,7 +38,7 @@ Type? parseObjCInterfaceDeclaration(
     context: context,
     usr: usr,
     originalName: name,
-    name: objcInterfaces.rename(decl),
+    name: name,
     module: objcInterfaces.module(decl),
     dartDoc: getCursorDocComment(
       context,
@@ -67,8 +66,6 @@ void fillObjCInterfaceMethodsIfNeeded(
   if (itf.filled) return;
   itf.filled = true; // Break cycles.
 
-  final objcInterfaces = context.config.objectiveC!.interfaces;
-
   context.logger.fine(
     '++++ Filling ObjC interface: '
     'Name: ${itf.originalName}, ${cursor.completeStringRepr()}',
@@ -85,18 +82,13 @@ void fillObjCInterfaceMethodsIfNeeded(
         itf.addProtocol(parseObjCProtocolDeclaration(context, protoCursor));
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) = parseObjCProperty(
-          context,
-          child,
-          itfDecl,
-          objcInterfaces,
-        );
+        final (getter, setter) = parseObjCProperty(context, child, itfDecl);
         itf.addMethod(getter);
         itf.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        itf.addMethod(parseObjCMethod(context, child, itfDecl, objcInterfaces));
+        itf.addMethod(parseObjCMethod(context, child, itfDecl));
         break;
     }
   });
@@ -144,7 +136,6 @@ void _parseSuperType(
   Context context,
   clang_types.CXCursor cursor,
   Declaration decl,
-  Declarations filters,
 ) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType(context);
@@ -190,7 +181,7 @@ void _parseSuperType(
   final getter = ObjCMethod(
     context: context,
     originalName: getterName,
-    name: filters.renameMember(decl, getterName),
+    name: getterName,
     dartDoc: dartDoc ?? getterName,
     kind: ObjCMethodKind.propertyGetter,
     isClassMethod: isClassMethod,
@@ -224,6 +215,7 @@ void _parseSuperType(
       ownershipAttribute: null,
       consumesSelfAttribute: false,
     );
+    getter.setter = setter;
   }
   return (getter, setter);
 }
@@ -232,7 +224,6 @@ ObjCMethod? parseObjCMethod(
   Context context,
   clang_types.CXCursor cursor,
   Declaration itfDecl,
-  Declarations filters,
 ) {
   final logger = context.logger;
   final methodName = cursor.spelling();
@@ -298,7 +289,7 @@ ObjCMethod? parseObjCMethod(
   return ObjCMethod(
     context: context,
     originalName: methodName,
-    name: filters.renameMember(itfDecl, methodName),
+    name: methodName,
     dartDoc: getCursorDocComment(
       context,
       cursor,

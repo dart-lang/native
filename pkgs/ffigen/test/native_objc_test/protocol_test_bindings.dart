@@ -2364,14 +2364,14 @@ extension type ObjCProtocolImpl._(objc.ObjCObject object$)
 extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
   /// disabledMethod
   int disabledMethod() {
-    final _$$ref$1 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$1.pointer, _sel_disabledMethod)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_disabledMethod)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(_$$ref$1.pointer, _sel_disabledMethod);
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
   }
 
   /// fooMethod
@@ -2397,12 +2397,12 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
-    final _$$ref$2 = object$.ref;
-    final _$$ref$3 = s.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = s.ref;
     final $ret = _objc_msgSend_6plvbo(
-      _$$ref$2.pointer,
+      _$$ref.pointer,
       _sel_instanceMethod_withDouble_,
-      _$$ref$3.pointer,
+      _$$ref$1.pointer,
       withDouble,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
@@ -2410,43 +2410,39 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
 
   /// intPtrMethod:
   void intPtrMethod(ffi.Pointer<ffi.Int32> ptr) {
-    final _$$ref$1 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$1.pointer, _sel_intPtrMethod_)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_intPtrMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(_$$ref$1.pointer, _sel_intPtrMethod_, ptr);
+    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
   }
 
   /// objectMethod:
   void objectMethod(objc.NSObject obj) {
-    final _$$ref$2 = object$.ref;
-    final _$$ref$3 = obj.ref;
-    if (!objc.respondsToSelector(_$$ref$2.pointer, _sel_objectMethod_)) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = obj.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_objectMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'objectMethod:',
       );
     }
-    _objc_msgSend_xtuoz7(
-      _$$ref$2.pointer,
-      _sel_objectMethod_,
-      _$$ref$3.pointer,
-    );
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_objectMethod_, _$$ref$1.pointer);
   }
 
   /// optionalMethod:
   int optionalMethod(SomeStruct s) {
-    final _$$ref$1 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$1.pointer, _sel_optionalMethod_)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_optionalMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(_$$ref$1.pointer, _sel_optionalMethod_, s);
+    return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
   }
 
   /// otherMethod:b:c:d:
@@ -2495,14 +2491,14 @@ extension ObjCProtocolImpl$Methods on ObjCProtocolImpl {
 
   /// voidMethod:
   void voidMethod(int x) {
-    final _$$ref$1 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$1.pointer, _sel_voidMethod_)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_voidMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImpl',
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(_$$ref$1.pointer, _sel_voidMethod_, x);
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
   }
 }
 
@@ -2624,26 +2620,26 @@ extension ObjCProtocolImplMissingMethod$Methods
     on ObjCProtocolImplMissingMethod {
   /// disabledMethod
   int disabledMethod() {
-    final _$$ref$2 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$2.pointer, _sel_disabledMethod)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_disabledMethod)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'disabledMethod',
       );
     }
-    return _objc_msgSend_1gcq84o(_$$ref$2.pointer, _sel_disabledMethod);
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_disabledMethod);
   }
 
   /// init
   ObjCProtocolImplMissingMethod init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ObjCProtocolImplMissingMethod.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return ObjCProtocolImplMissingMethod.fromPointer(
@@ -2655,12 +2651,12 @@ extension ObjCProtocolImplMissingMethod$Methods
 
   /// instanceMethod:withDouble:
   objc.NSString instanceMethod(objc.NSString s, {required double withDouble}) {
-    final _$$ref$4 = object$.ref;
-    final _$$ref$5 = s.ref;
+    final _$$ref = object$.ref;
+    final _$$ref$1 = s.ref;
     final $ret = _objc_msgSend_6plvbo(
-      _$$ref$4.pointer,
+      _$$ref.pointer,
       _sel_instanceMethod_withDouble_,
-      _$$ref$5.pointer,
+      _$$ref$1.pointer,
       withDouble,
     );
     return objc.NSString.fromPointer($ret, retain: true, release: true);
@@ -2668,55 +2664,51 @@ extension ObjCProtocolImplMissingMethod$Methods
 
   /// intPtrMethod:
   void intPtrMethod(ffi.Pointer<ffi.Int32> ptr) {
-    final _$$ref$2 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$2.pointer, _sel_intPtrMethod_)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_intPtrMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'intPtrMethod:',
       );
     }
-    _objc_msgSend_yhkuco(_$$ref$2.pointer, _sel_intPtrMethod_, ptr);
+    _objc_msgSend_yhkuco(_$$ref.pointer, _sel_intPtrMethod_, ptr);
   }
 
   /// objectMethod:
   void objectMethod(objc.NSObject obj) {
-    final _$$ref$4 = object$.ref;
-    final _$$ref$5 = obj.ref;
-    if (!objc.respondsToSelector(_$$ref$4.pointer, _sel_objectMethod_)) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = obj.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_objectMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'objectMethod:',
       );
     }
-    _objc_msgSend_xtuoz7(
-      _$$ref$4.pointer,
-      _sel_objectMethod_,
-      _$$ref$5.pointer,
-    );
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_objectMethod_, _$$ref$1.pointer);
   }
 
   /// optionalMethod:
   int optionalMethod(SomeStruct s) {
-    final _$$ref$2 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$2.pointer, _sel_optionalMethod_)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_optionalMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'optionalMethod:',
       );
     }
-    return _objc_msgSend_lacj97(_$$ref$2.pointer, _sel_optionalMethod_, s);
+    return _objc_msgSend_lacj97(_$$ref.pointer, _sel_optionalMethod_, s);
   }
 
   /// voidMethod:
   void voidMethod(int x) {
-    final _$$ref$2 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$2.pointer, _sel_voidMethod_)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_voidMethod_)) {
       throw objc.UnimplementedOptionalMethodException(
         'ObjCProtocolImplMissingMethod',
         'voidMethod:',
       );
     }
-    _objc_msgSend_1bqef4y(_$$ref$2.pointer, _sel_voidMethod_, x);
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_voidMethod_, x);
   }
 }
 
@@ -2842,14 +2834,14 @@ extension ProtocolConsumer$Methods on ProtocolConsumer {
 
   /// init
   ProtocolConsumer init() {
-    final _$$ref$2 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'ProtocolConsumer.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$2.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return ProtocolConsumer.fromPointer($ret, retain: false, release: true);
@@ -2882,9 +2874,9 @@ extension type SecondaryProtocol._(objc.ObjCProtocol object$)
 extension SecondaryProtocol$Methods on SecondaryProtocol {
   /// otherMethod:b:c:d:
   int otherMethod(int a, {required int b, required int c, required int d}) {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     return _objc_msgSend_hv8ra8(
-      _$$ref$1.pointer,
+      _$$ref.pointer,
       _sel_otherMethod_b_c_d_,
       a,
       b,
@@ -2895,15 +2887,15 @@ extension SecondaryProtocol$Methods on SecondaryProtocol {
 
   /// returnsInstanceType
   SecondaryProtocol? returnsInstanceType() {
-    final _$$ref$1 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$1.pointer, _sel_returnsInstanceType)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_returnsInstanceType)) {
       throw objc.UnimplementedOptionalMethodException(
         'SecondaryProtocol',
         'returnsInstanceType',
       );
     }
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.pointer,
+      _$$ref.pointer,
       _sel_returnsInstanceType,
     );
     return $ret.address == 0
@@ -2913,17 +2905,14 @@ extension SecondaryProtocol$Methods on SecondaryProtocol {
 
   /// returnsMyProtocol
   MyProtocol returnsMyProtocol() {
-    final _$$ref$1 = object$.ref;
-    if (!objc.respondsToSelector(_$$ref$1.pointer, _sel_returnsMyProtocol)) {
+    final _$$ref = object$.ref;
+    if (!objc.respondsToSelector(_$$ref.pointer, _sel_returnsMyProtocol)) {
       throw objc.UnimplementedOptionalMethodException(
         'SecondaryProtocol',
         'returnsMyProtocol',
       );
     }
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.pointer,
-      _sel_returnsMyProtocol,
-    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_returnsMyProtocol);
     return MyProtocol.fromPointer($ret, retain: true, release: true);
   }
 }

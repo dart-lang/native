@@ -11,13 +11,15 @@ void main() async {
   final packageRoot = Platform.script.resolve('../');
   await generateJniBindings(
     Config(
-      androidSdkConfig: AndroidSdkConfig(
-        addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/').toFilePath(),
+      input: Input(
+        classes: ['com.google.gson.Gson', 'okhttp3.OkHttpClient'],
+        androidSdk: AndroidSdk(
+          addGradleDeps: true,
+          androidExample: packageRoot.resolve('example/').toFilePath(),
+        ),
       ),
-      classes: ['com.google.gson.Gson', 'okhttp3.OkHttpClient'],
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
+      output: Output(
+        dart: DartCodeOutput(
           path: packageRoot.resolve('lib/maven_libs_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),

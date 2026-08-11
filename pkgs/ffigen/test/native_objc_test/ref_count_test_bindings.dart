@@ -321,14 +321,14 @@ extension type RefCounted._(objc.ObjCObject object$)
 extension RefCounted$Methods on RefCounted {
   /// init
   RefCounted init() {
-    final _$$ref$1 = object$.ref;
+    final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'RefCounted.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$$ref$1.retainAndReturnPointer(),
+      _$$ref.retainAndReturnPointer(),
       _sel_init,
     );
     return RefCounted.fromPointer($ret, retain: false, release: true);

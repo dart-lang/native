@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../config_provider/public_ast.dart' as public_ast;
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'binding.dart';
@@ -77,6 +78,9 @@ class UnnamedEnumConstant extends Constant {
   });
 
   @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.UnnamedEnumConstant(this);
+
+  @override
   void visit(Visitation visitation) =>
       visitation.visitUnnamedEnumConstant(this);
 }
@@ -92,6 +96,9 @@ class MacroConstant extends Constant {
     required super.rawValue,
     super.apiAvailability,
   });
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.MacroConstant(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitMacroConstant(this);

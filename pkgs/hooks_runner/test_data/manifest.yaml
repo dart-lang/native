@@ -23,6 +23,8 @@
 - complex_link_helper/hook/build.dart
 - complex_link_helper/lib/complex_link_helper.dart
 - complex_link_helper/pubspec.yaml
+- custom_os_arch/hook/build.dart
+- custom_os_arch/pubspec.yaml
 - cyclic_link_package_1/hook/link.dart
 - cyclic_link_package_1/pubspec.yaml
 - cyclic_link_package_2/hook/link.dart
@@ -260,6 +262,7 @@
 - use_all_api/hook/link.dart
 - use_all_api/pubspec.yaml
 - user_defines/assets/data.json
+- user_defines/assets/second.json
 - user_defines/bin/user_defines.dart
 - user_defines/hook/build.dart
 - user_defines/pubspec.yaml

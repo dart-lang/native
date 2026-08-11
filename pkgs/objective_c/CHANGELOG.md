@@ -1,10 +1,13 @@
+## 9.5.1-wip
+
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
 ## 9.5.0
 
 - Add internal utils required to support FFIgen's new port based blocks.
 - Make an internal-only FFI struct, `DOBJC_Context`, opaque. This is
   technically a breaking change, but it's extremely unlikely that any users are
   using these internal structs (and doing so would be a mistake).
-
 ## 9.4.1
 
 - Fix a [bug](https://github.com/flutter/flutter/issues/186794) related to

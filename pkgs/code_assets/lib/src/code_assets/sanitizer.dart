@@ -60,28 +60,21 @@ final class Sanitizer {
   ///
   /// The name can be obtained from [Sanitizer.name] or [Sanitizer.toString].
   factory Sanitizer.fromString(String name) =>
-      SanitizerSyntaxExtension.fromSyntax(SanitizerSyntax.fromJson(name));
+      values.firstWhere((e) => e.name == name, orElse: () => Sanitizer._(name));
+
+  @override
+  bool operator ==(Object other) => other is Sanitizer && other.name == name;
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 /// Extension methods for [Sanitizer] to convert to and from the syntax model.
 extension SanitizerSyntaxExtension on Sanitizer {
-  static final _toSyntax = {
-    for (final item in Sanitizer.values)
-      item: SanitizerSyntax.fromJson(item.name),
-  };
-
-  static final _fromSyntax = {
-    for (var entry in _toSyntax.entries) entry.value: entry.key,
-  };
-
   /// Converts this [Sanitizer] to its corresponding [SanitizerSyntax].
-  SanitizerSyntax toSyntax() =>
-      _toSyntax[this] ?? SanitizerSyntax.fromJson(name);
+  SanitizerSyntax toSyntax() => SanitizerSyntax.fromJson(name);
 
   /// Converts an [SanitizerSyntax] to its corresponding [Sanitizer].
   static Sanitizer fromSyntax(SanitizerSyntax syntax) =>
-      switch (_fromSyntax[syntax]) {
-        null => Sanitizer._(syntax.name),
-        final e => e,
-      };
+      Sanitizer.fromString(syntax.name);
 }

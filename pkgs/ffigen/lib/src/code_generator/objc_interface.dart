@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
@@ -19,7 +20,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   bool filled = false;
 
   final String? module;
-  late final NoLookUpBinding classObject;
+  ObjCClassGlobal? classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
   final protocols = <ObjCProtocol>[];
@@ -47,7 +48,6 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
-    classObject = ObjCClassGlobal('_class_$name', originalName, module);
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );
@@ -101,12 +101,23 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     if (proto != null) protocols.add(proto);
   }
 
+  void fillClassObject() {
+    classObject ??= ObjCClassGlobal(
+      '_class_${symbol.oldName}',
+      originalName,
+      module,
+    );
+  }
+
   @override
   bool get isObjCImport =>
       context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) !=
       null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCInterface(this);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -183,7 +194,7 @@ ${generateInstanceMethodBindings(w, this)}
       context,
       'obj.ref.pointer',
       _isKindOfClass.name,
-      [classObject.name],
+      [classObject!.name],
     );
 
     s.write('''

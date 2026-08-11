@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 
-import 'config_provider.dart' show Config, FfiGenerator;
+import 'config_provider.dart' show FfiGenerator;
 import 'context.dart';
 import 'header_parser.dart' show parse;
 import 'logger.dart';
@@ -21,20 +21,19 @@ extension FfiGenGenerator on FfiGenerator {
   /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
   void generate({Logger? logger, Uri? libclangDylib}) {
     logger ??= createDefaultLogger();
-    final config = Config(this);
-    final context = Context(logger, config, libclangDylib: libclangDylib);
+    final context = Context(logger, this, libclangDylib: libclangDylib);
 
     // Parse the bindings according to config object provided.
     final library = parse(context);
 
     // Generate files for the parsed bindings.
-    final gen = File(config.output.dartFile.toFilePath());
-    library.generateFile(gen, format: config.ffiGen.output.format);
+    final gen = File(output.dartFile.toFilePath());
+    library.generateFile(gen, format: output.format);
     logger.info(
       _successPen('Finished, Bindings generated in ${gen.absolute.path}'),
     );
 
-    final objCGen = File(config.output.objCFile.toFilePath());
+    final objCGen = File(output.objCFile.toFilePath());
     if (library.generateObjCFile(objCGen)) {
       logger.info(
         _successPen(
@@ -44,7 +43,7 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
-    final cppGen = File(config.output.cppBindingsFile.toFilePath());
+    final cppGen = File(output.cppBindingsFile.toFilePath());
     if (library.generateCppFile(cppGen)) {
       logger.info(
         _successPen(
@@ -53,12 +52,12 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
-    final recordUseMappingFile = config.output.recordUseMapping;
+    final recordUseMappingFile = output.recordUseMapping;
     if (recordUseMappingFile != null) {
       final recordUseMappingGen = File(recordUseMappingFile.toFilePath());
       if (library.generateRecordUseMappingFile(
         recordUseMappingGen,
-        format: config.output.format,
+        format: output.format,
       )) {
         logger.info(
           _successPen(
@@ -69,7 +68,7 @@ extension FfiGenGenerator on FfiGenerator {
       }
     }
 
-    final symbolFile = config.output.symbolFile;
+    final symbolFile = output.symbolFile;
     if (symbolFile != null) {
       final symbolFileGen = File(symbolFile.output.toFilePath());
       library.generateSymbolOutputFile(

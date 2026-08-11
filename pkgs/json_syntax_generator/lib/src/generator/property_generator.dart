@@ -98,7 +98,7 @@ class PropertyGenerator {
         buffer.writeln('''
 $dartType get $fieldName {
   final jsonValue = _reader.get<$dartStringType>('$jsonKey'); $earlyReturn
-  return $classType.fromJson(jsonValue);
+  return $classType.fromJson(jsonValue, path: [...path, '$jsonKey']);
 }
 ''');
         if (!property.isOverride) {

@@ -72,7 +72,7 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
       availability: apiAvailability.dartDoc,
     ),
     originalName: className,
-    name: cppClasses.rename(decl),
+    name: className,
     context: context,
     methods: methods,
     fields: <CppMember>[],
@@ -107,7 +107,7 @@ void _parseAnyMethod(
     return;
   }
 
-  final className = context.config.cpp!.classes.rename(classDecl);
+  final className = classDecl.originalName;
   final symbol = switch (kind) {
     CppMethodKind.constructor => '${className}_new',
     CppMethodKind.method => '${className}_$methodName',
@@ -135,12 +135,7 @@ List<Parameter>? _parseParameters(
   Declaration classDecl,
 ) {
   final logger = context.logger;
-  var i = 0;
-  final parsed = parseParameters(
-    context,
-    cursor,
-    renameFn: (paramName) => paramName.isEmpty ? 'arg${i++}' : paramName,
-  );
+  final parsed = parseParameters(context, cursor);
   if (parsed.hasIncompleteStruct || parsed.hasUnimplementedType) {
     logger.fine('  Unsupported parameter type');
     return null;

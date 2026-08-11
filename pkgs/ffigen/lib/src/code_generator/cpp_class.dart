@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../visitor/ast.dart';
 
@@ -79,6 +80,9 @@ class CppClass extends BindingType with HasLocalScope {
     required this.methods,
     required this.fields,
   });
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.CppClass(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitCppClass(this);

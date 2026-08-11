@@ -325,27 +325,24 @@ void main() async {
     }
   });
 
-  test('BuildInput.config.code: invalid architecture', () {
+  test('BuildInput.config.code: custom architecture', () {
     final input = inputJson();
     traverseJson<Map<String, Object?>>(input, [
       'config',
       'extensions',
       'code_assets',
-    ])['target_architecture'] = 'invalid_architecture';
-    expect(
-      () => BuildInput(input).config.code.targetArchitecture,
-      throwsFormatException,
-    );
+    ])['target_architecture'] = 'mips';
+    expect(BuildInput(input).config.code.targetArchitecture.name, 'mips');
   });
 
-  test('LinkInput.config.code: invalid os', () {
+  test('LinkInput.config.code: custom os', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
       'config',
       'extensions',
       'code_assets',
-    ])['target_os'] = 'invalid_os';
-    expect(() => LinkInput(input).config.code.targetOS, throwsFormatException);
+    ])['target_os'] = 'ohos';
+    expect(LinkInput(input).config.code.targetOS.name, 'ohos');
   });
 
   test('LinkInput.config.code.target_os invalid type', () {

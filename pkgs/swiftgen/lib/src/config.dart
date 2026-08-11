@@ -234,9 +234,6 @@ class FfiGeneratorOptions {
   /// [ffigen.FfiGenerator.globals]
   final ffigen.Globals globals;
 
-  /// Configuration for integer types.
-  final ffigen.Integers integers;
-
   /// [ffigen.FfiGenerator.macros]
   final ffigen.Macros macros;
 
@@ -246,6 +243,9 @@ class FfiGeneratorOptions {
   /// [ffigen.FfiGenerator.objectiveC]
   final ffigen.ObjectiveC objectiveC;
 
+  /// [ffigen.FfiGenerator.visitors]
+  final List<ffigen.Visitor> visitors;
+
   const FfiGeneratorOptions({
     this.functions = ffigen.Functions.excludeAll,
     this.structs = ffigen.Structs.excludeAll,
@@ -253,9 +253,9 @@ class FfiGeneratorOptions {
     this.enums = ffigen.Enums.excludeAll,
     this.unnamedEnums = ffigen.UnnamedEnums.excludeAll,
     this.globals = ffigen.Globals.excludeAll,
-    this.integers = const ffigen.Integers(),
     this.macros = ffigen.Macros.excludeAll,
     this.typedefs = ffigen.Typedefs.excludeAll,
     this.objectiveC = const ffigen.ObjectiveC(),
+    this.visitors = const [],
   });
 }

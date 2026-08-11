@@ -1,3 +1,17 @@
+## 22.0.0-wip
+
+- __Breaking change__: Major overhaul of Dart config API:
+  - Replace various callback based config elements with a `Visitor` pattern.
+    - `rename` and `renameMember` replaced with `.name` setters on AST nodes.
+  - Consolidate `imported` fields and `importedTypesByUsr` into
+    `FfiGenerator.importType`, switching it to a callback pattern
+  - Deleted empty `Integers` class
+  - Rename `Headers` to `Input`
+  - Remove `libraryImports`, which was dead code
+  - Remove `useSupportedTypedefs`, treating it as always true
+- Minor Objective-C code generator and function type signature fixes.
+- Bump `package:code_assets` dependency to `^2.0.0`.
+
 ## 21.0.0
 
 - Propagate `@Deprecated` annotations from C/ObjC headers into generated Dart

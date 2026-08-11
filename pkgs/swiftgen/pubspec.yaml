@@ -19,7 +19,7 @@ environment:
 
 dependencies:
   ffi: ^2.1.0
-  ffigen: ^21.0.0
+  ffigen: ^22.0.0-wip
   logging: ^1.3.0
   objective_c: ^9.5.0
   package_config: '>=2.2.0 <4.0.0'
@@ -33,8 +33,14 @@ dev_dependencies:
   test: ^1.21.1
 
 dependency_overrides:
+  code_assets:
+    path: ../code_assets/
   ffigen:
     path: ../ffigen/
+  hooks:
+    path: ../hooks/
+  native_toolchain_c:
+    path: ../native_toolchain_c/
   objective_c:
     path: ../objective_c/
   swift2objc:

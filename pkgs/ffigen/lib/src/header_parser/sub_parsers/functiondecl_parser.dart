@@ -41,15 +41,8 @@ List<Func> parseFunctionDeclaration(
 
     final returnType = cursor.returnType().toCodeGenType(context);
 
-    final (
-      :parameters,
-      :hasIncompleteStruct,
-      :hasUnimplementedType,
-    ) = parseParameters(
-      context,
-      cursor,
-      renameFn: (paramName) => config.functions.renameMember(decl, paramName),
-    );
+    final (:parameters, :hasIncompleteStruct, :hasUnimplementedType) =
+        parseParameters(context, cursor);
 
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
         clang.clang_Cursor_getStorageClass(cursor) !=
@@ -120,10 +113,10 @@ List<Func> parseFunctionDeclaration(
             availability: apiAvailability.dartDoc,
           ),
           usr: usr,
-          name: config.functions.rename(decl) + (vaFunc?.postfix ?? ''),
+          name: funcName + (vaFunc?.postfix ?? ''),
           originalName: funcName,
           returnType: returnType,
-          parameters: parameters,
+          parameters: parameters.map((p) => p.clone()).toList(),
           varArgParameters: [
             for (final ta in vaFunc?.types ?? const <Type>[])
               Parameter(type: ta, name: 'va', objCConsumed: false),
@@ -170,14 +163,14 @@ parseParameters(
       context.logger.finer('Unimplemented type: ${paramType.baseType}');
       unimplementedParameterType = true;
     }
-    final paramName = paramCursor.spelling();
-    final name = renameFn != null ? renameFn(paramName) : paramName;
+    final spelling = paramCursor.spelling();
+    final name = spelling.isEmpty ? 'arg$i' : spelling;
     final objCConsumed = paramCursor.hasChildWithKind(
       clang_types.CXCursorKind.CXCursor_NSConsumed,
     );
     parameters.add(
       Parameter(
-        originalName: paramName,
+        originalName: spelling,
         name: name,
         type: paramType,
         objCConsumed: objCConsumed,

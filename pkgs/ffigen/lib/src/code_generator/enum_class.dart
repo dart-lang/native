@@ -5,6 +5,7 @@
 import 'package:collection/collection.dart';
 
 import '../config_provider.dart';
+import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
@@ -71,6 +72,10 @@ class EnumClass extends BindingType with HasLocalScope {
     this.apiAvailability,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];
+
+  @override
+  public_ast.AstNode? toPublicAstNode() =>
+      isAnonymous ? null : public_ast.EnumClass(this);
 
   /// Returns a string to declare the enum member and any documentation it may
   /// have had.
@@ -300,8 +305,8 @@ class EnumConstant extends AstNode {
   final String? dartDoc;
   final int value;
 
-  final Symbol _symbol;
-  String get name => _symbol.name;
+  final Symbol symbol;
+  String get name => symbol.name;
 
   EnumConstant({
     String? originalName,
@@ -309,11 +314,11 @@ class EnumConstant extends AstNode {
     required this.value,
     this.dartDoc,
   }) : originalName = originalName ?? name,
-       _symbol = Symbol(name, SymbolKind.field);
+       symbol = Symbol(name, SymbolKind.field);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(_symbol);
+    visitor.visit(symbol);
   }
 }

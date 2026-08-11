@@ -9,9 +9,7 @@ import 'package:ffigen/ffigen.dart';
 void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
-    headers: Headers(
-      entryPoints: [packageRoot.resolve('third_party/miniaudio.h')],
-    ),
+    input: Input(entryPoints: [packageRoot.resolve('third_party/miniaudio.h')]),
     functions: Functions(
       include: (decl) => {
         'ma_engine_init',

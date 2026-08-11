@@ -65,7 +65,7 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         availability: apiAvailability.dartDoc,
       ),
       originalName: enumName,
-      name: config.enums.rename(decl),
+      name: enumName,
       nativeType: nativeType,
       context: context,
       apiAvailability: apiAvailability,
@@ -84,7 +84,7 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
                   indent: nesting.length + commentPrefix.length,
                 ),
                 originalName: child.spelling(),
-                name: config.enums.renameMember(decl, child.spelling()),
+                name: child.spelling(),
                 value: enumIntValue,
               ),
             );

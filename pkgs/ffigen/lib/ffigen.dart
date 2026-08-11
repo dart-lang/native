@@ -31,8 +31,7 @@ export 'src/config_provider.dart'
         FfiGenerator,
         Functions,
         Globals,
-        Headers,
-        Integers,
+        Input,
         Interfaces,
         Macros,
         NativeExternalBindings,
@@ -56,3 +55,5 @@ export 'src/config_provider.dart'
         macSdkUri,
         xcodePath,
         xcodeUri;
+export 'src/config_provider/public_ast.dart';
+export 'src/config_provider/public_visitor.dart';
