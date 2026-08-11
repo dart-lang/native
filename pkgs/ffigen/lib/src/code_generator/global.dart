@@ -42,6 +42,7 @@ class Global extends LookUpBinding with HasLocalScope {
     this.exposeSymbolAddress = false,
     this.constant = false,
     this.loadFromNativeAsset = false,
+    super.isIncluded,
   }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override

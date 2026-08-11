@@ -140,6 +140,9 @@ void main() {
       )..addMethod(objcMethod);
 
       final rawBindings = <Binding>[func, struct, enumClass, objcInterface];
+      for (final b in rawBindings) {
+        b.isIncluded = true;
+      }
       final nodes = rawBindings
           .map((b) => b.toPublicAstNode())
           .nonNulls
@@ -486,10 +489,14 @@ objc-interfaces:
         },
       );
 
-      final nodes = <Binding>[
-        func,
-        struct,
-      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+      final rawBindings = <Binding>[func, struct];
+      for (final b in rawBindings) {
+        b.isIncluded = true;
+      }
+      final nodes = rawBindings
+          .map((b) => b.toPublicAstNode())
+          .nonNulls
+          .toList();
       visitor.visitAll(nodes);
 
       expect(visitedFuncs, ['c_foo']);

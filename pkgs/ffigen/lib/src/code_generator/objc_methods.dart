@@ -212,7 +212,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
   Symbol? protocolMethodName;
   ObjCMethods? parent;
   ObjCMethod? setter;
-  bool isIncluded = true;
+  bool isIncluded = false;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {

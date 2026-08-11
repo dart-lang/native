@@ -82,6 +82,7 @@ class Func extends LookUpBinding with HasLocalScope {
     this.useNameForLookup = false,
     this.recordUse = false,
     super.isInternal,
+    super.isIncluded,
     this.loadFromNativeAsset = false,
     this.apiAvailability,
   }) : functionType = FunctionType(

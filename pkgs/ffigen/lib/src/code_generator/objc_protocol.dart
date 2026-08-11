@@ -35,6 +35,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     super.dartDoc,
     required this.apiAvailability,
     required this.context,
+    super.isIncluded,
   }) : loaderSymbol = Symbol(
          '_${context.objCBuiltInFunctions.libraryId}_$originalName',
          SymbolKind.method,

@@ -48,6 +48,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,
+    super.isIncluded,
     required this.context,
     String? nativeType,
     this.apiAvailability,

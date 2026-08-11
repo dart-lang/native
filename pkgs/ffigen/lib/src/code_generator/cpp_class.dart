@@ -76,6 +76,7 @@ class CppClass extends BindingType with HasLocalScope {
     super.originalName,
     required super.name,
     super.dartDoc,
+    super.isIncluded,
     required this.context,
     required this.methods,
     required this.fields,

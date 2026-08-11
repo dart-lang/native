@@ -13,7 +13,7 @@ abstract class AstNode {
 
   void accept(Visitor visitor);
 
-  bool get isIncluded => true;
+  bool get isIncluded => false;
   set isIncluded(bool value) {}
 }
 

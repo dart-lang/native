@@ -300,7 +300,7 @@ class ObjCImport {
 class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function() makeValue;
 
-  ObjCInternalGlobal(String name, this.makeValue)
+  ObjCInternalGlobal(String name, this.makeValue, {super.isIncluded})
     : super(
         originalName: name,
         symbol: Symbol(name, SymbolKind.field),
@@ -330,15 +330,19 @@ class ObjCClassGlobal extends NoLookUpBinding {
   final String symbolLookupName;
   final Symbol rawSymbol;
 
-  ObjCClassGlobal(String name, String originalName, String? module)
-    : lookupName = _makeLookupName(originalName, module),
-      symbolLookupName = _makeSymbolLookupName(originalName, module),
-      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
-      super(
-        originalName: name,
-        symbol: Symbol(name, SymbolKind.field),
-        isInternal: true,
-      );
+  ObjCClassGlobal(
+    String name,
+    String originalName,
+    String? module, {
+    super.isIncluded,
+  }) : lookupName = _makeLookupName(originalName, module),
+       symbolLookupName = _makeSymbolLookupName(originalName, module),
+       rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+       super(
+         originalName: name,
+         symbol: Symbol(name, SymbolKind.field),
+         isInternal: true,
+       );
 
   @override
   BindingString toBindingString(Writer w) {
@@ -386,14 +390,15 @@ class ObjCProtocolGlobal extends NoLookUpBinding {
     String name,
     String originalName,
     String? module,
-    this.loaderSymbol,
-  ) : lookupName = _makeLookupName(originalName, module),
-      rawSymbol = Symbol('${name}_raw', SymbolKind.field),
-      super(
-        originalName: name,
-        symbol: Symbol(name, SymbolKind.field),
-        isInternal: true,
-      );
+    this.loaderSymbol, {
+    super.isIncluded,
+  }) : lookupName = _makeLookupName(originalName, module),
+       rawSymbol = Symbol('${name}_raw', SymbolKind.field),
+       super(
+         originalName: name,
+         symbol: Symbol(name, SymbolKind.field),
+         isInternal: true,
+       );
 
   @override
   bool get hasNativeHelperFunctions => true;

@@ -41,6 +41,7 @@ class Constant extends NoLookUpBinding {
     required this.rawType,
     required this.rawValue,
     this.apiAvailability,
+    super.isIncluded,
   }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override
@@ -78,6 +79,7 @@ class UnnamedEnumConstant extends Constant {
     required super.rawType,
     required super.rawValue,
     super.apiAvailability,
+    super.isIncluded,
   });
 
   @override
@@ -98,6 +100,7 @@ class MacroConstant extends Constant {
     required super.rawType,
     required super.rawValue,
     super.apiAvailability,
+    super.isIncluded,
   });
 
   @override

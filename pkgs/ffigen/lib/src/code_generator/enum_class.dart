@@ -70,6 +70,7 @@ class EnumClass extends BindingType with HasLocalScope {
     this.style = EnumStyle.dartEnum,
     this.isAnonymous = false,
     this.apiAvailability,
+    super.isIncluded,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];
 

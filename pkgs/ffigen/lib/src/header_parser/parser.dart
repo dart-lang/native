@@ -173,6 +173,24 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
       .map((b) => b.toPublicAstNode())
       .nonNulls
       .toList();
+  if (!config.visitors.any((v) => v is YamlConfigAstVisitor)) {
+    for (final b in rawBindings) {
+      b.isIncluded = true;
+      if (b is ObjCInterface) {
+        for (final m in b.methods) {
+          m.isIncluded = true;
+        }
+      } else if (b is ObjCProtocol) {
+        for (final m in b.methods) {
+          m.isIncluded = true;
+        }
+      } else if (b is ObjCCategory) {
+        for (final m in b.methods) {
+          m.isIncluded = true;
+        }
+      }
+    }
+  }
   for (final visitor in config.visitors) {
     visitor.visitAll(rawNodes);
   }

@@ -39,7 +39,7 @@ abstract class Binding extends AstNode implements Declaration {
   bool generateBindings = true;
 
   /// Whether this binding is included by filter configuration.
-  bool isIncluded = true;
+  bool isIncluded;
 
   Binding({
     required this.usr,
@@ -47,6 +47,7 @@ abstract class Binding extends AstNode implements Declaration {
     required Symbol symbol,
     this.dartDoc,
     this.isInternal = false,
+    this.isIncluded = false,
   }) : _symbol = symbol {
     // Ideally isImported would be part of the Symbol constructor, but then we
     // wouldn't be able to use this.isObjCImport.
@@ -92,6 +93,7 @@ abstract class LookUpBinding extends Binding {
     required super.symbol,
     super.dartDoc,
     super.isInternal,
+    super.isIncluded,
   }) : super(
          usr: usr ?? symbol.oldName,
          originalName: originalName ?? symbol.oldName,
@@ -111,6 +113,7 @@ abstract class NoLookUpBinding extends Binding {
     required super.symbol,
     super.dartDoc,
     super.isInternal,
+    super.isIncluded,
   }) : super(
          usr: usr ?? symbol.oldName,
          originalName: originalName ?? symbol.oldName,

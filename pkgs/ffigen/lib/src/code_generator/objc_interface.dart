@@ -40,6 +40,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     required this.apiAvailability,
     required this.context,
     super.isInternal = false,
+    super.isIncluded,
   }) : super(
          name:
              context.objCBuiltInFunctions.getBuiltInInterfaceName(
@@ -77,22 +78,22 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
       isInternal: true,
     );
     for (final p in params) {
-      itf.addMethod(
-        ObjCMethod(
-          context: context,
-          originalName: p.originalName,
-          name: p.originalName,
-          kind: ObjCMethodKind.propertyGetter,
-          isClassMethod: false,
-          isOptional: false,
-          returnType: p.type,
-          params: const [],
-          family: null,
-          apiAvailability: ApiAvailability.all,
-          ownershipAttribute: ObjCMethodOwnership.notRetained,
-          consumesSelfAttribute: false,
-        ),
+      final method = ObjCMethod(
+        context: context,
+        originalName: p.originalName,
+        name: p.originalName,
+        kind: ObjCMethodKind.propertyGetter,
+        isClassMethod: false,
+        isOptional: false,
+        returnType: p.type,
+        params: const [],
+        family: null,
+        apiAvailability: ApiAvailability.all,
+        ownershipAttribute: ObjCMethodOwnership.notRetained,
+        consumesSelfAttribute: false,
       );
+      method.isIncluded = true;
+      itf.addMethod(method);
     }
     return itf;
   }

@@ -174,6 +174,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     required String name,
     super.dartDoc,
     super.isInternal,
+    super.isIncluded,
   }) : super(symbol: Symbol(name, SymbolKind.klass));
 
   @override

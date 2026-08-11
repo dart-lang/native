@@ -19,99 +19,99 @@ final class FilteringVisitor extends public_ast.Visitor {
 
   @override
   void visitFunc(public_ast.Func node) {
-    if (node.originalName == 'excluded_func') {
-      node.isIncluded = false;
+    if (node.originalName != 'excluded_func') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitStruct(public_ast.Struct node) {
-    if (node.originalName == 'excluded_struct') {
-      node.isIncluded = false;
+    if (node.originalName != 'excluded_struct') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitUnion(public_ast.Union node) {
-    if (node.originalName == 'excluded_union') {
-      node.isIncluded = false;
+    if (node.originalName != 'excluded_union') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitEnum(public_ast.EnumClass node) {
-    if (node.originalName == 'excluded_enum') {
-      node.isIncluded = false;
+    if (node.originalName != 'excluded_enum') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitGlobal(public_ast.Global node) {
-    if (node.originalName == 'excluded_global') {
-      node.isIncluded = false;
+    if (node.originalName != 'excluded_global') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitMacro(public_ast.MacroConstant node) {
-    if (node.originalName == 'EXCLUDED_MACRO') {
-      node.isIncluded = false;
+    if (node.originalName != 'EXCLUDED_MACRO') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitTypealias(public_ast.Typealias node) {
-    if (node.originalName == 'excluded_typedef') {
-      node.isIncluded = false;
+    if (node.originalName != 'excluded_typedef') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitObjCInterface(public_ast.ObjCInterface node) {
-    if (node.originalName == 'ExcludedInterface') {
-      node.isIncluded = false;
+    if (node.originalName != 'ExcludedInterface') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitObjCProtocol(public_ast.ObjCProtocol node) {
-    if (node.originalName == 'ExcludedProtocol') {
-      node.isIncluded = false;
+    if (node.originalName != 'ExcludedProtocol') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitObjCCategory(public_ast.ObjCCategory node) {
-    if (node.originalName == 'ExcludedCategory') {
-      node.isIncluded = false;
+    if (node.originalName != 'ExcludedCategory') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitCppClass(public_ast.CppClass node) {
-    if (node.originalName == 'ExcludedCppClass') {
-      node.isIncluded = false;
+    if (node.originalName != 'ExcludedCppClass') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitUnnamedEnumConstant(public_ast.UnnamedEnumConstant node) {
-    if (node.originalName == 'EXCLUDED_UNNAMED_ENUM') {
-      node.isIncluded = false;
+    if (node.originalName != 'EXCLUDED_UNNAMED_ENUM') {
+      node.isIncluded = true;
     }
   }
 
   @override
   void visitObjCMethod(public_ast.ObjCMethod node) {
-    if (node.originalName == 'excludedMethod') {
-      node.isIncluded = false;
+    if (node.originalName != 'excludedMethod') {
+      node.isIncluded = true;
     }
   }
 }
 
 void main() {
   group('FilteringVisitor Tests', () {
-    test('isIncluded defaults to true on Bindings and ObjCMethod', () {
+    test('isIncluded defaults to false on Bindings and ObjCMethod', () {
       final context = testContext(
         FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
       );
@@ -121,7 +121,7 @@ void main() {
         originalName: 'my_func',
         returnType: voidType,
       );
-      expect(func.isIncluded, isTrue);
+      expect(func.isIncluded, isFalse);
 
       final method = ObjCMethod(
         context: context,
@@ -137,7 +137,7 @@ void main() {
         ownershipAttribute: null,
         consumesSelfAttribute: false,
       );
-      expect(method.isIncluded, isTrue);
+      expect(method.isIncluded, isFalse);
     });
 
     test('Custom Visitor setting isIncluded = false', () {
@@ -436,5 +436,5 @@ final class TestCppMethod extends public_ast.CppMethod {
   TestCppMethod(super.parent, super.method);
 
   @override
-  bool isIncluded = true;
+  bool isIncluded = false;
 }

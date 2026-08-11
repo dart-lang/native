@@ -1340,8 +1340,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitFunc(public_ast.Func node) {
-    if (!config.functionDecl.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.functionDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.functionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1350,8 +1350,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitUnnamedEnumConstant(public_ast.UnnamedEnumConstant node) {
-    if (!config.unnamedEnumConstants.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.unnamedEnumConstants.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.unnamedEnumConstants.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1360,8 +1360,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitStruct(public_ast.Struct node) {
-    if (!config.structDecl.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.structDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.structDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1370,8 +1370,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitUnion(public_ast.Union node) {
-    if (!config.unionDecl.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.unionDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.unionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1379,9 +1379,15 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   }
 
   @override
+  void visitCppClass(public_ast.CppClass node) {
+    node.isIncluded = true;
+    visitAll(node.methods);
+  }
+
+  @override
   void visitEnum(public_ast.EnumClass node) {
-    if (!config.enumClassDecl.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.enumClassDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.enumClassDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1390,8 +1396,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitGlobal(public_ast.Global node) {
-    if (!config.globals.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.globals.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.globals.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1400,8 +1406,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitConstant(public_ast.Constant node) {
-    if (!config.globals.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.globals.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.globals.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1410,8 +1416,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitMacro(public_ast.MacroConstant node) {
-    if (!config.macroDecl.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.macroDecl.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.macroDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1420,8 +1426,8 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitTypealias(public_ast.Typealias node) {
-    if (!config.typedefs.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.typedefs.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.typedefs.rename(_decl(node)) case final rename?) {
       node.name = rename;
@@ -1430,34 +1436,37 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitObjCInterface(public_ast.ObjCInterface node) {
-    if (!config.objcInterfaces.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.objcInterfaces.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (!node.isInternal) {
       if (config.objcInterfaces.rename(_decl(node)) case final rename?) {
         node.name = rename;
       }
     }
+    visitAll(node.methods);
   }
 
   @override
   void visitObjCProtocol(public_ast.ObjCProtocol node) {
-    if (!config.objcProtocols.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.objcProtocols.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.objcProtocols.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    visitAll(node.methods);
   }
 
   @override
   void visitObjCCategory(public_ast.ObjCCategory node) {
-    if (!config.objcCategories.shouldInclude(_decl(node))) {
-      node.isIncluded = false;
+    if (config.objcCategories.shouldInclude(_decl(node))) {
+      node.isIncluded = true;
     }
     if (config.objcCategories.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    visitAll(node.methods);
   }
 
   YamlDeclarationFilters? _getObjCDecl(public_ast.DeclNode node) {
@@ -1473,13 +1482,18 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitObjCMethod(public_ast.ObjCMethod node) {
-    final decl = _getObjCDecl(node.parent);
+    final parent = node.parent;
+    if (parent is public_ast.ObjCInterface && parent.isInternal) {
+      node.isIncluded = true;
+      return;
+    }
+    final decl = _getObjCDecl(parent);
     if (decl != null) {
-      if (!decl.shouldIncludeMember(_decl(node.parent), node.originalName)) {
-        node.isIncluded = false;
+      if (decl.shouldIncludeMember(_decl(parent), node.originalName)) {
+        node.isIncluded = true;
       }
-      if (!node.isPropertySetter) {
-        if (decl.renameMember(_decl(node.parent), node.originalName)
+      if (node.isIncluded && !node.isPropertySetter) {
+        if (decl.renameMember(_decl(parent), node.originalName)
             case final rename?) {
           node.name = rename;
         }
