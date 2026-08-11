@@ -22,4 +22,6 @@ jobs:
       sdk: dev
       channel: master
     permissions:
+      checks: write
+      contents: read
       pull-requests: write
