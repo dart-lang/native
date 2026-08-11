@@ -75,6 +75,10 @@ void main() {
       isTrue,
     );
     expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PATHEXT'),
+      isTrue,
+    );
+    expect(
       NativeAssetsBuildRunner.includeHookEnvironmentVariable('HOME'),
       isTrue,
     );
