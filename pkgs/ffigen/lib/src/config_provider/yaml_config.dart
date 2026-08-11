@@ -98,7 +98,7 @@ final class YamlConfig {
 
   /// Declaration config for Macro constants.
   YamlDeclarationFilters get macroDecl =>
-      _macroDecl ??= declarationConfigExtractor(const {}, _excludeAllByDefault);
+      _macroDecl ??= declarationConfigExtractor(const {}, true);
   YamlDeclarationFilters? _macroDecl;
 
   /// Declaration config for Typedefs.

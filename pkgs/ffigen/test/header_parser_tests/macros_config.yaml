@@ -6,3 +6,4 @@ headers:
     - macros.h
   include-directives:
     - '**macros.h'
+macros: {}
