@@ -1267,7 +1267,6 @@ final class YamlConfig {
         includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
         varArgs: varArgFunctions,
         includeTypedef: shouldExposeFunctionTypedef,
-        isLeaf: isLeafFunction,
       ),
       structs: Structs(
         include: _structDecl.shouldInclude,
@@ -1335,6 +1334,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   void visitFunc(public_ast.Func node) {
     if (config.functionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
+    }
+    if (config.isLeafFunction(_decl(node))) {
+      node.isLeaf = true;
     }
   }
 

@@ -46,6 +46,14 @@ class Func extends DeclNode {
     params.addAll(_func.functionType.parameters.map((p) => Param(this, p)));
   }
 
+  /// Whether this function is a leaf function.
+  ///
+  /// This corresponds to the `isLeaf` parameter of FFI's `lookupFunction`.
+  /// For more details, its documentation is here:
+  /// https://api.dart.dev/dart-ffi/DynamicLibraryExtension/lookupFunction.html
+  bool get isLeaf => _func.isLeaf;
+  set isLeaf(bool value) => _func.isLeaf = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitFunc(this);

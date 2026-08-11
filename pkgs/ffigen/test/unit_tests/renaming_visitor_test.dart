@@ -758,39 +758,97 @@ enums:
       expect(cgEnum.silenceWarning, false);
     });
 
-    test(
-      'YamlConfigAstVisitor sets EnumClass.silenceWarning from config',
-      () {
-        final yamlConfig = YamlConfig.fromYaml(
-          loadYaml(r'''
+    test('YamlConfigAstVisitor sets EnumClass.silenceWarning from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
 output: 'unused.dart'
 headers:
   entry-points:
     - 'unused.h'
 silence-enum-warning: true
 ''')
-              as YamlMap,
-          createTestLogger(),
-        );
+            as YamlMap,
+        createTestLogger(),
+      );
 
-        final generator = yamlConfig.configAdapter();
-        final context = testContext(generator);
+      final generator = yamlConfig.configAdapter();
+      final context = testContext(generator);
 
-        final cgEnum = EnumClass(
-          name: 'MyEnum',
-          originalName: 'MyEnum',
-          context: context,
-        );
+      final cgEnum = EnumClass(
+        name: 'MyEnum',
+        originalName: 'MyEnum',
+        context: context,
+      );
 
-        final nodes = <Binding>[
-          cgEnum,
-        ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+      final nodes = <Binding>[
+        cgEnum,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
 
-        generator.visitors.first.visitAll(nodes);
+      generator.visitors.first.visitAll(nodes);
 
-        expect((nodes[0] as public_ast.EnumClass).silenceWarning, true);
-        expect(cgEnum.silenceWarning, true);
-      },
-    );
+      expect((nodes[0] as public_ast.EnumClass).silenceWarning, true);
+      expect(cgEnum.silenceWarning, true);
+    });
+
+    test('public_ast.Func.isLeaf getter and setter', () {
+      final cgFunc = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+
+      expect(publicFunc.isLeaf, false);
+      expect(cgFunc.isLeaf, false);
+
+      publicFunc.isLeaf = true;
+      expect(publicFunc.isLeaf, true);
+      expect(cgFunc.isLeaf, true);
+
+      publicFunc.isLeaf = false;
+      expect(publicFunc.isLeaf, false);
+      expect(cgFunc.isLeaf, false);
+    });
+
+    test('YamlConfigAstVisitor sets Func.isLeaf from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+functions:
+  leaf:
+    include:
+      - 'leaf_func'
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final cgLeafFunc = Func(
+        name: 'leaf_func',
+        originalName: 'leaf_func',
+        returnType: voidType,
+      );
+      final cgNormalFunc = Func(
+        name: 'normal_func',
+        originalName: 'normal_func',
+        returnType: voidType,
+      );
+
+      final nodes = <Binding>[
+        cgLeafFunc,
+        cgNormalFunc,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect((nodes[0] as public_ast.Func).isLeaf, true);
+      expect(cgLeafFunc.isLeaf, true);
+      expect((nodes[1] as public_ast.Func).isLeaf, false);
+      expect(cgNormalFunc.isLeaf, false);
+    });
   });
 }

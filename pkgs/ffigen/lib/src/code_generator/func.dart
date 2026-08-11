@@ -46,7 +46,7 @@ class Func extends LookUpBinding with HasLocalScope {
   final FunctionType functionType;
   final bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
-  final bool isLeaf;
+  bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
   final bool recordUse;

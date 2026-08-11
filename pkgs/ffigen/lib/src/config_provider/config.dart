@@ -252,15 +252,6 @@ final class Functions extends Declarations {
 
   static bool _includeTypedefDefault(Declaration declaration) => false;
 
-  /// Whether the given function is a leaf function.
-  ///
-  /// This corresponds to the `isLeaf` parameter of FFI's `lookupFunction`.
-  /// For more details, its documentation is here:
-  /// https://api.dart.dev/dart-ffi/DynamicLibraryExtension/lookupFunction.html
-  final bool Function(Declaration declaration) isLeaf;
-
-  static bool _isLeafDefault(Declaration declaration) => false;
-
   /// Whether to add the `@RecordUse()` annotation to the given function.
   ///
   /// Experimental: The record uses feature needs to be enabled as experiment.
@@ -281,7 +272,6 @@ final class Functions extends Declarations {
     super.include,
     super.includeSymbolAddress,
     this.includeTypedef = _includeTypedefDefault,
-    this.isLeaf = _isLeafDefault,
     this.recordUse = _recordUseDefault,
     this.varArgs = const <String, List<VarArgFunction>>{},
   });
