@@ -646,6 +646,7 @@ class NativeAssetsBuildRunner {
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
       'LOCALAPPDATA', // Needed for dart_data_home and pub.
       'PATH', // Needed to invoke native tools.
+      'PATHEXT', // Needed to resolve executable file extensions on Windows.
       'PROGRAMDATA', // Needed for vswhere.exe.
       'PROCESSOR_ARCHITECTURE', // Needed for CMake Android on Windows.
       'SYSTEMDRIVE', // Needed for CMake.
