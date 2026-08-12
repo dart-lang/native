@@ -102,55 +102,59 @@ Library expectedLibrary() {
     name: 'EmptyStruct_Alias',
     type: globalStruct,
   );
+  final rawBindings = <Binding>[
+    Global(type: BooleanType(), name: 'coolGlobal'),
+    Global(
+      type: NativeType(SupportedNativeType.int32),
+      name: 'myInt',
+      exposeSymbolAddress: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer0',
+      exposeSymbolAddress: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer1',
+      exposeSymbolAddress: true,
+      constant: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer2',
+      exposeSymbolAddress: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer3',
+      exposeSymbolAddress: true,
+      constant: true,
+    ),
+    Global(
+      type: ConstantArray(3, intType, useArrayType: false),
+      name: 'globalArray0',
+      exposeSymbolAddress: true,
+      constant: true,
+    ),
+    globalStruct,
+    Global(
+      name: 'globalStruct',
+      type: globalStruct,
+      exposeSymbolAddress: true,
+    ),
+    globalStructAlias,
+    Global(
+      name: 'globalStruct_from_alias',
+      type: globalStructAlias,
+      exposeSymbolAddress: true,
+    ),
+  ];
+  for (final b in rawBindings) {
+    (b as dynamic).isIncluded = true;
+  }
   return Library(
     context: context,
-    bindings: parser.transformBindings([
-      Global(type: BooleanType(), name: 'coolGlobal'),
-      Global(
-        type: NativeType(SupportedNativeType.int32),
-        name: 'myInt',
-        exposeSymbolAddress: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer0',
-        exposeSymbolAddress: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer1',
-        exposeSymbolAddress: true,
-        constant: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer2',
-        exposeSymbolAddress: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer3',
-        exposeSymbolAddress: true,
-        constant: true,
-      ),
-      Global(
-        type: ConstantArray(3, intType, useArrayType: false),
-        name: 'globalArray0',
-        exposeSymbolAddress: true,
-        constant: true,
-      ),
-      globalStruct,
-      Global(
-        name: 'globalStruct',
-        type: globalStruct,
-        exposeSymbolAddress: true,
-      ),
-      globalStructAlias,
-      Global(
-        name: 'globalStruct_from_alias',
-        type: globalStructAlias,
-        exposeSymbolAddress: true,
-      ),
-    ], context),
+    bindings: parser.transformBindings(rawBindings, context),
   );
 }

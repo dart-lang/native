@@ -118,7 +118,7 @@ final class FilteringVisitor extends public_ast.Visitor {
 
 void main() {
   group('FilteringVisitor Tests', () {
-    test('isIncluded defaults to false on Bindings and ObjCMethod', () {
+    test('isIncluded defaults to false on Bindings and true on ObjCMethod', () {
       final context = testContext(
         FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
       );
@@ -144,7 +144,7 @@ void main() {
         ownershipAttribute: null,
         consumesSelfAttribute: false,
       );
-      expect(method.isIncluded, isFalse);
+      expect(method.isIncluded, isTrue);
     });
 
     test('Custom Visitor setting isIncluded = false', () {

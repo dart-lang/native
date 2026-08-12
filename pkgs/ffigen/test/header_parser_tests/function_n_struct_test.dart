@@ -99,50 +99,54 @@ Library expectedLibrary() {
     members: [CompoundMember(name: 'a', type: struct1)],
   );
   final struct3 = Struct(context: context, name: 'Struct3');
+  final rawBindings = <Binding>[
+    struct1,
+    struct2,
+    struct3,
+    Func(
+      name: 'func1',
+      parameters: [
+        Parameter(name: 's', type: PointerType(struct2), objCConsumed: false),
+      ],
+      returnType: NativeType(SupportedNativeType.voidType),
+    ),
+    Func(
+      name: 'func2',
+      parameters: [
+        Parameter(name: 's', type: PointerType(struct3), objCConsumed: false),
+      ],
+      returnType: NativeType(SupportedNativeType.voidType),
+    ),
+    Func(
+      name: 'func3',
+      parameters: [
+        Parameter(name: 'a', type: PointerType(intType), objCConsumed: false),
+      ],
+      returnType: NativeType(SupportedNativeType.voidType),
+    ),
+    Struct(context: context, name: 'Struct4'),
+    Struct(context: context, name: 'Struct5'),
+    Struct(
+      context: context,
+      name: 'Struct6',
+      members: [
+        CompoundMember(
+          name: 'a',
+          type: ConstantArray(
+            2,
+            ConstantArray(10, intType, useArrayType: false),
+            useArrayType: false,
+          ),
+        ),
+      ],
+    ),
+    Struct(context: context, name: 'Struct7'),
+  ];
+  for (final b in rawBindings) {
+    (b as dynamic).isIncluded = true;
+  }
   return Library(
     context: context,
-    bindings: parser.transformBindings([
-      struct1,
-      struct2,
-      struct3,
-      Func(
-        name: 'func1',
-        parameters: [
-          Parameter(name: 's', type: PointerType(struct2), objCConsumed: false),
-        ],
-        returnType: NativeType(SupportedNativeType.voidType),
-      ),
-      Func(
-        name: 'func2',
-        parameters: [
-          Parameter(name: 's', type: PointerType(struct3), objCConsumed: false),
-        ],
-        returnType: NativeType(SupportedNativeType.voidType),
-      ),
-      Func(
-        name: 'func3',
-        parameters: [
-          Parameter(name: 'a', type: PointerType(intType), objCConsumed: false),
-        ],
-        returnType: NativeType(SupportedNativeType.voidType),
-      ),
-      Struct(context: context, name: 'Struct4'),
-      Struct(context: context, name: 'Struct5'),
-      Struct(
-        context: context,
-        name: 'Struct6',
-        members: [
-          CompoundMember(
-            name: 'a',
-            type: ConstantArray(
-              2,
-              ConstantArray(10, intType, useArrayType: false),
-              useArrayType: false,
-            ),
-          ),
-        ],
-      ),
-      Struct(context: context, name: 'Struct7'),
-    ], context),
+    bindings: parser.transformBindings(rawBindings, context),
   );
 }

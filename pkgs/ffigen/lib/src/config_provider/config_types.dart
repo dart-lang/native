@@ -148,9 +148,7 @@ final class YamlDeclarationFilters {
 
   Declarations configAdapter() {
     return Declarations(
-      include: shouldInclude,
       includeSymbolAddress: shouldIncludeSymbolAddress,
-      includeMember: shouldIncludeMember,
     );
   }
 }

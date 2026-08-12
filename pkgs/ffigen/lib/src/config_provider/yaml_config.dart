@@ -1263,20 +1263,17 @@ final class YamlConfig {
               ),
       ),
       functions: Functions(
-        include: functionDecl.shouldInclude,
         includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
         varArgs: varArgFunctions,
         includeTypedef: shouldExposeFunctionTypedef,
         isLeaf: isLeafFunction,
       ),
       structs: Structs(
-        include: _structDecl.shouldInclude,
         dependencies: _structDependencies,
         packingOverride: (decl) =>
             _structPackingOverride.getOverridenPackValue(decl.originalName),
       ),
       enums: Enums(
-        include: _enumClassDecl.shouldInclude,
         silenceWarning: silenceEnumWarning,
         style: (e, suggestedStyle) {
           if (suggestedStyle != null) return suggestedStyle;
@@ -1287,17 +1284,14 @@ final class YamlConfig {
         },
       ),
       unions: Unions(
-        include: _unionDecl.shouldInclude,
         dependencies: _unionDependencies,
       ),
-      unnamedEnums: UnnamedEnums(include: _unnamedEnumConstants.shouldInclude),
+      unnamedEnums: const UnnamedEnums(),
       globals: Globals(
-        include: globals.shouldInclude,
         includeSymbolAddress: globals.shouldIncludeSymbolAddress,
       ),
-      macros: Macros(include: macroDecl.shouldInclude),
+      macros: const Macros(),
       typedefs: Typedefs(
-        include: typedefs.shouldInclude,
         useSupportedTypedefs: useSupportedTypedefs,
         includeUnused: includeUnusedTypedefs,
       ),
@@ -1305,20 +1299,14 @@ final class YamlConfig {
       objectiveC: language == Language.objc
           ? ObjectiveC(
               interfaces: Interfaces(
-                include: objcInterfaces.shouldInclude,
-                includeMember: objcInterfaces.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCInterfaces,
                 module: interfaceModule,
               ),
               protocols: Protocols(
-                include: objcProtocols.shouldInclude,
-                includeMember: objcProtocols.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCProtocols,
                 module: protocolModule,
               ),
               categories: Categories(
-                include: objcCategories.shouldInclude,
-                includeMember: objcCategories.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCCategories,
               ),
               externalVersions: externalVersions,
