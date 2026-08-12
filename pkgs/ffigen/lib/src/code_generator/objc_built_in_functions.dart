@@ -102,6 +102,10 @@ class ObjCBuiltInFunctions {
   (String, String) _methodSigId(Type returnType, List<Parameter> params) {
     final paramIds = <String>[];
     for (final p in params) {
+      // The trampoline ID is based on the getNativeType of the param. Objects
+      // and blocks both have `id` as their native type, but need separate
+      // trampolines since they have different retain functions. So add the
+      // retain function (if any) to all the param IDs.
       paramIds.add(
         p.getNativeType(context, varName: p.type.generateRetain('') ?? ''),
       );
