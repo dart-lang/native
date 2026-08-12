@@ -25,6 +25,8 @@ class CppMethod extends AstNode with HasLocalScope {
   final bool isStatic;
   final CppMethodKind kind;
 
+  bool isIncluded = false;
+
   CppMethod({
     required this.name,
     required this.originalName,

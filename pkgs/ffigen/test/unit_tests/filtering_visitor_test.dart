@@ -107,6 +107,13 @@ final class FilteringVisitor extends public_ast.Visitor {
       node.isIncluded = true;
     }
   }
+
+  @override
+  void visitCppMethod(public_ast.CppMethod node) {
+    if (node.originalName != 'excludedMethod') {
+      node.isIncluded = true;
+    }
+  }
 }
 
 void main() {
@@ -359,8 +366,8 @@ structs:
         final cppClass =
             cppClassInternal.toPublicAstNode() as public_ast.CppClass;
 
-        final cppMethod = TestCppMethod(cppClass, cppMethodInternal);
         final objcMethod = objcInterface.methods.first;
+        final cppMethod = cppClass.methods.first;
 
         final testCases = <(String, public_ast.AstNode)>[
           ('Func', func),
@@ -371,8 +378,8 @@ structs:
           ('ObjCProtocol', objcProtocol),
           ('ObjCCategory', objcCategory),
           ('CppClass', cppClass),
-          ('CppMethod', cppMethod),
           ('ObjCMethod', objcMethod),
+          ('CppMethod', cppMethod),
         ];
 
         for (final (name, node) in testCases) {
@@ -393,7 +400,7 @@ structs:
             visitParam: visitedWhenIncluded.add,
           );
 
-          node.isIncluded = true;
+          (node as dynamic).isIncluded = true;
           node.accept(visitorIncluded);
           expect(
             visitedWhenIncluded.length,
@@ -419,7 +426,7 @@ structs:
             visitParam: visitedWhenExcluded.add,
           );
 
-          node.isIncluded = false;
+          (node as dynamic).isIncluded = false;
           node.accept(visitorExcluded);
           expect(
             visitedWhenExcluded,
@@ -429,12 +436,39 @@ structs:
         }
       },
     );
+
+    test('CppMethod.accept visits its parameters when isIncluded is true', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final cppMethodInternal = CppMethod(
+        name: Symbol('m1', SymbolKind.method),
+        originalName: 'm1',
+        returnType: voidType,
+        parameters: [Parameter(name: 'p1', type: intType)],
+        isConstant: false,
+      );
+      final cppClassInternal = CppClass(
+        name: 'cppClass',
+        originalName: 'cppClass',
+        context: context,
+        methods: [cppMethodInternal],
+        fields: [],
+      );
+      final cppClass =
+          cppClassInternal.toPublicAstNode() as public_ast.CppClass;
+      final cppMethod = cppClass.methods.first;
+
+      final visited = <public_ast.AstNode>[];
+      final visitor = public_ast.Visitor(
+        visitCppMethod: visited.add,
+        visitParam: visited.add,
+      );
+
+      cppMethod.isIncluded = true;
+      cppMethod.accept(visitor);
+      expect(visited, [cppMethod, cppMethod.params.first]);
+    });
   });
-}
-
-final class TestCppMethod extends public_ast.CppMethod {
-  TestCppMethod(super.parent, super.method);
-
-  @override
-  bool isIncluded = false;
 }

@@ -12,9 +12,6 @@ abstract class AstNode {
   const AstNode();
 
   void accept(Visitor visitor);
-
-  bool get isIncluded => false;
-  set isIncluded(bool value) {}
 }
 
 /// Base class for AST nodes with a name.
@@ -66,10 +63,8 @@ class Func extends DeclNode {
   @override
   set name(String value) => _func.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _func.isIncluded;
 
-  @override
   set isIncluded(bool value) => _func.isIncluded = value;
 }
 
@@ -104,10 +99,8 @@ class Struct extends DeclNode {
 
   bool get isInternal => _struct.isInternal;
 
-  @override
   bool get isIncluded => _struct.isIncluded;
 
-  @override
   set isIncluded(bool value) {
     if (_struct.isInternal) return;
     _struct.isIncluded = value;
@@ -143,10 +136,8 @@ class Union extends DeclNode {
   @override
   set name(String value) => _union.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _union.isIncluded;
 
-  @override
   set isIncluded(bool value) => _union.isIncluded = value;
 }
 
@@ -179,10 +170,8 @@ class EnumClass extends DeclNode {
   @override
   set name(String value) => _enumClass.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _enumClass.isIncluded;
 
-  @override
   set isIncluded(bool value) => _enumClass.isIncluded = value;
 }
 
@@ -207,10 +196,8 @@ class Global extends DeclNode {
   @override
   set name(String value) => _global.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _global.isIncluded;
 
-  @override
   set isIncluded(bool value) => _global.isIncluded = value;
 }
 
@@ -235,10 +222,8 @@ class Constant extends DeclNode {
   @override
   set name(String value) => _constant.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _constant.isIncluded;
 
-  @override
   set isIncluded(bool value) => _constant.isIncluded = value;
 }
 
@@ -263,10 +248,8 @@ class MacroConstant extends DeclNode {
   @override
   set name(String value) => _macro.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _macro.isIncluded;
 
-  @override
   set isIncluded(bool value) => _macro.isIncluded = value;
 }
 
@@ -291,10 +274,8 @@ class Typealias extends DeclNode {
   @override
   set name(String value) => _typealias.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _typealias.isIncluded;
 
-  @override
   set isIncluded(bool value) => _typealias.isIncluded = value;
 }
 
@@ -327,10 +308,8 @@ class ObjCInterface extends DeclNode {
   @override
   set name(String value) => _interface.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _interface.isIncluded;
 
-  @override
   set isIncluded(bool value) {
     if (_interface.isInternal) return;
     _interface.isIncluded = value;
@@ -368,10 +347,8 @@ class ObjCProtocol extends DeclNode {
   @override
   set name(String value) => _protocol.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _protocol.isIncluded;
 
-  @override
   set isIncluded(bool value) => _protocol.isIncluded = value;
 }
 
@@ -407,10 +384,8 @@ class ObjCCategory extends DeclNode {
   @override
   set name(String value) => _category.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _category.isIncluded;
 
-  @override
   set isIncluded(bool value) => _category.isIncluded = value;
 }
 
@@ -443,10 +418,8 @@ class CppClass extends DeclNode {
   @override
   set name(String value) => _cppClass.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _cppClass.isIncluded;
 
-  @override
   set isIncluded(bool value) => _cppClass.isIncluded = value;
 }
 
@@ -545,6 +518,9 @@ class CppMethod extends NamedNode {
 
   @override
   set name(String value) => _method.name.oldName = value;
+
+  bool get isIncluded => _method.isIncluded;
+  set isIncluded(bool value) => _method.isIncluded = value;
 }
 
 /// An Objective-C method declaration.
@@ -586,10 +562,8 @@ class ObjCMethod extends NamedNode {
   /// Whether this method is a property setter.
   bool get isPropertySetter => _method.isPropertySetter;
 
-  @override
   bool get isIncluded => _method.isIncluded;
 
-  @override
   set isIncluded(bool value) {
     if (parent case final ObjCInterface itf when itf.isInternal) return;
     _method.isIncluded = value;
@@ -617,9 +591,7 @@ class UnnamedEnumConstant extends DeclNode {
   @override
   set name(String value) => _constant.symbol.oldName = value;
 
-  @override
   bool get isIncluded => _constant.isIncluded;
 
-  @override
   set isIncluded(bool value) => _constant.isIncluded = value;
 }
