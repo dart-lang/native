@@ -44,7 +44,7 @@ import 'writer.dart';
 /// ```
 class Func extends LookUpBinding with HasLocalScope {
   final FunctionType functionType;
-  final bool exposeSymbolAddress;
+  bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
   bool isLeaf;
   final bool objCReturnsRetained;

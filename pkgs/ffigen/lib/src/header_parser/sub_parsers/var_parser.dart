@@ -105,7 +105,6 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     usr: usr,
     type: type,
     dartDoc: getCursorDocComment(context, cursor),
-    exposeSymbolAddress: config.globals.includeSymbolAddress(decl),
     constant: cType.isConstQualified,
     loadFromNativeAsset: nativeOutputStyle,
   );

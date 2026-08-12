@@ -1336,6 +1336,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.isLeafFunction(_decl(node))) {
       node.isLeaf = true;
     }
+    if (config.functionDecl.shouldIncludeSymbolAddress(_decl(node))) {
+      node.exposeSymbolAddress = true;
+    }
   }
 
   @override
@@ -1377,6 +1380,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   void visitGlobal(public_ast.Global node) {
     if (config.globals.rename(_decl(node)) case final rename?) {
       node.name = rename;
+    }
+    if (config.globals.shouldIncludeSymbolAddress(_decl(node))) {
+      node.exposeSymbolAddress = true;
     }
   }
 

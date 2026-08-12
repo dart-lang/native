@@ -937,5 +937,108 @@ structs:
         expect(cgNormalStruct.pack, isNull);
       },
     );
+
+    test('public_ast.Func.exposeSymbolAddress getter and setter', () {
+      final cgFunc = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+
+      expect(publicFunc.exposeSymbolAddress, false);
+      expect(cgFunc.exposeSymbolAddress, false);
+
+      publicFunc.exposeSymbolAddress = true;
+      expect(publicFunc.exposeSymbolAddress, true);
+      expect(cgFunc.exposeSymbolAddress, true);
+
+      publicFunc.exposeSymbolAddress = false;
+      expect(publicFunc.exposeSymbolAddress, false);
+      expect(cgFunc.exposeSymbolAddress, false);
+    });
+
+    test('public_ast.Global.exposeSymbolAddress getter and setter', () {
+      final cgGlobal = Global(
+        name: 'c_global',
+        originalName: 'c_global',
+        type: intType,
+      );
+      final publicGlobal = public_ast.Global(cgGlobal);
+
+      expect(publicGlobal.exposeSymbolAddress, false);
+      expect(cgGlobal.exposeSymbolAddress, false);
+
+      publicGlobal.exposeSymbolAddress = true;
+      expect(publicGlobal.exposeSymbolAddress, true);
+      expect(cgGlobal.exposeSymbolAddress, true);
+
+      publicGlobal.exposeSymbolAddress = false;
+      expect(publicGlobal.exposeSymbolAddress, false);
+      expect(cgGlobal.exposeSymbolAddress, false);
+    });
+
+    test('YamlConfigAstVisitor sets Func.exposeSymbolAddress and '
+        'Global.exposeSymbolAddress from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+functions:
+  symbol-address:
+    include:
+      - 'sym_func'
+globals:
+  symbol-address:
+    include:
+      - 'sym_global'
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final cgSymFunc = Func(
+        name: 'sym_func',
+        originalName: 'sym_func',
+        returnType: voidType,
+      );
+      final cgNormalFunc = Func(
+        name: 'normal_func',
+        originalName: 'normal_func',
+        returnType: voidType,
+      );
+      final cgSymGlobal = Global(
+        name: 'sym_global',
+        originalName: 'sym_global',
+        type: intType,
+      );
+      final cgNormalGlobal = Global(
+        name: 'normal_global',
+        originalName: 'normal_global',
+        type: intType,
+      );
+
+      final nodes = <Binding>[
+        cgSymFunc,
+        cgNormalFunc,
+        cgSymGlobal,
+        cgNormalGlobal,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect((nodes[0] as public_ast.Func).exposeSymbolAddress, true);
+      expect(cgSymFunc.exposeSymbolAddress, true);
+      expect((nodes[1] as public_ast.Func).exposeSymbolAddress, false);
+      expect(cgNormalFunc.exposeSymbolAddress, false);
+
+      expect((nodes[2] as public_ast.Global).exposeSymbolAddress, true);
+      expect(cgSymGlobal.exposeSymbolAddress, true);
+      expect((nodes[3] as public_ast.Global).exposeSymbolAddress, false);
+      expect(cgNormalGlobal.exposeSymbolAddress, false);
+    });
   });
 }

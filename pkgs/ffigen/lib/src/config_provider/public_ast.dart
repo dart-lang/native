@@ -62,6 +62,14 @@ class Func extends DeclNode {
   bool get recordUse => _func.recordUse;
   set recordUse(bool value) => _func.recordUse = value;
 
+  /// Whether to expose the symbol address for this function declaration in
+  /// generated Dart bindings.
+  ///
+  /// When `true`, the function's symbol address is made available via the
+  /// `addresses` getter as a `Pointer<NativeFunction<...>>`.
+  bool get exposeSymbolAddress => _func.exposeSymbolAddress;
+  set exposeSymbolAddress(bool value) => _func.exposeSymbolAddress = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitFunc(this);
@@ -208,6 +216,14 @@ class Global extends DeclNode {
   final internal.Global _global;
 
   Global(this._global);
+
+  /// Whether to expose the symbol address for this global variable
+  /// declaration in generated Dart bindings.
+  ///
+  /// When `true`, the global variable's symbol address is made available via
+  /// the `addresses` getter as a `Pointer<...>`.
+  bool get exposeSymbolAddress => _global.exposeSymbolAddress;
+  set exposeSymbolAddress(bool value) => _global.exposeSymbolAddress = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitGlobal(this);
