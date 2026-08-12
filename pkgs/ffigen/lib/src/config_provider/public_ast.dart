@@ -64,7 +64,6 @@ class Func extends DeclNode {
   set name(String value) => _func.symbol.oldName = value;
 
   bool get isIncluded => _func.isIncluded;
-
   set isIncluded(bool value) => _func.isIncluded = value;
 }
 
@@ -97,14 +96,8 @@ class Struct extends DeclNode {
   @override
   set name(String value) => _struct.symbol.oldName = value;
 
-  bool get isInternal => _struct.isInternal;
-
   bool get isIncluded => _struct.isIncluded;
-
-  set isIncluded(bool value) {
-    if (_struct.isInternal) return;
-    _struct.isIncluded = value;
-  }
+  set isIncluded(bool value) => _struct.isIncluded = value;
 }
 
 /// A C union declaration.
@@ -137,7 +130,6 @@ class Union extends DeclNode {
   set name(String value) => _union.symbol.oldName = value;
 
   bool get isIncluded => _union.isIncluded;
-
   set isIncluded(bool value) => _union.isIncluded = value;
 }
 
@@ -171,7 +163,6 @@ class EnumClass extends DeclNode {
   set name(String value) => _enumClass.symbol.oldName = value;
 
   bool get isIncluded => _enumClass.isIncluded;
-
   set isIncluded(bool value) => _enumClass.isIncluded = value;
 }
 
@@ -197,7 +188,6 @@ class Global extends DeclNode {
   set name(String value) => _global.symbol.oldName = value;
 
   bool get isIncluded => _global.isIncluded;
-
   set isIncluded(bool value) => _global.isIncluded = value;
 }
 
@@ -223,7 +213,6 @@ class Constant extends DeclNode {
   set name(String value) => _constant.symbol.oldName = value;
 
   bool get isIncluded => _constant.isIncluded;
-
   set isIncluded(bool value) => _constant.isIncluded = value;
 }
 
@@ -249,7 +238,6 @@ class MacroConstant extends DeclNode {
   set name(String value) => _macro.symbol.oldName = value;
 
   bool get isIncluded => _macro.isIncluded;
-
   set isIncluded(bool value) => _macro.isIncluded = value;
 }
 
@@ -275,7 +263,6 @@ class Typealias extends DeclNode {
   set name(String value) => _typealias.symbol.oldName = value;
 
   bool get isIncluded => _typealias.isIncluded;
-
   set isIncluded(bool value) => _typealias.isIncluded = value;
 }
 
@@ -309,13 +296,7 @@ class ObjCInterface extends DeclNode {
   set name(String value) => _interface.symbol.oldName = value;
 
   bool get isIncluded => _interface.isIncluded;
-
-  set isIncluded(bool value) {
-    if (_interface.isInternal) return;
-    _interface.isIncluded = value;
-  }
-
-  bool get isInternal => _interface.isInternal;
+  set isIncluded(bool value) => _interface.isIncluded = value;
 }
 
 /// An Objective-C protocol declaration.
@@ -348,7 +329,6 @@ class ObjCProtocol extends DeclNode {
   set name(String value) => _protocol.symbol.oldName = value;
 
   bool get isIncluded => _protocol.isIncluded;
-
   set isIncluded(bool value) => _protocol.isIncluded = value;
 }
 
@@ -385,7 +365,6 @@ class ObjCCategory extends DeclNode {
   set name(String value) => _category.symbol.oldName = value;
 
   bool get isIncluded => _category.isIncluded;
-
   set isIncluded(bool value) => _category.isIncluded = value;
 }
 
@@ -419,7 +398,6 @@ class CppClass extends DeclNode {
   set name(String value) => _cppClass.symbol.oldName = value;
 
   bool get isIncluded => _cppClass.isIncluded;
-
   set isIncluded(bool value) => _cppClass.isIncluded = value;
 }
 
@@ -568,11 +546,7 @@ class ObjCMethod extends NamedNode {
       _method.setter != null ? ObjCMethod(parent, _method.setter!) : null;
 
   bool get isIncluded => _method.isIncluded;
-
-  set isIncluded(bool value) {
-    if (parent case final ObjCInterface itf when itf.isInternal) return;
-    _method.isIncluded = value;
-  }
+  set isIncluded(bool value) => _method.isIncluded = value;
 }
 
 /// An unnamed enum constant.
@@ -597,6 +571,5 @@ class UnnamedEnumConstant extends DeclNode {
   set name(String value) => _constant.symbol.oldName = value;
 
   bool get isIncluded => _constant.isIncluded;
-
   set isIncluded(bool value) => _constant.isIncluded = value;
 }
