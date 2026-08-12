@@ -138,7 +138,7 @@ void matchLibraryWithExpected(
     context: context,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: (File file) => library.generateFile(file, format: format),
+    fileWriter: (File file, _) => library.generateFile(file, format: format),
     codeNormalizer: codeNormalizer,
     verify: verify,
   );
@@ -159,7 +159,7 @@ void matchLibrarySymbolFileWithExpected(
     context: context,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: (File file) {
+    fileWriter: (File file, _) {
       if (!library.writer.canGenerateSymbolOutput) library.generate();
       library.generateSymbolOutputFile(file, importPath);
     },
@@ -181,7 +181,8 @@ void matchObjCFileWithExpected(
     context: context,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: (File file) => library.generateObjCFile(file),
+    fileWriter: (File file, String expectedPath) =>
+        library.generateObjCFile(file, headerPath: expectedPath),
     verify: verify,
   );
 }
@@ -200,7 +201,8 @@ void matchCppFileWithExpected(
     context: context,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: (File file) => library.generateCppFile(file),
+    fileWriter: (File file, String expectedPath) =>
+        library.generateCppFile(file, headerPath: expectedPath),
     verify: verify,
   );
 }
@@ -222,7 +224,7 @@ void matchRecordUseMappingWithExpected(
     context: context,
     pathForActual: pathForActual,
     pathToExpected: pathToExpected,
-    fileWriter: (File file) =>
+    fileWriter: (File file, _) =>
         library.generateRecordUseMappingFile(file, format: format),
     codeNormalizer: codeNormalizer,
     verify: verify,
@@ -246,7 +248,7 @@ void matchFileWithExpected({
   required Context context,
   required String pathForActual,
   required List<String> pathToExpected,
-  required void Function(File file) fileWriter,
+  required void Function(File actualFile, String expectedPath) fileWriter,
   String Function(String)? codeNormalizer,
   bool Function(String expected, String actual)? verify,
 }) {
@@ -259,22 +261,7 @@ void matchFileWithExpected({
 
   verify ??= (expected, actual) => expected == actual;
 
-  // Generate the actual file in the expected location so that the generated
-  // relative import paths are correct. In case the expected and actual files
-  // have the same name, move the expected file to a backup location first.
-  final backupFile = File(path.join(tmpDirPath, '$pathForActual.backup'));
-  if (expectedFile.existsSync()) {
-    expectedFile.renameSync(backupFile.path);
-  }
-  fileWriter(expectedFile);
-
-  // Move the expected and actual files to their correct locations.
-  if (expectedFile.existsSync()) {
-    expectedFile.renameSync(actualPath);
-  }
-  if (backupFile.existsSync()) {
-    backupFile.renameSync(expectedPath);
-  }
+  fileWriter(actualFile, expectedPath);
 
   if (updateExpectations) {
     print('Updating expectations: ${path.relative(expectedPath)}');
