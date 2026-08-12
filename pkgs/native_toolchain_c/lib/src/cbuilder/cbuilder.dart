@@ -8,6 +8,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:process/process.dart';
 
 import 'build_mode.dart';
 import 'clibrary.dart';
@@ -129,6 +130,9 @@ class CBuilder extends CTool implements Builder {
   /// [defines] are merged with the [CTool.defines] of this [CBuilder]. See
   /// [CTool.defines] for more documentation.
   ///
+  /// If provided, uses [processManager] to spawn processes. Otherwise, uses a
+  /// [LocalProcessManager] that spawns real processes.
+  ///
   /// If you're using [CBuilder] in a build hook and [CLinker] in a link hook,
   /// see [CLibrary] to combine them.
   @override
@@ -136,11 +140,13 @@ class CBuilder extends CTool implements Builder {
     required BuildInput input,
     required BuildOutputBuilder output,
     Logger? logger,
+    ProcessManager? processManager,
     List<AssetRouting> routing = const [ToAppBundle()],
     LinkModePreference? linkModePreference,
     Map<String, String?>? defines,
   }) async {
     logger ??= createDefaultLogger();
+    processManager ??= const LocalProcessManager();
     if (!input.config.buildCodeAssets) {
       logger.info(
         'config.buildAssetTypes did not contain CodeAssets, '
@@ -192,6 +198,7 @@ class CBuilder extends CTool implements Builder {
       input: input,
       codeConfig: input.config.code,
       logger: logger,
+      processManager: processManager,
       sources: sources,
       includes: includes,
       forcedIncludes: forcedIncludes,

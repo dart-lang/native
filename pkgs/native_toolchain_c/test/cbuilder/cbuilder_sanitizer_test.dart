@@ -11,6 +11,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -86,6 +87,7 @@ void main() {
         final result = await runProcess(
           executable: executableUri,
           logger: logger,
+          processManager: const LocalProcessManager(),
         );
         expect(result.exitCode, 0);
         expect(result.stdout.trim(), endsWith('Hello world.'));

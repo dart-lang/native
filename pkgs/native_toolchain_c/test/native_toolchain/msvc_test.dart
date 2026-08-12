@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/env_from_bat.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -97,7 +98,10 @@ void main() {
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     expect(instance.tool, vcvars32);
-    final env = await environmentFromBatchFile(instance.uri);
+    final env = await environmentFromBatchFile(
+      instance.uri,
+      processManager: const LocalProcessManager(),
+    );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
@@ -112,7 +116,10 @@ void main() {
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     expect(instance.tool, vcvars64);
-    final env = await environmentFromBatchFile(instance.uri);
+    final env = await environmentFromBatchFile(
+      instance.uri,
+      processManager: const LocalProcessManager(),
+    );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
@@ -127,7 +134,10 @@ void main() {
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     expect(instance.tool, vcvarsarm64);
-    final env = await environmentFromBatchFile(instance.uri);
+    final env = await environmentFromBatchFile(
+      instance.uri,
+      processManager: const LocalProcessManager(),
+    );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
@@ -136,7 +146,10 @@ void main() {
     final instances = await vcvars32.defaultResolver!.resolve(systemContext);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
-    final env = await environmentFromBatchFile(instance.uri);
+    final env = await environmentFromBatchFile(
+      instance.uri,
+      processManager: const LocalProcessManager(),
+    );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
@@ -145,7 +158,10 @@ void main() {
     final instances = await vcvars64.defaultResolver!.resolve(systemContext);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
-    final env = await environmentFromBatchFile(instance.uri);
+    final env = await environmentFromBatchFile(
+      instance.uri,
+      processManager: const LocalProcessManager(),
+    );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
@@ -154,7 +170,10 @@ void main() {
     final instances = await vcvarsarm64.defaultResolver!.resolve(systemContext);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
-    final env = await environmentFromBatchFile(instance.uri);
+    final env = await environmentFromBatchFile(
+      instance.uri,
+      processManager: const LocalProcessManager(),
+    );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
@@ -166,6 +185,7 @@ void main() {
     final env = await environmentFromBatchFile(
       instance.uri,
       arguments: ['x64', 'uwp', '10.0'],
+      processManager: const LocalProcessManager(),
     );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
@@ -175,7 +195,10 @@ void main() {
     final instances = await vsDevCmd.defaultResolver!.resolve(systemContext);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
-    final env = await environmentFromBatchFile(instance.uri);
+    final env = await environmentFromBatchFile(
+      instance.uri,
+      processManager: const LocalProcessManager(),
+    );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
