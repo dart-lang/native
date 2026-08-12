@@ -239,17 +239,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     _warnIfPrivateDeclaration(b, context.logger);
   }
 
-  // Override pack values according to config. We do this after declaration
-  // conflicts have been handled so that users can target the generated names.
-  for (final b in finalBindingsList) {
-    if (b is Struct) {
-      final pack = config.structs.packingOverride(b);
-      if (pack != null) {
-        b.pack = pack.value;
-      }
-    }
-  }
-
   // Check that all ObjCMethods have their parent set correctly.
   assert(
     finalBindingsList.whereType<ObjCMethods>().every(

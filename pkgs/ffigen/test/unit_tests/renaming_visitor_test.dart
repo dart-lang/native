@@ -870,5 +870,72 @@ functions:
       expect((nodes[1] as public_ast.Func).isLeaf, false);
       expect(cgNormalFunc.isLeaf, false);
     });
+
+    test('public_ast.Struct.pack getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgStruct = Struct(
+        name: 'c_struct',
+        originalName: 'c_struct',
+        context: context,
+      );
+      final publicStruct = public_ast.Struct(cgStruct);
+
+      expect(publicStruct.pack, isNull);
+      expect(cgStruct.pack, isNull);
+
+      publicStruct.pack = 4;
+      expect(publicStruct.pack, 4);
+      expect(cgStruct.pack, 4);
+
+      publicStruct.pack = null;
+      expect(publicStruct.pack, isNull);
+      expect(cgStruct.pack, isNull);
+    });
+
+    test(
+      'YamlConfigAstVisitor sets Struct.pack from config packing override',
+      () {
+        final yamlConfig = YamlConfig.fromYaml(
+          loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+structs:
+  pack:
+    'packed_struct': 4
+''')
+              as YamlMap,
+          createTestLogger(),
+        );
+
+        final generator = yamlConfig.configAdapter();
+        final context = testContext(generator);
+        final cgPackedStruct = Struct(
+          name: 'packed_struct',
+          originalName: 'packed_struct',
+          context: context,
+        );
+        final cgNormalStruct = Struct(
+          name: 'normal_struct',
+          originalName: 'normal_struct',
+          context: context,
+        );
+
+        final nodes = <Binding>[
+          cgPackedStruct,
+          cgNormalStruct,
+        ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+        generator.visitors.first.visitAll(nodes);
+
+        expect((nodes[0] as public_ast.Struct).pack, 4);
+        expect(cgPackedStruct.pack, 4);
+        expect((nodes[1] as public_ast.Struct).pack, isNull);
+        expect(cgNormalStruct.pack, isNull);
+      },
+    );
   });
 }

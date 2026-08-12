@@ -1271,8 +1271,6 @@ final class YamlConfig {
       structs: Structs(
         include: _structDecl.shouldInclude,
         dependencies: _structDependencies,
-        packingOverride: (decl) =>
-            _structPackingOverride.getOverridenPackValue(decl.originalName),
       ),
       enums: Enums(include: _enumClassDecl.shouldInclude),
       unions: Unions(
@@ -1351,6 +1349,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   void visitStruct(public_ast.Struct node) {
     if (config.structDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
+    }
+    if (config.structPackingOverride(_decl(node)) case final override?) {
+      node.pack = override.value;
     }
   }
 

@@ -304,15 +304,9 @@ final class Structs extends Declarations {
   /// Whether structs that are dependencies should be included.
   final CompoundDependencies dependencies;
 
-  /// Whether, and how, to override struct packing for the given struct.
-  final PackingValue? Function(Declaration declaration) packingOverride;
-
-  static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
-
   const Structs({
     super.include,
     this.dependencies = CompoundDependencies.opaque,
-    this.packingOverride = _packingOverrideDefault,
   });
 
   static const excludeAll = Structs(include: Declarations.excludeAll);

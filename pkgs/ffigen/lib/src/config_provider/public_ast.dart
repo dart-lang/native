@@ -109,6 +109,15 @@ class Struct extends DeclNode {
 
   @override
   set name(String value) => _struct.symbol.oldName = value;
+
+  /// The byte alignment packing override for this struct declaration, or `null`
+  /// if default alignment should be used.
+  ///
+  /// When specified, the generated Dart struct will be annotated with
+  /// `@ffi.Packed(value)`. Supported values for packing are `1`, `2`, `4`, `8`,
+  /// and `16`.
+  int? get pack => _struct.pack;
+  set pack(int? value) => _struct.pack = value;
 }
 
 /// A C union declaration.
