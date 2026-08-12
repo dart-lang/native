@@ -163,6 +163,9 @@ class NativeFunc extends Type {
     return _type as FunctionType;
   }
 
+  Typealias? get functionTypealias =>
+      _type is Typealias ? _type : null;
+
   @override
   String getCType(Context context, {bool writeArgumentNames = true}) {
     final funcType = _type is FunctionType

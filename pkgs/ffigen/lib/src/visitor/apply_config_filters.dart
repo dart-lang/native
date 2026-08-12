@@ -39,7 +39,12 @@ class ApplyConfigFiltersVisitation extends Visitation {
   }
 
   @override
-  void visitFunc(Func node) => _visitImpl(node, node.isIncluded);
+  void visitFunc(Func node) {
+    if (node.isIncluded) {
+      node.exposedFunctionTypealias?.isIncluded = true;
+    }
+    _visitImpl(node, node.isIncluded);
+  }
 
   @override
   void visitMacroConstant(MacroConstant node) =>
@@ -109,6 +114,25 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
+    if (node.isIncluded) {
+      final internalFunc = _getFunctionTypealias(node.type);
+      if (internalFunc != null) {
+        internalFunc.isIncluded = true;
+      }
+    }
     _visitImpl(node, node.isIncluded);
   }
+}
+
+Typealias? _getFunctionTypealias(Type type) {
+  if (type is Typealias) {
+    type = type.type;
+  }
+  if (type is PointerType) {
+    final child = type.child;
+    if (child is NativeFunc) {
+      return child.functionTypealias;
+    }
+  }
+  return null;
 }
