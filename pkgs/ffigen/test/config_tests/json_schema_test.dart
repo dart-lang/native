@@ -27,7 +27,7 @@ void main() {
         context: context,
         pathForActual: 'ffigen.schema.json',
         pathToExpected: [strings.ffigenJsonSchemaFileName],
-        fileWriter: (File file) {
+        fileWriter: (File file, _) {
           final actualJsonSchema =
               const JsonEncoder.withIndent(
                 strings.ffigenJsonSchemaIndent,

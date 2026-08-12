@@ -44,6 +44,26 @@ Type getCodeGenType(
     return getCodeGenType(context, clang.clang_Type_getNamedType(cxtype));
   }
 
+  // Handle C++ templates like std::unique_ptr.
+  if (context.config.cpp?.classes != null) {
+    final numTemplateArgs = clang.clang_Type_getNumTemplateArguments(cxtype);
+    if (numTemplateArgs >= 1) {
+      final declCursor = clang.clang_getTypeDeclaration(cxtype);
+      final isStdUniquePtr =
+          declCursor.spelling() == 'unique_ptr' &&
+          declCursor.usr().startsWith('c:@N@std@');
+      if (isStdUniquePtr) {
+        final spelling = cxtype.spelling();
+        return _extractUniquePtrType(
+          context,
+          cxtype,
+          numTemplateArgs,
+          spelling,
+        );
+      }
+    }
+  }
+
   // These basic Objective C types skip the cache, and are conditional on the
   // language flag.
   if (context.config.objectiveC != null) {
@@ -287,6 +307,41 @@ Type? _extractfromRecord(
     'Not Implemented, ${cursor.completeStringRepr()}',
   );
   return UnimplementedType('${cxtype.kindSpelling()} not implemented');
+}
+
+Type _extractUniquePtrType(
+  Context context,
+  clang_types.CXType cxtype,
+  int numTemplateArgs,
+  String spelling,
+) {
+  final logger = context.logger;
+
+  if (numTemplateArgs != 1) {
+    logger.warning(
+      'std::unique_ptr with a custom deleter is not supported '
+      '($numTemplateArgs template args in "$spelling"). Skipping.',
+    );
+    return UnimplementedType('unique_ptr with custom deleter not supported');
+  }
+
+  final innerCXType = clang.clang_Type_getTemplateArgumentAsType(cxtype, 0);
+  final innerType = getCodeGenType(context, innerCXType);
+
+  if (innerType is CppClass) {
+    logger.fine(
+      '  unique_ptr<${innerType.originalName}> is an owned CppUniquePtrType',
+    );
+    return CppUniquePtrType(innerType);
+  }
+
+  logger.warning(
+    'std::unique_ptr inner type is not a known C++ class '
+    '(got ${innerType.runtimeType} from "$spelling"). Skipping.',
+  );
+  return UnimplementedType(
+    'unique_ptr inner type is not a supported C++ class',
+  );
 }
 
 // Used for function pointer arguments.

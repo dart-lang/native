@@ -27,5 +27,9 @@ hooks:
       user_define_key2:
         foo: bar
       some_file: assets/data.json
+      nested:
+        options:
+          paths:
+            - assets/second.json
     some_other_package: # package name
       user_define_key3: user_define_value3
