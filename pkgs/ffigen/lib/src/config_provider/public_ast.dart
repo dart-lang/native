@@ -63,6 +63,7 @@ class Func extends DeclNode {
   @override
   set name(String value) => _func.symbol.oldName = value;
 
+  /// Whether this Func should be included in code generation.
   bool get isIncluded => _func.isIncluded;
   set isIncluded(bool value) => _func.isIncluded = value;
 }
@@ -96,6 +97,7 @@ class Struct extends DeclNode {
   @override
   set name(String value) => _struct.symbol.oldName = value;
 
+  /// Whether this Struct should be included in code generation.
   bool get isIncluded => _struct.isIncluded;
   set isIncluded(bool value) => _struct.isIncluded = value;
 }
@@ -129,6 +131,7 @@ class Union extends DeclNode {
   @override
   set name(String value) => _union.symbol.oldName = value;
 
+  /// Whether this Union should be included in code generation.
   bool get isIncluded => _union.isIncluded;
   set isIncluded(bool value) => _union.isIncluded = value;
 }
@@ -162,6 +165,7 @@ class EnumClass extends DeclNode {
   @override
   set name(String value) => _enumClass.symbol.oldName = value;
 
+  /// Whether this EnumClass should be included in code generation.
   bool get isIncluded => _enumClass.isIncluded;
   set isIncluded(bool value) => _enumClass.isIncluded = value;
 }
@@ -187,6 +191,7 @@ class Global extends DeclNode {
   @override
   set name(String value) => _global.symbol.oldName = value;
 
+  /// Whether this Global should be included in code generation.
   bool get isIncluded => _global.isIncluded;
   set isIncluded(bool value) => _global.isIncluded = value;
 }
@@ -212,6 +217,7 @@ class Constant extends DeclNode {
   @override
   set name(String value) => _constant.symbol.oldName = value;
 
+  /// Whether this Constant should be included in code generation.
   bool get isIncluded => _constant.isIncluded;
   set isIncluded(bool value) => _constant.isIncluded = value;
 }
@@ -237,6 +243,7 @@ class MacroConstant extends DeclNode {
   @override
   set name(String value) => _macro.symbol.oldName = value;
 
+  /// Whether this MacroConstant should be included in code generation.
   bool get isIncluded => _macro.isIncluded;
   set isIncluded(bool value) => _macro.isIncluded = value;
 }
@@ -262,6 +269,7 @@ class Typealias extends DeclNode {
   @override
   set name(String value) => _typealias.symbol.oldName = value;
 
+  /// Whether this Typealias should be included in code generation.
   bool get isIncluded => _typealias.isIncluded;
   set isIncluded(bool value) => _typealias.isIncluded = value;
 }
@@ -295,6 +303,7 @@ class ObjCInterface extends DeclNode {
   @override
   set name(String value) => _interface.symbol.oldName = value;
 
+  /// Whether this ObjCInterface should be included in code generation.
   bool get isIncluded => _interface.isIncluded;
   set isIncluded(bool value) => _interface.isIncluded = value;
 }
@@ -328,6 +337,7 @@ class ObjCProtocol extends DeclNode {
   @override
   set name(String value) => _protocol.symbol.oldName = value;
 
+  /// Whether this ObjCProtocol should be included in code generation.
   bool get isIncluded => _protocol.isIncluded;
   set isIncluded(bool value) => _protocol.isIncluded = value;
 }
@@ -364,6 +374,7 @@ class ObjCCategory extends DeclNode {
   @override
   set name(String value) => _category.symbol.oldName = value;
 
+  /// Whether this ObjCCategory should be included in code generation.
   bool get isIncluded => _category.isIncluded;
   set isIncluded(bool value) => _category.isIncluded = value;
 }
@@ -397,6 +408,7 @@ class CppClass extends DeclNode {
   @override
   set name(String value) => _cppClass.symbol.oldName = value;
 
+  /// Whether this CppClass should be included in code generation.
   bool get isIncluded => _cppClass.isIncluded;
   set isIncluded(bool value) => _cppClass.isIncluded = value;
 }
@@ -497,6 +509,7 @@ class CppMethod extends NamedNode {
   @override
   set name(String value) => _method.name.oldName = value;
 
+  /// Whether this CppMethod should be included in code generation.
   bool get isIncluded => _method.isIncluded;
   set isIncluded(bool value) => _method.isIncluded = value;
 }
@@ -545,6 +558,7 @@ class ObjCMethod extends NamedNode {
   ObjCMethod? get setter =>
       _method.setter != null ? ObjCMethod(parent, _method.setter!) : null;
 
+  /// Whether this ObjCMethod should be included in code generation.
   bool get isIncluded => _method.isIncluded;
   set isIncluded(bool value) => _method.isIncluded = value;
 }
@@ -570,6 +584,7 @@ class UnnamedEnumConstant extends DeclNode {
   @override
   set name(String value) => _constant.symbol.oldName = value;
 
+  /// Whether this UnnamedEnumConstant should be included in code generation.
   bool get isIncluded => _constant.isIncluded;
   set isIncluded(bool value) => _constant.isIncluded = value;
 }

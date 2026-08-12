@@ -13,7 +13,6 @@ import 'local_variables.dart';
 import 'native_type.dart';
 import 'objc_block.dart';
 import 'objc_built_in_functions.dart';
-import 'objc_category.dart';
 import 'objc_interface.dart';
 import 'objc_nullable.dart';
 import 'pointer.dart';
