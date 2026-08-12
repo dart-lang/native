@@ -2330,15 +2330,15 @@ final class CXCursorSetImpl extends ffi.Opaque {}
 /// The visitor should return one of the \c CXChildVisitResult values
 /// to direct clang_visitCursorChildren().
 typedef CXCursorVisitor =
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.UnsignedInt Function(
-          CXCursor cursor,
-          CXCursor parent,
-          CXClientData client_data,
-        )
-      >
-    >;
+    ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
+typedef CXCursorVisitorFunction =
+    ffi.UnsignedInt Function(
+      CXCursor cursor,
+      CXCursor parent,
+      CXClientData client_data,
+    );
+typedef DartCXCursorVisitorFunction =
+    int Function(CXCursor cursor, CXCursor parent, CXClientData client_data);
 
 /// A single diagnostic, containing the diagnostic's severity,
 /// location, text, source ranges, and fix-it hints.
@@ -2447,11 +2447,11 @@ sealed class CXEvalResultKind {
 /// The visitor should return one of the \c CXVisitorResult values
 /// to direct \c clang_Type_visitFields.
 typedef CXFieldVisitor =
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.UnsignedInt Function(CXCursor C, CXClientData client_data)
-      >
-    >;
+    ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
+typedef CXFieldVisitorFunction =
+    ffi.UnsignedInt Function(CXCursor C, CXClientData client_data);
+typedef DartCXFieldVisitorFunction =
+    int Function(CXCursor C, CXClientData client_data);
 
 /// A particular source file that is part of a translation unit.
 typedef CXFile = ffi.Pointer<ffi.Void>;
@@ -2480,16 +2480,21 @@ typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
 /// array is sorted in order of immediate inclusion.  For example,
 /// the first element refers to the location that included 'included_file'.
 typedef CXInclusionVisitor =
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          CXFile included_file,
-          ffi.Pointer<CXSourceLocation> inclusion_stack,
-          ffi.UnsignedInt include_len,
-          CXClientData client_data,
-        )
-      >
-    >;
+    ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
+typedef CXInclusionVisitorFunction =
+    ffi.Void Function(
+      CXFile included_file,
+      ffi.Pointer<CXSourceLocation> inclusion_stack,
+      ffi.UnsignedInt include_len,
+      CXClientData client_data,
+    );
+typedef DartCXInclusionVisitorFunction =
+    void Function(
+      CXFile included_file,
+      ffi.Pointer<CXSourceLocation> inclusion_stack,
+      int include_len,
+      CXClientData client_data,
+    );
 
 /// An "index" that consists of a set of translation units that would
 /// typically be linked together into an executable or library.

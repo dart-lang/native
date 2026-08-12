@@ -51,7 +51,7 @@ class Typealias extends BindingType {
             type: funcType,
             genFfiDartType: genFfiDartType,
             isInternal: isInternal,
-          ),
+          )..isIncluded = true,
         ),
       );
     }

@@ -18,6 +18,1461 @@ external int _pyqkbm_protocolTrampoline_fai2e9(
   ffi.Pointer<ffi.Void> arg0,
 );
 
+typedef AECoerceDescProcPtrFunction =
+    ffi.Short Function(
+      ffi.Pointer<objc.AEDesc> fromDesc,
+      ffi.UnsignedInt toType,
+      ffi.Pointer<ffi.Void> handlerRefcon,
+      ffi.Pointer<objc.AEDesc> toDesc,
+    );
+typedef DartAECoerceDescProcPtrFunction =
+    int Function(
+      ffi.Pointer<objc.AEDesc> fromDesc,
+      int toType,
+      ffi.Pointer<ffi.Void> handlerRefcon,
+      ffi.Pointer<objc.AEDesc> toDesc,
+    );
+typedef AECoercePtrProcPtrFunction =
+    ffi.Short Function(
+      ffi.UnsignedInt typeCode,
+      ffi.Pointer<ffi.Void> dataPtr,
+      ffi.Long dataSize,
+      ffi.UnsignedInt toType,
+      ffi.Pointer<ffi.Void> handlerRefcon,
+      ffi.Pointer<objc.AEDesc> result,
+    );
+typedef DartAECoercePtrProcPtrFunction =
+    int Function(
+      int typeCode,
+      ffi.Pointer<ffi.Void> dataPtr,
+      int dataSize,
+      int toType,
+      ffi.Pointer<ffi.Void> handlerRefcon,
+      ffi.Pointer<objc.AEDesc> result,
+    );
+typedef AEDisposeExternalProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> dataPtr,
+      ffi.Long dataLength,
+      ffi.Pointer<ffi.Void> refcon,
+    );
+typedef DartAEDisposeExternalProcPtrFunction =
+    void Function(
+      ffi.Pointer<ffi.Void> dataPtr,
+      int dataLength,
+      ffi.Pointer<ffi.Void> refcon,
+    );
+typedef AEEventHandlerProcPtrFunction =
+    ffi.Short Function(
+      ffi.Pointer<objc.AEDesc> theAppleEvent,
+      ffi.Pointer<objc.AEDesc> reply,
+      ffi.Pointer<ffi.Void> handlerRefcon,
+    );
+typedef DartAEEventHandlerProcPtrFunction =
+    int Function(
+      ffi.Pointer<objc.AEDesc> theAppleEvent,
+      ffi.Pointer<objc.AEDesc> reply,
+      ffi.Pointer<ffi.Void> handlerRefcon,
+    );
+
+final class AERemoteProcessResolver extends ffi.Opaque {}
+
+typedef AERemoteProcessResolverCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<AERemoteProcessResolver> ref,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartAERemoteProcessResolverCallbackFunction =
+    void Function(
+      ffi.Pointer<AERemoteProcessResolver> ref,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFAllocatorAllocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Long allocSize,
+      ffi.UnsignedLong hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFAllocatorAllocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      int allocSize,
+      int hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFAllocatorCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorDeallocateCallBackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> ptr, ffi.Pointer<ffi.Void> info);
+typedef DartCFAllocatorDeallocateCallBackFunction =
+    void Function(ffi.Pointer<ffi.Void> ptr, ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorPreferredSizeCallBackFunction =
+    ffi.Long Function(
+      ffi.Long size,
+      ffi.UnsignedLong hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFAllocatorPreferredSizeCallBackFunction =
+    int Function(int size, int hint, ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorReallocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<ffi.Void> ptr,
+      ffi.Long newsize,
+      ffi.UnsignedLong hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFAllocatorReallocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<ffi.Void> ptr,
+      int newsize,
+      int hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFAllocatorReleaseCallBackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> info);
+typedef DartCFAllocatorReleaseCallBackFunction =
+    void Function(ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> info);
+typedef CFArrayApplierFunctionFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartCFArrayApplierFunctionFunction =
+    void Function(ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Void> context);
+typedef CFArrayCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> value);
+typedef CFArrayEqualCallBackFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<ffi.Void> value1,
+      ffi.Pointer<ffi.Void> value2,
+    );
+typedef DartCFArrayEqualCallBackFunction =
+    int Function(ffi.Pointer<ffi.Void> value1, ffi.Pointer<ffi.Void> value2);
+typedef CFArrayReleaseCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef DartCFArrayReleaseCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFArrayRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFBagApplierFunctionFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartCFBagApplierFunctionFunction =
+    void Function(ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Void> context);
+typedef CFBagCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> value);
+typedef CFBagEqualCallBackFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<ffi.Void> value1,
+      ffi.Pointer<ffi.Void> value2,
+    );
+typedef DartCFBagEqualCallBackFunction =
+    int Function(ffi.Pointer<ffi.Void> value1, ffi.Pointer<ffi.Void> value2);
+typedef CFBagHashCallBackFunction =
+    ffi.UnsignedLong Function(ffi.Pointer<ffi.Void> value);
+typedef DartCFBagHashCallBackFunction =
+    int Function(ffi.Pointer<ffi.Void> value);
+typedef CFBagReleaseCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef DartCFBagReleaseCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFBagRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFBinaryHeapApplierFunctionFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> val, ffi.Pointer<ffi.Void> context);
+typedef DartCFBinaryHeapApplierFunctionFunction =
+    void Function(ffi.Pointer<ffi.Void> val, ffi.Pointer<ffi.Void> context);
+typedef CFComparatorFunctionFunction =
+    ffi.Long Function(
+      ffi.Pointer<ffi.Void> val1,
+      ffi.Pointer<ffi.Void> val2,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartCFComparatorFunctionFunction =
+    CFComparisonResult Function(
+      ffi.Pointer<ffi.Void> val1,
+      ffi.Pointer<ffi.Void> val2,
+      ffi.Pointer<ffi.Void> context,
+    );
+
+enum CFComparisonResult {
+  kCFCompareLessThan(-1),
+  kCFCompareEqualTo(0),
+  kCFCompareGreaterThan(1);
+
+  final int value;
+  const CFComparisonResult(this.value);
+
+  static CFComparisonResult fromValue(int value) => switch (value) {
+    -1 => kCFCompareLessThan,
+    0 => kCFCompareEqualTo,
+    1 => kCFCompareGreaterThan,
+    _ => throw ArgumentError('Unknown value for CFComparisonResult: $value'),
+  };
+}
+
+typedef CFDictionaryApplierFunctionFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> key,
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartCFDictionaryApplierFunctionFunction =
+    void Function(
+      ffi.Pointer<ffi.Void> key,
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef CFDictionaryCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> value);
+typedef CFDictionaryEqualCallBackFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<ffi.Void> value1,
+      ffi.Pointer<ffi.Void> value2,
+    );
+typedef DartCFDictionaryEqualCallBackFunction =
+    int Function(ffi.Pointer<ffi.Void> value1, ffi.Pointer<ffi.Void> value2);
+typedef CFDictionaryHashCallBackFunction =
+    ffi.UnsignedLong Function(ffi.Pointer<ffi.Void> value);
+typedef DartCFDictionaryHashCallBackFunction =
+    int Function(ffi.Pointer<ffi.Void> value);
+typedef CFDictionaryReleaseCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef DartCFDictionaryReleaseCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFDictionaryRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFFileDescriptorCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFFileDescriptor> f,
+      ffi.UnsignedLong callBackTypes,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFFileDescriptorCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFFileDescriptor> f,
+      int callBackTypes,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFHostClientCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFHost> theHost,
+      ffi.UnsignedInt typeInfo,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFHostClientCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFHost> theHost,
+      CFHostInfoType typeInfo,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+
+enum CFHostInfoType {
+  kCFHostAddresses(0),
+  kCFHostNames(1),
+  kCFHostReachability(2);
+
+  final int value;
+  const CFHostInfoType(this.value);
+
+  static CFHostInfoType fromValue(int value) => switch (value) {
+    0 => kCFHostAddresses,
+    1 => kCFHostNames,
+    2 => kCFHostReachability,
+    _ => throw ArgumentError('Unknown value for CFHostInfoType: $value'),
+  };
+}
+
+typedef CFMachPortCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFMachPort> port,
+      ffi.Pointer<ffi.Void> msg,
+      ffi.Long size,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFMachPortCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFMachPort> port,
+      ffi.Pointer<ffi.Void> msg,
+      int size,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFMachPortInvalidationCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFMachPort> port,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFMachPortInvalidationCallBackFunction =
+    void Function(ffi.Pointer<__CFMachPort> port, ffi.Pointer<ffi.Void> info);
+typedef CFMessagePortCallBackFunction =
+    ffi.Pointer<__CFData> Function(
+      ffi.Pointer<__CFMessagePort> local,
+      ffi.Int msgid,
+      ffi.Pointer<__CFData> data,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFMessagePortCallBackFunction =
+    ffi.Pointer<__CFData> Function(
+      ffi.Pointer<__CFMessagePort> local,
+      int msgid,
+      ffi.Pointer<__CFData> data,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFMessagePortInvalidationCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFMessagePort> ms,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFMessagePortInvalidationCallBackFunction =
+    void Function(ffi.Pointer<__CFMessagePort> ms, ffi.Pointer<ffi.Void> info);
+typedef CFNetServiceBrowserClientCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFNetServiceBrowser> browser,
+      ffi.UnsignedLong flags,
+      ffi.Pointer<ffi.Void> domainOrService,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFNetServiceBrowserClientCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFNetServiceBrowser> browser,
+      int flags,
+      ffi.Pointer<ffi.Void> domainOrService,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFNetServiceClientCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFNetService> theService,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFNetServiceClientCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFNetService> theService,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFNetServiceMonitorClientCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFNetServiceMonitor> theMonitor,
+      ffi.Pointer<__CFNetService> theService,
+      ffi.UnsignedInt typeInfo,
+      ffi.Pointer<__CFData> rdata,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFNetServiceMonitorClientCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFNetServiceMonitor> theMonitor,
+      ffi.Pointer<__CFNetService> theService,
+      CFNetServiceMonitorType typeInfo,
+      ffi.Pointer<__CFData> rdata,
+      ffi.Pointer<CFStreamError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+
+enum CFNetServiceMonitorType {
+  kCFNetServiceMonitorTXT(1);
+
+  final int value;
+  const CFNetServiceMonitorType(this.value);
+
+  static CFNetServiceMonitorType fromValue(int value) => switch (value) {
+    1 => kCFNetServiceMonitorTXT,
+    _ => throw ArgumentError(
+      'Unknown value for CFNetServiceMonitorType: $value',
+    ),
+  };
+}
+
+typedef CFNotificationCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFNotificationCenter> center,
+      ffi.Pointer<ffi.Void> observer,
+      ffi.Pointer<objc.CFString> name,
+      ffi.Pointer<ffi.Void> object,
+      ffi.Pointer<__CFDictionary> userInfo,
+    );
+typedef DartCFNotificationCallbackFunction =
+    void Function(
+      ffi.Pointer<__CFNotificationCenter> center,
+      ffi.Pointer<ffi.Void> observer,
+      ffi.Pointer<objc.CFString> name,
+      ffi.Pointer<ffi.Void> object,
+      ffi.Pointer<__CFDictionary> userInfo,
+    );
+typedef CFPlugInDynamicRegisterFunctionFunction =
+    ffi.Void Function(ffi.Pointer<__CFBundle> plugIn);
+typedef DartCFPlugInDynamicRegisterFunctionFunction =
+    void Function(ffi.Pointer<__CFBundle> plugIn);
+typedef CFPlugInFactoryFunctionFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<__CFUUID> typeUUID,
+    );
+typedef CFPlugInInstanceDeallocateInstanceDataFunctionFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> instanceData);
+typedef DartCFPlugInInstanceDeallocateInstanceDataFunctionFunction =
+    void Function(ffi.Pointer<ffi.Void> instanceData);
+typedef CFPlugInInstanceGetInterfaceFunctionFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<__CFPlugInInstance> instance,
+      ffi.Pointer<objc.CFString> interfaceName,
+      ffi.Pointer<ffi.Pointer<ffi.Void>> ftbl,
+    );
+typedef DartCFPlugInInstanceGetInterfaceFunctionFunction =
+    int Function(
+      ffi.Pointer<__CFPlugInInstance> instance,
+      ffi.Pointer<objc.CFString> interfaceName,
+      ffi.Pointer<ffi.Pointer<ffi.Void>> ftbl,
+    );
+typedef CFPlugInUnloadFunctionFunction =
+    ffi.Void Function(ffi.Pointer<__CFBundle> plugIn);
+typedef DartCFPlugInUnloadFunctionFunction =
+    void Function(ffi.Pointer<__CFBundle> plugIn);
+typedef CFProxyAutoConfigurationResultCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> client,
+      ffi.Pointer<__CFArray> proxyList,
+      ffi.Pointer<__CFError> error,
+    );
+typedef DartCFProxyAutoConfigurationResultCallbackFunction =
+    void Function(
+      ffi.Pointer<ffi.Void> client,
+      ffi.Pointer<__CFArray> proxyList,
+      ffi.Pointer<__CFError> error,
+    );
+typedef CFReadStreamClientCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFReadStream> stream,
+      ffi.UnsignedLong type,
+      ffi.Pointer<ffi.Void> clientCallBackInfo,
+    );
+typedef DartCFReadStreamClientCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFReadStream> stream,
+      int type,
+      ffi.Pointer<ffi.Void> clientCallBackInfo,
+    );
+
+sealed class CFRunLoopActivity {
+  static const kCFRunLoopEntry = 1;
+  static const kCFRunLoopBeforeTimers = 2;
+  static const kCFRunLoopBeforeSources = 4;
+  static const kCFRunLoopBeforeWaiting = 32;
+  static const kCFRunLoopAfterWaiting = 64;
+  static const kCFRunLoopExit = 128;
+  static const kCFRunLoopAllActivities = 268435455;
+}
+
+typedef CFRunLoopObserverCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFRunLoopObserver> observer,
+      ffi.UnsignedLong activity,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFRunLoopObserverCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFRunLoopObserver> observer,
+      int activity,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFRunLoopTimerCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFRunLoopTimer> timer,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFRunLoopTimerCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFRunLoopTimer> timer,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFSetApplierFunctionFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartCFSetApplierFunctionFunction =
+    void Function(ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Void> context);
+typedef CFSetCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> value);
+typedef CFSetEqualCallBackFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<ffi.Void> value1,
+      ffi.Pointer<ffi.Void> value2,
+    );
+typedef DartCFSetEqualCallBackFunction =
+    int Function(ffi.Pointer<ffi.Void> value1, ffi.Pointer<ffi.Void> value2);
+typedef CFSetHashCallBackFunction =
+    ffi.UnsignedLong Function(ffi.Pointer<ffi.Void> value);
+typedef DartCFSetHashCallBackFunction =
+    int Function(ffi.Pointer<ffi.Void> value);
+typedef CFSetReleaseCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef DartCFSetReleaseCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFSetRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__CFAllocator> allocator,
+      ffi.Pointer<ffi.Void> value,
+    );
+typedef CFSocketCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFSocket> s,
+      ffi.UnsignedLong type,
+      ffi.Pointer<__CFData> address,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFSocketCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFSocket> s,
+      int type,
+      ffi.Pointer<__CFData> address,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Void> info,
+    );
+
+sealed class CFSocketCallBackType {
+  static const kCFSocketNoCallBack = 0;
+  static const kCFSocketReadCallBack = 1;
+  static const kCFSocketAcceptCallBack = 2;
+  static const kCFSocketDataCallBack = 3;
+  static const kCFSocketConnectCallBack = 4;
+  static const kCFSocketWriteCallBack = 8;
+}
+
+final class CFStreamError extends ffi.Struct {
+  @ffi.Long()
+  external int domain;
+
+  @ffi.Int()
+  external int error;
+
+  static ffi.Pointer<CFStreamError> $allocate(
+    ffi.Allocator $allocator, {
+    required int domain,
+    required int error,
+  }) => $allocator<CFStreamError>()
+    ..ref.domain = domain
+    ..ref.error = error;
+}
+
+sealed class CFStreamEventType {
+  static const kCFStreamEventNone = 0;
+  static const kCFStreamEventOpenCompleted = 1;
+  static const kCFStreamEventHasBytesAvailable = 2;
+  static const kCFStreamEventCanAcceptBytes = 4;
+  static const kCFStreamEventErrorOccurred = 8;
+  static const kCFStreamEventEndEncountered = 16;
+}
+
+typedef CFTreeApplierFunctionFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartCFTreeApplierFunctionFunction =
+    void Function(ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Void> context);
+typedef CFTreeCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> info);
+typedef CFTreeReleaseCallBackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> info);
+typedef DartCFTreeReleaseCallBackFunction =
+    void Function(ffi.Pointer<ffi.Void> info);
+typedef CFTreeRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> info);
+typedef CFUserNotificationCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFUserNotification> userNotification,
+      ffi.UnsignedLong responseFlags,
+    );
+typedef DartCFUserNotificationCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFUserNotification> userNotification,
+      int responseFlags,
+    );
+typedef CFWriteStreamClientCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFWriteStream> stream,
+      ffi.UnsignedLong type,
+      ffi.Pointer<ffi.Void> clientCallBackInfo,
+    );
+typedef DartCFWriteStreamClientCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFWriteStream> stream,
+      int type,
+      ffi.Pointer<ffi.Void> clientCallBackInfo,
+    );
+
+final class CFXMLExternalID extends ffi.Struct {
+  external ffi.Pointer<__CFURL> systemID;
+
+  external ffi.Pointer<objc.CFString> publicID;
+
+  static ffi.Pointer<CFXMLExternalID> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<__CFURL> systemID,
+    required ffi.Pointer<objc.CFString> publicID,
+  }) => $allocator<CFXMLExternalID>()
+    ..ref.systemID = systemID
+    ..ref.publicID = publicID;
+}
+
+typedef CFXMLParserAddChildCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      ffi.Pointer<ffi.Void> parent,
+      ffi.Pointer<ffi.Void> child,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFXMLParserAddChildCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      ffi.Pointer<ffi.Void> parent,
+      ffi.Pointer<ffi.Void> child,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFXMLParserCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> info);
+typedef CFXMLParserCreateXMLStructureCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      ffi.Pointer<__CFXMLNode> nodeDesc,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFXMLParserEndXMLStructureCallBackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      ffi.Pointer<ffi.Void> xmlType,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFXMLParserEndXMLStructureCallBackFunction =
+    void Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      ffi.Pointer<ffi.Void> xmlType,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFXMLParserHandleErrorCallBackFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      ffi.Long error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFXMLParserHandleErrorCallBackFunction =
+    int Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      int error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFXMLParserReleaseCallBackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> info);
+typedef DartCFXMLParserReleaseCallBackFunction =
+    void Function(ffi.Pointer<ffi.Void> info);
+typedef CFXMLParserResolveExternalEntityCallBackFunction =
+    ffi.Pointer<__CFData> Function(
+      ffi.Pointer<__CFXMLParser> parser,
+      ffi.Pointer<CFXMLExternalID> extID,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFXMLParserRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> info);
+
+sealed class CFXMLParserStatusCode {
+  static const kCFXMLStatusParseNotBegun = -2;
+  static const kCFXMLStatusParseInProgress = -1;
+  static const kCFXMLStatusParseSuccessful = 0;
+  static const kCFXMLErrorUnexpectedEOF = 1;
+  static const kCFXMLErrorUnknownEncoding = 2;
+  static const kCFXMLErrorEncodingConversionFailure = 3;
+  static const kCFXMLErrorMalformedProcessingInstruction = 4;
+  static const kCFXMLErrorMalformedDTD = 5;
+  static const kCFXMLErrorMalformedName = 6;
+  static const kCFXMLErrorMalformedCDSect = 7;
+  static const kCFXMLErrorMalformedCloseTag = 8;
+  static const kCFXMLErrorMalformedStartTag = 9;
+  static const kCFXMLErrorMalformedDocument = 10;
+  static const kCFXMLErrorElementlessDocument = 11;
+  static const kCFXMLErrorMalformedComment = 12;
+  static const kCFXMLErrorMalformedCharacterReference = 13;
+  static const kCFXMLErrorMalformedParsedCharacterData = 14;
+  static const kCFXMLErrorNoData = 15;
+}
+
+typedef CSIdentityQueryReceiveEventCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CSIdentityQuery> query,
+      ffi.Long event,
+      ffi.Pointer<__CFArray> identities,
+      ffi.Pointer<__CFError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCSIdentityQueryReceiveEventCallbackFunction =
+    void Function(
+      ffi.Pointer<__CSIdentityQuery> query,
+      int event,
+      ffi.Pointer<__CFArray> identities,
+      ffi.Pointer<__CFError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CSIdentityStatusUpdatedCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__CSIdentity> identity,
+      ffi.Long status,
+      ffi.Pointer<__CFError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCSIdentityStatusUpdatedCallbackFunction =
+    void Function(
+      ffi.Pointer<__CSIdentity> identity,
+      int status,
+      ffi.Pointer<__CFError> error,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CSSM_ACL_SUBJECT_CALLBACKFunction =
+    ffi.Int32 Function(
+      ffi.Pointer<cssm_list> SubjectRequest,
+      ffi.Pointer<cssm_list> SubjectResponse,
+      ffi.Pointer<ffi.Void> CallerContext,
+      ffi.Pointer<cssm_memory_funcs> MemFuncs,
+    );
+typedef DartCSSM_ACL_SUBJECT_CALLBACKFunction =
+    int Function(
+      ffi.Pointer<cssm_list> SubjectRequest,
+      ffi.Pointer<cssm_list> SubjectResponse,
+      ffi.Pointer<ffi.Void> CallerContext,
+      ffi.Pointer<cssm_memory_funcs> MemFuncs,
+    );
+typedef CSSM_API_ModuleEventHandlerFunction =
+    ffi.Int32 Function(
+      ffi.Pointer<cssm_guid> ModuleGuid,
+      ffi.Pointer<ffi.Void> AppNotifyCallbackCtx,
+      ffi.Uint32 SubserviceId,
+      ffi.Uint32 ServiceType,
+      ffi.Uint32 EventType,
+    );
+typedef DartCSSM_API_ModuleEventHandlerFunction =
+    int Function(
+      ffi.Pointer<cssm_guid> ModuleGuid,
+      ffi.Pointer<ffi.Void> AppNotifyCallbackCtx,
+      int SubserviceId,
+      int ServiceType,
+      int EventType,
+    );
+typedef CSSM_CALLBACKFunction =
+    ffi.Int32 Function(
+      ffi.Pointer<cssm_data> OutData,
+      ffi.Pointer<ffi.Void> CallerCtx,
+    );
+typedef DartCSSM_CALLBACKFunction =
+    int Function(
+      ffi.Pointer<cssm_data> OutData,
+      ffi.Pointer<ffi.Void> CallerCtx,
+    );
+typedef CSSM_CALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Uint32 num,
+      ffi.Size size,
+      ffi.Pointer<ffi.Void> allocref,
+    );
+typedef DartCSSM_CALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      int num,
+      int size,
+      ffi.Pointer<ffi.Void> allocref,
+    );
+typedef CSSM_CHALLENGE_CALLBACKFunction =
+    ffi.Int32 Function(
+      ffi.Pointer<cssm_list> Challenge,
+      ffi.Pointer<cssm_samplegroup> Response,
+      ffi.Pointer<ffi.Void> CallerCtx,
+      ffi.Pointer<cssm_memory_funcs> MemFuncs,
+    );
+typedef DartCSSM_CHALLENGE_CALLBACKFunction =
+    int Function(
+      ffi.Pointer<cssm_list> Challenge,
+      ffi.Pointer<cssm_samplegroup> Response,
+      ffi.Pointer<ffi.Void> CallerCtx,
+      ffi.Pointer<cssm_memory_funcs> MemFuncs,
+    );
+typedef CSSM_FREEFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> memblock,
+      ffi.Pointer<ffi.Void> allocref,
+    );
+typedef DartCSSM_FREEFunction =
+    void Function(
+      ffi.Pointer<ffi.Void> memblock,
+      ffi.Pointer<ffi.Void> allocref,
+    );
+typedef CSSM_MALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Size size,
+      ffi.Pointer<ffi.Void> allocref,
+    );
+typedef DartCSSM_MALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(int size, ffi.Pointer<ffi.Void> allocref);
+typedef CSSM_PROC_ADDRFunction = ffi.Void Function();
+typedef DartCSSM_PROC_ADDRFunction = void Function();
+typedef CSSM_REALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<ffi.Void> memblock,
+      ffi.Size size,
+      ffi.Pointer<ffi.Void> allocref,
+    );
+typedef DartCSSM_REALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<ffi.Void> memblock,
+      int size,
+      ffi.Pointer<ffi.Void> allocref,
+    );
+typedef CSSM_SPI_ModuleEventHandlerFunction =
+    ffi.Int32 Function(
+      ffi.Pointer<cssm_guid> ModuleGuid,
+      ffi.Pointer<ffi.Void> CssmNotifyCallbackCtx,
+      ffi.Uint32 SubserviceId,
+      ffi.Uint32 ServiceType,
+      ffi.Uint32 EventType,
+    );
+typedef DartCSSM_SPI_ModuleEventHandlerFunction =
+    int Function(
+      ffi.Pointer<cssm_guid> ModuleGuid,
+      ffi.Pointer<ffi.Void> CssmNotifyCallbackCtx,
+      int SubserviceId,
+      int ServiceType,
+      int EventType,
+    );
+typedef CSSM_TP_VERIFICATION_RESULTS_CALLBACKFunction =
+    ffi.Int32 Function(
+      ffi.IntPtr ModuleHandle,
+      ffi.Pointer<ffi.Void> CallerCtx,
+      ffi.Pointer<cssm_data> VerifiedCert,
+    );
+typedef DartCSSM_TP_VERIFICATION_RESULTS_CALLBACKFunction =
+    int Function(
+      int ModuleHandle,
+      ffi.Pointer<ffi.Void> CallerCtx,
+      ffi.Pointer<cssm_data> VerifiedCert,
+    );
+typedef CSSM_UPCALLS_CALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.IntPtr AddInHandle,
+      ffi.Size num,
+      ffi.Size size,
+    );
+typedef DartCSSM_UPCALLS_CALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(int AddInHandle, int num, int size);
+typedef CSSM_UPCALLS_FREEFunction =
+    ffi.Void Function(ffi.IntPtr AddInHandle, ffi.Pointer<ffi.Void> memblock);
+typedef DartCSSM_UPCALLS_FREEFunction =
+    void Function(int AddInHandle, ffi.Pointer<ffi.Void> memblock);
+typedef CSSM_UPCALLS_MALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.IntPtr AddInHandle, ffi.Size size);
+typedef DartCSSM_UPCALLS_MALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(int AddInHandle, int size);
+typedef CSSM_UPCALLS_REALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.IntPtr AddInHandle,
+      ffi.Pointer<ffi.Void> memblock,
+      ffi.Size size,
+    );
+typedef DartCSSM_UPCALLS_REALLOCFunction =
+    ffi.Pointer<ffi.Void> Function(
+      int AddInHandle,
+      ffi.Pointer<ffi.Void> memblock,
+      int size,
+    );
+typedef CollectionExceptionProcPtrFunction =
+    ffi.Short Function(ffi.Pointer<OpaqueCollection> c, ffi.Short status);
+typedef DartCollectionExceptionProcPtrFunction =
+    int Function(ffi.Pointer<OpaqueCollection> c, int status);
+typedef CollectionFlattenProcPtrFunction =
+    ffi.Short Function(
+      ffi.Int size,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Void> refCon,
+    );
+typedef DartCollectionFlattenProcPtrFunction =
+    int Function(
+      int size,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Void> refCon,
+    );
+
+@ffi.Packed(2)
+final class ComponentMPWorkFunctionHeaderRecord extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int headerSize;
+
+  @ffi.UnsignedInt()
+  external int recordSize;
+
+  @ffi.UnsignedInt()
+  external int workFlags;
+
+  @ffi.UnsignedShort()
+  external int processorCount;
+
+  @ffi.UnsignedChar()
+  external int unused;
+
+  @ffi.UnsignedChar()
+  external int isRunning;
+
+  static ffi.Pointer<ComponentMPWorkFunctionHeaderRecord> $allocate(
+    ffi.Allocator $allocator, {
+    required int headerSize,
+    required int recordSize,
+    required int workFlags,
+    required int processorCount,
+    required int unused,
+    required int isRunning,
+  }) => $allocator<ComponentMPWorkFunctionHeaderRecord>()
+    ..ref.headerSize = headerSize
+    ..ref.recordSize = recordSize
+    ..ref.workFlags = workFlags
+    ..ref.processorCount = processorCount
+    ..ref.unused = unused
+    ..ref.isRunning = isRunning;
+}
+
+typedef ComponentMPWorkFunctionProcPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.Void> globalRefCon,
+      ffi.Pointer<ComponentMPWorkFunctionHeaderRecord> header,
+    );
+typedef DartComponentMPWorkFunctionProcPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.Void> globalRefCon,
+      ffi.Pointer<ComponentMPWorkFunctionHeaderRecord> header,
+    );
+
+@ffi.Packed(2)
+final class ComponentParameters extends ffi.Struct {
+  @ffi.UnsignedChar()
+  external int flags;
+
+  @ffi.UnsignedChar()
+  external int paramSize;
+
+  @ffi.Short()
+  external int what;
+
+  @ffi.UnsignedInt()
+  external int padding;
+
+  @ffi.Array.multi([1])
+  external ffi.Array<ffi.Long> params;
+}
+
+@ffi.Packed(2)
+final class ComponentRecord extends ffi.Struct {
+  @ffi.Array.multi([1])
+  external ffi.Array<ffi.Long> data;
+}
+
+typedef ComponentRoutineProcPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ComponentParameters> cp,
+      ffi.Pointer<ffi.Pointer<ffi.Char>> componentStorage,
+    );
+typedef DartComponentRoutineProcPtrFunction =
+    int Function(
+      ffi.Pointer<ComponentParameters> cp,
+      ffi.Pointer<ffi.Pointer<ffi.Char>> componentStorage,
+    );
+typedef CoreEndianFlipProcFunction =
+    ffi.Int Function(
+      ffi.UnsignedInt dataDomain,
+      ffi.UnsignedInt dataType,
+      ffi.Short id,
+      ffi.Pointer<ffi.Void> dataPtr,
+      ffi.UnsignedLong dataSize,
+      ffi.UnsignedChar currentlyNative,
+      ffi.Pointer<ffi.Void> refcon,
+    );
+typedef DartCoreEndianFlipProcFunction =
+    int Function(
+      int dataDomain,
+      int dataType,
+      int id,
+      ffi.Pointer<ffi.Void> dataPtr,
+      int dataSize,
+      int currentlyNative,
+      ffi.Pointer<ffi.Void> refcon,
+    );
+typedef DebugAssertOutputHandlerProcPtrFunction =
+    ffi.Void Function(
+      ffi.UnsignedInt componentSignature,
+      ffi.UnsignedInt options,
+      ffi.Pointer<ffi.Char> assertionString,
+      ffi.Pointer<ffi.Char> exceptionLabelString,
+      ffi.Pointer<ffi.Char> errorString,
+      ffi.Pointer<ffi.Char> fileName,
+      ffi.Long lineNumber,
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.UnsignedChar> outputMsg,
+    );
+typedef DartDebugAssertOutputHandlerProcPtrFunction =
+    void Function(
+      int componentSignature,
+      int options,
+      ffi.Pointer<ffi.Char> assertionString,
+      ffi.Pointer<ffi.Char> exceptionLabelString,
+      ffi.Pointer<ffi.Char> errorString,
+      ffi.Pointer<ffi.Char> fileName,
+      int lineNumber,
+      ffi.Pointer<ffi.Void> value,
+      ffi.Pointer<ffi.UnsignedChar> outputMsg,
+    );
+typedef DebugComponentCallbackProcPtrFunction =
+    ffi.Void Function(
+      ffi.Int optionSelectorNum,
+      ffi.UnsignedInt command,
+      ffi.Pointer<ffi.UnsignedChar> optionSetting,
+    );
+typedef DartDebugComponentCallbackProcPtrFunction =
+    void Function(
+      int optionSelectorNum,
+      int command,
+      ffi.Pointer<ffi.UnsignedChar> optionSetting,
+    );
+typedef DebuggerDisposeThreadProcPtrFunction =
+    ffi.Void Function(ffi.UnsignedLong threadDeleted);
+typedef DartDebuggerDisposeThreadProcPtrFunction =
+    void Function(int threadDeleted);
+typedef DebuggerNewThreadProcPtrFunction =
+    ffi.Void Function(ffi.UnsignedLong threadCreated);
+typedef DartDebuggerNewThreadProcPtrFunction = void Function(int threadCreated);
+typedef DebuggerThreadSchedulerProcPtrFunction =
+    ffi.UnsignedLong Function(ffi.Pointer<SchedulerInfoRec> schedulerInfo);
+typedef DartDebuggerThreadSchedulerProcPtrFunction =
+    int Function(ffi.Pointer<SchedulerInfoRec> schedulerInfo);
+typedef DeferredTaskProcPtrFunction = ffi.Void Function(ffi.Long dtParam);
+typedef DartDeferredTaskProcPtrFunction = void Function(int dtParam);
+typedef ExceptionHandlerProcPtrFunction =
+    ffi.Int Function(ffi.Pointer<ExceptionInformation> theException);
+typedef DartExceptionHandlerProcPtrFunction =
+    int Function(ffi.Pointer<ExceptionInformation> theException);
+
+final class ExceptionInfo extends ffi.Union {
+  external ffi.Pointer<MemoryExceptionInformation> memoryInfo;
+}
+
+final class ExceptionInformation extends ffi.Struct {
+  @ffi.UnsignedLong()
+  external int theKind;
+
+  external ffi.Pointer<MachineInformation> machineState;
+
+  external ffi.Pointer<RegisterInformation> registerImage;
+
+  external ffi.Pointer<FPUInformation> FPUImage;
+
+  external ExceptionInfo info;
+
+  external ffi.Pointer<VectorInformation> vectorImage;
+}
+
+typedef FNSubscriptionProcPtrFunction =
+    ffi.Void Function(
+      ffi.UnsignedInt message,
+      ffi.UnsignedInt flags,
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.Pointer<OpaqueFNSubscriptionRef> subscription,
+    );
+typedef DartFNSubscriptionProcPtrFunction =
+    void Function(
+      int message,
+      int flags,
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.Pointer<OpaqueFNSubscriptionRef> subscription,
+    );
+
+final class FPUInformation extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> __unusedFPUInformationField;
+
+  static ffi.Pointer<FPUInformation> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> $unusedFPUInformationField,
+  }) =>
+      $allocator<FPUInformation>()
+        ..ref.__unusedFPUInformationField = $unusedFPUInformationField;
+}
+
+typedef FSAliasFilterProcPtrFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<FSRef> ref,
+      ffi.Pointer<ffi.UnsignedChar> quitFlag,
+      ffi.Pointer<ffi.Char> myDataPtr,
+    );
+typedef DartFSAliasFilterProcPtrFunction =
+    int Function(
+      ffi.Pointer<FSRef> ref,
+      ffi.Pointer<ffi.UnsignedChar> quitFlag,
+      ffi.Pointer<ffi.Char> myDataPtr,
+    );
+typedef FSEventStreamCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<__FSEventStream> streamRef,
+      ffi.Pointer<ffi.Void> clientCallBackInfo,
+      ffi.Size numEvents,
+      ffi.Pointer<ffi.Void> eventPaths,
+      ffi.Pointer<ffi.UnsignedInt> eventFlags,
+      ffi.Pointer<ffi.UnsignedLongLong> eventIds,
+    );
+typedef DartFSEventStreamCallbackFunction =
+    void Function(
+      ffi.Pointer<__FSEventStream> streamRef,
+      ffi.Pointer<ffi.Void> clientCallBackInfo,
+      int numEvents,
+      ffi.Pointer<ffi.Void> eventPaths,
+      ffi.Pointer<ffi.UnsignedInt> eventFlags,
+      ffi.Pointer<ffi.UnsignedLongLong> eventIds,
+    );
+typedef FSFileOperationStatusProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<__FSFileOperation> fileOp,
+      ffi.Pointer<FSRef> currentItem,
+      ffi.UnsignedInt stage,
+      ffi.Int error,
+      ffi.Pointer<__CFDictionary> statusDictionary,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartFSFileOperationStatusProcPtrFunction =
+    void Function(
+      ffi.Pointer<__FSFileOperation> fileOp,
+      ffi.Pointer<FSRef> currentItem,
+      int stage,
+      int error,
+      ffi.Pointer<__CFDictionary> statusDictionary,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef FSPathFileOperationStatusProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<__FSFileOperation> fileOp,
+      ffi.Pointer<ffi.Char> currentItem,
+      ffi.UnsignedInt stage,
+      ffi.Int error,
+      ffi.Pointer<__CFDictionary> statusDictionary,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartFSPathFileOperationStatusProcPtrFunction =
+    void Function(
+      ffi.Pointer<__FSFileOperation> fileOp,
+      ffi.Pointer<ffi.Char> currentItem,
+      int stage,
+      int error,
+      ffi.Pointer<__CFDictionary> statusDictionary,
+      ffi.Pointer<ffi.Void> info,
+    );
+
+final class FSRef extends ffi.Struct {
+  @ffi.Array.multi([80])
+  external ffi.Array<ffi.UnsignedChar> hidden;
+}
+
+typedef FSVolumeEjectProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<OpaqueFSVolumeOperation> volumeOp,
+      ffi.Pointer<ffi.Void> clientData,
+      ffi.Int err,
+      ffi.Short volumeRefNum,
+      ffi.Int dissenter,
+    );
+typedef DartFSVolumeEjectProcPtrFunction =
+    void Function(
+      ffi.Pointer<OpaqueFSVolumeOperation> volumeOp,
+      ffi.Pointer<ffi.Void> clientData,
+      int err,
+      int volumeRefNum,
+      int dissenter,
+    );
+typedef FSVolumeMountProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<OpaqueFSVolumeOperation> volumeOp,
+      ffi.Pointer<ffi.Void> clientData,
+      ffi.Int err,
+      ffi.Short mountedVolumeRefNum,
+    );
+typedef DartFSVolumeMountProcPtrFunction =
+    void Function(
+      ffi.Pointer<OpaqueFSVolumeOperation> volumeOp,
+      ffi.Pointer<ffi.Void> clientData,
+      int err,
+      int mountedVolumeRefNum,
+    );
+typedef FSVolumeUnmountProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<OpaqueFSVolumeOperation> volumeOp,
+      ffi.Pointer<ffi.Void> clientData,
+      ffi.Int err,
+      ffi.Short volumeRefNum,
+      ffi.Int dissenter,
+    );
+typedef DartFSVolumeUnmountProcPtrFunction =
+    void Function(
+      ffi.Pointer<OpaqueFSVolumeOperation> volumeOp,
+      ffi.Pointer<ffi.Void> clientData,
+      int err,
+      int volumeRefNum,
+      int dissenter,
+    );
+typedef FolderManagerNotificationProcPtrFunction =
+    ffi.Int Function(
+      ffi.UnsignedInt message,
+      ffi.Pointer<ffi.Void> arg,
+      ffi.Pointer<ffi.Void> userRefCon,
+    );
+typedef DartFolderManagerNotificationProcPtrFunction =
+    int Function(
+      int message,
+      ffi.Pointer<ffi.Void> arg,
+      ffi.Pointer<ffi.Void> userRefCon,
+    );
+typedef GetMissingComponentResourceProcPtrFunction =
+    ffi.Short Function(
+      ffi.Pointer<ComponentRecord> c,
+      ffi.UnsignedInt resType,
+      ffi.Short resID,
+      ffi.Pointer<ffi.Void> refCon,
+      ffi.Pointer<ffi.Pointer<ffi.Pointer<ffi.Char>>> resource,
+    );
+typedef DartGetMissingComponentResourceProcPtrFunction =
+    int Function(
+      ffi.Pointer<ComponentRecord> c,
+      int resType,
+      int resID,
+      ffi.Pointer<ffi.Void> refCon,
+      ffi.Pointer<ffi.Pointer<ffi.Pointer<ffi.Char>>> resource,
+    );
+typedef IMPFunction = ffi.Void Function();
+typedef DartIMPFunction = void Function();
+typedef IOAsyncCallback0Function =
+    ffi.Void Function(ffi.Pointer<ffi.Void> refcon, ffi.Int result);
+typedef DartIOAsyncCallback0Function =
+    void Function(ffi.Pointer<ffi.Void> refcon, int result);
+typedef IOAsyncCallback1Function =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.Int result,
+      ffi.Pointer<ffi.Void> arg0,
+    );
+typedef DartIOAsyncCallback1Function =
+    void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      int result,
+      ffi.Pointer<ffi.Void> arg0,
+    );
+typedef IOAsyncCallback2Function =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.Int result,
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<ffi.Void> arg1,
+    );
+typedef DartIOAsyncCallback2Function =
+    void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      int result,
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<ffi.Void> arg1,
+    );
+typedef IOAsyncCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.Int result,
+      ffi.Pointer<ffi.Pointer<ffi.Void>> args,
+      ffi.Uint32 numArgs,
+    );
+typedef DartIOAsyncCallbackFunction =
+    void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      int result,
+      ffi.Pointer<ffi.Pointer<ffi.Void>> args,
+      int numArgs,
+    );
+typedef IOCompletionProcPtrFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> paramBlock);
+typedef DartIOCompletionProcPtrFunction =
+    void Function(ffi.Pointer<ffi.Void> paramBlock);
+typedef IOServiceInterestCallbackFunction =
+    ffi.Void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.UnsignedInt service,
+      ffi.Uint32 messageType,
+      ffi.Pointer<ffi.Void> messageArgument,
+    );
+typedef DartIOServiceInterestCallbackFunction =
+    void Function(
+      ffi.Pointer<ffi.Void> refcon,
+      int service,
+      int messageType,
+      ffi.Pointer<ffi.Void> messageArgument,
+    );
+typedef IOServiceMatchingCallbackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> refcon, ffi.UnsignedInt iterator);
+typedef DartIOServiceMatchingCallbackFunction =
+    void Function(ffi.Pointer<ffi.Void> refcon, int iterator);
+typedef IndexToUCStringProcPtrFunction =
+    ffi.UnsignedChar Function(
+      ffi.UnsignedInt index,
+      ffi.Pointer<ffi.Void> listDataPtr,
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.Pointer<ffi.Pointer<objc.CFString>> outString,
+      ffi.Pointer<ffi.UnsignedShort> tsOptions,
+    );
+typedef DartIndexToUCStringProcPtrFunction =
+    int Function(
+      int index,
+      ffi.Pointer<ffi.Void> listDataPtr,
+      ffi.Pointer<ffi.Void> refcon,
+      ffi.Pointer<ffi.Pointer<objc.CFString>> outString,
+      ffi.Pointer<ffi.UnsignedShort> tsOptions,
+    );
+
+@ffi.Packed(2)
+final class KCCallbackInfo extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int version;
+
+  external ffi.Pointer<__SecKeychainItem> item;
+
+  @ffi.Array.multi([2])
+  external ffi.Array<ffi.Int> processID;
+
+  @ffi.Array.multi([4])
+  external ffi.Array<ffi.Int> event;
+
+  external ffi.Pointer<__SecKeychain> keychain;
+}
+
+typedef KCCallbackProcPtrFunction =
+    ffi.Int Function(
+      ffi.UnsignedShort keychainEvent,
+      ffi.Pointer<KCCallbackInfo> info,
+      ffi.Pointer<ffi.Void> userContext,
+    );
+typedef DartKCCallbackProcPtrFunction =
+    int Function(
+      int keychainEvent,
+      ffi.Pointer<KCCallbackInfo> info,
+      ffi.Pointer<ffi.Void> userContext,
+    );
+typedef LSSharedFileListChangedProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<OpaqueLSSharedFileListRef> inList,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartLSSharedFileListChangedProcPtrFunction =
+    void Function(
+      ffi.Pointer<OpaqueLSSharedFileListRef> inList,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef MDQueryCreateResultFunctionFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__MDQuery> query,
+      ffi.Pointer<__MDItem> item,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef MDQueryCreateValueFunctionFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<__MDQuery> query,
+      ffi.Pointer<objc.CFString> attrName,
+      ffi.Pointer<ffi.Void> attrValue,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef MDQuerySortComparatorFunctionFunction =
+    ffi.Long Function(
+      ffi.Pointer<ffi.Pointer<ffi.Void>> attrs1,
+      ffi.Pointer<ffi.Pointer<ffi.Void>> attrs2,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartMDQuerySortComparatorFunctionFunction =
+    CFComparisonResult Function(
+      ffi.Pointer<ffi.Pointer<ffi.Void>> attrs1,
+      ffi.Pointer<ffi.Pointer<ffi.Void>> attrs2,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef MPIsFullyInitializedProcFunction = ffi.UnsignedChar Function();
+typedef DartMPIsFullyInitializedProcFunction = int Function();
+typedef MPRemoteProcedureFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> parameter);
+
+final class MachineInformation extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> __unusedMachineInformationField;
+
+  static ffi.Pointer<MachineInformation> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> $unusedMachineInformationField,
+  }) =>
+      $allocator<MachineInformation>()
+        ..ref.__unusedMachineInformationField = $unusedMachineInformationField;
+}
+
+final class MemoryExceptionInformation extends ffi.Struct {
+  external ffi.Pointer<OpaqueAreaID> theArea;
+
+  external ffi.Pointer<ffi.Void> theAddress;
+
+  @ffi.Int()
+  external int theError;
+
+  @ffi.UnsignedLong()
+  external int theReference;
+
+  static ffi.Pointer<MemoryExceptionInformation> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<OpaqueAreaID> theArea,
+    required ffi.Pointer<ffi.Void> theAddress,
+    required int theError,
+    required int theReference,
+  }) => $allocator<MemoryExceptionInformation>()
+    ..ref.theArea = theArea
+    ..ref.theAddress = theAddress
+    ..ref.theError = theError
+    ..ref.theReference = theReference;
+}
+
 /// MySwiftClass
 extension type MySwiftClass._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject, MySwiftProtocol {
@@ -192,6 +1647,177 @@ interface class MySwiftProtocol$Builder {
 
 typedef NSInteger = ffi.Long;
 typedef DartNSInteger = int;
+typedef OSLAccessorProcPtrFunction =
+    ffi.Short Function(
+      ffi.UnsignedInt desiredClass,
+      ffi.Pointer<objc.AEDesc> container,
+      ffi.UnsignedInt containerClass,
+      ffi.UnsignedInt form,
+      ffi.Pointer<objc.AEDesc> selectionData,
+      ffi.Pointer<objc.AEDesc> value,
+      ffi.Pointer<ffi.Void> accessorRefcon,
+    );
+typedef DartOSLAccessorProcPtrFunction =
+    int Function(
+      int desiredClass,
+      ffi.Pointer<objc.AEDesc> container,
+      int containerClass,
+      int form,
+      ffi.Pointer<objc.AEDesc> selectionData,
+      ffi.Pointer<objc.AEDesc> value,
+      ffi.Pointer<ffi.Void> accessorRefcon,
+    );
+typedef OSLAdjustMarksProcPtrFunction =
+    ffi.Short Function(
+      ffi.Long newStart,
+      ffi.Long newStop,
+      ffi.Pointer<objc.AEDesc> markToken,
+    );
+typedef DartOSLAdjustMarksProcPtrFunction =
+    int Function(int newStart, int newStop, ffi.Pointer<objc.AEDesc> markToken);
+typedef OSLCompareProcPtrFunction =
+    ffi.Short Function(
+      ffi.UnsignedInt oper,
+      ffi.Pointer<objc.AEDesc> obj1,
+      ffi.Pointer<objc.AEDesc> obj2,
+      ffi.Pointer<ffi.UnsignedChar> result,
+    );
+typedef DartOSLCompareProcPtrFunction =
+    int Function(
+      int oper,
+      ffi.Pointer<objc.AEDesc> obj1,
+      ffi.Pointer<objc.AEDesc> obj2,
+      ffi.Pointer<ffi.UnsignedChar> result,
+    );
+typedef OSLCountProcPtrFunction =
+    ffi.Short Function(
+      ffi.UnsignedInt desiredType,
+      ffi.UnsignedInt containerClass,
+      ffi.Pointer<objc.AEDesc> container,
+      ffi.Pointer<ffi.Long> result,
+    );
+typedef DartOSLCountProcPtrFunction =
+    int Function(
+      int desiredType,
+      int containerClass,
+      ffi.Pointer<objc.AEDesc> container,
+      ffi.Pointer<ffi.Long> result,
+    );
+typedef OSLDisposeTokenProcPtrFunction =
+    ffi.Short Function(ffi.Pointer<objc.AEDesc> unneededToken);
+typedef DartOSLDisposeTokenProcPtrFunction =
+    int Function(ffi.Pointer<objc.AEDesc> unneededToken);
+typedef OSLGetErrDescProcPtrFunction =
+    ffi.Short Function(ffi.Pointer<ffi.Pointer<objc.AEDesc>> appDescPtr);
+typedef DartOSLGetErrDescProcPtrFunction =
+    int Function(ffi.Pointer<ffi.Pointer<objc.AEDesc>> appDescPtr);
+typedef OSLGetMarkTokenProcPtrFunction =
+    ffi.Short Function(
+      ffi.Pointer<objc.AEDesc> dContainerToken,
+      ffi.UnsignedInt containerClass,
+      ffi.Pointer<objc.AEDesc> result,
+    );
+typedef DartOSLGetMarkTokenProcPtrFunction =
+    int Function(
+      ffi.Pointer<objc.AEDesc> dContainerToken,
+      int containerClass,
+      ffi.Pointer<objc.AEDesc> result,
+    );
+typedef OSLMarkProcPtrFunction =
+    ffi.Short Function(
+      ffi.Pointer<objc.AEDesc> dToken,
+      ffi.Pointer<objc.AEDesc> markToken,
+      ffi.Long index,
+    );
+typedef DartOSLMarkProcPtrFunction =
+    int Function(
+      ffi.Pointer<objc.AEDesc> dToken,
+      ffi.Pointer<objc.AEDesc> markToken,
+      int index,
+    );
+
+/// Construction methods for `objc.ObjCBlock<ffi.Pointer<__CFError> Function()>`.
+abstract final class ObjCBlock_CFErrorRef {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Pointer<__CFError> Function()> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Pointer<__CFError> Function()>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Pointer<__CFError> Function()> fromFunctionPointer(
+    ffi.Pointer<ffi.NativeFunction<ffi.Pointer<__CFError> Function()>> ptr,
+  ) => objc.ObjCBlock<ffi.Pointer<__CFError> Function()>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Pointer<__CFError> Function()> fromFunction(
+    ffi.Pointer<__CFError> Function() fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Pointer<__CFError> Function()>(
+    objc.newClosureBlock(_closureCallable, () {
+      return fn();
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  static ffi.Pointer<__CFError> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+  ) => block.ref.target
+      .cast<ffi.NativeFunction<ffi.Pointer<__CFError> Function()>>()
+      .asFunction<ffi.Pointer<__CFError> Function()>()();
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<__CFError> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<__CFError> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+  ) => (objc.getBlockClosure(block) as ffi.Pointer<__CFError> Function())();
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<__CFError> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Pointer<__CFError> Function()>`.
+extension ObjCBlock_CFErrorRef$CallExtension
+    on objc.ObjCBlock<ffi.Pointer<__CFError> Function()> {
+  ffi.Pointer<__CFError> call() {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Pointer<__CFError> Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+            )
+          >
+        >()
+        .asFunction<
+          ffi.Pointer<__CFError> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+        >()(ref.pointer);
+  }
+}
 
 /// Construction methods for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_NSInteger_ffiVoid {
@@ -293,6 +1919,1089 @@ extension ObjCBlock_NSInteger_ffiVoid$CallExtension
   }
 }
 
+final class OpaqueAreaID extends ffi.Opaque {}
+
+final class OpaqueCollection extends ffi.Opaque {}
+
+final class OpaqueFNSubscriptionRef extends ffi.Opaque {}
+
+final class OpaqueFSVolumeOperation extends ffi.Opaque {}
+
+final class OpaqueLSSharedFileListRef extends ffi.Opaque {}
+
+final class OpaqueSecTransformImplementation extends ffi.Opaque {}
+
+final class OpaqueTECObjectRef extends ffi.Opaque {}
+
+final class OpaqueTECSnifferObjectRef extends ffi.Opaque {}
+
+final class OpaqueWSMethodInvocationRef extends ffi.Opaque {}
+
+final class OpaqueWSProtocolHandlerRef extends ffi.Opaque {}
+
+typedef ProcPtrFunction = ffi.Long Function();
+typedef DartProcPtrFunction = int Function();
+
+@ffi.Packed(2)
+final class QElem extends ffi.Struct {
+  external ffi.Pointer<QElem> qLink;
+
+  @ffi.Short()
+  external int qType;
+
+  @ffi.Array.multi([1])
+  external ffi.Array<ffi.Short> qData;
+}
+
+typedef Register68kProcPtrFunction = ffi.Void Function();
+typedef DartRegister68kProcPtrFunction = void Function();
+
+final class RegisterInformation extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> __unusedRegisterInformationField;
+
+  static ffi.Pointer<RegisterInformation> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> $unusedRegisterInformationField,
+  }) => $allocator<RegisterInformation>()
+    ..ref.__unusedRegisterInformationField = $unusedRegisterInformationField;
+}
+
+typedef ResErrProcPtrFunction = ffi.Void Function(ffi.Short thErr);
+typedef DartResErrProcPtrFunction = void Function(int thErr);
+typedef ResourceEndianFilterPtrFunction =
+    ffi.Short Function(
+      ffi.Pointer<ffi.Pointer<ffi.Char>> theResource,
+      ffi.UnsignedChar currentlyNativeEndian,
+    );
+typedef DartResourceEndianFilterPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.Pointer<ffi.Char>> theResource,
+      int currentlyNativeEndian,
+    );
+typedef SKSearchResultsFilterCallBackFunction =
+    ffi.UnsignedChar Function(
+      ffi.Pointer<__SKIndex> inIndex,
+      ffi.Pointer<ffi.Void> inDocument,
+      ffi.Pointer<ffi.Void> inContext,
+    );
+typedef DartSKSearchResultsFilterCallBackFunction =
+    int Function(
+      ffi.Pointer<__SKIndex> inIndex,
+      ffi.Pointer<ffi.Void> inDocument,
+      ffi.Pointer<ffi.Void> inContext,
+    );
+typedef SSLReadFuncFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.Void> connection,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Size> dataLength,
+    );
+typedef DartSSLReadFuncFunction =
+    int Function(
+      ffi.Pointer<ffi.Void> connection,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Size> dataLength,
+    );
+typedef SSLWriteFuncFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.Void> connection,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Size> dataLength,
+    );
+typedef DartSSLWriteFuncFunction =
+    int Function(
+      ffi.Pointer<ffi.Void> connection,
+      ffi.Pointer<ffi.Void> data,
+      ffi.Pointer<ffi.Size> dataLength,
+    );
+
+@ffi.Packed(2)
+final class SchedulerInfoRec extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int InfoRecSize;
+
+  @ffi.UnsignedLong()
+  external int CurrentThreadID;
+
+  @ffi.UnsignedLong()
+  external int SuggestedThreadID;
+
+  @ffi.UnsignedLong()
+  external int InterruptedCoopThreadID;
+
+  static ffi.Pointer<SchedulerInfoRec> $allocate(
+    ffi.Allocator $allocator, {
+    required int InfoRecSize,
+    required int CurrentThreadID,
+    required int SuggestedThreadID,
+    required int InterruptedCoopThreadID,
+  }) => $allocator<SchedulerInfoRec>()
+    ..ref.InfoRecSize = InfoRecSize
+    ..ref.CurrentThreadID = CurrentThreadID
+    ..ref.SuggestedThreadID = SuggestedThreadID
+    ..ref.InterruptedCoopThreadID = InterruptedCoopThreadID;
+}
+
+typedef SecKeychainCallbackFunction =
+    ffi.Int Function(
+      ffi.UnsignedInt keychainEvent,
+      ffi.Pointer<SecKeychainCallbackInfo> info,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartSecKeychainCallbackFunction =
+    int Function(
+      SecKeychainEvent keychainEvent,
+      ffi.Pointer<SecKeychainCallbackInfo> info,
+      ffi.Pointer<ffi.Void> context,
+    );
+
+final class SecKeychainCallbackInfo extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int version;
+
+  external ffi.Pointer<__SecKeychainItem> item;
+
+  external ffi.Pointer<__SecKeychain> keychain;
+
+  @ffi.Int()
+  external int pid;
+
+  static ffi.Pointer<SecKeychainCallbackInfo> $allocate(
+    ffi.Allocator $allocator, {
+    required int version,
+    required ffi.Pointer<__SecKeychainItem> item,
+    required ffi.Pointer<__SecKeychain> keychain,
+    required int pid,
+  }) => $allocator<SecKeychainCallbackInfo>()
+    ..ref.version = version
+    ..ref.item = item
+    ..ref.keychain = keychain
+    ..ref.pid = pid;
+}
+
+enum SecKeychainEvent {
+  kSecLockEvent(1),
+  kSecUnlockEvent(2),
+  kSecAddEvent(3),
+  kSecDeleteEvent(4),
+  kSecUpdateEvent(5),
+  kSecPasswordChangedEvent(6),
+  kSecDefaultChangedEvent(9),
+  kSecDataAccessEvent(10),
+  kSecKeychainListChangedEvent(11),
+  kSecTrustSettingsChangedEvent(12);
+
+  final int value;
+  const SecKeychainEvent(this.value);
+
+  static SecKeychainEvent fromValue(int value) => switch (value) {
+    1 => kSecLockEvent,
+    2 => kSecUnlockEvent,
+    3 => kSecAddEvent,
+    4 => kSecDeleteEvent,
+    5 => kSecUpdateEvent,
+    6 => kSecPasswordChangedEvent,
+    9 => kSecDefaultChangedEvent,
+    10 => kSecDataAccessEvent,
+    11 => kSecKeychainListChangedEvent,
+    12 => kSecTrustSettingsChangedEvent,
+    _ => throw ArgumentError('Unknown value for SecKeychainEvent: $value'),
+  };
+}
+
+typedef SecTransformCreateFPFunction =
+    ffi.Pointer<objc.ObjCBlockImpl> Function(
+      ffi.Pointer<objc.CFString> name,
+      ffi.Pointer<ffi.Void> newTransform,
+      ffi.Pointer<OpaqueSecTransformImplementation> ref,
+    );
+typedef DartSecTransformCreateFPFunction =
+    objc.ObjCBlock<ffi.Pointer<__CFError> Function()> Function(
+      ffi.Pointer<objc.CFString> name,
+      ffi.Pointer<ffi.Void> newTransform,
+      ffi.Pointer<OpaqueSecTransformImplementation> ref,
+    );
+typedef SelectorFunctionProcPtrFunction =
+    ffi.Short Function(ffi.UnsignedInt selector, ffi.Pointer<ffi.Int> response);
+typedef DartSelectorFunctionProcPtrFunction =
+    int Function(int selector, ffi.Pointer<ffi.Int> response);
+typedef SleepQProcPtrFunction =
+    ffi.Long Function(ffi.Long message, ffi.Pointer<SleepQRec> qRecPtr);
+typedef DartSleepQProcPtrFunction =
+    int Function(int message, ffi.Pointer<SleepQRec> qRecPtr);
+
+@ffi.Packed(2)
+final class SleepQRec extends ffi.Struct {
+  external ffi.Pointer<SleepQRec> sleepQLink;
+
+  @ffi.Short()
+  external int sleepQType;
+
+  external ffi.Pointer<ffi.NativeFunction<SleepQProcPtrFunction>> sleepQProc;
+
+  @ffi.Short()
+  external int sleepQFlags;
+
+  static ffi.Pointer<SleepQRec> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<SleepQRec> sleepQLink,
+    required int sleepQType,
+    required ffi.Pointer<ffi.NativeFunction<SleepQProcPtrFunction>> sleepQProc,
+    required int sleepQFlags,
+  }) => $allocator<SleepQRec>()
+    ..ref.sleepQLink = sleepQLink
+    ..ref.sleepQType = sleepQType
+    ..ref.sleepQProc = sleepQProc
+    ..ref.sleepQFlags = sleepQFlags;
+}
+
+final class TECBufferContextRec extends ffi.Struct {
+  external ffi.Pointer<ffi.UnsignedChar> textInputBuffer;
+
+  external ffi.Pointer<ffi.UnsignedChar> textInputBufferEnd;
+
+  external ffi.Pointer<ffi.UnsignedChar> textOutputBuffer;
+
+  external ffi.Pointer<ffi.UnsignedChar> textOutputBufferEnd;
+
+  external ffi.Pointer<TextEncodingRun> encodingInputBuffer;
+
+  external ffi.Pointer<TextEncodingRun> encodingInputBufferEnd;
+
+  external ffi.Pointer<TextEncodingRun> encodingOutputBuffer;
+
+  external ffi.Pointer<TextEncodingRun> encodingOutputBufferEnd;
+
+  static ffi.Pointer<TECBufferContextRec> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.UnsignedChar> textInputBuffer,
+    required ffi.Pointer<ffi.UnsignedChar> textInputBufferEnd,
+    required ffi.Pointer<ffi.UnsignedChar> textOutputBuffer,
+    required ffi.Pointer<ffi.UnsignedChar> textOutputBufferEnd,
+    required ffi.Pointer<TextEncodingRun> encodingInputBuffer,
+    required ffi.Pointer<TextEncodingRun> encodingInputBufferEnd,
+    required ffi.Pointer<TextEncodingRun> encodingOutputBuffer,
+    required ffi.Pointer<TextEncodingRun> encodingOutputBufferEnd,
+  }) => $allocator<TECBufferContextRec>()
+    ..ref.textInputBuffer = textInputBuffer
+    ..ref.textInputBufferEnd = textInputBufferEnd
+    ..ref.textOutputBuffer = textOutputBuffer
+    ..ref.textOutputBufferEnd = textOutputBufferEnd
+    ..ref.encodingInputBuffer = encodingInputBuffer
+    ..ref.encodingInputBufferEnd = encodingInputBufferEnd
+    ..ref.encodingOutputBuffer = encodingOutputBuffer
+    ..ref.encodingOutputBufferEnd = encodingOutputBufferEnd;
+}
+
+@ffi.Packed(2)
+final class TECConversionInfo extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int sourceEncoding;
+
+  @ffi.UnsignedInt()
+  external int destinationEncoding;
+
+  @ffi.UnsignedShort()
+  external int reserved1;
+
+  @ffi.UnsignedShort()
+  external int reserved2;
+
+  static ffi.Pointer<TECConversionInfo> $allocate(
+    ffi.Allocator $allocator, {
+    required int sourceEncoding,
+    required int destinationEncoding,
+    required int reserved1,
+    required int reserved2,
+  }) => $allocator<TECConversionInfo>()
+    ..ref.sourceEncoding = sourceEncoding
+    ..ref.destinationEncoding = destinationEncoding
+    ..ref.reserved1 = reserved1
+    ..ref.reserved2 = reserved2;
+}
+
+final class TECConverterContextRec extends ffi.Struct {
+  external ffi.Pointer<ffi.Char> pluginRec;
+
+  @ffi.UnsignedInt()
+  external int sourceEncoding;
+
+  @ffi.UnsignedInt()
+  external int destEncoding;
+
+  @ffi.UnsignedInt()
+  external int reserved1;
+
+  @ffi.UnsignedInt()
+  external int reserved2;
+
+  external TECBufferContextRec bufferContext;
+
+  external ffi.Pointer<ffi.Void> contextRefCon;
+
+  external ffi.Pointer<ffi.NativeFunction<ProcPtrFunction>> conversionProc;
+
+  external ffi.Pointer<ffi.NativeFunction<ProcPtrFunction>> flushProc;
+
+  external ffi.Pointer<ffi.NativeFunction<ProcPtrFunction>>
+  clearContextInfoProc;
+
+  @ffi.UnsignedInt()
+  external int options1;
+
+  @ffi.UnsignedInt()
+  external int options2;
+
+  external TECPluginStateRec pluginState;
+}
+
+typedef TECPluginClearContextInfoPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<OpaqueTECObjectRef> encodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+typedef DartTECPluginClearContextInfoPtrFunction =
+    int Function(
+      ffi.Pointer<OpaqueTECObjectRef> encodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+typedef TECPluginClearSnifferContextInfoPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<OpaqueTECSnifferObjectRef> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+    );
+typedef DartTECPluginClearSnifferContextInfoPtrFunction =
+    int Function(
+      ffi.Pointer<OpaqueTECSnifferObjectRef> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+    );
+typedef TECPluginConvertTextEncodingPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<OpaqueTECObjectRef> encodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+typedef DartTECPluginConvertTextEncodingPtrFunction =
+    int Function(
+      ffi.Pointer<OpaqueTECObjectRef> encodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+
+final class TECPluginDispatchTable extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int version;
+
+  @ffi.UnsignedInt()
+  external int compatibleVersion;
+
+  @ffi.UnsignedInt()
+  external int PluginID;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginNewEncodingConverterPtrFunction>
+  >
+  PluginNewEncodingConverter;
+
+  external ffi.Pointer<ffi.NativeFunction<TECPluginClearContextInfoPtrFunction>>
+  PluginClearContextInfo;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginConvertTextEncodingPtrFunction>
+  >
+  PluginConvertTextEncoding;
+
+  external ffi.Pointer<ffi.NativeFunction<TECPluginFlushConversionPtrFunction>>
+  PluginFlushConversion;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginDisposeEncodingConverterPtrFunction>
+  >
+  PluginDisposeEncodingConverter;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginNewEncodingSnifferPtrFunction>
+  >
+  PluginNewEncodingSniffer;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginClearSnifferContextInfoPtrFunction>
+  >
+  PluginClearSnifferContextInfo;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginSniffTextEncodingPtrFunction>
+  >
+  PluginSniffTextEncoding;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginDisposeEncodingSnifferPtrFunction>
+  >
+  PluginDisposeEncodingSniffer;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetCountAvailableTextEncodingsPtrFunction>
+  >
+  PluginGetCountAvailableTextEncodings;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetCountAvailableTextEncodingPairsPtrFunction>
+  >
+  PluginGetCountAvailableTextEncodingPairs;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetCountDestinationTextEncodingsPtrFunction>
+  >
+  PluginGetCountDestinationTextEncodings;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetCountSubTextEncodingsPtrFunction>
+  >
+  PluginGetCountSubTextEncodings;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetCountAvailableSniffersPtrFunction>
+  >
+  PluginGetCountAvailableSniffers;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetCountWebEncodingsPtrFunction>
+  >
+  PluginGetCountWebTextEncodings;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetCountMailEncodingsPtrFunction>
+  >
+  PluginGetCountMailTextEncodings;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetTextEncodingInternetNamePtrFunction>
+  >
+  PluginGetTextEncodingInternetName;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<TECPluginGetTextEncodingFromInternetNamePtrFunction>
+  >
+  PluginGetTextEncodingFromInternetName;
+
+  static ffi.Pointer<TECPluginDispatchTable> $allocate(
+    ffi.Allocator $allocator, {
+    required int version,
+    required int compatibleVersion,
+    required int PluginID,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginNewEncodingConverterPtrFunction>
+    >
+    PluginNewEncodingConverter,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginClearContextInfoPtrFunction>
+    >
+    PluginClearContextInfo,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginConvertTextEncodingPtrFunction>
+    >
+    PluginConvertTextEncoding,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginFlushConversionPtrFunction>
+    >
+    PluginFlushConversion,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginDisposeEncodingConverterPtrFunction>
+    >
+    PluginDisposeEncodingConverter,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginNewEncodingSnifferPtrFunction>
+    >
+    PluginNewEncodingSniffer,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginClearSnifferContextInfoPtrFunction>
+    >
+    PluginClearSnifferContextInfo,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginSniffTextEncodingPtrFunction>
+    >
+    PluginSniffTextEncoding,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginDisposeEncodingSnifferPtrFunction>
+    >
+    PluginDisposeEncodingSniffer,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetCountAvailableTextEncodingsPtrFunction>
+    >
+    PluginGetCountAvailableTextEncodings,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetCountAvailableTextEncodingPairsPtrFunction>
+    >
+    PluginGetCountAvailableTextEncodingPairs,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetCountDestinationTextEncodingsPtrFunction>
+    >
+    PluginGetCountDestinationTextEncodings,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetCountSubTextEncodingsPtrFunction>
+    >
+    PluginGetCountSubTextEncodings,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetCountAvailableSniffersPtrFunction>
+    >
+    PluginGetCountAvailableSniffers,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetCountWebEncodingsPtrFunction>
+    >
+    PluginGetCountWebTextEncodings,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetCountMailEncodingsPtrFunction>
+    >
+    PluginGetCountMailTextEncodings,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetTextEncodingInternetNamePtrFunction>
+    >
+    PluginGetTextEncodingInternetName,
+    required ffi.Pointer<
+      ffi.NativeFunction<TECPluginGetTextEncodingFromInternetNamePtrFunction>
+    >
+    PluginGetTextEncodingFromInternetName,
+  }) => $allocator<TECPluginDispatchTable>()
+    ..ref.version = version
+    ..ref.compatibleVersion = compatibleVersion
+    ..ref.PluginID = PluginID
+    ..ref.PluginNewEncodingConverter = PluginNewEncodingConverter
+    ..ref.PluginClearContextInfo = PluginClearContextInfo
+    ..ref.PluginConvertTextEncoding = PluginConvertTextEncoding
+    ..ref.PluginFlushConversion = PluginFlushConversion
+    ..ref.PluginDisposeEncodingConverter = PluginDisposeEncodingConverter
+    ..ref.PluginNewEncodingSniffer = PluginNewEncodingSniffer
+    ..ref.PluginClearSnifferContextInfo = PluginClearSnifferContextInfo
+    ..ref.PluginSniffTextEncoding = PluginSniffTextEncoding
+    ..ref.PluginDisposeEncodingSniffer = PluginDisposeEncodingSniffer
+    ..ref.PluginGetCountAvailableTextEncodings =
+        PluginGetCountAvailableTextEncodings
+    ..ref.PluginGetCountAvailableTextEncodingPairs =
+        PluginGetCountAvailableTextEncodingPairs
+    ..ref.PluginGetCountDestinationTextEncodings =
+        PluginGetCountDestinationTextEncodings
+    ..ref.PluginGetCountSubTextEncodings = PluginGetCountSubTextEncodings
+    ..ref.PluginGetCountAvailableSniffers = PluginGetCountAvailableSniffers
+    ..ref.PluginGetCountWebTextEncodings = PluginGetCountWebTextEncodings
+    ..ref.PluginGetCountMailTextEncodings = PluginGetCountMailTextEncodings
+    ..ref.PluginGetTextEncodingInternetName = PluginGetTextEncodingInternetName
+    ..ref.PluginGetTextEncodingFromInternetName =
+        PluginGetTextEncodingFromInternetName;
+}
+
+typedef TECPluginDisposeEncodingConverterPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<OpaqueTECObjectRef> newEncodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+typedef DartTECPluginDisposeEncodingConverterPtrFunction =
+    int Function(
+      ffi.Pointer<OpaqueTECObjectRef> newEncodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+typedef TECPluginDisposeEncodingSnifferPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<OpaqueTECSnifferObjectRef> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+    );
+typedef DartTECPluginDisposeEncodingSnifferPtrFunction =
+    int Function(
+      ffi.Pointer<OpaqueTECSnifferObjectRef> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+    );
+typedef TECPluginFlushConversionPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<OpaqueTECObjectRef> encodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+typedef DartTECPluginFlushConversionPtrFunction =
+    int Function(
+      ffi.Pointer<OpaqueTECObjectRef> encodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+    );
+typedef TECPluginGetCountAvailableSniffersPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      ffi.UnsignedLong maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef DartTECPluginGetCountAvailableSniffersPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      int maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef TECPluginGetCountAvailableTextEncodingPairsPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<TECConversionInfo> availableEncodings,
+      ffi.UnsignedLong maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef DartTECPluginGetCountAvailableTextEncodingPairsPtrFunction =
+    int Function(
+      ffi.Pointer<TECConversionInfo> availableEncodings,
+      int maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef TECPluginGetCountAvailableTextEncodingsPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      ffi.UnsignedLong maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef DartTECPluginGetCountAvailableTextEncodingsPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      int maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef TECPluginGetCountDestinationTextEncodingsPtrFunction =
+    ffi.Int Function(
+      ffi.UnsignedInt inputEncoding,
+      ffi.Pointer<ffi.UnsignedInt> destinationEncodings,
+      ffi.UnsignedLong maxDestinationEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualDestinationEncodings,
+    );
+typedef DartTECPluginGetCountDestinationTextEncodingsPtrFunction =
+    int Function(
+      int inputEncoding,
+      ffi.Pointer<ffi.UnsignedInt> destinationEncodings,
+      int maxDestinationEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualDestinationEncodings,
+    );
+typedef TECPluginGetCountMailEncodingsPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      ffi.UnsignedLong maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef DartTECPluginGetCountMailEncodingsPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      int maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef TECPluginGetCountSubTextEncodingsPtrFunction =
+    ffi.Int Function(
+      ffi.UnsignedInt inputEncoding,
+      ffi.Pointer<ffi.UnsignedInt> subEncodings,
+      ffi.UnsignedLong maxSubEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualSubEncodings,
+    );
+typedef DartTECPluginGetCountSubTextEncodingsPtrFunction =
+    int Function(
+      int inputEncoding,
+      ffi.Pointer<ffi.UnsignedInt> subEncodings,
+      int maxSubEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualSubEncodings,
+    );
+typedef TECPluginGetCountWebEncodingsPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      ffi.UnsignedLong maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef DartTECPluginGetCountWebEncodingsPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.UnsignedInt> availableEncodings,
+      int maxAvailableEncodings,
+      ffi.Pointer<ffi.UnsignedLong> actualAvailableEncodings,
+    );
+typedef TECPluginGetPluginDispatchTablePtrFunction =
+    ffi.Pointer<TECPluginDispatchTable> Function();
+typedef TECPluginGetTextEncodingFromInternetNamePtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.UnsignedInt> textEncoding,
+      ffi.Pointer<ffi.UnsignedChar> encodingName,
+    );
+typedef DartTECPluginGetTextEncodingFromInternetNamePtrFunction =
+    int Function(
+      ffi.Pointer<ffi.UnsignedInt> textEncoding,
+      ffi.Pointer<ffi.UnsignedChar> encodingName,
+    );
+typedef TECPluginGetTextEncodingInternetNamePtrFunction =
+    ffi.Int Function(
+      ffi.UnsignedInt textEncoding,
+      ffi.Pointer<ffi.UnsignedChar> encodingName,
+    );
+typedef DartTECPluginGetTextEncodingInternetNamePtrFunction =
+    int Function(int textEncoding, ffi.Pointer<ffi.UnsignedChar> encodingName);
+typedef TECPluginNewEncodingConverterPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.Pointer<OpaqueTECObjectRef>> newEncodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+      ffi.UnsignedInt inputEncoding,
+      ffi.UnsignedInt outputEncoding,
+    );
+typedef DartTECPluginNewEncodingConverterPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.Pointer<OpaqueTECObjectRef>> newEncodingConverter,
+      ffi.Pointer<TECConverterContextRec> plugContext,
+      int inputEncoding,
+      int outputEncoding,
+    );
+typedef TECPluginNewEncodingSnifferPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.Pointer<OpaqueTECSnifferObjectRef>> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+      ffi.UnsignedInt inputEncoding,
+    );
+typedef DartTECPluginNewEncodingSnifferPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.Pointer<OpaqueTECSnifferObjectRef>> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+      int inputEncoding,
+    );
+typedef TECPluginSniffTextEncodingPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<OpaqueTECSnifferObjectRef> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+    );
+typedef DartTECPluginSniffTextEncodingPtrFunction =
+    int Function(
+      ffi.Pointer<OpaqueTECSnifferObjectRef> encodingSniffer,
+      ffi.Pointer<TECSnifferContextRec> snifContext,
+    );
+
+final class TECPluginStateRec extends ffi.Struct {
+  @ffi.UnsignedChar()
+  external int state1;
+
+  @ffi.UnsignedChar()
+  external int state2;
+
+  @ffi.UnsignedChar()
+  external int state3;
+
+  @ffi.UnsignedChar()
+  external int state4;
+
+  @ffi.UnsignedInt()
+  external int longState1;
+
+  @ffi.UnsignedInt()
+  external int longState2;
+
+  @ffi.UnsignedInt()
+  external int longState3;
+
+  @ffi.UnsignedInt()
+  external int longState4;
+
+  static ffi.Pointer<TECPluginStateRec> $allocate(
+    ffi.Allocator $allocator, {
+    required int state1,
+    required int state2,
+    required int state3,
+    required int state4,
+    required int longState1,
+    required int longState2,
+    required int longState3,
+    required int longState4,
+  }) => $allocator<TECPluginStateRec>()
+    ..ref.state1 = state1
+    ..ref.state2 = state2
+    ..ref.state3 = state3
+    ..ref.state4 = state4
+    ..ref.longState1 = longState1
+    ..ref.longState2 = longState2
+    ..ref.longState3 = longState3
+    ..ref.longState4 = longState4;
+}
+
+final class TECSnifferContextRec extends ffi.Struct {
+  external ffi.Pointer<ffi.Char> pluginRec;
+
+  @ffi.UnsignedInt()
+  external int encoding;
+
+  @ffi.UnsignedLong()
+  external int maxErrors;
+
+  @ffi.UnsignedLong()
+  external int maxFeatures;
+
+  external ffi.Pointer<ffi.UnsignedChar> textInputBuffer;
+
+  external ffi.Pointer<ffi.UnsignedChar> textInputBufferEnd;
+
+  @ffi.UnsignedLong()
+  external int numFeatures;
+
+  @ffi.UnsignedLong()
+  external int numErrors;
+
+  external ffi.Pointer<ffi.Void> contextRefCon;
+
+  external ffi.Pointer<ffi.NativeFunction<ProcPtrFunction>> sniffProc;
+
+  external ffi.Pointer<ffi.NativeFunction<ProcPtrFunction>>
+  clearContextInfoProc;
+
+  external TECPluginStateRec pluginState;
+}
+
+@ffi.Packed(2)
+final class TMTask extends ffi.Struct {
+  external ffi.Pointer<QElem> qLink;
+
+  @ffi.Short()
+  external int qType;
+
+  external ffi.Pointer<ffi.NativeFunction<TimerProcPtrFunction>> tmAddr;
+
+  @ffi.Long()
+  external int tmCount;
+
+  @ffi.Long()
+  external int tmWakeUp;
+
+  @ffi.Long()
+  external int tmReserved;
+
+  static ffi.Pointer<TMTask> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<QElem> qLink,
+    required int qType,
+    required ffi.Pointer<ffi.NativeFunction<TimerProcPtrFunction>> tmAddr,
+    required int tmCount,
+    required int tmWakeUp,
+    required int tmReserved,
+  }) => $allocator<TMTask>()
+    ..ref.qLink = qLink
+    ..ref.qType = qType
+    ..ref.tmAddr = tmAddr
+    ..ref.tmCount = tmCount
+    ..ref.tmWakeUp = tmWakeUp
+    ..ref.tmReserved = tmReserved;
+}
+
+typedef TaskProcFunction = ffi.Int Function(ffi.Pointer<ffi.Void> parameter);
+typedef DartTaskProcFunction = int Function(ffi.Pointer<ffi.Void> parameter);
+
+@ffi.Packed(2)
+final class TextEncodingRun extends ffi.Struct {
+  @ffi.UnsignedLong()
+  external int offset;
+
+  @ffi.UnsignedInt()
+  external int textEncoding;
+
+  static ffi.Pointer<TextEncodingRun> $allocate(
+    ffi.Allocator $allocator, {
+    required int offset,
+    required int textEncoding,
+  }) => $allocator<TextEncodingRun>()
+    ..ref.offset = offset
+    ..ref.textEncoding = textEncoding;
+}
+
+typedef ThreadEntryProcPtrFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> threadParam);
+typedef ThreadSchedulerProcPtrFunction =
+    ffi.UnsignedLong Function(ffi.Pointer<SchedulerInfoRec> schedulerInfo);
+typedef DartThreadSchedulerProcPtrFunction =
+    int Function(ffi.Pointer<SchedulerInfoRec> schedulerInfo);
+typedef ThreadSwitchProcPtrFunction =
+    ffi.Void Function(
+      ffi.UnsignedLong threadBeingSwitched,
+      ffi.Pointer<ffi.Void> switchProcParam,
+    );
+typedef DartThreadSwitchProcPtrFunction =
+    void Function(
+      int threadBeingSwitched,
+      ffi.Pointer<ffi.Void> switchProcParam,
+    );
+typedef ThreadTerminationProcPtrFunction =
+    ffi.Void Function(
+      ffi.UnsignedLong threadTerminated,
+      ffi.Pointer<ffi.Void> terminationProcParam,
+    );
+typedef DartThreadTerminationProcPtrFunction =
+    void Function(
+      int threadTerminated,
+      ffi.Pointer<ffi.Void> terminationProcParam,
+    );
+typedef TimerProcPtrFunction = ffi.Void Function(ffi.Pointer<TMTask> tmTaskPtr);
+typedef DartTimerProcPtrFunction = void Function(ffi.Pointer<TMTask> tmTaskPtr);
+
+@ffi.Packed(2)
+final class UnicodeMapping extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int unicodeEncoding;
+
+  @ffi.UnsignedInt()
+  external int otherEncoding;
+
+  @ffi.Int()
+  external int mappingVersion;
+
+  static ffi.Pointer<UnicodeMapping> $allocate(
+    ffi.Allocator $allocator, {
+    required int unicodeEncoding,
+    required int otherEncoding,
+    required int mappingVersion,
+  }) => $allocator<UnicodeMapping>()
+    ..ref.unicodeEncoding = unicodeEncoding
+    ..ref.otherEncoding = otherEncoding
+    ..ref.mappingVersion = mappingVersion;
+}
+
+typedef UnicodeToTextFallbackProcPtrFunction =
+    ffi.Int Function(
+      ffi.Pointer<ffi.UnsignedShort> iSrcUniStr,
+      ffi.UnsignedLong iSrcUniStrLen,
+      ffi.Pointer<ffi.UnsignedLong> oSrcConvLen,
+      ffi.Pointer<ffi.UnsignedChar> oDestStr,
+      ffi.UnsignedLong iDestStrLen,
+      ffi.Pointer<ffi.UnsignedLong> oDestConvLen,
+      ffi.Pointer<ffi.Void> iInfoPtr,
+      ffi.Pointer<UnicodeMapping> iUnicodeMappingPtr,
+    );
+typedef DartUnicodeToTextFallbackProcPtrFunction =
+    int Function(
+      ffi.Pointer<ffi.UnsignedShort> iSrcUniStr,
+      int iSrcUniStrLen,
+      ffi.Pointer<ffi.UnsignedLong> oSrcConvLen,
+      ffi.Pointer<ffi.UnsignedChar> oDestStr,
+      int iDestStrLen,
+      ffi.Pointer<ffi.UnsignedLong> oDestConvLen,
+      ffi.Pointer<ffi.Void> iInfoPtr,
+      ffi.Pointer<UnicodeMapping> iUnicodeMappingPtr,
+    );
+
+final class UnnamedUnion extends ffi.Union {
+  external cssm_list Sublist;
+
+  external cssm_data Word;
+}
+
+final class VectorInformation extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> __unusedVectorInformationField;
+
+  static ffi.Pointer<VectorInformation> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> $unusedVectorInformationField,
+  }) =>
+      $allocator<VectorInformation>()
+        ..ref.__unusedVectorInformationField = $unusedVectorInformationField;
+}
+
+typedef WSClientContextCopyDescriptionCallBackProcPtrFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> info);
+typedef WSClientContextReleaseCallBackProcPtrFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> info);
+typedef DartWSClientContextReleaseCallBackProcPtrFunction =
+    void Function(ffi.Pointer<ffi.Void> info);
+typedef WSClientContextRetainCallBackProcPtrFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> info);
+typedef WSMethodInvocationCallBackProcPtrFunction =
+    ffi.Void Function(
+      ffi.Pointer<OpaqueWSMethodInvocationRef> invocation,
+      ffi.Pointer<ffi.Void> info,
+      ffi.Pointer<__CFDictionary> outRef,
+    );
+typedef DartWSMethodInvocationCallBackProcPtrFunction =
+    void Function(
+      ffi.Pointer<OpaqueWSMethodInvocationRef> invocation,
+      ffi.Pointer<ffi.Void> info,
+      ffi.Pointer<__CFDictionary> outRef,
+    );
+typedef WSMethodInvocationDeserializationProcPtrFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<OpaqueWSMethodInvocationRef> invocation,
+      ffi.Pointer<__CFTree> msgRoot,
+      ffi.Pointer<__CFTree> deserializeRoot,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef WSMethodInvocationSerializationProcPtrFunction =
+    ffi.Pointer<objc.CFString> Function(
+      ffi.Pointer<OpaqueWSMethodInvocationRef> invocation,
+      ffi.Pointer<ffi.Void> obj,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef WSProtocolHandlerDeserializationProcPtrFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<OpaqueWSProtocolHandlerRef> protocol,
+      ffi.Pointer<__CFTree> msgRoot,
+      ffi.Pointer<__CFTree> deserializeRoot,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef WSProtocolHandlerSerializationProcPtrFunction =
+    ffi.Pointer<objc.CFString> Function(
+      ffi.Pointer<OpaqueWSProtocolHandlerRef> protocol,
+      ffi.Pointer<ffi.Void> obj,
+      ffi.Pointer<ffi.Void> info,
+    );
+
+final class __CFAllocator extends ffi.Opaque {}
+
+final class __CFArray extends ffi.Opaque {}
+
+final class __CFBundle extends ffi.Opaque {}
+
+final class __CFData extends ffi.Opaque {}
+
+final class __CFDictionary extends ffi.Opaque {}
+
+final class __CFError extends ffi.Opaque {}
+
+final class __CFFileDescriptor extends ffi.Opaque {}
+
+final class __CFHost extends ffi.Opaque {}
+
+final class __CFMachPort extends ffi.Opaque {}
+
+final class __CFMessagePort extends ffi.Opaque {}
+
+final class __CFNetService extends ffi.Opaque {}
+
+final class __CFNetServiceBrowser extends ffi.Opaque {}
+
+final class __CFNetServiceMonitor extends ffi.Opaque {}
+
+final class __CFNotificationCenter extends ffi.Opaque {}
+
+final class __CFPlugInInstance extends ffi.Opaque {}
+
+final class __CFReadStream extends ffi.Opaque {}
+
+final class __CFRunLoopObserver extends ffi.Opaque {}
+
+final class __CFRunLoopTimer extends ffi.Opaque {}
+
+final class __CFSocket extends ffi.Opaque {}
+
+final class __CFTree extends ffi.Opaque {}
+
+final class __CFURL extends ffi.Opaque {}
+
+final class __CFUUID extends ffi.Opaque {}
+
+final class __CFUserNotification extends ffi.Opaque {}
+
+final class __CFWriteStream extends ffi.Opaque {}
+
+final class __CFXMLNode extends ffi.Opaque {}
+
+final class __CFXMLParser extends ffi.Opaque {}
+
+final class __CSIdentity extends ffi.Opaque {}
+
+final class __CSIdentityQuery extends ffi.Opaque {}
+
+final class __FSEventStream extends ffi.Opaque {}
+
+final class __FSFileOperation extends ffi.Opaque {}
+
+final class __MDItem extends ffi.Opaque {}
+
+final class __MDQuery extends ffi.Opaque {}
+
+final class __SKIndex extends ffi.Opaque {}
+
+final class __SecKeychain extends ffi.Opaque {}
+
+final class __SecKeychainItem extends ffi.Opaque {}
+
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__TtC16swift_class_test12MySwiftClass',
 )
@@ -303,6 +3012,9 @@ final _class_MySwiftClass = objc.getClass(
     _class_MySwiftClass_raw,
   ).cast(),
 );
+
+final class _launch_data extends ffi.Opaque {}
+
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -417,5 +3129,230 @@ late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
 late final _sel_setValueWithX_ = objc.registerName("setValueWithX:");
+
+final class cssm_data extends ffi.Struct {
+  @ffi.Size()
+  external int Length;
+
+  external ffi.Pointer<ffi.Uint8> Data;
+
+  static ffi.Pointer<cssm_data> $allocate(
+    ffi.Allocator $allocator, {
+    required int Length,
+    required ffi.Pointer<ffi.Uint8> Data,
+  }) => $allocator<cssm_data>()
+    ..ref.Length = Length
+    ..ref.Data = Data;
+}
+
+final class cssm_guid extends ffi.Struct {
+  @ffi.Uint32()
+  external int Data1;
+
+  @ffi.Uint16()
+  external int Data2;
+
+  @ffi.Uint16()
+  external int Data3;
+
+  @ffi.Array.multi([8])
+  external ffi.Array<ffi.Uint8> Data4;
+}
+
+final class cssm_list extends ffi.Struct {
+  @ffi.Uint32()
+  external int ListType;
+
+  external ffi.Pointer<cssm_list_element> Head;
+
+  external ffi.Pointer<cssm_list_element> Tail;
+
+  static ffi.Pointer<cssm_list> $allocate(
+    ffi.Allocator $allocator, {
+    required int ListType,
+    required ffi.Pointer<cssm_list_element> Head,
+    required ffi.Pointer<cssm_list_element> Tail,
+  }) => $allocator<cssm_list>()
+    ..ref.ListType = ListType
+    ..ref.Head = Head
+    ..ref.Tail = Tail;
+}
+
+@Deprecated('Deprecated')
+final class cssm_list_element extends ffi.Struct {
+  external ffi.Pointer<cssm_list_element> NextElement;
+
+  @ffi.Int32()
+  external int WordID;
+
+  @ffi.Uint32()
+  external int ElementType;
+
+  external UnnamedUnion Element;
+}
+
+final class cssm_memory_funcs extends ffi.Struct {
+  external ffi.Pointer<ffi.NativeFunction<CSSM_MALLOCFunction>> malloc_func;
+
+  external ffi.Pointer<ffi.NativeFunction<CSSM_FREEFunction>> free_func;
+
+  external ffi.Pointer<ffi.NativeFunction<CSSM_REALLOCFunction>> realloc_func;
+
+  external ffi.Pointer<ffi.NativeFunction<CSSM_CALLOCFunction>> calloc_func;
+
+  external ffi.Pointer<ffi.Void> AllocRef;
+
+  static ffi.Pointer<cssm_memory_funcs> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.NativeFunction<CSSM_MALLOCFunction>> malloc_func,
+    required ffi.Pointer<ffi.NativeFunction<CSSM_FREEFunction>> free_func,
+    required ffi.Pointer<ffi.NativeFunction<CSSM_REALLOCFunction>> realloc_func,
+    required ffi.Pointer<ffi.NativeFunction<CSSM_CALLOCFunction>> calloc_func,
+    required ffi.Pointer<ffi.Void> AllocRef,
+  }) => $allocator<cssm_memory_funcs>()
+    ..ref.malloc_func = malloc_func
+    ..ref.free_func = free_func
+    ..ref.realloc_func = realloc_func
+    ..ref.calloc_func = calloc_func
+    ..ref.AllocRef = AllocRef;
+}
+
+@Deprecated('Deprecated')
+final class cssm_sample extends ffi.Struct {
+  external cssm_list TypedSample;
+
+  external ffi.Pointer<cssm_subservice_uid> Verifier;
+}
+
+@Deprecated('Deprecated')
+final class cssm_samplegroup extends ffi.Struct {
+  @ffi.Uint32()
+  external int NumberOfSamples;
+
+  external ffi.Pointer<cssm_sample> Samples;
+
+  static ffi.Pointer<cssm_samplegroup> $allocate(
+    ffi.Allocator $allocator, {
+    required int NumberOfSamples,
+    required ffi.Pointer<cssm_sample> Samples,
+  }) => $allocator<cssm_samplegroup>()
+    ..ref.NumberOfSamples = NumberOfSamples
+    ..ref.Samples = Samples;
+}
+
+@Deprecated('Deprecated')
+final class cssm_subservice_uid extends ffi.Struct {
+  external cssm_guid Guid;
+
+  external cssm_version Version;
+
+  @ffi.Uint32()
+  external int SubserviceId;
+
+  @ffi.Uint32()
+  external int SubserviceType;
+}
+
+final class cssm_version extends ffi.Struct {
+  @ffi.Uint32()
+  external int Major;
+
+  @ffi.Uint32()
+  external int Minor;
+
+  static ffi.Pointer<cssm_version> $allocate(
+    ffi.Allocator $allocator, {
+    required int Major,
+    required int Minor,
+  }) => $allocator<cssm_version>()
+    ..ref.Major = Major
+    ..ref.Minor = Minor;
+}
+
+typedef dispatch_function_tFunction = ffi.Void Function(ffi.Pointer<ffi.Void>);
+typedef Dartdispatch_function_tFunction = void Function(ffi.Pointer<ffi.Void>);
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;
+typedef launch_data_dict_iterator_tFunction =
+    ffi.Void Function(
+      ffi.Pointer<_launch_data> lval,
+      ffi.Pointer<ffi.Char> key,
+      ffi.Pointer<ffi.Void> ctx,
+    );
+typedef Dartlaunch_data_dict_iterator_tFunction =
+    void Function(
+      ffi.Pointer<_launch_data> lval,
+      ffi.Pointer<ffi.Char> key,
+      ffi.Pointer<ffi.Void> ctx,
+    );
+typedef mach_error_fn_tFunction = ffi.Int Function();
+typedef Dartmach_error_fn_tFunction = int Function();
+
+final class mach_msg_header_t extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int msgh_bits;
+
+  @ffi.UnsignedInt()
+  external int msgh_size;
+
+  @ffi.UnsignedInt()
+  external int msgh_remote_port;
+
+  @ffi.UnsignedInt()
+  external int msgh_local_port;
+
+  @ffi.UnsignedInt()
+  external int msgh_voucher_port;
+
+  @ffi.Int()
+  external int msgh_id;
+
+  static ffi.Pointer<mach_msg_header_t> $allocate(
+    ffi.Allocator $allocator, {
+    required int msgh_bits,
+    required int msgh_size,
+    required int msgh_remote_port,
+    required int msgh_local_port,
+    required int msgh_voucher_port,
+    required int msgh_id,
+  }) => $allocator<mach_msg_header_t>()
+    ..ref.msgh_bits = msgh_bits
+    ..ref.msgh_size = msgh_size
+    ..ref.msgh_remote_port = msgh_remote_port
+    ..ref.msgh_local_port = msgh_local_port
+    ..ref.msgh_voucher_port = msgh_voucher_port
+    ..ref.msgh_id = msgh_id;
+}
+
+typedef mig_impl_routine_tFunction = ffi.Int Function();
+typedef Dartmig_impl_routine_tFunction = int Function();
+typedef mig_server_routine_tFunction =
+    ffi.Pointer<ffi.NativeFunction<mig_stub_routine_tFunction>> Function(
+      ffi.Pointer<mach_msg_header_t> InHeadP,
+    );
+typedef mig_stub_routine_tFunction =
+    ffi.Void Function(
+      ffi.Pointer<mach_msg_header_t> InHeadP,
+      ffi.Pointer<mach_msg_header_t> OutHeadP,
+    );
+typedef Dartmig_stub_routine_tFunction =
+    void Function(
+      ffi.Pointer<mach_msg_header_t> InHeadP,
+      ffi.Pointer<mach_msg_header_t> OutHeadP,
+    );
+typedef os_function_tFunction = ffi.Void Function(ffi.Pointer<ffi.Void>);
+typedef Dartos_function_tFunction = void Function(ffi.Pointer<ffi.Void>);
+typedef os_workgroup_working_arena_destructor_tFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void>);
+typedef Dartos_workgroup_working_arena_destructor_tFunction =
+    void Function(ffi.Pointer<ffi.Void>);
+typedef sig_tFunction = ffi.Void Function(ffi.Int);
+typedef Dartsig_tFunction = void Function(int);
+typedef xpc_connection_handler_tFunction =
+    ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> connection);
+typedef Dartxpc_connection_handler_tFunction =
+    void Function(objc.NSObject connection);
+typedef xpc_finalizer_tFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> value);
+typedef Dartxpc_finalizer_tFunction =
+    void Function(ffi.Pointer<ffi.Void> value);

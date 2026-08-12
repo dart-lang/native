@@ -676,6 +676,81 @@ extension BlockTester$Methods on BlockTester {
   }
 }
 
+typedef CFAllocatorAllocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Long allocSize,
+      ffi.UnsignedLong hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFAllocatorAllocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      int allocSize,
+      int hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFAllocatorCopyDescriptionCallBackFunction =
+    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorDeallocateCallBackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> ptr, ffi.Pointer<ffi.Void> info);
+typedef DartCFAllocatorDeallocateCallBackFunction =
+    void Function(ffi.Pointer<ffi.Void> ptr, ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorPreferredSizeCallBackFunction =
+    ffi.Long Function(
+      ffi.Long size,
+      ffi.UnsignedLong hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFAllocatorPreferredSizeCallBackFunction =
+    int Function(int size, int hint, ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorReallocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<ffi.Void> ptr,
+      ffi.Long newsize,
+      ffi.UnsignedLong hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef DartCFAllocatorReallocateCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(
+      ffi.Pointer<ffi.Void> ptr,
+      int newsize,
+      int hint,
+      ffi.Pointer<ffi.Void> info,
+    );
+typedef CFAllocatorReleaseCallBackFunction =
+    ffi.Void Function(ffi.Pointer<ffi.Void> info);
+typedef DartCFAllocatorReleaseCallBackFunction =
+    void Function(ffi.Pointer<ffi.Void> info);
+typedef CFAllocatorRetainCallBackFunction =
+    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> info);
+typedef CFComparatorFunctionFunction =
+    ffi.Long Function(
+      ffi.Pointer<ffi.Void> val1,
+      ffi.Pointer<ffi.Void> val2,
+      ffi.Pointer<ffi.Void> context,
+    );
+typedef DartCFComparatorFunctionFunction =
+    CFComparisonResult Function(
+      ffi.Pointer<ffi.Void> val1,
+      ffi.Pointer<ffi.Void> val2,
+      ffi.Pointer<ffi.Void> context,
+    );
+
+enum CFComparisonResult {
+  kCFCompareLessThan(-1),
+  kCFCompareEqualTo(0),
+  kCFCompareGreaterThan(1);
+
+  final int value;
+  const CFComparisonResult(this.value);
+
+  static CFComparisonResult fromValue(int value) => switch (value) {
+    -1 => kCFCompareLessThan,
+    0 => kCFCompareEqualTo,
+    1 => kCFCompareGreaterThan,
+    _ => throw ArgumentError('Unknown value for CFComparisonResult: $value'),
+  };
+}
+
 typedef DoubleBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartDoubleBlock = objc.ObjCBlock<ffi.Double Function(ffi.Double)>;
 
@@ -783,6 +858,8 @@ extension DummyObject$Methods on DummyObject {
 
 typedef FloatBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartFloatBlock = objc.ObjCBlock<ffi.Float Function(ffi.Float)>;
+typedef IMPFunction = ffi.Void Function();
+typedef DartIMPFunction = void Function();
 typedef IntBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartIntBlock = objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>;
 typedef ListenerBlock = ffi.Pointer<objc.ObjCBlockImpl>;
@@ -3835,6 +3912,10 @@ typedef DartObjectBlock = objc.ObjCBlock<DummyObject Function(DummyObject)>;
 typedef ObjectListenerBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartObjectListenerBlock =
     objc.ObjCBlock<ffi.Void Function(DummyObject)>;
+typedef ProcPtrFunction = ffi.Long Function();
+typedef DartProcPtrFunction = int Function();
+typedef Register68kProcPtrFunction = ffi.Void Function();
+typedef DartRegister68kProcPtrFunction = void Function();
 typedef SelectorBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartSelectorBlock =
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCSelector>)>;
@@ -5197,3 +5278,5 @@ late final _sel_threadDictionary = objc.registerName("threadDictionary");
 late final _sel_threadPriority = objc.registerName("threadPriority");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;
+typedef sig_tFunction = ffi.Void Function(ffi.Int);
+typedef Dartsig_tFunction = void Function(int);
