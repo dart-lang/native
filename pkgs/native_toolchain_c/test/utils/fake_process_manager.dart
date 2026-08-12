@@ -61,6 +61,9 @@ class FakeProcessManager implements ProcessManager {
 
   final List<RecordedInvocation> invocations = [];
 
+  /// Whether every [FakeCommand] has been consumed.
+  bool get allCommandsConsumed => _nextCommand >= _commands.length;
+
   /// Consumes the next [FakeCommand], checking it against [command].
   FakeCommand _consume(List<String> command) {
     if (_nextCommand >= _commands.length) {

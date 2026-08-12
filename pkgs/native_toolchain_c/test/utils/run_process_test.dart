@@ -139,6 +139,20 @@ void main() {
         processManager: processManager,
       );
       expect(result.exitCode, 0);
+      expect(processManager.allCommandsConsumed, true);
+    });
+
+    test('allCommandsConsumed is false while commands remain', () async {
+      final processManager = FakeProcessManager([
+        const FakeCommand(),
+        const FakeCommand(),
+      ]);
+      await runProcess(
+        executable: executableUri,
+        logger: null,
+        processManager: processManager,
+      );
+      expect(processManager.allCommandsConsumed, false);
     });
 
     test('onRun is invoked with the actual command', () async {

@@ -16,7 +16,7 @@ import 'package:process/process.dart';
 Future<Map<String, String>> environmentFromBatchFile(
   Uri batchFile, {
   List<String> arguments = const [],
-  required ProcessManager processManager,
+  ProcessManager processManager = const LocalProcessManager(),
 }) async {
   final fileName = batchFile.pathSegments.last;
   final dir = batchFile.resolve('.');
