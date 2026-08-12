@@ -1,0 +1,25 @@
+name: SmallStructTestObjCLibrary
+description: 'Tests returning structs of sizes 8 to 32 bytes from Objective-C methods, properties, and blocks.'
+language: objc
+output:
+  bindings: 'small_struct_test_bindings.dart'
+  objc-bindings: 'small_struct_test_bindings.m'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - SmallStructTester
+typedefs:
+  include:
+    - Struct8
+    - Struct16
+    - Struct24
+    - Struct32
+    - Struct8Block
+    - Struct16Block
+    - Struct24Block
+    - Struct32Block
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'small_struct_test.h'
