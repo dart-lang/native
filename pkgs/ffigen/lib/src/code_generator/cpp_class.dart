@@ -5,6 +5,8 @@
 import '../code_generator.dart';
 import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
+import '../header_parser/sub_parsers/classdecl_parser.dart'
+    show InheritedMethod, collectInheritedMethods, methodSignatureKey;
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -71,6 +73,12 @@ class CppClass extends BindingType with HasLocalScope {
   final List<CppMethod> methods;
   final List<CppMember> fields;
 
+  /// The public C++ base classes for this class, in declaration order.
+  ///
+  /// Only public inheritance is represented here. Protected and private bases
+  /// are silently ignored by the parser.
+  final List<CppClass> bases;
+
   CppClass({
     super.usr,
     super.originalName,
@@ -79,6 +87,7 @@ class CppClass extends BindingType with HasLocalScope {
     required this.context,
     required this.methods,
     required this.fields,
+    this.bases = const [],
   });
 
   @override
@@ -95,6 +104,20 @@ class CppClass extends BindingType with HasLocalScope {
     required bool objCAutorelease,
     required LocalVariables localVariables,
   }) => '$value._ptr';
+
+  /// Returns the list of inherited methods from base classes that are not
+  /// overridden by this class.
+  List<InheritedMethod> getInheritedMethodsToDelegate(Context ctx) {
+    if (bases.isEmpty) return const [];
+    final ownSignatures = methods
+        .map((m) => methodSignatureKey(m, ctx))
+        .toSet();
+    return collectInheritedMethods(this)
+        .where(
+          (im) => !ownSignatures.contains(methodSignatureKey(im.method, ctx)),
+        )
+        .toList();
+  }
 
   @override
   BindingString toBindingString(Writer w) {
@@ -115,8 +138,13 @@ class CppClass extends BindingType with HasLocalScope {
     final deleteGlue = '_$deleteSymbol';
 
     s.write(makeDartDoc(dartDoc));
+    // Build the implements clause: ffi.Finalizable + public base classes.
+    final baseNames = bases.map((b) => b.name).join(', ');
+    final implementsClause = bases.isEmpty
+        ? '$ffiPrefix.Finalizable'
+        : '$ffiPrefix.Finalizable, $baseNames';
     s.write('''
-class $name implements $ffiPrefix.Finalizable {
+class $name implements $implementsClause {
   $ptrVoid _ptr;
 ''');
 
@@ -287,7 +315,7 @@ class $name implements $ffiPrefix.Finalizable {
       }
     }
     s.write('''
-  void dispose() {
+  ${bases.isNotEmpty ? '@override\n  ' : ''}void dispose() {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
@@ -302,6 +330,49 @@ class $name implements $ffiPrefix.Finalizable {
     _ptr = $ffiPrefix.nullptr;
   }
 ''');
+
+    // Inherited method delegation (Dart side)
+    final inheritedToDelegate = getInheritedMethodsToDelegate(ctx);
+    for (final im in inheritedToDelegate) {
+      final method = im.method;
+      final base = im.baseClass;
+      final delegateSymbol = '${name}_${base.name}_${method.originalName}';
+      final delegateGlue = '_$delegateSymbol';
+      final dartReturn = method.returnType.getDartType(ctx);
+      final dartParams = dartParamList(method.parameters);
+      final localVars = LocalVariables(method.localScope);
+      final callArgs = [
+        '_ptr',
+        ...method.parameters.map(
+          (p) => p.type.convertDartTypeToFfiDartType(
+            ctx,
+            p.name,
+            objCRetain: false,
+            objCAutorelease: false,
+            localVariables: localVars,
+          ),
+        ),
+      ].join(', ');
+      final decls = localVars.generateDeclarations();
+      final returnExpr = method.returnType.convertFfiDartTypeToDartType(
+        ctx,
+        '$delegateGlue($callArgs)',
+        objCRetain: false,
+      );
+      final hasReturn = method.returnType != voidType;
+      final callLine = hasReturn ? 'return $returnExpr;' : '$returnExpr;';
+      s.write('''\
+  @override
+  $dartReturn ${method.originalName}($dartParams) {
+    if (_ptr == $ffiPrefix.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+    $decls
+    $callLine
+  }
+''');
+    }
+
     s.write('}\n');
 
     // Writes a @Native annotation + external declaration for a glue function.
@@ -362,6 +433,33 @@ class $name implements $ffiPrefix.Finalizable {
       ffiParams: '$ptrVoid self',
     );
 
+    // @Native declarations for inherited-method delegation glue
+    for (final im in inheritedToDelegate) {
+      final method = im.method;
+      final base = im.baseClass;
+      final delegateSymbol = '${name}_${base.name}_${method.originalName}';
+      final delegateGlue = '_$delegateSymbol';
+      final cReturn = method.returnType.getCType(ctx);
+      final ffiReturn = method.returnType.getFfiDartType(ctx);
+      final cParams = [
+        ptrVoid, // self (typed as derived)
+        ...method.parameters.map((p) => p.type.getCType(ctx)),
+      ].join(', ');
+      final ffiParams = [
+        '$ptrVoid self',
+        ...method.parameters.map(
+          (p) => '${p.type.getFfiDartType(ctx)} ${p.name}',
+        ),
+      ].join(', ');
+      writeNativeDecl(
+        symbol: delegateSymbol,
+        glue: delegateGlue,
+        cType: '$cReturn Function($cParams)',
+        ffiReturn: ffiReturn,
+        ffiParams: ffiParams,
+      );
+    }
+
     return BindingString(
       type: BindingStringType.cppClass,
       string: s.toString(),
@@ -408,12 +506,8 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
                   '$returnPrefix$originalName::'
                   '${method.originalName}($callArgs);';
             } else {
-              final String selfType;
-              if (method.isConstant) {
-                selfType = 'const $originalName';
-              } else {
-                selfType = originalName;
-              }
+              final constPrefix = method.isConstant ? 'const ' : '';
+              final selfType = '$constPrefix$originalName';
               params = ['$selfType* self', ...otherParams].join(', ');
               final methodName = method.originalName;
               final suffix = method.returnType is CppUniquePtrType
@@ -430,6 +524,44 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
         })
         .join('\n\n');
 
+    // Delegation stubs for inherited methods (C++ side)
+    final inheritedBindings = StringBuffer();
+    final inheritedToDelegate = getInheritedMethodsToDelegate(context);
+    for (final im in inheritedToDelegate) {
+      final method = im.method;
+      final base = im.baseClass;
+      final delegateSymbol =
+          '${name}_${base.originalName}_${method.originalName}';
+      final callArgs = method.parameters.map(_cppCallArg).join(', ');
+
+      final nativeType = method.returnType.getNativeType(context);
+      final returnTypeString = nativeType.trim();
+      final needsReturn = method.returnType != voidType;
+      final returnPrefix = needsReturn ? 'return ' : '';
+      final suffix = method.returnType is CppUniquePtrType ? '.release()' : '';
+
+      final constPrefix = method.isConstant ? 'const ' : '';
+      final selfType = '$constPrefix$originalName';
+      final otherParams = method.parameters.map(paramDecl);
+      final params = ['$selfType* self', ...otherParams].join(', ');
+
+      // static_cast adjusts the this-pointer offset for the base sub-object.
+      final castTarget = 'static_cast<$constPrefix${base.originalName}*>(self)';
+      final body =
+          '$returnPrefix$castTarget'
+          '->${method.originalName}($callArgs)$suffix;';
+
+      inheritedBindings.write('''
+
+FFIGEN_EXPORT $returnTypeString $delegateSymbol($params) {
+  $body
+}''');
+    }
+
+    if (inheritedBindings.isNotEmpty) {
+      return '$methodBindings\n\n$deleteWrapper\n'
+          '${inheritedBindings.toString()}\n\n';
+    }
     return '$methodBindings\n\n$deleteWrapper\n\n';
   }
 
@@ -456,6 +588,7 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
     super.visitChildren(visitor);
     visitor.visitAll(methods);
     visitor.visitAll(fields);
+    visitor.visitAll(bases);
     visitor.visit(ffiImport);
   }
 }

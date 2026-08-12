@@ -76,6 +76,39 @@ void main() {
           }),
         ),
       ),
+      'cpp_inheritance': FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('cpp_inheritance_test_bindings.dart'),
+          style: const NativeExternalBindings(
+            assetId: 'package:ffigen/cpp_test',
+          ),
+        ),
+        input: Input(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_inheritance_test.h')),
+          ],
+          compilerOptions: defaultCppCompilerOptions,
+        ),
+        cpp: Cpp(
+          classes: CppClasses.includeSet({
+            'Shape',
+            'Drawable',
+            'Circle',
+            'ColoredCircle',
+            'Square',
+            'AccessBase',
+            'PublicDerived',
+            'ProtectedDerived',
+            'PrivateDerived',
+            'OverloadBase',
+            'OverloadDerived',
+            'DiamondBase',
+            'DiamondLeft',
+            'DiamondRight',
+            'DiamondDerived',
+          }),
+        ),
+      ),
     };
 
     for (final testFile in testFiles) {

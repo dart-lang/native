@@ -64,6 +64,9 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     }
   });
 
+  // Parse public base classes (only public specifiers; non-public are ignored).
+  final bases = _parsePublicBases(context, cursor);
+
   final cppClass = CppClass(
     usr: usr,
     dartDoc: getCursorDocComment(
@@ -76,11 +79,82 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     context: context,
     methods: methods,
     fields: <CppMember>[],
+    bases: bases,
   );
 
   context.bindingsIndex.addCppClassToSeen(usr, cppClass);
 
   return cppClass;
+}
+
+/// Parses the direct public base classes of [cursor].
+List<CppClass> _parsePublicBases(Context context, clang_types.CXCursor cursor) {
+  final bases = <CppClass>[];
+
+  cursor.visitChildren((child) {
+    final kind = clang.clang_getCursorKind(child);
+    if (kind != clang_types.CXCursorKind.CXCursor_CXXBaseSpecifier) return;
+
+    final access = clang.clang_getCXXAccessSpecifier(child);
+    if (access != clang_types.CX_CXXAccessSpecifier.CX_CXXPublic) return;
+
+    final baseType = clang.clang_getCursorType(child);
+    final baseDeclCursor = clang.clang_getTypeDeclaration(baseType);
+    final baseUsr = baseDeclCursor.usr();
+
+    final baseClass = context.bindingsIndex.getSeenCppClass(baseUsr);
+    if (baseClass == null) {
+      final parsed = parseClassDeclaration(context, baseDeclCursor);
+      if (parsed != null) bases.add(parsed);
+    } else {
+      bases.add(baseClass);
+    }
+  });
+
+  return bases;
+}
+
+String methodSignatureKey(CppMethod method, Context context) {
+  final paramTypes = method.parameters
+      .map((p) => p.type.getNativeType(context))
+      .join(',');
+  final constSuffix = method.isConstant ? ' const' : '';
+  return '${method.originalName}($paramTypes)$constSuffix';
+}
+
+List<InheritedMethod> collectInheritedMethods(CppClass cls) {
+  final seen = <String>{};
+  final result = <InheritedMethod>[];
+  for (final directBase in cls.bases) {
+    _collectFromBase(directBase, directBase, seen, result, cls.context);
+  }
+  return result;
+}
+
+void _collectFromBase(
+  CppClass current,
+  CppClass directBase,
+  Set<String> seen,
+  List<InheritedMethod> result,
+  Context context,
+) {
+  for (final base in current.bases) {
+    _collectFromBase(base, directBase, seen, result, context);
+  }
+  for (final method in current.methods) {
+    if (method.kind == CppMethodKind.constructor) continue;
+    final key = methodSignatureKey(method, context);
+    if (seen.add(key)) {
+      result.add(InheritedMethod(method: method, baseClass: directBase));
+    }
+  }
+}
+
+class InheritedMethod {
+  final CppMethod method;
+  final CppClass baseClass;
+
+  const InheritedMethod({required this.method, required this.baseClass});
 }
 
 void _parseAnyMethod(
