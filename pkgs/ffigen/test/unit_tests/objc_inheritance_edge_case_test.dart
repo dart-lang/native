@@ -45,7 +45,7 @@ void main() {
         usr: name,
         originalName: name,
         apiAvailability: availability,
-      );
+      )..isIncluded = true;
       if (superType != null) {
         itf.superType = superType;
         superType.subtypes.add(itf);
@@ -68,7 +68,7 @@ void main() {
         originalName: name,
         parent: parent,
         apiAvailability: availability,
-      );
+      )..isIncluded = true;
       parent.categories.add(category);
       for (final m in methods) {
         category.addMethod(m);

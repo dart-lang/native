@@ -65,6 +65,17 @@ void main() {
         importType: (decl) => decl.originalName == 'time_t'
             ? ImportedType(ffiImport, 'Int64', 'int', 'time_t')
             : null,
+        visitors: [
+          Visitor(
+            visitFunc: (node) => node.isIncluded = true,
+            visitStruct: (node) => node.isIncluded = true,
+            visitUnion: (node) => node.isIncluded = true,
+            visitEnum: (node) => node.isIncluded = true,
+            visitGlobal: (node) => node.isIncluded = true,
+            visitMacro: (node) => node.isIncluded = true,
+            visitTypealias: (node) => node.isIncluded = true,
+          ),
+        ],
       );
       final library = parse(Context(logger, generator));
       final context = testContext();
@@ -141,6 +152,17 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'cJSON.h',
         ),
+        visitors: [
+          Visitor(
+            visitFunc: (node) => node.isIncluded = true,
+            visitStruct: (node) => node.isIncluded = true,
+            visitUnion: (node) => node.isIncluded = true,
+            visitEnum: (node) => node.isIncluded = true,
+            visitGlobal: (node) => node.isIncluded = true,
+            visitMacro: (node) => node.isIncluded = true,
+            visitTypealias: (node) => node.isIncluded = true,
+          ),
+        ],
       );
       final context = testContext(generator);
       final library = parse(context);
@@ -188,18 +210,28 @@ void main() {
                 'sqlite3_str_vappendf',
               }.contains(node.originalName)) {
                 node.isIncluded = false;
+              } else {
+                node.isIncluded = true;
               }
             },
             visitStruct: (node) {
               if (vaRegex.hasMatch(node.originalName)) {
                 node.isIncluded = false;
+              } else {
+                node.isIncluded = true;
               }
             },
             visitTypealias: (node) {
               if (vaRegex.hasMatch(node.originalName)) {
                 node.isIncluded = false;
+              } else {
+                node.isIncluded = true;
               }
             },
+            visitUnion: (node) => node.isIncluded = true,
+            visitEnum: (node) => node.isIncluded = true,
+            visitGlobal: (node) => node.isIncluded = true,
+            visitMacro: (node) => node.isIncluded = true,
           ),
         ],
       );

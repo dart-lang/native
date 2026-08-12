@@ -21,6 +21,7 @@ void main() {
         visitors: [
           Visitor(
             visitFunc: (node) {
+              node.isIncluded = true;
               if (node.name == 'sum') {
                 node.name = 'add';
               }
