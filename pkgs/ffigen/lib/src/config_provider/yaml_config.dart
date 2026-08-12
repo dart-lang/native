@@ -1295,13 +1295,11 @@ final class YamlConfig {
                 include: objcInterfaces.shouldInclude,
                 includeMember: objcInterfaces.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCInterfaces,
-                module: interfaceModule,
               ),
               protocols: Protocols(
                 include: objcProtocols.shouldInclude,
                 includeMember: objcProtocols.shouldIncludeMember,
                 includeTransitive: includeTransitiveObjCProtocols,
-                module: protocolModule,
               ),
               categories: Categories(
                 include: objcCategories.shouldInclude,
@@ -1405,12 +1403,18 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.objcInterfaces.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    if (config.interfaceModule(_decl(node)) case final module?) {
+      node.module = module;
+    }
   }
 
   @override
   void visitObjCProtocol(public_ast.ObjCProtocol node) {
     if (config.objcProtocols.rename(_decl(node)) case final rename?) {
       node.name = rename;
+    }
+    if (config.protocolModule(_decl(node)) case final module?) {
+      node.module = module;
     }
   }
 

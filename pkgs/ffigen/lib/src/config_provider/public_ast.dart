@@ -313,6 +313,10 @@ class ObjCInterface extends DeclNode {
 
   @override
   set name(String value) => _interface.symbol.oldName = value;
+
+  /// The module that the Objective-C interface belongs to.
+  String? get module => _interface.module;
+  set module(String? value) => _interface.module = value;
 }
 
 /// An Objective-C protocol declaration.
@@ -343,6 +347,10 @@ class ObjCProtocol extends DeclNode {
 
   @override
   set name(String value) => _protocol.symbol.oldName = value;
+
+  /// The module that the Objective-C protocol belongs to.
+  String? get module => _protocol.module;
+  set module(String? value) => _protocol.module = value;
 }
 
 /// An Objective-C category declaration.

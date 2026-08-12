@@ -1040,5 +1040,120 @@ globals:
       expect((nodes[3] as public_ast.Global).exposeSymbolAddress, false);
       expect(cgNormalGlobal.exposeSymbolAddress, false);
     });
+
+    test('public_ast.ObjCInterface.module getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgInterface = ObjCInterface(
+        context: context,
+        originalName: 'MyClass',
+        name: 'MyClass',
+        apiAvailability: ApiAvailability.all,
+      );
+      final publicInterface = public_ast.ObjCInterface(cgInterface);
+
+      expect(publicInterface.module, isNull);
+      expect(cgInterface.module, isNull);
+
+      publicInterface.module = 'MyModule';
+      expect(publicInterface.module, 'MyModule');
+      expect(cgInterface.module, 'MyModule');
+
+      publicInterface.module = null;
+      expect(publicInterface.module, isNull);
+      expect(cgInterface.module, isNull);
+    });
+
+    test('public_ast.ObjCProtocol.module getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgProtocol = ObjCProtocol(
+        context: context,
+        originalName: 'MyProtocol',
+        name: 'MyProtocol',
+        apiAvailability: ApiAvailability.all,
+      );
+      final publicProtocol = public_ast.ObjCProtocol(cgProtocol);
+
+      expect(publicProtocol.module, isNull);
+      expect(cgProtocol.module, isNull);
+
+      publicProtocol.module = 'MyModule';
+      expect(publicProtocol.module, 'MyModule');
+      expect(cgProtocol.module, 'MyModule');
+
+      publicProtocol.module = null;
+      expect(publicProtocol.module, isNull);
+      expect(cgProtocol.module, isNull);
+    });
+
+    test('YamlConfigAstVisitor sets ObjCInterface.module and '
+        'ObjCProtocol.module from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+objc-interfaces:
+  module:
+    'FooClass': 'FooModule'
+objc-protocols:
+  module:
+    'BarProtocol': 'BarModule'
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final context = testContext(generator);
+
+      final cgInterfaceMatch = ObjCInterface(
+        context: context,
+        originalName: 'FooClass',
+        name: 'FooClass',
+        apiAvailability: ApiAvailability.all,
+      );
+      final cgInterfaceNoMatch = ObjCInterface(
+        context: context,
+        originalName: 'OtherClass',
+        name: 'OtherClass',
+        apiAvailability: ApiAvailability.all,
+      );
+      final cgProtocolMatch = ObjCProtocol(
+        context: context,
+        originalName: 'BarProtocol',
+        name: 'BarProtocol',
+        apiAvailability: ApiAvailability.all,
+      );
+      final cgProtocolNoMatch = ObjCProtocol(
+        context: context,
+        originalName: 'OtherProtocol',
+        name: 'OtherProtocol',
+        apiAvailability: ApiAvailability.all,
+      );
+
+      final nodes = <Binding>[
+        cgInterfaceMatch,
+        cgInterfaceNoMatch,
+        cgProtocolMatch,
+        cgProtocolNoMatch,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect((nodes[0] as public_ast.ObjCInterface).module, 'FooModule');
+      expect(cgInterfaceMatch.module, 'FooModule');
+      expect((nodes[1] as public_ast.ObjCInterface).module, isNull);
+      expect(cgInterfaceNoMatch.module, isNull);
+
+      expect((nodes[2] as public_ast.ObjCProtocol).module, 'BarModule');
+      expect(cgProtocolMatch.module, 'BarModule');
+      expect((nodes[3] as public_ast.ObjCProtocol).module, isNull);
+      expect(cgProtocolNoMatch.module, isNull);
+    });
   });
 }

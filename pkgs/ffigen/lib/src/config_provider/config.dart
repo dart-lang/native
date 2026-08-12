@@ -452,14 +452,10 @@ final class Interfaces extends Declarations {
   /// transitively included interfaces will be generated as stubs instead.
   final bool includeTransitive;
 
-  /// The module that the Objective-C interface belongs to.
-  final String? Function(Declaration declaration) module;
-
   const Interfaces({
     super.include,
     super.includeMember,
     this.includeTransitive = false,
-    this.module = noModule,
   });
 
   static const excludeAll = Interfaces(include: Declarations.excludeAll);
@@ -468,8 +464,6 @@ final class Interfaces extends Declarations {
 
   static Interfaces includeSet(Set<String> names) =>
       Interfaces(include: Declarations.includeSet(names));
-
-  static String? noModule(Declaration declaration) => null;
 }
 
 /// Configuration for Objective-C protocols.
@@ -480,14 +474,10 @@ final class Protocols extends Declarations {
   /// transitively included protocols will not be generated at all.
   final bool includeTransitive;
 
-  /// The module that the Objective-C protocol belongs to.
-  final String? Function(Declaration declaration) module;
-
   const Protocols({
     super.include,
     super.includeMember,
     this.includeTransitive = false,
-    this.module = noModule,
   });
 
   static const excludeAll = Protocols(include: Declarations.excludeAll);
@@ -496,8 +486,6 @@ final class Protocols extends Declarations {
 
   static Protocols includeSet(Set<String> names) =>
       Protocols(include: Declarations.includeSet(names));
-
-  static String? noModule(Declaration declaration) => null;
 }
 
 /// Configuration for outputting bindings.

@@ -19,7 +19,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   ObjCInterface? superType;
   bool filled = false;
 
-  final String? module;
+  String? module;
   ObjCClassGlobal? classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
