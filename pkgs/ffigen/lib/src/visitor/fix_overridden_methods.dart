@@ -112,11 +112,6 @@ class FixOverriddenMethodsVisitation extends Visitation {
     for (final method in node.methods) {
       if (method.isClassMethod) continue;
       final (root, rootMethod) = _findRootWithMethod(node, method);
-      if (rootMethod.kind == ObjCMethodKind.propertySetter &&
-          method.kind == ObjCMethodKind.method) {
-        method.kind = ObjCMethodKind.propertySetter;
-        continue;
-      }
       // If method and rootMethod are the same kind, then there's nothing to do.
       if ((method.kind == ObjCMethodKind.propertyGetter) ==
           (rootMethod.kind == ObjCMethodKind.propertyGetter)) {
@@ -152,22 +147,17 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
   void _convertAllSubtreeMethodsToProperties(
     ObjCInterface node,
-    ObjCMethod rootMethod, [
-    Set<ObjCInterface>? visited,
-  ]) {
-    visited ??= {};
-    if (!visited.add(node)) return;
+    ObjCMethod rootMethod,
+  ) {
     final method = node.getSimilarMethod(rootMethod);
-    if (method != null &&
-        !method.isClassMethod &&
-        method.kind == ObjCMethodKind.method) {
+    if (method != null && method.kind == ObjCMethodKind.method) {
       method.kind = ObjCMethodKind.propertyGetter;
-      context.logger.fine(
+      context.logger.info(
         'Converted ${node.originalName}.${method.originalName} to a getter',
       );
     }
     for (final t in node.subtypes) {
-      _convertAllSubtreeMethodsToProperties(t, rootMethod, visited);
+      _convertAllSubtreeMethodsToProperties(t, rootMethod);
     }
   }
 }

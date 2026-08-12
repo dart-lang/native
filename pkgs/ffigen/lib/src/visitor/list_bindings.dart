@@ -121,12 +121,12 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitTypealias(Typealias node) {
-    final behavior = node.isInternal
-        ? _IncludeBehavior.transitive
-        : (config.typedefs.includeUnused
-              ? _IncludeBehavior.configOnly
-              : _IncludeBehavior.configAndTransitive);
-    _visitImpl(node, behavior);
+    _visitImpl(
+      node,
+      config.typedefs.includeUnused
+          ? _IncludeBehavior.configOnly
+          : _IncludeBehavior.configAndTransitive,
+    );
 
     // Objective C has some core typedefs that are important to keep.
     if (config.objectiveC != null &&
@@ -140,22 +140,6 @@ class ListBindingsVisitation extends Visitation {
       node.visitChildren(visitor);
     }
   }
-
-  @override
-  void visitMacroConstant(MacroConstant node) =>
-      _visitImpl(node, _IncludeBehavior.configOnly);
-
-  @override
-  void visitConstant(Constant node) =>
-      _visitImpl(node, _IncludeBehavior.configOnly);
-
-  @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      _visitImpl(node, _IncludeBehavior.configOnly);
-
-  @override
-  void visitGlobal(Global node) =>
-      _visitImpl(node, _IncludeBehavior.configOnly);
 }
 
 class MarkBindingsVisitation extends Visitation {
@@ -167,10 +151,5 @@ class MarkBindingsVisitation extends Visitation {
   void visitBinding(Binding node) {
     node.visitChildren(visitor);
     node.generateBindings = bindings.contains(node);
-    if (node is Func &&
-        node.generateBindings &&
-        node.exposedFunctionTypealias != null) {
-      node.exposedFunctionTypealias!.generateBindings = true;
-    }
   }
 }
