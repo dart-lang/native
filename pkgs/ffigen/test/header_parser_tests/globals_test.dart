@@ -138,11 +138,7 @@ Library expectedLibrary() {
       constant: true,
     ),
     globalStruct,
-    Global(
-      name: 'globalStruct',
-      type: globalStruct,
-      exposeSymbolAddress: true,
-    ),
+    Global(name: 'globalStruct', type: globalStruct, exposeSymbolAddress: true),
     globalStructAlias,
     Global(
       name: 'globalStruct_from_alias',

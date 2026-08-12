@@ -1283,9 +1283,7 @@ final class YamlConfig {
           };
         },
       ),
-      unions: Unions(
-        dependencies: _unionDependencies,
-      ),
+      unions: Unions(dependencies: _unionDependencies),
       unnamedEnums: const UnnamedEnums(),
       globals: Globals(
         includeSymbolAddress: globals.shouldIncludeSymbolAddress,
