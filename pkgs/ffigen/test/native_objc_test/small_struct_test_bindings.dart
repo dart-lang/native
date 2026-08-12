@@ -327,6 +327,322 @@ extension ObjCBlock_Struct8$CallExtension
   }
 }
 
+/// Construction methods for `objc.ObjCBlock<Union16 Function()>`.
+abstract final class ObjCBlock_Union16 {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<Union16 Function()> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<Union16 Function()>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<Union16 Function()> fromFunctionPointer(
+    ffi.Pointer<ffi.NativeFunction<Union16 Function()>> ptr,
+  ) => objc.ObjCBlock<Union16 Function()>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<Union16 Function()> fromFunction(
+    Union16 Function() fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<Union16 Function()>(
+    objc.newClosureBlock(_closureCallable, () {
+      return fn();
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  static Union16 _fnPtrTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) =>
+      block.ref.target
+          .cast<ffi.NativeFunction<Union16 Function()>>()
+          .asFunction<Union16 Function()>()();
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            Union16 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_fnPtrTrampoline)
+          .cast();
+  static Union16 _closureTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) =>
+      (objc.getBlockClosure(block) as Union16 Function())();
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            Union16 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<Union16 Function()>`.
+extension ObjCBlock_Union16$CallExtension
+    on objc.ObjCBlock<Union16 Function()> {
+  Union16 call() {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            Union16 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+          >
+        >()
+        .asFunction<Union16 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+      ref.pointer,
+    );
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<Union24 Function()>`.
+abstract final class ObjCBlock_Union24 {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<Union24 Function()> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<Union24 Function()>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<Union24 Function()> fromFunctionPointer(
+    ffi.Pointer<ffi.NativeFunction<Union24 Function()>> ptr,
+  ) => objc.ObjCBlock<Union24 Function()>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<Union24 Function()> fromFunction(
+    Union24 Function() fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<Union24 Function()>(
+    objc.newClosureBlock(_closureCallable, () {
+      return fn();
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  static Union24 _fnPtrTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) =>
+      block.ref.target
+          .cast<ffi.NativeFunction<Union24 Function()>>()
+          .asFunction<Union24 Function()>()();
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            Union24 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_fnPtrTrampoline)
+          .cast();
+  static Union24 _closureTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) =>
+      (objc.getBlockClosure(block) as Union24 Function())();
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            Union24 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<Union24 Function()>`.
+extension ObjCBlock_Union24$CallExtension
+    on objc.ObjCBlock<Union24 Function()> {
+  Union24 call() {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            Union24 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+          >
+        >()
+        .asFunction<Union24 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+      ref.pointer,
+    );
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<Union32 Function()>`.
+abstract final class ObjCBlock_Union32 {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<Union32 Function()> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<Union32 Function()>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<Union32 Function()> fromFunctionPointer(
+    ffi.Pointer<ffi.NativeFunction<Union32 Function()>> ptr,
+  ) => objc.ObjCBlock<Union32 Function()>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<Union32 Function()> fromFunction(
+    Union32 Function() fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<Union32 Function()>(
+    objc.newClosureBlock(_closureCallable, () {
+      return fn();
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  static Union32 _fnPtrTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) =>
+      block.ref.target
+          .cast<ffi.NativeFunction<Union32 Function()>>()
+          .asFunction<Union32 Function()>()();
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            Union32 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_fnPtrTrampoline)
+          .cast();
+  static Union32 _closureTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) =>
+      (objc.getBlockClosure(block) as Union32 Function())();
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            Union32 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<Union32 Function()>`.
+extension ObjCBlock_Union32$CallExtension
+    on objc.ObjCBlock<Union32 Function()> {
+  Union32 call() {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            Union32 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+          >
+        >()
+        .asFunction<Union32 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+      ref.pointer,
+    );
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<Union8 Function()>`.
+abstract final class ObjCBlock_Union8 {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<Union8 Function()> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<Union8 Function()>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<Union8 Function()> fromFunctionPointer(
+    ffi.Pointer<ffi.NativeFunction<Union8 Function()>> ptr,
+  ) => objc.ObjCBlock<Union8 Function()>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<Union8 Function()> fromFunction(
+    Union8 Function() fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<Union8 Function()>(
+    objc.newClosureBlock(_closureCallable, () {
+      return fn();
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  static Union8 _fnPtrTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) => block
+      .ref
+      .target
+      .cast<ffi.NativeFunction<Union8 Function()>>()
+      .asFunction<Union8 Function()>()();
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            Union8 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_fnPtrTrampoline)
+          .cast();
+  static Union8 _closureTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block) =>
+      (objc.getBlockClosure(block) as Union8 Function())();
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            Union8 Function(ffi.Pointer<objc.ObjCBlockImpl>)
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<Union8 Function()>`.
+extension ObjCBlock_Union8$CallExtension on objc.ObjCBlock<Union8 Function()> {
+  Union8 call() {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            Union8 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+          >
+        >()
+        .asFunction<Union8 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+      ref.pointer,
+    );
+  }
+}
+
 /// SmallStructTester
 extension type SmallStructTester._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -461,6 +777,46 @@ extension type SmallStructTester._(objc.ObjCObject object$)
     return ffi.Struct.create<Struct8>($finalizable);
   }
 
+  /// callUnion16Block:
+  static Union16 callUnion16Block(DartUnion16Block block) {
+    final _$$ref = block.ref;
+    return _objc_msgSend_f8uoqi(
+      _class_SmallStructTester,
+      _sel_callUnion16Block_,
+      _$$ref.pointer,
+    );
+  }
+
+  /// callUnion24Block:
+  static Union24 callUnion24Block(DartUnion24Block block) {
+    final _$$ref = block.ref;
+    return _objc_msgSend_14sbhfp(
+      _class_SmallStructTester,
+      _sel_callUnion24Block_,
+      _$$ref.pointer,
+    );
+  }
+
+  /// callUnion32Block:
+  static Union32 callUnion32Block(DartUnion32Block block) {
+    final _$$ref = block.ref;
+    return _objc_msgSend_bycxuc(
+      _class_SmallStructTester,
+      _sel_callUnion32Block_,
+      _$$ref.pointer,
+    );
+  }
+
+  /// callUnion8Block:
+  static Union8 callUnion8Block(DartUnion8Block block) {
+    final _$$ref = block.ref;
+    return _objc_msgSend_1dk1rdj(
+      _class_SmallStructTester,
+      _sel_callUnion8Block_,
+      _$$ref.pointer,
+    );
+  }
+
   /// new
   static SmallStructTester new$() {
     final $ret = _objc_msgSend_151sglz(_class_SmallStructTester, _sel_new);
@@ -552,6 +908,30 @@ extension SmallStructTester$Methods on SmallStructTester {
     return ffi.Struct.create<Struct8>($finalizable);
   }
 
+  /// getUnion16Method
+  Union16 getUnion16Method() {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1j2v0w7(_$$ref.pointer, _sel_getUnion16Method);
+  }
+
+  /// getUnion24Method
+  Union24 getUnion24Method() {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_yygd0u(_$$ref.pointer, _sel_getUnion24Method);
+  }
+
+  /// getUnion32Method
+  Union32 getUnion32Method() {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_9oml3t(_$$ref.pointer, _sel_getUnion32Method);
+  }
+
+  /// getUnion8Method
+  Union8 getUnion8Method() {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_qlggu8(_$$ref.pointer, _sel_getUnion8Method);
+  }
+
   /// init
   SmallStructTester init() {
     final _$$ref = object$.ref;
@@ -589,6 +969,30 @@ extension SmallStructTester$Methods on SmallStructTester {
   set struct8Property(Struct8 value) {
     final _$$ref = object$.ref;
     _objc_msgSend_zho4aa(_$$ref.pointer, _sel_setStruct8Property_, value);
+  }
+
+  /// setUnion16Property:
+  set union16Property(Union16 value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_uj4el3(_$$ref.pointer, _sel_setUnion16Property_, value);
+  }
+
+  /// setUnion24Property:
+  set union24Property(Union24 value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_19s6byc(_$$ref.pointer, _sel_setUnion24Property_, value);
+  }
+
+  /// setUnion32Property:
+  set union32Property(Union32 value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_7qiyh(_$$ref.pointer, _sel_setUnion32Property_, value);
+  }
+
+  /// setUnion8Property:
+  set union8Property(Union8 value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1yl1yru(_$$ref.pointer, _sel_setUnion8Property_, value);
   }
 
   /// struct16Property
@@ -662,6 +1066,30 @@ extension SmallStructTester$Methods on SmallStructTester {
       finalizer: pkg_ffi.calloc.nativeFree,
     );
     return ffi.Struct.create<Struct8>($finalizable);
+  }
+
+  /// union16Property
+  Union16 get union16Property {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_1j2v0w7(_$$ref.pointer, _sel_union16Property);
+  }
+
+  /// union24Property
+  Union24 get union24Property {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_yygd0u(_$$ref.pointer, _sel_union24Property);
+  }
+
+  /// union32Property
+  Union32 get union32Property {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_9oml3t(_$$ref.pointer, _sel_union32Property);
+  }
+
+  /// union8Property
+  Union8 get union8Property {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_qlggu8(_$$ref.pointer, _sel_union8Property);
   }
 }
 
@@ -749,6 +1177,44 @@ final class Struct8 extends ffi.Struct {
 
 typedef Struct8Block = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartStruct8Block = objc.ObjCBlock<Struct8 Function()>;
+
+final class Union16 extends ffi.Union {
+  @ffi.Int64()
+  external int a;
+
+  external Struct16 s;
+}
+
+typedef Union16Block = ffi.Pointer<objc.ObjCBlockImpl>;
+typedef DartUnion16Block = objc.ObjCBlock<Union16 Function()>;
+
+final class Union24 extends ffi.Union {
+  @ffi.Int64()
+  external int a;
+
+  external Struct24 s;
+}
+
+typedef Union24Block = ffi.Pointer<objc.ObjCBlockImpl>;
+typedef DartUnion24Block = objc.ObjCBlock<Union24 Function()>;
+
+final class Union32 extends ffi.Union {
+  @ffi.Int64()
+  external int a;
+
+  external Struct32 s;
+}
+
+typedef Union32Block = ffi.Pointer<objc.ObjCBlockImpl>;
+typedef DartUnion32Block = objc.ObjCBlock<Union32 Function()>;
+
+final class Union8 extends ffi.Union {
+  @ffi.Int64()
+  external int a;
+}
+
+typedef Union8Block = ffi.Pointer<objc.ObjCBlockImpl>;
+typedef DartUnion8Block = objc.ObjCBlock<Union8 Function()>;
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_SmallStructTester',
 )
@@ -790,6 +1256,23 @@ final _objc_msgSend_12y327vStret = objc.msgSendStretPointer
     .asFunction<
       void Function(
         ffi.Pointer<Struct8>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_14sbhfp = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union24 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      Union24 Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCBlockImpl>,
@@ -859,6 +1342,23 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_19s6byc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          Union24,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        Union24,
+      )
+    >();
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -874,6 +1374,38 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.NSZone>,
+      )
+    >();
+final _objc_msgSend_1dk1rdj = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union8 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      Union8 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_1j2v0w7 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union16 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      Union16 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_1krpi0d = objc.msgSendPointer
@@ -925,6 +1457,23 @@ final _objc_msgSend_1xk0msh = objc.msgSendPointer
         Struct32,
       )
     >();
+final _objc_msgSend_1yl1yru = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          Union8,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        Union8,
+      )
+    >();
 final _objc_msgSend_52unem = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -961,6 +1510,23 @@ final _objc_msgSend_52unemStret = objc.msgSendStretPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_7qiyh = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          Union32,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        Union32,
+      )
+    >();
 final _objc_msgSend_8lxd0c = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -993,6 +1559,21 @@ final _objc_msgSend_8lxd0cStret = objc.msgSendStretPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
+final _objc_msgSend_9oml3t = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union32 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      Union32 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
 final _objc_msgSend_bc9ifz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1008,6 +1589,23 @@ final _objc_msgSend_bc9ifz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         Struct16,
+      )
+    >();
+final _objc_msgSend_bycxuc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union32 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      Union32 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
 final _objc_msgSend_cckn96 = objc.msgSendPointer
@@ -1078,6 +1676,23 @@ final _objc_msgSend_dod749Stret = objc.msgSendStretPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_f8uoqi = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union16 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      Union16 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
 final _objc_msgSend_pqul40 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1114,6 +1729,21 @@ final _objc_msgSend_pqul40Stret = objc.msgSendStretPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_qlggu8 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union8 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      Union8 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
 final _objc_msgSend_qofdt8 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1129,6 +1759,38 @@ final _objc_msgSend_qofdt8 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         Struct24,
+      )
+    >();
+final _objc_msgSend_uj4el3 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          Union16,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        Union16,
+      )
+    >();
+final _objc_msgSend_yygd0u = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        Union24 Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      Union24 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_zho4aa = objc.msgSendPointer
@@ -1154,10 +1816,18 @@ late final _sel_callStruct16Block_ = objc.registerName("callStruct16Block:");
 late final _sel_callStruct24Block_ = objc.registerName("callStruct24Block:");
 late final _sel_callStruct32Block_ = objc.registerName("callStruct32Block:");
 late final _sel_callStruct8Block_ = objc.registerName("callStruct8Block:");
+late final _sel_callUnion16Block_ = objc.registerName("callUnion16Block:");
+late final _sel_callUnion24Block_ = objc.registerName("callUnion24Block:");
+late final _sel_callUnion32Block_ = objc.registerName("callUnion32Block:");
+late final _sel_callUnion8Block_ = objc.registerName("callUnion8Block:");
 late final _sel_getStruct16Method = objc.registerName("getStruct16Method");
 late final _sel_getStruct24Method = objc.registerName("getStruct24Method");
 late final _sel_getStruct32Method = objc.registerName("getStruct32Method");
 late final _sel_getStruct8Method = objc.registerName("getStruct8Method");
+late final _sel_getUnion16Method = objc.registerName("getUnion16Method");
+late final _sel_getUnion24Method = objc.registerName("getUnion24Method");
+late final _sel_getUnion32Method = objc.registerName("getUnion32Method");
+late final _sel_getUnion8Method = objc.registerName("getUnion8Method");
 late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
@@ -1171,9 +1841,17 @@ late final _sel_setStruct32Property_ = objc.registerName(
   "setStruct32Property:",
 );
 late final _sel_setStruct8Property_ = objc.registerName("setStruct8Property:");
+late final _sel_setUnion16Property_ = objc.registerName("setUnion16Property:");
+late final _sel_setUnion24Property_ = objc.registerName("setUnion24Property:");
+late final _sel_setUnion32Property_ = objc.registerName("setUnion32Property:");
+late final _sel_setUnion8Property_ = objc.registerName("setUnion8Property:");
 late final _sel_struct16Property = objc.registerName("struct16Property");
 late final _sel_struct24Property = objc.registerName("struct24Property");
 late final _sel_struct32Property = objc.registerName("struct32Property");
 late final _sel_struct8Property = objc.registerName("struct8Property");
+late final _sel_union16Property = objc.registerName("union16Property");
+late final _sel_union24Property = objc.registerName("union24Property");
+late final _sel_union32Property = objc.registerName("union32Property");
+late final _sel_union8Property = objc.registerName("union8Property");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

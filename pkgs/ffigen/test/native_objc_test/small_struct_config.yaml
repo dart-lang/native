@@ -8,6 +8,12 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - SmallStructTester
+unions:
+  include:
+    - Union8
+    - Union16
+    - Union24
+    - Union32
 typedefs:
   include:
     - Struct8
@@ -18,6 +24,14 @@ typedefs:
     - Struct16Block
     - Struct24Block
     - Struct32Block
+    - Union8
+    - Union16
+    - Union24
+    - Union32
+    - Union8Block
+    - Union16Block
+    - Union24Block
+    - Union32Block
 ffi-native:
   asset-id: 'package:ffigen/objc_test'
 headers:
