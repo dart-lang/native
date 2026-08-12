@@ -165,6 +165,17 @@ extension NullableInterface$Methods on NullableInterface {
         ? null
         : objc.NSObject.fromPointer($ret, retain: true, release: true);
   }
+
+  /// setNullableObjectProperty:
+  set nullableObjectProperty(objc.NSObject? value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value?.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setNullableObjectProperty_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
+  }
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
@@ -264,6 +275,23 @@ final _objc_msgSend_1t6aok9 = objc.msgSendPointer
         bool,
       )
     >();
+final _objc_msgSend_xtuoz7 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_init = objc.registerName("init");
@@ -286,6 +314,9 @@ late final _sel_nullableObjectProperty = objc.registerName(
 late final _sel_returnNil_ = objc.registerName("returnNil:");
 late final _sel_returnNullableAlias_ = objc.registerName(
   "returnNullableAlias:",
+);
+late final _sel_setNullableObjectProperty_ = objc.registerName(
+  "setNullableObjectProperty:",
 );
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

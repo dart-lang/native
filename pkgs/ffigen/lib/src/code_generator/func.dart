@@ -65,6 +65,8 @@ class Func extends LookUpBinding with HasLocalScope {
   Typealias? _exposedFunctionTypealias;
   Typealias? get exposedFunctionTypealias => _exposedFunctionTypealias;
 
+  bool isIncluded = false;
+
   /// [originalName] is looked up in dynamic library, if not
   /// provided, takes the value of [name].
   Func({
@@ -82,7 +84,6 @@ class Func extends LookUpBinding with HasLocalScope {
     this.useNameForLookup = false,
     this.recordUse = false,
     super.isInternal,
-    super.isIncluded,
     this.loadFromNativeAsset = false,
     this.apiAvailability,
   }) : functionType = FunctionType(

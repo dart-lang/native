@@ -13,49 +13,47 @@ class ApplyConfigFiltersVisitation extends Visitation {
   final indirectlyIncluded = <Binding>{};
   ApplyConfigFiltersVisitation(this.context);
 
-  void _visitImpl(Binding node) {
+  void _visitImpl(Binding node, bool isIncluded) {
+    node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (context.config.importType(node) != null) return;
-    if (node.isIncluded) {
-      directlyIncluded.add(node);
-    }
+    if (isIncluded) directlyIncluded.add(node);
   }
 
   @override
-  void visitStruct(Struct node) => _visitImpl(node);
+  void visitStruct(Struct node) => _visitImpl(node, node.isIncluded);
 
   @override
-  void visitUnion(Union node) => _visitImpl(node);
+  void visitUnion(Union node) => _visitImpl(node, node.isIncluded);
 
   @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
-    _visitImpl(node);
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
   void visitCppClass(CppClass node) {
     if (context.config.cpp == null) return;
-    _visitImpl(node);
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
-  void visitFunc(Func node) => _visitImpl(node);
+  void visitFunc(Func node) => _visitImpl(node, node.isIncluded);
 
   @override
-  void visitMacroConstant(MacroConstant node) => _visitImpl(node);
+  void visitMacroConstant(MacroConstant node) =>
+      _visitImpl(node, node.isIncluded);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
     if (node.unavailable) return;
     if (context.config.objectiveC == null) return;
 
-    if (!node.isObjCImport) {
+    if (!node.isInternal) {
       node.filterMethods((m) => !m.unavailable && m.isIncluded);
     }
-    if (!node.isInternal) {
-      _visitImpl(node);
-    }
+    _visitImpl(node, node.isIncluded);
 
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
@@ -68,15 +66,12 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (context.config.objectiveC == null) return;
-
     node.filterMethods((m) {
       if (m.unavailable) return false;
       if (node.shouldCopyMethodToInterface(m)) return false;
       return m.isIncluded;
     });
-    if (!node.isInternal) {
-      _visitImpl(node);
-    }
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
@@ -94,27 +89,26 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
       return m.isIncluded;
     });
-    if (!node.isInternal) {
-      _visitImpl(node);
-    }
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
-  void visitUnnamedEnumConstant(UnnamedEnumConstant node) => _visitImpl(node);
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      _visitImpl(node, node.isIncluded);
 
   @override
-  void visitGlobal(Global node) => _visitImpl(node);
+  void visitGlobal(Global node) => _visitImpl(node, node.isIncluded);
 
   @override
   void visitConstant(Constant node) {
     // MacroConstant and UnnamedEnumConstant have their own overrides, so this
     // only applies to base Constants (e.g. from static const variables).
-    _visitImpl(node);
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    _visitImpl(node);
+    _visitImpl(node, node.isIncluded);
   }
 }

@@ -101,6 +101,15 @@ extension type PropertyInterface._(objc.ObjCObject object$)
     return UndefinedTemplate.fromPointer($ret, retain: true, release: true);
   }
 
+  /// setClassReadWriteProperty:
+  static void setClassReadWriteProperty(int value) {
+    _objc_msgSend_1bqef4y(
+      _class_PropertyInterface,
+      _sel_setClassReadWriteProperty_,
+      value,
+    );
+  }
+
   /// Returns a new instance of PropertyInterface constructed with the default `new` method.
   PropertyInterface() : this.as(new$().object$);
 }
@@ -153,6 +162,30 @@ extension PropertyInterface$Methods on PropertyInterface {
   int get readWriteProperty {
     final _$$ref = object$.ref;
     return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_readWriteProperty);
+  }
+
+  /// setDoubleProperty:
+  set doubleProperty(double value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleProperty_, value);
+  }
+
+  /// setFloatProperty:
+  set floatProperty(double value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_v5hmet(_$$ref.pointer, _sel_setFloatProperty_, value);
+  }
+
+  /// setReadWriteProperty:
+  set readWriteProperty(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setReadWriteProperty_, value);
+  }
+
+  /// setStructProperty:
+  set structProperty(Vec4 value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_188ryij(_$$ref.pointer, _sel_setStructProperty_, value);
   }
 
   /// structProperty
@@ -238,6 +271,23 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
+final _objc_msgSend_188ryij = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          Vec4,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        Vec4,
+      )
+    >();
 final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -253,6 +303,23 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_1bqef4y = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Int32,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
       )
     >();
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
@@ -347,6 +414,23 @@ final _objc_msgSend_2cgrxlFpret = objc.msgSendFpretPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
+final _objc_msgSend_hwm8nu = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Double,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+      )
+    >();
 final _objc_msgSend_o6r21b = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -379,6 +463,23 @@ final _objc_msgSend_o6r21bStret = objc.msgSendStretPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
+final _objc_msgSend_v5hmet = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Float,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        double,
+      )
+    >();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_classReadOnlyProperty = objc.registerName(
@@ -397,6 +498,15 @@ late final _sel_readOnlyProperty = objc.registerName("readOnlyProperty");
 late final _sel_readWriteProperty = objc.registerName("readWriteProperty");
 late final _sel_regressGH1268 = objc.registerName("regressGH1268");
 late final _sel_regressGH436 = objc.registerName("regressGH436");
+late final _sel_setClassReadWriteProperty_ = objc.registerName(
+  "setClassReadWriteProperty:",
+);
+late final _sel_setDoubleProperty_ = objc.registerName("setDoubleProperty:");
+late final _sel_setFloatProperty_ = objc.registerName("setFloatProperty:");
+late final _sel_setReadWriteProperty_ = objc.registerName(
+  "setReadWriteProperty:",
+);
+late final _sel_setStructProperty_ = objc.registerName("setStructProperty:");
 late final _sel_structProperty = objc.registerName("structProperty");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

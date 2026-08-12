@@ -40,6 +40,8 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   final ApiAvailability? apiAvailability;
 
+  bool isIncluded = false;
+
   Compound({
     super.usr,
     super.originalName,
@@ -48,7 +50,6 @@ abstract class Compound extends BindingType with HasLocalScope {
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,
-    super.isIncluded,
     required this.context,
     String? nativeType,
     this.apiAvailability,

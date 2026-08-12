@@ -25,7 +25,7 @@ class CppMethod extends AstNode with HasLocalScope {
   final bool isStatic;
   final CppMethodKind kind;
 
-  bool isIncluded = false;
+  bool isIncluded = true;
 
   CppMethod({
     required this.name,
@@ -72,13 +72,13 @@ class CppClass extends BindingType with HasLocalScope {
   final Context context;
   final List<CppMethod> methods;
   final List<CppMember> fields;
+  bool isIncluded = false;
 
   CppClass({
     super.usr,
     super.originalName,
     required super.name,
     super.dartDoc,
-    super.isIncluded,
     required this.context,
     required this.methods,
     required this.fields,

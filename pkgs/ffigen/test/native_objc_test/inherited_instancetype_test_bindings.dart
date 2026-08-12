@@ -36,9 +36,62 @@ extension type BaseClass._(objc.ObjCObject object$)
           _sel_isKindOfClass_,
           _class_BaseClass,
         );
+
+  /// alloc
+  static BaseClass alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_alloc);
+    return BaseClass.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static BaseClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_BaseClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return BaseClass.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// create
+  static BaseClass create() {
+    final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_create);
+    return BaseClass.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// new
+  static BaseClass new$() {
+    final $ret = _objc_msgSend_151sglz(_class_BaseClass, _sel_new);
+    return BaseClass.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of BaseClass constructed with the default `new` method.
+  BaseClass() : this.as(new$().object$);
 }
 
-extension BaseClass$Methods on BaseClass {}
+extension BaseClass$Methods on BaseClass {
+  /// getSelf
+  BaseClass getSelf() {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_getSelf);
+    return BaseClass.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// init
+  BaseClass init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'BaseClass.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return BaseClass.fromPointer($ret, retain: false, release: true);
+  }
+}
 
 /// ChildClass
 extension type ChildClass._(objc.ObjCObject object$)
@@ -126,6 +179,12 @@ extension ChildClass$Methods on ChildClass {
     );
     return ChildClass.fromPointer($ret, retain: false, release: true);
   }
+
+  /// setField:
+  set field(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setField_, value);
+  }
 }
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$_BaseClass')
@@ -178,6 +237,23 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_1bqef4y = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Int32,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
+    >();
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -218,5 +294,6 @@ late final _sel_getSelf = objc.registerName("getSelf");
 late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
+late final _sel_setField_ = objc.registerName("setField:");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

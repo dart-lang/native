@@ -110,6 +110,18 @@ extension Renamed$Methods on Renamed {
     return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_renamedProperty);
   }
 
+  /// setProperty:
+  set property(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setProperty_, value);
+  }
+
+  /// setRenamedProperty:
+  set reProp(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setRenamedProperty_, value);
+  }
+
   /// toString
   objc.NSString toString$1() {
     final _$$ref = object$.ref;
@@ -156,6 +168,23 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_1bqef4y = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Int32,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
       )
     >();
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
@@ -220,6 +249,8 @@ late final _sel_renamedMethod_otherArg_ = objc.registerName(
   "renamedMethod:otherArg:",
 );
 late final _sel_renamedProperty = objc.registerName("renamedProperty");
+late final _sel_setProperty_ = objc.registerName("setProperty:");
+late final _sel_setRenamedProperty_ = objc.registerName("setRenamedProperty:");
 late final _sel_toString = objc.registerName("toString");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

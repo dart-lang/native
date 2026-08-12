@@ -36,9 +36,49 @@ extension type IsInstanceBaseClass._(objc.ObjCObject object$)
           _sel_isKindOfClass_,
           _class_IsInstanceBaseClass,
         );
+
+  /// alloc
+  static IsInstanceBaseClass alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_IsInstanceBaseClass, _sel_alloc);
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static IsInstanceBaseClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_IsInstanceBaseClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// new
+  static IsInstanceBaseClass new$() {
+    final $ret = _objc_msgSend_151sglz(_class_IsInstanceBaseClass, _sel_new);
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of IsInstanceBaseClass constructed with the default `new` method.
+  IsInstanceBaseClass() : this.as(new$().object$);
 }
 
-extension IsInstanceBaseClass$Methods on IsInstanceBaseClass {}
+extension IsInstanceBaseClass$Methods on IsInstanceBaseClass {
+  /// init
+  IsInstanceBaseClass init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'IsInstanceBaseClass.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return IsInstanceBaseClass.fromPointer($ret, retain: false, release: true);
+  }
+}
 
 /// IsInstanceChildClass
 extension type IsInstanceChildClass._(objc.ObjCObject object$)

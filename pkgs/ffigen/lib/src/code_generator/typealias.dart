@@ -27,6 +27,8 @@ class Typealias extends BindingType {
   // Don't code gen this alias at all, just use the [type] directly.
   bool isAnonymous;
 
+  bool isIncluded = false;
+
   /// Creates a Typealias.
   ///
   /// If [genFfiDartType] is true, a binding is generated for the Ffi Dart type
@@ -39,7 +41,6 @@ class Typealias extends BindingType {
     required Type type,
     bool genFfiDartType = false,
     bool isInternal = false,
-    bool isIncluded = false,
   }) {
     final funcType = _getFunctionTypeFromPointer(type);
     if (funcType != null) {
@@ -50,7 +51,6 @@ class Typealias extends BindingType {
             type: funcType,
             genFfiDartType: genFfiDartType,
             isInternal: isInternal,
-            isIncluded: true,
           ),
         ),
       );
@@ -65,7 +65,6 @@ class Typealias extends BindingType {
         type: type,
         genFfiDartType: genFfiDartType,
         isInternal: isInternal,
-        isIncluded: isIncluded,
       );
     }
     return Typealias._(
@@ -76,7 +75,6 @@ class Typealias extends BindingType {
       type: type,
       genFfiDartType: genFfiDartType,
       isInternal: isInternal,
-      isIncluded: isIncluded,
     );
   }
 
@@ -95,7 +93,6 @@ class Typealias extends BindingType {
     bool genFfiDartType = false,
     super.isInternal,
     this.isAnonymous = false,
-    super.isIncluded,
   }) : _ffiDartAliasName = genFfiDartType
            ? Symbol('Dart$name', SymbolKind.klass)
            : null,
@@ -263,7 +260,6 @@ class ObjCInstanceType extends Typealias {
     required super.type,
     super.genFfiDartType,
     super.isInternal,
-    super.isIncluded,
   }) : super._();
 
   @override

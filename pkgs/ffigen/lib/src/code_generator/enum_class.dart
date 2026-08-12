@@ -59,6 +59,8 @@ class EnumClass extends BindingType with HasLocalScope {
 
   final ApiAvailability? apiAvailability;
 
+  bool isIncluded = false;
+
   EnumClass({
     super.usr,
     super.originalName,
@@ -70,7 +72,6 @@ class EnumClass extends BindingType with HasLocalScope {
     this.style = EnumStyle.dartEnum,
     this.isAnonymous = false,
     this.apiAvailability,
-    super.isIncluded,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];
 

@@ -31,6 +31,8 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
 
+  bool isIncluded = false;
+
   ObjCInterface({
     super.usr,
     required String super.originalName,
@@ -40,7 +42,6 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     required this.apiAvailability,
     required this.context,
     super.isInternal = false,
-    super.isIncluded,
   }) : super(
          name:
              context.objCBuiltInFunctions.getBuiltInInterfaceName(

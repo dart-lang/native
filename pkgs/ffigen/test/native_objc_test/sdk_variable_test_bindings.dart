@@ -691,6 +691,17 @@ extension NSTextList$Methods on NSTextList {
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
+  /// setStartingItemNumber:
+  set startingItemNumber(int value) {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NSTextList.setStartingItemNumber:',
+      iOS: (false, (7, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setStartingItemNumber_, value);
+  }
+
   /// startingItemNumber
   int get startingItemNumber {
     final _$$ref = object$.ref;
@@ -950,6 +961,51 @@ extension UIPickerView$Methods on UIPickerView {
       _$$ref.pointer,
       _sel_selectedRowInComponent_,
       component,
+    );
+  }
+
+  /// setDataSource:
+  set dataSource(UIPickerViewDataSource? value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value?.ref;
+    objc.checkOsVersionInternal(
+      'UIPickerView.setDataSource:',
+      iOS: (false, (2, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setDataSource_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
+  }
+
+  /// setDelegate:
+  set delegate(UIPickerViewDelegate? value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value?.ref;
+    objc.checkOsVersionInternal(
+      'UIPickerView.setDelegate:',
+      iOS: (false, (2, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_setDelegate_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
+  }
+
+  /// setShowsSelectionIndicator:
+  @Deprecated('This property has no effect on iOS 7 and later.')
+  set showsSelectionIndicator(bool value) {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'UIPickerView.setShowsSelectionIndicator:',
+      iOS: (false, (2, 0, 0)),
+    );
+    _objc_msgSend_1s56lr9(
+      _$$ref.pointer,
+      _sel_setShowsSelectionIndicator_,
+      value,
     );
   }
 
@@ -1253,6 +1309,23 @@ final _objc_msgSend_1pl9qdv = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
+final _objc_msgSend_1s56lr9 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Bool,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        bool,
+      )
+    >();
 final _objc_msgSend_1sotr3r = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1494,7 +1567,15 @@ late final _sel_selectRow_inComponent_animated_ = objc.registerName(
 late final _sel_selectedRowInComponent_ = objc.registerName(
   "selectedRowInComponent:",
 );
+late final _sel_setDataSource_ = objc.registerName("setDataSource:");
+late final _sel_setDelegate_ = objc.registerName("setDelegate:");
 late final _sel_setMode_ = objc.registerName("setMode:");
+late final _sel_setShowsSelectionIndicator_ = objc.registerName(
+  "setShowsSelectionIndicator:",
+);
+late final _sel_setStartingItemNumber_ = objc.registerName(
+  "setStartingItemNumber:",
+);
 late final _sel_showsSelectionIndicator = objc.registerName(
   "showsSelectionIndicator",
 );
