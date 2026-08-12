@@ -63,7 +63,6 @@ class Func extends LookUpBinding with HasLocalScope {
 
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
   Typealias? _exposedFunctionTypealias;
-  Typealias? get exposedFunctionTypealias => _exposedFunctionTypealias;
 
   bool isIncluded = false;
 
