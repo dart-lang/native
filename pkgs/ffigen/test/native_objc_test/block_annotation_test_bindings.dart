@@ -1522,59 +1522,6 @@ extension NSThread$Methods on NSThread {
     return objc.NSQualityOfService.fromValue($ret);
   }
 
-  /// setName:
-  set name(objc.NSString? value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value?.ref;
-    objc.checkOsVersionInternal(
-      'NSThread.setName:',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 5, 0)),
-    );
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setName_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
-  }
-
-  /// setQualityOfService:
-  set qualityOfService(objc.NSQualityOfService value) {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'NSThread.setQualityOfService:',
-      iOS: (false, (8, 0, 0)),
-      macOS: (false, (10, 10, 0)),
-    );
-    _objc_msgSend_n2da1l(
-      _$$ref.pointer,
-      _sel_setQualityOfService_,
-      value.value,
-    );
-  }
-
-  /// setStackSize:
-  set stackSize(int value) {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'NSThread.setStackSize:',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 5, 0)),
-    );
-    _objc_msgSend_1i9r4xy(_$$ref.pointer, _sel_setStackSize_, value);
-  }
-
-  /// setThreadPriority:
-  set threadPriority(double value) {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'NSThread.setThreadPriority:',
-      iOS: (false, (4, 0, 0)),
-      macOS: (false, (10, 6, 0)),
-    );
-    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setThreadPriority_, value);
-  }
-
   /// stackSize
   int get stackSize {
     final _$$ref = object$.ref;
@@ -3239,23 +3186,6 @@ final _objc_msgSend_1eldwyi = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-final _objc_msgSend_1i9r4xy = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.UnsignedLong,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
 final _objc_msgSend_1pl9qdv = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -3454,23 +3384,6 @@ final _objc_msgSend_lzbvjm = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-final _objc_msgSend_n2da1l = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Long,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
 final _objc_msgSend_nnxkei = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -3667,11 +3580,6 @@ late final _sel_receiveConsumedObject_ = objc.registerName(
   "receiveConsumedObject:",
 );
 late final _sel_receiveObject_ = objc.registerName("receiveObject:");
-late final _sel_setName_ = objc.registerName("setName:");
-late final _sel_setQualityOfService_ = objc.registerName(
-  "setQualityOfService:",
-);
-late final _sel_setStackSize_ = objc.registerName("setStackSize:");
 late final _sel_setThreadPriority_ = objc.registerName("setThreadPriority:");
 late final _sel_sleepForTimeInterval_ = objc.registerName(
   "sleepForTimeInterval:",

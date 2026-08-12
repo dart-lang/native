@@ -219,43 +219,10 @@ extension RefCountTestObject$Methods on RefCountTestObject {
     return RefCountTestObject.fromPointer($ret, retain: false, release: true);
   }
 
-  /// setAssignedProperty:
-  set assignedProperty(RefCountTestObject value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setAssignedProperty_,
-      _$$ref$1.pointer,
-    );
-  }
-
-  /// setCopiedProperty:
-  set copiedProperty(RefCountTestObject value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setCopiedProperty_,
-      _$$ref$1.pointer,
-    );
-  }
-
   /// setCounter:
   void setCounter(ffi.Pointer<ffi.Int32> _counter) {
     final _$$ref = object$.ref;
     _objc_msgSend_yhkuco(_$$ref.pointer, _sel_setCounter_, _counter);
-  }
-
-  /// setRetainedProperty:
-  set retainedProperty(RefCountTestObject value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setRetainedProperty_,
-      _$$ref$1.pointer,
-    );
   }
 
   /// unownedReference
@@ -495,23 +462,6 @@ final _objc_msgSend_pysgoz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-final _objc_msgSend_xtuoz7 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 final _objc_msgSend_yhkuco = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -552,14 +502,7 @@ late final _sel_newWithCounter_ = objc.registerName("newWithCounter:");
 late final _sel_refCount = objc.registerName("refCount");
 late final _sel_retainedProperty = objc.registerName("retainedProperty");
 late final _sel_returnsRetained = objc.registerName("returnsRetained");
-late final _sel_setAssignedProperty_ = objc.registerName(
-  "setAssignedProperty:",
-);
-late final _sel_setCopiedProperty_ = objc.registerName("setCopiedProperty:");
 late final _sel_setCounter_ = objc.registerName("setCounter:");
-late final _sel_setRetainedProperty_ = objc.registerName(
-  "setRetainedProperty:",
-);
 late final _sel_unownedReference = objc.registerName("unownedReference");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

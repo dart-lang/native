@@ -252,49 +252,9 @@ extension type NullableIntermediate._(objc.ObjCObject object$)
           _sel_isKindOfClass_,
           _class_NullableIntermediate,
         );
-
-  /// alloc
-  static NullableIntermediate alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NullableIntermediate, _sel_alloc);
-    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static NullableIntermediate allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NullableIntermediate,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// new
-  static NullableIntermediate new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NullableIntermediate, _sel_new);
-    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// Returns a new instance of NullableIntermediate constructed with the default `new` method.
-  NullableIntermediate() : this.as(new$().object$);
 }
 
-extension NullableIntermediate$Methods on NullableIntermediate {
-  /// init
-  NullableIntermediate init() {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'NullableIntermediate.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NullableIntermediate.fromPointer($ret, retain: false, release: true);
-  }
-}
+extension NullableIntermediate$Methods on NullableIntermediate {}
 
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_NullableBase',

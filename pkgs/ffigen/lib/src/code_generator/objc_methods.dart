@@ -380,6 +380,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
         clonedSymbol,
         parent: parent,
       );
+      clonedSetter.isIncluded = clonedMethod.isIncluded;
       clonedMethod.setter = clonedSetter;
     }
     return clonedMethod;

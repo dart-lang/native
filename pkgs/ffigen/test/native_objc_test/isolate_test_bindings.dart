@@ -270,12 +270,6 @@ extension Sendable$Methods on Sendable {
     return Sendable.fromPointer($ret, retain: false, release: true);
   }
 
-  /// setValue:
-  set value(int value) {
-    final _$$ref = object$.ref;
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setValue_, value);
-  }
-
   /// value
   int get value {
     final _$$ref = object$.ref;
@@ -366,23 +360,6 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-final _objc_msgSend_1bqef4y = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Int32,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -439,7 +416,6 @@ late final _sel_dummyMethodToForceGenerationOfListener = objc.registerName(
 late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
-late final _sel_setValue_ = objc.registerName("setValue:");
 late final _sel_value = objc.registerName("value");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

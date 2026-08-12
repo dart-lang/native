@@ -562,6 +562,10 @@ class ObjCMethod extends NamedNode {
   /// Whether this method is a property setter.
   bool get isPropertySetter => _method.isPropertySetter;
 
+  /// The property setter for this Objective-C method, if it is a property getter.
+  ObjCMethod? get setter =>
+      _method.setter != null ? ObjCMethod(parent, _method.setter!) : null;
+
   bool get isIncluded => _method.isIncluded;
 
   set isIncluded(bool value) {

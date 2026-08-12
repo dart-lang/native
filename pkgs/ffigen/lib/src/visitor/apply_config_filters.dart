@@ -116,8 +116,5 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
     _visitImpl(node);
-    if (directlyIncluded.contains(node)) {
-      node.visitChildren(visitor);
-    }
   }
 }

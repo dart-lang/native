@@ -1450,7 +1450,6 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitObjCMethod(public_ast.ObjCMethod node) {
-    if (node.isPropertySetter) return;
     final decl = _getObjCDecl(node.parent);
     if (decl != null) {
       node.isIncluded = decl.shouldIncludeMember(
@@ -1462,6 +1461,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
         node.name = rename;
       }
     }
+    node.setter?.isIncluded = node.isIncluded;
   }
 
   YamlDeclarationFilters? _getCompoundDecl(public_ast.DeclNode node) {

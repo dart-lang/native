@@ -128,49 +128,10 @@ extension Foo$Methods on Foo {
     return _objc_msgSend_1ovaulg(_$$ref.pointer, _sel_selVal);
   }
 
-  /// setBoolVal:
-  set boolVal(bool value) {
-    final _$$ref = object$.ref;
-    _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setBoolVal_, value);
-  }
-
-  /// setClassVal:
-  set classVal(objc.ObjCObject value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setClassVal_, _$$ref$1.pointer);
-  }
-
   /// setDoubleVal:
   void setDoubleVal(double x) {
     final _$$ref = object$.ref;
     _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setDoubleVal_, x);
-  }
-
-  /// setIdVal:
-  set idVal(objc.ObjCObject value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setIdVal_, _$$ref$1.pointer);
-  }
-
-  /// setIntVal:
-  set intVal(int value) {
-    final _$$ref = object$.ref;
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setIntVal_, value);
-  }
-
-  /// setObjVal:
-  set objVal(objc.NSObject value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setObjVal_, _$$ref$1.pointer);
-  }
-
-  /// setSelVal:
-  set selVal(ffi.Pointer<objc.ObjCSelector> value) {
-    final _$$ref = object$.ref;
-    _objc_msgSend_1d9e4oe(_$$ref.pointer, _sel_setSelVal_, value);
   }
 }
 
@@ -214,23 +175,6 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-final _objc_msgSend_1bqef4y = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Int32,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -246,23 +190,6 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.NSZone>,
-      )
-    >();
-final _objc_msgSend_1d9e4oe = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCSelector>,
       )
     >();
 final _objc_msgSend_1gcq84o = objc.msgSendPointer
@@ -293,23 +220,6 @@ final _objc_msgSend_1ovaulg = objc.msgSendPointer
       ffi.Pointer<objc.ObjCSelector> Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_1s56lr9 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Bool,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        bool,
       )
     >();
 final _objc_msgSend_1t47e0u = objc.msgSendPointer
@@ -380,23 +290,6 @@ final _objc_msgSend_oa8mke = objc.msgSendPointer
         double,
       )
     >();
-final _objc_msgSend_xtuoz7 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_boolVal = objc.registerName("boolVal");
@@ -412,12 +305,6 @@ late final _sel_multiply_withOtherFoo_ = objc.registerName(
 late final _sel_new = objc.registerName("new");
 late final _sel_objVal = objc.registerName("objVal");
 late final _sel_selVal = objc.registerName("selVal");
-late final _sel_setBoolVal_ = objc.registerName("setBoolVal:");
-late final _sel_setClassVal_ = objc.registerName("setClassVal:");
 late final _sel_setDoubleVal_ = objc.registerName("setDoubleVal:");
-late final _sel_setIdVal_ = objc.registerName("setIdVal:");
-late final _sel_setIntVal_ = objc.registerName("setIntVal:");
-late final _sel_setObjVal_ = objc.registerName("setObjVal:");
-late final _sel_setSelVal_ = objc.registerName("setSelVal:");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

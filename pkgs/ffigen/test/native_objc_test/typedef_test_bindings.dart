@@ -85,13 +85,6 @@ extension AnotherClass$Methods on AnotherClass {
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_property);
     return SomeClass.fromPointer($ret, retain: true, release: true);
   }
-
-  /// setProperty:
-  set property(DartSomeClassPtr value) {
-    final _$$ref = object$.ref;
-    final _$$ref$1 = value.ref;
-    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setProperty_, _$$ref$1.pointer);
-  }
 }
 
 /// SomeClass
@@ -232,29 +225,11 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.NSZone>,
       )
     >();
-final _objc_msgSend_xtuoz7 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
 late final _sel_property = objc.registerName("property");
-late final _sel_setProperty_ = objc.registerName("setProperty:");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

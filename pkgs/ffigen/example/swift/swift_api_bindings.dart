@@ -87,12 +87,6 @@ extension SwiftClass$Methods on SwiftClass {
     return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
-  /// setSomeField:
-  set someField(int value) {
-    final _$$ref = object$.ref;
-    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setSomeField_, value);
-  }
-
   /// someField
   int get someField {
     final _$$ref = object$.ref;
@@ -174,30 +168,12 @@ final _objc_msgSend_1hz7y9r = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-final _objc_msgSend_4sp4xj = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Long,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_new = objc.registerName("new");
 late final _sel_sayHello = objc.registerName("sayHello");
-late final _sel_setSomeField_ = objc.registerName("setSomeField:");
 late final _sel_someField = objc.registerName("someField");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;
