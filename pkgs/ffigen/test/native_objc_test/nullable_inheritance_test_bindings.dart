@@ -10,83 +10,6 @@ import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
-typedef CFAllocatorAllocateCallBackFunction =
-    ffi.Pointer<ffi.Void> Function(
-      ffi.Long allocSize,
-      ffi.UnsignedLong hint,
-      ffi.Pointer<ffi.Void> info,
-    );
-typedef DartCFAllocatorAllocateCallBackFunction =
-    ffi.Pointer<ffi.Void> Function(
-      int allocSize,
-      int hint,
-      ffi.Pointer<ffi.Void> info,
-    );
-typedef CFAllocatorCopyDescriptionCallBackFunction =
-    ffi.Pointer<objc.CFString> Function(ffi.Pointer<ffi.Void> info);
-typedef CFAllocatorDeallocateCallBackFunction =
-    ffi.Void Function(ffi.Pointer<ffi.Void> ptr, ffi.Pointer<ffi.Void> info);
-typedef DartCFAllocatorDeallocateCallBackFunction =
-    void Function(ffi.Pointer<ffi.Void> ptr, ffi.Pointer<ffi.Void> info);
-typedef CFAllocatorPreferredSizeCallBackFunction =
-    ffi.Long Function(
-      ffi.Long size,
-      ffi.UnsignedLong hint,
-      ffi.Pointer<ffi.Void> info,
-    );
-typedef DartCFAllocatorPreferredSizeCallBackFunction =
-    int Function(int size, int hint, ffi.Pointer<ffi.Void> info);
-typedef CFAllocatorReallocateCallBackFunction =
-    ffi.Pointer<ffi.Void> Function(
-      ffi.Pointer<ffi.Void> ptr,
-      ffi.Long newsize,
-      ffi.UnsignedLong hint,
-      ffi.Pointer<ffi.Void> info,
-    );
-typedef DartCFAllocatorReallocateCallBackFunction =
-    ffi.Pointer<ffi.Void> Function(
-      ffi.Pointer<ffi.Void> ptr,
-      int newsize,
-      int hint,
-      ffi.Pointer<ffi.Void> info,
-    );
-typedef CFAllocatorReleaseCallBackFunction =
-    ffi.Void Function(ffi.Pointer<ffi.Void> info);
-typedef DartCFAllocatorReleaseCallBackFunction =
-    void Function(ffi.Pointer<ffi.Void> info);
-typedef CFAllocatorRetainCallBackFunction =
-    ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> info);
-typedef CFComparatorFunctionFunction =
-    ffi.Long Function(
-      ffi.Pointer<ffi.Void> val1,
-      ffi.Pointer<ffi.Void> val2,
-      ffi.Pointer<ffi.Void> context,
-    );
-typedef DartCFComparatorFunctionFunction =
-    CFComparisonResult Function(
-      ffi.Pointer<ffi.Void> val1,
-      ffi.Pointer<ffi.Void> val2,
-      ffi.Pointer<ffi.Void> context,
-    );
-
-enum CFComparisonResult {
-  kCFCompareLessThan(-1),
-  kCFCompareEqualTo(0),
-  kCFCompareGreaterThan(1);
-
-  final int value;
-  const CFComparisonResult(this.value);
-
-  static CFComparisonResult fromValue(int value) => switch (value) {
-    -1 => kCFCompareLessThan,
-    0 => kCFCompareEqualTo,
-    1 => kCFCompareGreaterThan,
-    _ => throw ArgumentError('Unknown value for CFComparisonResult: $value'),
-  };
-}
-
-typedef IMPFunction = ffi.Void Function();
-typedef DartIMPFunction = void Function();
 
 /// NullableBase
 extension type NullableBase._(objc.ObjCObject object$)
@@ -373,10 +296,6 @@ extension NullableIntermediate$Methods on NullableIntermediate {
   }
 }
 
-typedef ProcPtrFunction = ffi.Long Function();
-typedef DartProcPtrFunction = int Function();
-typedef Register68kProcPtrFunction = ffi.Void Function();
-typedef DartRegister68kProcPtrFunction = void Function();
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_NullableBase',
 )
@@ -484,5 +403,3 @@ late final _sel_nullableArg_ = objc.registerName("nullableArg:");
 late final _sel_nullableReturn_ = objc.registerName("nullableReturn:");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;
-typedef sig_tFunction = ffi.Void Function(ffi.Int);
-typedef Dartsig_tFunction = void Function(int);
