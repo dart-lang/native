@@ -8,12 +8,6 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - SmallStructTester
-unions:
-  include:
-    - Union8
-    - Union16
-    - Union24
-    - Union32
 typedefs:
   include:
     - Struct8
