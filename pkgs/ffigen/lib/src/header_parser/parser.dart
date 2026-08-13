@@ -185,12 +185,9 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
-  final rawNodes = rawBindings
-      .map((b) => b.toPublicAstNode())
-      .nonNulls
-      .toList();
+  final nodes = rawBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
   for (final visitor in config.visitors) {
-    visitor.visitAll(rawNodes);
+    visitor.visitAll(nodes);
   }
   visit(context, CopyMethodsFromSuperTypesVisitation(), rawBindings);
   visit(context, FixOverriddenMethodsVisitation(context), rawBindings);

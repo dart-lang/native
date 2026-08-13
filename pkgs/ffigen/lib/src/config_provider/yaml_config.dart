@@ -1445,7 +1445,6 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
         node.name = rename;
       }
     }
-    node.setter?.isIncluded = node.isIncluded;
   }
 
   YamlDeclarationFilters? _getCompoundDecl(public_ast.DeclNode node) {
