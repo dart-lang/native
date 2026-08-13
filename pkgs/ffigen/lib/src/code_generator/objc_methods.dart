@@ -622,8 +622,9 @@ class ObjCMethod extends AstNode with HasLocalScope {
         msgSendParams,
         structRetPtr: ptrVar,
       );
-      final compoundKind =
-          returnType.typealiasType is Union ? 'Union' : 'Struct';
+      final compoundKind = returnType.typealiasType is Union
+          ? 'Union'
+          : 'Struct';
       s.write('''
     final $ptrVar = $calloc<$returnTypeStr>();
     $invoke;
