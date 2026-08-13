@@ -442,8 +442,14 @@ enum ObjCMsgSendVariant {
   const ObjCMsgSendVariant(this.pointer);
 
   static ObjCMsgSendVariant fromReturnType(Type returnType) {
-    if (returnType is Compound && returnType is Struct) {
-      return ObjCMsgSendVariant.stret;
+    final baseType = returnType.typealiasType;
+    if (baseType is Compound) {
+      final sizeInBytes = baseType.sizeInBytes;
+      if (sizeInBytes == null || sizeInBytes > 16) {
+        return ObjCMsgSendVariant.stret;
+      } else {
+        return ObjCMsgSendVariant.normal;
+      }
     } else if (returnType == floatType || returnType == doubleType) {
       return ObjCMsgSendVariant.fpret;
     }

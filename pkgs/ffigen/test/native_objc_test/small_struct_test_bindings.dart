@@ -688,24 +688,11 @@ extension type SmallStructTester._(objc.ObjCObject object$)
   /// callStruct16Block:
   static Struct16 callStruct16Block(DartStruct16Block block) {
     final _$$ref = block.ref;
-    final $ptr = pkg_ffi.calloc<Struct16>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_52unemStret(
-            $ptr,
-            _class_SmallStructTester,
-            _sel_callStruct16Block_,
-            _$$ref.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_52unem(
-            _class_SmallStructTester,
-            _sel_callStruct16Block_,
-            _$$ref.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct16>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_52unem(
+      _class_SmallStructTester,
+      _sel_callStruct16Block_,
+      _$$ref.pointer,
     );
-    return ffi.Struct.create<Struct16>($finalizable);
   }
 
   /// callStruct24Block:
@@ -757,24 +744,11 @@ extension type SmallStructTester._(objc.ObjCObject object$)
   /// callStruct8Block:
   static Struct8 callStruct8Block(DartStruct8Block block) {
     final _$$ref = block.ref;
-    final $ptr = pkg_ffi.calloc<Struct8>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_12y327vStret(
-            $ptr,
-            _class_SmallStructTester,
-            _sel_callStruct8Block_,
-            _$$ref.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_12y327v(
-            _class_SmallStructTester,
-            _sel_callStruct8Block_,
-            _$$ref.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct8>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_12y327v(
+      _class_SmallStructTester,
+      _sel_callStruct8Block_,
+      _$$ref.pointer,
     );
-    return ffi.Struct.create<Struct8>($finalizable);
   }
 
   /// callUnion16Block:
@@ -790,21 +764,47 @@ extension type SmallStructTester._(objc.ObjCObject object$)
   /// callUnion24Block:
   static Union24 callUnion24Block(DartUnion24Block block) {
     final _$$ref = block.ref;
-    return _objc_msgSend_14sbhfp(
-      _class_SmallStructTester,
-      _sel_callUnion24Block_,
-      _$$ref.pointer,
+    final $ptr = pkg_ffi.calloc<Union24>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_14sbhfpStret(
+            $ptr,
+            _class_SmallStructTester,
+            _sel_callUnion24Block_,
+            _$$ref.pointer,
+          )
+        : $ptr.ref = _objc_msgSend_14sbhfp(
+            _class_SmallStructTester,
+            _sel_callUnion24Block_,
+            _$$ref.pointer,
+          );
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Union24>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
     );
+    return ffi.Union.create<Union24>($finalizable);
   }
 
   /// callUnion32Block:
   static Union32 callUnion32Block(DartUnion32Block block) {
     final _$$ref = block.ref;
-    return _objc_msgSend_bycxuc(
-      _class_SmallStructTester,
-      _sel_callUnion32Block_,
-      _$$ref.pointer,
+    final $ptr = pkg_ffi.calloc<Union32>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_bycxucStret(
+            $ptr,
+            _class_SmallStructTester,
+            _sel_callUnion32Block_,
+            _$$ref.pointer,
+          )
+        : $ptr.ref = _objc_msgSend_bycxuc(
+            _class_SmallStructTester,
+            _sel_callUnion32Block_,
+            _$$ref.pointer,
+          );
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Union32>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
     );
+    return ffi.Union.create<Union32>($finalizable);
   }
 
   /// callUnion8Block:
@@ -831,22 +831,7 @@ extension SmallStructTester$Methods on SmallStructTester {
   /// getStruct16Method
   Struct16 getStruct16Method() {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct16>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1728cw3Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_getStruct16Method,
-          )
-        : $ptr.ref = _objc_msgSend_1728cw3(
-            _$$ref.pointer,
-            _sel_getStruct16Method,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct16>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct16>($finalizable);
+    return _objc_msgSend_1728cw3(_$$ref.pointer, _sel_getStruct16Method);
   }
 
   /// getStruct24Method
@@ -894,18 +879,7 @@ extension SmallStructTester$Methods on SmallStructTester {
   /// getStruct8Method
   Struct8 getStruct8Method() {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct8>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_8lxd0cStret($ptr, _$$ref.pointer, _sel_getStruct8Method)
-        : $ptr.ref = _objc_msgSend_8lxd0c(
-            _$$ref.pointer,
-            _sel_getStruct8Method,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct8>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct8>($finalizable);
+    return _objc_msgSend_8lxd0c(_$$ref.pointer, _sel_getStruct8Method);
   }
 
   /// getUnion16Method
@@ -917,13 +891,35 @@ extension SmallStructTester$Methods on SmallStructTester {
   /// getUnion24Method
   Union24 getUnion24Method() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_yygd0u(_$$ref.pointer, _sel_getUnion24Method);
+    final $ptr = pkg_ffi.calloc<Union24>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_yygd0uStret($ptr, _$$ref.pointer, _sel_getUnion24Method)
+        : $ptr.ref = _objc_msgSend_yygd0u(
+            _$$ref.pointer,
+            _sel_getUnion24Method,
+          );
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Union24>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
+    );
+    return ffi.Union.create<Union24>($finalizable);
   }
 
   /// getUnion32Method
   Union32 getUnion32Method() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_9oml3t(_$$ref.pointer, _sel_getUnion32Method);
+    final $ptr = pkg_ffi.calloc<Union32>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_9oml3tStret($ptr, _$$ref.pointer, _sel_getUnion32Method)
+        : $ptr.ref = _objc_msgSend_9oml3t(
+            _$$ref.pointer,
+            _sel_getUnion32Method,
+          );
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Union32>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
+    );
+    return ffi.Union.create<Union32>($finalizable);
   }
 
   /// getUnion8Method
@@ -998,22 +994,7 @@ extension SmallStructTester$Methods on SmallStructTester {
   /// struct16Property
   Struct16 get struct16Property {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct16>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1728cw3Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_struct16Property,
-          )
-        : $ptr.ref = _objc_msgSend_1728cw3(
-            _$$ref.pointer,
-            _sel_struct16Property,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct16>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct16>($finalizable);
+    return _objc_msgSend_1728cw3(_$$ref.pointer, _sel_struct16Property);
   }
 
   /// struct24Property
@@ -1057,15 +1038,7 @@ extension SmallStructTester$Methods on SmallStructTester {
   /// struct8Property
   Struct8 get struct8Property {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct8>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_8lxd0cStret($ptr, _$$ref.pointer, _sel_struct8Property)
-        : $ptr.ref = _objc_msgSend_8lxd0c(_$$ref.pointer, _sel_struct8Property);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct8>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct8>($finalizable);
+    return _objc_msgSend_8lxd0c(_$$ref.pointer, _sel_struct8Property);
   }
 
   /// union16Property
@@ -1077,13 +1050,29 @@ extension SmallStructTester$Methods on SmallStructTester {
   /// union24Property
   Union24 get union24Property {
     final _$$ref = object$.ref;
-    return _objc_msgSend_yygd0u(_$$ref.pointer, _sel_union24Property);
+    final $ptr = pkg_ffi.calloc<Union24>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_yygd0uStret($ptr, _$$ref.pointer, _sel_union24Property)
+        : $ptr.ref = _objc_msgSend_yygd0u(_$$ref.pointer, _sel_union24Property);
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Union24>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
+    );
+    return ffi.Union.create<Union24>($finalizable);
   }
 
   /// union32Property
   Union32 get union32Property {
     final _$$ref = object$.ref;
-    return _objc_msgSend_9oml3t(_$$ref.pointer, _sel_union32Property);
+    final $ptr = pkg_ffi.calloc<Union32>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_9oml3tStret($ptr, _$$ref.pointer, _sel_union32Property)
+        : $ptr.ref = _objc_msgSend_9oml3t(_$$ref.pointer, _sel_union32Property);
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Union32>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
+    );
+    return ffi.Union.create<Union32>($finalizable);
   }
 
   /// union8Property
@@ -1242,25 +1231,6 @@ final _objc_msgSend_12y327v = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
-final _objc_msgSend_12y327vStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<Struct8>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCBlockImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<Struct8>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-      )
-    >();
 final _objc_msgSend_14sbhfp = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1273,6 +1243,25 @@ final _objc_msgSend_14sbhfp = objc.msgSendPointer
     >()
     .asFunction<
       Union24 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_14sbhfpStret = objc.msgSendStretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<Union24>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<Union24>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCBlockImpl>,
@@ -1304,23 +1293,6 @@ final _objc_msgSend_1728cw3 = objc.msgSendPointer
     >()
     .asFunction<
       Struct16 Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_1728cw3Stret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<Struct16>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<Struct16>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
@@ -1491,25 +1463,6 @@ final _objc_msgSend_52unem = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
-final _objc_msgSend_52unemStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<Struct16>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCBlockImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<Struct16>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-      )
-    >();
 final _objc_msgSend_7qiyh = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1542,23 +1495,6 @@ final _objc_msgSend_8lxd0c = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-final _objc_msgSend_8lxd0cStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<Struct8>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<Struct8>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
 final _objc_msgSend_9oml3t = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1570,6 +1506,23 @@ final _objc_msgSend_9oml3t = objc.msgSendPointer
     >()
     .asFunction<
       Union32 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_9oml3tStret = objc.msgSendStretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<Union32>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<Union32>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
@@ -1603,6 +1556,25 @@ final _objc_msgSend_bycxuc = objc.msgSendPointer
     >()
     .asFunction<
       Union32 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_bycxucStret = objc.msgSendStretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<Union32>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<Union32>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCBlockImpl>,
@@ -1789,6 +1761,23 @@ final _objc_msgSend_yygd0u = objc.msgSendPointer
     >()
     .asFunction<
       Union24 Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_yygd0uStret = objc.msgSendStretPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<Union24>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<Union24>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
