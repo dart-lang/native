@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -20,7 +21,17 @@ void main() {
               dartFile: Uri.file('unused'),
               style: const DynamicLibraryBindings(),
             ),
-
+            visitors: [
+              public_ast.Visitor(
+                visitFunc: (node) => node.isIncluded = true,
+                visitStruct: (node) => node.isIncluded = true,
+                visitUnion: (node) => node.isIncluded = true,
+                visitEnum: (node) => node.isIncluded = true,
+                visitGlobal: (node) => node.isIncluded = true,
+                visitMacro: (node) => node.isIncluded = true,
+                visitTypealias: (node) => node.isIncluded = true,
+              ),
+            ],
             input: Input(
               entryPoints: [
                 Uri.file(

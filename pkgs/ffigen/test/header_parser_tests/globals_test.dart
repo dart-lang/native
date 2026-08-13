@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_visitor.dart';
 import 'package:ffigen/src/header_parser/parser.dart' as parser;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -95,6 +96,13 @@ Library expectedLibrary() {
         dartFile: Uri.file('unused'),
         style: const DynamicLibraryBindings(),
       ),
+      visitors: [
+        Visitor(
+          visitGlobal: (node) => node.isIncluded = true,
+          visitStruct: (node) => node.isIncluded = true,
+          visitTypealias: (node) => node.isIncluded = true,
+        ),
+      ],
     ),
   );
   final globalStruct = Struct(context: context, name: 'EmptyStruct');

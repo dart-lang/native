@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:meta/meta.dart';
@@ -18,16 +19,29 @@ void main() {
 // BSD-style license that can be found in the LICENSE file.
 ''';
 
-  Context makeContext({Output? output}) => testContext(
-    FfiGenerator(
-      output:
-          output ??
-          Output(
-            dartFile: Uri.file('unused'),
-            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
-          ),
-    ),
-  );
+  Context makeContext({Output? output, List<public_ast.Visitor>? visitors}) =>
+      testContext(
+        FfiGenerator(
+          output:
+              output ??
+              Output(
+                dartFile: Uri.file('unused'),
+                style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
+              ),
+          visitors:
+              visitors ?? [
+                public_ast.Visitor(
+                  visitFunc: (node) => node.isIncluded = true,
+                  visitStruct: (node) => node.isIncluded = true,
+                  visitUnion: (node) => node.isIncluded = true,
+                  visitEnum: (node) => node.isIncluded = true,
+                  visitGlobal: (node) => node.isIncluded = true,
+                  visitMacro: (node) => node.isIncluded = true,
+                  visitTypealias: (node) => node.isIncluded = true,
+                ),
+              ],
+        ),
+      );
 
   group('code_generator: ', () {
     @isTestGroup

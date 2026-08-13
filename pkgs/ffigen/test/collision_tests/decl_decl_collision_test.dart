@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -17,6 +18,15 @@ void main() {
             dartFile: Uri.file('unused'),
             style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
+          visitors: [
+            public_ast.Visitor(
+              visitFunc: (node) => node.isIncluded = true,
+              visitStruct: (node) => node.isIncluded = true,
+              visitEnum: (node) => node.isIncluded = true,
+              visitMacro: (node) => node.isIncluded = true,
+              visitTypealias: (node) => node.isIncluded = true,
+            ),
+          ],
         ),
       );
       final library = Library(
