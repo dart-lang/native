@@ -403,9 +403,7 @@ Error: $e
         constantSyntax,
         context,
       );
-      if (!constants.contains(constant)) {
-        constants.add(constant);
-      }
+      constants.add(constant);
     }
     return context;
   }
