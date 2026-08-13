@@ -298,7 +298,7 @@ extension NSColorPicker$Methods on NSColorPicker {
 
   /// initWithPickerMask:colorPanel:
   NSColorPicker? initWithPickerMask(
-    int mask, {
+    DartNSUInteger mask, {
     required NSColorPanel colorPanel,
   }) {
     final _$$ref = object$.ref;
@@ -339,21 +339,21 @@ extension NSColorPicker$Methods on NSColorPicker {
   }
 
   /// minContentSize
-  objc.CGSize get minContentSize {
+  NSSize get minContentSize {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSColorPicker.minContentSize',
       iOS: (true, null),
     );
-    final $ptr = pkg_ffi.calloc<objc.CGSize>();
+    final $ptr = pkg_ffi.calloc<NSSize>();
     objc.useMsgSendVariants
         ? _objc_msgSend_1vdfkenStret($ptr, _$$ref.pointer, _sel_minContentSize)
         : $ptr.ref = _objc_msgSend_1vdfken(_$$ref.pointer, _sel_minContentSize);
     final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<objc.CGSize>(),
+      ffi.sizeOf<NSSize>(),
       finalizer: pkg_ffi.calloc.nativeFree,
     );
-    return ffi.Struct.create<objc.CGSize>($finalizable);
+    return ffi.Struct.create<NSSize>($finalizable);
   }
 
   /// provideNewButtonImage
@@ -426,6 +426,9 @@ extension type NSImage._(objc.ObjCObject object$) implements objc.ObjCObject {
   }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
 }
 
+typedef NSInteger = ffi.Long;
+typedef DartNSInteger = int;
+
 /// WARNING: NSMenuItemValidation is a stub. To generate bindings for this class, include
 /// NSMenuItemValidation in your config's objc-protocols list.
 ///
@@ -484,6 +487,8 @@ extension type NSResponder._(objc.ObjCObject object$)
     objc.checkOsVersionInternal('NSResponder', iOS: (true, null));
   }
 }
+
+typedef NSSize = objc.CGSize;
 
 /// NSTextList
 extension type NSTextList._(objc.ObjCObject object$)
@@ -599,8 +604,8 @@ extension NSTextList$Methods on NSTextList {
 
   /// initWithMarkerFormat:options:
   NSTextList initWithMarkerFormat(
-    objc.NSString markerFormat, {
-    required int options,
+    DartNSTextListMarkerFormat markerFormat, {
+    required DartNSUInteger options,
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = markerFormat.ref;
@@ -620,9 +625,9 @@ extension NSTextList$Methods on NSTextList {
 
   /// initWithMarkerFormat:options:startingItemNumber:
   NSTextList initWithMarkerFormat$1(
-    objc.NSString markerFormat, {
-    required int options,
-    required int startingItemNumber,
+    DartNSTextListMarkerFormat markerFormat, {
+    required DartNSUInteger options,
+    required DartNSInteger startingItemNumber,
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = markerFormat.ref;
@@ -653,7 +658,7 @@ extension NSTextList$Methods on NSTextList {
   }
 
   /// listOptions
-  int get listOptions {
+  DartNSUInteger get listOptions {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.listOptions',
@@ -664,7 +669,7 @@ extension NSTextList$Methods on NSTextList {
   }
 
   /// markerForItemNumber:
-  objc.NSString markerForItemNumber(int itemNumber) {
+  objc.NSString markerForItemNumber(DartNSInteger itemNumber) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.markerForItemNumber:',
@@ -680,7 +685,7 @@ extension NSTextList$Methods on NSTextList {
   }
 
   /// markerFormat
-  objc.NSString get markerFormat {
+  DartNSTextListMarkerFormat get markerFormat {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.markerFormat',
@@ -692,7 +697,7 @@ extension NSTextList$Methods on NSTextList {
   }
 
   /// setStartingItemNumber:
-  set startingItemNumber(int value) {
+  set startingItemNumber(DartNSInteger value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.setStartingItemNumber:',
@@ -703,7 +708,7 @@ extension NSTextList$Methods on NSTextList {
   }
 
   /// startingItemNumber
-  int get startingItemNumber {
+  DartNSInteger get startingItemNumber {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSTextList.startingItemNumber',
@@ -714,9 +719,15 @@ extension NSTextList$Methods on NSTextList {
   }
 }
 
+typedef NSTextListMarkerFormat = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef DartNSTextListMarkerFormat = objc.NSString;
+
 sealed class NSTextListOptions {
   static const NSTextListPrependEnclosingMarker = 1;
 }
+
+typedef NSUInteger = ffi.UnsignedLong;
+typedef DartNSUInteger = int;
 
 /// WARNING: NSUserInterfaceItemIdentification is a stub. To generate bindings for this class, include
 /// NSUserInterfaceItemIdentification in your config's objc-protocols list.
@@ -864,7 +875,7 @@ extension UIPickerView$Methods on UIPickerView {
   }
 
   /// numberOfComponents
-  int get numberOfComponents {
+  DartNSInteger get numberOfComponents {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.numberOfComponents',
@@ -874,7 +885,7 @@ extension UIPickerView$Methods on UIPickerView {
   }
 
   /// numberOfRowsInComponent:
-  int numberOfRowsInComponent(int component) {
+  DartNSInteger numberOfRowsInComponent(DartNSInteger component) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.numberOfRowsInComponent:',
@@ -898,7 +909,7 @@ extension UIPickerView$Methods on UIPickerView {
   }
 
   /// reloadComponent:
-  void reloadComponent(int component) {
+  void reloadComponent(DartNSInteger component) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.reloadComponent:',
@@ -908,7 +919,7 @@ extension UIPickerView$Methods on UIPickerView {
   }
 
   /// rowSizeForComponent:
-  objc.CGSize rowSizeForComponent(int component) {
+  objc.CGSize rowSizeForComponent(DartNSInteger component) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.rowSizeForComponent:',
@@ -935,7 +946,11 @@ extension UIPickerView$Methods on UIPickerView {
   }
 
   /// selectRow:inComponent:animated:
-  void selectRow(int row, {required int inComponent, required bool animated}) {
+  void selectRow(
+    DartNSInteger row, {
+    required DartNSInteger inComponent,
+    required bool animated,
+  }) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.selectRow:inComponent:animated:',
@@ -951,7 +966,7 @@ extension UIPickerView$Methods on UIPickerView {
   }
 
   /// selectedRowInComponent:
-  int selectedRowInComponent(int component) {
+  DartNSInteger selectedRowInComponent(DartNSInteger component) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.selectedRowInComponent:',
@@ -1021,7 +1036,10 @@ extension UIPickerView$Methods on UIPickerView {
   }
 
   /// viewForRow:forComponent:
-  objc.ObjCObject viewForRow(int row, {required int forComponent}) {
+  objc.ObjCObject viewForRow(
+    DartNSInteger row, {
+    required DartNSInteger forComponent,
+  }) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'UIPickerView.viewForRow:forComponent:',
@@ -1175,7 +1193,7 @@ final _objc_msgSend_190ea64 = objc.msgSendPointer
         ffi.Void Function(
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Long,
+          NSInteger,
         )
       >
     >()
@@ -1210,7 +1228,7 @@ final _objc_msgSend_1bh1vl9 = objc.msgSendPointer
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.UnsignedLong,
+          NSUInteger,
           ffi.Long,
         )
       >
@@ -1431,7 +1449,7 @@ final _objc_msgSend_cy4jud = objc.msgSendPointer
 final _objc_msgSend_exovb9 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.UnsignedLong Function(
+        NSUInteger Function(
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )

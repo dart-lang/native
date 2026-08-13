@@ -105,7 +105,7 @@ extension type AVAudioPlayer._(objc.ObjCObject object$)
 
 extension AVAudioPlayer$Methods on AVAudioPlayer {
   /// averagePowerForChannel:
-  double averagePowerForChannel(int channelNumber) {
+  double averagePowerForChannel(DartNSUInteger channelNumber) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.averagePowerForChannel:',
@@ -154,7 +154,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// currentTime
-  double get currentTime {
+  DartNSTimeInterval get currentTime {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.currentTime',
@@ -195,7 +195,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// deviceCurrentTime
-  double get deviceCurrentTime {
+  DartNSTimeInterval get deviceCurrentTime {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.deviceCurrentTime',
@@ -208,7 +208,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// duration
-  double get duration {
+  DartNSTimeInterval get duration {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.duration',
@@ -414,7 +414,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// numberOfChannels
-  int get numberOfChannels {
+  DartNSUInteger get numberOfChannels {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.numberOfChannels',
@@ -425,7 +425,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// numberOfLoops
-  int get numberOfLoops {
+  DartNSInteger get numberOfLoops {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.numberOfLoops',
@@ -460,7 +460,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// peakPowerForChannel:
-  double peakPowerForChannel(int channelNumber) {
+  double peakPowerForChannel(DartNSUInteger channelNumber) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.peakPowerForChannel:',
@@ -492,7 +492,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// playAtTime:
-  bool playAtTime(double time) {
+  bool playAtTime(DartNSTimeInterval time) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.playAtTime:',
@@ -559,7 +559,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// setCurrentTime:
-  set currentTime(double value) {
+  set currentTime(DartNSTimeInterval value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.setCurrentTime:',
@@ -624,7 +624,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// setNumberOfLoops:
-  set numberOfLoops(int value) {
+  set numberOfLoops(DartNSInteger value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.setNumberOfLoops:',
@@ -668,7 +668,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// setVolume:fadeDuration:
-  void setVolume(double volume, {required double fadeDuration}) {
+  void setVolume(double volume, {required DartNSTimeInterval fadeDuration}) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'AVAudioPlayer.setVolume:fadeDuration:',
@@ -779,6 +779,12 @@ extension type CASpatialAudioExperience._(objc.ObjCObject object$)
   }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {}
 }
 
+typedef NSInteger = ffi.Long;
+typedef DartNSInteger = int;
+typedef NSTimeInterval = ffi.Double;
+typedef DartNSTimeInterval = double;
+typedef NSUInteger = ffi.UnsignedLong;
+typedef DartNSUInteger = int;
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_AVAudioPlayer',
 )

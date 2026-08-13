@@ -76,7 +76,7 @@ extension type EnumTestInterface._(objc.ObjCObject object$)
   }
 
   /// useImportedNSOptions:
-  static int useImportedNSOptions(int x) {
+  static int useImportedNSOptions(DartNSUInteger x) {
     return _objc_msgSend_1cxnp8y(
       _class_EnumTestInterface,
       _sel_useImportedNSOptions_,
@@ -122,6 +122,11 @@ enum Fruit {
     _ => throw ArgumentError('Unknown value for Fruit: $value'),
   };
 }
+
+typedef NSInteger = ffi.Long;
+typedef DartNSInteger = int;
+typedef NSUInteger = ffi.UnsignedLong;
+typedef DartNSUInteger = int;
 
 const int SOME_MACRO = 123;
 
@@ -192,7 +197,7 @@ final _objc_msgSend_1cxnp8y = objc.msgSendPointer
         ffi.Int32 Function(
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.UnsignedLong,
+          NSUInteger,
         )
       >
     >()
@@ -209,7 +214,7 @@ final _objc_msgSend_1y89lso = objc.msgSendPointer
         ffi.Int32 Function(
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Long,
+          NSInteger,
         )
       >
     >()

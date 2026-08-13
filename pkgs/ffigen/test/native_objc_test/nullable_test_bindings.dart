@@ -10,6 +10,8 @@ import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
+typedef MyString = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef DartMyString = objc.NSString;
 
 /// NullableInterface
 extension type NullableInterface._(objc.ObjCObject object$)
@@ -123,7 +125,7 @@ extension type NullableInterface._(objc.ObjCObject object$)
   }
 
   /// returnNullableAlias:
-  static objc.NSString? returnNullableAlias(bool r) {
+  static DartMyString? returnNullableAlias(bool r) {
     final $ret = _objc_msgSend_1t6aok9(
       _class_NullableInterface,
       _sel_returnNullableAlias_,

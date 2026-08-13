@@ -11,6 +11,8 @@ import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
 const _$objcVersionCheck = objc.ObjCVersionCheck(9, 5);
+typedef NSInteger = ffi.Long;
+typedef DartNSInteger = int;
 
 /// SwiftClass
 extension type SwiftClass._(objc.ObjCObject object$)
@@ -88,13 +90,13 @@ extension SwiftClass$Methods on SwiftClass {
   }
 
   /// setSomeField:
-  set someField(int value) {
+  set someField(DartNSInteger value) {
     final _$$ref = object$.ref;
     _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setSomeField_, value);
   }
 
   /// someField
-  int get someField {
+  DartNSInteger get someField {
     final _$$ref = object$.ref;
     return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_someField);
   }

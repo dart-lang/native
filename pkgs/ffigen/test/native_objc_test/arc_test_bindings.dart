@@ -238,7 +238,7 @@ extension ArcTestObject$Methods on ArcTestObject {
   }
 
   /// copyWithZone:
-  objc.ObjCObject copyWithZone$1(ffi.Pointer<objc.NSZone> zone) {
+  objc.ObjCObject copyWithZone$1(ffi.Pointer<NSZone> zone) {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_1cwp428(
       _$$ref.pointer,
@@ -341,6 +341,7 @@ extension ArcTestObject$Methods on ArcTestObject {
   }
 }
 
+typedef NSZone = objc.NSZone;
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$_ArcDtorTestObject',
 )

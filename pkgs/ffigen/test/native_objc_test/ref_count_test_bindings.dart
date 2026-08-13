@@ -16,6 +16,8 @@ external void objc_autoreleasePoolPop(ffi.Pointer<ffi.Void> pool);
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>()
 external ffi.Pointer<ffi.Void> objc_autoreleasePoolPush();
 
+typedef NSZone = objc.NSZone;
+
 /// RefCountTestObject
 extension type RefCountTestObject._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -156,7 +158,7 @@ extension RefCountTestObject$Methods on RefCountTestObject {
   }
 
   /// copyWithZone:
-  objc.ObjCObject copyWithZone$1(ffi.Pointer<objc.NSZone> zone) {
+  objc.ObjCObject copyWithZone$1(ffi.Pointer<NSZone> zone) {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_1cwp428(
       _$$ref.pointer,

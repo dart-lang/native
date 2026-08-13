@@ -316,8 +316,8 @@ extension type BlockTester._(objc.ObjCObject object$)
 
   /// blockingBlockTest:resultBlock:
   static void blockingBlockTest(
-    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Int32>)> blockingBlock, {
-    required objc.ObjCBlock<ffi.Void Function(ffi.Int32)> resultBlock,
+    DartIntPtrBlock blockingBlock, {
+    required DartResultBlock resultBlock,
   }) {
     final _$$ref = blockingBlock.ref;
     final _$$ref$1 = resultBlock.ref;
@@ -419,9 +419,7 @@ extension type BlockTester._(objc.ObjCObject object$)
   }
 
   /// callNullableStringBlock:
-  static objc.NSString? callNullableStringBlock(
-    objc.ObjCBlock<objc.NSString? Function(objc.NSString?)> block,
-  ) {
+  static objc.NSString? callNullableStringBlock(DartNullableStringBlock block) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_nnxkei(
       _class_BlockTester,
@@ -785,6 +783,9 @@ typedef FloatBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartFloatBlock = objc.ObjCBlock<ffi.Float Function(ffi.Float)>;
 typedef IntBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartIntBlock = objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>;
+typedef IntPtrBlock = ffi.Pointer<objc.ObjCBlockImpl>;
+typedef DartIntPtrBlock =
+    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Int32>)>;
 typedef ListenerBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartListenerBlock =
     objc.ObjCBlock<
@@ -944,7 +945,7 @@ extension type NSThread._(objc.ObjCObject object$)
   }
 
   /// sleepForTimeInterval:
-  static void sleepForTimeInterval(double ti) {
+  static void sleepForTimeInterval(DartNSTimeInterval ti) {
     _objc_msgSend_hwm8nu(_class_NSThread, _sel_sleepForTimeInterval_, ti);
   }
 
@@ -1146,7 +1147,7 @@ extension NSThread$Methods on NSThread {
   }
 
   /// setStackSize:
-  set stackSize(int value) {
+  set stackSize(DartNSUInteger value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSThread.setStackSize:',
@@ -1168,7 +1169,7 @@ extension NSThread$Methods on NSThread {
   }
 
   /// stackSize
-  int get stackSize {
+  DartNSUInteger get stackSize {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSThread.stackSize',
@@ -1214,6 +1215,10 @@ extension NSThread$Methods on NSThread {
   }
 }
 
+typedef NSTimeInterval = ffi.Double;
+typedef DartNSTimeInterval = double;
+typedef NSUInteger = ffi.UnsignedLong;
+typedef DartNSUInteger = int;
 typedef NoTrampolineListenerBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartNoTrampolineListenerBlock =
     objc.ObjCBlock<ffi.Void Function(ffi.Int32, Vec4, ffi.Pointer<ffi.Char>)>;
@@ -1223,6 +1228,9 @@ typedef DartNullableListenerBlock =
 typedef NullableObjectBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartNullableObjectBlock =
     objc.ObjCBlock<DummyObject? Function(DummyObject?)>;
+typedef NullableStringBlock = ffi.Pointer<objc.ObjCBlockImpl>;
+typedef DartNullableStringBlock =
+    objc.ObjCBlock<objc.NSString? Function(objc.NSString?)>;
 
 /// Construction methods for `objc.ObjCBlock<DummyObject Function(DummyObject)>`.
 abstract final class ObjCBlock_DummyObject_DummyObject {
@@ -3835,6 +3843,8 @@ typedef DartObjectBlock = objc.ObjCBlock<DummyObject Function(DummyObject)>;
 typedef ObjectListenerBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartObjectListenerBlock =
     objc.ObjCBlock<ffi.Void Function(DummyObject)>;
+typedef ResultBlock = ffi.Pointer<objc.ObjCBlockImpl>;
+typedef DartResultBlock = objc.ObjCBlock<ffi.Void Function(ffi.Int32)>;
 typedef SelectorBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartSelectorBlock =
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCSelector>)>;
