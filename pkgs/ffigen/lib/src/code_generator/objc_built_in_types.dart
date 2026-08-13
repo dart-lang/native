@@ -124,7 +124,10 @@ const objCBuiltInProtocols = {
 };
 
 const objCBuiltInCategories = {
+  'NSArrayCreation',
   'NSDataCreation',
+  'NSDateCreation',
+  'NSDictionaryCreation',
   'NSExtendedArray',
   'NSExtendedData',
   'NSExtendedDate',
@@ -137,8 +140,12 @@ const objCBuiltInCategories = {
   'NSExtendedMutableSet',
   'NSExtendedOrderedSet',
   'NSExtendedSet',
+  'NSMutableArrayCreation',
+  'NSMutableDictionaryCreation',
+  'NSMutableSetCreation',
   'NSNumberCreation',
   'NSNumberIsFloat',
   'NSNumberIsBool',
+  'NSSetCreation',
   'NSStringExtensionMethods',
 };

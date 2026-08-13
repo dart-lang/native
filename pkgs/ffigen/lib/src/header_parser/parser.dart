@@ -185,26 +185,26 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
-  final nodes = rawBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
+  final allBindings = visit(
+    context,
+    FindTransitiveDepsVisitation(),
+    rawBindings,
+  ).transitives;
+
+  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
+  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+
+  final nodes = allBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
   for (final visitor in config.visitors) {
     visitor.visitAll(nodes);
   }
-  visit(context, CopyMethodsFromSuperTypesVisitation(), rawBindings);
-  visit(context, FixOverriddenMethodsVisitation(context), rawBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
-  visit(context, applyConfigFiltersVisitation, rawBindings);
+  visit(context, applyConfigFiltersVisitation, allBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
   final included = directlyIncluded.union(
     applyConfigFiltersVisitation.indirectlyIncluded,
   );
-
-  final transitives = visit(
-    context,
-    FindTransitiveDepsVisitation(),
-    included,
-  ).transitives;
-  final allBindings = included.union(transitives);
 
   final byValueCompounds = visit(
     context,
@@ -217,6 +217,11 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     allBindings,
   );
 
+  final transitives = visit(
+    context,
+    FindTransitiveDepsVisitation(),
+    included,
+  ).transitives;
   final directTransitives = visit(
     context,
     FindDirectTransitiveDepsVisitation(config, included, directlyIncluded),

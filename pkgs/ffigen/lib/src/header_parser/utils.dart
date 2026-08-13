@@ -574,7 +574,9 @@ class BindingsIndex {
   void addObjCCategoryToSeen(String usr, ObjCCategory t) =>
       _objcCategories[usr] = t;
   ObjCCategory? getSeenObjCCategory(String usr) => _objcCategories[usr];
-  bool isSeenObjCCategory(String usr) => _objcCategories.containsKey(usr);
+  Iterable<ObjCInterface> get seenObjCInterfaces => _objcInterfaces.values;
+  Iterable<ObjCProtocol> get seenObjCProtocols => _objcProtocols.values;
+  Iterable<ObjCCategory> get seenObjCCategories => _objcCategories.values;
 }
 
 class CursorIndex {

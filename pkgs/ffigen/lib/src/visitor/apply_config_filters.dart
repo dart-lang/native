@@ -56,7 +56,13 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (context.config.objectiveC == null) return;
 
     if (!node.isInternal) {
-      node.filterMethods((m) => !m.unavailable && m.isIncluded);
+      node.filterMethods((m) {
+        if (m.unavailable || !m.isIncluded) return false;
+        if (m.originalCategory case final cat?) {
+          if (!cat.isIncluded && cat.originalName.isNotEmpty) return false;
+        }
+        return true;
+      });
     }
     _visitImpl(node, node.isIncluded);
 

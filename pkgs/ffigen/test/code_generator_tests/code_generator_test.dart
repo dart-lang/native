@@ -29,7 +29,8 @@ void main() {
                 style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
               ),
           visitors:
-              visitors ?? [
+              visitors ??
+              [
                 public_ast.Visitor(
                   visitFunc: (node) => node.isIncluded = true,
                   visitStruct: (node) => node.isIncluded = true,
