@@ -28,9 +28,6 @@ final class FfiGenerator {
   /// Configuration for globals.
   final Globals globals;
 
-  /// Configuration for macro constants.
-  final Macros macros;
-
   /// Configuration for structs.
   final Structs structs;
 
@@ -47,9 +44,6 @@ final class FfiGenerator {
 
   /// Configuration for unions.
   final Unions unions;
-
-  /// Configuration for unnamed enum constants.
-  final UnnamedEnums unnamedEnums;
 
   /// Objective-C specific configuration.
   ///
@@ -108,12 +102,10 @@ final class FfiGenerator {
     this.enums = const Enums(),
     this.functions = const Functions(),
     this.globals = const Globals(),
-    this.macros = const Macros(),
     this.structs = const Structs(),
     this.cpp,
     this.typedefs = const Typedefs(),
     this.unions = const Unions(),
-    this.unnamedEnums = const UnnamedEnums(),
     this.objectiveC,
     required this.output,
     this.visitors = const [],
@@ -259,11 +251,6 @@ final class Globals extends Declarations {
   const Globals({super.includeSymbolAddress});
 }
 
-/// Configuration for macros.
-final class Macros extends Declarations {
-  const Macros();
-}
-
 /// Configuration for struct declarations.
 final class Structs extends Declarations {
   /// Whether structs that are dependencies should be included.
@@ -295,17 +282,9 @@ final class Typedefs extends Declarations {
   });
 }
 
-/// Configuration for C++ class declarations.
-final class CppClasses extends Declarations {
-  const CppClasses();
-}
-
 /// Configuration for C++.
 final class Cpp {
-  /// Declaration filters for C++ classes.
-  final CppClasses classes;
-
-  const Cpp({this.classes = const CppClasses()});
+  const Cpp();
 }
 
 /// Configuration for union declarations.
@@ -314,11 +293,6 @@ final class Unions extends Declarations {
   final CompoundDependencies dependencies;
 
   const Unions({this.dependencies = CompoundDependencies.opaque});
-}
-
-/// Configuration for unnamed enum constants.
-final class UnnamedEnums extends Declarations {
-  const UnnamedEnums();
 }
 
 /// Configuration for Objective-C.

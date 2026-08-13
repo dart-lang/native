@@ -17,8 +17,7 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
   final logger = context.logger;
 
   // If C++ support is not configured, skip all C++ class cursors immediately.
-  final cppClasses = config.cpp?.classes;
-  if (cppClasses == null) return null;
+  if (config.cpp == null) return null;
 
   final usr = cursor.usr();
 

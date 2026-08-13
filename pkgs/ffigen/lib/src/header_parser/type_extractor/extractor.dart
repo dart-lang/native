@@ -45,7 +45,7 @@ Type getCodeGenType(
   }
 
   // Handle C++ templates like std::unique_ptr.
-  if (context.config.cpp?.classes != null) {
+  if (context.config.cpp != null) {
     final numTemplateArgs = clang.clang_Type_getNumTemplateArguments(cxtype);
     if (numTemplateArgs >= 1) {
       final declCursor = clang.clang_getTypeDeclaration(cxtype);
@@ -274,7 +274,7 @@ Type? _extractfromRecord(
   final declSpelling = cursor.spelling();
   final cursorKind = clang.clang_getCursorKind(cursor);
 
-  if (config.cpp?.classes != null) {
+  if (config.cpp != null) {
     final seenCppClass = context.bindingsIndex.getSeenCppClass(cursor.usr());
     if (seenCppClass != null) {
       return seenCppClass;

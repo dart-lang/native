@@ -1284,11 +1284,9 @@ final class YamlConfig {
         },
       ),
       unions: Unions(dependencies: _unionDependencies),
-      unnamedEnums: const UnnamedEnums(),
       globals: Globals(
         includeSymbolAddress: globals.shouldIncludeSymbolAddress,
       ),
-      macros: const Macros(),
       typedefs: Typedefs(
         useSupportedTypedefs: useSupportedTypedefs,
         includeUnused: includeUnusedTypedefs,
