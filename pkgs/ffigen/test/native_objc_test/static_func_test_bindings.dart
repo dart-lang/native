@@ -74,7 +74,9 @@ class StaticFuncTestObjCLibrary {
   late final _staticFuncConsumesArg = _staticFuncConsumesArgPtr
       .asFunction<void Function(ffi.Pointer<objc.ObjCObjectImpl>)>();
 
-  DartIntBlock staticFuncOfBlock(DartIntBlock a) {
+  objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> staticFuncOfBlock(
+    objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> a,
+  ) {
     final _$$ref = a.ref;
     return ObjCBlock_Int32_Int32.fromPointer(
       _staticFuncOfBlock(_$$ref.pointer),
@@ -84,11 +86,19 @@ class StaticFuncTestObjCLibrary {
   }
 
   late final _staticFuncOfBlockPtr =
-      _lookup<ffi.NativeFunction<IntBlock Function(IntBlock)>>(
-        'staticFuncOfBlock',
-      );
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCBlockImpl> Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+          )
+        >
+      >('staticFuncOfBlock');
   late final _staticFuncOfBlock = _staticFuncOfBlockPtr
-      .asFunction<IntBlock Function(IntBlock)>();
+      .asFunction<
+        ffi.Pointer<objc.ObjCBlockImpl> Function(
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >();
 
   StaticFuncTestObj? staticFuncOfNullableObject(StaticFuncTestObj? a) {
     final _$$ref = a?.ref;
@@ -186,9 +196,6 @@ class StaticFuncTestObjCLibrary {
         )
       >();
 }
-
-typedef IntBlock = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartIntBlock = objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>`.
 abstract final class ObjCBlock_Int32_Int32 {

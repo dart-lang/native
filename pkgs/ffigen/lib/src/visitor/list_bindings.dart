@@ -11,6 +11,7 @@ import 'ast.dart';
 enum _IncludeBehavior {
   configOnly,
   configOrTransitive,
+  configAndTransitive,
   configOrDirectTransitive,
   transitive,
 }
@@ -41,6 +42,8 @@ class ListBindingsVisitation extends Visitation {
         return includes.contains(node);
       case _IncludeBehavior.configOrTransitive:
         return includes.contains(node) || transitives.contains(node);
+      case _IncludeBehavior.configAndTransitive:
+        return includes.contains(node) && transitives.contains(node);
       case _IncludeBehavior.configOrDirectTransitive:
         return includes.contains(node) || directTransitives.contains(node);
       case _IncludeBehavior.transitive:
@@ -134,7 +137,7 @@ class ListBindingsVisitation extends Visitation {
           ? _IncludeBehavior.transitive
           : (config.typedefs.includeUnused
                 ? _IncludeBehavior.configOnly
-                : _IncludeBehavior.transitive),
+                : _IncludeBehavior.configAndTransitive),
     )) {
       final internalFunc = _getFunctionTypealias(node.type);
       if (internalFunc != null) {

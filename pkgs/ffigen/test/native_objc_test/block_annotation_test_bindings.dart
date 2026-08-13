@@ -223,7 +223,12 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// invokeBlockProducer:
-  static DartEmptyBlock invokeBlockProducer(DartBlockProducer block) {
+  static DartEmptyBlock invokeBlockProducer(
+    objc.ObjCBlock<
+      objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)
+    >
+    block,
+  ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_w08mvv(
       _class_BlockAnnotationTest,
@@ -235,7 +240,7 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
 
   /// invokeConsumedObjectListenerAsync:
   static NSThread invokeConsumedObjectListenerAsync(
-    DartConsumedObjectListener block,
+    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)> block,
   ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_nnxkei(
@@ -248,7 +253,7 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
 
   /// invokeConsumedObjectListenerSync:
   static void invokeConsumedObjectListenerSync(
-    DartConsumedObjectListener block,
+    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)> block,
   ) {
     final _$$ref = block.ref;
     _objc_msgSend_f167m6(
@@ -260,7 +265,8 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
 
   /// invokeConsumedObjectReceiver:
   static EmptyObject invokeConsumedObjectReceiver(
-    DartConsumedObjectReceiver block,
+    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>, EmptyObject)>
+    block,
   ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_nnxkei(
@@ -272,7 +278,9 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// invokeObjectListenerAsync:
-  static NSThread invokeObjectListenerAsync(DartObjectListener block) {
+  static NSThread invokeObjectListenerAsync(
+    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)> block,
+  ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_nnxkei(
       _class_BlockAnnotationTest,
@@ -283,7 +291,9 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// invokeObjectListenerSync:
-  static void invokeObjectListenerSync(DartObjectListener block) {
+  static void invokeObjectListenerSync(
+    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)> block,
+  ) {
     final _$$ref = block.ref;
     _objc_msgSend_f167m6(
       _class_BlockAnnotationTest,
@@ -293,7 +303,9 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// invokeObjectProducer:
-  static EmptyObject invokeObjectProducer(DartObjectProducer block) {
+  static EmptyObject invokeObjectProducer(
+    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>)> block,
+  ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_nnxkei(
       _class_BlockAnnotationTest,
@@ -304,7 +316,10 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// invokeObjectReceiver:
-  static EmptyObject invokeObjectReceiver(DartObjectReceiver block) {
+  static EmptyObject invokeObjectReceiver(
+    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>, EmptyObject)>
+    block,
+  ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_nnxkei(
       _class_BlockAnnotationTest,
@@ -316,7 +331,10 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
 
   /// invokeRetainedBlockProducer:
   static DartEmptyBlock invokeRetainedBlockProducer(
-    DartRetainedBlockProducer block,
+    objc.ObjCBlock<
+      objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)
+    >
+    block,
   ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_w08mvv(
@@ -329,7 +347,7 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
 
   /// invokeRetainedObjectProducer:
   static EmptyObject invokeRetainedObjectProducer(
-    DartRetainedObjectProducer block,
+    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>)> block,
   ) {
     final _$$ref = block.ref;
     final $ret = _objc_msgSend_nnxkei(
@@ -347,7 +365,10 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// newBlockProducer
-  static DartBlockProducer newBlockProducer() {
+  static objc.ObjCBlock<
+    objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)
+  >
+  newBlockProducer() {
     final $ret = _objc_msgSend_uwvaik(
       _class_BlockAnnotationTest,
       _sel_newBlockProducer,
@@ -360,7 +381,10 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// newConsumedObjectReceiver
-  static DartConsumedObjectReceiver newConsumedObjectReceiver() {
+  static objc.ObjCBlock<
+    EmptyObject Function(ffi.Pointer<ffi.Void>, EmptyObject)
+  >
+  newConsumedObjectReceiver() {
     final $ret = _objc_msgSend_uwvaik(
       _class_BlockAnnotationTest,
       _sel_newConsumedObjectReceiver,
@@ -373,7 +397,8 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// newObjectProducer
-  static DartObjectProducer newObjectProducer() {
+  static objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>)>
+  newObjectProducer() {
     final $ret = _objc_msgSend_uwvaik(
       _class_BlockAnnotationTest,
       _sel_newObjectProducer,
@@ -386,7 +411,10 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// newObjectReceiver
-  static DartObjectReceiver newObjectReceiver() {
+  static objc.ObjCBlock<
+    EmptyObject Function(ffi.Pointer<ffi.Void>, EmptyObject)
+  >
+  newObjectReceiver() {
     final $ret = _objc_msgSend_uwvaik(
       _class_BlockAnnotationTest,
       _sel_newObjectReceiver,
@@ -399,7 +427,10 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// newRetainedBlockProducer
-  static DartRetainedBlockProducer newRetainedBlockProducer() {
+  static objc.ObjCBlock<
+    objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)
+  >
+  newRetainedBlockProducer() {
     final $ret = _objc_msgSend_uwvaik(
       _class_BlockAnnotationTest,
       _sel_newRetainedBlockProducer,
@@ -412,7 +443,8 @@ extension type BlockAnnotationTest._(objc.ObjCObject object$)
   }
 
   /// newRetainedObjectProducer
-  static DartRetainedObjectProducer newRetainedObjectProducer() {
+  static objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>)>
+  newRetainedObjectProducer() {
     final $ret = _objc_msgSend_uwvaik(
       _class_BlockAnnotationTest,
       _sel_newRetainedObjectProducer,
@@ -1098,17 +1130,6 @@ interface class BlockAnnotationTestProtocol$Builder {
       );
 }
 
-typedef BlockProducer = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartBlockProducer =
-    objc.ObjCBlock<
-      objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)
-    >;
-typedef ConsumedObjectListener = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartConsumedObjectListener =
-    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)>;
-typedef ConsumedObjectReceiver = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartConsumedObjectReceiver =
-    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>, EmptyObject)>;
 typedef EmptyBlock = ffi.Pointer<objc.ObjCBlockImpl>;
 typedef DartEmptyBlock = objc.ObjCBlock<ffi.Void Function()>;
 
@@ -1331,7 +1352,7 @@ extension type NSThread._(objc.ObjCObject object$)
   }
 
   /// sleepForTimeInterval:
-  static void sleepForTimeInterval(DartNSTimeInterval ti) {
+  static void sleepForTimeInterval(double ti) {
     _objc_msgSend_hwm8nu(_class_NSThread, _sel_sleepForTimeInterval_, ti);
   }
 
@@ -1533,7 +1554,7 @@ extension NSThread$Methods on NSThread {
   }
 
   /// setStackSize:
-  set stackSize(DartNSUInteger value) {
+  set stackSize(int value) {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSThread.setStackSize:',
@@ -1555,7 +1576,7 @@ extension NSThread$Methods on NSThread {
   }
 
   /// stackSize
-  DartNSUInteger get stackSize {
+  int get stackSize {
     final _$$ref = object$.ref;
     objc.checkOsVersionInternal(
       'NSThread.stackSize',
@@ -1600,11 +1621,6 @@ extension NSThread$Methods on NSThread {
         : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_threadPriority);
   }
 }
-
-typedef NSTimeInterval = ffi.Double;
-typedef DartNSTimeInterval = double;
-typedef NSUInteger = ffi.UnsignedLong;
-typedef DartNSUInteger = int;
 
 /// Construction methods for `objc.ObjCBlock<objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_EmptyBlock_ffiVoid {
@@ -2971,24 +2987,6 @@ extension ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1$CallExtension
         >()(ref.pointer, arg0, _$$ref.retainAndReturnPointer());
   }
 }
-
-typedef ObjectListener = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartObjectListener =
-    objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, EmptyObject)>;
-typedef ObjectProducer = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartObjectProducer =
-    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>)>;
-typedef ObjectReceiver = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartObjectReceiver =
-    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>, EmptyObject)>;
-typedef RetainedBlockProducer = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartRetainedBlockProducer =
-    objc.ObjCBlock<
-      objc.ObjCBlock<ffi.Void Function()> Function(ffi.Pointer<ffi.Void>)
-    >;
-typedef RetainedObjectProducer = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartRetainedObjectProducer =
-    objc.ObjCBlock<EmptyObject Function(ffi.Pointer<ffi.Void>)>;
 
 extension type _BlockArgs_1wgsnfr._(objc.ObjCObject object$)
     implements objc.ObjCObject {

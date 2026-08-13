@@ -482,7 +482,7 @@ extension NSPromisedItems on objc.NSURL {
   /// getPromisedItemResourceValue:forKey:error:
   bool getPromisedItemResourceValue(
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> value, {
-    required DartNSURLResourceKey forKey,
+    required objc.NSString forKey,
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = forKey.ref;
@@ -883,9 +883,6 @@ extension NSURLPathUtilities on objc.NSURL {
         : objc.NSURL.fromPointer($ret, retain: true, release: true);
   }
 }
-
-typedef NSURLResourceKey = ffi.Pointer<objc.ObjCObjectImpl>;
-typedef DartNSURLResourceKey = objc.NSString;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.NSData?, objc.NSError?)>`.
 abstract final class ObjCBlock_ffiVoid_NSData_NSError {

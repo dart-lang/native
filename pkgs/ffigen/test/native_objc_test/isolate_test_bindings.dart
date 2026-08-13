@@ -41,9 +41,6 @@ external ffi.Pointer<objc.ObjCBlockImpl> _rdx59v_wrapListenerBlock_1bqef4y(
   ffi.Pointer<objc.DOBJC_Context> context,
 );
 
-typedef Listener = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartListener = objc.ObjCBlock<ffi.Void Function(ffi.Int32)>;
-
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Int32)>`.
 abstract final class ObjCBlock_ffiVoid_Int32 {
   /// Returns a block that wraps the given raw block pointer.
@@ -234,7 +231,8 @@ extension type Sendable._(objc.ObjCObject object$)
   }
 
   /// dummyMethodToForceGenerationOfListener
-  static DartListener dummyMethodToForceGenerationOfListener() {
+  static objc.ObjCBlock<ffi.Void Function(ffi.Int32)>
+  dummyMethodToForceGenerationOfListener() {
     final $ret = _objc_msgSend_uwvaik(
       _class_Sendable,
       _sel_dummyMethodToForceGenerationOfListener,

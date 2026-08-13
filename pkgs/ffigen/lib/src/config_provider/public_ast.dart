@@ -277,10 +277,11 @@ class Typealias extends DeclNode {
 /// An Objective-C interface (class) declaration.
 class ObjCInterface extends DeclNode {
   final internal.ObjCInterface _interface;
+  final _methodWrappers = <internal.ObjCMethod, ObjCMethod>{};
 
   /// The methods belonging to this Objective-C interface.
-  late final List<ObjCMethod> methods = _interface.methods
-      .map((m) => ObjCMethod(this, m))
+  List<ObjCMethod> get methods => _interface.methods
+      .map((m) => _methodWrappers.putIfAbsent(m, () => ObjCMethod(this, m)))
       .toList();
 
   ObjCInterface(this._interface);
@@ -311,10 +312,11 @@ class ObjCInterface extends DeclNode {
 /// An Objective-C protocol declaration.
 class ObjCProtocol extends DeclNode {
   final internal.ObjCProtocol _protocol;
+  final _methodWrappers = <internal.ObjCMethod, ObjCMethod>{};
 
   /// The methods belonging to this Objective-C protocol.
-  late final List<ObjCMethod> methods = _protocol.methods
-      .map((m) => ObjCMethod(this, m))
+  List<ObjCMethod> get methods => _protocol.methods
+      .map((m) => _methodWrappers.putIfAbsent(m, () => ObjCMethod(this, m)))
       .toList();
 
   ObjCProtocol(this._protocol);
@@ -345,10 +347,11 @@ class ObjCProtocol extends DeclNode {
 /// An Objective-C category declaration.
 class ObjCCategory extends DeclNode {
   final internal.ObjCCategory _category;
+  final _methodWrappers = <internal.ObjCMethod, ObjCMethod>{};
 
   /// The methods belonging to this Objective-C category.
-  late final List<ObjCMethod> methods = _category.methods
-      .map((m) => ObjCMethod(this, m))
+  List<ObjCMethod> get methods => _category.methods
+      .map((m) => _methodWrappers.putIfAbsent(m, () => ObjCMethod(this, m)))
       .toList();
 
   /// The [ObjCInterface] that this category extends.
@@ -382,10 +385,11 @@ class ObjCCategory extends DeclNode {
 /// A C++ class declaration.
 class CppClass extends DeclNode {
   final internal.CppClass _cppClass;
+  final _methodWrappers = <internal.CppMethod, CppMethod>{};
 
   /// The methods belonging to this C++ class.
-  late final List<CppMethod> methods = _cppClass.methods
-      .map((m) => CppMethod(this, m))
+  List<CppMethod> get methods => _cppClass.methods
+      .map((m) => _methodWrappers.putIfAbsent(m, () => CppMethod(this, m)))
       .toList();
 
   CppClass(this._cppClass);

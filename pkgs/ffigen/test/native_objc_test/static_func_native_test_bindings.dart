@@ -32,10 +32,16 @@ void staticFuncConsumesArg(StaticFuncTestObj a) {
   return _staticFuncConsumesArg(_$$ref.retainAndReturnPointer());
 }
 
-@ffi.Native<IntBlock Function(IntBlock)>(symbol: 'staticFuncOfBlock')
-external IntBlock _staticFuncOfBlock(IntBlock a);
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+>(symbol: 'staticFuncOfBlock')
+external ffi.Pointer<objc.ObjCBlockImpl> _staticFuncOfBlock(
+  ffi.Pointer<objc.ObjCBlockImpl> a,
+);
 
-DartIntBlock staticFuncOfBlock(DartIntBlock a) {
+objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> staticFuncOfBlock(
+  objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)> a,
+) {
   final _$$ref = a.ref;
   return ObjCBlock_Int32_Int32.fromPointer(
     _staticFuncOfBlock(_$$ref.pointer),
@@ -109,9 +115,6 @@ StaticFuncTestObj staticFuncReturnsRetainedArg(StaticFuncTestObj a) {
     release: true,
   );
 }
-
-typedef IntBlock = ffi.Pointer<objc.ObjCBlockImpl>;
-typedef DartIntBlock = objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Int32 Function(ffi.Int32)>`.
 abstract final class ObjCBlock_Int32_Int32 {
