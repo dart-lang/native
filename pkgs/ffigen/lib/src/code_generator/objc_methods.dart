@@ -13,7 +13,6 @@ import 'local_variables.dart';
 import 'native_type.dart';
 import 'objc_block.dart';
 import 'objc_built_in_functions.dart';
-import 'objc_category.dart';
 import 'objc_interface.dart';
 import 'objc_nullable.dart';
 import 'pointer.dart';
@@ -49,16 +48,12 @@ mixin ObjCMethods {
     }
   }
 
-  void copyMethod(ObjCMethod method, {ObjCCategory? category}) {
+  void copyMethod(ObjCMethod method) {
     // To maintain the pairing between getters and setters after cloning,
     // instead of directly cloning the setter, we clone the setter when we clone
     // the getter. This lets us, for example, share the symbol between them.
     if (method.kind == ObjCMethodKind.propertySetter) return;
     final cloned = method.clone();
-    if (category != null) {
-      cloned.originalCategory = category;
-      cloned.setter?.originalCategory = category;
-    }
     addMethod(cloned);
     addMethod(cloned.setter);
   }
@@ -217,7 +212,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ObjCMethods? parent;
   ObjCMethod? setter;
   bool isIncluded = true;
-  ObjCCategory? originalCategory;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -357,7 +351,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
     clonedMethod.parent = parent;
     clonedMethod.protocolMethodName = protocolMethodName?.clone();
     clonedMethod.isIncluded = isIncluded;
-    clonedMethod.originalCategory = originalCategory;
     return clonedMethod;
   }
 

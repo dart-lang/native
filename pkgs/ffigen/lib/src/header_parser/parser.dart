@@ -187,7 +187,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
 
   final allBindings = visit(
     context,
-    FindTransitiveDepsVisitation(),
+    FindTransitiveDepsVisitation(rawBindings),
     rawBindings,
   ).transitives;
 
@@ -219,7 +219,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
 
   final transitives = visit(
     context,
-    FindTransitiveDepsVisitation(),
+    FindTransitiveDepsVisitation(included),
     included,
   ).transitives;
   final directTransitives = visit(

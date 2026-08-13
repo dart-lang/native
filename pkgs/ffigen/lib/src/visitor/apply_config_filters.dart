@@ -56,13 +56,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (context.config.objectiveC == null) return;
 
     if (!node.isInternal) {
-      node.filterMethods((m) {
-        if (m.unavailable || !m.isIncluded) return false;
-        if (m.originalCategory case final cat?) {
-          if (!cat.isIncluded && cat.originalName.isNotEmpty) return false;
-        }
-        return true;
-      });
+      node.filterMethods((m) => !m.unavailable && m.isIncluded);
     }
     _visitImpl(node, node.isIncluded);
 
@@ -77,6 +71,16 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (context.config.objectiveC == null) return;
+    final includeTransitiveCategories =
+        context.config.objectiveC?.categories.includeTransitive ?? true;
+    if (includeTransitiveCategories &&
+        (directlyIncluded.contains(node.parent) ||
+            indirectlyIncluded.contains(node.parent) ||
+            (node.parent.isObjCImport && node.parent.isIncluded)) &&
+        node.originalName.isNotEmpty) {
+      node.isIncluded = true;
+    }
+
     node.filterMethods((m) {
       if (m.unavailable) return false;
       if (node.shouldCopyMethodToInterface(m)) return false;

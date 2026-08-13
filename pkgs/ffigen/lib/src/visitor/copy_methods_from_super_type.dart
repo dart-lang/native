@@ -73,7 +73,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     for (final category in node.categories) {
       for (final m in category.methods) {
         if (category.shouldCopyMethodToInterface(m)) {
-          node.copyMethod(m, category: category);
+          node.copyMethod(m);
         }
       }
     }
