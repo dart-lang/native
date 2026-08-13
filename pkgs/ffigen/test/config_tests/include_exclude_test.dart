@@ -58,14 +58,6 @@ ${strings.headers}:
     - '${absPath('test/config_tests/include_exclude.h')}'
 ''';
   if (include != null || exclude != null) {
-    if (field == strings.typedefs && exclude != null) {
-      templateString +=
-          '''
-${strings.functions}:
-  ${strings.exclude}:
-    - func
-''';
-    }
     templateString +=
         '''
 $field:
