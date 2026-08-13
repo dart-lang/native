@@ -193,9 +193,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     visitor.visitAll(rawNodes);
   }
   visit(context, CopyMethodsFromSuperTypesVisitation(), rawBindings);
-  for (final visitor in config.visitors) {
-    visitor.visitAll(rawNodes);
-  }
   visit(context, FixOverriddenMethodsVisitation(context), rawBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);

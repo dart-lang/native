@@ -55,8 +55,8 @@ void main() {
           );
           expect(actual, contains('static SwiftClass new\$() {'));
           expect(actual, contains('NSString sayHello() {'));
-          expect(actual, contains('DartNSInteger get someField {'));
-          expect(actual, contains('set someField(DartNSInteger value) {'));
+          expect(actual, contains('int get someField {'));
+          expect(actual, contains('set someField(int value) {'));
 
           // Verify that SwiftClass is loaded using the swift_module prefix.
           expect(
