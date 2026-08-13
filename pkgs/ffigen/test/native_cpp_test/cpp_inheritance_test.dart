@@ -123,6 +123,9 @@ void main() {
       // which itself dispatches through C++ — no ambiguity.
       expect(d.baseVal(), 42);
 
+      // virtVal() is overridden by DiamondLeft to return 200
+      expect(d.virtVal(), 200);
+
       d.dispose();
     });
   });

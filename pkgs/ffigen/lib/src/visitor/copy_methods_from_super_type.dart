@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../header_parser/sub_parsers/classdecl_parser.dart'
+    show methodSignatureKey;
 
 import 'ast.dart';
 
@@ -40,6 +42,39 @@ const _excludedNSObjectMethods = {
 };
 
 class CopyMethodsFromSuperTypesVisitation extends Visitation {
+  @override
+  void visitCppClass(CppClass node) {
+    node.visitChildren(visitor);
+
+    if (node.bases.isEmpty) return;
+
+    final existingSignatures = node.methods
+        .map((m) => methodSignatureKey(m, node.context))
+        .toSet();
+
+    for (final base in node.bases) {
+      _copyCppMethodsFromBase(node, base, existingSignatures);
+    }
+  }
+
+  void _copyCppMethodsFromBase(
+    CppClass target,
+    CppClass base,
+    Set<String> existingSignatures,
+  ) {
+    for (final method in base.methods) {
+      if (method.kind == CppMethodKind.constructor) continue;
+      final sigKey = methodSignatureKey(method, target.context);
+      if (existingSignatures.add(sigKey)) {
+        target.copyMethod(method, base);
+      }
+    }
+
+    for (final grandBase in base.bases) {
+      _copyCppMethodsFromBase(target, grandBase, existingSignatures);
+    }
+  }
+
   @override
   void visitObjCInterface(ObjCInterface node) {
     node.visitChildren(visitor, typeGraphOnly: true);

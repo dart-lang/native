@@ -52,7 +52,9 @@ int OverloadDerived::getValue(int x) { return x * 10; }
 DiamondBase::DiamondBase() {}
 DiamondBase::~DiamondBase() {}
 int DiamondBase::baseVal() const { return 42; }
+int DiamondBase::virtVal() const { return 100; }
 
 DiamondLeft::DiamondLeft() {}
+int DiamondLeft::virtVal() const { return 200; }
 DiamondRight::DiamondRight() {}
 DiamondDerived::DiamondDerived() {}

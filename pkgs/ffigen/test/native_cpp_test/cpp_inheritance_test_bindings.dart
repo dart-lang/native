@@ -242,6 +242,22 @@ class Circle implements ffi.Finalizable, Shape {
     return _Circle_area(_ptr);
   }
 
+  double getX() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _Circle_getX(_ptr);
+  }
+
+  double getY() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _Circle_getY(_ptr);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -261,24 +277,6 @@ class Circle implements ffi.Finalizable, Shape {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  double getX() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _Circle_Shape_getX(_ptr);
-  }
-
-  @override
-  double getY() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _Circle_Shape_getY(_ptr);
-  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Double, ffi.Double, ffi.Double)>(
@@ -289,18 +287,14 @@ external ffi.Pointer<ffi.Void> _Circle_new(double x, double y, double radius);
 @ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(symbol: 'Circle_area')
 external double _Circle_area(ffi.Pointer<ffi.Void> self);
 
+@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(symbol: 'Circle_getX')
+external double _Circle_getX(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(symbol: 'Circle_getY')
+external double _Circle_getY(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Circle_delete')
 external void _Circle_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'Circle_Shape_getX',
-)
-external double _Circle_Shape_getX(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'Circle_Shape_getY',
-)
-external double _Circle_Shape_getY(ffi.Pointer<ffi.Void> self);
 
 class ColoredCircle implements ffi.Finalizable, Circle, Drawable {
   ffi.Pointer<ffi.Void> _ptr;
@@ -410,6 +404,38 @@ class ColoredCircle implements ffi.Finalizable, Circle, Drawable {
     return _ColoredCircle_getColor(_ptr);
   }
 
+  double area() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _ColoredCircle_area(_ptr);
+  }
+
+  double getX() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _ColoredCircle_getX(_ptr);
+  }
+
+  double getY() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _ColoredCircle_getY(_ptr);
+  }
+
+  int draw() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _ColoredCircle_draw(_ptr);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -429,42 +455,6 @@ class ColoredCircle implements ffi.Finalizable, Circle, Drawable {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  double getX() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _ColoredCircle_Circle_getX(_ptr);
-  }
-
-  @override
-  double getY() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _ColoredCircle_Circle_getY(_ptr);
-  }
-
-  @override
-  double area() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _ColoredCircle_Circle_area(_ptr);
-  }
-
-  @override
-  int draw() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _ColoredCircle_Drawable_draw(_ptr);
-  }
 }
 
 @ffi.Native<
@@ -482,30 +472,30 @@ external ffi.Pointer<ffi.Void> _ColoredCircle_new(
 )
 external int _ColoredCircle_getColor(ffi.Pointer<ffi.Void> self);
 
+@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'ColoredCircle_area',
+)
+external double _ColoredCircle_area(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'ColoredCircle_getX',
+)
+external double _ColoredCircle_getX(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'ColoredCircle_getY',
+)
+external double _ColoredCircle_getY(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'ColoredCircle_draw',
+)
+external int _ColoredCircle_draw(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'ColoredCircle_delete',
 )
 external void _ColoredCircle_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'ColoredCircle_Circle_getX',
-)
-external double _ColoredCircle_Circle_getX(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'ColoredCircle_Circle_getY',
-)
-external double _ColoredCircle_Circle_getY(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'ColoredCircle_Circle_area',
-)
-external double _ColoredCircle_Circle_area(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'ColoredCircle_Drawable_draw',
-)
-external int _ColoredCircle_Drawable_draw(ffi.Pointer<ffi.Void> self);
 
 class DiamondBase implements ffi.Finalizable {
   ffi.Pointer<ffi.Void> _ptr;
@@ -612,6 +602,14 @@ class DiamondBase implements ffi.Finalizable {
     return _DiamondBase_baseVal(_ptr);
   }
 
+  int virtVal() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _DiamondBase_virtVal(_ptr);
+  }
+
   void dispose() {
     if (_ptr == ffi.nullptr) {
       throw StateError('This object has already been disposed.');
@@ -639,6 +637,11 @@ external ffi.Pointer<ffi.Void> _DiamondBase_new();
   symbol: 'DiamondBase_baseVal',
 )
 external int _DiamondBase_baseVal(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DiamondBase_virtVal',
+)
+external int _DiamondBase_virtVal(ffi.Pointer<ffi.Void> self);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DiamondBase_delete',
@@ -745,6 +748,22 @@ class DiamondDerived implements ffi.Finalizable, DiamondLeft, DiamondRight {
       takeOwnership: true,
     );
   }
+  int virtVal() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _DiamondDerived_virtVal(_ptr);
+  }
+
+  int baseVal() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _DiamondDerived_baseVal(_ptr);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -764,29 +783,25 @@ class DiamondDerived implements ffi.Finalizable, DiamondLeft, DiamondRight {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  int baseVal() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _DiamondDerived_DiamondLeft_baseVal(_ptr);
-  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>(symbol: 'DiamondDerived_new')
 external ffi.Pointer<ffi.Void> _DiamondDerived_new();
 
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DiamondDerived_virtVal',
+)
+external int _DiamondDerived_virtVal(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DiamondDerived_baseVal',
+)
+external int _DiamondDerived_baseVal(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DiamondDerived_delete',
 )
 external void _DiamondDerived_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'DiamondDerived_DiamondLeft_baseVal',
-)
-external int _DiamondDerived_DiamondLeft_baseVal(ffi.Pointer<ffi.Void> self);
 
 class DiamondLeft implements ffi.Finalizable, DiamondBase {
   ffi.Pointer<ffi.Void> _ptr;
@@ -885,6 +900,22 @@ class DiamondLeft implements ffi.Finalizable, DiamondBase {
   factory DiamondLeft() {
     return DiamondLeft.fromPointer(_DiamondLeft_new(), takeOwnership: true);
   }
+  int virtVal() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _DiamondLeft_virtVal(_ptr);
+  }
+
+  int baseVal() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _DiamondLeft_baseVal(_ptr);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -904,29 +935,25 @@ class DiamondLeft implements ffi.Finalizable, DiamondBase {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  int baseVal() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _DiamondLeft_DiamondBase_baseVal(_ptr);
-  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>(symbol: 'DiamondLeft_new')
 external ffi.Pointer<ffi.Void> _DiamondLeft_new();
 
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DiamondLeft_virtVal',
+)
+external int _DiamondLeft_virtVal(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DiamondLeft_baseVal',
+)
+external int _DiamondLeft_baseVal(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DiamondLeft_delete',
 )
 external void _DiamondLeft_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'DiamondLeft_DiamondBase_baseVal',
-)
-external int _DiamondLeft_DiamondBase_baseVal(ffi.Pointer<ffi.Void> self);
 
 class DiamondRight implements ffi.Finalizable, DiamondBase {
   ffi.Pointer<ffi.Void> _ptr;
@@ -1025,6 +1052,22 @@ class DiamondRight implements ffi.Finalizable, DiamondBase {
   factory DiamondRight() {
     return DiamondRight.fromPointer(_DiamondRight_new(), takeOwnership: true);
   }
+  int baseVal() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _DiamondRight_baseVal(_ptr);
+  }
+
+  int virtVal() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _DiamondRight_virtVal(_ptr);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -1044,29 +1087,25 @@ class DiamondRight implements ffi.Finalizable, DiamondBase {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  int baseVal() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _DiamondRight_DiamondBase_baseVal(_ptr);
-  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>(symbol: 'DiamondRight_new')
 external ffi.Pointer<ffi.Void> _DiamondRight_new();
 
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DiamondRight_baseVal',
+)
+external int _DiamondRight_baseVal(ffi.Pointer<ffi.Void> self);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'DiamondRight_virtVal',
+)
+external int _DiamondRight_virtVal(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DiamondRight_delete',
 )
 external void _DiamondRight_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'DiamondRight_DiamondBase_baseVal',
-)
-external int _DiamondRight_DiamondBase_baseVal(ffi.Pointer<ffi.Void> self);
 
 class Drawable implements ffi.Finalizable {
   ffi.Pointer<ffi.Void> _ptr;
@@ -1464,6 +1503,14 @@ class OverloadDerived implements ffi.Finalizable, OverloadBase {
     return _OverloadDerived_getValue(_ptr, x);
   }
 
+  double getValueDouble(double x) {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _OverloadDerived_getValueDouble(_ptr, x);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -1483,15 +1530,6 @@ class OverloadDerived implements ffi.Finalizable, OverloadBase {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  double getValueDouble(double x) {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _OverloadDerived_OverloadBase_getValueDouble(_ptr, x);
-  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>(symbol: 'OverloadDerived_new')
@@ -1502,18 +1540,18 @@ external ffi.Pointer<ffi.Void> _OverloadDerived_new();
 )
 external int _OverloadDerived_getValue(ffi.Pointer<ffi.Void> self, int x);
 
+@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>, ffi.Double)>(
+  symbol: 'OverloadDerived_getValueDouble',
+)
+external double _OverloadDerived_getValueDouble(
+  ffi.Pointer<ffi.Void> self,
+  double x,
+);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'OverloadDerived_delete',
 )
 external void _OverloadDerived_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>, ffi.Double)>(
-  symbol: 'OverloadDerived_OverloadBase_getValueDouble',
-)
-external double _OverloadDerived_OverloadBase_getValueDouble(
-  ffi.Pointer<ffi.Void> self,
-  double x,
-);
 
 class PrivateDerived implements ffi.Finalizable {
   ffi.Pointer<ffi.Void> _ptr;
@@ -1868,6 +1906,14 @@ class PublicDerived implements ffi.Finalizable, AccessBase {
   factory PublicDerived() {
     return PublicDerived.fromPointer(_PublicDerived_new(), takeOwnership: true);
   }
+  int value() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _PublicDerived_value(_ptr);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -1887,29 +1933,20 @@ class PublicDerived implements ffi.Finalizable, AccessBase {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  int value() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _PublicDerived_AccessBase_value(_ptr);
-  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>(symbol: 'PublicDerived_new')
 external ffi.Pointer<ffi.Void> _PublicDerived_new();
 
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'PublicDerived_value',
+)
+external int _PublicDerived_value(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'PublicDerived_delete',
 )
 external void _PublicDerived_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'PublicDerived_AccessBase_value',
-)
-external int _PublicDerived_AccessBase_value(ffi.Pointer<ffi.Void> self);
 
 class Shape implements ffi.Finalizable {
   ffi.Pointer<ffi.Void> _ptr;
@@ -2171,6 +2208,14 @@ class Square implements ffi.Finalizable, Shape {
     return _Square_area(_ptr);
   }
 
+  double getY() {
+    if (_ptr == ffi.nullptr) {
+      throw StateError('This object has already been disposed.');
+    }
+
+    return _Square_getY(_ptr);
+  }
+
   @override
   void dispose() {
     if (_ptr == ffi.nullptr) {
@@ -2190,15 +2235,6 @@ class Square implements ffi.Finalizable, Shape {
     _activeFinalizerFn = null;
     _ptr = ffi.nullptr;
   }
-
-  @override
-  double getY() {
-    if (_ptr == ffi.nullptr) {
-      throw StateError('This object has already been disposed.');
-    }
-
-    return _Square_Shape_getY(_ptr);
-  }
 }
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Double, ffi.Double, ffi.Double)>(
@@ -2212,10 +2248,8 @@ external double _Square_getX(ffi.Pointer<ffi.Void> self);
 @ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(symbol: 'Square_area')
 external double _Square_area(ffi.Pointer<ffi.Void> self);
 
+@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(symbol: 'Square_getY')
+external double _Square_getY(ffi.Pointer<ffi.Void> self);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(symbol: 'Square_delete')
 external void _Square_delete(ffi.Pointer<ffi.Void> self);
-
-@ffi.Native<ffi.Double Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'Square_Shape_getY',
-)
-external double _Square_Shape_getY(ffi.Pointer<ffi.Void> self);

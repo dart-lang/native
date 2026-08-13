@@ -82,11 +82,13 @@ public:
     DiamondBase();
     virtual ~DiamondBase();
     int baseVal() const;
+    virtual int virtVal() const;
 };
 
 class DiamondLeft : public DiamondBase {
 public:
     DiamondLeft();
+    int virtVal() const override;
 };
 
 class DiamondRight : public DiamondBase {

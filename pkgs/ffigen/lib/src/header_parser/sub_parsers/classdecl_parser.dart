@@ -122,41 +122,6 @@ String methodSignatureKey(CppMethod method, Context context) {
   return '${method.originalName}($paramTypes)$constSuffix';
 }
 
-List<InheritedMethod> collectInheritedMethods(CppClass cls) {
-  final seen = <String>{};
-  final result = <InheritedMethod>[];
-  for (final directBase in cls.bases) {
-    _collectFromBase(directBase, directBase, seen, result, cls.context);
-  }
-  return result;
-}
-
-void _collectFromBase(
-  CppClass current,
-  CppClass directBase,
-  Set<String> seen,
-  List<InheritedMethod> result,
-  Context context,
-) {
-  for (final base in current.bases) {
-    _collectFromBase(base, directBase, seen, result, context);
-  }
-  for (final method in current.methods) {
-    if (method.kind == CppMethodKind.constructor) continue;
-    final key = methodSignatureKey(method, context);
-    if (seen.add(key)) {
-      result.add(InheritedMethod(method: method, baseClass: directBase));
-    }
-  }
-}
-
-class InheritedMethod {
-  final CppMethod method;
-  final CppClass baseClass;
-
-  const InheritedMethod({required this.method, required this.baseClass});
-}
-
 void _parseAnyMethod(
   Context context,
   clang_types.CXCursor cursor,
