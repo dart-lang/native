@@ -12,6 +12,7 @@ import 'package:native_toolchain_c/src/tool/tool.dart';
 import 'package:native_toolchain_c/src/tool/tool_error.dart';
 import 'package:native_toolchain_c/src/tool/tool_instance.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -30,6 +31,7 @@ void main() {
       toolInstance.uri,
       arguments: versionArguments,
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     expect(version.major > 5, true);
     expect(
@@ -38,6 +40,7 @@ void main() {
         arguments: versionArguments,
         expectedExitCode: 9999,
         logger: logger,
+        processManager: const LocalProcessManager(),
       ),
       throwsA(isA<ToolError>()),
     );
@@ -48,6 +51,7 @@ void main() {
         arguments: versionArguments,
         expectedExitCode: 9999,
         logger: logger,
+        processManager: const LocalProcessManager(),
       );
       // ignore: avoid_catching_errors
     } on ToolError catch (e) {

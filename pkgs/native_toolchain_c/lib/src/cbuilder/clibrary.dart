@@ -5,6 +5,7 @@
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 
 import 'cbuilder.dart';
 import 'clinker.dart';
@@ -162,10 +163,14 @@ class CLibrary {
   ///
   /// [defines] are merged with the [CLibrary.defines] of this [CLibrary]. See
   /// [CLibrary.defines] for more documentation.
+  ///
+  /// If provided, uses [processManager] to spawn processes. Otherwise, uses a
+  /// [LocalProcessManager] that spawns real processes.
   Future<void> build({
     required BuildInput input,
     required BuildOutputBuilder output,
     Logger? logger,
+    ProcessManager? processManager,
     List<AssetRouting>? routing,
     LinkModePreference? linkModePreference,
     Map<String, String?>? defines,
@@ -196,6 +201,7 @@ class CLibrary {
       input: input,
       output: output,
       logger: logger,
+      processManager: processManager,
       routing:
           routing ??
           (input.config.linkingEnabled
@@ -230,10 +236,14 @@ class CLibrary {
   ///
   /// [defines] are merged with the [CLibrary.defines] of this [CLibrary]. See
   /// [CLibrary.defines] for more documentation.
+  ///
+  /// If provided, uses [processManager] to spawn processes. Otherwise, uses a
+  /// [LocalProcessManager] that spawns real processes.
   Future<void> link({
     required LinkInput input,
     required LinkOutputBuilder output,
     Logger? logger,
+    ProcessManager? processManager,
     LinkerOptions? linkerOptions,
     LinkModePreference? linkModePreference,
     Map<String, String?>? defines,
@@ -247,6 +257,7 @@ class CLibrary {
       input: input,
       output: output,
       logger: logger,
+      processManager: processManager,
       linkerOptions: linkerOptions,
       linkModePreference: linkModePreference,
       sources: assets.map((a) => a.file!.toFilePath()).toList(),

@@ -8,6 +8,7 @@ import 'dart:math';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
@@ -28,6 +29,7 @@ class RunCBuilder {
   final HookInput input;
   final CodeConfig codeConfig;
   final Logger? logger;
+  final ProcessManager processManager;
   final List<Uri> sources;
   final List<Uri> includes;
   final List<Uri> forcedIncludes;
@@ -57,6 +59,7 @@ class RunCBuilder {
   RunCBuilder({
     required this.input,
     required this.codeConfig,
+    required this.processManager,
     this.linkerOptions,
     this.logger,
     this.sources = const [],
@@ -93,6 +96,7 @@ class RunCBuilder {
   late final _resolver = CompilerResolver(
     codeConfig: codeConfig,
     logger: logger,
+    processManager: processManager,
   );
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
@@ -225,6 +229,7 @@ class RunCBuilder {
           ),
         ],
         logger: logger,
+        processManager: processManager,
         captureOutput: false,
         throwOnUnexpectedExitCode: true,
         environment: environment,
@@ -256,7 +261,10 @@ class RunCBuilder {
     Uri? outFile,
     Map<String, String> environment,
   ) async {
-    final context = ToolResolvingContext(logger: logger);
+    final context = ToolResolvingContext(
+      logger: logger,
+      processManager: processManager,
+    );
 
     String toolPath(Uri uri) => _toolPath(uri, toolInstance);
 
@@ -399,6 +407,7 @@ class RunCBuilder {
         ],
       ],
       logger: logger,
+      processManager: processManager,
       captureOutput: false,
       throwOnUnexpectedExitCode: true,
     );
@@ -458,6 +467,7 @@ class RunCBuilder {
       workingDirectory: outDir,
       environment: environment,
       logger: logger,
+      processManager: processManager,
       captureOutput: false,
       stdoutLogLevel: Level.INFO,
       throwOnUnexpectedExitCode: true,
@@ -479,6 +489,7 @@ class RunCBuilder {
         workingDirectory: outDir,
         environment: environment,
         logger: logger,
+        processManager: processManager,
         captureOutput: false,
         stdoutLogLevel: Level.INFO,
         throwOnUnexpectedExitCode: true,

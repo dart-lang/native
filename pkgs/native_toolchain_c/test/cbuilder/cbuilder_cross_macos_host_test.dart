@@ -19,6 +19,7 @@ import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 import 'package:test_case_selector/test_case_selector.dart';
 
@@ -263,6 +264,7 @@ void main() async {
           executable: Uri.file('otool'),
           arguments: ['-l', lib1Uri.path],
           logger: logger,
+          processManager: const LocalProcessManager(),
         );
         expect(otoolResult.exitCode, 0);
         expect(otoolResult.stdout, contains('minos $macosVersion.0'));

@@ -12,6 +12,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -91,6 +92,7 @@ void main() {
         final result = await runProcess(
           executable: executableUri,
           logger: logger,
+          processManager: const LocalProcessManager(),
         );
         expect(result.exitCode, 0);
         if (buildMode == BuildMode.debug) {
@@ -280,7 +282,11 @@ void main() {
       OS.current.executableFileName(name),
     );
     expect(await File.fromUri(executableUri).exists(), true);
-    final result = await runProcess(executable: executableUri, logger: logger);
+    final result = await runProcess(
+      executable: executableUri,
+      logger: logger,
+      processManager: const LocalProcessManager(),
+    );
     expect(result.exitCode, 0);
     expect(result.stdout, contains('Macro FOO is defined: USER_FLAG'));
     // Check the forced include is added.
@@ -471,7 +477,11 @@ void main() {
       OS.current.executableFileName(name),
     );
     expect(await File.fromUri(executableUri).exists(), true);
-    final result = await runProcess(executable: executableUri, logger: logger);
+    final result = await runProcess(
+      executable: executableUri,
+      logger: logger,
+      processManager: const LocalProcessManager(),
+    );
     expect(result.exitCode, 0);
     expect(result.stdout.trim(), endsWith('Hello world.'));
 
@@ -550,6 +560,7 @@ void main() {
       final result = await runProcess(
         executable: executableUri,
         logger: logger,
+        processManager: const LocalProcessManager(),
       );
       expect(result.exitCode, 0);
       expect(result.stdout.trim(), endsWith('Hello world.'));
@@ -663,7 +674,11 @@ void main() {
       OS.current.executableFileName(name),
     );
     expect(await File.fromUri(executableUri).exists(), true);
-    final result = await runProcess(executable: executableUri, logger: logger);
+    final result = await runProcess(
+      executable: executableUri,
+      logger: logger,
+      processManager: const LocalProcessManager(),
+    );
     expect(result.exitCode, 0);
   });
 }
@@ -726,7 +741,11 @@ Future<void> testDefines({
     OS.current.executableFileName(name),
   );
   expect(await File.fromUri(executableUri).exists(), true);
-  final result = await runProcess(executable: executableUri, logger: logger);
+  final result = await runProcess(
+    executable: executableUri,
+    logger: logger,
+    processManager: const LocalProcessManager(),
+  );
   expect(result.exitCode, 0);
 
   if (buildModeDefine) {
