@@ -60,7 +60,10 @@ class TestGenerator {
         inputs: [
           isObjCCompatible
               ? ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)])
-              : SwiftFileInput(files: [Uri.file(inputFile)]),
+              : SwiftFileInput(
+                  files: [Uri.file(inputFile)],
+                  tempModuleName: name,
+                ),
         ],
         output: Output(
           swiftWrapperFile: isObjCCompatible
