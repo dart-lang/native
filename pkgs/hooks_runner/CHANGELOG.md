@@ -8,6 +8,8 @@
   `output.json` contains valid JSON that is not an object.
 - Bump `package:code_assets` dependency to `^2.0.0`.
 - Add `PATHEXT` to the environment variables allowlist.
+- Add prefixes `RUSTUP_` and `CARGO_` to the environment variables allowlist.
+
 ## 1.6.1
 
 - Support versions 3.x of `package:package_config`.
