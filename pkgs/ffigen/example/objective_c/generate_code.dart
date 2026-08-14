@@ -33,7 +33,7 @@ final config = FfiGenerator(
           // .isIncluded to true.
           node.isIncluded = true;
         }
-      }
+      },
     ),
   ],
 
