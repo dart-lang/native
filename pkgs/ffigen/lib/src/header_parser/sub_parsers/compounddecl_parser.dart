@@ -103,6 +103,7 @@ Compound? _parseCompoundDeclaration(
     required Context context,
     String? nativeType,
     ApiAvailability? apiAvailability,
+    int? sizeInBytes,
   })
   constructor,
 ) {
@@ -132,9 +133,12 @@ Compound? _parseCompoundDeclaration(
     return null;
   }
 
+  cursor = context.cursorIndex.getDefinition(cursor);
+  final size = cursor.type().size();
+  final sizeInBytes = size >= 0 ? size : null;
+
   final Compound compound;
   if (declName.isEmpty) {
-    cursor = context.cursorIndex.getDefinition(cursor);
     compound = constructor(
       name: 'Unnamed$className',
       usr: usr,
@@ -146,9 +150,9 @@ Compound? _parseCompoundDeclaration(
       context: context,
       nativeType: cursor.type().spelling(),
       apiAvailability: apiAvailability,
+      sizeInBytes: sizeInBytes,
     );
   } else {
-    cursor = context.cursorIndex.getDefinition(cursor);
     context.logger.fine(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
@@ -164,6 +168,7 @@ Compound? _parseCompoundDeclaration(
       context: context,
       nativeType: cursor.type().spelling(),
       apiAvailability: apiAvailability,
+      sizeInBytes: sizeInBytes,
     );
   }
   context.bindingsIndex.addCompoundToSeen(usr, compound);

@@ -62,7 +62,7 @@ void main() {
       dict[obj3] = obj1;
       expect(dict, {obj1: obj2, obj3: obj1, obj5: obj6});
 
-      expect(dict.remove(null), null);
+      expect(dict.remove(null as Object?), null);
       expect((dict as Map).remove(123), null);
       expect(dict.remove(obj1), obj2);
       expect(dict, {obj3: obj1, obj5: obj6});
