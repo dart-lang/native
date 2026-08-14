@@ -121,19 +121,12 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitTypealias(Typealias node) {
-    if (_visitImpl(
+    _visitImpl(
       node,
-      node.isInternal
-          ? _IncludeBehavior.transitive
-          : (config.typedefs.includeUnused
-                ? _IncludeBehavior.configOnly
-                : _IncludeBehavior.configAndTransitive),
-    )) {
-      final internalFunc = _getFunctionTypealias(node.type);
-      if (internalFunc != null) {
-        _add(internalFunc);
-      }
-    }
+      config.typedefs.includeUnused
+          ? _IncludeBehavior.configOnly
+          : _IncludeBehavior.configAndTransitive,
+    );
 
     // Objective C has some core typedefs that are important to keep.
     if (config.objectiveC != null &&
@@ -159,28 +152,4 @@ class MarkBindingsVisitation extends Visitation {
     node.visitChildren(visitor);
     node.generateBindings = bindings.contains(node);
   }
-
-  @override
-  void visitTypealias(Typealias node) {
-    visitBinding(node);
-    if (node.generateBindings) {
-      final internalFunc = _getFunctionTypealias(node.type);
-      if (internalFunc != null) {
-        internalFunc.generateBindings = true;
-      }
-    }
-  }
-}
-
-Typealias? _getFunctionTypealias(Type type) {
-  if (type is Typealias) {
-    type = type.type;
-  }
-  if (type is PointerType) {
-    final child = type.child;
-    if (child is NativeFunc) {
-      return child.functionTypealias;
-    }
-  }
-  return null;
 }

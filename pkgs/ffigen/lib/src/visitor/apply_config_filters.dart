@@ -66,12 +66,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (context.config.objectiveC == null) return;
-    final includeTransitiveCategories =
-        context.config.objectiveC?.categories.includeTransitive ?? true;
-    if (includeTransitiveCategories &&
-        (directlyIncluded.contains(node.parent) ||
-            indirectlyIncluded.contains(node.parent) ||
-            (node.parent.isObjCImport && node.parent.isIncluded)) &&
+    if (context.config.objectiveC!.categories.includeTransitive &&
+        node.parent.isIncluded &&
         node.originalName.isNotEmpty) {
       node.isIncluded = true;
     }
@@ -119,25 +115,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    if (node.isIncluded) {
-      final internalFunc = _getFunctionTypealias(node.type);
-      if (internalFunc != null) {
-        internalFunc.isIncluded = true;
-      }
-    }
     _visitImpl(node, node.isIncluded);
   }
-}
-
-Typealias? _getFunctionTypealias(Type type) {
-  if (type is Typealias) {
-    type = type.type;
-  }
-  if (type is PointerType) {
-    final child = type.child;
-    if (child is NativeFunc) {
-      return child.functionTypealias;
-    }
-  }
-  return null;
 }

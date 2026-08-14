@@ -66,10 +66,15 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     // Copy all methods from all the interface's protocols.
     _copyMethodFromProtocols(node, node.protocols);
 
-    // Copy methods from all included categories that extend this interface,
-    // if those methods return instancetype, because the Dart inheritance
-    // rules don't match the ObjC rules regarding instancetype.
+    // Copy methods from all the categories that extend this interface, if those
+    // methods return instancetype, because the Dart inheritance rules don't
+    // match the ObjC rules regarding instancetype.
     // Also copy all methods from any anonymous categories.
+    // NOTE: The methods are copied regardless of whether the category is
+    // included by the config filters, since this method copying visit happens
+    // before the filtering visit. This is technically a bug, but it's unlikely
+    // to bother anyone, and the fix would be complicated. So we'll ignore it
+    // for now.
     for (final category in node.categories) {
       for (final m in category.methods) {
         if (category.shouldCopyMethodToInterface(m)) {
