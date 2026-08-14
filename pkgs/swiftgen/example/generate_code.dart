@@ -46,10 +46,16 @@ Future<void> main() async {
           ios: fg.Versions(min: Version(12, 0, 0)),
           macos: fg.Versions(min: Version(10, 14, 0)),
         ),
-        interfaces: fg.Interfaces(
-          include: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
-        ),
       ),
+      visitors: [
+        fg.Visitor(
+          visitObjCInterface: (node) {
+            if (node.name == 'AVAudioPlayerWrapper') {
+              node.isIncluded = true;
+            }
+          },
+        ),
+      ],
     ),
   ).generate(logger: logger, tempDirectory: Uri.directory('temp'));
 

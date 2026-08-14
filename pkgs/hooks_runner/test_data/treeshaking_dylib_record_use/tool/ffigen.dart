@@ -15,9 +15,13 @@ void main() {
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
     functions: Functions(
-      include: (_) => true,
       recordUse: (_) => true,
     ),
+    visitors: [
+      Visitor(
+        visitFunc: (node) => node.isIncluded = true,
+      ),
+    ],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
@@ -40,9 +44,13 @@ void main() {
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
     functions: Functions(
-      include: (_) => true,
       recordUse: (_) => true,
     ),
+    visitors: [
+      Visitor(
+        visitFunc: (node) => node.isIncluded = true,
+      ),
+    ],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file

@@ -81,14 +81,20 @@ class TestGenerator {
 ''',
         ),
         ffigen: FfiGeneratorOptions(
-          objectiveC: fg.ObjectiveC(
-            interfaces: fg.Interfaces(
-              include: (decl) => decl.originalName.startsWith('Test'),
+          visitors: [
+            fg.Visitor(
+              visitObjCInterface: (node) {
+                if (node.name.startsWith('Test')) {
+                  node.isIncluded = true;
+                }
+              },
+              visitObjCProtocol: (node) {
+                if (node.name.startsWith('Test')) {
+                  node.isIncluded = true;
+                }
+              },
             ),
-            protocols: fg.Protocols(
-              include: (decl) => decl.originalName.startsWith('Test'),
-            ),
-          ),
+          ],
         ),
       ).generate(
         logger: Logger.root..level = Level.SEVERE,

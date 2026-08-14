@@ -228,14 +228,8 @@ class FfiGeneratorOptions {
   /// [ffigen.FfiGenerator.enums]
   final ffigen.Enums enums;
 
-  /// [ffigen.FfiGenerator.unnamedEnums]
-  final ffigen.UnnamedEnums unnamedEnums;
-
   /// [ffigen.FfiGenerator.globals]
   final ffigen.Globals globals;
-
-  /// [ffigen.FfiGenerator.macros]
-  final ffigen.Macros macros;
 
   /// [ffigen.FfiGenerator.typedefs]
   final ffigen.Typedefs typedefs;
@@ -247,14 +241,12 @@ class FfiGeneratorOptions {
   final List<ffigen.Visitor> visitors;
 
   const FfiGeneratorOptions({
-    this.functions = ffigen.Functions.excludeAll,
-    this.structs = ffigen.Structs.excludeAll,
-    this.unions = ffigen.Unions.excludeAll,
-    this.enums = ffigen.Enums.excludeAll,
-    this.unnamedEnums = ffigen.UnnamedEnums.excludeAll,
-    this.globals = ffigen.Globals.excludeAll,
-    this.macros = ffigen.Macros.excludeAll,
-    this.typedefs = ffigen.Typedefs.excludeAll,
+    this.functions = const ffigen.Functions(),
+    this.structs = const ffigen.Structs(),
+    this.unions = const ffigen.Unions(),
+    this.enums = const ffigen.Enums(),
+    this.globals = const ffigen.Globals(),
+    this.typedefs = const ffigen.Typedefs(),
     this.objectiveC = const ffigen.ObjectiveC(),
     this.visitors = const [],
   });
