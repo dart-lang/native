@@ -12,10 +12,13 @@ void main() {
     input: Input(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
-    functions: Functions(
-      include: (decl) => {'sqlite3_libversion'}.contains(decl.originalName),
-      recordUse: (_) => true,
-    ),
+    functions: Functions(recordUse: (_) => true),
+    visitors: [
+      Visitor(
+        visitFunc: (node) =>
+            node.isIncluded = node.name == 'sqlite3_libversion',
+      ),
+    ],
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
       recordUseMapping: packageRoot.resolve(

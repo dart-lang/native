@@ -12,7 +12,12 @@ void main() {
     input: Input(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
-    functions: Functions.includeSet({'sqlite3_libversion'}),
+    visitors: [
+      Visitor(
+        visitFunc: (node) =>
+            node.isIncluded = node.name == 'sqlite3_libversion',
+      ),
+    ],
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
       preamble: '''

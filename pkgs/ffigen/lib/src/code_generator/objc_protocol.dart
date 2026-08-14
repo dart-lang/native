@@ -27,6 +27,8 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
 
+  bool isIncluded = false;
+
   ObjCProtocol({
     super.usr,
     required String super.originalName,

@@ -48,3 +48,19 @@ int NodeManager::takeNode(Node* node) {
     delete node;
     return val;
 }
+
+std::unique_ptr<Node> NodeManager::makeNode(int value, int* destructorCounter) {
+    return std::make_unique<Node>(value, destructorCounter);
+}
+
+int NodeManager::consumeNode(std::unique_ptr<Node> node) {
+    return node->getValue();
+}
+
+NodeContainer::NodeContainer(std::unique_ptr<Node> node)
+    : node_(std::move(node)) {}
+
+int NodeContainer::getValue() const {
+    return node_ ? node_->getValue() : -1;
+}
+

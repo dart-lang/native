@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -54,18 +55,21 @@ class XCodeSdkResolver implements ToolResolver {
           sdk: 'macosx',
           tool: macosxSdk,
           logger: context.logger,
+          processManager: context.processManager,
         ),
         ...await tryResolveSdk(
           xcrunInstance: xcrunInstance,
           sdk: 'iphoneos',
           tool: iPhoneOSSdk,
           logger: context.logger,
+          processManager: context.processManager,
         ),
         ...await tryResolveSdk(
           xcrunInstance: xcrunInstance,
           sdk: 'iphonesimulator',
           tool: iPhoneSimulatorSdk,
           logger: context.logger,
+          processManager: context.processManager,
         ),
       ],
       // xcrun --sdk macosx --show-sdk-path)
@@ -77,11 +81,13 @@ class XCodeSdkResolver implements ToolResolver {
     required String sdk,
     required Tool tool,
     required Logger? logger,
+    required ProcessManager processManager,
   }) async {
     final result = await runProcess(
       executable: xcrunInstance.uri,
       arguments: ['--sdk', sdk, '--show-sdk-path'],
       logger: logger,
+      processManager: processManager,
     );
     if (result.exitCode == 1) {
       assert(result.stderr.contains('cannot be located'));

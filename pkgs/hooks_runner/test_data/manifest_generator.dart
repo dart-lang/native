@@ -74,6 +74,7 @@ const denyList = [
 const partialProjects = [
   'native_add_add_source',
   'native_add_add_symbol',
+  'native_add_asan_error',
   'native_add_break_build',
   'native_add_fix_build',
   'simple_link_change_asset',

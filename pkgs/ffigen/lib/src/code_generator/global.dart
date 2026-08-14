@@ -33,6 +33,8 @@ class Global extends LookUpBinding with HasLocalScope {
   @override
   final bool loadFromNativeAsset;
 
+  bool isIncluded = false;
+
   Global({
     super.usr,
     super.originalName,

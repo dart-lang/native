@@ -219,7 +219,7 @@ final Tool dumpbin = _msvcTool(
   hostArchitecture: .current,
 );
 
-const _msvcArchNames = {
+final _msvcArchNames = {
   Architecture.ia32: 'x86',
   Architecture.x64: 'x64',
   Architecture.arm64: 'arm64',
@@ -268,6 +268,7 @@ class VisualStudioResolver implements ToolResolver {
         executable: vswhereInstance.uri,
         arguments: ['-format', 'json', '-utf8', '-latest', '-products', '*'],
         logger: logger,
+        processManager: context.processManager,
       );
       final instances = parseVswhere(vswhereResult.stdout, logger);
       result.addAll(instances);

@@ -3,6 +3,11 @@
 - Add `ProtocolExtension.setupLogger`, which the hooks runner calls to provide
   the logger used for validation diagnostics before any other method is invoked
   on the extension.
+- Fix `HookInputUserDefines.path` mangling absolute Windows paths: the drive
+  letter was parsed as a URI scheme. Absolute paths are now returned as-is;
+  relative paths are resolved against the source of the path.
+- Add `HookInputUserDefines.baseUri`, which can be used to resolve paths
+  from nested user-defined options.
 
 ## 2.1.0
 

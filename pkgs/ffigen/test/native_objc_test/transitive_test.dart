@@ -49,25 +49,27 @@ String generate({
     ),
     objectiveC: ObjectiveC(
       interfaces: Interfaces(
-        include: (decl) => {
+        includeTransitive: includeTransitiveObjCInterfaces,
+      ),
+      protocols: Protocols(includeTransitive: includeTransitiveObjCProtocols),
+      categories: Categories(
+        includeTransitive: includeTransitiveObjCCategories,
+      ),
+    ),
+    visitors: [
+      Visitor(
+        visitObjCInterface: (node) => node.isIncluded = {
           'DirectlyIncluded',
           'DirectlyIncludedWithProtocol',
           'DirectlyIncludedIntForCat',
           'Bug2935DirectInterface',
-        }.contains(decl.originalName),
-        includeTransitive: includeTransitiveObjCInterfaces,
+        }.contains(node.originalName),
+        visitObjCProtocol: (node) =>
+            node.isIncluded = node.originalName == 'DirectlyIncludedProtocol',
+        visitObjCCategory: (node) =>
+            node.isIncluded = node.originalName == 'DirectlyIncludedCategory',
       ),
-      protocols: Protocols(
-        include: (decl) =>
-            {'DirectlyIncludedProtocol'}.contains(decl.originalName),
-        includeTransitive: includeTransitiveObjCProtocols,
-      ),
-      categories: Categories(
-        include: (decl) =>
-            {'DirectlyIncludedCategory'}.contains(decl.originalName),
-        includeTransitive: includeTransitiveObjCCategories,
-      ),
-    ),
+    ],
   ).generate(logger: createTestLogger());
   final file = path.join(
     packagePathForTests,

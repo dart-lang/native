@@ -91,22 +91,16 @@ extension SwiftGenGenerator on SwiftGenerator {
       structs: ffigen.structs,
       unions: ffigen.unions,
       enums: ffigen.enums,
-      unnamedEnums: ffigen.unnamedEnums,
       globals: ffigen.globals,
-      macros: ffigen.macros,
       typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
         interfaces: fg.Interfaces(
-          include: interfaces.include,
-          includeMember: interfaces.includeMember,
           includeTransitive: interfaces.includeTransitive,
           module: interfaces.module != fg.Interfaces.noModule
               ? interfaces.module
               : (_) => output.module,
         ),
         protocols: fg.Protocols(
-          include: protocols.include,
-          includeMember: protocols.includeMember,
           includeTransitive: protocols.includeTransitive,
           module: protocols.module != fg.Protocols.noModule
               ? protocols.module

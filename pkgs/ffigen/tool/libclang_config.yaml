@@ -84,6 +84,7 @@ functions:
     - clang_getCanonicalType
     - clang_Type_getNamedType
     - clang_Type_getAlignOf
+    - clang_Type_getSizeOf
     - clang_getTypeDeclaration
     - clang_getTypedefDeclUnderlyingType
     - clang_getCursorSpelling
@@ -140,6 +141,8 @@ functions:
     - clang_getClangVersion
     - clang_Type_getNumObjCProtocolRefs
     - clang_Type_getObjCProtocolDecl
+    - clang_Type_getNumTemplateArguments
+    - clang_Type_getTemplateArgumentAsType
 
 # time_t typedef varies between platforms, and we don't need it anyway.
 typedefs:

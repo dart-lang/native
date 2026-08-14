@@ -8,7 +8,10 @@ import '../config_provider/config.dart' show FfiGenerator;
 import 'ast.dart';
 
 class FindTransitiveDepsVisitation extends Visitation {
-  final transitives = <Binding>{};
+  final Set<Binding> transitives;
+
+  FindTransitiveDepsVisitation(Iterable<Binding> initialSet)
+    : transitives = initialSet.toSet();
 
   @override
   void visitBinding(Binding node) {

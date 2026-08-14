@@ -470,6 +470,19 @@ class Clang {
   late final _clang_Type_getNumObjCProtocolRefs =
       _clang_Type_getNumObjCProtocolRefsPtr.asFunction<int Function(CXType)>();
 
+  /// Returns the number of template arguments for given template
+  /// specialization, or -1 if type \c T is not a template specialization.
+  int clang_Type_getNumTemplateArguments(CXType T) {
+    return _clang_Type_getNumTemplateArguments(T);
+  }
+
+  late final _clang_Type_getNumTemplateArgumentsPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(CXType)>>(
+        'clang_Type_getNumTemplateArguments',
+      );
+  late final _clang_Type_getNumTemplateArguments =
+      _clang_Type_getNumTemplateArgumentsPtr.asFunction<int Function(CXType)>();
+
   /// Retrieves the base type of the ObjCObjectType.
   ///
   /// If the type is not an ObjC object, an invalid type is returned.
@@ -500,6 +513,41 @@ class Clang {
   late final _clang_Type_getObjCProtocolDecl =
       _clang_Type_getObjCProtocolDeclPtr
           .asFunction<CXCursor Function(CXType, int)>();
+
+  /// Return the size of a type in bytes as per C++[expr.sizeof] standard.
+  ///
+  /// If the type declaration is invalid, CXTypeLayoutError_Invalid is returned.
+  /// If the type declaration is an incomplete type, CXTypeLayoutError_Incomplete
+  /// is returned.
+  /// If the type declaration is a dependent type, CXTypeLayoutError_Dependent is
+  /// returned.
+  int clang_Type_getSizeOf(CXType T) {
+    return _clang_Type_getSizeOf(T);
+  }
+
+  late final _clang_Type_getSizeOfPtr =
+      _lookup<ffi.NativeFunction<ffi.LongLong Function(CXType)>>(
+        'clang_Type_getSizeOf',
+      );
+  late final _clang_Type_getSizeOf = _clang_Type_getSizeOfPtr
+      .asFunction<int Function(CXType)>();
+
+  /// Returns the type template argument of a template class specialization
+  /// at given index.
+  ///
+  /// This function only returns template type arguments and does not handle
+  /// template template arguments or variadic packs.
+  CXType clang_Type_getTemplateArgumentAsType(CXType T, int i) {
+    return _clang_Type_getTemplateArgumentAsType(T, i);
+  }
+
+  late final _clang_Type_getTemplateArgumentAsTypePtr =
+      _lookup<ffi.NativeFunction<CXType Function(CXType, ffi.UnsignedInt)>>(
+        'clang_Type_getTemplateArgumentAsType',
+      );
+  late final _clang_Type_getTemplateArgumentAsType =
+      _clang_Type_getTemplateArgumentAsTypePtr
+          .asFunction<CXType Function(CXType, int)>();
 
   /// Provides a shared context for creating translation units.
   ///

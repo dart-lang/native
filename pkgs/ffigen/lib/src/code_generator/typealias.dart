@@ -27,6 +27,8 @@ class Typealias extends BindingType {
   // Don't code gen this alias at all, just use the [type] directly.
   bool isAnonymous;
 
+  bool isIncluded = false;
+
   /// Creates a Typealias.
   ///
   /// If [genFfiDartType] is true, a binding is generated for the Ffi Dart type

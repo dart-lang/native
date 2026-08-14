@@ -22,6 +22,8 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
 
   final ApiAvailability apiAvailability;
 
+  bool isIncluded = false;
+
   ObjCCategory({
     super.usr,
     required String super.originalName,

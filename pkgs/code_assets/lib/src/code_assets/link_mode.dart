@@ -18,7 +18,7 @@ import 'syntax.g.dart';
 ///   * [DynamicLoadingSystem]
 ///
 /// See the documentation on the above classes.
-abstract final class LinkMode {
+sealed class LinkMode {
   const LinkMode._();
 
   /// Constructs a [LinkMode] from the given [json].
@@ -46,7 +46,6 @@ extension LinkModeSyntaxExtension on LinkMode {
     final DynamicLoadingSystem system => DynamicLoadingSystemLinkModeSyntax(
       uri: system.uri,
     ),
-    _ => throw UnimplementedError('The link mode "$this" is not known'),
   };
 
   /// Converts a [LinkModeSyntax] to its corresponding [LinkMode]
@@ -59,7 +58,7 @@ extension LinkModeSyntaxExtension on LinkMode {
     _ when linkMode.isDynamicLoadingSystemLinkMode => DynamicLoadingSystem(
       linkMode.asDynamicLoadingSystemLinkMode.uri,
     ),
-    _ => throw FormatException('The link mode "${linkMode.type}" is not known'),
+    _ => throw FormatException('Unknown LinkMode type: ${linkMode.type}'),
   };
 }
 
@@ -72,7 +71,7 @@ extension LinkModeSyntaxExtension on LinkMode {
 /// Note: Dynamic loading is not equal to dynamic linking. Dynamic linking
 /// would have to run the linker at compile-time, which is currently not
 /// supported in the Dart and Flutter SDK.
-abstract final class DynamicLoading extends LinkMode {
+sealed class DynamicLoading extends LinkMode {
   DynamicLoading._() : super._();
 }
 

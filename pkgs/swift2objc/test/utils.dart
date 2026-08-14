@@ -22,17 +22,13 @@ String testDir = p.normalize(
 );
 
 Future<void> expectValidSwift(List<String> files) async {
-  final processResult = await Process.run(
-    'swiftc',
-    [
-      ...files,
-      '-emit-module',
-      '-emit-symbol-graph',
-      '-emit-symbol-graph-dir',
-      '.',
-    ],
-    workingDirectory: Directory.systemTemp.createTempSync().absolute.path,
-  );
+  final processResult = await Process.run('swiftc', [
+    ...files,
+    '-emit-module',
+    '-emit-symbol-graph',
+    '-emit-symbol-graph-dir',
+    '.',
+  ], workingDirectory: Directory.systemTemp.createTempSync().absolute.path);
 
   if (processResult.exitCode != 0) {
     print(processResult.stdout);

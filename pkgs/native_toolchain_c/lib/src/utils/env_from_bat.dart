@@ -2,24 +2,29 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+import 'package:process/process.dart';
 
 /// Extracts the environment variables set by [batchFile].
 ///
 /// If provided, passes [arguments] to the batch file invocation.
+///
+/// The batch file is run through [processManager], which allows the process
+/// invocation to be mocked out in tests.
 ///
 /// Note: needs to run [batchFile] to extract the modifications to the
 /// environment variables.
 Future<Map<String, String>> environmentFromBatchFile(
   Uri batchFile, {
   List<String> arguments = const [],
+  ProcessManager processManager = const LocalProcessManager(),
 }) async {
   final fileName = batchFile.pathSegments.last;
   final dir = batchFile.resolve('.');
   const separator = '=======';
-  final processResult = await Process.run(
-    'set && echo $separator && $fileName ${arguments.join(' ')} > nul && set',
-    [],
+  final processResult = await processManager.run(
+    // [ProcessManager.run] takes the executable and its arguments as a single
+    // list, with the first element treated as the executable.
+    ['set && echo $separator && $fileName ${arguments.join(' ')} > nul && set'],
     runInShell: true,
     workingDirectory: dir.toFilePath(),
   );

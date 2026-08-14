@@ -19,13 +19,14 @@ import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
 
 // Dont include 'mach-o' or 'Mach-O', different spelling is used.
-const objdumpFileFormat = {
+final objdumpFileFormat = {
   (OS.macOS, Architecture.arm64): 'arm64',
   (OS.macOS, Architecture.x64): '64-bit x86-64',
   (OS.linux, Architecture.arm): 'elf32-littlearm',
@@ -263,6 +264,7 @@ void main() async {
           executable: Uri.file('otool'),
           arguments: ['-l', lib1Uri.path],
           logger: logger,
+          processManager: const LocalProcessManager(),
         );
         expect(otoolResult.exitCode, 0);
         expect(otoolResult.stdout, contains('minos $macosVersion.0'));

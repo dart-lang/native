@@ -25,6 +25,8 @@ class CppMethod extends AstNode with HasLocalScope {
   final bool isStatic;
   final CppMethodKind kind;
 
+  bool isIncluded = true;
+
   CppMethod({
     required this.name,
     required this.originalName,
@@ -70,6 +72,7 @@ class CppClass extends BindingType with HasLocalScope {
   final Context context;
   final List<CppMethod> methods;
   final List<CppMember> fields;
+  bool isIncluded = false;
 
   CppClass({
     super.usr,
@@ -198,6 +201,17 @@ class $name implements $ffiPrefix.Finalizable {
     _activeFinalizerFn = null;
   }
 
+  /// Detaches the finalizer and invalidates this object, returning the
+  /// underlying C++ pointer.
+  ///
+  /// Throws a [StateError] if the object has already been disposed, or if
+  /// this object does not own the pointer.
+  $ptrVoid detachPointer() {
+    final rawPtr = _ptr;
+    releaseOwnership();
+    _ptr = $ffiPrefix.nullptr;
+    return rawPtr;
+  }
 ''');
 
     for (final ctor in constructors) {
@@ -205,8 +219,8 @@ class $name implements $ffiPrefix.Finalizable {
       final privateName = '_$glueName';
 
       final dartParams = dartParamList(ctor.parameters);
-
       final localVars = LocalVariables(ctor.localScope);
+
       final callArgs = ctor.parameters
           .map(
             (p) => p.type.convertDartTypeToFfiDartType(
@@ -231,8 +245,8 @@ class $name implements $ffiPrefix.Finalizable {
       final glue = '_${method.name.name}';
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
-
       final localVars = LocalVariables(method.localScope);
+
       final callArgs = [
         if (!method.isStatic) '_ptr',
         ...method.parameters.map(
@@ -253,11 +267,14 @@ class $name implements $ffiPrefix.Finalizable {
         objCRetain: false,
       );
 
+      final hasReturn = method.returnType != voidType;
+      final callLine = hasReturn ? 'return $returnExpr;' : '$returnExpr;';
+
       if (method.isStatic) {
         s.write('''\
   static $dartReturn ${method.originalName}($dartParams) {
     $decls
-    return $returnExpr;
+    $callLine
   }
 ''');
       } else {
@@ -267,7 +284,7 @@ class $name implements $ffiPrefix.Finalizable {
       throw StateError('This object has already been disposed.');
     }
     $decls
-    return $returnExpr;
+    $callLine
   }
 ''');
       }
@@ -369,11 +386,12 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
     final methodBindings = methods
         .map((method) {
           final symbol = method.name.name;
-          final callArgs = method.parameters.map((p) => p.name).join(', ');
 
           final String returnTypeString;
           final String params;
           final String body;
+
+          final callArgs = method.parameters.map(_cppCallArg).join(', ');
 
           if (method.isConstructor) {
             returnTypeString = '$originalName*';
@@ -400,7 +418,11 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
                 selfType = originalName;
               }
               params = ['$selfType* self', ...otherParams].join(', ');
-              body = '${returnPrefix}self->${method.originalName}($callArgs);';
+              final methodName = method.originalName;
+              final suffix = method.returnType is CppUniquePtrType
+                  ? '.release()'
+                  : '';
+              body = '${returnPrefix}self->$methodName($callArgs)$suffix;';
             }
           }
 
@@ -439,4 +461,13 @@ FFIGEN_EXPORT $returnTypeString $symbol($params) {
     visitor.visitAll(fields);
     visitor.visit(ffiImport);
   }
+}
+
+String _cppCallArg(Parameter p) {
+  final type = p.type;
+  if (type is CppUniquePtrType) {
+    final className = type.cppClass.originalName;
+    return 'std::unique_ptr<$className>(${p.name})';
+  }
+  return p.name;
 }

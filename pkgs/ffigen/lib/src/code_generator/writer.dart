@@ -417,6 +417,7 @@ id objc_retainBlock(id);
   String? generateCpp(String outFilename) {
     final s = StringBuffer();
     final outDir = p.dirname(outFilename);
+    s.write('#include <memory>\n');
     // Emit each entry-point header exactly once.
     for (final header in context.config.input.entryPoints) {
       s.write('#include "${p.relative(header.toFilePath(), from: outDir)}"\n');

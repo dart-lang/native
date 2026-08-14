@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/config_provider/public_visitor.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -31,12 +32,14 @@ void main() {
                 ),
               ],
             ),
-            structs: Structs.includeAll,
-            unions: Unions.includeAll,
-            typedefs: Typedefs(
-              include: (Declaration decl) => true,
-              includeUnused: true,
-            ),
+            typedefs: const Typedefs(includeUnused: true),
+            visitors: [
+              Visitor(
+                visitStruct: (node) => node.isIncluded = true,
+                visitUnion: (node) => node.isIncluded = true,
+                visitTypealias: (node) => node.isIncluded = true,
+              ),
+            ],
           ),
         ),
       );

@@ -10,43 +10,49 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'helpers.dart';
 
+const Timeout longTimeout = Timeout(Duration(minutes: 5));
+
 void main() {
-  test('hooks have access to http proxy variable', () async {
-    final server = await HttpServer.bind(InternetAddress.anyIPv4, 0);
-    server.listen((request) async {
-      expect(request.headers.host, 'testing_proxy.dart.dev');
-      expect(request.uri.path, '/test_asset');
+  test(
+    'hooks have access to http proxy variable',
+    timeout: longTimeout,
+    () async {
+      final server = await HttpServer.bind(InternetAddress.anyIPv4, 0);
+      server.listen((request) async {
+        expect(request.headers.host, 'testing_proxy.dart.dev');
+        expect(request.uri.path, '/test_asset');
 
-      final response = request.response;
-      response.statusCode = 200;
-      response.writeln('test body response');
-      await response.close();
-    });
+        final response = request.response;
+        response.statusCode = 200;
+        response.writeln('test body response');
+        await response.close();
+      });
 
-    addTearDown(server.close);
-    final port = server.port;
+      addTearDown(server.close);
+      final port = server.port;
 
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('download_assets/');
-      await runPubGet(workingDirectory: packageUri, logger: logger);
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('download_assets/');
+        await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final result = await runProcess(
-        executable: dartExecutable,
-        arguments: [
-          pkgNativeAssetsBuilderUri
-              .resolve('test/build_runner/build_process_helper.dart')
-              .toFilePath(),
-          packageUri.toFilePath(),
-          Target.current.toString(),
-        ],
-        workingDirectory: packageUri,
-        logger: logger,
-        environment: {'HTTP_PROXY': 'localhost:$port'},
-      );
-      expect(result.exitCode, 0);
-    });
-  });
+        final result = await runProcess(
+          executable: dartExecutable,
+          arguments: [
+            pkgNativeAssetsBuilderUri
+                .resolve('test/build_runner/build_process_helper.dart')
+                .toFilePath(),
+            packageUri.toFilePath(),
+            Target.current.toString(),
+          ],
+          workingDirectory: packageUri,
+          logger: logger,
+          environment: {'HTTP_PROXY': 'localhost:$port'},
+        );
+        expect(result.exitCode, 0);
+      });
+    },
+  );
 
   test('includeHookEnvironmentVariable allows Ccache variables', () {
     expect(
@@ -69,6 +75,10 @@ void main() {
       isTrue,
     );
     expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PATHEXT'),
+      isTrue,
+    );
+    expect(
       NativeAssetsBuildRunner.includeHookEnvironmentVariable('HOME'),
       isTrue,
     );
@@ -81,6 +91,17 @@ void main() {
   test('includeHookEnvironmentVariable allows NIX_ variables', () {
     expect(
       NativeAssetsBuildRunner.includeHookEnvironmentVariable('NIX_CC'),
+      isTrue,
+    );
+  });
+
+  test('includeHookEnvironmentVariable allows Rust variables', () {
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('CARGO_HOME'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('RUSTUP_HOME'),
       isTrue,
     );
   });

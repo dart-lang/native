@@ -113,7 +113,11 @@ void main() {
         predicate(
           (e) =>
               e is FormatException &&
-              e.message.contains('The link mode "wrong" is not known'),
+              e.message.contains(
+                "Unexpected value 'wrong' (String) for 'type'.",
+              ) &&
+              e.message.contains("'dynamic_loading_bundle'") &&
+              e.message.contains("'static'"),
         ),
       ),
     );

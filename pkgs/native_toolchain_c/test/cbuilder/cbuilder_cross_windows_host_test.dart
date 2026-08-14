@@ -15,6 +15,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -54,7 +55,7 @@ void main() async {
     )).first.uri;
   });
 
-  const dumpbinMachine = {
+  final dumpbinMachine = {
     Architecture.arm64: 'ARM64',
     Architecture.ia32: 'x86',
     Architecture.x64: 'x64',
@@ -130,6 +131,7 @@ void main() async {
             executable: dumpbinUri,
             arguments: ['/HEADERS', libUri.toFilePath()],
             logger: logger,
+            processManager: const LocalProcessManager(),
           );
           expect(result.exitCode, 0);
           final machine = result.stdout

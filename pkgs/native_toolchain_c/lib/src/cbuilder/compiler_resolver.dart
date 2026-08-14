@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
@@ -24,6 +25,7 @@ import '../utils/env_from_bat.dart';
 class CompilerResolver {
   final CodeConfig codeConfig;
   final Logger? logger;
+  final ProcessManager processManager;
   final OS hostOS;
   final Architecture hostArchitecture;
   final ToolResolvingContext context;
@@ -31,11 +33,16 @@ class CompilerResolver {
   CompilerResolver({
     required this.codeConfig,
     required this.logger,
+    ProcessManager? processManager,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
-  }) : hostOS = hostOS ?? .current,
+  }) : processManager = processManager ?? const LocalProcessManager(),
+       hostOS = hostOS ?? .current,
        hostArchitecture = hostArchitecture ?? .current,
-       context = ToolResolvingContext(logger: logger);
+       context = ToolResolvingContext(
+         logger: logger,
+         processManager: processManager,
+       );
 
   Future<ToolInstance> resolveCompiler() async {
     // First, check if the launcher provided a direct path to the compiler.
@@ -262,6 +269,7 @@ class CompilerResolver {
       return await environmentFromBatchFile(
         envScriptFromConfig,
         arguments: vcvarsArgs,
+        processManager: processManager,
       );
     }
 
@@ -279,6 +287,7 @@ class CompilerResolver {
       arguments: [
         /* vcvarsScript already has x64 or x86 in the script name. */
       ],
+      processManager: processManager,
     );
   }
 }

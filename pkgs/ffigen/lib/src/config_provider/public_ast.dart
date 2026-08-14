@@ -40,11 +40,11 @@ class Func extends DeclNode {
   final internal.Func _func;
 
   /// The parameters of this function.
-  final List<Param> params;
+  late final List<Param> params = _func.functionType.parameters
+      .map((p) => Param(this, p))
+      .toList();
 
-  Func(this._func) : params = [] {
-    params.addAll(_func.functionType.parameters.map((p) => Param(this, p)));
-  }
+  Func(this._func);
 
   /// Whether this function is a leaf function.
   ///
@@ -87,6 +87,10 @@ class Func extends DeclNode {
 
   @override
   set name(String value) => _func.symbol.oldName = value;
+
+  /// Whether this Func should be included in code generation.
+  bool get isIncluded => _func.isIncluded;
+  set isIncluded(bool value) => _func.isIncluded = value;
 }
 
 /// A C struct declaration.
@@ -94,11 +98,11 @@ class Struct extends DeclNode {
   final internal.Struct _struct;
 
   /// The fields belonging to this struct.
-  final List<Field> members;
+  late final List<Field> members = _struct.members
+      .map((m) => Field(this, m))
+      .toList();
 
-  Struct(this._struct) : members = [] {
-    members.addAll(_struct.members.map((m) => Field(this, m)));
-  }
+  Struct(this._struct);
 
   @override
   void accept(Visitor visitor) {
@@ -126,6 +130,10 @@ class Struct extends DeclNode {
   /// and `16`.
   int? get pack => _struct.pack;
   set pack(int? value) => _struct.pack = value;
+
+  /// Whether this Struct should be included in code generation.
+  bool get isIncluded => _struct.isIncluded;
+  set isIncluded(bool value) => _struct.isIncluded = value;
 }
 
 /// A C union declaration.
@@ -133,11 +141,11 @@ class Union extends DeclNode {
   final internal.Union _union;
 
   /// The fields belonging to this union.
-  final List<Field> members;
+  late final List<Field> members = _union.members
+      .map((m) => Field(this, m))
+      .toList();
 
-  Union(this._union) : members = [] {
-    members.addAll(_union.members.map((m) => Field(this, m)));
-  }
+  Union(this._union);
 
   @override
   void accept(Visitor visitor) {
@@ -156,6 +164,10 @@ class Union extends DeclNode {
 
   @override
   set name(String value) => _union.symbol.oldName = value;
+
+  /// Whether this Union should be included in code generation.
+  bool get isIncluded => _union.isIncluded;
+  set isIncluded(bool value) => _union.isIncluded = value;
 }
 
 /// An enum declaration.
@@ -163,13 +175,11 @@ class EnumClass extends DeclNode {
   final internal.EnumClass _enumClass;
 
   /// The constants belonging to this enum.
-  final List<EnumConstant> constants;
+  late final List<EnumConstant> constants = _enumClass.enumConstants
+      .map((c) => EnumConstant(this, c))
+      .toList();
 
-  EnumClass(this._enumClass) : constants = [] {
-    constants.addAll(
-      _enumClass.enumConstants.map((c) => EnumConstant(this, c)),
-    );
-  }
+  EnumClass(this._enumClass);
 
   /// The explicit [EnumStyle] configured for generating this enum declaration.
   ///
@@ -209,6 +219,10 @@ class EnumClass extends DeclNode {
 
   @override
   set name(String value) => _enumClass.symbol.oldName = value;
+
+  /// Whether this EnumClass should be included in code generation.
+  bool get isIncluded => _enumClass.isIncluded;
+  set isIncluded(bool value) => _enumClass.isIncluded = value;
 }
 
 /// A C global variable declaration.
@@ -239,6 +253,36 @@ class Global extends DeclNode {
 
   @override
   set name(String value) => _global.symbol.oldName = value;
+
+  /// Whether this Global should be included in code generation.
+  bool get isIncluded => _global.isIncluded;
+  set isIncluded(bool value) => _global.isIncluded = value;
+}
+
+/// A C constant declaration.
+class Constant extends DeclNode {
+  final internal.Constant _constant;
+
+  Constant(this._constant);
+
+  @override
+  void accept(Visitor visitor) => visitor.visitConstant(this);
+
+  @override
+  String get usr => _constant.usr;
+
+  @override
+  String get originalName => _constant.originalName;
+
+  @override
+  String get name => _constant.symbol.oldName;
+
+  @override
+  set name(String value) => _constant.symbol.oldName = value;
+
+  /// Whether this Constant should be included in code generation.
+  bool get isIncluded => _constant.isIncluded;
+  set isIncluded(bool value) => _constant.isIncluded = value;
 }
 
 /// A C macro constant declaration.
@@ -261,6 +305,10 @@ class MacroConstant extends DeclNode {
 
   @override
   set name(String value) => _macro.symbol.oldName = value;
+
+  /// Whether this MacroConstant should be included in code generation.
+  bool get isIncluded => _macro.isIncluded;
+  set isIncluded(bool value) => _macro.isIncluded = value;
 }
 
 /// A C typedef (type alias) declaration.
@@ -283,6 +331,10 @@ class Typealias extends DeclNode {
 
   @override
   set name(String value) => _typealias.symbol.oldName = value;
+
+  /// Whether this Typealias should be included in code generation.
+  bool get isIncluded => _typealias.isIncluded;
+  set isIncluded(bool value) => _typealias.isIncluded = value;
 }
 
 /// An Objective-C interface (class) declaration.
@@ -290,11 +342,11 @@ class ObjCInterface extends DeclNode {
   final internal.ObjCInterface _interface;
 
   /// The methods belonging to this Objective-C interface.
-  final List<ObjCMethod> methods;
+  late final List<ObjCMethod> methods = _interface.methods
+      .map((m) => ObjCMethod(this, m))
+      .toList();
 
-  ObjCInterface(this._interface) : methods = [] {
-    methods.addAll(_interface.methods.map((m) => ObjCMethod(this, m)));
-  }
+  ObjCInterface(this._interface);
 
   @override
   void accept(Visitor visitor) {
@@ -317,6 +369,10 @@ class ObjCInterface extends DeclNode {
   /// The module that the Objective-C interface belongs to.
   String? get module => _interface.module;
   set module(String? value) => _interface.module = value;
+
+  /// Whether this ObjCInterface should be included in code generation.
+  bool get isIncluded => _interface.isIncluded;
+  set isIncluded(bool value) => _interface.isIncluded = value;
 }
 
 /// An Objective-C protocol declaration.
@@ -324,11 +380,11 @@ class ObjCProtocol extends DeclNode {
   final internal.ObjCProtocol _protocol;
 
   /// The methods belonging to this Objective-C protocol.
-  final List<ObjCMethod> methods;
+  late final List<ObjCMethod> methods = _protocol.methods
+      .map((m) => ObjCMethod(this, m))
+      .toList();
 
-  ObjCProtocol(this._protocol) : methods = [] {
-    methods.addAll(_protocol.methods.map((m) => ObjCMethod(this, m)));
-  }
+  ObjCProtocol(this._protocol);
 
   @override
   void accept(Visitor visitor) {
@@ -351,6 +407,10 @@ class ObjCProtocol extends DeclNode {
   /// The module that the Objective-C protocol belongs to.
   String? get module => _protocol.module;
   set module(String? value) => _protocol.module = value;
+
+  /// Whether this ObjCProtocol should be included in code generation.
+  bool get isIncluded => _protocol.isIncluded;
+  set isIncluded(bool value) => _protocol.isIncluded = value;
 }
 
 /// An Objective-C category declaration.
@@ -358,14 +418,14 @@ class ObjCCategory extends DeclNode {
   final internal.ObjCCategory _category;
 
   /// The methods belonging to this Objective-C category.
-  final List<ObjCMethod> methods;
-
-  ObjCCategory(this._category) : methods = [] {
-    methods.addAll(_category.methods.map((m) => ObjCMethod(this, m)));
-  }
+  late final List<ObjCMethod> methods = _category.methods
+      .map((m) => ObjCMethod(this, m))
+      .toList();
 
   /// The [ObjCInterface] that this category extends.
-  ObjCInterface get interface => ObjCInterface(_category.parent);
+  late final ObjCInterface interface = ObjCInterface(_category.parent);
+
+  ObjCCategory(this._category);
 
   @override
   void accept(Visitor visitor) {
@@ -384,6 +444,10 @@ class ObjCCategory extends DeclNode {
 
   @override
   set name(String value) => _category.symbol.oldName = value;
+
+  /// Whether this ObjCCategory should be included in code generation.
+  bool get isIncluded => _category.isIncluded;
+  set isIncluded(bool value) => _category.isIncluded = value;
 }
 
 /// A C++ class declaration.
@@ -391,11 +455,11 @@ class CppClass extends DeclNode {
   final internal.CppClass _cppClass;
 
   /// The methods belonging to this C++ class.
-  final List<CppMethod> methods;
+  late final List<CppMethod> methods = _cppClass.methods
+      .map((m) => CppMethod(this, m))
+      .toList();
 
-  CppClass(this._cppClass) : methods = [] {
-    methods.addAll(_cppClass.methods.map((m) => CppMethod(this, m)));
-  }
+  CppClass(this._cppClass);
 
   @override
   void accept(Visitor visitor) {
@@ -414,6 +478,10 @@ class CppClass extends DeclNode {
 
   @override
   set name(String value) => _cppClass.symbol.oldName = value;
+
+  /// Whether this CppClass should be included in code generation.
+  bool get isIncluded => _cppClass.isIncluded;
+  set isIncluded(bool value) => _cppClass.isIncluded = value;
 }
 
 /// A field in a struct or union.
@@ -488,14 +556,14 @@ class CppMethod extends NamedNode {
   final internal.CppMethod _method;
 
   /// The parameters of this C++ method.
-  final List<Param> params;
+  late final List<Param> params = _method.parameters
+      .map((p) => Param(this, p))
+      .toList();
 
   /// The parent [CppClass] containing this C++ method.
   final CppClass parent;
 
-  CppMethod(this.parent, this._method) : params = [] {
-    params.addAll(_method.parameters.map((p) => Param(this, p)));
-  }
+  CppMethod(this.parent, this._method);
 
   @override
   void accept(Visitor visitor) {
@@ -511,6 +579,10 @@ class CppMethod extends NamedNode {
 
   @override
   set name(String value) => _method.name.oldName = value;
+
+  /// Whether this CppMethod should be included in code generation.
+  bool get isIncluded => _method.isIncluded;
+  set isIncluded(bool value) => _method.isIncluded = value;
 }
 
 /// An Objective-C method declaration.
@@ -518,15 +590,15 @@ class ObjCMethod extends NamedNode {
   final internal.ObjCMethod _method;
 
   /// The parameters of this Objective-C method.
-  final List<Param> params;
+  late final List<Param> params = _method.params
+      .map((p) => Param(this, p))
+      .toList();
 
   /// The parent AST node containing this Objective-C method (an
   /// [ObjCInterface], [ObjCProtocol], or [ObjCCategory]).
   final DeclNode parent;
 
-  ObjCMethod(this.parent, this._method) : params = [] {
-    params.addAll(_method.params.map((p) => Param(this, p)));
-  }
+  ObjCMethod(this.parent, this._method);
 
   @override
   void accept(Visitor visitor) {
@@ -551,6 +623,10 @@ class ObjCMethod extends NamedNode {
 
   /// Whether this method is a property setter.
   bool get isPropertySetter => _method.isPropertySetter;
+
+  /// Whether this ObjCMethod should be included in code generation.
+  bool get isIncluded => _method.isIncluded;
+  set isIncluded(bool value) => _method.isIncluded = value;
 }
 
 /// An unnamed enum constant.
@@ -573,4 +649,8 @@ class UnnamedEnumConstant extends DeclNode {
 
   @override
   set name(String value) => _constant.symbol.oldName = value;
+
+  /// Whether this UnnamedEnumConstant should be included in code generation.
+  bool get isIncluded => _constant.isIncluded;
+  set isIncluded(bool value) => _constant.isIncluded = value;
 }

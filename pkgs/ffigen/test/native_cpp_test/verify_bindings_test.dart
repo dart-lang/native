@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/ffigen.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -29,6 +29,13 @@ void main() {
             .toList()
           ..sort();
 
+    final defaultCppCompilerOptions = [
+      '-x',
+      'c++',
+      '-std=c++17',
+      if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+    ];
+
     final configs = <String, FfiGenerator>{
       'cpp_class': FfiGenerator(
         output: Output(
@@ -42,11 +49,17 @@ void main() {
             Uri.file(path.join(testDir.path, 'cpp_class_test.h')),
             Uri.file(path.join(testDir.path, 'finalizer_test_subject.h')),
           ],
-          compilerOptions: ['-x', 'c++'],
+          compilerOptions: defaultCppCompilerOptions,
         ),
-        cpp: Cpp(
-          classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
-        ),
+        cpp: const Cpp(),
+        visitors: [
+          Visitor(
+            visitCppClass: (node) => node.isIncluded = {
+              'Animal',
+              'FinalizerTestSubject',
+            }.contains(node.originalName),
+          ),
+        ],
       ),
       'memory_edge_cases': FfiGenerator(
         output: Output(
@@ -59,9 +72,18 @@ void main() {
           entryPoints: [
             Uri.file(path.join(testDir.path, 'memory_edge_cases.h')),
           ],
-          compilerOptions: ['-x', 'c++'],
+          compilerOptions: defaultCppCompilerOptions,
         ),
-        cpp: Cpp(classes: CppClasses.includeSet({'Node', 'NodeManager'})),
+        cpp: const Cpp(),
+        visitors: [
+          Visitor(
+            visitCppClass: (node) => node.isIncluded = {
+              'Node',
+              'NodeManager',
+              'NodeContainer',
+            }.contains(node.originalName),
+          ),
+        ],
       ),
     };
 

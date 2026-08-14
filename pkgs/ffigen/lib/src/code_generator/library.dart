@@ -114,9 +114,12 @@ class Library {
   /// Generates [file] with the Objective C code needed for the bindings, if
   /// any.
   ///
+  /// Any relative path `#include` statements are written relative to
+  /// [headerPath], or [file] if it isn't provided.
+  ///
   /// Returns whether bindings were generated.
-  bool generateObjCFile(File file) {
-    final objCString = writer.generateObjC(file.path);
+  bool generateObjCFile(File file, {String? headerPath}) {
+    final objCString = writer.generateObjC(headerPath ?? file.path);
 
     if (objCString == null) {
       // No ObjC code needed. If there's already a file (eg from an earlier
@@ -132,9 +135,12 @@ class Library {
 
   /// Generates [file] with the Cpp glue code needed for the bindings, if any.
   ///
+  /// Any relative path `#include` statements are written relative to
+  /// [headerPath], or [file] if it isn't provided.
+  ///
   /// Returns whether bindings were generated.
-  bool generateCppFile(File file) {
-    final cppString = writer.generateCpp(file.path);
+  bool generateCppFile(File file, {String? headerPath}) {
+    final cppString = writer.generateCpp(headerPath ?? file.path);
 
     if (cppString == null) {
       // No C++ glue needed. If there's already a file (eg from an earlier

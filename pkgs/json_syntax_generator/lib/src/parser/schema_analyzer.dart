@@ -181,6 +181,9 @@ class SchemaAnalyzer {
           ? schemas.generateSubClassesKey!
           : null,
       visibleTaggedUnion: publicUnionTagValues.contains(typeName),
+      isOpenTaggedUnion:
+          !schemas.generateSubClasses ||
+          schemas.property(schemas.generateSubClassesKey!).generateOpenEnum,
       extraValidation: extraValidation,
     );
     _classes[typeName] = classInfo;
@@ -796,11 +799,15 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
 }
 
 extension on JsonSchemas {
-  bool get generateEnum => type == SchemaType.string && anyOfs.isNotEmpty;
+  bool get generateEnum =>
+      type == SchemaType.string &&
+      (anyOfs.isNotEmpty || enumOrTaggedUnionValues.isNotEmpty);
 
   /// A class with opaque members and an `unknown` option.
   bool get generateOpenEnum =>
-      generateEnum && anyOfs.single.any((e) => e.type != null);
+      generateEnum &&
+      anyOfs.isNotEmpty &&
+      anyOfs.single.any((e) => e.type != null);
 
   /// Generate getters/setters as `Map<String, ...>`.
   bool get generateMapOf =>
@@ -815,7 +822,8 @@ extension on JsonSchemas {
     if (type != SchemaType.object) return null;
     for (final p in propertyKeys) {
       final propertySchemas = property(p);
-      if (propertySchemas.anyOfs.isNotEmpty) {
+      if (propertySchemas.anyOfs.isNotEmpty ||
+          propertySchemas.enumOrTaggedUnionValues.isNotEmpty) {
         if (propertySchemas.className != null) {
           // This is an explicit enum field, don't make the surrounding class a
           // tagged union.
@@ -904,11 +912,13 @@ extension on JsonSchemas {
   }
 
   List<String> get enumOrTaggedUnionValues => [
-    for (final schema in _schemas)
+    for (final schema in _schemas) ...[
       for (final s in schema.anyOf) ...[
         if (s.constValue is String) s.constValue as String,
         ...s.enumValues?.whereType<String>() ?? [],
       ],
+      ...schema.enumValues?.whereType<String>() ?? [],
+    ],
   ]..sort();
 }
 

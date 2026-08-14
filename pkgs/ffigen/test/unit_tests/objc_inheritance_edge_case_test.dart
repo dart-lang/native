@@ -19,10 +19,7 @@ void main() {
     );
     final config = FfiGenerator(
       output: Output(dartFile: Uri.file('unused')),
-      objectiveC: const ObjectiveC(
-        interfaces: Interfaces.includeAll,
-        categories: Categories.includeAll,
-      ),
+      objectiveC: const ObjectiveC(),
     );
     late Context context;
     final voidType = NativeType(SupportedNativeType.voidType);
@@ -48,7 +45,7 @@ void main() {
         usr: name,
         originalName: name,
         apiAvailability: availability,
-      );
+      )..isIncluded = true;
       if (superType != null) {
         itf.superType = superType;
         superType.subtypes.add(itf);
@@ -71,7 +68,7 @@ void main() {
         originalName: name,
         parent: parent,
         apiAvailability: availability,
-      );
+      )..isIncluded = true;
       parent.categories.add(category);
       for (final m in methods) {
         category.addMethod(m);

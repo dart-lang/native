@@ -6,11 +6,13 @@
   file extension
 - Report a format error instead of throwing a `TypeError` when a hook's cached
   `output.json` contains valid JSON that is not an object.
+- Bump `package:code_assets` dependency to `^2.0.0`.
+- Add `PATHEXT` to the environment variables allowlist.
+- Add prefixes `RUSTUP_` and `CARGO_` to the environment variables allowlist.
 
 ## 1.6.1
 
 - Support versions 3.x of `package:package_config`.
-
 ## 1.6.0
 
 - Fix record_use path changing caching issue.

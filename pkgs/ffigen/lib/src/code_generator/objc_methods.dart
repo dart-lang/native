@@ -19,6 +19,7 @@ import 'pointer.dart';
 import 'scope.dart';
 import 'type.dart';
 import 'typealias.dart';
+import 'union.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -211,6 +212,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
   Symbol? protocolMethodName;
   ObjCMethods? parent;
   ObjCMethod? setter;
+  bool isIncluded = true;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -349,6 +351,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     );
     clonedMethod.parent = parent;
     clonedMethod.protocolMethodName = protocolMethodName?.clone();
+    clonedMethod.isIncluded = isIncluded;
     return clonedMethod;
   }
 
@@ -363,6 +366,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
         clonedSymbol,
         parent: parent,
       );
+      clonedSetter.isIncluded = clonedMethod.isIncluded;
       clonedMethod.setter = clonedSetter;
     }
     return clonedMethod;
@@ -621,12 +625,15 @@ class ObjCMethod extends AstNode with HasLocalScope {
         msgSendParams,
         structRetPtr: ptrVar,
       );
+      final compoundKind = returnType.typealiasType is Union
+          ? 'Union'
+          : 'Struct';
       s.write('''
     final $ptrVar = $calloc<$returnTypeStr>();
     $invoke;
     final $finalizableVar = $ptrVar.cast<$uint8Type>().asTypedList(
         $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
-    return ${context.libs.prefix(ffiImport)}.Struct.create<$returnTypeStr>(
+    return ${context.libs.prefix(ffiImport)}.$compoundKind.create<$returnTypeStr>(
         $finalizableVar);
 ''');
     } else {

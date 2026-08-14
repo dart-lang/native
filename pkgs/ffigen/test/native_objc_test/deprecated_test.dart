@@ -45,35 +45,45 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ],
     ),
     objectiveC: ObjectiveC(
-      interfaces: Interfaces(
-        include: (decl) => {
-          'DeprecatedInterfaceMethods',
-          'DeprecatedInterface',
-        }.contains(decl.originalName),
-      ),
-      protocols: Protocols(
-        include: (decl) => {
-          'DeprecatedProtocolMethods',
-          'DeprecatedProtocol',
-        }.contains(decl.originalName),
-      ),
-      categories: Categories(
-        include: (decl) => {
-          'DeprecatedCategoryMethods',
-          'DeprecatedCategory',
-        }.contains(decl.originalName),
-        includeTransitive: false,
-      ),
+      categories: const Categories(includeTransitive: false),
       externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
-    functions: Functions.includeSet({'normalFunction', 'deprecatedFunction'}),
-    structs: Structs.includeSet({'NormalStruct', 'DeprecatedStruct'}),
-    unions: Unions.includeSet({'NormalUnion', 'DeprecatedUnion'}),
-    enums: Enums.includeSet({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnums: UnnamedEnums.includeSet({
-      'normalUnnamedEnum',
-      'deprecatedUnnamedEnum',
-    }),
+    visitors: [
+      Visitor(
+        visitObjCInterface: (node) => node.isIncluded = {
+          'DeprecatedInterfaceMethods',
+          'DeprecatedInterface',
+        }.contains(node.originalName),
+        visitObjCProtocol: (node) => node.isIncluded = {
+          'DeprecatedProtocolMethods',
+          'DeprecatedProtocol',
+        }.contains(node.originalName),
+        visitObjCCategory: (node) => node.isIncluded = {
+          'DeprecatedCategoryMethods',
+          'DeprecatedCategory',
+        }.contains(node.originalName),
+        visitFunc: (node) => node.isIncluded = {
+          'normalFunction',
+          'deprecatedFunction',
+        }.contains(node.originalName),
+        visitStruct: (node) => node.isIncluded = {
+          'NormalStruct',
+          'DeprecatedStruct',
+        }.contains(node.originalName),
+        visitUnion: (node) => node.isIncluded = {
+          'NormalUnion',
+          'DeprecatedUnion',
+        }.contains(node.originalName),
+        visitEnum: (node) => node.isIncluded = {
+          'NormalEnum',
+          'DeprecatedEnum',
+        }.contains(node.originalName),
+        visitUnnamedEnumConstant: (node) => node.isIncluded = {
+          'normalUnnamedEnum',
+          'deprecatedUnnamedEnum',
+        }.contains(node.originalName),
+      ),
+    ],
   ).generate(logger: createTestLogger());
   final file = path.join(
     packagePathForTests,

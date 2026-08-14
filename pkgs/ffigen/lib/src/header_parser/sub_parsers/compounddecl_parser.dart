@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
-import '../../config_provider/config.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -13,22 +12,10 @@ import 'api_availability.dart';
 Compound? parseStructDeclaration(
   clang_types.CXCursor cursor,
   Context context,
-) => _parseCompoundDeclaration(
-  cursor,
-  context,
-  'Struct',
-  context.config.structs,
-  Struct.new,
-);
+) => _parseCompoundDeclaration(cursor, context, 'Struct', Struct.new);
 
 Compound? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
-    _parseCompoundDeclaration(
-      cursor,
-      context,
-      'Union',
-      context.config.unions,
-      Union.new,
-    );
+    _parseCompoundDeclaration(cursor, context, 'Union', Union.new);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -94,7 +81,6 @@ Compound? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   Context context,
   String className,
-  Declarations configDecl,
   Compound Function({
     String? usr,
     String? originalName,
@@ -103,6 +89,7 @@ Compound? _parseCompoundDeclaration(
     required Context context,
     String? nativeType,
     ApiAvailability? apiAvailability,
+    int? sizeInBytes,
   })
   constructor,
 ) {
@@ -132,9 +119,12 @@ Compound? _parseCompoundDeclaration(
     return null;
   }
 
+  cursor = context.cursorIndex.getDefinition(cursor);
+  final size = cursor.type().size();
+  final sizeInBytes = size >= 0 ? size : null;
+
   final Compound compound;
   if (declName.isEmpty) {
-    cursor = context.cursorIndex.getDefinition(cursor);
     compound = constructor(
       name: 'Unnamed$className',
       usr: usr,
@@ -146,9 +136,9 @@ Compound? _parseCompoundDeclaration(
       context: context,
       nativeType: cursor.type().spelling(),
       apiAvailability: apiAvailability,
+      sizeInBytes: sizeInBytes,
     );
   } else {
-    cursor = context.cursorIndex.getDefinition(cursor);
     context.logger.fine(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
@@ -164,6 +154,7 @@ Compound? _parseCompoundDeclaration(
       context: context,
       nativeType: cursor.type().spelling(),
       apiAvailability: apiAvailability,
+      sizeInBytes: sizeInBytes,
     );
   }
   context.bindingsIndex.addCompoundToSeen(usr, compound);

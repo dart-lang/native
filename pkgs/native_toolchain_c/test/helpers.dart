@@ -15,6 +15,7 @@ import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/native_toolchain/wsl.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 /// Returns a suffix for a test that is parameterized.
@@ -158,6 +159,7 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
     executable: otoolUri,
     arguments: ['-l', libraryUri.path],
     logger: logger,
+    processManager: const LocalProcessManager(),
   );
   expect(otoolResult.exitCode, 0);
   // Leading space on purpose to differentiate from other types of names.
@@ -187,7 +189,7 @@ Future<String> readelfMachine(String path) async {
   return result.split('\n').firstWhere((e) => e.contains('Machine:'));
 }
 
-const readElfMachine = {
+final readElfMachine = {
   Architecture.arm: 'ARM',
   Architecture.arm64: 'AArch64',
   Architecture.ia32: 'Intel 80386',
@@ -200,6 +202,7 @@ Future<String> readelf(String filePath, String flags) async {
     executable: Uri.file('readelf'),
     arguments: ['-$flags', filePath],
     logger: logger,
+    processManager: const LocalProcessManager(),
   );
 
   expect(result.exitCode, 0);
@@ -227,6 +230,7 @@ Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
         executable: Uri(path: 'nm'),
         arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
         logger: logger,
+        processManager: const LocalProcessManager(),
       );
       expect(result.exitCode, 0);
       return result.stdout;
@@ -297,6 +301,7 @@ Future<RunProcessResult?> _runDumpbin(
     executable: dumpbinTools.first.uri,
     arguments: [...arguments, libUri.toFilePath()],
     logger: logger,
+    processManager: const LocalProcessManager(),
   );
 }
 
@@ -308,6 +313,7 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
       executable: Uri.file('objdump'),
       arguments: ['-p', dylib.toFilePath()],
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     expect(result.exitCode, 0);
     final loadHeader = result.stdout
@@ -382,7 +388,7 @@ int defaultMacOSVersion = MacOSVersion.flutterLowestSupported.value;
 
 /// File-format strings used by the `objdump` tool for Android binaries that
 /// run on a given architecture.
-const objdumpFileFormatAndroid = {
+final objdumpFileFormatAndroid = {
   Architecture.arm: 'elf32-littlearm',
   Architecture.arm64: 'elf64-littleaarch64',
   Architecture.ia32: 'elf32-i386',
@@ -390,18 +396,18 @@ const objdumpFileFormatAndroid = {
   Architecture.riscv64: 'elf64-littleriscv',
 };
 
-const objdumpFileFormatMacOS = {
+final objdumpFileFormatMacOS = {
   Architecture.arm64: 'mach-o arm64',
   Architecture.x64: 'mach-o 64-bit x86-64',
 };
 
 // Don't include 'mach-o' or 'Mach-O', different spelling is used.
-const objdumpFileFormatIOS = {
+final objdumpFileFormatIOS = {
   Architecture.arm64: 'arm64',
   Architecture.x64: '64-bit x86-64',
 };
 
-const objdumpFileFormatLinux = {
+final objdumpFileFormatLinux = {
   Architecture.arm: 'elf32-littlearm',
   Architecture.arm64: 'elf64-littleaarch64',
   Architecture.ia32: 'elf32-i386',
@@ -432,14 +438,14 @@ String? targetTriple(OS targetOS, Architecture targetArch) =>
       _ => null,
     };
 
-const targetOSToObjdumpFileFormat = {
+final targetOSToObjdumpFileFormat = {
   OS.android: objdumpFileFormatAndroid,
   OS.macOS: objdumpFileFormatMacOS,
   OS.iOS: objdumpFileFormatMacOS,
   OS.linux: objdumpFileFormatLinux,
 };
 
-const dumpbinFileFormat = {
+final dumpbinFileFormat = {
   Architecture.arm64: 'ARM64',
   Architecture.ia32: 'x86',
   Architecture.x64: 'x64',
@@ -469,6 +475,7 @@ Future<void> expectMachineArchitecture(
         libUri.path,
       ],
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     expect(result.exitCode, 0);
     final machine = result.stdout
@@ -485,6 +492,7 @@ Future<void> expectMachineArchitecture(
       executable: Uri.file('wsl'),
       arguments: ['$triple-objdump', isStatic ? '-t' : '-T', toWslPath(libUri)],
       logger: logger,
+      processManager: const LocalProcessManager(),
     );
     expect(result.exitCode, 0);
     final machine = result.stdout

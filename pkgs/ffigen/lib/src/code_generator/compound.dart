@@ -40,6 +40,12 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   final ApiAvailability? apiAvailability;
 
+  /// The size of this compound in bytes, or `null` if the compound is
+  /// incomplete, opaque, or has an unknown layout at parse time.
+  final int? sizeInBytes;
+
+  bool isIncluded = false;
+
   Compound({
     super.usr,
     super.originalName,
@@ -51,6 +57,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     required this.context,
     String? nativeType,
     this.apiAvailability,
+    this.sizeInBytes,
   }) : members = members ?? [],
        nativeType = nativeType ?? originalName ?? name;
 
