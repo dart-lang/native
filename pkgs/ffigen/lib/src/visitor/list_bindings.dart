@@ -120,16 +120,6 @@ class ListBindingsVisitation extends Visitation {
   }
 
   @override
-  void visitFunc(Func node) {
-    if (_visitImpl(node, _IncludeBehavior.configOrTransitive)) {
-      final exposed = node.exposedFunctionTypealias;
-      if (exposed != null) {
-        _add(exposed);
-      }
-    }
-  }
-
-  @override
   void visitTypealias(Typealias node) {
     if (_visitImpl(
       node,
@@ -168,17 +158,6 @@ class MarkBindingsVisitation extends Visitation {
   void visitBinding(Binding node) {
     node.visitChildren(visitor);
     node.generateBindings = bindings.contains(node);
-  }
-
-  @override
-  void visitFunc(Func node) {
-    visitBinding(node);
-    if (node.generateBindings) {
-      final exposed = node.exposedFunctionTypealias;
-      if (exposed != null) {
-        exposed.generateBindings = true;
-      }
-    }
   }
 
   @override

@@ -39,12 +39,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   }
 
   @override
-  void visitFunc(Func node) {
-    if (node.isIncluded) {
-      node.exposedFunctionTypealias?.isIncluded = true;
-    }
-    _visitImpl(node, node.isIncluded);
-  }
+  void visitFunc(Func node) => _visitImpl(node, node.isIncluded);
 
   @override
   void visitMacroConstant(MacroConstant node) =>
