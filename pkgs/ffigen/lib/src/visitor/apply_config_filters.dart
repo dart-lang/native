@@ -66,11 +66,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (context.config.objectiveC == null) return;
-    if (context.config.objectiveC!.categories.includeTransitive &&
-        node.parent.isIncluded &&
-        node.originalName.isNotEmpty) {
-      node.isIncluded = true;
-    }
 
     node.filterMethods((m) {
       if (m.unavailable) return false;
