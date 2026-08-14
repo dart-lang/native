@@ -3,11 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Platform;
 
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart';
+import 'package:file/local.dart';
 import 'package:glob/glob.dart';
-import 'package:glob/list_local_fs.dart';
 import 'package:logging/logging.dart';
 import 'package:process/process.dart';
 import 'package:pub_semver/pub_semver.dart';
@@ -29,21 +30,23 @@ abstract class ToolResolver {
 /// global state not available in this context. Not all resolvers adhere to that
 /// though, since some need to run subprocesses to resolve tools.
 final class ToolResolvingContext {
-  // TODO: Expose a package:file file system here and use it in resolvers to
-  // consistently mock external file system state.
-
   final Logger? logger;
   final Map<String, String> environment;
 
   /// Used to spawn processes so they can be mocked in tests.
   final ProcessManager processManager;
 
+  /// Used to access the file system so it can be mocked in tests.
+  final FileSystem fileSystem;
+
   ToolResolvingContext({
     required this.logger,
     Map<String, String>? environment,
     ProcessManager? processManager,
+    FileSystem? fileSystem,
   }) : environment = environment ?? Platform.environment,
-       processManager = processManager ?? const LocalProcessManager();
+       processManager = processManager ?? const LocalProcessManager(),
+       fileSystem = fileSystem ?? const LocalFileSystem();
 }
 
 /// Tries to resolve a tool on the `PATH`.
@@ -91,8 +94,12 @@ class PathToolResolver extends ToolResolver {
       processManager: context.processManager,
     );
     if (process.exitCode == 0) {
-      final file = File(LineSplitter.split(process.stdout).first);
-      final uri = File(await file.resolveSymbolicLinks()).uri;
+      final file = context.fileSystem.file(
+        LineSplitter.split(process.stdout).first,
+      );
+      final uri = context.fileSystem
+          .file(await file.resolveSymbolicLinks())
+          .uri;
       if (uri.pathSegments.last case 'llvm' || 'lld') {
         // https://github.com/dart-lang/native/issues/136
         return file.uri;
@@ -236,7 +243,7 @@ class InstallLocationResolver implements ToolResolver {
     final logger = context.logger;
     logger?.finer('Looking for $toolName in $paths.');
     final resolvedPaths = [
-      for (final path in paths) ...await tryResolvePath(path),
+      for (final path in paths) ...await tryResolvePath(path, context),
     ];
     final toolInstances = [
       for (final uri in resolvedPaths)
@@ -253,7 +260,10 @@ class InstallLocationResolver implements ToolResolver {
     return toolInstances;
   }
 
-  Future<List<Uri>> tryResolvePath(String path) async {
+  Future<List<Uri>> tryResolvePath(
+    String path,
+    ToolResolvingContext context,
+  ) async {
     if (path.startsWith(home)) {
       final homeDir_ = homeDir;
       if (homeDir_ == null) return [];
@@ -264,7 +274,9 @@ class InstallLocationResolver implements ToolResolver {
     }
 
     final result = <Uri>[];
-    final fileSystemEntities = await Glob(path).list().toList();
+    final fileSystemEntities = await Glob(
+      path,
+    ).listFileSystem(context.fileSystem).toList();
     for (final fileSystemEntity in fileSystemEntities) {
       if (!await fileSystemEntity.exists()) {
         continue;
@@ -281,7 +293,9 @@ class InstallLocationResolver implements ToolResolver {
     final path =
         Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
     if (path == null) return null;
-    return Directory(path).uri;
+    // Pure path-to-URI derivation of the host home directory; no file system
+    // access, so it does not need the mockable file system from the context.
+    return Uri.directory(path);
   }();
 }
 
@@ -309,10 +323,10 @@ class EnvironmentVariableResolver implements ToolResolver {
       logger?.fine('Looking for $toolName in environment variable $key');
       if (context.environment[key] case final found?) {
         final fileSystemEntities = switch (glob) {
-          null => [Directory(found)],
+          null => [context.fileSystem.directory(found)],
           final glob =>
             await glob
-                .list(root: found)
+                .listFileSystem(context.fileSystem, root: found)
                 .where(
                   // If the path ends in /, only consider directories
                   (entity) =>
@@ -372,7 +386,8 @@ class RelativeToolResolver implements ToolResolver {
         ),
     ];
     final fileSystemEntities = [
-      for (final glob in globs) ...await glob.list().toList(),
+      for (final glob in globs)
+        ...await glob.listFileSystem(context.fileSystem).toList(),
     ];
 
     final result = [

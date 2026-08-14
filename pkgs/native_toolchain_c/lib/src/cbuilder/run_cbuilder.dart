@@ -6,6 +6,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart' show FileSystem;
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:process/process.dart';
@@ -30,6 +31,7 @@ class RunCBuilder {
   final CodeConfig codeConfig;
   final Logger? logger;
   final ProcessManager processManager;
+  final FileSystem fileSystem;
   final List<Uri> sources;
   final List<Uri> includes;
   final List<Uri> forcedIncludes;
@@ -60,6 +62,7 @@ class RunCBuilder {
     required this.input,
     required this.codeConfig,
     required this.processManager,
+    required this.fileSystem,
     this.linkerOptions,
     this.logger,
     this.sources = const [],
@@ -97,6 +100,7 @@ class RunCBuilder {
     codeConfig: codeConfig,
     logger: logger,
     processManager: processManager,
+    fileSystem: fileSystem,
   );
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
@@ -264,6 +268,7 @@ class RunCBuilder {
     final context = ToolResolvingContext(
       logger: logger,
       processManager: processManager,
+      fileSystem: fileSystem,
     );
 
     String toolPath(Uri uri) => _toolPath(uri, toolInstance);
@@ -377,6 +382,7 @@ class RunCBuilder {
             sourceFiles,
             codeConfig.targetOS,
             codeConfig.targetArchitecture,
+            fileSystem,
           )
         else
           ...sourceFiles,
@@ -451,6 +457,7 @@ class RunCBuilder {
             sourceFiles,
             codeConfig.targetOS,
             codeConfig.targetArchitecture,
+            fileSystem,
           )
         else ...[
           ...sourceFiles,

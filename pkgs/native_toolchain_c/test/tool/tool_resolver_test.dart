@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:file/memory.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
@@ -16,6 +17,7 @@ import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import '../utils/fake_process_manager.dart';
 
 void main() {
   test('CliVersionResolver.executableVersion', () async {
@@ -117,5 +119,60 @@ void main() {
     );
     expect(barLogs.join('\n'), contains('Found [ToolInstance(bar'));
     expect(bazLogs.join('\n'), contains('Found no baz'));
+  });
+
+  test('PathToolResolver with memory file system', () async {
+    final fileSystem = MemoryFileSystem(
+      style: Platform.isWindows
+          ? FileSystemStyle.windows
+          : FileSystemStyle.posix,
+    );
+    // A tool laid out in the memory file system, found via a scripted `which`
+    // (`where.exe` on Windows) invocation.
+    final dir = fileSystem.systemTempDirectory.createTempSync();
+    final toolFile = dir.childFile(OS.current.executableFileName('mytool'))
+      ..createSync();
+
+    final executableName = OS.current.executableFileName('mytool');
+    final fakeProcessManager = FakeProcessManager([
+      FakeCommand(
+        command: [PathToolResolver.which.toFilePath(), executableName],
+        stdout: '${toolFile.path}\n',
+      ),
+    ]);
+    final context = ToolResolvingContext(
+      logger: logger,
+      processManager: fakeProcessManager,
+      fileSystem: fileSystem,
+    );
+
+    final resolved = await PathToolResolver(
+      toolName: 'mytool',
+    ).resolve(context);
+    expect(fakeProcessManager.allCommandsConsumed, true);
+    expect(resolved.single.uri, toolFile.uri);
+  });
+
+  test('InstallLocationResolver with memory file system', () async {
+    final fileSystem = MemoryFileSystem(
+      style: Platform.isWindows
+          ? FileSystemStyle.windows
+          : FileSystemStyle.posix,
+    );
+    // A tool laid out in the memory file system, found by globbing.
+    final dir = fileSystem.systemTempDirectory.createTempSync();
+    final barFile = dir.childFile(OS.current.executableFileName('bar'))
+      ..createSync();
+    final context = ToolResolvingContext(
+      logger: logger,
+      fileSystem: fileSystem,
+    );
+
+    final resolver = InstallLocationResolver(
+      toolName: 'bar',
+      paths: [barFile.path.replaceAll('\\', '/')],
+    );
+    final resolved = await resolver.resolve(context);
+    expect(resolved.single.uri, barFile.uri);
   });
 }

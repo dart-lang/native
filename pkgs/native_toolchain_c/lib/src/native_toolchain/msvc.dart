@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart' show FileSystem;
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 
@@ -270,20 +270,30 @@ class VisualStudioResolver implements ToolResolver {
         logger: logger,
         processManager: context.processManager,
       );
-      final instances = parseVswhere(vswhereResult.stdout, logger);
+      final instances = parseVswhere(
+        vswhereResult.stdout,
+        context.fileSystem,
+        logger,
+      );
       result.addAll(instances);
     }
     return result;
   }
 
-  List<ToolInstance> parseVswhere(String vswhereStdout, [Logger? logger]) {
+  List<ToolInstance> parseVswhere(
+    String vswhereStdout,
+    FileSystem fileSystem, [
+    Logger? logger,
+  ]) {
     final result = <ToolInstance>[];
     final toolInfos = json.decode(vswhereStdout) as List;
     for (final toolInfo in toolInfos) {
       final toolInfoParsed = toolInfo as Map<String, Object?>;
       if (toolInfoParsed['installationPath'] != null &&
           toolInfoParsed['installationVersion'] != null) {
-        final dir = Directory(toolInfoParsed['installationPath'] as String);
+        final dir = fileSystem.directory(
+          toolInfoParsed['installationPath'] as String,
+        );
         assert(dir.existsSync());
         final uri = dir.uri;
         final version = versionFromString(

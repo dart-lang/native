@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart' show FileSystem;
+import 'package:file/local.dart';
 import 'package:logging/logging.dart';
 import 'package:process/process.dart';
 
@@ -26,6 +26,7 @@ class CompilerResolver {
   final CodeConfig codeConfig;
   final Logger? logger;
   final ProcessManager processManager;
+  final FileSystem fileSystem;
   final OS hostOS;
   final Architecture hostArchitecture;
   final ToolResolvingContext context;
@@ -34,14 +35,17 @@ class CompilerResolver {
     required this.codeConfig,
     required this.logger,
     ProcessManager? processManager,
+    FileSystem? fileSystem,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
   }) : processManager = processManager ?? const LocalProcessManager(),
+       fileSystem = fileSystem ?? const LocalFileSystem(),
        hostOS = hostOS ?? .current,
        hostArchitecture = hostArchitecture ?? .current,
        context = ToolResolvingContext(
          logger: logger,
          processManager: processManager,
+         fileSystem: fileSystem,
        );
 
   Future<ToolInstance> resolveCompiler() async {
@@ -126,7 +130,7 @@ class CompilerResolver {
   Future<ToolInstance?> _tryLoadCompilerFromInput() async {
     final inputCcUri = codeConfig.cCompiler?.compiler;
     if (inputCcUri != null) {
-      assert(await File.fromUri(inputCcUri).exists());
+      assert(await fileSystem.file(inputCcUri).exists());
       logger?.finer(
         'Using compiler ${inputCcUri.toFilePath()} '
         'from BuildInput.cCompiler.cc.',
@@ -239,7 +243,7 @@ class CompilerResolver {
   Future<ToolInstance?> _tryLoadArchiverFromInput() async {
     final inputArUri = codeConfig.cCompiler?.archiver;
     if (inputArUri != null) {
-      assert(await File.fromUri(inputArUri).exists());
+      assert(await fileSystem.file(inputArUri).exists());
       logger?.finer(
         'Using archiver ${inputArUri.toFilePath()} '
         'from BuildInput.cCompiler.ar.',
