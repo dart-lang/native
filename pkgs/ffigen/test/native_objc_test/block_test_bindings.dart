@@ -4052,15 +4052,7 @@ extension type _BlockArgs_7ojdju._(objc.ObjCObject object$)
 extension _BlockArgs_7ojdju$Methods on _BlockArgs_7ojdju {
   Vec2 get arg0 {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Vec2>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1oymdqcStret($ptr, _$$ref.pointer, _sel_arg0)
-        : $ptr.ref = _objc_msgSend_1oymdqc(_$$ref.pointer, _sel_arg0);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Vec2>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Vec2>($finalizable);
+    return _objc_msgSend_1oymdqc(_$$ref.pointer, _sel_arg0);
   }
 
   Vec4 get arg1 {
@@ -4625,23 +4617,6 @@ final _objc_msgSend_1oymdqc = objc.msgSendPointer
     >()
     .asFunction<
       Vec2 Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_1oymdqcStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<Vec2>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<Vec2>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )

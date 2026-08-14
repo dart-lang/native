@@ -14,6 +14,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 import 'package:test_case_selector/test_case_selector.dart';
 
@@ -151,6 +152,7 @@ void main() {
           executable: Uri.file('objdump'),
           arguments: ['-t', libUri.path],
           logger: logger,
+          processManager: const LocalProcessManager(),
         );
         expect(objdumpResult.exitCode, 0);
         final machine = objdumpResult.stdout
@@ -162,6 +164,7 @@ void main() {
           executable: Uri.file('otool'),
           arguments: ['-l', libUri.path],
           logger: logger,
+          processManager: const LocalProcessManager(),
         );
         expect(otoolResult.exitCode, 0);
         expect(otoolResult.stdout, contains('minos $iOSVersion.0'));
@@ -197,6 +200,7 @@ void main() {
               executable: Uri.file('install_name_tool'),
               arguments: ['-id', targetInstallName, libUri.toFilePath()],
               logger: logger,
+              processManager: const LocalProcessManager(),
             );
             final libInstallName2 = await runOtoolInstallName(libUri, libName);
             expect(libInstallName2, targetInstallName);

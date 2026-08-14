@@ -41,6 +41,7 @@ class Union extends Compound {
     required super.context,
     super.nativeType,
     super.apiAvailability,
+    super.sizeInBytes,
   });
 
   @override

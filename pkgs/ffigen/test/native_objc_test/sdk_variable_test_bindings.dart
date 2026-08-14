@@ -345,15 +345,7 @@ extension NSColorPicker$Methods on NSColorPicker {
       'NSColorPicker.minContentSize',
       iOS: (true, null),
     );
-    final $ptr = pkg_ffi.calloc<objc.CGSize>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1vdfkenStret($ptr, _$$ref.pointer, _sel_minContentSize)
-        : $ptr.ref = _objc_msgSend_1vdfken(_$$ref.pointer, _sel_minContentSize);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<objc.CGSize>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<objc.CGSize>($finalizable);
+    return _objc_msgSend_1vdfken(_$$ref.pointer, _sel_minContentSize);
   }
 
   /// provideNewButtonImage
@@ -914,24 +906,11 @@ extension UIPickerView$Methods on UIPickerView {
       'UIPickerView.rowSizeForComponent:',
       iOS: (false, (2, 0, 0)),
     );
-    final $ptr = pkg_ffi.calloc<objc.CGSize>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_17w0i2jStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rowSizeForComponent_,
-            component,
-          )
-        : $ptr.ref = _objc_msgSend_17w0i2j(
-            _$$ref.pointer,
-            _sel_rowSizeForComponent_,
-            component,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<objc.CGSize>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_17w0i2j(
+      _$$ref.pointer,
+      _sel_rowSizeForComponent_,
+      component,
     );
-    return ffi.Struct.create<objc.CGSize>($finalizable);
   }
 
   /// selectRow:inComponent:animated:
@@ -1150,25 +1129,6 @@ final _objc_msgSend_17w0i2j = objc.msgSendPointer
         int,
       )
     >();
-final _objc_msgSend_17w0i2jStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.CGSize>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Long,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.CGSize>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
 final _objc_msgSend_190ea64 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -1354,23 +1314,6 @@ final _objc_msgSend_1vdfken = objc.msgSendPointer
     >()
     .asFunction<
       objc.CGSize Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_1vdfkenStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.CGSize>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.CGSize>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )

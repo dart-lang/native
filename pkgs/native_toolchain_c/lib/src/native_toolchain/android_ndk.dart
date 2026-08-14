@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
+import 'package:process/process.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -78,7 +79,11 @@ class _AndroidNdkResolver implements ToolResolver {
     return [
       for (final ndkInstance in ndkInstances) ...[
         ndkInstance,
-        ...await tryResolveClang(ndkInstance, logger: context.logger),
+        ...await tryResolveClang(
+          ndkInstance,
+          logger: context.logger,
+          processManager: context.processManager,
+        ),
       ],
     ];
   }
@@ -86,6 +91,7 @@ class _AndroidNdkResolver implements ToolResolver {
   Future<List<ToolInstance>> tryResolveClang(
     ToolInstance androidNdkInstance, {
     required Logger? logger,
+    required ProcessManager processManager,
   }) async {
     final result = <ToolInstance>[];
     final prebuiltUri = androidNdkInstance.uri.resolve(
@@ -107,6 +113,7 @@ class _AndroidNdkResolver implements ToolResolver {
           await CliVersionResolver.lookupVersion(
             ToolInstance(tool: androidNdkClang, uri: clangUri),
             logger: logger,
+            processManager: processManager,
           ),
         );
       }
@@ -118,6 +125,7 @@ class _AndroidNdkResolver implements ToolResolver {
           await CliVersionResolver.lookupVersion(
             ToolInstance(tool: androidNdkLlvmAr, uri: arUri),
             logger: logger,
+            processManager: processManager,
           ),
         );
       }
@@ -129,6 +137,7 @@ class _AndroidNdkResolver implements ToolResolver {
           await CliVersionResolver.lookupVersion(
             ToolInstance(tool: androidNdkLld, uri: ldUri),
             logger: logger,
+            processManager: processManager,
           ),
         );
       }

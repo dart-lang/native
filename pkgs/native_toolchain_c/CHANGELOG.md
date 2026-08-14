@@ -3,6 +3,11 @@
 - Link frameworks for C and C++ sources targeting macOS or iOS.
   ([#3162](https://github.com/dart-lang/native/issues/3162))
 - Bump `package:code_assets` dependency to `^2.0.0`.
+- Spawn all processes through a `package:process` `ProcessManager`, exposed as
+  an optional parameter on `CBuilder.run`, `CLinker.run`, `CLibrary.build`, and
+  `CLibrary.link` (defaulting to `LocalProcessManager`), so process invocations
+  can be mocked in tests. ([#3072](https://github.com/dart-lang/native/issues/3072))
+
 ## 0.19.3
 
 - Fixed building with MSVC on Windows when a source, include, or output path

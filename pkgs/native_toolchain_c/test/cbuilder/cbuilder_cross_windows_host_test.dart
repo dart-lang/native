@@ -15,6 +15,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
+import 'package:process/process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -130,6 +131,7 @@ void main() async {
             executable: dumpbinUri,
             arguments: ['/HEADERS', libUri.toFilePath()],
             logger: logger,
+            processManager: const LocalProcessManager(),
           );
           expect(result.exitCode, 0);
           final machine = result.stdout

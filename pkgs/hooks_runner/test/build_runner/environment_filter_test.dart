@@ -94,4 +94,15 @@ void main() {
       isTrue,
     );
   });
+
+  test('includeHookEnvironmentVariable allows Rust variables', () {
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('CARGO_HOME'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('RUSTUP_HOME'),
+      isTrue,
+    );
+  });
 }
