@@ -22,11 +22,18 @@ final config = FfiGenerator(
   // To tell FFIgen to generate Objective-C bindings, rather than C bindings,
   // set the objectiveC field to a non-null value.
   objectiveC: const ObjectiveC(),
-  enums: const Enums(silenceWarning: true),
   visitors: [
     Visitor(
-      visitObjCInterface: (node) =>
-          node.isIncluded = node.name == 'AVAudioPlayer',
+      // The visitObjCInterface function is invoked for each interface
+      // discovered while parsing the entryPoints.
+      visitObjCInterface: (node) {
+        if (node.name == 'AVAudioPlayer') {
+          // API elements like interfaces are excluded from the generated
+          // bindings by default. So choose the ones you want to include and set
+          // .isIncluded to true.
+          node.isIncluded = true;
+        }
+      }
     ),
   ],
 
