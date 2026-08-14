@@ -6735,28 +6735,13 @@ extension NSExtendedData on NSData {
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1d8s65wStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfData_options_range_,
-            _$$ref$1.pointer,
-            options,
-            range,
-          )
-        : $ptr.ref = _objc_msgSend_1d8s65w(
-            _$$ref.pointer,
-            _sel_rangeOfData_options_range_,
-            _$$ref$1.pointer,
-            options,
-            range,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_1d8s65w(
+      _$$ref.pointer,
+      _sel_rangeOfData_options_range_,
+      _$$ref$1.pointer,
+      options,
+      range,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// subdataWithRange:
@@ -22128,24 +22113,7 @@ extension NSStringExtensionMethods on NSString {
   /// lineRangeForRange:
   NSRange lineRangeForRange(NSRange range) {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_uimyc7Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_lineRangeForRange_,
-            range,
-          )
-        : $ptr.ref = _objc_msgSend_uimyc7(
-            _$$ref.pointer,
-            _sel_lineRangeForRange_,
-            range,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<NSRange>($finalizable);
+    return _objc_msgSend_uimyc7(_$$ref.pointer, _sel_lineRangeForRange_, range);
   }
 
   /// localizedCapitalizedString
@@ -22260,24 +22228,11 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (9, 0, 0)),
       macOS: (false, (10, 11, 0)),
     );
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_182fzonStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_localizedStandardRangeOfString_,
-            _$$ref$1.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_182fzon(
-            _$$ref.pointer,
-            _sel_localizedStandardRangeOfString_,
-            _$$ref$1.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_182fzon(
+      _$$ref.pointer,
+      _sel_localizedStandardRangeOfString_,
+      _$$ref$1.pointer,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// localizedUppercaseString
@@ -22343,24 +22298,11 @@ extension NSStringExtensionMethods on NSString {
   /// paragraphRangeForRange:
   NSRange paragraphRangeForRange(NSRange range) {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_uimyc7Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_paragraphRangeForRange_,
-            range,
-          )
-        : $ptr.ref = _objc_msgSend_uimyc7(
-            _$$ref.pointer,
-            _sel_paragraphRangeForRange_,
-            range,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_uimyc7(
+      _$$ref.pointer,
+      _sel_paragraphRangeForRange_,
+      range,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// precomposedStringWithCanonicalMapping
@@ -22387,24 +22329,11 @@ extension NSStringExtensionMethods on NSString {
   NSRange rangeOfCharacterFromSet(NSCharacterSet searchSet) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchSet.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_182fzonStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfCharacterFromSet_,
-            _$$ref$1.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_182fzon(
-            _$$ref.pointer,
-            _sel_rangeOfCharacterFromSet_,
-            _$$ref$1.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_182fzon(
+      _$$ref.pointer,
+      _sel_rangeOfCharacterFromSet_,
+      _$$ref$1.pointer,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfCharacterFromSet:options:
@@ -22414,26 +22343,12 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchSet.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_102xxo4Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfCharacterFromSet_options_,
-            _$$ref$1.pointer,
-            options,
-          )
-        : $ptr.ref = _objc_msgSend_102xxo4(
-            _$$ref.pointer,
-            _sel_rangeOfCharacterFromSet_options_,
-            _$$ref$1.pointer,
-            options,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_102xxo4(
+      _$$ref.pointer,
+      _sel_rangeOfCharacterFromSet_options_,
+      _$$ref$1.pointer,
+      options,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfCharacterFromSet:options:range:
@@ -22444,51 +22359,23 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchSet.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1nmlvqcStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfCharacterFromSet_options_range_,
-            _$$ref$1.pointer,
-            options,
-            range,
-          )
-        : $ptr.ref = _objc_msgSend_1nmlvqc(
-            _$$ref.pointer,
-            _sel_rangeOfCharacterFromSet_options_range_,
-            _$$ref$1.pointer,
-            options,
-            range,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_1nmlvqc(
+      _$$ref.pointer,
+      _sel_rangeOfCharacterFromSet_options_range_,
+      _$$ref$1.pointer,
+      options,
+      range,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfComposedCharacterSequenceAtIndex:
   NSRange rangeOfComposedCharacterSequenceAtIndex(DartNSUInteger index) {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_d3i1uyStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfComposedCharacterSequenceAtIndex_,
-            index,
-          )
-        : $ptr.ref = _objc_msgSend_d3i1uy(
-            _$$ref.pointer,
-            _sel_rangeOfComposedCharacterSequenceAtIndex_,
-            index,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_d3i1uy(
+      _$$ref.pointer,
+      _sel_rangeOfComposedCharacterSequenceAtIndex_,
+      index,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfComposedCharacterSequencesForRange:
@@ -22499,48 +22386,22 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_uimyc7Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfComposedCharacterSequencesForRange_,
-            range,
-          )
-        : $ptr.ref = _objc_msgSend_uimyc7(
-            _$$ref.pointer,
-            _sel_rangeOfComposedCharacterSequencesForRange_,
-            range,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_uimyc7(
+      _$$ref.pointer,
+      _sel_rangeOfComposedCharacterSequencesForRange_,
+      range,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfString:
   NSRange rangeOfString(NSString searchString) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchString.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_182fzonStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfString_,
-            _$$ref$1.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_182fzon(
-            _$$ref.pointer,
-            _sel_rangeOfString_,
-            _$$ref$1.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_182fzon(
+      _$$ref.pointer,
+      _sel_rangeOfString_,
+      _$$ref$1.pointer,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfString:options:
@@ -22550,26 +22411,12 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchString.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_102xxo4Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfString_options_,
-            _$$ref$1.pointer,
-            options,
-          )
-        : $ptr.ref = _objc_msgSend_102xxo4(
-            _$$ref.pointer,
-            _sel_rangeOfString_options_,
-            _$$ref$1.pointer,
-            options,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_102xxo4(
+      _$$ref.pointer,
+      _sel_rangeOfString_options_,
+      _$$ref$1.pointer,
+      options,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfString:options:range:
@@ -22580,28 +22427,13 @@ extension NSStringExtensionMethods on NSString {
   }) {
     final _$$ref = object$.ref;
     final _$$ref$1 = searchString.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1nmlvqcStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfString_options_range_,
-            _$$ref$1.pointer,
-            options,
-            range,
-          )
-        : $ptr.ref = _objc_msgSend_1nmlvqc(
-            _$$ref.pointer,
-            _sel_rangeOfString_options_range_,
-            _$$ref$1.pointer,
-            options,
-            range,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_1nmlvqc(
+      _$$ref.pointer,
+      _sel_rangeOfString_options_range_,
+      _$$ref$1.pointer,
+      options,
+      range,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// rangeOfString:options:range:locale:
@@ -22619,30 +22451,14 @@ extension NSStringExtensionMethods on NSString {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_gg0462Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_rangeOfString_options_range_locale_,
-            _$$ref$1.pointer,
-            options,
-            range,
-            _$$ref$2?.pointer ?? ffi.nullptr,
-          )
-        : $ptr.ref = _objc_msgSend_gg0462(
-            _$$ref.pointer,
-            _sel_rangeOfString_options_range_locale_,
-            _$$ref$1.pointer,
-            options,
-            range,
-            _$$ref$2?.pointer ?? ffi.nullptr,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
+    return _objc_msgSend_gg0462(
+      _$$ref.pointer,
+      _sel_rangeOfString_options_range_locale_,
+      _$$ref$1.pointer,
+      options,
+      range,
+      _$$ref$2?.pointer ?? ffi.nullptr,
     );
-    return ffi.Struct.create<NSRange>($finalizable);
   }
 
   /// smallestEncoding
@@ -35292,28 +35108,12 @@ extension _BlockArgs_1pvrxoh$Methods on _BlockArgs_1pvrxoh {
 
   NSRange get arg1 {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1u11dbbStret($ptr, _$$ref.pointer, _sel_arg1)
-        : $ptr.ref = _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<NSRange>($finalizable);
+    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
   }
 
   NSRange get arg2 {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1u11dbbStret($ptr, _$$ref.pointer, _sel_arg2)
-        : $ptr.ref = _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg2);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<NSRange>($finalizable);
+    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg2);
   }
 
   ffi.Pointer<ffi.Bool> get arg3 {
@@ -35400,15 +35200,7 @@ extension _BlockArgs_3djt55$Methods on _BlockArgs_3djt55 {
 
   NSRange get arg1 {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1u11dbbStret($ptr, _$$ref.pointer, _sel_arg1)
-        : $ptr.ref = _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<NSRange>($finalizable);
+    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg1);
   }
 
   ffi.Pointer<ffi.Bool> get arg2 {
@@ -35762,15 +35554,7 @@ extension type _BlockArgs_uckb5m._(objc.ObjCObject object$)
 extension _BlockArgs_uckb5m$Methods on _BlockArgs_uckb5m {
   NSRange get arg0 {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<NSRange>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1u11dbbStret($ptr, _$$ref.pointer, _sel_arg0)
-        : $ptr.ref = _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg0);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<NSRange>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<NSRange>($finalizable);
+    return _objc_msgSend_1u11dbb(_$$ref.pointer, _sel_arg0);
   }
 
   ffi.Pointer<ffi.Bool> get arg1 {
@@ -36576,27 +36360,6 @@ final _objc_msgSend_102xxo4 = objc.msgSendPointer
         int,
       )
     >();
-final _objc_msgSend_102xxo4Stret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          NSUInteger,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        int,
-      )
-    >();
 final _objc_msgSend_10mlopr = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -37106,25 +36869,6 @@ final _objc_msgSend_182fzon = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-final _objc_msgSend_182fzonStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 final _objc_msgSend_187k8ck = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -37388,29 +37132,6 @@ final _objc_msgSend_1d8s65w = objc.msgSendPointer
     >()
     .asFunction<
       NSRange Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        int,
-        NSRange,
-      )
-    >();
-final _objc_msgSend_1d8s65wStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          NSUInteger,
-          NSRange,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCObjectImpl>,
@@ -38166,29 +37887,6 @@ final _objc_msgSend_1nmlvqc = objc.msgSendPointer
         NSRange,
       )
     >();
-final _objc_msgSend_1nmlvqcStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          NSUInteger,
-          NSRange,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        int,
-        NSRange,
-      )
-    >();
 final _objc_msgSend_1nomli1 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38648,23 +38346,6 @@ final _objc_msgSend_1u11dbb = objc.msgSendPointer
     >()
     .asFunction<
       NSRange Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-final _objc_msgSend_1u11dbbStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
@@ -39594,25 +39275,6 @@ final _objc_msgSend_d3i1uy = objc.msgSendPointer
         int,
       )
     >();
-final _objc_msgSend_d3i1uyStret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.UnsignedLong,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
 final _objc_msgSend_dbvvll = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -39869,31 +39531,6 @@ final _objc_msgSend_gg0462 = objc.msgSendPointer
     >()
     .asFunction<
       NSRange Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        int,
-        NSRange,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
-final _objc_msgSend_gg0462Stret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          NSUInteger,
-          NSRange,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCObjectImpl>,
@@ -40761,25 +40398,6 @@ final _objc_msgSend_uimyc7 = objc.msgSendPointer
     >()
     .asFunction<
       NSRange Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        NSRange,
-      )
-    >();
-final _objc_msgSend_uimyc7Stret = objc.msgSendStretPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<NSRange>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          NSRange,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<NSRange>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         NSRange,

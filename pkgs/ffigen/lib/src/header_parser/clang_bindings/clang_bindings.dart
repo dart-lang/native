@@ -514,6 +514,24 @@ class Clang {
       _clang_Type_getObjCProtocolDeclPtr
           .asFunction<CXCursor Function(CXType, int)>();
 
+  /// Return the size of a type in bytes as per C++[expr.sizeof] standard.
+  ///
+  /// If the type declaration is invalid, CXTypeLayoutError_Invalid is returned.
+  /// If the type declaration is an incomplete type, CXTypeLayoutError_Incomplete
+  /// is returned.
+  /// If the type declaration is a dependent type, CXTypeLayoutError_Dependent is
+  /// returned.
+  int clang_Type_getSizeOf(CXType T) {
+    return _clang_Type_getSizeOf(T);
+  }
+
+  late final _clang_Type_getSizeOfPtr =
+      _lookup<ffi.NativeFunction<ffi.LongLong Function(CXType)>>(
+        'clang_Type_getSizeOf',
+      );
+  late final _clang_Type_getSizeOf = _clang_Type_getSizeOfPtr
+      .asFunction<int Function(CXType)>();
+
   /// Returns the type template argument of a template class specialization
   /// at given index.
   ///

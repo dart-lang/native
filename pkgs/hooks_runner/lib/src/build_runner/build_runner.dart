@@ -660,10 +660,12 @@ class NativeAssetsBuildRunner {
     };
 
     const variablePrefixesFilter = {
+      'CARGO_', // Needed for the Rust package manager.
       'CCACHE_', // Needed for Ccache.
       'DOTNET_', // Needed for .Net.
       'NIX_', // Needed for Nix-installed toolchains.
       'NUGET_', // Needed for NuGet.
+      'RUSTUP_', // Needed for the Rust toolchain installer.
       'CONAN_', // Needed for Conan Package Manager.
     };
 

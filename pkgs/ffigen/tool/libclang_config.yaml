@@ -84,6 +84,7 @@ functions:
     - clang_getCanonicalType
     - clang_Type_getNamedType
     - clang_Type_getAlignOf
+    - clang_Type_getSizeOf
     - clang_getTypeDeclaration
     - clang_getTypedefDeclUnderlyingType
     - clang_getCursorSpelling
