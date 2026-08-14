@@ -55,6 +55,7 @@ class Library {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
     final nativeBindings = <LookUpBinding>[];
+    final noLookUpBindings = <Binding>[];
     String? nativeAssetId;
 
     final outputStyle = context.config.output.style;
@@ -62,15 +63,22 @@ class Library {
         ? outputStyle.assetId
         : null;
 
-    for (final binding in bindings.whereType<LookUpBinding>()) {
-      final loadFromNativeAsset = binding.loadFromNativeAsset;
+    for (final binding in bindings) {
+      if (binding is LookUpBinding) {
+        if (binding is Global && binding.isConst) {
+          noLookUpBindings.add(binding);
+          continue;
+        }
+        final loadFromNativeAsset = binding.loadFromNativeAsset;
 
-      // At the moment, all bindings share their native config.
-      if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
+        // At the moment, all bindings share their native config.
+        if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
 
-      (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
+        (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
+      } else {
+        noLookUpBindings.add(binding);
+      }
     }
-    final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
     final hasNoLookupNativeHelper = noLookUpBindings.any(
       (b) => b.hasNativeHelperFunctions,
     );

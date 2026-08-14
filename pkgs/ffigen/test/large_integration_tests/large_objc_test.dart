@@ -115,7 +115,6 @@ void main() {
           visitTypealias: (node) =>
               node.isIncluded = shouldIncludeNode('typedefs', node),
           visitMacro: (node) => node.isIncluded = false,
-          visitConstant: (node) => node.isIncluded = false,
           visitObjCInterface: (node) =>
               node.isIncluded = shouldIncludeNode('objcInterfaces', node),
           visitObjCProtocol: (node) => node.isIncluded = shouldIncludeNode(

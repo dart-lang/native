@@ -15,6 +15,23 @@ import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
 
+/// A constant value for a [Global].
+class ConstantValue {
+  final String rawType;
+  final String rawValue;
+
+  const ConstantValue({required this.rawType, required this.rawValue});
+
+  @override
+  bool operator ==(Object other) =>
+      other is ConstantValue &&
+      other.rawType == rawType &&
+      other.rawValue == rawValue;
+
+  @override
+  int get hashCode => Object.hash(rawType, rawValue);
+}
+
 /// A binding to a global variable
 ///
 /// For a C global variable -
@@ -29,11 +46,14 @@ class Global extends LookUpBinding with HasLocalScope {
   final Type type;
   final bool exposeSymbolAddress;
   final bool constant;
+  final ConstantValue? constantValue;
 
   @override
   final bool loadFromNativeAsset;
 
   bool isIncluded = false;
+
+  bool get isConst => constantValue != null && !exposeSymbolAddress;
 
   Global({
     super.usr,
@@ -43,6 +63,7 @@ class Global extends LookUpBinding with HasLocalScope {
     super.dartDoc,
     this.exposeSymbolAddress = false,
     this.constant = false,
+    this.constantValue,
     this.loadFromNativeAsset = false,
   }) : super(symbol: Symbol(name, SymbolKind.field));
 
@@ -54,6 +75,16 @@ class Global extends LookUpBinding with HasLocalScope {
     final s = StringBuffer();
     final globalVarName = name;
     s.write(makeDartDoc(dartDoc));
+    if (isConst) {
+      s.write(
+        'const ${constantValue!.rawType} $globalVarName = '
+        '${constantValue!.rawValue};\n\n',
+      );
+      return BindingString(
+        type: BindingStringType.global,
+        string: s.toString(),
+      );
+    }
     final context = w.context;
     final dartType = type.getDartType(context);
     final ffiDartType = type.getFfiDartType(context);
@@ -173,6 +204,7 @@ class Global extends LookUpBinding with HasLocalScope {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    if (isConst) return;
     visitor.visit(type);
     visitor.visit(ffiImport);
     if (loadFromNativeAsset && exposeSymbolAddress) {

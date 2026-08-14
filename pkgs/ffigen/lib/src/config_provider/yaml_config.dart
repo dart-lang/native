@@ -1374,14 +1374,6 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
   }
 
   @override
-  void visitConstant(public_ast.Constant node) {
-    node.isIncluded = config.globals.shouldInclude(_decl(node));
-    if (config.globals.rename(_decl(node)) case final rename?) {
-      node.name = rename;
-    }
-  }
-
-  @override
   void visitMacro(public_ast.MacroConstant node) {
     node.isIncluded = config.macroDecl.shouldInclude(_decl(node));
     if (config.macroDecl.rename(_decl(node)) case final rename?) {

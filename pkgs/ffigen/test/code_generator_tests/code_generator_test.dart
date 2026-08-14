@@ -342,6 +342,120 @@ void main() {
       _matchLib(library, 'constant');
     });
 
+    test('const global', () {
+      final context = makeContext();
+      final library = Library(
+        context: context,
+        header: '$licenseHeader\n',
+        bindings: transformBindings([
+          Global(
+            name: 'test1',
+            type: NativeType(SupportedNativeType.int32),
+            constant: true,
+            constantValue: const ConstantValue(rawType: 'int', rawValue: '20'),
+          ),
+          Global(
+            name: 'test2',
+            type: NativeType(SupportedNativeType.double),
+            constant: true,
+            constantValue: const ConstantValue(
+              rawType: 'double',
+              rawValue: '20.0',
+            ),
+          ),
+        ], context),
+      );
+      final output = library.generate();
+      expect(output, contains('const int test1 = 20;'));
+      expect(output, contains('const double test2 = 20.0;'));
+    });
+
+    withAndWithoutNative('const global with symbol address exposed', (
+      loadFromNativeAsset,
+    ) {
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
+        ),
+      );
+      final g = Global(
+        loadFromNativeAsset: loadFromNativeAsset,
+        name: 'constWithAddress',
+        type: NativeType(SupportedNativeType.int32),
+        constant: true,
+        constantValue: const ConstantValue(rawType: 'int', rawValue: '42'),
+        exposeSymbolAddress: true,
+      );
+      expect(g.isConst, isFalse);
+      final library = Library(
+        context: context,
+        bindings: transformBindings([g], context),
+      );
+      final output = library.generate();
+      if (loadFromNativeAsset) {
+        expect(output, contains('@ffi.Native<ffi.Int32>()'));
+        expect(output, contains('external final int constWithAddress;'));
+        expect(output, contains('const addresses = _SymbolAddresses();'));
+        expect(
+          output,
+          contains(
+            'ffi.Pointer<ffi.Int32> get constWithAddress => '
+            'ffi.Native.addressOf(self.constWithAddress);',
+          ),
+        );
+      } else {
+        expect(output, contains("lookup<ffi.Int32>('constWithAddress')"));
+        expect(output, contains('int get constWithAddress =>'));
+        expect(output, isNot(contains('set constWithAddress')));
+        expect(
+          output,
+          contains('late final addresses = _SymbolAddresses(this);'),
+        );
+        expect(
+          output,
+          contains(
+            'ffi.Pointer<ffi.Int32> get constWithAddress => '
+            '_library._constWithAddress;',
+          ),
+        );
+      }
+    });
+
+    test('ConstantValue equality and hashCode', () {
+      const v1 = ConstantValue(rawType: 'int', rawValue: '10');
+      const v2 = ConstantValue(rawType: 'int', rawValue: '10');
+      const v3 = ConstantValue(rawType: 'double', rawValue: '10');
+      const v4 = ConstantValue(rawType: 'int', rawValue: '20');
+
+      expect(v1, equals(v2));
+      expect(v1.hashCode, equals(v2.hashCode));
+      expect(v1, isNot(equals(v3)));
+      expect(v1, isNot(equals(v4)));
+    });
+
+    test('Global.isConst', () {
+      final g1 = Global(
+        name: 'g1',
+        type: intType,
+        constantValue: const ConstantValue(rawType: 'int', rawValue: '1'),
+      );
+      expect(g1.isConst, isTrue);
+
+      final g2 = Global(
+        name: 'g2',
+        type: intType,
+        constantValue: const ConstantValue(rawType: 'int', rawValue: '1'),
+        exposeSymbolAddress: true,
+      );
+      expect(g2.isConst, isFalse);
+
+      final g3 = Global(name: 'g3', type: intType);
+      expect(g3.isConst, isFalse);
+    });
+
     test('enum_class', () {
       final context = makeContext();
       final library = Library(

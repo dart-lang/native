@@ -91,10 +91,9 @@ abstract class Visitation {
   void visitCppMethod(CppMethod node) => visitAstNode(node);
   void visitFunc(Func node) => visitLookUpBinding(node);
   void visitFunctionType(FunctionType node) => visitType(node);
-  void visitMacroConstant(MacroConstant node) => visitConstant(node);
+  void visitMacroConstant(MacroConstant node) => visitNoLookUpBinding(node);
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      visitConstant(node);
-  void visitConstant(Constant node) => visitNoLookUpBinding(node);
+      visitNoLookUpBinding(node);
   void visitGlobal(Global node) => visitLookUpBinding(node);
   void visitTypealias(Typealias node) => visitBindingType(node);
   void visitPointerType(PointerType node) => visitType(node);

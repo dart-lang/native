@@ -73,7 +73,6 @@ abstract base class Visitor {
     void Function(Union) visitUnion,
     void Function(EnumClass) visitEnum,
     void Function(Global) visitGlobal,
-    void Function(Constant) visitConstant,
     void Function(MacroConstant) visitMacro,
     void Function(Typealias) visitTypealias,
     void Function(ObjCInterface) visitObjCInterface,
@@ -99,7 +98,6 @@ abstract base class Visitor {
   void visitUnion(Union node) {}
   void visitEnum(EnumClass node) {}
   void visitGlobal(Global node) {}
-  void visitConstant(Constant node) {}
   void visitMacro(MacroConstant node) {}
   void visitTypealias(Typealias node) {}
   void visitObjCInterface(ObjCInterface node) {}
@@ -120,7 +118,6 @@ final class _CallbackVisitor extends Visitor {
   final void Function(Union) _visitUnion;
   final void Function(EnumClass) _visitEnum;
   final void Function(Global) _visitGlobal;
-  final void Function(Constant) _visitConstant;
   final void Function(MacroConstant) _visitMacro;
   final void Function(Typealias) _visitTypealias;
   final void Function(ObjCInterface) _visitObjCInterface;
@@ -140,7 +137,6 @@ final class _CallbackVisitor extends Visitor {
     void Function(Union) visitUnion = _defaultVisit,
     void Function(EnumClass) visitEnum = _defaultVisit,
     void Function(Global) visitGlobal = _defaultVisit,
-    void Function(Constant) visitConstant = _defaultVisit,
     void Function(MacroConstant) visitMacro = _defaultVisit,
     void Function(Typealias) visitTypealias = _defaultVisit,
     void Function(ObjCInterface) visitObjCInterface = _defaultVisit,
@@ -158,7 +154,6 @@ final class _CallbackVisitor extends Visitor {
        _visitUnion = visitUnion,
        _visitEnum = visitEnum,
        _visitGlobal = visitGlobal,
-       _visitConstant = visitConstant,
        _visitMacro = visitMacro,
        _visitTypealias = visitTypealias,
        _visitObjCInterface = visitObjCInterface,
@@ -189,9 +184,6 @@ final class _CallbackVisitor extends Visitor {
 
   @override
   void visitGlobal(Global node) => _visitGlobal(node);
-
-  @override
-  void visitConstant(Constant node) => _visitConstant(node);
 
   @override
   void visitMacro(MacroConstant node) => _visitMacro(node);

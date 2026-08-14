@@ -101,13 +101,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitGlobal(Global node) => _visitImpl(node, node.isIncluded);
 
   @override
-  void visitConstant(Constant node) {
-    // MacroConstant and UnnamedEnumConstant have their own overrides, so this
-    // only applies to base Constants (e.g. from static const variables).
-    _visitImpl(node, node.isIncluded);
-  }
-
-  @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
     _visitImpl(node, node.isIncluded);
