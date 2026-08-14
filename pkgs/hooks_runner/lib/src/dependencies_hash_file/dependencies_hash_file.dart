@@ -62,6 +62,8 @@ class DependenciesHashFile {
     Uri? modifiedAfterTimeStamp;
     for (final uri in fileSystemEntities) {
       int hash;
+      int? size;
+      DateTime? lastModified;
       if ((await _fileSystem.fileSystemEntity(uri).lastModified(_fileSystem))
           .isAfter(fileSystemValidBeforeLastModified)) {
         hash = _hashLastModifiedAfterCutoff;
@@ -70,19 +72,47 @@ class DependenciesHashFile {
         if (_isDirectoryPath(uri.path)) {
           hash = await _hashDirectory(uri);
         } else {
+          final file = _fileSystem.file(uri);
+          final stat = await file.stat();
+          if (stat.type == FileSystemEntityType.file) {
+            size = stat.size;
+            lastModified = stat.modified;
+          }
           hash = await _hashFile(uri);
         }
       }
-      _hashes.files.add(FilesystemEntityHash(uri, hash));
+      _hashes.files.add(
+        FilesystemEntityHash(
+          uri,
+          hash,
+          size: size,
+          lastModified: lastModified,
+        ),
+      );
     }
     for (final uri in outputFiles) {
       int hash;
+      int? size;
+      DateTime? lastModified;
       if (_isDirectoryPath(uri.path)) {
         hash = await _hashDirectory(uri);
       } else {
+        final file = _fileSystem.file(uri);
+        final stat = await file.stat();
+        if (stat.type == FileSystemEntityType.file) {
+          size = stat.size;
+          lastModified = stat.modified;
+        }
         hash = await _hashFile(uri);
       }
-      _hashes.files.add(FilesystemEntityHash(uri, hash));
+      _hashes.files.add(
+        FilesystemEntityHash(
+          uri,
+          hash,
+          size: size,
+          lastModified: lastModified,
+        ),
+      );
     }
     for (final entry in environment.entries) {
       _hashes.environment.add(
@@ -104,15 +134,12 @@ class DependenciesHashFile {
 
         for (final savedHash in _hashes.files) {
           final uri = savedHash.path;
-          final savedHashValue = savedHash.hash;
           if (_isDirectoryPath(uri.path)) {
-            final hashValue = await _hashDirectory(uri);
-            if (savedHashValue != hashValue) {
+            if (await _directoryContentsChanged(savedHash)) {
               return 'Directory contents changed: ${uri.toFilePath()}.';
             }
           } else {
-            final hashValue = await _hashFile(uri);
-            if (savedHashValue != hashValue) {
+            if (await _fileContentsChanged(savedHash)) {
               return 'File contents changed: ${uri.toFilePath()}.';
             }
           }
@@ -136,6 +163,39 @@ class DependenciesHashFile {
 
         return null;
       });
+
+  /// Checks whether the contents of the file described by [savedHash] have
+  /// changed.
+  ///
+  /// Fast path: if the file had a valid recorded size and modification time,
+  /// and they still match, content hashing is skipped to avoid reading files
+  /// from disk.
+  ///
+  /// Fallback: if the size or modification time changed (or was not recorded),
+  /// the file is hashed to verify whether its contents actually changed.
+  Future<bool> _fileContentsChanged(FilesystemEntityHash savedHash) async {
+    final size = savedHash.size;
+    final lastModified = savedHash.lastModified;
+    if (size != null &&
+        lastModified != null &&
+        savedHash.hash != _hashLastModifiedAfterCutoff &&
+        savedHash.hash != _hashNotExists) {
+      final stat = await _fileSystem.file(savedHash.path).stat();
+      if (stat.type == FileSystemEntityType.file &&
+          stat.size == size &&
+          stat.modified.isAtSameMomentAs(lastModified)) {
+        return false;
+      }
+    }
+
+    final hashValue = await _hashFile(savedHash.path);
+    return savedHash.hash != hashValue;
+  }
+
+  Future<bool> _directoryContentsChanged(FilesystemEntityHash savedHash) async {
+    final hashValue = await _hashDirectory(savedHash.path);
+    return savedHash.hash != hashValue;
+  }
 
   // A 64 bit hash from an md5 hash.
   int _md5int64(Uint8List bytes) {
@@ -247,26 +307,67 @@ class FileSystemHashes {
 ///
 /// [Directory] hashes are a hash of the names of the direct children.
 class FilesystemEntityHash {
-  FilesystemEntityHash(this.path, this.hash);
+  FilesystemEntityHash(
+    this.path,
+    this.hash, {
+    this.size,
+    this.lastModified,
+  });
 
   factory FilesystemEntityHash._fromJson(Map<String, Object> json) =>
       FilesystemEntityHash(
         _fileSystemPathToUri(json[_pathKey] as String),
         json[_hashKey] as int,
+        size: json[_sizeKey] as int?,
+        lastModified: switch (json[_lastModifiedKey]) {
+          final int us => DateTime.fromMicrosecondsSinceEpoch(us),
+          _ => null,
+        },
       );
 
   static const _pathKey = 'path';
   static const _hashKey = 'hash';
+  static const _sizeKey = 'size';
+  static const _lastModifiedKey = 'last_modified';
 
   final Uri path;
 
   /// A 64 bit hash.
   final int hash;
 
+  /// File size in bytes, or null if not applicable or not recorded.
+  final int? size;
+
+  /// Last modification timestamp, or null if not applicable or not recorded.
+  final DateTime? lastModified;
+
   Object toJson() => <String, Object>{
     _pathKey: path.toFilePath(),
     _hashKey: hash,
+    _sizeKey: ?size,
+    _lastModifiedKey: ?lastModified?.microsecondsSinceEpoch,
   };
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! FilesystemEntityHash) return false;
+    if (other.path != path) return false;
+    if (other.hash != hash) return false;
+    if (other.size != size) return false;
+    if (other.lastModified == null || lastModified == null) {
+      return other.lastModified == lastModified;
+    }
+    return other.lastModified!.isAtSameMomentAs(lastModified!);
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    path,
+    hash,
+    size,
+    lastModified?.microsecondsSinceEpoch,
+  );
 }
 
 class EnvironmentVariableHash {
