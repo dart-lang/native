@@ -9,6 +9,7 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/env_from_bat.dart';
 import 'package:test/test.dart';
@@ -26,8 +27,15 @@ void main() {
     expect(instances.isNotEmpty, true);
   });
 
-  test('visualStudio', () async {
-    final instances = await visualStudio.defaultResolver!.resolve(
+  test('visualStudioX64', () async {
+    final instances = await visualStudioX64.defaultResolver!.resolve(
+      systemContext,
+    );
+    expect(instances.isNotEmpty, true);
+  });
+
+  test('visualStudioArm64', () async {
+    final instances = await visualStudioArm64.defaultResolver!.resolve(
       systemContext,
     );
     expect(instances.isNotEmpty, true);
@@ -49,28 +57,29 @@ void main() {
     await ssmsDir.create(recursive: true);
     await visualStudioDir.create(recursive: true);
 
-    final instances = VisualStudioResolverX64().parseVswhere(
-      jsonEncode([
-        {
-          'installationName': 'SSMS/22.5.0+11709.299',
-          'installationPath': ssmsDir.path,
-          'installationVersion': '22.5.11709.299',
-          'productId': 'Microsoft.VisualStudio.Product.Ssms',
-          'displayName': 'SQL Server Management Studio 22',
-        },
-        {
-          'installationName': 'VisualStudio/18.5.1+11716.220',
-          'installationPath': visualStudioDir.path,
-          'installationVersion': '18.5.11716.220',
-          'productId': 'Microsoft.VisualStudio.Product.Community',
-          'displayName': 'Visual Studio Community 2026',
-        },
-        {
-          'installationName': 'Incomplete entry',
-          'productId': 'Microsoft.VisualStudio.Product.Incomplete',
-        },
-      ]),
-    );
+    final instances = VisualStudioResolver(targetArchitecture: Architecture.x64)
+        .parseVswhere(
+          jsonEncode([
+            {
+              'installationName': 'SSMS/22.5.0+11709.299',
+              'installationPath': ssmsDir.path,
+              'installationVersion': '22.5.11709.299',
+              'productId': 'Microsoft.VisualStudio.Product.Ssms',
+              'displayName': 'SQL Server Management Studio 22',
+            },
+            {
+              'installationName': 'VisualStudio/18.5.1+11716.220',
+              'installationPath': visualStudioDir.path,
+              'installationVersion': '18.5.11716.220',
+              'productId': 'Microsoft.VisualStudio.Product.Community',
+              'displayName': 'Visual Studio Community 2026',
+            },
+            {
+              'installationName': 'Incomplete entry',
+              'productId': 'Microsoft.VisualStudio.Product.Incomplete',
+            },
+          ]),
+        );
 
     expect(instances, hasLength(2));
     expect(instances.first.uri, ssmsDir.uri);

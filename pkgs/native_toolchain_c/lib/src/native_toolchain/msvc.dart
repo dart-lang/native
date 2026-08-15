@@ -46,33 +46,33 @@ final Tool vswhere = Tool(
 /// `installationVersion` would otherwise win `vswhere -latest`.
 ///
 /// https://visualstudio.microsoft.com/
-final Tool visualStudio = Tool(
-  name: 'Visual Studio',
-  defaultResolver: VisualStudioResolverX64(),
+final Tool visualStudioX64 = Tool(
+  name: 'Visual Studio (x64)',
+  defaultResolver: VisualStudioResolver(targetArchitecture: .x64),
 );
 
 /// A Visual Studio installation that ships the MSVC tools for arm64.
 ///
 /// Resolved via [vswhere] requiring
 /// `Microsoft.VisualStudio.Component.VC.Tools.arm64`. May resolve a
-/// different installation than [visualStudio] when not every VS instance on
-/// the machine has the arm64 cross toolchain installed.
+/// different installation than [visualStudioX64] when not every VS instance
+/// on the machine has the arm64 cross toolchain installed.
 ///
 /// https://visualstudio.microsoft.com/
 final Tool visualStudioArm64 = Tool(
-  name: 'Visual Studio',
-  defaultResolver: VisualStudioResolverArm64(),
+  name: 'Visual Studio (arm64)',
+  defaultResolver: VisualStudioResolver(targetArchitecture: .arm64),
 );
 
 /// The C/C++ Optimizing Compiler installation for targeting x86/x64.
 ///
-/// Resolved relative to [visualStudio].
+/// Resolved relative to [visualStudioX64].
 final Tool msvc = Tool(
   name: 'MSVC',
   defaultResolver: PathVersionResolver(
     wrappedResolver: RelativeToolResolver(
       toolName: 'MSVC',
-      wrappedResolver: visualStudio.defaultResolver!,
+      wrappedResolver: visualStudioX64.defaultResolver!,
       relativePath: Uri(path: './VC/Tools/MSVC/*/'),
     ),
   ),
@@ -125,7 +125,7 @@ final Tool vcvars64 = Tool(
   name: 'vcvars64.bat',
   defaultResolver: RelativeToolResolver(
     toolName: 'vcvars64.bat',
-    wrappedResolver: visualStudio.defaultResolver!,
+    wrappedResolver: visualStudioX64.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvars64.bat'),
   ),
 );
@@ -134,7 +134,7 @@ final Tool vcvars32 = Tool(
   name: 'vcvars32.bat',
   defaultResolver: RelativeToolResolver(
     toolName: 'vcvars32.bat',
-    wrappedResolver: visualStudio.defaultResolver!,
+    wrappedResolver: visualStudioX64.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvars32.bat'),
   ),
 );
@@ -148,7 +148,7 @@ final Tool vcvarsarm64 = Tool(
   name: 'vcvarsamd64_arm64.bat',
   defaultResolver: RelativeToolResolver(
     toolName: 'vcvarsamd64_arm64.bat',
-    wrappedResolver: visualStudio.defaultResolver!,
+    wrappedResolver: visualStudioX64.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvarsamd64_arm64.bat'),
   ),
 );
@@ -157,7 +157,7 @@ final Tool vcvarsall = Tool(
   name: 'vcvarsall.bat',
   defaultResolver: RelativeToolResolver(
     toolName: 'vcvars32.bat',
-    wrappedResolver: visualStudio.defaultResolver!,
+    wrappedResolver: visualStudioX64.defaultResolver!,
     relativePath: Uri(path: './VC/Auxiliary/Build/vcvarsall.bat'),
   ),
 );
@@ -166,7 +166,7 @@ final Tool vsDevCmd = Tool(
   name: 'VsDevCmd.bat',
   defaultResolver: RelativeToolResolver(
     toolName: 'VsDevCmd.bat',
-    wrappedResolver: visualStudio.defaultResolver!,
+    wrappedResolver: visualStudioX64.defaultResolver!,
     relativePath: Uri(path: './Common7/Tools/VsDevCmd.bat'),
   ),
 );
@@ -295,36 +295,36 @@ Tool _msvcTool({
   return Tool(name: executableName, defaultResolver: resolver);
 }
 
-/// Resolves Visual Studio installations that ship the arm64 MSVC tools.
-///
-/// Same as [VisualStudioResolverX64] but requires the
-/// `Microsoft.VisualStudio.Component.VC.Tools.arm64` component. On machines
-/// with multiple VS installations these resolvers may pick different
-/// installs.
-class VisualStudioResolverArm64 extends VisualStudioResolverX64 {
-  @override
-  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async =>
-      resolveArch(context, 'arm64');
-}
-
-/// Resolves Visual Studio installations that ship the x86/x64 MSVC tools.
+/// Resolves Visual Studio installations that ship the MSVC tools for
+/// [targetArchitecture].
 ///
 /// Runs [vswhere] with `-latest -requires
-/// Microsoft.VisualStudio.Component.VC.Tools.x86.x64`. The `-requires`
-/// filter is necessary because tools like SSMS share the VS installer and
-/// can outrank Visual Studio under `-latest` when sorted by version alone
-/// (see https://github.com/dart-lang/native/issues/3327).
-class VisualStudioResolverX64 implements ToolResolver {
-  @override
-  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async =>
-      resolveArch(context, 'x86.x64');
+/// Microsoft.VisualStudio.Component.VC.Tools.<arch>`. The `-requires` filter
+/// is necessary because tools like SSMS share the VS installer and can
+/// outrank Visual Studio under `-latest` when sorted by version alone (see
+/// https://github.com/dart-lang/native/issues/3327). On machines with
+/// multiple VS installations, different [targetArchitecture]s may resolve to
+/// different installs.
+class VisualStudioResolver implements ToolResolver {
+  VisualStudioResolver({required this.targetArchitecture});
 
-  Future<List<ToolInstance>> resolveArch(
-    ToolResolvingContext context,
-    String pkgArchSuffix,
-  ) async {
+  final Architecture targetArchitecture;
+
+  Tool get _tool => switch (targetArchitecture) {
+    .arm64 => visualStudioArm64,
+    _ => visualStudioX64,
+  };
+
+  String get _pkgArchSuffix => switch (targetArchitecture) {
+    .arm64 => 'arm64',
+    _ => 'x86.x64',
+  };
+
+  @override
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
     final vswhereInstances = await vswhere.defaultResolver!.resolve(context);
     final logger = context.logger;
+    final pkgArchSuffix = _pkgArchSuffix;
 
     final result = <ToolInstance>[];
     for (final vswhereInstance in vswhereInstances.take(1)) {
@@ -381,11 +381,7 @@ class VisualStudioResolverX64 implements ToolResolver {
         final version = versionFromString(
           toolInfoParsed['installationVersion'] as String,
         );
-        final instance = ToolInstance(
-          tool: visualStudio,
-          uri: uri,
-          version: version,
-        );
+        final instance = ToolInstance(tool: _tool, uri: uri, version: version);
         logger?.fine('Found $instance.');
         result.add(instance);
       }
