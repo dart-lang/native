@@ -355,7 +355,8 @@ class VisualStudioResolverX64 implements ToolResolver {
         final vsInstallerUri = vsWhere.uri
             .resolve('../vs_installer.exe')
             .toFilePath();
-        logger?.warning( // highlight command for user
+        logger?.warning(
+          // highlight command for user
           '`  $vsInstallerUri install --add '
           'Microsoft.VisualStudio.Component.VC.Tools.$pkgArchSuffix`',
         );
