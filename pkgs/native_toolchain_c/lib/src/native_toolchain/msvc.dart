@@ -299,7 +299,7 @@ Tool _msvcTool({
 /// [targetArchitecture].
 ///
 /// Runs [vswhere] with `-latest -requires
-/// Microsoft.VisualStudio.Component.VC.Tools.<arch>`. The `-requires` filter
+/// Microsoft.VisualStudio.Component.VC.Tools.{arch}`. The `-requires` filter
 /// is necessary because tools like SSMS share the VS installer and can
 /// outrank Visual Studio under `-latest` when sorted by version alone (see
 /// https://github.com/dart-lang/native/issues/3327). On machines with
