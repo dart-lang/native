@@ -454,8 +454,7 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
                   : '';
               if (method.originatingClass != null) {
                 final origClass = method.originatingClass;
-                final castTarget =
-                    'static_cast<$constPrefix$origClass*>(self)';
+                final castTarget = 'static_cast<$constPrefix$origClass*>(self)';
                 body =
                     '$returnPrefix$castTarget'
                     '->$methodName($callArgs)$suffix;';
