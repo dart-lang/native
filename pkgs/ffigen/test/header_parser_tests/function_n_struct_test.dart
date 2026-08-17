@@ -89,8 +89,8 @@ Library expectedLibrary() {
       ),
       visitors: [
         Visitor(
-          visitFunc: (node) => node.isIncluded = true,
-          visitStruct: (node) => node.isIncluded = true,
+          func: (node) => node.isIncluded = true,
+          struct: (node) => node.isIncluded = true,
         ),
       ],
     ),

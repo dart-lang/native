@@ -67,7 +67,7 @@ app has been created via `dart create ffigen_example`.
        input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),
        // Optional. Transform and filter AST nodes.
        visitors: [
-         Visitor(visitFunc: (node) => node.isIncluded = node.name == 'add'),
+         Visitor(func: (node) => node.isIncluded = node.name == 'add'),
        ],
      ).generate();
    }
