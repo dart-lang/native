@@ -106,7 +106,10 @@ objc-protocols:
     'NSObject': 'NSObjectProtocol'
 objc-categories:
   include:
+    - NSArrayCreation
     - NSDataCreation
+    - NSDateCreation
+    - NSDictionaryCreation
     - NSExtendedArray
     - NSExtendedData
     - NSExtendedDate
@@ -119,9 +122,13 @@ objc-categories:
     - NSExtendedMutableSet
     - NSExtendedOrderedSet
     - NSExtendedSet
+    - NSMutableArrayCreation
+    - NSMutableDictionaryCreation
+    - NSMutableSetCreation
     - NSNumberCreation
-    - NSNumberIsFloat
     - NSNumberIsBool
+    - NSNumberIsFloat
+    - NSSetCreation
     - NSStringExtensionMethods
 structs:
   include:

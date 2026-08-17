@@ -60,15 +60,16 @@ void main() {
     ObjCCategory makeCategory(
       String name,
       ObjCInterface parent,
-      List<ObjCMethod> methods,
-    ) {
+      List<ObjCMethod> methods, {
+      bool isIncluded = true,
+    }) {
       final category = ObjCCategory(
         context: context,
         usr: name,
         originalName: name,
         parent: parent,
         apiAvailability: availability,
-      )..isIncluded = true;
+      )..isIncluded = isIncluded;
       parent.categories.add(category);
       for (final m in methods) {
         category.addMethod(m);
@@ -81,6 +82,7 @@ void main() {
       Type returnType,
       List<Parameter> params, {
       bool isClassMethod = false,
+      bool isIncluded = true,
     }) => ObjCMethod(
       context: context,
       originalName: name,
@@ -94,7 +96,7 @@ void main() {
       params: params,
       ownershipAttribute: null,
       consumesSelfAttribute: false,
-    );
+    )..isIncluded = isIncluded;
 
     Parameter makeParam(String name, Type type) =>
         Parameter(name: name, type: type, objCConsumed: false);
@@ -253,5 +255,108 @@ void main() {
       expect(getMethod(child, 'm1').parent, child);
       expect(getMethod(grandChild, 'm1').parent, grandChild);
     });
+
+    test('excluded category methods are not copied to interface', () {
+      final catMethod = makeMethod('catMethod', instanceType, []);
+      final parent = makeInterface('Parent', null, []);
+      final child = makeInterface('Child', parent, []);
+      final category = makeCategory(
+        'ExcludedCategory',
+        parent,
+        [catMethod],
+        isIncluded: false,
+      );
+
+      final bindings = transformBindings(
+        [parent, child, category],
+        context,
+      );
+
+      expect(bindings, contains(parent));
+      expect(bindings, contains(child));
+
+      expect(
+        parent.methods.map((m) => m.originalName),
+        isNot(contains('catMethod')),
+      );
+      expect(
+        child.methods.map((m) => m.originalName),
+        isNot(contains('catMethod')),
+      );
+    });
+
+    test(
+      'excluded methods on included category are not copied to interface',
+      () {
+        final includedMethod = makeMethod(
+          'includedMethod',
+          instanceType,
+          [],
+          isIncluded: true,
+        );
+        final excludedMethod = makeMethod(
+          'excludedMethod',
+          instanceType,
+          [],
+          isIncluded: false,
+        );
+        final parent = makeInterface('Parent', null, []);
+        final child = makeInterface('Child', parent, []);
+        final category = makeCategory(
+          'IncludedCategory',
+          parent,
+          [includedMethod, excludedMethod],
+          isIncluded: true,
+        );
+
+        final bindings = transformBindings(
+          [parent, child, category],
+          context,
+        );
+
+        expect(bindings, contains(parent));
+        expect(bindings, contains(child));
+        expect(bindings, contains(category));
+
+        expect(
+          parent.methods.map((m) => m.originalName),
+          contains('includedMethod'),
+        );
+        expect(
+          parent.methods.map((m) => m.originalName),
+          isNot(contains('excludedMethod')),
+        );
+        expect(
+          child.methods.map((m) => m.originalName),
+          contains('includedMethod'),
+        );
+        expect(
+          child.methods.map((m) => m.originalName),
+          isNot(contains('excludedMethod')),
+        );
+      },
+    );
+
+    test(
+      'anonymous category methods are copied even if not explicitly included',
+      () {
+        final anonMethod = makeMethod('anonMethod', instanceType, []);
+        final parent = makeInterface('Parent', null, []);
+        final category = makeCategory(
+          '',
+          parent,
+          [anonMethod],
+          isIncluded: false,
+        );
+
+        final bindings = transformBindings([parent, category], context);
+
+        expect(bindings, contains(parent));
+        expect(
+          parent.methods.map((m) => m.originalName),
+          contains('anonMethod'),
+        );
+      },
+    );
   });
 }

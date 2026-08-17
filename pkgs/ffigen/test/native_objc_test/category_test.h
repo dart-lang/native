@@ -33,6 +33,13 @@
 -(instancetype)instancetypeMethod;
 @end
 
+@interface Thing (ExcludedCategory)
+-(instancetype)excludedCategoryInstancetypeMethod;
++(instancetype)excludedCategoryStaticInstancetypeMethod;
+-(int32_t)excludedCategoryNonInstancetypeMethod;
++(int32_t)excludedCategoryStaticNonInstancetypeMethod;
+@end
+
 @interface Thing ()
 -(int32_t)anonymousCategoryMethod;
 +(int32_t)anonymousCategoryStaticMethod;

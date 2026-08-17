@@ -20,6 +20,9 @@ objc-categories:
     - InterfaceOnBuiltInType
     - StaticAndInstanceMethodsWithSameNameCategory
     - NSString
+    - NSURLCategory
+    # ExcludedCategory is intentionally excluded to test the category filtering bug.
+include-transitive-objc-categories: false
 ffi-native:
   asset-id: 'package:ffigen/objc_test'
 headers:
