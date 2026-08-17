@@ -98,9 +98,9 @@ Library expectedLibrary() {
       ),
       visitors: [
         Visitor(
-          visitGlobal: (node) => node.isIncluded = true,
-          visitStruct: (node) => node.isIncluded = true,
-          visitTypealias: (node) => node.isIncluded = true,
+          global: (node) => node.isIncluded = true,
+          struct: (node) => node.isIncluded = true,
+          typealias: (node) => node.isIncluded = true,
         ),
       ],
     ),

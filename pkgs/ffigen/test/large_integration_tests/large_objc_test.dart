@@ -100,32 +100,34 @@ void main() {
       ),
       visitors: [
         Visitor(
-          visitFunc: (node) =>
+          func: (node) =>
               node.isIncluded = stableRandomInclude('functionDecl', node),
-          visitStruct: (node) =>
+          struct: (node) =>
               node.isIncluded = stableRandomInclude('structDecl', node),
-          visitUnion: (node) =>
+          union: (node) =>
               node.isIncluded = stableRandomInclude('unionDecl', node),
-          visitEnum: (node) =>
+          enumClass: (node) =>
               node.isIncluded = stableRandomInclude('enums', node),
-          visitUnnamedEnumConstant: (node) => node.isIncluded =
-              stableRandomInclude('unnamedEnumConstants', node),
-          visitGlobal: (node) =>
+          unnamedEnumConstant: (node) => node.isIncluded = stableRandomInclude(
+            'unnamedEnumConstants',
+            node,
+          ),
+          global: (node) =>
               node.isIncluded = stableRandomInclude('globals', node),
-          visitTypealias: (node) =>
+          typealias: (node) =>
               node.isIncluded = stableRandomInclude('typedefs', node),
-          visitMacro: (node) => node.isIncluded = false,
-          visitConstant: (node) => node.isIncluded = false,
-          visitObjCInterface: (node) =>
+          macroConstant: (node) => node.isIncluded = false,
+          constant: (node) => node.isIncluded = false,
+          objCInterface: (node) =>
               node.isIncluded = stableRandomInclude('objcInterfaces', node),
-          visitObjCProtocol: (node) => node.isIncluded = stableRandomInclude(
+          objCProtocol: (node) => node.isIncluded = stableRandomInclude(
             'objcProtocols',
             node,
             forceIncludedProtocols,
           ),
-          visitObjCCategory: (node) =>
+          objCCategory: (node) =>
               node.isIncluded = stableRandomInclude('objcCategories', node),
-          visitObjCMethod: (node) {
+          objCMethod: (node) {
             final kind = switch (node.parent) {
               ObjCInterface() => 'objcInterfaces',
               ObjCProtocol() => 'objcProtocols',

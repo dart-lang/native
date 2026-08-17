@@ -19,7 +19,7 @@ void main() {
     ),
     visitors: [
       Visitor(
-        visitFunc: (node) => node.isIncluded = true,
+        func: (node) => node.isIncluded = true,
       ),
     ],
     output: Output(
@@ -48,7 +48,7 @@ void main() {
     ),
     visitors: [
       Visitor(
-        visitFunc: (node) => node.isIncluded = true,
+        func: (node) => node.isIncluded = true,
       ),
     ],
     output: Output(

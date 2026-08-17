@@ -20,7 +20,7 @@ void main() {
         functions: Functions(recordUse: (decl) => true),
         visitors: [
           Visitor(
-            visitFunc: (node) {
+            func: (node) {
               node.isIncluded = true;
               if (node.name == 'sum') {
                 node.name = 'add';

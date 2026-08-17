@@ -14,13 +14,13 @@ void main() {
     enums: const Enums(silenceWarning: true),
     visitors: [
       Visitor(
-        visitFunc: (node) => node.isIncluded = {
+        func: (node) => node.isIncluded = {
           'ma_engine_init',
           'ma_engine_play_sound',
           'ma_engine_uninit',
         }.contains(node.name),
-        visitStruct: (node) => node.isIncluded = node.name == 'ma_engine',
-        visitEnum: (node) => node.isIncluded = node.name == 'ma_result',
+        struct: (node) => node.isIncluded = node.name == 'ma_engine',
+        enumClass: (node) => node.isIncluded = node.name == 'ma_result',
       ),
     ],
     output: Output(

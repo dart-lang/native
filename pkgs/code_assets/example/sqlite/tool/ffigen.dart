@@ -15,8 +15,7 @@ void main() {
     functions: Functions(recordUse: (_) => true),
     visitors: [
       Visitor(
-        visitFunc: (node) =>
-            node.isIncluded = node.name == 'sqlite3_libversion',
+        func: (node) => node.isIncluded = node.name == 'sqlite3_libversion',
       ),
     ],
     output: Output(
