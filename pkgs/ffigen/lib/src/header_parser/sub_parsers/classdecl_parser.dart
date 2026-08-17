@@ -114,14 +114,6 @@ List<CppClass> _parsePublicBases(Context context, clang_types.CXCursor cursor) {
   return bases;
 }
 
-String methodSignatureKey(CppMethod method, Context context) {
-  final paramTypes = method.parameters
-      .map((p) => p.type.getNativeType(context))
-      .join(',');
-  final constSuffix = method.isConstant ? ' const' : '';
-  return '${method.originalName}($paramTypes)$constSuffix';
-}
-
 void _parseAnyMethod(
   Context context,
   clang_types.CXCursor cursor,

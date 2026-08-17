@@ -24,7 +24,7 @@ class CppMethod extends AstNode with HasLocalScope {
   final bool isConstant;
   final bool isStatic;
   final CppMethodKind kind;
-  final String? originatingClass;
+  final CppClass? originatingClass;
 
   CppMethod({
     required this.name,
@@ -51,8 +51,14 @@ class CppMethod extends AstNode with HasLocalScope {
       isConstant: isConstant,
       isStatic: isStatic,
       kind: kind,
-      originatingClass: baseClass.originalName,
+      originatingClass: baseClass,
     );
+  }
+
+  String signatureKey() {
+    final paramTypes = parameters.map((p) => p.type.cacheKey()).join(',');
+    final constSuffix = isConstant ? ' const' : '';
+    return '$originalName($paramTypes)$constSuffix';
   }
 
   @override
@@ -64,6 +70,7 @@ class CppMethod extends AstNode with HasLocalScope {
     visitor.visit(name);
     visitor.visit(returnType);
     visitor.visitAll(parameters);
+    visitor.visit(originatingClass);
   }
 }
 
@@ -439,7 +446,8 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
             final otherParams = method.parameters.map(paramDecl);
 
             if (method.isStatic) {
-              final targetType = method.originatingClass ?? originalName;
+              final targetType =
+                  method.originatingClass?.originalName ?? originalName;
               params = otherParams.join(', ');
               body =
                   '$returnPrefix$targetType::'
@@ -453,7 +461,7 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
                   ? '.release()'
                   : '';
               if (method.originatingClass != null) {
-                final origClass = method.originatingClass;
+                final origClass = method.originatingClass!.originalName;
                 final castTarget = 'static_cast<$constPrefix$origClass*>(self)';
                 body =
                     '$returnPrefix$castTarget'

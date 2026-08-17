@@ -3,8 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../header_parser/sub_parsers/classdecl_parser.dart'
-    show methodSignatureKey;
 
 import 'ast.dart';
 
@@ -46,32 +44,28 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
   void visitCppClass(CppClass node) {
     node.visitChildren(visitor);
 
-    if (node.bases.isEmpty) return;
-
     final existingSignatures = node.methods
-        .map((m) => methodSignatureKey(m, node.context))
+        .map((m) => m.signatureKey())
         .toSet();
 
-    for (final base in node.bases) {
-      _copyCppMethodsFromBase(node, base, existingSignatures);
-    }
+    _copyCppMethodsFromBase(node, node, existingSignatures);
   }
 
   void _copyCppMethodsFromBase(
     CppClass target,
-    CppClass base,
+    CppClass current,
     Set<String> existingSignatures,
   ) {
-    for (final method in base.methods) {
+    for (final method in current.methods) {
       if (method.kind == CppMethodKind.constructor) continue;
-      final sigKey = methodSignatureKey(method, target.context);
-      if (existingSignatures.add(sigKey)) {
-        target.copyMethod(method, base);
+
+      if (existingSignatures.add(method.signatureKey())) {
+        target.copyMethod(method, current);
       }
     }
 
-    for (final grandBase in base.bases) {
-      _copyCppMethodsFromBase(target, grandBase, existingSignatures);
+    for (final base in current.bases) {
+      _copyCppMethodsFromBase(target, base, existingSignatures);
     }
   }
 
