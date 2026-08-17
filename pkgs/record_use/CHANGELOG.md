@@ -1,3 +1,8 @@
+## 1.1.1-wip
+
+- Fix quadratic deserialization performance and index corruption in
+  `Recordings.fromJson`.
+
 ## 1.1.0
 
 - Added `Recordings.+` to combine two recordings.

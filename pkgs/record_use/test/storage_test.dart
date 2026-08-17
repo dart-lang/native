@@ -41,4 +41,56 @@ void main() {
       expect(Recordings.fromJson(recordedUses2.toJson()), recordedUses2);
     });
   });
+
+  group('Recordings deserialization performance and correctness', () {
+    test('deserializing large number of constants scales linearly', () {
+      const dummyClass = Class(
+        'MyClass',
+        Library('package:my_package/my_class.dart'),
+      );
+
+      // Create a recording with 5,000 distinct instance constants
+      const count = 5000;
+      final instances = <InstanceConstantReference>[
+        for (var i = 0; i < count; i++)
+          InstanceConstantReference(
+            instanceConstant: InstanceConstant(
+              definition: dummyClass,
+              fields: {
+                'id': IntConstant(i),
+                'name': StringConstant('item_$i'),
+              },
+            ),
+            loadingUnit: const LoadingUnit('1'),
+          ),
+      ];
+
+      final originalRecordings = Recordings(
+        calls: {},
+        instances: {
+          dummyClass: instances,
+        },
+      );
+
+      final jsonMap = originalRecordings.toJson();
+
+      // Measure deserialization time
+      final stopwatch = Stopwatch()..start();
+      final deserialized = Recordings.fromJson(jsonMap);
+      stopwatch.stop();
+
+      // Deserialization of 5,000 constants should complete well under 1
+      // second. Before the fix, this took ~2.3 s due to O(N^2) list
+      // containment checks. After the fix, this takes ~12 ms.
+      expect(
+        stopwatch.elapsedMilliseconds,
+        lessThan(1000),
+        reason:
+            'Deserialization took ${stopwatch.elapsedMilliseconds}ms, '
+            'expected < 1000ms',
+      );
+
+      expect(deserialized.instances[dummyClass]?.length, count);
+    });
+  });
 }

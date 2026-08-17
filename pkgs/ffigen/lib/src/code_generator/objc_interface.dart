@@ -119,7 +119,8 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override
-  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCInterface(this);
+  public_ast.AstNode? toPublicAstNode() =>
+      isInternal ? null : public_ast.ObjCInterface(this);
 
   @override
   BindingString toBindingString(Writer w) {

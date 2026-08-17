@@ -19,7 +19,7 @@ void main() {
         input: Input(entryPoints: [Uri.file(headerFile)]),
         visitors: [
           Visitor(
-            visitFunc: (node) {
+            func: (node) {
               node.isIncluded = true;
               node.recordUse = true;
               if (node.name == 'sum') {

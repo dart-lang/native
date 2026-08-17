@@ -9,10 +9,13 @@ import 'package:ffigen/ffigen.dart';
 void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
-    input: Input(entryPoints: [packageRoot.resolve('third_party/stb_image.h')]),
-    functions: Functions(recordUse: (_) => true),
     visitors: [
-      Visitor(visitFunc: (node) => node.isIncluded = node.name == 'stbi_info'),
+      Visitor(
+        func: (node) {
+          node.isIncluded = node.name == 'stbi_info';
+          node.recordUse = true;
+        },
+      ),
     ],
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/stb_image.g.dart'),

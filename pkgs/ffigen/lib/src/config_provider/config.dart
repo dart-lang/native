@@ -65,7 +65,7 @@ final class FfiGenerator {
   /// Filtering declarations:
   /// ```dart
   /// Visitor(
-  ///   visitFunc: (node) {
+  ///   func: (node) {
   ///     if (node.name.startsWith('_')) {
   ///       node.isIncluded = false;
   ///     }
@@ -76,7 +76,7 @@ final class FfiGenerator {
   /// Renaming declarations:
   /// ```dart
   /// Visitor(
-  ///   visitStruct: (node) {
+  ///   struct: (node) {
   ///     if (node.name == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }

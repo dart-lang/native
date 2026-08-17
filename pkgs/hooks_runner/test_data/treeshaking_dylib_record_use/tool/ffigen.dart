@@ -14,12 +14,12 @@ void main() {
     input: Input(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
-    functions: Functions(
-      recordUse: (_) => true,
-    ),
     visitors: [
       Visitor(
-        visitFunc: (node) => node.isIncluded = true,
+        func: (node) {
+          node.isIncluded = true;
+          node.recordUse = true;
+        },
       ),
     ],
     output: Output(
@@ -43,12 +43,12 @@ void main() {
     input: Input(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
-    functions: Functions(
-      recordUse: (_) => true,
-    ),
     visitors: [
       Visitor(
-        visitFunc: (node) => node.isIncluded = true,
+        func: (node) {
+          node.isIncluded = true;
+          node.recordUse = true;
+        },
       ),
     ],
     output: Output(

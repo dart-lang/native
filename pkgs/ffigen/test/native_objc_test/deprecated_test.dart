@@ -50,35 +50,35 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
     ),
     visitors: [
       Visitor(
-        visitObjCInterface: (node) => node.isIncluded = {
+        objCInterface: (node) => node.isIncluded = {
           'DeprecatedInterfaceMethods',
           'DeprecatedInterface',
         }.contains(node.originalName),
-        visitObjCProtocol: (node) => node.isIncluded = {
+        objCProtocol: (node) => node.isIncluded = {
           'DeprecatedProtocolMethods',
           'DeprecatedProtocol',
         }.contains(node.originalName),
-        visitObjCCategory: (node) => node.isIncluded = {
+        objCCategory: (node) => node.isIncluded = {
           'DeprecatedCategoryMethods',
           'DeprecatedCategory',
         }.contains(node.originalName),
-        visitFunc: (node) => node.isIncluded = {
+        func: (node) => node.isIncluded = {
           'normalFunction',
           'deprecatedFunction',
         }.contains(node.originalName),
-        visitStruct: (node) => node.isIncluded = {
+        struct: (node) => node.isIncluded = {
           'NormalStruct',
           'DeprecatedStruct',
         }.contains(node.originalName),
-        visitUnion: (node) => node.isIncluded = {
+        union: (node) => node.isIncluded = {
           'NormalUnion',
           'DeprecatedUnion',
         }.contains(node.originalName),
-        visitEnum: (node) => node.isIncluded = {
+        enumClass: (node) => node.isIncluded = {
           'NormalEnum',
           'DeprecatedEnum',
         }.contains(node.originalName),
-        visitUnnamedEnumConstant: (node) => node.isIncluded = {
+        unnamedEnumConstant: (node) => node.isIncluded = {
           'normalUnnamedEnum',
           'deprecatedUnnamedEnum',
         }.contains(node.originalName),

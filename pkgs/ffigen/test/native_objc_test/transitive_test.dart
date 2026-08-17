@@ -58,15 +58,15 @@ String generate({
     ),
     visitors: [
       Visitor(
-        visitObjCInterface: (node) => node.isIncluded = {
+        objCInterface: (node) => node.isIncluded = {
           'DirectlyIncluded',
           'DirectlyIncludedWithProtocol',
           'DirectlyIncludedIntForCat',
           'Bug2935DirectInterface',
         }.contains(node.originalName),
-        visitObjCProtocol: (node) =>
+        objCProtocol: (node) =>
             node.isIncluded = node.originalName == 'DirectlyIncludedProtocol',
-        visitObjCCategory: (node) =>
+        objCCategory: (node) =>
             node.isIncluded = node.originalName == 'DirectlyIncludedCategory',
       ),
     ],

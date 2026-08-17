@@ -3,6 +3,7 @@
 - __Breaking change__: Major overhaul of Dart config API:
   - Replace various callback based config elements with a `Visitor` pattern.
     - `rename` and `renameMember` replaced with `.name` setters on AST nodes.
+    - `include` and `includeMember` replaced with `.isIncluded` on AST nodes.
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
   - Deleted empty `Integers` class
