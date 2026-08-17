@@ -1,5 +1,6 @@
 ## 0.19.4-wip
 
+- Fix [native_toolchain_c failing with MSSSMS installed](https://github.com/dart-lang/native/issues/3327) by requiring vswhere to only show output that includes the necessary build tools
 - Link frameworks for C and C++ sources targeting macOS or iOS.
   ([#3162](https://github.com/dart-lang/native/issues/3162))
 - Bump `package:code_assets` dependency to `^2.0.0`.
