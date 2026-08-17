@@ -11,8 +11,18 @@ import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-/// A constant defined by an unnamed enum.
-class UnnamedEnumConstant extends NoLookUpBinding {
+/// Base class for constants.
+///
+/// Expands to -
+/// ```dart
+/// const <type> <name> = <rawValue>;
+/// ```
+///
+/// Example -
+/// ```dart
+/// const int name = 10;
+/// ```
+abstract class Constant extends NoLookUpBinding {
   /// The rawType is pasted as it is. E.g 'int', 'String', 'double'
   final String rawType;
 
@@ -25,7 +35,7 @@ class UnnamedEnumConstant extends NoLookUpBinding {
 
   bool isIncluded = false;
 
-  UnnamedEnumConstant({
+  Constant({
     super.usr,
     super.originalName,
     required String name,
@@ -52,6 +62,19 @@ class UnnamedEnumConstant extends NoLookUpBinding {
       string: s.toString(),
     );
   }
+}
+
+/// A constant defined by an unnamed enum.
+class UnnamedEnumConstant extends Constant {
+  UnnamedEnumConstant({
+    super.usr,
+    super.originalName,
+    required super.name,
+    super.dartDoc,
+    required super.rawType,
+    required super.rawValue,
+    super.apiAvailability,
+  });
 
   @override
   public_ast.AstNode? toPublicAstNode() => public_ast.UnnamedEnumConstant(this);
@@ -62,46 +85,16 @@ class UnnamedEnumConstant extends NoLookUpBinding {
 }
 
 /// A constant defined by a macro.
-class MacroConstant extends NoLookUpBinding {
-  /// The rawType is pasted as it is. E.g 'int', 'String', 'double'
-  final String rawType;
-
-  /// The rawValue is pasted as it is.
-  ///
-  /// Put quotes if type is a string.
-  final String rawValue;
-
-  final ApiAvailability? apiAvailability;
-
-  bool isIncluded = false;
-
+class MacroConstant extends Constant {
   MacroConstant({
     super.usr,
     super.originalName,
-    required String name,
+    required super.name,
     super.dartDoc,
-    required this.rawType,
-    required this.rawValue,
-    this.apiAvailability,
-  }) : super(symbol: Symbol(name, SymbolKind.field));
-
-  @override
-  BindingString toBindingString(Writer w) {
-    final s = StringBuffer();
-    final constantName = name;
-
-    s.write(makeDartDoc(dartDoc));
-    final deprecatedAnnotation = apiAvailability?.deprecatedAnnotation;
-    if (deprecatedAnnotation != null) {
-      s.write('$deprecatedAnnotation\n');
-    }
-    s.write('\nconst $rawType $constantName = $rawValue;\n\n');
-
-    return BindingString(
-      type: BindingStringType.constant,
-      string: s.toString(),
-    );
-  }
+    required super.rawType,
+    required super.rawValue,
+    super.apiAvailability,
+  });
 
   @override
   public_ast.AstNode? toPublicAstNode() => public_ast.MacroConstant(this);
