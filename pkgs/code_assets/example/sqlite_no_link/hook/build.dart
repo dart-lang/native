@@ -23,6 +23,9 @@ void main(List<String> args) async {
             // Ensure symbols are exported in dll.
             'SQLITE_API': '__declspec(dllexport)',
         },
+        // No link hook: produce a dynamic library directly for the app bundle.
+        routing: [const ToAppBundle()],
+        linkModePreference: LinkModePreference.dynamic,
       );
     }
   });
