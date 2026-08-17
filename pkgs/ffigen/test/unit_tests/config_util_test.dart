@@ -9,21 +9,9 @@ Declaration decl(String name) => Declaration(usr: '', originalName: name);
 
 void main() {
   group('Declarations utils', () {
-    test('includeSet', () {
-      final includer = Declarations.includeSet({'foo', 'bar'});
-      expect(includer(decl('foo')), isTrue);
-      expect(includer(decl('bar')), isTrue);
-      expect(includer(decl('baz')), isFalse);
-    });
-
-    test('includeMemberSet', () {
-      final includer = Declarations.includeMemberSet({
-        'foo': {'bar'},
-      });
-      expect(includer(decl('foo'), 'bar'), isTrue);
-      expect(includer(decl('foo'), 'baz'), isFalse);
-      expect(includer(decl('goo'), 'bar'), isTrue);
-      expect(includer(decl('goo'), 'baz'), isTrue);
+    test('default includeSymbolAddress', () {
+      final decls = const Declarations();
+      expect(decls.includeSymbolAddress(decl('foo')), isFalse);
     });
   });
 }

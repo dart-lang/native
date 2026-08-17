@@ -33,6 +33,8 @@ class Constant extends NoLookUpBinding {
 
   final ApiAvailability? apiAvailability;
 
+  bool isIncluded = false;
+
   Constant({
     super.usr,
     super.originalName,
@@ -60,6 +62,9 @@ class Constant extends NoLookUpBinding {
       string: s.toString(),
     );
   }
+
+  @override
+  public_ast.AstNode? toPublicAstNode() => public_ast.Constant(this);
 
   @override
   void visit(Visitation visitation) => visitation.visitConstant(this);

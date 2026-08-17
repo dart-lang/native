@@ -59,6 +59,8 @@ class EnumClass extends BindingType with HasLocalScope {
 
   final ApiAvailability? apiAvailability;
 
+  bool isIncluded = false;
+
   EnumClass({
     super.usr,
     super.originalName,

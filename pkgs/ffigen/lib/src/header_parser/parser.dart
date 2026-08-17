@@ -185,19 +185,19 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
-  final nodes = rawBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
-  for (final visitor in config.visitors) {
-    visitor.visitAll(nodes);
-  }
-
   final allBindings = visit(
     context,
-    FindTransitiveDepsVisitation(),
+    FindTransitiveDepsVisitation(rawBindings),
     rawBindings,
   ).transitives;
 
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+
+  final nodes = allBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
+  for (final visitor in config.visitors) {
+    visitor.visitAll(nodes);
+  }
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
   visit(context, applyConfigFiltersVisitation, allBindings);
@@ -219,7 +219,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
 
   final transitives = visit(
     context,
-    FindTransitiveDepsVisitation(),
+    FindTransitiveDepsVisitation(included),
     included,
   ).transitives;
   final directTransitives = visit(

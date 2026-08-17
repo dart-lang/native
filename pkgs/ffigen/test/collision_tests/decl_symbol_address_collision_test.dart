@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:test/test.dart';
 
@@ -19,12 +20,16 @@ void main() {
             dartFile: Uri.file('unused'),
             style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
-          functions: Functions.includeAll,
-          structs: Structs.includeAll,
-          enums: Enums.includeAll,
-          globals: Globals.includeAll,
-          macros: Macros.includeAll,
-          typedefs: Typedefs.includeAll,
+          visitors: [
+            public_ast.Visitor(
+              func: (node) => node.isIncluded = true,
+              struct: (node) => node.isIncluded = true,
+              enumClass: (node) => node.isIncluded = true,
+              global: (node) => node.isIncluded = true,
+              macroConstant: (node) => node.isIncluded = true,
+              typealias: (node) => node.isIncluded = true,
+            ),
+          ],
         ),
       );
       actual = Library(

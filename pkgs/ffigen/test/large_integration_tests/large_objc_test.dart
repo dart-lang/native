@@ -39,21 +39,16 @@ void main() {
     // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
     const inclusionRatio = 0.1;
     const seed = 1234;
-    bool randInclude(String kind, Declaration declaration, [String? member]) =>
+    bool randInclude(String kind, DeclNode declaration, [String? member]) =>
         fnvHash32('$seed.$kind.${declaration.usr}.$member') <
         ((1 << 32) * inclusionRatio);
-    bool Function(Declaration clazz) includeRandom(
-      String kind, [
+    bool stableRandomInclude(
+      String kind,
+      DeclNode declaration, [
       Set<String> forceIncludes = const {},
     ]) =>
-        (Declaration declaration) =>
-            forceIncludes.contains(declaration.originalName) ||
-            randInclude(kind, declaration);
-    bool Function(Declaration declaration, String member) includeMemberRandom(
-      String kind,
-    ) =>
-        (Declaration clazz, String method) =>
-            randInclude('$kind.memb', clazz, method);
+        forceIncludes.contains(declaration.originalName) ||
+        randInclude(kind, declaration);
 
     final outFile = path.join(
       packagePathForTests,
@@ -94,44 +89,61 @@ void main() {
 // ignore_for_file: unused_field
 ''',
       ),
-      functions: () {
-        return Functions(include: includeRandom('functionDecl'));
-      }(),
-      structs: () {
-        return Structs(include: includeRandom('structDecl'));
-      }(),
-      unions: () {
-        return Unions(include: includeRandom('unionDecl'));
-      }(),
-      enums: () {
-        return Enums(include: includeRandom('enums'));
-      }(),
-      unnamedEnums: () {
-        return UnnamedEnums(include: includeRandom('unnamedEnumConstants'));
-      }(),
-      globals: Globals(include: includeRandom('globals')),
-      typedefs: Typedefs(include: includeRandom('typedefs')),
       objectiveC: ObjectiveC(
-        interfaces: Interfaces(
-          include: includeRandom('objcInterfaces'),
-          includeMember: includeMemberRandom('objcInterfaces'),
-          includeTransitive: false,
-        ),
-        protocols: Protocols(
-          include: includeRandom('objcProtocols', forceIncludedProtocols),
-          includeMember: includeMemberRandom('objcProtocols'),
-          includeTransitive: false,
-        ),
-        categories: Categories(
-          include: includeRandom('objcCategories'),
-          includeMember: includeMemberRandom('objcCategories'),
-          includeTransitive: false,
-        ),
+        interfaces: const Interfaces(includeTransitive: false),
+        protocols: const Protocols(includeTransitive: false),
+        categories: const Categories(includeTransitive: false),
         externalVersions: ExternalVersions(
           ios: Versions(min: Version(12, 0, 0)),
           macos: Versions(min: Version(10, 14, 0)),
         ),
       ),
+      visitors: [
+        Visitor(
+          func: (node) =>
+              node.isIncluded = stableRandomInclude('functionDecl', node),
+          struct: (node) =>
+              node.isIncluded = stableRandomInclude('structDecl', node),
+          union: (node) =>
+              node.isIncluded = stableRandomInclude('unionDecl', node),
+          enumClass: (node) =>
+              node.isIncluded = stableRandomInclude('enums', node),
+          unnamedEnumConstant: (node) => node.isIncluded = stableRandomInclude(
+            'unnamedEnumConstants',
+            node,
+          ),
+          global: (node) =>
+              node.isIncluded = stableRandomInclude('globals', node),
+          typealias: (node) =>
+              node.isIncluded = stableRandomInclude('typedefs', node),
+          macroConstant: (node) => node.isIncluded = false,
+          constant: (node) => node.isIncluded = false,
+          objCInterface: (node) =>
+              node.isIncluded = stableRandomInclude('objcInterfaces', node),
+          objCProtocol: (node) => node.isIncluded = stableRandomInclude(
+            'objcProtocols',
+            node,
+            forceIncludedProtocols,
+          ),
+          objCCategory: (node) =>
+              node.isIncluded = stableRandomInclude('objcCategories', node),
+          objCMethod: (node) {
+            final kind = switch (node.parent) {
+              ObjCInterface() => 'objcInterfaces',
+              ObjCProtocol() => 'objcProtocols',
+              ObjCCategory() => 'objcCategories',
+              _ => null,
+            };
+            if (kind != null) {
+              node.isIncluded = randInclude(
+                '$kind.memb',
+                node.parent,
+                node.originalName,
+              );
+            }
+          },
+        ),
+      ],
     );
 
     final timer = Stopwatch()..start();
@@ -159,6 +171,10 @@ void main() {
         '-shared',
         '-framework',
         'Foundation',
+        '-framework',
+        'AppKit',
+        '-framework',
+        'WebKit',
         '-o',
         '/dev/null',
       ]),

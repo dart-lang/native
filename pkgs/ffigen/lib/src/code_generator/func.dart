@@ -64,6 +64,8 @@ class Func extends LookUpBinding with HasLocalScope {
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
   Typealias? _exposedFunctionTypealias;
 
+  bool isIncluded = false;
+
   /// [originalName] is looked up in dynamic library, if not
   /// provided, takes the value of [name].
   Func({

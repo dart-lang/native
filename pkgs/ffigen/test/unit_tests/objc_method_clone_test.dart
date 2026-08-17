@@ -18,10 +18,7 @@ void main() {
     );
     final config = FfiGenerator(
       output: Output(dartFile: Uri.file('unused')),
-      objectiveC: const ObjectiveC(
-        interfaces: Interfaces.includeAll,
-        categories: Categories.includeAll,
-      ),
+      objectiveC: const ObjectiveC(),
     );
     late Context context;
     final voidType = NativeType(SupportedNativeType.voidType);

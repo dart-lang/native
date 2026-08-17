@@ -212,6 +212,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
   Symbol? protocolMethodName;
   ObjCMethods? parent;
   ObjCMethod? setter;
+  bool isIncluded = true;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -350,6 +351,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     );
     clonedMethod.parent = parent;
     clonedMethod.protocolMethodName = protocolMethodName?.clone();
+    clonedMethod.isIncluded = isIncluded;
     return clonedMethod;
   }
 
@@ -364,6 +366,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
         clonedSymbol,
         parent: parent,
       );
+      clonedSetter.isIncluded = clonedMethod.isIncluded;
       clonedMethod.setter = clonedSetter;
     }
     return clonedMethod;

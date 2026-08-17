@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Declarations;
 import '../context.dart';
 
 import 'ast.dart';
@@ -14,53 +13,47 @@ class ApplyConfigFiltersVisitation extends Visitation {
   final indirectlyIncluded = <Binding>{};
   ApplyConfigFiltersVisitation(this.context);
 
-  void _visitImpl(Binding node, Declarations filters) {
+  void _visitImpl(Binding node, bool isIncluded) {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (context.config.importType(node) != null) return;
-    if (filters.include(node)) directlyIncluded.add(node);
+    if (isIncluded) directlyIncluded.add(node);
   }
 
   @override
-  void visitStruct(Struct node) => _visitImpl(node, context.config.structs);
+  void visitStruct(Struct node) => _visitImpl(node, node.isIncluded);
 
   @override
-  void visitUnion(Union node) => _visitImpl(node, context.config.unions);
+  void visitUnion(Union node) => _visitImpl(node, node.isIncluded);
 
   @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
-    _visitImpl(node, context.config.enums);
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
   void visitCppClass(CppClass node) {
-    final cppClasses = context.config.cpp?.classes;
-    if (cppClasses == null) return;
-    _visitImpl(node, cppClasses);
+    if (context.config.cpp == null) return;
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
-  void visitFunc(Func node) => _visitImpl(node, context.config.functions);
+  void visitFunc(Func node) => _visitImpl(node, node.isIncluded);
 
   @override
   void visitMacroConstant(MacroConstant node) =>
-      _visitImpl(node, context.config.macros);
+      _visitImpl(node, node.isIncluded);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
     if (node.unavailable) return;
-    final objcInterfaces = context.config.objectiveC?.interfaces;
-    if (objcInterfaces == null) return;
+    if (context.config.objectiveC == null) return;
 
     if (!node.isInternal) {
-      node.filterMethods(
-        (m) =>
-            !m.unavailable &&
-            objcInterfaces.includeMember(node, m.originalName),
-      );
+      node.filterMethods((m) => !m.unavailable && m.isIncluded);
     }
-    _visitImpl(node, objcInterfaces);
+    _visitImpl(node, node.isIncluded);
 
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
@@ -72,21 +65,20 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    final objcCategories = context.config.objectiveC?.categories;
-    if (objcCategories == null) return;
+    if (context.config.objectiveC == null) return;
+
     node.filterMethods((m) {
       if (m.unavailable) return false;
       if (node.shouldCopyMethodToInterface(m)) return false;
-      return objcCategories.includeMember(node, m.originalName);
+      return m.isIncluded;
     });
-    _visitImpl(node, objcCategories);
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     if (node.unavailable) return;
-    final objcProtocols = context.config.objectiveC?.protocols;
-    if (objcProtocols == null) return;
+    if (context.config.objectiveC == null) return;
 
     node.filterMethods((m) {
       // TODO(https://github.com/dart-lang/native/issues/1149): Support class
@@ -96,28 +88,28 @@ class ApplyConfigFiltersVisitation extends Visitation {
       if (m.unavailable) return false;
       if (m.isClassMethod) return false;
 
-      return objcProtocols.includeMember(node, m.originalName);
+      return m.isIncluded;
     });
-    _visitImpl(node, objcProtocols);
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      _visitImpl(node, context.config.unnamedEnums);
+      _visitImpl(node, node.isIncluded);
 
   @override
-  void visitGlobal(Global node) => _visitImpl(node, context.config.globals);
+  void visitGlobal(Global node) => _visitImpl(node, node.isIncluded);
 
   @override
   void visitConstant(Constant node) {
     // MacroConstant and UnnamedEnumConstant have their own overrides, so this
     // only applies to base Constants (e.g. from static const variables).
-    _visitImpl(node, context.config.globals);
+    _visitImpl(node, node.isIncluded);
   }
 
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    _visitImpl(node, context.config.typedefs);
+    _visitImpl(node, node.isIncluded);
   }
 }

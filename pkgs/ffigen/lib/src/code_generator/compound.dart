@@ -44,6 +44,8 @@ abstract class Compound extends BindingType with HasLocalScope {
   /// incomplete, opaque, or has an unknown layout at parse time.
   final int? sizeInBytes;
 
+  bool isIncluded = false;
+
   Compound({
     super.usr,
     super.originalName,

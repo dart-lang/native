@@ -140,6 +140,10 @@ void main() {
       )..addMethod(objcMethod);
 
       final rawBindings = <Binding>[func, struct, enumClass, objcInterface];
+      func.isIncluded = true;
+      struct.isIncluded = true;
+      enumClass.isIncluded = true;
+      objcInterface.isIncluded = true;
       final nodes = rawBindings
           .map((b) => b.toPublicAstNode())
           .nonNulls
@@ -466,19 +470,19 @@ objc-interfaces:
       final visitedParams = <String>[];
 
       final visitor = public_ast.Visitor(
-        visitFunc: (node) {
+        func: (node) {
           visitedFuncs.add(node.name);
           if (node.name == 'c_foo') {
             node.name = 'dartFoo';
           }
         },
-        visitStruct: (node) {
+        struct: (node) {
           visitedStructs.add(node.name);
           if (node.name == 'c_struct') {
             node.name = 'DartStruct';
           }
         },
-        visitParam: (node) {
+        param: (node) {
           visitedParams.add(node.name);
           if (node.name == 'arg_0') {
             node.name = 'renamedArg0';
@@ -486,10 +490,13 @@ objc-interfaces:
         },
       );
 
-      final nodes = <Binding>[
-        func,
-        struct,
-      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+      final rawBindings = <Binding>[func, struct];
+      func.isIncluded = true;
+      struct.isIncluded = true;
+      final nodes = rawBindings
+          .map((b) => b.toPublicAstNode())
+          .nonNulls
+          .toList();
       visitor.visitAll(nodes);
 
       expect(visitedFuncs, ['c_foo']);

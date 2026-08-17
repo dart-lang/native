@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/imports.dart';
-import 'package:ffigen/src/config_provider/config.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart';
 import 'package:logging/logging.dart';
@@ -63,14 +62,21 @@ void main() {
             'Index.h',
           ].any((filename) => header.pathSegments.last == filename),
         ),
-        functions: Functions.includeAll,
-        structs: Structs.includeAll,
-        enums: Enums.includeAll,
-        macros: Macros.includeAll,
-        typedefs: Typedefs(include: (_) => true),
         importType: (decl) => decl.originalName == 'time_t'
             ? ImportedType(ffiImport, 'Int64', 'int', 'time_t')
             : null,
+        visitors: [
+          Visitor(
+            func: (node) => node.isIncluded = true,
+            struct: (node) => node.isIncluded = true,
+            union: (node) => node.isIncluded = true,
+            enumClass: (node) => node.isIncluded = true,
+            unnamedEnumConstant: (node) => node.isIncluded = true,
+            global: (node) => node.isIncluded = true,
+            macroConstant: (node) => node.isIncluded = true,
+            typealias: (node) => node.isIncluded = true,
+          ),
+        ],
       );
       final library = parse(Context(logger, generator));
       final context = testContext();
@@ -147,10 +153,18 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'cJSON.h',
         ),
-        functions: Functions.includeAll,
-        structs: Structs.includeAll,
-        macros: Macros.includeAll,
-        typedefs: Typedefs.includeAll,
+        visitors: [
+          Visitor(
+            func: (node) => node.isIncluded = true,
+            struct: (node) => node.isIncluded = true,
+            union: (node) => node.isIncluded = true,
+            enumClass: (node) => node.isIncluded = true,
+            unnamedEnumConstant: (node) => node.isIncluded = true,
+            global: (node) => node.isIncluded = true,
+            macroConstant: (node) => node.isIncluded = true,
+            typealias: (node) => node.isIncluded = true,
+          ),
+        ],
       );
       final context = testContext(generator);
       final library = parse(context);
@@ -188,21 +202,41 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'sqlite3.h',
         ),
-        functions: Functions(
-          include: (declaration) => !{
-            'sqlite3_vmprintf',
-            'sqlite3_vsnprintf',
-            'sqlite3_str_vappendf',
-          }.contains(declaration.originalName),
-        ),
-        structs: Structs(
-          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
-        ),
-        globals: Globals.includeAll,
-        macros: Macros.includeAll,
-        typedefs: Typedefs(
-          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
-        ),
+        structs: const Structs(dependencies: CompoundDependencies.full),
+        visitors: [
+          Visitor(
+            func: (node) {
+              if ({
+                'sqlite3_vmprintf',
+                'sqlite3_vsnprintf',
+                'sqlite3_str_vappendf',
+              }.contains(node.originalName)) {
+                node.isIncluded = false;
+              } else {
+                node.isIncluded = true;
+              }
+            },
+            struct: (node) {
+              if (vaRegex.hasMatch(node.originalName)) {
+                node.isIncluded = false;
+              } else {
+                node.isIncluded = true;
+              }
+            },
+            typealias: (node) {
+              if (vaRegex.hasMatch(node.originalName)) {
+                node.isIncluded = false;
+              } else {
+                node.isIncluded = true;
+              }
+            },
+            union: (node) => node.isIncluded = true,
+            enumClass: (node) => node.isIncluded = true,
+            unnamedEnumConstant: (node) => node.isIncluded = true,
+            global: (node) => node.isIncluded = true,
+            macroConstant: (node) => node.isIncluded = true,
+          ),
+        ],
       );
       final context = testContext(generator);
       final library = parse(context);

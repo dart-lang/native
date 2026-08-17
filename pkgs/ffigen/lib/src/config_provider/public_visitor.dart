@@ -49,7 +49,7 @@ abstract base class Visitor {
   /// Filtering declarations:
   /// ```dart
   /// Visitor(
-  ///   visitFunc: (node) {
+  ///   func: (node) {
   ///     if (node.name.startsWith('_')) {
   ///       node.isIncluded = false;
   ///     }
@@ -60,7 +60,7 @@ abstract base class Visitor {
   /// Renaming declarations:
   /// ```dart
   /// Visitor(
-  ///   visitStruct: (node) {
+  ///   struct: (node) {
   ///     if (node.name == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
@@ -68,23 +68,24 @@ abstract base class Visitor {
   /// )
   /// ```
   factory Visitor({
-    void Function(Func) visitFunc,
-    void Function(Struct) visitStruct,
-    void Function(Union) visitUnion,
-    void Function(EnumClass) visitEnum,
-    void Function(Global) visitGlobal,
-    void Function(MacroConstant) visitMacro,
-    void Function(Typealias) visitTypealias,
-    void Function(ObjCInterface) visitObjCInterface,
-    void Function(ObjCProtocol) visitObjCProtocol,
-    void Function(ObjCCategory) visitObjCCategory,
-    void Function(CppClass) visitCppClass,
-    void Function(Field) visitField,
-    void Function(EnumConstant) visitEnumConstant,
-    void Function(UnnamedEnumConstant) visitUnnamedEnumConstant,
-    void Function(Param) visitParam,
-    void Function(ObjCMethod) visitObjCMethod,
-    void Function(CppMethod) visitCppMethod,
+    void Function(Func) func,
+    void Function(Struct) struct,
+    void Function(Union) union,
+    void Function(EnumClass) enumClass,
+    void Function(Global) global,
+    void Function(Constant) constant,
+    void Function(MacroConstant) macroConstant,
+    void Function(Typealias) typealias,
+    void Function(ObjCInterface) objCInterface,
+    void Function(ObjCProtocol) objCProtocol,
+    void Function(ObjCCategory) objCCategory,
+    void Function(CppClass) cppClass,
+    void Function(Field) field,
+    void Function(EnumConstant) enumConstant,
+    void Function(UnnamedEnumConstant) unnamedEnumConstant,
+    void Function(Param) param,
+    void Function(ObjCMethod) objCMethod,
+    void Function(CppMethod) cppMethod,
   }) = _CallbackVisitor;
 
   void visitAll(Iterable<AstNode> nodes) {
@@ -98,6 +99,7 @@ abstract base class Visitor {
   void visitUnion(Union node) {}
   void visitEnum(EnumClass node) {}
   void visitGlobal(Global node) {}
+  void visitConstant(Constant node) {}
   void visitMacro(MacroConstant node) {}
   void visitTypealias(Typealias node) {}
   void visitObjCInterface(ObjCInterface node) {}
@@ -113,112 +115,118 @@ abstract base class Visitor {
 }
 
 final class _CallbackVisitor extends Visitor {
-  final void Function(Func) _visitFunc;
-  final void Function(Struct) _visitStruct;
-  final void Function(Union) _visitUnion;
-  final void Function(EnumClass) _visitEnum;
-  final void Function(Global) _visitGlobal;
-  final void Function(MacroConstant) _visitMacro;
-  final void Function(Typealias) _visitTypealias;
-  final void Function(ObjCInterface) _visitObjCInterface;
-  final void Function(ObjCProtocol) _visitObjCProtocol;
-  final void Function(ObjCCategory) _visitObjCCategory;
-  final void Function(CppClass) _visitCppClass;
-  final void Function(Field) _visitField;
-  final void Function(EnumConstant) _visitEnumConstant;
-  final void Function(UnnamedEnumConstant) _visitUnnamedEnumConstant;
-  final void Function(Param) _visitParam;
-  final void Function(ObjCMethod) _visitObjCMethod;
-  final void Function(CppMethod) _visitCppMethod;
+  final void Function(Func) _func;
+  final void Function(Struct) _struct;
+  final void Function(Union) _union;
+  final void Function(EnumClass) _enumClass;
+  final void Function(Global) _global;
+  final void Function(Constant) _constant;
+  final void Function(MacroConstant) _macroConstant;
+  final void Function(Typealias) _typealias;
+  final void Function(ObjCInterface) _objCInterface;
+  final void Function(ObjCProtocol) _objCProtocol;
+  final void Function(ObjCCategory) _objCCategory;
+  final void Function(CppClass) _cppClass;
+  final void Function(Field) _field;
+  final void Function(EnumConstant) _enumConstant;
+  final void Function(UnnamedEnumConstant) _unnamedEnumConstant;
+  final void Function(Param) _param;
+  final void Function(ObjCMethod) _objCMethod;
+  final void Function(CppMethod) _cppMethod;
 
   const _CallbackVisitor({
-    void Function(Func) visitFunc = _defaultVisit,
-    void Function(Struct) visitStruct = _defaultVisit,
-    void Function(Union) visitUnion = _defaultVisit,
-    void Function(EnumClass) visitEnum = _defaultVisit,
-    void Function(Global) visitGlobal = _defaultVisit,
-    void Function(MacroConstant) visitMacro = _defaultVisit,
-    void Function(Typealias) visitTypealias = _defaultVisit,
-    void Function(ObjCInterface) visitObjCInterface = _defaultVisit,
-    void Function(ObjCProtocol) visitObjCProtocol = _defaultVisit,
-    void Function(ObjCCategory) visitObjCCategory = _defaultVisit,
-    void Function(CppClass) visitCppClass = _defaultVisit,
-    void Function(Field) visitField = _defaultVisit,
-    void Function(EnumConstant) visitEnumConstant = _defaultVisit,
-    void Function(UnnamedEnumConstant) visitUnnamedEnumConstant = _defaultVisit,
-    void Function(Param) visitParam = _defaultVisit,
-    void Function(ObjCMethod) visitObjCMethod = _defaultVisit,
-    void Function(CppMethod) visitCppMethod = _defaultVisit,
-  }) : _visitFunc = visitFunc,
-       _visitStruct = visitStruct,
-       _visitUnion = visitUnion,
-       _visitEnum = visitEnum,
-       _visitGlobal = visitGlobal,
-       _visitMacro = visitMacro,
-       _visitTypealias = visitTypealias,
-       _visitObjCInterface = visitObjCInterface,
-       _visitObjCProtocol = visitObjCProtocol,
-       _visitObjCCategory = visitObjCCategory,
-       _visitCppClass = visitCppClass,
-       _visitField = visitField,
-       _visitEnumConstant = visitEnumConstant,
-       _visitUnnamedEnumConstant = visitUnnamedEnumConstant,
-       _visitParam = visitParam,
-       _visitObjCMethod = visitObjCMethod,
-       _visitCppMethod = visitCppMethod,
+    void Function(Func) func = _defaultVisit,
+    void Function(Struct) struct = _defaultVisit,
+    void Function(Union) union = _defaultVisit,
+    void Function(EnumClass) enumClass = _defaultVisit,
+    void Function(Global) global = _defaultVisit,
+    void Function(Constant) constant = _defaultVisit,
+    void Function(MacroConstant) macroConstant = _defaultVisit,
+    void Function(Typealias) typealias = _defaultVisit,
+    void Function(ObjCInterface) objCInterface = _defaultVisit,
+    void Function(ObjCProtocol) objCProtocol = _defaultVisit,
+    void Function(ObjCCategory) objCCategory = _defaultVisit,
+    void Function(CppClass) cppClass = _defaultVisit,
+    void Function(Field) field = _defaultVisit,
+    void Function(EnumConstant) enumConstant = _defaultVisit,
+    void Function(UnnamedEnumConstant) unnamedEnumConstant = _defaultVisit,
+    void Function(Param) param = _defaultVisit,
+    void Function(ObjCMethod) objCMethod = _defaultVisit,
+    void Function(CppMethod) cppMethod = _defaultVisit,
+  }) : _func = func,
+       _struct = struct,
+       _union = union,
+       _enumClass = enumClass,
+       _global = global,
+       _constant = constant,
+       _macroConstant = macroConstant,
+       _typealias = typealias,
+       _objCInterface = objCInterface,
+       _objCProtocol = objCProtocol,
+       _objCCategory = objCCategory,
+       _cppClass = cppClass,
+       _field = field,
+       _enumConstant = enumConstant,
+       _unnamedEnumConstant = unnamedEnumConstant,
+       _param = param,
+       _objCMethod = objCMethod,
+       _cppMethod = cppMethod,
        super.base();
 
   static void _defaultVisit(Object _) {}
 
   @override
-  void visitFunc(Func node) => _visitFunc(node);
+  void visitFunc(Func node) => _func(node);
 
   @override
-  void visitStruct(Struct node) => _visitStruct(node);
+  void visitStruct(Struct node) => _struct(node);
 
   @override
-  void visitUnion(Union node) => _visitUnion(node);
+  void visitUnion(Union node) => _union(node);
 
   @override
-  void visitEnum(EnumClass node) => _visitEnum(node);
+  void visitEnum(EnumClass node) => _enumClass(node);
 
   @override
-  void visitGlobal(Global node) => _visitGlobal(node);
+  void visitGlobal(Global node) => _global(node);
 
   @override
-  void visitMacro(MacroConstant node) => _visitMacro(node);
+  void visitConstant(Constant node) => _constant(node);
 
   @override
-  void visitTypealias(Typealias node) => _visitTypealias(node);
+  void visitMacro(MacroConstant node) => _macroConstant(node);
 
   @override
-  void visitObjCInterface(ObjCInterface node) => _visitObjCInterface(node);
+  void visitTypealias(Typealias node) => _typealias(node);
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) => _visitObjCProtocol(node);
+  void visitObjCInterface(ObjCInterface node) => _objCInterface(node);
 
   @override
-  void visitObjCCategory(ObjCCategory node) => _visitObjCCategory(node);
+  void visitObjCProtocol(ObjCProtocol node) => _objCProtocol(node);
 
   @override
-  void visitCppClass(CppClass node) => _visitCppClass(node);
+  void visitObjCCategory(ObjCCategory node) => _objCCategory(node);
 
   @override
-  void visitField(Field node) => _visitField(node);
+  void visitCppClass(CppClass node) => _cppClass(node);
 
   @override
-  void visitEnumConstant(EnumConstant node) => _visitEnumConstant(node);
+  void visitField(Field node) => _field(node);
+
+  @override
+  void visitEnumConstant(EnumConstant node) => _enumConstant(node);
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      _visitUnnamedEnumConstant(node);
+      _unnamedEnumConstant(node);
 
   @override
-  void visitParam(Param node) => _visitParam(node);
+  void visitParam(Param node) => _param(node);
 
   @override
-  void visitObjCMethod(ObjCMethod node) => _visitObjCMethod(node);
+  void visitObjCMethod(ObjCMethod node) => _objCMethod(node);
 
   @override
-  void visitCppMethod(CppMethod node) => _visitCppMethod(node);
+  void visitCppMethod(CppMethod node) => _cppMethod(node);
 }

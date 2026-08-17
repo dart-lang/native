@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/ffigen.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -51,9 +51,15 @@ void main() {
           ],
           compilerOptions: defaultCppCompilerOptions,
         ),
-        cpp: Cpp(
-          classes: CppClasses.includeSet({'Animal', 'FinalizerTestSubject'}),
-        ),
+        cpp: const Cpp(),
+        visitors: [
+          Visitor(
+            cppClass: (node) => node.isIncluded = {
+              'Animal',
+              'FinalizerTestSubject',
+            }.contains(node.originalName),
+          ),
+        ],
       ),
       'memory_edge_cases': FfiGenerator(
         output: Output(
@@ -68,13 +74,16 @@ void main() {
           ],
           compilerOptions: defaultCppCompilerOptions,
         ),
-        cpp: Cpp(
-          classes: CppClasses.includeSet({
-            'Node',
-            'NodeManager',
-            'NodeContainer',
-          }),
-        ),
+        cpp: const Cpp(),
+        visitors: [
+          Visitor(
+            cppClass: (node) => node.isIncluded = {
+              'Node',
+              'NodeManager',
+              'NodeContainer',
+            }.contains(node.originalName),
+          ),
+        ],
       ),
     };
 

@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
-import '../../config_provider/config.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -13,22 +12,10 @@ import 'api_availability.dart';
 Compound? parseStructDeclaration(
   clang_types.CXCursor cursor,
   Context context,
-) => _parseCompoundDeclaration(
-  cursor,
-  context,
-  'Struct',
-  context.config.structs,
-  Struct.new,
-);
+) => _parseCompoundDeclaration(cursor, context, 'Struct', Struct.new);
 
 Compound? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
-    _parseCompoundDeclaration(
-      cursor,
-      context,
-      'Union',
-      context.config.unions,
-      Union.new,
-    );
+    _parseCompoundDeclaration(cursor, context, 'Union', Union.new);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -94,7 +81,6 @@ Compound? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   Context context,
   String className,
-  Declarations configDecl,
   Compound Function({
     String? usr,
     String? originalName,
