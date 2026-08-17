@@ -132,10 +132,7 @@ extension type ChildOfNSString._(objc.ObjCObject object\$)
         bindings,
         isNot(contains('excludedCategoryStaticNonInstancetypeMethod')),
       );
-      expect(
-        bindings,
-        isNot(contains('excludedCategoryInstancetypeMethod')),
-      );
+      expect(bindings, isNot(contains('excludedCategoryInstancetypeMethod')));
       expect(
         bindings,
         isNot(contains('excludedCategoryStaticInstancetypeMethod')),

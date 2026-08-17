@@ -260,17 +260,11 @@ void main() {
       final catMethod = makeMethod('catMethod', instanceType, []);
       final parent = makeInterface('Parent', null, []);
       final child = makeInterface('Child', parent, []);
-      final category = makeCategory(
-        'ExcludedCategory',
-        parent,
-        [catMethod],
-        isIncluded: false,
-      );
+      final category = makeCategory('ExcludedCategory', parent, [
+        catMethod,
+      ], isIncluded: false);
 
-      final bindings = transformBindings(
-        [parent, child, category],
-        context,
-      );
+      final bindings = transformBindings([parent, child, category], context);
 
       expect(bindings, contains(parent));
       expect(bindings, contains(child));
@@ -302,17 +296,12 @@ void main() {
         );
         final parent = makeInterface('Parent', null, []);
         final child = makeInterface('Child', parent, []);
-        final category = makeCategory(
-          'IncludedCategory',
-          parent,
-          [includedMethod, excludedMethod],
-          isIncluded: true,
-        );
+        final category = makeCategory('IncludedCategory', parent, [
+          includedMethod,
+          excludedMethod,
+        ], isIncluded: true);
 
-        final bindings = transformBindings(
-          [parent, child, category],
-          context,
-        );
+        final bindings = transformBindings([parent, child, category], context);
 
         expect(bindings, contains(parent));
         expect(bindings, contains(child));
@@ -342,12 +331,9 @@ void main() {
       () {
         final anonMethod = makeMethod('anonMethod', instanceType, []);
         final parent = makeInterface('Parent', null, []);
-        final category = makeCategory(
-          '',
-          parent,
-          [anonMethod],
-          isIncluded: false,
-        );
+        final category = makeCategory('', parent, [
+          anonMethod,
+        ], isIncluded: false);
 
         final bindings = transformBindings([parent, category], context);
 
