@@ -64,11 +64,8 @@ class Library {
         : null;
 
     for (final binding in bindings) {
-      if (binding is LookUpBinding) {
-        if (binding is Global && binding.isConst) {
-          noLookUpBindings.add(binding);
-          continue;
-        }
+      // All LookUpBindings are look-up bindings, except const Globals.
+      if (binding is LookUpBinding && !(binding is Global && binding.isConst)) {
         final loadFromNativeAsset = binding.loadFromNativeAsset;
 
         // At the moment, all bindings share their native config.
