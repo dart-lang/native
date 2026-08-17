@@ -21,65 +21,34 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
   if (bindingsIndex.isSeenGlobalVar(usr)) {
     return bindingsIndex.getSeenGlobalVar(usr);
   }
-  if (bindingsIndex.isSeenVariableConstant(usr)) {
-    return bindingsIndex.getSeenVariableConstant(usr);
-  }
 
   final decl = Declaration(usr: usr, originalName: name);
   final cType = cursor.type();
 
-  // Try to evaluate as a constant first,
-  // unless the config asks for the variable's address.
-  if (cType.isConstQualified && !config.globals.includeSymbolAddress(decl)) {
+  ConstantValue? constantValue;
+  if (cType.isConstQualified) {
     final evalResult = clang.clang_Cursor_Evaluate(cursor);
     final evalKind = clang.clang_EvalResult_getKind(evalResult);
-    Constant? constant;
 
     switch (evalKind) {
       case clang_types.CXEvalResultKind.CXEval_Int:
         final value = clang.clang_EvalResult_getAsLongLong(evalResult);
-        constant = Constant(
-          usr: usr,
-          originalName: name,
-          name: name,
-          dartDoc: getCursorDocComment(context, cursor),
-          rawType: 'int',
-          rawValue: value.toString(),
-        );
+        constantValue = ConstantValue(type: 'int', value: value.toString());
         break;
       case clang_types.CXEvalResultKind.CXEval_Float:
         final value = clang.clang_EvalResult_getAsDouble(evalResult);
-        constant = Constant(
-          usr: usr,
-          originalName: name,
-          name: name,
-          dartDoc: getCursorDocComment(context, cursor),
-          rawType: 'double',
-          rawValue: writeDoubleAsString(value),
+        constantValue = ConstantValue(
+          type: 'double',
+          value: writeDoubleAsString(value),
         );
         break;
       case clang_types.CXEvalResultKind.CXEval_StrLiteral:
         final value = clang.clang_EvalResult_getAsStr(evalResult);
         final rawValue = getWrittenStringRepresentation(name, value, context);
-        constant = Constant(
-          usr: usr,
-          originalName: name,
-          name: name,
-          dartDoc: getCursorDocComment(context, cursor),
-          rawType: 'String',
-          rawValue: "'$rawValue'",
-        );
+        constantValue = ConstantValue(type: 'String', value: "'$rawValue'");
         break;
     }
     clang.clang_EvalResult_dispose(evalResult);
-
-    if (constant != null) {
-      logger.fine(
-        '++++ Adding Constant from Global: ${cursor.completeStringRepr()}',
-      );
-      bindingsIndex.addVariableConstantToSeen(usr, constant);
-      return constant;
-    }
   }
 
   logger.fine('++++ Adding Global: ${cursor.completeStringRepr()}');
@@ -107,6 +76,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     dartDoc: getCursorDocComment(context, cursor),
     exposeSymbolAddress: config.globals.includeSymbolAddress(decl),
     constant: cType.isConstQualified,
+    constantValue: constantValue,
     loadFromNativeAsset: nativeOutputStyle,
   );
   bindingsIndex.addGlobalVarToSeen(usr, global);

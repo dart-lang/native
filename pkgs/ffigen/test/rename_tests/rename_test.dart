@@ -307,11 +307,23 @@ Library expectedLibrary() {
           EnumConstant(name: 'fullMatchSuccess', value: 1),
         ],
       ),
-      Constant(name: '${macroPrefix}Macro1', rawType: 'int', rawValue: '1'),
-      Constant(name: 'Macro2', rawType: 'int', rawValue: '2'),
-      Constant(name: 'Macro3', rawType: 'int', rawValue: '3'),
-      Constant(name: 'unnamed_underscore', rawType: 'int', rawValue: '0'),
-      Constant(name: 'unnamedFullMatchSuccess', rawType: 'int', rawValue: '1'),
+      MacroConstant(
+        name: '${macroPrefix}Macro1',
+        rawType: 'int',
+        rawValue: '1',
+      ),
+      MacroConstant(name: 'Macro2', rawType: 'int', rawValue: '2'),
+      MacroConstant(name: 'Macro3', rawType: 'int', rawValue: '3'),
+      UnnamedEnumConstant(
+        name: 'unnamed_underscore',
+        rawType: 'int',
+        rawValue: '0',
+      ),
+      UnnamedEnumConstant(
+        name: 'unnamedFullMatchSuccess',
+        rawType: 'int',
+        rawValue: '1',
+      ),
       struct5Alias,
     ],
   )..forceFillNamesForTesting();

@@ -226,7 +226,7 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
 
     // Warn for macros.
     final hasMacroBindings = bindings.any(
-      (element) => element is Constant && element.usr.contains('@macro@'),
+      (element) => element is MacroConstant,
     );
     if (hasMacroBindings) {
       context.logger.info(
@@ -237,8 +237,7 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
 
     // Remove internal bindings and macros.
     bindings.removeWhere((element) {
-      return element.isInternal ||
-          (element is Constant && element.usr.contains('@macro@'));
+      return element.isInternal || (element is MacroConstant);
     });
 
     // Sort bindings alphabetically by USR.

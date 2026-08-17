@@ -11,7 +11,7 @@ import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-/// A simple Constant.
+/// Base class for constants.
 ///
 /// Expands to -
 /// ```dart
@@ -22,7 +22,7 @@ import 'writer.dart';
 /// ```dart
 /// const int name = 10;
 /// ```
-class Constant extends NoLookUpBinding {
+abstract class Constant extends NoLookUpBinding {
   /// The rawType is pasted as it is. E.g 'int', 'String', 'double'
   final String rawType;
 
@@ -62,12 +62,6 @@ class Constant extends NoLookUpBinding {
       string: s.toString(),
     );
   }
-
-  @override
-  public_ast.AstNode? toPublicAstNode() => public_ast.Constant(this);
-
-  @override
-  void visit(Visitation visitation) => visitation.visitConstant(this);
 }
 
 /// A [Constant] defined by an unnamed enum.

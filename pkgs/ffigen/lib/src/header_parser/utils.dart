@@ -516,10 +516,9 @@ class Macro {
 class BindingsIndex {
   // Tracks if bindings are already seen, Map key is USR obtained from libclang.
   final Map<String, Func> _functions = {};
-  final Map<String, Constant> _unnamedEnumConstants = {};
+  final Map<String, UnnamedEnumConstant> _unnamedEnumConstants = {};
   final Map<String, String> _macros = {};
   final Map<String, Global> _globals = {};
-  final Map<String, Constant> _variableConstants = {};
   final Map<String, Typealias> _typealiases = {};
   final Map<String, EnumClass> _enums = {};
   final Map<String, Compound> _compounds = {};
@@ -535,18 +534,15 @@ class BindingsIndex {
   bool isSeenFunc(String usr) => _functions.containsKey(usr);
   void addFuncToSeen(String usr, Func func) => _functions[usr] = func;
   Func? getSeenFunc(String usr) => _functions[usr];
-  void addUnnamedEnumConstantToSeen(String usr, Constant enumConstant) =>
-      _unnamedEnumConstants[usr] = enumConstant;
-  Constant? getSeenUnnamedEnumConstant(String usr) =>
+  void addUnnamedEnumConstantToSeen(
+    String usr,
+    UnnamedEnumConstant enumConstant,
+  ) => _unnamedEnumConstants[usr] = enumConstant;
+  UnnamedEnumConstant? getSeenUnnamedEnumConstant(String usr) =>
       _unnamedEnumConstants[usr];
   bool isSeenGlobalVar(String usr) => _globals.containsKey(usr);
   void addGlobalVarToSeen(String usr, Global global) => _globals[usr] = global;
   Global? getSeenGlobalVar(String usr) => _globals[usr];
-  bool isSeenVariableConstant(String usr) =>
-      _variableConstants.containsKey(usr);
-  void addVariableConstantToSeen(String usr, Constant constant) =>
-      _variableConstants[usr] = constant;
-  Constant? getSeenVariableConstant(String usr) => _variableConstants[usr];
   bool isSeenTypealias(String usr) => _typealiases.containsKey(usr);
   void addTypealiasToSeen(String usr, Typealias t) => _typealiases[usr] = t;
   Typealias? getSeenTypealias(String usr) => _typealiases[usr];

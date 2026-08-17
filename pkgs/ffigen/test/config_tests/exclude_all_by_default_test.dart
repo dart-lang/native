@@ -27,9 +27,9 @@ ${strings.headers}:
       expect(library.getBinding('Struct'), isA<Struct>());
       expect(library.getBinding('Union'), isA<Union>());
       expect(library.getBinding('global'), isA<Global>());
-      expect(library.getBinding('MACRO'), isA<Constant>());
+      expect(library.getBinding('MACRO'), isA<MacroConstant>());
       expect(library.getBinding('Enum'), isA<EnumClass>());
-      expect(library.getBinding('unnamedEnum'), isA<Constant>());
+      expect(library.getBinding('unnamedEnum'), isA<UnnamedEnumConstant>());
     });
 
     test('exclude_all_by_default test flag true', () {
