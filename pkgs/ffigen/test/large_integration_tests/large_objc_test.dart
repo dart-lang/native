@@ -42,7 +42,7 @@ void main() {
     bool randInclude(String kind, DeclNode declaration, [String? member]) =>
         fnvHash32('$seed.$kind.${declaration.usr}.$member') <
         ((1 << 32) * inclusionRatio);
-    bool shouldIncludeNode(
+    bool stableRandomInclude(
       String kind,
       DeclNode declaration, [
       Set<String> forceIncludes = const {},
@@ -101,30 +101,30 @@ void main() {
       visitors: [
         Visitor(
           visitFunc: (node) =>
-              node.isIncluded = shouldIncludeNode('functionDecl', node),
+              node.isIncluded = stableRandomInclude('functionDecl', node),
           visitStruct: (node) =>
-              node.isIncluded = shouldIncludeNode('structDecl', node),
+              node.isIncluded = stableRandomInclude('structDecl', node),
           visitUnion: (node) =>
-              node.isIncluded = shouldIncludeNode('unionDecl', node),
+              node.isIncluded = stableRandomInclude('unionDecl', node),
           visitEnum: (node) =>
-              node.isIncluded = shouldIncludeNode('enums', node),
-          visitUnnamedEnumConstant: (node) =>
-              node.isIncluded = shouldIncludeNode('unnamedEnumConstants', node),
+              node.isIncluded = stableRandomInclude('enums', node),
+          visitUnnamedEnumConstant: (node) => node.isIncluded =
+              stableRandomInclude('unnamedEnumConstants', node),
           visitGlobal: (node) =>
-              node.isIncluded = shouldIncludeNode('globals', node),
+              node.isIncluded = stableRandomInclude('globals', node),
           visitTypealias: (node) =>
-              node.isIncluded = shouldIncludeNode('typedefs', node),
+              node.isIncluded = stableRandomInclude('typedefs', node),
           visitMacro: (node) => node.isIncluded = false,
           visitConstant: (node) => node.isIncluded = false,
           visitObjCInterface: (node) =>
-              node.isIncluded = shouldIncludeNode('objcInterfaces', node),
-          visitObjCProtocol: (node) => node.isIncluded = shouldIncludeNode(
+              node.isIncluded = stableRandomInclude('objcInterfaces', node),
+          visitObjCProtocol: (node) => node.isIncluded = stableRandomInclude(
             'objcProtocols',
             node,
             forceIncludedProtocols,
           ),
           visitObjCCategory: (node) =>
-              node.isIncluded = shouldIncludeNode('objcCategories', node),
+              node.isIncluded = stableRandomInclude('objcCategories', node),
           visitObjCMethod: (node) {
             final kind = switch (node.parent) {
               ObjCInterface() => 'objcInterfaces',
