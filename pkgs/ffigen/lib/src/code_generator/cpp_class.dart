@@ -460,15 +460,7 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
               final suffix = method.returnType is CppUniquePtrType
                   ? '.release()'
                   : '';
-              if (method.originatingClass != null) {
-                final origClass = method.originatingClass!.originalName;
-                final castTarget = 'static_cast<$constPrefix$origClass*>(self)';
-                body =
-                    '$returnPrefix$castTarget'
-                    '->$methodName($callArgs)$suffix;';
-              } else {
-                body = '${returnPrefix}self->$methodName($callArgs)$suffix;';
-              }
+              body = '${returnPrefix}self->$methodName($callArgs)$suffix;';
             }
           }
 

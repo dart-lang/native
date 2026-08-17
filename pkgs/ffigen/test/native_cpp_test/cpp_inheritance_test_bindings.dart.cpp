@@ -26,11 +26,11 @@ FFIGEN_EXPORT double Circle_area(const Circle* self) {
 }
 
 FFIGEN_EXPORT double Circle_getX(const Circle* self) {
-  return static_cast<const Shape*>(self)->getX();
+  return self->getX();
 }
 
 FFIGEN_EXPORT double Circle_getY(const Circle* self) {
-  return static_cast<const Shape*>(self)->getY();
+  return self->getY();
 }
 
 FFIGEN_EXPORT void Circle_delete(Circle* self) {
@@ -46,19 +46,19 @@ FFIGEN_EXPORT int ColoredCircle_getColor(const ColoredCircle* self) {
 }
 
 FFIGEN_EXPORT double ColoredCircle_area(const ColoredCircle* self) {
-  return static_cast<const Circle*>(self)->area();
+  return self->area();
 }
 
 FFIGEN_EXPORT double ColoredCircle_getX(const ColoredCircle* self) {
-  return static_cast<const Circle*>(self)->getX();
+  return self->getX();
 }
 
 FFIGEN_EXPORT double ColoredCircle_getY(const ColoredCircle* self) {
-  return static_cast<const Circle*>(self)->getY();
+  return self->getY();
 }
 
 FFIGEN_EXPORT int ColoredCircle_draw(const ColoredCircle* self) {
-  return static_cast<const Drawable*>(self)->draw();
+  return self->draw();
 }
 
 FFIGEN_EXPORT void ColoredCircle_delete(ColoredCircle* self) {
@@ -86,11 +86,11 @@ FFIGEN_EXPORT DiamondDerived* DiamondDerived_new() {
 }
 
 FFIGEN_EXPORT int DiamondDerived_virtVal(const DiamondDerived* self) {
-  return static_cast<const DiamondLeft*>(self)->virtVal();
+  return self->virtVal();
 }
 
 FFIGEN_EXPORT int DiamondDerived_baseVal(const DiamondDerived* self) {
-  return static_cast<const DiamondLeft*>(self)->baseVal();
+  return self->baseVal();
 }
 
 FFIGEN_EXPORT void DiamondDerived_delete(DiamondDerived* self) {
@@ -106,7 +106,7 @@ FFIGEN_EXPORT int DiamondLeft_virtVal(const DiamondLeft* self) {
 }
 
 FFIGEN_EXPORT int DiamondLeft_baseVal(const DiamondLeft* self) {
-  return static_cast<const DiamondBase*>(self)->baseVal();
+  return self->baseVal();
 }
 
 FFIGEN_EXPORT void DiamondLeft_delete(DiamondLeft* self) {
@@ -118,11 +118,11 @@ FFIGEN_EXPORT DiamondRight* DiamondRight_new() {
 }
 
 FFIGEN_EXPORT int DiamondRight_baseVal(const DiamondRight* self) {
-  return static_cast<const DiamondBase*>(self)->baseVal();
+  return self->baseVal();
 }
 
 FFIGEN_EXPORT int DiamondRight_virtVal(const DiamondRight* self) {
-  return static_cast<const DiamondBase*>(self)->virtVal();
+  return self->virtVal();
 }
 
 FFIGEN_EXPORT void DiamondRight_delete(DiamondRight* self) {
@@ -166,7 +166,7 @@ FFIGEN_EXPORT int OverloadDerived_getValue(OverloadDerived* self, int x) {
 }
 
 FFIGEN_EXPORT double OverloadDerived_getValueDouble(OverloadDerived* self, double x) {
-  return static_cast<OverloadBase*>(self)->getValueDouble(x);
+  return self->getValueDouble(x);
 }
 
 FFIGEN_EXPORT void OverloadDerived_delete(OverloadDerived* self) {
@@ -194,7 +194,7 @@ FFIGEN_EXPORT PublicDerived* PublicDerived_new() {
 }
 
 FFIGEN_EXPORT int PublicDerived_value(const PublicDerived* self) {
-  return static_cast<const AccessBase*>(self)->value();
+  return self->value();
 }
 
 FFIGEN_EXPORT void PublicDerived_delete(PublicDerived* self) {
@@ -230,7 +230,7 @@ FFIGEN_EXPORT double Square_area(const Square* self) {
 }
 
 FFIGEN_EXPORT double Square_getY(const Square* self) {
-  return static_cast<const Shape*>(self)->getY();
+  return self->getY();
 }
 
 FFIGEN_EXPORT void Square_delete(Square* self) {
