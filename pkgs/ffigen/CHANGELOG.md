@@ -12,6 +12,8 @@
   - Remove `useSupportedTypedefs`, treating it as always true
 - Fix [a bug](https://github.com/dart-lang/native/issues/3504) in handling of
   small structs in ObjC on mac/iOS x64.
+- Fix [a bug](https://github.com/dart-lang/native/issues/3546) in the way that
+  ObjC category methods returning `instancetype` are filtered.
 - Minor Objective-C code generator and function type signature fixes.
 - Bump `package:code_assets` dependency to `^2.0.0`.
 

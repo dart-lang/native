@@ -111,5 +111,32 @@ extension type ChildOfNSString._(objc.ObjCObject object\$)
 '''),
       );
     });
+
+    test('Excluded category filtering and instancetype methods', () {
+      final bindings = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'category_test_bindings.dart',
+        ),
+      ).readAsStringSync();
+
+      // ExcludedCategory extension and its methods should not be generated.
+      expect(bindings, isNot(contains('extension ExcludedCategory')));
+      expect(
+        bindings,
+        isNot(contains('excludedCategoryNonInstancetypeMethod')),
+      );
+      expect(
+        bindings,
+        isNot(contains('excludedCategoryStaticNonInstancetypeMethod')),
+      );
+      expect(bindings, isNot(contains('excludedCategoryInstancetypeMethod')));
+      expect(
+        bindings,
+        isNot(contains('excludedCategoryStaticInstancetypeMethod')),
+      );
+    });
   });
 }
