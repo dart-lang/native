@@ -107,10 +107,15 @@ objc-protocols:
 objc-categories:
   include:
     - NSArrayCreation
+    - NSAttributedStringCreateFromMarkdown
+    - NSAttributedStringFormatting
+    - NSDataBase64Encoding
+    - NSDataCompression
     - NSDataCreation
     - NSDateCreation
     - NSDictionaryCreation
     - NSExtendedArray
+    - NSExtendedAttributedString
     - NSExtendedData
     - NSExtendedDate
     - NSExtendedDictionary
@@ -122,12 +127,19 @@ objc-categories:
     - NSExtendedMutableSet
     - NSExtendedOrderedSet
     - NSExtendedSet
+    - NSInputStreamExtensions
+    - NSLocaleCreation
     - NSMutableArrayCreation
+    - NSMutableDataCreation
     - NSMutableDictionaryCreation
+    - NSMutableOrderedSetCreation
     - NSMutableSetCreation
+    - NSNotificationCreation
     - NSNumberCreation
     - NSNumberIsBool
     - NSNumberIsFloat
+    - NSOrderedSetCreation
+    - NSOutputStreamExtensions
     - NSSetCreation
     - NSStringExtensionMethods
 structs:
