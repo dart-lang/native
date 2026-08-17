@@ -5,6 +5,8 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/config_provider/public_visitor.dart'
+    as public_visitor;
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
@@ -341,6 +343,130 @@ void main() {
         expect(
           parent.methods.map((m) => m.originalName),
           contains('anonMethod'),
+        );
+      },
+    );
+
+    test('visitors see copied category methods before filter pass', () {
+      final catMethod = makeMethod('catMethod', instanceType, []);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, [catMethod]);
+
+      var visitorSawMethodOnInterface = false;
+
+      final testConfig = FfiGenerator(
+        output: Output(dartFile: Uri.file('unused')),
+        objectiveC: const ObjectiveC(),
+        visitors: [
+          public_visitor.Visitor(
+            objCInterface: (itf) {
+              if (itf.originalName == 'Parent') {
+                visitorSawMethodOnInterface = itf.methods.any(
+                  (m) => m.originalName == 'catMethod',
+                );
+              }
+            },
+          ),
+        ],
+      );
+      final customContext = testContext(testConfig);
+
+      final bindings = transformBindings([parent, category], customContext);
+
+      expect(visitorSawMethodOnInterface, isTrue);
+      expect(bindings, contains(parent));
+      expect(bindings, contains(category));
+      expect(parent.methods.map((m) => m.originalName), contains('catMethod'));
+    });
+
+    test('visitor excluding origin category prunes method from interface', () {
+      final catMethod = makeMethod('catMethod', instanceType, []);
+      final parent = makeInterface('Parent', null, []);
+      final child = makeInterface('Child', parent, []);
+      final category = makeCategory('Category', parent, [catMethod]);
+
+      final testConfig = FfiGenerator(
+        output: Output(dartFile: Uri.file('unused')),
+        objectiveC: const ObjectiveC(),
+        visitors: [
+          public_visitor.Visitor(
+            objCCategory: (cat) {
+              if (cat.originalName == 'Category') {
+                cat.isIncluded = false;
+              }
+            },
+          ),
+        ],
+      );
+      final customContext = testContext(testConfig);
+
+      final bindings = transformBindings(
+        [parent, child, category],
+        customContext,
+      );
+
+      expect(bindings, contains(parent));
+      expect(bindings, contains(child));
+      expect(
+        parent.methods.map((m) => m.originalName),
+        isNot(contains('catMethod')),
+      );
+      expect(
+        child.methods.map((m) => m.originalName),
+        isNot(contains('catMethod')),
+      );
+    });
+
+    test(
+      'visitor excluding origin category method prunes method from interface',
+      () {
+        final catMethod1 = makeMethod('catMethod1', instanceType, []);
+        final catMethod2 = makeMethod('catMethod2', instanceType, []);
+        final parent = makeInterface('Parent', null, []);
+        final child = makeInterface('Child', parent, []);
+        final category = makeCategory('Category', parent, [
+          catMethod1,
+          catMethod2,
+        ]);
+
+        final testConfig = FfiGenerator(
+          output: Output(dartFile: Uri.file('unused')),
+          objectiveC: const ObjectiveC(),
+          visitors: [
+            public_visitor.Visitor(
+              objCMethod: (m) {
+                if (m.originalName == 'catMethod1') {
+                  m.isIncluded = false;
+                }
+              },
+            ),
+          ],
+        );
+        final customContext = testContext(testConfig);
+
+        final bindings = transformBindings(
+          [parent, child, category],
+          customContext,
+        );
+
+        expect(bindings, contains(parent));
+        expect(bindings, contains(child));
+        expect(bindings, contains(category));
+        expect(
+          parent.methods.map((m) => m.originalName),
+          isNot(contains('catMethod1')),
+        );
+        expect(
+          parent.methods.map((m) => m.originalName),
+          contains('catMethod2'),
+        );
+        expect(
+          child.methods.map((m) => m.originalName),
+          isNot(contains('catMethod1')),
+        );
+        expect(
+          child.methods.map((m) => m.originalName),
+          contains('catMethod2'),
         );
       },
     );

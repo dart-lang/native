@@ -52,6 +52,26 @@ void main() {
       return itf;
     }
 
+    ObjCCategory makeCategory(
+      String name,
+      ObjCInterface parent,
+      List<ObjCMethod> methods, {
+      bool isIncluded = true,
+    }) {
+      final category = ObjCCategory(
+        context: context,
+        usr: name,
+        originalName: name,
+        parent: parent,
+        apiAvailability: availability,
+      )..isIncluded = isIncluded;
+      parent.categories.add(category);
+      for (final m in methods) {
+        category.addMethod(m);
+      }
+      return category;
+    }
+
     ObjCMethod makeMethod(
       String name,
       Type returnType,
@@ -172,5 +192,85 @@ void main() {
         expect(source.methods.length, 2);
       },
     );
+
+    test(
+      'copyMethod with originCategory sets originCategory and originMethod',
+      () {
+        final method = makeMethod('catMethod', voidType, []);
+        final parent = makeInterface('Parent', null, []);
+        final category = makeCategory('Category', parent, [method]);
+        final dest = makeInterface('Destination', null, []);
+
+        dest.copyMethod(method, originCategory: category);
+
+        expect(dest.methods.length, 1);
+        final clonedMethod = dest.methods.single;
+        expect(clonedMethod.originCategory, category);
+        expect(clonedMethod.originMethod, method);
+      },
+    );
+
+    test(
+      'copying a property with originCategory sets originCategory and '
+      'originMethod on getter and setter',
+      () {
+        final (getter, setter) = makeProperty('prop', intType);
+        final parent = makeInterface('Parent', null, []);
+        final category = makeCategory('Category', parent, [getter, setter]);
+        final dest = makeInterface('Destination', null, []);
+
+        dest.copyMethod(getter, originCategory: category);
+
+        expect(dest.methods.length, 2);
+        final clonedGetter = dest.methods.firstWhere(
+          (m) => m.kind == ObjCMethodKind.propertyGetter,
+        );
+        final clonedSetter = dest.methods.firstWhere(
+          (m) => m.kind == ObjCMethodKind.propertySetter,
+        );
+
+        expect(clonedGetter.originCategory, category);
+        expect(clonedGetter.originMethod, getter);
+        expect(clonedSetter.originCategory, category);
+        expect(clonedSetter.originMethod, setter);
+      },
+    );
+
+    test(
+      'copyMethod preserves originCategory and root originMethod across '
+      'multiple copies',
+      () {
+        final method = makeMethod('catMethod', voidType, []);
+        final parent = makeInterface('Parent', null, []);
+        final category = makeCategory('Category', parent, [method]);
+        final mid = makeInterface('Mid', null, []);
+        final dest = makeInterface('Destination', null, []);
+
+        mid.copyMethod(method, originCategory: category);
+        final midMethod = mid.methods.single;
+        expect(midMethod.originCategory, category);
+        expect(midMethod.originMethod, method);
+
+        dest.copyMethod(midMethod);
+        final destMethod = dest.methods.single;
+        expect(destMethod.originCategory, category);
+        expect(destMethod.originMethod, method);
+      },
+    );
+
+    test('clone preserves originCategory and originMethod', () {
+      final method = makeMethod('catMethod', voidType, []);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, [method]);
+      final dest1 = makeInterface('Dest1', null, []);
+      final dest2 = makeInterface('Dest2', null, []);
+
+      dest1.copyMethod(method, originCategory: category);
+      final dest1Method = dest1.methods.single;
+
+      final cloned = dest1Method.clone(parent: dest2);
+      expect(cloned.originCategory, category);
+      expect(cloned.originMethod, method);
+    });
   });
 }

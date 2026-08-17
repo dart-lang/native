@@ -13546,21 +13546,6 @@ extension NSNotification$Methods on NSNotification {
     );
   }
 
-  /// init
-  NSNotification init() {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'NSNotification.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSNotification.fromPointer($ret, retain: false, release: true);
-  }
-
   /// initWithCoder:
   NSNotification? initWithCoder(NSCoder coder) {
     final _$$ref = object$.ref;

@@ -71,12 +71,9 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     // match the ObjC rules regarding instancetype.
     // Also copy all methods from any anonymous categories.
     for (final category in node.categories) {
-      if (category.originalName.isNotEmpty && !category.isIncluded) {
-        continue;
-      }
       for (final m in category.methods) {
-        if (m.isIncluded && category.shouldCopyMethodToInterface(m)) {
-          node.copyMethod(m);
+        if (category.shouldCopyMethodToInterface(m)) {
+          node.copyMethod(m, originCategory: category);
         }
       }
     }

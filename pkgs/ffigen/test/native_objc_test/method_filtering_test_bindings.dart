@@ -44,35 +44,6 @@ extension type MethodFilteringTestInterface._(objc.ObjCObject object$)
           _class_MethodFilteringTestInterface,
         );
 
-  /// alloc
-  static MethodFilteringTestInterface alloc() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_MethodFilteringTestInterface,
-      _sel_alloc,
-    );
-    return MethodFilteringTestInterface.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// allocWithZone:
-  static MethodFilteringTestInterface allocWithZone(
-    ffi.Pointer<objc.NSZone> zone,
-  ) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_MethodFilteringTestInterface,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return MethodFilteringTestInterface.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
-  }
-
   /// includedStaticMethod
   static MethodFilteringTestInterface includedStaticMethod() {
     final $ret = _objc_msgSend_151sglz(
@@ -85,22 +56,6 @@ extension type MethodFilteringTestInterface._(objc.ObjCObject object$)
       release: true,
     );
   }
-
-  /// new
-  static MethodFilteringTestInterface new$() {
-    final $ret = _objc_msgSend_151sglz(
-      _class_MethodFilteringTestInterface,
-      _sel_new,
-    );
-    return MethodFilteringTestInterface.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// Returns a new instance of MethodFilteringTestInterface constructed with the default `new` method.
-  MethodFilteringTestInterface() : this.as(new$().object$);
 }
 
 extension MethodFilteringTestInterface$Methods on MethodFilteringTestInterface {
@@ -128,25 +83,6 @@ extension MethodFilteringTestInterface$Methods on MethodFilteringTestInterface {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_includedProperty);
     return objc.NSObject.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// init
-  MethodFilteringTestInterface init() {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'MethodFilteringTestInterface.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return MethodFilteringTestInterface.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
   }
 }
 
@@ -426,23 +362,6 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
-final _objc_msgSend_1cwp428 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.NSZone>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.NSZone>,
-      )
-    >();
 final _objc_msgSend_3hao97 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -488,8 +407,6 @@ final _protocol_MethodFilteringTestProtocol = objc.getProtocol(
   "MethodFilteringTestProtocol",
   _protocol_MethodFilteringTestProtocol_raw,
 );
-late final _sel_alloc = objc.registerName("alloc");
-late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
 late final _sel_includedInstanceMethod_with_ = objc.registerName(
   "includedInstanceMethod:with:",
@@ -501,8 +418,6 @@ late final _sel_includedProtocolMethod = objc.registerName(
 late final _sel_includedStaticMethod = objc.registerName(
   "includedStaticMethod",
 );
-late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-late final _sel_new = objc.registerName("new");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

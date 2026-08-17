@@ -191,13 +191,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
     rawBindings,
   ).transitives;
 
+  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
+  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+
   final nodes = allBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
   for (final visitor in config.visitors) {
     visitor.visitAll(nodes);
   }
-
-  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
-  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
   visit(context, applyConfigFiltersVisitation, allBindings);
