@@ -57,12 +57,9 @@ mixin ObjCMethods {
     if (method.kind == ObjCMethodKind.propertySetter) return;
     final cloned = method.clone();
     cloned.originCategory = originCategory ?? method.originCategory;
-    cloned.originMethod = method.originMethod ?? method;
     if (cloned.setter != null) {
       cloned.setter!.originCategory =
           originCategory ?? method.setter?.originCategory;
-      cloned.setter!.originMethod =
-          method.setter?.originMethod ?? method.setter;
     }
     addMethod(cloned);
     addMethod(cloned.setter);
@@ -223,7 +220,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
   ObjCMethod? setter;
   bool isIncluded = true;
   ObjCCategory? originCategory;
-  ObjCMethod? originMethod;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -364,7 +360,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
     clonedMethod.protocolMethodName = protocolMethodName?.clone();
     clonedMethod.isIncluded = isIncluded;
     clonedMethod.originCategory = originCategory;
-    clonedMethod.originMethod = originMethod;
     return clonedMethod;
   }
 

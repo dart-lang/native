@@ -58,9 +58,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
             !m.originCategory!.isIncluded) {
           return false;
         }
-        if (m.originMethod != null && !m.originMethod!.isIncluded) {
-          return false;
-        }
         return m.isIncluded;
       });
     }

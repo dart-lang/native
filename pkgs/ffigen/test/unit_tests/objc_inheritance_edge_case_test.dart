@@ -416,59 +416,5 @@ void main() {
         isNot(contains('catMethod')),
       );
     });
-
-    test(
-      'visitor excluding origin category method prunes method from interface',
-      () {
-        final catMethod1 = makeMethod('catMethod1', instanceType, []);
-        final catMethod2 = makeMethod('catMethod2', instanceType, []);
-        final parent = makeInterface('Parent', null, []);
-        final child = makeInterface('Child', parent, []);
-        final category = makeCategory('Category', parent, [
-          catMethod1,
-          catMethod2,
-        ]);
-
-        final testConfig = FfiGenerator(
-          output: Output(dartFile: Uri.file('unused')),
-          objectiveC: const ObjectiveC(),
-          visitors: [
-            public_visitor.Visitor(
-              objCMethod: (m) {
-                if (m.originalName == 'catMethod1') {
-                  m.isIncluded = false;
-                }
-              },
-            ),
-          ],
-        );
-        final customContext = testContext(testConfig);
-
-        final bindings = transformBindings(
-          [parent, child, category],
-          customContext,
-        );
-
-        expect(bindings, contains(parent));
-        expect(bindings, contains(child));
-        expect(bindings, contains(category));
-        expect(
-          parent.methods.map((m) => m.originalName),
-          isNot(contains('catMethod1')),
-        );
-        expect(
-          parent.methods.map((m) => m.originalName),
-          contains('catMethod2'),
-        );
-        expect(
-          child.methods.map((m) => m.originalName),
-          isNot(contains('catMethod1')),
-        );
-        expect(
-          child.methods.map((m) => m.originalName),
-          contains('catMethod2'),
-        );
-      },
-    );
   });
 }
