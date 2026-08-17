@@ -64,7 +64,7 @@ abstract class Constant extends NoLookUpBinding {
   }
 }
 
-/// A constant defined by an unnamed enum.
+/// A [Constant] defined by an unnamed enum.
 class UnnamedEnumConstant extends Constant {
   UnnamedEnumConstant({
     super.usr,
@@ -84,7 +84,7 @@ class UnnamedEnumConstant extends Constant {
       visitation.visitUnnamedEnumConstant(this);
 }
 
-/// A constant defined by a macro.
+/// A [Constant] defined by a macro.
 class MacroConstant extends Constant {
   MacroConstant({
     super.usr,
