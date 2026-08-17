@@ -83,12 +83,12 @@ class TestGenerator {
         ffigen: FfiGeneratorOptions(
           visitors: [
             fg.Visitor(
-              visitObjCInterface: (node) {
+              objCInterface: (node) {
                 if (node.name.startsWith('Test')) {
                   node.isIncluded = true;
                 }
               },
-              visitObjCProtocol: (node) {
+              objCProtocol: (node) {
                 if (node.name.startsWith('Test')) {
                   node.isIncluded = true;
                 }

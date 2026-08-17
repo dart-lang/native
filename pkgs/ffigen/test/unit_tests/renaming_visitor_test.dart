@@ -470,19 +470,19 @@ objc-interfaces:
       final visitedParams = <String>[];
 
       final visitor = public_ast.Visitor(
-        visitFunc: (node) {
+        func: (node) {
           visitedFuncs.add(node.name);
           if (node.name == 'c_foo') {
             node.name = 'dartFoo';
           }
         },
-        visitStruct: (node) {
+        struct: (node) {
           visitedStructs.add(node.name);
           if (node.name == 'c_struct') {
             node.name = 'DartStruct';
           }
         },
-        visitParam: (node) {
+        param: (node) {
           visitedParams.add(node.name);
           if (node.name == 'arg_0') {
             node.name = 'renamedArg0';

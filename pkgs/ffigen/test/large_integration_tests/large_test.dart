@@ -67,14 +67,14 @@ void main() {
             : null,
         visitors: [
           Visitor(
-            visitFunc: (node) => node.isIncluded = true,
-            visitStruct: (node) => node.isIncluded = true,
-            visitUnion: (node) => node.isIncluded = true,
-            visitEnum: (node) => node.isIncluded = true,
-            visitUnnamedEnumConstant: (node) => node.isIncluded = true,
-            visitGlobal: (node) => node.isIncluded = true,
-            visitMacro: (node) => node.isIncluded = true,
-            visitTypealias: (node) => node.isIncluded = true,
+            func: (node) => node.isIncluded = true,
+            struct: (node) => node.isIncluded = true,
+            union: (node) => node.isIncluded = true,
+            enumClass: (node) => node.isIncluded = true,
+            unnamedEnumConstant: (node) => node.isIncluded = true,
+            global: (node) => node.isIncluded = true,
+            macroConstant: (node) => node.isIncluded = true,
+            typealias: (node) => node.isIncluded = true,
           ),
         ],
       );
@@ -155,14 +155,14 @@ void main() {
         ),
         visitors: [
           Visitor(
-            visitFunc: (node) => node.isIncluded = true,
-            visitStruct: (node) => node.isIncluded = true,
-            visitUnion: (node) => node.isIncluded = true,
-            visitEnum: (node) => node.isIncluded = true,
-            visitUnnamedEnumConstant: (node) => node.isIncluded = true,
-            visitGlobal: (node) => node.isIncluded = true,
-            visitMacro: (node) => node.isIncluded = true,
-            visitTypealias: (node) => node.isIncluded = true,
+            func: (node) => node.isIncluded = true,
+            struct: (node) => node.isIncluded = true,
+            union: (node) => node.isIncluded = true,
+            enumClass: (node) => node.isIncluded = true,
+            unnamedEnumConstant: (node) => node.isIncluded = true,
+            global: (node) => node.isIncluded = true,
+            macroConstant: (node) => node.isIncluded = true,
+            typealias: (node) => node.isIncluded = true,
           ),
         ],
       );
@@ -205,7 +205,7 @@ void main() {
         structs: const Structs(dependencies: CompoundDependencies.full),
         visitors: [
           Visitor(
-            visitFunc: (node) {
+            func: (node) {
               if ({
                 'sqlite3_vmprintf',
                 'sqlite3_vsnprintf',
@@ -216,25 +216,25 @@ void main() {
                 node.isIncluded = true;
               }
             },
-            visitStruct: (node) {
+            struct: (node) {
               if (vaRegex.hasMatch(node.originalName)) {
                 node.isIncluded = false;
               } else {
                 node.isIncluded = true;
               }
             },
-            visitTypealias: (node) {
+            typealias: (node) {
               if (vaRegex.hasMatch(node.originalName)) {
                 node.isIncluded = false;
               } else {
                 node.isIncluded = true;
               }
             },
-            visitUnion: (node) => node.isIncluded = true,
-            visitEnum: (node) => node.isIncluded = true,
-            visitUnnamedEnumConstant: (node) => node.isIncluded = true,
-            visitGlobal: (node) => node.isIncluded = true,
-            visitMacro: (node) => node.isIncluded = true,
+            union: (node) => node.isIncluded = true,
+            enumClass: (node) => node.isIncluded = true,
+            unnamedEnumConstant: (node) => node.isIncluded = true,
+            global: (node) => node.isIncluded = true,
+            macroConstant: (node) => node.isIncluded = true,
           ),
         ],
       );

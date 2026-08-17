@@ -49,7 +49,7 @@ void main() {
         objectiveC: const ObjectiveC(),
         visitors: [
           Visitor(
-            visitObjCInterface: (node) =>
+            objCInterface: (node) =>
                 node.isIncluded = node.originalName == 'SFTranscriptionSegment',
           ),
         ],

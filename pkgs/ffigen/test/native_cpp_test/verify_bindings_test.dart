@@ -54,7 +54,7 @@ void main() {
         cpp: const Cpp(),
         visitors: [
           Visitor(
-            visitCppClass: (node) => node.isIncluded = {
+            cppClass: (node) => node.isIncluded = {
               'Animal',
               'FinalizerTestSubject',
             }.contains(node.originalName),
@@ -77,7 +77,7 @@ void main() {
         cpp: const Cpp(),
         visitors: [
           Visitor(
-            visitCppClass: (node) => node.isIncluded = {
+            cppClass: (node) => node.isIncluded = {
               'Node',
               'NodeManager',
               'NodeContainer',

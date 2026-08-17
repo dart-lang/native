@@ -35,9 +35,9 @@ void main() {
             typedefs: const Typedefs(includeUnused: true),
             visitors: [
               Visitor(
-                visitStruct: (node) => node.isIncluded = true,
-                visitUnion: (node) => node.isIncluded = true,
-                visitTypealias: (node) => node.isIncluded = true,
+                struct: (node) => node.isIncluded = true,
+                union: (node) => node.isIncluded = true,
+                typealias: (node) => node.isIncluded = true,
               ),
             ],
           ),

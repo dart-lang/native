@@ -49,7 +49,7 @@ Future<void> main() async {
       ),
       visitors: [
         fg.Visitor(
-          visitObjCInterface: (node) {
+          objCInterface: (node) {
             if (node.name == 'AVAudioPlayerWrapper') {
               node.isIncluded = true;
             }

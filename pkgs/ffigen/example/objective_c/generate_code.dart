@@ -24,9 +24,9 @@ final config = FfiGenerator(
   objectiveC: const ObjectiveC(),
   visitors: [
     Visitor(
-      // The visitObjCInterface function is invoked for each interface
+      // The objCInterface function is invoked for each interface
       // discovered while parsing the entryPoints.
-      visitObjCInterface: (node) {
+      objCInterface: (node) {
         if (node.name == 'AVAudioPlayer') {
           // API elements like interfaces are excluded from the generated
           // bindings by default. So choose the ones you want to include and set

@@ -9,7 +9,7 @@ import 'package:ffigen/ffigen.dart';
 void main() {
   final packageRoot = Platform.script.resolve('../');
   final visitors = [
-    Visitor(visitFunc: (node) => node.isIncluded = node.name == 'gethostname'),
+    Visitor(func: (node) => node.isIncluded = node.name == 'gethostname'),
   ];
   final FfiGenerator generator;
   if (Platform.isWindows) {
