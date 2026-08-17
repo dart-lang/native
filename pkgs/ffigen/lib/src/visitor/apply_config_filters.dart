@@ -42,7 +42,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitFunc(Func node) => _visitImpl(node, node.isIncluded);
 
   @override
-  void visitConstant(Constant node) => _visitImpl(node, node.isIncluded);
+  void visitMacroConstant(MacroConstant node) =>
+      _visitImpl(node, node.isIncluded);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
@@ -91,6 +92,10 @@ class ApplyConfigFiltersVisitation extends Visitation {
     });
     _visitImpl(node, node.isIncluded);
   }
+
+  @override
+  void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
+      _visitImpl(node, node.isIncluded);
 
   @override
   void visitGlobal(Global node) => _visitImpl(node, node.isIncluded);
