@@ -193,10 +193,7 @@ final class Globals {
 
 /// Configuration for struct declarations.
 final class Structs {
-  /// Whether structs that are dependencies should be included.
-  final CompoundDependencies dependencies;
-
-  const Structs({this.dependencies = CompoundDependencies.opaque});
+  const Structs();
 }
 
 /// Configuration for typedefs.
@@ -221,10 +218,7 @@ final class Cpp {
 
 /// Configuration for union declarations.
 final class Unions {
-  /// Whether unions that are dependencies should be included.
-  final CompoundDependencies dependencies;
-
-  const Unions({this.dependencies = CompoundDependencies.opaque});
+  const Unions();
 }
 
 /// Configuration for Objective-C.

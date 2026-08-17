@@ -4,6 +4,7 @@
 
 import '../code_generator.dart' as internal;
 import 'config.dart';
+import 'config_types.dart';
 import 'public_visitor.dart';
 
 export 'public_visitor.dart';
@@ -131,6 +132,10 @@ class Struct extends DeclNode {
   int? get pack => _struct.pack;
   set pack(int? value) => _struct.pack = value;
 
+  /// How dependencies of this struct should be generated.
+  CompoundDependencies get dependencies => _struct.dependencies;
+  set dependencies(CompoundDependencies value) => _struct.dependencies = value;
+
   /// Whether this Struct should be included in code generation.
   bool get isIncluded => _struct.isIncluded;
   set isIncluded(bool value) => _struct.isIncluded = value;
@@ -164,6 +169,10 @@ class Union extends DeclNode {
 
   @override
   set name(String value) => _union.symbol.oldName = value;
+
+  /// How dependencies of this union should be generated.
+  CompoundDependencies get dependencies => _union.dependencies;
+  set dependencies(CompoundDependencies value) => _union.dependencies = value;
 
   /// Whether this Union should be included in code generation.
   bool get isIncluded => _union.isIncluded;

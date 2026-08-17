@@ -1266,9 +1266,9 @@ final class YamlConfig {
         varArgs: varArgFunctions,
         includeTypedef: shouldExposeFunctionTypedef,
       ),
-      structs: Structs(dependencies: _structDependencies),
+      structs: const Structs(),
       enums: const Enums(),
-      unions: Unions(dependencies: _unionDependencies),
+      unions: const Unions(),
       globals: const Globals(),
       typedefs: Typedefs(
         useSupportedTypedefs: useSupportedTypedefs,
@@ -1337,6 +1337,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.structPackingOverride(_decl(node)) case final override?) {
       node.pack = override.value;
     }
+    node.dependencies = config.structDependencies;
   }
 
   @override
@@ -1345,6 +1346,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.unionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    node.dependencies = config.unionDependencies;
   }
 
   @override

@@ -13,6 +13,9 @@
   - Remove `Declarations` base class and `includeSymbolAddress` in favor of the
     AST visitor property (`node.exposeSymbolAddress = true` on `Func` and
     `Global`).
+  - Remove `Structs.dependencies` and `Unions.dependencies` constructor
+    parameters in favor of the AST visitor property (`node.dependencies` on
+    `Struct` and `Union`).
 - Fix [a bug](https://github.com/dart-lang/native/issues/3504) in handling of
   small structs in ObjC on mac/iOS x64.
 - Minor Objective-C code generator and function type signature fixes.

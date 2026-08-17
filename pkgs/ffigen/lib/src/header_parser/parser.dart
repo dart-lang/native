@@ -213,7 +213,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   ).byValueCompounds;
   visit(
     context,
-    ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
+    ClearOpaqueCompoundMembersVisitation(byValueCompounds, included),
     allBindings,
   );
 

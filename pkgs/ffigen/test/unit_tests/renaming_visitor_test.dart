@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/ffigen.dart' show FfiGenerator, Output, YamlConfig;
+import 'package:ffigen/ffigen.dart'
+    show CompoundDependencies, FfiGenerator, Output, YamlConfig;
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/config_provider/config.dart';
@@ -1161,6 +1162,103 @@ objc-protocols:
       expect(cgProtocolMatch.module, 'BarModule');
       expect((nodes[3] as public_ast.ObjCProtocol).module, isNull);
       expect(cgProtocolNoMatch.module, isNull);
+    });
+
+    test('public_ast.Struct.dependencies getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgStruct = Struct(
+        name: 'c_struct',
+        originalName: 'c_struct',
+        context: context,
+      );
+      final publicStruct = public_ast.Struct(cgStruct);
+
+      expect(publicStruct.dependencies, CompoundDependencies.opaque);
+      expect(cgStruct.dependencies, CompoundDependencies.opaque);
+
+      publicStruct.dependencies = CompoundDependencies.full;
+      expect(publicStruct.dependencies, CompoundDependencies.full);
+      expect(cgStruct.dependencies, CompoundDependencies.full);
+
+      publicStruct.dependencies = CompoundDependencies.opaque;
+      expect(publicStruct.dependencies, CompoundDependencies.opaque);
+      expect(cgStruct.dependencies, CompoundDependencies.opaque);
+    });
+
+    test('public_ast.Union.dependencies getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgUnion = Union(
+        name: 'c_union',
+        originalName: 'c_union',
+        context: context,
+      );
+      final publicUnion = public_ast.Union(cgUnion);
+
+      expect(publicUnion.dependencies, CompoundDependencies.opaque);
+      expect(cgUnion.dependencies, CompoundDependencies.opaque);
+
+      publicUnion.dependencies = CompoundDependencies.full;
+      expect(publicUnion.dependencies, CompoundDependencies.full);
+      expect(cgUnion.dependencies, CompoundDependencies.full);
+
+      publicUnion.dependencies = CompoundDependencies.opaque;
+      expect(publicUnion.dependencies, CompoundDependencies.opaque);
+      expect(cgUnion.dependencies, CompoundDependencies.opaque);
+    });
+
+    test('YamlConfigAstVisitor sets Struct.dependencies and '
+        'Union.dependencies from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+structs:
+  dependency-only: full
+unions:
+  dependency-only: full
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final context = testContext(generator);
+
+      final cgStruct = Struct(
+        name: 'my_struct',
+        originalName: 'my_struct',
+        context: context,
+      );
+      final cgUnion = Union(
+        name: 'my_union',
+        originalName: 'my_union',
+        context: context,
+      );
+
+      final nodes = <Binding>[
+        cgStruct,
+        cgUnion,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect(
+        (nodes[0] as public_ast.Struct).dependencies,
+        CompoundDependencies.full,
+      );
+      expect(cgStruct.dependencies, CompoundDependencies.full);
+
+      expect(
+        (nodes[1] as public_ast.Union).dependencies,
+        CompoundDependencies.full,
+      );
+      expect(cgUnion.dependencies, CompoundDependencies.full);
     });
   });
 }
