@@ -400,10 +400,11 @@ void main() {
       );
       final customContext = testContext(testConfig);
 
-      final bindings = transformBindings(
-        [parent, child, category],
-        customContext,
-      );
+      final bindings = transformBindings([
+        parent,
+        child,
+        category,
+      ], customContext);
 
       expect(bindings, contains(parent));
       expect(bindings, contains(child));
