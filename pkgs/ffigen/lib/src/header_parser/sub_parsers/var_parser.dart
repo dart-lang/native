@@ -33,25 +33,19 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     switch (evalKind) {
       case clang_types.CXEvalResultKind.CXEval_Int:
         final value = clang.clang_EvalResult_getAsLongLong(evalResult);
-        constantValue = ConstantValue(
-          rawType: 'int',
-          rawValue: value.toString(),
-        );
+        constantValue = ConstantValue(type: 'int', value: value.toString());
         break;
       case clang_types.CXEvalResultKind.CXEval_Float:
         final value = clang.clang_EvalResult_getAsDouble(evalResult);
         constantValue = ConstantValue(
-          rawType: 'double',
-          rawValue: writeDoubleAsString(value),
+          type: 'double',
+          value: writeDoubleAsString(value),
         );
         break;
       case clang_types.CXEvalResultKind.CXEval_StrLiteral:
         final value = clang.clang_EvalResult_getAsStr(evalResult);
         final rawValue = getWrittenStringRepresentation(name, value, context);
-        constantValue = ConstantValue(
-          rawType: 'String',
-          rawValue: "'$rawValue'",
-        );
+        constantValue = ConstantValue(type: 'String', value: "'$rawValue'");
         break;
     }
     clang.clang_EvalResult_dispose(evalResult);

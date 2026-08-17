@@ -352,16 +352,13 @@ void main() {
             name: 'test1',
             type: NativeType(SupportedNativeType.int32),
             constant: true,
-            constantValue: const ConstantValue(rawType: 'int', rawValue: '20'),
+            constantValue: const ConstantValue(type: 'int', value: '20'),
           ),
           Global(
             name: 'test2',
             type: NativeType(SupportedNativeType.double),
             constant: true,
-            constantValue: const ConstantValue(
-              rawType: 'double',
-              rawValue: '20.0',
-            ),
+            constantValue: const ConstantValue(type: 'double', value: '20.0'),
           ),
         ], context),
       );
@@ -386,7 +383,7 @@ void main() {
         name: 'constWithAddress',
         type: NativeType(SupportedNativeType.int32),
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '42'),
+        constantValue: const ConstantValue(type: 'int', value: '42'),
         exposeSymbolAddress: true,
       );
       expect(g.isConst, isFalse);
@@ -424,30 +421,18 @@ void main() {
       }
     });
 
-    test('ConstantValue equality and hashCode', () {
-      const v1 = ConstantValue(rawType: 'int', rawValue: '10');
-      const v2 = ConstantValue(rawType: 'int', rawValue: '10');
-      const v3 = ConstantValue(rawType: 'double', rawValue: '10');
-      const v4 = ConstantValue(rawType: 'int', rawValue: '20');
-
-      expect(v1, equals(v2));
-      expect(v1.hashCode, equals(v2.hashCode));
-      expect(v1, isNot(equals(v3)));
-      expect(v1, isNot(equals(v4)));
-    });
-
     test('Global.isConst', () {
       final g1 = Global(
         name: 'g1',
         type: intType,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '1'),
+        constantValue: const ConstantValue(type: 'int', value: '1'),
       );
       expect(g1.isConst, isTrue);
 
       final g2 = Global(
         name: 'g2',
         type: intType,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '1'),
+        constantValue: const ConstantValue(type: 'int', value: '1'),
         exposeSymbolAddress: true,
       );
       expect(g2.isConst, isFalse);

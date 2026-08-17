@@ -195,90 +195,78 @@ Library expectedLibrary() {
         name: 'TEST_INT',
         type: intType,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '10'),
+        constantValue: const ConstantValue(type: 'int', value: '10'),
       ),
       Global(
         name: 'TEST_NEGATIVE_INT',
         type: intType,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '-10'),
+        constantValue: const ConstantValue(type: 'int', value: '-10'),
       ),
       Global(
         name: 'TEST_DOUBLE',
         type: doubleType,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'double', rawValue: '3.14'),
+        constantValue: const ConstantValue(type: 'double', value: '3.14'),
       ),
       Global(
         name: 'TEST_NEGATIVE_DOUBLE',
         type: doubleType,
         constant: true,
-        constantValue: const ConstantValue(
-          rawType: 'double',
-          rawValue: '-3.14',
-        ),
+        constantValue: const ConstantValue(type: 'double', value: '-3.14'),
       ),
       Global(
         name: 'TEST_EXPRESSION',
         type: intType,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '10'),
+        constantValue: const ConstantValue(type: 'int', value: '10'),
       ),
       Global(
         name: 'TEST_HEX',
         type: intType,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '255'),
+        constantValue: const ConstantValue(type: 'int', value: '255'),
       ),
       Global(
         name: 'TEST_NEGATIVE_HEX',
         type: intType,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '-255'),
+        constantValue: const ConstantValue(type: 'int', value: '-255'),
       ),
       Global(
         name: 'TEST_STRING',
         type: PointerType(charType),
         constant: true,
-        constantValue: const ConstantValue(
-          rawType: 'String',
-          rawValue: "'test'",
-        ),
+        constantValue: const ConstantValue(type: 'String', value: "'test'"),
       ),
       Global(
         name: 'TEST_STRING_SPECIAL',
         type: PointerType(charType),
         constant: true,
         constantValue: const ConstantValue(
-          rawType: 'String',
-          rawValue: r"'\$dollar'",
+          type: 'String',
+          value: r"'\$dollar'",
         ),
       ),
       Global(
         name: 'TEST_STRING_QUOTES',
         type: PointerType(charType),
         constant: true,
-        constantValue: const ConstantValue(
-          rawType: 'String',
-          rawValue: r"'test\'s'",
-        ),
+        constantValue: const ConstantValue(type: 'String', value: r"'test\'s'"),
       ),
       Global(
         name: 'TEST_STRING_BACKSLASH',
         type: PointerType(charType),
         constant: true,
-        constantValue: const ConstantValue(
-          rawType: 'String',
-          rawValue: r"'test\\'",
-        ),
+        constantValue: const ConstantValue(type: 'String', value: r"'test\\'"),
       ),
       Global(
         name: 'TEST_STRING_CONTROLS',
         type: PointerType(charType),
         constant: true,
         constantValue: const ConstantValue(
-          rawType: 'String',
-          rawValue: r"'hello\n\t\r\v\b'",
+          type: 'String',
+          value: r"'hello\n\t\r\v\b'",
         ),
       ),
       Global(
@@ -286,8 +274,8 @@ Library expectedLibrary() {
         type: doubleType,
         constant: true,
         constantValue: const ConstantValue(
-          rawType: 'double',
-          rawValue: strings.doubleInfinity,
+          type: 'double',
+          value: strings.doubleInfinity,
         ),
       ),
       Global(
@@ -295,8 +283,8 @@ Library expectedLibrary() {
         type: doubleType,
         constant: true,
         constantValue: const ConstantValue(
-          rawType: 'double',
-          rawValue: strings.doubleNegativeInfinity,
+          type: 'double',
+          value: strings.doubleNegativeInfinity,
         ),
       ),
       Global(
@@ -304,8 +292,8 @@ Library expectedLibrary() {
         type: doubleType,
         constant: true,
         constantValue: const ConstantValue(
-          rawType: 'double',
-          rawValue: strings.doubleNaN,
+          type: 'double',
+          value: strings.doubleNaN,
         ),
       ),
       myFlags,
@@ -314,13 +302,13 @@ Library expectedLibrary() {
         name: 'MyBufferUsage_None',
         type: myBufferUsage,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '0'),
+        constantValue: const ConstantValue(type: 'int', value: '0'),
       ),
       Global(
         name: 'MyBufferUsage_MapRead',
         type: myBufferUsage,
         constant: true,
-        constantValue: const ConstantValue(rawType: 'int', rawValue: '1'),
+        constantValue: const ConstantValue(type: 'int', value: '1'),
       ),
       Global(
         name: 'TEST_STRING_ARRAY',

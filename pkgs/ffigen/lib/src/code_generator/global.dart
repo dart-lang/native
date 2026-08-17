@@ -15,23 +15,6 @@ import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-/// A constant value for a [Global].
-class ConstantValue {
-  final String rawType;
-  final String rawValue;
-
-  const ConstantValue({required this.rawType, required this.rawValue});
-
-  @override
-  bool operator ==(Object other) =>
-      other is ConstantValue &&
-      other.rawType == rawType &&
-      other.rawValue == rawValue;
-
-  @override
-  int get hashCode => Object.hash(rawType, rawValue);
-}
-
 /// A binding to a global variable
 ///
 /// For a C global variable -
@@ -77,8 +60,8 @@ class Global extends LookUpBinding with HasLocalScope {
     s.write(makeDartDoc(dartDoc));
     if (isConst) {
       s.write(
-        'const ${constantValue!.rawType} $globalVarName = '
-        '${constantValue!.rawValue};\n\n',
+        'const ${constantValue!.type} $globalVarName = '
+        '${constantValue!.value};\n\n',
       );
       return BindingString(
         type: BindingStringType.global,
@@ -214,4 +197,12 @@ class Global extends LookUpBinding with HasLocalScope {
 
   @override
   void visit(Visitation visitation) => visitation.visitGlobal(this);
+}
+
+/// A constant value for a [Global].
+class ConstantValue {
+  final String type;
+  final String value;
+
+  const ConstantValue({required this.type, required this.value});
 }
