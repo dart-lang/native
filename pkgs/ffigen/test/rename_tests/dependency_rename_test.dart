@@ -92,10 +92,7 @@ ${strings.structs}:
 
       final library = parser.parse(testContext(config));
       final struct = library.getBinding('RenamedDepStruct') as Struct;
-      expect(
-        struct.members.any((m) => m.name == 'renamed_field'),
-        isTrue,
-      );
+      expect(struct.members.any((m) => m.name == 'renamed_field'), isTrue);
     });
   });
 }
