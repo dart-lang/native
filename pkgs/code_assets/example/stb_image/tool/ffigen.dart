@@ -9,6 +9,7 @@ import 'package:ffigen/ffigen.dart';
 void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
+    input: Input(entryPoints: [packageRoot.resolve('third_party/stb_image.h')]),
     visitors: [
       Visitor(
         func: (node) {
