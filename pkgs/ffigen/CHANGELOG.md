@@ -9,6 +9,9 @@
   - Rename `Headers` to `Input`
   - Remove `libraryImports`, which was dead code
   - Remove `useSupportedTypedefs`, treating it as always true
+  - Remove `Declarations` base class and `includeSymbolAddress` in favor of the
+    AST visitor property (`node.exposeSymbolAddress = true` on `Func` and
+    `Global`).
 - Fix [a bug](https://github.com/dart-lang/native/issues/3504) in handling of
   small structs in ObjC on mac/iOS x64.
 - Minor Objective-C code generator and function type signature fixes.

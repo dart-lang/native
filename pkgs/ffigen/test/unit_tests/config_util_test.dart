@@ -8,10 +8,11 @@ import 'package:test/test.dart';
 Declaration decl(String name) => Declaration(usr: '', originalName: name);
 
 void main() {
-  group('Declarations utils', () {
-    test('default includeSymbolAddress', () {
-      final decls = const Declarations();
-      expect(decls.includeSymbolAddress(decl('foo')), isFalse);
+  group('Config utils', () {
+    test('Functions defaults', () {
+      final funcs = const Functions();
+      expect(funcs.includeTypedef(decl('foo')), isFalse);
+      expect(funcs.varArgs, isEmpty);
     });
   });
 }

@@ -4,7 +4,6 @@
 
 import '../../code_generator.dart';
 import '../../config_provider/config.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -25,12 +24,10 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     return bindingsIndex.getSeenVariableConstant(usr);
   }
 
-  final decl = Declaration(usr: usr, originalName: name);
   final cType = cursor.type();
 
-  // Try to evaluate as a constant first,
-  // unless the config asks for the variable's address.
-  if (cType.isConstQualified && !config.globals.includeSymbolAddress(decl)) {
+  // Try to evaluate as a constant first.
+  if (cType.isConstQualified) {
     final evalResult = clang.clang_Cursor_Evaluate(cursor);
     final evalKind = clang.clang_EvalResult_getKind(evalResult);
     Constant? constant;

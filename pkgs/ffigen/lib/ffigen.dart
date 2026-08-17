@@ -24,7 +24,6 @@ export 'src/config_provider.dart'
         CompoundDependencies,
         Cpp,
         Declaration,
-        Declarations,
         DynamicLibraryBindings,
         EnumStyle,
         Enums,

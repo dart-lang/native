@@ -149,23 +149,9 @@ final class Input {
   });
 }
 
-/// Configuration for declarations.
-final class Declarations {
-  /// Whether the symbol address should be exposed for this declaration.
-  ///
-  /// The address is exposed as an FFI pointer.
-  final bool Function(Declaration declaration) includeSymbolAddress;
-
-  const Declarations({
-    this.includeSymbolAddress = _includeSymbolAddressDefault,
-  });
-
-  static bool _includeSymbolAddressDefault(Declaration declaration) => false;
-}
-
 /// Configuration for enum declarations.
-final class Enums extends Declarations {
-  const Enums({super.includeSymbolAddress});
+final class Enums {
+  const Enums();
 }
 
 /// Configuration for how to generate enums.
@@ -180,7 +166,7 @@ enum EnumStyle {
 }
 
 /// Configuration for function declarations.
-final class Functions extends Declarations {
+final class Functions {
   /// Whether to generate a typedef for a given function's native type.
   final bool Function(Declaration declaration) includeTypedef;
 
@@ -195,19 +181,18 @@ final class Functions extends Declarations {
   final Map<String, List<VarArgFunction>> varArgs;
 
   const Functions({
-    super.includeSymbolAddress,
     this.includeTypedef = _includeTypedefDefault,
     this.varArgs = const <String, List<VarArgFunction>>{},
   });
 }
 
 /// Configuration for globals.
-final class Globals extends Declarations {
-  const Globals({super.includeSymbolAddress});
+final class Globals {
+  const Globals();
 }
 
 /// Configuration for struct declarations.
-final class Structs extends Declarations {
+final class Structs {
   /// Whether structs that are dependencies should be included.
   final CompoundDependencies dependencies;
 
@@ -215,7 +200,7 @@ final class Structs extends Declarations {
 }
 
 /// Configuration for typedefs.
-final class Typedefs extends Declarations {
+final class Typedefs {
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
@@ -235,7 +220,7 @@ final class Cpp {
 }
 
 /// Configuration for union declarations.
-final class Unions extends Declarations {
+final class Unions {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies dependencies;
 
@@ -276,31 +261,28 @@ final class ObjectiveC {
 }
 
 /// Configuration for Objective-C categories.
-final class Categories extends Declarations {
-  /// If enabled, Objective-C categories that are not explicitly included by
-  /// the [Declarations], but extend interfaces that are included,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included categories will not be generated at all.
+final class Categories {
+  /// If enabled, Objective-C categories that are not explicitly included,
+  /// but extend interfaces that are included, will be code-genned as if they
+  /// were included. If disabled, these transitively included categories will
+  /// not be generated at all.
   final bool includeTransitive;
 
   const Categories({this.includeTransitive = true});
 }
 
 /// Configuration for Objective-C interfaces.
-final class Interfaces extends Declarations {
+final class Interfaces {
   final bool includeTransitive;
 
-  const Interfaces({
-    super.includeSymbolAddress,
-    this.includeTransitive = false,
-  });
+  const Interfaces({this.includeTransitive = false});
 }
 
 /// Configuration for Objective-C protocols.
-final class Protocols extends Declarations {
+final class Protocols {
   final bool includeTransitive;
 
-  const Protocols({super.includeSymbolAddress, this.includeTransitive = false});
+  const Protocols({this.includeTransitive = false});
 }
 
 /// Configuration for outputting bindings.

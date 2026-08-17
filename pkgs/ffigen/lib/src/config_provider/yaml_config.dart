@@ -1263,16 +1263,13 @@ final class YamlConfig {
               ),
       ),
       functions: Functions(
-        includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
         varArgs: varArgFunctions,
         includeTypedef: shouldExposeFunctionTypedef,
       ),
       structs: Structs(dependencies: _structDependencies),
       enums: const Enums(),
       unions: Unions(dependencies: _unionDependencies),
-      globals: Globals(
-        includeSymbolAddress: globals.shouldIncludeSymbolAddress,
-      ),
+      globals: const Globals(),
       typedefs: Typedefs(
         useSupportedTypedefs: useSupportedTypedefs,
         includeUnused: includeUnusedTypedefs,
