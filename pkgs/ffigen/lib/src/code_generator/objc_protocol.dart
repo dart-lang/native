@@ -69,8 +69,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override
-  public_ast.AstNode? toPublicAstNode() =>
-      isInternal ? null : public_ast.ObjCProtocol(this);
+  public_ast.AstNode? toPublicAstNode() => public_ast.ObjCProtocol(this);
 
   void fillProtocolPointer() {
     protocolPointer ??= ObjCProtocolGlobal(
