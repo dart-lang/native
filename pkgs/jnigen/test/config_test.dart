@@ -116,5 +116,26 @@ void main() async {
       name: 'Nested class specified',
       overrides: ['-Dclasses=com.android.Clock\$Clock'],
     );
+
+    for (final property in ['classes', 'source_path']) {
+      test('Empty entry in $property', () {
+        // Not expressible as an override: the -D parser requires a value.
+        final dir = Directory.systemTemp.createTempSync('jnigen_config_test');
+        addTearDown(() => dir.deleteSync(recursive: true));
+        final yaml = File(join(dir.path, 'jnigen.yaml'))..writeAsStringSync('''
+output:
+  dart:
+    path: lib/gen.dart
+    structure: single_file
+$property:
+  - "com.example.Foo"
+  -
+${property == 'classes' ? '' : 'classes:\n  - "com.example.Foo"\n'}''');
+        expect(
+          () => Config.parseArgs(['--config', yaml.path]),
+          throwsA(isA<ConfigException>()),
+        );
+      });
+    }
   });
 }
