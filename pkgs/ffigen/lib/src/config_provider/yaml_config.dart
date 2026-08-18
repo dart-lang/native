@@ -1270,10 +1270,7 @@ final class YamlConfig {
       enums: const Enums(),
       unions: const Unions(),
       globals: const Globals(),
-      typedefs: Typedefs(
-        useSupportedTypedefs: useSupportedTypedefs,
-        includeUnused: includeUnusedTypedefs,
-      ),
+      typedefs: Typedefs(includeUnused: includeUnusedTypedefs),
       importType: importType,
       objectiveC: language == Language.objc
           ? ObjectiveC(

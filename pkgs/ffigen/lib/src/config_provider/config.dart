@@ -201,14 +201,7 @@ final class Typedefs {
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
-  /// If enabled, supported typedefs (such as size_t, uint8_t, etc.) will be
-  /// mapped to their supported types.
-  final bool useSupportedTypedefs;
-
-  const Typedefs({
-    this.useSupportedTypedefs = true,
-    this.includeUnused = false,
-  });
+  const Typedefs({this.includeUnused = false});
 }
 
 /// Configuration for C++.
