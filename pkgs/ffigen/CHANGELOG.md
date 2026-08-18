@@ -4,18 +4,20 @@
   - Replace various callback based config elements with a `Visitor` pattern.
     - `rename` and `renameMember` replaced with `.name` setters on AST nodes.
     - `include` and `includeMember` replaced with `.isIncluded` on AST nodes.
+    - `Functions/Globals.includeSymbolAddress` replaced with
+      `.exposeSymbolAddress` on AST nodes.
+    - `Structs.packingOverride` replaced with `Struct.pack`.
+    - `Enums.style` and `.silenceWarning` moved to `EnumClass` AST node.
+    - `Functions.isLeaf` and `.recordUse` moved to `Func` AST node.
+    - `Structs/Unions.dependencies` moved to `Struct/Union` AST nodes.
+    - `Interfaces/Protocols.module` moved to `ObjCInterface/ObjCProtocol` AST
+      nodes.
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
-  - Deleted empty `Integers` class
+  - Deleted many now empty sub-config classes
   - Rename `Headers` to `Input`
   - Remove `libraryImports`, which was dead code
   - Remove `useSupportedTypedefs`, treating it as always true
-  - Remove `Declarations` base class and `includeSymbolAddress` in favor of the
-    AST visitor property (`node.exposeSymbolAddress = true` on `Func` and
-    `Global`).
-  - Remove `Structs.dependencies` and `Unions.dependencies` constructor
-    parameters in favor of the AST visitor property (`node.dependencies` on
-    `Struct` and `Union`).
 - Fix [a bug](https://github.com/dart-lang/native/issues/3504) in handling of
   small structs in ObjC on mac/iOS x64.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3546) in the way that
