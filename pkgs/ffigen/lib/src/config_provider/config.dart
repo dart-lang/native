@@ -19,17 +19,8 @@ final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
   final Input input;
 
-  /// Configuration for enums.
-  final Enums enums;
-
   /// Configuration for functions.
   final Functions functions;
-
-  /// Configuration for globals.
-  final Globals globals;
-
-  /// Configuration for structs.
-  final Structs structs;
 
   /// C++ specific configuration.
   ///
@@ -41,9 +32,6 @@ final class FfiGenerator {
 
   /// Configuration for typedefs.
   final Typedefs typedefs;
-
-  /// Configuration for unions.
-  final Unions unions;
 
   /// Objective-C specific configuration.
   ///
@@ -99,13 +87,9 @@ final class FfiGenerator {
 
   const FfiGenerator({
     this.input = const Input(),
-    this.enums = const Enums(),
     this.functions = const Functions(),
-    this.globals = const Globals(),
-    this.structs = const Structs(),
     this.cpp,
     this.typedefs = const Typedefs(),
-    this.unions = const Unions(),
     this.objectiveC,
     required this.output,
     this.visitors = const [],
@@ -149,11 +133,6 @@ final class Input {
   });
 }
 
-/// Configuration for enum declarations.
-final class Enums {
-  const Enums();
-}
-
 /// Configuration for how to generate enums.
 enum EnumStyle {
   /// Generate a real Dart enum.
@@ -186,16 +165,6 @@ final class Functions {
   });
 }
 
-/// Configuration for globals.
-final class Globals {
-  const Globals();
-}
-
-/// Configuration for struct declarations.
-final class Structs {
-  const Structs();
-}
-
 /// Configuration for typedefs.
 final class Typedefs {
   /// If enabled, unused typedefs will also be generated.
@@ -207,11 +176,6 @@ final class Typedefs {
 /// Configuration for C++.
 final class Cpp {
   const Cpp();
-}
-
-/// Configuration for union declarations.
-final class Unions {
-  const Unions();
 }
 
 /// Configuration for Objective-C.

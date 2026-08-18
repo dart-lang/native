@@ -1266,10 +1266,6 @@ final class YamlConfig {
         varArgs: varArgFunctions,
         includeTypedef: shouldExposeFunctionTypedef,
       ),
-      structs: const Structs(),
-      enums: const Enums(),
-      unions: const Unions(),
-      globals: const Globals(),
       typedefs: Typedefs(includeUnused: includeUnusedTypedefs),
       importType: importType,
       objectiveC: language == Language.objc

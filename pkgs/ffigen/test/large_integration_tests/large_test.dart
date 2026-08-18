@@ -202,7 +202,6 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'sqlite3.h',
         ),
-        structs: const Structs(),
         visitors: [
           Visitor(
             func: (node) {

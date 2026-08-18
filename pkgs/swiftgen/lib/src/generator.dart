@@ -88,10 +88,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         style: fg.NativeExternalBindings(assetId: output.assetId),
       ),
       functions: ffigen.functions,
-      structs: ffigen.structs,
-      unions: ffigen.unions,
-      enums: ffigen.enums,
-      globals: ffigen.globals,
       typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
         interfaces: fg.Interfaces(
