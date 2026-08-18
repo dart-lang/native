@@ -51,7 +51,15 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (context.config.objectiveC == null) return;
 
     if (!node.isInternal) {
-      node.filterMethods((m) => !m.unavailable && m.isIncluded);
+      node.filterMethods((m) {
+        if (m.unavailable) return false;
+        if (m.originCategory != null &&
+            m.originCategory!.originalName.isNotEmpty &&
+            !m.originCategory!.isIncluded) {
+          return false;
+        }
+        return m.isIncluded;
+      });
     }
     _visitImpl(node, node.isIncluded);
 
@@ -99,13 +107,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitGlobal(Global node) => _visitImpl(node, node.isIncluded);
-
-  @override
-  void visitConstant(Constant node) {
-    // MacroConstant and UnnamedEnumConstant have their own overrides, so this
-    // only applies to base Constants (e.g. from static const variables).
-    _visitImpl(node, node.isIncluded);
-  }
 
   @override
   void visitTypealias(Typealias node) {

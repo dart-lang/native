@@ -117,7 +117,6 @@ void main() {
           typealias: (node) =>
               node.isIncluded = stableRandomInclude('typedefs', node),
           macroConstant: (node) => node.isIncluded = false,
-          constant: (node) => node.isIncluded = false,
           objCInterface: (node) =>
               node.isIncluded = stableRandomInclude('objcInterfaces', node),
           objCProtocol: (node) => node.isIncluded = stableRandomInclude(

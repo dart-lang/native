@@ -9,9 +9,12 @@ import '../utils.dart';
 import 'api_availability.dart';
 
 /// Saves unnamed enums.
-List<Constant> saveUnNamedEnum(Context context, clang_types.CXCursor cursor) {
+List<UnnamedEnumConstant> saveUnNamedEnum(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
   final logger = context.logger;
-  final addedConstants = <Constant>[];
+  final addedConstants = <UnnamedEnumConstant>[];
   cursor.visitChildren((child) {
     try {
       logger.finest(
@@ -40,7 +43,7 @@ List<Constant> saveUnNamedEnum(Context context, clang_types.CXCursor cursor) {
 }
 
 /// Adds the parameter to func in functiondecl_parser.dart.
-Constant? _addUnNamedEnumConstant(
+UnnamedEnumConstant? _addUnNamedEnumConstant(
   Context context,
   clang_types.CXCursor cursor,
 ) {

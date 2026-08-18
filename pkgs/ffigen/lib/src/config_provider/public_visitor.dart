@@ -73,7 +73,6 @@ abstract base class Visitor {
     void Function(Union) union,
     void Function(EnumClass) enumClass,
     void Function(Global) global,
-    void Function(Constant) constant,
     void Function(MacroConstant) macroConstant,
     void Function(Typealias) typealias,
     void Function(ObjCInterface) objCInterface,
@@ -99,7 +98,6 @@ abstract base class Visitor {
   void visitUnion(Union node) {}
   void visitEnum(EnumClass node) {}
   void visitGlobal(Global node) {}
-  void visitConstant(Constant node) {}
   void visitMacro(MacroConstant node) {}
   void visitTypealias(Typealias node) {}
   void visitObjCInterface(ObjCInterface node) {}
@@ -120,7 +118,6 @@ final class _CallbackVisitor extends Visitor {
   final void Function(Union) _union;
   final void Function(EnumClass) _enumClass;
   final void Function(Global) _global;
-  final void Function(Constant) _constant;
   final void Function(MacroConstant) _macroConstant;
   final void Function(Typealias) _typealias;
   final void Function(ObjCInterface) _objCInterface;
@@ -140,7 +137,6 @@ final class _CallbackVisitor extends Visitor {
     void Function(Union) union = _defaultVisit,
     void Function(EnumClass) enumClass = _defaultVisit,
     void Function(Global) global = _defaultVisit,
-    void Function(Constant) constant = _defaultVisit,
     void Function(MacroConstant) macroConstant = _defaultVisit,
     void Function(Typealias) typealias = _defaultVisit,
     void Function(ObjCInterface) objCInterface = _defaultVisit,
@@ -158,7 +154,6 @@ final class _CallbackVisitor extends Visitor {
        _union = union,
        _enumClass = enumClass,
        _global = global,
-       _constant = constant,
        _macroConstant = macroConstant,
        _typealias = typealias,
        _objCInterface = objCInterface,
@@ -189,9 +184,6 @@ final class _CallbackVisitor extends Visitor {
 
   @override
   void visitGlobal(Global node) => _global(node);
-
-  @override
-  void visitConstant(Constant node) => _constant(node);
 
   @override
   void visitMacro(MacroConstant node) => _macroConstant(node);
