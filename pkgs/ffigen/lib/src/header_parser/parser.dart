@@ -194,7 +194,11 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
-  final nodes = allBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
+  final nodes = allBindings
+      .where((b) => !b.isInternal)
+      .map((b) => b.toPublicAstNode())
+      .nonNulls
+      .toList();
   for (final visitor in config.visitors) {
     visitor.visitAll(nodes);
   }
