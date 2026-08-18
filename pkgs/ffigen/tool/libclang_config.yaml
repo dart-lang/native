@@ -41,6 +41,7 @@ enums:
     - CXObjCPropertyAttrKind
     - CXTypeNullabilityKind
     - CXTypeLayoutError
+    - CX_CXXAccessSpecifier
   as-int:
     include:
       - .*
@@ -125,6 +126,7 @@ functions:
     - clang_isCursorDefinition
     - clang_CXXMethod_isConst
     - clang_CXXMethod_isStatic
+    - clang_getCXXAccessSpecifier
     - clang_getCursorAvailability
     - clang_getCursorPlatformAvailability
     - clang_disposeCXPlatformAvailability

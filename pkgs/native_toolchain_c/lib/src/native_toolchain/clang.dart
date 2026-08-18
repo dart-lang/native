@@ -24,7 +24,7 @@ final Tool clang = Tool(
         ),
         RelativeToolResolver(
           toolName: 'Clang',
-          wrappedResolver: visualStudio.defaultResolver!,
+          wrappedResolver: visualStudioX64.defaultResolver!,
           relativePath: Uri(path: './VC/Tools/Llvm/bin/clang.exe'),
         ),
         InstallLocationResolver(

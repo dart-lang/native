@@ -63,6 +63,9 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     }
   });
 
+  // Parse public base classes (only public specifiers; non-public are ignored).
+  final bases = _parsePublicBases(context, cursor);
+
   final cppClass = CppClass(
     usr: usr,
     dartDoc: getCursorDocComment(
@@ -75,11 +78,39 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     context: context,
     methods: methods,
     fields: <CppMember>[],
+    bases: bases,
   );
 
   context.bindingsIndex.addCppClassToSeen(usr, cppClass);
 
   return cppClass;
+}
+
+/// Parses the direct public base classes of [cursor].
+List<CppClass> _parsePublicBases(Context context, clang_types.CXCursor cursor) {
+  final bases = <CppClass>[];
+
+  cursor.visitChildren((child) {
+    final kind = clang.clang_getCursorKind(child);
+    if (kind != clang_types.CXCursorKind.CXCursor_CXXBaseSpecifier) return;
+
+    final access = clang.clang_getCXXAccessSpecifier(child);
+    if (access != clang_types.CX_CXXAccessSpecifier.CX_CXXPublic) return;
+
+    final baseType = clang.clang_getCursorType(child);
+    final baseDeclCursor = clang.clang_getTypeDeclaration(baseType);
+    final baseUsr = baseDeclCursor.usr();
+
+    final baseClass = context.bindingsIndex.getSeenCppClass(baseUsr);
+    if (baseClass == null) {
+      final parsed = parseClassDeclaration(context, baseDeclCursor);
+      if (parsed != null) bases.add(parsed);
+    } else {
+      bases.add(baseClass);
+    }
+  });
+
+  return bases;
 }
 
 void _parseAnyMethod(

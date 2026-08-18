@@ -268,32 +268,6 @@ class Global extends DeclNode {
   set isIncluded(bool value) => _global.isIncluded = value;
 }
 
-/// A C constant declaration.
-class Constant extends DeclNode {
-  final internal.Constant _constant;
-
-  Constant(this._constant);
-
-  @override
-  void accept(Visitor visitor) => visitor.visitConstant(this);
-
-  @override
-  String get usr => _constant.usr;
-
-  @override
-  String get originalName => _constant.originalName;
-
-  @override
-  String get name => _constant.symbol.oldName;
-
-  @override
-  set name(String value) => _constant.symbol.oldName = value;
-
-  /// Whether this Constant should be included in code generation.
-  bool get isIncluded => _constant.isIncluded;
-  set isIncluded(bool value) => _constant.isIncluded = value;
-}
-
 /// A C macro constant declaration.
 class MacroConstant extends DeclNode {
   final internal.MacroConstant _macro;

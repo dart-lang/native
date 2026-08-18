@@ -54,6 +54,21 @@
 }
 @end
 
+@implementation Thing (ExcludedCategory)
+-(instancetype)excludedCategoryInstancetypeMethod {
+  return [[self class] new];
+}
++(instancetype)excludedCategoryStaticInstancetypeMethod {
+  return [[self class] new];
+}
+-(int32_t)excludedCategoryNonInstancetypeMethod {
+  return 111;
+}
++(int32_t)excludedCategoryStaticNonInstancetypeMethod {
+  return 222;
+}
+@end
+
 @implementation ChildOfThing
 @end
 

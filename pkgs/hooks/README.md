@@ -7,9 +7,15 @@ This package provides the API for hooks in Dart. Hooks are Dart
 scripts placed in the `hook/` directory of a Dart package, designed to automate
 tasks for a Dart package.
 
-Currently, the main supported hook is the build hook (`hook/build.dart`). The
-build hook is executed during a Dart build and enables you to bundle assets with
-a Dart package.
+This API supports two hooks: the build hook (`hook/build.dart`) and the link
+hook (`hook/link.dart`).
+
+The build hook is executed during a Dart build and enables you to build or
+gather assets for a Dart package. The link hook is executed after all build
+hooks and enables you to perform whole-application optimization and linking
+(such as tree-shaking dead native code based on
+[`@RecordUse()`](https://pub.dev/documentation/meta/latest/meta/RecordUse-class.html)
+usages).
 
 The main supported asset type is a code asset, code written in other languages
 that are compiled into machine code. You can use a build hook to do things such
@@ -20,24 +26,36 @@ API is an extension to this package and is available in
 [`package:code_assets`](https://pub.dev/packages/code_assets).
 
 When compiling C, C++ or Objective-C code from source, consider using
-[`package:native_toolchain_c`](https://pub.dev/packages/native_toolchain_c):
+[`package:native_toolchain_c`](https://pub.dev/packages/native_toolchain_c)
+with a build hook and a link hook. First, define the C library specification in
+a shared file:
 
-<!-- file://./../code_assets/example/sqlite_no_link/hook/build.dart -->
+<!-- file://./../code_assets/example/sqlite/lib/src/c_library.dart -->
 ```dart
-import 'package:code_assets/code_assets.dart';
-import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-final builder = CBuilder.library(
+/// The C build specification for the sqlite library.
+///
+/// It is used by the build and link hooks in the `hook/` directory.
+final cLibrary = CLibrary(
   name: 'sqlite3',
   assetName: 'src/third_party/sqlite3.g.dart',
   sources: ['third_party/sqlite/sqlite3.c'],
 );
+```
+
+Next, compile the library in the build hook:
+
+<!-- file://./../code_assets/example/sqlite/hook/build.dart -->
+```dart
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
+import 'package:sqlite/src/c_library.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildCodeAssets) {
-      await builder.run(
+      await cLibrary.build(
         input: input,
         output: output,
         defines: {
@@ -47,6 +65,31 @@ void main(List<String> args) async {
         },
       );
     }
+  });
+}
+```
+
+Finally, tree-shake and link the library in the link hook:
+
+<!-- file://./../code_assets/example/sqlite/hook/link.dart -->
+```dart
+import 'package:hooks/hooks.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
+import 'package:record_use/record_use.dart';
+import 'package:sqlite/src/c_library.dart';
+import 'package:sqlite/src/third_party/record_use_mapping.dart';
+
+void main(List<String> arguments) async {
+  await link(arguments, (input, output) async {
+    await cLibrary.link(
+      input: input,
+      output: output,
+      linkerOptions: LinkerOptions.treeshake(
+        symbolsToKeep: input.recordedUses?.calls.keys.cast<Method>().map(
+          (e) => recordUseMapping[e.name]!,
+        ),
+      ),
+    );
   });
 }
 ```

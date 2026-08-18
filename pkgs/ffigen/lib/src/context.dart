@@ -22,7 +22,7 @@ class Context {
   final CursorIndex cursorIndex;
   final bindingsIndex = BindingsIndex();
   final savedMacros = <String, Macro>{};
-  final unnamedEnumConstants = <Constant>[];
+  final unnamedEnumConstants = <UnnamedEnumConstant>[];
   late final ObjCBuiltInFunctions objCBuiltInFunctions;
   bool hasSourceErrors = false;
   final reportedCommentRanges = <((String, int), (String, int))>{};
