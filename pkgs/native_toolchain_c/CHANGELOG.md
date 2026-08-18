@@ -1,4 +1,4 @@
-## 0.19.4-wip
+## 0.19.4
 
 - Fix [native_toolchain_c failing with MSSSMS installed](https://github.com/dart-lang/native/issues/3327) by requiring vswhere to only show output that includes the necessary build tools
 - Link frameworks for C and C++ sources targeting macOS or iOS.

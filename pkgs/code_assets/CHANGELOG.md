@@ -1,4 +1,4 @@
-## 2.0.0-wip
+## 2.0.0
 
 - Validate bundled dynamic libraries by reading their header: when the file is
   a recognized ELF, Mach-O, or PE binary, check that it was built for the
@@ -6,7 +6,7 @@
   run once per target architecture. A file the built-in validators do not
   recognize, or a recognized library built for an architecture they do not
   know, warns on the supplied logger instead of failing.
-- Bump the dependency on `package:hooks` to `^2.2.0-wip`.
+- Bump the dependency on `package:hooks` to `^2.2.0`.
 - **Breaking change**: Overrode `==` and `hashCode` in `OS`, `Architecture`, and `Sanitizer` to support custom targets. These objects can no longer be used as keys of `const` maps and sets.
   - *Migration*: Use `final` (runtime) maps and sets instead of `const`, or use the string representations (e.g., `OS.name`, `Architecture.name`) as keys if `const` is required.
 - Support custom target OS, architecture, and santizer in protocol extension.
