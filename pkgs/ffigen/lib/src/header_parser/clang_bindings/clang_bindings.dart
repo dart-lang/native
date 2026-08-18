@@ -750,6 +750,22 @@ class Clang {
   late final _clang_getCString = _clang_getCStringPtr
       .asFunction<ffi.Pointer<ffi.Char> Function(CXString)>();
 
+  /// Returns the access control level for the referenced object.
+  ///
+  /// If the cursor refers to a C++ declaration, its access control level within its
+  /// parent scope is returned. Otherwise, if the cursor refers to a base specifier or
+  /// access specifier, the specifier itself is returned.
+  int clang_getCXXAccessSpecifier(CXCursor arg0) {
+    return _clang_getCXXAccessSpecifier(arg0);
+  }
+
+  late final _clang_getCXXAccessSpecifierPtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
+        'clang_getCXXAccessSpecifier',
+      );
+  late final _clang_getCXXAccessSpecifier = _clang_getCXXAccessSpecifierPtr
+      .asFunction<int Function(CXCursor)>();
+
   /// Return the canonical type for a CXType.
   ///
   /// Clang's type system explicitly models typedefs and all the ways
@@ -3040,6 +3056,15 @@ final class CXVersion extends ffi.Struct {
 sealed class CXVisitorResult {
   static const CXVisit_Break = 0;
   static const CXVisit_Continue = 1;
+}
+
+/// Represents the C++ access control level to a base class for a
+/// cursor with kind CX_CXXBaseSpecifier.
+sealed class CX_CXXAccessSpecifier {
+  static const CX_CXXInvalidAccessSpecifier = 0;
+  static const CX_CXXPublic = 1;
+  static const CX_CXXProtected = 2;
+  static const CX_CXXPrivate = 3;
 }
 
 /// Represents the storage classes as declared in the source. CX_SC_Invalid

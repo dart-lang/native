@@ -41,6 +41,35 @@ const _excludedNSObjectMethods = {
 
 class CopyMethodsFromSuperTypesVisitation extends Visitation {
   @override
+  void visitCppClass(CppClass node) {
+    node.visitChildren(visitor);
+
+    final existingSignatures = node.methods
+        .map((m) => m.signatureKey())
+        .toSet();
+
+    _copyCppMethodsFromBase(node, node, existingSignatures);
+  }
+
+  void _copyCppMethodsFromBase(
+    CppClass target,
+    CppClass current,
+    Set<String> existingSignatures,
+  ) {
+    for (final method in current.methods) {
+      if (method.kind == CppMethodKind.constructor) continue;
+
+      if (existingSignatures.add(method.signatureKey())) {
+        target.copyMethod(method, current);
+      }
+    }
+
+    for (final base in current.bases) {
+      _copyCppMethodsFromBase(target, base, existingSignatures);
+    }
+  }
+
+  @override
   void visitObjCInterface(ObjCInterface node) {
     node.visitChildren(visitor, typeGraphOnly: true);
 
