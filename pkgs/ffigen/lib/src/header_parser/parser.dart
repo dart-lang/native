@@ -194,13 +194,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
 
-  final nodes = allBindings
+  final publicNodes = allBindings
       .where((b) => !b.isInternal)
       .map((b) => b.toPublicAstNode())
       .nonNulls
       .toList();
   for (final visitor in config.visitors) {
-    visitor.visitAll(nodes);
+    visitor.visitAll(publicNodes);
   }
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
