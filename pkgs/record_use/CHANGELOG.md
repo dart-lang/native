@@ -1,4 +1,4 @@
-## 1.1.1-wip
+## 1.1.1
 
 - Fix quadratic deserialization performance and index corruption in
   `Recordings.fromJson`.

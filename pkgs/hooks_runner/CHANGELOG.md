@@ -1,4 +1,4 @@
-## 1.6.2-wip
+## 1.6.2
 
 - Provide the runner's logger to protocol extensions before any other method is
   invoked, so they can emit validation diagnostics.

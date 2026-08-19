@@ -73,10 +73,9 @@ jobs:
         run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
 
-  # Keep in sync with ffigen_weekly.yaml:test-mac-arm64
   test-mac:
     needs: analyze
-    runs-on: 'macos-latest'
+    runs-on: macos-latest
     permissions:
       contents: read
     defaults:
@@ -118,9 +117,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
-  test-mac-latest:
+  test-mac-intel:
     needs: analyze
-    runs-on: 'macos-latest'
+    runs-on: macos-15-intel
     permissions:
       contents: read
     defaults:
