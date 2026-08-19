@@ -652,7 +652,7 @@ objc-interfaces:
       );
     });
 
-    test('EnumClass style, suggestedStyle, and effectiveStyle', () {
+    test('EnumClass style and effectiveStyle', () {
       final context = testContext(
         FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
       );
@@ -664,13 +664,10 @@ objc-interfaces:
       );
       final publicEnum = public_ast.EnumClass(cgEnum);
 
-      // Verify style is null by default, suggestedStyle is null,
-      // effectiveStyle is dartEnum.
+      // Verify style is null by default, effectiveStyle is dartEnum.
       expect(cgEnum.style, isNull);
-      expect(cgEnum.suggestedStyle, isNull);
       expect(cgEnum.effectiveStyle, EnumStyle.dartEnum);
       expect(publicEnum.style, isNull);
-      expect(publicEnum.suggestedStyle, isNull);
 
       // Setting style on publicEnum updates both.
       publicEnum.style = EnumStyle.intConstants;
@@ -683,14 +680,16 @@ objc-interfaces:
       expect(publicEnum.style, isNull);
       expect(cgEnum.style, isNull);
 
-      // Setting suggestedStyle to intConstants (e.g. for NSOptions).
-      cgEnum.suggestedStyle = EnumStyle.intConstants;
-      expect(cgEnum.suggestedStyle, EnumStyle.intConstants);
-      expect(publicEnum.suggestedStyle, EnumStyle.intConstants);
+      // Setting style on cgEnum updates both and effectiveStyle.
+      cgEnum.style = EnumStyle.intConstants;
+      expect(cgEnum.style, EnumStyle.intConstants);
+      expect(publicEnum.style, EnumStyle.intConstants);
       expect(cgEnum.effectiveStyle, EnumStyle.intConstants);
 
-      // Overriding suggestedStyle with explicit style.
+      // Overriding style on publicEnum.
       publicEnum.style = EnumStyle.dartEnum;
+      expect(publicEnum.style, EnumStyle.dartEnum);
+      expect(cgEnum.style, EnumStyle.dartEnum);
       expect(cgEnum.effectiveStyle, EnumStyle.dartEnum);
     });
 
