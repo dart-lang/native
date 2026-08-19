@@ -190,18 +190,15 @@ class EnumClass extends DeclNode {
 
   EnumClass(this._enumClass);
 
-  /// The explicit [EnumStyle] configured for generating this enum declaration.
+  /// The [EnumStyle] for generating this enum declaration.
   ///
-  /// If specified, this takes precedence over [suggestedStyle]. If `null`,
-  /// [suggestedStyle] or the default style ([EnumStyle.dartEnum]) will be used.
+  /// The initial value of this field is based on parsing annotations on the
+  /// enum. It will be `null` if there isn't enough information to decide.
+  ///
+  /// If it's still null after the visitors are run, [EnumStyle.dartEnum] will
+  /// be used.
   EnumStyle? get style => _enumClass.style;
   set style(EnumStyle? value) => _enumClass.style = value;
-
-  /// The suggested [EnumStyle] for this enum declaration inferred during header
-  /// parsing.
-  ///
-  /// Used when [style] is `null`.
-  EnumStyle? get suggestedStyle => _enumClass.suggestedStyle;
 
   /// Whether warnings associated with this enum declaration should be
   /// suppressed.

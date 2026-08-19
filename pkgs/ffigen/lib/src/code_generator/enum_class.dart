@@ -54,11 +54,8 @@ class EnumClass extends BindingType with HasLocalScope {
   /// Whether this enum should be generated as a collection of integers.
   EnumStyle? style;
 
-  /// Suggested style for this enum, set during parsing.
-  EnumStyle? suggestedStyle;
-
-  /// Effective style for this enum (style if set, otherwise suggestedStyle).
-  EnumStyle get effectiveStyle => style ?? suggestedStyle ?? EnumStyle.dartEnum;
+  /// Effective style for this enum.
+  EnumStyle get effectiveStyle => style ?? EnumStyle.dartEnum;
 
   /// Don't code gen this alias at all, just use the [nativeType] directly.
   bool isAnonymous;
@@ -79,7 +76,6 @@ class EnumClass extends BindingType with HasLocalScope {
     List<EnumConstant>? enumConstants,
     required this.context,
     this.style,
-    this.suggestedStyle,
     this.isAnonymous = false,
     this.silenceWarning = false,
     this.apiAvailability,
