@@ -29,6 +29,7 @@ class FillMethodDependenciesVisitation extends Visitation {
   void visitFunc(Func node) {
     if (!finalBindings.contains(node)) return;
     node.fillFuncVarSymbol();
+    _adder.visit(node.fillExposedFunctionTypealias());
   }
 
   @override
@@ -125,6 +126,7 @@ class _MethodDepAdderVisitation extends Visitation {
   @override
   void visitFunc(Func node) {
     node.fillFuncVarSymbol();
+    visitor.visit(node.fillExposedFunctionTypealias());
     finalBindings.add(node);
   }
 

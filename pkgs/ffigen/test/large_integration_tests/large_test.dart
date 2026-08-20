@@ -74,7 +74,7 @@ void main() {
             unnamedEnumConstant: (node) => node.isIncluded = true,
             global: (node) => node.isIncluded = true,
             macroConstant: (node) => node.isIncluded = true,
-            typealias: (node) => node.isIncluded = true,
+            typealias: (node) => node.isIncluded = .ifUsed,
           ),
         ],
       );
@@ -162,7 +162,7 @@ void main() {
             unnamedEnumConstant: (node) => node.isIncluded = true,
             global: (node) => node.isIncluded = true,
             macroConstant: (node) => node.isIncluded = true,
-            typealias: (node) => node.isIncluded = true,
+            typealias: (node) => node.isIncluded = .ifUsed,
           ),
         ],
       );
@@ -225,9 +225,9 @@ void main() {
             },
             typealias: (node) {
               if (vaRegex.hasMatch(node.originalName)) {
-                node.isIncluded = false;
+                node.isIncluded = .never;
               } else {
-                node.isIncluded = true;
+                node.isIncluded = .ifUsed;
               }
             },
             union: (node) => node.isIncluded = true,

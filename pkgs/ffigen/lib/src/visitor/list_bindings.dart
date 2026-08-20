@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show FfiGenerator;
+import '../config_provider/config_types.dart';
 import '../strings.dart' as strings;
 
 import 'ast.dart';
@@ -124,10 +125,12 @@ class ListBindingsVisitation extends Visitation {
     final _IncludeBehavior includeBehavior;
     if (node.isInternal) {
       includeBehavior = _IncludeBehavior.transitive;
-    } else if (config.typedefs.includeUnused) {
-      includeBehavior = _IncludeBehavior.configOnly;
     } else {
-      includeBehavior = _IncludeBehavior.configAndTransitive;
+      includeBehavior = switch (node.isIncluded) {
+        TypealiasInclude.always => _IncludeBehavior.configOnly,
+        TypealiasInclude.ifUsed => _IncludeBehavior.configAndTransitive,
+        TypealiasInclude.never => _IncludeBehavior.configOnly,
+      };
     }
     _visitImpl(node, includeBehavior);
 

@@ -71,6 +71,10 @@ class Func extends DeclNode {
   bool get exposeSymbolAddress => _func.exposeSymbolAddress;
   set exposeSymbolAddress(bool value) => _func.exposeSymbolAddress = value;
 
+  /// Whether to generate a typedef for this function's native type.
+  bool get generateTypedefs => _func.generateTypedefs;
+  set generateTypedefs(bool value) => _func.generateTypedefs = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitFunc(this);
@@ -312,9 +316,11 @@ class Typealias extends DeclNode {
   @override
   set name(String value) => _typealias.symbol.oldName = value;
 
-  /// Whether this Typealias should be included in code generation.
-  bool get isIncluded => _typealias.isIncluded;
-  set isIncluded(bool value) => _typealias.isIncluded = value;
+  /// Controls whether and how this [Typealias] is included in code generation.
+  ///
+  /// See [TypealiasInclude] for the available options.
+  TypealiasInclude get isIncluded => _typealias.isIncluded;
+  set isIncluded(TypealiasInclude value) => _typealias.isIncluded = value;
 }
 
 /// An Objective-C interface (class) declaration.
