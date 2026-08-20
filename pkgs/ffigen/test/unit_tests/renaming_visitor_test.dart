@@ -8,6 +8,7 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
+import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
@@ -1258,6 +1259,84 @@ unions:
         CompoundDependencies.full,
       );
       expect(cgUnion.dependencies, CompoundDependencies.full);
+    });
+
+    test('User-defined AST visitors do not see internal nodes', () {
+      final visitedNames = <String>[];
+      final recordingVisitor = public_ast.Visitor(
+        func: (node) => visitedNames.add(node.name),
+        struct: (node) => visitedNames.add(node.name),
+        typealias: (node) => visitedNames.add(node.name),
+        objCInterface: (node) => visitedNames.add(node.name),
+      );
+
+      final context = testContext(
+        FfiGenerator(
+          output: Output(dartFile: Uri.file('out.dart')),
+          visitors: [recordingVisitor],
+        ),
+      );
+
+      final publicFunc = Func(
+        name: 'public_func',
+        originalName: 'public_func',
+        returnType: voidType,
+      );
+      final publicStruct = Struct(
+        name: 'public_struct',
+        originalName: 'public_struct',
+        context: context,
+      );
+      final publicTypealias = Typealias(
+        name: 'public_typealias',
+        type: intType,
+      );
+      final publicObjCInterface = ObjCInterface(
+        context: context,
+        originalName: 'PublicInterface',
+        name: 'PublicInterface',
+        apiAvailability: ApiAvailability.all,
+      );
+
+      final internalFunc = Func(
+        name: 'internal_func',
+        originalName: 'internal_func',
+        returnType: voidType,
+        isInternal: true,
+      );
+      final internalTypealias = Typealias(
+        name: 'internal_typealias',
+        type: intType,
+        isInternal: true,
+      );
+      final internalObjCInterface = ObjCInterface(
+        context: context,
+        originalName: 'InternalInterface',
+        name: 'InternalInterface',
+        apiAvailability: ApiAvailability.all,
+        isInternal: true,
+      );
+
+      final rawBindings = <Binding>[
+        publicFunc,
+        publicStruct,
+        publicTypealias,
+        publicObjCInterface,
+        internalFunc,
+        internalTypealias,
+        internalObjCInterface,
+      ];
+
+      transformBindings(rawBindings, context);
+
+      expect(visitedNames, contains('public_func'));
+      expect(visitedNames, contains('public_struct'));
+      expect(visitedNames, contains('public_typealias'));
+      expect(visitedNames, contains('PublicInterface'));
+
+      expect(visitedNames, isNot(contains('internal_func')));
+      expect(visitedNames, isNot(contains('internal_typealias')));
+      expect(visitedNames, isNot(contains('InternalInterface')));
     });
   });
 }

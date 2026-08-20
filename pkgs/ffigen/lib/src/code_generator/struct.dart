@@ -40,7 +40,6 @@ class Struct extends Compound {
     this.pack,
     super.dartDoc,
     super.members,
-    super.isInternal,
     required super.context,
     super.nativeType,
     super.apiAvailability,
