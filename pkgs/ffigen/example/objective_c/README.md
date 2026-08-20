@@ -25,7 +25,7 @@ In this example, we're only interested in `AVAudioPlayer`, so we've filtered out
 everything else. FFIgen will automatically pull in anything referenced by
 any of the fields or methods of `AVAudioPlayer`, but by default they're
 generated as stubs. To generate full bindings for the transient dependencies,
-set `node.isIncluded = true` for them in your visitor, or set `Interfaces.includeTransitive` to `true`.
+set `node.isIncluded = true` for them in your visitor.
 
 ## Generating bindings
 

@@ -78,8 +78,6 @@ extension SwiftGenGenerator on SwiftGenerator {
   ], absTempDir);
 
   void _generateDartFile(Logger logger, String objcHeader) {
-    final interfaces = ffigen.objectiveC.interfaces;
-    final protocols = ffigen.objectiveC.protocols;
     fg.FfiGenerator(
       output: fg.Output(
         dartFile: output.dartFile,
@@ -90,11 +88,6 @@ extension SwiftGenGenerator on SwiftGenerator {
       functions: ffigen.functions,
       typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
-        interfaces: fg.Interfaces(
-          includeTransitive: interfaces.includeTransitive,
-        ),
-        protocols: fg.Protocols(includeTransitive: protocols.includeTransitive),
-        categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,
       ),
       visitors: [

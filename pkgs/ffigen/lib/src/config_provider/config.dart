@@ -180,15 +180,6 @@ final class Cpp {
 
 /// Configuration for Objective-C.
 final class ObjectiveC {
-  /// Declaration filters for Objective-C categories.
-  final Categories categories;
-
-  /// Declaration filters for Objective-C interfaces.
-  final Interfaces interfaces;
-
-  /// Declaration filters for Objective-C protocols.
-  final Protocols protocols;
-
   // Undocumented option that changes code generation for package:objective_c.
   // The main difference is whether NSObject etc are imported from
   // package:objective_c (the default) or code genned like any other class.
@@ -202,38 +193,10 @@ final class ObjectiveC {
   final ExternalVersions externalVersions;
 
   const ObjectiveC({
-    this.categories = const Categories(),
-    this.interfaces = const Interfaces(),
-    this.protocols = const Protocols(),
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only for internal use.')
     this.generateForPackageObjectiveC = false,
   });
-}
-
-/// Configuration for Objective-C categories.
-final class Categories {
-  /// If enabled, Objective-C categories that are not explicitly included,
-  /// but extend interfaces that are included, will be code-genned as if they
-  /// were included. If disabled, these transitively included categories will
-  /// not be generated at all.
-  final bool includeTransitive;
-
-  const Categories({this.includeTransitive = true});
-}
-
-/// Configuration for Objective-C interfaces.
-final class Interfaces {
-  final bool includeTransitive;
-
-  const Interfaces({this.includeTransitive = false});
-}
-
-/// Configuration for Objective-C protocols.
-final class Protocols {
-  final bool includeTransitive;
-
-  const Protocols({this.includeTransitive = false});
 }
 
 /// Configuration for outputting bindings.

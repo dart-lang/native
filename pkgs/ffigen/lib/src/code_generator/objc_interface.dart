@@ -32,6 +32,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   bool generateAsStub = false;
 
   bool isIncluded = false;
+  bool includeCategories = true;
 
   ObjCInterface({
     super.usr,

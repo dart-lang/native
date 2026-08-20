@@ -12,6 +12,9 @@
     - `Structs/Unions.dependencies` moved to `Struct/Union` AST nodes.
     - `Interfaces/Protocols.module` moved to `ObjCInterface/ObjCProtocol` AST
       nodes.
+    - `Interfaces/Protocols.includeTransitive` removed (always false).
+    - `Categories.includeTransitive` replaced with
+      `ObjCInterface.includeCategories`.
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
   - Deleted many now empty sub-config classes

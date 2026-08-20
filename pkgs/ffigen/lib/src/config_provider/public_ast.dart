@@ -353,6 +353,17 @@ class ObjCInterface extends DeclNode {
   /// Whether this ObjCInterface should be included in code generation.
   bool get isIncluded => _interface.isIncluded;
   set isIncluded(bool value) => _interface.isIncluded = value;
+
+  /// Whether categories extending this interface are all included transitively.
+  ///
+  /// If true, all of this interface's categories will be included if this
+  /// interface is included. This is the default behavior, because it's common
+  /// for ObjC API documentation to say that a method is a direct member of an
+  /// interface, when in fact it's a method on an undocumented category of the
+  /// interface. This leads to confusing issues where the bindings are missing
+  /// methods seemingly for no reason.
+  bool get includeCategories => _interface.includeCategories;
+  set includeCategories(bool value) => _interface.includeCategories = value;
 }
 
 /// An Objective-C protocol declaration.
@@ -426,6 +437,10 @@ class ObjCCategory extends DeclNode {
   set name(String value) => _category.symbol.oldName = value;
 
   /// Whether this ObjCCategory should be included in code generation.
+  ///
+  /// If you have set this field to false, but the category is still being
+  /// generated, you may need to set [interface]`.includeCategories` to false
+  /// too.
   bool get isIncluded => _category.isIncluded;
   set isIncluded(bool value) => _category.isIncluded = value;
 }
