@@ -110,6 +110,15 @@ class ClassDecl implements _Element {
   /// The original name of the class in Java.
   String get originalName => _classDecl.name;
 
+  /// The custom name of the mixin generated for implementing this Java
+  /// interface
+  ///
+  /// If null, the default generated name is used.
+  String? get interfaceMixinName => _classDecl.userDefinedInterfaceMixinName;
+
+  set interfaceMixinName(String? newName) =>
+      _classDecl.userDefinedInterfaceMixinName = newName;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitClass(this);
