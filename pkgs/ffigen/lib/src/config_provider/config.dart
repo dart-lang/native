@@ -30,9 +30,6 @@ final class FfiGenerator {
   /// may change or be removed in a future version without a deprecation notice.
   final Cpp? cpp;
 
-  /// Configuration for typedefs.
-  final Typedefs typedefs;
-
   /// Objective-C specific configuration.
   ///
   /// If `null`, will only generate for C.
@@ -89,7 +86,6 @@ final class FfiGenerator {
     this.input = const Input(),
     this.functions = const Functions(),
     this.cpp,
-    this.typedefs = const Typedefs(),
     this.objectiveC,
     required this.output,
     this.visitors = const [],
@@ -146,11 +142,6 @@ enum EnumStyle {
 
 /// Configuration for function declarations.
 final class Functions {
-  /// Whether to generate a typedef for a given function's native type.
-  final bool Function(Declaration declaration) includeTypedef;
-
-  static bool _includeTypedefDefault(Declaration declaration) => false;
-
   /// Map from function's original name to [VarArgFunction]s.
   ///
   /// Dart doesn't support variadic functions. Instead, variadic functions are
@@ -159,18 +150,7 @@ final class Functions {
   /// signatures.
   final Map<String, List<VarArgFunction>> varArgs;
 
-  const Functions({
-    this.includeTypedef = _includeTypedefDefault,
-    this.varArgs = const <String, List<VarArgFunction>>{},
-  });
-}
-
-/// Configuration for typedefs.
-final class Typedefs {
-  /// If enabled, unused typedefs will also be generated.
-  final bool includeUnused;
-
-  const Typedefs({this.includeUnused = false});
+  const Functions({this.varArgs = const <String, List<VarArgFunction>>{}});
 }
 
 /// Configuration for C++.

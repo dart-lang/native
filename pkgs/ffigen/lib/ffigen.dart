@@ -34,7 +34,7 @@ export 'src/config_provider.dart'
         Output,
         PackingValue,
         SymbolFile,
-        Typedefs,
+        TypealiasInclude,
         VarArgFunction,
         Version,
         Versions,

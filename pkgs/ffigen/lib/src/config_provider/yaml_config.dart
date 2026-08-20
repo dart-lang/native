@@ -1262,11 +1262,7 @@ final class YamlConfig {
                 wrapperDocComment: wrapperDocComment,
               ),
       ),
-      functions: Functions(
-        varArgs: varArgFunctions,
-        includeTypedef: shouldExposeFunctionTypedef,
-      ),
-      typedefs: Typedefs(includeUnused: includeUnusedTypedefs),
+      functions: Functions(varArgs: varArgFunctions),
       importType: importType,
       objectiveC: language == Language.objc
           ? ObjectiveC(
@@ -1301,6 +1297,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     }
     if (config.functionDecl.shouldIncludeSymbolAddress(_decl(node))) {
       node.exposeSymbolAddress = true;
+    }
+    if (config.shouldExposeFunctionTypedef(_decl(node))) {
+      node.generateTypedefs = true;
     }
   }
 
@@ -1366,7 +1365,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitTypealias(public_ast.Typealias node) {
-    node.isIncluded = config.typedefs.shouldInclude(_decl(node));
+    node.isIncluded = !config.typedefs.shouldInclude(_decl(node))
+        ? .never
+        : (config.includeUnusedTypedefs ? .always : .ifUsed);
     if (config.typedefs.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }

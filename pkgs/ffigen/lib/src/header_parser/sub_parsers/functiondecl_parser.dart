@@ -32,7 +32,6 @@ List<Func> parseFunctionDeclaration(
     return funcs;
   }
 
-  final decl = Declaration(usr: funcUsr, originalName: funcName);
   final cachedFunc = context.bindingsIndex.getSeenFunc(funcUsr);
   if (cachedFunc != null) {
     funcs.add(cachedFunc);
@@ -121,7 +120,6 @@ List<Func> parseFunctionDeclaration(
             for (final ta in vaFunc?.types ?? const <Type>[])
               Parameter(type: ta, name: 'va', objCConsumed: false),
           ],
-          exposeFunctionTypedefs: config.functions.includeTypedef(decl),
           objCReturnsRetained: objCReturnsRetained,
           loadFromNativeAsset: config.output.style is NativeExternalBindings,
           apiAvailability: apiAvailability,

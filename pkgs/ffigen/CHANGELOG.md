@@ -6,6 +6,8 @@
     - `include` and `includeMember` replaced with `.isIncluded` on AST nodes.
     - `Functions/Globals.includeSymbolAddress` replaced with
       `.exposeSymbolAddress` on AST nodes.
+    - `Functions.includeTypedef` replaced with `.generateTypedefs` on
+      `Func` AST node.
     - `Structs.packingOverride` replaced with `Struct.pack`.
     - `Enums.style` and `.silenceWarning` moved to `EnumClass` AST node.
     - `Functions.isLeaf` and `.recordUse` moved to `Func` AST node.
@@ -15,6 +17,8 @@
     - `Interfaces/Protocols.includeTransitive` removed (always false).
     - `Categories.includeTransitive` replaced with
       `ObjCInterface.includeCategories`.
+    - `Typedefs.includeUnused` consolidated into `Typealias.isIncluded` using
+      `TypealiasInclude` enum (`never`, `ifUsed`, `always`).
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
   - Deleted many now empty sub-config classes

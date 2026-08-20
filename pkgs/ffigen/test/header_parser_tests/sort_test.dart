@@ -32,12 +32,11 @@ void main() {
                 ),
               ],
             ),
-            typedefs: const Typedefs(includeUnused: true),
             visitors: [
               Visitor(
                 struct: (node) => node.isIncluded = true,
                 union: (node) => node.isIncluded = true,
-                typealias: (node) => node.isIncluded = true,
+                typealias: (node) => node.isIncluded = .always,
               ),
             ],
           ),

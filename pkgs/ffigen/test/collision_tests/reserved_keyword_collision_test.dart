@@ -29,7 +29,7 @@ void main() {
                 enumClass: (node) => node.isIncluded = true,
                 global: (node) => node.isIncluded = true,
                 macroConstant: (node) => node.isIncluded = true,
-                typealias: (node) => node.isIncluded = true,
+                typealias: (node) => node.isIncluded = .always,
               ),
             ],
             input: Input(
@@ -44,7 +44,6 @@ void main() {
                 ),
               ],
             ),
-            typedefs: const Typedefs(includeUnused: true),
           ),
         ),
       );

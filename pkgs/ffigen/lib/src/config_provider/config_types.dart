@@ -42,6 +42,26 @@ enum CommentLength { none, brief, full }
 
 enum CompoundDependencies { full, opaque }
 
+/// Controls whether and how a [Typealias] (typedef) is included in generated
+/// code.
+enum TypealiasInclude {
+  /// Never generate a typedef declaration for this typealias.
+  ///
+  /// Any generated functions, structs, or other bindings that reference this
+  /// typealias will inline the underlying aliased type instead.
+  never,
+
+  /// Generate a typedef declaration only if this typealias is referenced by
+  /// another generated binding.
+  ///
+  /// If no generated bindings reference this typealias, it is omitted.
+  ifUsed,
+
+  /// Always generate a typedef declaration for this typealias, even if no
+  /// other generated bindings reference it.
+  always,
+}
+
 /// Holds config for how Structs Packing will be overriden.
 class StructPackingOverride {
   final List<(RegExp, int?)> _matchers;

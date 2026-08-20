@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 import '../context.dart';
 
 import 'ast.dart';
@@ -111,6 +112,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitTypealias(Typealias node) {
     if (node.isAnonymous) return;
-    _visitImpl(node, node.isIncluded);
+    _visitImpl(node, node.isIncluded != TypealiasInclude.never);
   }
 }

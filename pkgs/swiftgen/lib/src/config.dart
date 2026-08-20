@@ -219,9 +219,6 @@ class FfiGeneratorOptions {
   /// [ffigen.FfiGenerator.functions]
   final ffigen.Functions functions;
 
-  /// [ffigen.FfiGenerator.typedefs]
-  final ffigen.Typedefs typedefs;
-
   /// [ffigen.FfiGenerator.objectiveC]
   final ffigen.ObjectiveC objectiveC;
 
@@ -230,7 +227,6 @@ class FfiGeneratorOptions {
 
   const FfiGeneratorOptions({
     this.functions = const ffigen.Functions(),
-    this.typedefs = const ffigen.Typedefs(),
     this.objectiveC = const ffigen.ObjectiveC(),
     this.visitors = const [],
   });
