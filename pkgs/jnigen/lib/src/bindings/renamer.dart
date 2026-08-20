@@ -164,7 +164,7 @@ class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
   @override
   final GenerationStage stage = GenerationStage.renamer;
 
-  final Config config;
+  final JniGenerator config;
 
   Renamer(this.config);
 
@@ -179,7 +179,7 @@ class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
 }
 
 class _ClassRenamer implements Visitor<ClassDecl, void> {
-  final Config config;
+  final JniGenerator config;
   final Set<ClassDecl> renamed;
   final Map<String, int> topLevelNameCounts = {
     ..._definedSyms,
@@ -258,7 +258,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
 class _MethodRenamer implements Visitor<Method, void> {
   _MethodRenamer(this.config, this.nameCounts, this.isInterface);
 
-  final Config config;
+  final JniGenerator config;
   final Map<String, int> nameCounts;
   final Map<String, String> propertyNames = {};
   final bool isInterface;
@@ -399,7 +399,7 @@ class _MethodRenamer implements Visitor<Method, void> {
 class _FieldRenamer implements Visitor<Field, void> {
   _FieldRenamer(this.config, this.nameCounts);
 
-  final Config config;
+  final JniGenerator config;
   final Map<String, int> nameCounts;
 
   @override
@@ -422,7 +422,7 @@ class _FieldRenamer implements Visitor<Field, void> {
 class _ParamRenamer implements Visitor<Param, void> {
   _ParamRenamer(this.config);
 
-  final Config config;
+  final JniGenerator config;
 
   @override
   void visit(Param node) {

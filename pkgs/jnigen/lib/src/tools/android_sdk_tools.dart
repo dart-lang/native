@@ -26,19 +26,19 @@ class GradleException extends _AndroidToolsException {
 }
 
 class AndroidSdkTools {
-  static String getAndroidSdkRoot() {
+  static Uri getAndroidSdkRoot() {
     final envVar = Platform.environment['ANDROID_SDK_ROOT'];
     if (envVar == null) {
       throw SdkNotFoundException('Android SDK not found. Please set '
           'ANDROID_SDK_ROOT environment variable or specify through command '
           'line override.');
     }
-    return envVar;
+    return Uri.directory(envVar);
   }
 
   static Future<String?> _getVersionDir(
-      String relative, String sdkRoot, List<int> versionOrder) async {
-    final parent = join(sdkRoot, relative);
+      String relative, Uri sdkRoot, List<int> versionOrder) async {
+    final parent = join(sdkRoot.toFilePath(), relative);
     for (var version in versionOrder) {
       final dir = Directory(join(parent, 'android-$version'));
       if (await dir.exists()) {
@@ -48,14 +48,14 @@ class AndroidSdkTools {
     return null;
   }
 
-  static Future<String?> _getFile(String sdkRoot, String relative,
-      List<int> versionOrder, String file) async {
+  static Future<Uri?> _getFile(
+      Uri sdkRoot, String relative, List<int> versionOrder, String file) async {
     final platform = await _getVersionDir(relative, sdkRoot, versionOrder);
     if (platform == null) return null;
     final filePath = join(platform, file);
     if (await File(filePath).exists()) {
       log.info('Found $filePath');
-      return filePath;
+      return Uri.file(filePath);
     }
     return null;
   }
@@ -68,8 +68,8 @@ class AndroidSdkTools {
       'control system or manually remove the stub functions named '
       '$_gradleGetClasspathTaskName and / or $_gradleGetSourcesTaskName.';
 
-  static Future<String?> getAndroidJarPath(
-          {required String sdkRoot, required List<int> versionOrder}) async =>
+  static Future<Uri?> getAndroidJarPath(
+          {required Uri sdkRoot, required List<int> versionOrder}) async =>
       await _getFile(sdkRoot, 'platforms', versionOrder, 'android.jar');
 
   static const _gradleGetClasspathTaskName = 'getReleaseCompileClasspath';
@@ -409,10 +409,10 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   /// If current project is not directly buildable by gradle, eg: a plugin,
   /// a relative path to other project can be specified using [androidProject].
   static List<String> getGradleClasspaths(
-          {Uri? configRoot, String androidProject = '.'}) =>
+          {Uri? configRoot, Uri? androidProject}) =>
       _runGradleStub(
         isSource: false,
-        androidProject: androidProject,
+        androidProject: androidProject ?? Uri.directory('.'),
         configRoot: configRoot,
       );
 
@@ -421,11 +421,10 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   /// This function temporarily overwrites the build.gradle file by a stub with
   /// function to list all dependency paths for release variant.
   /// This function fails if no gradle build is attempted before.
-  static List<String> getGradleSources(
-      {Uri? configRoot, String androidProject = '.'}) {
+  static List<String> getGradleSources({Uri? configRoot, Uri? androidProject}) {
     return _runGradleStub(
       isSource: true,
-      androidProject: androidProject,
+      androidProject: androidProject ?? Uri.directory('.'),
       configRoot: configRoot,
     );
   }
@@ -440,20 +439,22 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   static List<String> _runGradleStub({
     required bool isSource,
     Uri? configRoot,
-    String androidProject = '.',
+    Uri? androidProject,
   }) {
     final stubName =
         isSource ? _gradleGetSourcesTaskName : _gradleGetClasspathTaskName;
     log.info('trying to obtain gradle dependencies [$stubName]...');
-    if (configRoot != null) {
-      androidProject = configRoot.resolve(androidProject).toFilePath();
+    var androidProjectUri = androidProject ?? Uri.directory('.');
+    if (configRoot != null && !androidProjectUri.isAbsolute) {
+      androidProjectUri = configRoot.resolveUri(androidProjectUri);
+    }
+    final androidProjectPath = androidProjectUri.toFilePath();
+
+    if (_isFlutterProject(androidProjectPath)) {
+      _runFlutterConfigOnly(androidProjectPath);
     }
 
-    if (_isFlutterProject(androidProject)) {
-      _runFlutterConfigOnly(androidProject);
-    }
-
-    final android = join(androidProject, 'android');
+    final android = join(androidProjectPath, 'android');
     var buildGradle = join(android, 'build.gradle');
     final usesKotlinScript = !File.fromUri(Uri.file(buildGradle)).existsSync();
     if (usesKotlinScript) {
@@ -498,7 +499,7 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
       }
     }
     if (procRes.exitCode != 0) {
-      final inAndroidProject = _inAndroidProject(androidProject);
+      final inAndroidProject = _inAndroidProject(androidProjectPath);
       throw GradleException('''\n\nGradle execution failed.
 
 1. The most likely cause is that the Flutter metadata files are not yet cached.

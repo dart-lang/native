@@ -9,7 +9,6 @@ import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/dart_executable.dart';
 import 'package:jnigen/src/util/find_package.dart' hide findPackageRoot;
-import 'package:logging/logging.dart' show Level;
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
@@ -104,21 +103,21 @@ void comparePaths(String path1, String path2) {
   }
 }
 
-Future<void> _generateTempBindings(Config config, Directory tempDir) async {
+Future<void> _generateTempBindings(
+    JniGenerator config, Directory tempDir) async {
   final singleFile = config.output.dart.structure == OutputStructure.singleFile;
   final tempLib = singleFile
       ? tempDir.uri.resolve('generated.dart')
       : tempDir.uri.resolve('lib/');
   config.output.dart.path = tempLib;
-  config.logLevel = Level.WARNING;
-  await generateJniBindings(config);
+  await config.generate();
 }
 
 /// Generates and compares bindings with reference bindings.
 ///
 /// `dartReferenceBindings` can be directory or file depending on output
 /// configuration.
-Future<void> generateAndCompareBindings(Config config) async {
+Future<void> generateAndCompareBindings(JniGenerator config) async {
   final dartReferenceBindings = config.output.dart.path.toFilePath();
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync('jnigen_test_temp');
@@ -134,7 +133,7 @@ Future<void> generateAndCompareBindings(Config config) async {
   }
 }
 
-Future<void> generateAndAnalyzeBindings(Config config,
+Future<void> generateAndAnalyzeBindings(JniGenerator config,
     {Iterable<String> confirmExists = const []}) async {
   final tempDir = Directory.current.createTempSync('jnigen_test_temp');
   try {

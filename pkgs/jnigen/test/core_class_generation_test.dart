@@ -11,7 +11,7 @@ void main() {
   test('Java core libraries are generated without providing class path',
       () async {
     await generateAndAnalyzeBindings(
-      Config(
+      JniGenerator(
         input: Input(
           classes: [
             // A random assortment of Java core classes.
@@ -40,7 +40,7 @@ void main() {
   test('Kotlin stdlib libraries are generated without providing class path',
       () async {
     await generateAndAnalyzeBindings(
-      Config(
+      JniGenerator(
         input: Input(
           classes: [
             // A random assortment of Kotlin stdlib classes.
