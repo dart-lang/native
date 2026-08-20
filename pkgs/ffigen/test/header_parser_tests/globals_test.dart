@@ -100,7 +100,7 @@ Library expectedLibrary() {
         Visitor(
           global: (node) => node.isIncluded = true,
           struct: (node) => node.isIncluded = true,
-          typealias: (node) => node.isIncluded = true,
+          typealias: (node) => node.isIncluded = .always,
         ),
       ],
     ),
@@ -155,7 +155,11 @@ Library expectedLibrary() {
     ),
   ];
   for (final b in rawBindings) {
-    (b as dynamic).isIncluded = true;
+    if (b is Typealias) {
+      b.isIncluded = .always;
+    } else {
+      (b as dynamic).isIncluded = true;
+    }
   }
   return Library(
     context: context,

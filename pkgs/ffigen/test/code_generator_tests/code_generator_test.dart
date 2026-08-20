@@ -38,7 +38,7 @@ void main() {
                   enumClass: (node) => node.isIncluded = true,
                   global: (node) => node.isIncluded = true,
                   macroConstant: (node) => node.isIncluded = true,
-                  typealias: (node) => node.isIncluded = true,
+                  typealias: (node) => node.isIncluded = .always,
                 ),
               ],
         ),
