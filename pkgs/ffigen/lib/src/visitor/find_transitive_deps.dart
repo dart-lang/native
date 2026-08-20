@@ -55,7 +55,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    _visitImpl(node, config.objectiveC?.interfaces.includeTransitive ?? false);
+    _visitImpl(node, false);
 
     // Always visit the super type, regardless of whether the node is directly
     // included. This ensures that super types of stubs are also stubs, rather
@@ -74,7 +74,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    _visitImpl(node, config.objectiveC?.categories.includeTransitive ?? false);
+    _visitImpl(node, node.parent.includeCategories);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visit(node.parent);
@@ -82,7 +82,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    _visitImpl(node, config.objectiveC?.protocols.includeTransitive ?? false);
+    _visitImpl(node, false);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visitAll(node.superProtocols);

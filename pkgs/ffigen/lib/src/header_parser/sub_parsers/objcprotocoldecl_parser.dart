@@ -21,8 +21,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(
     return null;
   }
 
-  final objcProtocols = config.objectiveC?.protocols;
-  if (objcProtocols == null) {
+  if (config.objectiveC == null) {
     return null;
   }
 

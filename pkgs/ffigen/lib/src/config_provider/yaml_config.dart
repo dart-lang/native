@@ -1266,15 +1266,6 @@ final class YamlConfig {
       importType: importType,
       objectiveC: language == Language.objc
           ? ObjectiveC(
-              interfaces: Interfaces(
-                includeTransitive: includeTransitiveObjCInterfaces,
-              ),
-              protocols: Protocols(
-                includeTransitive: includeTransitiveObjCProtocols,
-              ),
-              categories: Categories(
-                includeTransitive: includeTransitiveObjCCategories,
-              ),
               externalVersions: externalVersions,
               // ignore: deprecated_member_use_from_same_package
               generateForPackageObjectiveC: generateForPackageObjectiveC,
@@ -1391,6 +1382,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.interfaceModule(_decl(node)) case final module?) {
       node.module = module;
     }
+    node.includeCategories = config.includeTransitiveObjCCategories;
   }
 
   @override
