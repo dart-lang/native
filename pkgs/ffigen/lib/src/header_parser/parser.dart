@@ -217,7 +217,7 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   ).byValueCompounds;
   visit(
     context,
-    ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
+    ClearOpaqueCompoundMembersVisitation(byValueCompounds, included),
     allBindings,
   );
 
@@ -258,17 +258,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   /// Handle any declaration-declaration name conflicts and emit warnings.
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b, context.logger);
-  }
-
-  // Override pack values according to config. We do this after declaration
-  // conflicts have been handled so that users can target the generated names.
-  for (final b in finalBindingsList) {
-    if (b is Struct) {
-      final pack = config.structs.packingOverride(b);
-      if (pack != null) {
-        b.pack = pack.value;
-      }
-    }
   }
 
   // Check that all ObjCMethods have their parent set correctly.

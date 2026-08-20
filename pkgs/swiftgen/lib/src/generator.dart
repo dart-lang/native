@@ -88,28 +88,22 @@ extension SwiftGenGenerator on SwiftGenerator {
         style: fg.NativeExternalBindings(assetId: output.assetId),
       ),
       functions: ffigen.functions,
-      structs: ffigen.structs,
-      unions: ffigen.unions,
-      enums: ffigen.enums,
-      globals: ffigen.globals,
       typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
         interfaces: fg.Interfaces(
           includeTransitive: interfaces.includeTransitive,
-          module: interfaces.module != fg.Interfaces.noModule
-              ? interfaces.module
-              : (_) => output.module,
         ),
-        protocols: fg.Protocols(
-          includeTransitive: protocols.includeTransitive,
-          module: protocols.module != fg.Protocols.noModule
-              ? protocols.module
-              : (_) => output.module,
-        ),
+        protocols: fg.Protocols(includeTransitive: protocols.includeTransitive),
         categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,
       ),
-      visitors: ffigen.visitors,
+      visitors: [
+        ...ffigen.visitors,
+        fg.Visitor(
+          objCInterface: (node) => node.module ??= output.module,
+          objCProtocol: (node) => node.module ??= output.module,
+        ),
+      ],
       input: fg.Input(
         entryPoints: [Uri.file(objcHeader)],
         compilerOptions: [

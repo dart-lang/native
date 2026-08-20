@@ -12,7 +12,6 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
-import 'config.dart';
 import 'path_finder.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
@@ -145,10 +144,6 @@ final class YamlDeclarationFilters {
   /// Checks if a member is allowed by a filter.
   bool shouldIncludeMember(Declaration declaration, String member) =>
       _memberIncluder.shouldInclude(declaration.originalName, member);
-
-  Declarations configAdapter() {
-    return Declarations(includeSymbolAddress: shouldIncludeSymbolAddress);
-  }
 }
 
 /// Matches `$<single_digit_int>`, value can be accessed in group 1 of match.

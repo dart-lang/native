@@ -44,6 +44,7 @@ class Struct extends Compound {
     super.nativeType,
     super.apiAvailability,
     super.sizeInBytes,
+    super.dependencies,
   });
 
   @override

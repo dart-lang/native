@@ -12,10 +12,12 @@ void main() {
     input: Input(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
-    functions: Functions(recordUse: (_) => true),
     visitors: [
       Visitor(
-        func: (node) => node.isIncluded = node.name == 'sqlite3_libversion',
+        func: (node) {
+          node.isIncluded = node.name == 'sqlite3_libversion';
+          node.recordUse = true;
+        },
       ),
     ],
     output: Output(

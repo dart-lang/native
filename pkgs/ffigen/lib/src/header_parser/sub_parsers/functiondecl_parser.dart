@@ -121,10 +121,7 @@ List<Func> parseFunctionDeclaration(
             for (final ta in vaFunc?.types ?? const <Type>[])
               Parameter(type: ta, name: 'va', objCConsumed: false),
           ],
-          exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
           exposeFunctionTypedefs: config.functions.includeTypedef(decl),
-          isLeaf: config.functions.isLeaf(decl),
-          recordUse: config.functions.recordUse(decl),
           objCReturnsRetained: objCReturnsRetained,
           loadFromNativeAsset: config.output.style is NativeExternalBindings,
           apiAvailability: apiAvailability,

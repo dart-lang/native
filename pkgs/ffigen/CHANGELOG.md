@@ -4,9 +4,17 @@
   - Replace various callback based config elements with a `Visitor` pattern.
     - `rename` and `renameMember` replaced with `.name` setters on AST nodes.
     - `include` and `includeMember` replaced with `.isIncluded` on AST nodes.
+    - `Functions/Globals.includeSymbolAddress` replaced with
+      `.exposeSymbolAddress` on AST nodes.
+    - `Structs.packingOverride` replaced with `Struct.pack`.
+    - `Enums.style` and `.silenceWarning` moved to `EnumClass` AST node.
+    - `Functions.isLeaf` and `.recordUse` moved to `Func` AST node.
+    - `Structs/Unions.dependencies` moved to `Struct/Union` AST nodes.
+    - `Interfaces/Protocols.module` moved to `ObjCInterface/ObjCProtocol` AST
+      nodes.
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
-  - Deleted empty `Integers` class
+  - Deleted many now empty sub-config classes
   - Rename `Headers` to `Input`
   - Remove `libraryImports`, which was dead code
   - Remove `useSupportedTypedefs`, treating it as always true

@@ -20,7 +20,6 @@ Type? parseObjCInterfaceDeclaration(
   if (cachedItf != null) return cachedItf;
 
   final name = cursor.spelling();
-  final decl = Declaration(usr: usr, originalName: name);
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
   final config = context.config;
@@ -39,7 +38,6 @@ Type? parseObjCInterfaceDeclaration(
     usr: usr,
     originalName: name,
     name: name,
-    module: objcInterfaces.module(decl),
     dartDoc: getCursorDocComment(
       context,
       cursor,

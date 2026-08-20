@@ -4,7 +4,6 @@
 
 import '../../code_generator.dart';
 import '../../config_provider/config.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -22,7 +21,6 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     return bindingsIndex.getSeenGlobalVar(usr);
   }
 
-  final decl = Declaration(usr: usr, originalName: name);
   final cType = cursor.type();
 
   ConstantValue? constantValue;
@@ -74,7 +72,6 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     usr: usr,
     type: type,
     dartDoc: getCursorDocComment(context, cursor),
-    exposeSymbolAddress: config.globals.includeSymbolAddress(decl),
     constant: cType.isConstQualified,
     constantValue: constantValue,
     loadFromNativeAsset: nativeOutputStyle,

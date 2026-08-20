@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider.dart';
+import '../config_provider/config.dart' show EnumStyle;
+import '../config_provider/config_types.dart';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
@@ -27,6 +28,9 @@ abstract class Compound extends BindingType with HasLocalScope {
   /// Value for `@Packed(X)` annotation. Can be null (no packing), 1, 2, 4, 8,
   /// or 16.
   int? get pack;
+
+  /// How dependencies of this compound should be generated.
+  CompoundDependencies dependencies;
 
   /// Marker for checking if the dependencies are parsed.
   bool parsedDependencies = false;
@@ -57,6 +61,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     String? nativeType,
     this.apiAvailability,
     this.sizeInBytes,
+    this.dependencies = CompoundDependencies.opaque,
   }) : members = members ?? [],
        nativeType = nativeType ?? originalName ?? name;
 
@@ -86,7 +91,7 @@ abstract class Compound extends BindingType with HasLocalScope {
 
   bool _isEnumDartStyleMember(CompoundMember member) {
     final type = member.type;
-    return type is EnumClass && type.style == EnumStyle.dartEnum;
+    return type is EnumClass && type.effectiveStyle == EnumStyle.dartEnum;
   }
 
   String _memberStorageName(CompoundMember member) {
@@ -196,8 +201,8 @@ abstract class Compound extends BindingType with HasLocalScope {
         );
       }
       if (m.type case EnumClass(
-        :final style,
-      ) when style == EnumStyle.dartEnum) {
+        :final effectiveStyle,
+      ) when effectiveStyle == EnumStyle.dartEnum) {
         final enumName = m.type.getDartType(context);
         final memberName = m.name;
         s.write(

@@ -202,7 +202,6 @@ void main() {
           ],
           include: (Uri header) => header.pathSegments.last == 'sqlite3.h',
         ),
-        structs: const Structs(dependencies: CompoundDependencies.full),
         visitors: [
           Visitor(
             func: (node) {
@@ -222,6 +221,7 @@ void main() {
               } else {
                 node.isIncluded = true;
               }
+              node.dependencies = CompoundDependencies.full;
             },
             typealias: (node) {
               if (vaRegex.hasMatch(node.originalName)) {

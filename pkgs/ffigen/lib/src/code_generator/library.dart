@@ -36,7 +36,6 @@ class Library {
     generateForPackageObjectiveC:
         // ignore: deprecated_member_use_from_same_package
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
-    silenceEnumWarning: context.config.enums.silenceWarning,
     nativeEntryPoints: context.config.input.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
@@ -48,7 +47,6 @@ class Library {
     required List<Binding> bindings,
     String? header,
     bool generateForPackageObjectiveC = false,
-    bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
     required Context context,
   }) {
@@ -91,7 +89,6 @@ class Library {
       classDocComment: description,
       header: header,
       generateForPackageObjectiveC: generateForPackageObjectiveC,
-      silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
       context: context,
     );

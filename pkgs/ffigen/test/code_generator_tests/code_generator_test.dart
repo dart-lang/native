@@ -499,6 +499,7 @@ void main() {
       final enum1 = EnumClass(
         context: context,
         name: 'MyEnum',
+        silenceWarning: true,
         enumConstants: [
           EnumConstant(name: 'value1', value: 0),
           EnumConstant(name: 'value2', value: 1),
@@ -518,7 +519,6 @@ void main() {
       final library = Library(
         context: context,
         header: '$licenseHeader\n',
-        silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
           enum2,
@@ -546,6 +546,7 @@ void main() {
       final enum1 = EnumClass(
         context: context,
         name: 'Enum1',
+        silenceWarning: true,
         enumConstants: [
           EnumConstant(name: 'a', value: 0),
           EnumConstant(name: 'b', value: 1),
@@ -602,7 +603,6 @@ void main() {
       final lib = Library(
         context: context,
         header: '$licenseHeader\n',
-        silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
           enum2,

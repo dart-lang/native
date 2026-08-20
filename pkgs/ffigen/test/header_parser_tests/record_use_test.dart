@@ -17,11 +17,11 @@ void main() {
       );
       final generator = FfiGenerator(
         input: Input(entryPoints: [Uri.file(headerFile)]),
-        functions: Functions(recordUse: (decl) => true),
         visitors: [
           Visitor(
             func: (node) {
               node.isIncluded = true;
+              node.recordUse = true;
               if (node.name == 'sum') {
                 node.name = 'add';
               }

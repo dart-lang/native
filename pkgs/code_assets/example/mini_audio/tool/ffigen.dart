@@ -10,17 +10,21 @@ void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
     input: Input(entryPoints: [packageRoot.resolve('third_party/miniaudio.h')]),
-    functions: Functions(recordUse: (_) => true),
-    enums: const Enums(silenceWarning: true),
     visitors: [
       Visitor(
-        func: (node) => node.isIncluded = {
-          'ma_engine_init',
-          'ma_engine_play_sound',
-          'ma_engine_uninit',
-        }.contains(node.name),
+        func: (node) {
+          node.isIncluded = {
+            'ma_engine_init',
+            'ma_engine_play_sound',
+            'ma_engine_uninit',
+          }.contains(node.name);
+          node.recordUse = true;
+        },
         struct: (node) => node.isIncluded = node.name == 'ma_engine',
-        enumClass: (node) => node.isIncluded = node.name == 'ma_result',
+        enumClass: (node) {
+          node.isIncluded = node.name == 'ma_result';
+          node.silenceWarning = true;
+        },
       ),
     ],
     output: Output(

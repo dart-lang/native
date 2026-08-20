@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart' as internal;
+import 'config.dart';
+import 'config_types.dart';
 import 'public_visitor.dart';
 
 export 'public_visitor.dart';
@@ -44,6 +46,30 @@ class Func extends DeclNode {
       .toList();
 
   Func(this._func);
+
+  /// Whether this function is a leaf function.
+  ///
+  /// This corresponds to the `isLeaf` parameter of FFI's `lookupFunction`.
+  /// For more details, its documentation is here:
+  /// https://api.dart.dev/dart-ffi/DynamicLibraryExtension/lookupFunction.html
+  bool get isLeaf => _func.isLeaf;
+  set isLeaf(bool value) => _func.isLeaf = value;
+
+  /// Whether usage of this function should be recorded.
+  ///
+  /// When `true`, the generated Dart function is annotated with `@RecordUse()`
+  /// from `package:meta`, allowing build tools and static analyzers to track
+  /// references to this native function.
+  bool get recordUse => _func.recordUse;
+  set recordUse(bool value) => _func.recordUse = value;
+
+  /// Whether to expose the symbol address for this function declaration in
+  /// generated Dart bindings.
+  ///
+  /// When `true`, the function's symbol address is made available via the
+  /// `addresses` getter as a `Pointer<NativeFunction<...>>`.
+  bool get exposeSymbolAddress => _func.exposeSymbolAddress;
+  set exposeSymbolAddress(bool value) => _func.exposeSymbolAddress = value;
 
   @override
   void accept(Visitor visitor) {
@@ -97,6 +123,19 @@ class Struct extends DeclNode {
   @override
   set name(String value) => _struct.symbol.oldName = value;
 
+  /// The byte alignment packing override for this struct declaration, or `null`
+  /// if default alignment should be used.
+  ///
+  /// When specified, the generated Dart struct will be annotated with
+  /// `@ffi.Packed(value)`. Supported values for packing are `1`, `2`, `4`, `8`,
+  /// and `16`.
+  int? get pack => _struct.pack;
+  set pack(int? value) => _struct.pack = value;
+
+  /// How dependencies of this struct should be generated.
+  CompoundDependencies get dependencies => _struct.dependencies;
+  set dependencies(CompoundDependencies value) => _struct.dependencies = value;
+
   /// Whether this Struct should be included in code generation.
   bool get isIncluded => _struct.isIncluded;
   set isIncluded(bool value) => _struct.isIncluded = value;
@@ -131,6 +170,10 @@ class Union extends DeclNode {
   @override
   set name(String value) => _union.symbol.oldName = value;
 
+  /// How dependencies of this union should be generated.
+  CompoundDependencies get dependencies => _union.dependencies;
+  set dependencies(CompoundDependencies value) => _union.dependencies = value;
+
   /// Whether this Union should be included in code generation.
   bool get isIncluded => _union.isIncluded;
   set isIncluded(bool value) => _union.isIncluded = value;
@@ -146,6 +189,24 @@ class EnumClass extends DeclNode {
       .toList();
 
   EnumClass(this._enumClass);
+
+  /// The [EnumStyle] for generating this enum declaration.
+  ///
+  /// The initial value of this field is based on parsing annotations on the
+  /// enum. It will be `null` if there isn't enough information to decide.
+  ///
+  /// If it's still null after the visitors are run, [EnumStyle.dartEnum] will
+  /// be used.
+  EnumStyle? get style => _enumClass.style;
+  set style(EnumStyle? value) => _enumClass.style = value;
+
+  /// Whether warnings associated with this enum declaration should be
+  /// suppressed.
+  ///
+  /// When `true`, warnings generated during processing of this enum (such as
+  /// name collisions or unsupported enum features) will be silenced.
+  bool get silenceWarning => _enumClass.silenceWarning;
+  set silenceWarning(bool value) => _enumClass.silenceWarning = value;
 
   @override
   void accept(Visitor visitor) {
@@ -175,6 +236,14 @@ class Global extends DeclNode {
   final internal.Global _global;
 
   Global(this._global);
+
+  /// Whether to expose the symbol address for this global variable
+  /// declaration in generated Dart bindings.
+  ///
+  /// When `true`, the global variable's symbol address is made available via
+  /// the `addresses` getter as a `Pointer<...>`.
+  bool get exposeSymbolAddress => _global.exposeSymbolAddress;
+  set exposeSymbolAddress(bool value) => _global.exposeSymbolAddress = value;
 
   @override
   void accept(Visitor visitor) => visitor.visitGlobal(this);
@@ -277,6 +346,10 @@ class ObjCInterface extends DeclNode {
   @override
   set name(String value) => _interface.symbol.oldName = value;
 
+  /// The module that the Objective-C interface belongs to.
+  String? get module => _interface.module;
+  set module(String? value) => _interface.module = value;
+
   /// Whether this ObjCInterface should be included in code generation.
   bool get isIncluded => _interface.isIncluded;
   set isIncluded(bool value) => _interface.isIncluded = value;
@@ -310,6 +383,10 @@ class ObjCProtocol extends DeclNode {
 
   @override
   set name(String value) => _protocol.symbol.oldName = value;
+
+  /// The module that the Objective-C protocol belongs to.
+  String? get module => _protocol.module;
+  set module(String? value) => _protocol.module = value;
 
   /// Whether this ObjCProtocol should be included in code generation.
   bool get isIncluded => _protocol.isIncluded;
