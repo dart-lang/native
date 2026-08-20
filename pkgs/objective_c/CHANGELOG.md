@@ -1,4 +1,4 @@
-## 9.6.0-wip
+## 9.6.0
 
 - Add a bunch more categories to the bindings.
 - Bump `package:code_assets` dependency to `^2.0.0`.
