@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart';
+import 'package:file/local.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -67,6 +67,9 @@ class CLinker extends CTool implements Linker {
   /// If provided, uses [processManager] to spawn processes. Otherwise, uses a
   /// [LocalProcessManager] that spawns real processes.
   ///
+  /// If provided, uses [fileSystem] to access the file system. Otherwise, uses
+  /// a [LocalFileSystem] that accesses the real file system.
+  ///
   /// If you're using [CBuilder] in a build hook and [CLinker] in a link hook,
   /// see [CLibrary] to combine them.
   @override
@@ -75,6 +78,7 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     Logger? logger,
     ProcessManager? processManager,
+    FileSystem? fileSystem,
     LinkerOptions? linkerOptions,
     LinkModePreference? linkModePreference,
     List<String>? sources,
@@ -82,6 +86,7 @@ class CLinker extends CTool implements Linker {
   }) async {
     logger ??= createDefaultLogger();
     processManager ??= const LocalProcessManager();
+    fileSystem ??= const LocalFileSystem();
     final effectiveLinkerOptions = linkerOptions ?? this.linkerOptions;
     if (effectiveLinkerOptions != null &&
         effectiveLinkerOptions.skipWholeLibrary) {
@@ -90,7 +95,7 @@ class CLinker extends CTool implements Linker {
     }
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
-    await Directory.fromUri(outDir).create(recursive: true);
+    await fileSystem.directory(outDir).create(recursive: true);
     final linkMode = getLinkMode(
       linkModePreference ??
           this.linkModePreference ??
@@ -117,6 +122,7 @@ class CLinker extends CTool implements Linker {
       linkerOptions: linkerOptions ?? this.linkerOptions,
       logger: logger,
       processManager: processManager,
+      fileSystem: fileSystem,
       sources: resolvedSources,
       includes: includes,
       frameworks: frameworks,
@@ -148,7 +154,8 @@ class CLinker extends CTool implements Linker {
     }
     final includeFiles = await Stream.fromIterable(includes)
         .asyncExpand(
-          (include) => Directory(include.toFilePath())
+          (include) => fileSystem!
+              .directory(include.toFilePath())
               .list(recursive: true)
               .where((entry) => entry is File)
               .map((file) => file.uri),

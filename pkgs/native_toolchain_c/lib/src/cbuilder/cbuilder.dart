@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart';
+import 'package:file/local.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -133,6 +133,9 @@ class CBuilder extends CTool implements Builder {
   /// If provided, uses [processManager] to spawn processes. Otherwise, uses a
   /// [LocalProcessManager] that spawns real processes.
   ///
+  /// If provided, uses [fileSystem] to access the file system. Otherwise, uses
+  /// a [LocalFileSystem] that accesses the real file system.
+  ///
   /// If you're using [CBuilder] in a build hook and [CLinker] in a link hook,
   /// see [CLibrary] to combine them.
   @override
@@ -141,12 +144,14 @@ class CBuilder extends CTool implements Builder {
     required BuildOutputBuilder output,
     Logger? logger,
     ProcessManager? processManager,
+    FileSystem? fileSystem,
     List<AssetRouting> routing = const [ToAppBundle()],
     LinkModePreference? linkModePreference,
     Map<String, String?>? defines,
   }) async {
     logger ??= createDefaultLogger();
     processManager ??= const LocalProcessManager();
+    fileSystem ??= const LocalFileSystem();
     if (!input.config.buildCodeAssets) {
       logger.info(
         'config.buildAssetTypes did not contain CodeAssets, '
@@ -161,7 +166,7 @@ class CBuilder extends CTool implements Builder {
     );
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
-    await Directory.fromUri(outDir).create(recursive: true);
+    await fileSystem.directory(outDir).create(recursive: true);
     final linkMode = getLinkMode(
       linkModePreference ??
           this.linkModePreference ??
@@ -199,6 +204,7 @@ class CBuilder extends CTool implements Builder {
       codeConfig: input.config.code,
       logger: logger,
       processManager: processManager,
+      fileSystem: fileSystem,
       sources: sources,
       includes: includes,
       forcedIncludes: forcedIncludes,
@@ -246,7 +252,8 @@ class CBuilder extends CTool implements Builder {
 
     final includeFiles = await Stream.fromIterable(includes)
         .asyncExpand(
-          (include) => Directory(include.toFilePath())
+          (include) => fileSystem!
+              .directory(include.toFilePath())
               .list(recursive: true)
               .where((entry) => entry is File)
               .map((file) => file.uri),

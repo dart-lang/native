@@ -80,6 +80,7 @@ void main() {
               'productId': 'Microsoft.VisualStudio.Product.Incomplete',
             },
           ]),
+          systemContext.fileSystem,
         );
 
     expect(instances, hasLength(2));
