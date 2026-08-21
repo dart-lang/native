@@ -154,15 +154,14 @@ void main() {
   });
 
   test('InstallLocationResolver with memory file system', () async {
-    final fileSystem = MemoryFileSystem(
-      style: Platform.isWindows
-          ? FileSystemStyle.windows
-          : FileSystemStyle.posix,
-    );
+    // Always POSIX style here. Glob patterns have to use forward slashes,
+    // since a backslash escapes in a glob, and a Windows style memory file
+    // system roots at `C:\`, so globbing a `C:/` path finds no root. A POSIX
+    // fake keeps this test the same on every host.
+    final fileSystem = MemoryFileSystem();
     // A tool laid out in the memory file system, found by globbing.
     final dir = fileSystem.systemTempDirectory.createTempSync();
-    final barFile = dir.childFile(OS.current.executableFileName('bar'))
-      ..createSync();
+    final barFile = dir.childFile('bar')..createSync();
     final context = ToolResolvingContext(
       logger: logger,
       fileSystem: fileSystem,
@@ -170,7 +169,7 @@ void main() {
 
     final resolver = InstallLocationResolver(
       toolName: 'bar',
-      paths: [barFile.path.replaceAll('\\', '/')],
+      paths: [barFile.path],
     );
     final resolved = await resolver.resolve(context);
     expect(resolved.single.uri, barFile.uri);
