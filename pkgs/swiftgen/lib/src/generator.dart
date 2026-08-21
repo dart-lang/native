@@ -85,7 +85,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         preamble: output.preamble,
         style: fg.NativeExternalBindings(assetId: output.assetId),
       ),
-      functions: ffigen.functions,
       objectiveC: fg.ObjectiveC(
         externalVersions: ffigen.objectiveC.externalVersions,
       ),

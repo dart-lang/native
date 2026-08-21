@@ -19,6 +19,7 @@ import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/create_scopes.dart';
 import '../visitor/default_param_names.dart';
+import '../visitor/expand_varargs.dart';
 import '../visitor/fill_method_dependencies.dart';
 import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';
@@ -185,16 +186,16 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
-  final allBindings = visit(
+  final almostAllBindings = visit(
     context,
     FindTransitiveDepsVisitation(rawBindings),
     rawBindings,
   ).transitives;
 
-  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
-  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+  visit(context, CopyMethodsFromSuperTypesVisitation(), almostAllBindings);
+  visit(context, FixOverriddenMethodsVisitation(context), almostAllBindings);
 
-  final publicNodes = allBindings
+  final publicNodes = almostAllBindings
       .where((b) => !b.isInternal)
       .map((b) => b.toPublicAstNode())
       .nonNulls
@@ -202,6 +203,12 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   for (final visitor in config.visitors) {
     visitor.visitAll(publicNodes);
   }
+
+  final allBindings = visit(
+    context,
+    ExpandVarargsVisitation(config, almostAllBindings),
+    almostAllBindings,
+  ).bindings;
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
   visit(context, applyConfigFiltersVisitation, allBindings);
