@@ -2,6 +2,9 @@
 
 - **Breaking Change**: Restructured Dart `Config` API to align with
   `package:ffigen`. The YAML format has not changed.
+  - Rename `Config` class to `JniGenerator`, matching FFIgen's approach.
+  - `generateJniBindings` is now an extension method on `JniGenerator` called
+    `generate`.
   - Group `classes`, `sourcePath`, `classPath`, `summarizerOptions`,
     `mavenDownloads`, and `androidSdkConfig` into `Input`.
   - Group `import` and `hide` into `SymbolImports`, which lives in
@@ -14,7 +17,10 @@
   - Flip `isExcluded` to `isIncluded`.
   - Make a bunch of nullable fields non-null, if null was functionally
     identical to a default value.
-  - Allow interface mixin names to be customized using the visitor API.
+  - Remove `logLevel` from the config, and instead pass a `Logger` object to
+    the `generate` function.
+  - Change remaining `String` paths to `Uri`.
+- Allow interface mixin names to be customized using the visitor API.
 
 ## 0.17.0
 
