@@ -14,6 +14,9 @@
     - `Structs/Unions.dependencies` moved to `Struct/Union` AST nodes.
     - `Interfaces/Protocols.module` moved to `ObjCInterface/ObjCProtocol` AST
       nodes.
+    - `Interfaces/Protocols.includeTransitive` removed (always false).
+    - `Categories.includeTransitive` replaced with
+      `ObjCInterface.includeCategories`.
     - `Typedefs.includeUnused` consolidated into `Typealias.isIncluded` using
       `TypealiasInclude` enum (`never`, `ifUsed`, `always`).
   - Consolidate `imported` fields and `importedTypesByUsr` into

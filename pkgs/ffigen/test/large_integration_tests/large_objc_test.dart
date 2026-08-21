@@ -90,9 +90,6 @@ void main() {
 ''',
       ),
       objectiveC: ObjectiveC(
-        interfaces: const Interfaces(includeTransitive: false),
-        protocols: const Protocols(includeTransitive: false),
-        categories: const Categories(includeTransitive: false),
         externalVersions: ExternalVersions(
           ios: Versions(min: Version(12, 0, 0)),
           macos: Versions(min: Version(10, 14, 0)),
@@ -117,8 +114,10 @@ void main() {
           typealias: (node) => node.isIncluded =
               stableRandomInclude('typedefs', node) ? .ifUsed : .never,
           macroConstant: (node) => node.isIncluded = false,
-          objCInterface: (node) =>
-              node.isIncluded = stableRandomInclude('objcInterfaces', node),
+          objCInterface: (node) {
+            node.includeCategories = false;
+            node.isIncluded = stableRandomInclude('objcInterfaces', node);
+          },
           objCProtocol: (node) => node.isIncluded = stableRandomInclude(
             'objcProtocols',
             node,

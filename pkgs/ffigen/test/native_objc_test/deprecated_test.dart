@@ -45,15 +45,17 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ],
     ),
     objectiveC: ObjectiveC(
-      categories: const Categories(includeTransitive: false),
       externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
     visitors: [
       Visitor(
-        objCInterface: (node) => node.isIncluded = {
-          'DeprecatedInterfaceMethods',
-          'DeprecatedInterface',
-        }.contains(node.originalName),
+        objCInterface: (node) {
+          node.includeCategories = false;
+          node.isIncluded = {
+            'DeprecatedInterfaceMethods',
+            'DeprecatedInterface',
+          }.contains(node.originalName);
+        },
         objCProtocol: (node) => node.isIncluded = {
           'DeprecatedProtocolMethods',
           'DeprecatedProtocol',

@@ -23,8 +23,7 @@ Type? parseObjCInterfaceDeclaration(
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
   final config = context.config;
-  final objcInterfaces = config.objectiveC?.interfaces;
-  if (objcInterfaces == null) {
+  if (config.objectiveC == null) {
     return null;
   }
 
