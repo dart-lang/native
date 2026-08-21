@@ -12,7 +12,6 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
-import 'config.dart';
 import 'path_finder.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
@@ -42,6 +41,26 @@ enum CommentStyle { doxygen, any }
 enum CommentLength { none, brief, full }
 
 enum CompoundDependencies { full, opaque }
+
+/// Controls whether and how a [Typealias] (typedef) is included in generated
+/// code.
+enum TypealiasInclude {
+  /// Never generate a typedef declaration for this typealias.
+  ///
+  /// Any generated functions, structs, or other bindings that reference this
+  /// typealias will inline the underlying aliased type instead.
+  never,
+
+  /// Generate a typedef declaration only if this typealias is referenced by
+  /// another generated binding.
+  ///
+  /// If no generated bindings reference this typealias, it is omitted.
+  ifUsed,
+
+  /// Always generate a typedef declaration for this typealias, even if no
+  /// other generated bindings reference it.
+  always,
+}
 
 /// Holds config for how Structs Packing will be overriden.
 class StructPackingOverride {
@@ -145,10 +164,6 @@ final class YamlDeclarationFilters {
   /// Checks if a member is allowed by a filter.
   bool shouldIncludeMember(Declaration declaration, String member) =>
       _memberIncluder.shouldInclude(declaration.originalName, member);
-
-  Declarations configAdapter() {
-    return Declarations(includeSymbolAddress: shouldIncludeSymbolAddress);
-  }
 }
 
 /// Matches `$<single_digit_int>`, value can be accessed in group 1 of match.

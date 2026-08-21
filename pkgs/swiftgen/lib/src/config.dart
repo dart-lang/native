@@ -219,21 +219,6 @@ class FfiGeneratorOptions {
   /// [ffigen.FfiGenerator.functions]
   final ffigen.Functions functions;
 
-  /// [ffigen.FfiGenerator.structs]
-  final ffigen.Structs structs;
-
-  /// [ffigen.FfiGenerator.unions]
-  final ffigen.Unions unions;
-
-  /// [ffigen.FfiGenerator.enums]
-  final ffigen.Enums enums;
-
-  /// [ffigen.FfiGenerator.globals]
-  final ffigen.Globals globals;
-
-  /// [ffigen.FfiGenerator.typedefs]
-  final ffigen.Typedefs typedefs;
-
   /// [ffigen.FfiGenerator.objectiveC]
   final ffigen.ObjectiveC objectiveC;
 
@@ -242,11 +227,6 @@ class FfiGeneratorOptions {
 
   const FfiGeneratorOptions({
     this.functions = const ffigen.Functions(),
-    this.structs = const ffigen.Structs(),
-    this.unions = const ffigen.Unions(),
-    this.enums = const ffigen.Enums(),
-    this.globals = const ffigen.Globals(),
-    this.typedefs = const ffigen.Typedefs(),
     this.objectiveC = const ffigen.ObjectiveC(),
     this.visitors = const [],
   });

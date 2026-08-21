@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/bindings/dart_generator.dart';
 import 'package:jnigen/src/bindings/linker.dart';
 import 'package:jnigen/src/bindings/renamer.dart';
 import 'package:jnigen/src/elements/elements.dart' as ast;
@@ -30,7 +33,7 @@ extension on Iterable<ast.Field> {
 }
 
 Future<void> rename(ast.Classes classes) async {
-  final config = Config(
+  final config = JniGenerator(
     input: Input(classes: []),
     output: Output(
       dart: DartCodeOutput(
@@ -254,5 +257,102 @@ void main() {
 
     expect(classes.decls['y.Foo']?.methods.first.params.finalNames,
         ['Bar', 'Bar1']);
+  });
+
+  test('Rename interface mixin using the user visitor', () async {
+    final classes = ast.Classes({
+      'Foo': ast.ClassDecl(
+        binaryName: 'Foo',
+        declKind: ast.DeclKind.interfaceKind,
+        superclass: ast.DeclaredType.object,
+      ),
+    });
+
+    Classes(classes).accept(
+      Visitor(
+        classDecl: (c) {
+          if (c.originalName == 'Foo') {
+            c.interfaceMixinName = 'FooInterface';
+          }
+        },
+      ),
+    );
+
+    expect(
+      classes.decls['Foo']!.userDefinedInterfaceMixinName,
+      'FooInterface',
+    );
+
+    await rename(classes);
+
+    expect(
+      classes.decls['Foo']!.finalInterfaceMixinName,
+      'FooInterface',
+    );
+  });
+
+  test('Use the renamed interface mixin in generated bindings', () async {
+    final tempDirectory = Directory.systemTemp.createTempSync(
+      'jnigen_interface_mixin_test_',
+    );
+    addTearDown(() => tempDirectory.deleteSync(recursive: true));
+
+    final output = tempDirectory.uri.resolve('bindings.dart');
+    final config = JniGenerator(
+      input: Input(classes: []),
+      output: Output(
+        dart: DartCodeOutput(
+          path: output,
+          structure: OutputStructure.singleFile,
+        ),
+      ),
+    );
+
+    final classes = ast.Classes({
+      'Foo': ast.ClassDecl(
+        binaryName: 'Foo',
+        declKind: ast.DeclKind.interfaceKind,
+        superclass: ast.DeclaredType.object,
+        methods: [
+          ast.Method(
+            name: 'run',
+            returnType: ast.PrimitiveType.fromJson({'name': 'void'}),
+          ),
+        ],
+      ),
+    });
+
+    Classes(classes).accept(
+      Visitor(
+        classDecl: (c) {
+          if (c.originalName == 'Foo') {
+            c.interfaceMixinName = 'FooInterface';
+          }
+        },
+      ),
+    );
+
+    await classes.accept(Linker(config));
+    classes.accept(Renamer(config));
+    await classes.accept(DartGenerator(config));
+
+    final content = File.fromUri(output).readAsStringSync();
+
+    expect(
+      content,
+      contains('abstract base mixin class FooInterface'),
+    );
+    expect(
+      content,
+      contains('final class _FooInterface with FooInterface'),
+    );
+    expect(
+      content,
+      contains(r'FooInterface $impl'),
+    );
+    expect(
+      content,
+      isNot(contains(r'abstract base mixin class $Foo')),
+    );
   });
 }

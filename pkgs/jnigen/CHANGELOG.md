@@ -14,6 +14,7 @@
   - Flip `isExcluded` to `isIncluded`.
   - Make a bunch of nullable fields non-null, if null was functionally
     identical to a default value.
+  - Allow interface mixin names to be customized using the visitor API.
 
 ## 0.17.0
 

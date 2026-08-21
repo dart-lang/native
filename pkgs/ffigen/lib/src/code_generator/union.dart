@@ -38,11 +38,11 @@ class Union extends Compound {
     super.isIncomplete,
     super.dartDoc,
     super.members,
-    super.isInternal,
     required super.context,
     super.nativeType,
     super.apiAvailability,
     super.sizeInBytes,
+    super.dependencies,
   });
 
   @override

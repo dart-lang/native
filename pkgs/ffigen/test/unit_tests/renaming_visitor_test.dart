@@ -2,10 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/ffigen.dart' show FfiGenerator, Output, YamlConfig;
+import 'package:ffigen/ffigen.dart'
+    show CompoundDependencies, FfiGenerator, Output, YamlConfig;
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
+import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
@@ -648,6 +651,692 @@ objc-interfaces:
         publicCppClass.methods[0].params[0].parent,
         same(publicCppClass.methods[0]),
       );
+    });
+
+    test('EnumClass style and effectiveStyle', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final cgEnum = EnumClass(
+        name: 'my_enum',
+        originalName: 'my_enum',
+        context: context,
+      );
+      final publicEnum = public_ast.EnumClass(cgEnum);
+
+      // Verify style is null by default, effectiveStyle is dartEnum.
+      expect(cgEnum.style, isNull);
+      expect(cgEnum.effectiveStyle, EnumStyle.dartEnum);
+      expect(publicEnum.style, isNull);
+
+      // Setting style on publicEnum updates both.
+      publicEnum.style = EnumStyle.intConstants;
+      expect(publicEnum.style, EnumStyle.intConstants);
+      expect(cgEnum.style, EnumStyle.intConstants);
+      expect(cgEnum.effectiveStyle, EnumStyle.intConstants);
+
+      // Resetting style to null.
+      publicEnum.style = null;
+      expect(publicEnum.style, isNull);
+      expect(cgEnum.style, isNull);
+
+      // Setting style on cgEnum updates both and effectiveStyle.
+      cgEnum.style = EnumStyle.intConstants;
+      expect(cgEnum.style, EnumStyle.intConstants);
+      expect(publicEnum.style, EnumStyle.intConstants);
+      expect(cgEnum.effectiveStyle, EnumStyle.intConstants);
+
+      // Overriding style on publicEnum.
+      publicEnum.style = EnumStyle.dartEnum;
+      expect(publicEnum.style, EnumStyle.dartEnum);
+      expect(cgEnum.style, EnumStyle.dartEnum);
+      expect(cgEnum.effectiveStyle, EnumStyle.dartEnum);
+    });
+
+    test(
+      'YamlConfigAstVisitor sets EnumClass.style when enumShouldBeInt is true',
+      () {
+        final yamlConfig = YamlConfig.fromYaml(
+          loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+enums:
+  as-int:
+    include:
+      - 'MyIntEnum'
+''')
+              as YamlMap,
+          createTestLogger(),
+        );
+
+        final generator = yamlConfig.configAdapter();
+        final context = testContext(generator);
+
+        final cgIntEnum = EnumClass(
+          name: 'MyIntEnum',
+          originalName: 'MyIntEnum',
+          context: context,
+        );
+        final cgNormalEnum = EnumClass(
+          name: 'MyNormalEnum',
+          originalName: 'MyNormalEnum',
+          context: context,
+        );
+
+        final nodes = <Binding>[
+          cgIntEnum,
+          cgNormalEnum,
+        ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+        generator.visitors.first.visitAll(nodes);
+
+        expect(
+          (nodes[0] as public_ast.EnumClass).style,
+          EnumStyle.intConstants,
+        );
+        expect((nodes[1] as public_ast.EnumClass).style, isNull);
+        expect(cgNormalEnum.effectiveStyle, EnumStyle.dartEnum);
+      },
+    );
+
+    test('EnumClass silenceWarning getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+
+      final cgEnum = EnumClass(
+        name: 'my_enum',
+        originalName: 'my_enum',
+        context: context,
+      );
+      final publicEnum = public_ast.EnumClass(cgEnum);
+
+      expect(cgEnum.silenceWarning, false);
+      expect(publicEnum.silenceWarning, false);
+
+      publicEnum.silenceWarning = true;
+      expect(publicEnum.silenceWarning, true);
+      expect(cgEnum.silenceWarning, true);
+
+      publicEnum.silenceWarning = false;
+      expect(publicEnum.silenceWarning, false);
+      expect(cgEnum.silenceWarning, false);
+    });
+
+    test('YamlConfigAstVisitor sets EnumClass.silenceWarning from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+silence-enum-warning: true
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final context = testContext(generator);
+
+      final cgEnum = EnumClass(
+        name: 'MyEnum',
+        originalName: 'MyEnum',
+        context: context,
+      );
+
+      final nodes = <Binding>[
+        cgEnum,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect((nodes[0] as public_ast.EnumClass).silenceWarning, true);
+      expect(cgEnum.silenceWarning, true);
+    });
+
+    test('public_ast.Func.isLeaf getter and setter', () {
+      final cgFunc = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+
+      expect(publicFunc.isLeaf, false);
+      expect(cgFunc.isLeaf, false);
+
+      publicFunc.isLeaf = true;
+      expect(publicFunc.isLeaf, true);
+      expect(cgFunc.isLeaf, true);
+
+      publicFunc.isLeaf = false;
+      expect(publicFunc.isLeaf, false);
+      expect(cgFunc.isLeaf, false);
+    });
+
+    test('public_ast.Func.recordUse getter and setter', () {
+      final cgFunc = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+
+      expect(publicFunc.recordUse, false);
+      expect(cgFunc.recordUse, false);
+
+      publicFunc.recordUse = true;
+      expect(publicFunc.recordUse, true);
+      expect(cgFunc.recordUse, true);
+
+      publicFunc.recordUse = false;
+      expect(publicFunc.recordUse, false);
+      expect(cgFunc.recordUse, false);
+    });
+
+    test('YamlConfigAstVisitor sets Func.isLeaf from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+functions:
+  leaf:
+    include:
+      - 'leaf_func'
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final cgLeafFunc = Func(
+        name: 'leaf_func',
+        originalName: 'leaf_func',
+        returnType: voidType,
+      );
+      final cgNormalFunc = Func(
+        name: 'normal_func',
+        originalName: 'normal_func',
+        returnType: voidType,
+      );
+
+      final nodes = <Binding>[
+        cgLeafFunc,
+        cgNormalFunc,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect((nodes[0] as public_ast.Func).isLeaf, true);
+      expect(cgLeafFunc.isLeaf, true);
+      expect((nodes[1] as public_ast.Func).isLeaf, false);
+      expect(cgNormalFunc.isLeaf, false);
+    });
+
+    test('public_ast.Struct.pack getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgStruct = Struct(
+        name: 'c_struct',
+        originalName: 'c_struct',
+        context: context,
+      );
+      final publicStruct = public_ast.Struct(cgStruct);
+
+      expect(publicStruct.pack, isNull);
+      expect(cgStruct.pack, isNull);
+
+      publicStruct.pack = 4;
+      expect(publicStruct.pack, 4);
+      expect(cgStruct.pack, 4);
+
+      publicStruct.pack = null;
+      expect(publicStruct.pack, isNull);
+      expect(cgStruct.pack, isNull);
+    });
+
+    test(
+      'YamlConfigAstVisitor sets Struct.pack from config packing override',
+      () {
+        final yamlConfig = YamlConfig.fromYaml(
+          loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+structs:
+  pack:
+    'packed_struct': 4
+''')
+              as YamlMap,
+          createTestLogger(),
+        );
+
+        final generator = yamlConfig.configAdapter();
+        final context = testContext(generator);
+        final cgPackedStruct = Struct(
+          name: 'packed_struct',
+          originalName: 'packed_struct',
+          context: context,
+        );
+        final cgNormalStruct = Struct(
+          name: 'normal_struct',
+          originalName: 'normal_struct',
+          context: context,
+        );
+
+        final nodes = <Binding>[
+          cgPackedStruct,
+          cgNormalStruct,
+        ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+        generator.visitors.first.visitAll(nodes);
+
+        expect((nodes[0] as public_ast.Struct).pack, 4);
+        expect(cgPackedStruct.pack, 4);
+        expect((nodes[1] as public_ast.Struct).pack, isNull);
+        expect(cgNormalStruct.pack, isNull);
+      },
+    );
+
+    test('public_ast.Func.exposeSymbolAddress getter and setter', () {
+      final cgFunc = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+
+      expect(publicFunc.exposeSymbolAddress, false);
+      expect(cgFunc.exposeSymbolAddress, false);
+
+      publicFunc.exposeSymbolAddress = true;
+      expect(publicFunc.exposeSymbolAddress, true);
+      expect(cgFunc.exposeSymbolAddress, true);
+
+      publicFunc.exposeSymbolAddress = false;
+      expect(publicFunc.exposeSymbolAddress, false);
+      expect(cgFunc.exposeSymbolAddress, false);
+    });
+
+    test('public_ast.Global.exposeSymbolAddress getter and setter', () {
+      final cgGlobal = Global(
+        name: 'c_global',
+        originalName: 'c_global',
+        type: intType,
+      );
+      final publicGlobal = public_ast.Global(cgGlobal);
+
+      expect(publicGlobal.exposeSymbolAddress, false);
+      expect(cgGlobal.exposeSymbolAddress, false);
+
+      publicGlobal.exposeSymbolAddress = true;
+      expect(publicGlobal.exposeSymbolAddress, true);
+      expect(cgGlobal.exposeSymbolAddress, true);
+
+      publicGlobal.exposeSymbolAddress = false;
+      expect(publicGlobal.exposeSymbolAddress, false);
+      expect(cgGlobal.exposeSymbolAddress, false);
+    });
+
+    test('YamlConfigAstVisitor sets Func.exposeSymbolAddress and '
+        'Global.exposeSymbolAddress from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+functions:
+  symbol-address:
+    include:
+      - 'sym_func'
+globals:
+  symbol-address:
+    include:
+      - 'sym_global'
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final cgSymFunc = Func(
+        name: 'sym_func',
+        originalName: 'sym_func',
+        returnType: voidType,
+      );
+      final cgNormalFunc = Func(
+        name: 'normal_func',
+        originalName: 'normal_func',
+        returnType: voidType,
+      );
+      final cgSymGlobal = Global(
+        name: 'sym_global',
+        originalName: 'sym_global',
+        type: intType,
+      );
+      final cgNormalGlobal = Global(
+        name: 'normal_global',
+        originalName: 'normal_global',
+        type: intType,
+      );
+
+      final nodes = <Binding>[
+        cgSymFunc,
+        cgNormalFunc,
+        cgSymGlobal,
+        cgNormalGlobal,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect((nodes[0] as public_ast.Func).exposeSymbolAddress, true);
+      expect(cgSymFunc.exposeSymbolAddress, true);
+      expect((nodes[1] as public_ast.Func).exposeSymbolAddress, false);
+      expect(cgNormalFunc.exposeSymbolAddress, false);
+
+      expect((nodes[2] as public_ast.Global).exposeSymbolAddress, true);
+      expect(cgSymGlobal.exposeSymbolAddress, true);
+      expect((nodes[3] as public_ast.Global).exposeSymbolAddress, false);
+      expect(cgNormalGlobal.exposeSymbolAddress, false);
+    });
+
+    test('public_ast.ObjCInterface.module getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgInterface = ObjCInterface(
+        context: context,
+        originalName: 'MyClass',
+        name: 'MyClass',
+        apiAvailability: ApiAvailability.all,
+      );
+      final publicInterface = public_ast.ObjCInterface(cgInterface);
+
+      expect(publicInterface.module, isNull);
+      expect(cgInterface.module, isNull);
+
+      publicInterface.module = 'MyModule';
+      expect(publicInterface.module, 'MyModule');
+      expect(cgInterface.module, 'MyModule');
+
+      publicInterface.module = null;
+      expect(publicInterface.module, isNull);
+      expect(cgInterface.module, isNull);
+    });
+
+    test('public_ast.ObjCProtocol.module getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgProtocol = ObjCProtocol(
+        context: context,
+        originalName: 'MyProtocol',
+        name: 'MyProtocol',
+        apiAvailability: ApiAvailability.all,
+      );
+      final publicProtocol = public_ast.ObjCProtocol(cgProtocol);
+
+      expect(publicProtocol.module, isNull);
+      expect(cgProtocol.module, isNull);
+
+      publicProtocol.module = 'MyModule';
+      expect(publicProtocol.module, 'MyModule');
+      expect(cgProtocol.module, 'MyModule');
+
+      publicProtocol.module = null;
+      expect(publicProtocol.module, isNull);
+      expect(cgProtocol.module, isNull);
+    });
+
+    test('YamlConfigAstVisitor sets ObjCInterface.module and '
+        'ObjCProtocol.module from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+objc-interfaces:
+  module:
+    'FooClass': 'FooModule'
+objc-protocols:
+  module:
+    'BarProtocol': 'BarModule'
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final context = testContext(generator);
+
+      final cgInterfaceMatch = ObjCInterface(
+        context: context,
+        originalName: 'FooClass',
+        name: 'FooClass',
+        apiAvailability: ApiAvailability.all,
+      );
+      final cgInterfaceNoMatch = ObjCInterface(
+        context: context,
+        originalName: 'OtherClass',
+        name: 'OtherClass',
+        apiAvailability: ApiAvailability.all,
+      );
+      final cgProtocolMatch = ObjCProtocol(
+        context: context,
+        originalName: 'BarProtocol',
+        name: 'BarProtocol',
+        apiAvailability: ApiAvailability.all,
+      );
+      final cgProtocolNoMatch = ObjCProtocol(
+        context: context,
+        originalName: 'OtherProtocol',
+        name: 'OtherProtocol',
+        apiAvailability: ApiAvailability.all,
+      );
+
+      final nodes = <Binding>[
+        cgInterfaceMatch,
+        cgInterfaceNoMatch,
+        cgProtocolMatch,
+        cgProtocolNoMatch,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect((nodes[0] as public_ast.ObjCInterface).module, 'FooModule');
+      expect(cgInterfaceMatch.module, 'FooModule');
+      expect((nodes[1] as public_ast.ObjCInterface).module, isNull);
+      expect(cgInterfaceNoMatch.module, isNull);
+
+      expect((nodes[2] as public_ast.ObjCProtocol).module, 'BarModule');
+      expect(cgProtocolMatch.module, 'BarModule');
+      expect((nodes[3] as public_ast.ObjCProtocol).module, isNull);
+      expect(cgProtocolNoMatch.module, isNull);
+    });
+
+    test('public_ast.Struct.dependencies getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgStruct = Struct(
+        name: 'c_struct',
+        originalName: 'c_struct',
+        context: context,
+      );
+      final publicStruct = public_ast.Struct(cgStruct);
+
+      expect(publicStruct.dependencies, CompoundDependencies.opaque);
+      expect(cgStruct.dependencies, CompoundDependencies.opaque);
+
+      publicStruct.dependencies = CompoundDependencies.full;
+      expect(publicStruct.dependencies, CompoundDependencies.full);
+      expect(cgStruct.dependencies, CompoundDependencies.full);
+
+      publicStruct.dependencies = CompoundDependencies.opaque;
+      expect(publicStruct.dependencies, CompoundDependencies.opaque);
+      expect(cgStruct.dependencies, CompoundDependencies.opaque);
+    });
+
+    test('public_ast.Union.dependencies getter and setter', () {
+      final context = testContext(
+        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+      );
+      final cgUnion = Union(
+        name: 'c_union',
+        originalName: 'c_union',
+        context: context,
+      );
+      final publicUnion = public_ast.Union(cgUnion);
+
+      expect(publicUnion.dependencies, CompoundDependencies.opaque);
+      expect(cgUnion.dependencies, CompoundDependencies.opaque);
+
+      publicUnion.dependencies = CompoundDependencies.full;
+      expect(publicUnion.dependencies, CompoundDependencies.full);
+      expect(cgUnion.dependencies, CompoundDependencies.full);
+
+      publicUnion.dependencies = CompoundDependencies.opaque;
+      expect(publicUnion.dependencies, CompoundDependencies.opaque);
+      expect(cgUnion.dependencies, CompoundDependencies.opaque);
+    });
+
+    test('YamlConfigAstVisitor sets Struct.dependencies and '
+        'Union.dependencies from config', () {
+      final yamlConfig = YamlConfig.fromYaml(
+        loadYaml(r'''
+output: 'unused.dart'
+headers:
+  entry-points:
+    - 'unused.h'
+structs:
+  dependency-only: full
+unions:
+  dependency-only: full
+''')
+            as YamlMap,
+        createTestLogger(),
+      );
+
+      final generator = yamlConfig.configAdapter();
+      final context = testContext(generator);
+
+      final cgStruct = Struct(
+        name: 'my_struct',
+        originalName: 'my_struct',
+        context: context,
+      );
+      final cgUnion = Union(
+        name: 'my_union',
+        originalName: 'my_union',
+        context: context,
+      );
+
+      final nodes = <Binding>[
+        cgStruct,
+        cgUnion,
+      ].map((b) => b.toPublicAstNode()).nonNulls.toList();
+
+      generator.visitors.first.visitAll(nodes);
+
+      expect(
+        (nodes[0] as public_ast.Struct).dependencies,
+        CompoundDependencies.full,
+      );
+      expect(cgStruct.dependencies, CompoundDependencies.full);
+
+      expect(
+        (nodes[1] as public_ast.Union).dependencies,
+        CompoundDependencies.full,
+      );
+      expect(cgUnion.dependencies, CompoundDependencies.full);
+    });
+
+    test('User-defined AST visitors do not see internal nodes', () {
+      final visitedNames = <String>[];
+      final recordingVisitor = public_ast.Visitor(
+        func: (node) => visitedNames.add(node.name),
+        struct: (node) => visitedNames.add(node.name),
+        typealias: (node) => visitedNames.add(node.name),
+        objCInterface: (node) => visitedNames.add(node.name),
+      );
+
+      final context = testContext(
+        FfiGenerator(
+          output: Output(dartFile: Uri.file('out.dart')),
+          visitors: [recordingVisitor],
+        ),
+      );
+
+      final publicFunc = Func(
+        name: 'public_func',
+        originalName: 'public_func',
+        returnType: voidType,
+      );
+      final publicStruct = Struct(
+        name: 'public_struct',
+        originalName: 'public_struct',
+        context: context,
+      );
+      final publicTypealias = Typealias(
+        name: 'public_typealias',
+        type: intType,
+      );
+      final publicObjCInterface = ObjCInterface(
+        context: context,
+        originalName: 'PublicInterface',
+        name: 'PublicInterface',
+        apiAvailability: ApiAvailability.all,
+      );
+
+      final internalFunc = Func(
+        name: 'internal_func',
+        originalName: 'internal_func',
+        returnType: voidType,
+        isInternal: true,
+      );
+      final internalTypealias = Typealias(
+        name: 'internal_typealias',
+        type: intType,
+        isInternal: true,
+      );
+      final internalObjCInterface = ObjCInterface(
+        context: context,
+        originalName: 'InternalInterface',
+        name: 'InternalInterface',
+        apiAvailability: ApiAvailability.all,
+        isInternal: true,
+      );
+
+      final rawBindings = <Binding>[
+        publicFunc,
+        publicStruct,
+        publicTypealias,
+        publicObjCInterface,
+        internalFunc,
+        internalTypealias,
+        internalObjCInterface,
+      ];
+
+      transformBindings(rawBindings, context);
+
+      expect(visitedNames, contains('public_func'));
+      expect(visitedNames, contains('public_struct'));
+      expect(visitedNames, contains('public_typealias'));
+      expect(visitedNames, contains('PublicInterface'));
+
+      expect(visitedNames, isNot(contains('internal_func')));
+      expect(visitedNames, isNot(contains('internal_typealias')));
+      expect(visitedNames, isNot(contains('InternalInterface')));
     });
   });
 }

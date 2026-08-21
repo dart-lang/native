@@ -15,8 +15,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
-  final objcCategories = context.config.objectiveC?.categories;
-  if (objcCategories == null) {
+  if (context.config.objectiveC == null) {
     return null;
   }
 

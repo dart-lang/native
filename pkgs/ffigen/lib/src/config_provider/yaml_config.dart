@@ -1262,49 +1262,10 @@ final class YamlConfig {
                 wrapperDocComment: wrapperDocComment,
               ),
       ),
-      functions: Functions(
-        includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
-        varArgs: varArgFunctions,
-        includeTypedef: shouldExposeFunctionTypedef,
-        isLeaf: isLeafFunction,
-      ),
-      structs: Structs(
-        dependencies: _structDependencies,
-        packingOverride: (decl) =>
-            _structPackingOverride.getOverridenPackValue(decl.originalName),
-      ),
-      enums: Enums(
-        silenceWarning: silenceEnumWarning,
-        style: (e, suggestedStyle) {
-          if (suggestedStyle != null) return suggestedStyle;
-          return switch (enumShouldBeInt(e)) {
-            true => EnumStyle.intConstants,
-            false => EnumStyle.dartEnum,
-          };
-        },
-      ),
-      unions: Unions(dependencies: _unionDependencies),
-      globals: Globals(
-        includeSymbolAddress: globals.shouldIncludeSymbolAddress,
-      ),
-      typedefs: Typedefs(
-        useSupportedTypedefs: useSupportedTypedefs,
-        includeUnused: includeUnusedTypedefs,
-      ),
+      functions: Functions(varArgs: varArgFunctions),
       importType: importType,
       objectiveC: language == Language.objc
           ? ObjectiveC(
-              interfaces: Interfaces(
-                includeTransitive: includeTransitiveObjCInterfaces,
-                module: interfaceModule,
-              ),
-              protocols: Protocols(
-                includeTransitive: includeTransitiveObjCProtocols,
-                module: protocolModule,
-              ),
-              categories: Categories(
-                includeTransitive: includeTransitiveObjCCategories,
-              ),
               externalVersions: externalVersions,
               // ignore: deprecated_member_use_from_same_package
               generateForPackageObjectiveC: generateForPackageObjectiveC,
@@ -1331,6 +1292,15 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.functionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    if (config.isLeafFunction(_decl(node))) {
+      node.isLeaf = true;
+    }
+    if (config.functionDecl.shouldIncludeSymbolAddress(_decl(node))) {
+      node.exposeSymbolAddress = true;
+    }
+    if (config.shouldExposeFunctionTypedef(_decl(node))) {
+      node.generateTypedefs = true;
+    }
   }
 
   @override
@@ -1347,6 +1317,10 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.structDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    if (config.structPackingOverride(_decl(node)) case final override?) {
+      node.pack = override.value;
+    }
+    node.dependencies = config.structDependencies;
   }
 
   @override
@@ -1355,6 +1329,7 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.unionDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    node.dependencies = config.unionDependencies;
   }
 
   @override
@@ -1363,6 +1338,10 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.enumClassDecl.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    if (config.enumShouldBeInt(_decl(node))) {
+      node.style = EnumStyle.intConstants;
+    }
+    node.silenceWarning = config.silenceEnumWarning;
   }
 
   @override
@@ -1370,6 +1349,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     node.isIncluded = config.globals.shouldInclude(_decl(node));
     if (config.globals.rename(_decl(node)) case final rename?) {
       node.name = rename;
+    }
+    if (config.globals.shouldIncludeSymbolAddress(_decl(node))) {
+      node.exposeSymbolAddress = true;
     }
   }
 
@@ -1383,7 +1365,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
 
   @override
   void visitTypealias(public_ast.Typealias node) {
-    node.isIncluded = config.typedefs.shouldInclude(_decl(node));
+    node.isIncluded = !config.typedefs.shouldInclude(_decl(node))
+        ? .never
+        : (config.includeUnusedTypedefs ? .always : .ifUsed);
     if (config.typedefs.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
@@ -1395,6 +1379,10 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     if (config.objcInterfaces.rename(_decl(node)) case final rename?) {
       node.name = rename;
     }
+    if (config.interfaceModule(_decl(node)) case final module?) {
+      node.module = module;
+    }
+    node.includeCategories = config.includeTransitiveObjCCategories;
   }
 
   @override
@@ -1402,6 +1390,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     node.isIncluded = config.objcProtocols.shouldInclude(_decl(node));
     if (config.objcProtocols.rename(_decl(node)) case final rename?) {
       node.name = rename;
+    }
+    if (config.protocolModule(_decl(node)) case final module?) {
+      node.module = module;
     }
   }
 

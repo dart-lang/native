@@ -19,17 +19,8 @@ final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
   final Input input;
 
-  /// Configuration for enums.
-  final Enums enums;
-
   /// Configuration for functions.
   final Functions functions;
-
-  /// Configuration for globals.
-  final Globals globals;
-
-  /// Configuration for structs.
-  final Structs structs;
 
   /// C++ specific configuration.
   ///
@@ -38,12 +29,6 @@ final class FfiGenerator {
   /// **EXPERIMENTAL**: C++ support is experimental. This part of the API
   /// may change or be removed in a future version without a deprecation notice.
   final Cpp? cpp;
-
-  /// Configuration for typedefs.
-  final Typedefs typedefs;
-
-  /// Configuration for unions.
-  final Unions unions;
 
   /// Objective-C specific configuration.
   ///
@@ -99,13 +84,8 @@ final class FfiGenerator {
 
   const FfiGenerator({
     this.input = const Input(),
-    this.enums = const Enums(),
     this.functions = const Functions(),
-    this.globals = const Globals(),
-    this.structs = const Structs(),
     this.cpp,
-    this.typedefs = const Typedefs(),
-    this.unions = const Unions(),
     this.objectiveC,
     required this.output,
     this.visitors = const [],
@@ -149,51 +129,6 @@ final class Input {
   });
 }
 
-/// Configuration for declarations.
-final class Declarations {
-  /// Whether the symbol address should be exposed for this declaration.
-  ///
-  /// The address is exposed as an FFI pointer.
-  final bool Function(Declaration declaration) includeSymbolAddress;
-
-  const Declarations({
-    this.includeSymbolAddress = _includeSymbolAddressDefault,
-  });
-
-  static bool _includeSymbolAddressDefault(Declaration declaration) => false;
-}
-
-/// Configuration for enum declarations.
-final class Enums extends Declarations {
-  /// The [EnumStyle] to use for the given enum declaration.
-  ///
-  /// The `suggestedStyle` is a suggested [EnumStyle] based on the declaration
-  /// of the enum, if any. For example, Objective-C enums declared using
-  /// NS_OPTIONS are suggested to use [EnumStyle.intConstants].
-  ///
-  /// ```dart
-  /// // This uses `intConstants` for `Foo`, and the default style otherwise:
-  /// style: (Declaration decl, EnumStyle? suggestedStyle) {
-  ///   if (decl.originalName == 'Foo') {
-  ///     return EnumStyle.intConstants;
-  ///   }
-  ///   return suggestedStyle ?? EnumStyle.dartEnum;
-  /// }
-  /// ```
-  final EnumStyle Function(Declaration declaration, EnumStyle? suggestedStyle)
-  style;
-
-  static EnumStyle _styleDefault(
-    Declaration declaration,
-    EnumStyle? suggestedStyle,
-  ) => suggestedStyle ?? EnumStyle.dartEnum;
-
-  /// Whether to silence warning for enum integer type mimicking.
-  final bool silenceWarning;
-
-  const Enums({this.style = _styleDefault, this.silenceWarning = false});
-}
-
 /// Configuration for how to generate enums.
 enum EnumStyle {
   /// Generate a real Dart enum.
@@ -206,29 +141,7 @@ enum EnumStyle {
 }
 
 /// Configuration for function declarations.
-final class Functions extends Declarations {
-  /// Whether to generate a typedef for a given function's native type.
-  final bool Function(Declaration declaration) includeTypedef;
-
-  static bool _includeTypedefDefault(Declaration declaration) => false;
-
-  /// Whether the given function is a leaf function.
-  ///
-  /// This corresponds to the `isLeaf` parameter of FFI's `lookupFunction`.
-  /// For more details, its documentation is here:
-  /// https://api.dart.dev/dart-ffi/DynamicLibraryExtension/lookupFunction.html
-  final bool Function(Declaration declaration) isLeaf;
-
-  static bool _isLeafDefault(Declaration declaration) => false;
-
-  /// Whether to add the `@RecordUse()` annotation to the given function.
-  ///
-  /// Experimental: The record uses feature needs to be enabled as experiment.
-  @experimental
-  final bool Function(Declaration declaration) recordUse;
-
-  static bool _recordUseDefault(Declaration declaration) => false;
-
+final class Functions {
   /// Map from function's original name to [VarArgFunction]s.
   ///
   /// Dart doesn't support variadic functions. Instead, variadic functions are
@@ -237,49 +150,7 @@ final class Functions extends Declarations {
   /// signatures.
   final Map<String, List<VarArgFunction>> varArgs;
 
-  const Functions({
-    super.includeSymbolAddress,
-    this.includeTypedef = _includeTypedefDefault,
-    this.isLeaf = _isLeafDefault,
-    this.recordUse = _recordUseDefault,
-    this.varArgs = const <String, List<VarArgFunction>>{},
-  });
-}
-
-/// Configuration for globals.
-final class Globals extends Declarations {
-  const Globals({super.includeSymbolAddress});
-}
-
-/// Configuration for struct declarations.
-final class Structs extends Declarations {
-  /// Whether structs that are dependencies should be included.
-  final CompoundDependencies dependencies;
-
-  /// Whether, and how, to override struct packing for the given struct.
-  final PackingValue? Function(Declaration declaration) packingOverride;
-
-  static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
-
-  const Structs({
-    this.dependencies = CompoundDependencies.opaque,
-    this.packingOverride = _packingOverrideDefault,
-  });
-}
-
-/// Configuration for typedefs.
-final class Typedefs extends Declarations {
-  /// If enabled, unused typedefs will also be generated.
-  final bool includeUnused;
-
-  /// If enabled, supported typedefs (such as size_t, uint8_t, etc.) will be
-  /// mapped to their supported types.
-  final bool useSupportedTypedefs;
-
-  const Typedefs({
-    this.useSupportedTypedefs = true,
-    this.includeUnused = false,
-  });
+  const Functions({this.varArgs = const <String, List<VarArgFunction>>{}});
 }
 
 /// Configuration for C++.
@@ -287,25 +158,8 @@ final class Cpp {
   const Cpp();
 }
 
-/// Configuration for union declarations.
-final class Unions extends Declarations {
-  /// Whether unions that are dependencies should be included.
-  final CompoundDependencies dependencies;
-
-  const Unions({this.dependencies = CompoundDependencies.opaque});
-}
-
 /// Configuration for Objective-C.
 final class ObjectiveC {
-  /// Declaration filters for Objective-C categories.
-  final Categories categories;
-
-  /// Declaration filters for Objective-C interfaces.
-  final Interfaces interfaces;
-
-  /// Declaration filters for Objective-C protocols.
-  final Protocols protocols;
-
   // Undocumented option that changes code generation for package:objective_c.
   // The main difference is whether NSObject etc are imported from
   // package:objective_c (the default) or code genned like any other class.
@@ -319,56 +173,10 @@ final class ObjectiveC {
   final ExternalVersions externalVersions;
 
   const ObjectiveC({
-    this.categories = const Categories(),
-    this.interfaces = const Interfaces(),
-    this.protocols = const Protocols(),
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only for internal use.')
     this.generateForPackageObjectiveC = false,
   });
-}
-
-/// Configuration for Objective-C categories.
-final class Categories extends Declarations {
-  /// If enabled, Objective-C categories that are not explicitly included by
-  /// the [Declarations], but extend interfaces that are included,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included categories will not be generated at all.
-  final bool includeTransitive;
-
-  const Categories({this.includeTransitive = true});
-}
-
-/// Configuration for Objective-C interfaces.
-final class Interfaces extends Declarations {
-  /// If enabled, Objective-C interfaces that are not explicitly included by
-  /// the [Declarations], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included interfaces will be generated as stubs instead.
-  final bool includeTransitive;
-
-  /// The module that the Objective-C interface belongs to.
-  final String? Function(Declaration declaration) module;
-
-  const Interfaces({this.includeTransitive = false, this.module = noModule});
-
-  static String? noModule(Declaration declaration) => null;
-}
-
-/// Configuration for Objective-C protocols.
-final class Protocols extends Declarations {
-  /// If enabled, Objective-C protocols that are not explicitly included by
-  /// the [Declarations], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included protocols will not be generated at all.
-  final bool includeTransitive;
-
-  /// The module that the Objective-C protocol belongs to.
-  final String? Function(Declaration declaration) module;
-
-  const Protocols({this.includeTransitive = false, this.module = noModule});
-
-  static String? noModule(Declaration declaration) => null;
 }
 
 /// Configuration for outputting bindings.
