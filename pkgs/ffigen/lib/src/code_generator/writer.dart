@@ -41,8 +41,6 @@ class Writer {
   bool get canGenerateSymbolOutput => _canGenerateSymbolOutput;
   bool _canGenerateSymbolOutput = false;
 
-  final bool silenceEnumWarning;
-
   Writer({
     required this.lookUpBindings,
     required this.ffiNativeBindings,
@@ -51,7 +49,6 @@ class Writer {
     this.classDocComment,
     this.header,
     required this.generateForPackageObjectiveC,
-    required this.silenceEnumWarning,
     required this.nativeEntryPoints,
     required this.context,
   }) : symbolAddressWriter = SymbolAddressWriter(context);
@@ -185,23 +182,25 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
     result.write(s);
 
     // Warn about Enum usage in API surface.
-    if (!silenceEnumWarning) {
-      final notEnums = _allBindings.where(
-        (b) => b is! Type || (b as Type).typealiasType is! EnumClass,
+    final notEnums = _allBindings.where(
+      (b) => b is! Type || (b as Type).typealiasType is! EnumClass,
+    );
+    final usedEnums = visit(
+      context,
+      _FindEnumsVisitation(),
+      notEnums,
+    ).enums.where((e) => !e.silenceWarning);
+    if (usedEnums.isNotEmpty) {
+      final names = usedEnums.map((e) => e.originalName).toList()..sort();
+      context.logger.severe(
+        'The integer type used for enums is '
+        'implementation-defined. FFIgen tries to mimic the integer sizes '
+        'chosen by the most common compilers for the various OS and '
+        'architecture combinations. To prevent any crashes, remove the '
+        'enums from your API surface. To rely on the (unsafe!) mimicking, '
+        'you can silence this warning by adding silence-enum-warning: true '
+        'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
       );
-      final usedEnums = visit(context, _FindEnumsVisitation(), notEnums).enums;
-      if (usedEnums.isNotEmpty) {
-        final names = usedEnums.map((e) => e.originalName).toList()..sort();
-        context.logger.severe(
-          'The integer type used for enums is '
-          'implementation-defined. FFIgen tries to mimic the integer sizes '
-          'chosen by the most common compilers for the various OS and '
-          'architecture combinations. To prevent any crashes, remove the '
-          'enums from your API surface. To rely on the (unsafe!) mimicking, '
-          'you can silence this warning by adding silence-enum-warning: true '
-          'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
-        );
-      }
     }
 
     _canGenerateSymbolOutput = true;
@@ -226,7 +225,7 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
 
     // Warn for macros.
     final hasMacroBindings = bindings.any(
-      (element) => element is Constant && element.usr.contains('@macro@'),
+      (element) => element is MacroConstant,
     );
     if (hasMacroBindings) {
       context.logger.info(
@@ -237,8 +236,7 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
 
     // Remove internal bindings and macros.
     bindings.removeWhere((element) {
-      return element.isInternal ||
-          (element is Constant && element.usr.contains('@macro@'));
+      return element.isInternal || (element is MacroConstant);
     });
 
     // Sort bindings alphabetically by USR.

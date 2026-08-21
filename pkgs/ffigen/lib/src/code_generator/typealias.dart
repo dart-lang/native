@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../strings.dart' as strings;
@@ -26,6 +27,8 @@ class Typealias extends BindingType {
 
   // Don't code gen this alias at all, just use the [type] directly.
   bool isAnonymous;
+
+  TypealiasInclude isIncluded = TypealiasInclude.never;
 
   /// Creates a Typealias.
   ///

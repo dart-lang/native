@@ -185,19 +185,23 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
-  final nodes = rawBindings.map((b) => b.toPublicAstNode()).nonNulls.toList();
-  for (final visitor in config.visitors) {
-    visitor.visitAll(nodes);
-  }
-
   final allBindings = visit(
     context,
-    FindTransitiveDepsVisitation(),
+    FindTransitiveDepsVisitation(rawBindings),
     rawBindings,
   ).transitives;
 
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+
+  final publicNodes = allBindings
+      .where((b) => !b.isInternal)
+      .map((b) => b.toPublicAstNode())
+      .nonNulls
+      .toList();
+  for (final visitor in config.visitors) {
+    visitor.visitAll(publicNodes);
+  }
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(context);
   visit(context, applyConfigFiltersVisitation, allBindings);
@@ -213,13 +217,13 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   ).byValueCompounds;
   visit(
     context,
-    ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
+    ClearOpaqueCompoundMembersVisitation(byValueCompounds, included),
     allBindings,
   );
 
   final transitives = visit(
     context,
-    FindTransitiveDepsVisitation(),
+    FindTransitiveDepsVisitation(included),
     included,
   ).transitives;
   final directTransitives = visit(
@@ -254,17 +258,6 @@ List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   /// Handle any declaration-declaration name conflicts and emit warnings.
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b, context.logger);
-  }
-
-  // Override pack values according to config. We do this after declaration
-  // conflicts have been handled so that users can target the generated names.
-  for (final b in finalBindingsList) {
-    if (b is Struct) {
-      final pack = config.structs.packingOverride(b);
-      if (pack != null) {
-        b.pack = pack.value;
-      }
-    }
   }
 
   // Check that all ObjCMethods have their parent set correctly.

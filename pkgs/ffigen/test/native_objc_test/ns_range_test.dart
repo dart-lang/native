@@ -46,12 +46,13 @@ void main() {
             ),
           ],
         ),
-        objectiveC: ObjectiveC(
-          interfaces: Interfaces(
-            include: (decl) =>
-                {'SFTranscriptionSegment'}.contains(decl.originalName),
+        objectiveC: const ObjectiveC(),
+        visitors: [
+          Visitor(
+            objCInterface: (node) =>
+                node.isIncluded = node.originalName == 'SFTranscriptionSegment',
           ),
-        ),
+        ],
       ).generate(logger: createTestLogger());
       final file = path.join(
         packagePathForTests,

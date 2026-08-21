@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:meta/meta.dart';
@@ -18,24 +19,30 @@ void main() {
 // BSD-style license that can be found in the LICENSE file.
 ''';
 
-  Context makeContext({Output? output}) => testContext(
-    FfiGenerator(
-      output:
-          output ??
-          Output(
-            dartFile: Uri.file('unused'),
-            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
-          ),
-      enums: Enums.includeAll,
-      functions: Functions.includeAll,
-      globals: Globals.includeAll,
-      macros: Macros.includeAll,
-      structs: Structs.includeAll,
-      typedefs: Typedefs.includeAll,
-      unions: Unions.includeAll,
-      unnamedEnums: UnnamedEnums.includeAll,
-    ),
-  );
+  Context makeContext({Output? output, List<public_ast.Visitor>? visitors}) =>
+      testContext(
+        FfiGenerator(
+          output:
+              output ??
+              Output(
+                dartFile: Uri.file('unused'),
+                style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
+              ),
+          visitors:
+              visitors ??
+              [
+                public_ast.Visitor(
+                  func: (node) => node.isIncluded = true,
+                  struct: (node) => node.isIncluded = true,
+                  union: (node) => node.isIncluded = true,
+                  enumClass: (node) => node.isIncluded = true,
+                  global: (node) => node.isIncluded = true,
+                  macroConstant: (node) => node.isIncluded = true,
+                  typealias: (node) => node.isIncluded = .always,
+                ),
+              ],
+        ),
+      );
 
   group('code_generator: ', () {
     @isTestGroup
@@ -335,6 +342,105 @@ void main() {
       _matchLib(library, 'constant');
     });
 
+    test('const global', () {
+      final context = makeContext();
+      final library = Library(
+        context: context,
+        header: '$licenseHeader\n',
+        bindings: transformBindings([
+          Global(
+            name: 'test1',
+            type: NativeType(SupportedNativeType.int32),
+            constant: true,
+            constantValue: const ConstantValue(type: 'int', value: '20'),
+          ),
+          Global(
+            name: 'test2',
+            type: NativeType(SupportedNativeType.double),
+            constant: true,
+            constantValue: const ConstantValue(type: 'double', value: '20.0'),
+          ),
+        ], context),
+      );
+      final output = library.generate();
+      expect(output, contains('const int test1 = 20;'));
+      expect(output, contains('const double test2 = 20.0;'));
+    });
+
+    withAndWithoutNative('const global with symbol address exposed', (
+      loadFromNativeAsset,
+    ) {
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
+        ),
+      );
+      final g = Global(
+        loadFromNativeAsset: loadFromNativeAsset,
+        name: 'constWithAddress',
+        type: NativeType(SupportedNativeType.int32),
+        constant: true,
+        constantValue: const ConstantValue(type: 'int', value: '42'),
+        exposeSymbolAddress: true,
+      );
+      expect(g.isConst, isFalse);
+      final library = Library(
+        context: context,
+        bindings: transformBindings([g], context),
+      );
+      final output = library.generate();
+      if (loadFromNativeAsset) {
+        expect(output, contains('@ffi.Native<ffi.Int32>()'));
+        expect(output, contains('external final int constWithAddress;'));
+        expect(output, contains('const addresses = _SymbolAddresses();'));
+        expect(
+          output,
+          contains(
+            'ffi.Pointer<ffi.Int32> get constWithAddress => '
+            'ffi.Native.addressOf(self.constWithAddress);',
+          ),
+        );
+      } else {
+        expect(output, contains("lookup<ffi.Int32>('constWithAddress')"));
+        expect(output, contains('int get constWithAddress =>'));
+        expect(output, isNot(contains('set constWithAddress')));
+        expect(
+          output,
+          contains('late final addresses = _SymbolAddresses(this);'),
+        );
+        expect(
+          output,
+          contains(
+            'ffi.Pointer<ffi.Int32> get constWithAddress => '
+            '_library._constWithAddress;',
+          ),
+        );
+      }
+    });
+
+    test('Global.isConst', () {
+      final g1 = Global(
+        name: 'g1',
+        type: intType,
+        constantValue: const ConstantValue(type: 'int', value: '1'),
+      );
+      expect(g1.isConst, isTrue);
+
+      final g2 = Global(
+        name: 'g2',
+        type: intType,
+        constantValue: const ConstantValue(type: 'int', value: '1'),
+        exposeSymbolAddress: true,
+      );
+      expect(g2.isConst, isFalse);
+
+      final g3 = Global(name: 'g3', type: intType);
+      expect(g3.isConst, isFalse);
+    });
+
     test('enum_class', () {
       final context = makeContext();
       final library = Library(
@@ -393,6 +499,7 @@ void main() {
       final enum1 = EnumClass(
         context: context,
         name: 'MyEnum',
+        silenceWarning: true,
         enumConstants: [
           EnumConstant(name: 'value1', value: 0),
           EnumConstant(name: 'value2', value: 1),
@@ -412,7 +519,6 @@ void main() {
       final library = Library(
         context: context,
         header: '$licenseHeader\n',
-        silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
           enum2,
@@ -440,6 +546,7 @@ void main() {
       final enum1 = EnumClass(
         context: context,
         name: 'Enum1',
+        silenceWarning: true,
         enumConstants: [
           EnumConstant(name: 'a', value: 0),
           EnumConstant(name: 'b', value: 1),
@@ -496,7 +603,6 @@ void main() {
       final lib = Library(
         context: context,
         header: '$licenseHeader\n',
-        silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
           enum2,

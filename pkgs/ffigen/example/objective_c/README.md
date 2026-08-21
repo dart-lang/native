@@ -11,12 +11,12 @@ dart play_audio.dart test.mp3
 
 The FFIgen config for an Objective C library looks very similar to a C library.
 The most important difference is that you must set `FfiGenerator.objectiveC`.
-If you want to filter which interfaces are included you can use the
-`FfiGenerator.objectiveC.interfaces` option.
-This works similarly to the other filtering options.
+If you want to filter which interfaces are included, you can use the
+`FfiGenerator.visitors` option to inspect AST nodes and set `node.isIncluded = true`
+on the interfaces you want to generate.
 
 It is recommended that you filter out just about everything you're not
-interested in binding (see the FFIgen config in [pubspec.yaml](./pubspec.yaml)).
+interested in binding (see the FFIgen config in [generate_code.dart](./generate_code.dart)).
 Virtually all Objective C libraries depend on Apple's internal libraries, which
 are huge. Filtering can reduce the generated bindings from millions of lines to
 thousands.
@@ -25,7 +25,7 @@ In this example, we're only interested in `AVAudioPlayer`, so we've filtered out
 everything else. FFIgen will automatically pull in anything referenced by
 any of the fields or methods of `AVAudioPlayer`, but by default they're
 generated as stubs. To generate full bindings for the transient dependencies,
-add them to your include set, or set `Interfaces.includeTransitive` to `true`.
+set `node.isIncluded = true` for them in your visitor.
 
 ## Generating bindings
 

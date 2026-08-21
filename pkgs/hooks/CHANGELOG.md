@@ -1,4 +1,4 @@
-## 2.2.0-wip
+## 2.2.0
 
 - Add `ProtocolExtension.setupLogger`, which the hooks runner calls to provide
   the logger used for validation diagnostics before any other method is invoked

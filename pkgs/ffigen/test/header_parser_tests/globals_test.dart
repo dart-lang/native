@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_visitor.dart';
 import 'package:ffigen/src/header_parser/parser.dart' as parser;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -95,14 +96,13 @@ Library expectedLibrary() {
         dartFile: Uri.file('unused'),
         style: const DynamicLibraryBindings(),
       ),
-      enums: Enums.includeAll,
-      functions: Functions.includeAll,
-      globals: Globals.includeAll,
-      macros: Macros.includeAll,
-      structs: Structs.includeAll,
-      typedefs: Typedefs.includeAll,
-      unions: Unions.includeAll,
-      unnamedEnums: UnnamedEnums.includeAll,
+      visitors: [
+        Visitor(
+          global: (node) => node.isIncluded = true,
+          struct: (node) => node.isIncluded = true,
+          typealias: (node) => node.isIncluded = .always,
+        ),
+      ],
     ),
   );
   final globalStruct = Struct(context: context, name: 'EmptyStruct');
@@ -110,55 +110,59 @@ Library expectedLibrary() {
     name: 'EmptyStruct_Alias',
     type: globalStruct,
   );
+  final rawBindings = <Binding>[
+    Global(type: BooleanType(), name: 'coolGlobal'),
+    Global(
+      type: NativeType(SupportedNativeType.int32),
+      name: 'myInt',
+      exposeSymbolAddress: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer0',
+      exposeSymbolAddress: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer1',
+      exposeSymbolAddress: true,
+      constant: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer2',
+      exposeSymbolAddress: true,
+    ),
+    Global(
+      type: PointerType(NativeType(SupportedNativeType.int32)),
+      name: 'aGlobalPointer3',
+      exposeSymbolAddress: true,
+      constant: true,
+    ),
+    Global(
+      type: ConstantArray(3, intType, useArrayType: false),
+      name: 'globalArray0',
+      exposeSymbolAddress: true,
+      constant: true,
+    ),
+    globalStruct,
+    Global(name: 'globalStruct', type: globalStruct, exposeSymbolAddress: true),
+    globalStructAlias,
+    Global(
+      name: 'globalStruct_from_alias',
+      type: globalStructAlias,
+      exposeSymbolAddress: true,
+    ),
+  ];
+  for (final b in rawBindings) {
+    if (b is Typealias) {
+      b.isIncluded = .always;
+    } else {
+      (b as dynamic).isIncluded = true;
+    }
+  }
   return Library(
     context: context,
-    bindings: parser.transformBindings([
-      Global(type: BooleanType(), name: 'coolGlobal'),
-      Global(
-        type: NativeType(SupportedNativeType.int32),
-        name: 'myInt',
-        exposeSymbolAddress: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer0',
-        exposeSymbolAddress: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer1',
-        exposeSymbolAddress: true,
-        constant: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer2',
-        exposeSymbolAddress: true,
-      ),
-      Global(
-        type: PointerType(NativeType(SupportedNativeType.int32)),
-        name: 'aGlobalPointer3',
-        exposeSymbolAddress: true,
-        constant: true,
-      ),
-      Global(
-        type: ConstantArray(3, intType, useArrayType: false),
-        name: 'globalArray0',
-        exposeSymbolAddress: true,
-        constant: true,
-      ),
-      globalStruct,
-      Global(
-        name: 'globalStruct',
-        type: globalStruct,
-        exposeSymbolAddress: true,
-      ),
-      globalStructAlias,
-      Global(
-        name: 'globalStruct_from_alias',
-        type: globalStructAlias,
-        exposeSymbolAddress: true,
-      ),
-    ], context),
+    bindings: parser.transformBindings(rawBindings, context),
   );
 }

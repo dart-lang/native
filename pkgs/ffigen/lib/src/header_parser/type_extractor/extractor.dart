@@ -45,7 +45,7 @@ Type getCodeGenType(
   }
 
   // Handle C++ templates like std::unique_ptr.
-  if (context.config.cpp?.classes != null) {
+  if (context.config.cpp != null) {
     final numTemplateArgs = clang.clang_Type_getNumTemplateArguments(cxtype);
     if (numTemplateArgs >= 1) {
       final declCursor = clang.clang_getTypeDeclaration(cxtype);
@@ -211,15 +211,13 @@ Type? _createTypeFromCursor(
         Declaration(usr: usr, originalName: spelling),
       );
       if (importedTypedef != null) return importedTypedef;
-      // Get name from supported typedef name if config allows.
-      if (config.typedefs.useSupportedTypedefs) {
-        if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
-        } else if (supportedTypedefToImportedType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return supportedTypedefToImportedType[spelling]!;
-        }
+      // Get name from supported typedef name.
+      if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
+        logger.fine('  Type Mapped from supported typedef');
+        return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
+      } else if (supportedTypedefToImportedType.containsKey(spelling)) {
+        logger.fine('  Type Mapped from supported typedef');
+        return supportedTypedefToImportedType[spelling]!;
       }
 
       final typealias = parseTypedefDeclaration(context, cursor);
@@ -274,7 +272,7 @@ Type? _extractfromRecord(
   final declSpelling = cursor.spelling();
   final cursorKind = clang.clang_getCursorKind(cursor);
 
-  if (config.cpp?.classes != null) {
+  if (config.cpp != null) {
     final seenCppClass = context.bindingsIndex.getSeenCppClass(cursor.usr());
     if (seenCppClass != null) {
       return seenCppClass;

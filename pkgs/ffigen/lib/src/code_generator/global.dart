@@ -27,11 +27,16 @@ import 'writer.dart';
 /// ```
 class Global extends LookUpBinding with HasLocalScope {
   final Type type;
-  final bool exposeSymbolAddress;
+  bool exposeSymbolAddress;
   final bool constant;
+  final ConstantValue? constantValue;
 
   @override
   final bool loadFromNativeAsset;
+
+  bool isIncluded = false;
+
+  bool get isConst => constantValue != null && !exposeSymbolAddress;
 
   Global({
     super.usr,
@@ -41,6 +46,7 @@ class Global extends LookUpBinding with HasLocalScope {
     super.dartDoc,
     this.exposeSymbolAddress = false,
     this.constant = false,
+    this.constantValue,
     this.loadFromNativeAsset = false,
   }) : super(symbol: Symbol(name, SymbolKind.field));
 
@@ -52,6 +58,16 @@ class Global extends LookUpBinding with HasLocalScope {
     final s = StringBuffer();
     final globalVarName = name;
     s.write(makeDartDoc(dartDoc));
+    if (isConst) {
+      s.write(
+        'const ${constantValue!.type} $globalVarName = '
+        '${constantValue!.value};\n\n',
+      );
+      return BindingString(
+        type: BindingStringType.global,
+        string: s.toString(),
+      );
+    }
     final context = w.context;
     final dartType = type.getDartType(context);
     final ffiDartType = type.getFfiDartType(context);
@@ -171,6 +187,7 @@ class Global extends LookUpBinding with HasLocalScope {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    if (isConst) return;
     visitor.visit(type);
     visitor.visit(ffiImport);
     if (loadFromNativeAsset && exposeSymbolAddress) {
@@ -180,4 +197,12 @@ class Global extends LookUpBinding with HasLocalScope {
 
   @override
   void visit(Visitation visitation) => visitation.visitGlobal(this);
+}
+
+/// A constant value for a [Global].
+class ConstantValue {
+  final String type;
+  final String value;
+
+  const ConstantValue({required this.type, required this.value});
 }

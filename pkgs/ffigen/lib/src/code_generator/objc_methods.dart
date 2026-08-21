@@ -13,6 +13,7 @@ import 'local_variables.dart';
 import 'native_type.dart';
 import 'objc_block.dart';
 import 'objc_built_in_functions.dart';
+import 'objc_category.dart';
 import 'objc_interface.dart';
 import 'objc_nullable.dart';
 import 'pointer.dart';
@@ -49,12 +50,12 @@ mixin ObjCMethods {
     }
   }
 
-  void copyMethod(ObjCMethod method) {
+  void copyMethod(ObjCMethod method, {ObjCCategory? originCategory}) {
     // To maintain the pairing between getters and setters after cloning,
     // instead of directly cloning the setter, we clone the setter when we clone
     // the getter. This lets us, for example, share the symbol between them.
     if (method.kind == ObjCMethodKind.propertySetter) return;
-    final cloned = method.clone();
+    final cloned = method.clone(originCategory: originCategory);
     addMethod(cloned);
     addMethod(cloned.setter);
   }
@@ -212,6 +213,8 @@ class ObjCMethod extends AstNode with HasLocalScope {
   Symbol? protocolMethodName;
   ObjCMethods? parent;
   ObjCMethod? setter;
+  bool isIncluded = true;
+  ObjCCategory? originCategory;
 
   @override
   void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
@@ -331,7 +334,11 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isInstanceMethod => !isClassMethod;
   bool get unavailable => apiAvailability.availability == Availability.none;
 
-  ObjCMethod _cloneWithSymbol(Symbol newSymbol, {ObjCMethods? parent}) {
+  ObjCMethod _cloneWithSymbol(
+    Symbol newSymbol, {
+    ObjCMethods? parent,
+    ObjCCategory? originCategory,
+  }) {
     final clonedMethod = ObjCMethod.withSymbol(
       context: context,
       originalName: originalName,
@@ -350,20 +357,28 @@ class ObjCMethod extends AstNode with HasLocalScope {
     );
     clonedMethod.parent = parent;
     clonedMethod.protocolMethodName = protocolMethodName?.clone();
+    clonedMethod.isIncluded = isIncluded;
+    clonedMethod.originCategory = originCategory ?? this.originCategory;
     return clonedMethod;
   }
 
-  ObjCMethod clone({ObjCMethods? parent}) {
+  ObjCMethod clone({ObjCMethods? parent, ObjCCategory? originCategory}) {
     assert(kind != ObjCMethodKind.propertySetter);
     final clonedSymbol = symbol.clone();
-    final clonedMethod = _cloneWithSymbol(clonedSymbol, parent: parent);
+    final clonedMethod = _cloneWithSymbol(
+      clonedSymbol,
+      parent: parent,
+      originCategory: originCategory,
+    );
     if (setter != null) {
       assert(setter!.kind == ObjCMethodKind.propertySetter);
       assert(setter!.symbol == symbol);
       final clonedSetter = setter!._cloneWithSymbol(
         clonedSymbol,
         parent: parent,
+        originCategory: originCategory,
       );
+      clonedSetter.isIncluded = clonedMethod.isIncluded;
       clonedMethod.setter = clonedSetter;
     }
     return clonedMethod;

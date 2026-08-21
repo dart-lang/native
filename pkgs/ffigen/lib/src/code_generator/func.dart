@@ -44,12 +44,12 @@ import 'writer.dart';
 /// ```
 class Func extends LookUpBinding with HasLocalScope {
   final FunctionType functionType;
-  final bool exposeSymbolAddress;
-  final bool exposeFunctionTypedefs;
-  final bool isLeaf;
+  bool exposeSymbolAddress;
+  bool generateTypedefs;
+  bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
-  final bool recordUse;
+  bool recordUse;
   final ApiAvailability? apiAvailability;
 
   @override
@@ -61,8 +61,10 @@ class Func extends LookUpBinding with HasLocalScope {
 
   bool get needsWrapper => !functionType.sameDartAndFfiDartType && !isInternal;
 
-  /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
+  /// Contains typealias for function type if [generateTypedefs] is true.
   Typealias? _exposedFunctionTypealias;
+
+  bool isIncluded = false;
 
   /// [originalName] is looked up in dynamic library, if not
   /// provided, takes the value of [name].
@@ -75,7 +77,7 @@ class Func extends LookUpBinding with HasLocalScope {
     List<Parameter> parameters = const [],
     List<Parameter> varArgParameters = const [],
     this.exposeSymbolAddress = false,
-    this.exposeFunctionTypedefs = false,
+    this.generateTypedefs = false,
     this.isLeaf = false,
     this.objCReturnsRetained = false,
     this.useNameForLookup = false,
@@ -94,17 +96,19 @@ class Func extends LookUpBinding with HasLocalScope {
         functionType.parameters[i].symbol = Symbol('arg$i', SymbolKind.field);
       }
     }
+  }
 
-    // Get function name with first letter in upper case.
-    final upperCaseName = name[0].toUpperCase() + name.substring(1);
-    if (exposeFunctionTypedefs) {
-      _exposedFunctionTypealias = Typealias(
-        name: upperCaseName,
-        type: functionType,
-        genFfiDartType: true,
-        isInternal: true,
-      );
-    }
+  Typealias? fillExposedFunctionTypealias() {
+    if (!generateTypedefs) return null;
+    final upperCaseName = symbol.oldName.isEmpty
+        ? ''
+        : symbol.oldName[0].toUpperCase() + symbol.oldName.substring(1);
+    return _exposedFunctionTypealias ??= Typealias(
+      name: upperCaseName,
+      type: functionType,
+      genFfiDartType: true,
+      isInternal: true,
+    );
   }
 
   @override

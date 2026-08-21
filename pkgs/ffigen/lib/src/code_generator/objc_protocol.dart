@@ -17,7 +17,7 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final superProtocols = <ObjCProtocol>[];
-  final String? module;
+  String? module;
   final Symbol loaderSymbol;
   ObjCProtocolGlobal? protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
@@ -26,6 +26,8 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
 
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
+
+  bool isIncluded = false;
 
   ObjCProtocol({
     super.usr,

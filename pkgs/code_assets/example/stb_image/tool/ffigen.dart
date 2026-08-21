@@ -10,10 +10,14 @@ void main() {
   final packageRoot = Platform.script.resolve('../');
   FfiGenerator(
     input: Input(entryPoints: [packageRoot.resolve('third_party/stb_image.h')]),
-    functions: Functions(
-      include: (decl) => {'stbi_info'}.contains(decl.originalName),
-      recordUse: (_) => true,
-    ),
+    visitors: [
+      Visitor(
+        func: (node) {
+          node.isIncluded = node.name == 'stbi_info';
+          node.recordUse = true;
+        },
+      ),
+    ],
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/stb_image.g.dart'),
       recordUseMapping: packageRoot.resolve(

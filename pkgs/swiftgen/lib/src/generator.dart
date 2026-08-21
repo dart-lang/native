@@ -78,8 +78,6 @@ extension SwiftGenGenerator on SwiftGenerator {
   ], absTempDir);
 
   void _generateDartFile(Logger logger, String objcHeader) {
-    final interfaces = ffigen.objectiveC.interfaces;
-    final protocols = ffigen.objectiveC.protocols;
     fg.FfiGenerator(
       output: fg.Output(
         dartFile: output.dartFile,
@@ -88,34 +86,16 @@ extension SwiftGenGenerator on SwiftGenerator {
         style: fg.NativeExternalBindings(assetId: output.assetId),
       ),
       functions: ffigen.functions,
-      structs: ffigen.structs,
-      unions: ffigen.unions,
-      enums: ffigen.enums,
-      unnamedEnums: ffigen.unnamedEnums,
-      globals: ffigen.globals,
-      macros: ffigen.macros,
-      typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
-        interfaces: fg.Interfaces(
-          include: interfaces.include,
-          includeMember: interfaces.includeMember,
-          includeTransitive: interfaces.includeTransitive,
-          module: interfaces.module != fg.Interfaces.noModule
-              ? interfaces.module
-              : (_) => output.module,
-        ),
-        protocols: fg.Protocols(
-          include: protocols.include,
-          includeMember: protocols.includeMember,
-          includeTransitive: protocols.includeTransitive,
-          module: protocols.module != fg.Protocols.noModule
-              ? protocols.module
-              : (_) => output.module,
-        ),
-        categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,
       ),
-      visitors: ffigen.visitors,
+      visitors: [
+        ...ffigen.visitors,
+        fg.Visitor(
+          objCInterface: (node) => node.module ??= output.module,
+          objCProtocol: (node) => node.module ??= output.module,
+        ),
+      ],
       input: fg.Input(
         entryPoints: [Uri.file(objcHeader)],
         compilerOptions: [

@@ -41,6 +41,35 @@ const _excludedNSObjectMethods = {
 
 class CopyMethodsFromSuperTypesVisitation extends Visitation {
   @override
+  void visitCppClass(CppClass node) {
+    node.visitChildren(visitor);
+
+    final existingSignatures = node.methods
+        .map((m) => m.signatureKey())
+        .toSet();
+
+    _copyCppMethodsFromBase(node, node, existingSignatures);
+  }
+
+  void _copyCppMethodsFromBase(
+    CppClass target,
+    CppClass current,
+    Set<String> existingSignatures,
+  ) {
+    for (final method in current.methods) {
+      if (method.kind == CppMethodKind.constructor) continue;
+
+      if (existingSignatures.add(method.signatureKey())) {
+        target.copyMethod(method, current);
+      }
+    }
+
+    for (final base in current.bases) {
+      _copyCppMethodsFromBase(target, base, existingSignatures);
+    }
+  }
+
+  @override
   void visitObjCInterface(ObjCInterface node) {
     node.visitChildren(visitor, typeGraphOnly: true);
 
@@ -70,15 +99,10 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     // methods return instancetype, because the Dart inheritance rules don't
     // match the ObjC rules regarding instancetype.
     // Also copy all methods from any anonymous categories.
-    // NOTE: The methods are copied regardless of whether the category is
-    // included by the config filters, since this method copying visit happens
-    // before the filtering visit. This is technically a bug, but it's unlikely
-    // to bother anyone, and the fix would be complicated. So we'll ignore it
-    // for now.
     for (final category in node.categories) {
       for (final m in category.methods) {
         if (category.shouldCopyMethodToInterface(m)) {
-          node.copyMethod(m);
+          node.copyMethod(m, originCategory: category);
         }
       }
     }

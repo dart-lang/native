@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/public_visitor.dart';
 import 'package:ffigen/src/header_parser/parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -86,14 +87,12 @@ Library expectedLibrary() {
         dartFile: Uri.file('unused'),
         style: const DynamicLibraryBindings(),
       ),
-      enums: Enums.includeAll,
-      functions: Functions.includeAll,
-      globals: Globals.includeAll,
-      macros: Macros.includeAll,
-      structs: Structs.includeAll,
-      typedefs: Typedefs.includeAll,
-      unions: Unions.includeAll,
-      unnamedEnums: UnnamedEnums.includeAll,
+      visitors: [
+        Visitor(
+          func: (node) => node.isIncluded = true,
+          struct: (node) => node.isIncluded = true,
+        ),
+      ],
     ),
   );
   final struct1 = Struct(
@@ -107,50 +106,54 @@ Library expectedLibrary() {
     members: [CompoundMember(name: 'a', type: struct1)],
   );
   final struct3 = Struct(context: context, name: 'Struct3');
+  final rawBindings = <Binding>[
+    struct1,
+    struct2,
+    struct3,
+    Func(
+      name: 'func1',
+      parameters: [
+        Parameter(name: 's', type: PointerType(struct2), objCConsumed: false),
+      ],
+      returnType: NativeType(SupportedNativeType.voidType),
+    ),
+    Func(
+      name: 'func2',
+      parameters: [
+        Parameter(name: 's', type: PointerType(struct3), objCConsumed: false),
+      ],
+      returnType: NativeType(SupportedNativeType.voidType),
+    ),
+    Func(
+      name: 'func3',
+      parameters: [
+        Parameter(name: 'a', type: PointerType(intType), objCConsumed: false),
+      ],
+      returnType: NativeType(SupportedNativeType.voidType),
+    ),
+    Struct(context: context, name: 'Struct4'),
+    Struct(context: context, name: 'Struct5'),
+    Struct(
+      context: context,
+      name: 'Struct6',
+      members: [
+        CompoundMember(
+          name: 'a',
+          type: ConstantArray(
+            2,
+            ConstantArray(10, intType, useArrayType: false),
+            useArrayType: false,
+          ),
+        ),
+      ],
+    ),
+    Struct(context: context, name: 'Struct7'),
+  ];
+  for (final b in rawBindings) {
+    (b as dynamic).isIncluded = true;
+  }
   return Library(
     context: context,
-    bindings: parser.transformBindings([
-      struct1,
-      struct2,
-      struct3,
-      Func(
-        name: 'func1',
-        parameters: [
-          Parameter(name: 's', type: PointerType(struct2), objCConsumed: false),
-        ],
-        returnType: NativeType(SupportedNativeType.voidType),
-      ),
-      Func(
-        name: 'func2',
-        parameters: [
-          Parameter(name: 's', type: PointerType(struct3), objCConsumed: false),
-        ],
-        returnType: NativeType(SupportedNativeType.voidType),
-      ),
-      Func(
-        name: 'func3',
-        parameters: [
-          Parameter(name: 'a', type: PointerType(intType), objCConsumed: false),
-        ],
-        returnType: NativeType(SupportedNativeType.voidType),
-      ),
-      Struct(context: context, name: 'Struct4'),
-      Struct(context: context, name: 'Struct5'),
-      Struct(
-        context: context,
-        name: 'Struct6',
-        members: [
-          CompoundMember(
-            name: 'a',
-            type: ConstantArray(
-              2,
-              ConstantArray(10, intType, useArrayType: false),
-              useArrayType: false,
-            ),
-          ),
-        ],
-      ),
-      Struct(context: context, name: 'Struct7'),
-    ], context),
+    bindings: parser.transformBindings(rawBindings, context),
   );
 }

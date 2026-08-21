@@ -14,10 +14,14 @@ void main() {
     input: Input(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
-    functions: Functions(
-      include: (_) => true,
-      recordUse: (_) => true,
-    ),
+    visitors: [
+      Visitor(
+        func: (node) {
+          node.isIncluded = true;
+          node.recordUse = true;
+        },
+      ),
+    ],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
@@ -39,10 +43,14 @@ void main() {
     input: Input(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
-    functions: Functions(
-      include: (_) => true,
-      recordUse: (_) => true,
-    ),
+    visitors: [
+      Visitor(
+        func: (node) {
+          node.isIncluded = true;
+          node.recordUse = true;
+        },
+      ),
+    ],
     output: Output(
       preamble: '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file

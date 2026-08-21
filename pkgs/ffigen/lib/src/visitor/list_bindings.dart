@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show FfiGenerator;
+import '../config_provider/config_types.dart';
 import '../strings.dart' as strings;
 
 import 'ast.dart';
@@ -65,14 +66,9 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    final _IncludeBehavior includeBehavior;
-    if (node.isInternal) {
-      includeBehavior = _IncludeBehavior.transitive;
-    } else if (config.objectiveC?.interfaces.includeTransitive ?? false) {
-      includeBehavior = _IncludeBehavior.configOrTransitive;
-    } else {
-      includeBehavior = _IncludeBehavior.configOnly;
-    }
+    final includeBehavior = node.isInternal
+        ? _IncludeBehavior.transitive
+        : _IncludeBehavior.configOnly;
     final omit = node.unavailable || !_visitImpl(node, includeBehavior);
 
     if (omit && directTransitives.contains(node)) {
@@ -94,7 +90,7 @@ class ListBindingsVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) => _visitImpl(
     node,
-    config.objectiveC?.categories.includeTransitive ?? false
+    node.parent.includeCategories
         ? _IncludeBehavior.configOrDirectTransitive
         : _IncludeBehavior.configOnly,
   );
@@ -102,13 +98,7 @@ class ListBindingsVisitation extends Visitation {
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     final omit =
-        node.unavailable ||
-        !_visitImpl(
-          node,
-          config.objectiveC?.protocols.includeTransitive ?? false
-              ? _IncludeBehavior.configOrTransitive
-              : _IncludeBehavior.configOnly,
-        );
+        node.unavailable || !_visitImpl(node, _IncludeBehavior.configOnly);
 
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
@@ -121,12 +111,17 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitTypealias(Typealias node) {
-    _visitImpl(
-      node,
-      config.typedefs.includeUnused
-          ? _IncludeBehavior.configOnly
-          : _IncludeBehavior.configAndTransitive,
-    );
+    final _IncludeBehavior includeBehavior;
+    if (node.isInternal) {
+      includeBehavior = _IncludeBehavior.transitive;
+    } else {
+      includeBehavior = switch (node.isIncluded) {
+        TypealiasInclude.always => _IncludeBehavior.configOnly,
+        TypealiasInclude.ifUsed => _IncludeBehavior.configAndTransitive,
+        TypealiasInclude.never => _IncludeBehavior.configOnly,
+      };
+    }
+    _visitImpl(node, includeBehavior);
 
     // Objective C has some core typedefs that are important to keep.
     if (config.objectiveC != null &&

@@ -65,8 +65,8 @@ Library expectedLibrary() {
   return Library(
     context: testContext(),
     bindings: [
-      Constant(name: 'A', rawType: 'int', rawValue: '1'),
-      Constant(name: 'C', rawType: 'int', rawValue: '3'),
+      UnnamedEnumConstant(name: 'A', rawType: 'int', rawValue: '1'),
+      UnnamedEnumConstant(name: 'C', rawType: 'int', rawValue: '3'),
     ],
   )..forceFillNamesForTesting();
 }

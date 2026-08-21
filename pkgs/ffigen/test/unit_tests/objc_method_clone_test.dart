@@ -18,10 +18,7 @@ void main() {
     );
     final config = FfiGenerator(
       output: Output(dartFile: Uri.file('unused')),
-      objectiveC: const ObjectiveC(
-        interfaces: Interfaces.includeAll,
-        categories: Categories.includeAll,
-      ),
+      objectiveC: const ObjectiveC(),
     );
     late Context context;
     final voidType = NativeType(SupportedNativeType.voidType);
@@ -53,6 +50,26 @@ void main() {
       }
       itf.filled = true;
       return itf;
+    }
+
+    ObjCCategory makeCategory(
+      String name,
+      ObjCInterface parent,
+      List<ObjCMethod> methods, {
+      bool isIncluded = true,
+    }) {
+      final category = ObjCCategory(
+        context: context,
+        usr: name,
+        originalName: name,
+        parent: parent,
+        apiAvailability: availability,
+      )..isIncluded = isIncluded;
+      parent.categories.add(category);
+      for (final m in methods) {
+        category.addMethod(m);
+      }
+      return category;
     }
 
     ObjCMethod makeMethod(
@@ -175,5 +192,131 @@ void main() {
         expect(source.methods.length, 2);
       },
     );
+
+    test('copyMethod with originCategory sets originCategory', () {
+      final method = makeMethod('catMethod', voidType, []);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, [method]);
+      final dest = makeInterface('Destination', null, []);
+
+      dest.copyMethod(method, originCategory: category);
+
+      expect(dest.methods.length, 1);
+      final clonedMethod = dest.methods.single;
+      expect(clonedMethod.originCategory, category);
+    });
+
+    test('copying a property with originCategory sets originCategory on getter '
+        'and setter', () {
+      final (getter, setter) = makeProperty('prop', intType);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, [getter, setter]);
+      final dest = makeInterface('Destination', null, []);
+
+      dest.copyMethod(getter, originCategory: category);
+
+      expect(dest.methods.length, 2);
+      final clonedGetter = dest.methods.firstWhere(
+        (m) => m.kind == ObjCMethodKind.propertyGetter,
+      );
+      final clonedSetter = dest.methods.firstWhere(
+        (m) => m.kind == ObjCMethodKind.propertySetter,
+      );
+
+      expect(clonedGetter.originCategory, category);
+      expect(clonedSetter.originCategory, category);
+    });
+
+    test('copyMethod preserves originCategory across multiple copies', () {
+      final method = makeMethod('catMethod', voidType, []);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, [method]);
+      final mid = makeInterface('Mid', null, []);
+      final dest = makeInterface('Destination', null, []);
+
+      mid.copyMethod(method, originCategory: category);
+      final midMethod = mid.methods.single;
+      expect(midMethod.originCategory, category);
+
+      dest.copyMethod(midMethod);
+      final destMethod = dest.methods.single;
+      expect(destMethod.originCategory, category);
+    });
+
+    test('clone with originCategory sets originCategory', () {
+      final method = makeMethod('catMethod', voidType, []);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, []);
+
+      final cloned = method.clone(originCategory: category);
+      expect(cloned.originCategory, category);
+    });
+
+    test('clone with originCategory overrides existing originCategory', () {
+      final method = makeMethod('catMethod', voidType, []);
+      final parent = makeInterface('Parent', null, []);
+      final category1 = makeCategory('Category1', parent, []);
+      final category2 = makeCategory('Category2', parent, []);
+
+      method.originCategory = category1;
+      final cloned = method.clone(originCategory: category2);
+      expect(cloned.originCategory, category2);
+    });
+
+    test('clone property with originCategory sets originCategory on getter and '
+        'setter', () {
+      final (getter, setter) = makeProperty('prop', intType);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, []);
+
+      final clonedGetter = getter.clone(originCategory: category);
+      expect(clonedGetter.originCategory, category);
+      expect(clonedGetter.setter?.originCategory, category);
+    });
+
+    test(
+      'clone property with originCategory overrides existing originCategory on '
+      'getter and setter',
+      () {
+        final (getter, setter) = makeProperty('prop', intType);
+        final parent = makeInterface('Parent', null, []);
+        final category1 = makeCategory('Category1', parent, []);
+        final category2 = makeCategory('Category2', parent, []);
+
+        getter.originCategory = category1;
+        setter.originCategory = category1;
+
+        final clonedGetter = getter.clone(originCategory: category2);
+        expect(clonedGetter.originCategory, category2);
+        expect(clonedGetter.setter?.originCategory, category2);
+      },
+    );
+
+    test('clone preserves originCategory', () {
+      final method = makeMethod('catMethod', voidType, []);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, [method]);
+      final dest1 = makeInterface('Dest1', null, []);
+      final dest2 = makeInterface('Dest2', null, []);
+
+      dest1.copyMethod(method, originCategory: category);
+      final dest1Method = dest1.methods.single;
+
+      final cloned = dest1Method.clone(parent: dest2);
+      expect(cloned.originCategory, category);
+    });
+
+    test('clone property preserves originCategory on getter and setter', () {
+      final (getter, setter) = makeProperty('prop', intType);
+      final parent = makeInterface('Parent', null, []);
+      final category = makeCategory('Category', parent, []);
+
+      getter.originCategory = category;
+      setter.originCategory = category;
+
+      final clonedGetter = getter.clone();
+      expect(clonedGetter.originCategory, category);
+      expect(clonedGetter.setter?.originCategory, category);
+    });
   });
 }

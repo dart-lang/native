@@ -36,7 +36,6 @@ class Library {
     generateForPackageObjectiveC:
         // ignore: deprecated_member_use_from_same_package
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
-    silenceEnumWarning: context.config.enums.silenceWarning,
     nativeEntryPoints: context.config.input.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
@@ -48,13 +47,13 @@ class Library {
     required List<Binding> bindings,
     String? header,
     bool generateForPackageObjectiveC = false,
-    bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
     required Context context,
   }) {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
     final nativeBindings = <LookUpBinding>[];
+    final noLookUpBindings = <Binding>[];
     String? nativeAssetId;
 
     final outputStyle = context.config.output.style;
@@ -62,15 +61,19 @@ class Library {
         ? outputStyle.assetId
         : null;
 
-    for (final binding in bindings.whereType<LookUpBinding>()) {
-      final loadFromNativeAsset = binding.loadFromNativeAsset;
+    for (final binding in bindings) {
+      // All LookUpBindings are look-up bindings, except const Globals.
+      if (binding is LookUpBinding && !(binding is Global && binding.isConst)) {
+        final loadFromNativeAsset = binding.loadFromNativeAsset;
 
-      // At the moment, all bindings share their native config.
-      if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
+        // At the moment, all bindings share their native config.
+        if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
 
-      (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
+        (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
+      } else {
+        noLookUpBindings.add(binding);
+      }
     }
-    final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
     final hasNoLookupNativeHelper = noLookUpBindings.any(
       (b) => b.hasNativeHelperFunctions,
     );
@@ -86,7 +89,6 @@ class Library {
       classDocComment: description,
       header: header,
       generateForPackageObjectiveC: generateForPackageObjectiveC,
-      silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
       context: context,
     );

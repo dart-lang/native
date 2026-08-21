@@ -14,9 +14,9 @@
 /// Dart or Flutter application. They can be produced by compiling C, C++,
 /// Objective-C, Rust, or Go code for example.
 ///
-/// This package is used in a build hook (`hook/build.dart`) to inform the Dart
-/// and Flutter SDKs about the code assets that need to be bundled with an
-/// application.
+/// This package is used in a build hook (`hook/build.dart`) or link hook
+/// (`hook/link.dart`) to inform the Dart and Flutter SDKs about the code assets
+/// that need to be bundled with an application.
 ///
 /// A [CodeAsset] can be added to the [BuildOutputBuilder] in a build hook as
 /// follows:
@@ -46,6 +46,112 @@
 /// }
 /// ```
 ///
+/// When compiling C, C++ or Objective-C code from source, consider using
+/// [`package:native_toolchain_c`](https://pub.dev/packages/native_toolchain_c)
+/// with a build hook and a link hook. First, define the C library
+/// specification in a shared file:
+///
+/// <!-- file://./../example/sqlite/lib/src/c_library.dart -->
+/// ```dart
+/// import 'package:native_toolchain_c/native_toolchain_c.dart';
+///
+/// /// The C build specification for the sqlite library.
+/// ///
+/// /// It is used by the build and link hooks in the `hook/` directory.
+/// final cLibrary = CLibrary(
+///   name: 'sqlite3',
+///   assetName: 'src/third_party/sqlite3.g.dart',
+///   sources: ['third_party/sqlite/sqlite3.c'],
+/// );
+/// ```
+///
+/// Next, compile the library in the build hook:
+///
+/// <!-- file://./../example/sqlite/hook/build.dart -->
+/// ```dart
+/// import 'package:code_assets/code_assets.dart';
+/// import 'package:hooks/hooks.dart';
+/// import 'package:sqlite/src/c_library.dart';
+///
+/// void main(List<String> args) async {
+///   await build(args, (input, output) async {
+///     if (input.config.buildCodeAssets) {
+///       await cLibrary.build(
+///         input: input,
+///         output: output,
+///         defines: {
+///           if (input.config.code.targetOS == OS.windows)
+///             // Ensure symbols are exported in dll.
+///             'SQLITE_API': '__declspec(dllexport)',
+///         },
+///       );
+///     }
+///   });
+/// }
+/// ```
+///
+/// Finally, tree-shake and link the library in the link hook:
+///
+/// <!-- file://./../example/sqlite/hook/link.dart -->
+/// ```dart
+/// import 'package:hooks/hooks.dart';
+/// import 'package:native_toolchain_c/native_toolchain_c.dart';
+/// import 'package:record_use/record_use.dart';
+/// import 'package:sqlite/src/c_library.dart';
+/// import 'package:sqlite/src/third_party/record_use_mapping.dart';
+///
+/// void main(List<String> arguments) async {
+///   await link(arguments, (input, output) async {
+///     await cLibrary.link(
+///       input: input,
+///       output: output,
+///       linkerOptions: LinkerOptions.treeshake(
+///         symbolsToKeep: input.recordedUses?.calls.keys.cast<Method>().map(
+///           (e) => recordUseMapping[e.name]!,
+///         ),
+///       ),
+///     );
+///   });
+/// }
+/// ```
+///
+/// See the full example in [example/sqlite/](../example/sqlite/).
+///
+/// When interfacing with system libraries, the API in this package is enough:
+///
+/// <!-- file://./../example/host_name/hook/build.dart -->
+/// ```dart
+/// import 'package:code_assets/code_assets.dart';
+/// import 'package:hooks/hooks.dart';
+///
+/// void main(List<String> args) async {
+///   await build(args, (input, output) async {
+///     if (input.config.buildCodeAssets) {
+///       switch (input.config.code.targetOS) {
+///         case OS.android || OS.iOS || OS.linux || OS.macOS:
+///           output.assets.code.add(
+///             CodeAsset(
+///               package: 'host_name',
+///               name: 'src/third_party/unix.dart',
+///               linkMode: LookupInProcess(),
+///             ),
+///           );
+///         case OS.windows:
+///           output.assets.code.add(
+///             CodeAsset(
+///               package: 'host_name',
+///               name: 'src/third_party/windows.dart',
+///               linkMode: DynamicLoadingSystem(Uri.file('ws2_32.dll')),
+///             ),
+///           );
+///         case final os:
+///           throw UnsupportedError('Unsupported OS: ${os.name}.');
+///       }
+///     }
+///   });
+/// }
+/// ```
+///
 /// The [CodeConfig] nested in the [HookInput] gives access to configuration
 /// specifically for compiling code assets. For example [CodeConfig.targetOS]
 /// and [CodeConfig.targetArchitecture] give access to the target OS and
@@ -69,7 +175,7 @@
 /// }
 /// ```
 ///
-/// For more information about build hooks see
+/// For more information about build and link hooks see
 /// [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 library;
 
