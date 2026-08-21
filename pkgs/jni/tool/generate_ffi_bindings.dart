@@ -17,7 +17,7 @@ import 'wrapper_generators/generate_c_extensions.dart';
 import 'wrapper_generators/generate_dart_extensions.dart';
 import 'wrapper_generators/logging.dart';
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
   final levels = Map.fromEntries(
     Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)),
   );
@@ -64,8 +64,8 @@ void main(List<String> args) {
   final config =
       ffigen.YamlConfig.fromFile(File('ffigen.yaml'), logger).configAdapter();
   final library = ffigen.parse(ffigen.Context(logger, config));
-  final outputFile = File(config.output.dartFile.toFilePath());
-  library.generateFile(outputFile);
+  final outputFile = File(config.output.dart.path.toFilePath());
+  await library.generateFile(outputFile);
 
   logger.info('Generating Dart extensions');
   generateDartExtensions(library);

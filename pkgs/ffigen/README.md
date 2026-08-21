@@ -58,11 +58,13 @@ app has been created via `dart create ffigen_example`.
 
    import 'package:ffigen/ffigen.dart';
 
-   void main() {
+   Future<void> main() async {
      final packageRoot = Platform.script.resolve('../');
-     FfiGenerator(
+     await FfiGenerator(
        // Required. Output path for the generated bindings.
-       output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
+       output: Output(
+         dart: DartCodeOutput(path: packageRoot.resolve('lib/add.g.dart')),
+       ),
        // Optional. Where to look for header files.
        input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),
        // Optional. Transform and filter AST nodes.

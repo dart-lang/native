@@ -41,7 +41,7 @@ void main() {
         ),
       );
 
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         parse(context),
         'swift_example.dart',

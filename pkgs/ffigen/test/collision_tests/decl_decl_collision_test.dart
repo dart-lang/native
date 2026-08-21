@@ -11,11 +11,11 @@ import '../test_utils.dart';
 
 void main() {
   group('decl_decl_collision_test', () {
-    test('declaration conflict', () {
+    test('declaration conflict', () async {
       final context = testContext(
         FfiGenerator(
           output: Output(
-            dartFile: Uri.file('unused'),
+            dart: DartCodeOutput(path: Uri.file('unused')),
             style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
           visitors: [
@@ -86,7 +86,7 @@ void main() {
           ),
         ], context),
       );
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         library,
         'decl_decl_collision_test_output.dart',

@@ -17,7 +17,7 @@ void main() {
       final context = testContext(
         FfiGenerator(
           output: Output(
-            dartFile: Uri.file('unused'),
+            dart: DartCodeOutput(path: Uri.file('unused')),
             style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
           visitors: [
@@ -53,9 +53,9 @@ void main() {
         ], context),
       );
     });
-    test('declaration and symbol address conflict', () {
+    test('declaration and symbol address conflict', () async {
       final context = testContext();
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         actual,
         'collision_test_decl_symbol_address_collision_output.dart',

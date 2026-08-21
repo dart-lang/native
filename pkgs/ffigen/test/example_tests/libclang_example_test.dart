@@ -12,7 +12,7 @@ import '../test_utils.dart';
 
 void main() {
   group('example_test', () {
-    test('libclang-example', () {
+    test('libclang-example', () async {
       final configYaml = File(
         path.join(
           packagePathForTests,
@@ -28,16 +28,19 @@ void main() {
       // compiler options. It can't use absolute paths because it's checked in
       // yaml code. To support concurrent tests, we can't set Directory.current.
       // As a workaround, add an extra '-I' option that uses the absolute path.
-      generator.input.compilerOptions!.add(
+      generator.input.compilerOptions.add(
         '-I${path.join(packagePathForTests, 'third_party/libclang/include')}',
       );
 
       final context = testContext(generator);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'example_libclang.dart', [
-        generator.output.dartFile.toFilePath(),
-      ]);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'example_libclang.dart',
+        [generator.output.dart.path.toFilePath()],
+      );
     });
   });
 }

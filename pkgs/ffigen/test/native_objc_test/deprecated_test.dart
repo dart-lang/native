@@ -18,12 +18,14 @@ import '../test_utils.dart';
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
   FfiGenerator(
     output: Output(
-      dartFile: Uri.file(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'deprecated_test_bindings.dart',
+      dart: DartCodeOutput(
+        path: Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'deprecated_test_bindings.dart',
+          ),
         ),
       ),
       format: false,

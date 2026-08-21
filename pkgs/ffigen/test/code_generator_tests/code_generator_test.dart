@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
@@ -25,7 +27,7 @@ void main() {
           output:
               output ??
               Output(
-                dartFile: Uri.file('unused'),
+                dart: DartCodeOutput(path: Uri.file('unused')),
                 style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
               ),
           visitors:
@@ -46,7 +48,10 @@ void main() {
 
   group('code_generator: ', () {
     @isTestGroup
-    void withAndWithoutNative(String description, void Function(bool) runTest) {
+    void withAndWithoutNative(
+      String description,
+      FutureOr<void> Function(bool) runTest,
+    ) {
       group(description, () {
         test('without Native', () => runTest(false));
         test('with Native', () => runTest(true));
@@ -55,10 +60,10 @@ void main() {
 
     withAndWithoutNative('Function Binding (primitives, pointers)', (
       loadFromNativeAsset,
-    ) {
+    ) async {
       final nativeContext = makeContext(
         output: Output(
-          dartFile: Uri.file('unused'),
+          dart: DartCodeOutput(path: Uri.file('unused')),
           style: loadFromNativeAsset
               ? const NativeExternalBindings(assetId: 'test')
               : const DynamicLibraryBindings(wrapperName: 'Bindings'),
@@ -127,13 +132,13 @@ void main() {
         ], nativeContext),
       );
 
-      _matchLib(
+      await _matchLib(
         library,
         loadFromNativeAsset ? 'function_ffiNative' : 'function',
       );
     });
 
-    test('Struct Binding (primitives, pointers)', () {
+    test('Struct Binding (primitives, pointers)', () async {
       final context = makeContext();
       final library = Library(
         context: context,
@@ -201,10 +206,10 @@ void main() {
         ], context),
       );
 
-      _matchLib(library, 'struct');
+      await _matchLib(library, 'struct');
     });
 
-    test('Struct allocate helper name collisions', () {
+    test('Struct allocate helper name collisions', () async {
       final context = makeContext();
       final library = Library(
         context: context,
@@ -227,10 +232,10 @@ void main() {
         ], context),
       );
 
-      _matchLib(library, 'struct_allocate_collision');
+      await _matchLib(library, 'struct_allocate_collision');
     });
 
-    test('Function and Struct Binding (pointer to Struct)', () {
+    test('Function and Struct Binding (pointer to Struct)', () async {
       final context = makeContext();
       final structSome = Struct(
         context: context,
@@ -266,15 +271,15 @@ void main() {
         ], context),
       );
 
-      _matchLib(library, 'function_n_struct');
+      await _matchLib(library, 'function_n_struct');
     });
 
     withAndWithoutNative('global (primitives, pointers, pointer to struct)', (
       loadFromNativeAsset,
-    ) {
+    ) async {
       final nativeContext = makeContext(
         output: Output(
-          dartFile: Uri.file('unused'),
+          dart: DartCodeOutput(path: Uri.file('unused')),
           style: loadFromNativeAsset
               ? const NativeExternalBindings(assetId: 'test')
               : const DynamicLibraryBindings(wrapperName: 'Bindings'),
@@ -326,10 +331,13 @@ void main() {
           ),
         ], nativeContext),
       );
-      _matchLib(library, loadFromNativeAsset ? 'global_native' : 'global');
+      await _matchLib(
+        library,
+        loadFromNativeAsset ? 'global_native' : 'global',
+      );
     });
 
-    test('constant', () {
+    test('constant', () async {
       final context = makeContext();
       final library = Library(
         context: context,
@@ -339,7 +347,7 @@ void main() {
           MacroConstant(name: 'test2', rawType: 'double', rawValue: '20.0'),
         ], context),
       );
-      _matchLib(library, 'constant');
+      await _matchLib(library, 'constant');
     });
 
     test('const global', () {
@@ -372,7 +380,7 @@ void main() {
     ) {
       final context = makeContext(
         output: Output(
-          dartFile: Uri.file('unused'),
+          dart: DartCodeOutput(path: Uri.file('unused')),
           style: loadFromNativeAsset
               ? const NativeExternalBindings(assetId: 'test')
               : const DynamicLibraryBindings(wrapperName: 'Bindings'),
@@ -441,7 +449,7 @@ void main() {
       expect(g3.isConst, isFalse);
     });
 
-    test('enum_class', () {
+    test('enum_class', () async {
       final context = makeContext();
       final library = Library(
         context: context,
@@ -458,10 +466,10 @@ void main() {
           ),
         ], context),
       );
-      _matchLib(library, 'enumclass');
+      await _matchLib(library, 'enumclass');
     });
 
-    test('enum_class with duplicates', () {
+    test('enum_class with duplicates', () async {
       final context = makeContext();
       final library = Library(
         context: context,
@@ -491,10 +499,10 @@ void main() {
           ),
         ], context),
       );
-      _matchLib(library, 'enumclass_duplicates');
+      await _matchLib(library, 'enumclass_duplicates');
     });
 
-    test('enum_class as integers', () {
+    test('enum_class as integers', () async {
       final context = makeContext();
       final enum1 = EnumClass(
         context: context,
@@ -538,10 +546,10 @@ void main() {
           ),
         ], context),
       );
-      _matchLib(library, 'enumclass_integers');
+      await _matchLib(library, 'enumclass_integers');
     });
 
-    test('enum in structs and functions', () {
+    test('enum in structs and functions', () async {
       final context = makeContext();
       final enum1 = EnumClass(
         context: context,
@@ -613,13 +621,13 @@ void main() {
           func4,
         ], context),
       );
-      _matchLib(lib, 'enumclass_func_and_struct');
+      await _matchLib(lib, 'enumclass_func_and_struct');
     });
 
-    test('Internal conflict resolution', () {
+    test('Internal conflict resolution', () async {
       final context = makeContext(
         output: Output(
-          dartFile: Uri.file('unused'),
+          dart: DartCodeOutput(path: Uri.file('unused')),
           style: const DynamicLibraryBindings(wrapperName: 'init_dylib'),
         ),
       );
@@ -668,13 +676,13 @@ void main() {
           EnumClass(context: context, name: 'init_dylib'),
         ], context),
       );
-      _matchLib(library, 'internal_conflict_resolution');
+      await _matchLib(library, 'internal_conflict_resolution');
     });
 
-    test('Adds Native symbol on mismatch', () {
+    test('Adds Native symbol on mismatch', () async {
       final context = makeContext(
         output: Output(
-          dartFile: Uri.file('unused'),
+          dart: DartCodeOutput(path: Uri.file('unused')),
           style: const NativeExternalBindings(assetId: 'test'),
         ),
       );
@@ -696,11 +704,11 @@ void main() {
           ),
         ], context),
       );
-      _matchLib(library, 'native_symbol');
+      await _matchLib(library, 'native_symbol');
     });
   });
 
-  test('boolean_dartBool', () {
+  test('boolean_dartBool', () async {
     final context = makeContext();
     final library = Library(
       context: context,
@@ -725,10 +733,10 @@ void main() {
         ),
       ], context),
     );
-    _matchLib(library, 'boolean_dartbool');
+    await _matchLib(library, 'boolean_dartbool');
   });
 
-  test('Pack Structs', () {
+  test('Pack Structs', () async {
     final context = makeContext();
     final library = Library(
       context: context,
@@ -802,10 +810,10 @@ void main() {
         ),
       ], context),
     );
-    _matchLib(library, 'packed_structs');
+    await _matchLib(library, 'packed_structs');
   });
 
-  test('Union Bindings', () {
+  test('Union Bindings', () async {
     final context = makeContext();
     final struct1 = Struct(
       context: context,
@@ -869,10 +877,10 @@ void main() {
         ),
       ], context),
     );
-    _matchLib(library, 'unions');
+    await _matchLib(library, 'unions');
   });
 
-  test('Typealias Bindings', () {
+  test('Typealias Bindings', () async {
     final context = makeContext();
     final struct2 = Struct(
       context: context,
@@ -915,14 +923,14 @@ void main() {
         struct3Typealias,
       ], context),
     );
-    _matchLib(library, 'typealias');
+    await _matchLib(library, 'typealias');
   });
 }
 
 /// Utility to match expected bindings to the generated bindings.
-void _matchLib(Library lib, String testName) {
+Future<void> _matchLib(Library lib, String testName) async {
   final context = testContext();
-  matchLibraryWithExpected(
+  await matchLibraryWithExpected(
     context,
     lib,
     'code_generator_test_${testName}_output.dart',

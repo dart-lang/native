@@ -10,15 +10,15 @@ import '../test_utils.dart';
 
 void main() {
   group('cjson_example_test', () {
-    test('c_json', () {
+    test('c_json', () async {
       final config = testConfigFromPath(
         path.join(packagePathForTests, 'example', 'c_json', 'config.yaml'),
       );
       final context = testContext(config);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'example_c_json.dart', [
-        config.output.dartFile.toFilePath(),
+      await matchLibraryWithExpected(context, library, 'example_c_json.dart', [
+        config.output.dart.path.toFilePath(),
       ]);
     });
   });
