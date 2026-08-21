@@ -274,8 +274,12 @@ class InstallLocationResolver implements ToolResolver {
     }
 
     final result = <Uri>[];
+    // Glob defaults to the ambient platform's path context. Use the injected
+    // file system's context, so globbing follows the semantics of the file
+    // system being globbed.
     final fileSystemEntities = await Glob(
       path,
+      context: context.fileSystem.path,
     ).listFileSystem(context.fileSystem).toList();
     for (final fileSystemEntity in fileSystemEntities) {
       if (!await fileSystemEntity.exists()) {
@@ -383,6 +387,7 @@ class RelativeToolResolver implements ToolResolver {
             ),
             relativePath.path,
           ].join(),
+          context: context.fileSystem.path,
         ),
     ];
     final fileSystemEntities = [
