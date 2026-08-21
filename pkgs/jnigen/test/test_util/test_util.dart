@@ -199,7 +199,7 @@ Future<void> checkLocallyBuiltDependencies() async {
 
 void generateAndCompare(
   String description,
-  Config config,
+  JniGenerator config,
 ) {
   test(description, () async {
     await generateAndCompareBindings(config);

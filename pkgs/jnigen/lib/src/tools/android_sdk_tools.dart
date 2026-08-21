@@ -408,12 +408,10 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   ///
   /// If current project is not directly buildable by gradle, eg: a plugin,
   /// a relative path to other project can be specified using [androidProject].
-  static List<String> getGradleClasspaths(
-          {Uri? configRoot, Uri? androidProject}) =>
+  static List<String> getGradleClasspaths({Uri? androidProject}) =>
       _runGradleStub(
         isSource: false,
         androidProject: androidProject ?? Uri.directory('.'),
-        configRoot: configRoot,
       );
 
   /// Get source paths for all gradle dependencies.
@@ -421,11 +419,10 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   /// This function temporarily overwrites the build.gradle file by a stub with
   /// function to list all dependency paths for release variant.
   /// This function fails if no gradle build is attempted before.
-  static List<String> getGradleSources({Uri? configRoot, Uri? androidProject}) {
+  static List<String> getGradleSources({Uri? androidProject}) {
     return _runGradleStub(
       isSource: true,
       androidProject: androidProject ?? Uri.directory('.'),
-      configRoot: configRoot,
     );
   }
 
@@ -438,16 +435,12 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
 
   static List<String> _runGradleStub({
     required bool isSource,
-    Uri? configRoot,
     Uri? androidProject,
   }) {
     final stubName =
         isSource ? _gradleGetSourcesTaskName : _gradleGetClasspathTaskName;
     log.info('trying to obtain gradle dependencies [$stubName]...');
-    var androidProjectUri = androidProject ?? Uri.directory('.');
-    if (configRoot != null && !androidProjectUri.isAbsolute) {
-      androidProjectUri = configRoot.resolveUri(androidProjectUri);
-    }
+    final androidProjectUri = androidProject ?? Uri.directory('.');
     final androidProjectPath = androidProjectUri.toFilePath();
 
     if (_isFlutterProject(androidProjectPath)) {

@@ -157,14 +157,12 @@ Future<Classes> getSummary(JniGenerator config) async {
   final androidConfig = config.input.androidSdk;
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(
-      configRoot: config.configRoot,
       androidProject: androidConfig.androidExample,
     );
     extraJars.addAll(deps.map(Uri.file));
   }
   if (androidConfig != null && androidConfig.addGradleSources) {
     final deps = AndroidSdkTools.getGradleSources(
-      configRoot: config.configRoot,
       androidProject: androidConfig.androidExample,
     );
     extraSources.addAll(deps.map(Uri.file));

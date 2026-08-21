@@ -85,9 +85,3 @@ extension JniGenGenerator on JniGenerator {
     }
   }
 }
-
-/// Generates JNI bindings for the given configuration.
-@Deprecated('Use JniGenerator.generate instead.')
-Future<void> generateJniBindings(JniGenerator config, {Logger? logger}) async {
-  await config.generate(logger: logger);
-}

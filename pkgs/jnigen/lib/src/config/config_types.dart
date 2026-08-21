@@ -366,9 +366,6 @@ void _validateClassName(String className) {
   }
 }
 
-@Deprecated('Use JniGenerator instead.')
-typedef Config = JniGenerator;
-
 /// Configuration for JNIgen binding generation.
 final class JniGenerator {
   JniGenerator({
