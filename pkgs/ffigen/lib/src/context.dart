@@ -27,9 +27,8 @@ class Context {
   bool hasSourceErrors = false;
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
-  late final compilerOpts = config.input.compilerOptions.isEmpty
-      ? defaultCompilerOpts(logger)
-      : config.input.compilerOptions;
+  late final compilerOpts =
+      config.input.compilerOptions ?? defaultCompilerOpts(logger);
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   late final ExtraSymbols extraSymbols;

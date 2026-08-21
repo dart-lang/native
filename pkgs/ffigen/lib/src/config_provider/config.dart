@@ -116,7 +116,7 @@ final class Input {
   static bool _includeDefault(Uri header) => true;
 
   /// Command line arguments to pass to clang_compiler.
-  final List<String> compilerOptions;
+  final List<String>? compilerOptions;
 
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
@@ -124,7 +124,7 @@ final class Input {
   const Input({
     this.entryPoints = const [],
     this.include = _includeDefault,
-    this.compilerOptions = const [],
+    this.compilerOptions,
     this.ignoreSourceErrors = false,
   });
 }
@@ -191,9 +191,6 @@ final class DartCodeOutput {
 final class Output {
   /// The output Dart configuration for the generated bindings.
   final DartCodeOutput dart;
-
-  @Deprecated('Use dart.path instead.')
-  Uri get dartFile => dart.path;
 
   /// The output Objective-C file for the generated Objective-C bindings.
   final Uri? objectiveCFile;
