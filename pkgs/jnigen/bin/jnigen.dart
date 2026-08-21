@@ -7,13 +7,13 @@ import 'package:jnigen/src/logging/logging.dart';
 
 void main(List<String> args) async {
   enableLoggingToFile();
-  Config config;
+  JniGenerator config;
   try {
-    config = Config.parseArgs(args);
+    config = JniGenerator.parseArgs(args);
   } on ConfigException catch (e) {
     log.fatal(e);
   } on FormatException catch (e) {
     log.fatal(e);
   }
-  await generateJniBindings(config);
+  await config.generate(logger: log);
 }

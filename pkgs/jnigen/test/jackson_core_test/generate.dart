@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/jnigen.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' hide equals;
 
 const jacksonPreamble = '// Generated from jackson-core which is licensed under'
@@ -28,14 +27,14 @@ const testName = 'jackson_core_test';
 final thirdPartyDir = join('test', testName, 'third_party');
 const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.4'];
 
-Config getConfig({
+JniGenerator getConfig({
   String? root,
   bool generateFullVersion = false,
   bool useAsm = false,
   SummarizerBackend? backend,
 }) {
   final rootDir = root ?? thirdPartyDir;
-  final config = Config(
+  final config = JniGenerator(
     input: Input(
       classes: generateFullVersion
           ? ['com.fasterxml.jackson.core']
@@ -46,8 +45,8 @@ Config getConfig({
             ],
       mavenDownloads: MavenDownloads(
         sourceDeps: deps,
-        sourceDir: join(thirdPartyDir, 'java'),
-        jarDir: join(thirdPartyDir, 'jar'),
+        sourceDir: Uri.directory(join(thirdPartyDir, 'java')),
+        jarDir: Uri.directory(join(thirdPartyDir, 'jar')),
       ),
       backend: backend ?? (useAsm ? SummarizerBackend.asm : null),
     ),
@@ -57,11 +56,10 @@ Config getConfig({
       ),
       preamble: jacksonPreamble,
     ),
-    logLevel: Level.INFO,
   );
   return config;
 }
 
 void main() async {
-  await generateJniBindings(getConfig());
+  await getConfig().generate();
 }

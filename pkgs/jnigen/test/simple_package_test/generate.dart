@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
 const testName = 'simple_package_test';
@@ -83,12 +82,12 @@ void compileJavaSources(String workingDir, List<String> files) async {
   }
 }
 
-Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
+JniGenerator getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
   compileJavaSources(javaPath, javaFiles);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
   );
-  final config = Config(
+  final config = JniGenerator(
     input: Input(
       sourcePath: [Uri.directory(javaPath)],
       classPath: [Uri.directory(javaPath)],
@@ -115,7 +114,6 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
       nonNull: ['com.github.dart_lang.jnigen.annotations.NotNull'],
       nullable: ['com.github.dart_lang.jnigen.annotations.Nullable'],
     ),
-    logLevel: Level.INFO,
     customClassBody: {
       'com.github.dart_lang.jnigen.interfaces.MyConsumer': r'''
   static core$_.Map<core$_.int, $MyConsumer> get $impls => _$impls;
@@ -132,5 +130,5 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
 }
 
 void main() async {
-  await generateJniBindings(getConfig());
+  await getConfig().generate();
 }

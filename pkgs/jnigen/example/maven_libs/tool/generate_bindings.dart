@@ -9,22 +9,19 @@ import 'package:logging/logging.dart';
 
 void main() async {
   final packageRoot = Platform.script.resolve('../');
-  await generateJniBindings(
-    Config(
-      input: Input(
-        classes: ['com.google.gson.Gson', 'okhttp3.OkHttpClient'],
-        androidSdk: AndroidSdk(
-          addGradleDeps: true,
-          androidExample: packageRoot.resolve('example/').toFilePath(),
-        ),
+  await JniGenerator(
+    input: Input(
+      classes: ['com.google.gson.Gson', 'okhttp3.OkHttpClient'],
+      androidSdk: AndroidSdk(
+        addGradleDeps: true,
+        androidExample: packageRoot.resolve('example/'),
       ),
-      output: Output(
-        dart: DartCodeOutput(
-          path: packageRoot.resolve('lib/maven_libs_bindings.dart'),
-          structure: OutputStructure.singleFile,
-        ),
-      ),
-      logLevel: Level.INFO,
     ),
-  );
+    output: Output(
+      dart: DartCodeOutput(
+        path: packageRoot.resolve('lib/maven_libs_bindings.dart'),
+        structure: OutputStructure.singleFile,
+      ),
+    ),
+  ).generate();
 }
