@@ -39,7 +39,9 @@ final config = FfiGenerator(
 
   output: Output(
     // The Dart file where the bindings will be generated.
-    dartFile: Platform.script.resolve('avf_audio_bindings.dart'),
+    dart: DartCodeOutput(
+      path: Platform.script.resolve('avf_audio_bindings.dart'),
+    ),
 
     // Preamble text to put at the top of the generated file.
     preamble: '''
@@ -50,7 +52,7 @@ final config = FfiGenerator(
   ),
 );
 
-void main() {
+Future<void> main() async {
   Logger.root.level = Level.SEVERE;
-  config.generate(logger: Logger.root);
+  await config.generate(logger: Logger.root);
 }

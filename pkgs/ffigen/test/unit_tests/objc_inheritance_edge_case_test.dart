@@ -20,7 +20,7 @@ void main() {
       externalVersions: const ExternalVersions(),
     );
     final config = FfiGenerator(
-      output: Output(dartFile: Uri.file('unused')),
+      output: Output(dart: DartCodeOutput(path: Uri.file('unused'))),
       objectiveC: const ObjectiveC(),
     );
     late Context context;
@@ -355,7 +355,7 @@ void main() {
       var visitorSawMethodOnInterface = false;
 
       final testConfig = FfiGenerator(
-        output: Output(dartFile: Uri.file('unused')),
+        output: Output(dart: DartCodeOutput(path: Uri.file('unused'))),
         objectiveC: const ObjectiveC(),
         visitors: [
           public_visitor.Visitor(
@@ -386,7 +386,7 @@ void main() {
       final category = makeCategory('Category', parent, [catMethod]);
 
       final testConfig = FfiGenerator(
-        output: Output(dartFile: Uri.file('unused')),
+        output: Output(dart: DartCodeOutput(path: Uri.file('unused'))),
         objectiveC: const ObjectiveC(),
         visitors: [
           public_visitor.Visitor(

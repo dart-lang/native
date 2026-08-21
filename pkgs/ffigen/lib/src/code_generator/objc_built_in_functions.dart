@@ -240,7 +240,7 @@ class ObjCBuiltInFunctions {
   static String _libraryIdFromConfigHash(FfiGenerator config) => fnvHash32(
     [
       ...config.input.entryPoints,
-      config.output.dartFile,
+      config.output.dart.path,
       config.output.objCFile,
     ].map((uri) => path.basename(uri.toFilePath())).join('\n'),
   ).toRadixString(36);

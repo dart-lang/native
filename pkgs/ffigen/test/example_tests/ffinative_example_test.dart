@@ -10,16 +10,19 @@ import '../test_utils.dart';
 
 void main() {
   group('ffinative_example_test', () {
-    test('ffinative', () {
+    test('ffinative', () async {
       final config = testConfigFromPath(
         path.join(packagePathForTests, 'example', 'ffinative', 'config.yaml'),
       );
       final context = testContext(config);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'example_ffinative.dart', [
-        config.output.dartFile.toFilePath(),
-      ]);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'example_ffinative.dart',
+        [config.output.dart.path.toFilePath()],
+      );
     });
   });
 }

@@ -17,12 +17,14 @@ import '../test_utils.dart';
 String generate({bool includeTransitiveObjCCategories = true}) {
   FfiGenerator(
     output: Output(
-      dartFile: Uri.file(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'transitive_test_bindings.dart',
+      dart: DartCodeOutput(
+        path: Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'transitive_test_bindings.dart',
+          ),
         ),
       ),
       format: false,

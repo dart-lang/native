@@ -19,7 +19,7 @@ void main() {
       actual = parser.parse(
         testContext(
           FfiGenerator(
-            output: Output(dartFile: Uri.file('unused')),
+            output: Output(dart: DartCodeOutput(path: Uri.file('unused'))),
             input: Input(
               entryPoints: [
                 Uri.file(
