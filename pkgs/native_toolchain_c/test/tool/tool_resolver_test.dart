@@ -154,10 +154,15 @@ void main() {
   });
 
   test('InstallLocationResolver with memory file system', () async {
-    // Always POSIX style here. Glob patterns have to use forward slashes,
-    // since a backslash escapes in a glob, and a Windows style memory file
-    // system roots at `C:\`, so globbing a `C:/` path finds no root. A POSIX
-    // fake keeps this test the same on every host.
+    if (Platform.isWindows) {
+      // A fake file system cannot be globbed on Windows: `package:glob`
+      // refuses to list a glob whose style differs from the host platform's,
+      // and a Windows style memory file system does not resolve the `C:/`
+      // root that a glob pattern produces, since glob patterns must use
+      // forward slashes.
+      return;
+    }
+    // A POSIX fake keeps this test identical on the hosts where it runs.
     final fileSystem = MemoryFileSystem();
     // A tool laid out in the memory file system, found by globbing.
     final dir = fileSystem.systemTempDirectory.createTempSync();
