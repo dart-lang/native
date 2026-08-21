@@ -67,7 +67,6 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
             config.importedClasses[binaryName] ?? node.decls[binaryName];
         if (decl != null) return decl;
 
-        // ignore: deprecated_member_use_from_same_package
         if (config.output.generateStubs) {
           log.fine('Class $binaryName not found. Creating a stub.');
           // Create a synthetic stub. Mark it excluded for now. StubCollector

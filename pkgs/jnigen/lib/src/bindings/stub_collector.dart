@@ -20,7 +20,6 @@ class StubCollector extends Visitor<Classes, void> with TopLevelVisitor {
 
   @override
   void visit(Classes node) {
-    // ignore: deprecated_member_use_from_same_package
     if (!config.output.generateStubs) {
       node.decls.removeWhere((binaryName, classDecl) => !classDecl.isIncluded);
       return;

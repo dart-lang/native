@@ -25,7 +25,6 @@ JniGenerator _getConfig(Uri output, bool generateStubs) {
         path: output,
         structure: OutputStructure.singleFile,
       ),
-      // ignore: deprecated_member_use
       generateStubs: generateStubs,
     ),
   );

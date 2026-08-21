@@ -279,7 +279,6 @@ final class Output {
   final String preamble;
 
   /// Whether to generate stubs for unincluded dependent classes.
-  @Deprecated('Stubs generation will be removed in a future release.')
   final bool generateStubs;
 
   /// Whether to format the generated Dart code with `dart format`.
@@ -289,7 +288,6 @@ final class Output {
     required this.dart,
     this.symbols,
     this.preamble = '',
-    @Deprecated('Stubs generation will be removed in a future release.')
     this.generateStubs = true,
     this.format = true,
   });
@@ -508,7 +506,6 @@ final class JniGenerator {
               )
             : null,
         preamble: prov.getString(_Props.preamble) ?? '',
-        // ignore: deprecated_member_use_from_same_package
         generateStubs: prov.getBool(_Props.generateStubs) ?? true,
         format: prov.getBool(_Props.format) ?? true,
       ),

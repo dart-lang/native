@@ -47,7 +47,6 @@ JniGenerator getConfig() {
         path: Uri.file(dartPath),
         structure: OutputStructure.singleFile,
       ),
-      // ignore: deprecated_member_use
       generateStubs: true,
       preamble: preamble,
     ),
