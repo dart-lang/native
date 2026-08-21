@@ -180,13 +180,13 @@ class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
 
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
-  final Set<ClassDecl> renamed;
+  final Set<ClassDecl> renamed = {};
   final Map<String, Map<String, int>> topLevelNameCounts = {};
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
     this.config,
-  ) : renamed = {...config.importedClasses.values};
+  );
 
   Map<String, int> _getTopLevelNameCounts(ClassDecl node) {
     return topLevelNameCounts.putIfAbsent(
@@ -201,6 +201,10 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
   @override
   void visit(ClassDecl node) {
     if (renamed.contains(node)) return;
+    if (config.importType(Declaration(binaryName: node.binaryName)) != null) {
+      renamed.add(node);
+      return;
+    }
     log.finest('Renaming ${node.binaryName}.');
     renamed.add(node);
 

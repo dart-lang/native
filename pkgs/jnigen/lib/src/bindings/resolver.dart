@@ -4,6 +4,7 @@
 
 import 'dart:math';
 
+import '../config/config_types.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
 
@@ -13,8 +14,8 @@ class Resolver {
   /// Is `null` when in single file mode.
   final String? currentClass;
 
-  /// Explicit import mappings.
-  final Map<String, ClassDecl> importedClasses;
+  /// Import type resolver callback.
+  final ImportedType? Function(Declaration) importType;
 
   /// Names of all classes in input.
   final Set<String> inputClassNames;
@@ -29,10 +30,12 @@ class Resolver {
   final Map<String, String> _classToImportedName = {};
 
   Resolver({
-    required this.importedClasses,
+    ImportedType? Function(Declaration)? importType,
     required this.currentClass,
     this.inputClassNames = const {},
-  });
+  }) : importType = importType ?? _defaultImportType;
+
+  static ImportedType? _defaultImportType(Declaration declaration) => null;
 
   static String getFileClassName(String binaryName) {
     final dollarSign = binaryName.indexOf('\$');
@@ -111,9 +114,10 @@ class Resolver {
   String? getImport(String classToResolve, String binaryName) {
     final prefix = classToResolve;
 
-    // short circuit if the requested class is specified directly in import map.
-    if (importedClasses.containsKey(binaryName)) {
-      return importedClasses[binaryName]!.path;
+    // Short circuit if the requested class is resolved via importType.
+    final imported = importType(Declaration(binaryName: binaryName));
+    if (imported != null) {
+      return imported.importPath;
     }
 
     if (prefix.isEmpty) {

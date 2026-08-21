@@ -44,28 +44,30 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
       assignPath(decl);
     }
 
-    // Find all the imported classes.
-    await config.importClasses();
-
-    final intersection = config.importedClasses.keys
-        .toSet()
-        .intersection(node.decls.keys.toSet());
-    if (intersection.isNotEmpty) {
-      log.fatal(
-        'Trying to re-import the generated classes: $intersection.\n'
-        'Try hiding the class(es) in import.',
-      );
+    for (final className in node.decls.keys) {
+      if (config.importType(Declaration(binaryName: className)) != null) {
+        log.fatal(
+          'Trying to re-import the generated classes: $className.\n'
+          'Try hiding the class(es) in import.',
+        );
+      }
     }
 
-    for (final className in config.importedClasses.keys) {
-      log.finest('Imported $className successfully.');
-    }
+    final importedClasses = <String, ClassDecl>{};
 
     ClassDecl resolve(String? binaryName) {
       if (binaryName != null) {
-        final decl =
-            config.importedClasses[binaryName] ?? node.decls[binaryName];
+        final decl = node.decls[binaryName] ?? importedClasses[binaryName];
         if (decl != null) return decl;
+
+        final importedType =
+            config.importType(Declaration(binaryName: binaryName));
+        if (importedType != null) {
+          final classDecl = importedType.toClassDecl(binaryName);
+          importedClasses[binaryName] = classDecl;
+          log.finest('Imported $binaryName successfully.');
+          return classDecl;
+        }
 
         if (config.output.generateStubs) {
           log.fine('Class $binaryName not found. Creating a stub.');
@@ -106,7 +108,7 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
 class _ClassLinker extends Visitor<ClassDecl, void> {
   final Config config;
   final _Resolver resolve;
-  final Set<ClassDecl> linked;
+  final Set<ClassDecl> linked = {};
 
   /// Keeps track of the [TypeParam]s that introduced each type variable.
   final typeVarOrigin = <String, TypeParam>{};
@@ -114,11 +116,15 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
   _ClassLinker(
     this.config,
     this.resolve,
-  ) : linked = {...config.importedClasses.values};
+  );
 
   @override
   void visit(ClassDecl node) {
     if (linked.contains(node)) return;
+    if (config.importType(Declaration(binaryName: node.binaryName)) != null) {
+      linked.add(node);
+      return;
+    }
     log.finest('Linking ${node.binaryName}.');
     linked.add(node);
 

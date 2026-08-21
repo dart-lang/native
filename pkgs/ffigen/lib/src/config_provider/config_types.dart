@@ -8,11 +8,13 @@ library;
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:package_config/package_config.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
 import 'path_finder.dart';
+import 'spec_utils.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
 
@@ -441,6 +443,22 @@ class SymbolFile {
   final Uri output;
 
   SymbolFile(this.importPath, this.output);
+
+  /// Loads symbol files and returns an [ImportedType? Function(Declaration)]
+  /// callback for resolving imported types.
+  static ImportedType? Function(Declaration) load(
+    List<Uri> symbolFiles, {
+    PackageConfig? packageConfig,
+    Logger? logger,
+    Map<String, LibraryImport>? libraryImports,
+    String? configFileName,
+  }) => importFromSymbolFiles(
+    symbolFiles,
+    packageConfig: packageConfig,
+    logger: logger,
+    libraryImports: libraryImports,
+    configFileName: configFileName,
+  );
 }
 
 class OutputConfig {

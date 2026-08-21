@@ -55,9 +55,11 @@ void expectConfigsAreEqual(Config a, Config b) {
   expect(a.input.workingDirectory, b.input.workingDirectory,
       reason: 'workingDirectory');
   expect(a.input.backend, b.input.backend, reason: 'backend');
-  expect(a.imports.symbolFiles, b.imports.symbolFiles,
-      reason: 'imports.symbolFiles');
-  expect(a.imports.hide, b.imports.hide, reason: 'imports.hide');
+  expect(
+    a.importType(Declaration(binaryName: 'java.lang.Object'))?.name,
+    b.importType(Declaration(binaryName: 'java.lang.Object'))?.name,
+    reason: 'importType',
+  );
 }
 
 final jnigenYaml = join(jacksonCoreTests, 'jnigen.yaml');

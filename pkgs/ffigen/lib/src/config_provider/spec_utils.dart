@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file/local.dart';
@@ -52,16 +53,93 @@ void loadImportedTypes(
   }
 }
 
+Uri? _resolvePackageUriSync(Uri uri) {
+  var dir = Directory.current;
+  while (true) {
+    final configFile = File(
+      p.join(dir.path, '.dart_tool', 'package_config.json'),
+    );
+    if (configFile.existsSync()) {
+      try {
+        final json =
+            jsonDecode(configFile.readAsStringSync()) as Map<String, dynamic>;
+        final packages = json['packages'] as List<dynamic>;
+        final packageName = uri.pathSegments.first;
+        for (final pkg in packages) {
+          if (pkg is Map && pkg['name'] == packageName) {
+            var rootUriStr = pkg['rootUri'] as String;
+            if (!rootUriStr.endsWith('/')) {
+              rootUriStr += '/';
+            }
+            var packageUriStr = (pkg['packageUri'] as String?) ?? 'lib/';
+            if (!packageUriStr.endsWith('/')) {
+              packageUriStr += '/';
+            }
+            final configDirUri = Uri.directory(configFile.parent.path);
+            final rootUri = configDirUri.resolve(rootUriStr);
+            final libUri = rootUri.resolve(packageUriStr);
+            return libUri.resolve(uri.pathSegments.sublist(1).join('/'));
+          }
+        }
+      } catch (_) {}
+    }
+    final parent = dir.parent;
+    if (parent.path == dir.path) break;
+    dir = parent;
+  }
+  return null;
+}
+
 YamlMap loadSymbolFile(
   String symbolFilePath,
   String? configFileName,
   PackageConfig? packageConfig,
 ) {
-  final path = symbolFilePath.startsWith('package:')
-      ? packageConfig!.resolve(Uri.parse(symbolFilePath))!.toFilePath()
-      : normalizePath(symbolFilePath, configFileName);
+  final String path;
+  if (symbolFilePath.startsWith('package:')) {
+    final uri = Uri.parse(symbolFilePath);
+    final resolved = packageConfig?.resolve(uri) ?? _resolvePackageUriSync(uri);
+    if (resolved == null) {
+      throw FormatException(
+        'Unable to resolve package URI $symbolFilePath. '
+        'Ensure packageConfig is provided or run from a valid Dart package.',
+      );
+    }
+    path = resolved.toFilePath();
+  } else if (symbolFilePath.startsWith('file:')) {
+    path = Uri.parse(symbolFilePath).toFilePath();
+  } else {
+    path = normalizePath(symbolFilePath, configFileName);
+  }
 
   return loadYaml(File(path).readAsStringSync()) as YamlMap;
+}
+
+ImportedType? Function(Declaration) importFromSymbolFiles(
+  Iterable<Uri> symbolFiles, {
+  PackageConfig? packageConfig,
+  Logger? logger,
+  Map<String, LibraryImport>? libraryImports,
+  String? configFileName,
+}) {
+  final log = logger ?? Logger('ffigen.symbol_file');
+  final libs = libraryImports ?? <String, LibraryImport>{};
+  final fileList = symbolFiles
+      .map((u) => u.isScheme('file') ? u.toFilePath() : u.toString())
+      .toList();
+  final mappings = symbolFileImportExtractor(
+    log,
+    fileList,
+    libs,
+    configFileName,
+    packageConfig,
+  );
+  return (Declaration decl) {
+    if (decl.usr.isNotEmpty) {
+      return mappings[decl.usr];
+    }
+    return null;
+  };
 }
 
 Map<String, ImportedType> symbolFileImportExtractor(

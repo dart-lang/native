@@ -2,9 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:package_config/package_config.dart';
 import 'package:path/path.dart' as p;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
@@ -235,19 +237,267 @@ class SymbolsOutput {
   }
 }
 
-/// Configuration for importing symbol files (`symbols.yaml`) from other
-/// packages.
-final class SymbolImports {
-  /// Symbol file URIs (`package:...` or file paths) to import.
-  final List<Uri> symbolFiles;
+/// A declaration, representing a Java class.
+class Declaration {
+  /// The binary name of the class (e.g. `java.lang.String` or
+  /// `com.example.Outer$Inner`).
+  final String binaryName;
 
-  /// Concrete class names to hide/exclude from the imports.
-  final List<String> hide;
+  /// The original name of the declaration.
+  final String originalName;
 
-  const SymbolImports({
-    this.symbolFiles = const [],
-    this.hide = const [],
+  Declaration({
+    required this.binaryName,
+    String? originalName,
+  }) : originalName = originalName ?? binaryName;
+}
+
+/// An imported type from an external package or symbol file.
+class ImportedType {
+  /// The import path to the Dart library (e.g. `'package:jni/jni.dart'`).
+  final String importPath;
+
+  /// The final Dart class name (e.g. `'JObject'`).
+  final String name;
+
+  /// Type parameters of the imported class.
+  final List<TypeParam> typeParams;
+
+  /// Method numbers after renaming in the imported class.
+  final Map<String, int> methodNumsAfterRenaming;
+
+  ImportedType({
+    required this.importPath,
+    required this.name,
+    this.typeParams = const [],
+    this.methodNumsAfterRenaming = const {},
   });
+
+  /// Converts this [ImportedType] to a [ClassDecl].
+  ClassDecl toClassDecl(String binaryName) {
+    return ClassDecl(
+      declKind: DeclKind.classKind,
+      binaryName: binaryName,
+    )
+      ..path = importPath
+      ..finalName = name
+      ..allTypeParams = [...typeParams]
+      ..outerClass = null
+      ..methodNumsAfterRenaming = methodNumsAfterRenaming;
+  }
+}
+
+/// A symbol file loader and resolver for JNIgen.
+class SymbolFile {
+  /// Default JNI symbols file URI.
+  static final defaultJniSymbolsUri = Uri.parse('package:jni/jni_symbols.yaml');
+
+  /// Loads symbol files and returns an [ImportedType? Function(Declaration)]
+  /// callback for resolving imported classes.
+  static Future<ImportedType? Function(Declaration)> load({
+    List<Uri> symbolFiles = const [],
+    List<String> hide = const [],
+    bool importJniSymbols = true,
+  }) async {
+    final importedTypes = <String, ImportedType>{};
+    final allFiles = [
+      if (importJniSymbols) defaultJniSymbolsUri,
+      ...symbolFiles,
+    ];
+
+    for (final import in allFiles) {
+      final Uri yamlUri;
+      final String importPath;
+      if (import.scheme == 'package') {
+        final packageName = import.pathSegments.first;
+        final packageRoot = await findPackageRoot(packageName);
+        if (packageRoot == null) {
+          log.fatal('package:$packageName was not found.');
+        }
+        yamlUri = packageRoot
+            .resolve('lib/')
+            .resolve(import.pathSegments.sublist(1).join('/'));
+        importPath = 'package:$packageName';
+      } else {
+        yamlUri = import;
+        final segments = [...import.pathSegments];
+        if (segments.isNotEmpty) segments.removeLast();
+        importPath = segments.join('/');
+      }
+      log.finest('Parsing yaml file in url $yamlUri.');
+      final YamlMap yaml;
+      try {
+        final symbolsFile = File.fromUri(yamlUri);
+        final content = symbolsFile.readAsStringSync();
+        yaml = loadYaml(content, sourceUrl: yamlUri) as YamlMap;
+      } catch (e, s) {
+        log.warning(e);
+        log.warning(s);
+        log.fatal('Error while parsing yaml file "$import".');
+      }
+      _parseSymbolYaml(yaml, import, importPath, hide, importedTypes);
+    }
+
+    return (Declaration decl) =>
+        importedTypes[decl.binaryName] ?? importedTypes[decl.originalName];
+  }
+
+  /// Synchronously loads symbol files and returns an
+  /// [ImportedType? Function(Declaration)] callback.
+  static ImportedType? Function(Declaration) loadSync({
+    List<Uri> symbolFiles = const [],
+    List<String> hide = const [],
+    bool importJniSymbols = true,
+    PackageConfig? packageConfig,
+  }) {
+    final importedTypes = <String, ImportedType>{};
+    final allFiles = [
+      if (importJniSymbols) defaultJniSymbolsUri,
+      ...symbolFiles,
+    ];
+
+    for (final import in allFiles) {
+      final Uri yamlUri;
+      final String importPath;
+      if (import.scheme == 'package') {
+        final packageName = import.pathSegments.first;
+        final resolved =
+            packageConfig?.resolve(import) ?? _resolvePackageUriSync(import);
+        if (resolved == null) {
+          log.fatal('package:$packageName was not found.');
+        }
+        yamlUri = resolved;
+        importPath = 'package:$packageName';
+      } else {
+        yamlUri = import;
+        final segments = [...import.pathSegments];
+        if (segments.isNotEmpty) segments.removeLast();
+        importPath = segments.join('/');
+      }
+      log.finest('Parsing yaml file in url $yamlUri.');
+      final YamlMap yaml;
+      try {
+        final symbolsFile = File.fromUri(yamlUri);
+        final content = symbolsFile.readAsStringSync();
+        yaml = loadYaml(content, sourceUrl: yamlUri) as YamlMap;
+      } catch (e, s) {
+        log.warning(e);
+        log.warning(s);
+        log.fatal('Error while parsing yaml file "$import".');
+      }
+      _parseSymbolYaml(yaml, import, importPath, hide, importedTypes);
+    }
+
+    return (Declaration decl) =>
+        importedTypes[decl.binaryName] ?? importedTypes[decl.originalName];
+  }
+
+  static Uri? _resolvePackageUriSync(Uri uri) {
+    var dir = Directory.current;
+    while (true) {
+      final configFile = File(
+        p.join(dir.path, '.dart_tool', 'package_config.json'),
+      );
+      if (configFile.existsSync()) {
+        try {
+          final json =
+              jsonDecode(configFile.readAsStringSync()) as Map<String, dynamic>;
+          final packages = json['packages'] as List<dynamic>;
+          final packageName = uri.pathSegments.first;
+          for (final pkg in packages) {
+            if (pkg is Map && pkg['name'] == packageName) {
+              var rootUriStr = pkg['rootUri'] as String;
+              if (!rootUriStr.endsWith('/')) {
+                rootUriStr += '/';
+              }
+              var packageUriStr = (pkg['packageUri'] as String?) ?? 'lib/';
+              if (!packageUriStr.endsWith('/')) {
+                packageUriStr += '/';
+              }
+              final configDirUri = Uri.directory(configFile.parent.path);
+              final rootUri = configDirUri.resolve(rootUriStr);
+              final libUri = rootUri.resolve(packageUriStr);
+              return libUri.resolve(uri.pathSegments.sublist(1).join('/'));
+            }
+          }
+        } catch (_) {}
+      }
+      final parent = dir.parent;
+      if (parent.path == dir.path) break;
+      dir = parent;
+    }
+    return null;
+  }
+
+  static void _parseSymbolYaml(
+    YamlMap yaml,
+    Uri import,
+    String importPath,
+    List<String> hide,
+    Map<String, ImportedType> importedTypes,
+  ) {
+    final version = Version.parse(yaml['version'] as String);
+    if (!VersionConstraint.compatibleWith(_currentVersion).allows(version)) {
+      log.fatal('"$import" is version "$version" which is not compatible with '
+          'the current JNIgen symbols version $_currentVersion');
+    }
+    final files = yaml['files'] as YamlMap;
+    for (final entry in files.entries) {
+      final filePath = entry.key as String;
+      final classes = entry.value as YamlMap;
+      for (final classEntry in classes.entries) {
+        final binaryName = classEntry.key as String;
+        if (hide.contains(binaryName)) {
+          continue;
+        }
+        final decl = classEntry.value as YamlMap;
+        if (importedTypes.containsKey(binaryName)) {
+          log.fatal(
+            'Re-importing "$binaryName" in "$import".\n'
+            'Try hiding the class in import.',
+          );
+        }
+        final typeParams = <TypeParam>[];
+        for (final typeParamEntry
+            in (decl['type_params'] as YamlMap?)?.entries ??
+                <MapEntry<dynamic, dynamic>>[]) {
+          final typeParamName = typeParamEntry.key as String;
+          final bounds = (typeParamEntry.value as YamlMap).entries.map((e) {
+            final boundName = e.key as String;
+            // Can only be DECLARED or TYPE_VARIABLE
+            if (!['DECLARED', 'TYPE_VARIABLE'].contains(e.value)) {
+              log.fatal(
+                'Unsupported bound kind "${e.value}" for bound "$boundName" '
+                'in type parameter "$typeParamName" '
+                'of "$binaryName".',
+              );
+            }
+            final ReferredType type;
+            if ((e.value as String) == 'DECLARED') {
+              type = DeclaredType(binaryName: boundName);
+            } else {
+              type = TypeVar(name: boundName);
+            }
+            return type;
+          }).toList();
+          typeParams.add(
+            TypeParam(name: typeParamName, bounds: bounds),
+          );
+        }
+        final methodNumsAfterRenaming =
+            (decl['methods'] as YamlMap?)?.cast<String, int>() ?? {};
+        final fullPath =
+            importPath.isEmpty ? filePath : '$importPath/$filePath';
+        final importedType = ImportedType(
+          importPath: fullPath,
+          name: decl['name'] as String,
+          typeParams: typeParams,
+          methodNumsAfterRenaming: methodNumsAfterRenaming,
+        );
+        importedTypes[binaryName] = importedType;
+      }
+    }
+  }
 }
 
 /// Custom nullability annotations configuration.
@@ -370,13 +620,13 @@ final class Config {
   Config({
     required this.input,
     required this.output,
-    this.imports = const SymbolImports(),
+    ImportedType? Function(Declaration declaration)? importType,
     this.nullability = const NullabilityAnnotations(),
     this.visitors = const [],
     this.experiments = const {},
     this.logLevel = Level.INFO,
     this.customClassBody = const {},
-  });
+  }) : importType = importType ?? _defaultImportType;
 
   /// Input source paths, classpaths, target classes, and SDK dependencies.
   final Input input;
@@ -384,8 +634,13 @@ final class Config {
   /// Output destination and file settings (Dart code, symbol files, preamble).
   final Output output;
 
-  /// External symbol file imports for cross-package type sharing.
-  final SymbolImports imports;
+  /// Returns an [ImportedType] if the given [Declaration] should be imported
+  /// from another Dart library, or `null` otherwise.
+  final ImportedType? Function(Declaration declaration) importType;
+
+  static final _defaultJniImportType = SymbolFile.loadSync();
+  static ImportedType? _defaultImportType(Declaration declaration) =>
+      _defaultJniImportType(declaration);
 
   /// Custom nullability annotation configuration.
   final NullabilityAnnotations nullability;
@@ -401,8 +656,6 @@ final class Config {
   ///
   /// Used for testing package:jnigen.
   final Map<String, String> customClassBody;
-
-  late final Map<String, ClassDecl> _importedClasses;
 
   /// Directory containing the YAML configuration file.
   ///
@@ -451,6 +704,18 @@ final class Config {
     final configRoot = prov.getConfigRoot();
     String resolveFromConfigRoot(String reference) =>
         configRoot?.resolve(reference).toFilePath() ?? reference;
+
+    final symbolFiles = prov.getPathList(_Props.symbolFiles) ??
+        prov.getPathList(_Props.symbolFilesUnderscore) ??
+        prov.getPathList(_Props.import) ??
+        const [];
+    final hide = prov.getStringList(_Props.importHide) ??
+        prov.getStringList(_Props.hide) ??
+        const [];
+    final importType = SymbolFile.loadSync(
+      symbolFiles: symbolFiles,
+      hide: hide,
+    );
 
     final config = Config(
       input: Input(
@@ -503,10 +768,7 @@ final class Config {
         generateStubs: prov.getBool(_Props.generateStubs) ?? true,
         format: prov.getBool(_Props.format) ?? true,
       ),
-      imports: SymbolImports(
-        symbolFiles: prov.getPathList(_Props.import) ?? const [],
-        hide: prov.getStringList(_Props.hide) ?? const [],
-      ),
+      importType: importType,
       nullability: NullabilityAnnotations(
         nonNull: prov.hasValue(_Props.nonNullAnnotations)
             ? (prov.getStringList(_Props.nonNullAnnotations) ?? const [])
@@ -549,110 +811,6 @@ final class Config {
   }
 }
 
-extension ConfigInternal on Config {
-  Map<String, ClassDecl> get importedClasses => _importedClasses;
-
-  Future<void> importClasses() async {
-    _importedClasses = {};
-    for (final import in [
-      // Implicitly importing package:jni symbols.
-      Uri.parse('package:jni/jni_symbols.yaml'),
-      ...imports.symbolFiles,
-    ]) {
-      // Getting the actual uri in case of package uris.
-      final Uri yamlUri;
-      final String importPath;
-      if (import.scheme == 'package') {
-        final packageName = import.pathSegments.first;
-        final packageRoot = await findPackageRoot(packageName);
-        if (packageRoot == null) {
-          log.fatal('package:$packageName was not found.');
-        }
-        yamlUri = packageRoot
-            .resolve('lib/')
-            .resolve(import.pathSegments.sublist(1).join('/'));
-        importPath = 'package:$packageName';
-      } else {
-        yamlUri = import;
-        importPath = ([...import.pathSegments]..removeLast()).join('/');
-      }
-      log.finest('Parsing yaml file in url $yamlUri.');
-      final YamlMap yaml;
-      try {
-        final symbolsFile = File.fromUri(yamlUri);
-        final content = symbolsFile.readAsStringSync();
-        yaml = loadYaml(content, sourceUrl: yamlUri) as YamlMap;
-      } catch (e, s) {
-        log.warning(e);
-        log.warning(s);
-        log.fatal('Error while parsing yaml file "$import".');
-      }
-      final version = Version.parse(yaml['version'] as String);
-      if (!VersionConstraint.compatibleWith(_currentVersion).allows(version)) {
-        log.fatal('"$import" is version "$version" which is not compatible with'
-            'the current JNIgen symbols version $_currentVersion');
-      }
-      final files = yaml['files'] as YamlMap;
-      for (final entry in files.entries) {
-        final filePath = entry.key as String;
-        final classes = entry.value as YamlMap;
-        for (final classEntry in classes.entries) {
-          final binaryName = classEntry.key as String;
-          if (imports.hide.contains(binaryName)) {
-            continue;
-          }
-          final decl = classEntry.value as YamlMap;
-          if (_importedClasses.containsKey(binaryName)) {
-            log.fatal(
-              'Re-importing "$binaryName" in "$import".\n'
-              'Try hiding the class in import.',
-            );
-          }
-          final classDecl = ClassDecl(
-            declKind: DeclKind.classKind,
-            binaryName: binaryName,
-          )
-            ..path = '$importPath/$filePath'
-            ..finalName = decl['name'] as String
-            ..allTypeParams = []
-            // TODO(https://github.com/dart-lang/native/issues/746): include
-            // outerClass in the interop information.
-            ..outerClass = null;
-          for (final typeParamEntry
-              in (decl['type_params'] as YamlMap?)?.entries ??
-                  <MapEntry<dynamic, dynamic>>[]) {
-            final typeParamName = typeParamEntry.key as String;
-            final bounds = (typeParamEntry.value as YamlMap).entries.map((e) {
-              final boundName = e.key as String;
-              // Can only be DECLARED or TYPE_VARIABLE
-              if (!['DECLARED', 'TYPE_VARIABLE'].contains(e.value)) {
-                log.fatal(
-                  'Unsupported bound kind "${e.value}" for bound "$boundName" '
-                  'in type parameter "$typeParamName" '
-                  'of "$binaryName".',
-                );
-              }
-              final ReferredType type;
-              if ((e.value as String) == 'DECLARED') {
-                type = DeclaredType(binaryName: boundName);
-              } else {
-                type = TypeVar(name: boundName);
-              }
-              return type;
-            }).toList();
-            classDecl.allTypeParams.add(
-              TypeParam(name: typeParamName, bounds: bounds),
-            );
-          }
-          classDecl.methodNumsAfterRenaming =
-              (decl['methods'] as YamlMap?)?.cast() ?? {};
-          _importedClasses[binaryName] = classDecl;
-        }
-      }
-    }
-  }
-}
-
 class _Props {
   static const summarizer = 'summarizer';
   static const summarizerArgs = '$summarizer.extra_args';
@@ -665,6 +823,9 @@ class _Props {
 
   static const experiments = 'enable_experiment';
   static const import = 'import';
+  static const symbolFiles = '$import.symbol-files';
+  static const symbolFilesUnderscore = '$import.symbol_files';
+  static const importHide = '$import.hide';
   static const hide = 'hide';
   static const outputConfig = 'output';
   static const dartCodeOutputConfig = '$outputConfig.dart';

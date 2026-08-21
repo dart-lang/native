@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:jnigen/jnigen.dart' hide ClassDecl;
 import 'package:jnigen/src/bindings/resolver.dart';
 import 'package:jnigen/src/elements/elements.dart';
 import 'package:test/test.dart';
@@ -17,17 +18,18 @@ class ResolverTest {
 
 void main() async {
   await checkLocallyBuiltDependencies();
+  final importedTypes = {
+    'org.apache.pdfbox.pdmodel.PDDocument': ImportedType(
+      importPath: 'package:pdfbox/pdfbox.dart',
+      name: 'PDDocument',
+    ),
+    'android.os.Process': ImportedType(
+      importPath: 'package:android/os.dart',
+      name: 'Process',
+    ),
+  };
   final resolver = Resolver(
-    importedClasses: {
-      'org.apache.pdfbox.pdmodel.PDDocument': ClassDecl(
-        declKind: DeclKind.classKind,
-        binaryName: 'org.apache.pdfbox.pdmodel.PDDocument',
-      )..path = 'package:pdfbox/pdfbox.dart',
-      'android.os.Process': ClassDecl(
-        declKind: DeclKind.classKind,
-        binaryName: 'android.os.Process',
-      )..path = 'package:android/os.dart',
-    },
+    importType: (decl) => importedTypes[decl.binaryName],
     currentClass: 'a.b.N',
     inputClassNames: {
       'a.b.C',
@@ -76,7 +78,7 @@ void main() async {
             resolver.resolvePrefix(ClassDecl(
               declKind: DeclKind.classKind,
               binaryName: binaryName,
-            )..path = ''),
+            )..path = importedTypes[binaryName]?.importPath ?? ''),
             equals(testCase.expectedName)));
   }
 }
