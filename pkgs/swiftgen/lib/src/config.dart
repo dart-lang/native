@@ -216,9 +216,6 @@ class SwiftModuleInput implements SwiftGenInput {
 
 /// Selected options from [ffigen.FfiGenerator].
 class FfiGeneratorOptions {
-  /// [ffigen.FfiGenerator.functions]
-  final ffigen.Functions functions;
-
   /// [ffigen.FfiGenerator.objectiveC]
   final ffigen.ObjectiveC objectiveC;
 
@@ -226,7 +223,6 @@ class FfiGeneratorOptions {
   final List<ffigen.Visitor> visitors;
 
   const FfiGeneratorOptions({
-    this.functions = const ffigen.Functions(),
     this.objectiveC = const ffigen.ObjectiveC(),
     this.visitors = const [],
   });

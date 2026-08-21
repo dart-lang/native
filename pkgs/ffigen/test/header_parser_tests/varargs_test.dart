@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -61,6 +62,63 @@ ${strings.functions}:
           '_expected_varargs_bindings.dart',
         ],
       );
+    });
+
+    test('Programmatic Visitor manipulation of Func.varArgs', () {
+      final config = YamlConfig.fromYaml(
+        yaml.loadYaml('''
+${strings.name}: 'NativeLibrary'
+${strings.description}: 'VarArgs Visitor Test'
+${strings.output}: 'unused'
+
+${strings.headers}:
+  ${strings.entryPoints}:
+    - '${absPath('test/header_parser_tests/varargs.h')}'
+''')
+            as yaml.YamlMap,
+        createTestLogger(),
+      ).configAdapter();
+
+      var visitedVariadicFunc = false;
+      config.visitors.add(
+        public_ast.Visitor(
+          func: (node) {
+            if (node.isVariadic && node.name == 'myfunc') {
+              visitedVariadicFunc = true;
+              expect(node.isVariadic, isTrue);
+              node.varArgs = [
+                VarArgFunction(postfix: 'Suffix', types: ['int', 'double']),
+              ];
+            }
+          },
+        ),
+      );
+
+      final lib = parser.parse(testContext(config));
+      expect(visitedVariadicFunc, isTrue);
+
+      final myfuncSuffix = lib.bindings.whereType<Func>().firstWhere(
+        (f) => f.name == 'myfuncSuffix',
+      );
+      expect(myfuncSuffix.functionType.varArgParameters, hasLength(2));
+      expect(myfuncSuffix.functionType.varArgParameters[0].type, intType);
+      expect(myfuncSuffix.functionType.varArgParameters[1].type, doubleType);
+
+      final generatedCode = lib.generate();
+      expect(generatedCode, isNot(contains('int myfunc(')));
+      expect(generatedCode, contains('int myfuncSuffix('));
+      expect(generatedCode, contains('int a,'));
+      expect(generatedCode, contains('int va,'));
+      expect(generatedCode, contains('double va\$1,'));
+      expect(generatedCode, contains('ffi.VarArgs<(ffi.Int , ffi.Double ,)>'));
+      expect(
+        generatedCode,
+        contains(
+          'ffi.NativeFunction<ffi.Int Function(ffi.Int , '
+          "ffi.VarArgs<(ffi.Int , ffi.Double ,)>)>>('myfunc')",
+        ),
+      );
+      expect(generatedCode, contains('int Function(int , int , double )'));
     });
   });
 }

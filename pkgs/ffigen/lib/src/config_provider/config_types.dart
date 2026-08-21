@@ -11,7 +11,6 @@ import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
-import '../code_generator.dart';
 import 'path_finder.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
@@ -42,7 +41,7 @@ enum CommentLength { none, brief, full }
 
 enum CompoundDependencies { full, opaque }
 
-/// Controls whether and how a [Typealias] (typedef) is included in generated
+/// Controls whether and how a `Typealias` (typedef) is included in generated
 /// code.
 enum TypealiasInclude {
   /// Never generate a typedef declaration for this typealias.
@@ -451,23 +450,16 @@ class OutputConfig {
   OutputConfig(this.output, this.outputObjC, this.symbolFile);
 }
 
-class RawVarArgFunction {
-  String? postfix;
-  final List<String> rawTypeStrings;
-
-  RawVarArgFunction(this.postfix, this.rawTypeStrings);
-}
-
 /// A specialization of a variadic function with specific argument types.
 class VarArgFunction {
   /// A suffix to append to the function name for this variant.
-  final String postfix;
+  String postfix;
 
-  /// The types that will passed as the variadic parameters, replacing the
+  /// The types that will be passed as the variadic parameters, replacing the
   /// `...` in the original definition.
-  final List<Type> types;
+  List<String> types;
 
-  VarArgFunction(this.postfix, this.types);
+  VarArgFunction({this.postfix = '', required this.types});
 }
 
 class PackingValue {
