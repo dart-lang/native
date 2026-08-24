@@ -88,7 +88,6 @@ Future<void> main() async {
         structure: OutputStructure.singleFile,
       ),
       preamble: preamble,
-      // ignore: deprecated_member_use
       generateStubs: false,
     ),
     imports: SymbolImports(hide: classes),
