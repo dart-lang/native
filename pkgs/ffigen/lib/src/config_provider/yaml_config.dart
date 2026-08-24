@@ -493,12 +493,10 @@ final class YamlConfig {
               HeterogeneousMapEntry(
                 key: strings.varArgFunctions,
                 valueConfigSpec: _functionVarArgsConfigSpec(),
-                defaultValue: (node) => <String, List<RawVarArgFunction>>{},
+                defaultValue: (node) => <String, List<VarArgFunction>>{},
                 resultOrDefault: (node) {
-                  _varArgFunctions = makeVarArgFunctionsMapping(
-                    node.value as Map<String, List<RawVarArgFunction>>,
-                    _libraryImports,
-                  );
+                  _varArgFunctions =
+                      node.value as Map<String, List<VarArgFunction>>;
                 },
               ),
             ],
@@ -1262,7 +1260,6 @@ final class YamlConfig {
                 wrapperDocComment: wrapperDocComment,
               ),
       ),
-      functions: Functions(varArgs: varArgFunctions),
       importType: importType,
       objectiveC: language == Language.objc
           ? ObjectiveC(
@@ -1300,6 +1297,9 @@ final class YamlConfigAstVisitor extends public_ast.Visitor {
     }
     if (config.shouldExposeFunctionTypedef(_decl(node))) {
       node.generateTypedefs = true;
+    }
+    if (config.varArgFunctions.containsKey(node.originalName)) {
+      node.varArgs = config.varArgFunctions[node.originalName]!;
     }
   }
 

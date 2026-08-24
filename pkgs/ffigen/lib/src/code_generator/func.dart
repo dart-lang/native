@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider/config_types.dart' show VarArgFunction;
 import '../config_provider/public_ast.dart' as public_ast;
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
@@ -51,6 +52,8 @@ class Func extends LookUpBinding with HasLocalScope {
   final bool useNameForLookup;
   bool recordUse;
   final ApiAvailability? apiAvailability;
+  final bool isVariadic;
+  List<VarArgFunction> varArgs = [];
 
   @override
   final bool loadFromNativeAsset;
@@ -85,6 +88,7 @@ class Func extends LookUpBinding with HasLocalScope {
     super.isInternal,
     this.loadFromNativeAsset = false,
     this.apiAvailability,
+    this.isVariadic = false,
   }) : functionType = FunctionType(
          returnType: returnType,
          parameters: parameters,
@@ -109,6 +113,34 @@ class Func extends LookUpBinding with HasLocalScope {
       genFfiDartType: true,
       isInternal: true,
     );
+  }
+
+  Func cloneForVarArgs(
+    String usr,
+    String name,
+    List<Parameter> varArgParameters,
+  ) {
+    final cloned = Func(
+      usr: usr,
+      name: name,
+      originalName: originalName,
+      dartDoc: dartDoc,
+      returnType: functionType.returnType,
+      parameters: [for (final p in functionType.parameters) p.clone()],
+      varArgParameters: varArgParameters,
+      exposeSymbolAddress: exposeSymbolAddress,
+      generateTypedefs: generateTypedefs,
+      isLeaf: isLeaf,
+      objCReturnsRetained: objCReturnsRetained,
+      useNameForLookup: useNameForLookup,
+      recordUse: recordUse,
+      isInternal: isInternal,
+      loadFromNativeAsset: loadFromNativeAsset,
+      apiAvailability: apiAvailability,
+      isVariadic: isVariadic,
+    );
+    cloned.isIncluded = isIncluded;
+    return cloned;
   }
 
   @override
