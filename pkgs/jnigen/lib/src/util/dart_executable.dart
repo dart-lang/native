@@ -12,8 +12,8 @@ import 'package:path/path.dart' as p;
 /// directory a few levels up from it.
 final String dartExecutable = _findDart();
 
-String _findDart() {
-  var path = Platform.resolvedExecutable;
+String? _findDartInternal(String executablePath) {
+  var path = executablePath;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
   final dartExe = 'dart${p.extension(path)}';
   while (path.isNotEmpty) {
@@ -23,7 +23,17 @@ String _findDart() {
     final parent = p.dirname(path);
     if (parent == path) break;
   }
-  throw Exception(
-    "Couldn't find Dart executable near ${Platform.resolvedExecutable}",
-  );
+  return null;
+}
+
+String _findDart() {
+  final path = _findDartInternal(Platform.resolvedExecutable) ??
+      _findDartInternal(Platform.executable);
+  if (path == null) {
+    throw Exception(
+      "Couldn't find Dart executable near ${Platform.resolvedExecutable} "
+      'or ${Platform.executable}',
+    );
+  }
+  return path;
 }
