@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -59,6 +60,60 @@ ${strings.functions}:
           'header_parser_tests',
           'expected_bindings',
           '_expected_varargs_bindings.dart',
+        ],
+      );
+    });
+
+    test('Programmatic Visitor manipulation of Func.varArgs', () {
+      final config = YamlConfig.fromYaml(
+        yaml.loadYaml('''
+${strings.name}: 'NativeLibrary'
+${strings.description}: 'VarArgs Visitor Test'
+${strings.output}: 'unused'
+
+${strings.headers}:
+  ${strings.entryPoints}:
+    - '${absPath('test/header_parser_tests/varargs.h')}'
+''')
+            as yaml.YamlMap,
+        createTestLogger(),
+      ).configAdapter();
+
+      var visitedVariadicFunc = false;
+      config.visitors.add(
+        public_ast.Visitor(
+          func: (node) {
+            if (node.isVariadic && node.name == 'myfunc') {
+              visitedVariadicFunc = true;
+              expect(node.isVariadic, isTrue);
+              node.varArgs = [
+                VarArgFunction(postfix: 'Suffix', types: ['int', 'double']),
+              ];
+            }
+          },
+        ),
+      );
+
+      final context = testContext(config);
+      final lib = parser.parse(context);
+      expect(visitedVariadicFunc, isTrue);
+
+      final myfuncSuffix = lib.bindings.whereType<Func>().firstWhere(
+        (f) => f.name == 'myfuncSuffix',
+      );
+      expect(myfuncSuffix.functionType.varArgParameters, hasLength(2));
+      expect(myfuncSuffix.functionType.varArgParameters[0].type, intType);
+      expect(myfuncSuffix.functionType.varArgParameters[1].type, doubleType);
+
+      matchLibraryWithExpected(
+        context,
+        lib,
+        'header_parser_varargs_visitor_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_varargs_visitor_bindings.dart',
         ],
       );
     });

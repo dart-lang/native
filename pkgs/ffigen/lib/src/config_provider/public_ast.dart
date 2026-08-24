@@ -7,6 +7,7 @@ import 'config.dart';
 import 'config_types.dart';
 import 'public_visitor.dart';
 
+export 'config_types.dart' show VarArgFunction;
 export 'public_visitor.dart';
 
 /// Base class for all AST nodes.
@@ -70,6 +71,13 @@ class Func extends DeclNode {
   /// `addresses` getter as a `Pointer<NativeFunction<...>>`.
   bool get exposeSymbolAddress => _func.exposeSymbolAddress;
   set exposeSymbolAddress(bool value) => _func.exposeSymbolAddress = value;
+
+  /// Whether this function is variadic (takes `...` variable arguments).
+  bool get isVariadic => _func.isVariadic;
+
+  /// Variadic function signature variations.
+  List<VarArgFunction> get varArgs => _func.varArgs;
+  set varArgs(List<VarArgFunction> value) => _func.varArgs = value;
 
   /// Whether to generate a typedef for this function's native type.
   bool get generateTypedefs => _func.generateTypedefs;

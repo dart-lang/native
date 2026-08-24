@@ -28,7 +28,6 @@ export 'src/config_provider.dart'
         EnumStyle,
         ExternalVersions,
         FfiGenerator,
-        Functions,
         Input,
         NativeExternalBindings,
         ObjectiveC,

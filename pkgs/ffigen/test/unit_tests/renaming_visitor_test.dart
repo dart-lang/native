@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart'
-    show CompoundDependencies, FfiGenerator, Output, YamlConfig;
+    show CompoundDependencies, FfiGenerator, Output, VarArgFunction, YamlConfig;
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/config_provider/config.dart';
@@ -1283,6 +1283,31 @@ unions:
         CompoundDependencies.full,
       );
       expect(cgUnion.dependencies, CompoundDependencies.full);
+    });
+
+    test('public_ast.Func.isVariadic and varArgs getter and setter', () {
+      final cgFunc = Func(
+        name: 'c_foo',
+        originalName: 'c_foo',
+        returnType: voidType,
+        isVariadic: true,
+      );
+      final publicFunc = public_ast.Func(cgFunc);
+
+      expect(publicFunc.isVariadic, true);
+      expect(publicFunc.varArgs, isEmpty);
+
+      final va = [
+        VarArgFunction(postfix: 'Suffix', types: ['int', 'double']),
+      ];
+      publicFunc.varArgs = va;
+
+      expect(publicFunc.varArgs, hasLength(1));
+      expect(publicFunc.varArgs.first.postfix, 'Suffix');
+      expect(publicFunc.varArgs.first.types, ['int', 'double']);
+      expect(cgFunc.varArgs, hasLength(1));
+      expect(cgFunc.varArgs.first.postfix, 'Suffix');
+      expect(cgFunc.varArgs.first.types, ['int', 'double']);
     });
 
     test('User-defined AST visitors do not see internal nodes', () {

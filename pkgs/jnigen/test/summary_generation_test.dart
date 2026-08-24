@@ -58,7 +58,7 @@ Future<void> createJar({
 
 final random = Random.secure();
 
-void testSuccessCase(String description, Config config) {
+void testSuccessCase(String description, JniGenerator config) {
   config.input.classes = summarizerClassesSpec;
   test(description, () async {
     final classes = await getSummary(config);
@@ -67,7 +67,7 @@ void testSuccessCase(String description, Config config) {
 }
 
 void testFailureCase(
-    String description, Config config, String nonExistingClass) {
+    String description, JniGenerator config, String nonExistingClass) {
   test(description, () async {
     final insertPosition = random.nextInt(config.input.classes.length + 1);
     config.input.classes = summarizerClassesSpec.sublist(0, insertPosition) +

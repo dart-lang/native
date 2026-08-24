@@ -18,10 +18,10 @@ abstract base class Visitor {
   const Visitor.base();
 
   factory Visitor({
-    void Function(ClassDecl node)? visitClass,
-    void Function(Method node)? visitMethod,
-    void Function(Field node)? visitField,
-    void Function(Param node)? visitParam,
+    void Function(ClassDecl node)? classDecl,
+    void Function(Method node)? method,
+    void Function(Field node)? field,
+    void Function(Param node)? param,
   }) = _VisitorImpl;
 
   /// Visits a class declaration.
@@ -39,39 +39,39 @@ abstract base class Visitor {
 
 final class _VisitorImpl extends Visitor {
   const _VisitorImpl({
-    void Function(ClassDecl node)? visitClass,
-    void Function(Method node)? visitMethod,
-    void Function(Field node)? visitField,
-    void Function(Param node)? visitParam,
-  })  : _visitClass = visitClass,
-        _visitMethod = visitMethod,
-        _visitField = visitField,
-        _visitParam = visitParam,
+    void Function(ClassDecl node)? classDecl,
+    void Function(Method node)? method,
+    void Function(Field node)? field,
+    void Function(Param node)? param,
+  })  : _classDecl = classDecl,
+        _method = method,
+        _field = field,
+        _param = param,
         super.base();
 
-  final void Function(ClassDecl node)? _visitClass;
-  final void Function(Method node)? _visitMethod;
-  final void Function(Field node)? _visitField;
-  final void Function(Param node)? _visitParam;
+  final void Function(ClassDecl node)? _classDecl;
+  final void Function(Method node)? _method;
+  final void Function(Field node)? _field;
+  final void Function(Param node)? _param;
 
   @override
   void visitClass(ClassDecl c) {
-    _visitClass?.call(c);
+    _classDecl?.call(c);
   }
 
   @override
   void visitMethod(Method method) {
-    _visitMethod?.call(method);
+    _method?.call(method);
   }
 
   @override
   void visitField(Field field) {
-    _visitField?.call(field);
+    _field?.call(field);
   }
 
   @override
   void visitParam(Param parameter) {
-    _visitParam?.call(parameter);
+    _param?.call(parameter);
   }
 }
 

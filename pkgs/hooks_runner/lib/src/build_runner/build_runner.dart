@@ -837,8 +837,11 @@ class NativeAssetsBuildRunner {
     '_compileHookForPackageCached',
     arguments: {'scriptUri': scriptUri.toFilePath(), 'package': packageName},
     () async {
-      // Don't invalidate cache with environment changes.
-      final environmentForCaching = <String, String>{};
+      final environmentForCaching = <String, String>{
+        // Don't invalidate cache with environment changes.
+        // If the Dart version changed, recompile.
+        'DART_VERSION': Platform.version,
+      };
       final kernelFile = _fileSystem.file(buildDirUri.resolve('hook.dill'));
       final depFile = _fileSystem.file(buildDirUri.resolve('hook.dill.d'));
       final dependenciesHashFile = buildDirUri.resolve(
@@ -886,8 +889,6 @@ class NativeAssetsBuildRunner {
             (e) => e != packageLayout.packageConfigUri && !_isImmutable(e),
           ),
           packageLayout.packageConfigUri,
-          // If the Dart version changed, recompile.
-          dartExecutable.resolve('../version'),
         ],
         lastModifiedCutoffTime,
         environmentForCaching,
