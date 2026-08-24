@@ -4,8 +4,9 @@
   `package:ffigen`. The YAML format has not changed.
   - Group `classes`, `sourcePath`, `classPath`, `summarizerOptions`,
     `mavenDownloads`, and `androidSdkConfig` into `Input`.
-  - Group `import` and `hide` into `SymbolImports`, which lives in
-    `Input.imports`.
+  - Replace static imports with the `importType` callback (`ImportedType?
+    Function(Declaration declaration)? importType`) on `Config`, and load symbol
+    files using `SymbolFile.load` / `SymbolFile.loadSync`.
   - `OutputConfig` renamed to `Output`, and still contains
     `dartConfig` -> `dart` and `symbolsConfig` -> `symbols`. Now also contains
     `preamble`, `generateStubs`, and `format`.
