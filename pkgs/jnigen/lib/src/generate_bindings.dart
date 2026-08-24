@@ -6,6 +6,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:logging/logging.dart';
+
 import 'bindings/dart_generator.dart';
 import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
@@ -22,54 +24,64 @@ import 'tools/tools.dart';
 
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
-Future<void> generateJniBindings(Config config) async {
-  Annotated.nonNullAnnotations
-    ..clear()
-    ..addAll(Annotated.defaultNonNullAnnotations)
-    ..addAll(config.nullability.nonNull);
-  Annotated.nullableAnnotations
-    ..clear()
-    ..addAll(Annotated.defaultNullableAnnotations)
-    ..addAll(config.nullability.nullable);
 
-  setLoggingLevel(config.logLevel);
-
-  await buildSummarizerIfNotExists();
-
-  final Classes classes;
-
-  try {
-    classes = await getSummary(config);
-  } on SummaryParseException catch (e) {
-    if (e.stderr != null) {
-      printError(e.stderr);
+extension JniGenGenerator on JniGenerator {
+  /// Runs the entire generation pipeline for this config.
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that logs to stderr and the log file.
+  Future<void> generate({Logger? logger}) async {
+    logger ??= createDefaultLogger();
+    if (logger != log) {
+      setLoggingLevel(logger.level);
     }
-    log.fatal(e.message);
-  }
 
-  final userClasses = j_ast.Classes(classes);
-  config.visitors.forEach(userClasses.accept);
+    Annotated.nonNullAnnotations
+      ..clear()
+      ..addAll(Annotated.defaultNonNullAnnotations)
+      ..addAll(nullability.nonNull);
+    Annotated.nullableAnnotations
+      ..clear()
+      ..addAll(Annotated.defaultNullableAnnotations)
+      ..addAll(nullability.nullable);
 
-  // Keep the order in sync with `elements/elements.dart`.
-  var stage = GenerationStage.userVisitors;
-  R runStage<R>(TopLevelVisitor<R> visitor) {
-    assert(visitor.stage.index == stage.index + 1);
-    stage = visitor.stage;
-    return classes.accept(visitor);
-  }
+    await buildSummarizerIfNotExists();
 
-  runStage(Excluder(config));
-  runStage(KotlinProcessor());
-  await runStage(Linker(config));
-  runStage(StubCollector(config));
-  runStage(Renamer(config));
-  // classes.accept(const Printer());
+    final Classes classes;
 
-  try {
-    await classes.accept(DartGenerator(config));
-    log.info('Completed');
-  } on Exception catch (e, trace) {
-    stderr.writeln(trace);
-    log.fatal('Error while writing bindings: $e');
+    try {
+      classes = await getSummary(this);
+    } on SummaryParseException catch (e) {
+      if (e.stderr != null) {
+        printError(e.stderr);
+      }
+      log.fatal(e.message);
+    }
+
+    final userClasses = j_ast.Classes(classes);
+    visitors.forEach(userClasses.accept);
+
+    // Keep the order in sync with `elements/elements.dart`.
+    var stage = GenerationStage.userVisitors;
+    R runStage<R>(TopLevelVisitor<R> visitor) {
+      assert(visitor.stage.index == stage.index + 1);
+      stage = visitor.stage;
+      return classes.accept(visitor);
+    }
+
+    runStage(Excluder(this));
+    runStage(KotlinProcessor());
+    await runStage(Linker(this));
+    runStage(StubCollector(this));
+    runStage(Renamer(this));
+    // classes.accept(const Printer());
+
+    try {
+      await classes.accept(DartGenerator(this));
+      log.info('Completed');
+    } on Exception catch (e, trace) {
+      stderr.writeln(trace);
+      log.fatal('Error while writing bindings: $e');
+    }
   }
 }

@@ -30,7 +30,7 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
   @override
   final GenerationStage stage = GenerationStage.excluder;
 
-  final Config config;
+  final JniGenerator config;
 
   const Excluder(this.config);
 
@@ -57,7 +57,7 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
 }
 
 class _ClassExcluder extends Visitor<ClassDecl, void> {
-  final Config config;
+  final JniGenerator config;
 
   _ClassExcluder(this.config);
 

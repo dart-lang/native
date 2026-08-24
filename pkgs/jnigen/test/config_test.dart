@@ -17,9 +17,9 @@ final jacksonCoreTests = absolute(packageTests, 'jackson_core_test');
 final thirdParty = absolute(jacksonCoreTests, 'third_party');
 final testLib = absolute(thirdParty, 'test_', 'bindings');
 
-/// Compares 2 [Config] objects using [expect] to give useful errors when
+/// Compares 2 [JniGenerator] objects using [expect] to give useful errors when
 /// two fields are not equal.
-void expectConfigsAreEqual(Config a, Config b) {
+void expectConfigsAreEqual(JniGenerator a, JniGenerator b) {
   expect(a.input.classes, equals(b.input.classes), reason: 'classes');
   expect(a.output.dart.path, equals(b.output.dart.path), reason: 'dartRoot');
   expect(a.output.symbols?.path, equals(b.output.symbols?.path),
@@ -32,11 +32,12 @@ void expectConfigsAreEqual(Config a, Config b) {
   if (am != null) {
     expect(bm, isNotNull);
     expect(am.sourceDeps, bm!.sourceDeps, reason: 'mavenDownloads.sourceDeps');
-    expect(path.equals(am.sourceDir, bm.sourceDir), isTrue,
+    expect(path.equals(am.sourceDir.toFilePath(), bm.sourceDir.toFilePath()),
+        isTrue,
         reason: 'mavenDownloads.sourceDir');
     expect(am.jarOnlyDeps, bm.jarOnlyDeps,
         reason: 'mavenDownloads.jarOnlyDeps');
-    expect(path.equals(am.jarDir, bm.jarDir), isTrue,
+    expect(path.equals(am.jarDir.toFilePath(), bm.jarDir.toFilePath()), isTrue,
         reason: 'mavenDownloads.jarDir');
   } else {
     expect(bm, isNull, reason: 'mavenDownloads');
@@ -44,7 +45,7 @@ void expectConfigsAreEqual(Config a, Config b) {
   final aa = a.input.androidSdk;
   final ba = b.input.androidSdk;
   if (aa != null) {
-    expect(ba, isNotNull, reason: 'androidSdk');
+    expect(ba, isNotNull);
     expect(aa.versions, ba!.versions, reason: 'androidSdk.versions');
     expect(aa.sdkRoot, ba.sdkRoot, reason: 'androidSdk.sdkRoot');
   } else {
@@ -61,13 +62,13 @@ void expectConfigsAreEqual(Config a, Config b) {
 
 final jnigenYaml = join(jacksonCoreTests, 'jnigen.yaml');
 
-Config parseYamlConfig({List<String> overrides = const []}) =>
-    Config.parseArgs(['--config', jnigenYaml, ...overrides]);
+JniGenerator parseYamlConfig({List<String> overrides = const []}) =>
+    JniGenerator.parseArgs(['--config', jnigenYaml, ...overrides]);
 
 void testForErrorChecking<T extends Exception>(
     {required String name,
     required List<String> overrides,
-    dynamic Function(Config)? function}) {
+    dynamic Function(JniGenerator)? function}) {
   test(name, () {
     expect(
       () {
@@ -83,7 +84,7 @@ void testForErrorChecking<T extends Exception>(
 
 void main() async {
   await checkLocallyBuiltDependencies();
-  final config = Config.parseArgs([
+  final config = JniGenerator.parseArgs([
     '--config',
     jnigenYaml,
     '-Doutput.dart.path=$testLib${Platform.pathSeparator}',

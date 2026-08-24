@@ -14,7 +14,7 @@ class StubCollector extends Visitor<Classes, void> with TopLevelVisitor {
   @override
   final GenerationStage stage = GenerationStage.stubCollector;
 
-  final Config config;
+  final JniGenerator config;
 
   StubCollector(this.config);
 
