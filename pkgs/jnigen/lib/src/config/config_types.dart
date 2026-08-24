@@ -14,7 +14,6 @@ import '../elements/j_elements.dart' as j_ast;
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'config_exception.dart';
-import 'experiments.dart';
 import 'yaml_reader.dart';
 
 /// Modify this when symbols file format changes according to pub_semver.
@@ -373,7 +372,6 @@ final class Config {
     this.imports = const SymbolImports(),
     this.nullability = const NullabilityAnnotations(),
     this.visitors = const [],
-    this.experiments = const {},
     this.logLevel = Level.INFO,
     this.customClassBody = const {},
   });
@@ -392,9 +390,6 @@ final class Config {
 
   /// AST visitors for filtering, renaming, and AST transformation passes.
   final List<j_ast.Visitor> visitors;
-
-  /// Enabled experimental feature flags.
-  final Set<Experiment> experiments;
 
   /// Custom code that is added to the end of the class body with the specified
   /// binary name.
@@ -515,14 +510,6 @@ final class Config {
             ? (prov.getStringList(_Props.nullableAnnotations) ?? const [])
             : const [],
       ),
-      experiments: prov
-              .getStringList(_Props.experiments)
-              ?.map(
-                Experiment.fromString,
-              )
-              .whereType<Experiment>()
-              .toSet() ??
-          const {},
       logLevel: logLevelFromString(
         prov.getOneOf(
           _Props.logLevel,
@@ -663,7 +650,6 @@ class _Props {
   static const classPath = 'class_path';
   static const classes = 'classes';
 
-  static const experiments = 'enable_experiment';
   static const import = 'import';
   static const hide = 'hide';
   static const outputConfig = 'output';
