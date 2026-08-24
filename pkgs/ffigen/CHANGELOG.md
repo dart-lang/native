@@ -21,10 +21,14 @@
       `TypealiasInclude` enum (`never`, `ifUsed`, `always`).
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
+  - Replace `Output.dartFile` with `DartCodeOutput`, to prepare for upcoming
+    multi-file output formats
   - Deleted many now empty sub-config classes
   - Rename `Headers` to `Input`
   - Remove `libraryImports`, which was dead code
   - Remove `useSupportedTypedefs`, treating it as always true
+  - Make `preamble` non-null
+  - Make `generate` function async
 - Fix [a bug](https://github.com/dart-lang/native/issues/3504) in handling of
   small structs in ObjC on mac/iOS x64.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3546) in the way that
