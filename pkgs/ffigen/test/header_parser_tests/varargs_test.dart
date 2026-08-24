@@ -94,7 +94,8 @@ ${strings.headers}:
         ),
       );
 
-      final lib = parser.parse(testContext(config));
+      final context = testContext(config);
+      final lib = parser.parse(context);
       expect(visitedVariadicFunc, isTrue);
 
       final myfuncSuffix = lib.bindings.whereType<Func>().firstWhere(
@@ -104,21 +105,17 @@ ${strings.headers}:
       expect(myfuncSuffix.functionType.varArgParameters[0].type, intType);
       expect(myfuncSuffix.functionType.varArgParameters[1].type, doubleType);
 
-      final generatedCode = lib.generate();
-      expect(generatedCode, isNot(contains('int myfunc(')));
-      expect(generatedCode, contains('int myfuncSuffix('));
-      expect(generatedCode, contains('int a,'));
-      expect(generatedCode, contains('int va,'));
-      expect(generatedCode, contains('double va\$1,'));
-      expect(generatedCode, contains('ffi.VarArgs<(ffi.Int , ffi.Double ,)>'));
-      expect(
-        generatedCode,
-        contains(
-          'ffi.NativeFunction<ffi.Int Function(ffi.Int , '
-          "ffi.VarArgs<(ffi.Int , ffi.Double ,)>)>>('myfunc')",
-        ),
+      matchLibraryWithExpected(
+        context,
+        lib,
+        'header_parser_varargs_visitor_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_varargs_visitor_bindings.dart',
+        ],
       );
-      expect(generatedCode, contains('int Function(int , int , double )'));
     });
   });
 }

@@ -14,7 +14,7 @@ import 'ast.dart';
 final _logger = Logger('ffigen.visitor.expand_varargs');
 
 /// Expands variadic functions into specialized [Func] instances based on their
-/// [VarArgFunction] configurations.
+/// [VarArgFunction] configurations, immediately after the user's visitors.
 class ExpandVarargsVisitation extends Visitation {
   final FfiGenerator config;
   final Set<Binding> bindings;

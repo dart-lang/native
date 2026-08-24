@@ -457,6 +457,20 @@ class VarArgFunction {
 
   /// The types that will be passed as the variadic parameters, replacing the
   /// `...` in the original definition.
+  ///
+  /// Supported type strings are:
+  /// - Primitive C types such as `int`, `uint64_t`, `size_t`, or `double`.
+  /// - A type defined elsewhere in the same generated bindings.
+  /// - An import from a built in package like `package:ffi`.
+  /// - Any name that `FfiGenerator.importType` converts to an [ImportedType].
+  /// - Any above type, followed by any number of `*` to represent pointers.
+  ///
+  /// Note: We're using `String`s to represent these types, for consistency with
+  /// the legacy YAML format. This approach has worked for our YAML users for
+  /// years, but it's not ideal for a Dart API. We may switch to representing
+  /// types as Dart objects in future, but if we do, the design will be based on
+  /// user feedback. If you have a use case for a Dart representation of these
+  /// types, let us know by filing an issue on GitHub.
   List<String> types;
 
   VarArgFunction({this.postfix = '', required this.types});
