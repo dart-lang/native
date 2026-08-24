@@ -11,6 +11,8 @@ import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
+import '../code_generator.dart';
+import 'config.dart';
 import 'path_finder.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
@@ -462,7 +464,7 @@ class VarArgFunction {
   /// - Primitive C types such as `int`, `uint64_t`, `size_t`, or `double`.
   /// - A type defined elsewhere in the same generated bindings.
   /// - An import from a built in package like `package:ffi`.
-  /// - Any name that `FfiGenerator.importType` converts to an [ImportedType].
+  /// - Any name that [FfiGenerator]`.importType` converts to an [ImportedType].
   /// - Any above type, followed by any number of `*` to represent pointers.
   ///
   /// Note: We're using `String`s to represent these types, for consistency with
