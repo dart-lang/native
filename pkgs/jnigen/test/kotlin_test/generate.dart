@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:jni_util/jni_util.dart' as jni_util;
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
 const testName = 'kotlin_test';
@@ -39,12 +38,12 @@ void compileKotlinSources(String workingDir) async {
   }
 }
 
-Config getConfig({SummarizerBackend? backend}) {
+JniGenerator getConfig({SummarizerBackend? backend}) {
   compileKotlinSources(kotlinPath);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
   );
-  final config = Config(
+  final config = JniGenerator(
     input: Input(
       classPath: [Uri.file(jarPath)],
       classes: [
@@ -63,11 +62,10 @@ Config getConfig({SummarizerBackend? backend}) {
       ),
       preamble: preamble,
     ),
-    logLevel: Level.ALL,
   );
   return config;
 }
 
 void main() async {
-  await generateJniBindings(getConfig());
+  await getConfig().generate();
 }
