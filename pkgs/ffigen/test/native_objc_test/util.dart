@@ -34,7 +34,7 @@ void verifyBindings(
   final context = testContext(config);
   final library = parse(context);
 
-  final bindingsName = context.config.output.dartFile.pathSegments.last;
+  final bindingsName = context.config.output.dart.path.pathSegments.last;
   matchLibraryWithExpected(context, library, bindingsName, [
     'test',
     'native_objc_test',
