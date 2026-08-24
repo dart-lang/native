@@ -33,7 +33,7 @@ extension on Iterable<ast.Field> {
 }
 
 Future<void> rename(ast.Classes classes) async {
-  final config = Config(
+  final config = JniGenerator(
     input: Input(classes: []),
     output: Output(
       dart: DartCodeOutput(
@@ -152,17 +152,17 @@ void main() {
     final simpleClasses = Classes(classes);
     simpleClasses.accept(
       Visitor(
-        visitClass: (c) {
+        classDecl: (c) {
           if (c.binaryName.contains('y')) {
             c.isIncluded = false;
           }
         },
-        visitMethod: (method) {
+        method: (method) {
           if (method.name == 'Bar') {
             method.isIncluded = false;
           }
         },
-        visitField: (field) {
+        field: (field) {
           if (field.name == 'Bar') {
             field.isIncluded = false;
           }
@@ -216,12 +216,12 @@ void main() {
     final simpleClasses = Classes(classes);
     simpleClasses.accept(
       Visitor(
-        visitClass: (c) {
+        classDecl: (c) {
           if (c.originalName.contains('Foo')) {
             c.name = c.originalName.replaceAll('Foo', 'Bar');
           }
         },
-        visitMethod: (method) {
+        method: (method) {
           if (method.originalName.contains('Foo')) {
             method.name = method.originalName.replaceAll('Foo', 'Bar');
           }
@@ -229,12 +229,12 @@ void main() {
             method.name = 'constructor';
           }
         },
-        visitField: (field) {
+        field: (field) {
           if (field.originalName.contains('Foo')) {
             field.name = field.originalName.replaceAll('Foo', 'Bar');
           }
         },
-        visitParam: (parameter) {
+        param: (parameter) {
           if (parameter.originalName.contains('Foo')) {
             parameter.name = parameter.originalName.replaceAll('Foo', 'Bar');
           }
@@ -270,7 +270,7 @@ void main() {
 
     Classes(classes).accept(
       Visitor(
-        visitClass: (c) {
+        classDecl: (c) {
           if (c.originalName == 'Foo') {
             c.interfaceMixinName = 'FooInterface';
           }
@@ -298,7 +298,7 @@ void main() {
     addTearDown(() => tempDirectory.deleteSync(recursive: true));
 
     final output = tempDirectory.uri.resolve('bindings.dart');
-    final config = Config(
+    final config = JniGenerator(
       input: Input(classes: []),
       output: Output(
         dart: DartCodeOutput(
@@ -324,7 +324,7 @@ void main() {
 
     Classes(classes).accept(
       Visitor(
-        visitClass: (c) {
+        classDecl: (c) {
           if (c.originalName == 'Foo') {
             c.interfaceMixinName = 'FooInterface';
           }

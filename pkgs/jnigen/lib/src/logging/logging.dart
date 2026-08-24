@@ -99,6 +99,12 @@ void setLoggingLevel(Level level) {
   _logLevel = level;
 }
 
+/// Creates a default logger that logs to stderr/file.
+Logger createDefaultLogger([Level level = Level.INFO]) {
+  setLoggingLevel(level);
+  return log;
+}
+
 /// Prints [message] without logging information.
 ///
 /// Primarily used in printing output of failed commands.

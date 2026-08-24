@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:jnigen/src/config/config.dart';
 import 'package:jnigen/src/logging/logging.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
 import 'test_util.dart';
@@ -44,9 +43,9 @@ final summarizerClassesSpec = [
   removalPackageForSummaryTests,
 ];
 
-Config getSummaryGenerationConfig(
+JniGenerator getSummaryGenerationConfig(
     {List<String>? sourcePath, List<String>? classPath}) {
-  return Config(
+  return JniGenerator(
     input: Input(
       // Make a defensive copy of class list, if some test mutates the list...
       classes: summarizerClassesSpec.toList(),
@@ -59,7 +58,6 @@ Config getSummaryGenerationConfig(
         structure: OutputStructure.singleFile,
       ),
     ),
-    logLevel: Level.WARNING,
   );
 }
 

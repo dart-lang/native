@@ -14,7 +14,6 @@ import '../elements/j_elements.dart' as j_ast;
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'config_exception.dart';
-import 'experiments.dart';
 import 'yaml_reader.dart';
 
 /// Modify this when symbols file format changes according to pub_semver.
@@ -27,32 +26,33 @@ final _currentVersion = Version(1, 0, 0);
 /// will also be downloaded. For the packages in jarOnlyDeps, only JAR files
 /// will be downloaded.
 ///
-/// When passed as a parameter to [Config], the downloaded sources and
+/// When passed as a parameter to [JniGenerator], the downloaded sources and
 /// JAR files will be automatically added to source path and class path
 /// respectively.
 class MavenDownloads {
-  static const defaultMavenSourceDir = 'mvn_java';
-  static const defaultMavenJarDir = 'mvn_jar';
+  static final defaultMavenSourceDir = Uri.directory('mvn_java');
+  static final defaultMavenJarDir = Uri.directory('mvn_jar');
 
   MavenDownloads({
     this.sourceDeps = const [],
     // ASK: Should this be changed to a gitignore'd directory like build ?
-    this.sourceDir = defaultMavenSourceDir,
+    Uri? sourceDir,
     this.jarOnlyDeps = const [],
-    this.jarDir = defaultMavenJarDir,
-  });
+    Uri? jarDir,
+  })  : sourceDir = sourceDir ?? defaultMavenSourceDir,
+        jarDir = jarDir ?? defaultMavenJarDir;
 
   /// List of Maven dependencies to download sources for.
   List<String> sourceDeps;
 
   /// Directory where Maven sources are extracted.
-  String sourceDir;
+  Uri sourceDir;
 
   /// List of Maven dependencies to download JARs for only.
   List<String> jarOnlyDeps;
 
   /// Directory where Maven JARs are stored.
-  String jarDir;
+  Uri jarDir;
 }
 
 /// Configuration for Android SDK sources and stub JAR files.
@@ -77,8 +77,8 @@ class AndroidSdk {
     this.sdkRoot,
     this.addGradleDeps = false,
     this.addGradleSources = false,
-    this.androidExample = '.',
-  }) {
+    Uri? androidExample,
+  }) : androidExample = androidExample ?? Uri.directory('.') {
     if (versions != null && sdkRoot == null) {
       throw ConfigException('No SDK Root specified for finding Android SDK '
           'from version priority list $versions');
@@ -102,7 +102,7 @@ class AndroidSdk {
   /// `ANDROID_SDK_ROOT` environment variable. If [versions] is specified and
   /// [sdkRoot] remains `null` (and `ANDROID_SDK_ROOT` is unset), a
   /// [ConfigException] is thrown.
-  String? sdkRoot;
+  Uri? sdkRoot;
 
   /// Attempt to determine exact compile time dependencies by running a gradle
   /// stub in android subproject of this project.
@@ -127,7 +127,7 @@ class AndroidSdk {
   /// compile time classpath using a gradle stub. For most Android plugin
   /// packages, 'example' will be the name of example application created inside
   /// the package.
-  String androidExample;
+  Uri androidExample;
 }
 
 extension on String {
@@ -366,15 +366,13 @@ void _validateClassName(String className) {
 }
 
 /// Configuration for JNIgen binding generation.
-final class Config {
-  Config({
+final class JniGenerator {
+  JniGenerator({
     required this.input,
     required this.output,
     this.imports = const SymbolImports(),
     this.nullability = const NullabilityAnnotations(),
     this.visitors = const [],
-    this.experiments = const {},
-    this.logLevel = Level.INFO,
     this.customClassBody = const {},
   });
 
@@ -393,9 +391,6 @@ final class Config {
   /// AST visitors for filtering, renaming, and AST transformation passes.
   final List<j_ast.Visitor> visitors;
 
-  /// Enabled experimental feature flags.
-  final Set<Experiment> experiments;
-
   /// Custom code that is added to the end of the class body with the specified
   /// binary name.
   ///
@@ -410,16 +405,10 @@ final class Config {
   Uri? get configRoot => _configRoot;
   Uri? _configRoot;
 
-  /// Log verbosity. The possible values in decreasing order of verbosity
-  /// are verbose > debug > info > warning > error.
-  ///
-  /// Defaults to [Level.INFO].
-  Level logLevel = Level.INFO;
-
   static final _levels = Map.fromEntries(
       Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)));
 
-  static Config parseArgs(List<String> args) {
+  static JniGenerator parseArgs(List<String> args) {
     final prov = YamlReader.parseArgs(args);
 
     final missingValues = <String>[];
@@ -433,10 +422,12 @@ final class Config {
       return res;
     }
 
-    String? getSdkRoot() {
-      final root = prov.getString(_Props.androidSdkRoot) ??
-          Platform.environment['ANDROID_SDK_ROOT'];
-      return root;
+    Uri? getSdkRoot() {
+      final root = prov.getPath(_Props.androidSdkRoot);
+      if (root != null) return root;
+      final envVar = Platform.environment['ANDROID_SDK_ROOT'];
+      if (envVar != null) return Uri.directory(envVar);
+      return null;
     }
 
     Level logLevelFromString(String? levelName) {
@@ -448,11 +439,19 @@ final class Config {
       return level;
     }
 
-    final configRoot = prov.getConfigRoot();
-    String resolveFromConfigRoot(String reference) =>
-        configRoot?.resolve(reference).toFilePath() ?? reference;
+    final logLevelName = prov.getOneOf(
+      _Props.logLevel,
+      _levels.keys.toSet(),
+    );
+    if (logLevelName != null) {
+      setLoggingLevel(logLevelFromString(logLevelName));
+    }
 
-    final config = Config(
+    final configRoot = prov.getConfigRoot();
+    Uri resolveFromConfigRoot(Uri reference) =>
+        configRoot?.resolveUri(reference) ?? reference;
+
+    final config = JniGenerator(
       input: Input(
         sourcePath: prov.getPathList(_Props.sourcePath) ?? const [],
         classPath: prov.getPathList(_Props.classPath) ?? const [],
@@ -463,10 +462,10 @@ final class Config {
         mavenDownloads: prov.hasValue(_Props.mavenDownloads)
             ? MavenDownloads(
                 sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
-                sourceDir: prov.getPath(_Props.mavenSourceDir)?.toFilePath() ??
+                sourceDir: prov.getPath(_Props.mavenSourceDir) ??
                     resolveFromConfigRoot(MavenDownloads.defaultMavenSourceDir),
                 jarOnlyDeps: prov.getStringList(_Props.jarOnlyDeps) ?? const [],
-                jarDir: prov.getPath(_Props.mavenJarDir)?.toFilePath() ??
+                jarDir: prov.getPath(_Props.mavenJarDir) ??
                     resolveFromConfigRoot(MavenDownloads.defaultMavenJarDir),
               )
             : null,
@@ -480,9 +479,8 @@ final class Config {
                 addGradleDeps: prov.getBool(_Props.addGradleDeps) ?? false,
                 addGradleSources:
                     prov.getBool(_Props.addGradleSources) ?? false,
-                // Leaving this as getString instead of getPath, because
-                // it's resolved later in android_sdk_tools.
-                androidExample: prov.getString(_Props.androidExample) ?? '.',
+                androidExample: prov.getPath(_Props.androidExample) ??
+                    resolveFromConfigRoot(Uri.directory('.')),
               )
             : null,
       ),
@@ -515,20 +513,6 @@ final class Config {
             ? (prov.getStringList(_Props.nullableAnnotations) ?? const [])
             : const [],
       ),
-      experiments: prov
-              .getStringList(_Props.experiments)
-              ?.map(
-                Experiment.fromString,
-              )
-              .whereType<Experiment>()
-              .toSet() ??
-          const {},
-      logLevel: logLevelFromString(
-        prov.getOneOf(
-          _Props.logLevel,
-          _levels.keys.toSet(),
-        ),
-      ),
     );
     if (missingValues.isNotEmpty) {
       stderr.write('Following config values are required but not provided\n'
@@ -549,7 +533,7 @@ final class Config {
   }
 }
 
-extension ConfigInternal on Config {
+extension JniGeneratorInternal on JniGenerator {
   Map<String, ClassDecl> get importedClasses => _importedClasses;
 
   Future<void> importClasses() async {
@@ -663,7 +647,6 @@ class _Props {
   static const classPath = 'class_path';
   static const classes = 'classes';
 
-  static const experiments = 'enable_experiment';
   static const import = 'import';
   static const hide = 'hide';
   static const outputConfig = 'output';
