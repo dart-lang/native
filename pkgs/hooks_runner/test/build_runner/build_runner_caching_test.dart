@@ -429,4 +429,86 @@ void main() async {
       });
     },
   );
+
+  test(
+    'hook recompiled when Dart version changes',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add/');
+
+        final logMessages = <String>[];
+        final logger = createCapturingLogger(logMessages);
+
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+        logMessages.clear();
+
+        // 1. Initial build compiles hook.
+        (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [.code],
+        )).success;
+        logMessages.clear();
+
+        final hookUri = packageUri.resolve('hook/build.dart');
+
+        // 2. Second build without changes should not recompile hook.
+        (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [.code],
+        )).success;
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('Recompiling ${hookUri.toFilePath()}')),
+        );
+        logMessages.clear();
+
+        // 3. Simulate Dart version change by modifying DART_VERSION in
+        // hook.dependencies_hash_file.json.
+        final hookDependenciesHashFile = File.fromUri(
+          (Directory.fromUri(
+                    packageUri.resolve('.dart_tool/hooks_runner/native_add/'),
+                  ).listSync().single
+                  as Directory)
+              .uri
+              .resolve('hook.dependencies_hash_file.json'),
+        );
+        expect(await hookDependenciesHashFile.exists(), true);
+        final hookDependenciesContent =
+            jsonDecode(await hookDependenciesHashFile.readAsString())
+                as Map<Object, Object?>;
+        final envList =
+            (hookDependenciesContent['environment'] as List<dynamic>)
+                .cast<Map<String, dynamic>>();
+        final dartVersionEntry = envList.firstWhere(
+          (e) => e['key'] == 'DART_VERSION',
+        );
+        dartVersionEntry['hash'] = 123456789;
+        await hookDependenciesHashFile.writeAsString(
+          jsonEncode(hookDependenciesContent),
+        );
+
+        // 4. Build should now recompile the hook due to changed Dart version.
+        (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [.code],
+        )).success;
+        expect(
+          logMessages.join('\n'),
+          contains('Recompiling ${hookUri.toFilePath()}'),
+        );
+        expect(
+          logMessages.join('\n'),
+          contains('Environment variable changed: DART_VERSION.'),
+        );
+      });
+    },
+  );
 }

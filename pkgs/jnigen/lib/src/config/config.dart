@@ -4,4 +4,3 @@
 
 export 'config_exception.dart';
 export 'config_types.dart' hide JniGeneratorInternal;
-export 'experiments.dart';

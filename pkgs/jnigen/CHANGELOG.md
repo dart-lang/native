@@ -15,6 +15,7 @@
   - `nonNullAnnotations` and `nullableAnnotations` now grouped under
     `NullabilityAnnotations`.
   - Flip `isExcluded` to `isIncluded`.
+  - Removed the `experiments` configuration property.
   - Make a bunch of nullable fields non-null, if null was functionally
     identical to a default value.
   - Remove `logLevel` from the config, and instead pass a `Logger` object to
