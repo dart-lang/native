@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// This library exports a high level programmatic API to JNIgen, the entry
-/// point of which is the [generateJniBindings] function, which a [Config]
-/// object as a run configuration.
+/// point of which is the [JniGenGenerator.generate] method on a [JniGenerator]
+/// object.
 /// {@category Java Differences}
 /// {@category Lifecycle}
 /// {@category Threading}

@@ -124,10 +124,7 @@ class SummarizerCommand {
   }
 }
 
-Future<Classes> getSummary(Config config) async {
-  // This function is a potential entry point in tests, which set log level to
-  // warning.
-  setLoggingLevel(config.logLevel);
+Future<Classes> getSummary(JniGenerator config) async {
   final summarizer = SummarizerCommand(
     sourcePath: config.input.sourcePath,
     classPath: config.input.classPath,
@@ -143,15 +140,15 @@ Future<Classes> getSummary(Config config) async {
   final mavenDl = config.input.mavenDownloads;
   if (mavenDl != null) {
     final sourcePath = mavenDl.sourceDir;
-    await Directory(sourcePath).create(recursive: true);
+    await Directory.fromUri(sourcePath).create(recursive: true);
     await GradleTools.downloadMavenSources(
         GradleTools.deps(mavenDl.sourceDeps), sourcePath);
-    extraSources.add(Uri.directory(sourcePath));
+    extraSources.add(sourcePath);
     final jarPath = mavenDl.jarDir;
-    await Directory(jarPath).create(recursive: true);
+    await Directory.fromUri(jarPath).create(recursive: true);
     await GradleTools.downloadMavenJars(
         GradleTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath);
-    extraJars.addAll(await Directory(jarPath)
+    extraJars.addAll(await Directory.fromUri(jarPath)
         .list()
         .where((entry) => entry.path.endsWith('.jar'))
         .map((entry) => entry.uri)
@@ -160,14 +157,12 @@ Future<Classes> getSummary(Config config) async {
   final androidConfig = config.input.androidSdk;
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(
-      configRoot: config.configRoot,
       androidProject: androidConfig.androidExample,
     );
     extraJars.addAll(deps.map(Uri.file));
   }
   if (androidConfig != null && androidConfig.addGradleSources) {
     final deps = AndroidSdkTools.getGradleSources(
-      configRoot: config.configRoot,
       androidProject: androidConfig.androidExample,
     );
     extraSources.addAll(deps.map(Uri.file));
@@ -179,7 +174,7 @@ Future<Classes> getSummary(Config config) async {
     final androidJar = await AndroidSdkTools.getAndroidJarPath(
         sdkRoot: androidSdkRoot, versionOrder: versions);
     if (androidJar != null) {
-      extraJars.add(Uri.directory(androidJar));
+      extraJars.add(androidJar);
     }
   }
 

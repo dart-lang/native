@@ -40,13 +40,14 @@ class GradleTools {
   }
 
   static Future<void> _runGradleCommand(
-      List<MavenDependency> deps, String targetDir,
+      List<MavenDependency> deps, Uri targetDir,
       {String taskName = 'copyJars'}) async {
     final gradleWrapper = await getGradleWExecutable();
+    final targetPathStr = Directory.fromUri(targetDir).absolute.path;
     // Paths in Gradle files on Windows get improperly escaped
     final targetPath = Platform.isWindows
-        ? File(targetDir).absolute.path.replaceAll(r'\', r'\\')
-        : File(targetDir).absolute.path;
+        ? targetPathStr.replaceAll(r'\', r'\\')
+        : targetPathStr;
     final gradle = _getStubGradle(
       deps,
       targetPath,
@@ -74,7 +75,7 @@ class GradleTools {
 
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
-      List<MavenDependency> deps, String targetDir) async {
+      List<MavenDependency> deps, Uri targetDir) async {
     await _runGradleCommand(deps, targetDir, taskName: 'downloadSources');
     await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
@@ -101,7 +102,7 @@ class GradleTools {
 
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
-      List<MavenDependency> deps, String targetDir) async {
+      List<MavenDependency> deps, Uri targetDir) async {
     await _runGradleCommand(deps, targetDir, taskName: 'copyJars');
     await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }

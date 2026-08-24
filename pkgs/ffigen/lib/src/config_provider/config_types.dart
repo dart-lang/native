@@ -13,6 +13,7 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
 import '../code_generator.dart';
+import 'config.dart';
 import 'path_finder.dart';
 import 'spec_utils.dart';
 
@@ -44,7 +45,7 @@ enum CommentLength { none, brief, full }
 
 enum CompoundDependencies { full, opaque }
 
-/// Controls whether and how a [Typealias] (typedef) is included in generated
+/// Controls whether and how a `Typealias` (typedef) is included in generated
 /// code.
 enum TypealiasInclude {
   /// Never generate a typedef declaration for this typealias.
@@ -469,23 +470,30 @@ class OutputConfig {
   OutputConfig(this.output, this.outputObjC, this.symbolFile);
 }
 
-class RawVarArgFunction {
-  String? postfix;
-  final List<String> rawTypeStrings;
-
-  RawVarArgFunction(this.postfix, this.rawTypeStrings);
-}
-
 /// A specialization of a variadic function with specific argument types.
 class VarArgFunction {
   /// A suffix to append to the function name for this variant.
-  final String postfix;
+  String postfix;
 
-  /// The types that will passed as the variadic parameters, replacing the
+  /// The types that will be passed as the variadic parameters, replacing the
   /// `...` in the original definition.
-  final List<Type> types;
+  ///
+  /// Supported type strings are:
+  /// - Primitive C types such as `int`, `uint64_t`, `size_t`, or `double`.
+  /// - A type defined elsewhere in the same generated bindings.
+  /// - An import from a built in package like `package:ffi`.
+  /// - Any name that [FfiGenerator]`.importType` converts to an [ImportedType].
+  /// - Any above type, followed by any number of `*` to represent pointers.
+  ///
+  /// Note: We're using `String`s to represent these types, for consistency with
+  /// the legacy YAML format. This approach has worked for our YAML users for
+  /// years, but it's not ideal for a Dart API. We may switch to representing
+  /// types as Dart objects in future, but if we do, the design will be based on
+  /// user feedback. If you have a use case for a Dart representation of these
+  /// types, let us know by filing an issue on GitHub.
+  List<String> types;
 
-  VarArgFunction(this.postfix, this.types);
+  VarArgFunction({this.postfix = '', required this.types});
 }
 
 class PackingValue {

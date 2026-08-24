@@ -21,20 +21,18 @@ void main() {
         join(Directory.current.path, 'test', 'simple_package_test', 'java');
     print(sourcePath);
     await expectLater(
-      () => generateJniBindings(
-        Config(
-          input: Input(
-            classes: ['com.github.dart_lang.jnigen.simple_package'],
-            sourcePath: [Uri.directory(sourcePath)],
-          ),
-          output: Output(
-            dart: DartCodeOutput(
-              path: root.uri,
-              structure: OutputStructure.packageStructure,
-            ),
+      () => JniGenerator(
+        input: Input(
+          classes: ['com.github.dart_lang.jnigen.simple_package'],
+          sourcePath: [Uri.directory(sourcePath)],
+        ),
+        output: Output(
+          dart: DartCodeOutput(
+            path: root.uri,
+            structure: OutputStructure.packageStructure,
           ),
         ),
-      ),
+      ).generate(),
       throwsA(allOf([
         isA<StateError>(),
         predicate(

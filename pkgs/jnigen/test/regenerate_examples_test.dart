@@ -30,7 +30,7 @@ void testExample(String exampleName, String dartOutput,
       final examplePath = join('example', exampleName);
       final configPath = join(examplePath, 'jnigen.yaml');
 
-      final config = Config.parseArgs(['--config', configPath]);
+      final config = JniGenerator.parseArgs(['--config', configPath]);
       try {
         await generateAndCompareBindings(config);
       } on GradleException catch (_) {

@@ -55,8 +55,8 @@ instructions.
    ```
 
 4. To generate the bindings, we will write a script using `package:jnigen` and 
-   place it under `tool/jnigen.dart`. The script constructs a `Config` object
-   and passes it to `generateJniBindings`. The `Config` object configures the
+   place it under `tool/jnigen.dart`. The script constructs a `JniGenerator` object
+   and calls `generate()`. The `JniGenerator` object configures the
    bindings that JNIgen will generate for the Java code. Refer to the code
    comments below and the API docs to learn more about available configuration
    options.
@@ -66,28 +66,26 @@ instructions.
 
    import 'package:jnigen/jnigen.dart';
 
-   void main(List<String> args) {
+   void main(List<String> args) async {
      final packageRoot = Platform.script.resolve('../');
-     generateJniBindings(
-       Config(
-         input: Input(
-           // Required. List of classes or packages for which bindings should be generated.
-           classes: ['com.example.in_app_java'],
-           // Optional. List of directories that contain the source files for which to generate bindings.
-           sourcePath: [packageRoot.resolve('android/app/src/main/java')],
-           // Optional. Configuration to search for Android SDK libraries.
-           androidSdk: AndroidSdk(addGradleDeps: true),
-         ),
-         output: Output(
-           dart: DartCodeOutput(
-             // Required. Output path for generated bindings.
-             path: packageRoot.resolve('lib/android_utils.g.dart'),
-             // Optional. Write bindings into a single file (instead of one file per class).
-             structure: OutputStructure.singleFile,
-           ),
+     await JniGenerator(
+       input: Input(
+         // Required. List of classes or packages for which bindings should be generated.
+         classes: ['com.example.in_app_java'],
+         // Optional. List of directories that contain the source files for which to generate bindings.
+         sourcePath: [packageRoot.resolve('android/app/src/main/java')],
+         // Optional. Configuration to search for Android SDK libraries.
+         androidSdk: AndroidSdk(addGradleDeps: true),
+       ),
+       output: Output(
+         dart: DartCodeOutput(
+           // Required. Output path for generated bindings.
+           path: packageRoot.resolve('lib/android_utils.g.dart'),
+           // Optional. Write bindings into a single file (instead of one file per class).
+           structure: OutputStructure.singleFile,
          ),
        ),
-     );
+     ).generate();
    }
    ```
 
@@ -224,7 +222,6 @@ with a colon (`:`) denote subsections. A `*` denotes a required configuration.
 | `source_path`                              | List of directory paths                                                   | Directories to search for source files. Note: `source_path` for dependencies downloaded using `maven_downloads` configuration is added automatically without the need to specify here.                                                                                                                                                                                                    |
 | `class_path`                               | List of directory / JAR paths                                             | Classpath for API summary generation. This should include any JAR dependencies of the source files in `source_path`.                                                                                                                                                                                                                                                                      |
 | `classes` *                                | List of qualified class / package names                                   | List of qualified class / package names. `source_path` will be scanned assuming the sources follow standard java-ish hierarchy. That is a.b.c either maps to a directory `a/b/c` or a class file `a/b/c.java`.                                                                                                                                                                            |
-| `enable_experiment`                        | List of experiment names:<br><ul><li>`interface_implementation`</li></ul> | List of enabled experiments. These features are still in development and their API might break.                                                                                                                                                                                                                                                                                           |
 | `output:`                                  | (Subsection)                                                              | This subsection will contain configuration related to output files.                                                                                                                                                                                                                                                                                                                       |
 | `output:` >> `dart:`                       | (Subsection)                                                              | This subsection specifies Dart output configuration.                                                                                                                                                                                                                                                                                                                                      |
 | `output:` >> `dart:` >> `structure`        | `package_structure` / `single_file`                                       | Whether to map resulting dart bindings to file-per-class source layout, or write all bindings to single file.                                                                                                                                                                                                                                                                             |

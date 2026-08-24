@@ -262,81 +262,82 @@ String makePostfixFromRawVarArgType(List<String> rawVarArgType) {
 
 Type makeTypeFromRawVarArgType(
   String rawVarArgType,
-  Map<String, LibraryImport> libraryImportsMap,
+  ImportedType? Function(Declaration declaration) importType,
 ) {
-  Type baseType;
-  var rawBaseType = rawVarArgType.trim();
-  // Split the raw type based on pointer usage. E.g -
-  // int => [int]
-  // char* => [char,*]
-  // ffi.Hello ** => [ffi.Hello,**]
-  final typeStringRegexp = RegExp(r'([a-zA-Z0-9_\s\.]+)(\**)$');
-  if (!typeStringRegexp.hasMatch(rawBaseType)) {
+  final trimmed = rawVarArgType.trim();
+  if (trimmed.isEmpty) {
     throw Exception('Cannot parse variadic argument type - $rawVarArgType.');
   }
-  final regExpMatch = typeStringRegexp.firstMatch(rawBaseType)!;
-  final groups = regExpMatch.groups([1, 2]);
-  rawBaseType = groups[0]!;
-  // Handle basic supported types.
-  if (cxTypeKindToImportedTypes.containsKey(rawBaseType)) {
-    baseType = cxTypeKindToImportedTypes[rawBaseType]!;
-  } else if (supportedTypedefToImportedType.containsKey(rawBaseType)) {
-    baseType = supportedTypedefToImportedType[rawBaseType]!;
-  } else if (suportedTypedefToSuportedNativeType.containsKey(rawBaseType)) {
-    baseType = NativeType(suportedTypedefToSuportedNativeType[rawBaseType]!);
-  } else {
-    // Use library import if specified (E.g - ffi.UintPtr or custom.MyStruct)
-    final rawVarArgTypeSplit = rawBaseType.split('.');
-    if (rawVarArgTypeSplit.length == 1) {
-      final typeName = rawVarArgTypeSplit[0].replaceAll(' ', '');
-      baseType = SelfImportedType(typeName, typeName);
-    } else if (rawVarArgTypeSplit.length == 2) {
-      final lib = rawVarArgTypeSplit[0];
-      final libraryImport =
-          builtInLibraries[lib] ?? libraryImportsMap[rawVarArgTypeSplit[0]];
-      if (libraryImport == null) {
-        throw Exception('Please declare $lib in library-imports.');
-      }
-      final typeName = rawVarArgTypeSplit[1].replaceAll(' ', '');
-      baseType = ImportedType(libraryImport, typeName, typeName, typeName);
-    } else {
-      throw Exception(
-        'Invalid type $rawVarArgType : Expected 0 or 1 .(dot) separators.',
-      );
+
+  final firstStar = trimmed.indexOf('*');
+  final String basePart;
+  final int pointerCount;
+  if (firstStar != -1) {
+    if (!RegExp(r'^[*\s]+$').hasMatch(trimmed.substring(firstStar))) {
+      throw Exception('Cannot parse variadic argument type - $rawVarArgType.');
     }
+    basePart = trimmed.substring(0, firstStar).trim();
+    if (basePart.isEmpty) {
+      throw Exception('Cannot parse variadic argument type - $rawVarArgType.');
+    }
+    pointerCount = '*'.allMatches(trimmed.substring(firstStar)).length;
+  } else {
+    basePart = trimmed;
+    pointerCount = 0;
   }
 
-  // Handle pointers
-  final pointerCount = groups[1]!.length;
+  final rawBaseType = basePart.replaceAll(RegExp(r'\s+'), ' ').trim();
+  final baseType = makeBaseTypeFromRawVarArgType(rawBaseType, importType);
+
   return makePointerToType(baseType, pointerCount);
 }
 
-Map<String, List<VarArgFunction>> makeVarArgFunctionsMapping(
-  Map<String, List<RawVarArgFunction>> rawVarArgMappings,
-  Map<String, LibraryImport> libraryImportsMap,
+Type makeBaseTypeFromRawVarArgType(
+  String rawBaseType,
+  ImportedType? Function(Declaration declaration) importType,
 ) {
-  final mappings = <String, List<VarArgFunction>>{};
-  for (final key in rawVarArgMappings.keys) {
-    final varArgList = <VarArgFunction>[];
-    for (final rawVarArg in rawVarArgMappings[key]!) {
-      var postfix = rawVarArg.postfix ?? '';
-      final types = <Type>[];
-      for (final rva in rawVarArg.rawTypeStrings) {
-        types.add(makeTypeFromRawVarArgType(rva, libraryImportsMap));
-      }
-      if (postfix.isEmpty) {
-        if (rawVarArgMappings[key]!.length == 1) {
-          postfix = '';
-        } else {
-          postfix = makePostfixFromRawVarArgType(rawVarArg.rawTypeStrings);
-        }
-      }
-      // Extract postfix from config and/or deduce from var names.
-      varArgList.add(VarArgFunction(postfix, types));
-    }
-    mappings[key] = varArgList;
+  final typeStringRegexp = RegExp(r'^[a-zA-Z0-9_ \.]+$');
+  if (!typeStringRegexp.hasMatch(rawBaseType)) {
+    throw Exception('Cannot parse variadic argument type - $rawBaseType.');
   }
-  return mappings;
+  if (importType.call(Declaration(usr: '', originalName: rawBaseType))
+      case final imported?) {
+    return imported;
+  } else if (cxTypeKindToImportedTypes[rawBaseType] case final type?) {
+    return type;
+  } else if (supportedTypedefToImportedType[rawBaseType] case final type?) {
+    return type;
+  } else if (suportedTypedefToSuportedNativeType[rawBaseType]
+      case final type?) {
+    return NativeType(type);
+  } else {
+    final rawVarArgTypeSplit = rawBaseType
+        .split('.')
+        .map((s) => s.trim())
+        .toList();
+    if (rawVarArgTypeSplit.any((s) => s.isEmpty)) {
+      throw Exception('Cannot parse variadic argument type - $rawBaseType.');
+    }
+    if (rawVarArgTypeSplit.length == 1) {
+      final typeName = rawVarArgTypeSplit[0];
+      return SelfImportedType(typeName, typeName);
+    } else if (rawVarArgTypeSplit.length == 2) {
+      final lib = rawVarArgTypeSplit[0];
+      final libraryImport = builtInLibraries[lib];
+      if (libraryImport == null) {
+        throw Exception(
+          'Unknown library import: $lib. Valid built-in libraries are: '
+          '${builtInLibraries.keys.join(', ')}.',
+        );
+      }
+      final typeName = rawVarArgTypeSplit[1];
+      return ImportedType(libraryImport, typeName, typeName, typeName);
+    } else {
+      throw Exception(
+        'Invalid type $rawBaseType : Expected 0 or 1 .(dot) separators.',
+      );
+    }
+  }
 }
 
 final _quoteMatcher = RegExp(r'''^["'](.*)["']$''', dotAll: true);
@@ -653,21 +654,21 @@ YamlIncluder extractIncluderFromYaml(Map<dynamic, dynamic> yamlMap) {
   );
 }
 
-Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
+Map<String, List<VarArgFunction>> varArgFunctionConfigExtractor(
   Map<dynamic, dynamic> yamlMap,
 ) {
-  final result = <String, List<RawVarArgFunction>>{};
+  final result = <String, List<VarArgFunction>>{};
   final configMap = yamlMap;
   for (final key in configMap.keys) {
-    final vafuncs = <RawVarArgFunction>[];
+    final vafuncs = <VarArgFunction>[];
     for (final rawVaFunc in configMap[key] as List) {
       if (rawVaFunc is List) {
-        vafuncs.add(RawVarArgFunction(null, rawVaFunc.cast()));
+        vafuncs.add(VarArgFunction(types: rawVaFunc.cast()));
       } else if (rawVaFunc is Map) {
         vafuncs.add(
-          RawVarArgFunction(
-            rawVaFunc[strings.postfix] as String?,
-            (rawVaFunc[strings.types] as List).cast(),
+          VarArgFunction(
+            postfix: (rawVaFunc[strings.postfix] as String?) ?? '',
+            types: (rawVaFunc[strings.types] as List).cast(),
           ),
         );
       } else {
