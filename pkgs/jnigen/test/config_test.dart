@@ -55,6 +55,8 @@ void expectConfigsAreEqual(JniGenerator a, JniGenerator b) {
   expect(a.input.workingDirectory, b.input.workingDirectory,
       reason: 'workingDirectory');
   expect(a.input.backend, b.input.backend, reason: 'backend');
+  expect(a.input.summarizerCommand, equals(b.input.summarizerCommand),
+      reason: 'summarizerCommand');
   expect(a.imports.symbolFiles, b.imports.symbolFiles,
       reason: 'imports.symbolFiles');
   expect(a.imports.hide, b.imports.hide, reason: 'imports.hide');

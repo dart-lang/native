@@ -57,7 +57,7 @@ String? getActionableSummaryParseMessage(String stderr) {
 /// script before this API is used.
 class SummarizerCommand {
   SummarizerCommand({
-    this.command = 'java -jar .dart_tool/jnigen/ApiSummarizer.jar',
+    required this.command,
     List<Uri>? sourcePath,
     List<Uri>? classPath,
     this.extraArgs = const [],
@@ -126,6 +126,8 @@ class SummarizerCommand {
 
 Future<Classes> getSummary(JniGenerator config) async {
   final summarizer = SummarizerCommand(
+    command: config.input.summarizerCommand ??
+        'java -jar .dart_tool/jnigen/ApiSummarizer.jar',
     sourcePath: config.input.sourcePath,
     classPath: config.input.classPath,
     classes: config.input.classes,
