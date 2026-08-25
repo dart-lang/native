@@ -1,3 +1,7 @@
+## 1.6.4-wip
+
+- Use the path separator of the target platform in native_assets.yaml.
+
 ## 1.6.3
 
 - Invalidate cached hook compilations when the Dart SDK version changes.
@@ -15,9 +19,11 @@
 - Add prefixes `RUSTUP_` and `CARGO_` to the environment variables allowlist.
 - Store size and last modification time in dependency hashes to skip content
   hashing when unchanged.
+
 ## 1.6.1
 
 - Support versions 3.x of `package:package_config`.
+
 ## 1.6.0
 
 - Fix record_use path changing caching issue.

@@ -49,8 +49,7 @@ void main() {
     ),
   ]);
 
-  final assetsDartEncoding =
-      '''{
+  const assetsDartEncoding = r'''{
   "format-version": [
     1,
     0,
@@ -60,15 +59,15 @@ void main() {
     "android_x64": {
       "foo": [
         "absolute",
-        "${fooUri.toFilePath()}"
+        "path/to/libfoo.so"
       ],
       "foo2": [
         "relative",
-        "${foo2Uri.toFilePath()}"
+        "path/to/libfoo2.so"
       ],
       "foo3": [
         "system",
-        "${foo3Uri.toFilePath()}"
+        "libfoo3.so"
       ],
       "foo4": [
         "executable"
@@ -80,13 +79,13 @@ void main() {
     "linux_arm64": {
       "bar": [
         "absolute",
-        "${barUri.toFilePath()}"
+        "path/to/libbar.a"
       ]
     },
     "windows_x64": {
       "bla": [
         "absolute",
-        "${blaUri.toFilePath()}"
+        "path\\with spaces\\bla.dll"
       ]
     }
   }
@@ -95,7 +94,7 @@ void main() {
   test('asset yaml', () async {
     final fileContents = assets.toNativeAssetsFile();
     expect(
-      fileContents.replaceAll(r'\ ', ' ').replaceAll(r'\\', r'\'),
+      fileContents,
       assetsDartEncoding,
     );
   });
@@ -124,6 +123,64 @@ void main() {
     expect(
       KernelAssetSystemPath(Uri.parse('path/to/libbar.a')),
       isNot(KernelAssetSystemPath(Uri.parse('path/to/libbar2.a'))),
+    );
+  });
+
+  test('toJson', () {
+    expect(
+      KernelAssetAbsolutePath(
+        Uri.parse('/path/to/libfoo.so'),
+      ).toJson(.linuxArm64),
+      ['absolute', '/path/to/libfoo.so'],
+    );
+
+    expect(
+      KernelAssetAbsolutePath(
+        Uri.parse('/path/to/libfoo.so'),
+      ).toJson(.windowsArm64),
+      ['absolute', '\\path\\to\\libfoo.so'],
+    );
+
+    expect(
+      KernelAssetRelativePath(
+        Uri.parse('path/to/libfoo.so'),
+      ).toJson(.linuxArm64),
+      ['relative', 'path/to/libfoo.so'],
+    );
+
+    expect(
+      KernelAssetRelativePath(
+        Uri.parse('path/to/libfoo.so'),
+      ).toJson(.windowsArm64),
+      ['relative', 'path\\to\\libfoo.so'],
+    );
+
+    expect(
+      KernelAssetSystemPath(
+        Uri.parse('path/to/libfoo.so'),
+      ).toJson(.linuxArm64),
+      ['system', 'path/to/libfoo.so'],
+    );
+
+    expect(
+      KernelAssetSystemPath(
+        Uri.parse('path/to/libfoo.so'),
+      ).toJson(.windowsArm64),
+      ['system', 'path\\to\\libfoo.so'],
+    );
+
+    expect(KernelAssetInProcess().toJson(.linuxArm64), ['process']);
+
+    expect(
+      KernelAssetInProcess().toJson(.windowsArm64),
+      ['process'],
+    );
+
+    expect(KernelAssetInExecutable().toJson(.linuxArm64), ['executable']);
+
+    expect(
+      KernelAssetInExecutable().toJson(.windowsArm64),
+      ['executable'],
     );
   });
 }
