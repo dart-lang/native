@@ -45,7 +45,9 @@ extension JniGenGenerator on JniGenerator {
       ..addAll(Annotated.defaultNullableAnnotations)
       ..addAll(nullability.nullable);
 
-    await buildSummarizerIfNotExists();
+    if (input.summarizerCommand == null) {
+      await buildSummarizerIfNotExists();
+    }
 
     final Classes classes;
 

@@ -326,6 +326,13 @@ final class Input {
   /// disabled.
   final AndroidSdk? androidSdk;
 
+  /// Command used to run the API summarizer.
+  ///
+  /// This should only be used if the system uses a prebuilt `ApiSummarizer.jar`
+  /// file. If provided, building ApiSummarizer using Gradle is skipped and this
+  /// command is used directly to invoke the summarizer.
+  final String? summarizerCommand;
+
   Input({
     this.sourcePath = const [],
     this.classPath = const [],
@@ -335,6 +342,7 @@ final class Input {
     this.backend,
     this.mavenDownloads,
     this.androidSdk,
+    this.summarizerCommand,
   }) : workingDirectory = workingDirectory ?? Uri.directory('.') {
     for (final className in classes) {
       _validateClassName(className);
@@ -459,6 +467,7 @@ final class JniGenerator {
         extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
         backend: getSummarizerBackend(prov.getString(_Props.backend), null),
         workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
+        summarizerCommand: prov.getString(_Props.summarizerCommand),
         mavenDownloads: prov.hasValue(_Props.mavenDownloads)
             ? MavenDownloads(
                 sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
@@ -641,6 +650,7 @@ class _Props {
   static const summarizer = 'summarizer';
   static const summarizerArgs = '$summarizer.extra_args';
   static const summarizerWorkingDir = '$summarizer.working_dir';
+  static const summarizerCommand = '$summarizer.command';
   static const backend = '$summarizer.backend';
 
   static const sourcePath = 'source_path';

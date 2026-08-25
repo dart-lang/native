@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart' show FileSystem;
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
@@ -104,15 +103,22 @@ extension LinkerOptionsExt on LinkerOptions {
     Iterable<String> sourceFiles,
     OS targetOS,
     Architecture targetArchitecture,
+    FileSystem fileSystem,
   ) {
     if (tool.isClangLike || tool.isLdLike) {
-      return _sourceFilesToFlagsForClangLike(tool, sourceFiles, targetOS);
+      return _sourceFilesToFlagsForClangLike(
+        tool,
+        sourceFiles,
+        targetOS,
+        fileSystem,
+      );
     } else if (tool == cl) {
       return _sourceFilesToFlagsForCl(
         tool,
         sourceFiles,
         targetOS,
         targetArchitecture,
+        fileSystem,
       );
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
@@ -123,6 +129,7 @@ extension LinkerOptionsExt on LinkerOptions {
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
+    FileSystem fileSystem,
   ) {
     switch (targetOS) {
       case .macOS || .iOS:
@@ -137,7 +144,8 @@ extension LinkerOptionsExt on LinkerOptions {
             if (_linkerScriptMode is ManualLinkerScript)
               '-exported_symbols_list,${_linkerScriptMode.script.toFilePath()}'
             else if (_linkerScriptMode is GenerateLinkerScript)
-              '-exported_symbols_list,${_createMacSymbolList(_symbols)}',
+              '-exported_symbols_list,'
+                  '${_createMacSymbolList(_symbols, fileSystem)}',
           ]),
         ];
 
@@ -157,7 +165,8 @@ extension LinkerOptionsExt on LinkerOptions {
             if (_linkerScriptMode is ManualLinkerScript)
               '--version-script=${_linkerScriptMode.script.toFilePath()}'
             else if (_linkerScriptMode is GenerateLinkerScript)
-              '--version-script=${_createClangLikeLinkScript(_symbols)}',
+              '--version-script='
+                  '${_createClangLikeLinkScript(_symbols, fileSystem)}',
             if (wholeArchiveSandwich) '--no-whole-archive',
           ]),
         ];
@@ -171,6 +180,7 @@ extension LinkerOptionsExt on LinkerOptions {
     Iterable<String> sourceFiles,
     OS targetOS,
     Architecture targetArch,
+    FileSystem fileSystem,
   ) => [
     ...sourceFiles,
     '/link',
@@ -182,7 +192,7 @@ extension LinkerOptionsExt on LinkerOptions {
     if (_linkerScriptMode is ManualLinkerScript)
       '/DEF:${_linkerScriptMode.script.toFilePath()}'
     else if (_linkerScriptMode is GenerateLinkerScript)
-      '/DEF:${_createClLinkScript(_symbols)}',
+      '/DEF:${_createClLinkScript(_symbols, fileSystem)}',
     if (stripDebug) '/PDBSTRIPPED',
     if (gcSections) '/OPT:REF',
   ];
@@ -193,18 +203,24 @@ extension LinkerOptionsExt on LinkerOptions {
   /// using `ld -why_live`, see https://www.unix.com/man_page/osx/1/ld/, where
   /// the reason will show up as `global-dont-strip`.
   /// This might possibly be a Rust only feature.
-  static String _createMacSymbolList(Iterable<String> symbols) {
-    final tempDir = Directory.systemTemp.createTempSync();
+  static String _createMacSymbolList(
+    Iterable<String> symbols,
+    FileSystem fileSystem,
+  ) {
+    final tempDir = fileSystem.systemTempDirectory.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('exported_symbols_list.txt');
-    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
+    final symbolsFile = fileSystem.file(symbolsFileUri)..createSync();
     symbolsFile.writeAsStringSync(symbols.map((e) => '_$e').join('\n'));
     return symbolsFileUri.toFilePath();
   }
 
-  static String _createClangLikeLinkScript(Iterable<String> symbols) {
-    final tempDir = Directory.systemTemp.createTempSync();
+  static String _createClangLikeLinkScript(
+    Iterable<String> symbols,
+    FileSystem fileSystem,
+  ) {
+    final tempDir = fileSystem.systemTempDirectory.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('symbols.lds');
-    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
+    final symbolsFile = fileSystem.file(symbolsFileUri)..createSync();
     symbolsFile.writeAsStringSync('''
 {
   global:
@@ -216,10 +232,13 @@ extension LinkerOptionsExt on LinkerOptions {
     return symbolsFileUri.toFilePath();
   }
 
-  static String _createClLinkScript(Iterable<String> symbols) {
-    final tempDir = Directory.systemTemp.createTempSync();
+  static String _createClLinkScript(
+    Iterable<String> symbols,
+    FileSystem fileSystem,
+  ) {
+    final tempDir = fileSystem.systemTempDirectory.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('symbols.def');
-    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
+    final symbolsFile = fileSystem.file(symbolsFileUri)..createSync();
     symbolsFile.writeAsStringSync('''
 LIBRARY MyDLL
 EXPORTS
