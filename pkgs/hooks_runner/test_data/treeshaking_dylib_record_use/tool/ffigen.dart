@@ -10,7 +10,7 @@ Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
 
   // 1. Generate bindings for add.c
-  await FfiGenerator(
+  final addGenerator = FfiGenerator(
     input: Input(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
@@ -38,10 +38,11 @@ Future<void> main() async {
         assetId: 'package:treeshaking_dylib_record_use/add',
       ),
     ),
-  ).generate();
+  );
+  await addGenerator.generate();
 
   // 2. Generate bindings for multiply.c
-  await FfiGenerator(
+  final multiplyGenerator = FfiGenerator(
     input: Input(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
@@ -69,5 +70,6 @@ Future<void> main() async {
         assetId: 'package:treeshaking_dylib_record_use/multiply',
       ),
     ),
-  ).generate();
+  );
+  await multiplyGenerator.generate();
 }

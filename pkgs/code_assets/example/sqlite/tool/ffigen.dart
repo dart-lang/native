@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 
 Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
-  await FfiGenerator(
+  final generator = FfiGenerator(
     input: Input(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
@@ -37,5 +37,6 @@ Future<void> main() async {
 
 ''',
     ),
-  ).generate();
+  );
+  await generator.generate();
 }

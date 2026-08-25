@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 
 Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
-  await FfiGenerator(
+  final generator = FfiGenerator(
     input: Input(entryPoints: [packageRoot.resolve('third_party/stb_image.h')]),
     visitors: [
       Visitor(
@@ -44,5 +44,6 @@ Future<void> main() async {
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ''',
     ),
-  ).generate();
+  );
+  await generator.generate();
 }

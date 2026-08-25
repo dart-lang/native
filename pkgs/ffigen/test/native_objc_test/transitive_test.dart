@@ -14,8 +14,8 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 
-String generate({bool includeTransitiveObjCCategories = true}) {
-  FfiGenerator(
+Future<String> generate({bool includeTransitiveObjCCategories = true}) async {
+  final generator = FfiGenerator(
     output: Output(
       dart: DartCodeOutput(
         path: Uri.file(
@@ -63,7 +63,8 @@ String generate({bool includeTransitiveObjCCategories = true}) {
             node.isIncluded = node.originalName == 'DirectlyIncludedCategory',
       ),
     ],
-  ).generate(logger: createTestLogger());
+  );
+  await generator.generate(logger: createTestLogger());
   final file = path.join(
     packagePathForTests,
     'test',
@@ -123,8 +124,8 @@ void main() {
     }
 
     group('transitive interfaces', () {
-      test('stubbed', () {
-        bindings = generate();
+      test('stubbed', () async {
+        bindings = await generate();
 
         expect(incItf('DoublyTransitive'), Inclusion.omitted);
         expect(incItf('TransitiveSuper'), Inclusion.stubbed);
@@ -162,8 +163,8 @@ void main() {
     });
 
     group('transitive protocols', () {
-      test('not included', () {
-        bindings = generate();
+      test('not included', () async {
+        bindings = await generate();
 
         expect(incProto('DoublyTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('TransitiveSuperProtocol'), Inclusion.stubbed);
@@ -205,8 +206,8 @@ void main() {
     });
 
     group('transitive categories', () {
-      test('included', () {
-        bindings = generate(includeTransitiveObjCCategories: true);
+      test('included', () async {
+        bindings = await generate(includeTransitiveObjCCategories: true);
 
         expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
         expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);
@@ -240,8 +241,8 @@ void main() {
         expect(bindings.contains('notIncludedCategoryMethod'), isFalse);
       });
 
-      test('not included', () {
-        bindings = generate(includeTransitiveObjCCategories: false);
+      test('not included', () async {
+        bindings = await generate(includeTransitiveObjCCategories: false);
 
         expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
         expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);

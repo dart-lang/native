@@ -78,7 +78,7 @@ extension SwiftGenGenerator on SwiftGenerator {
   ], absTempDir);
 
   Future<void> _generateDartFile(Logger logger, String objcHeader) async {
-    await fg.FfiGenerator(
+    final generator = fg.FfiGenerator(
       output: fg.Output(
         dart: fg.DartCodeOutput(path: output.dartFile),
         objectiveCFile: output.objectiveCFile,
@@ -102,6 +102,7 @@ extension SwiftGenGenerator on SwiftGenerator {
           '-Wno-nullability-completeness',
         ],
       ),
-    ).generate(logger: logger);
+    );
+    await generator.generate(logger: logger);
   }
 }

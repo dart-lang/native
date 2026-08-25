@@ -60,7 +60,7 @@ app has been created via `dart create ffigen_example`.
 
    Future<void> main() async {
      final packageRoot = Platform.script.resolve('../');
-     await FfiGenerator(
+     final generator = FfiGenerator(
        // Required. Output path for the generated bindings.
        output: Output(
          dart: DartCodeOutput(path: packageRoot.resolve('lib/add.g.dart')),
@@ -71,7 +71,8 @@ app has been created via `dart create ffigen_example`.
        visitors: [
          Visitor(func: (node) => node.isIncluded = node.name == 'add'),
        ],
-     ).generate();
+     );
+     await generator.generate();
    }
    ```
 

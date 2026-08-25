@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 
 Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
-  await FfiGenerator(
+  final generator = FfiGenerator(
     input: Input(entryPoints: [packageRoot.resolve('third_party/miniaudio.h')]),
     visitors: [
       Visitor(
@@ -60,5 +60,6 @@ Future<void> main() async {
 // ignore_for_file: unused_field
 ''',
     ),
-  ).generate();
+  );
+  await generator.generate();
 }

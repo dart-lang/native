@@ -18,8 +18,8 @@ import '../test_utils.dart';
 void main() {
   group('NSRange', () {
     late final String bindings;
-    setUpAll(() {
-      FfiGenerator(
+    setUpAll(() async {
+      final generator = FfiGenerator(
         output: Output(
           dart: DartCodeOutput(
             path: Uri.file(
@@ -55,7 +55,8 @@ void main() {
                 node.isIncluded = node.originalName == 'SFTranscriptionSegment',
           ),
         ],
-      ).generate(logger: createTestLogger());
+      );
+      await generator.generate(logger: createTestLogger());
       final file = path.join(
         packagePathForTests,
         'test',
