@@ -7,7 +7,7 @@ import 'dart:isolate';
 
 import 'package:package_config/package_config.dart';
 
-Future<Package?> findPackage(String packageName, [Directory? directory]) async {
+Future<Package?> findPackage(String packageName, {Directory? directory}) async {
   final packageConfig = await findPackageConfig(directory ?? Directory.current);
   if (packageConfig != null && packageConfig[packageName] != null) {
     return packageConfig[packageName];
@@ -21,8 +21,8 @@ Future<Package?> findPackage(String packageName, [Directory? directory]) async {
   return null;
 }
 
-Future<Uri?> findPackageRoot(String packageName, [Directory? directory]) async {
-  return (await findPackage(packageName, directory))?.root;
+Future<Uri?> findPackageRoot(String packageName, {Directory? directory}) async {
+  return (await findPackage(packageName, directory: directory))?.root;
 }
 
 Future<bool> isPackageModifiedAfter(String packageName, DateTime time,

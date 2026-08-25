@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:jnigen/src/util/find_package.dart';
+import 'package:package_config/package_config.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -32,12 +33,14 @@ void main() {
     final tempDir = Directory.systemTemp.createTempSync('find_package_test_');
     try {
       // In tempDir, findPackageConfig(tempDir) returns null.
+      expect(await findPackageConfig(tempDir), isNull);
+
       // However, findPackage should fall back to Isolate.packageConfig.
-      final pkg = await findPackage('jnigen', tempDir);
+      final pkg = await findPackage('jnigen', directory: tempDir);
       expect(pkg, isNotNull);
       expect(pkg!.name, equals('jnigen'));
 
-      final root = await findPackageRoot('jnigen', tempDir);
+      final root = await findPackageRoot('jnigen', directory: tempDir);
       expect(root, isNotNull);
       expect(root!.toFilePath(), equals(pkg.root.toFilePath()));
     } finally {
