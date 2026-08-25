@@ -1247,7 +1247,7 @@ final class YamlConfig {
         ignoreSourceErrors: ignoreSourceErrors,
       ),
       output: Output(
-        dart: DartCodeOutput(path: output),
+        dart: DartOutput(path: output),
         objectiveCFile: outputObjC,
         symbolFile: symbolFile,
         commentType: commentType,

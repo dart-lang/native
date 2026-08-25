@@ -28,7 +28,7 @@ Future<void> main() async {
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 ''',
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: packageRoot.resolve('lib/src/add_bindings.dart'),
       ),
       recordUseMapping: packageRoot.resolve(
@@ -60,7 +60,7 @@ Future<void> main() async {
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 ''',
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: packageRoot.resolve('lib/src/multiply_bindings.dart'),
       ),
       recordUseMapping: packageRoot.resolve(

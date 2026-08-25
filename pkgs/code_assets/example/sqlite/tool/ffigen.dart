@@ -21,7 +21,7 @@ Future<void> main() async {
       ),
     ],
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
       ),
       recordUseMapping: packageRoot.resolve(

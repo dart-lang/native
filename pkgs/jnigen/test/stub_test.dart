@@ -21,7 +21,7 @@ JniGenerator _getConfig(Uri output, bool generateStubs) {
       classes: ['com.example.A', 'com.example.C'],
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: output,
         structure: OutputStructure.singleFile,
       ),

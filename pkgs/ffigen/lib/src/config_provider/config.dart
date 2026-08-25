@@ -163,17 +163,17 @@ final class ObjectiveC {
 }
 
 /// Configuration for outputting generated Dart bindings.
-final class DartCodeOutput {
+final class DartOutput {
   /// Path to write generated Dart bindings.
   final Uri path;
 
-  const DartCodeOutput({required this.path});
+  const DartOutput({required this.path});
 }
 
 /// Configuration for outputting bindings.
 final class Output {
   /// The output Dart configuration for the generated bindings.
-  final DartCodeOutput dart;
+  final DartOutput dart;
 
   /// The output Objective-C file for the generated Objective-C bindings.
   final Uri? objectiveCFile;

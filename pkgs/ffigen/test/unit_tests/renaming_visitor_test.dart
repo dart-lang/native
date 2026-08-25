@@ -85,7 +85,7 @@ void main() {
     test('Top-level and member renames via Custom Visitor', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
 
@@ -182,7 +182,7 @@ void main() {
       () {
         final context = testContext(
           FfiGenerator(
-            output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+            output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
           ),
         );
 
@@ -328,7 +328,7 @@ objc-interfaces:
     test('Public AST nodes expose usr getter', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
 
@@ -452,7 +452,7 @@ objc-interfaces:
     test('Visitor callback-based factory constructor', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
 
@@ -522,7 +522,7 @@ objc-interfaces:
     test('Parent and child pointers in public AST nodes', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
 
@@ -666,7 +666,7 @@ objc-interfaces:
     test('EnumClass style and effectiveStyle', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
 
@@ -757,7 +757,7 @@ enums:
     test('EnumClass silenceWarning getter and setter', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
 
@@ -896,7 +896,7 @@ functions:
     test('public_ast.Struct.pack getter and setter', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
       final cgStruct = Struct(
@@ -1068,7 +1068,7 @@ globals:
     test('public_ast.ObjCInterface.module getter and setter', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
       final cgInterface = ObjCInterface(
@@ -1094,7 +1094,7 @@ globals:
     test('public_ast.ObjCProtocol.module getter and setter', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
       final cgProtocol = ObjCProtocol(
@@ -1187,7 +1187,7 @@ objc-protocols:
     test('public_ast.Struct.dependencies getter and setter', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
       final cgStruct = Struct(
@@ -1212,7 +1212,7 @@ objc-protocols:
     test('public_ast.Union.dependencies getter and setter', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
         ),
       );
       final cgUnion = Union(
@@ -1321,7 +1321,7 @@ unions:
 
       final context = testContext(
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('out.dart'))),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
           visitors: [recordingVisitor],
         ),
       );

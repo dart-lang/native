@@ -8,7 +8,7 @@ import 'package:ffigen/ffigen.dart';
 FfiGenerator getConfig(Uri packageRoot) {
   return FfiGenerator(
     output: Output(
-      dart: DartCodeOutput(path: packageRoot.resolve('lib/add.g.dart')),
+      dart: DartOutput(path: packageRoot.resolve('lib/add.g.dart')),
     ),
     input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),
     visitors: [Visitor(func: (node) => node.isIncluded = node.name == 'add')],

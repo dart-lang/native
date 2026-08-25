@@ -17,7 +17,7 @@ import '../test_utils.dart';
 Future<String> generate({bool includeTransitiveObjCCategories = true}) async {
   final generator = FfiGenerator(
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: Uri.file(
           path.join(
             packagePathForTests,

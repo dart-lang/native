@@ -80,7 +80,7 @@ extension SwiftGenGenerator on SwiftGenerator {
   Future<void> _generateDartFile(Logger logger, String objcHeader) async {
     final generator = fg.FfiGenerator(
       output: fg.Output(
-        dart: fg.DartCodeOutput(path: output.dartFile),
+        dart: fg.DartOutput(path: output.dartFile),
         objectiveCFile: output.objectiveCFile,
         preamble: output.preamble ?? '',
         style: fg.NativeExternalBindings(assetId: output.assetId),

@@ -39,9 +39,7 @@ final config = FfiGenerator(
 
   output: Output(
     // The Dart file where the bindings will be generated.
-    dart: DartCodeOutput(
-      path: Platform.script.resolve('avf_audio_bindings.dart'),
-    ),
+    dart: DartOutput(path: Platform.script.resolve('avf_audio_bindings.dart')),
 
     // Preamble text to put at the top of the generated file.
     preamble: '''

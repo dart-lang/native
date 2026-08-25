@@ -17,7 +17,7 @@ Future<void> main() async {
       input: Input(entryPoints: [packageRoot.resolve('src/windows.h')]),
       visitors: visitors,
       output: Output(
-        dart: DartCodeOutput(
+        dart: DartOutput(
           path: packageRoot.resolve('lib/src/third_party/windows.dart'),
         ),
         preamble: '''
@@ -33,7 +33,7 @@ Future<void> main() async {
       input: Input(entryPoints: [packageRoot.resolve('src/unix.h')]),
       visitors: visitors,
       output: Output(
-        dart: DartCodeOutput(
+        dart: DartOutput(
           path: packageRoot.resolve('lib/src/third_party/unix.dart'),
         ),
         preamble: '''

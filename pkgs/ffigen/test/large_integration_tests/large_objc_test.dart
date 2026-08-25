@@ -80,7 +80,7 @@ void main() {
         ],
       ),
       output: Output(
-        dart: DartCodeOutput(path: Uri.file(outFile)),
+        dart: DartOutput(path: Uri.file(outFile)),
         objectiveCFile: Uri.file(outObjCFile),
         format: false,
         style: const DynamicLibraryBindings(wrapperName: 'LargeObjCLibrary'),

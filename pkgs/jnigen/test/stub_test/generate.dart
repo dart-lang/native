@@ -43,7 +43,7 @@ JniGenerator getConfig() {
       classes: ['com.example.A', 'com.example.C'],
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: Uri.file(dartPath),
         structure: OutputStructure.singleFile,
       ),

@@ -17,7 +17,7 @@ void main() {
       externalVersions: const ExternalVersions(),
     );
     final config = FfiGenerator(
-      output: Output(dart: DartCodeOutput(path: Uri.file('unused'))),
+      output: Output(dart: DartOutput(path: Uri.file('unused'))),
       objectiveC: const ObjectiveC(),
     );
     late Context context;

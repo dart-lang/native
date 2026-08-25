@@ -27,7 +27,7 @@ void main() {
           output:
               output ??
               Output(
-                dart: DartCodeOutput(path: Uri.file('unused')),
+                dart: DartOutput(path: Uri.file('unused')),
                 style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
               ),
           visitors:
@@ -63,7 +63,7 @@ void main() {
     ) async {
       final nativeContext = makeContext(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           style: loadFromNativeAsset
               ? const NativeExternalBindings(assetId: 'test')
               : const DynamicLibraryBindings(wrapperName: 'Bindings'),
@@ -279,7 +279,7 @@ void main() {
     ) async {
       final nativeContext = makeContext(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           style: loadFromNativeAsset
               ? const NativeExternalBindings(assetId: 'test')
               : const DynamicLibraryBindings(wrapperName: 'Bindings'),
@@ -380,7 +380,7 @@ void main() {
     ) {
       final context = makeContext(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           style: loadFromNativeAsset
               ? const NativeExternalBindings(assetId: 'test')
               : const DynamicLibraryBindings(wrapperName: 'Bindings'),
@@ -627,7 +627,7 @@ void main() {
     test('Internal conflict resolution', () async {
       final context = makeContext(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           style: const DynamicLibraryBindings(wrapperName: 'init_dylib'),
         ),
       );
@@ -682,7 +682,7 @@ void main() {
     test('Adds Native symbol on mismatch', () async {
       final context = makeContext(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           style: const NativeExternalBindings(assetId: 'test'),
         ),
       );

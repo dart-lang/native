@@ -21,8 +21,8 @@
       `TypealiasInclude` enum (`never`, `ifUsed`, `always`).
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
-  - Replace `Output.dartFile` with `DartCodeOutput`, to prepare for upcoming
-    multi-file output formats
+  - Replace `Output.dartFile` with `DartOutput`, to prepare for upcoming
+    [multi-file output format](https://github.com/dart-lang/native/issues/2683).
   - Deleted many now empty sub-config classes
   - Rename `Headers` to `Input`
   - Remove `libraryImports`, which was dead code

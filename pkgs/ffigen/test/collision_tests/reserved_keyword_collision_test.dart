@@ -18,7 +18,7 @@ void main() {
         testContext(
           FfiGenerator(
             output: Output(
-              dart: DartCodeOutput(path: Uri.file('unused')),
+              dart: DartOutput(path: Uri.file('unused')),
               style: const DynamicLibraryBindings(),
             ),
             visitors: [

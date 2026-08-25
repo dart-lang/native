@@ -21,7 +21,7 @@ Future<String> bindingsForVersion({
 }) async {
   final generator = FfiGenerator(
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: Uri.file(
           path.join(
             packagePathForTests,

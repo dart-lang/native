@@ -32,7 +32,7 @@ Context testContext([FfiGenerator? generator]) {
     createTestLogger(),
     generator ??
         FfiGenerator(
-          output: Output(dart: DartCodeOutput(path: Uri.file('unused'))),
+          output: Output(dart: DartOutput(path: Uri.file('unused'))),
         ),
     tmpDir: tmpDir.path,
   );

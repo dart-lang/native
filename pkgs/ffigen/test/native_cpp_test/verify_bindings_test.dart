@@ -39,7 +39,7 @@ void main() {
     final configs = <String, FfiGenerator>{
       'cpp_class': FfiGenerator(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('cpp_class_test_bindings.dart')),
+          dart: DartOutput(path: Uri.file('cpp_class_test_bindings.dart')),
           style: const NativeExternalBindings(
             assetId: 'package:ffigen/cpp_test',
           ),
@@ -63,9 +63,7 @@ void main() {
       ),
       'memory_edge_cases': FfiGenerator(
         output: Output(
-          dart: DartCodeOutput(
-            path: Uri.file('memory_edge_cases_bindings.dart'),
-          ),
+          dart: DartOutput(path: Uri.file('memory_edge_cases_bindings.dart')),
           style: const NativeExternalBindings(
             assetId: 'package:ffigen/cpp_test',
           ),
@@ -89,7 +87,7 @@ void main() {
       ),
       'cpp_inheritance': FfiGenerator(
         output: Output(
-          dart: DartCodeOutput(
+          dart: DartOutput(
             path: Uri.file('cpp_inheritance_test_bindings.dart'),
           ),
           style: const NativeExternalBindings(

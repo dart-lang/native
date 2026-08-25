@@ -28,7 +28,7 @@ void main() {
       );
       final generator = FfiGenerator(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           commentType: const CommentType(
             CommentStyle.doxygen,
             CommentLength.brief,
@@ -134,7 +134,7 @@ void main() {
     test('CJSON test', () {
       final generator = FfiGenerator(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           style: const DynamicLibraryBindings(
             wrapperName: 'CJson',
             wrapperDocComment: 'Bindings to Cjson.',
@@ -182,7 +182,7 @@ void main() {
       final vaRegex = RegExp(r'(^|[^a-z])va($|[^a-z])');
       final generator = FfiGenerator(
         output: Output(
-          dart: DartCodeOutput(path: Uri.file('unused')),
+          dart: DartOutput(path: Uri.file('unused')),
           style: const DynamicLibraryBindings(
             wrapperName: 'SQLite',
             wrapperDocComment: 'Bindings to SQLite.',

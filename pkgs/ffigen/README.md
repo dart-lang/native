@@ -63,7 +63,7 @@ app has been created via `dart create ffigen_example`.
      final generator = FfiGenerator(
        // Required. Output path for the generated bindings.
        output: Output(
-         dart: DartCodeOutput(path: packageRoot.resolve('lib/add.g.dart')),
+         dart: DartOutput(path: packageRoot.resolve('lib/add.g.dart')),
        ),
        // Optional. Where to look for header files.
        input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),

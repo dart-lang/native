@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/jnigen.dart'
-    show DartCodeOutput, Input, JniGenerator, Output, OutputStructure;
+    show DartOutput, Input, JniGenerator, Output, OutputStructure;
 import 'package:jnigen/src/bindings/linker.dart';
 import 'package:jnigen/src/bindings/renamer.dart';
 import 'package:jnigen/src/elements/elements.dart';
@@ -28,7 +28,7 @@ Future<void> rename(
   final config = JniGenerator(
     input: Input(classes: []),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: structure == OutputStructure.singleFile
             ? Uri.file('test.dart')
             : Uri.directory('test_output/'),
