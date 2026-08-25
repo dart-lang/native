@@ -2,9 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+import 'dart:io' show Platform;
 
 import 'package:code_assets/code_assets.dart';
+import 'package:file/file.dart';
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 import 'package:process/process.dart';
@@ -83,6 +84,7 @@ class _AndroidNdkResolver implements ToolResolver {
           ndkInstance,
           logger: context.logger,
           processManager: context.processManager,
+          fileSystem: context.fileSystem,
         ),
       ],
     ];
@@ -92,12 +94,13 @@ class _AndroidNdkResolver implements ToolResolver {
     ToolInstance androidNdkInstance, {
     required Logger? logger,
     required ProcessManager processManager,
+    required FileSystem fileSystem,
   }) async {
     final result = <ToolInstance>[];
     final prebuiltUri = androidNdkInstance.uri.resolve(
       'toolchains/llvm/prebuilt/',
     );
-    final prebuiltDir = Directory.fromUri(prebuiltUri);
+    final prebuiltDir = fileSystem.directory(prebuiltUri);
     if (!prebuiltDir.existsSync()) {
       return [];
     }
@@ -108,7 +111,7 @@ class _AndroidNdkResolver implements ToolResolver {
       final clangUri = hostArchDir.uri
           .resolve('bin/')
           .resolve(OS.current.executableFileName('clang'));
-      if (await File.fromUri(clangUri).exists()) {
+      if (await fileSystem.file(clangUri).exists()) {
         result.add(
           await CliVersionResolver.lookupVersion(
             ToolInstance(tool: androidNdkClang, uri: clangUri),
@@ -120,7 +123,7 @@ class _AndroidNdkResolver implements ToolResolver {
       final arUri = hostArchDir.uri
           .resolve('bin/')
           .resolve(OS.current.executableFileName('llvm-ar'));
-      if (await File.fromUri(arUri).exists()) {
+      if (await fileSystem.file(arUri).exists()) {
         result.add(
           await CliVersionResolver.lookupVersion(
             ToolInstance(tool: androidNdkLlvmAr, uri: arUri),
@@ -132,7 +135,7 @@ class _AndroidNdkResolver implements ToolResolver {
       final ldUri = hostArchDir.uri
           .resolve('bin/')
           .resolve(OS.current.executableFileName('ld.lld'));
-      if (await File.fromUri(arUri).exists()) {
+      if (await fileSystem.file(arUri).exists()) {
         result.add(
           await CliVersionResolver.lookupVersion(
             ToolInstance(tool: androidNdkLld, uri: ldUri),

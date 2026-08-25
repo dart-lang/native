@@ -1,3 +1,10 @@
+## 0.19.5-wip
+
+- Access all file system state through a `package:file` `FileSystem`, exposed as
+  an optional parameter on `CBuilder.run`, `CLinker.run`, `CLibrary.build`, and
+  `CLibrary.link` (defaulting to `LocalFileSystem`), so file system access can be
+  mocked in tests. ([#3072](https://github.com/dart-lang/native/issues/3072))
+
 ## 0.19.4
 
 - Fix [native_toolchain_c failing with MSSSMS installed](https://github.com/dart-lang/native/issues/3327) by requiring vswhere to only show output that includes the necessary build tools
