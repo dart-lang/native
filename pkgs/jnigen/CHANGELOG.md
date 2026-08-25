@@ -22,6 +22,8 @@
     the `generate` function.
   - Change remaining `String` paths to `Uri`.
 - Allow interface mixin names to be customized using the visitor API.
+- Support customizing the command `java -jar ApiSummarizer.jar` via the
+  `summarizer.command` field in config.
 
 ## 0.17.0
 

@@ -3,19 +3,26 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:package_config/package_config.dart';
 
-Future<Package?> findPackage(String packageName) async {
-  final packageConfig = await findPackageConfig(Directory.current);
-  if (packageConfig == null) {
-    return null;
+Future<Package?> findPackage(String packageName, {Directory? directory}) async {
+  final packageConfig = await findPackageConfig(directory ?? Directory.current);
+  if (packageConfig != null && packageConfig[packageName] != null) {
+    return packageConfig[packageName];
   }
-  return packageConfig[packageName];
+  final isolatePackageConfigUri = await Isolate.packageConfig;
+  if (isolatePackageConfigUri != null) {
+    final isolatePackageConfig =
+        await loadPackageConfigUri(isolatePackageConfigUri);
+    return isolatePackageConfig[packageName];
+  }
+  return null;
 }
 
-Future<Uri?> findPackageRoot(String packageName) async {
-  return (await findPackage(packageName))?.root;
+Future<Uri?> findPackageRoot(String packageName, {Directory? directory}) async {
+  return (await findPackage(packageName, directory: directory))?.root;
 }
 
 Future<bool> isPackageModifiedAfter(String packageName, DateTime time,
