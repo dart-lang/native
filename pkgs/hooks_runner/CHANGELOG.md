@@ -1,5 +1,6 @@
 ## 1.5.1-wip
 
+- Use the path separator of the target platform in native_assets.yaml.
 - Fix record_use path changing caching issue.
 
 ## 1.5.0
