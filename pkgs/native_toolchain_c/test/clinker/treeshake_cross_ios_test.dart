@@ -22,13 +22,18 @@ const targetOS = OS.iOS;
 /// | #   | Architecture | IOSSdk          | IOSVersion |
 /// |-----|--------------|-----------------|------------|
 /// | 1   | arm64        | iphoneos        | 16         |
-/// | 2   | arm64        | iphoneos        | 17         |
-/// | 3   | arm64        | iphonesimulator | 16         |
-/// | 4   | x64          | iphonesimulator | 17         |
+/// | 2   | arm64        | iphonesimulator | 17         |
+/// | 3   | arm64e       | iphoneos        | 17         |
+/// | 4   | arm64e       | iphonesimulator | 17         |
+/// | 5   | x64          | iphonesimulator | 16         |
 final configurations =
     TestCaseSelector(
       dimensions: {
-        Architecture: [Architecture.arm64, Architecture.x64],
+        Architecture: [
+          Architecture.arm64,
+          Architecture.arm64e,
+          Architecture.x64,
+        ],
         IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
         IOSVersion: [
           IOSVersion.flutterHighestBestEffort,
