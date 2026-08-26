@@ -39,7 +39,7 @@ extension SwiftGenGenerator on SwiftGenerator {
       );
     }
     await _generateObjCFile(objcHeader, absTempDir, output.swiftWrapperFile);
-    _generateDartFile(logger, objcHeader);
+    await _generateDartFile(logger, objcHeader);
   }
 
   Future<void> _generateObjCSwiftFile(
@@ -77,12 +77,12 @@ extension SwiftGenGenerator on SwiftGenerator {
     p.absolute(target.sdk.toFilePath()),
   ], absTempDir);
 
-  void _generateDartFile(Logger logger, String objcHeader) {
-    fg.FfiGenerator(
+  Future<void> _generateDartFile(Logger logger, String objcHeader) async {
+    final generator = fg.FfiGenerator(
       output: fg.Output(
-        dartFile: output.dartFile,
+        dart: fg.DartOutput(path: output.dartFile),
         objectiveCFile: output.objectiveCFile,
-        preamble: output.preamble,
+        preamble: output.preamble ?? '',
         style: fg.NativeExternalBindings(assetId: output.assetId),
       ),
       objectiveC: fg.ObjectiveC(
@@ -102,6 +102,7 @@ extension SwiftGenGenerator on SwiftGenerator {
           '-Wno-nullability-completeness',
         ],
       ),
-    ).generate(logger: logger);
+    );
+    await generator.generate(logger: logger);
   }
 }

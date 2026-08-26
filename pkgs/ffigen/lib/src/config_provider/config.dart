@@ -93,7 +93,7 @@ final class FfiGenerator {
   ///
   /// If provided, uses [logger] to output logs. Otherwise, uses a default
   /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
-  void generate({Logger? logger, Uri? libclangDylib}) {
+  Future<void> generate({Logger? logger, Uri? libclangDylib}) {
     return FfiGenGenerator(
       this,
     ).generate(logger: logger, libclangDylib: libclangDylib);
@@ -162,21 +162,29 @@ final class ObjectiveC {
   });
 }
 
+/// Configuration for outputting generated Dart bindings.
+final class DartOutput {
+  /// Path to write generated Dart bindings.
+  final Uri path;
+
+  const DartOutput({required this.path});
+}
+
 /// Configuration for outputting bindings.
 final class Output {
-  /// The output Dart file for the generated bindings.
-  final Uri dartFile;
+  /// The output Dart configuration for the generated bindings.
+  final DartOutput dart;
 
   /// The output Objective-C file for the generated Objective-C bindings.
   final Uri? objectiveCFile;
 
-  Uri get objCFile => objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
+  Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
 
   /// The output Cpp glue file for the generated Cpp class bindings.
   final Uri? cppFile;
 
   Uri get cppBindingsFile =>
-      cppFile ?? Uri.file('${dartFile.toFilePath()}.cpp');
+      cppFile ?? Uri.file('${dart.path.toFilePath()}.cpp');
 
   /// The config for the symbol file.
   final SymbolFile? symbolFile;
@@ -185,7 +193,7 @@ final class Output {
   final CommentType commentType;
 
   /// The preamble to add to the generated bindings.
-  final String? preamble;
+  final String preamble;
 
   /// Whether to format the generated bindings.
   final bool format;
@@ -199,13 +207,13 @@ final class Output {
   @experimental
   final Uri? recordUseMapping;
 
-  Output({
-    required this.dartFile,
+  const Output({
+    required this.dart,
     this.objectiveCFile,
     this.cppFile,
     this.symbolFile,
     this.commentType = const CommentType.def(),
-    this.preamble,
+    this.preamble = '',
     this.format = true,
     this.style = const NativeExternalBindings(),
     this.recordUseMapping,

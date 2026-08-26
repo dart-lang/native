@@ -1247,11 +1247,11 @@ final class YamlConfig {
         ignoreSourceErrors: ignoreSourceErrors,
       ),
       output: Output(
-        dartFile: output,
+        dart: DartOutput(path: output),
         objectiveCFile: outputObjC,
         symbolFile: symbolFile,
         commentType: commentType,
-        preamble: preamble,
+        preamble: preamble ?? '',
         format: formatOutput,
         style: ffiNativeConfig.enabled
             ? NativeExternalBindings(assetId: ffiNativeConfig.assetId)

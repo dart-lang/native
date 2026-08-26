@@ -11,16 +11,16 @@ import '../test_utils.dart';
 
 void main() {
   group('add_example_test', () {
-    test('add', () {
+    test('add', () async {
       final packageRoot = path.join(packagePathForTests, 'example', 'add/');
       final context = testContext(add_example.getConfig(Uri.file(packageRoot)));
 
-      matchLibraryWithExpected(context, parse(context), 'add_example.dart', [
-        'example',
-        'add',
-        'lib',
-        'add.g.dart',
-      ]);
+      await matchLibraryWithExpected(
+        context,
+        parse(context),
+        'add_example.dart',
+        ['example', 'add', 'lib', 'add.g.dart'],
+      );
     });
   });
 }

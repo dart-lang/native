@@ -36,7 +36,7 @@ Future<void> rename(ast.Classes classes) async {
   final config = JniGenerator(
     input: Input(classes: []),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: Uri.file('test.dart'),
         structure: OutputStructure.singleFile,
       ),
@@ -301,7 +301,7 @@ void main() {
     final config = JniGenerator(
       input: Input(classes: []),
       output: Output(
-        dart: DartCodeOutput(
+        dart: DartOutput(
           path: output,
           structure: OutputStructure.singleFile,
         ),

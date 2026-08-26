@@ -104,7 +104,7 @@ JniGenerator getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
       ],
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: dartWrappersRoot.resolve('simple_package.dart'),
         structure: OutputStructure.singleFile,
       ),

@@ -27,9 +27,9 @@ ${strings.headers}:
       );
     });
 
-    test('Expected bindings', () {
+    test('Expected bindings', () async {
       final context = testContext();
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         actual,
         'decl_type_name_collision_test_output.dart',

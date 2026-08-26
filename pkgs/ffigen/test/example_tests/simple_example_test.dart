@@ -10,15 +10,15 @@ import '../test_utils.dart';
 
 void main() {
   group('simple_example_test', () {
-    test('simple', () {
+    test('simple', () async {
       final config = testConfigFromPath(
         path.join(packagePathForTests, 'example', 'simple', 'config.yaml'),
       );
       final context = testContext(config);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'example_simple.dart', [
-        config.output.dartFile.toFilePath(),
+      await matchLibraryWithExpected(context, library, 'example_simple.dart', [
+        config.output.dart.path.toFilePath(),
       ]);
     });
   });

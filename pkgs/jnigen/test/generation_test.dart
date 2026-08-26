@@ -41,7 +41,7 @@ void main() {
           sourcePath: [Uri.directory(sourcePath)],
         ),
         output: Output(
-          dart: DartCodeOutput(
+          dart: DartOutput(
             path: root.uri,
             structure: OutputStructure.packageStructure,
           ),
@@ -80,7 +80,7 @@ void main() {
         summarizerCommand: '${Platform.executable} ${fakeSummarizer.path}',
       ),
       output: Output(
-        dart: DartCodeOutput(
+        dart: DartOutput(
           path: outDir.uri,
           structure: OutputStructure.packageStructure,
         ),

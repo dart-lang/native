@@ -6,9 +6,9 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 
-void main() {
+Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
-  FfiGenerator(
+  final generator = FfiGenerator(
     input: Input(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
@@ -18,7 +18,9 @@ void main() {
       ),
     ],
     output: Output(
-      dartFile: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
+      dart: DartOutput(
+        path: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
+      ),
       preamble: '''
 // The author disclaims copyright to this source code.  In place of
 // a legal notice, here is a blessing:
@@ -29,5 +31,6 @@ void main() {
 
 ''',
     ),
-  ).generate();
+  );
+  await generator.generate();
 }

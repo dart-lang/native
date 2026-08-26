@@ -44,7 +44,7 @@ Future<void> main() async {
         classes: ['com.example'],
       ),
       output: Output(
-        dart: DartCodeOutput(
+        dart: DartOutput(
           path: thisDir.resolve('temp/large_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),

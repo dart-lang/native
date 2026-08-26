@@ -6,9 +6,9 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 
-void main() {
+Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
-  FfiGenerator(
+  final generator = FfiGenerator(
     input: Input(entryPoints: [packageRoot.resolve('third_party/miniaudio.h')]),
     visitors: [
       Visitor(
@@ -28,7 +28,9 @@ void main() {
       ),
     ],
     output: Output(
-      dartFile: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
+      dart: DartOutput(
+        path: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
+      ),
       recordUseMapping: packageRoot.resolve(
         'lib/src/third_party/record_use_mapping.dart',
       ),
@@ -58,5 +60,6 @@ void main() {
 // ignore_for_file: unused_field
 ''',
     ),
-  ).generate();
+  );
+  await generator.generate();
 }

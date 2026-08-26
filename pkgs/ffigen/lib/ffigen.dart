@@ -22,6 +22,7 @@ export 'src/config_provider.dart'
         CommentType,
         CompoundDependencies,
         Cpp,
+        DartOutput,
         Declaration,
         DynamicLibraryBindings,
         EnumStyle,

@@ -10,7 +10,7 @@ import '../test_utils.dart';
 
 void main() {
   group('shared_bindings_example', () {
-    test('a_shared_base bindings', () {
+    test('a_shared_base bindings', () async {
       final config = testConfigFromPath(
         path.join(
           packagePathForTests,
@@ -22,15 +22,15 @@ void main() {
       );
       final context = testContext(config);
       final library = parse(context);
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         library,
         'example_shared_bindings.dart',
-        [config.output.dartFile.toFilePath()],
+        [config.output.dart.path.toFilePath()],
       );
     });
 
-    test('base symbol file output', () {
+    test('base symbol file output', () async {
       final config = testConfigFromPath(
         path.join(
           packagePathForTests,
@@ -42,7 +42,7 @@ void main() {
       );
       final context = testContext(config);
       final library = parse(context);
-      matchLibrarySymbolFileWithExpected(
+      await matchLibrarySymbolFileWithExpected(
         context,
         library,
         'example_shared_bindings.yaml',

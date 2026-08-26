@@ -12,6 +12,7 @@
   - `OutputConfig` renamed to `Output`, and still contains
     `dartConfig` -> `dart` and `symbolsConfig` -> `symbols`. Now also contains
     `preamble`, `generateStubs`, and `format`.
+  - `DartCodeOutput` renamed to `DartOutput`.
   - `nonNullAnnotations` and `nullableAnnotations` now grouped under
     `NullabilityAnnotations`.
   - Flip `isExcluded` to `isIncluded`.

@@ -22,7 +22,7 @@ void main() {
           ],
         ),
         output: Output(
-          dart: DartCodeOutput(
+          dart: DartOutput(
             path: Uri.file('foo.dart'),
             structure: OutputStructure.singleFile,
           ),
@@ -50,7 +50,7 @@ void main() {
           ],
         ),
         output: Output(
-          dart: DartCodeOutput(
+          dart: DartOutput(
             path: Uri.file('foo.dart'),
             structure: OutputStructure.singleFile,
           ),

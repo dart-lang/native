@@ -12,13 +12,13 @@ import '../test_utils.dart';
 
 void main() {
   group('reserved_keyword_collision_test', () {
-    test('reserved keyword collision', () {
+    test('reserved keyword collision', () async {
       final context = testContext();
       final library = parser.parse(
         testContext(
           FfiGenerator(
             output: Output(
-              dartFile: Uri.file('unused'),
+              dart: DartOutput(path: Uri.file('unused')),
               style: const DynamicLibraryBindings(),
             ),
             visitors: [
@@ -47,7 +47,7 @@ void main() {
           ),
         ),
       );
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         library,
         'reserved_keyword_collision_test_output.dart',

@@ -93,7 +93,7 @@ Library expectedLibrary() {
   final context = testContext(
     FfiGenerator(
       output: Output(
-        dartFile: Uri.file('unused'),
+        dart: DartOutput(path: Uri.file('unused')),
         style: const DynamicLibraryBindings(),
       ),
       visitors: [
