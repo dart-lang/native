@@ -23,6 +23,10 @@ final class Architecture {
   /// The [AArch64](https://en.wikipedia.org/wiki/AArch64) architecture.
   static const Architecture arm64 = Architecture._('arm64');
 
+  /// The [arm64e](https://developer.apple.com/documentation/security/preparing-your-app-to-work-with-pointer-authentication)
+  /// architecture (ARM64 with pointer authentication).
+  static const Architecture arm64e = Architecture._('arm64e');
+
   /// The [IA-32](https://en.wikipedia.org/wiki/IA-32) architecture.
   static const Architecture ia32 = Architecture._('ia32');
 
@@ -39,6 +43,7 @@ final class Architecture {
   static const List<Architecture> values = [
     arm,
     arm64,
+    arm64e,
     ia32,
     riscv32,
     riscv64,

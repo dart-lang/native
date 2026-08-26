@@ -41,12 +41,13 @@ final class MachOValidator implements NativeLibraryValidator {
   static const _cpuTypeX64 = 0x01000007;
   static const _cpuTypeArm = 0x0000000c;
   static const _cpuTypeArm64 = 0x0100000c;
+  static const _cpuSubtypeMask = 0xff000000;
+  static const _cpuSubtypeArm64e = 2;
 
-  // The magic number and the 32-bit field after it (the CPU type for a thin
-  // binary, or the slice count for a fat binary) occupy the first 8 bytes. The
-  // fat path re-reads the architecture entries from the file directly, so
-  // nothing past this is read from the header here.
-  static const _minLength = 8;
+  // The magic number, CPU type, and CPU subtype for a thin binary occupy the
+  // first 12 bytes. The fat path re-reads the architecture entries from the
+  // file directly, so nothing past this is read from the header here.
+  static const _minLength = 12;
 
   @override
   Future<NativeLibraryValidation> validate(
@@ -91,8 +92,9 @@ final class MachOValidator implements NativeLibraryValidator {
         return const NativeLibraryValidation.notRecognized();
       }
       final cpuType = data.getUint32(4, endian);
+      final cpuSubtype = data.getUint32(8, endian);
       return _checkArchitecture(
-        _architectureForCpuType(cpuType),
+        _architectureForCpu(cpuType: cpuType, cpuSubtype: cpuSubtype),
         cpuType,
         context.config.targetArchitecture,
       );
@@ -123,24 +125,27 @@ final class MachOValidator implements NativeLibraryValidator {
     }
     if (sliceCount > 1) return _multiArchitecture();
 
-    final cpuType = ByteData.sublistView(entries).getUint32(0, Endian.big);
+    final sliceData = ByteData.sublistView(entries);
+    final cpuType = sliceData.getUint32(0, Endian.big);
+    final cpuSubtype = sliceData.getUint32(4, Endian.big);
     return _checkArchitecture(
-      _architectureForCpuType(cpuType),
+      _architectureForCpu(cpuType: cpuType, cpuSubtype: cpuSubtype),
       cpuType,
       target,
     );
   }
 
-  static Architecture? _architectureForCpuType(
-    int cpuType,
-  ) => switch (cpuType) {
+  static Architecture? _architectureForCpu({
+    required int cpuType,
+    required int cpuSubtype,
+  }) => switch (cpuType) {
     _cpuTypeX86 => Architecture.ia32,
     _cpuTypeX64 => Architecture.x64,
     _cpuTypeArm => Architecture.arm,
-    // arm64e uses CPU_TYPE_ARM64 and identifies the ABI in cpusubtype. Until
-    // TODO(https://github.com/dart-lang/native/issues/3379) reads that subtype,
-    // treat arm64e as arm64 rather than claiming to validate its ABI.
-    _cpuTypeArm64 => Architecture.arm64,
+    _cpuTypeArm64 =>
+      (cpuSubtype & ~_cpuSubtypeMask) == _cpuSubtypeArm64e
+          ? Architecture.arm64e
+          : Architecture.arm64,
     _ => null,
   };
 

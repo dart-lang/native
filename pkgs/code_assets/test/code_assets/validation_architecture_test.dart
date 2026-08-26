@@ -159,6 +159,54 @@ void main() {
       expect(records, isEmpty);
     });
 
+    test('thin arm64e matches macOS arm64e', () async {
+      final (errors, records) = await validate(
+        machOHeader(cpuType: 0x0100000c, cpuSubtype: 2),
+        targetOS: OS.macOS,
+        targetArchitecture: Architecture.arm64e,
+      );
+      expect(errors, isEmpty);
+      expect(records, isEmpty);
+    });
+
+    test('thin arm64e with PAC flags matches macOS arm64e', () async {
+      final (errors, records) = await validate(
+        machOHeader(cpuType: 0x0100000c, cpuSubtype: 0x80000002),
+        targetOS: OS.macOS,
+        targetArchitecture: Architecture.arm64e,
+      );
+      expect(errors, isEmpty);
+      expect(records, isEmpty);
+    });
+
+    test('thin arm64 mismatches macOS arm64e', () async {
+      final (errors, _) = await validate(
+        machOHeader(cpuType: 0x0100000c, cpuSubtype: 0),
+        targetOS: OS.macOS,
+        targetArchitecture: Architecture.arm64e,
+      );
+      expect(
+        errors,
+        contains(
+          contains('is built for arm64, but the target architecture is arm64e'),
+        ),
+      );
+    });
+
+    test('thin arm64e mismatches macOS arm64', () async {
+      final (errors, _) = await validate(
+        machOHeader(cpuType: 0x0100000c, cpuSubtype: 2),
+        targetOS: OS.macOS,
+        targetArchitecture: Architecture.arm64,
+      );
+      expect(
+        errors,
+        contains(
+          contains('is built for arm64e, but the target architecture is arm64'),
+        ),
+      );
+    });
+
     test('thin x64 mismatches macOS arm64', () async {
       final (errors, _) = await validate(
         machOHeader(cpuType: 0x01000007),
@@ -193,6 +241,16 @@ void main() {
         targetArchitecture: Architecture.arm64,
       );
       expect(errors, contains(contains('is built for x64')));
+    });
+
+    test('fat arm64e matches iOS arm64e', () async {
+      final (errors, records) = await validate(
+        machOFatHeader(cpuTypes: [0x0100000c], cpuSubtypes: [2]),
+        targetOS: OS.iOS,
+        targetArchitecture: Architecture.arm64e,
+      );
+      expect(errors, isEmpty);
+      expect(records, isEmpty);
     });
   });
 
@@ -340,24 +398,33 @@ Uint8List elfHeader({
   return bytes;
 }
 
-/// A minimal 32-byte thin Mach-O header with [cpuType] after the magic.
-Uint8List machOHeader({required int cpuType, bool littleEndian = true}) {
+/// A minimal 32-byte thin Mach-O header with [cpuType] and [cpuSubtype].
+Uint8List machOHeader({
+  required int cpuType,
+  int cpuSubtype = 0,
+  bool littleEndian = true,
+}) {
   final bytes = Uint8List(32);
   final data = bytes.buffer.asByteData();
   final endian = littleEndian ? Endian.little : Endian.big;
   data.setUint32(0, 0xfeedfacf, endian);
   data.setUint32(4, cpuType, endian);
+  data.setUint32(8, cpuSubtype, endian);
   return bytes;
 }
 
 /// A minimal big-endian fat Mach-O header with one slice per cpu type.
-Uint8List machOFatHeader({required List<int> cpuTypes}) {
+Uint8List machOFatHeader({
+  required List<int> cpuTypes,
+  List<int>? cpuSubtypes,
+}) {
   final bytes = Uint8List(8 + cpuTypes.length * 20);
   final data = bytes.buffer.asByteData();
   data.setUint32(0, 0xcafebabe);
   data.setUint32(4, cpuTypes.length);
   for (var slice = 0; slice < cpuTypes.length; slice++) {
     data.setUint32(8 + slice * 20, cpuTypes[slice]);
+    data.setUint32(8 + slice * 20 + 4, cpuSubtypes?[slice] ?? 0);
   }
   return bytes;
 }
