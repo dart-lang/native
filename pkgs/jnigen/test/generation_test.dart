@@ -80,7 +80,7 @@ void main() {
         summarizerCommand: '${Platform.executable} ${fakeSummarizer.path}',
       ),
       output: Output(
-        dart: DartCodeOutput(
+        dart: DartOutput(
           path: outDir.uri,
           structure: OutputStructure.packageStructure,
         ),
