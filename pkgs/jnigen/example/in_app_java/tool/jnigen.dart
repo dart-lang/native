@@ -19,7 +19,7 @@ void main(List<String> args) async {
       ),
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: packageRoot.resolve('lib/android_utils.g.dart'),
         structure: OutputStructure.singleFile,
       ),

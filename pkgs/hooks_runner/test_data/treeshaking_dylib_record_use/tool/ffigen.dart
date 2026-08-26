@@ -6,11 +6,11 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 
-void main() {
+Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
 
   // 1. Generate bindings for add.c
-  FfiGenerator(
+  final addGenerator = FfiGenerator(
     input: Input(
       entryPoints: [packageRoot.resolve('src/add.c')],
     ),
@@ -28,7 +28,9 @@ void main() {
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 ''',
-      dartFile: packageRoot.resolve('lib/src/add_bindings.dart'),
+      dart: DartOutput(
+        path: packageRoot.resolve('lib/src/add_bindings.dart'),
+      ),
       recordUseMapping: packageRoot.resolve(
         'lib/src/add_record_use_mapping.dart',
       ),
@@ -36,10 +38,11 @@ void main() {
         assetId: 'package:treeshaking_dylib_record_use/add',
       ),
     ),
-  ).generate();
+  );
+  await addGenerator.generate();
 
   // 2. Generate bindings for multiply.c
-  FfiGenerator(
+  final multiplyGenerator = FfiGenerator(
     input: Input(
       entryPoints: [packageRoot.resolve('src/multiply.c')],
     ),
@@ -57,7 +60,9 @@ void main() {
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 ''',
-      dartFile: packageRoot.resolve('lib/src/multiply_bindings.dart'),
+      dart: DartOutput(
+        path: packageRoot.resolve('lib/src/multiply_bindings.dart'),
+      ),
       recordUseMapping: packageRoot.resolve(
         'lib/src/multiply_record_use_mapping.dart',
       ),
@@ -65,5 +70,6 @@ void main() {
         assetId: 'package:treeshaking_dylib_record_use/multiply',
       ),
     ),
-  ).generate();
+  );
+  await multiplyGenerator.generate();
 }

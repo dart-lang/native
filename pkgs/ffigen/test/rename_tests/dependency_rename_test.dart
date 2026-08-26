@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/ffigen.dart' show FfiGenerator, Input, Output;
+import 'package:ffigen/ffigen.dart'
+    show DartOutput, FfiGenerator, Input, Output;
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/public_ast.dart' as public_ast;
 import 'package:ffigen/src/header_parser.dart' as parser;
@@ -54,7 +55,7 @@ ${strings.structs}:
       );
 
       final config = FfiGenerator(
-        output: Output(dartFile: Uri.file('unused.dart')),
+        output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
         input: Input(
           entryPoints: [headerUri],
           include: (Uri header) => header == headerUri,

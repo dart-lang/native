@@ -13,7 +13,7 @@ import 'utils.dart';
 /// To store generated String bindings.
 class Writer {
   final Context context;
-  final String? header;
+  final String header;
 
   /// Holds bindings, which lookup symbols.
   final List<Binding> lookUpBindings;
@@ -47,7 +47,7 @@ class Writer {
     required this.noLookUpBindings,
     required this.nativeAssetId,
     this.classDocComment,
-    this.header,
+    this.header = '',
     required this.generateForPackageObjectiveC,
     required this.nativeEntryPoints,
     required this.context,
@@ -62,7 +62,7 @@ class Writer {
     final result = StringBuffer();
 
     // Write file header (if any).
-    if (header != null) {
+    if (header.isNotEmpty) {
       result.writeln(header);
     }
 
@@ -260,7 +260,7 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
   }
 
   bool _hasLintIgnore(String ignore) =>
-      RegExp('ignore_for_file:\\s*$ignore').hasMatch(header ?? '');
+      RegExp('ignore_for_file:\\s*$ignore').hasMatch(header);
 
   Map<String, String> _makeSymbolMapValue(Binding b) {
     final dartName = b is Typealias ? getTypedefDartAliasName(b) : null;
@@ -297,7 +297,7 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
     final s = StringBuffer();
 
     // Write file header (if any).
-    if (header != null) {
+    if (header.isNotEmpty) {
       s.writeln(header);
     }
 

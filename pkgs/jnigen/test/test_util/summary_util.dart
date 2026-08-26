@@ -53,7 +53,7 @@ JniGenerator getSummaryGenerationConfig(
       classPath: classPath?.map(Uri.file).toList() ?? const [],
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: Uri.file('unused.dart'),
         structure: OutputStructure.singleFile,
       ),

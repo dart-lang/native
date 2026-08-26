@@ -84,7 +84,9 @@ void main() {
   group('RenamingVisitor Tests', () {
     test('Top-level and member renames via Custom Visitor', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
 
       final func = Func(
@@ -179,7 +181,9 @@ void main() {
       'ObjC method selector splitting in constructor and visitor overrides',
       () {
         final context = testContext(
-          FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+          FfiGenerator(
+            output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+          ),
         );
 
         final method = ObjCMethod(
@@ -323,7 +327,9 @@ objc-interfaces:
 
     test('Public AST nodes expose usr getter', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
 
       final func = Func(
@@ -445,7 +451,9 @@ objc-interfaces:
 
     test('Visitor callback-based factory constructor', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
 
       final func = Func(
@@ -513,7 +521,9 @@ objc-interfaces:
 
     test('Parent and child pointers in public AST nodes', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
 
       final cgFunc = Func(
@@ -655,7 +665,9 @@ objc-interfaces:
 
     test('EnumClass style and effectiveStyle', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
 
       final cgEnum = EnumClass(
@@ -744,7 +756,9 @@ enums:
 
     test('EnumClass silenceWarning getter and setter', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
 
       final cgEnum = EnumClass(
@@ -881,7 +895,9 @@ functions:
 
     test('public_ast.Struct.pack getter and setter', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
       final cgStruct = Struct(
         name: 'c_struct',
@@ -1051,7 +1067,9 @@ globals:
 
     test('public_ast.ObjCInterface.module getter and setter', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
       final cgInterface = ObjCInterface(
         context: context,
@@ -1075,7 +1093,9 @@ globals:
 
     test('public_ast.ObjCProtocol.module getter and setter', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
       final cgProtocol = ObjCProtocol(
         context: context,
@@ -1166,7 +1186,9 @@ objc-protocols:
 
     test('public_ast.Struct.dependencies getter and setter', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
       final cgStruct = Struct(
         name: 'c_struct',
@@ -1189,7 +1211,9 @@ objc-protocols:
 
     test('public_ast.Union.dependencies getter and setter', () {
       final context = testContext(
-        FfiGenerator(output: Output(dartFile: Uri.file('out.dart'))),
+        FfiGenerator(
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
+        ),
       );
       final cgUnion = Union(
         name: 'c_union',
@@ -1297,7 +1321,7 @@ unions:
 
       final context = testContext(
         FfiGenerator(
-          output: Output(dartFile: Uri.file('out.dart')),
+          output: Output(dart: DartOutput(path: Uri.file('out.dart'))),
           visitors: [recordingVisitor],
         ),
       );

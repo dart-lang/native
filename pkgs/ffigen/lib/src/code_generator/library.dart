@@ -45,7 +45,7 @@ class Library {
   factory Library({
     String? description,
     required List<Binding> bindings,
-    String? header,
+    String header = '',
     bool generateForPackageObjectiveC = false,
     List<String> nativeEntryPoints = const <String>[],
     required Context context,
@@ -100,11 +100,11 @@ class Library {
   ///
   /// If format is true(default), the formatter will be called to format the
   /// generated file.
-  void generateFile(File file, {bool format = true}) {
+  Future<void> generateFile(File file, {bool format = true}) async {
     if (!file.existsSync()) file.createSync(recursive: true);
     file.writeAsStringSync(generate());
     if (format) {
-      final result = Process.runSync(dartExecutable, [
+      final result = await Process.run(dartExecutable, [
         'format',
         file.absolute.path,
       ], workingDirectory: file.parent.absolute.path);
@@ -163,7 +163,10 @@ class Library {
   /// bindings, if any.
   ///
   /// Returns whether bindings were generated.
-  bool generateRecordUseMappingFile(File file, {bool format = true}) {
+  Future<bool> generateRecordUseMappingFile(
+    File file, {
+    bool format = true,
+  }) async {
     final mappingString = writer.generateRecordUseMapping();
 
     if (mappingString == null) {
@@ -175,7 +178,7 @@ class Library {
     file.writeAsStringSync(mappingString);
 
     if (format) {
-      final result = Process.runSync(dartExecutable, [
+      final result = await Process.run(dartExecutable, [
         'format',
         file.absolute.path,
       ], workingDirectory: file.parent.absolute.path);

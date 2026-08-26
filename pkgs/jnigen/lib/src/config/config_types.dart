@@ -201,8 +201,8 @@ OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
 }
 
 /// Configuration for outputting generated Dart code.
-class DartCodeOutput {
-  DartCodeOutput({
+class DartOutput {
+  DartOutput({
     required this.path,
     this.structure = OutputStructure.packageStructure,
   }) {
@@ -267,7 +267,7 @@ final class NullabilityAnnotations {
 /// Configuration for outputting generated Dart code and symbol files.
 final class Output {
   /// Dart output configuration (path and layout structure).
-  final DartCodeOutput dart;
+  final DartOutput dart;
 
   /// Symbol file output configuration (`symbols.yaml`).
   ///
@@ -494,7 +494,7 @@ final class JniGenerator {
             : null,
       ),
       output: Output(
-        dart: DartCodeOutput(
+        dart: DartOutput(
           path: must(prov.getPath, Uri.parse('.'), _Props.dartRoot),
           structure: getOutputStructure(
             prov.getString(_Props.outputStructure),
@@ -660,10 +660,10 @@ class _Props {
   static const import = 'import';
   static const hide = 'hide';
   static const outputConfig = 'output';
-  static const dartCodeOutputConfig = '$outputConfig.dart';
+  static const dartOutputConfig = '$outputConfig.dart';
   static const symbolsOutputConfig = '$outputConfig.symbols';
-  static const dartRoot = '$dartCodeOutputConfig.path';
-  static const outputStructure = '$dartCodeOutputConfig.structure';
+  static const dartRoot = '$dartOutputConfig.path';
+  static const outputStructure = '$dartOutputConfig.structure';
   static const preamble = 'preamble';
   static const logLevel = 'log_level';
   static const generateStubs = 'generate_stubs';
