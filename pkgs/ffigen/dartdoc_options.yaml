@@ -1,5 +1,36 @@
 dartdoc:
   categories:
-    Errors:
+    "Apple APIs":
+      markdown: doc/apple_apis.md
+      name: Generating bindings for Apple APIs
+    "Objective-C Memory Management":
+      markdown: doc/objc_gc.md
+      name: Objective-C memory management considerations
+    "Objective-C Method Filtering":
+      markdown: doc/objc_method_filtering.md
+      name: Objective-C method filtering
+    "Dealing with OS Differences":
+      markdown: doc/objc_os_differences.md
+      name: Dealing with OS differences
+    "Objective-C Runtime Types":
+      markdown: doc/objc_runtime_types.md
+      name: Runtime type checks in Objective-C
+    "Objective-C Threading":
+      markdown: doc/objc_threading.md
+      name: Objective-C threading considerations
+    "Errors":
       markdown: doc/errors.md
       name: Common errors in ffigen
+    "FAQ":
+      markdown: doc/faq.md
+      name: Frequently Asked Questions
+
+  categoryOrder:
+    - "Apple APIs"
+    - "Objective-C Memory Management"
+    - "Objective-C Method Filtering"
+    - "Dealing with OS Differences"
+    - "Objective-C Runtime Types"
+    - "Objective-C Threading"
+    - "Errors"
+    - "FAQ"
