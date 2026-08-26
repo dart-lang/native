@@ -10,6 +10,7 @@ import 'package:meta/meta.dart';
 import '../config/config_types.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
+import '../tools/gradle_tools.dart';
 import '../util/dart_executable.dart';
 import '../util/string_util.dart';
 import 'resolver.dart';
@@ -1265,6 +1266,25 @@ ${modifier}final _$idName = $_protectedExtension
     return '_$idName($params).$resultGetter';
   }
 
+  String? _javadocUrl() {
+    final mavenDownloads = config.input.mavenDownloads;
+    if (mavenDownloads == null) {
+      return null;
+    }
+
+    final dependencies = GradleTools.deps([
+      ...mavenDownloads.sourceDeps,
+      ...mavenDownloads.jarOnlyDeps,
+    ]);
+
+    // We cannot reliably determine which Maven artifact owns a class when
+    // multiple dependencies are configured.
+    if (dependencies.length != 1) {
+      return null;
+    }
+
+    return dependencies.single.javadocUrl;
+  }
   @override
   void visit(Method node) {
     // Accessors
@@ -1284,7 +1304,15 @@ ${modifier}final _$idName = $_protectedExtension
     if (node.returnType is! PrimitiveType || node.isConstructor) {
       s.writeln(_releaseInstruction);
     }
-    node.javadoc?.accept(_DocGenerator(s, depth: 1));
+    if (node.javadoc != null) {
+      node.javadoc!.accept(_DocGenerator(s, depth: 1));
+    } else {
+      final url = _javadocUrl();
+      if (url != null) {
+        s.writeln('  ///');
+        s.writeln('  /// See the [Java documentation]($url).');
+      }
+    }
 
     // This is needed to keep the references alive in the scope while waiting
     // for the FFI call.
