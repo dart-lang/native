@@ -19,7 +19,7 @@ void main() {
       library = parser.parse(
         testContext(
           FfiGenerator(
-            output: Output(dartFile: Uri.file('unused')),
+            output: Output(dart: DartOutput(path: Uri.file('unused'))),
             input: Input(
               entryPoints: [
                 Uri.file(
