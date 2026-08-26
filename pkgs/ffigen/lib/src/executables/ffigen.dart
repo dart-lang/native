@@ -62,7 +62,7 @@ Future<void> main(List<String> args) async {
   }
 
   try {
-    generator.generate(logger: logger);
+    await generator.generate(logger: logger);
   } on HeaderParserException {
     exit(1);
   }

@@ -12,7 +12,7 @@ import '../test_utils.dart';
 
 void main() {
   group('example_test', () {
-    test('libclang-example', () {
+    test('libclang-example', () async {
       final configYaml = File(
         path.join(
           packagePathForTests,
@@ -35,9 +35,12 @@ void main() {
       final context = testContext(generator);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'example_libclang.dart', [
-        generator.output.dartFile.toFilePath(),
-      ]);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'example_libclang.dart',
+        [generator.output.dart.path.toFilePath()],
+      );
     });
   });
 }

@@ -14,10 +14,10 @@ import '../test_utils.dart';
 
 void main() {
   group('objective_c_example_test', () {
-    test('objective_c', () {
+    test('objective_c', () async {
       final context = testContext(config);
 
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         parse(context),
         'objective_c_example.dart',

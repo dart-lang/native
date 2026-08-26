@@ -51,7 +51,7 @@ JniGenerator getConfig({
       backend: backend ?? (useAsm ? SummarizerBackend.asm : null),
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: Uri.directory(join(rootDir, 'bindings')),
       ),
       preamble: jacksonPreamble,

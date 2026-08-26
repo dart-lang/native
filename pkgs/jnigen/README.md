@@ -78,7 +78,7 @@ instructions.
          androidSdk: AndroidSdk(addGradleDeps: true),
        ),
        output: Output(
-         dart: DartCodeOutput(
+         dart: DartOutput(
            // Required. Output path for generated bindings.
            path: packageRoot.resolve('lib/android_utils.g.dart'),
            // Optional. Write bindings into a single file (instead of one file per class).

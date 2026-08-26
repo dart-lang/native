@@ -83,7 +83,7 @@ Future<void> main() async {
       ),
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: packageRoot.resolve('lib/src/core_bindings.dart'),
         structure: OutputStructure.singleFile,
       ),

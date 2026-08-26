@@ -15,15 +15,20 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 
-String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
-  FfiGenerator(
+Future<String> bindingsForVersion({
+  Versions? iosVers,
+  Versions? macosVers,
+}) async {
+  final generator = FfiGenerator(
     output: Output(
-      dartFile: Uri.file(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'deprecated_test_bindings.dart',
+      dart: DartOutput(
+        path: Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'deprecated_test_bindings.dart',
+          ),
         ),
       ),
       format: false,
@@ -86,7 +91,8 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         }.contains(node.originalName),
       ),
     ],
-  ).generate(logger: createTestLogger());
+  );
+  await generator.generate(logger: createTestLogger());
   final file = path.join(
     packagePathForTests,
     'test',
@@ -101,8 +107,8 @@ void main() {
   group('deprecated', () {
     group('no version info', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion();
+      setUpAll(() async {
+        bindings = await bindingsForVersion();
       });
 
       test('interfaces', () {
@@ -220,8 +226,10 @@ void main() {
 
     group('ios >=2.5, no macos version', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion(iosVers: Versions(min: Version(2, 5, 0)));
+      setUpAll(() async {
+        bindings = await bindingsForVersion(
+          iosVers: Versions(min: Version(2, 5, 0)),
+        );
       });
 
       test('interfaces', () {
@@ -339,8 +347,8 @@ void main() {
 
     group('ios >=2.5, macos >=2.5', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion(
+      setUpAll(() async {
+        bindings = await bindingsForVersion(
           iosVers: Versions(min: Version(2, 5, 0)),
           macosVers: Versions(min: Version(2, 5, 0)),
         );
@@ -456,8 +464,8 @@ void main() {
 
     group('ios >=3.5, macos >=3.5', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion(
+      setUpAll(() async {
+        bindings = await bindingsForVersion(
           iosVers: Versions(min: Version(3, 5, 0)),
           macosVers: Versions(min: Version(3, 5, 0)),
         );
@@ -573,8 +581,8 @@ void main() {
 
     group('ios >=2.5 <=3.5, macos >=2.5 <=3.5', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion(
+      setUpAll(() async {
+        bindings = await bindingsForVersion(
           iosVers: Versions(min: Version(2, 5, 0), max: Version(3, 5, 0)),
           macosVers: Versions(min: Version(2, 5, 0), max: Version(3, 5, 0)),
         );
@@ -690,8 +698,8 @@ void main() {
 
     group('ios <=1.5, macos >=1.5', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion(
+      setUpAll(() async {
+        bindings = await bindingsForVersion(
           iosVers: Versions(max: Version(1, 5, 0)),
           macosVers: Versions(min: Version(1, 5, 0)),
         );
@@ -921,8 +929,8 @@ extension type DeprecatedProtocol'''),
 
     group('ios >=0.5 <=0.9, macos >=0.5 <=0.9', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion(
+      setUpAll(() async {
+        bindings = await bindingsForVersion(
           iosVers: Versions(min: Version(0, 5, 0), max: Version(0, 9, 0)),
           macosVers: Versions(min: Version(0, 5, 0), max: Version(0, 9, 0)),
         );
@@ -1037,8 +1045,8 @@ extension type DeprecatedProtocol'''),
     });
     group('@Deprecated annotations', () {
       late final String bindings;
-      setUpAll(() {
-        bindings = bindingsForVersion();
+      setUpAll(() async {
+        bindings = await bindingsForVersion();
       });
 
       test('normal symbols have no @Deprecated annotation', () {

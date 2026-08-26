@@ -80,7 +80,7 @@ void main() {
         ],
       ),
       output: Output(
-        dartFile: Uri.file(outFile),
+        dart: DartOutput(path: Uri.file(outFile)),
         objectiveCFile: Uri.file(outObjCFile),
         format: false,
         style: const DynamicLibraryBindings(wrapperName: 'LargeObjCLibrary'),
@@ -145,7 +145,7 @@ void main() {
     );
 
     final timer = Stopwatch()..start();
-    generator.generate(logger: createTestLogger());
+    await generator.generate(logger: createTestLogger());
     expect(File(outFile).existsSync(), isTrue);
     expect(File(outObjCFile).existsSync(), isTrue);
 

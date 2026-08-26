@@ -10,7 +10,7 @@ import '../test_utils.dart';
 void verifyBindings(FfiGenerator config) {
   final context = testContext(config);
   final library = parse(context);
-  final bindingsName = context.config.output.dartFile.pathSegments.last;
+  final bindingsName = context.config.output.dart.path.pathSegments.last;
   matchLibraryWithExpected(context, library, bindingsName, [
     'test',
     'native_cpp_test',

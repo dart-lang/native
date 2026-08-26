@@ -7,12 +7,14 @@ import 'package:ffigen/ffigen.dart';
 
 FfiGenerator getConfig(Uri packageRoot) {
   return FfiGenerator(
-    output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
+    output: Output(
+      dart: DartOutput(path: packageRoot.resolve('lib/add.g.dart')),
+    ),
     input: Input(entryPoints: [packageRoot.resolve('src/add.h')]),
     visitors: [Visitor(func: (node) => node.isIncluded = node.name == 'add')],
   );
 }
 
-void main() {
-  getConfig(Platform.script.resolve('../')).generate();
+Future<void> main() async {
+  await getConfig(Platform.script.resolve('../')).generate();
 }

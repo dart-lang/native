@@ -29,7 +29,7 @@ void main() {
           ),
         ],
         output: Output(
-          dartFile: Uri.file('unused.dart'),
+          dart: DartOutput(path: Uri.file('unused.dart')),
           style: const NativeExternalBindings(),
           recordUseMapping: Uri.file('unused_mapping.dart'),
         ),

@@ -18,7 +18,7 @@ void main() async {
       ),
     ),
     output: Output(
-      dart: DartCodeOutput(
+      dart: DartOutput(
         path: packageRoot.resolve('lib/maven_libs_bindings.dart'),
         structure: OutputStructure.singleFile,
       ),
