@@ -52,13 +52,6 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     '++++ Adding C++ Class: Name: $className, ${cursor.completeStringRepr()}',
   );
 
-  // The class is added to the seen index before its members are parsed. A
-  // member signature can name the class it belongs to, directly or through a
-  // cycle of classes, and resolving such a type re-enters this function for a
-  // class that is still being parsed. Registering first lets that re-entrant
-  // call return this same binding, instead of recursing until the stack is
-  // exhausted. The members only need the identity of the class, so handing
-  // them one whose methods and bases are not filled in yet is fine.
   final cppClass = CppClass(
     usr: usr,
     dartDoc: getCursorDocComment(

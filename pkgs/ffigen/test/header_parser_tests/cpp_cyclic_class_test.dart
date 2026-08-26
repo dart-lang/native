@@ -9,14 +9,6 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
-/// A C++ class whose own member signatures name that same class is parsed by
-/// re-entering the class parser for a class that is still being parsed. The
-/// parser has to recognize the class it is already working on: without that,
-/// parsing recurses until the stack is exhausted, which takes the whole process
-/// down (a segfault, or an exception thrown through the libclang visitor
-/// callback) rather than failing the test.
-/// The header's own classes: self-reference through a return type, through a
-/// parameter, through a std::unique_ptr, and a cycle between two classes.
 const _cyclicClasses = {'Node', 'Merger', 'Owner', 'Leaf', 'Branch'};
 
 void main() {
@@ -30,16 +22,14 @@ void main() {
             output: Output(dartFile: Uri.file('unused')),
             input: Input(
               entryPoints: [
-                Uri.file(absPath('test/header_parser_tests/cpp_cyclic_class.h')),
+                Uri.file(
+                  absPath('test/header_parser_tests/cpp_cyclic_class.h'),
+                ),
               ],
               compilerOptions: const ['-x', 'c++', '-std=c++17'],
             ),
             cpp: const Cpp(),
             visitors: [
-              // A C++ class is excluded by default. Only the header's own
-              // classes are included: <memory> drags the whole standard library
-              // in behind std::unique_ptr, and what it declares differs per
-              // toolchain.
               Visitor(
                 cppClass: (node) => node.isIncluded = _cyclicClasses.contains(
                   node.originalName,
@@ -66,22 +56,30 @@ void main() {
     });
 
     test('a cyclic member resolves to the class already being parsed', () {
-      cg.CppClass classNamed(String name) =>
-          library.bindings.whereType<cg.CppClass>().firstWhere(
-            (c) => c.originalName == name,
-          );
+      cg.CppClass classNamed(String name) => library.bindings
+          .whereType<cg.CppClass>()
+          .firstWhere((c) => c.originalName == name);
+
+      cg.CppClass returnedClass(cg.CppClass cls, String methodName) {
+        final method = cls.methods.firstWhere(
+          (m) => m.originalName == methodName,
+          orElse: () => fail('${cls.originalName} has no method $methodName'),
+        );
+        expect(method.returnType, isA<cg.CppClassPointerType>());
+        return (method.returnType as cg.CppClassPointerType).cppClass;
+      }
 
       final node = classNamed('Node');
       final leaf = classNamed('Leaf');
       final branch = classNamed('Branch');
 
       expect(
-        node.methods.map((m) => m.originalName),
-        contains('clone'),
-        reason: 'the member whose type closes the cycle is still parsed',
+        returnedClass(node, 'clone'),
+        same(node),
+        reason: 'a cyclic return type must not be a second copy of the class',
       );
-      expect(leaf.methods.map((m) => m.originalName), contains('parent'));
-      expect(branch.methods.map((m) => m.originalName), contains('firstLeaf'));
+      expect(returnedClass(leaf, 'parent'), same(branch));
+      expect(returnedClass(branch, 'firstLeaf'), same(leaf));
     });
   });
 }

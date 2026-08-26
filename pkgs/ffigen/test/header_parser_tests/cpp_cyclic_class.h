@@ -4,11 +4,6 @@
 
 #include <memory>
 
-// Classes whose own member signatures refer back to them. Parsing one of these
-// re-enters the class parser for a class that is still being parsed, so the
-// parser must recognize the class it is already working on instead of
-// recursing until the stack is exhausted.
-
 // Self-reference through a return type.
 class Node {
  public:
