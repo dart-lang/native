@@ -11,7 +11,7 @@ void main(List<String> arguments) async {
     final codeConfig = input.config.code;
     final wrongArchitecture =
         codeConfig.targetArchitecture == Architecture.arm64
-        ? Architecture.x64
+        ? Architecture.arm64e
         : Architecture.arm64;
     final wrongInputBuilder = BuildInputBuilder()
       ..setupShared(
