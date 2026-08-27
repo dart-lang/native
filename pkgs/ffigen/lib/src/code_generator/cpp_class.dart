@@ -19,6 +19,13 @@ enum CppMethodKind { constructor, method }
 class CppMethod extends AstNode with HasLocalScope {
   final Symbol name;
   final String originalName;
+
+  /// The Dart-facing name of this method in generated code.
+  ///
+  /// Defaults to [originalName]. Can be changed via a visitor to rename the
+  /// method in the generated Dart class without affecting the glue symbol.
+  String dartName;
+
   final Type returnType;
   final List<Parameter> parameters;
   final bool isConstant;
@@ -31,13 +38,14 @@ class CppMethod extends AstNode with HasLocalScope {
   CppMethod({
     required this.name,
     required this.originalName,
+    String? dartName,
     required this.returnType,
     required this.parameters,
     required this.isConstant,
     this.isStatic = false,
     this.kind = CppMethodKind.method,
     this.originatingClass,
-  });
+  }) : dartName = dartName ?? originalName;
 
   bool get isConstructor => kind == .constructor;
 
@@ -48,6 +56,7 @@ class CppMethod extends AstNode with HasLocalScope {
         SymbolKind.method,
       ),
       originalName: originalName,
+      dartName: dartName,
       returnType: returnType,
       parameters: parameters.map((p) => p.clone()).toList(),
       isConstant: isConstant,
@@ -134,6 +143,10 @@ class CppClass extends BindingType with HasLocalScope {
   void copyMethod(CppMethod method, CppClass originatingBase) {
     final cloned = method.cloneForClass(this, originatingBase);
     methods.add(cloned);
+  }
+
+  void filterMethods(bool Function(CppMethod method) predicate) {
+    methods.retainWhere(predicate);
   }
 
   @override
@@ -314,14 +327,14 @@ class $name implements $implementsClause {
 
       if (method.isStatic) {
         s.write('''\
-  static $dartReturn ${method.originalName}($dartParams) {
+  static $dartReturn ${method.dartName}($dartParams) {
     $decls
     $callLine
   }
 ''');
       } else {
         s.write('''\
-  $dartReturn ${method.originalName}($dartParams) {
+  $dartReturn ${method.dartName}($dartParams) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
