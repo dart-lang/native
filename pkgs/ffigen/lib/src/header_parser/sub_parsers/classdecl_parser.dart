@@ -146,7 +146,8 @@ void _parseAnyMethod(
   logger.fine('  ++++ ${kind.name}: $methodName (const=$isConst)');
   methods.add(
     CppMethod(
-      name: Symbol(symbol, SymbolKind.method),
+      name: Symbol(methodName, SymbolKind.method),
+      cGlueSymbol: symbol,
       originalName: methodName,
       returnType: clang
           .clang_getCursorResultType(cursor)

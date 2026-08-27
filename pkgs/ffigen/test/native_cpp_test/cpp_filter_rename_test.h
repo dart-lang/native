@@ -9,7 +9,7 @@ class MyClass {
 public:
     // This method will be included (renamed to 'greet').
     void myMethod() {}
-    // This method will be filtered out via includeMember.
+    // This method will be filtered out via visitor filter.
     void filteredMethod() {}
 };
 

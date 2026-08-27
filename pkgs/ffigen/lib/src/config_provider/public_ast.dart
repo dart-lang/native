@@ -584,10 +584,10 @@ class CppMethod extends NamedNode {
   String get originalName => _method.originalName;
 
   @override
-  String get name => _method.dartName;
+  String get name => _method.name.oldName;
 
   @override
-  set name(String value) => _method.dartName = value;
+  set name(String value) => _method.name.oldName = value;
 
   /// Whether this CppMethod should be included in code generation.
   bool get isIncluded => _method.isIncluded;
