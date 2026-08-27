@@ -6,6 +6,11 @@
 union Blob;
 typedef Blob BlobAlias;
 
+// A class that is declared but never defined. Unlike the union above it goes
+// through the C++ class parser and becomes an (empty) CppClass, not an
+// incomplete compound.
+class Incomplete;
+
 class Widget {
  public:
   Widget();
@@ -22,4 +27,9 @@ class Widget {
   // An incomplete compound returned by value, directly and via a typedef.
   Blob badUnionByValue();
   BlobAlias badAliasByValue();
+
+  // A C++ class returned by value: only pointers to a class can cross FFI,
+  // whether the class is forward-declared or fully defined.
+  Incomplete badClassByValue();
+  Widget badSelfByValue();
 };

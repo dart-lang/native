@@ -66,6 +66,31 @@ void main() {
         contains('blobPtr'),
         reason: 'a pointer to an incomplete compound is bindable',
       );
+
+      // Never bindable: these return a type with no definition anywhere in
+      // the translation unit, so no future version of ffigen can support them
+      // (C++ itself cannot define a function returning an incomplete type).
+      expect(
+        methodNames,
+        isNot(contains('badUnionByValue')),
+        reason: 'an incomplete compound cannot be returned by value',
+      );
+      expect(
+        methodNames,
+        isNot(contains('badAliasByValue')),
+        reason:
+            'a typedef of an incomplete compound cannot be returned by value',
+      );
+      expect(
+        methodNames,
+        isNot(contains('badClassByValue')),
+        reason: 'a forward-declared class cannot be returned by value',
+      );
+
+      // Unsupported today: bindable in principle (a reference is ABI-wise a
+      // pointer; a defined class could be heap-copied by the glue code). If
+      // support is ever added, move these up to the bindable group with real
+      // signature expectations instead of relaxing the checks.
       expect(
         methodNames,
         isNot(contains('badRef')),
@@ -78,14 +103,8 @@ void main() {
       );
       expect(
         methodNames,
-        isNot(contains('badUnionByValue')),
-        reason: 'an incomplete compound cannot be returned by value',
-      );
-      expect(
-        methodNames,
-        isNot(contains('badAliasByValue')),
-        reason:
-            'a typedef of an incomplete compound cannot be returned by value',
+        isNot(contains('badSelfByValue')),
+        reason: 'a defined class returned by value is not supported',
       );
     });
 
@@ -98,10 +117,18 @@ void main() {
       expect(output, contains('Widget_good'));
       expect(output, contains('Widget_self'));
       expect(output, contains('Widget_blobPtr'));
-      expect(output, isNot(contains('badRef')));
-      expect(output, isNot(contains('badConstRef')));
+      // See the grouping in the previous test: the first three can never be
+      // supported; the last three pin behavior that a future version may
+      // relax, and should then move to positive expectations above.
       expect(output, isNot(contains('badUnionByValue')));
       expect(output, isNot(contains('badAliasByValue')));
+      expect(output, isNot(contains('badClassByValue')));
+      expect(output, isNot(contains('badRef')));
+      expect(output, isNot(contains('badConstRef')));
+      expect(output, isNot(contains('badSelfByValue')));
+      // With its only use dropped, the forward-declared class must not leave
+      // a wrapper class behind in the bindings.
+      expect(output, isNot(contains('class Incomplete')));
     });
   });
 }

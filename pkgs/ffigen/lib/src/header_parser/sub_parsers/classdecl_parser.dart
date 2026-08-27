@@ -160,6 +160,11 @@ void _parseAnyMethod(
       '  ---- Skipping method $methodName, incomplete struct returned by value',
     );
     return;
+  } else if (returnType.typealiasType is CppClass) {
+    logger.fine(
+      '  ---- Skipping method $methodName, C++ class returned by value',
+    );
+    return;
   }
 
   final className = classDecl.originalName;
