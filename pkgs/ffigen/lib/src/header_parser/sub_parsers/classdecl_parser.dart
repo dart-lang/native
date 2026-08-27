@@ -52,20 +52,6 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     '++++ Adding C++ Class: Name: $className, ${cursor.completeStringRepr()}',
   );
 
-  final methods = <CppMethod>[];
-
-  cursor.visitChildren((child) {
-    final kind = clang.clang_getCursorKind(child);
-    if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
-      _parseAnyMethod(context, child, decl, methods, CppMethodKind.method);
-    } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
-      _parseAnyMethod(context, child, decl, methods, CppMethodKind.constructor);
-    }
-  });
-
-  // Parse public base classes (only public specifiers; non-public are ignored).
-  final bases = _parsePublicBases(context, cursor);
-
   final cppClass = CppClass(
     usr: usr,
     dartDoc: getCursorDocComment(
@@ -76,12 +62,36 @@ CppClass? parseClassDeclaration(Context context, clang_types.CXCursor cursor) {
     originalName: className,
     name: className,
     context: context,
-    methods: methods,
+    methods: <CppMethod>[],
     fields: <CppMember>[],
-    bases: bases,
+    bases: <CppClass>[],
   );
 
   context.bindingsIndex.addCppClassToSeen(usr, cppClass);
+
+  cursor.visitChildren((child) {
+    final kind = clang.clang_getCursorKind(child);
+    if (kind == clang_types.CXCursorKind.CXCursor_CXXMethod) {
+      _parseAnyMethod(
+        context,
+        child,
+        decl,
+        cppClass.methods,
+        CppMethodKind.method,
+      );
+    } else if (kind == clang_types.CXCursorKind.CXCursor_Constructor) {
+      _parseAnyMethod(
+        context,
+        child,
+        decl,
+        cppClass.methods,
+        CppMethodKind.constructor,
+      );
+    }
+  });
+
+  // Parse public base classes (only public specifiers; non-public are ignored).
+  cppClass.bases.addAll(_parsePublicBases(context, cursor));
 
   return cppClass;
 }
