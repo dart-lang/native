@@ -26,7 +26,12 @@ void main() {
                   absPath('test/header_parser_tests/cpp_cyclic_class.h'),
                 ),
               ],
-              compilerOptions: const ['-x', 'c++', '-std=c++17'],
+              compilerOptions: const [
+                '-x',
+                'c++',
+                '-std=c++17',
+                if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+              ],
             ),
             cpp: const Cpp(),
             visitors: [
