@@ -4,10 +4,10 @@
 
 import 'dart:io';
 
+import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/bindings/dart_generator.dart';
 import 'package:jnigen/src/bindings/linker.dart';
 import 'package:jnigen/src/bindings/renamer.dart';
-import 'package:jnigen/src/config/config_types.dart';
 import 'package:jnigen/src/elements/elements.dart' as ast;
 import 'package:test/test.dart';
 

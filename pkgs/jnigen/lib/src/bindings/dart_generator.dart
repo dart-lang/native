@@ -1285,6 +1285,7 @@ ${modifier}final _$idName = $_protectedExtension
 
     return dependencies.single.javadocUrl;
   }
+
   @override
   void visit(Method node) {
     // Accessors
