@@ -26,7 +26,7 @@ void main() {
                   absPath('test/header_parser_tests/cpp_cyclic_class.h'),
                 ),
               ],
-              compilerOptions: const [
+              compilerOptions: [
                 '-x',
                 'c++',
                 '-std=c++17',
