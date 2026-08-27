@@ -14,6 +14,15 @@ import 'public_ast.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.
+///
+/// {@category Apple APIs}
+/// {@category Objective-C Memory Management}
+/// {@category Objective-C Method Filtering}
+/// {@category Dealing with OS Differences}
+/// {@category Objective-C Runtime Types}
+/// {@category Objective-C Threading}
+/// {@category Errors}
+/// {@category FAQ}
 // TODO: Add a code snippet example.
 final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].

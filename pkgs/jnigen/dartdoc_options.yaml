@@ -11,7 +11,13 @@ dartdoc:
       name: Threading considerations
     "Interface Implementation":
       markdown: doc/interface_implementation.md
-      name: Interface implementation
+      name: Implementing Java interfaces from Dart
+    "Exceptions":
+      markdown: doc/exceptions.md
+      name: Handling Java Exceptions in Dart
+    "Java Runtime Types":
+      markdown: doc/java_runtime_types.md
+      name: Runtime type checks in Java (JNI)
     "Debugging":
       markdown: doc/debugging.md
       name: Debugging
@@ -21,6 +27,8 @@ dartdoc:
     - "Lifecycle"
     - "Threading"
     - "Interface Implementation"
+    - "Exceptions"
+    - "Java Runtime Types"
     - "Debugging"
 
   showUndocumentedCategories: true

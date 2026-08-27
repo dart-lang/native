@@ -1,4 +1,13 @@
 include: package:flutter_lints/flutter.yaml
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
 # For additional information about configuring this file, see
 # https://dart.dev/guides/language/analysis-options

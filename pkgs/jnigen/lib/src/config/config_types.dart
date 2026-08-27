@@ -374,6 +374,14 @@ void _validateClassName(String className) {
 }
 
 /// Configuration for JNIgen binding generation.
+///
+/// {@category Java Differences}
+/// {@category Lifecycle}
+/// {@category Threading}
+/// {@category Interface Implementation}
+/// {@category Exceptions}
+/// {@category Java Runtime Types}
+/// {@category Debugging}
 final class JniGenerator {
   JniGenerator({
     required this.input,

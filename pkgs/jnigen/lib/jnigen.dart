@@ -5,11 +5,6 @@
 /// This library exports a high level programmatic API to JNIgen, the entry
 /// point of which is the [JniGenGenerator.generate] method on a [JniGenerator]
 /// object.
-/// {@category Java Differences}
-/// {@category Lifecycle}
-/// {@category Threading}
-/// {@category Interface Implementation}
-/// {@category Debugging}
 ///
 /// @docImport 'src/config/config.dart';
 /// @docImport 'src/generate_bindings.dart';

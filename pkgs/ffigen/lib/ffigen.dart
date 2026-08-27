@@ -8,8 +8,6 @@
 /// For most use cases the YAML based API is simpler. See
 /// https://pub.dev/packages/ffigen for details.
 ///
-/// {@category Errors}
-///
 /// @docImport 'src/config_provider.dart';
 library;
 
