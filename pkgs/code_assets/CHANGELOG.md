@@ -1,3 +1,7 @@
+## 2.1.0-wip
+
+- Added `Architecture.arm64e`.
+
 ## 2.0.0
 
 - Validate bundled dynamic libraries by reading their header: when the file is

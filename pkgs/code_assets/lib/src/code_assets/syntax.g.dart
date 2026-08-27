@@ -45,6 +45,8 @@ class ArchitectureSyntax {
 
   static const arm64 = ArchitectureSyntax._('arm64');
 
+  static const arm64e = ArchitectureSyntax._('arm64e');
+
   static const ia32 = ArchitectureSyntax._('ia32');
 
   static const riscv32 = ArchitectureSyntax._('riscv32');
@@ -56,6 +58,7 @@ class ArchitectureSyntax {
   static const List<ArchitectureSyntax> values = [
     arm,
     arm64,
+    arm64e,
     ia32,
     riscv32,
     riscv64,

@@ -159,4 +159,11 @@ void main() {
     final current = Architecture.current;
     expect(current.toString(), Abi.current().toString().split('_')[1]);
   });
+
+  test('Architecture arm64e', () async {
+    expect(Architecture.arm64e.name, 'arm64e');
+    expect(Architecture.arm64e.toString(), 'arm64e');
+    expect(Architecture.fromString('arm64e'), Architecture.arm64e);
+    expect(Architecture.values, contains(Architecture.arm64e));
+  });
 }

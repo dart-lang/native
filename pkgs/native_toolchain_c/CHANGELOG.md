@@ -1,5 +1,6 @@
 ## 0.19.5-wip
 
+- Support `Architecture.arm64e` for macOS and iOS.
 - Access all file system state through a `package:file` `FileSystem`, exposed as
   an optional parameter on `CBuilder.run`, `CLinker.run`, `CLibrary.build`, and
   `CLibrary.link` (defaulting to `LocalFileSystem`), so file system access can be
