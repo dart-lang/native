@@ -147,6 +147,21 @@ void _parseAnyMethod(
     return;
   }
 
+  final returnType = clang
+      .clang_getCursorResultType(cursor)
+      .toCodeGenType(context);
+  if (returnType.baseType is UnimplementedType) {
+    logger.fine(
+      '  ---- Skipping method $methodName due to unsupported return type',
+    );
+    return;
+  } else if (returnType.isIncompleteCompound) {
+    logger.fine(
+      '  ---- Skipping method $methodName, incomplete struct returned by value',
+    );
+    return;
+  }
+
   final className = classDecl.originalName;
   final symbol = switch (kind) {
     CppMethodKind.constructor => '${className}_new',
@@ -158,9 +173,7 @@ void _parseAnyMethod(
     CppMethod(
       name: Symbol(symbol, SymbolKind.method),
       originalName: methodName,
-      returnType: clang
-          .clang_getCursorResultType(cursor)
-          .toCodeGenType(context),
+      returnType: returnType,
       parameters: parameters,
       isConstant: isConst,
       isStatic: isStatic,
