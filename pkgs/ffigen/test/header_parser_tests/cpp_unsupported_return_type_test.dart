@@ -63,6 +63,11 @@ void main() {
       expect(methodNames, contains('self'));
       expect(
         methodNames,
+        contains('blobPtr'),
+        reason: 'a pointer to an incomplete compound is bindable',
+      );
+      expect(
+        methodNames,
         isNot(contains('badRef')),
         reason: 'a C++ reference return type has no Dart mapping',
       );
@@ -70,6 +75,17 @@ void main() {
         methodNames,
         isNot(contains('badConstRef')),
         reason: 'a C++ reference return type has no Dart mapping',
+      );
+      expect(
+        methodNames,
+        isNot(contains('badUnionByValue')),
+        reason: 'an incomplete compound cannot be returned by value',
+      );
+      expect(
+        methodNames,
+        isNot(contains('badAliasByValue')),
+        reason:
+            'a typedef of an incomplete compound cannot be returned by value',
       );
     });
 
@@ -81,8 +97,11 @@ void main() {
       final output = library.generate();
       expect(output, contains('Widget_good'));
       expect(output, contains('Widget_self'));
+      expect(output, contains('Widget_blobPtr'));
       expect(output, isNot(contains('badRef')));
       expect(output, isNot(contains('badConstRef')));
+      expect(output, isNot(contains('badUnionByValue')));
+      expect(output, isNot(contains('badAliasByValue')));
     });
   });
 }
