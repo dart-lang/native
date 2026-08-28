@@ -1266,7 +1266,7 @@ ${modifier}final _$idName = $_protectedExtension
     return '_$idName($params).$resultGetter';
   }
 
-  String? _javadocUrl() {
+  String? _mavenJavadocUrl() {
     final mavenDownloads = config.input.mavenDownloads;
     if (mavenDownloads == null) {
       return null;
@@ -1308,7 +1308,7 @@ ${modifier}final _$idName = $_protectedExtension
     if (node.javadoc != null) {
       node.javadoc!.accept(_DocGenerator(s, depth: 1));
     } else {
-      final url = _javadocUrl();
+      final url = _mavenJavadocUrl();
       if (url != null) {
         s.writeln('  ///');
         s.writeln('  /// See the [Java documentation]($url).');
