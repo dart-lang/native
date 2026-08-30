@@ -21,8 +21,8 @@ const Map<String, String> _constructorAllowList = {
   'Short': 's',
 };
 
-base class Renamer extends Visitor {
-  Renamer() : super.base();
+base class _JniRenamer extends Visitor {
+  _JniRenamer() : super.base();
 
   ClassDecl? _currentClass;
 
@@ -91,7 +91,7 @@ Future<void> main() async {
       generateStubs: false,
     ),
     imports: SymbolImports(hide: classes),
-    visitors: [Renamer()],
+    visitors: [_JniRenamer()],
   );
   await generator.generate();
 }
