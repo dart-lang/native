@@ -4,7 +4,7 @@ import 'package:jnigen/jnigen.dart';
 
 void main(List<String> args) async {
   final packageRoot = Platform.script.resolve('../');
-  await JniGenerator(
+  final generator = JniGenerator(
     input: Input(
       sourcePath: [packageRoot.resolve('android/app/src/main/java')],
       classes: [
@@ -24,5 +24,6 @@ void main(List<String> args) async {
         structure: OutputStructure.singleFile,
       ),
     ),
-  ).generate();
+  );
+  await generator.generate();
 }

@@ -74,7 +74,7 @@ Future<void> main() async {
 // ignore_for_file: prefer_relative_imports''';
 
   final packageRoot = Platform.script.resolve('..');
-  await JniGenerator(
+  final generator = JniGenerator(
     input: Input(
       classes: classes,
       androidSdk: AndroidSdk(
@@ -92,5 +92,6 @@ Future<void> main() async {
     ),
     imports: SymbolImports(hide: classes),
     visitors: [Renamer()],
-  ).generate();
+  );
+  await generator.generate();
 }
