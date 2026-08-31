@@ -18,8 +18,8 @@ We intend to cover few more use cases in future.
 ### Dart package (Standalone only)
 
 - Create dart package, add `jni` as dependency and `jnigen` as dev dependency.
-- Write the JNIgen config similar to [the one in pdfbox_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/pdfbox_plugin/jnigen.yaml).
-- Generate JNI bindings by running `dart run jnigen --config jnigen.yaml`.
+- Write the JNIgen config similar to [the one in pdfbox_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/pdfbox_plugin/tool/generate_bindings.dart).
+- Generate JNI bindings by running `dart run tool/generate_bindings.dart`.
 
 - In the CLI project which uses this package, add this package, and `jni` as a dependency.
 - Run `dart run jni:setup` to build native libraries for JNI base library and JNIgen generated package.
@@ -44,7 +44,7 @@ To create an FFI plugin with JNI bindings:
 - Create an FFI plugin with Android as the only platform.
 - Get the dependencies of the example/ Android project using `flutter pub get`. JNIgen can then use a gradle stub to collect compile classpaths.
 - Write your custom Java code in `android/src/main/java` hierarchy of the plugin.
-- Generate JNI bindings as described above. See [notification_plugin/jnigen.yaml](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/notification_plugin/jnigen.yaml) for example configuration.
+- Generate JNI bindings as described above. See [notification_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/notification_plugin/tool/generate_bindings.dart) for example configuration.
 
 ### Pure dart bindings
 

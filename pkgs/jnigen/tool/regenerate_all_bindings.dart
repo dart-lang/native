@@ -18,14 +18,11 @@ const scripts = [
   'test/kotlin_test/generate.dart',
   'test/stub_test/generate.dart',
   'example/in_app_java/tool/jnigen.dart',
+  'example/kotlin_plugin/tool/generate_bindings.dart',
   'example/maven_libs/tool/generate_bindings.dart',
   'example/maven_libs_groovy/tool/generate_bindings.dart',
-];
-
-const yamlBasedExamples = [
-  'example/pdfbox_plugin',
-  'example/notification_plugin',
-  'example/kotlin_plugin',
+  'example/notification_plugin/tool/generate_bindings.dart',
+  'example/pdfbox_plugin/tool/generate_bindings.dart',
 ];
 
 void main() async {
@@ -34,13 +31,6 @@ void main() async {
   for (var script in scripts) {
     runners.add(Runner('Run generate script: $script', current)
       ..chainCommand(dartExecutable, ['run', script]));
-  }
-
-  for (var yamlDir in yamlBasedExamples) {
-    runners.add(
-        Runner('Regenerate bindings in $yamlDir', current.resolve(yamlDir))
-          ..chainCommand(
-              dartExecutable, ['run', 'jnigen', '--config', 'jnigen.yaml']));
   }
 
   for (final runner in runners) {

@@ -8,38 +8,11 @@ library;
 import 'dart:io';
 
 import 'package:jni_util/jni_util.dart' as jni_util;
-import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/tools.dart';
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
-
-/// Generates bindings using JNIgen config in [exampleName] and compares
-/// them to provided reference outputs.
-///
-/// [dartOutput] is a relative path from the example project dir.
-///
-/// Pass [isLargeTest] as true if the test will take considerable time.
-void testExample(String exampleName, String dartOutput,
-    {bool isLargeTest = false}) {
-  test(
-    'Generate and compare bindings for $exampleName',
-    timeout: const Timeout.factor(10),
-    () async {
-      final examplePath = join('example', exampleName);
-      final configPath = join(examplePath, 'jnigen.yaml');
-
-      final config = JniGenerator.parseArgs(['--config', configPath]);
-      try {
-        await generateAndCompareBindings(config);
-      } on GradleException catch (_) {
-        stderr.writeln('Skip: $exampleName');
-      }
-    },
-    tags: isLargeTest ? largeTestTag : null,
-  );
-}
 
 void testDartApiExample(
     {required String exampleName,
@@ -88,19 +61,22 @@ void main() async {
     outputPath: join('lib', 'android_utils.g.dart'),
     isLargeTest: true,
   );
-  testExample(
-    'pdfbox_plugin',
-    join('lib', 'src', 'third_party'),
+  testDartApiExample(
+    exampleName: 'pdfbox_plugin',
+    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    outputPath: join('lib', 'src', 'third_party'),
     isLargeTest: false,
   );
-  testExample(
-    'notification_plugin',
-    join('lib', 'notifications.dart'),
+  testDartApiExample(
+    exampleName: 'notification_plugin',
+    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    outputPath: join('lib', 'notifications.dart'),
     isLargeTest: true,
   );
-  testExample(
-    'kotlin_plugin',
-    join('lib', 'kotlin_bindings.dart'),
+  testDartApiExample(
+    exampleName: 'kotlin_plugin',
+    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    outputPath: join('lib', 'kotlin_bindings.dart'),
     isLargeTest: true,
   );
   testDartApiExample(
