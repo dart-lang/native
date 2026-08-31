@@ -16,10 +16,13 @@ const maxJavaVersion = 21;
 /// Android development).
 final javaHome = () {
   try {
-    final result = Process.runSync('flutter', [
-      'config',
-      '--machine',
-    ], runInShell: true);
+    final result = Process.runSync(
+        'flutter',
+        [
+          'config',
+          '--machine',
+        ],
+        runInShell: true);
     if (result.exitCode != 0) {
       return null;
     }
