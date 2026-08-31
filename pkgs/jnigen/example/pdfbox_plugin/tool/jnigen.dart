@@ -26,15 +26,18 @@ const preamble = '''
 // limitations under the License.
 ''';
 
-void main() async {
+void main(List<String> args) async {
+  final full = args.contains('--full');
   final packageRoot = Platform.script.resolve('../');
   final generator = JniGenerator(
     input: Input(
-      classes: [
-        'org.apache.pdfbox.pdmodel.PDDocument',
-        'org.apache.pdfbox.pdmodel.PDDocumentInformation',
-        'org.apache.pdfbox.text.PDFTextStripper',
-      ],
+      classes: full
+          ? ['org.apache.pdfbox']
+          : [
+              'org.apache.pdfbox.pdmodel.PDDocument',
+              'org.apache.pdfbox.pdmodel.PDDocumentInformation',
+              'org.apache.pdfbox.text.PDFTextStripper',
+            ],
       mavenDownloads: MavenDownloads(
         sourceDeps: [
           'org.apache.pdfbox:pdfbox:2.0.26',
