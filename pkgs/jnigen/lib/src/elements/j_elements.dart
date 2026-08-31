@@ -119,6 +119,13 @@ class ClassDecl implements _Element {
   set interfaceMixinName(String? newName) =>
       _classDecl.userDefinedInterfaceMixinName = newName;
 
+  /// Documentation that appears in the generated Dart.
+  ///
+  /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
+  String get documentation =>
+      _classDecl.userDefinedJavadoc ?? _classDecl.javadoc?.comment ?? '';
+  set documentation(String value) => _classDecl.userDefinedJavadoc = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitClass(this);
@@ -153,6 +160,13 @@ class Method implements _Element {
   /// Whether this method is a constructor.
   bool get isConstructor => _method.isConstructor;
 
+  /// Documentation that appears in the generated Dart.
+  ///
+  /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
+  String get documentation =>
+      _method.userDefinedJavadoc ?? _method.javadoc?.comment ?? '';
+  set documentation(String value) => _method.userDefinedJavadoc = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitMethod(this);
@@ -177,6 +191,13 @@ class Param implements _Element {
   /// The original name of the parameter in Java.
   String get originalName => _param.name;
 
+  /// Documentation that appears in the generated Dart.
+  ///
+  /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
+  String get documentation =>
+      _param.userDefinedJavadoc ?? _param.javadoc?.comment ?? '';
+  set documentation(String value) => _param.userDefinedJavadoc = value;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitParam(this);
@@ -200,6 +221,13 @@ class Field implements _Element {
 
   /// The original name of the field in Java.
   String get originalName => _field.name;
+
+  /// Documentation that appears in the generated Dart.
+  ///
+  /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
+  String get documentation =>
+      _field.userDefinedJavadoc ?? _field.javadoc?.comment ?? '';
+  set documentation(String value) => _field.userDefinedJavadoc = value;
 
   @override
   void accept(Visitor visitor) {

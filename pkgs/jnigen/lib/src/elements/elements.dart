@@ -111,6 +111,10 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   String? userDefinedInterfaceMixinName;
 
+  /// Populated by user-defined visitors. Empty string means no comment.
+  @JsonKey(includeFromJson: false)
+  String? userDefinedJavadoc;
+
   @override
   final Set<String> modifiers;
 
@@ -734,6 +738,10 @@ class Method with ClassMember, Annotated implements Element<Method> {
   @JsonKey(includeFromJson: false)
   String? userDefinedName;
 
+  /// Populated by user-defined visitors. Empty string means no comment.
+  @JsonKey(includeFromJson: false)
+  String? userDefinedJavadoc;
+
   /// Populated by [KotlinProcessor].
   @JsonKey(includeFromJson: false)
   KotlinFunction? kotlinFunction;
@@ -818,6 +826,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.userVisitors:
         cloned.userDefinedIsIncluded = userDefinedIsIncluded;
         cloned.userDefinedName = userDefinedName;
+        cloned.userDefinedJavadoc = userDefinedJavadoc;
       case GenerationStage.unprocessed:
     }
     return cloned;
@@ -840,6 +849,10 @@ class Param with Annotated implements Element<Param> {
 
   @JsonKey(includeFromJson: false)
   String? userDefinedName;
+
+  /// Populated by user-defined visitors. Empty string means no comment.
+  @JsonKey(includeFromJson: false)
+  String? userDefinedJavadoc;
 
   @override
   List<Annotation>? annotations;
@@ -877,6 +890,8 @@ class Param with Annotated implements Element<Param> {
     if (GenerationStage.renamer <= until) {
       cloned.finalName = finalName;
     }
+    cloned.userDefinedName = userDefinedName;
+    cloned.userDefinedJavadoc = userDefinedJavadoc;
     return cloned;
   }
 
@@ -903,6 +918,10 @@ class Field with ClassMember, Annotated implements Element<Field> {
 
   @JsonKey(includeFromJson: false)
   String? userDefinedName;
+
+  /// Populated by user-defined visitors. Empty string means no comment.
+  @JsonKey(includeFromJson: false)
+  String? userDefinedJavadoc;
 
   @override
   final String name;
