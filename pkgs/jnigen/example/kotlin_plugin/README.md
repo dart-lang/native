@@ -4,7 +4,7 @@ This example generates bindings for a Kotlin-based library. It showcases the con
 
 The command to regenerate JNI bindings is:
 ```bash
-dart run tool/generate_bindings.dart
+dart run tool/jnigen.dart
 ```
 
 The `example/` app must have its dependencies resolved (eg `flutter pub get`) before running JNIgen.

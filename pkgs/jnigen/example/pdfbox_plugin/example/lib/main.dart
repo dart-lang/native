@@ -13,7 +13,7 @@ import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 Stream<String> files(String dir) => Directory(dir).list().map((e) => e.path);
 
 const jarError = 'No JAR files were found.\n'
-    'Run `dart run tool/generate_bindings.dart` '
+    'Run `dart run tool/jnigen.dart` '
     'in plugin directory.\n'
     'Alternatively, regenerate JNI bindings in plugin directory, which will '
     'automatically download the JAR files.';

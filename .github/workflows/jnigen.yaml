@@ -267,7 +267,7 @@ jobs:
       - name: regenerate & compare jni_flutter bindings
         working-directory: ./pkgs/jni_flutter
         run: |
-          dart run tool/generate_jni_bindings.dart
+          dart run tool/jnigen.dart
           git diff --exit-code -- lib/src
       - name: Enable KVM group perms
         run: |
@@ -376,7 +376,7 @@ jobs:
       - name: regenerate & compare jnigen bindings
         if: ${{ matrix.java-version == '21' }}
         run: |
-          dart run tool/generate_jni_bindings.dart
+          dart run tool/jnigen.dart
           git diff --exit-code -- lib/src/plugin
           dart run tool/generate_primitive_arrays.dart
           git diff --exit-code -- lib/src/primitive_jarrays.dart

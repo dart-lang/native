@@ -18,11 +18,11 @@ const scripts = [
   'test/kotlin_test/generate.dart',
   'test/stub_test/generate.dart',
   'example/in_app_java/tool/jnigen.dart',
-  'example/kotlin_plugin/tool/generate_bindings.dart',
-  'example/maven_libs/tool/generate_bindings.dart',
-  'example/maven_libs_groovy/tool/generate_bindings.dart',
-  'example/notification_plugin/tool/generate_bindings.dart',
-  'example/pdfbox_plugin/tool/generate_bindings.dart',
+  'example/kotlin_plugin/tool/jnigen.dart',
+  'example/maven_libs/tool/jnigen.dart',
+  'example/maven_libs_groovy/tool/jnigen.dart',
+  'example/notification_plugin/tool/jnigen.dart',
+  'example/pdfbox_plugin/tool/jnigen.dart',
 ];
 
 void main() async {

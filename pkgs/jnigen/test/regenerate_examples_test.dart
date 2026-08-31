@@ -57,37 +57,37 @@ void main() async {
   await checkLocallyBuiltDependencies();
   testDartApiExample(
     exampleName: 'in_app_java',
-    generatorScriptPath: 'tool/jnigen.dart',
+    generatorScriptPath: join('tool', 'jnigen.dart'),
     outputPath: join('lib', 'android_utils.g.dart'),
     isLargeTest: true,
   );
   testDartApiExample(
     exampleName: 'pdfbox_plugin',
-    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    generatorScriptPath: join('tool', 'jnigen.dart'),
     outputPath: join('lib', 'src', 'third_party'),
     isLargeTest: false,
   );
   testDartApiExample(
     exampleName: 'notification_plugin',
-    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    generatorScriptPath: join('tool', 'jnigen.dart'),
     outputPath: join('lib', 'notifications.dart'),
     isLargeTest: true,
   );
   testDartApiExample(
     exampleName: 'kotlin_plugin',
-    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    generatorScriptPath: join('tool', 'jnigen.dart'),
     outputPath: join('lib', 'kotlin_bindings.dart'),
     isLargeTest: true,
   );
   testDartApiExample(
     exampleName: 'maven_libs',
-    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    generatorScriptPath: join('tool', 'jnigen.dart'),
     outputPath: join('lib', 'maven_libs_bindings.dart'),
     isLargeTest: true,
   );
   testDartApiExample(
     exampleName: 'maven_libs_groovy',
-    generatorScriptPath: join('tool', 'generate_bindings.dart'),
+    generatorScriptPath: join('tool', 'jnigen.dart'),
     outputPath: join('lib', 'maven_libs_bindings.dart'),
     isLargeTest: true,
   );
