@@ -32,23 +32,18 @@ final javaFiles = findFilesWithSuffix(simplePackageDir, '.java');
 /// All Java classes in simple_package_test/java
 final javaClasses = javaFiles.map(getClassNameFromPath).toList();
 
-// Remove individual class listings from one package,
-// and add the package name instead, for testing.
-
-const removalPackageForSummaryTests = 'com.github.dart_lang.jnigen.pkg2';
-
-/// List of FQNs passed to summarizer for simple_package_test.
-final summarizerClassesSpec = [
-  ...javaClasses.where((e) => !e.startsWith('$removalPackageForSummaryTests.')),
-  removalPackageForSummaryTests,
-];
-
 JniGenerator getSummaryGenerationConfig(
     {List<String>? sourcePath, List<String>? classPath}) {
+  const removalPackageForSummaryTests = 'com.github.dart_lang.jnigen.pkg2';
   return JniGenerator(
     input: Input(
-      // Make a defensive copy of class list, if some test mutates the list...
-      classes: summarizerClassesSpec.toList(),
+      // Remove individual class listings from one package,
+      // and add the package name instead, for testing.
+      classes: [
+        ...javaClasses
+            .where((e) => !e.startsWith('$removalPackageForSummaryTests.')),
+        removalPackageForSummaryTests,
+      ],
       sourcePath: sourcePath?.map(Uri.file).toList() ?? const [],
       classPath: classPath?.map(Uri.file).toList() ?? const [],
     ),

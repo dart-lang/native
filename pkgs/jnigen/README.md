@@ -68,7 +68,7 @@ instructions.
 
    void main(List<String> args) async {
      final packageRoot = Platform.script.resolve('../');
-     await JniGenerator(
+     final generator = JniGenerator(
        input: Input(
          // Required. List of classes or packages for which bindings should be generated.
          classes: ['com.example.in_app_java'],
@@ -85,7 +85,8 @@ instructions.
            structure: OutputStructure.singleFile,
          ),
        ),
-     ).generate();
+     );
+     await generator.generate();
    }
    ```
 
