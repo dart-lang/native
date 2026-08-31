@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Bump Kotlin version in examples.
+
 ## 1.0.2
 
 - Use JNIgen 0.17.0.
