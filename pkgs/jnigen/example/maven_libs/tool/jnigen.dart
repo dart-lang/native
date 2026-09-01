@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
-import 'package:logging/logging.dart';
 
 void main() async {
   final packageRoot = Platform.script.resolve('../');
