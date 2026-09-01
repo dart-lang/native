@@ -15,7 +15,7 @@ Future<void> main() async {
 // ignore_for_file: prefer_relative_imports''';
 
   final packageRoot = Platform.script.resolve('..');
-  await JniGenerator(
+  final generator = JniGenerator(
     input: Input(
       classes: ['com.github.dart_lang.jni_flutter.JniFlutterPlugin'],
       androidSdk: AndroidSdk(
@@ -31,5 +31,6 @@ Future<void> main() async {
       preamble: preamble,
       generateStubs: false,
     ),
-  ).generate();
+  );
+  await generator.generate();
 }

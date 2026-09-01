@@ -21,8 +21,8 @@ const Map<String, String> _constructorAllowList = {
   'Short': 's',
 };
 
-base class Renamer extends Visitor {
-  Renamer() : super.base();
+base class _JniRenamer extends Visitor {
+  _JniRenamer() : super.base();
 
   ClassDecl? _currentClass;
 
@@ -74,7 +74,7 @@ Future<void> main() async {
 // ignore_for_file: prefer_relative_imports''';
 
   final packageRoot = Platform.script.resolve('..');
-  await JniGenerator(
+  final generator = JniGenerator(
     input: Input(
       classes: classes,
       androidSdk: AndroidSdk(
@@ -91,6 +91,7 @@ Future<void> main() async {
       generateStubs: false,
     ),
     imports: SymbolImports(hide: classes),
-    visitors: [Renamer()],
-  ).generate();
+    visitors: [_JniRenamer()],
+  );
+  await generator.generate();
 }

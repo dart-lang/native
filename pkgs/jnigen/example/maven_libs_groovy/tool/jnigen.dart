@@ -5,11 +5,10 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
-import 'package:logging/logging.dart';
 
 void main() async {
   final packageRoot = Platform.script.resolve('../');
-  await JniGenerator(
+  final generator = JniGenerator(
     input: Input(
       classes: ['com.google.gson.Gson', 'okhttp3.OkHttpClient'],
       androidSdk: AndroidSdk(
@@ -23,5 +22,6 @@ void main() async {
         structure: OutputStructure.singleFile,
       ),
     ),
-  ).generate();
+  );
+  await generator.generate();
 }
