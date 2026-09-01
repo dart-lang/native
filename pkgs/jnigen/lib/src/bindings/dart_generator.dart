@@ -15,11 +15,9 @@ import '../util/string_util.dart';
 import 'resolver.dart';
 import 'visitor.dart';
 
-JavaDocComment? _docsFor(JavaDocComment? original, String? userDefined) {
-  if (userDefined != null) {
-    return userDefined.isEmpty ? null : JavaDocComment(comment: userDefined);
-  }
-  return original;
+JavaDocComment? _docsFor(JavaDocComment? docs) {
+  if (docs == null || docs.comment.isEmpty) return null;
+  return docs;
 }
 
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
@@ -443,8 +441,7 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     }
     // Docs.
     s.write('/// from: `${node.binaryName}`\n');
-    _docsFor(node.javadoc, node.userDefinedJavadoc)
-        ?.accept(_DocGenerator(s, depth: 0));
+    _docsFor(node.javadoc)?.accept(_DocGenerator(s, depth: 0));
 
     // Class definition.
     final name = node.finalName;
@@ -676,8 +673,7 @@ final class _$interfaceMixinName$typeParamsDef with $interfaceMixinName$typePara
 /// $javaName in your config's classes list.
 ///
 ''');
-    _docsFor(node.javadoc, node.userDefinedJavadoc)
-        ?.accept(_DocGenerator(s, depth: 0));
+    _docsFor(node.javadoc)?.accept(_DocGenerator(s, depth: 0));
 
     final superName = node.superclass!.accept(
       _TypeGenerator(resolver, includeNullability: false),
@@ -1127,8 +1123,7 @@ ${modifier}final _id_$name =
     if (node.type is! PrimitiveType && writeReleaseInstructions) {
       s.writeln(_releaseInstruction);
     }
-    _docsFor(node.javadoc, node.userDefinedJavadoc)
-        ?.accept(_DocGenerator(s, depth: 1));
+    _docsFor(node.javadoc)?.accept(_DocGenerator(s, depth: 1));
   }
 
   @override
@@ -1294,8 +1289,7 @@ ${modifier}final _$idName = $_protectedExtension
     if (node.returnType is! PrimitiveType || node.isConstructor) {
       s.writeln(_releaseInstruction);
     }
-    _docsFor(node.javadoc, node.userDefinedJavadoc)
-        ?.accept(_DocGenerator(s, depth: 1));
+    _docsFor(node.javadoc)?.accept(_DocGenerator(s, depth: 1));
 
     // This is needed to keep the references alive in the scope while waiting
     // for the FFI call.
@@ -1352,10 +1346,9 @@ ${modifier}final _$idName = $_protectedExtension
     }
     final params = defArgs.delimited(', ');
     if (node.isDeprecated) {
-      final message =
-          _docsFor(node.javadoc, node.userDefinedJavadoc)?.deprecatedMessage ??
-              node.javadoc?.deprecatedMessage ??
-              'This Java method is deprecated.';
+      final message = _docsFor(node.javadoc)?.deprecatedMessage ??
+          node.javadoc?.deprecatedMessage ??
+          'This Java method is deprecated.';
 
       s.writeln(
         "  @core\$_.Deprecated('${escapeDartString(message)}')",

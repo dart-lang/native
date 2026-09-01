@@ -122,9 +122,11 @@ class ClassDecl implements _Element {
   /// Documentation that appears in the generated Dart.
   ///
   /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
-  String get documentation =>
-      _classDecl.userDefinedJavadoc ?? _classDecl.javadoc?.comment ?? '';
-  set documentation(String value) => _classDecl.userDefinedJavadoc = value;
+  String get documentation => _classDecl.javadoc?.comment ?? '';
+  set documentation(String value) {
+    _classDecl.javadoc ??= ast.JavaDocComment();
+    _classDecl.javadoc!.userDefinedComment = value;
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -163,9 +165,11 @@ class Method implements _Element {
   /// Documentation that appears in the generated Dart.
   ///
   /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
-  String get documentation =>
-      _method.userDefinedJavadoc ?? _method.javadoc?.comment ?? '';
-  set documentation(String value) => _method.userDefinedJavadoc = value;
+  String get documentation => _method.javadoc?.comment ?? '';
+  set documentation(String value) {
+    _method.javadoc ??= ast.JavaDocComment();
+    _method.javadoc!.userDefinedComment = value;
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -194,9 +198,11 @@ class Param implements _Element {
   /// Documentation that appears in the generated Dart.
   ///
   /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
-  String get documentation =>
-      _param.userDefinedJavadoc ?? _param.javadoc?.comment ?? '';
-  set documentation(String value) => _param.userDefinedJavadoc = value;
+  String get documentation => _param.javadoc?.comment ?? '';
+  set documentation(String value) {
+    _param.javadoc ??= ast.JavaDocComment();
+    _param.javadoc!.userDefinedComment = value;
+  }
 
   @override
   void accept(Visitor visitor) {
@@ -225,9 +231,11 @@ class Field implements _Element {
   /// Documentation that appears in the generated Dart.
   ///
   /// Starts as the original Javadoc, if any. Assign an empty string to omit it.
-  String get documentation =>
-      _field.userDefinedJavadoc ?? _field.javadoc?.comment ?? '';
-  set documentation(String value) => _field.userDefinedJavadoc = value;
+  String get documentation => _field.javadoc?.comment ?? '';
+  set documentation(String value) {
+    _field.javadoc ??= ast.JavaDocComment();
+    _field.javadoc!.userDefinedComment = value;
+  }
 
   @override
   void accept(Visitor visitor) {

@@ -371,7 +371,7 @@ void main() {
               comment: 'Original method.\n@deprecated Use other.',
             ),
             annotations: [
-              ast.Annotation(binaryName: 'java.lang.Deprecated'),
+              const ast.Annotation(binaryName: 'java.lang.Deprecated'),
             ],
           ),
           ast.Method(
@@ -426,14 +426,18 @@ void main() {
       ),
     );
 
-    expect(classes.decls['Foo']!.userDefinedJavadoc, 'Replacement class docs.');
-    expect(classes.decls['Foo']!.fields.single.userDefinedJavadoc, '');
     expect(
-      classes.decls['Foo']!.methods.first.userDefinedJavadoc,
+      classes.decls['Foo']!.javadoc?.userDefinedComment,
+      'Replacement class docs.',
+    );
+    expect(classes.decls['Foo']!.fields.single.javadoc?.userDefinedComment, '');
+    expect(
+      classes.decls['Foo']!.methods.first.javadoc?.userDefinedComment,
       'Custom method without the tag.',
     );
     expect(
-      classes.decls['Foo']!.methods[1].params.single.userDefinedJavadoc,
+      classes
+          .decls['Foo']!.methods[1].params.single.javadoc?.userDefinedComment,
       'times',
     );
 
