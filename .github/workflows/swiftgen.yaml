@@ -78,14 +78,14 @@ jobs:
       - name: Trust Coveralls tap
         run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
+        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
         with:
           flag-name: swiftgen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/swiftgen/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
+        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}
