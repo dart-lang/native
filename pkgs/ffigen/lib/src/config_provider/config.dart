@@ -34,6 +34,7 @@ final class FfiGenerator {
   ///
   /// **EXPERIMENTAL**: C++ support is experimental. This part of the API
   /// may change or be removed in a future version without a deprecation notice.
+  @experimental
   final Cpp? cpp;
 
   /// Objective-C specific configuration.
@@ -146,6 +147,7 @@ enum EnumStyle {
 }
 
 /// Configuration for C++.
+@experimental
 final class Cpp {
   const Cpp();
 }
