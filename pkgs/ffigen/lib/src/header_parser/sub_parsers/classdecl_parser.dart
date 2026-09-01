@@ -161,8 +161,10 @@ void _parseAnyMethod(
     );
     return;
   } else if (returnType.typealiasType is CppClass) {
+    // TODO(https://github.com/dart-lang/native/issues/3603)
     logger.fine(
-      '  ---- Skipping method $methodName, C++ class returned by value',
+      '  ---- Skipping method $methodName, returning a C++ class by value is '
+      'not currently supported',
     );
     return;
   }
