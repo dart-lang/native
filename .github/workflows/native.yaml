@@ -59,7 +59,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
         with:
           sdk: ${{ matrix.sdk }}
 
@@ -108,7 +108,7 @@ jobs:
         if: ${{ matrix.os == 'macos' }}
 
       - name: Upload coverage
-        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
+        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
         with:
           flag-name: native_pkgs_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -119,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage
-        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
+        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
         with:
           carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
           github-token: ${{ secrets.GITHUB_TOKEN }}
