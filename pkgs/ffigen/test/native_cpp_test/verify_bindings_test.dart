@@ -85,6 +85,33 @@ void main() {
           ),
         ],
       ),
+      'cpp_pod': FfiGenerator(
+        output: Output(
+          dart: DartOutput(path: Uri.file('cpp_pod_test_bindings.dart')),
+          style: const NativeExternalBindings(
+            assetId: 'package:ffigen/cpp_test',
+          ),
+        ),
+        input: Input(
+          entryPoints: [Uri.file(path.join(testDir.path, 'cpp_pod_test.h'))],
+          compilerOptions: defaultCppCompilerOptions,
+        ),
+        cpp: const Cpp(),
+        visitors: [
+          Visitor(
+            // Struct vs C++ class is decided by POD-ness, not by the
+            // `class`/`struct` keyword: the POD records (one of them
+            // declared with `class`) must arrive as struct nodes, and the
+            // non-POD `struct` as a C++ class node.
+            struct: (node) => node.isIncluded = {
+              'PodPoint',
+              'PodPair',
+            }.contains(node.originalName),
+            cppClass: (node) =>
+                node.isIncluded = node.originalName == 'NonPodCounter',
+          ),
+        ],
+      ),
       'cpp_inheritance': FfiGenerator(
         output: Output(
           dart: DartOutput(
@@ -127,12 +154,12 @@ void main() {
 
     for (final testFile in testFiles) {
       final configName = testFile.replaceFirst('_test.dart', '');
-      test('verifyBindings for $testFile', () {
+      test('verifyBindings for $testFile', () async {
         final config = configs[configName];
         if (config == null) {
           fail('No FfiGenerator config registered for $testFile in `configs`.');
         }
-        verifyBindings(config);
+        await verifyBindings(config);
       });
     }
   });
