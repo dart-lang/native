@@ -139,10 +139,19 @@ void _parseAnyMethod(
       kind == CppMethodKind.method &&
       clang.clang_CXXMethod_isConst(cursor) != 0;
 
-  final parameters = _parseParameters(context, cursor, classDecl);
-  if (parameters == null) {
+  final (:parameters, :hasIncompleteStruct, :hasUnimplementedType) =
+      parseParameters(context, cursor);
+  if (hasIncompleteStruct || hasUnimplementedType) {
     logger.fine(
       '  ---- Skipping method $methodName due to unsupported parameter type',
+    );
+    return;
+  }
+  if (parameters.any((p) => p.type.typealiasType is CppClass)) {
+    // TODO(https://github.com/dart-lang/native/issues/3603)
+    logger.fine(
+      '  ---- Skipping method $methodName, passing a C++ class by value is '
+      'not currently supported',
     );
     return;
   }
@@ -187,18 +196,4 @@ void _parseAnyMethod(
       kind: kind,
     ),
   );
-}
-
-List<Parameter>? _parseParameters(
-  Context context,
-  clang_types.CXCursor cursor,
-  Declaration classDecl,
-) {
-  final logger = context.logger;
-  final parsed = parseParameters(context, cursor);
-  if (parsed.hasIncompleteStruct || parsed.hasUnimplementedType) {
-    logger.fine('  Unsupported parameter type');
-    return null;
-  }
-  return parsed.parameters;
 }
