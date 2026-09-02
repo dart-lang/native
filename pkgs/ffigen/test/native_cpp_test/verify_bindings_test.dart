@@ -37,6 +37,31 @@ void main() {
     ];
 
     final configs = <String, FfiGenerator>{
+      'cpp_extern_c': FfiGenerator(
+        output: Output(
+          dart: DartOutput(path: Uri.file('cpp_extern_c_test_bindings.dart')),
+        ),
+        input: Input(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_extern_c_test.h')),
+          ],
+          compilerOptions: defaultCppCompilerOptions,
+        ),
+        visitors: [
+          Visitor(
+            func: (node) => node.isIncluded = {
+              'add',
+              'deep',
+              'reset',
+              'outside',
+            }.contains(node.originalName),
+            struct: (node) => node.isIncluded = node.originalName == 'Pair',
+            union: (node) => node.isIncluded = node.originalName == 'Number',
+            enumClass: (node) => node.isIncluded = node.originalName == 'Fruit',
+            global: (node) => node.isIncluded = node.originalName == 'counter',
+          ),
+        ],
+      ),
       'cpp_class': FfiGenerator(
         output: Output(
           dart: DartOutput(path: Uri.file('cpp_class_test_bindings.dart')),
