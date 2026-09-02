@@ -20,6 +20,7 @@
           "enum": [
             "arm",
             "arm64",
+            "arm64e",
             "ia32",
             "riscv32",
             "riscv64",

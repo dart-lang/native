@@ -47,6 +47,9 @@ Future<void> main() async {
           targetOS: targetOS,
           targetArchitecture: targetArchitecture,
           linkModePreference: LinkModePreference.dynamic,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
         ),
       );
 

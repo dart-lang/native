@@ -28,6 +28,7 @@ import '../helpers.dart';
 // Dont include 'mach-o' or 'Mach-O', different spelling is used.
 final objdumpFileFormat = {
   (OS.macOS, Architecture.arm64): 'arm64',
+  (OS.macOS, Architecture.arm64e): 'arm64',
   (OS.macOS, Architecture.x64): '64-bit x86-64',
   (OS.linux, Architecture.arm): 'elf32-littlearm',
   (OS.linux, Architecture.arm64): 'elf64-littleaarch64',
@@ -42,14 +43,16 @@ final objdumpFileFormat = {
 ///
 /// | #   | OS    | Architecture | Link Mode | Language    | Optimization Level |
 /// |-----|-------|--------------|-----------|-------------|--------------------|
-/// | 1   | linux | arm          | bundled   | c           | O2                 |
+/// | 1   | linux | arm          | bundled   | c           | Os                 |
 /// | 2   | linux | arm          | static    | c           | O0                 |
 /// | 3   | linux | arm64        | static    | c           | O2                 |
-/// | 4   | linux | ia32         | bundled   | c           | Os                 |
-/// | 5   | linux | ia32         | static    | c           | O1                 |
-/// | 6   | linux | x64          | static    | c           | unspecified        |
-/// | 7   | macos | arm64        | bundled   | c           | O3                 |
-/// | 8   | macos | x64          | bundled   | objective c | O1                 |
+/// | 4   | linux | ia32         | bundled   | c           | O3                 |
+/// | 5   | linux | ia32         | static    | c           | O0                 |
+/// | 6   | linux | x64          | static    | c           | O1                 |
+/// | 7   | macos | arm64        | bundled   | c           | unspecified        |
+/// | 8   | macos | arm64e       | bundled   | objective c | O1                 |
+/// | 9   | macos | arm64e       | static    | c           | O3                 |
+/// | 10  | macos | x64          | bundled   | c           | O3                 |
 final configurations =
     TestCaseSelector(
       dimensions: {
@@ -57,6 +60,7 @@ final configurations =
         Architecture: [
           Architecture.arm,
           Architecture.arm64,
+          Architecture.arm64e,
           Architecture.ia32,
           Architecture.x64,
           // Risc-V not supported by Apple Clang right now.

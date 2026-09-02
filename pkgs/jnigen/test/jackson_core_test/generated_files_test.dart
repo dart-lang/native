@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:jnigen/jnigen.dart';
 import 'package:test/test.dart';
 
 import '../test_util/test_util.dart';
@@ -22,7 +23,10 @@ void main() async {
   }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
 
   test('generate and analyze bindings using ASM', () async {
-    final config = getConfig(generateFullVersion: true, useAsm: true);
+    final config = getConfig(
+      generateFullVersion: true,
+      backend: SummarizerBackend.asm,
+    );
     await generateAndAnalyzeBindings(config);
   }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
 }

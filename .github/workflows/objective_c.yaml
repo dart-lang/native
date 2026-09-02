@@ -62,7 +62,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
         with:
           sdk: stable
       - name: Install dependencies
@@ -78,14 +78,14 @@ jobs:
       - name: Trust Coveralls tap
         run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
+        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
         with:
           flag-name: objective_c
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/objective_c/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@87358ce5dd9575c3762db828a00998c10283087a
+        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -147,7 +147,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: dart-lang/setup-dart@7654d458321ee25acccccfdb86cd48bd95768ff1
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
         with:
           sdk: stable
       - name: Install dependencies
