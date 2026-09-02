@@ -15,10 +15,15 @@ class Widget {
  public:
   Widget();
 
+  // A copy constructor takes a C++ reference, so it must be dropped like any
+  // other method with an unsupported parameter type.
+  Widget(const Widget& other);
+
   // Bindable: these must survive.
   int good() const;
   Widget* self();
   Blob* blobPtr();
+  void goodParams(int x, Widget* w, Blob* b);
 
   // A C++ reference has no Dart mapping.
   int& badRef();
@@ -32,4 +37,12 @@ class Widget {
   // whether the class is forward-declared or fully defined.
   Incomplete badClassByValue();
   Widget badSelfByValue();
+
+  // The same shapes as unsupported parameter types instead of return types.
+  void badRefParam(int& x);
+  void badConstRefParam(const Widget& w);
+  void badUnionParam(Blob b);
+  void badAliasParam(BlobAlias b);
+  void badClassParam(Incomplete i);
+  void badSelfParam(Widget w);
 };

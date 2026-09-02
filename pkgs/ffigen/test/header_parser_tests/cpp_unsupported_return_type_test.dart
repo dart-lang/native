@@ -15,6 +15,12 @@ void main() {
   group('cpp_unsupported_return_type', () {
     late cg.Library library;
 
+    cg.CppClass findWidget() =>
+        library.bindings.whereType<cg.CppClass>().firstWhere(
+          (c) => c.originalName == 'Widget',
+          orElse: () => fail('Widget was not parsed'),
+        );
+
     setUpAll(() {
       library = parser.parse(
         testContext(
@@ -53,10 +59,7 @@ void main() {
     });
 
     test('methods with unbindable return types are dropped in the parser', () {
-      final widget = library.bindings.whereType<cg.CppClass>().firstWhere(
-        (c) => c.originalName == 'Widget',
-        orElse: () => fail('Widget was not parsed'),
-      );
+      final widget = findWidget();
       final methodNames = widget.methods.map((m) => m.originalName).toSet();
 
       expect(methodNames, contains('good'));
@@ -108,6 +111,67 @@ void main() {
       );
     });
 
+    test(
+      'methods with unbindable parameter types are dropped in the parser',
+      () {
+        final widget = findWidget();
+        final methodNames = widget.methods.map((m) => m.originalName).toSet();
+
+        expect(
+          methodNames,
+          contains('goodParams'),
+          reason:
+              'primitives and pointers (even to an incomplete compound or a '
+              'C++ class) are bindable parameter types',
+        );
+
+        // Never bindable: a parameter whose type has no definition anywhere in
+        // the translation unit cannot be passed by value (C++ itself cannot
+        // define such a function).
+        expect(
+          methodNames,
+          isNot(contains('badUnionParam')),
+          reason: 'an incomplete compound cannot be passed by value',
+        );
+        expect(
+          methodNames,
+          isNot(contains('badAliasParam')),
+          reason:
+              'a typedef of an incomplete compound cannot be passed by value',
+        );
+        expect(
+          methodNames,
+          isNot(contains('badClassParam')),
+          reason: 'a forward-declared class cannot be passed by value',
+        );
+
+        // Unsupported today: bindable in principle, see the equivalent return
+        // type group above. If support is ever added, move these up to the
+        // bindable group with real signature expectations.
+        expect(
+          methodNames,
+          isNot(contains('badRefParam')),
+          reason: 'a C++ reference parameter has no Dart mapping',
+        );
+        expect(
+          methodNames,
+          isNot(contains('badConstRefParam')),
+          reason: 'a C++ reference parameter has no Dart mapping',
+        );
+        expect(
+          methodNames,
+          isNot(contains('badSelfParam')),
+          reason: 'a defined class passed by value is not supported',
+        );
+
+        // The copy constructor takes a C++ reference, so only the default
+        // constructor survives.
+        final constructors = widget.methods.where((m) => m.isConstructor);
+        expect(constructors, hasLength(1));
+        expect(constructors.single.parameters, isEmpty);
+      },
+    );
+
     test('generating bindings for the class does not throw', () {
       // A method with an unbindable return type that survives parsing reaches
       // the writer as an UnimplementedType, which throws UnsupportedError
@@ -117,7 +181,8 @@ void main() {
       expect(output, contains('Widget_good'));
       expect(output, contains('Widget_self'));
       expect(output, contains('Widget_blobPtr'));
-      // See the grouping in the previous test: the first three can never be
+      expect(output, contains('Widget_goodParams'));
+      // See the grouping in the return type test: the first three can never be
       // supported; the last three pin behavior that a future version may
       // relax, and should then move to positive expectations above.
       expect(output, isNot(contains('badUnionByValue')));
@@ -126,6 +191,13 @@ void main() {
       expect(output, isNot(contains('badRef')));
       expect(output, isNot(contains('badConstRef')));
       expect(output, isNot(contains('badSelfByValue')));
+      // Same for the unsupported parameter types (badRefParam and
+      // badConstRefParam are covered by the badRef/badConstRef prefix checks
+      // above).
+      expect(output, isNot(contains('badUnionParam')));
+      expect(output, isNot(contains('badAliasParam')));
+      expect(output, isNot(contains('badClassParam')));
+      expect(output, isNot(contains('badSelfParam')));
       // With its only use dropped, the forward-declared class must not leave
       // a wrapper class behind in the bindings.
       expect(output, isNot(contains('class Incomplete')));
