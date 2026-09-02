@@ -34,6 +34,10 @@
 - Fix [a bug](https://github.com/dart-lang/native/issues/3546) in the way that
   ObjC category methods returning `instancetype` are filtered.
 - Minor Objective-C code generator and function type signature fixes.
+- Fix a bug where a C++ type named through a using-declaration (e.g.
+  `std::uint16_t`) was left unresolved, which dropped every function that
+  mentioned it from the bindings. Such types now resolve through their
+  canonical type.
 - Bump `package:code_assets` dependency to `^2.0.0`.
 
 ## 21.0.0
