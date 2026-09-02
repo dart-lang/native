@@ -23,7 +23,7 @@ Set<Binding> parseTranslationUnit(
   final logger = context.logger;
   final headers = <String, bool>{};
 
-  translationUnitCursor.visitChildren((cursor) {
+  void rootCursorVisitor(clang_types.CXCursor cursor) {
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
     if (headers[file] ??= context.config.input.include(Uri.file(file))) {
@@ -61,6 +61,9 @@ Set<Binding> parseTranslationUnit(
           case clang_types.CXCursorKind.CXCursor_ClassDecl:
             addToBindings(bindings, parseClassDeclaration(context, cursor));
             break;
+          case clang_types.CXCursorKind.CXCursor_LinkageSpec:
+            cursor.visitChildren(rootCursorVisitor);
+            break;
           default:
             logger.finer('rootCursorVisitor: CursorKind not implemented');
         }
@@ -74,7 +77,9 @@ Set<Binding> parseTranslationUnit(
         'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
       );
     }
-  });
+  }
+
+  translationUnitCursor.visitChildren(rootCursorVisitor);
 
   return bindings;
 }
@@ -101,13 +106,20 @@ void buildUsrCursorDefinitionMap(
   clang_types.CXCursor translationUnitCursor,
 ) {
   final logger = context.logger;
-  translationUnitCursor.visitChildren((cursor) {
+  void visitor(clang_types.CXCursor cursor) {
     try {
-      context.cursorIndex.saveDefinition(cursor);
+      if (clang.clang_getCursorKind(cursor) ==
+          clang_types.CXCursorKind.CXCursor_LinkageSpec) {
+        cursor.visitChildren(visitor);
+      } else {
+        context.cursorIndex.saveDefinition(cursor);
+      }
     } catch (e, s) {
       logger.severe(e);
       logger.severe(s);
       rethrow;
     }
-  });
+  }
+
+  translationUnitCursor.visitChildren(visitor);
 }
