@@ -735,3 +735,26 @@ String _getWritableChar(int char, {bool utf8 = true}) {
   /// In all other cases, simply convert to string.
   return String.fromCharCode(char);
 }
+
+/// Builds the fully-qualified C++ name of a declaration from its [usr], e.g.
+/// `c:@N@outer@S@Palette@E@Tone` yields `outer::Palette::Tone`.
+String qualifiedNameFromUsr(String usr, String leafName) {
+  // After the `c:` prefix, USR tokens alternate between a single-char kind
+  // marker (`N` namespace, `S` class/struct, `U` union, `E` enum, ...) and its
+  // name. The last pair is the declaration itself, so it is skipped.
+  final parts = usr.split('@');
+  final scopes = <String>[];
+  for (var i = 1; i + 3 < parts.length; i += 2) {
+    if (parts[i] == 'N' || parts[i] == 'S' || parts[i] == 'U') {
+      scopes.add(parts[i + 1]);
+    }
+  }
+  if (scopes.isEmpty) return leafName;
+  return [...scopes, leafName].join('::');
+}
+
+/// Joins the segments of a `::`-qualified C++ name with `$`, so that it can be
+/// used as a Dart identifier, e.g. `outer::inner::Color` becomes
+/// `outer$inner$Color`.
+String flattenQualifiedName(String qualifiedName) =>
+    qualifiedName.split('::').where((s) => s.isNotEmpty).join(r'$');

@@ -12,11 +12,11 @@ FfiGenerator getConfig([Uri? packageRoot]) {
   return FfiGenerator(
     output: Output(
       dart: DartOutput(
-        path: testDir.resolve('cpp_extern_c_test_bindings.dart'),
+        path: testDir.resolve('cpp_namespace_enum_test_bindings.dart'),
       ),
     ),
     input: Input(
-      entryPoints: [testDir.resolve('cpp_extern_c_test.h')],
+      entryPoints: [testDir.resolve('cpp_namespace_enum_test.h')],
       compilerOptions: [
         '-x',
         'c++',
@@ -26,17 +26,14 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     ),
     visitors: [
       Visitor(
-        func: (node) => node.isIncluded = {
-          'add',
-          'deep',
-          'reset',
-          'outside',
+        enumClass: (node) => node.isIncluded = {
+          'GlobalBox::State',
+          'GlobalPalette::Shade',
+          'outer::Color',
+          'outer::inner::Color',
+          'outer::Palette::Tone',
+          'other::Color',
         }.contains(node.originalName),
-        struct: (node) => node.isIncluded = node.originalName == 'Pair',
-        union: (node) => node.isIncluded = node.originalName == 'Number',
-        enumClass: (node) =>
-            node.isIncluded = {'Fruit', 'ns::Flag'}.contains(node.originalName),
-        global: (node) => node.isIncluded = node.originalName == 'counter',
       ),
     ],
   );

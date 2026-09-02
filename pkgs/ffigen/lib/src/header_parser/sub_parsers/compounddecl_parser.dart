@@ -139,13 +139,18 @@ Compound? _parseCompoundDeclaration(
       sizeInBytes: sizeInBytes,
     );
   } else {
+    // A C++ compound declared inside a namespace or another record is named
+    // by its enclosing scopes, which have to be flattened to form a Dart
+    // identifier. Users who want a different name can rename via a `Visitor`.
+    final qualifiedName = qualifiedNameFromUsr(usr, declName);
     context.logger.fine(
-      '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
+      '++++ Adding $className: Name: $qualifiedName, '
+      '${cursor.completeStringRepr()}',
     );
     compound = constructor(
       usr: usr,
-      originalName: declName,
-      name: declName,
+      originalName: qualifiedName,
+      name: flattenQualifiedName(qualifiedName),
       dartDoc: getCursorDocComment(
         context,
         cursor,

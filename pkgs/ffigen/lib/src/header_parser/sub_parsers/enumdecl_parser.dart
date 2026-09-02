@@ -54,6 +54,10 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         .isNotEmpty;
   } else {
     logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
+    // A C++ enum declared inside a namespace or a record is named by its
+    // enclosing scopes, which have to be flattened to form a Dart identifier.
+    // Users who want a different name can rename via a `Visitor`.
+    final qualifiedName = qualifiedNameFromUsr(usr, enumName);
     enumClass = EnumClass(
       usr: usr,
       dartDoc: getCursorDocComment(
@@ -61,8 +65,8 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         cursor,
         availability: apiAvailability.dartDoc,
       ),
-      originalName: enumName,
-      name: enumName,
+      originalName: qualifiedName,
+      name: flattenQualifiedName(qualifiedName),
       nativeType: nativeType,
       context: context,
       apiAvailability: apiAvailability,

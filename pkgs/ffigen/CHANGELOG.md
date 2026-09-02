@@ -13,6 +13,13 @@
   canonical type.
 - Generate bindings for declarations inside C++ `extern "C" { ... }`
   blocks, which were previously skipped entirely.
+- Generate bindings for C++ enums declared inside a namespace or a record.
+  Their Dart name is the scope path flattened with `$`, e.g.
+  `outer::inner::Color` becomes `outer$inner$Color`, and `originalName` is
+  the qualified C++ name, so a `Visitor` can filter or rename by it.
+- Generate bindings for C++ structs and unions declared inside a namespace
+  or a record, named the same way. Records nested in a system header, and
+  scoped records when C++ class support is enabled, are not yet surfaced.
 
 ## 22.0.0
 

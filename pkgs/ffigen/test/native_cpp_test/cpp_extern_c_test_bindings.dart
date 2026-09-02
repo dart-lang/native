@@ -56,3 +56,17 @@ final class Pair extends ffi.Struct {
     ..ref.a = a
     ..ref.b = b;
 }
+
+enum ns$Flag {
+  off(0),
+  on(1);
+
+  final int value;
+  const ns$Flag(this.value);
+
+  static ns$Flag fromValue(int value) => switch (value) {
+    0 => off,
+    1 => on,
+    _ => throw ArgumentError('Unknown value for ns\$Flag: $value'),
+  };
+}
