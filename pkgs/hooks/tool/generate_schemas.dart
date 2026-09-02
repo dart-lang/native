@@ -51,7 +51,7 @@ enum Party { hook, shared, sdk }
 
 enum Hook { build, hook, link }
 
-const packages = ['hooks', 'code_assets', 'data_assets'];
+const packages = ['hooks', 'code_assets', 'data_assets', 'web_assets'];
 
 void generateSharedDefinitions(Counts counts) {
   const hookOutputAssetOverride = {
@@ -152,7 +152,9 @@ void generateSharedDefinitions(Counts counts) {
                       r'$ref':
                           '../shared/shared_definitions${package == 'hooks' ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
                     },
-                  if (package != 'data_assets' && party != Party.shared)
+                  if (package != 'data_assets' &&
+                      package != 'web_assets' &&
+                      party != Party.shared)
                     {
                       r'$ref':
                           'shared_definitions.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
