@@ -16,6 +16,11 @@ void main() {
         dependency.javadocUrl,
         'https://javadoc.io/doc/com.google.code.gson/gson/2.13.1',
       );
+
+      expect(
+        dependency.staticJavadocUrl,
+        'https://javadoc.io/static/com.google.code.gson/gson/2.13.1',
+      );
     });
   });
 }

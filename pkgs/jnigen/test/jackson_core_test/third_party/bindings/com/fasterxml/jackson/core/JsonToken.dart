@@ -273,7 +273,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonToken.html#values()).
   static jni$_.JArray<JsonToken?>? values() {
     final _$$classRef = _class.reference;
     return _values(_$$classRef.pointer, _id_values.pointer)
@@ -299,7 +299,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements enum$_.Enum {
   /// from: `static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonToken.html#valueOf(java.lang.String)).
   static JsonToken? valueOf(
     jni$_.JString? name,
   ) {
@@ -330,7 +330,7 @@ extension JsonToken$$Methods on JsonToken {
 
   /// from: `public final int id()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonToken.html#id()).
   core$_.int id() {
     final _$$selfRef = reference;
     return _id(_$$selfRef.pointer, _id_id.pointer).integer;
@@ -356,7 +356,7 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonToken.html#asString()).
   jni$_.JString? asString() {
     final _$$selfRef = reference;
     return _asString(_$$selfRef.pointer, _id_asString.pointer)
@@ -383,7 +383,7 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonToken.html#asCharArray()).
   jni$_.JCharArray? asCharArray() {
     final _$$selfRef = reference;
     return _asCharArray(_$$selfRef.pointer, _id_asCharArray.pointer)
@@ -410,7 +410,7 @@ extension JsonToken$$Methods on JsonToken {
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonToken.html#asByteArray()).
   jni$_.JByteArray? asByteArray() {
     final _$$selfRef = reference;
     return _asByteArray(_$$selfRef.pointer, _id_asByteArray.pointer)

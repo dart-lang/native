@@ -490,7 +490,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonParser$Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonParser.Feature.html#values()).
   static jni$_.JArray<JsonParser$Feature?>? values() {
     final _$$classRef = _class.reference;
     return _values(_$$classRef.pointer, _id_values.pointer)
@@ -516,7 +516,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonParser$Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonParser.Feature.html#valueOf(java.lang.String)).
   static JsonParser$Feature? valueOf(
     jni$_.JString? name,
   ) {
@@ -576,7 +576,7 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
 
   /// from: `public boolean enabledByDefault()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonParser.Feature.html#enabledByDefault()).
   core$_.bool enabledByDefault() {
     final _$$selfRef = reference;
     return _enabledByDefault(_$$selfRef.pointer, _id_enabledByDefault.pointer)
@@ -601,7 +601,7 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
 
   /// from: `public boolean enabledIn(int flags)`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonParser.Feature.html#enabledIn(int)).
   core$_.bool enabledIn(
     core$_.int flags,
   ) {
@@ -628,7 +628,7 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
 
   /// from: `public int getMask()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonParser.Feature.html#getMask()).
   core$_.int get mask {
     final _$$selfRef = reference;
     return _get$mask(_$$selfRef.pointer, _id_get$mask.pointer).integer;
@@ -740,7 +740,7 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonParser$NumberType[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonParser.NumberType.html#values()).
   static jni$_.JArray<JsonParser$NumberType?>? values() {
     final _$$classRef = _class.reference;
     return _values(_$$classRef.pointer, _id_values.pointer)
@@ -766,7 +766,7 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonParser$NumberType valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonParser.NumberType.html#valueOf(java.lang.String)).
   static JsonParser$NumberType? valueOf(
     jni$_.JString? name,
   ) {

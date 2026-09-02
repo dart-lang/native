@@ -235,7 +235,7 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonFactory$Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.Feature.html#values()).
   static jni$_.JArray<JsonFactory$Feature?>? values() {
     final _$$classRef = _class.reference;
     return _values(_$$classRef.pointer, _id_values.pointer)
@@ -261,7 +261,7 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   /// from: `static public com.fasterxml.jackson.core.JsonFactory$Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.Feature.html#valueOf(java.lang.String)).
   static JsonFactory$Feature? valueOf(
     jni$_.JString? name,
   ) {
@@ -321,7 +321,7 @@ extension JsonFactory$Feature$$Methods on JsonFactory$Feature {
 
   /// from: `public boolean enabledByDefault()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.Feature.html#enabledByDefault()).
   core$_.bool enabledByDefault() {
     final _$$selfRef = reference;
     return _enabledByDefault(_$$selfRef.pointer, _id_enabledByDefault.pointer)
@@ -346,7 +346,7 @@ extension JsonFactory$Feature$$Methods on JsonFactory$Feature {
 
   /// from: `public boolean enabledIn(int flags)`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.Feature.html#enabledIn(int)).
   core$_.bool enabledIn(
     core$_.int flags,
   ) {
@@ -373,7 +373,7 @@ extension JsonFactory$Feature$$Methods on JsonFactory$Feature {
 
   /// from: `public int getMask()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.Feature.html#getMask()).
   core$_.int get mask {
     final _$$selfRef = reference;
     return _get$mask(_$$selfRef.pointer, _id_get$mask.pointer).integer;
@@ -499,7 +499,7 @@ extension type JsonFactory._(jni$_.JObject _$this)
   /// from: `public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#JsonFactory(com.fasterxml.jackson.core.ObjectCodec)).
   factory JsonFactory.new$1(
     objectcodec$_.ObjectCodec? oc,
   ) {
@@ -810,7 +810,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#getFormatReadFeatureType()).
   jni$_.JClass? get formatReadFeatureType {
     final _$$selfRef = reference;
     return _get$formatReadFeatureType(
@@ -840,7 +840,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#getFormatWriteFeatureType()).
   jni$_.JClass? get formatWriteFeatureType {
     final _$$selfRef = reference;
     return _get$formatWriteFeatureType(
@@ -936,7 +936,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public com.fasterxml.jackson.core.format.MatchStrength hasFormat(com.fasterxml.jackson.core.format.InputAccessor acc)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#hasFormat(com.fasterxml.jackson.core.format.InputAccessor)).
   matchstrength$_.MatchStrength? hasFormat(
     inputaccessor$_.InputAccessor? acc,
   ) {
@@ -1001,7 +1001,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public com.fasterxml.jackson.core.Version version()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#version()).
   version$_.Version? version() {
     final _$$selfRef = reference;
     return _version(_$$selfRef.pointer, _id_version.pointer)
@@ -1166,7 +1166,7 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public final int getParserFeatures()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#getParserFeatures()).
   core$_.int get parserFeatures {
     final _$$selfRef = reference;
     return _get$parserFeatures(
@@ -1193,7 +1193,7 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public final int getGeneratorFeatures()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#getGeneratorFeatures()).
   core$_.int get generatorFeatures {
     final _$$selfRef = reference;
     return _get$generatorFeatures(
@@ -1221,7 +1221,7 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public int getFormatParserFeatures()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#getFormatParserFeatures()).
   core$_.int get formatParserFeatures {
     final _$$selfRef = reference;
     return _get$formatParserFeatures(
@@ -1250,7 +1250,7 @@ extension JsonFactory$$Methods on JsonFactory {
 
   /// from: `public int getFormatGeneratorFeatures()`
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#getFormatGeneratorFeatures()).
   core$_.int get formatGeneratorFeatures {
     final _$$selfRef = reference;
     return _get$formatGeneratorFeatures(
@@ -1895,7 +1895,7 @@ extension JsonFactory$$Methods on JsonFactory {
   /// from: `public com.fasterxml.jackson.core.ObjectCodec getCodec()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
-  /// See the [Java documentation](https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.13.4).
+  /// See the [Java documentation](https://javadoc.io/static/com.fasterxml.jackson.core/jackson-core/2.13.5/com/fasterxml/jackson/core/JsonFactory.html#getCodec()).
   objectcodec$_.ObjectCodec? get codec {
     final _$$selfRef = reference;
     return _get$codec(_$$selfRef.pointer, _id_get$codec.pointer)
