@@ -36,6 +36,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitCppClass(CppClass node) {
     if (context.config.cpp == null) return;
+    node.filterMethods((m) => m.isIncluded);
     _visitImpl(node, node.isIncluded);
   }
 

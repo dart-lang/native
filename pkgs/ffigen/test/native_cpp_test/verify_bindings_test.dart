@@ -123,6 +123,45 @@ void main() {
           ),
         ],
       ),
+      'cpp_filter_rename': FfiGenerator(
+        output: Output(
+          dart: DartOutput(
+            path: Uri.file('cpp_filter_rename_test_bindings.dart'),
+          ),
+          style: const NativeExternalBindings(
+            assetId: 'package:ffigen/cpp_test',
+          ),
+        ),
+        input: Input(
+          entryPoints: [
+            Uri.file(path.join(testDir.path, 'cpp_filter_rename_test.h')),
+          ],
+          compilerOptions: defaultCppCompilerOptions,
+        ),
+        cpp: const Cpp(),
+        visitors: [
+          Visitor(
+            cppClass: (node) {
+              node.isIncluded = {
+                'MyClass',
+                'OtherClass',
+              }.contains(node.originalName);
+              if (node.originalName == 'MyClass') {
+                node.name = 'MyWidget';
+              }
+            },
+            cppMethod: (node) {
+              if (node.parent.originalName == 'MyClass' &&
+                  node.originalName != 'myMethod') {
+                node.isIncluded = false;
+              }
+              if (node.originalName == 'myMethod') {
+                node.name = 'greet';
+              }
+            },
+          ),
+        ],
+      ),
     };
 
     for (final testFile in testFiles) {
