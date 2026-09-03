@@ -10,15 +10,15 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import '_expected_native_test_bindings.dart';
+import 'native_test_config.dart' as native_test_config;
 
 void main() {
   group('native_test', () {
     test('generate_bindings', () {
-      final context = testContext(
-        testConfigFromPath(
-          path.join(packagePathForTests, 'test', 'native_test', 'config.yaml'),
-        ),
+      final config = native_test_config.getConfig(
+        Uri.file(path.join(packagePathForTests, '')),
       );
+      final context = testContext(config);
 
       matchLibraryWithExpected(
         context,

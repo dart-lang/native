@@ -11,10 +11,9 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
-const _cyclicClasses = {'Node', 'Merger', 'Owner', 'Leaf', 'Branch'};
-
 void main() {
   group('cpp_cyclic_class', () {
+    const cyclicClasses = {'Node', 'Merger', 'Owner', 'Leaf', 'Branch'};
     late cg.Library library;
 
     setUpAll(() {
@@ -38,9 +37,8 @@ void main() {
             cpp: const Cpp(),
             visitors: [
               Visitor(
-                cppClass: (node) => node.isIncluded = _cyclicClasses.contains(
-                  node.originalName,
-                ),
+                cppClass: (node) =>
+                    node.isIncluded = cyclicClasses.contains(node.originalName),
               ),
             ],
           ),
@@ -59,7 +57,7 @@ void main() {
       // Every class of the header, once each: a member type that closes a cycle
       // must resolve to the class already being parsed, not to a second copy of
       // it.
-      expect(names, _cyclicClasses.toList()..sort());
+      expect(names, cyclicClasses.toList()..sort());
     });
 
     test('a cyclic member resolves to the class already being parsed', () {
