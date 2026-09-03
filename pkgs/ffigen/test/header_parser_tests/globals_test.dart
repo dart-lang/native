@@ -43,13 +43,12 @@ void main() {
               Visitor(
                 global: (node) {
                   node.isIncluded = node.name != 'GlobalIgnore';
-                  if ([
+                  const addresses = {
                     'myInt',
                     'pointerToLongDouble',
                     'globalStruct',
-                  ].contains(node.name)) {
-                    node.exposeSymbolAddress = true;
-                  }
+                  };
+                  node.exposeSymbolAddress = addresses.contains(node.name);
                 },
                 struct: (node) => node.isIncluded = true,
                 typealias: (node) => node.isIncluded = .always,
