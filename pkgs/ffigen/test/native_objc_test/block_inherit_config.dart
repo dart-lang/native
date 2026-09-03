@@ -36,9 +36,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'AcceptMammal',
             'AcceptPlatypus',
           };
-          if (include.contains(node.name)) {
-            node.isIncluded = TypealiasInclude.always;
-          }
+          node.isIncluded = include.contains(node.name) ? .always : .never;
         },
       ),
     ],

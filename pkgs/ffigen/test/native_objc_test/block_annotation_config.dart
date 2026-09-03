@@ -36,9 +36,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
           node.isIncluded = node.originalName == 'BlockAnnotationTestProtocol';
         },
         typealias: (node) {
-          if (node.name == 'EmptyBlock') {
-            node.isIncluded = TypealiasInclude.always;
-          }
+          node.isIncluded = node.name == 'EmptyBlock' ? .always : .never;
         },
       ),
     ],

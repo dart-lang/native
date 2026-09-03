@@ -43,9 +43,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'Union24Block',
             'Union32Block',
           };
-          if (include.contains(node.name)) {
-            node.isIncluded = TypealiasInclude.always;
-          }
+          node.isIncluded = include.contains(node.name) ? .always : .never;
         },
       ),
     ],

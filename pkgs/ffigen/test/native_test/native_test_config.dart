@@ -36,7 +36,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
           }
         },
         macroConstant: (node) => node.isIncluded = true,
-        typealias: (node) => node.isIncluded = TypealiasInclude.always,
+        typealias: (node) => node.isIncluded = .always,
       ),
     ],
   );

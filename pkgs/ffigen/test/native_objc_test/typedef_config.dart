@@ -23,9 +23,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
           node.isIncluded = include.contains(node.originalName);
         },
         typealias: (node) {
-          if (node.name == 'SomeClassPtr') {
-            node.isIncluded = TypealiasInclude.always;
-          }
+          node.isIncluded = node.name == 'SomeClassPtr' ? .always : .never;
         },
       ),
     ],
