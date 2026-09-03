@@ -33,14 +33,10 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'objc_autoreleasePoolPush',
             'objc_autoreleasePoolPop',
           };
-          if (include.contains(node.name)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.name);
         },
         objCInterface: (node) {
-          if (node.originalName == 'StaticFuncTestObj') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'StaticFuncTestObj';
         },
       ),
     ],

@@ -21,9 +21,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'ClassThatWillFailToLoad') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'ClassThatWillFailToLoad';
         },
       ),
     ],

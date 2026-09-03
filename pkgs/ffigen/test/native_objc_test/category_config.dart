@@ -26,10 +26,8 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       Visitor(
         objCInterface: (node) {
           const include = {'Thing', 'ChildOfThing', 'NSURL', 'ChildOfNSString'};
-          if (include.contains(node.originalName)) {
-            node.isIncluded = true;
-            node.includeCategories = false;
-          }
+          node.isIncluded = include.contains(node.originalName);
+          node.includeCategories = false;
         },
         objCCategory: (node) {
           const include = {
@@ -42,9 +40,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'NSString',
             'NSURLCategory',
           };
-          if (include.contains(node.originalName)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.originalName);
         },
       ),
     ],

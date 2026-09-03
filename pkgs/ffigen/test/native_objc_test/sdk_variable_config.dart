@@ -41,9 +41,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       Visitor(
         objCInterface: (node) {
           const include = {'NSColorPicker', 'UIPickerView', 'NSTextList'};
-          if (include.contains(node.originalName)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.originalName);
         },
         objCMethod: (node) {
           final parent = node.parent;

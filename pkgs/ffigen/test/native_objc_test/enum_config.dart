@@ -26,24 +26,16 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       Visitor(
         enumClass: (node) {
           const include = {'Fruit', 'CoffeeOptions'};
-          if (include.contains(node.name)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.name);
         },
         unnamedEnumConstant: (node) {
-          if (node.name == 'UnnamedEnumValue') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.name == 'UnnamedEnumValue';
         },
         macroConstant: (node) {
-          if (node.name == 'SOME_MACRO') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.name == 'SOME_MACRO';
         },
         objCInterface: (node) {
-          if (node.originalName == 'EnumTestInterface') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'EnumTestInterface';
         },
       ),
     ],

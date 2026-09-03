@@ -20,9 +20,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'Sendable') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'Sendable';
         },
       ),
     ],

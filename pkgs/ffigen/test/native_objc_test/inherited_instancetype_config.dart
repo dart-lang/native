@@ -23,9 +23,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'ChildClass') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'ChildClass';
         },
       ),
     ],

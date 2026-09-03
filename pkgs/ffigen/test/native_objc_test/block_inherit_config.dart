@@ -27,9 +27,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'BlockInheritTestBase',
             'BlockInheritTestChild',
           };
-          if (include.contains(node.originalName)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.originalName);
         },
         typealias: (node) {
           const include = {

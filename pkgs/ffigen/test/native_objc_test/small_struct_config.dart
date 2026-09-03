@@ -22,9 +22,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'SmallStructTester') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'SmallStructTester';
         },
         typealias: (node) {
           const include = {

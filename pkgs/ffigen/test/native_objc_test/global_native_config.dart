@@ -22,9 +22,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       Visitor(
         global: (node) {
           const include = {'globalString', 'globalObject', 'globalBlock'};
-          if (include.contains(node.name)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.name);
         },
       ),
     ],

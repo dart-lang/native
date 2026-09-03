@@ -21,9 +21,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'ErrorMethodTestObject') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'ErrorMethodTestObject';
         },
       ),
     ],

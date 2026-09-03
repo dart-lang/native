@@ -22,16 +22,12 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'MySwiftClass') {
-            node.isIncluded = true;
-            node.module = 'swift_class_test';
-          }
+          node.isIncluded = node.originalName == 'MySwiftClass';
+          node.module = 'swift_class_test';
         },
         objCProtocol: (node) {
-          if (node.originalName == 'MySwiftProtocol') {
-            node.isIncluded = true;
-            node.module = 'swift_class_test';
-          }
+          node.isIncluded = node.originalName == 'MySwiftProtocol';
+          node.module = 'swift_class_test';
         },
         objCMethod: (node) {
           final parent = node.parent;

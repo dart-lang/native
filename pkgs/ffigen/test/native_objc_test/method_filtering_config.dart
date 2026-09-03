@@ -22,28 +22,20 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'MethodFilteringTestInterface') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'MethodFilteringTestInterface';
         },
         objCProtocol: (node) {
-          if (node.originalName == 'MethodFilteringTestProtocol') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'MethodFilteringTestProtocol';
         },
         objCMethod: (node) {
           final parent = node.parent;
           if (parent is ObjCInterface &&
               parent.originalName == 'MethodFilteringTestInterface') {
-            if (node.selector.startsWith('excluded')) {
-              node.isIncluded = false;
-            } else if (node.selector == 'includedStaticMethod' ||
-                node.selector == 'includedProperty' ||
-                RegExp(r'inc.*Ins.*Me.*od:wi.*').hasMatch(node.selector)) {
-              node.isIncluded = true;
-            } else {
-              node.isIncluded = false;
-            }
+            node.isIncluded =
+                !node.selector.startsWith('excluded') &&
+                (node.selector == 'includedStaticMethod' ||
+                    node.selector == 'includedProperty' ||
+                    RegExp(r'inc.*Ins.*Me.*od:wi.*').hasMatch(node.selector));
           } else if (parent is ObjCProtocol &&
               parent.originalName == 'MethodFilteringTestProtocol') {
             node.isIncluded = node.selector == 'includedProtocolMethod';

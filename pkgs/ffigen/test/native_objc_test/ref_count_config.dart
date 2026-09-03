@@ -23,15 +23,11 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'objc_autoreleasePoolPop',
             'objc_autoreleasePoolPush',
           };
-          if (include.contains(node.name)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.name);
         },
         objCInterface: (node) {
           const include = {'RefCountTestObject', 'RefCounted'};
-          if (include.contains(node.originalName)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.originalName);
         },
       ),
     ],

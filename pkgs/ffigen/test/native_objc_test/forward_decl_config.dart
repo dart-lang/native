@@ -26,9 +26,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'ForwardDeclaredClass') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'ForwardDeclaredClass';
         },
       ),
     ],

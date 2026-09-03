@@ -19,9 +19,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == 'NullableInterface') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.originalName == 'NullableInterface';
         },
       ),
     ],

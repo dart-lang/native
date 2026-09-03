@@ -22,9 +22,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       Visitor(
         objCInterface: (node) {
           const include = {'NullableBase', 'NullableChild'};
-          if (include.contains(node.originalName)) {
-            node.isIncluded = true;
-          }
+          node.isIncluded = include.contains(node.originalName);
         },
       ),
     ],

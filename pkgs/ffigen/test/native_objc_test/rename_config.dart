@@ -19,10 +19,8 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
-          if (node.originalName == '_Renamed') {
-            node.isIncluded = true;
-            node.name = node.name.replaceFirst(RegExp(r'^_'), '');
-          }
+          node.isIncluded = node.originalName == '_Renamed';
+          node.name = node.name.replaceFirst(RegExp(r'^_'), '');
         },
         objCMethod: (node) {
           final parent = node.parent;
@@ -35,9 +33,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
           }
         },
         struct: (node) {
-          if (node.name == 'CollidingStructName') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.name == 'CollidingStructName';
         },
       ),
     ],
