@@ -6,19 +6,19 @@ import 'package:ffigen/src/header_parser.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import '../../example/shared_bindings/tool/ffigen.dart' as shared_bindings;
 import '../test_utils.dart';
 
 void main() {
   group('shared_bindings_example', () {
     test('a_shared_base bindings', () async {
-      final config = testConfigFromPath(
-        path.join(
-          packagePathForTests,
-          'example',
-          'shared_bindings',
-          'ffigen_configs',
-          'a_shared_base.yaml',
-        ),
+      final packageRoot = path.join(
+        packagePathForTests,
+        'example',
+        'shared_bindings/',
+      );
+      final config = shared_bindings.getASharedBaseConfig(
+        Uri.file(packageRoot),
       );
       final context = testContext(config);
       final library = parse(context);
@@ -26,20 +26,23 @@ void main() {
         context,
         library,
         'example_shared_bindings.dart',
-        [config.output.dart.path.toFilePath()],
+        [
+          'example',
+          'shared_bindings',
+          'lib',
+          'generated',
+          'a_shared_b_gen.dart',
+        ],
       );
     });
 
     test('base symbol file output', () async {
-      final config = testConfigFromPath(
-        path.join(
-          packagePathForTests,
-          'example',
-          'shared_bindings',
-          'ffigen_configs',
-          'base.yaml',
-        ),
+      final packageRoot = path.join(
+        packagePathForTests,
+        'example',
+        'shared_bindings/',
       );
+      final config = shared_bindings.getBaseConfig(Uri.file(packageRoot));
       final context = testContext(config);
       final library = parse(context);
       await matchLibrarySymbolFileWithExpected(

@@ -14,7 +14,7 @@
 # LibClang
 `package:ffigen` binds to LibClang using `dart:ffi` for parsing C header files. 
 ## Bindings
-The config file for generating bindings is `tool/libclang_config.yaml`. The bindings are generated to `lib/src/header_parser/clang_bindings/clang_bindings.dart`. These are used by [Header Parser](#header-parser) for calling libclang functions.
+The script for generating bindings is `tool/generate_clang_bindings.dart`. The bindings are generated to `lib/src/header_parser/clang_bindings/clang_bindings.dart`. These are used by [Header Parser](#header-parser) for calling libclang functions.
 # Scripts
 ## ffigen.dart
 This is the main entry point for the user-  `dart run ffigen`.
