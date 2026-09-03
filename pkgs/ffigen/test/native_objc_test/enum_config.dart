@@ -16,6 +16,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     ),
     input: Input(
       entryPoints: [
+        // Regression test for https://github.com/dart-lang/native/issues/2782
         testDir.resolve('enum_test.m'),
         testDir.resolve('enum_test.m'),
         testDir.resolve('enum_test.m'),

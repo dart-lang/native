@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
-import 'package:ffigen/src/config_provider/utils.dart';
 
 FfiGenerator getConfig([Uri? packageRoot]) {
   packageRoot ??= Uri.directory(Directory.current.path);
@@ -20,19 +19,13 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     input: Input(
       entryPoints: [
         Uri.file(
-          substituteVars(
-            r'$XCODE/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h',
-          ),
+          '$xcodePath/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h',
         ),
         Uri.file(
-          substituteVars(
-            r'$IOS_SDK/System/Library/Frameworks/UIKit.framework/Headers/UIPickerView.h',
-          ),
+          '$iosSdkPath/System/Library/Frameworks/UIKit.framework/Headers/UIPickerView.h',
         ),
         Uri.file(
-          substituteVars(
-            r'$MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSTextList.h',
-          ),
+          '$macSdkPath/System/Library/Frameworks/AppKit.framework/Headers/NSTextList.h',
         ),
       ],
     ),
