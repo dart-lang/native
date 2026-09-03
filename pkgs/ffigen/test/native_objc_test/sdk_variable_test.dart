@@ -20,7 +20,7 @@ void main() {
     late final String bindings;
     setUpAll(() {
       final config = sdk_variable_config.getConfig(
-        Uri.file(path.join(packagePathForTests, '')),
+        Uri.file(packagePathForTests),
       );
       bindings = parse(testContext(config)).generate();
     });
