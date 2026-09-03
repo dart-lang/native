@@ -10,13 +10,11 @@ import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:path/path.dart' as p;
 import 'package:quiver/pattern.dart' as quiver;
-import 'package:yaml/yaml.dart';
-
 import '../code_generator.dart';
-import '../code_generator/scope.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';
+import 'symbol_files.dart';
 import 'utils.dart';
 
 Map<String, LibraryImport> libraryImportsExtractor(
@@ -31,39 +29,6 @@ Map<String, LibraryImport> libraryImportsExtractor(
   return resultMap;
 }
 
-void loadImportedTypes(
-  YamlMap fileConfig,
-  Map<String, ImportedType> usrTypeMappings,
-  LibraryImport libraryImport,
-) {
-  final symbols = fileConfig['symbols'] as YamlMap;
-  for (final key in symbols.keys) {
-    final usr = key as String;
-    final value = symbols[usr]! as YamlMap;
-    final name = value[strings.name] as String;
-    final dartName = (value[strings.dartName] as String?) ?? name;
-    usrTypeMappings[usr] = ImportedType(
-      libraryImport,
-      name,
-      dartName,
-      name,
-      importedDartType: true,
-    );
-  }
-}
-
-YamlMap loadSymbolFile(
-  String symbolFilePath,
-  String? configFileName,
-  PackageConfig? packageConfig,
-) {
-  final path = symbolFilePath.startsWith('package:')
-      ? packageConfig!.resolve(Uri.parse(symbolFilePath))!.toFilePath()
-      : normalizePath(symbolFilePath, configFileName);
-
-  return loadYaml(File(path).readAsStringSync()) as YamlMap;
-}
-
 Map<String, ImportedType> symbolFileImportExtractor(
   Logger logger,
   List<String> yamlConfig,
@@ -71,47 +36,22 @@ Map<String, ImportedType> symbolFileImportExtractor(
   String? configFileName,
   PackageConfig? packageConfig,
 ) {
-  final resultMap = <String, ImportedType>{};
-  for (final item in yamlConfig) {
-    String symbolFilePath;
-    symbolFilePath = item;
-    final symbolFile = loadSymbolFile(
-      symbolFilePath,
-      configFileName,
-      packageConfig,
+  final uris = yamlConfig.map((item) {
+    if (item.startsWith('package:')) {
+      return Uri.parse(item);
+    }
+    return Uri.file(normalizePath(item, configFileName));
+  });
+  try {
+    return loadSymbolFiles(
+      uris,
+      packageConfig: packageConfig,
+      libraryImports: libraryImports,
     );
-    final formatVersion = symbolFile[strings.formatVersion] as String;
-    if (formatVersion.split('.')[0] !=
-        strings.symbolFileFormatVersion.split('.')[0]) {
-      logger.severe(
-        'Incompatible format versions for file $symbolFilePath: '
-        '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).',
-      );
-      exit(1);
-    }
-    final uniqueNamer = Namer({
-      ...libraryImports.keys,
-      strings.defaultSymbolFileImportPrefix,
-    });
-    final files = symbolFile[strings.files] as YamlMap;
-    for (final file in files.keys) {
-      final existingImports = libraryImports.values.where(
-        (element) => element.importPath(false) == file,
-      );
-      if (existingImports.isEmpty) {
-        final name = uniqueNamer.add(
-          strings.defaultSymbolFileImportPrefix,
-          SymbolKind.lib,
-        );
-        libraryImports[name] = LibraryImport(name, file as String);
-      }
-      final libraryImport = libraryImports.values.firstWhere(
-        (element) => element.importPath(false) == file,
-      );
-      loadImportedTypes(files[file] as YamlMap, resultMap, libraryImport);
-    }
+  } on FormatException catch (e) {
+    logger.severe(e.message);
+    exit(1);
   }
-  return resultMap;
 }
 
 Map<String, List<String>> typeMapExtractor(Map<dynamic, dynamic>? yamlConfig) {
