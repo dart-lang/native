@@ -11,6 +11,7 @@ import 'package:swift2objc/swift2objc.dart' as swift2objc;
 import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
+  final packageRoot = Platform.script.resolve('../');
   final logger = Logger('swiftgen');
   logger.onRecord.listen((record) {
     stderr.writeln('${record.level.name}: ${record.message}');
@@ -27,11 +28,11 @@ Future<void> main() async {
     include: (swift2objc.Declaration d) => d.name == 'AVAudioPlayer',
     output: Output(
       swiftWrapperFile: SwiftWrapperFile(
-        path: Uri.file('avf_audio_wrapper.swift'),
+        path: packageRoot.resolve('avf_audio_wrapper.swift'),
       ),
       module: 'AVFAudioWrapper',
-      dartFile: Uri.file('avf_audio_bindings.dart'),
-      objectiveCFile: Uri.file('avf_audio_wrapper.m'),
+      dartFile: packageRoot.resolve('avf_audio_bindings.dart'),
+      objectiveCFile: packageRoot.resolve('avf_audio_wrapper.m'),
       preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
@@ -57,20 +58,20 @@ Future<void> main() async {
         ),
       ],
     ),
-  ).generate(logger: logger, tempDirectory: Uri.directory('temp'));
+  ).generate(logger: logger, tempDirectory: packageRoot.resolve('temp/'));
 
   final result = Process.runSync('swiftc', [
     '-emit-library',
     '-o',
-    'avf_audio_wrapper.dylib',
+    packageRoot.resolve('avf_audio_wrapper.dylib').toFilePath(),
     '-module-name',
     'AVFAudioWrapper',
-    'avf_audio_wrapper.swift',
+    packageRoot.resolve('avf_audio_wrapper.swift').toFilePath(),
     '-framework',
     'AVFAudio',
     '-framework',
     'Foundation',
-  ]);
+  ], workingDirectory: packageRoot.toFilePath());
   if (result.exitCode != 0) {
     print('Failed to build the swift wrapper library');
     print(result.stdout);
