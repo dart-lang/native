@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+/// @docImport 'config.dart';
+library;
+
 import 'dart:io';
 
 import 'package:file/local.dart';
@@ -10,11 +13,13 @@ import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:path/path.dart' as p;
 import 'package:quiver/pattern.dart' as quiver;
+import 'package:yaml/yaml.dart';
+
 import '../code_generator.dart';
+import '../code_generator/scope.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';
-import 'symbol_files.dart';
 import 'utils.dart';
 
 Map<String, LibraryImport> libraryImportsExtractor(
@@ -27,6 +32,110 @@ Map<String, LibraryImport> libraryImportsExtractor(
     }
   }
   return resultMap;
+}
+
+void loadImportedTypes(
+  YamlMap fileConfig,
+  Map<String, ImportedType> usrTypeMappings,
+  LibraryImport libraryImport,
+) {
+  final symbols = fileConfig['symbols'] as YamlMap;
+  for (final key in symbols.keys) {
+    final usr = key as String;
+    final value = symbols[usr]! as YamlMap;
+    final name = value[strings.name] as String;
+    final dartName = (value[strings.dartName] as String?) ?? name;
+    usrTypeMappings[usr] = ImportedType(
+      libraryImport,
+      name,
+      dartName,
+      name,
+      importedDartType: true,
+    );
+  }
+}
+
+Map<String, ImportedType> _loadSymbolFiles(
+  Iterable<Uri> symbolFiles, {
+  PackageConfig? packageConfig,
+  Map<String, LibraryImport>? libraryImports,
+}) {
+  final libImports = libraryImports ?? <String, LibraryImport>{};
+  final uniqueNamer = Namer({
+    ...libImports.keys,
+    strings.defaultSymbolFileImportPrefix,
+  });
+  for (final l in libImports.values) {
+    uniqueNamer.markUsed(l.name);
+  }
+  final usrTypeMappings = <String, ImportedType>{};
+
+  for (final uri in symbolFiles) {
+    final File file;
+    if (uri.isScheme('package')) {
+      if (packageConfig == null) {
+        throw ArgumentError(
+          'packageConfig is required to resolve package: URIs.',
+        );
+      }
+      final resolved = packageConfig.resolve(uri);
+      if (resolved == null) {
+        throw FormatException('Unable to resolve package URI: $uri');
+      }
+      file = File.fromUri(resolved);
+    } else if (uri.isScheme('file') || !uri.hasScheme) {
+      file = File.fromUri(uri);
+    } else {
+      throw FormatException('Unsupported URI scheme: ${uri.scheme}');
+    }
+
+    final yamlContent = file.readAsStringSync();
+    final Object? yamlMap;
+    try {
+      yamlMap = loadYaml(yamlContent);
+    } catch (e) {
+      throw FormatException('Failed to parse YAML file $uri: $e');
+    }
+    if (yamlMap is! YamlMap) {
+      throw FormatException('Symbol file $uri is not a valid YAML map.');
+    }
+
+    final formatVersion = yamlMap[strings.formatVersion];
+    if (formatVersion is! String ||
+        formatVersion.split('.')[0] !=
+            strings.symbolFileFormatVersion.split('.')[0]) {
+      throw FormatException(
+        'Incompatible format versions for file $uri: '
+        '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).',
+      );
+    }
+
+    final files = yamlMap[strings.files];
+    if (files is YamlMap) {
+      for (final file in files.keys) {
+        final existingImports = libImports.values.where(
+          (element) => element.importPath(false) == file,
+        );
+        if (existingImports.isEmpty) {
+          final name = uniqueNamer.add(
+            strings.defaultSymbolFileImportPrefix,
+            SymbolKind.lib,
+          );
+          libImports[name] = LibraryImport(name, file as String);
+        }
+        final libraryImport = libImports.values.firstWhere(
+          (element) => element.importPath(false) == file,
+        );
+        loadImportedTypes(
+          files[file] as YamlMap,
+          usrTypeMappings,
+          libraryImport,
+        );
+      }
+    }
+  }
+
+  return usrTypeMappings;
 }
 
 Map<String, ImportedType> symbolFileImportExtractor(
@@ -43,7 +152,7 @@ Map<String, ImportedType> symbolFileImportExtractor(
     return Uri.file(normalizePath(item, configFileName));
   });
   try {
-    return loadSymbolFiles(
+    return _loadSymbolFiles(
       uris,
       packageConfig: packageConfig,
       libraryImports: libraryImports,
@@ -53,6 +162,72 @@ Map<String, ImportedType> symbolFileImportExtractor(
     exit(1);
   }
 }
+
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbolFiles].
+///
+/// The returned function accepts a [Declaration] and returns the matching
+/// [ImportedType] if its USR is defined in [symbolFiles], or `null` otherwise.
+///
+/// If [packageConfig] is provided, it is used to resolve `package:` URIs.
+/// If any URI is a `package:` URI and [packageConfig] is omitted, an
+/// [ArgumentError] is thrown.
+///
+/// Throws a [FormatException] if a `package:` URI cannot be resolved, an
+/// unsupported URI scheme is encountered, or a symbol file has an incompatible
+/// format or invalid content.
+/// Throws a [FileSystemException] if a symbol file cannot be read.
+///
+/// Example:
+/// ```dart
+/// final importType = importFromSymbolFiles([
+///   Uri.file('path/to/symbols1.yaml'),
+///   Uri.parse('package:other_pkg/symbols2.yaml'),
+/// ], packageConfig: packageConfig);
+///
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importType,
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbolFiles(
+  Iterable<Uri> symbolFiles, {
+  PackageConfig? packageConfig,
+}) {
+  final typeMap = _loadSymbolFiles(symbolFiles, packageConfig: packageConfig);
+  return (Declaration decl) => decl.usr.isNotEmpty ? typeMap[decl.usr] : null;
+}
+
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbolFile].
+///
+/// The returned function accepts a [Declaration] and returns the matching
+/// [ImportedType] if its USR is defined in [symbolFile], or `null` otherwise.
+///
+/// If [packageConfig] is provided, it is used to resolve `package:` URIs.
+/// If [symbolFile] is a `package:` URI and [packageConfig] is omitted, an
+/// [ArgumentError] is thrown.
+///
+/// Throws a [FormatException] if a `package:` URI cannot be resolved, an
+/// unsupported URI scheme is encountered, or the symbol file has an
+/// incompatible format or invalid content.
+/// Throws a [FileSystemException] if the symbol file cannot be read.
+///
+/// Example:
+/// ```dart
+/// final importType = importFromSymbolFile(
+///   Uri.file('path/to/symbols.yaml'),
+/// );
+///
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importType,
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbolFile(
+  Uri symbolFile, {
+  PackageConfig? packageConfig,
+}) => importFromSymbolFiles([symbolFile], packageConfig: packageConfig);
 
 Map<String, List<String>> typeMapExtractor(Map<dynamic, dynamic>? yamlConfig) {
   // Key - type_name, Value - [lib, cType, dartType].
