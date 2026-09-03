@@ -11,90 +11,10 @@ import 'package:args/args.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 
+const assetId = 'package:objective_c/objective_c.dylib';
 const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
-const objcExports = 'lib/src/objective_c_bindings_exported.dart';
-const extraMethodsFile = 'tool/data/extra_methods.dart.in';
-const builtInTypes =
-    '../ffigen/lib/src/code_generator/objc_built_in_types.dart';
-const interfaceListTest = 'test/interface_lists_test.dart';
-
-Uri _defaultPackageRoot() {
-  if (Platform.script.isScheme('file')) {
-    final scriptFile = File.fromUri(Platform.script);
-    var dir = scriptFile.parent;
-    while (dir.path != dir.parent.path) {
-      final pubspec = File('${dir.path}/pubspec.yaml');
-      if (pubspec.existsSync()) {
-        if (pubspec.readAsStringSync().contains('name: objective_c\n') ||
-            pubspec.readAsStringSync().contains('name: objective_c\r\n')) {
-          return dir.uri;
-        }
-      }
-      dir = dir.parent;
-    }
-  }
-  return Directory.current.uri;
-}
-
-void dartCmd(List<String> args, {String? workingDir}) {
-  final exec = Platform.resolvedExecutable;
-  final proc = Process.runSync(
-    exec,
-    args,
-    runInShell: true,
-    workingDirectory: workingDir,
-  );
-  if (proc.exitCode != 0) {
-    exitCode = proc.exitCode;
-    print(proc.stdout);
-    print(proc.stderr);
-    throw Exception('Command failed: $exec ${args.join(" ")}');
-  }
-}
-
-final _clsDecl = RegExp(r'^extension type (\w+)\W');
-String? parseClassDecl(String line) => _clsDecl.firstMatch(line)?[1];
-
-Map<String, String> parseExtraMethods(String filename) {
-  final extraMethods = <String, String>{};
-  String? currentClass;
-  late StringBuffer methods;
-  for (final line in File(filename).readAsLinesSync()) {
-    if (currentClass == null) {
-      final cls = parseClassDecl(line);
-      if (cls != null) {
-        currentClass = cls;
-        methods = StringBuffer();
-      }
-    } else {
-      if (line == '}') {
-        extraMethods[currentClass] = methods.toString();
-        currentClass = null;
-      } else {
-        methods.writeln(line);
-      }
-    }
-  }
-  return extraMethods;
-}
-
-void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
-  final out = StringBuffer();
-  for (final line in File(filename).readAsLinesSync()) {
-    out.writeln(line);
-    final cls = parseClassDecl(line);
-    final extra = cls == null ? null : extraMethods[cls];
-    if (cls != null && extra != null) {
-      out.writeln(extra);
-      extraMethods.remove(cls);
-    }
-  }
-  assert(extraMethods.isEmpty);
-
-  File(filename).writeAsStringSync(out.toString());
-}
 
 const objcInterfaces = {
   'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
@@ -254,6 +174,74 @@ const objcEnums = {
   'NSURLHandleStatus',
 };
 
+Future<void> main(List<String> args) async {
+  final argResults =
+      (ArgParser()..addFlag(
+            'format',
+            help: 'Format the generated code.',
+            defaultsTo: true,
+            negatable: true,
+          ))
+          .parse(args);
+  await run(format: argResults.flag('format'));
+}
+
+Future<void> run({required bool format, Uri? packageRoot}) async {
+  packageRoot ??= _defaultPackageRoot();
+  final logger = Logger.root;
+  logger.level = Level.SEVERE;
+
+  final runtimeBindingsPath = packageRoot.resolve(runtimeBindings).toFilePath();
+  final cBindingsPath = packageRoot.resolve(cBindings).toFilePath();
+  final objcBindingsPath = packageRoot.resolve(objcBindings).toFilePath();
+  final objcExportsPath = packageRoot
+      .resolve('lib/src/objective_c_bindings_exported.dart')
+      .toFilePath();
+  final extraMethodsFilePath = packageRoot
+      .resolve('tool/data/extra_methods.dart.in')
+      .toFilePath();
+  final builtInTypesPath = packageRoot
+      .resolve('../ffigen/lib/src/code_generator/objc_built_in_types.dart')
+      .toFilePath();
+  final interfaceListTestPath = packageRoot
+      .resolve('test/interface_lists_test.dart')
+      .toFilePath();
+
+  print('Generating runtime bindings...');
+  await getRuntimeConfig(packageRoot).generate(logger: logger);
+
+  print('Generating C bindings...');
+  await getCConfig(packageRoot).generate(logger: logger);
+
+  print('Generating ObjC bindings...');
+  await getObjCConfig(packageRoot).generate(logger: logger);
+  mergeExtraMethods(objcBindingsPath, parseExtraMethods(extraMethodsFilePath));
+
+  print('Generating objc_built_in_types.dart...');
+  final exports = writeBuiltInTypes(builtInTypesPath);
+
+  print('Generating objc_bindings_exported.dart...');
+  writeExports(exports, objcExportsPath);
+
+  if (format) {
+    print('Formatting bindings...');
+    dartCmd([
+      'format',
+      runtimeBindingsPath,
+      cBindingsPath,
+      objcBindingsPath,
+      builtInTypesPath,
+      objcExportsPath,
+    ], workingDir: packageRoot.toFilePath());
+  }
+
+  print('Running tests...');
+  dartCmd([
+    'test',
+    interfaceListTestPath,
+  ], workingDir: packageRoot.toFilePath());
+}
+
 List<String> writeBuiltInTypes(String out) {
   final s = StringBuffer();
   final exports = <String>{};
@@ -316,40 +304,10 @@ export 'objective_c_bindings_generated.dart'
 
 FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
   packageRoot ??= _defaultPackageRoot();
-  const funcRenames = {
-    'sel_registerName': 'registerName',
-    'sel_getName': 'getName',
-    'objc_getClass': 'getClass',
-    'objc_retain': 'objectRetain',
-    'objc_retainBlock': 'blockRetain',
-    'objc_release': 'objectRelease',
-    'objc_autorelease': 'objectAutorelease',
-    'objc_msgSend': 'msgSend',
-    'objc_msgSend_fpret': 'msgSendFpret',
-    'objc_msgSend_stret': 'msgSendStret',
-    'object_getClass': 'getObjectClass',
-    'objc_copyClassList': 'copyClassList',
-    'objc_getProtocol': 'getProtocol',
-    'objc_autoreleasePoolPush': 'autoreleasePoolPush',
-    'objc_autoreleasePoolPop': 'autoreleasePoolPop',
-    'protocol_getMethodDescription': 'getMethodDescription',
-    'protocol_getName': 'getProtocolName',
-  };
-
-  const globalIncludes = {
-    'NSKeyValueChangeIndexesKey',
-    'NSKeyValueChangeKindKey',
-    'NSKeyValueChangeNewKey',
-    'NSKeyValueChangeNotificationIsPriorKey',
-    'NSKeyValueChangeOldKey',
-    'NSLocalizedDescriptionKey',
-  };
 
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(
-        path: packageRoot.resolve('lib/src/runtime_bindings_generated.dart'),
-      ),
+      dart: DartOutput(path: packageRoot.resolve(runtimeBindings)),
       style: const NativeExternalBindings(),
       format: false,
       preamble: '''
@@ -377,35 +335,52 @@ FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         func: (node) {
-          if (node.name.startsWith('objc_') ||
-              node.name == 'object_getClass' ||
-              node.name == 'sel_registerName' ||
-              node.name == 'sel_getName' ||
-              node.name == 'protocol_getMethodDescription' ||
-              node.name == 'protocol_getName') {
+          const funcRenames = {
+            'objc_autorelease': 'objectAutorelease',
+            'objc_autoreleasePoolPop': 'autoreleasePoolPop',
+            'objc_autoreleasePoolPush': 'autoreleasePoolPush',
+            'objc_copyClassList': 'copyClassList',
+            'objc_getClass': 'getClass',
+            'objc_getProtocol': 'getProtocol',
+            'objc_msgSend': 'msgSend',
+            'objc_msgSend_fpret': 'msgSendFpret',
+            'objc_msgSend_stret': 'msgSendStret',
+            'objc_release': 'objectRelease',
+            'objc_retain': 'objectRetain',
+            'objc_retainBlock': 'blockRetain',
+            'object_getClass': 'getObjectClass',
+            'protocol_getMethodDescription': 'getMethodDescription',
+            'protocol_getName': 'getProtocolName',
+            'sel_getName': 'getName',
+            'sel_registerName': 'registerName',
+          };
+          if (funcRenames[node.name] case final renamed?) {
             node.isIncluded = true;
-            if (!node.name.startsWith('objc_msgSend')) {
-              node.isLeaf = true;
-            }
-            if (funcRenames[node.name] case final renamed?) {
-              node.name = renamed;
-            }
+            node.name = renamed;
           }
+          node.isLeaf = !node.name.startsWith('objc_msgSend');
         },
         global: (node) {
-          if ((node.name.startsWith('_NSConcrete') &&
-                  node.name.endsWith('Block')) ||
-              globalIncludes.contains(node.name)) {
-            node.isIncluded = true;
-            if (node.name.startsWith('_')) {
-              node.name = node.name.substring(1);
-            }
+          const included = {
+            'NSKeyValueChangeIndexesKey',
+            'NSKeyValueChangeKindKey',
+            'NSKeyValueChangeNewKey',
+            'NSKeyValueChangeNotificationIsPriorKey',
+            'NSKeyValueChangeOldKey',
+            'NSLocalizedDescriptionKey',
+          };
+          node.isIncluded =
+              included.contains(node.name) ||
+              (node.name.startsWith('_NSConcrete') &&
+                  node.name.endsWith('Block'));
+          if (node.name.startsWith('_')) {
+            node.name = node.name.substring(1);
           }
         },
         struct: (node) {
           if (node.name.startsWith('_ObjC')) {
             node.isIncluded = true;
-            node.name = 'ObjC${node.name.substring(5)}';
+            node.name = node.name.substring(1);
           }
         },
       ),
@@ -415,24 +390,11 @@ FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
 
 FfiGenerator getCConfig([Uri? packageRoot]) {
   packageRoot ??= _defaultPackageRoot();
-  const nonLeaf = {
-    'DOBJC_deleteFinalizableHandle',
-    'DOBJC_disposeObjCBlockWithClosure',
-    'DOBJC_newFinalizableBool',
-    'DOBJC_newFinalizableHandle',
-    'DOBJC_awaitWaiter',
-    'DOBJC_invokeListenerPortBlock',
-    'DOBJC_invokeBlockingPortBlock',
-  };
 
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(
-        path: packageRoot.resolve('lib/src/c_bindings_generated.dart'),
-      ),
-      style: const NativeExternalBindings(
-        assetId: 'package:objective_c/objective_c.dylib',
-      ),
+      dart: DartOutput(path: packageRoot.resolve(cBindings)),
+      style: const NativeExternalBindings(assetId: assetId),
       format: false,
       preamble: '''
 // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
@@ -459,14 +421,22 @@ FfiGenerator getCConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         func: (node) {
-          if (node.name == 'newFinalizableHandle' ||
-              node.name.startsWith('DOBJC_')) {
+          if (node.name.startsWith('DOBJC_')) {
             node.isIncluded = true;
-            node.isLeaf = !nonLeaf.contains(node.name);
-            if (node.name.startsWith('DOBJC_')) {
-              node.name = node.name.substring(6);
-            }
+            node.name = node.name.substring(6);
+          } else if (node.name == 'newFinalizableHandle') {
+            node.isIncluded = true;
           }
+          const nonLeaf = {
+            'DOBJC_deleteFinalizableHandle',
+            'DOBJC_disposeObjCBlockWithClosure',
+            'DOBJC_newFinalizableBool',
+            'DOBJC_newFinalizableHandle',
+            'DOBJC_awaitWaiter',
+            'DOBJC_invokeListenerPortBlock',
+            'DOBJC_invokeBlockingPortBlock',
+          };
+          node.isLeaf = !nonLeaf.contains(node.name);
         },
         typealias: (node) {
           if (node.name == 'Dart_FinalizableHandle') {
@@ -475,23 +445,16 @@ FfiGenerator getCConfig([Uri? packageRoot]) {
         },
         struct: (node) {
           node.dependencies = CompoundDependencies.opaque;
-          if (node.name == '_ObjCBlockImpl' ||
-              node.name == '_ObjCBlockDesc' ||
-              node.name == '_Version') {
-            node.isIncluded = true;
-          }
-          if (node.name.startsWith('_ObjC')) {
-            node.name = 'ObjC${node.name.substring(5)}';
-          } else if (node.name == '_Dart_FinalizableHandle') {
+          const included = {'_ObjCBlockImpl', '_ObjCBlockDesc', '_Version'};
+          node.isIncluded = included.contains(node.name);
+          if (node.name == '_Dart_FinalizableHandle') {
             node.name = 'Dart_FinalizableHandle_';
-          } else if (node.name == '_DOBJC_Context') {
-            node.name = 'DOBJC_Context';
+          } else if (node.name.startsWith('_')) {
+            node.name = node.name.substring(1);
           }
         },
         macroConstant: (node) {
-          if (node.name == 'ILLEGAL_PORT') {
-            node.isIncluded = true;
-          }
+          node.isIncluded = node.name == 'ILLEGAL_PORT';
         },
       ),
     ],
@@ -500,20 +463,13 @@ FfiGenerator getCConfig([Uri? packageRoot]) {
 
 FfiGenerator getObjCConfig([Uri? packageRoot]) {
   packageRoot ??= _defaultPackageRoot();
-  const objcTypedefs = {'CFStringRef'};
   return FfiGenerator(
     output: Output(
-      dart: DartOutput(
-        path: packageRoot.resolve(
-          'lib/src/objective_c_bindings_generated.dart',
-        ),
-      ),
+      dart: DartOutput(path: packageRoot.resolve(objcBindings)),
       objectiveCFile: packageRoot.resolve(
         'src/objective_c_bindings_generated.m',
       ),
-      style: const NativeExternalBindings(
-        assetId: 'package:objective_c/objective_c.dylib',
-      ),
+      style: const NativeExternalBindings(assetId: assetId),
       format: false,
       preamble: '''
 // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
@@ -546,10 +502,10 @@ FfiGenerator getObjCConfig([Uri? packageRoot]) {
     visitors: [
       Visitor(
         objCInterface: (node) {
+          node.includeCategories = false;
           if (objcInterfaces[node.originalName] case final renamed?) {
             node.isIncluded = true;
             node.name = renamed;
-            node.includeCategories = false;
           }
         },
         objCProtocol: (node) {
@@ -575,9 +531,10 @@ FfiGenerator getObjCConfig([Uri? packageRoot]) {
           }
         },
         typealias: (node) {
-          if (objcTypedefs.contains(node.originalName)) {
-            node.isIncluded = TypealiasInclude.always;
-          }
+          const included = {'CFStringRef'};
+          node.isIncluded = included.contains(node.originalName)
+              ? TypealiasInclude.always
+              : TypealiasInclude.never;
         },
         objCMethod: (node) {
           if (node.parent.originalName == 'NSBundle' &&
@@ -591,66 +548,78 @@ FfiGenerator getObjCConfig([Uri? packageRoot]) {
   );
 }
 
-Future<void> run({required bool format, Uri? packageRoot}) async {
-  packageRoot ??= _defaultPackageRoot();
-  final logger = Logger.root;
-  logger.level = Level.SEVERE;
-
-  final runtimeBindingsPath = packageRoot.resolve(runtimeBindings).toFilePath();
-  final cBindingsPath = packageRoot.resolve(cBindings).toFilePath();
-  final objcBindingsPath = packageRoot.resolve(objcBindings).toFilePath();
-  final extraMethodsFilePath = packageRoot
-      .resolve(extraMethodsFile)
-      .toFilePath();
-  final builtInTypesPath = packageRoot.resolve(builtInTypes).toFilePath();
-  final objcExportsPath = packageRoot.resolve(objcExports).toFilePath();
-  final interfaceListTestPath = packageRoot
-      .resolve(interfaceListTest)
-      .toFilePath();
-
-  print('Generating runtime bindings...');
-  await getRuntimeConfig(packageRoot).generate(logger: logger);
-
-  print('Generating C bindings...');
-  await getCConfig(packageRoot).generate(logger: logger);
-
-  print('Generating ObjC bindings...');
-  await getObjCConfig(packageRoot).generate(logger: logger);
-  mergeExtraMethods(objcBindingsPath, parseExtraMethods(extraMethodsFilePath));
-
-  print('Generating objc_built_in_types.dart...');
-  final exports = writeBuiltInTypes(builtInTypesPath);
-
-  print('Generating objc_bindings_exported.dart...');
-  writeExports(exports, objcExportsPath);
-
-  if (format) {
-    print('Formatting bindings...');
-    dartCmd([
-      'format',
-      runtimeBindingsPath,
-      cBindingsPath,
-      objcBindingsPath,
-      builtInTypesPath,
-      objcExportsPath,
-    ], workingDir: packageRoot.toFilePath());
+Uri _defaultPackageRoot() {
+  if (Platform.script.isScheme('file')) {
+    final scriptFile = File.fromUri(Platform.script);
+    var dir = scriptFile.parent;
+    while (dir.path != dir.parent.path) {
+      final pubspec = File('${dir.path}/pubspec.yaml');
+      if (pubspec.existsSync()) {
+        if (pubspec.readAsStringSync().contains('name: objective_c\n') ||
+            pubspec.readAsStringSync().contains('name: objective_c\r\n')) {
+          return dir.uri;
+        }
+      }
+      dir = dir.parent;
+    }
   }
-
-  print('Running tests...');
-  dartCmd([
-    'test',
-    interfaceListTestPath,
-  ], workingDir: packageRoot.toFilePath());
+  return Directory.current.uri;
 }
 
-Future<void> main(List<String> args) async {
-  final argResults =
-      (ArgParser()..addFlag(
-            'format',
-            help: 'Format the generated code.',
-            defaultsTo: true,
-            negatable: true,
-          ))
-          .parse(args);
-  await run(format: argResults.flag('format'));
+void dartCmd(List<String> args, {String? workingDir}) {
+  final exec = Platform.resolvedExecutable;
+  final proc = Process.runSync(
+    exec,
+    args,
+    runInShell: true,
+    workingDirectory: workingDir,
+  );
+  if (proc.exitCode != 0) {
+    exitCode = proc.exitCode;
+    print(proc.stdout);
+    print(proc.stderr);
+    throw Exception('Command failed: $exec ${args.join(" ")}');
+  }
+}
+
+final _clsDecl = RegExp(r'^extension type (\w+)\W');
+String? parseClassDecl(String line) => _clsDecl.firstMatch(line)?[1];
+
+Map<String, String> parseExtraMethods(String filename) {
+  final extraMethods = <String, String>{};
+  String? currentClass;
+  late StringBuffer methods;
+  for (final line in File(filename).readAsLinesSync()) {
+    if (currentClass == null) {
+      final cls = parseClassDecl(line);
+      if (cls != null) {
+        currentClass = cls;
+        methods = StringBuffer();
+      }
+    } else {
+      if (line == '}') {
+        extraMethods[currentClass] = methods.toString();
+        currentClass = null;
+      } else {
+        methods.writeln(line);
+      }
+    }
+  }
+  return extraMethods;
+}
+
+void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
+  final out = StringBuffer();
+  for (final line in File(filename).readAsLinesSync()) {
+    out.writeln(line);
+    final cls = parseClassDecl(line);
+    final extra = cls == null ? null : extraMethods[cls];
+    if (cls != null && extra != null) {
+      out.writeln(extra);
+      extraMethods.remove(cls);
+    }
+  }
+  assert(extraMethods.isEmpty);
+
+  File(filename).writeAsStringSync(out.toString());
 }
