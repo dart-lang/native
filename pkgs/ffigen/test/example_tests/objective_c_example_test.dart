@@ -7,23 +7,15 @@
 library;
 
 import 'package:ffigen/src/header_parser.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
-import '../../example/objective_c/tool/ffigen.dart' as objective_c_example;
+import '../../example/objective_c/generate_code.dart' show config;
 import '../test_utils.dart';
 
 void main() {
   group('objective_c_example_test', () {
     test('objective_c', () async {
-      final packageRoot = path.join(
-        packagePathForTests,
-        'example',
-        'objective_c/',
-      );
-      final context = testContext(
-        objective_c_example.getConfig(Uri.file(packageRoot)),
-      );
+      final context = testContext(config);
 
       await matchLibraryWithExpected(
         context,
