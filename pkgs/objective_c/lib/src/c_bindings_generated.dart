@@ -47,8 +47,8 @@ external void deleteFinalizableHandle(
 external void disposeObjCBlockWithClosure(ffi.Pointer<ObjCBlockImpl> block);
 
 /// Returns the MacOS/iOS version we're running on.
-@ffi.Native<_Version Function()>(symbol: 'DOBJC_getOsVesion', isLeaf: true)
-external _Version getOsVesion();
+@ffi.Native<Version Function()>(symbol: 'DOBJC_getOsVesion', isLeaf: true)
+external Version getOsVesion();
 
 @ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DOBJC_initializeApi',
@@ -203,7 +203,7 @@ final class ObjCBlockImpl extends ffi.Struct {
 
 final class ObjCObjectImpl extends ffi.Opaque {}
 
-final class _Version extends ffi.Struct {
+final class Version extends ffi.Struct {
   @ffi.Int()
   external int major;
 
@@ -212,4 +212,14 @@ final class _Version extends ffi.Struct {
 
   @ffi.Int()
   external int patch;
+
+  static ffi.Pointer<Version> $allocate(
+    ffi.Allocator $allocator, {
+    required int major,
+    required int minor,
+    required int patch,
+  }) => $allocator<Version>()
+    ..ref.major = major
+    ..ref.minor = minor
+    ..ref.patch = patch;
 }

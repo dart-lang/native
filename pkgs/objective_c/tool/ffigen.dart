@@ -358,7 +358,7 @@ FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
             node.isIncluded = true;
             node.name = renamed;
           }
-          node.isLeaf = !node.name.startsWith('objc_msgSend');
+          node.isLeaf = !node.originalName.startsWith('objc_msgSend');
         },
         global: (node) {
           const included = {
@@ -436,7 +436,7 @@ FfiGenerator getCConfig([Uri? packageRoot]) {
             'DOBJC_invokeListenerPortBlock',
             'DOBJC_invokeBlockingPortBlock',
           };
-          node.isLeaf = !nonLeaf.contains(node.name);
+          node.isLeaf = !nonLeaf.contains(node.originalName);
         },
         typealias: (node) {
           if (node.name == 'Dart_FinalizableHandle') {
