@@ -11,12 +11,37 @@ import '../test_utils.dart';
 
 void main() {
   group('shared_bindings_example', () {
-    test('a_shared_base bindings', () async {
-      final packageRoot = path.join(
-        packagePathForTests,
-        'example',
-        'shared_bindings/',
+    final packageRoot = path.join(
+      packagePathForTests,
+      'example',
+      'shared_bindings/',
+    );
+
+    test('base bindings', () async {
+      final config = shared_bindings.getBaseConfig(Uri.file(packageRoot));
+      final context = testContext(config);
+      final library = parse(context);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'example_shared_bindings_base.dart',
+        ['example', 'shared_bindings', 'lib', 'generated', 'base_gen.dart'],
       );
+    });
+
+    test('a bindings', () async {
+      final config = shared_bindings.getAConfig(Uri.file(packageRoot));
+      final context = testContext(config);
+      final library = parse(context);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'example_shared_bindings_a.dart',
+        ['example', 'shared_bindings', 'lib', 'generated', 'a_gen.dart'],
+      );
+    });
+
+    test('a_shared_base bindings', () async {
       final config = shared_bindings.getASharedBaseConfig(
         Uri.file(packageRoot),
       );
@@ -37,11 +62,6 @@ void main() {
     });
 
     test('base symbol file output', () async {
-      final packageRoot = path.join(
-        packagePathForTests,
-        'example',
-        'shared_bindings/',
-      );
       final config = shared_bindings.getBaseConfig(Uri.file(packageRoot));
       final context = testContext(config);
       final library = parse(context);
