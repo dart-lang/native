@@ -17,6 +17,7 @@ import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
+import 'method_filtering_config.dart' as method_filtering_config;
 import 'util.dart';
 
 void main() {
@@ -24,13 +25,8 @@ void main() {
     group('no version info', () {
       late final String bindings;
       setUpAll(() {
-        final config = testConfigFromPath(
-          path.join(
-            packagePathForTests,
-            'test',
-            'native_objc_test',
-            'method_filtering_config.yaml',
-          ),
+        final config = method_filtering_config.getConfig(
+          Uri.file(path.join(packagePathForTests, '')),
         );
         bindings = parse(testContext(config)).generate();
       });

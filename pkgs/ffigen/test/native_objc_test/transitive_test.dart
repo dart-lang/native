@@ -50,12 +50,13 @@ Future<String> generate({bool includeTransitiveObjCCategories = true}) async {
       Visitor(
         objCInterface: (node) {
           node.includeCategories = includeTransitiveObjCCategories;
-          node.isIncluded = {
+          const include = {
             'DirectlyIncluded',
             'DirectlyIncludedWithProtocol',
             'DirectlyIncludedIntForCat',
             'Bug2935DirectInterface',
-          }.contains(node.originalName);
+          };
+          node.isIncluded = include.contains(node.originalName);
         },
         objCProtocol: (node) =>
             node.isIncluded = node.originalName == 'DirectlyIncludedProtocol',

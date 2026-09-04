@@ -12,6 +12,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
+import 'log_config.dart' as log_config;
 import 'log_test_bindings.dart';
 import 'util.dart';
 
@@ -23,7 +24,10 @@ void main() {
         capturedMessages: logs,
         level: Level.SEVERE,
       );
-      verifyBindings('log', logger: logger);
+      final config = log_config.getConfig(
+        Uri.file(path.join(packagePathForTests, '')),
+      );
+      verifyBindings(config, logger: logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));
     });

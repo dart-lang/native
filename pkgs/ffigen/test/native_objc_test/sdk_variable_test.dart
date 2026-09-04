@@ -12,19 +12,15 @@ import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
+import 'sdk_variable_config.dart' as sdk_variable_config;
 import 'util.dart';
 
 void main() {
   group('SDK variable', () {
     late final String bindings;
     setUpAll(() {
-      final config = testConfigFromPath(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'sdk_variable_config.yaml',
-        ),
+      final config = sdk_variable_config.getConfig(
+        Uri.file(packagePathForTests),
       );
       bindings = parse(testContext(config)).generate();
     });
