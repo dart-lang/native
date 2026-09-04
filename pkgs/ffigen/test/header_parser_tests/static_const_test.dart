@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/config_provider/public_visitor.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:path/path.dart' as path;
@@ -18,11 +20,30 @@ void main() {
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(
-          testConfigFromPath(
-            configPath(
-              path.join(packagePathForTests, 'test', 'header_parser_tests'),
-              'static_const_config.yaml',
+          FfiGenerator(
+            output: Output(
+              dart: DartOutput(path: Uri.file('unused')),
+              style: const DynamicLibraryBindings(),
             ),
+            input: Input(
+              entryPoints: [
+                Uri.file(
+                  path.join(
+                    packagePathForTests,
+                    'test',
+                    'header_parser_tests',
+                    'static_const.h',
+                  ),
+                ),
+              ],
+              include: (header) => header.path.endsWith('static_const.h'),
+            ),
+            visitors: [
+              Visitor(
+                global: (node) => node.isIncluded = true,
+                typealias: (node) => node.isIncluded = .always,
+              ),
+            ],
           ),
         ),
       );
