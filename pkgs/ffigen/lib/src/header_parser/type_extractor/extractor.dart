@@ -152,9 +152,16 @@ Type getCodeGenType(
       return BooleanType();
     case clang_types.CXTypeKind.CXType_Attributed:
     case clang_types.CXTypeKind.CXType_Unexposed:
+      // Attributed types carry the type they modify; other unexposed types
+      // (e.g. a using-declared C++ type) have none, so use the canonical type.
+      var innerCxType = clang.clang_Type_getModifiedType(cxtype);
+      if (innerCxType.kind == clang_types.CXTypeKind.CXType_Invalid) {
+        final canonical = clang.clang_getCanonicalType(cxtype);
+        if (canonical.kind != cxtype.kind) innerCxType = canonical;
+      }
       final innerType = getCodeGenType(
         context,
-        clang.clang_Type_getModifiedType(cxtype),
+        innerCxType,
         originalCursor: originalCursor,
       );
       final isNullable =
