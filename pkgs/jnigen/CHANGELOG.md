@@ -1,3 +1,9 @@
+## 1.0.1-wip
+
+- Generate links to method-specific Javadocs for Maven dependencies when
+  source Javadocs are unavailable.
+
+## 1.0.0-wip
 ## 1.0.0
 
 - **Breaking Change**: Restructured Dart `Config` API to align with
