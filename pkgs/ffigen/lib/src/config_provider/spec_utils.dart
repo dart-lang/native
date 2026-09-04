@@ -16,6 +16,7 @@ import '../code_generator.dart';
 import '../code_generator/scope.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
+import 'config.dart';
 import 'config_types.dart';
 import 'utils.dart';
 
@@ -52,18 +53,6 @@ void loadImportedTypes(
   }
 }
 
-YamlMap loadSymbolFile(
-  String symbolFilePath,
-  String? configFileName,
-  PackageConfig? packageConfig,
-) {
-  final path = symbolFilePath.startsWith('package:')
-      ? packageConfig!.resolve(Uri.parse(symbolFilePath))!.toFilePath()
-      : normalizePath(symbolFilePath, configFileName);
-
-  return loadYaml(File(path).readAsStringSync()) as YamlMap;
-}
-
 Map<String, ImportedType> symbolFileImportExtractor(
   Logger logger,
   List<String> yamlConfig,
@@ -71,48 +60,147 @@ Map<String, ImportedType> symbolFileImportExtractor(
   String? configFileName,
   PackageConfig? packageConfig,
 ) {
-  final resultMap = <String, ImportedType>{};
-  for (final item in yamlConfig) {
-    String symbolFilePath;
-    symbolFilePath = item;
-    final symbolFile = loadSymbolFile(
-      symbolFilePath,
-      configFileName,
-      packageConfig,
-    );
-    final formatVersion = symbolFile[strings.formatVersion] as String;
-    if (formatVersion.split('.')[0] !=
-        strings.symbolFileFormatVersion.split('.')[0]) {
-      logger.severe(
-        'Incompatible format versions for file $symbolFilePath: '
+  final uris = yamlConfig.map((item) {
+    if (item.startsWith('package:')) {
+      return Uri.parse(item);
+    }
+    return Uri.file(normalizePath(item, configFileName));
+  });
+  try {
+    return _loadSymbolFiles(uris, packageConfig, libraryImports);
+  } on FormatException catch (e) {
+    logger.severe(e.message);
+    exit(1);
+  }
+}
+
+Map<String, ImportedType> _loadSymbolFiles(
+  Iterable<Uri> symbolFiles,
+  PackageConfig? packageConfig,
+  Map<String, LibraryImport> libraryImports,
+) {
+  final uniqueNamer = Namer({
+    ...libraryImports.keys,
+    strings.defaultSymbolFileImportPrefix,
+  });
+  for (final l in libraryImports.values) {
+    uniqueNamer.markUsed(l.name);
+  }
+  final usrTypeMappings = <String, ImportedType>{};
+
+  for (final uri in symbolFiles) {
+    final File file;
+    if (uri.isScheme('package')) {
+      if (packageConfig == null) {
+        throw ArgumentError(
+          'packageConfig is required to resolve package: URIs.',
+        );
+      }
+      final resolved = packageConfig.resolve(uri);
+      if (resolved == null) {
+        throw FormatException('Unable to resolve package URI: $uri');
+      }
+      file = File.fromUri(resolved);
+    } else if (uri.isScheme('file') || !uri.hasScheme) {
+      file = File.fromUri(uri);
+    } else {
+      throw FormatException('Unsupported URI scheme: ${uri.scheme}');
+    }
+
+    final yamlContent = file.readAsStringSync();
+    final Object? yamlMap;
+    try {
+      yamlMap = loadYaml(yamlContent);
+    } catch (e) {
+      throw FormatException('Failed to parse YAML file $uri: $e');
+    }
+    if (yamlMap is! YamlMap) {
+      throw FormatException('Symbol file $uri is not a valid YAML map.');
+    }
+
+    final formatVersion = yamlMap[strings.formatVersion];
+    if (formatVersion is! String ||
+        formatVersion.split('.')[0] !=
+            strings.symbolFileFormatVersion.split('.')[0]) {
+      throw FormatException(
+        'Incompatible format versions for file $uri: '
         '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).',
       );
-      exit(1);
     }
-    final uniqueNamer = Namer({
-      ...libraryImports.keys,
-      strings.defaultSymbolFileImportPrefix,
-    });
-    final files = symbolFile[strings.files] as YamlMap;
-    for (final file in files.keys) {
-      final existingImports = libraryImports.values.where(
-        (element) => element.importPath(false) == file,
-      );
-      if (existingImports.isEmpty) {
-        final name = uniqueNamer.add(
-          strings.defaultSymbolFileImportPrefix,
-          SymbolKind.lib,
+
+    final files = yamlMap[strings.files];
+    if (files is YamlMap) {
+      for (final file in files.keys) {
+        final existingImports = libraryImports.values.where(
+          (element) => element.importPath(false) == file,
         );
-        libraryImports[name] = LibraryImport(name, file as String);
+        if (existingImports.isEmpty) {
+          final name = uniqueNamer.add(
+            strings.defaultSymbolFileImportPrefix,
+            SymbolKind.lib,
+          );
+          libraryImports[name] = LibraryImport(name, file as String);
+        }
+        final libraryImport = libraryImports.values.firstWhere(
+          (element) => element.importPath(false) == file,
+        );
+        loadImportedTypes(
+          files[file] as YamlMap,
+          usrTypeMappings,
+          libraryImport,
+        );
       }
-      final libraryImport = libraryImports.values.firstWhere(
-        (element) => element.importPath(false) == file,
-      );
-      loadImportedTypes(files[file] as YamlMap, resultMap, libraryImport);
     }
   }
-  return resultMap;
+
+  return usrTypeMappings;
 }
+
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbolFiles].
+///
+/// The [symbolFiles] can be `file:` URIs or `package:` URIs. [packageConfig]
+/// must be provided if any of the [symbolFiles] are `package:` URIs.
+///
+/// Example:
+///
+/// ```dart
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importFromSymbolFiles([
+///     Uri.file('path/to/symbols1.yaml'),
+///     Uri.parse('package:other_pkg/symbols2.yaml'),
+///   ], packageConfig: packageConfig),
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbolFiles(
+  Iterable<Uri> symbolFiles, {
+  PackageConfig? packageConfig,
+}) {
+  final typeMap = _loadSymbolFiles(symbolFiles, packageConfig, {});
+  return (Declaration decl) => decl.usr.isNotEmpty ? typeMap[decl.usr] : null;
+}
+
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbolFile].
+///
+/// The [symbolFile] can be a `file:` URI or `package:` URI. [packageConfig]
+/// if the [symbolFile] is a `package:` URI.
+///
+/// Example:
+///
+/// ```dart
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importFromSymbolFile(
+///     Uri.file('path/to/symbols.yaml'),
+///   ),
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbolFile(
+  Uri symbolFile, {
+  PackageConfig? packageConfig,
+}) => importFromSymbolFiles([symbolFile], packageConfig: packageConfig);
 
 Map<String, List<String>> typeMapExtractor(Map<dynamic, dynamic>? yamlConfig) {
   // Key - type_name, Value - [lib, cType, dartType].

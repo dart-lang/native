@@ -21,6 +21,9 @@
       `TypealiasInclude` enum (`never`, `ifUsed`, `always`).
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
+  - Add `importFromSymbolFile` and `importFromSymbolFiles` utils, which load
+    symbol YAML files, and return functions that can be passed directly to
+    `FfiGenerator.importType`.
   - Replace `Output.dartFile` with `DartOutput`, to prepare for upcoming
     [multi-file output format](https://github.com/dart-lang/native/issues/2683).
   - Deleted many now empty sub-config classes

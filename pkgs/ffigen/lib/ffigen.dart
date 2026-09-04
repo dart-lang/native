@@ -38,6 +38,8 @@ export 'src/config_provider.dart'
         Versions,
         YamlConfig,
         defaultCompilerOpts,
+        importFromSymbolFile,
+        importFromSymbolFiles,
         iosSdkPath,
         iosSdkUri,
         macSdkPath,
