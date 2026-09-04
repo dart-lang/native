@@ -67,11 +67,7 @@ Map<String, ImportedType> symbolFileImportExtractor(
     return Uri.file(normalizePath(item, configFileName));
   });
   try {
-    return _loadSymbolFiles(
-      uris,
-      packageConfig: packageConfig,
-      libraryImports: libraryImports,
-    );
+    return _loadSymbolFiles(uris, packageConfig, libraryImports);
   } on FormatException catch (e) {
     logger.severe(e.message);
     exit(1);
@@ -79,11 +75,10 @@ Map<String, ImportedType> symbolFileImportExtractor(
 }
 
 Map<String, ImportedType> _loadSymbolFiles(
-  Iterable<Uri> symbolFiles, {
+  Iterable<Uri> symbolFiles,
   PackageConfig? packageConfig,
-  Map<String, LibraryImport>? libraryImports,
-}) {
-  libraryImports ??= <String, LibraryImport>{};
+  Map<String, LibraryImport> libraryImports,
+) {
   final uniqueNamer = Namer({
     ...libraryImports.keys,
     strings.defaultSymbolFileImportPrefix,
@@ -182,7 +177,7 @@ ImportedType? Function(Declaration) importFromSymbolFiles(
   Iterable<Uri> symbolFiles, {
   PackageConfig? packageConfig,
 }) {
-  final typeMap = _loadSymbolFiles(symbolFiles, packageConfig: packageConfig);
+  final typeMap = _loadSymbolFiles(symbolFiles, packageConfig, {});
   return (Declaration decl) => decl.usr.isNotEmpty ? typeMap[decl.usr] : null;
 }
 
