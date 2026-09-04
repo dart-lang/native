@@ -2,9 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// @docImport 'config.dart';
-library;
-
 import 'dart:io';
 
 import 'package:file/local.dart';
@@ -19,6 +16,7 @@ import '../code_generator.dart';
 import '../code_generator/scope.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
+import 'config.dart';
 import 'config_types.dart';
 import 'utils.dart';
 
@@ -52,6 +50,31 @@ void loadImportedTypes(
       name,
       importedDartType: true,
     );
+  }
+}
+
+Map<String, ImportedType> symbolFileImportExtractor(
+  Logger logger,
+  List<String> yamlConfig,
+  Map<String, LibraryImport> libraryImports,
+  String? configFileName,
+  PackageConfig? packageConfig,
+) {
+  final uris = yamlConfig.map((item) {
+    if (item.startsWith('package:')) {
+      return Uri.parse(item);
+    }
+    return Uri.file(normalizePath(item, configFileName));
+  });
+  try {
+    return _loadSymbolFiles(
+      uris,
+      packageConfig: packageConfig,
+      libraryImports: libraryImports,
+    );
+  } on FormatException catch (e) {
+    logger.severe(e.message);
+    exit(1);
   }
 }
 
@@ -138,56 +161,21 @@ Map<String, ImportedType> _loadSymbolFiles(
   return usrTypeMappings;
 }
 
-Map<String, ImportedType> symbolFileImportExtractor(
-  Logger logger,
-  List<String> yamlConfig,
-  Map<String, LibraryImport> libraryImports,
-  String? configFileName,
-  PackageConfig? packageConfig,
-) {
-  final uris = yamlConfig.map((item) {
-    if (item.startsWith('package:')) {
-      return Uri.parse(item);
-    }
-    return Uri.file(normalizePath(item, configFileName));
-  });
-  try {
-    return _loadSymbolFiles(
-      uris,
-      packageConfig: packageConfig,
-      libraryImports: libraryImports,
-    );
-  } on FormatException catch (e) {
-    logger.severe(e.message);
-    exit(1);
-  }
-}
-
 /// Returns a function suitable for use as [FfiGenerator.importType] that
 /// imports declarations defined in the given [symbolFiles].
 ///
-/// The returned function accepts a [Declaration] and returns the matching
-/// [ImportedType] if its USR is defined in [symbolFiles], or `null` otherwise.
-///
-/// If [packageConfig] is provided, it is used to resolve `package:` URIs.
-/// If any URI is a `package:` URI and [packageConfig] is omitted, an
-/// [ArgumentError] is thrown.
-///
-/// Throws a [FormatException] if a `package:` URI cannot be resolved, an
-/// unsupported URI scheme is encountered, or a symbol file has an incompatible
-/// format or invalid content.
-/// Throws a [FileSystemException] if a symbol file cannot be read.
+/// The [symbolFiles] can be `file:` URIs or `package:` URIs. [packageConfig]
+/// must be provided if any of the [symbolFiles] are `package:` URIs.
 ///
 /// Example:
-/// ```dart
-/// final importType = importFromSymbolFiles([
-///   Uri.file('path/to/symbols1.yaml'),
-///   Uri.parse('package:other_pkg/symbols2.yaml'),
-/// ], packageConfig: packageConfig);
 ///
+/// ```dart
 /// final config = FfiGenerator(
 ///   // ...
-///   importType: importType,
+///   importType: importFromSymbolFiles([
+///     Uri.file('path/to/symbols1.yaml'),
+///     Uri.parse('package:other_pkg/symbols2.yaml'),
+///   ], packageConfig: packageConfig),
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbolFiles(
@@ -201,27 +189,17 @@ ImportedType? Function(Declaration) importFromSymbolFiles(
 /// Returns a function suitable for use as [FfiGenerator.importType] that
 /// imports declarations defined in the given [symbolFile].
 ///
-/// The returned function accepts a [Declaration] and returns the matching
-/// [ImportedType] if its USR is defined in [symbolFile], or `null` otherwise.
-///
-/// If [packageConfig] is provided, it is used to resolve `package:` URIs.
-/// If [symbolFile] is a `package:` URI and [packageConfig] is omitted, an
-/// [ArgumentError] is thrown.
-///
-/// Throws a [FormatException] if a `package:` URI cannot be resolved, an
-/// unsupported URI scheme is encountered, or the symbol file has an
-/// incompatible format or invalid content.
-/// Throws a [FileSystemException] if the symbol file cannot be read.
+/// The [symbolFile] can be a `file:` URI or `package:` URI. [packageConfig]
+/// if the [symbolFile] is a `package:` URI.
 ///
 /// Example:
-/// ```dart
-/// final importType = importFromSymbolFile(
-///   Uri.file('path/to/symbols.yaml'),
-/// );
 ///
+/// ```dart
 /// final config = FfiGenerator(
 ///   // ...
-///   importType: importType,
+///   importType: importFromSymbolFile(
+///     Uri.file('path/to/symbols.yaml'),
+///   ),
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbolFile(
