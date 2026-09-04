@@ -34,6 +34,11 @@
 - Fix [a bug](https://github.com/dart-lang/native/issues/3546) in the way that
   ObjC category methods returning `instancetype` are filtered.
 - Minor Objective-C code generator and function type signature fixes.
+- Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions
+  using pointers to a C++ class were skipped unless C++ support was configured:
+  `class` declarations are now treated like structs, and with C++ support on,
+  the C++ class wrapper vs. plain struct decision is made by POD-ness rather
+  than by the `class`/`struct` keyword.
 - Bump `package:code_assets` dependency to `^2.0.0`.
 
 ## 21.0.0
