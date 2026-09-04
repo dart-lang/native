@@ -130,9 +130,6 @@ String? _mavenJavadocUrl(JniGenerator config) {
   return dependencies.single.staticJavadocUrl;
 }
 
-/// **Naming Convention**
-///
-/// Let's take the following code as an example:
 String _newLine({int depth = 0}) {
   return '\n${'  ' * depth}';
 }
