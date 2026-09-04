@@ -1,5 +1,7 @@
 ## 1.0.0
 
+- Expose editable documentation on the visitor API for classes, methods,
+  fields, and parameters.
 - **Breaking Change**: Restructured Dart `Config` API to align with
   `package:ffigen`. The YAML format has not changed.
   - Rename `Config` class to `JniGenerator`, matching FFIgen's approach.

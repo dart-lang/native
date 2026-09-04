@@ -118,7 +118,7 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   List<Annotation>? annotations;
   final KotlinClass? kotlinClass;
   final KotlinPackage? kotlinPackage;
-  final JavaDocComment? javadoc;
+  JavaDocComment? javadoc;
   final DeclKind declKind;
   final String binaryName;
   List<TypeParam> typeParams;
@@ -715,7 +715,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
   final Set<String> modifiers;
   @override
   List<Annotation>? annotations;
-  final JavaDocComment? javadoc;
+  JavaDocComment? javadoc;
   List<TypeParam> typeParams;
   List<Param> params;
   ReferredType returnType;
@@ -779,7 +779,9 @@ class Method with ClassMember, Annotated implements Element<Method> {
       annotations: [...?annotations],
       descriptor: descriptor,
       userDefinedIsIncluded: userDefinedIsIncluded,
-      javadoc: javadoc,
+      javadoc: javadoc == null
+          ? null
+          : JavaDocComment(comment: javadoc!.originalComment),
       modifiers: {...modifiers},
       params: params.map((param) => param.clone(until: until)).toList(),
       typeParams:
@@ -818,6 +820,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.userVisitors:
         cloned.userDefinedIsIncluded = userDefinedIsIncluded;
         cloned.userDefinedName = userDefinedName;
+        cloned.javadoc?.userDefinedComment = javadoc?.userDefinedComment;
       case GenerationStage.unprocessed:
     }
     return cloned;
@@ -843,7 +846,7 @@ class Param with Annotated implements Element<Param> {
 
   @override
   List<Annotation>? annotations;
-  final JavaDocComment? javadoc;
+  JavaDocComment? javadoc;
 
   @override
   bool get isNullable => type.isNullable || super.hasNullable;
@@ -869,13 +872,19 @@ class Param with Annotated implements Element<Param> {
       name: name,
       type: type,
       annotations: [...?annotations],
-      javadoc: javadoc,
+      javadoc: javadoc == null
+          ? null
+          : JavaDocComment(comment: javadoc!.originalComment),
     );
     if (GenerationStage.linker <= until) {
       cloned.method = method;
     }
     if (GenerationStage.renamer <= until) {
       cloned.finalName = finalName;
+    }
+    if (GenerationStage.userVisitors <= until) {
+      cloned.userDefinedName = userDefinedName;
+      cloned.javadoc?.userDefinedComment = javadoc?.userDefinedComment;
     }
     return cloned;
   }
@@ -911,7 +920,7 @@ class Field with ClassMember, Annotated implements Element<Field> {
 
   @override
   List<Annotation>? annotations;
-  final JavaDocComment? javadoc;
+  JavaDocComment? javadoc;
   final ReferredType type;
   final Object? defaultValue;
 
@@ -980,12 +989,24 @@ class TypeParam with Annotated implements Element<TypeParam> {
 
 @JsonSerializable(createToJson: false)
 class JavaDocComment implements Element<JavaDocComment> {
-  JavaDocComment({this.comment = ''});
+  JavaDocComment({String comment = ''}) : originalComment = comment;
 
-  final String comment;
+  final String originalComment;
 
-  String? get deprecatedMessage {
-    final lines = comment.split('\n');
+  /// Populated by user-defined visitors. Empty string means no comment.
+  @JsonKey(includeFromJson: false)
+  String? userDefinedComment;
+
+  String get comment => userDefinedComment ?? originalComment;
+
+  String? get deprecatedMessage =>
+      _deprecatedMessageFrom(comment) ??
+      (userDefinedComment != null
+          ? _deprecatedMessageFrom(originalComment)
+          : null);
+
+  static String? _deprecatedMessageFrom(String text) {
+    final lines = text.split('\n');
     final messageLines = <String>[];
     var readingDeprecatedTag = false;
 
