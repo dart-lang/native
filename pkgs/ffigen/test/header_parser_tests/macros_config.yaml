@@ -1,8 +1,0 @@
-name: 'NativeLibrary'
-description: 'Macros Test'
-output: 'unused'
-headers:
-  entry-points:
-    - macros.h
-  include-directives:
-    - '**macros.h'
