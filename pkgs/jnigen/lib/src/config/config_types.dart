@@ -344,8 +344,13 @@ final class Input {
     this.androidSdk,
     this.summarizerCommand,
   }) : workingDirectory = workingDirectory ?? Uri.directory('.') {
-    for (final className in classes) {
-      _validateClassName(className);
+    final entries = classes.cast<Object?>();
+    for (var i = 0; i < entries.length; i++) {
+      final className = entries[i];
+      if (className == null) {
+        throw ConfigException('Entry ${i + 1} of "classes" is empty.');
+      }
+      _validateClassName(className as String);
     }
   }
 }
