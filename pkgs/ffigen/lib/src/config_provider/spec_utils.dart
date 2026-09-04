@@ -83,12 +83,12 @@ Map<String, ImportedType> _loadSymbolFiles(
   PackageConfig? packageConfig,
   Map<String, LibraryImport>? libraryImports,
 }) {
-  final libImports = libraryImports ?? <String, LibraryImport>{};
+  libraryImports ??= <String, LibraryImport>{};
   final uniqueNamer = Namer({
-    ...libImports.keys,
+    ...libraryImports.keys,
     strings.defaultSymbolFileImportPrefix,
   });
-  for (final l in libImports.values) {
+  for (final l in libraryImports.values) {
     uniqueNamer.markUsed(l.name);
   }
   final usrTypeMappings = <String, ImportedType>{};
@@ -136,7 +136,7 @@ Map<String, ImportedType> _loadSymbolFiles(
     final files = yamlMap[strings.files];
     if (files is YamlMap) {
       for (final file in files.keys) {
-        final existingImports = libImports.values.where(
+        final existingImports = libraryImports.values.where(
           (element) => element.importPath(false) == file,
         );
         if (existingImports.isEmpty) {
@@ -144,9 +144,9 @@ Map<String, ImportedType> _loadSymbolFiles(
             strings.defaultSymbolFileImportPrefix,
             SymbolKind.lib,
           );
-          libImports[name] = LibraryImport(name, file as String);
+          libraryImports[name] = LibraryImport(name, file as String);
         }
-        final libraryImport = libImports.values.firstWhere(
+        final libraryImport = libraryImports.values.firstWhere(
           (element) => element.importPath(false) == file,
         );
         loadImportedTypes(
