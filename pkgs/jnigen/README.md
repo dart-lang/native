@@ -68,7 +68,7 @@ instructions.
 
    void main(List<String> args) async {
      final packageRoot = Platform.script.resolve('../');
-     await JniGenerator(
+     final generator = JniGenerator(
        input: Input(
          // Required. List of classes or packages for which bindings should be generated.
          classes: ['com.example.in_app_java'],
@@ -85,7 +85,8 @@ instructions.
            structure: OutputStructure.singleFile,
          ),
        ),
-     ).generate();
+     );
+     await generator.generate();
    }
    ```
 
@@ -236,7 +237,7 @@ with a colon (`:`) denote subsections. A `*` denotes a required configuration.
 | `log_level`                                | Logging level                                                             | Configure logging level. Defaults to `info`.                                                                                                                                                                                                                                                                                                                                              |
 | `android_sdk_config:`                      | (Subsection)                                                              | Configuration for autodetection of Android dependencies and SDK. Note that this is more experimental than others, and very likely subject to change.                                                                                                                                                                                                                                      |
 | `android_sdk_config:` >> `add_gradle_deps` | Boolean                                                                   | If true, run a Gradle stub during JNIgen invocation, and add Android compile classpath to the classpath of JNIgen. This requires a release build to have happened before, so that all dependencies are cached appropriately.                                                                                                                                                              |
-| `android_sdk_config:` >> `android_example` | Directory path                                                            | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that Gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](example/notification_plugin/jnigen.yaml) for an example. |
+| `android_sdk_config:` >> `android_example` | Directory path                                                            | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that Gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](example/notification_plugin/tool/jnigen.dart) for an example. |
 | `summarizer:`                              | (Subsection)                                                              | Configuration specific to summarizer component, which builds API descriptions from Java sources or JAR files.                                                                                                                                                                                                                                                                             |
 | `summarizer:` >> `backend`                 | `auto`, `doclet` or `asm`                                                 | Specifies the backend to use in API summary generation. `doclet` uses OpenJDK Doclet API to build summary from sources. `asm` uses ASM library to build summary from classes in `class_path` JARs. `auto` attempts to find the class in sources, and falls back to using ASM.                                                                                                             |
 | `summarizer:` >> `extra_args` (DEV)        | List of CLI arguments                                                     | Extra arguments to pass to summarizer JAR.                                                                                                                                                                                                                                                                                                                                                |

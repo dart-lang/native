@@ -38,7 +38,7 @@ Future<void> main() async {
 
     // Run JNIgen.
     final thisDir = Uri.directory(p.join(pkgDir, 'test', 'large_java_test'));
-    await JniGenerator(
+    final generator = JniGenerator(
       input: Input(
         sourcePath: [thisDir.resolve('java/')],
         classes: ['com.example'],
@@ -49,7 +49,8 @@ Future<void> main() async {
           structure: OutputStructure.singleFile,
         ),
       ),
-    ).generate();
+    );
+    await generator.generate();
 
     // Check for diffs.
     final expPath =

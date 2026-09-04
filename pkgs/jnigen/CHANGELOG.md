@@ -4,6 +4,7 @@
   source Javadocs are unavailable.
 
 ## 1.0.0-wip
+## 1.0.0
 
 - **Breaking Change**: Restructured Dart `Config` API to align with
   `package:ffigen`. The YAML format has not changed.

@@ -40,9 +40,7 @@ Future<void> bindingsTestSetup() async {
   await compileJavaFiles(Directory(stubTestJava), tempClassDir);
   await runCommand(dartExecutable, [
     'run',
-    'jnigen:download_maven_jars',
-    '--config',
-    join(jacksonCoreTest, 'jnigen.yaml')
+    join(jacksonCoreTest, 'generate.dart'),
   ]);
 
   final jacksonJars = await getJarPaths(join(jacksonCoreTest, 'third_party'));

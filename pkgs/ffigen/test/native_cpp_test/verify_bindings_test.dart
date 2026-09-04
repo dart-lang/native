@@ -9,6 +9,9 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
+import 'cpp_class_config.dart' as cpp_class_config;
+import 'cpp_inheritance_config.dart' as cpp_inheritance_config;
+import 'memory_edge_cases_config.dart' as memory_edge_cases_config;
 import 'util.dart';
 
 void main() {
@@ -29,100 +32,11 @@ void main() {
             .toList()
           ..sort();
 
-    final defaultCppCompilerOptions = [
-      '-x',
-      'c++',
-      '-std=c++17',
-      if (Platform.isMacOS) ...['-isysroot', macSdkPath],
-    ];
-
+    final packageRoot = Uri.file(path.join(packagePathForTests, ''));
     final configs = <String, FfiGenerator>{
-      'cpp_class': FfiGenerator(
-        output: Output(
-          dart: DartOutput(path: Uri.file('cpp_class_test_bindings.dart')),
-          style: const NativeExternalBindings(
-            assetId: 'package:ffigen/cpp_test',
-          ),
-        ),
-        input: Input(
-          entryPoints: [
-            Uri.file(path.join(testDir.path, 'cpp_class_test.h')),
-            Uri.file(path.join(testDir.path, 'finalizer_test_subject.h')),
-          ],
-          compilerOptions: defaultCppCompilerOptions,
-        ),
-        cpp: const Cpp(),
-        visitors: [
-          Visitor(
-            cppClass: (node) => node.isIncluded = {
-              'Animal',
-              'FinalizerTestSubject',
-            }.contains(node.originalName),
-          ),
-        ],
-      ),
-      'memory_edge_cases': FfiGenerator(
-        output: Output(
-          dart: DartOutput(path: Uri.file('memory_edge_cases_bindings.dart')),
-          style: const NativeExternalBindings(
-            assetId: 'package:ffigen/cpp_test',
-          ),
-        ),
-        input: Input(
-          entryPoints: [
-            Uri.file(path.join(testDir.path, 'memory_edge_cases.h')),
-          ],
-          compilerOptions: defaultCppCompilerOptions,
-        ),
-        cpp: const Cpp(),
-        visitors: [
-          Visitor(
-            cppClass: (node) => node.isIncluded = {
-              'Node',
-              'NodeManager',
-              'NodeContainer',
-            }.contains(node.originalName),
-          ),
-        ],
-      ),
-      'cpp_inheritance': FfiGenerator(
-        output: Output(
-          dart: DartOutput(
-            path: Uri.file('cpp_inheritance_test_bindings.dart'),
-          ),
-          style: const NativeExternalBindings(
-            assetId: 'package:ffigen/cpp_test',
-          ),
-        ),
-        input: Input(
-          entryPoints: [
-            Uri.file(path.join(testDir.path, 'cpp_inheritance_test.h')),
-          ],
-          compilerOptions: defaultCppCompilerOptions,
-        ),
-        cpp: const Cpp(),
-        visitors: [
-          Visitor(
-            cppClass: (node) => node.isIncluded = {
-              'Shape',
-              'Drawable',
-              'Circle',
-              'ColoredCircle',
-              'Square',
-              'AccessBase',
-              'PublicDerived',
-              'ProtectedDerived',
-              'PrivateDerived',
-              'OverloadBase',
-              'OverloadDerived',
-              'DiamondBase',
-              'DiamondLeft',
-              'DiamondRight',
-              'DiamondDerived',
-            }.contains(node.originalName),
-          ),
-        ],
-      ),
+      'cpp_class': cpp_class_config.getConfig(packageRoot),
+      'memory_edge_cases': memory_edge_cases_config.getConfig(packageRoot),
+      'cpp_inheritance': cpp_inheritance_config.getConfig(packageRoot),
     };
 
     for (final testFile in testFiles) {
