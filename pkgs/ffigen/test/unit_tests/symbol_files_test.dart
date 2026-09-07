@@ -5,8 +5,11 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/header_parser.dart';
 import 'package:package_config/package_config.dart';
 import 'package:test/test.dart';
+
+import '../test_utils.dart';
 
 void main() {
   late Directory tempDir;
@@ -376,6 +379,160 @@ files:
         () => importFromSymbolFile(listFile.uri),
         throwsA(isA<FormatException>()),
       );
+    });
+  });
+
+  group('importFromSymbols', () {
+    const lib = LibraryImport('foo', 'package:foo/foo.dart');
+    const symbolMap = <String, ImportedType>{
+      'c:@F@my_func': ImportedType(
+        lib,
+        'my_func',
+        'my_func',
+        'my_func',
+        importedDartType: true,
+      ),
+      'c:@T@MyType': ImportedType(
+        lib,
+        'my_type',
+        'MyType',
+        'my_type',
+        importedDartType: true,
+      ),
+    };
+
+    test('lookup known USR', () {
+      final importType = importFromSymbols(symbolMap);
+      const decl = Declaration(usr: 'c:@F@my_func', originalName: 'my_func');
+      final imported = importType(decl);
+      expect(imported, isNotNull);
+      expect(imported!.cType, 'my_func');
+      expect(imported.dartType, 'my_func');
+      expect(imported.libraryImport, lib);
+    });
+
+    test('lookup unknown USR', () {
+      final importType = importFromSymbols(symbolMap);
+      const decl = Declaration(usr: 'c:@F@unknown', originalName: 'unknown');
+      expect(importType(decl), isNull);
+    });
+
+    test('lookup empty USR', () {
+      final importType = importFromSymbols(symbolMap);
+      const decl = Declaration(usr: '', originalName: 'empty');
+      expect(importType(decl), isNull);
+    });
+  });
+
+  group('importFromSymbolMaps', () {
+    const lib1 = LibraryImport('foo', 'package:foo/foo.dart');
+    const lib2 = LibraryImport('bar', 'package:bar/bar.dart');
+    const map1 = <String, ImportedType>{
+      'c:@F@func1': ImportedType(
+        lib1,
+        'func1',
+        'func1',
+        'func1',
+        importedDartType: true,
+      ),
+      'c:@F@shared': ImportedType(
+        lib1,
+        'shared',
+        'shared_v1',
+        'shared',
+        importedDartType: true,
+      ),
+    };
+    const map2 = <String, ImportedType>{
+      'c:@F@func2': ImportedType(
+        lib2,
+        'func2',
+        'func2',
+        'func2',
+        importedDartType: true,
+      ),
+      'c:@F@shared': ImportedType(
+        lib2,
+        'shared',
+        'shared_v2',
+        'shared',
+        importedDartType: true,
+      ),
+    };
+
+    test('merges multiple maps with precedence', () {
+      final importType = importFromSymbolMaps([map1, map2]);
+      const decl1 = Declaration(usr: 'c:@F@func1', originalName: 'func1');
+      const decl2 = Declaration(usr: 'c:@F@func2', originalName: 'func2');
+      const sharedDecl = Declaration(
+        usr: 'c:@F@shared',
+        originalName: 'shared',
+      );
+
+      expect(importType(decl1)!.libraryImport, lib1);
+      expect(importType(decl2)!.libraryImport, lib2);
+      expect(importType(sharedDecl)!.dartType, 'shared_v2');
+      expect(importType(sharedDecl)!.libraryImport, lib2);
+    });
+  });
+
+  group('generateSymbolOutputFile', () {
+    test('generates Dart symbol file when extension is .dart', () {
+      final file = File('${tempDir.path}/symbols.dart');
+      final headerFile = File('${tempDir.path}/test.h')
+        ..writeAsStringSync('void foo();\n');
+
+      final config = FfiGenerator(
+        output: Output(
+          dart: DartOutput(path: Uri.file('${tempDir.path}/bindings.dart')),
+        ),
+        input: Input(entryPoints: [headerFile.uri]),
+        visitors: [
+          Visitor(func: (node) => node.isIncluded = true),
+        ],
+      );
+      final context = testContext(config);
+      final library = parse(context);
+      library.generate();
+      library.generateSymbolOutputFile(file, 'package:foo/foo.dart');
+
+      expect(file.existsSync(), isTrue);
+      final content = file.readAsStringSync();
+      expect(
+        content,
+        contains("import 'package:ffigen_symbols/ffigen_symbols.dart';"),
+      );
+      expect(content, contains('const _import = LibraryImport('));
+      expect(content, contains("'package:foo/foo.dart'"));
+      expect(content, contains('const symbols = <String, ImportedType>{'));
+      expect(content, contains("'c:@F@foo': ImportedType("));
+    });
+
+    test('generates YAML symbol file when extension is .yaml', () {
+      final file = File('${tempDir.path}/symbols.yaml');
+      final headerFile = File('${tempDir.path}/test.h')
+        ..writeAsStringSync('void foo();\n');
+
+      final config = FfiGenerator(
+        output: Output(
+          dart: DartOutput(path: Uri.file('${tempDir.path}/bindings.dart')),
+        ),
+        input: Input(entryPoints: [headerFile.uri]),
+        visitors: [
+          Visitor(func: (node) => node.isIncluded = true),
+        ],
+      );
+      final context = testContext(config);
+      final library = parse(context);
+      library.generate();
+      library.generateSymbolOutputFile(file, 'package:foo/foo.dart');
+
+      expect(file.existsSync(), isTrue);
+      final content = file.readAsStringSync();
+      expect(content, contains('format_version: 1.0.0'));
+      expect(content, contains('package:foo/foo.dart:'));
+      expect(content, contains('c:@F@foo:'));
+      expect(content, contains('name: foo'));
     });
   });
 }

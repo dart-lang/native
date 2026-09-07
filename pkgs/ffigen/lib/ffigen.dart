@@ -39,6 +39,8 @@ export 'src/config_provider.dart'
         defaultCompilerOpts,
         importFromSymbolFile,
         importFromSymbolFiles,
+        importFromSymbolMaps,
+        importFromSymbols,
         iosSdkPath,
         iosSdkUri,
         macSdkPath,

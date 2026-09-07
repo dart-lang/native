@@ -192,17 +192,22 @@ class Library {
     return true;
   }
 
-  /// Generates [file] with symbol output yaml.
+  /// Generates [file] with symbol output.
   void generateSymbolOutputFile(File file, String importPath) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    final symbolFileYamlMap = writer.generateSymbolOutputYamlMap(importPath);
-    final yamlEditor = YamlEditor('');
-    yamlEditor.update([], wrapAsYamlNode(symbolFileYamlMap));
-    var yamlString = yamlEditor.toString();
-    if (!yamlString.endsWith('\n')) {
-      yamlString += '\n';
+    if (file.path.endsWith('.dart')) {
+      final dartString = writer.generateSymbolOutputDart(importPath);
+      file.writeAsStringSync(dartString);
+    } else {
+      final symbolFileYamlMap = writer.generateSymbolOutputYamlMap(importPath);
+      final yamlEditor = YamlEditor('');
+      yamlEditor.update([], wrapAsYamlNode(symbolFileYamlMap));
+      var yamlString = yamlEditor.toString();
+      if (!yamlString.endsWith('\n')) {
+        yamlString += '\n';
+      }
+      file.writeAsStringSync(yamlString);
     }
-    file.writeAsStringSync(yamlString);
   }
 
   /// Generates the bindings.

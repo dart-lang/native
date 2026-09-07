@@ -441,7 +441,7 @@ class SymbolFile {
   final Uri importPath;
   final Uri output;
 
-  SymbolFile(this.importPath, this.output);
+  const SymbolFile(this.importPath, this.output);
 }
 
 class OutputConfig {

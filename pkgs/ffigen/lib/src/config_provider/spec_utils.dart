@@ -202,6 +202,52 @@ ImportedType? Function(Declaration) importFromSymbolFile(
   PackageConfig? packageConfig,
 }) => importFromSymbolFiles([symbolFile], packageConfig: packageConfig);
 
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbols] map.
+///
+/// Example:
+///
+/// ```dart
+/// import 'package:other_pkg/symbols.dart' as other_symbols;
+///
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importFromSymbols(other_symbols.symbols),
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbols(
+  Map<String, ImportedType> symbols,
+) => (Declaration decl) => decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbolMaps].
+///
+/// If multiple maps contain the same symbol, later maps will take precedence.
+///
+/// Example:
+///
+/// ```dart
+/// import 'package:pkg1/symbols.dart' as pkg1_symbols;
+/// import 'package:pkg2/symbols.dart' as pkg2_symbols;
+///
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importFromSymbolMaps([
+///     pkg1_symbols.symbols,
+///     pkg2_symbols.symbols,
+///   ]),
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbolMaps(
+  Iterable<Map<String, ImportedType>> symbolMaps,
+) {
+  final merged = <String, ImportedType>{};
+  for (final map in symbolMaps) {
+    merged.addAll(map);
+  }
+  return importFromSymbols(merged);
+}
+
 Map<String, List<String>> typeMapExtractor(Map<dynamic, dynamic>? yamlConfig) {
   // Key - type_name, Value - [lib, cType, dartType].
   final resultMap = <String, List<String>>{};

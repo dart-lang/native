@@ -18,11 +18,17 @@ class AstImportedType extends Type implements ImportedType {
 
   const AstImportedType(this.importedType);
 
+  @override
   LibraryImport get libraryImport => importedType.libraryImport;
+  @override
   String get cType => importedType.cType;
+  @override
   String get dartType => importedType.dartType;
+  @override
   String get nativeType => importedType.nativeType;
+  @override
   String? get defaultValue => importedType.defaultValue;
+  @override
   bool get importedDartType => importedType.importedDartType;
 
   @override
