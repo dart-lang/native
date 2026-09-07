@@ -14,6 +14,7 @@ workspace:
   - pkgs/code_assets/example/stb_image
   - pkgs/data_assets
   - pkgs/ffi
+  # - pkgs/ffigen_symbols # TODO
   # - pkgs/ffigen  # TODO
   # - pkgs/ffigen/example/add  # TODO
   # - pkgs/ffigen/example/c_json  # TODO
