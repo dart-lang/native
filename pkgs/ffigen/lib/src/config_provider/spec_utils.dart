@@ -129,27 +129,24 @@ Map<String, ImportedType> _loadSymbolFiles(
     }
 
     final files = yamlMap[strings.files];
-    if (files is YamlMap) {
-      for (final file in files.keys) {
-        final existingImports = libraryImports.values.where(
-          (element) => element.importPath(false) == file,
+    if (files is! YamlMap) {
+      throw FormatException(
+        'Symbol file $uri "${strings.files}" is not a valid YAML map.',
+      );
+    }
+    for (final file in files.keys) {
+      var libraryImport = libraryImports.values
+          .where((element) => element.importPath(false) == file)
+          .firstOrNull;
+      if (libraryImport == null) {
+        final name = uniqueNamer.add(
+          strings.defaultSymbolFileImportPrefix,
+          SymbolKind.lib,
         );
-        if (existingImports.isEmpty) {
-          final name = uniqueNamer.add(
-            strings.defaultSymbolFileImportPrefix,
-            SymbolKind.lib,
-          );
-          libraryImports[name] = LibraryImport(name, file as String);
-        }
-        final libraryImport = libraryImports.values.firstWhere(
-          (element) => element.importPath(false) == file,
-        );
-        loadImportedTypes(
-          files[file] as YamlMap,
-          usrTypeMappings,
-          libraryImport,
-        );
+        libraryImport = LibraryImport(name, file as String);
+        libraryImports[name] = libraryImport;
       }
+      loadImportedTypes(files[file] as YamlMap, usrTypeMappings, libraryImport);
     }
   }
 
@@ -161,6 +158,9 @@ Map<String, ImportedType> _loadSymbolFiles(
 ///
 /// The [symbolFiles] can be `file:` URIs or `package:` URIs. [packageConfig]
 /// must be provided if any of the [symbolFiles] are `package:` URIs.
+///
+/// If multiple files contain the same symbol, later elements of [symbolFiles]
+/// will take precedence.
 ///
 /// Example:
 ///

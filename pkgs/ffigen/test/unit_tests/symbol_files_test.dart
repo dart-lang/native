@@ -353,5 +353,29 @@ files: [}
         throwsA(isA<FormatException>()),
       );
     });
+
+    test('files not a map throws FormatException', () {
+      final stringFile = File('${tempDir.path}/files_string.yaml');
+      stringFile.writeAsStringSync('''
+format_version: 1.0.0
+files: "not-a-map"
+''');
+      expect(
+        () => importFromSymbolFile(stringFile.uri),
+        throwsA(isA<FormatException>()),
+      );
+
+      final listFile = File('${tempDir.path}/files_list.yaml');
+      listFile.writeAsStringSync('''
+format_version: 1.0.0
+files:
+  - 1
+  - 2
+''');
+      expect(
+        () => importFromSymbolFile(listFile.uri),
+        throwsA(isA<FormatException>()),
+      );
+    });
   });
 }
