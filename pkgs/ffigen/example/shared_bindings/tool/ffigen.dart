@@ -6,6 +6,9 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 
+// ignore: avoid_relative_lib_imports
+import '../lib/generated/base_symbols.dart' as base_symbols;
+
 FfiGenerator getBaseConfig([Uri? packageRoot]) {
   packageRoot ??= Platform.script.resolve('../');
   return FfiGenerator(
@@ -19,7 +22,7 @@ FfiGenerator getBaseConfig([Uri? packageRoot]) {
       ),
       symbolFile: SymbolFile(
         Uri.parse('package:shared_bindings/generated/base_gen.dart'),
-        packageRoot.resolve('lib/generated/base_symbols.yaml'),
+        packageRoot.resolve('lib/generated/base_symbols.dart'),
       ),
     ),
     input: Input(entryPoints: [packageRoot.resolve('headers/base.h')]),
@@ -74,9 +77,7 @@ FfiGenerator getASharedBaseConfig([Uri? packageRoot]) {
       ),
     ),
     input: Input(entryPoints: [packageRoot.resolve('headers/a.h')]),
-    importType: importFromSymbolFile(
-      packageRoot.resolve('lib/generated/base_symbols.yaml'),
-    ),
+    importType: importFromSymbols(base_symbols.symbols),
     visitors: [
       Visitor(
         func: (node) => node.isIncluded = true,

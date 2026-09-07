@@ -68,7 +68,7 @@ void main() {
       await matchLibrarySymbolFileWithExpected(
         context,
         library,
-        'example_shared_bindings.yaml',
+        'example_shared_bindings_symbols.dart',
         [config.output.symbolFile!.output.toFilePath()],
         config.output.symbolFile!.importPath.toString(),
       );
