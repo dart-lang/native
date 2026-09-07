@@ -74,49 +74,9 @@ FfiGenerator getASharedBaseConfig([Uri? packageRoot]) {
       ),
     ),
     input: Input(entryPoints: [packageRoot.resolve('headers/a.h')]),
-    importType: (Declaration decl) {
-      const baseImport = LibraryImport(
-        'imp\$1',
-        'package:shared_bindings/generated/base_gen.dart',
-      );
-
-      const baseSymbols = {
-        'BaseEnum',
-        'base_func1',
-        'BaseStruct1',
-        'BaseStruct2',
-        'BaseUnion1',
-        'BaseUnion2',
-        'BaseTypedef1',
-        'BaseTypedef2',
-      };
-      if (baseSymbols.contains(decl.originalName)) {
-        return ImportedType(
-          baseImport,
-          decl.originalName,
-          decl.originalName,
-          decl.originalName,
-          importedDartType: true,
-        );
-      }
-
-      const baseNativeTypedefs = {
-        'BaseNativeTypedef1': 'DartBaseNativeTypedef1',
-        'BaseNativeTypedef2': 'DartBaseNativeTypedef1',
-        'BaseNativeTypedef3': 'DartBaseNativeTypedef1',
-      };
-      if (baseNativeTypedefs.containsKey(decl.originalName)) {
-        return ImportedType(
-          baseImport,
-          decl.originalName,
-          baseNativeTypedefs[decl.originalName]!,
-          decl.originalName,
-          importedDartType: true,
-        );
-      }
-
-      return null;
-    },
+    importType: importFromSymbolFile(
+      packageRoot.resolve('lib/generated/base_symbols.yaml'),
+    ),
     visitors: [
       Visitor(
         func: (node) => node.isIncluded = true,
