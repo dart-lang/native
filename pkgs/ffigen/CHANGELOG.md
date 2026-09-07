@@ -1,4 +1,4 @@
-## 22.0.0-wip
+## 22.0.0
 
 - __Breaking change__: Major overhaul of Dart config API:
   - Replace various callback based config elements with a `Visitor` pattern.
