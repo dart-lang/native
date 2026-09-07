@@ -15,6 +15,32 @@ import 'public_ast.dart';
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.
 ///
+/// At a minimum, you must specify the inputs, the outputs, and which APIs you
+/// want to generate bindings for (using visitors).
+///
+/// ### Example
+///
+/// ```dart
+/// import 'package:ffigen/ffigen.dart';
+///
+/// Future<void> main() async {
+///   final generator = FfiGenerator(
+///     output: Output(
+///       dart: DartOutput(path: Uri.file('lib/bindings.dart')),
+///     ),
+///     input: Input(
+///       entryPoints: [Uri.file('src/my_c_header.h')],
+///     ),
+///     visitors: [
+///       Visitor(
+///         func: (node) => node.isIncluded = true,
+///       ),
+///     ],
+///   );
+///   await generator.generate();
+/// }
+/// ```
+///
 /// {@category Apple APIs}
 /// {@category Objective-C Memory Management}
 /// {@category Objective-C Method Filtering}
@@ -23,7 +49,6 @@ import 'public_ast.dart';
 /// {@category Objective-C Threading}
 /// {@category Errors}
 /// {@category FAQ}
-// TODO: Add a code snippet example.
 final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
   final Input input;
@@ -34,6 +59,7 @@ final class FfiGenerator {
   ///
   /// **EXPERIMENTAL**: C++ support is experimental. This part of the API
   /// may change or be removed in a future version without a deprecation notice.
+  @experimental
   final Cpp? cpp;
 
   /// Objective-C specific configuration.
@@ -146,6 +172,7 @@ enum EnumStyle {
 }
 
 /// Configuration for C++.
+@experimental
 final class Cpp {
   const Cpp();
 }

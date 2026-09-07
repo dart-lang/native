@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Bindings for `src/objective_c_runtime.h`.
-// Regenerate bindings with `dart run tool/generate_code.dart`.
+// Regenerate bindings with `dart run tool/ffigen.dart`.
 
 // ignore_for_file: always_specify_types
 // ignore_for_file: camel_case_types

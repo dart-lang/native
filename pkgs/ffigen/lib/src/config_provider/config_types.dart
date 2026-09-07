@@ -503,14 +503,45 @@ class Declaration {
   Declaration({required this.usr, required this.originalName});
 }
 
+/// Target OS version constraints for external platform APIs (such as
+/// Objective-C APIs).
+///
+/// Interfaces, methods, and other API elements in headers may include
+/// platform availability annotations indicating when they were introduced,
+/// deprecated, or obsoleted. If an API element is present in all target
+/// versions, it is generated normally. If it's present in some target versions,
+/// a runtime version check is generated. If it's not present in any target
+/// versions, the API element is not generated at all.
+///
+/// If all fields are `null`, no version based filtering is applied. If some
+/// fields are non-`null`, filtering is based on the the non-`null` fields.
 class ExternalVersions {
+  /// Target version range for iOS.
+  ///
+  /// If `null`, no version-based filtering is applied for iOS.
   final Versions? ios;
+
+  /// Target version range for macOS.
+  ///
+  /// If `null`, no version-based filtering is applied for macOS.
   final Versions? macos;
+
   const ExternalVersions({this.ios, this.macos});
 }
 
+/// Represents a version range constraint with an optional minimum and maximum
+/// version.
+///
+/// If [min] and [max] are both `null`, all versions are accepted.
 class Versions {
+  /// The minimum target OS version.
+  ///
+  /// If `null`, there is no minimum version floor.
   final Version? min;
+
+  /// The maximum target OS version.
+  ///
+  /// If `null`, there is no maximum version ceiling.
   final Version? max;
 
   const Versions({this.min, this.max});
