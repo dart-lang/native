@@ -157,7 +157,11 @@ Type getCodeGenType(
       var innerCxType = clang.clang_Type_getModifiedType(cxtype);
       if (innerCxType.kind == clang_types.CXTypeKind.CXType_Invalid) {
         final canonical = clang.clang_getCanonicalType(cxtype);
-        if (canonical.kind != cxtype.kind) innerCxType = canonical;
+        // Recursion guard: a type that is already canonical (e.g. a dependent
+        // template type) would otherwise resolve to itself forever.
+        if (clang.clang_equalTypes(canonical, cxtype) == 0) {
+          innerCxType = canonical;
+        }
       }
       final innerType = getCodeGenType(
         context,

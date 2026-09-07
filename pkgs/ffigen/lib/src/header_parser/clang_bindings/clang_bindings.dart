@@ -685,6 +685,21 @@ class Clang {
   late final _clang_equalRanges = _clang_equalRangesPtr
       .asFunction<int Function(CXSourceRange, CXSourceRange)>();
 
+  /// Determine whether two CXTypes represent the same type.
+  ///
+  /// \returns non-zero if the CXTypes represent the same type and
+  /// zero otherwise.
+  int clang_equalTypes(CXType A, CXType B) {
+    return _clang_equalTypes(A, B);
+  }
+
+  late final _clang_equalTypesPtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType, CXType)>>(
+        'clang_equalTypes',
+      );
+  late final _clang_equalTypes = _clang_equalTypesPtr
+      .asFunction<int Function(CXType, CXType)>();
+
   /// Format the given diagnostic in a manner that is suitable for display.
   ///
   /// This routine will format the given diagnostic to a string, rendering
