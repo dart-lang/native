@@ -25,6 +25,8 @@ dependencies:
   collection: ^1.18.0
   dart_style: ^3.0.0
   ffi: ^2.0.1
+  ffigen_symbols:
+    path: ../ffigen_symbols
   file: ^7.0.0
   glob: ^2.0.0
   hooks: ^2.0.0
@@ -50,6 +52,8 @@ dev_dependencies:
 dependency_overrides:
   code_assets:
     path: ../code_assets
+  ffigen_symbols:
+    path: ../ffigen_symbols
   hooks:
     path: ../hooks
   native_toolchain_c:

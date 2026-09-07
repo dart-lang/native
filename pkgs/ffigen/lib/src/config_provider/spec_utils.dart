@@ -312,7 +312,7 @@ Type makeBaseTypeFromRawVarArgType(
   }
   if (importType.call(Declaration(usr: '', originalName: rawBaseType))
       case final imported?) {
-    return imported;
+    return AstImportedType(imported);
   } else if (cxTypeKindToImportedTypes[rawBaseType] case final type?) {
     return type;
   } else if (supportedTypedefToImportedType[rawBaseType] case final type?) {
@@ -341,7 +341,9 @@ Type makeBaseTypeFromRawVarArgType(
         );
       }
       final typeName = rawVarArgTypeSplit[1];
-      return ImportedType(libraryImport, typeName, typeName, typeName);
+      return AstImportedType(
+        ImportedType(libraryImport, typeName, typeName, typeName),
+      );
     } else {
       throw Exception(
         'Invalid type $rawBaseType : Expected 0 or 1 .(dot) separators.',
