@@ -185,7 +185,7 @@ ImportedType? Function(Declaration) importFromSymbolFiles(
 /// imports declarations defined in the given [symbolFile].
 ///
 /// The [symbolFile] can be a `file:` URI or `package:` URI. [packageConfig]
-/// if the [symbolFile] is a `package:` URI.
+/// must be provided if the [symbolFile] is a `package:` URI.
 ///
 /// Example:
 ///
