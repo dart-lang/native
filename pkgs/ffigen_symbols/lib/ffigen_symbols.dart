@@ -39,7 +39,7 @@ class LibraryImport {
     this._importPath, {
     String? importPathWhenImportedByPackageObjC,
   }) : _importPathWhenImportedByPackageObjC =
-           importPathWhenImportedByPackageObjC;
+            importPathWhenImportedByPackageObjC;
 
   @override
   bool operator ==(Object other) {
@@ -102,13 +102,13 @@ class ImportedType {
 
   @override
   int get hashCode => Object.hash(
-    libraryImport,
-    cType,
-    dartType,
-    nativeType,
-    defaultValue,
-    importedDartType,
-  );
+        libraryImport,
+        cType,
+        dartType,
+        nativeType,
+        defaultValue,
+        importedDartType,
+      );
 
   @override
   String toString() => '${libraryImport.name}.$cType';
@@ -192,11 +192,11 @@ class FfigenSymbols {
 
   @override
   int get hashCode => Object.hash(
-    formatVersion,
-    Object.hashAllUnordered(
-      symbols.entries.map((e) => Object.hash(e.key, e.value)),
-    ),
-  );
+        formatVersion,
+        Object.hashAllUnordered(
+          symbols.entries.map((e) => Object.hash(e.key, e.value)),
+        ),
+      );
 
   @override
   String toString() =>
@@ -205,4 +205,3 @@ class FfigenSymbols {
 
 /// Alias for [FfigenSymbols].
 typedef Symbols = FfigenSymbols;
-
