@@ -285,23 +285,26 @@ const _import = LibraryImport(
   '$importFilePath',
 );
 
-const symbols = <String, ImportedType>{''');
+const symbols = FfigenSymbols(
+  formatVersion: '${strings.symbolFileFormatVersion}',
+  symbols: {''');
 
     for (final b in bindings) {
       final usr = b.usr;
       final name = b.name;
       final dartName =
           b is Typealias ? (getTypedefDartAliasName(b) ?? name) : name;
-      sb.writeln("  '${_escapeString(usr)}': ImportedType(");
-      sb.writeln('    _import,');
-      sb.writeln("    '${_escapeString(name)}',");
-      sb.writeln("    '${_escapeString(dartName)}',");
-      sb.writeln("    '${_escapeString(name)}',");
-      sb.writeln('    importedDartType: true,');
-      sb.writeln('  ),');
+      sb.writeln("    '${_escapeString(usr)}': ImportedType(");
+      sb.writeln('      _import,');
+      sb.writeln("      '${_escapeString(name)}',");
+      sb.writeln("      '${_escapeString(dartName)}',");
+      sb.writeln("      '${_escapeString(name)}',");
+      sb.writeln('      importedDartType: true,');
+      sb.writeln('    ),');
     }
 
-    sb.writeln('};');
+    sb.writeln('  },');
+    sb.writeln(');');
 
     final raw = sb.toString();
     try {

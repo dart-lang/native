@@ -401,8 +401,22 @@ files:
       ),
     };
 
-    test('lookup known USR', () {
+    test('lookup known USR with Map', () {
       final importType = importFromSymbols(symbolMap);
+      const decl = Declaration(usr: 'c:@F@my_func', originalName: 'my_func');
+      final imported = importType(decl);
+      expect(imported, isNotNull);
+      expect(imported!.cType, 'my_func');
+      expect(imported.dartType, 'my_func');
+      expect(imported.libraryImport, lib);
+    });
+
+    test('lookup known USR with FfigenSymbols', () {
+      const ffigenSymbols = FfigenSymbols(
+        formatVersion: '1.0.0',
+        symbols: symbolMap,
+      );
+      final importType = importFromSymbols(ffigenSymbols);
       const decl = Declaration(usr: 'c:@F@my_func', originalName: 'my_func');
       final imported = importType(decl);
       expect(imported, isNotNull);
@@ -474,6 +488,23 @@ files:
       expect(importType(sharedDecl)!.dartType, 'shared_v2');
       expect(importType(sharedDecl)!.libraryImport, lib2);
     });
+
+    test('merges multiple FfigenSymbols with precedence', () {
+      const symbols1 = FfigenSymbols(symbols: map1);
+      const symbols2 = FfigenSymbols(symbols: map2);
+      final importType = importFromSymbolMaps([symbols1, symbols2]);
+      const decl1 = Declaration(usr: 'c:@F@func1', originalName: 'func1');
+      const decl2 = Declaration(usr: 'c:@F@func2', originalName: 'func2');
+      const sharedDecl = Declaration(
+        usr: 'c:@F@shared',
+        originalName: 'shared',
+      );
+
+      expect(importType(decl1)!.libraryImport, lib1);
+      expect(importType(decl2)!.libraryImport, lib2);
+      expect(importType(sharedDecl)!.dartType, 'shared_v2');
+      expect(importType(sharedDecl)!.libraryImport, lib2);
+    });
   });
 
   group('generateSymbolOutputFile', () {
@@ -504,7 +535,7 @@ files:
       );
       expect(content, contains('const _import = LibraryImport('));
       expect(content, contains("'package:foo/foo.dart'"));
-      expect(content, contains('const symbols = <String, ImportedType>{'));
+      expect(content, contains('const symbols = FfigenSymbols('));
       expect(content, contains("'c:@F@foo': ImportedType("));
     });
 

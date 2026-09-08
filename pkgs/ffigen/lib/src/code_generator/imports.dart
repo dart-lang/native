@@ -10,7 +10,7 @@ import '../visitor/ast.dart';
 import 'type.dart';
 
 export 'package:ffigen_symbols/ffigen_symbols.dart'
-    show Declaration, ImportedType, LibraryImport;
+    show Declaration, FfigenSymbols, ImportedType, LibraryImport, Symbols;
 
 /// An AST wrapper for [ImportedType] which will be used in the generated code.
 class AstImportedType extends Type implements ImportedType {

@@ -203,7 +203,10 @@ ImportedType? Function(Declaration) importFromSymbolFile(
 }) => importFromSymbolFiles([symbolFile], packageConfig: packageConfig);
 
 /// Returns a function suitable for use as [FfiGenerator.importType] that
-/// imports declarations defined in the given [symbols] map.
+/// imports declarations defined in the given [symbols].
+///
+/// [symbols] can be an [FfigenSymbols] instance or a
+/// [Map<String, ImportedType>].
 ///
 /// Example:
 ///
@@ -216,13 +219,31 @@ ImportedType? Function(Declaration) importFromSymbolFile(
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbols(
-  Map<String, ImportedType> symbols,
-) => (Declaration decl) => decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+  Object symbols,
+) {
+  if (symbols is FfigenSymbols) {
+    return (Declaration decl) =>
+        decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+  }
+  if (symbols is Map<String, ImportedType>) {
+    return (Declaration decl) =>
+        decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+  }
+  throw ArgumentError.value(
+    symbols,
+    'symbols',
+    'Expected FfigenSymbols or Map<String, ImportedType>',
+  );
+}
 
 /// Returns a function suitable for use as [FfiGenerator.importType] that
-/// imports declarations defined in the given [symbolMaps].
+/// imports declarations defined in the given [symbolCollections].
 ///
-/// If multiple maps contain the same symbol, later maps will take precedence.
+/// Each element can be an [FfigenSymbols] instance or a
+/// [Map<String, ImportedType>].
+///
+/// If multiple collections contain the same symbol, later collections will
+/// take precedence.
 ///
 /// Example:
 ///
@@ -239,11 +260,21 @@ ImportedType? Function(Declaration) importFromSymbols(
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbolMaps(
-  Iterable<Map<String, ImportedType>> symbolMaps,
+  Iterable<Object> symbolCollections,
 ) {
   final merged = <String, ImportedType>{};
-  for (final map in symbolMaps) {
-    merged.addAll(map);
+  for (final collection in symbolCollections) {
+    if (collection is FfigenSymbols) {
+      merged.addAll(collection.symbols);
+    } else if (collection is Map<String, ImportedType>) {
+      merged.addAll(collection);
+    } else {
+      throw ArgumentError.value(
+        collection,
+        'symbolCollections element',
+        'Expected FfigenSymbols or Map<String, ImportedType>',
+      );
+    }
   }
   return importFromSymbols(merged);
 }
