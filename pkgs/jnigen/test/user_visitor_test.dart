@@ -355,4 +355,119 @@ void main() {
       isNot(contains(r'abstract base mixin class $Foo')),
     );
   });
+
+  test('Edit documentation using the user visitor', () async {
+    final classes = ast.Classes({
+      'Foo': ast.ClassDecl(
+        binaryName: 'Foo',
+        declKind: ast.DeclKind.classKind,
+        superclass: ast.DeclaredType.object,
+        javadoc: ast.JavaDocComment(comment: 'Original class docs.'),
+        methods: [
+          ast.Method(
+            name: 'run',
+            returnType: ast.PrimitiveType.fromJson({'name': 'void'}),
+            javadoc: ast.JavaDocComment(
+              comment: 'Original method.\n@deprecated Use other.',
+            ),
+            annotations: [
+              const ast.Annotation(binaryName: 'java.lang.Deprecated'),
+            ],
+          ),
+          ast.Method(
+            name: 'extra',
+            returnType: ast.PrimitiveType.fromJson({'name': 'void'}),
+            params: [
+              ast.Param(
+                name: 'n',
+                type: ast.PrimitiveType.fromJson({'name': 'int'}),
+                javadoc: ast.JavaDocComment(comment: 'count'),
+              ),
+            ],
+          ),
+        ],
+        fields: [
+          ast.Field(
+            name: 'value',
+            type: ast.DeclaredType.object,
+            javadoc: ast.JavaDocComment(comment: 'Original field.'),
+          ),
+        ],
+      ),
+    });
+
+    Classes(classes).accept(
+      Visitor(
+        classDecl: (c) {
+          expect(c.documentation, 'Original class docs.');
+          c.documentation = 'Replacement class docs.';
+        },
+        method: (method) {
+          if (method.originalName == 'run') {
+            expect(
+              method.documentation,
+              'Original method.\n@deprecated Use other.',
+            );
+            method.documentation = 'Custom method without the tag.';
+          }
+          if (method.originalName == 'extra') {
+            expect(method.documentation, '');
+            method.documentation = 'Inserted method docs.';
+          }
+        },
+        field: (field) {
+          expect(field.documentation, 'Original field.');
+          field.documentation = '';
+        },
+        param: (parameter) {
+          expect(parameter.documentation, 'count');
+          parameter.documentation = 'times';
+        },
+      ),
+    );
+
+    expect(
+      classes.decls['Foo']!.javadoc?.userDefinedComment,
+      'Replacement class docs.',
+    );
+    expect(classes.decls['Foo']!.fields.single.javadoc?.userDefinedComment, '');
+    expect(
+      classes.decls['Foo']!.methods.first.javadoc?.userDefinedComment,
+      'Custom method without the tag.',
+    );
+    expect(
+      classes
+          .decls['Foo']!.methods[1].params.single.javadoc?.userDefinedComment,
+      'times',
+    );
+
+    final tempDirectory = Directory.systemTemp.createTempSync(
+      'jnigen_docs_visitor_test_',
+    );
+    addTearDown(() => tempDirectory.deleteSync(recursive: true));
+
+    final output = tempDirectory.uri.resolve('bindings.dart');
+    final config = JniGenerator(
+      input: Input(classes: []),
+      output: Output(
+        dart: DartOutput(
+          path: output,
+          structure: OutputStructure.singleFile,
+        ),
+      ),
+    );
+
+    await classes.accept(Linker(config));
+    classes.accept(Renamer(config));
+    await classes.accept(DartGenerator(config));
+
+    final content = File.fromUri(output).readAsStringSync();
+    expect(content, contains('Replacement class docs.'));
+    expect(content, isNot(contains('Original class docs.')));
+    expect(content, contains('Custom method without the tag.'));
+    expect(content, isNot(contains('Original method.')));
+    expect(content, contains('Inserted method docs.'));
+    expect(content, isNot(contains('Original field.')));
+    expect(content, contains("Deprecated('Use other.')"));
+  });
 }
