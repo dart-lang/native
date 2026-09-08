@@ -192,9 +192,14 @@ class Library {
     return true;
   }
 
-  /// Generates [file] with symbol output.
-  void generateSymbolOutputFile(File file, String importPath) {
+  /// Generates in-memory symbol output.
+  FfigenSymbols createSymbols(String importPath) =>
+      writer.createSymbols(importPath);
+
+  /// Generates [file] with symbol output, and returns the [FfigenSymbols].
+  FfigenSymbols generateSymbolOutputFile(File file, String importPath) {
     if (!file.existsSync()) file.createSync(recursive: true);
+    final symbols = writer.createSymbols(importPath);
     if (file.path.endsWith('.dart')) {
       final dartString = writer.generateSymbolOutputDart(importPath);
       file.writeAsStringSync(dartString);
@@ -208,6 +213,7 @@ class Library {
       }
       file.writeAsStringSync(yamlString);
     }
+    return symbols;
   }
 
   /// Generates the bindings.

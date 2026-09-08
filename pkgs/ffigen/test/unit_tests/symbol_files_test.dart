@@ -561,5 +561,111 @@ files:
       expect(content, contains('c:@F@foo:'));
       expect(content, contains('name: foo'));
     });
+
+    test('createSymbols returns in-memory FfigenSymbols', () {
+      final headerFile = File('${tempDir.path}/test.h')
+        ..writeAsStringSync('void foo();\n');
+
+      final config = FfiGenerator(
+        output: Output(
+          dart: DartOutput(path: Uri.file('${tempDir.path}/bindings.dart')),
+        ),
+        input: Input(entryPoints: [headerFile.uri]),
+        visitors: [Visitor(func: (node) => node.isIncluded = true)],
+      );
+      final context = testContext(config);
+      final library = parse(context);
+      library.generate();
+      final symbols = library.createSymbols('package:foo/foo.dart');
+
+      expect(symbols.formatVersion, '1.0.0');
+      expect(symbols.containsKey('c:@F@foo'), isTrue);
+      final imported = symbols['c:@F@foo'];
+      expect(imported, isNotNull);
+      expect(imported!.cType, 'foo');
+      expect(imported.dartType, 'foo');
+      expect(imported.libraryImport.importPath(false), 'package:foo/foo.dart');
+    });
+  });
+
+  group('FfiGeneratorResult', () {
+    test(
+      'generate returns FfiGeneratorResult with symbols when configured',
+      () async {
+        final headerFile = File('${tempDir.path}/test.h')
+          ..writeAsStringSync('void foo();\n');
+        final dartOutput = Uri.file('${tempDir.path}/result_bindings.dart');
+        final symbolOutput = Uri.file('${tempDir.path}/result_symbols.dart');
+
+        final config = FfiGenerator(
+          output: Output(
+            dart: DartOutput(path: dartOutput),
+            symbolFile: SymbolFile(
+              Uri.parse('package:result_pkg/result_bindings.dart'),
+              symbolOutput,
+            ),
+          ),
+          input: Input(entryPoints: [headerFile.uri]),
+          visitors: [Visitor(func: (node) => node.isIncluded = true)],
+        );
+
+        final result = await config.generate(logger: createTestLogger());
+
+        expect(result.dartFile.existsSync(), isTrue);
+        expect(result.symbolFile, isNotNull);
+        expect(result.symbolFile!.existsSync(), isTrue);
+        expect(result.symbols, isNotNull);
+        expect(result.symbols!.containsKey('c:@F@foo'), isTrue);
+        expect(result.symbols!['c:@F@foo']!.cType, 'foo');
+      },
+    );
+
+    test(
+      'generate returns in-memory symbols when symbolFile output is null',
+      () async {
+        final headerFile = File('${tempDir.path}/test.h')
+          ..writeAsStringSync('void foo();\n');
+        final dartOutput = Uri.file('${tempDir.path}/in_mem_bindings.dart');
+
+        final config = FfiGenerator(
+          output: Output(
+            dart: DartOutput(path: dartOutput),
+            symbolFile: SymbolFile(
+              Uri.parse('package:in_mem_pkg/in_mem_bindings.dart'),
+            ),
+          ),
+          input: Input(entryPoints: [headerFile.uri]),
+          visitors: [Visitor(func: (node) => node.isIncluded = true)],
+        );
+
+        final result = await config.generate(logger: createTestLogger());
+
+        expect(result.dartFile.existsSync(), isTrue);
+        expect(result.symbolFile, isNull);
+        expect(result.symbols, isNotNull);
+        expect(result.symbols!.containsKey('c:@F@foo'), isTrue);
+      },
+    );
+
+    test(
+      'generate returns null symbols when symbolFile is not configured',
+      () async {
+        final headerFile = File('${tempDir.path}/test.h')
+          ..writeAsStringSync('void foo();\n');
+        final dartOutput = Uri.file('${tempDir.path}/no_symbols_bindings.dart');
+
+        final config = FfiGenerator(
+          output: Output(dart: DartOutput(path: dartOutput)),
+          input: Input(entryPoints: [headerFile.uri]),
+          visitors: [Visitor(func: (node) => node.isIncluded = true)],
+        );
+
+        final result = await config.generate(logger: createTestLogger());
+
+        expect(result.dartFile.existsSync(), isTrue);
+        expect(result.symbolFile, isNull);
+        expect(result.symbols, isNull);
+      },
+    );
   });
 }

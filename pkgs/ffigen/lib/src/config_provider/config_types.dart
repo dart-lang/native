@@ -439,9 +439,9 @@ class FfiNativeConfig {
 
 class SymbolFile {
   final Uri importPath;
-  final Uri output;
+  final Uri? output;
 
-  const SymbolFile(this.importPath, this.output);
+  const SymbolFile(this.importPath, [this.output]);
 }
 
 class OutputConfig {

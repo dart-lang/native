@@ -69,7 +69,7 @@ void main() {
         context,
         library,
         'example_shared_bindings_symbols.dart',
-        [config.output.symbolFile!.output.toFilePath()],
+        [config.output.symbolFile!.output!.toFilePath()],
         config.output.symbolFile!.importPath.toString(),
       );
     });

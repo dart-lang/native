@@ -63,7 +63,10 @@ FfiGenerator getAConfig([Uri? packageRoot]) {
   );
 }
 
-FfiGenerator getASharedBaseConfig([Uri? packageRoot]) {
+FfiGenerator getASharedBaseConfig([
+  Uri? packageRoot,
+  FfigenSymbols? baseSymbols,
+]) {
   packageRoot ??= Platform.script.resolve('../');
   return FfiGenerator(
     output: Output(
@@ -77,7 +80,7 @@ FfiGenerator getASharedBaseConfig([Uri? packageRoot]) {
       ),
     ),
     input: Input(entryPoints: [packageRoot.resolve('headers/a.h')]),
-    importType: importFromSymbols(base_symbols.symbols),
+    importType: importFromSymbols(baseSymbols ?? base_symbols.symbols),
     visitors: [
       Visitor(
         func: (node) => node.isIncluded = true,
@@ -92,7 +95,7 @@ FfiGenerator getASharedBaseConfig([Uri? packageRoot]) {
 }
 
 Future<void> main() async {
-  await getBaseConfig().generate();
+  final baseResult = await getBaseConfig().generate();
   await getAConfig().generate();
-  await getASharedBaseConfig().generate();
+  await getASharedBaseConfig(null, baseResult.symbols).generate();
 }

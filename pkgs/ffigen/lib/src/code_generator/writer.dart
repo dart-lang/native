@@ -264,8 +264,33 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
     };
   }
 
-  String generateSymbolOutputDart(String importFilePath) {
+  FfigenSymbols createSymbols(String importFilePath) {
     final bindings = _getSymbolBindings();
+    final prefix = _defaultImportPrefix(importFilePath);
+    final import = LibraryImport(prefix, importFilePath);
+    final symbols = <String, ImportedType>{};
+    for (final b in bindings) {
+      final usr = b.usr;
+      final name = b.name;
+      final dartName = b is Typealias
+          ? (getTypedefDartAliasName(b) ?? name)
+          : name;
+      symbols[usr] = ImportedType(
+        import,
+        name,
+        dartName,
+        name,
+        importedDartType: true,
+      );
+    }
+    return FfigenSymbols(
+      formatVersion: strings.symbolFileFormatVersion,
+      symbols: symbols,
+    );
+  }
+
+  String generateSymbolOutputDart(String importFilePath) {
+    final symbolsObj = createSymbols(importFilePath);
     final prefix = _defaultImportPrefix(importFilePath);
 
     final sb = StringBuffer();
@@ -286,20 +311,17 @@ const _import = LibraryImport(
 );
 
 const symbols = FfigenSymbols(
-  formatVersion: '${strings.symbolFileFormatVersion}',
+  formatVersion: '${symbolsObj.formatVersion}',
   symbols: {''');
 
-    for (final b in bindings) {
-      final usr = b.usr;
-      final name = b.name;
-      final dartName = b is Typealias
-          ? (getTypedefDartAliasName(b) ?? name)
-          : name;
+    for (final entry in symbolsObj.symbols.entries) {
+      final usr = entry.key;
+      final type = entry.value;
       sb.writeln("    '${_escapeString(usr)}': ImportedType(");
       sb.writeln('      _import,');
-      sb.writeln("      '${_escapeString(name)}',");
-      sb.writeln("      '${_escapeString(dartName)}',");
-      sb.writeln("      '${_escapeString(name)}',");
+      sb.writeln("      '${_escapeString(type.cType)}',");
+      sb.writeln("      '${_escapeString(type.dartType)}',");
+      sb.writeln("      '${_escapeString(type.nativeType)}',");
       sb.writeln('      importedDartType: true,');
       sb.writeln('    ),');
     }
