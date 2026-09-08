@@ -292,8 +292,9 @@ const symbols = FfigenSymbols(
     for (final b in bindings) {
       final usr = b.usr;
       final name = b.name;
-      final dartName =
-          b is Typealias ? (getTypedefDartAliasName(b) ?? name) : name;
+      final dartName = b is Typealias
+          ? (getTypedefDartAliasName(b) ?? name)
+          : name;
       sb.writeln("    '${_escapeString(usr)}': ImportedType(");
       sb.writeln('      _import,');
       sb.writeln("      '${_escapeString(name)}',");
@@ -329,10 +330,8 @@ const symbols = FfigenSymbols(
     return strings.defaultSymbolFileImportPrefix;
   }
 
-  static String _escapeString(String s) => s
-      .replaceAll(r'\', r'\\')
-      .replaceAll(r"'", r"\'")
-      .replaceAll(r'$', r'\$');
+  static String _escapeString(String s) =>
+      s.replaceAll(r'\', r'\\').replaceAll(r"'", r"\'").replaceAll(r'$', r'\$');
 
   bool _hasLintIgnore(String ignore) =>
       RegExp('ignore_for_file:\\s*$ignore').hasMatch(header);

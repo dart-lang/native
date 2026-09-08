@@ -35,7 +35,7 @@ files:
 ''');
 
       final importType = importFromSymbolFile(file.uri);
-      final decl = Declaration(usr: 'c:@F@my_func', originalName: 'my_func');
+      const decl = Declaration(usr: 'c:@F@my_func', originalName: 'my_func');
       final imported = importType(decl);
 
       expect(imported, isNotNull);
@@ -58,7 +58,7 @@ files:
 ''');
 
       final importType = importFromSymbolFile(Uri(path: file.path));
-      final decl = Declaration(usr: 'c:@F@my_func', originalName: 'my_func');
+      const decl = Declaration(usr: 'c:@F@my_func', originalName: 'my_func');
       final imported = importType(decl);
 
       expect(imported, isNotNull);
@@ -83,7 +83,7 @@ files:
         Uri.parse('package:test_pkg/my_symbols.yaml'),
         packageConfig: packageConfig,
       );
-      final decl = Declaration(usr: 'c:@F@pkg_func', originalName: 'pkg_func');
+      const decl = Declaration(usr: 'c:@F@pkg_func', originalName: 'pkg_func');
       final imported = importType(decl);
 
       expect(imported, isNotNull);
@@ -129,16 +129,16 @@ files:
 
         final importType = importFromSymbolFiles([file1.uri, file2.uri]);
 
-        final declA = Declaration(usr: 'c:@F@func_a', originalName: 'func_a');
-        final declShared1 = Declaration(
+        const declA = Declaration(usr: 'c:@F@func_a', originalName: 'func_a');
+        const declShared1 = Declaration(
           usr: 'c:@F@shared_func_1',
           originalName: 'shared_func_1',
         );
-        final declShared2 = Declaration(
+        const declShared2 = Declaration(
           usr: 'c:@F@shared_func_2',
           originalName: 'shared_func_2',
         );
-        final declB = Declaration(usr: 'c:@F@func_b', originalName: 'func_b');
+        const declB = Declaration(usr: 'c:@F@func_b', originalName: 'func_b');
 
         final importedA = importType(declA);
         final importedShared1 = importType(declShared1);
@@ -210,7 +210,7 @@ files:
     });
 
     test('known USR', () {
-      final decl = Declaration(
+      const decl = Declaration(
         usr: 'c:@F@known_usr',
         originalName: 'known_name',
       );
@@ -220,7 +220,7 @@ files:
     });
 
     test('unknown USR', () {
-      final decl = Declaration(
+      const decl = Declaration(
         usr: 'c:@F@unknown_usr',
         originalName: 'unknown_name',
       );
@@ -228,7 +228,7 @@ files:
     });
 
     test('empty USR', () {
-      final decl = Declaration(usr: '', originalName: 'empty_usr');
+      const decl = Declaration(usr: '', originalName: 'empty_usr');
       expect(importType(decl), isNull);
     });
   });
@@ -253,7 +253,7 @@ files:
     });
 
     test('default dartName matches name', () {
-      final decl = Declaration(
+      const decl = Declaration(
         usr: 'c:@S@NormalType',
         originalName: 'NormalType',
       );
@@ -271,7 +271,7 @@ files:
     });
 
     test('explicit dartName override', () {
-      final decl = Declaration(
+      const decl = Declaration(
         usr: 'c:@T@CustomType',
         originalName: 'NativeCustomType',
       );
@@ -518,9 +518,7 @@ files:
           dart: DartOutput(path: Uri.file('${tempDir.path}/bindings.dart')),
         ),
         input: Input(entryPoints: [headerFile.uri]),
-        visitors: [
-          Visitor(func: (node) => node.isIncluded = true),
-        ],
+        visitors: [Visitor(func: (node) => node.isIncluded = true)],
       );
       final context = testContext(config);
       final library = parse(context);
@@ -549,9 +547,7 @@ files:
           dart: DartOutput(path: Uri.file('${tempDir.path}/bindings.dart')),
         ),
         input: Input(entryPoints: [headerFile.uri]),
-        visitors: [
-          Visitor(func: (node) => node.isIncluded = true),
-        ],
+        visitors: [Visitor(func: (node) => node.isIncluded = true)],
       );
       final context = testContext(config);
       final library = parse(context);

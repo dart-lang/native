@@ -157,13 +157,7 @@ final shortType = const AstImportedType(
   ImportedType(ffiImport, 'Short', 'int', 'short', defaultValue: '0'),
 );
 final unsignedIntType = const AstImportedType(
-  ImportedType(
-    ffiImport,
-    'UnsignedInt',
-    'int',
-    'unsigned',
-    defaultValue: '0',
-  ),
+  ImportedType(ffiImport, 'UnsignedInt', 'int', 'unsigned', defaultValue: '0'),
 );
 final intType = const AstImportedType(
   ImportedType(ffiImport, 'Int', 'int', 'int', defaultValue: '0'),
@@ -190,13 +184,7 @@ final unsignedLongLongType = const AstImportedType(
   ),
 );
 final longLongType = const AstImportedType(
-  ImportedType(
-    ffiImport,
-    'LongLong',
-    'int',
-    'long long',
-    defaultValue: '0',
-  ),
+  ImportedType(ffiImport, 'LongLong', 'int', 'long long', defaultValue: '0'),
 );
 
 final floatType = const AstImportedType(
@@ -214,12 +202,7 @@ final wCharType = const AstImportedType(
 );
 
 final objCObjectType = const AstImportedType(
-  ImportedType(
-    objcPkgImport,
-    'ObjCObjectImpl',
-    'ObjCObjectImpl',
-    'void',
-  ),
+  ImportedType(objcPkgImport, 'ObjCObjectImpl', 'ObjCObjectImpl', 'void'),
 );
 final objCSelType = const AstImportedType(
   ImportedType(
@@ -230,20 +213,10 @@ final objCSelType = const AstImportedType(
   ),
 );
 final objCBlockType = const AstImportedType(
-  ImportedType(
-    objcPkgImport,
-    'ObjCBlockImpl',
-    'ObjCBlockImpl',
-    'id',
-  ),
+  ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id'),
 );
 final objCProtocolType = const AstImportedType(
-  ImportedType(
-    objcPkgImport,
-    'ObjCProtocolImpl',
-    'ObjCProtocolImpl',
-    'void',
-  ),
+  ImportedType(objcPkgImport, 'ObjCProtocolImpl', 'ObjCProtocolImpl', 'void'),
 );
 final objCContextType = const AstImportedType(
   ImportedType(

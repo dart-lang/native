@@ -156,3 +156,5 @@ hooks:
 dependency_overrides:
   ffigen:
     path: pkgs/ffigen
+  ffigen_symbols:
+    path: pkgs/ffigen_symbols

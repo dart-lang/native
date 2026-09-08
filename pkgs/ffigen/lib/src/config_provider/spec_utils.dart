@@ -218,16 +218,12 @@ ImportedType? Function(Declaration) importFromSymbolFile(
 ///   importType: importFromSymbols(other_symbols.symbols),
 /// );
 /// ```
-ImportedType? Function(Declaration) importFromSymbols(
-  Object symbols,
-) {
+ImportedType? Function(Declaration) importFromSymbols(Object symbols) {
   if (symbols is FfigenSymbols) {
-    return (Declaration decl) =>
-        decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+    return (Declaration decl) => decl.usr.isNotEmpty ? symbols[decl.usr] : null;
   }
   if (symbols is Map<String, ImportedType>) {
-    return (Declaration decl) =>
-        decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+    return (Declaration decl) => decl.usr.isNotEmpty ? symbols[decl.usr] : null;
   }
   throw ArgumentError.value(
     symbols,
