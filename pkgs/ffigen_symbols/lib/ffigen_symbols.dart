@@ -113,3 +113,96 @@ class ImportedType {
   @override
   String toString() => '${libraryImport.name}.$cType';
 }
+
+/// A container for symbols exported by an ffigen-generated file.
+///
+/// A symbol file contains a mapping from declaration USR (Unique Symbol
+/// Resolution) strings to [ImportedType] definitions.
+///
+/// Pre-generated bindings can export a top-level [FfigenSymbols] instance so
+/// that other packages can reuse declarations without reparsing the original
+/// C/ObjC headers.
+///
+/// Example:
+///
+/// ```dart
+/// const symbols = FfigenSymbols(
+///   formatVersion: '1.0.0',
+///   symbols: {
+///     'c:@F@my_func': ImportedType(
+///       _import,
+///       'my_func',
+///       'my_func',
+///       'my_func',
+///       importedDartType: true,
+///     ),
+///   },
+/// );
+/// ```
+class FfigenSymbols {
+  /// The current format version for symbol files.
+  static const currentFormatVersion = '1.0.0';
+
+  /// The format version of this symbol file.
+  final String formatVersion;
+
+  /// The mapping of symbol USRs to their imported type definitions.
+  final Map<String, ImportedType> symbols;
+
+  const FfigenSymbols({
+    this.formatVersion = currentFormatVersion,
+    required this.symbols,
+  });
+
+  /// Returns the [ImportedType] for the given declaration [usr], if present.
+  ImportedType? operator [](String usr) => symbols[usr];
+
+  /// Returns whether a symbol with the given [usr] is present.
+  bool containsKey(String usr) => symbols.containsKey(usr);
+
+  /// The number of symbols defined.
+  int get length => symbols.length;
+
+  /// Whether no symbols are defined.
+  bool get isEmpty => symbols.isEmpty;
+
+  /// Whether any symbols are defined.
+  bool get isNotEmpty => symbols.isNotEmpty;
+
+  /// The symbol USR keys.
+  Iterable<String> get keys => symbols.keys;
+
+  /// The imported type definitions.
+  Iterable<ImportedType> get values => symbols.values;
+
+  /// The entries of symbol USRs to their imported type definitions.
+  Iterable<MapEntry<String, ImportedType>> get entries => symbols.entries;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! FfigenSymbols) return false;
+    if (formatVersion != other.formatVersion) return false;
+    if (symbols.length != other.symbols.length) return false;
+    for (final entry in symbols.entries) {
+      if (other.symbols[entry.key] != entry.value) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    formatVersion,
+    Object.hashAllUnordered(
+      symbols.entries.map((e) => Object.hash(e.key, e.value)),
+    ),
+  );
+
+  @override
+  String toString() =>
+      'FfigenSymbols(formatVersion: $formatVersion, ${symbols.length} symbols)';
+}
+
+/// Alias for [FfigenSymbols].
+typedef Symbols = FfigenSymbols;
+

@@ -23,5 +23,26 @@ void main() {
     const decl2 = Declaration(usr: 'c:@S@Foo', originalName: 'Foo');
     expect(decl1, equals(decl2));
     expect(identical(decl1, decl2), isTrue);
+
+    const symbols1 = FfigenSymbols(
+      formatVersion: '1.0.0',
+      symbols: {'c:@S@Foo': type1},
+    );
+    const symbols2 = Symbols(
+      formatVersion: '1.0.0',
+      symbols: {'c:@S@Foo': type2},
+    );
+    expect(symbols1, equals(symbols2));
+    expect(identical(symbols1, symbols2), isTrue);
+    expect(symbols1['c:@S@Foo'], equals(type1));
+    expect(symbols1['unknown'], isNull);
+    expect(symbols1.containsKey('c:@S@Foo'), isTrue);
+    expect(symbols1.containsKey('unknown'), isFalse);
+    expect(symbols1.length, 1);
+    expect(symbols1.isEmpty, isFalse);
+    expect(symbols1.isNotEmpty, isTrue);
+    expect(symbols1.keys, ['c:@S@Foo']);
+    expect(symbols1.values, [type1]);
+    expect(symbols1.toString(), contains('1 symbols'));
   });
 }
