@@ -117,6 +117,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'clang_getArgType',
             'clang_isConstQualifiedType',
             'clang_isFunctionTypeVariadic',
+            'clang_isPODType',
             'clang_Cursor_getStorageClass',
             'clang_getCursorResultType',
             'clang_getCursorExtent',
