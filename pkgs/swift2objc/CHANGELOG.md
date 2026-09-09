@@ -1,4 +1,4 @@
-## 0.3.0-wip
+## 0.3.0
 
 - Fix extensions of nested types to use fully qualified generated wrapper names.
 
