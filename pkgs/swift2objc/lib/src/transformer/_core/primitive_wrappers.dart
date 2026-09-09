@@ -28,6 +28,7 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
     source: primitiveType.declaration.source,
     availability: availability,
     type: primitiveType,
+    hasObjCAnnotation: true,
   );
   return ClassDeclaration(
     id: primitiveType.id.addIdSuffix('wrapper'),
