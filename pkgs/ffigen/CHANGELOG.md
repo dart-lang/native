@@ -1,3 +1,7 @@
+## 23.1.0-wip
+
+- Add `dumpApi` utility and `ApiDumperVisitor` to dump entire parsed AST.
+
 ## 23.0.0
 
 - The YAML configuration format is deprecated and will be removed in a future
