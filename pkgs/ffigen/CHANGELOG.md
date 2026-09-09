@@ -5,6 +5,10 @@
   `class` declarations are now treated like structs, and with C++ support on,
   the C++ class wrapper vs. plain struct decision is made by POD-ness rather
   than by the `class`/`struct` keyword.
+- Fix a bug where a C++ type named through a using-declaration (e.g.
+  `std::uint16_t`) was left unresolved, which dropped every function that
+  mentioned it from the bindings. Such types now resolve through their
+  canonical type.
 
 ## 22.0.0
 

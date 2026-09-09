@@ -70,8 +70,10 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'CXUnsavedFile',
             'CXSourceRange',
           };
+          node.dependencies = CompoundDependencies.full;
           node.isIncluded = included.contains(node.name);
         },
+        macroConstant: (node) => node.isIncluded = true,
         func: (node) {
           const included = {
             'clang_createIndex',
@@ -99,6 +101,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
             'clang_getTypedefName',
             'clang_getPointeeType',
             'clang_getCanonicalType',
+            'clang_equalTypes',
             'clang_Type_getNamedType',
             'clang_Type_getAlignOf',
             'clang_Type_getSizeOf',
