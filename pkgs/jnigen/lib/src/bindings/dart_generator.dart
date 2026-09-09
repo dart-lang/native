@@ -19,7 +19,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '1.0.0';
+const String version = '1.0.1';
 
 /// Version of package:jni. Keep in sync with package:jni's `pubspec.yaml`.
 @visibleForTesting

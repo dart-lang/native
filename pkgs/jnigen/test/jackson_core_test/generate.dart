@@ -25,7 +25,7 @@ const jacksonPreamble = '// Generated from jackson-core which is licensed under'
 
 const testName = 'jackson_core_test';
 final thirdPartyDir = join('test', testName, 'third_party');
-const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.4'];
+const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.5'];
 
 JniGenerator getConfig({
   String? root,
