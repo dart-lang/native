@@ -1415,6 +1415,19 @@ class Clang {
   late final _clang_isFunctionTypeVariadic = _clang_isFunctionTypeVariadicPtr
       .asFunction<int Function(CXType)>();
 
+  /// Return 1 if the CXType is a POD (plain old data) type, and 0
+  /// otherwise.
+  int clang_isPODType(CXType T) {
+    return _clang_isPODType(T);
+  }
+
+  late final _clang_isPODTypePtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
+        'clang_isPODType',
+      );
+  late final _clang_isPODType = _clang_isPODTypePtr
+      .asFunction<int Function(CXType)>();
+
   /// Same as \c clang_parseTranslationUnit2, but returns
   /// the \c CXTranslationUnit instead of an error code.  In case of an error this
   /// routine returns a \c NULL \c CXTranslationUnit, without further detailed

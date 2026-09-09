@@ -1,3 +1,11 @@
+## 22.0.1-wip
+
+- Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions
+  using pointers to a C++ class were skipped unless C++ support was configured:
+  `class` declarations are now treated like structs, and with C++ support on,
+  the C++ class wrapper vs. plain struct decision is made by POD-ness rather
+  than by the `class`/`struct` keyword.
+
 ## 22.0.0
 
 - __Breaking change__: Major overhaul of Dart config API:
