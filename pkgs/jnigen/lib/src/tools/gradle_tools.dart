@@ -179,6 +179,12 @@ class MavenDependency {
   String groupID, artifactID, version;
   Map<String, String> otherTags;
 
+  String get javadocUrl =>
+      'https://javadoc.io/doc/$groupID/$artifactID/$version';
+
+  String get staticJavadocUrl =>
+      'https://javadoc.io/static/$groupID/$artifactID/$version';
+
   String toGradleDependency(String configuration) {
     return '$configuration("$groupID:$artifactID:$version")';
   }
