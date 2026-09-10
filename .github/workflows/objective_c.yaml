@@ -76,7 +76,7 @@ jobs:
         # any git-diffs at this point, it means the generated code is outdated.
         run: if [[ -n $(git status --porcelain | tee /dev/stderr) ]]; then echo -e "\nDIFF:"; git diff; false; fi
       - name: Upload coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
         with:
           files: pkgs/objective_c/coverage/lcov.info
           flags: objective_c
