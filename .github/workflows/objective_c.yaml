@@ -75,21 +75,14 @@ jobs:
         # test/generate_code_test.dart runs the code generator, so if there are
         # any git-diffs at this point, it means the generated code is outdated.
         run: if [[ -n $(git status --porcelain | tee /dev/stderr) ]]; then echo -e "\nDIFF:"; git diff; false; fi
-      - name: Trust Coveralls tap
-        run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
+        uses: codecov/codecov-action@v5
         with:
-          flag-name: objective_c
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
-          path-to-lcov: pkgs/objective_c/coverage/lcov.info
-      - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
-        with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+          files: pkgs/objective_c/coverage/lcov.info
+          flags: objective_c
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
 
   build-flutter-example:
     needs: analyze

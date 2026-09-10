@@ -103,24 +103,11 @@ jobs:
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
         run: dart tool/ci.dart --all --no-apitool ${{ matrix.sdk == 'stable' && '--no-format' || '' }}
 
-      - name: Trust Coveralls tap
-        run: brew trust coverallsapp/coveralls
-        if: ${{ matrix.os == 'macos' }}
-
       - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
+        uses: codecov/codecov-action@v5
         with:
-          flag-name: native_pkgs_${{ matrix.os }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
+          files: ./coverage/lcov.info
+          flags: native_pkgs_${{ matrix.os }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
-  coverage-finished:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
-        with:
-          carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
