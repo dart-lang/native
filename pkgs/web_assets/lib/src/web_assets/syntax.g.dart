@@ -44,11 +44,34 @@ class AssetSyntax extends JsonObjectSyntax {
   String toString() => 'AssetSyntax($json)';
 }
 
-class WebAssetEncodingSyntax extends JsonObjectSyntax {
-  WebAssetEncodingSyntax.fromJson(super.json, {super.path = const []})
+class WebAssetsWebAssetSyntax extends AssetSyntax {
+  static const typeValue = 'web_assets/web';
+
+  WebAssetsWebAssetSyntax.fromJson(super.json, {super.path})
+    : super._fromJson();
+
+  WebAssetsWebAssetSyntax({super.path = const []})
+    : super(type: 'web_assets/web');
+
+  @override
+  List<String> validate() => [...super.validate()];
+
+  @override
+  String toString() => 'WebAssetsWebAssetSyntax($json)';
+}
+
+extension WebAssetsWebAssetSyntaxExtension on AssetSyntax {
+  bool get isWebAssetsWebAsset => type == 'web_assets/web';
+
+  WebAssetsWebAssetSyntax get asWebAssetsWebAsset =>
+      WebAssetsWebAssetSyntax.fromJson(json, path: path);
+}
+
+class WebUriAssetEncodingSyntax extends JsonObjectSyntax {
+  WebUriAssetEncodingSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  WebAssetEncodingSyntax({
+  WebUriAssetEncodingSyntax({
     required Uri file,
     required String name,
     required String package,
@@ -93,63 +116,7 @@ class WebAssetEncodingSyntax extends JsonObjectSyntax {
   ];
 
   @override
-  String toString() => 'WebAssetEncodingSyntax($json)';
-}
-
-class WebAssetsWebAssetSyntax extends AssetSyntax {
-  static const typeValue = 'web_assets/web';
-
-  WebAssetsWebAssetSyntax.fromJson(super.json, {super.path})
-    : super._fromJson();
-
-  WebAssetsWebAssetSyntax({
-    required WebAssetEncodingSyntax? encoding,
-    super.path = const [],
-  }) : super(type: 'web_assets/web') {
-    _encoding = encoding;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [WebAssetsWebAssetSyntax] that are not in
-  /// [AssetSyntax].
-  void setup({required WebAssetEncodingSyntax? encoding}) {
-    _encoding = encoding;
-    json.sortOnKey();
-  }
-
-  WebAssetEncodingSyntax? get encoding {
-    final jsonValue = _reader.optionalMap('encoding');
-    if (jsonValue == null) return null;
-    return WebAssetEncodingSyntax.fromJson(
-      jsonValue,
-      path: [...path, 'encoding'],
-    );
-  }
-
-  set _encoding(WebAssetEncodingSyntax? value) {
-    json.setOrRemove('encoding', value?.json);
-  }
-
-  List<String> _validateEncoding() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('encoding');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return encoding?.validate() ?? [];
-  }
-
-  @override
-  List<String> validate() => [...super.validate(), ..._validateEncoding()];
-
-  @override
-  String toString() => 'WebAssetsWebAssetSyntax($json)';
-}
-
-extension WebAssetsWebAssetSyntaxExtension on AssetSyntax {
-  bool get isWebAssetsWebAsset => type == 'web_assets/web';
-
-  WebAssetsWebAssetSyntax get asWebAssetsWebAsset =>
-      WebAssetsWebAssetSyntax.fromJson(json, path: path);
+  String toString() => 'WebUriAssetEncodingSyntax($json)';
 }
 
 class JsonObjectSyntax {

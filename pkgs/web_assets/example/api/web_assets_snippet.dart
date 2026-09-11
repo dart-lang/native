@@ -12,13 +12,13 @@ import 'package:web_assets/web_assets.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    if (input.config.buildWebAssets) {
+    if (input.config.buildWebUriAssets) {
       final packageName = input.packageName;
       final assetPathInPackage = input.packageRoot.resolve('...');
       final assetPathDownload = input.outputDirectoryShared.resolve('...');
 
-      output.assets.web.add(
-        WebAsset(
+      output.assets.webUri.add(
+        WebUriAsset(
           package: packageName,
           name: '...',
           file: assetPathInPackage,

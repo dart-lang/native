@@ -9,7 +9,7 @@ import 'package:web_assets/web_assets.dart';
 void main() async {
   test('WebAsset toJson', () {
     expect(
-      WebAsset(
+      WebUriAsset(
         package: 'my_package',
         name: 'name',
         file: Uri.file('not there'),
@@ -36,8 +36,8 @@ void main() async {
     });
     expect(encodedAsset.isWebAsset, isTrue);
     expect(
-      WebAsset.fromEncoded(encodedAsset),
-      WebAsset(
+      WebUriAsset.fromEncoded(encodedAsset),
+      WebUriAsset(
         package: 'my_package',
         name: 'name',
         file: Uri.file('not there'),

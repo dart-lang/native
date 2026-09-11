@@ -11,8 +11,8 @@ void main() {
   final data2Uri = Uri.file('path/to/data.json');
 
   final dataAssets = [
-    WebAsset(name: 'my_web_asset', package: 'my_package', file: dataUri),
-    WebAsset(name: 'my_web_asset2', package: 'my_package', file: data2Uri),
+    WebUriAsset(name: 'my_web_asset', package: 'my_package', file: dataUri),
+    WebUriAsset(name: 'my_web_asset2', package: 'my_package', file: data2Uri),
   ];
   final assets = [for (final asset in dataAssets) asset.encode()];
 

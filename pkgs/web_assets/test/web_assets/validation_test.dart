@@ -48,8 +48,8 @@ void main() {
     final input = makeDataBuildInput();
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.txt'));
-    outputBuilder.assets.web.add(
-      WebAsset(
+    outputBuilder.assets.webUri.add(
+      WebUriAsset(
         package: input.packageName,
         name: 'foo.txt',
         file: assetFile.uri,
@@ -67,8 +67,8 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.web.add(
-      WebAsset(
+    outputBuilder.assets.webUri.add(
+      WebUriAsset(
         package: 'different_package',
         name: 'foo.txt',
         file: assetFile.uri,
@@ -89,13 +89,13 @@ void main() {
     final outputBuilder = BuildOutputBuilder();
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.web.addAll([
-      WebAsset(
+    outputBuilder.assets.webUri.addAll([
+      WebUriAsset(
         package: input.packageName,
         name: 'foo.txt',
         file: assetFile.uri,
       ),
-      WebAsset(
+      WebUriAsset(
         package: input.packageName,
         name: 'foo.txt',
         file: assetFile.uri,

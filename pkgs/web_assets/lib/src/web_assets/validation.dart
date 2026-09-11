@@ -27,7 +27,7 @@ List<String> _validateHookInput(List<EncodedAsset> assets) {
       errors.addAll(syntaxErrors);
       continue;
     }
-    final dataAsset = WebAsset.fromEncoded(asset);
+    final dataAsset = WebUriAsset.fromEncoded(asset);
     errors.addAll(
       _validateFile(
         'LinkInput.assets.data asset "${dataAsset.id}" file',
@@ -72,33 +72,41 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
       errors.addAll(syntaxErrors);
       continue;
     }
-    _validateWebAsset(input, WebAsset.fromEncoded(asset), errors, ids, isBuild);
+    _validateWebAsset(
+      input,
+      WebUriAsset.fromEncoded(asset),
+      errors,
+      ids,
+      isBuild,
+    );
   }
   return errors;
 }
 
 void _validateWebAsset(
   HookInput input,
-  WebAsset dataAsset,
+  WebUriAsset webUriAsset,
   ValidationErrors errors,
   Set<String> ids,
   bool isBuild,
 ) {
-  if (isBuild && dataAsset.package != input.packageName) {
-    errors.add('Data asset must have package name ${input.packageName}');
+  if (isBuild && webUriAsset.package != input.packageName) {
+    errors.add('Web uri asset must have package name ${input.packageName}');
   }
-  if (!ids.add(dataAsset.name)) {
-    errors.add('More than one data asset with same "${dataAsset.name}" name.');
+  if (!ids.add(webUriAsset.name)) {
+    errors.add(
+      'More than one web uri asset with same "${webUriAsset.name}" name.',
+    );
   }
-  final file = dataAsset.file;
-  errors.addAll(_validateFile('Data asset ${dataAsset.name} file', file));
+  final file = webUriAsset.file;
+  errors.addAll(_validateFile('Web uri asset ${webUriAsset.name} file', file));
 }
 
 ValidationErrors _validateWebAssetSyntax(EncodedAsset encodedAsset) {
   if (!encodedAsset.isWebAsset) {
     return [];
   }
-  final syntaxNode = WebAssetEncodingSyntax.fromJson(
+  final syntaxNode = WebUriAssetEncodingSyntax.fromJson(
     encodedAsset.encoding,
     path: encodedAsset.encodingJsonPath ?? [],
   );

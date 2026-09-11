@@ -4,11 +4,11 @@
 
 import 'package:hooks/hooks.dart';
 
-import 'web_asset.dart';
 import 'validation.dart';
+import 'web_asset.dart';
 
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
-/// with [WebAsset]s.
+/// with [WebUriAsset]s.
 final class WebAssetsExtension extends ProtocolExtension {
   WebAssetsExtension();
 
@@ -23,7 +23,7 @@ final class WebAssetsExtension extends ProtocolExtension {
   }
 
   void _setupConfig(HookInputBuilder input) {
-    input.config.addBuildAssetTypes([WebAssetType.type]);
+    input.config.addBuildAssetTypes([WebUriAssetType.type]);
   }
 
   @override
@@ -55,7 +55,7 @@ final class WebAssetsExtension extends ProtocolExtension {
   Iterable<Uri> outputFiles(List<EncodedAsset> assets) sync* {
     for (final encodedAsset in assets) {
       if (encodedAsset.isWebAsset) {
-        yield encodedAsset.asDataAsset.file;
+        yield encodedAsset.asWebUriAsset.file;
       }
     }
   }

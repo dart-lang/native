@@ -22,21 +22,21 @@
           "if": {
             "properties": {
               "type": {
-                "const": "web_assets/web"
+                "const": "web_assets/web_uri"
               }
             }
           },
           "then": {
             "properties": {
               "encoding": {
-                "$ref": "#/definitions/WebAssetEncoding"
+                "$ref": "#/definitions/WebUriAssetEncoding"
               }
             }
           }
         }
       ]
     },
-    "WebAssetEncoding": {
+    "WebUriAssetEncoding": {
       "type": "object",
       "properties": {
         "file": {
