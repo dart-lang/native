@@ -202,6 +202,79 @@ ImportedType? Function(Declaration) importFromSymbolFile(
   PackageConfig? packageConfig,
 }) => importFromSymbolFiles([symbolFile], packageConfig: packageConfig);
 
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbols].
+///
+/// [symbols] can be an [FfigenSymbols] instance or a
+/// [Map<String, ImportedType>].
+///
+/// Example:
+///
+/// ```dart
+/// import 'package:other_pkg/symbols.dart' as other_symbols;
+///
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importFromSymbols(other_symbols.symbols),
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbols(Object symbols) {
+  if (symbols is FfigenSymbols) {
+    return (Declaration decl) => decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+  }
+  if (symbols is Map<String, ImportedType>) {
+    return (Declaration decl) => decl.usr.isNotEmpty ? symbols[decl.usr] : null;
+  }
+  throw ArgumentError.value(
+    symbols,
+    'symbols',
+    'Expected FfigenSymbols or Map<String, ImportedType>',
+  );
+}
+
+/// Returns a function suitable for use as [FfiGenerator.importType] that
+/// imports declarations defined in the given [symbolCollections].
+///
+/// Each element can be an [FfigenSymbols] instance or a
+/// [Map<String, ImportedType>].
+///
+/// If multiple collections contain the same symbol, later collections will
+/// take precedence.
+///
+/// Example:
+///
+/// ```dart
+/// import 'package:pkg1/symbols.dart' as pkg1_symbols;
+/// import 'package:pkg2/symbols.dart' as pkg2_symbols;
+///
+/// final config = FfiGenerator(
+///   // ...
+///   importType: importFromSymbolMaps([
+///     pkg1_symbols.symbols,
+///     pkg2_symbols.symbols,
+///   ]),
+/// );
+/// ```
+ImportedType? Function(Declaration) importFromSymbolMaps(
+  Iterable<Object> symbolCollections,
+) {
+  final merged = <String, ImportedType>{};
+  for (final collection in symbolCollections) {
+    if (collection is FfigenSymbols) {
+      merged.addAll(collection.symbols);
+    } else if (collection is Map<String, ImportedType>) {
+      merged.addAll(collection);
+    } else {
+      throw ArgumentError.value(
+        collection,
+        'symbolCollections element',
+        'Expected FfigenSymbols or Map<String, ImportedType>',
+      );
+    }
+  }
+  return importFromSymbols(merged);
+}
+
 Map<String, List<String>> typeMapExtractor(Map<dynamic, dynamic>? yamlConfig) {
   // Key - type_name, Value - [lib, cType, dartType].
   final resultMap = <String, List<String>>{};
@@ -312,7 +385,7 @@ Type makeBaseTypeFromRawVarArgType(
   }
   if (importType.call(Declaration(usr: '', originalName: rawBaseType))
       case final imported?) {
-    return imported;
+    return AstImportedType(imported);
   } else if (cxTypeKindToImportedTypes[rawBaseType] case final type?) {
     return type;
   } else if (supportedTypedefToImportedType[rawBaseType] case final type?) {
@@ -341,7 +414,9 @@ Type makeBaseTypeFromRawVarArgType(
         );
       }
       final typeName = rawVarArgTypeSplit[1];
-      return ImportedType(libraryImport, typeName, typeName, typeName);
+      return AstImportedType(
+        ImportedType(libraryImport, typeName, typeName, typeName),
+      );
     } else {
       throw Exception(
         'Invalid type $rawBaseType : Expected 0 or 1 .(dot) separators.',

@@ -6,7 +6,6 @@
 library;
 
 import '../../code_generator.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -184,7 +183,7 @@ Type getCodeGenType(
       final imported = context.config.importType(
         Declaration(usr: '', originalName: typeSpellKey),
       );
-      if (imported != null) return imported;
+      if (imported != null) return AstImportedType(imported);
       if (cxTypeKindToImportedTypes.containsKey(typeSpellKey)) {
         return cxTypeKindToImportedTypes[typeSpellKey]!;
       } else {
@@ -208,7 +207,7 @@ Type? _createTypeFromCursor(
   final imported = context.config.importType(
     Declaration(usr: usr, originalName: cursor.spelling()),
   );
-  if (imported != null) return imported;
+  if (imported != null) return AstImportedType(imported);
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
@@ -221,7 +220,7 @@ Type? _createTypeFromCursor(
       final importedTypedef = context.config.importType(
         Declaration(usr: usr, originalName: spelling),
       );
-      if (importedTypedef != null) return importedTypedef;
+      if (importedTypedef != null) return AstImportedType(importedTypedef);
       // Get name from supported typedef name.
       if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
         logger.fine('  Type Mapped from supported typedef');
@@ -307,13 +306,13 @@ Type? _extractfromRecord(
     final imported = context.config.importType(
       Declaration(usr: cursor.usr(), originalName: declSpelling),
     );
-    if (imported != null) return imported;
+    if (imported != null) return AstImportedType(imported);
     return parseStructDeclaration(cursor, context);
   } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
     final imported = context.config.importType(
       Declaration(usr: cursor.usr(), originalName: declSpelling),
     );
-    if (imported != null) return imported;
+    if (imported != null) return AstImportedType(imported);
     return parseUnionDeclaration(cursor, context);
   }
 

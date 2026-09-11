@@ -10,6 +10,8 @@ environment:
 dependencies:
   cli_util: ^0.4.2
   ffi: ^2.0.1
+  ffigen_symbols:
+    path: ../../../ffigen_symbols
   path: ^1.8.0
 
 dev_dependencies:
@@ -20,6 +22,8 @@ dev_dependencies:
 dependency_overrides:
   code_assets:
     path: ../../../code_assets
+  ffigen_symbols:
+    path: ../../../ffigen_symbols
   hooks:
     path: ../../../hooks
   native_toolchain_c:

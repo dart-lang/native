@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 import '../../code_generator.dart' show SupportedNativeType, Type;
 import '../../code_generator/imports.dart';
 
-Map<String, ImportedType> cxTypeKindToImportedTypes = {
+Map<String, AstImportedType> cxTypeKindToImportedTypes = {
   'void': voidType,
   'unsigned char': unsignedCharType,
   'signed char': signedCharType,
@@ -23,23 +23,23 @@ Map<String, ImportedType> cxTypeKindToImportedTypes = {
   'double': doubleType,
 };
 
-Map<Type, ImportedType?> unsignedToSignedNativeIntType = Map.fromEntries(
+Map<Type, AstImportedType?> unsignedToSignedNativeIntType = Map.fromEntries(
   cxTypeKindToImportedTypes.entries
       .where((e) => e.key.contains('unsigned'))
       .map(
         (e) => MapEntry(
-          e.value as Type,
+          e.value,
           cxTypeKindToImportedTypes[e.key.replaceFirst('unsigned ', '')],
         ),
       ),
 );
 
-Map<Type, ImportedType?> signedToUnsignedNativeIntType = Map.fromEntries(
+Map<Type, AstImportedType?> signedToUnsignedNativeIntType = Map.fromEntries(
   cxTypeKindToImportedTypes.entries
       .whereNot((e) => e.key.contains('unsigned'))
       .map(
         (e) => MapEntry(
-          e.value as Type,
+          e.value,
           cxTypeKindToImportedTypes['unsigned ${e.key}'],
         ),
       ),
@@ -58,7 +58,7 @@ Map<String, SupportedNativeType> suportedTypedefToSuportedNativeType = {
   'uintptr_t': SupportedNativeType.uintPtr,
 };
 
-Map<String, ImportedType> supportedTypedefToImportedType = {
+Map<String, AstImportedType> supportedTypedefToImportedType = {
   'size_t': sizeType,
   'wchar_t': wCharType,
 };

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../config_provider/config_types.dart' show Declaration;
+import 'package:ffigen_symbols/ffigen_symbols.dart' show Declaration;
 import '../config_provider/public_ast.dart' as public_ast;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
