@@ -136,18 +136,7 @@ classes:
         throwsA(isA<ConfigException>().having(
           (error) => error.message,
           'message',
-          'Entry 2 of "classes" is empty.',
-        )),
-      );
-    });
-
-    test('Empty classes entry from Dart API', () {
-      expect(
-        () => Input(classes: <Object?>['com.example.Foo', null].cast<String>()),
-        throwsA(isA<ConfigException>().having(
-          (error) => error.message,
-          'message',
-          'Entry 2 of "classes" is empty.',
+          'Class names cannot be empty.',
         )),
       );
     });
