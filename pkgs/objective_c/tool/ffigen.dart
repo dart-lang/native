@@ -440,7 +440,7 @@ FfiGenerator getCConfig([Uri? packageRoot]) {
         },
         typealias: (node) {
           if (node.name == 'Dart_FinalizableHandle') {
-            node.isIncluded = TypealiasInclude.always;
+            node.isIncluded = .always;
           }
         },
         struct: (node) {

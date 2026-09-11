@@ -11,6 +11,7 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'cpp_class_config.dart' as cpp_class_config;
 import 'cpp_inheritance_config.dart' as cpp_inheritance_config;
+import 'cpp_pod_config.dart' as cpp_pod_config;
 import 'memory_edge_cases_config.dart' as memory_edge_cases_config;
 import 'util.dart';
 
@@ -35,18 +36,19 @@ void main() {
     final packageRoot = Uri.file(path.join(packagePathForTests, ''));
     final configs = <String, FfiGenerator>{
       'cpp_class': cpp_class_config.getConfig(packageRoot),
+      'cpp_pod': cpp_pod_config.getConfig(packageRoot),
       'memory_edge_cases': memory_edge_cases_config.getConfig(packageRoot),
       'cpp_inheritance': cpp_inheritance_config.getConfig(packageRoot),
     };
 
     for (final testFile in testFiles) {
       final configName = testFile.replaceFirst('_test.dart', '');
-      test('verifyBindings for $testFile', () {
+      test('verifyBindings for $testFile', () async {
         final config = configs[configName];
         if (config == null) {
           fail('No FfiGenerator config registered for $testFile in `configs`.');
         }
-        verifyBindings(config);
+        await verifyBindings(config);
       });
     }
   });

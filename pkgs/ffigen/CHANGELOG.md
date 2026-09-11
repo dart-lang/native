@@ -1,4 +1,16 @@
-## 22.0.0-wip
+## 22.0.1-wip
+
+- Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions
+  using pointers to a C++ class were skipped unless C++ support was configured:
+  `class` declarations are now treated like structs, and with C++ support on,
+  the C++ class wrapper vs. plain struct decision is made by POD-ness rather
+  than by the `class`/`struct` keyword.
+- Fix a bug where a C++ type named through a using-declaration (e.g.
+  `std::uint16_t`) was left unresolved, which dropped every function that
+  mentioned it from the bindings. Such types now resolve through their
+  canonical type.
+
+## 22.0.0
 
 - __Breaking change__: Major overhaul of Dart config API:
   - Replace various callback based config elements with a `Visitor` pattern.
@@ -21,6 +33,9 @@
       `TypealiasInclude` enum (`never`, `ifUsed`, `always`).
   - Consolidate `imported` fields and `importedTypesByUsr` into
     `FfiGenerator.importType`, switching it to a callback pattern
+  - Add `importFromSymbolFile` and `importFromSymbolFiles` utils, which load
+    symbol YAML files, and return functions that can be passed directly to
+    `FfiGenerator.importType`.
   - Replace `Output.dartFile` with `DartOutput`, to prepare for upcoming
     [multi-file output format](https://github.com/dart-lang/native/issues/2683).
   - Deleted many now empty sub-config classes

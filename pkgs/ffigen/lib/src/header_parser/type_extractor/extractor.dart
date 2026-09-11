@@ -152,9 +152,20 @@ Type getCodeGenType(
       return BooleanType();
     case clang_types.CXTypeKind.CXType_Attributed:
     case clang_types.CXTypeKind.CXType_Unexposed:
+      // Attributed types carry the type they modify; other unexposed types
+      // (e.g. a using-declared C++ type) have none, so use the canonical type.
+      var innerCxType = clang.clang_Type_getModifiedType(cxtype);
+      if (innerCxType.kind == clang_types.CXTypeKind.CXType_Invalid) {
+        final canonical = clang.clang_getCanonicalType(cxtype);
+        // Recursion guard: a type that is already canonical (e.g. a dependent
+        // template type) would otherwise resolve to itself forever.
+        if (clang.clang_equalTypes(canonical, cxtype) == 0) {
+          innerCxType = canonical;
+        }
+      }
       final innerType = getCodeGenType(
         context,
-        clang.clang_Type_getModifiedType(cxtype),
+        innerCxType,
         originalCursor: originalCursor,
       );
       final isNullable =
@@ -272,21 +283,27 @@ Type? _extractfromRecord(
   final declSpelling = cursor.spelling();
   final cursorKind = clang.clang_getCursorKind(cursor);
 
+  final isClassOrStruct =
+      cursorKind == clang_types.CXCursorKind.CXCursor_ClassDecl ||
+      cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl;
+
   if (config.cpp != null) {
     final seenCppClass = context.bindingsIndex.getSeenCppClass(cursor.usr());
-    if (seenCppClass != null) {
-      return seenCppClass;
-    }
-    if (cursorKind == clang_types.CXCursorKind.CXCursor_ClassDecl ||
-        cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
+    if (seenCppClass != null) return seenCppClass;
+
+    final hasDefinition =
+        clang.clang_Cursor_isNull(clang.clang_getCursorDefinition(cursor)) == 0;
+    final isPodType = clang.clang_isPODType(cxtype) == 1;
+    // Only non-POD records get the C++ class treatment; a POD record has a
+    // layout the plain struct parser models correctly, so it is parsed as a
+    // C struct below no matter which keyword declared it.
+    if (isClassOrStruct && hasDefinition && !isPodType) {
       final cppClass = parseClassDeclaration(context, cursor);
-      if (cppClass != null) {
-        return cppClass;
-      }
+      if (cppClass != null) return cppClass;
     }
   }
 
-  if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
+  if (isClassOrStruct) {
     final imported = context.config.importType(
       Declaration(usr: cursor.usr(), originalName: declSpelling),
     );
