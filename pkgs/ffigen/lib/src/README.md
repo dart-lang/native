@@ -10,7 +10,7 @@
     2. [Header Parser](#Header-Parser)
     3. [Code Generator](#Code-Generator)
 # Overview
-`package:ffigen` simplifies the process of generating `dart:ffi` bindings from C header files. It is simple to use, with the input being a small YAML config file. It requires LLVM (9+) to work. This document tries to give a complete overview of every component without going into too many details about every single class/file.
+`package:ffigen` simplifies the process of generating `dart:ffi` bindings from C header files. It is simple to use, with the input being a small YAML config file. It requires LLVM (18+ recommended) to work. This document tries to give a complete overview of every component without going into too many details about every single class/file.
 # LibClang
 `package:ffigen` binds to LibClang using `dart:ffi` for parsing C header files. 
 ## Bindings
