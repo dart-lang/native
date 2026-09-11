@@ -1,3 +1,14 @@
+## 9.6.1-wip
+
+- Fix a crash in the `NSInputStream` returned by `toNSInputStream`: reading
+  from or closing the stream after its Dart side had already closed it raised
+  `NSInternalInconsistencyException` ("DartInputStreamAdapter:
+  Dart_PostCObject_DL failed") and aborted the process. `NSURLSession` does
+  exactly that with a request body stream when the request completes with an
+  error or is cancelled right after it starts. `close` is now idempotent, and
+  a read on a closed stream (or one whose Dart owner is gone) fails with -1
+  instead of asserting.
+
 ## 9.6.0
 
 - Add a bunch more categories to the bindings.

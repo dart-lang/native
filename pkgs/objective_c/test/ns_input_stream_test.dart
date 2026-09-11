@@ -175,6 +175,35 @@ void main() {
           expect(inputStream.streamStatus, NSStreamStatus.NSStreamStatusClosed);
           expect(inputStream.streamError, null);
         });
+
+        // NSURLSession can still read from or close a request body stream
+        // after the Dart owner closed it (e.g. when the request completes
+        // with an error or is cancelled right after it starts). By then the
+        // Dart side has received the close message and closed its port, so
+        // these must fail gracefully rather than assert on a failed post.
+        test('read after close', () async {
+          inputStream.open();
+          inputStream.close();
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            10,
+          );
+          expect(count, -1);
+          expect(data, isEmpty);
+          expect(hasBytesAvailable, false);
+          expect(status, NSStreamStatus.NSStreamStatusClosed);
+          expect(error, isNull);
+        });
+
+        test('close twice', () async {
+          inputStream.open();
+          inputStream.close();
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          inputStream.close();
+          expect(inputStream.streamStatus, NSStreamStatus.NSStreamStatusClosed);
+          expect(inputStream.streamError, null);
+        });
       });
     });
 

@@ -77,10 +77,23 @@
 
 - (void)close {
   [_dataCondition lock];
+  if (_status == NSStreamStatusClosed) {
+    // Already closed. NSURLSession closes the body stream it was handed when
+    // the task finishes, independently of the Dart owner closing it (e.g.
+    // cupertino_http closes the stream as soon as the request completes or
+    // is cancelled); the second close must be a no-op, not a second message
+    // to a port that the first close already told to shut down.
+    [_dataCondition unlock];
+    return;
+  }
   _status = NSStreamStatusClosed;
   if (!_done && _error == nil) {
-    __unused const bool success = Dart_PostInteger_DL(_sendPort, -1);
-    NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
+    // A failed post means the Dart side has already closed its port — there
+    // is nobody left to notify, which is fine for a close.
+    if (!Dart_PostInteger_DL(_sendPort, -1)) {
+      os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG,
+                       "DartInputStreamAdapter: close after the Dart port was closed");
+    }
   }
   [_dataCondition unlock];
 }
@@ -127,9 +140,28 @@
 
   [_dataCondition lock];
 
+  if (_status == NSStreamStatusClosed) {
+    // NSURLSession can still issue a read for a body stream after the Dart
+    // owner closed it (a request completed with an error or cancelled while
+    // the loader thread was about to resume the body). Closing sent the -1
+    // to Dart, so its port is gone: asking it for data would fail.
+    [_dataCondition unlock];
+    return -1;
+  }
+
   while (([_data length] == 0) && !_done && _error == nil) {
-    __unused const bool success = Dart_PostInteger_DL(_sendPort, len);
-    NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
+    if (!Dart_PostInteger_DL(_sendPort, len)) {
+      // The Dart port is closed, so no data can ever arrive: fail the read
+      // instead of waiting forever (or aborting the process).
+      _error = [NSError
+          errorWithDomain:@"DartInputStreamAdapter"
+                     code:0
+                 userInfo:@{
+                   NSLocalizedDescriptionKey :
+                       @"The Dart side of the stream is no longer available."
+                 }];
+      break;
+    }
 
     [_dataCondition wait];
   }
