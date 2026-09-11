@@ -1,0 +1,35 @@
+name: MethodFilteringTestLibrary
+description: 'Tests method filtering'
+language: objc
+output:
+  bindings: 'method_filtering_test_bindings.dart'
+  objc-bindings: 'method_filtering_test_bindings.m'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - MethodFilteringTestInterface
+  member-filter:
+    Metho.*ngTe.*rface: # The full match rule below takes precedence.
+      include:
+        - .*
+    MethodFilteringTestInterface:
+      include:
+        - includedStaticMethod
+        - excludedStaticMethod   # The exclude rule takes precedence.
+        - inc.*Ins.*Me.*od:wi.*  # Methods use original names with : delimiters.
+        - includedProperty
+      exclude:
+        - excluded.*
+objc-protocols:
+  include:
+    - MethodFilteringTestProtocol
+  member-filter:
+    Met.*ringT.*ocol:
+      include:
+        - includedProtocolMethod
+      # If include is non-empty, everything else is excluded.
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'method_filtering_test.m'

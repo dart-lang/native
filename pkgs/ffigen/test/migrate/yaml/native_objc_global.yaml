@@ -1,0 +1,13 @@
+name: GlobalTestObjCLibrary
+description: 'Tests global variables'
+language: objc
+output: 'global_test_bindings.dart'
+exclude-all-by-default: true
+globals:
+  include:
+    - globalString
+    - globalObject
+    - globalBlock
+headers:
+  entry-points:
+    - 'global_test.h'

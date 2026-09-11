@@ -1,0 +1,23 @@
+# Copyright (c) 2020, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# =================== GENERATING TEST BINDINGS ==================
+#    dart run ffigen --config test/native_test/config.yaml
+# ===============================================================
+
+name: NativeLibrary
+description: 'Native tests.'
+output: '_expected_native_test_bindings.dart'
+ffi-native:
+  asset-id: 'package:ffigen/native_test'
+headers:
+  entry-points:
+    - 'native_test.c'
+  include-directives:
+    - '**native_test.c'
+silence-enum-warning: true
+enums:
+  as-int:
+    include:
+      - "Enum2"

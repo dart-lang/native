@@ -1,0 +1,15 @@
+name: GlobalTestObjCLibrary
+description: 'Tests global variables'
+language: objc
+output: 'global_native_test_bindings.dart'
+exclude-all-by-default: true
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+globals:
+  include:
+    - globalString
+    - globalObject
+    - globalBlock
+headers:
+  entry-points:
+    - 'global_test.h'

@@ -1,0 +1,16 @@
+android_sdk_config:
+  add_gradle_deps: true
+  android_example: 'example/'
+
+summarizer:
+  backend: asm
+
+output:
+  dart:
+    path: lib/kotlin_bindings.dart
+    structure: single_file
+
+log_level: all
+
+classes:
+  - 'Example'

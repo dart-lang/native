@@ -1,0 +1,29 @@
+name: ProtocolTestObjCLibrary
+description: 'Tests implementing protocols'
+language: objc
+output:
+  bindings: 'protocol_test_bindings.dart'
+  objc-bindings: 'protocol_test_bindings.m'
+exclude-all-by-default: true
+functions:
+  include:
+    - getClass
+    - getClassName
+    - objc_autoreleasePoolPop
+    - objc_autoreleasePoolPush
+objc-interfaces:
+  include:
+    - ProtocolConsumer
+    - ObjCProtocolImpl
+    - ObjCProtocolImplMissingMethod
+objc-protocols:
+  include:
+    - EmptyProtocol
+    - MyProtocol
+    - SecondaryProtocol
+    - UnusedProtocol
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'protocol_test.h'

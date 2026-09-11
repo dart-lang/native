@@ -1,0 +1,13 @@
+name: FailedToLoadTestObjCLibrary
+description: 'Tests failing to load an Objective-C library'
+language: objc
+output: 'failed_to_load_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - ClassThatWillFailToLoad
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'failed_to_load_test.m'

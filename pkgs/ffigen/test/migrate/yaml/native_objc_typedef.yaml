@@ -1,0 +1,17 @@
+name: TypedefTestObjCLibrary
+description: 'Tests typedef'
+language: objc
+output: 'typedef_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - SomeClass
+    - AnotherClass
+typedefs:
+  include:
+    - SomeClassPtr
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'typedef_test.m'

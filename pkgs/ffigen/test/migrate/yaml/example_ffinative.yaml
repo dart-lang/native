@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=../../ffigen.schema.json
+
+name: NativeLibrary
+ffi-native:
+  asset-id: 'package:ffinative_example/generated_bindings.dart' # (optional)
+description: Bindings to `headers/example.h`.
+output: 'lib/generated_bindings.dart'
+headers:
+  entry-points:
+    - 'headers/example.h'
+preamble: |
+  // Copyright (c) 2020, the Dart project authors. Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+
+functions:
+  symbol-address:
+    include:
+      - sum
+globals:
+  symbol-address:
+    include:
+      - library_version

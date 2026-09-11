@@ -1,0 +1,13 @@
+name: StringTestObjCLibrary
+description: 'Tests calling Objective-C string methods'
+language: objc
+output: 'string_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - StringUtil
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'string_test.m'

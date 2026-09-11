@@ -1,0 +1,15 @@
+name: IsolateTestObjCLibrary
+description: 'Tests sending objects between isolates'
+language: objc
+output:
+  bindings: 'isolate_test_bindings.dart'
+  objc-bindings: 'isolate_test_bindings.m'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - Sendable
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'isolate_test.h'

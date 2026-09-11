@@ -1,0 +1,14 @@
+name: LogTestObjCLibrary
+description: 'Tests logged errors'
+language: objc
+output: 'log_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - LogSpamBaseClass
+    - LogSpamChildClass
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'log_test.m'

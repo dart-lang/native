@@ -1,0 +1,14 @@
+name: IsInstanceTestObjCLibrary
+description: 'Tests isInstance'
+language: objc
+output: 'is_instance_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - IsInstanceChildClass
+    - IsInstanceUnrelatedClass
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'is_instance_test.m'

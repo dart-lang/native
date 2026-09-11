@@ -1,0 +1,13 @@
+name: PropertyTestObjCLibrary
+description: 'Tests calling Objective-C properties i.e. getters and setters'
+language: objc
+output: 'property_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - PropertyInterface
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'property_test.h'

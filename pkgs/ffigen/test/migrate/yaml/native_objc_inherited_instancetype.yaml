@@ -1,0 +1,13 @@
+name: InheritedInstancetypeTestObjCLibrary
+description: 'Regression tests for https://github.com/dart-lang/ffigen/issues/486'
+language: objc
+output: 'inherited_instancetype_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - ChildClass
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'inherited_instancetype_test.m'

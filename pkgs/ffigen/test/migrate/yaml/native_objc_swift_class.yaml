@@ -1,0 +1,27 @@
+name: SwiftClassTestLibrary
+description: 'Tests Swift classes'
+language: objc
+output:
+  bindings: 'swift_class_test_bindings.dart'
+  objc-bindings: 'swift_class_test_bindings.m'
+exclude-all-by-default: true
+ffi-native:
+  asset-id: 'package:ffigen/swift_class_test'
+objc-interfaces:
+  include:
+    - MySwiftClass
+  module:
+    'MySwiftClass': 'swift_class_test'
+  member-filter:
+    NSURLProtectionSpace:
+      # TODO(https://github.com/dart-lang/native/issues/1220): Remove this.
+      exclude:
+        - isProxy
+objc-protocols:
+  include:
+    - MySwiftProtocol
+  module:
+    'MySwiftProtocol': 'swift_class_test'
+headers:
+  entry-points:
+    - 'swift_class_test-Swift.h'

@@ -1,0 +1,27 @@
+name: BlockAnnotationTestLibrary
+description: 'Tests block annotations'
+language: objc
+output:
+  bindings: 'block_annotation_test_bindings.dart'
+  objc-bindings: 'block_annotation_test_bindings.m'
+exclude-all-by-default: true
+functions:
+  include:
+    - objc_autoreleasePoolPop
+    - objc_autoreleasePoolPush
+objc-interfaces:
+  include:
+    - EmptyObject
+    - BlockAnnotationTest
+    - NSThread
+objc-protocols:
+  include:
+    - BlockAnnotationTestProtocol
+typedefs:
+  include:
+    - EmptyBlock
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'block_annotation_test.h'

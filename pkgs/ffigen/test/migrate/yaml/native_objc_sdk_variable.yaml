@@ -1,0 +1,22 @@
+name: SdkVariableTestObjCLibrary
+description: 'Tests the ObjC SDK variables'
+language: objc
+output: 'sdk_variable_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - NSColorPicker
+    - UIPickerView
+    - NSTextList
+  member-filter:
+    NSTextList:
+      exclude:
+        # This method is missing on some machines.
+        - includesTextListMarkers
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - '$XCODE/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h'
+    - '$IOS_SDK/System/Library/Frameworks/UIKit.framework/Headers/UIPickerView.h'
+    - '$MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSTextList.h'

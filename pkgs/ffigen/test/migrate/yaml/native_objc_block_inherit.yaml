@@ -1,0 +1,22 @@
+name: BlockInheritTestObjCLibrary
+description: 'Tests inheritance rules for blocks.'
+language: objc
+output: 'block_inherit_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - Mammal
+    - Platypus
+    - BlockInheritTestBase
+    - BlockInheritTestChild
+typedefs:
+  include:
+    - ReturnMammal
+    - ReturnPlatypus
+    - AcceptMammal
+    - AcceptPlatypus
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'block_inherit_test.h'

@@ -1,0 +1,14 @@
+name: NullableInheritanceTestObjCLibrary
+description: 'Tests nullability of inherited Objective-C methods'
+language: objc
+output: 'nullable_inheritance_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - NullableBase
+    - NullableChild
+ffi-native:
+  asset-id: 'package:ffigen/objc_test'
+headers:
+  entry-points:
+    - 'nullable_inheritance_test.m'
