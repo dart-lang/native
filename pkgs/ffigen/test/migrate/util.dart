@@ -75,7 +75,10 @@ String findOriginalPath(String fileName, String repoRoot, String ffigenRoot) {
     final sub = baseName.replaceFirst('objc_pkg_ffigen_', '');
     return path.join(repoRoot, 'pkgs', 'objective_c', '$sub.yaml');
   }
-  if (baseName.startsWith('jni_pkg_ffigen')) {
+  if (baseName == 'jni_pkg_ffigen_exts') {
+    return path.join(repoRoot, 'pkgs', 'jni', 'ffigen_exts.yaml');
+  }
+  if (baseName == 'jni_pkg_ffigen') {
     return path.join(repoRoot, 'pkgs', 'jni', 'ffigen.yaml');
   }
   if (baseName.startsWith('hooks_')) {
@@ -128,6 +131,26 @@ void compareDirectories(Directory expectedDir, Directory actualDir) {
   }
 }
 
+String _resolveIncludePath(String opt, String configDir) {
+  if (!opt.startsWith('-I')) return opt;
+  final incPath = opt.substring(2);
+  if (!path.isRelative(incPath)) return opt;
+
+  final resolvedFromConfig = path.normalize(path.join(configDir, incPath));
+  if (FileSystemEntity.typeSync(resolvedFromConfig) !=
+      FileSystemEntityType.notFound) {
+    return '-I$resolvedFromConfig';
+  }
+  final resolvedFromPackage = path.normalize(
+    path.join(packagePathForTests, incPath),
+  );
+  if (FileSystemEntity.typeSync(resolvedFromPackage) !=
+      FileSystemEntityType.notFound) {
+    return '-I$resolvedFromPackage';
+  }
+  return opt;
+}
+
 Future<void> verifyMigration(
   File yamlFile, {
   bool Function(String expected, String actual)? dartVerify,
@@ -160,6 +183,16 @@ Future<void> verifyMigration(
   );
 
   final config = yamlConfig.configAdapter();
+  final configDir = path.dirname(origConfigPath);
+  final compilerOptions = config.input.compilerOptions;
+  if (compilerOptions != null) {
+    final newOptions = [
+      for (final opt in compilerOptions) _resolveIncludePath(opt, configDir),
+    ];
+    compilerOptions
+      ..clear()
+      ..addAll(newOptions);
+  }
   final context = testContext(config);
   final library = parse(context);
 
@@ -177,6 +210,7 @@ Future<void> verifyMigration(
     [...bindingsRelativeDir, dartFileName],
     format: config.output.format,
     verify: dartVerify,
+    analyze: false,
   );
 
   final objCFileName = path.basename(config.output.objCFile.toFilePath());

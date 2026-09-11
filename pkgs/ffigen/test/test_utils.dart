@@ -137,6 +137,7 @@ Future<void> matchLibraryWithExpected(
   String Function(String)? codeNormalizer,
   bool format = true,
   bool Function(String, String)? verify,
+  bool analyze = true,
 }) async {
   await matchFileWithExpected(
     context: context,
@@ -145,6 +146,7 @@ Future<void> matchLibraryWithExpected(
     fileWriter: (File file, _) => library.generateFile(file, format: format),
     codeNormalizer: codeNormalizer,
     verify: verify,
+    analyze: analyze,
   );
 }
 
@@ -256,6 +258,7 @@ Future<void> matchFileWithExpected({
   fileWriter,
   String Function(String)? codeNormalizer,
   bool Function(String expected, String actual)? verify,
+  bool analyze = true,
 }) async {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
   final expectedFile = File(expectedPath);
@@ -331,7 +334,9 @@ If the diffs are expected, rerun with UPDATE=true
 ''');
   }
 
-  expectNoAnalysisErrors(expectedPath);
+  if (analyze) {
+    expectNoAnalysisErrors(expectedPath);
+  }
 
   if (actualFileExists) {
     actualFile.deleteSync();

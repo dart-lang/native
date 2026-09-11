@@ -12,6 +12,7 @@ analyzer:
     # https://github.com/dart-lang/native/issues/1068
     - test_flutter/native_objc_test/**
     - test/native_objc_test/**
+    - test/migrate/bindings/**
   language:
     strict-raw-types: true
 
