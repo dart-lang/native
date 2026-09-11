@@ -30,6 +30,7 @@
 - Allow interface mixin names to be customized using the visitor API.
 - Support customizing the command `java -jar ApiSummarizer.jar` via the
   `summarizer.command` field in config.
+- Add `dumpApi` utility and `ApiDumperVisitor` to dump parsed Java AST.
 
 ## 0.17.0
 

@@ -153,6 +153,9 @@ class Method implements _Element {
   /// Whether this method is a constructor.
   bool get isConstructor => _method.isConstructor;
 
+  /// The method descriptor (e.g. `(Ljava/lang/String;)V`), if available.
+  String? get descriptor => _method.descriptor;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitMethod(this);
