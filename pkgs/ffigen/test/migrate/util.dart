@@ -214,28 +214,22 @@ Future<void> verifyMigration(
   );
 
   final objCFileName = path.basename(config.output.objCFile.toFilePath());
-  final tmpObjCFile = File(path.join(context.tmpDir, 'check_$objCFileName'));
-  if (library.generateObjCFile(tmpObjCFile)) {
-    await matchObjCFileWithExpected(
-      context,
-      library,
-      path.join('bindings', testName, objCFileName),
-      [...bindingsRelativeDir, objCFileName],
-      verify: objCVerify,
-    );
-  }
+  await matchObjCFileWithExpected(
+    context,
+    library,
+    path.join('bindings', testName, objCFileName),
+    [...bindingsRelativeDir, objCFileName],
+    verify: objCVerify,
+  );
 
   final cppFileName = path.basename(config.output.cppBindingsFile.toFilePath());
-  final tmpCppFile = File(path.join(context.tmpDir, 'check_$cppFileName'));
-  if (library.generateCppFile(tmpCppFile)) {
-    await matchCppFileWithExpected(
-      context,
-      library,
-      path.join('bindings', testName, cppFileName),
-      [...bindingsRelativeDir, cppFileName],
-      verify: cppVerify,
-    );
-  }
+  await matchCppFileWithExpected(
+    context,
+    library,
+    path.join('bindings', testName, cppFileName),
+    [...bindingsRelativeDir, cppFileName],
+    verify: cppVerify,
+  );
 
   final symbolFile = config.output.symbolFile;
   if (symbolFile != null) {
@@ -282,9 +276,8 @@ Future<void> verifyMigration(
       ? expectedDartScriptFile
       : File(path.join(context.tmpDir, 'dart', '$testName.dart'));
 
-  final tempDartGenDir = Directory(
-    path.join(context.tmpDir, 'dart_gen', testName),
-  )..createSync(recursive: true);
+  final tempDartGenDir = Directory(path.join(context.tmpDir, testName))
+    ..createSync(recursive: true);
 
   final runResult = await Process.run(
     Platform.resolvedExecutable,

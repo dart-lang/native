@@ -325,6 +325,7 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
   /// not generate the output file, but the [outFilename] does affect the
   /// generated code.
   String? generateObjC(String outFilename) {
+    context.objCBuiltInFunctions.resetObjCBindingsGenerated();
     final outDir = p.dirname(outFilename);
 
     final s = StringBuffer();

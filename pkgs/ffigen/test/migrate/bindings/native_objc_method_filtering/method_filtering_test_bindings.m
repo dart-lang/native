@@ -58,6 +58,12 @@ id objc_retainBlock(id);
 
 __attribute__((visibility("default"))) __attribute__((used))
 Protocol* _n85dd5_MethodFilteringTestProtocol(void) { return @protocol(MethodFilteringTestProtocol); }
+
+typedef id  (^_ProtocolTrampoline)(void * sel);
+__attribute__((visibility("default"))) __attribute__((used))
+id  _n85dd5_protocolTrampoline_1mbt9g9(id target, void * sel) {
+  return ((_ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
+}
 #undef BLOCKING_BLOCK_IMPL
 
 #pragma clang diagnostic pop

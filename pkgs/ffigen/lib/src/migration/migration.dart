@@ -4,10 +4,12 @@
 
 import 'dart:io';
 
+import 'migrator.dart';
+
 /// Migrates a YAML configuration file to a Dart configuration script.
 ///
-/// Reads [yamlConfig] (or file at [yamlPath]) and writes a Dart file
-/// containing `void main() {\n}\n` to [outputDart] (or file at [outputPath]).
+/// Reads [yamlConfig] (or file at [yamlPath]) and writes a Dart configuration
+/// script to [outputDart] (or file at [outputPath]).
 void migrate({
   File? yamlConfig,
   File? outputDart,
@@ -31,14 +33,5 @@ void migrate({
     );
   }
 
-  // Read the config YAML without parsing it.
-  configFile.readAsStringSync();
-
-  // Ensure the parent directory for the output Dart file exists.
-  final parentDir = dartFile.parent;
-  if (!parentDir.existsSync()) {
-    parentDir.createSync(recursive: true);
-  }
-
-  dartFile.writeAsStringSync('void main() {\n}\n');
+  YamlMigrator(yamlConfig: configFile, outputDart: dartFile).migrate();
 }

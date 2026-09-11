@@ -244,6 +244,15 @@ class ObjCBuiltInFunctions {
       config.output.objCFile,
     ].map((uri) => path.basename(uri.toFilePath())).join('\n'),
   ).toRadixString(36);
+
+  void resetObjCBindingsGenerated() {
+    for (final bt in _blockTrampolines.values) {
+      bt.objCBindingsGenerated = false;
+    }
+    for (final pt in _protocolTrampolines.values) {
+      pt.objCBindingsGenerated = false;
+    }
+  }
 }
 
 /// A native trampoline function for a listener block.
