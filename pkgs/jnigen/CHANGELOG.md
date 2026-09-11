@@ -1,5 +1,7 @@
 ## 1.0.1-wip
 
+- Report an empty entry under `classes` in the config file as a config error
+  instead of failing with a type error.
 - Generate links to method-specific Javadocs for Maven dependencies when
   source Javadocs are unavailable.
 

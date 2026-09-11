@@ -118,5 +118,27 @@ void main() async {
       name: 'Nested class specified',
       overrides: ['-Dclasses=com.android.Clock\$Clock'],
     );
+
+    test('Empty classes entry from YAML', () {
+      final dir = Directory.systemTemp.createTempSync('jnigen_config_test');
+      addTearDown(() => dir.deleteSync(recursive: true));
+      final yaml = File(join(dir.path, 'jnigen.yaml'))..writeAsStringSync('''
+output:
+  dart:
+    path: lib/gen.dart
+    structure: single_file
+classes:
+  - "com.example.Foo"
+  -
+''');
+      expect(
+        () => JniGenerator.parseArgs(['--config', yaml.path]),
+        throwsA(isA<ConfigException>().having(
+          (error) => error.message,
+          'message',
+          'Class names cannot be empty.',
+        )),
+      );
+    });
   });
 }
