@@ -134,8 +134,9 @@ in different scenarios can also be found in the [example](example/) directory.
 
 ## Requirements
 
-LLVM (9+) must be installed on your system to use `package:ffigen`. Install it
-in the following way:
+LLVM must be installed on your system to use `package:ffigen`. Version 18 or
+newer is recommended, since that is the oldest version FFIgen is tested
+against. Install it in the following way:
 
 ### Linux
 
