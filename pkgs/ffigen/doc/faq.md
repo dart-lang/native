@@ -2,18 +2,13 @@
 
 ## Can FFIgen be used for removing underscores or renaming declarations?
 
-You can use a `Visitor` to inspect and rename declarations or members. The `name` property can be modified directly using standard Dart string operations or regular expressions.
+You can use a `Visitor` to rename declarations or members, by setting the `name` property.
 
-Here's an example of how to remove prefix underscores from any struct and its members:
+Here's an example of how to remove prefix underscores from any struct name:
 
 ```dart
 Visitor(
   struct: (node) {
-    if (node.name.startsWith('_')) {
-      node.name = node.name.substring(1);
-    }
-  },
-  field: (node) {
     if (node.name.startsWith('_')) {
       node.name = node.name.substring(1);
     }
@@ -36,23 +31,17 @@ Input(
 
 ## Can FFIgen filter declarations by name?
 
-FFIgen supports including and excluding declarations in Dart using a `Visitor`.
-
-Here's an example to filter functions using names:
+By default, all top level API elements are excluded from the generated bindings.
+You must write a `Visitor` to include the specific APIs you want:
 
 ```dart
 Visitor(
   func: (node) {
-    if (node.name.endsWith('dispose')) {
-      node.isIncluded = false; // Exclude all functions ending with dispose.
-    } else if (node.name.startsWith('clang')) {
-      node.isIncluded = true; // Include all functions starting with clang.
-    }
+    // Include all functions starting with clang.
+    node.isIncluded = node.name.startsWith('clang'); 
   },
 )
 ```
-
-This will include `clang_help`, but exclude `clang_dispose`.
 
 ## How does FFIgen handle C Strings?
 
@@ -65,16 +54,12 @@ Use `ptr.cast<Utf8>().toDartString()` to convert `char*` to dart `string` and
 
 Unnamed enums are visited via `Visitor.unnamedEnumConstant` and generated as top-level constants.
 
-Here's an example that shows how to include, exclude, or rename unnamed enum constants:
+Here's an example that shows how to include and rename unnamed enum constants:
 
 ```dart
 Visitor(
   unnamedEnumConstant: (node) {
-    if (node.originalName.endsWith('Flag')) {
-      node.isIncluded = false;
-    } else if (node.originalName.startsWith('CX_')) {
-      node.isIncluded = true;
-    }
+    node.isIncluded = node.originalName.startsWith('CX');
     if (node.name.startsWith('CXType_')) {
       node.name = node.name.replaceFirst('CXType_', '');
     }
@@ -99,7 +84,7 @@ set `node.style = EnumStyle.intConstants` in a visitor:
 ```dart
 Visitor(
   enumClass: (node) {
-    if (node.name.endsWith('IntegerEnum') && node.name != 'FakeIntegerEnum') {
+    if (node.name == 'MyIntegerEnum') {
       node.style = EnumStyle.intConstants;
     }
   },
@@ -124,24 +109,27 @@ by reference (pointer):
 ```dart
 Visitor(
   struct: (node) {
+    // You can set the opaque option for all nodes.
     node.dependencies = CompoundDependencies.opaque;
   },
   union: (node) {
-    node.dependencies = CompoundDependencies.opaque;
+    // Or for specific nodes.
+    if (node.name == 'MyOpaqueUnion') {
+      node.dependencies = CompoundDependencies.opaque;
+    }
   },
 )
 ```
 
-## How to expose the native pointers?
+## How to expose the native function pointers?
 
-By default, native pointers are private, but you can expose them by setting
-`node.exposeSymbolAddress = true` on `Func` or `Global` nodes. The pointers
-are then accessible via `nativeLibrary.addresses`:
+By default, native function pointers are private, but you can expose them by setting
+`node.exposeSymbolAddress = true` on `Func` or `Global` nodes:
 
 ```dart
 Visitor(
   func: (node) {
-    if (node.name != 'dispose') {
+    if (node.name == 'someFunc') {
       node.exposeSymbolAddress = true;
     }
   },
@@ -158,7 +146,7 @@ E.g. for a function named `hello` the generated typedefs are named
 ```dart
 Visitor(
   func: (node) {
-    if (node.name != 'dispose') {
+    if (node.name == 'hello') {
       node.generateTypedefs = true;
     }
   },
@@ -229,5 +217,5 @@ FFIgen can share type definitions using symbol files.
 
 Check out `example/shared_bindings` for details.
 
-For manually reusing definitions from another package, `importType` can return a custom
-`ImportedType` with a `LibraryImport`.
+For manually reusing definitions from another package, you can write your own
+`importType` function that returns a custom `ImportedType`.
