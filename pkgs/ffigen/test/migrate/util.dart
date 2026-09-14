@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
-import 'package:ffigen/src/migration/migration.dart' show migrate;
+import 'package:ffigen/src/migration.dart' show migrate;
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';

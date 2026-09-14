@@ -2,9 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_import
 import 'dart:io';
-
 import 'package:ffigen/ffigen.dart';
+import 'package:glob/glob.dart';
 
 const ffiImport = LibraryImport('ffi', 'dart:ffi');
 const customImport = LibraryImport('custom_import', 'custom_import.dart');
@@ -50,7 +51,8 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
         ),
       ],
       include: (uri) =>
-          uri.path.endsWith('CXString.h') || uri.path.endsWith('Index.h'),
+          Glob('/**CXString.h').matches(uri.path) ||
+          Glob('/**Index.h').matches(uri.path),
       compilerOptions: [
         // ignore: lines_longer_than_80_chars
         '-I${packageRoot.resolve('../../third_party/libclang/include').toFilePath()}',

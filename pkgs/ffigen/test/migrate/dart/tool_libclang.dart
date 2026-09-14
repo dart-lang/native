@@ -2,9 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_import
 import 'dart:io';
-
 import 'package:ffigen/ffigen.dart';
+import 'package:glob/glob.dart';
 
 FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
   packageRoot ??= Platform.script.resolve('../../../');
@@ -33,10 +34,11 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
         configDir.resolve('../third_party/libclang/include/clang-c/Index.h'),
       ],
       include: (uri) =>
-          uri.path.endsWith('wrapper.c') ||
-          uri.path.endsWith('Index.h') ||
-          uri.path.endsWith('CXString.h'),
+          Glob('/**wrapper.c').matches(uri.path) ||
+          Glob('/**Index.h').matches(uri.path) ||
+          Glob('/**CXString.h').matches(uri.path),
       compilerOptions: [
+        // ignore: lines_longer_than_80_chars
         '-I${packageRoot.resolve('third_party/libclang/include').toFilePath()}',
         if (Platform.isMacOS) ...['-isysroot', macSdkPath],
       ],

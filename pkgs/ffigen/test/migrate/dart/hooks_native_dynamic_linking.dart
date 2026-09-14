@@ -2,9 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_import
 import 'dart:io';
-
 import 'package:ffigen/ffigen.dart';
+import 'package:glob/glob.dart';
 
 FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
   packageRoot ??= Platform.script.resolve(
@@ -26,7 +27,7 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
     ),
     input: Input(
       entryPoints: [packageRoot.resolve('src/add.h')],
-      include: (uri) => uri.path.endsWith('src/add.h'),
+      include: (uri) => Glob('/**/src/add.h').matches(uri.path),
     ),
     visitors: [
       Visitor(

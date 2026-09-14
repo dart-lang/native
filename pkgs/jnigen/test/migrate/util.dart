@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
-import 'package:jnigen/src/migration/migration.dart' show migrate;
+import 'package:jnigen/src/migration.dart' show migrate;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 

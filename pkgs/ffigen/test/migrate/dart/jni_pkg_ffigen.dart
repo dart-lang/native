@@ -2,9 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_import
 import 'dart:io';
-
 import 'package:ffigen/ffigen.dart';
+import 'package:glob/glob.dart';
 
 FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
   packageRoot ??= Platform.script.resolve('../../../../jni/');
@@ -72,10 +73,10 @@ Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
         packageRoot.resolve('src/jni_constants.h'),
       ],
       include: (uri) =>
-          uri.path.endsWith('src/dartjni.h') ||
-          uri.path.endsWith('src/third_party/global_jni_env.h') ||
-          uri.path.endsWith('third_party/jni.h') ||
-          uri.path.endsWith('src/jni_constants.h'),
+          Glob('/**/src/dartjni.h').matches(uri.path) ||
+          Glob('/**/src/third_party/global_jni_env.h').matches(uri.path) ||
+          Glob('/**/third_party/jni.h').matches(uri.path) ||
+          Glob('/**/src/jni_constants.h').matches(uri.path),
       compilerOptions: [
         '-I${packageRoot.resolve('third_party').toFilePath()}',
         if (Platform.isMacOS) ...['-isysroot', macSdkPath],

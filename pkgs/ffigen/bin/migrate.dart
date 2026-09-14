@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:ffigen/src/migration/migration.dart';
+import 'package:ffigen/src/migration.dart';
 
 void main(List<String> args) {
   final parser = ArgParser()

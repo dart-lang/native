@@ -2,9 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_import
 import 'dart:io';
-
 import 'package:ffigen/ffigen.dart';
+import 'package:glob/glob.dart';
 
 const customLibImport = LibraryImport(
   'custom_lib',
@@ -49,7 +50,7 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
     ),
     input: Input(
       entryPoints: [configDir.resolve('comprehensive.h')],
-      include: (uri) => uri.path.endsWith('comprehensive.h'),
+      include: (uri) => Glob('/**comprehensive.h').matches(uri.path),
       compilerOptions: [
         '-Wno-nullability-completeness',
         if (Platform.isMacOS) ...['-isysroot', macSdkPath],
@@ -309,65 +310,64 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
         },
         field: (node) {
           final parent = node.parent;
-          if (parent is Struct &&
-              parent.originalName == 'FieldRenameStruct' &&
-              node.originalName == 'old_field') {
-            node.name = 'new_field';
-          }
-          if (parent is Struct &&
-              parent.originalName == 'RegexFieldStruct' &&
-              RegExp(r'^prefix_field_.*$').hasMatch(node.originalName)) {
-            node.name = 'renamed_field';
-          }
-          if (parent is Struct && parent.originalName == 'RegexFieldStruct') {
-            if (RegExp(r'^swap_(.*)_(.*)$').firstMatch(node.originalName)
-                case final match?) {
-              node.name = r'$2_$1'.replaceAllMapped(
-                RegExp(r'\$([0-9])'),
-                (m) => match[int.parse(m[1]!)] ?? '',
-              );
+          if (parent is Struct) {
+            if (parent.originalName == 'FieldRenameStruct' &&
+                node.originalName == 'old_field') {
+              node.name = 'new_field';
+            }
+            if (parent.originalName == 'RegexFieldStruct' &&
+                RegExp(r'^prefix_field_.*$').hasMatch(node.originalName)) {
+              node.name = 'renamed_field';
+            }
+            if (parent.originalName == 'RegexFieldStruct') {
+              if (RegExp(r'^swap_(.*)_(.*)$').firstMatch(node.originalName)
+                  case final match?) {
+                node.name = r'$2_$1'.replaceAllMapped(
+                  RegExp(r'\$([0-9])'),
+                  (m) => match[int.parse(m[1]!)] ?? '',
+                );
+              }
             }
           }
-          if (parent is Union &&
-              parent.originalName == 'FieldRenameUnion' &&
-              node.originalName == 'old_field') {
-            node.name = 'new_field';
-          }
-          if (parent is Union &&
-              parent.originalName == 'FieldRenameUnion' &&
-              RegExp(r'^prefix_field_.*$').hasMatch(node.originalName)) {
-            node.name = 'renamed_field';
-          }
-          if (parent is Union && parent.originalName == 'FieldRenameUnion') {
-            if (RegExp(r'^swap_(.*)_(.*)$').firstMatch(node.originalName)
-                case final match?) {
-              node.name = r'$2_$1'.replaceAllMapped(
-                RegExp(r'\$([0-9])'),
-                (m) => match[int.parse(m[1]!)] ?? '',
-              );
+          if (parent is Union) {
+            if (parent.originalName == 'FieldRenameUnion' &&
+                node.originalName == 'old_field') {
+              node.name = 'new_field';
+            }
+            if (parent.originalName == 'FieldRenameUnion' &&
+                RegExp(r'^prefix_field_.*$').hasMatch(node.originalName)) {
+              node.name = 'renamed_field';
+            }
+            if (parent.originalName == 'FieldRenameUnion') {
+              if (RegExp(r'^swap_(.*)_(.*)$').firstMatch(node.originalName)
+                  case final match?) {
+                node.name = r'$2_$1'.replaceAllMapped(
+                  RegExp(r'\$([0-9])'),
+                  (m) => match[int.parse(m[1]!)] ?? '',
+                );
+              }
             }
           }
         },
         param: (node) {
           final parent = node.parent;
-          if (parent is Func &&
-              parent.originalName == 'func_param_rename' &&
-              node.originalName == 'old_param') {
-            node.name = 'new_param';
-          }
-          if (parent is Func &&
-              parent.originalName == 'func_regex_param_rename' &&
-              RegExp(r'^prefix_param_.*$').hasMatch(node.originalName)) {
-            node.name = 'new_param';
-          }
-          if (parent is Func &&
-              parent.originalName == 'func_regex_param_rename') {
-            if (RegExp(r'^swap_(.*)_(.*)$').firstMatch(node.originalName)
-                case final match?) {
-              node.name = r'$2_$1'.replaceAllMapped(
-                RegExp(r'\$([0-9])'),
-                (m) => match[int.parse(m[1]!)] ?? '',
-              );
+          if (parent is Func) {
+            if (parent.originalName == 'func_param_rename' &&
+                node.originalName == 'old_param') {
+              node.name = 'new_param';
+            }
+            if (parent.originalName == 'func_regex_param_rename' &&
+                RegExp(r'^prefix_param_.*$').hasMatch(node.originalName)) {
+              node.name = 'new_param';
+            }
+            if (parent.originalName == 'func_regex_param_rename') {
+              if (RegExp(r'^swap_(.*)_(.*)$').firstMatch(node.originalName)
+                  case final match?) {
+                node.name = r'$2_$1'.replaceAllMapped(
+                  RegExp(r'\$([0-9])'),
+                  (m) => match[int.parse(m[1]!)] ?? '',
+                );
+              }
             }
           }
         },
