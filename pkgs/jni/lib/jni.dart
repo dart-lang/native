@@ -106,6 +106,7 @@ export 'src/core_bindings.dart'
         JShort$$Methods,
         JString,
         JString$$Methods;
+export 'src/converter.dart';
 export 'src/errors.dart';
 export 'src/jarray.dart';
 export 'src/jimplementer.dart';
