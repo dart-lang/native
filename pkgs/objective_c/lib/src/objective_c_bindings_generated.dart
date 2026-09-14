@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Bindings for package:objective_c's ObjC code and the Foundation framework.
-// Regenerate bindings with `dart run tool/generate_code.dart`.
+// Regenerate bindings with `dart run tool/ffigen.dart`.
 
 // coverage:ignore-file
 

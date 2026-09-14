@@ -5,7 +5,7 @@ Demonstrates how to use swiftgen to generate Dart bindings for a Swift API.
 Regenerating the bindings:
 
 ```shell
-dart generate_code.dart
+dart run tool/ffigen.dart
 ```
 
 Running the example:

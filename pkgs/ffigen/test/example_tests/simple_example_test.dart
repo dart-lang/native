@@ -6,19 +6,22 @@ import 'package:ffigen/src/header_parser.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import '../../example/simple/tool/ffigen.dart' as simple_example;
 import '../test_utils.dart';
 
 void main() {
   group('simple_example_test', () {
     test('simple', () async {
-      final config = testConfigFromPath(
-        path.join(packagePathForTests, 'example', 'simple', 'config.yaml'),
+      final packageRoot = path.join(packagePathForTests, 'example', 'simple/');
+      final context = testContext(
+        simple_example.getConfig(Uri.file(packageRoot)),
       );
-      final context = testContext(config);
       final library = parse(context);
 
       await matchLibraryWithExpected(context, library, 'example_simple.dart', [
-        config.output.dart.path.toFilePath(),
+        'example',
+        'simple',
+        'generated_bindings.dart',
       ]);
     });
   });

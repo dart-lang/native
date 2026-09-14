@@ -5,7 +5,6 @@
 import '../code_generator.dart';
 import '../context.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'sub_parsers/classdecl_parser.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objccategorydecl_parser.dart';
@@ -34,6 +33,7 @@ Set<Binding> parseTranslationUnit(
             addToBindings(bindings, parseFunctionDeclaration(context, cursor));
             break;
           case clang_types.CXCursorKind.CXCursor_StructDecl:
+          case clang_types.CXCursorKind.CXCursor_ClassDecl:
           case clang_types.CXCursorKind.CXCursor_UnionDecl:
           case clang_types.CXCursorKind.CXCursor_EnumDecl:
           case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
@@ -57,9 +57,6 @@ Set<Binding> parseTranslationUnit(
             break;
           case clang_types.CXCursorKind.CXCursor_VarDecl:
             addToBindings(bindings, parseVarDeclaration(context, cursor));
-            break;
-          case clang_types.CXCursorKind.CXCursor_ClassDecl:
-            addToBindings(bindings, parseClassDeclaration(context, cursor));
             break;
           default:
             logger.finer('rootCursorVisitor: CursorKind not implemented');

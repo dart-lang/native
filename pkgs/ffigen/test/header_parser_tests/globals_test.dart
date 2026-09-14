@@ -19,11 +19,41 @@ void main() {
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(
-          testConfigFromPath(
-            configPath(
-              path.join(packagePathForTests, 'test', 'header_parser_tests'),
-              'globals_config.yaml',
+          FfiGenerator(
+            output: Output(
+              dart: DartOutput(path: Uri.file('unused')),
+              style: const DynamicLibraryBindings(),
             ),
+            input: Input(
+              entryPoints: [
+                Uri.file(
+                  path.join(
+                    packagePathForTests,
+                    'test',
+                    'header_parser_tests',
+                    'globals.h',
+                  ),
+                ),
+              ],
+              include: (header) => header.path.endsWith('globals.h'),
+              compilerOptions: const ['-Wno-nullability-completeness'],
+              ignoreSourceErrors: true,
+            ),
+            visitors: [
+              Visitor(
+                global: (node) {
+                  node.isIncluded = node.name != 'GlobalIgnore';
+                  const addresses = {
+                    'myInt',
+                    'pointerToLongDouble',
+                    'globalStruct',
+                  };
+                  node.exposeSymbolAddress = addresses.contains(node.name);
+                },
+                struct: (node) => node.isIncluded = true,
+                typealias: (node) => node.isIncluded = .always,
+              ),
+            ],
           ),
         ),
       );

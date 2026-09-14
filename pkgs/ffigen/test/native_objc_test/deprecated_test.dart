@@ -56,39 +56,37 @@ Future<String> bindingsForVersion({
       Visitor(
         objCInterface: (node) {
           node.includeCategories = false;
-          node.isIncluded = {
-            'DeprecatedInterfaceMethods',
-            'DeprecatedInterface',
-          }.contains(node.originalName);
+          const include = {'DeprecatedInterfaceMethods', 'DeprecatedInterface'};
+          node.isIncluded = include.contains(node.originalName);
         },
-        objCProtocol: (node) => node.isIncluded = {
-          'DeprecatedProtocolMethods',
-          'DeprecatedProtocol',
-        }.contains(node.originalName),
-        objCCategory: (node) => node.isIncluded = {
-          'DeprecatedCategoryMethods',
-          'DeprecatedCategory',
-        }.contains(node.originalName),
-        func: (node) => node.isIncluded = {
-          'normalFunction',
-          'deprecatedFunction',
-        }.contains(node.originalName),
-        struct: (node) => node.isIncluded = {
-          'NormalStruct',
-          'DeprecatedStruct',
-        }.contains(node.originalName),
-        union: (node) => node.isIncluded = {
-          'NormalUnion',
-          'DeprecatedUnion',
-        }.contains(node.originalName),
-        enumClass: (node) => node.isIncluded = {
-          'NormalEnum',
-          'DeprecatedEnum',
-        }.contains(node.originalName),
-        unnamedEnumConstant: (node) => node.isIncluded = {
-          'normalUnnamedEnum',
-          'deprecatedUnnamedEnum',
-        }.contains(node.originalName),
+        objCProtocol: (node) {
+          const include = {'DeprecatedProtocolMethods', 'DeprecatedProtocol'};
+          node.isIncluded = include.contains(node.originalName);
+        },
+        objCCategory: (node) {
+          const include = {'DeprecatedCategoryMethods', 'DeprecatedCategory'};
+          node.isIncluded = include.contains(node.originalName);
+        },
+        func: (node) {
+          const include = {'normalFunction', 'deprecatedFunction'};
+          node.isIncluded = include.contains(node.originalName);
+        },
+        struct: (node) {
+          const include = {'NormalStruct', 'DeprecatedStruct'};
+          node.isIncluded = include.contains(node.originalName);
+        },
+        union: (node) {
+          const include = {'NormalUnion', 'DeprecatedUnion'};
+          node.isIncluded = include.contains(node.originalName);
+        },
+        enumClass: (node) {
+          const include = {'NormalEnum', 'DeprecatedEnum'};
+          node.isIncluded = include.contains(node.originalName);
+        },
+        unnamedEnumConstant: (node) {
+          const include = {'normalUnnamedEnum', 'deprecatedUnnamedEnum'};
+          node.isIncluded = include.contains(node.originalName);
+        },
       ),
     ],
   );

@@ -22,15 +22,11 @@ import 'package:path/path.dart' as p;
 import '../test_utils.dart';
 
 void verifyBindings(
-  String testName, {
+  FfiGenerator config, {
   Logger? logger,
   bool Function(String expected, String actual)? dartVerify,
   bool Function(String expected, String actual)? objCVerify,
 }) {
-  final thisDir = p.join(packagePathForTests, 'test', 'native_objc_test');
-  final configFile = p.join(thisDir, '${testName}_config.yaml');
-
-  final config = testConfigFromPath(configFile, logger: logger);
   final context = testContext(config);
   final library = parse(context);
 
