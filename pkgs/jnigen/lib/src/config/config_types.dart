@@ -415,9 +415,9 @@ final class JniGenerator {
 
   late final Map<String, ClassDecl> _importedClasses;
 
-  /// Directory containing the configuration file.
+  /// Directory containing the YAML configuration file.
   ///
-  /// `null` if the configuration was not loaded from a configuration file.
+  /// `null` if the configuration was not loaded from a YAML configuration file.
   Uri? get configRoot => _configRoot;
   Uri? _configRoot;
 
