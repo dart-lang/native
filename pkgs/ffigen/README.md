@@ -160,9 +160,7 @@ FFIgen is configured using a Dart script, typically placed under `tool/ffigen.da
 
 The script instantiates an `FfiGenerator` with your desired configuration and calls `await generator.generate()`.
 
-### Minimal Example
-
-A minimal `tool/ffigen.dart` looks like this:
+### Example
 
 ```dart
 import 'dart:io';
@@ -182,7 +180,9 @@ Future<void> main() async {
     input: Input(
       entryPoints: [packageRoot.resolve('src/my_header.h')],
     ),
-    // Transform and filter AST nodes.
+    // Visitors transform and filter AST nodes. By default, all top level APIs
+    // are excluded from the bindings. You must explicitly include the APIs
+    // you're interested in. Here we include all functions and structs.
     visitors: [
       Visitor(
         func: (node) => node.isIncluded = true,
@@ -200,31 +200,6 @@ Run the script to generate bindings:
 dart run tool/ffigen.dart
 ```
 
-### Configuration Options
-
-The primary configuration classes provided by `package:ffigen` include:
-
-- [`FfiGenerator`](https://pub.dev/documentation/ffigen/latest/ffigen/FfiGenerator-class.html):
-  The top-level generator. Accepts configuration for inputs, outputs, visitors, Objective-C, and symbol imports.
-- [`Output`](https://pub.dev/documentation/ffigen/latest/ffigen/Output-class.html):
-  Configures output paths and styles.
-  - `dart`: [`DartOutput`](https://pub.dev/documentation/ffigen/latest/ffigen/DartOutput-class.html) path for the generated Dart file.
-  - `style`: The binding style to generate: [`NativeExternalBindings`](https://pub.dev/documentation/ffigen/latest/ffigen/NativeExternalBindings-class.html) (static `@Native` bindings, the default) or [`DynamicLibraryBindings`](https://pub.dev/documentation/ffigen/latest/ffigen/DynamicLibraryBindings-class.html) (dynamic library lookup wrapper class).
-  - `preamble`: Header comment string prepended to the generated file.
-  - `symbolFile`: [`SymbolFile`](https://pub.dev/documentation/ffigen/latest/ffigen/SymbolFile-class.html) configuration for emitting reusable symbol definitions.
-  - `commentType`: Controls whether doc comments from C headers are included.
-  - `format`: Whether to run `dart format` on generated code (default `true`).
-- [`Input`](https://pub.dev/documentation/ffigen/latest/ffigen/Input-class.html):
-  Configures header file discovery and compiler options.
-  - `entryPoints`: Header URIs to parse.
-  - `include`: Callback predicate `bool Function(Uri header)` to filter which headers (including transitively included headers) are processed.
-  - `compilerOptions`: List of command line flags passed to clang (e.g. `-I/path/to/headers`).
-  - `ignoreSourceErrors`: Whether to ignore clang compiler warnings and errors (default `false`).
-- [`Visitor`](https://pub.dev/documentation/ffigen/latest/ffigen/Visitor-class.html):
-  AST visitors to filter, rename, or customize declarations before Dart bindings are generated. Visitors can inspect and modify functions (`Func`), structs (`Struct`), unions (`Union`), enums (`EnumClass`), globals (`Global`), macros (`MacroConstant`), type aliases (`Typealias`), Objective-C interfaces (`ObjCInterface`), methods (`ObjCMethod`), protocols (`ObjCProtocol`), and categories (`ObjCCategory`).
-- [`ObjectiveC`](https://pub.dev/documentation/ffigen/latest/ffigen/ObjectiveC-class.html):
-  Objective-C specific configuration, including minimum target OS versions via `ExternalVersions`.
-
-For more detailed API documentation and all available properties, see the [`package:ffigen` API reference](https://pub.dev/documentation/ffigen/latest/).
-
-For practical and comprehensive examples demonstrating different use cases (such as dynamic libraries, Objective-C, Swift wrappers, symbol sharing, and custom visitors), see the [`example/`](example/) directory in this repository as well as the [package:code_assets examples](../code_assets/example).
+See the [examples](https://github.com/dart-lang/native/tree/main/pkgs/ffigen/example)
+and [API documentation](https://pub.dev/documentation/ffigen/latest/ffigen/)
+for more information.

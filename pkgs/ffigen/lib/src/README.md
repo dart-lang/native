@@ -20,7 +20,6 @@ The script for generating bindings is `tool/generate_clang_bindings.dart`. The b
 FFIgen is typically run via a Dart script such as `tool/ffigen.dart` using `dart run tool/ffigen.dart`.
 - The script creates an `FfiGenerator` object specifying `Input`, `Output`, and `Visitor`s.
 - `FfiGenerator.generate()` parses the headers, runs AST visitors, and generates the Dart bindings.
-- LibClang dynamic library is found in default system locations or resolved automatically.
 # Components
 ## Config Provider
 The Config Provider holds all the configurations required by other modules.

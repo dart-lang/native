@@ -37,7 +37,7 @@ dart run example.dart
 
 The FFIgen configuration is defined in `tool/ffigen.dart`. FFIgen only sees
 the Objective-C wrapper header, `swift_api.h`. So you need to enable Objective-C
-support and set the entry-point to the header:
+support and set the entry-point to the header.
 
 ```dart
 final generator = FfiGenerator(
@@ -59,18 +59,11 @@ final generator = FfiGenerator(
 );
 ```
 
-Swift classes become Objective-C interfaces, so include them using an
-`objCInterface` visitor.
-
-There is one extra option you need to set when wrapping a Swift library.
-When `swiftc` compiles the library, it gives the Objective-C interface
-a module prefix. Internally, our `SwiftClass` is actually registered
-as `swift_module.SwiftClass`. So you need to tell FFIgen about this prefix
-using `node.module`, so it loads the correct class from the dylib:
-
-```dart
-node.module = 'swift_module';
-```
-
-The module prefix is whatever you passed to `swiftc` in the
-`-module-name` flag.
+There are two important things to note about this example:
+1. Swift classes become Objective-C interfaces, so include them using an
+  `objCInterface` visitor.
+2. When `swiftc` compiles the library, it gives the Objective-C interface
+  a module prefix. Internally, our `SwiftClass` is actually registered
+  as `swift_module.SwiftClass`. So you need to tell FFIgen about this prefix
+  using `node.module`. The module is whatever you passed to `swiftc` in the
+  `-module-name` flag.
