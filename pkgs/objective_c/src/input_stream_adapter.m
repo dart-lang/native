@@ -78,11 +78,8 @@
 - (void)close {
   [_dataCondition lock];
   if (_status == NSStreamStatusClosed) {
-    // Already closed. NSURLSession closes the body stream it was handed when
-    // the task finishes, independently of the Dart owner closing it (e.g.
-    // cupertino_http closes the stream as soon as the request completes or
-    // is cancelled); the second close must be a no-op, not a second message
-    // to a port that the first close already told to shut down.
+    // The close message has already been sent, there is no reason to send
+    // another message to a port that was already shutdown.
     [_dataCondition unlock];
     return;
   }
@@ -141,10 +138,10 @@
   [_dataCondition lock];
 
   if (_status == NSStreamStatusClosed) {
-    // NSURLSession can still issue a read for a body stream after the Dart
-    // owner closed it (a request completed with an error or cancelled while
-    // the loader thread was about to resume the body). Closing sent the -1
-    // to Dart, so its port is gone: asking it for data would fail.
+    // Behave like Foundation's own streams: a read on a closed stream fails
+    // with -1 but leaves streamStatus at NSStreamStatusClosed and streamError
+    // nil, because being closed is the stream's normal final state, not an
+    // error.
     [_dataCondition unlock];
     return -1;
   }
