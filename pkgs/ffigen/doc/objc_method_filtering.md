@@ -1,64 +1,69 @@
 # Objective-C method filtering
 
-Methods and properties on ObjC interfaces, protocols,
-and categories can be filtered using
-the `member-filter` option under `objc-interfaces`, `objc-protocols`, and
-`objc-categories`. For simplicity we'll focus on interface methods,
-but the same rules apply to properties, protocols, and categories.
-There are two parts to the filtering process: matching
-the interface, and then filtering the method.
+Methods and properties on Objective-C interfaces, protocols, and categories can
+be filtered using AST visitors via `Visitor(objCMethod: ...)`.
 
-The syntax of `member-filter` is a YAML map from a pattern to some
-`include`/`exclude` rules, and `include` and `exclude` are each a list of
-patterns.
+## Basic filtering
 
-```yaml
-objc-interfaces:
-  member-filter:
-    MyInterface:  # Matches an interface.
-      include:
-        - "someMethod:withArg:"  # Matches a method.
-      exclude:
-        - someOtherMethod  # Matches a method.
+Each `ObjCMethod` node passed to the visitor provides access to:
+- `node.selector`: The Objective-C selector string (e.g. `"someMethod:withArg:"` or `"init"`).
+- `node.originalName`: The original method name.
+- `node.name`: The generated Dart name for this method.
+- `node.parent`: The parent declaration (`ObjCInterface`, `ObjCProtocol`, or `ObjCCategory`).
+- `node.isPropertyGetter` / `node.isPropertySetter`: Whether this method is an Objective-C property getter or setter.
+- `node.isIncluded`: Set to `true` or `false` to include or exclude the method.
+
+```dart
+Visitor(
+  objCMethod: (node) {
+    if (node.parent.name == 'MyInterface') {
+      if (node.selector == 'someOtherMethod') {
+        node.isIncluded = false;
+      }
+    }
+  },
+)
 ```
 
-The interface matching logic is the same as the matching logic for the
-`member-rename` option:
+## Matching selectors
 
-- The pattern is compared against the original name of the interface (before any
-  renaming is applied).
-- The pattern may be a string or a regexp, but in either case they must match
-  the entire interface name.
-- If the pattern contains only alphanumeric characters, or `_`, it is treated as
-  a string rather than a regex.
-- String patterns take precedence over regexps. That is, if an interface matches
-  both a regexp pattern, and a string pattern, it uses the string pattern's
-  `include`/`exclude` rules.
+The `selector` property contains the Objective-C method selector, where the method
+name and all external parameter names are concatenated with `:` characters
+(e.g., `"application:didFinishLaunchingWithOptions:"`). This matches the selector
+used in Objective-C API documentation.
 
-The method filtering logic uses the same `include`/`exclude` rules as the rest
-of the config:
+You can match exact selectors or use regular expressions:
 
-- `include` and `exclude` are a list of patterns.
-- The patterns are compared against the original name of the method, before
-  renaming.
-- The patterns can be strings or regexps, but must match the entire method name.
-- The method name is in ObjC selector syntax, which means that the method name
-  and all the external parameter names are concatenated together with `:`
-  characters. This is the same name you'll see in ObjC's API documentation.
-- **NOTE:** Since the pattern must match the entire method name, and most ObjC
-  method names end with a `:`, it's a good idea to surround the pattern with
-  quotes, `"`. Otherwise, YAML will think you're defining a map key.
-- If no  `include` or `exclude` rules are defined, all methods are included,
-  regardless of the top level `exclude-all-by-default` rule.
-- If only `include` rules are `defined`, all non-matching methods are excluded.
-- If only `exclude` rules are `defined`, all non-matching methods are included.
-- If both `include` and `exclude` rules are defined, the `exclude` rules take
-  precedence. That is, if a method name matches both an `include` rule and an
-  `exclude` rule, the method is excluded. All non-matching methods are also
-  excluded.
+```dart
+Visitor(
+  objCMethod: (node) {
+    // Exclude all init methods across interfaces
+    if (node.selector.startsWith('init')) {
+      node.isIncluded = false;
+    }
 
-The property filtering rules live in the same `objc-interfaces.member-filter`
-option as the methods. There is no distinction between methods and properties in
-the filters. The protocol filtering rules live in
-`objc-protocols.member-filter`, and for categories they're in
-`objc-categories.member-filter`.
+    // Exclude a specific method on NSDate
+    if (node.parent.name == 'NSDate' &&
+        node.selector == 'dateWithTimeIntervalSinceNow:') {
+      node.isIncluded = false;
+    }
+  },
+)
+```
+
+## Property filtering
+
+Objective-C properties are parsed into getter and setter methods. You can inspect
+`node.isPropertyGetter` and `node.isPropertySetter` to specifically filter or
+customize property accessors:
+
+```dart
+Visitor(
+  objCMethod: (node) {
+    // Exclude all property setters on MyInterface
+    if (node.parent.name == 'MyInterface' && node.isPropertySetter) {
+      node.isIncluded = false;
+    }
+  },
+)
+```
