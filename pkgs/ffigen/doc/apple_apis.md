@@ -15,13 +15,7 @@ when configuring `Input.entryPoints`:
 For example:
 
 ```dart
-import 'package:ffigen/ffigen.dart';
-
 final generator = FfiGenerator(
-  output: Output(
-    dart: DartOutput(path: packageRoot.resolve('lib/foundation_bindings.dart')),
-  ),
-  objectiveC: const ObjectiveC(),
   input: Input(
     entryPoints: [
       macSdkUri.resolve(
@@ -29,14 +23,6 @@ final generator = FfiGenerator(
       ),
     ],
   ),
-  visitors: [
-    Visitor(
-      objCInterface: (node) {
-        if (node.name == 'NSDate') {
-          node.isIncluded = true;
-        }
-      },
-    ),
-  ],
+  ...
 );
 ```
