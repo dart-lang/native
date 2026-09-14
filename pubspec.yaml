@@ -24,6 +24,7 @@ workspace:
   # - pkgs/ffigen/example/simple  # TODO
   # - pkgs/ffigen/example/swift  # TODO
   - pkgs/hooks
+  - pkgs/hooks/example/build/bundle_prebuilt_assets
   - pkgs/hooks/example/build/download_asset
   - pkgs/hooks/example/build/local_asset
   - pkgs/hooks/example/build/native_add_app
@@ -142,6 +143,8 @@ dev_dependencies:
 # Hook user-defines are specified in the pub workspace.
 hooks:
   user_defines:
+    bundle_prebuilt_assets:
+      local_build: false
     download_asset:
       local_build: false
     user_defines: # package name
