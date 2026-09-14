@@ -1,0 +1,7 @@
+# Include all package files (overriding parent .pubignore and .gitignore rules).
+!*
+!*/**
+
+# Exclude local build artifacts and pub cache.
+.dart_tool/
+build/
