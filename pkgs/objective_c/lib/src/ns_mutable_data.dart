@@ -56,7 +56,10 @@ extension NSMutableDataListExtension on List<int> {
     final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);
 
-    final data = NSMutableData.alloc().initWithBytes(buffer.cast(), length: length);
+    final data = NSMutableData.alloc().initWithBytes(
+      buffer.cast(),
+      length: length,
+    );
     malloc.free(buffer);
 
     return data;

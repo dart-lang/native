@@ -1,3 +1,10 @@
+## 9.6.1-wip
+
+- Fix a bug where `toNSData`/`toNSMutableData` added the returned `NSData`
+  to the autorelease pool.
+- Fix a bug where `toNSInputStream` would create cycles between Dart and
+  Objective-C.
+
 ## 9.6.0
 
 - Add a bunch more categories to the bindings.
