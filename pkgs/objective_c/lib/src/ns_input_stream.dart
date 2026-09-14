@@ -59,30 +59,36 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
 
     dataSubscription = listen(
       (data) {
-        final inputStream = weakInputStream.adapter;
-        if (inputStream.addData(data.toNSData()) > maxReadAheadSize) {
-          dataSubscription.pause();
-        }
-        inputStream.ref.release();
+        autoReleasePool(() {
+          final inputStream = weakInputStream.adapter;
+          if (inputStream.addData(data.toNSData()) > maxReadAheadSize) {
+            dataSubscription.pause();
+          }
+          inputStream.ref.release();
+        });
       },
       onError: (Object e) {
-        final inputStream = weakInputStream.adapter;
-        final d = NSMutableDictionary();
-        d.asDart()[NSLocalizedDescriptionKey] = e.toString().toNSString();
-        inputStream.setError(
-          NSError.errorWithDomain(
-            'DartError'.toNSString(),
-            code: 0,
-            userInfo: d,
-          ),
-        );
-        inputStream.ref.release();
+        autoReleasePool(() {
+          final inputStream = weakInputStream.adapter;
+          final d = NSMutableDictionary();
+          d.asDart()[NSLocalizedDescriptionKey] = e.toString().toNSString();
+          inputStream.setError(
+            NSError.errorWithDomain(
+              'DartError'.toNSString(),
+              code: 0,
+              userInfo: d,
+            ),
+          );
+          inputStream.ref.release();
+        });
         port.close();
       },
       onDone: () {
-        final inputStream = weakInputStream.adapter;
-        inputStream.setDone();
-        inputStream.ref.release();
+        autoReleasePool(() {
+          final inputStream = weakInputStream.adapter;
+          inputStream.setDone();
+          inputStream.ref.release();
+        });
         port.close();
       },
       cancelOnError: true,
