@@ -15,7 +15,7 @@ void main() async {
         file: Uri.file('not there'),
       ).encode().toJson(),
       {
-        'type': 'web_assets/web',
+        'type': 'web_assets/web_uri',
         'encoding': {
           'file': 'not there',
           'name': 'name',
@@ -27,7 +27,7 @@ void main() async {
 
   test('WebAsset fromJson', () {
     final encodedAsset = EncodedAsset.fromJson({
-      'type': 'web_assets/web',
+      'type': 'web_assets/web_uri',
       'encoding': {
         'file': 'not there',
         'name': 'name',

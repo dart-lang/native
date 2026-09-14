@@ -9,7 +9,7 @@
           "type": "string",
           "anyOf": [
             {
-              "const": "web_assets/web"
+              "const": "web_assets/web_uri"
             },
             {
               "type": "string"

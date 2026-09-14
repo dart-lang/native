@@ -82,7 +82,7 @@ final class WebUriAsset({
 }
 
 extension WebUriAssetType on WebUriAsset {
-  static const String type = WebAssetsWebAssetSyntax.typeValue;
+  static const String type = WebAssetsWebUriAssetSyntax.typeValue;
 }
 
 /// Methods on [EncodedAsset] for [WebUriAsset]s.

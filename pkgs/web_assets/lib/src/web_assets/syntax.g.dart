@@ -16,8 +16,8 @@ class AssetSyntax extends JsonObjectSyntax {
     List<Object> path = const [],
   }) {
     final result = AssetSyntax._fromJson(json, path: path);
-    if (result.isWebAssetsWebAsset) {
-      return result.asWebAssetsWebAsset;
+    if (result.isWebAssetsWebUriAsset) {
+      return result.asWebAssetsWebUriAsset;
     }
     return result;
   }
@@ -44,27 +44,60 @@ class AssetSyntax extends JsonObjectSyntax {
   String toString() => 'AssetSyntax($json)';
 }
 
-class WebAssetsWebAssetSyntax extends AssetSyntax {
-  static const typeValue = 'web_assets/web';
+class WebAssetsWebUriAssetSyntax extends AssetSyntax {
+  static const typeValue = 'web_assets/web_uri';
 
-  WebAssetsWebAssetSyntax.fromJson(super.json, {super.path})
+  WebAssetsWebUriAssetSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  WebAssetsWebAssetSyntax({super.path = const []})
-    : super(type: 'web_assets/web');
+  WebAssetsWebUriAssetSyntax({
+    required WebUriAssetEncodingSyntax? encoding,
+    super.path = const [],
+  }) : super(type: 'web_assets/web_uri') {
+    _encoding = encoding;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [WebAssetsWebUriAssetSyntax] that are not in
+  /// [AssetSyntax].
+  void setup({required WebUriAssetEncodingSyntax? encoding}) {
+    _encoding = encoding;
+    json.sortOnKey();
+  }
+
+  WebUriAssetEncodingSyntax? get encoding {
+    final jsonValue = _reader.optionalMap('encoding');
+    if (jsonValue == null) return null;
+    return WebUriAssetEncodingSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'encoding'],
+    );
+  }
+
+  set _encoding(WebUriAssetEncodingSyntax? value) {
+    json.setOrRemove('encoding', value?.json);
+  }
+
+  List<String> _validateEncoding() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('encoding');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return encoding?.validate() ?? [];
+  }
 
   @override
-  List<String> validate() => [...super.validate()];
+  List<String> validate() => [...super.validate(), ..._validateEncoding()];
 
   @override
-  String toString() => 'WebAssetsWebAssetSyntax($json)';
+  String toString() => 'WebAssetsWebUriAssetSyntax($json)';
 }
 
-extension WebAssetsWebAssetSyntaxExtension on AssetSyntax {
-  bool get isWebAssetsWebAsset => type == 'web_assets/web';
+extension WebAssetsWebUriAssetSyntaxExtension on AssetSyntax {
+  bool get isWebAssetsWebUriAsset => type == 'web_assets/web_uri';
 
-  WebAssetsWebAssetSyntax get asWebAssetsWebAsset =>
-      WebAssetsWebAssetSyntax.fromJson(json, path: path);
+  WebAssetsWebUriAssetSyntax get asWebAssetsWebUriAsset =>
+      WebAssetsWebUriAssetSyntax.fromJson(json, path: path);
 }
 
 class WebUriAssetEncodingSyntax extends JsonObjectSyntax {

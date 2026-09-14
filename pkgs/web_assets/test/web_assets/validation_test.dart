@@ -80,7 +80,7 @@ void main() {
     );
     expect(
       errors,
-      contains(contains('Data asset must have package name my_package')),
+      contains(contains('Web uri asset must have package name my_package')),
     );
   });
 

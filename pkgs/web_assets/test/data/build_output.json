@@ -7,7 +7,7 @@
         "name": "assets/data_0.json",
         "package": "simple_link"
       },
-      "type": "web_assets/web"
+      "type": "web_assets/web_uri"
     },
     {
       "encoding": {
@@ -15,7 +15,7 @@
         "name": "assets/data_1.json",
         "package": "simple_link"
       },
-      "type": "web_assets/web"
+      "type": "web_assets/web_uri"
     }
   ],
   "assets_for_build": [
@@ -25,7 +25,7 @@
         "name": "assets/data_0.json",
         "package": "simple_link"
       },
-      "type": "web_assets/web"
+      "type": "web_assets/web_uri"
     },
     {
       "encoding": {
@@ -33,7 +33,7 @@
         "name": "assets/data_1.json",
         "package": "simple_link"
       },
-      "type": "web_assets/web"
+      "type": "web_assets/web_uri"
     }
   ],
   "assets_for_linking": {
@@ -44,7 +44,7 @@
           "name": "assets/data_0.json",
           "package": "simple_link"
         },
-        "type": "web_assets/web"
+        "type": "web_assets/web_uri"
       },
       {
         "encoding": {
@@ -52,7 +52,7 @@
           "name": "assets/data_1.json",
           "package": "simple_link"
         },
-        "type": "web_assets/web"
+        "type": "web_assets/web_uri"
       }
     ]
   },

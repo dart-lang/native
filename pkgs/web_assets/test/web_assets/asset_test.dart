@@ -18,7 +18,7 @@ void main() {
 
   final assetsJsonEncoding = [
     {
-      'type': 'web_assets/web',
+      'type': 'web_assets/web_uri',
       'encoding': {
         'name': 'my_web_asset',
         'package': 'my_package',
@@ -26,7 +26,7 @@ void main() {
       },
     },
     {
-      'type': 'web_assets/web',
+      'type': 'web_assets/web_uri',
       'encoding': {
         'name': 'my_web_asset2',
         'package': 'my_package',
