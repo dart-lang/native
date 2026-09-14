@@ -263,15 +263,15 @@ class VisitorEmitter {
       for (final entry in packMap.entries) {
         final name = entry.key.toString();
         final val = entry.value;
-        if (val == 'none') {
-          statements.add(
-            "if (node.originalName == '$name') {\n  node.pack = 0;\n}",
-          );
-        } else if (val is num) {
-          statements.add(
-            "if (node.originalName == '$name') {\n  node.pack = $val;\n}",
-          );
-        }
+        final pat = name.startsWith('^') ? name.substring(1) : name;
+        final finalPat = pat.endsWith(r'$')
+            ? pat.substring(0, pat.length - 1)
+            : pat;
+        final cond = _isExactName(name)
+            ? "node.originalName == '$name'"
+            : "RegExp(r'^$finalPat\$').hasMatch(node.originalName)";
+        final packVal = val == 'none' ? 'null' : val.toString();
+        statements.add('if ($cond) {\n  node.pack = $packVal;\n}');
       }
     }
 
@@ -594,17 +594,33 @@ class VisitorEmitter {
           for (final rentry in renames.entries) {
             final from = rentry.key.toString();
             final to = rentry.value.toString();
+            final pat = from.startsWith('^') ? from.substring(1) : from;
+            final finalPat = pat.endsWith(r'$')
+                ? pat.substring(0, pat.length - 1)
+                : pat;
+
             if (_isExactName(from)) {
               subStatements.add(
                 "if ($parentCond && node.selector == '$from') {\n"
                 "  node.name = '$to';\n"
                 '}',
               );
-            } else {
+            } else if (!to.contains(r'$')) {
               subStatements.add(
                 'if ($parentCond && '
-                "RegExp(r'^$from\$').hasMatch(node.selector)) {\n"
+                "RegExp(r'^$finalPat\$').hasMatch(node.selector)) {\n"
                 "  node.name = '$to';\n"
+                '}',
+              );
+            } else {
+              subStatements.add(
+                'if ($parentCond) {\n'
+                "  if (RegExp(r'^$finalPat\$').firstMatch(node.selector) "
+                'case final match?) {\n'
+                '    node.name = '
+                "r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), "
+                "(m) => match[int.parse(m[1]!)] ?? '');\n"
+                '  }\n'
                 '}',
               );
             }
@@ -639,16 +655,46 @@ class VisitorEmitter {
       for (final entry in memberRename.entries) {
         final parentDecl = entry.key.toString();
         final renames = entry.value as Map;
+        final parentCond = _isExactName(parentDecl)
+            ? "parent.originalName == '$parentDecl'"
+            : "RegExp(r'^$parentDecl\$').hasMatch(parent.originalName)";
+
         for (final rentry in renames.entries) {
           final from = rentry.key.toString();
           final to = rentry.value.toString();
-          statements.add(
-            'if (parent is $typeName && '
-            "parent.originalName == '$parentDecl' && "
-            "node.originalName == '$from') {\n"
-            "  node.name = '$to';\n"
-            '}',
-          );
+          final pat = from.startsWith('^') ? from.substring(1) : from;
+          final finalPat = pat.endsWith(r'$')
+              ? pat.substring(0, pat.length - 1)
+              : pat;
+
+          if (_isExactName(from)) {
+            statements.add(
+              'if (parent is $typeName && '
+              '$parentCond && '
+              "node.originalName == '$from') {\n"
+              "  node.name = '$to';\n"
+              '}',
+            );
+          } else if (!to.contains(r'$')) {
+            statements.add(
+              'if (parent is $typeName && '
+              '$parentCond && '
+              "RegExp(r'^$finalPat\$').hasMatch(node.originalName)) {\n"
+              "  node.name = '$to';\n"
+              '}',
+            );
+          } else {
+            statements.add(
+              'if (parent is $typeName && $parentCond) {\n'
+              "  if (RegExp(r'^$finalPat\$').firstMatch(node.originalName) "
+              'case final match?) {\n'
+              '    node.name = '
+              "r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), "
+              "(m) => match[int.parse(m[1]!)] ?? '');\n"
+              '  }\n'
+              '}',
+            );
+          }
         }
       }
     }
@@ -670,16 +716,46 @@ class VisitorEmitter {
         for (final entry in memberRename.entries) {
           final parentDecl = entry.key.toString();
           final renames = entry.value as Map;
+          final parentCond = _isExactName(parentDecl)
+              ? "parent.originalName == '$parentDecl'"
+              : "RegExp(r'^$parentDecl\$').hasMatch(parent.originalName)";
+
           for (final rentry in renames.entries) {
             final from = rentry.key.toString();
             final to = rentry.value.toString();
-            statements.add(
-              'if (parent is Func && '
-              "parent.originalName == '$parentDecl' && "
-              "node.originalName == '$from') {\n"
-              "  node.name = '$to';\n"
-              '}',
-            );
+            final pat = from.startsWith('^') ? from.substring(1) : from;
+            final finalPat = pat.endsWith(r'$')
+                ? pat.substring(0, pat.length - 1)
+                : pat;
+
+            if (_isExactName(from)) {
+              statements.add(
+                'if (parent is Func && '
+                '$parentCond && '
+                "node.originalName == '$from') {\n"
+                "  node.name = '$to';\n"
+                '}',
+              );
+            } else if (!to.contains(r'$')) {
+              statements.add(
+                'if (parent is Func && '
+                '$parentCond && '
+                "RegExp(r'^$finalPat\$').hasMatch(node.originalName)) {\n"
+                "  node.name = '$to';\n"
+                '}',
+              );
+            } else {
+              statements.add(
+                'if (parent is Func && $parentCond) {\n'
+                "  if (RegExp(r'^$finalPat\$').firstMatch(node.originalName) "
+                'case final match?) {\n'
+                '    node.name = '
+                "r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), "
+                "(m) => match[int.parse(m[1]!)] ?? '');\n"
+                '  }\n'
+                '}',
+              );
+            }
           }
         }
       }
@@ -699,15 +775,44 @@ class VisitorEmitter {
         for (final entry in memberRename.entries) {
           final parentDecl = entry.key.toString();
           final renames = entry.value as Map;
+          final parentCond = _isExactName(parentDecl)
+              ? "parent.originalName == '$parentDecl'"
+              : "RegExp(r'^$parentDecl\$').hasMatch(parent.originalName)";
+
           for (final rentry in renames.entries) {
             final from = rentry.key.toString();
             final to = rentry.value.toString();
-            statements.add(
-              "if (parent.originalName == '$parentDecl' && "
-              "node.originalName == '$from') {\n"
-              "  node.name = '$to';\n"
-              '}',
-            );
+            final pat = from.startsWith('^') ? from.substring(1) : from;
+            final finalPat = pat.endsWith(r'$')
+                ? pat.substring(0, pat.length - 1)
+                : pat;
+
+            if (_isExactName(from)) {
+              statements.add(
+                'if ($parentCond && '
+                "node.originalName == '$from') {\n"
+                "  node.name = '$to';\n"
+                '}',
+              );
+            } else if (!to.contains(r'$')) {
+              statements.add(
+                'if ($parentCond && '
+                "RegExp(r'^$finalPat\$').hasMatch(node.originalName)) {\n"
+                "  node.name = '$to';\n"
+                '}',
+              );
+            } else {
+              statements.add(
+                'if ($parentCond) {\n'
+                "  if (RegExp(r'^$finalPat\$').firstMatch(node.originalName) "
+                'case final match?) {\n'
+                '    node.name = '
+                "r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), "
+                "(m) => match[int.parse(m[1]!)] ?? '');\n"
+                '  }\n'
+                '}',
+              );
+            }
           }
         }
       }
@@ -767,7 +872,9 @@ class VisitorEmitter {
         }
       }
 
-      if (parts.length == 1) {
+      if (parts.contains('true')) {
+        incCond = 'true';
+      } else if (parts.length == 1) {
         incCond = parts.first;
       } else {
         incCond = parts.join(' || ');
@@ -850,6 +957,7 @@ class VisitorEmitter {
       }
     }
 
+    final multiRegex = regex.length > 1;
     for (final entry in regex.entries) {
       final from = entry.key;
       final to = entry.value;
@@ -860,16 +968,32 @@ class VisitorEmitter {
         statements.add(
           "$target = $target.replaceFirst(RegExp(r'^$prefix'), '');",
         );
-      } else {
+      } else if (!to.contains(r'$')) {
         final pat = from.startsWith('^') ? from.substring(1) : from;
-        final finalPat = pat.endsWith('\$')
+        final finalPat = pat.endsWith(r'$')
             ? pat.substring(0, pat.length - 1)
             : pat;
         statements.add('''
+if (RegExp(r'^$finalPat\$').hasMatch($target)) {
+  $target = '$to';
+}''');
+      } else {
+        final pat = from.startsWith('^') ? from.substring(1) : from;
+        final finalPat = pat.endsWith(r'$')
+            ? pat.substring(0, pat.length - 1)
+            : pat;
+        if (multiRegex) {
+          statements.add('''
+if (RegExp(r'^$finalPat\$').firstMatch($target) case final match?) {
+  $target = r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), (m) => match[int.parse(m[1]!)] ?? '');
+}''');
+        } else {
+          statements.add('''
 final match = RegExp(r'^$finalPat\$').firstMatch($target);
 if (match != null) {
   $target = r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), (m) => match[int.parse(m[1]!)] ?? '');
 }''');
+        }
       }
     }
   }

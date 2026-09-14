@@ -555,11 +555,11 @@ extension JniGeneratorInternal on JniGenerator {
 
   Future<void> importClasses() async {
     _importedClasses = {};
-    for (final import in [
+    for (final import in {
       // Implicitly importing package:jni symbols.
       Uri.parse('package:jni/jni_symbols.yaml'),
       ...imports.symbolFiles,
-    ]) {
+    }) {
       // Getting the actual uri in case of package uris.
       final Uri yamlUri;
       final String importPath;

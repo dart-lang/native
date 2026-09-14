@@ -24,6 +24,7 @@ class YamlMigrator {
     'example_pdfbox_plugin.yaml': 'example/pdfbox_plugin/',
     'test_jackson_core.yaml': 'test/jackson_core_test/',
     'test_dartify_simple_cases.yaml': 'test/simple_package_test/',
+    'comprehensive.yaml': 'test/simple_package_test/',
   };
 
   void migrate() {
@@ -54,29 +55,39 @@ class YamlMigrator {
     Map<dynamic, dynamic> yamlMap,
     String defaultPackageRoot,
   ) {
-    final preamble = yamlMap['preamble'] as String?;
+    final outputYaml = yamlMap['output'];
+    final preamble = (yamlMap['preamble'] ??
+        (outputYaml is Map ? outputYaml['preamble'] : null)) as String?;
     final dartOutput = _extractDartOutput(yamlMap['output']);
+    final symbols = _extractSymbols(yamlMap);
     final sourcePaths = _extractStringList(yamlMap['source_path']);
     final classPaths = _extractStringList(yamlMap['class_path']);
     final classes = _extractStringList(yamlMap['classes']);
+    final extraArgs = _extractExtraArgs(yamlMap);
+    final workingDirectory = _extractWorkingDirectory(yamlMap);
     final summarizerBackend = _extractSummarizerBackend(yamlMap['summarizer']);
     final mavenDownloads = _extractMavenDownloads(yamlMap['maven_downloads']);
     final androidSdk = _extractAndroidSdk(yamlMap['android_sdk_config']);
     final hide = _extractStringList(yamlMap['hide']);
     final symbolFiles = _extractStringList(yamlMap['import']);
+    final nullability = _extractNullability(yamlMap);
 
     return JnigenMigrationConfig(
       defaultPackageRoot: defaultPackageRoot,
       preamble: preamble,
       dartOutput: dartOutput,
+      symbols: symbols,
       sourcePaths: sourcePaths,
       classPaths: classPaths,
       classes: classes,
+      extraArgs: extraArgs,
+      workingDirectory: workingDirectory,
       summarizerBackend: summarizerBackend,
       mavenDownloads: mavenDownloads,
       androidSdk: androidSdk,
       hide: hide,
       symbolFiles: symbolFiles,
+      nullability: nullability,
     );
   }
 
@@ -163,6 +174,57 @@ class YamlMigrator {
       androidExample: androidExample,
       versions: versions,
       sdkRoot: sdkRoot,
+    );
+  }
+
+  String? _extractSymbols(Map<dynamic, dynamic> yamlMap) {
+    final output = yamlMap['output'];
+    if (output is Map && output['symbols'] is String) {
+      return output['symbols'] as String;
+    }
+    if (yamlMap['output.symbols'] is String) {
+      return yamlMap['output.symbols'] as String;
+    }
+    return null;
+  }
+
+  List<String> _extractExtraArgs(Map<dynamic, dynamic> yamlMap) {
+    final summarizer = yamlMap['summarizer'];
+    if (summarizer is Map && summarizer['extra_args'] != null) {
+      return _extractStringList(summarizer['extra_args']);
+    }
+    if (yamlMap['summarizer.extra_args'] != null) {
+      return _extractStringList(yamlMap['summarizer.extra_args']);
+    }
+    return const [];
+  }
+
+  String? _extractWorkingDirectory(Map<dynamic, dynamic> yamlMap) {
+    final summarizer = yamlMap['summarizer'];
+    if (summarizer is Map && summarizer['working_dir'] is String) {
+      return summarizer['working_dir'] as String;
+    }
+    if (yamlMap['summarizer.working_dir'] is String) {
+      return yamlMap['summarizer.working_dir'] as String;
+    }
+    return null;
+  }
+
+  NullabilityAnnotationsConfig? _extractNullability(
+    Map<dynamic, dynamic> yamlMap,
+  ) {
+    final nonNull = _extractStringList(
+      yamlMap['non_null_annotations'] ?? yamlMap['non_null'],
+    );
+    final nullable = _extractStringList(
+      yamlMap['nullable_annotations'] ?? yamlMap['nullable'],
+    );
+    if (nonNull.isEmpty && nullable.isEmpty) {
+      return null;
+    }
+    return NullabilityAnnotationsConfig(
+      nonNull: nonNull,
+      nullable: nullable,
     );
   }
 }

@@ -276,26 +276,38 @@ Future<void> verifyMigration(
       ? expectedDartScriptFile
       : File(path.join(context.tmpDir, 'dart', '$testName.dart'));
 
-  final tempDartGenDir = Directory(path.join(context.tmpDir, testName))
+  final tmpBase = Directory(
+    path.join(packagePathForTests, 'test', 'migrate', '.tmp'),
+  );
+  final tempDartGenDir = Directory(path.join(tmpBase.path, testName))
     ..createSync(recursive: true);
 
-  final runResult = await Process.run(
-    Platform.resolvedExecutable,
-    ['run', scriptToRun.path, tempDartGenDir.path],
-    workingDirectory: packagePathForTests,
-    environment: {'OUTPUT_DIR': tempDartGenDir.path},
-  );
-  if (runResult.exitCode != 0) {
-    fail(
-      'Running Dart script ${scriptToRun.path} failed with exit code '
-      '${runResult.exitCode}:\n'
-      '${runResult.stderr}\n${runResult.stdout}',
+  try {
+    final runResult = await Process.run(
+      Platform.resolvedExecutable,
+      ['run', scriptToRun.path, tempDartGenDir.path],
+      workingDirectory: packagePathForTests,
+      environment: {'OUTPUT_DIR': tempDartGenDir.path},
     );
-  }
+    if (runResult.exitCode != 0) {
+      fail(
+        'Running Dart script ${scriptToRun.path} failed with exit code '
+        '${runResult.exitCode}:\n'
+        '${runResult.stderr}\n${runResult.stdout}',
+      );
+    }
 
-  // 4. Verify bindings from YAML and from Dart script are the same.
-  final checkedInBindingsDir = Directory(
-    path.joinAll([packagePathForTests, ...bindingsRelativeDir]),
-  );
-  compareDirectories(checkedInBindingsDir, tempDartGenDir);
+    // 4. Verify bindings from YAML and from Dart script are the same.
+    final checkedInBindingsDir = Directory(
+      path.joinAll([packagePathForTests, ...bindingsRelativeDir]),
+    );
+    compareDirectories(checkedInBindingsDir, tempDartGenDir);
+  } finally {
+    if (tempDartGenDir.existsSync()) {
+      tempDartGenDir.deleteSync(recursive: true);
+    }
+    if (tmpBase.existsSync() && tmpBase.listSync().isEmpty) {
+      tmpBase.deleteSync();
+    }
+  }
 }

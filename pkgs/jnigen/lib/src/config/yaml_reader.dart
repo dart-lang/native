@@ -88,17 +88,38 @@ class YamlReader {
   /// from YAML config.
   Uri? getPath(String property) => _config.optionalPath(property);
 
-  List<String>? getStringList(String property) => _config.optionalStringList(
-        property,
-        splitCliPattern: ';',
-        combineAllConfigs: false,
-      );
+  List<String>? getStringList(String property) {
+    final value = _config.valueOf<dynamic>(property);
+    if (value == null) return null;
+    if (value is List) {
+      return value.map((e) => e.toString()).toList();
+    }
+    return _config.optionalStringList(
+      property,
+      splitCliPattern: ';',
+      combineAllConfigs: false,
+    );
+  }
 
-  List<Uri>? getPathList(String property) => _config.optionalPathList(
-        property,
-        combineAllConfigs: false,
-        splitCliPattern: ';',
-      );
+  List<Uri>? getPathList(String property) {
+    final value = _config.valueOf<dynamic>(property);
+    if (value is List) {
+      final configRoot = getConfigRoot();
+      return value.map((e) {
+        final str = e.toString();
+        final uri = Uri.parse(str);
+        if (uri.hasScheme && uri.scheme != 'file') {
+          return uri;
+        }
+        return configRoot?.resolve(str) ?? uri;
+      }).toList();
+    }
+    return _config.optionalPathList(
+      property,
+      combineAllConfigs: false,
+      splitCliPattern: ';',
+    );
+  }
 
   String? getOneOf(String property, Set<String> values) =>
       _config.optionalString(property, validValues: values);

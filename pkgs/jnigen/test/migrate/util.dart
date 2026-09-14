@@ -25,6 +25,14 @@ String findOriginalPath(String fileName, String jnigenRoot) {
   if (baseName == 'test_dartify_simple_cases') {
     return path.join(jnigenRoot, 'test', 'simple_package_test', 'jnigen.yaml');
   }
+  if (baseName == 'comprehensive') {
+    return path.join(
+      jnigenRoot,
+      'test',
+      'simple_package_test',
+      'comprehensive.yaml',
+    );
+  }
   return path.join(jnigenRoot, 'test', 'migrate', 'yaml', fileName);
 }
 

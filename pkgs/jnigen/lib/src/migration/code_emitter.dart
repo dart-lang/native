@@ -47,6 +47,7 @@ class CodeEmitter {
     _emitInput(buffer);
     _emitOutput(buffer);
     _emitImports(buffer);
+    _emitNullability(buffer);
     buffer.writeln('  );');
     buffer.writeln('}');
     buffer.writeln();
@@ -88,6 +89,19 @@ class CodeEmitter {
       buffer.writeln("        '$c',");
     }
     buffer.writeln('      ],');
+    if (config.extraArgs.isNotEmpty) {
+      buffer.writeln('      extraArgs: [');
+      for (final arg in config.extraArgs) {
+        buffer.writeln("        '$arg',");
+      }
+      buffer.writeln('      ],');
+    }
+    if (config.workingDirectory != null) {
+      buffer.writeln(
+        '      workingDirectory: '
+        "packageRoot.resolve('${config.workingDirectory}'),",
+      );
+    }
     if (config.summarizerBackend != null) {
       final bStr = config.summarizerBackend == SummarizerBackendConfig.asm
           ? 'SummarizerBackend.asm'
@@ -134,6 +148,14 @@ class CodeEmitter {
 
   void _emitAndroidSdk(StringBuffer buffer, AndroidSdkConfig a) {
     buffer.writeln('      androidSdk: AndroidSdk(');
+    if (a.versions != null) {
+      buffer.writeln('        versions: [${a.versions!.join(', ')}],');
+    }
+    if (a.sdkRoot != null) {
+      buffer.writeln(
+        "        sdkRoot: packageRoot.resolve('${a.sdkRoot}'),",
+      );
+    }
     if (a.addGradleDeps) {
       buffer.writeln('        addGradleDeps: true,');
     }
@@ -175,6 +197,12 @@ class CodeEmitter {
       }
     }
     buffer.writeln('      ),');
+    if (config.symbols != null && config.symbols!.isNotEmpty) {
+      buffer.writeln(
+        '      symbols: '
+        "SymbolsOutput(packageRoot.resolve('${config.symbols}')),",
+      );
+    }
     if (config.preamble != null && config.preamble!.isNotEmpty) {
       buffer.writeln('      preamble: preamble,');
     }
@@ -199,6 +227,32 @@ class CodeEmitter {
       buffer.writeln('      hide: [');
       for (final h in config.hide) {
         buffer.writeln("        '$h',");
+      }
+      buffer.writeln('      ],');
+    }
+    buffer.writeln('    ),');
+  }
+
+  void _emitNullability(StringBuffer buffer) {
+    if (config.nullability == null) {
+      return;
+    }
+    final n = config.nullability!;
+    if (n.nonNull.isEmpty && n.nullable.isEmpty) {
+      return;
+    }
+    buffer.writeln('    nullability: const NullabilityAnnotations(');
+    if (n.nonNull.isNotEmpty) {
+      buffer.writeln('      nonNull: [');
+      for (final ann in n.nonNull) {
+        buffer.writeln("        '$ann',");
+      }
+      buffer.writeln('      ],');
+    }
+    if (n.nullable.isNotEmpty) {
+      buffer.writeln('      nullable: [');
+      for (final ann in n.nullable) {
+        buffer.writeln("        '$ann',");
       }
       buffer.writeln('      ],');
     }

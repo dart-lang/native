@@ -57,30 +57,48 @@ class AndroidSdkConfig {
   });
 }
 
+class NullabilityAnnotationsConfig {
+  final List<String> nonNull;
+  final List<String> nullable;
+
+  const NullabilityAnnotationsConfig({
+    this.nonNull = const [],
+    this.nullable = const [],
+  });
+}
+
 class JnigenMigrationConfig {
   final String defaultPackageRoot;
   final String? preamble;
   final DartOutputConfig dartOutput;
+  final String? symbols;
   final List<String> sourcePaths;
   final List<String> classPaths;
   final List<String> classes;
+  final List<String> extraArgs;
+  final String? workingDirectory;
   final SummarizerBackendConfig? summarizerBackend;
   final MavenDownloadsConfig? mavenDownloads;
   final AndroidSdkConfig? androidSdk;
   final List<String> hide;
   final List<String> symbolFiles;
+  final NullabilityAnnotationsConfig? nullability;
 
   const JnigenMigrationConfig({
     required this.defaultPackageRoot,
     this.preamble,
     required this.dartOutput,
+    this.symbols,
     this.sourcePaths = const [],
     this.classPaths = const [],
     required this.classes,
+    this.extraArgs = const [],
+    this.workingDirectory,
     this.summarizerBackend,
     this.mavenDownloads,
     this.androidSdk,
     this.hide = const [],
     this.symbolFiles = const [],
+    this.nullability,
   });
 }

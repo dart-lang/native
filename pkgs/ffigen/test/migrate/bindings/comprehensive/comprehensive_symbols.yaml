@@ -1,0 +1,139 @@
+format_version: 1.0.0
+files:
+  comprehensive_bindings.dart:
+    used-config:
+      ffi-native: false
+    symbols:
+      c:@E@AsIntEnum:
+        name: AsIntEnum
+      c:@E@AsIntRegexEnum:
+        name: AsIntRegexEnum
+      c:@E@EnumOld:
+        name: EnumNew
+      c:@E@MemberRenameEnum:
+        name: MemberRenameEnum
+      c:@E@RegexEnumA:
+        name: RegexEnumA
+      c:@E@RegexMemberRenameEnum:
+        name: RegexMemberRenameEnum
+      c:@E@RegularEnum:
+        name: RegularEnum
+      c:@Ea@UNNAMED_OLD_CONST@UNNAMED_OLD_CONST:
+        name: UNNAMED_NEW_CONST
+      c:@Ea@UNNAMED_OLD_CONST@UNNAMED_PREFIX_BAR:
+        name: UNNAMED_STRIP_BAR
+      c:@Ea@UNNAMED_OLD_CONST@UNNAMED_PREFIX_FOO:
+        name: UNNAMED_STRIP_FOO
+      c:@F@exp_typedef_func:
+        name: exp_typedef_func
+      c:@F@exp_typedef_regex_func:
+        name: exp_typedef_regex_func
+      c:@F@func_param_rename:
+        name: func_param_rename
+      c:@F@func_regex_param_rename:
+        name: func_regex_param_rename
+      c:@F@func_using_mapped_type:
+        name: func_using_mapped_type
+      c:@F@func_with_opaque_dep:
+        name: func_with_opaque_dep
+      c:@F@func_with_opaque_union:
+        name: func_with_opaque_union
+      c:@F@leaf_func:
+        name: leaf_func
+      c:@F@leaf_regex_func:
+        name: leaf_regex_func
+      c:@F@old_func:
+        name: new_func
+      c:@F@prefix_func_test:
+        name: new_prefix
+      c:@F@regex_func:
+        name: regex_func
+      c:@F@regular_func:
+        name: regular_func
+      c:@F@strip_func_test:
+        name: func_test
+      c:@F@swap_a_b:
+        name: b_a
+      c:@F@sym_addr_func:
+        name: sym_addr_func
+      c:@F@sym_addr_regex_func:
+        name: sym_addr_regex_func
+      c:@F@variadic_func:
+        name: variadic_func
+      c:@S@FieldRenameStruct:
+        name: FieldRenameStruct
+      c:@S@OpaqueDepStruct:
+        name: OpaqueDepStruct
+      c:@S@Pack16Struct:
+        name: Pack16Struct
+      c:@S@Pack1Struct:
+        name: Pack1Struct
+      c:@S@Pack2Struct:
+        name: Pack2Struct
+      c:@S@Pack4Struct:
+        name: Pack4Struct
+      c:@S@Pack8Struct:
+        name: Pack8Struct
+      c:@S@PackNoneStruct:
+        name: PackNoneStruct
+      c:@S@RegexFieldStruct:
+        name: RegexFieldStruct
+      c:@S@RegexStructA:
+        name: RegexStructA
+      c:@S@RegexStructNoGroup_test:
+        name: RenamedRegexStruct
+      c:@S@RegularStruct:
+        name: RegularStruct
+      c:@S@StripStruct_test:
+        name: test
+      c:@S@StructRenameNoGroup:
+        name: RenamedStructNoGroup
+      c:@S@Swap_Struct_first_second:
+        name: second_first
+      c:@T@instancetype:
+        name: instancetype
+        dart-name: Dartinstancetype
+      c:@U@FieldRenameUnion:
+        name: FieldRenameUnion
+      c:@U@OpaqueDepUnion:
+        name: OpaqueDepUnion
+      c:@U@RegexUnionA:
+        name: RegexUnionA
+      c:@U@RegularUnion:
+        name: RegularUnion
+      c:@U@UnionOld:
+        name: UnionNew
+      c:@prefix_global_foo:
+        name: global_foo
+      c:@prefix_global_test:
+        name: renamed_global_test
+      c:@regular_global:
+        name: regular_global
+      c:@sym_addr_global:
+        name: sym_addr_global
+      c:@sym_addr_regex_global:
+        name: sym_addr_regex_global
+      c:comprehensive.h@T@old_typedef_t:
+        name: new_typedef_t
+        dart-name: Dartold_typedef_t
+      c:comprehensive.h@T@regex_prefix_typedef_t:
+        name: regex_strip_typedef_t
+        dart-name: Dartregex_prefix_typedef_t
+      c:objc(cs)ComprehensiveInterface:
+        name: ComprehensiveInterface
+      c:objc(cs)InterfaceOld:
+        name: InterfaceNew
+      c:objc(cs)RegexInterfaceA:
+        name: RegexInterfaceA
+      c:objc(cy)ComprehensiveInterface@CategoryOld:
+        name: CategoryNew
+      c:objc(cy)ComprehensiveInterface@ComprehensiveCategory:
+        name: ComprehensiveCategory
+      c:objc(cy)ComprehensiveInterface@RegexCategoryA:
+        name: RegexCategoryA
+      c:objc(pl)ComprehensiveProtocol:
+        name: ComprehensiveProtocol
+      c:objc(pl)ProtocolOld:
+        name: ProtocolNew
+      c:objc(pl)RegexProtocolA:
+        name: RegexProtocolA
