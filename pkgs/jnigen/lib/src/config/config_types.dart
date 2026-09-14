@@ -178,8 +178,8 @@ SummarizerBackend? getSummarizerBackend(
 
 void _ensureIsDirectory(String name, Uri path) {
   if (!path.toFilePath().endsWith(Platform.pathSeparator)) {
-    throw ConfigException('$name must be a directory path. If using YAML '
-        'config, please ensure the path ends with a slash (/).');
+    throw ConfigException('$name must be a directory path. '
+        'Please ensure the path ends with a slash (/).');
   }
 }
 
@@ -415,9 +415,9 @@ final class JniGenerator {
 
   late final Map<String, ClassDecl> _importedClasses;
 
-  /// Directory containing the YAML configuration file.
+  /// Directory containing the configuration file.
   ///
-  /// `null` if the configuration was not loaded from a YAML configuration file.
+  /// `null` if the configuration was not loaded from a configuration file.
   Uri? get configRoot => _configRoot;
   Uri? _configRoot;
 
