@@ -200,13 +200,12 @@ CMake and a standard C toolchain are required to build `package:jni`.
 
 ## Configuration
 
-JNIgen is configured using a Dart script, typically placed under `tool/jnigen.dart` and executed via `dart run tool/jnigen.dart`.
+JNIgen is configured using a Dart script, typically placed under
+`tool/jnigen.dart` and executed via `dart run tool/jnigen.dart`.
+The script should instantiate a `JniGenerator` with your desired configuration
+and call `await generator.generate()`.
 
-The script instantiates a `JniGenerator` with your desired configuration and calls `await generator.generate()`.
-
-### Minimal Example
-
-A minimal `tool/jnigen.dart` looks like this:
+### Example
 
 ```dart
 import 'dart:io';
@@ -241,37 +240,9 @@ Run the script to generate bindings:
 dart run tool/jnigen.dart
 ```
 
-### Configuration Options
-
-The primary configuration classes provided by `package:jnigen` include:
-
-- [`JniGenerator`](https://pub.dev/documentation/jnigen/latest/jnigen/JniGenerator-class.html):
-  The top-level generator. Accepts configuration for input sources, output destinations, symbol imports, nullability annotations, and visitors.
-- [`Output`](https://pub.dev/documentation/jnigen/latest/jnigen/Output-class.html):
-  Configures output paths and options:
-  - `dart`: [`DartOutput`](https://pub.dev/documentation/jnigen/latest/jnigen/DartOutput-class.html) configuring the output path and whether bindings are generated into a single file or a package folder structure ([`OutputStructure`](https://pub.dev/documentation/jnigen/latest/jnigen/OutputStructure.html)).
-  - `symbols`: [`SymbolsOutput`](https://pub.dev/documentation/jnigen/latest/jnigen/SymbolsOutput-class.html) for outputting symbol files (`symbols.yaml`) to share types across packages.
-  - `preamble`: Header comment string prepended to generated files.
-  - `generateStubs`: Whether to generate stubs for unincluded dependent classes (default `true`).
-  - `format`: Whether to format generated Dart code using `dart format` (default `true`).
-- [`Input`](https://pub.dev/documentation/jnigen/latest/jnigen/Input-class.html):
-  Configures input classes, source files, classpaths, and SDK dependencies:
-  - `classes`: List of fully-qualified class or package names to generate bindings for.
-  - `sourcePath`: List of directory `Uri`s containing Java source files.
-  - `classPath`: List of `Uri`s (directories or JAR files) containing compiled Java classes.
-  - `androidSdk`: [`AndroidSdk`](https://pub.dev/documentation/jnigen/latest/jnigen/AndroidSdk-class.html) configuration to resolve Android SDK stubs and Gradle dependencies (`addGradleDeps: true`).
-  - `mavenDownloads`: [`MavenDownloads`](https://pub.dev/documentation/jnigen/latest/jnigen/MavenDownloads-class.html) configuration to automatically download Maven dependencies (sources and JARs).
-  - `backend`: Summarizer backend to use ([`SummarizerBackend.doclet`](https://pub.dev/documentation/jnigen/latest/jnigen/SummarizerBackend.html#doclet) or [`SummarizerBackend.asm`](https://pub.dev/documentation/jnigen/latest/jnigen/SummarizerBackend.html#asm)).
-- [`SymbolImports`](https://pub.dev/documentation/jnigen/latest/jnigen/SymbolImports-class.html):
-  External symbol file imports for cross-package type sharing.
-- [`NullabilityAnnotations`](https://pub.dev/documentation/jnigen/latest/jnigen/NullabilityAnnotations-class.html):
-  Lists of custom annotations that designate types as nullable or non-nullable.
-- [`Visitor`](https://pub.dev/documentation/jnigen/latest/jnigen/Visitor-class.html):
-  AST visitors for filtering, renaming, and transforming AST nodes before bindings are emitted.
-
-For more detailed API documentation and all available properties, see the [`package:jnigen` API reference](https://pub.dev/documentation/jnigen/latest/).
-
-For practical and comprehensive examples demonstrating different use cases (such as Android plugins, Kotlin bindings, Maven dependencies, and PDFBox), see the [`example/`](example/) directory in this repository.
+See the [examples](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example)
+and [API documentation](https://pub.dev/documentation/jnigen/latest/jnigen/)
+for more information.
 
 ## FAQs
 
