@@ -12,6 +12,7 @@ block/protocol method closes over a wrapper object that holds a reference
 to the block/protocol, this cycle will cause a memory leak. This example
 uses a protocol, but the same thing can happen with a block:
 
+<!-- no-source-file -->
 ```dart
 final foo = FooInterface();
 foo.delegate = BarDelegate.implement(
@@ -36,6 +37,7 @@ need for things like this. To ensure the method doesn't capture anything
 unexpected, it's also a good idea to move its construction to a separate
 function.
 
+<!-- no-source-file -->
 ```dart
 BarDelegate createBarDelegate(WeakReference<FooInterface> weakFoo) {
   return BarDelegate.implement(

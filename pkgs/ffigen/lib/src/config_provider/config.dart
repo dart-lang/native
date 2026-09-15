@@ -21,22 +21,15 @@ import 'spec_utils.dart';
 ///
 /// ### Example
 ///
+/// <!-- file://./../../../example/api/generator_snippet.dart#main -->
 /// ```dart
 /// import 'package:ffigen/ffigen.dart';
 ///
 /// Future<void> main() async {
 ///   final generator = FfiGenerator(
-///     output: Output(
-///       dart: DartOutput(path: Uri.file('lib/bindings.dart')),
-///     ),
-///     input: Input(
-///       entryPoints: [Uri.file('src/my_c_header.h')],
-///     ),
-///     visitors: [
-///       Visitor(
-///         func: (node) => node.isIncluded = true,
-///       ),
-///     ],
+///     output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
+///     input: Input(entryPoints: [Uri.file('src/my_c_header.h')]),
+///     visitors: [Visitor(func: (node) => node.isIncluded = true)],
 ///   );
 ///   await generator.generate();
 /// }
@@ -82,6 +75,7 @@ final class FfiGenerator {
   ///
   /// Filtering declarations (note: top-level declarations have
   /// `isIncluded = false` by default):
+  /// <!-- file://./../../../example/api/visitor_snippet.dart#filter_closure -->
   /// ```dart
   /// Visitor(
   ///   func: (node) {
@@ -93,6 +87,7 @@ final class FfiGenerator {
   /// ```
   ///
   /// Renaming declarations:
+  /// <!-- file://./../../../example/api/visitor_snippet.dart#rename_closure -->
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
