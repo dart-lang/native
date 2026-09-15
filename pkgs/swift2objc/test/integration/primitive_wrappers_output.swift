@@ -113,36 +113,36 @@ import Foundation
 }
 
 @objc public class BoolWrapper: NSObject {
-  var wrappedInstance: Bool
+  @objc public var wrappedInstance: Bool
 
-  init(_ wrappedInstance: Bool) {
+  @objc public init(_ wrappedInstance: Bool) {
     self.wrappedInstance = wrappedInstance
   }
 
 }
 
 @objc public class DoubleWrapper: NSObject {
-  var wrappedInstance: Double
+  @objc public var wrappedInstance: Double
 
-  init(_ wrappedInstance: Double) {
+  @objc public init(_ wrappedInstance: Double) {
     self.wrappedInstance = wrappedInstance
   }
 
 }
 
 @objc public class FloatWrapper: NSObject {
-  var wrappedInstance: Float
+  @objc public var wrappedInstance: Float
 
-  init(_ wrappedInstance: Float) {
+  @objc public init(_ wrappedInstance: Float) {
     self.wrappedInstance = wrappedInstance
   }
 
 }
 
 @objc public class IntWrapper: NSObject {
-  var wrappedInstance: Int
+  @objc public var wrappedInstance: Int
 
-  init(_ wrappedInstance: Int) {
+  @objc public init(_ wrappedInstance: Int) {
     self.wrappedInstance = wrappedInstance
   }
 
