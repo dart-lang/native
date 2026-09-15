@@ -118,6 +118,19 @@ extension CXCursorExt on clang_types.CXCursor {
     return res;
   }
 
+  /// The [Declaration] handed to `importType` for this cursor.
+  ///
+  /// A C++ type nested in a namespace or record is named by its qualified
+  /// name, matching the `originalName` of the binding a `Visitor` would see.
+  /// Anonymous cursors keep an empty name.
+  Declaration declaration() {
+    final leaf = spelling();
+    return Declaration(
+      usr: usr(),
+      originalName: leaf.isEmpty ? '' : qualifiedNameFromCursor(this, leaf),
+    );
+  }
+
   /// Returns the kind int from [clang_types.CXCursorKind].
   int kind() {
     return clang.clang_getCursorKind(this);
