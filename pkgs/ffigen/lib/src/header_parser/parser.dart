@@ -187,14 +187,13 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
-  visit(context, CopyTypealiasDocsVisitation(), rawBindings);
-
   final almostAllBindings = visit(
     context,
     FindTransitiveDepsVisitation(rawBindings),
     rawBindings,
   ).transitives;
 
+  visit(context, CopyTypealiasDocsVisitation(), almostAllBindings);
   visit(context, CopyMethodsFromSuperTypesVisitation(), almostAllBindings);
   visit(context, FixOverriddenMethodsVisitation(context), almostAllBindings);
 
