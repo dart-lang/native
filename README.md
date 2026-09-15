@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
+[![Coverage Status](https://codecov.io/gh/dart-lang/native/branch/main/graph/badge.svg)](https://app.codecov.io/gh/dart-lang/native)
 
 ## Overview
 

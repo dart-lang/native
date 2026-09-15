@@ -180,12 +180,12 @@ jobs:
         run: dart pub global run coverage:test_with_coverage -- -x bindings
       - name: Upload coverage
         if: ${{ matrix.sdk == 'stable' && matrix.java-version == 'none' }}
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
         with:
-          flag-name: jnigen
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
-          path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
+          files: ./pkgs/jnigen/coverage/lcov.info
+          flags: jnigen
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
   test_jnigen_android:
     needs: [analyze_jnigen]
@@ -366,12 +366,12 @@ jobs:
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
         if: ${{ matrix.java-version == 'none' }}
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
         with:
-          flag-name: jni
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
-          path-to-lcov: ./pkgs/jni/coverage/lcov.info
+          files: ./pkgs/jni/coverage/lcov.info
+          flags: jni
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
       - name: pub get example
         working-directory: ./pkgs/jni/example/
         run: flutter pub get
@@ -734,15 +734,3 @@ jobs:
           flutter build linux
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin/example
 
-  coveralls_finish:
-    needs: [test_jnigen, test_jni]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Coveralls finished
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
-        with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true
