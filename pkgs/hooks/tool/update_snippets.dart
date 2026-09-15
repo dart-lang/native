@@ -33,6 +33,8 @@ void main(List<String> args) {
     'jni_flutter',
     'objective_c',
     'ffigen',
+    'swiftgen',
+    'swift2objc',
   ]) {
     final packageRoot = hooksPackageRoot.resolve('../$package/');
 

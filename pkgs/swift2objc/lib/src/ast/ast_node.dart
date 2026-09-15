@@ -26,14 +26,16 @@ export 'visitor.dart';
 ///    `visitChildren` method. Make sure to call `super.visitChildren`
 ///    so that `Bar`'s children are also visited. If all `Foo`'s children
 ///    are inherited from `Bar`, it's not necessary to implement this method.
-///   ```dart
-///   @override
-///   void visitChildren(Visitor visitor) {
-///     super.visitChildren(visitor);
-///     visitor.visit(myChild);
-///     visitor.visitAll(myChildList);
-///   }
-///   ```
+///
+/// <!-- no-source-file -->
+/// ```dart
+/// @override
+/// void visitChildren(Visitor visitor) {
+///   super.visitChildren(visitor);
+///   visitor.visit(myChild);
+///   visitor.visitAll(myChildList);
+/// }
+/// ```
 ///
 /// Since there are many AstNodes that no one is ever going to need to visit,
 /// we're using a lazy-loading policy for the `visitFoo` method. When someone
@@ -50,29 +52,33 @@ export 'visitor.dart';
 ///    This class may mutate the nodes, but shouldn't assume that all children
 ///    have finished being visited when processing the parent.
 /// 2. Override the visit methods for whichever type you're interested in.
-///   ```dart
-///   @override
-///   void visitFoo(Foo node) {
-///     // Typically this method would visit the children, but that's not always
-///     // what you want to do.
-///     node.visitChildren(this);
 ///
-///     // It's not necessarily true that all the children have finished being
-///     // visited at this point.
+/// <!-- no-source-file -->
+/// ```dart
+/// @override
+/// void visitFoo(Foo node) {
+///   // Typically this method would visit the children, but that's not always
+///   // what you want to do.
+///   node.visitChildren(this);
 ///
-///     // The rest of this method can edit the node in-place.
-///   }
-///   ```
+///   // It's not necessarily true that all the children have finished being
+///   // visited at this point.
+///
+///   // The rest of this method can edit the node in-place.
+/// }
+/// ```
 /// 3. If you want to visit `Foo` specifically (and not its supertypes), but
 ///    there's no `visitFoo` method to override, add a `visitFoo` method to
 ///    [Visitation]. Assuming `Foo` extends `Bar`, `visitFoo` should delegate to
 ///    `visitBar`:
 ///   `void visitFoo(Foo node) => visitBar(node);`
 /// 4. Then add a `visit` method to `Foo` that invokes `visitFoo`:
-///   ```dart
-///   @override
-///   void visit(Visitation visitation) => visitation.visitFoo(this);
-///   ```
+///
+/// <!-- no-source-file -->
+/// ```dart
+/// @override
+/// void visit(Visitation visitation) => visitation.visitFoo(this);
+/// ```
 /// 5. Repeat 3 and 4 for `Bar` and any other supertypes as necessary.
 ///
 /// ## Running a [Visitation]
@@ -80,10 +86,12 @@ export 'visitor.dart';
 /// 1. Construct the [Visitation] and wrap it in a [Visitor]:
 ///   `final visitor = Visitor(MyFancyVisitation(1, 2, 3));`
 /// 2. Invoke the [Visitor] on the root nodes of the AST:
-///   ```dart
-///   visitor.visit(someRootNode);
-///   visitor.visitAll(listOfRootNodes);
-///   ```
+///
+/// <!-- no-source-file -->
+/// ```dart
+/// visitor.visit(someRootNode);
+/// visitor.visitAll(listOfRootNodes);
+/// ```
 abstract class AstNode {
   const AstNode();
 
