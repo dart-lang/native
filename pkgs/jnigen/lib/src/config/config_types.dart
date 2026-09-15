@@ -178,8 +178,8 @@ SummarizerBackend? getSummarizerBackend(
 
 void _ensureIsDirectory(String name, Uri path) {
   if (!path.toFilePath().endsWith(Platform.pathSeparator)) {
-    throw ConfigException('$name must be a directory path. If using YAML '
-        'config, please ensure the path ends with a slash (/).');
+    throw ConfigException('$name must be a directory path. '
+        'Please ensure the path ends with a slash (/).');
   }
 }
 
