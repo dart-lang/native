@@ -13,8 +13,8 @@ import 'kotlin_test/generate.dart' as kotlin_test;
 import 'simple_package_test/generate.dart' as simple_package_test;
 import 'test_util/test_util.dart';
 
-void main() {
-  checkLocallyBuiltDependencies();
+Future<void> main() async {
+  await checkLocallyBuiltDependencies();
   for (final (name, getConfig) in [
     (
       'simple_package',

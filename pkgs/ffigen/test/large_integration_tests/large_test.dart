@@ -15,7 +15,7 @@ import '../test_utils.dart';
 
 void main() {
   group('large_test', () {
-    test('Libclang test', () {
+    test('Libclang test', () async {
       final includeDir = path.join(
         packagePathForTests,
         'third_party',
@@ -82,7 +82,7 @@ void main() {
       final library = parse(Context(logger, generator));
       final context = testContext();
 
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         library,
         'large_test_libclang.dart',
@@ -132,7 +132,7 @@ void main() {
       }
     });
 
-    test('CJSON test', () {
+    test('CJSON test', () async {
       final generator = FfiGenerator(
         output: Output(
           dart: DartOutput(path: Uri.file('unused')),
@@ -170,14 +170,15 @@ void main() {
       final context = testContext(generator);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'large_test_cjson.dart', [
-        'test',
-        'large_integration_tests',
-        '_expected_cjson_bindings.dart',
-      ]);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'large_test_cjson.dart',
+        ['test', 'large_integration_tests', '_expected_cjson_bindings.dart'],
+      );
     });
 
-    test('SQLite test', () {
+    test('SQLite test', () async {
       // Excluding functions etc that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
       final vaRegex = RegExp(r'(^|[^a-z])va($|[^a-z])');
@@ -242,21 +243,22 @@ void main() {
       final context = testContext(generator);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'large_test_sqlite.dart', [
-        'test',
-        'large_integration_tests',
-        '_expected_sqlite_bindings.dart',
-      ]);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'large_test_sqlite.dart',
+        ['test', 'large_integration_tests', '_expected_sqlite_bindings.dart'],
+      );
     });
 
-    test('Libclang config test', () {
+    test('Libclang config test', () async {
       final config = generate_clang_bindings.getConfig(
         Uri.file(path.join(packagePathForTests, '')),
       );
       final context = testContext(config);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'libclang_config.dart', [
+      await matchLibraryWithExpected(context, library, 'libclang_config.dart', [
         'lib',
         'src',
         'header_parser',

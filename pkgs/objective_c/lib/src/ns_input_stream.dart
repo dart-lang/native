@@ -123,7 +123,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         }
       },
       onDone: () {
-        dataSubscription.cancel();
+        unawaited(dataSubscription.cancel());
       },
     );
 
