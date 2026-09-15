@@ -17,12 +17,12 @@ final class Visitor {
   final Context context;
 
   final Visitation _visitation;
-  final _seen = <AstNode>{};
+  final _seen = <Object>{};
   final bool _debug;
-  final _debugStack = <AstNode>[];
+  final _debugStack = <Object>[];
 
   /// Visits a node.
-  void visit(AstNode? node) {
+  void visit(Object? node) {
     if (node == null) return;
     if (_debug) {
       final indent = '  ' * _debugStack.length;
@@ -31,13 +31,17 @@ final class Visitor {
     _debugStack.add(node);
     if (!_seen.contains(node)) {
       _seen.add(node);
-      node.visit(_visitation);
+      if (node is AstNode) {
+        node.visit(_visitation);
+      } else if (node is LibraryImport) {
+        _visitation.visitLibraryImport(node);
+      }
     }
     _debugStack.removeLast();
   }
 
   /// Helper method for visiting an iterable of nodes.
-  void visitAll(Iterable<AstNode> nodes) {
+  void visitAll(Iterable<Object> nodes) {
     for (final node in nodes) {
       visit(node);
     }
@@ -100,8 +104,8 @@ abstract class Visitation {
   void visitPointerType(PointerType node) => visitType(node);
   void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>
       visitAstNode(node);
-  void visitImportedType(ImportedType node) => visitType(node);
-  void visitLibraryImport(LibraryImport node) => visitAstNode(node);
+  void visitImportedType(AstImportedType node) => visitType(node);
+  void visitLibraryImport(LibraryImport node) {}
   void visitSymbol(Symbol node) => visitAstNode(node);
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) => visitAstNode(node);
   void visitObjCMsgSendVariantFunc(ObjCMsgSendVariantFunc node) =>

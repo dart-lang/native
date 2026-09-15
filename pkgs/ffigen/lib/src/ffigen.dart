@@ -5,9 +5,10 @@
 import 'dart:io';
 
 import 'package:cli_util/cli_logging.dart' show Ansi;
+import 'package:ffigen_symbols/ffigen_symbols.dart';
 import 'package:logging/logging.dart';
 
-import 'config_provider.dart' show FfiGenerator;
+import 'config_provider.dart' show FfiGenerator, FfiGeneratorResult;
 import 'context.dart';
 import 'header_parser.dart' show parse;
 import 'logger.dart';
@@ -19,7 +20,10 @@ extension FfiGenGenerator on FfiGenerator {
   ///
   /// If provided, uses [logger] to output logs. Otherwise, uses a default
   /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
-  Future<void> generate({Logger? logger, Uri? libclangDylib}) async {
+  Future<FfiGeneratorResult> generate({
+    Logger? logger,
+    Uri? libclangDylib,
+  }) async {
     logger ??= createDefaultLogger();
     final context = Context(logger, this, libclangDylib: libclangDylib);
 
@@ -33,8 +37,10 @@ extension FfiGenGenerator on FfiGenerator {
       _successPen('Finished, Bindings generated in ${gen.absolute.path}'),
     );
 
+    File? objCFile;
     final objCGen = File(output.objCFile.toFilePath());
     if (library.generateObjCFile(objCGen)) {
+      objCFile = objCGen;
       logger.info(
         _successPen(
           'Finished, Objective C bindings generated '
@@ -43,8 +49,10 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
+    File? cppFile;
     final cppGen = File(output.cppBindingsFile.toFilePath());
     if (library.generateCppFile(cppGen)) {
+      cppFile = cppGen;
       logger.info(
         _successPen(
           'Finished, Cpp bindings generated in ${cppGen.absolute.path}',
@@ -52,36 +60,54 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
+    File? recordUseMappingGen;
     final recordUseMappingFile = output.recordUseMapping;
     if (recordUseMappingFile != null) {
-      final recordUseMappingGen = File(recordUseMappingFile.toFilePath());
+      final file = File(recordUseMappingFile.toFilePath());
       if (await library.generateRecordUseMappingFile(
-        recordUseMappingGen,
+        file,
         format: output.format,
       )) {
+        recordUseMappingGen = file;
         logger.info(
           _successPen(
             'Finished, RecordUse Mapping generated '
-            'in ${recordUseMappingGen.absolute.path}',
+            'in ${file.absolute.path}',
           ),
         );
       }
     }
 
+    FfigenSymbols? symbols;
+    File? symbolFileGen;
     final symbolFile = output.symbolFile;
     if (symbolFile != null) {
-      final symbolFileGen = File(symbolFile.output.toFilePath());
-      library.generateSymbolOutputFile(
-        symbolFileGen,
-        symbolFile.importPath.toString(),
-      );
-      logger.info(
-        _successPen(
-          'Finished, Symbol Output generated in '
-          '${symbolFileGen.absolute.path}',
-        ),
-      );
+      final symbolFileOutput = symbolFile.output;
+      if (symbolFileOutput != null) {
+        symbolFileGen = File(symbolFileOutput.toFilePath());
+        symbols = library.generateSymbolOutputFile(
+          symbolFileGen,
+          symbolFile.importPath.toString(),
+        );
+        logger.info(
+          _successPen(
+            'Finished, Symbol Output generated in '
+            '${symbolFileGen.absolute.path}',
+          ),
+        );
+      } else {
+        symbols = library.createSymbols(symbolFile.importPath.toString());
+      }
     }
+
+    return FfiGeneratorResult(
+      dartFile: gen,
+      symbols: symbols,
+      objCFile: objCFile,
+      cppFile: cppFile,
+      symbolFile: symbolFileGen,
+      recordUseMappingFile: recordUseMappingGen,
+    );
   }
 
   static String _successPen(String str) => '${_ansi.green}$str${_ansi.none}';

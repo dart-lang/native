@@ -153,8 +153,8 @@ void main() {
         final type = makeTypeFromRawVarArgType('ffi.Void*', (_) => null);
         expect(type, isA<PointerType>());
         final child = (type as PointerType).child;
-        expect(child, isA<ImportedType>());
-        expect((child as ImportedType).cType, 'Void');
+        expect(child, isA<AstImportedType>());
+        expect((child as AstImportedType).cType, 'Void');
         expect(child.libraryImport, ffiImport);
       });
     });
@@ -198,7 +198,7 @@ void main() {
         'custom_lib',
         'package:custom/custom.dart',
       );
-      final customType = ImportedType(
+      final customType = const ImportedType(
         customLib,
         'CustomC',
         'CustomDart',
@@ -216,7 +216,12 @@ void main() {
       });
 
       test('importType overrides primitive type', () {
-        final overrideType = ImportedType(customLib, 'MyInt', 'int', 'int');
+        final overrideType = const ImportedType(
+          customLib,
+          'MyInt',
+          'int',
+          'int',
+        );
         final type = makeTypeFromRawVarArgType('int', (d) {
           if (d.originalName == 'int') {
             return overrideType;
@@ -279,8 +284,8 @@ void main() {
         );
         expect(type, isA<PointerType>());
         final child = (type as PointerType).child;
-        expect(child, isA<ImportedType>());
-        expect((child as ImportedType).cType, 'Void');
+        expect(child, isA<AstImportedType>());
+        expect((child as AstImportedType).cType, 'Void');
         expect(child.libraryImport, ffiImport);
       });
     });

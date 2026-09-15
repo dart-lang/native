@@ -11,10 +11,10 @@ const customImport = LibraryImport('custom_import', 'custom_import.dart');
 
 ImportedType? importType(Declaration declaration) {
   if (declaration.originalName == 'time_t') {
-    return ImportedType(ffiImport, 'Int64', 'int', 'time_t');
+    return const ImportedType(ffiImport, 'Int64', 'int', 'time_t');
   }
   if (declaration.originalName == 'CXCursorSetImpl') {
-    return ImportedType(
+    return const ImportedType(
       customImport,
       'CXCursorSetImpl',
       'CXCursorSetImpl',

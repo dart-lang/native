@@ -192,17 +192,28 @@ class Library {
     return true;
   }
 
-  /// Generates [file] with symbol output yaml.
-  void generateSymbolOutputFile(File file, String importPath) {
+  /// Generates in-memory symbol output.
+  FfigenSymbols createSymbols(String importPath) =>
+      writer.createSymbols(importPath);
+
+  /// Generates [file] with symbol output, and returns the [FfigenSymbols].
+  FfigenSymbols generateSymbolOutputFile(File file, String importPath) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    final symbolFileYamlMap = writer.generateSymbolOutputYamlMap(importPath);
-    final yamlEditor = YamlEditor('');
-    yamlEditor.update([], wrapAsYamlNode(symbolFileYamlMap));
-    var yamlString = yamlEditor.toString();
-    if (!yamlString.endsWith('\n')) {
-      yamlString += '\n';
+    final symbols = writer.createSymbols(importPath);
+    if (file.path.endsWith('.dart')) {
+      final dartString = writer.generateSymbolOutputDart(importPath);
+      file.writeAsStringSync(dartString);
+    } else {
+      final symbolFileYamlMap = writer.generateSymbolOutputYamlMap(importPath);
+      final yamlEditor = YamlEditor('');
+      yamlEditor.update([], wrapAsYamlNode(symbolFileYamlMap));
+      var yamlString = yamlEditor.toString();
+      if (!yamlString.endsWith('\n')) {
+        yamlString += '\n';
+      }
+      file.writeAsStringSync(yamlString);
     }
-    file.writeAsStringSync(yamlString);
+    return symbols;
   }
 
   /// Generates the bindings.

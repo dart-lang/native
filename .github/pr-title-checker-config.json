@@ -6,6 +6,7 @@
             "[doc] ",
             "[ffi] ",
             "[ffigen] ",
+            "[ffigen_symbols] ",
             "[hooks_runner] ",
             "[hooks] ",
             "[infra] ",

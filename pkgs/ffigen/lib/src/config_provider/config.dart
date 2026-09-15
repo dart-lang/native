@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -128,11 +129,42 @@ final class FfiGenerator {
   ///
   /// If provided, uses [logger] to output logs. Otherwise, uses a default
   /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
-  Future<void> generate({Logger? logger, Uri? libclangDylib}) {
+  Future<FfiGeneratorResult> generate({Logger? logger, Uri? libclangDylib}) {
     return FfiGenGenerator(
       this,
     ).generate(logger: logger, libclangDylib: libclangDylib);
   }
+}
+
+/// The result of running [FfiGenerator.generate].
+final class FfiGeneratorResult {
+  /// The symbols exported by this generation run, if symbol generation was
+  /// configured.
+  final FfigenSymbols? symbols;
+
+  /// The generated Dart bindings file.
+  final File dartFile;
+
+  /// The generated Objective-C bindings file, if generated.
+  final File? objCFile;
+
+  /// The generated C++ bindings file, if generated.
+  final File? cppFile;
+
+  /// The generated symbol file, if configured.
+  final File? symbolFile;
+
+  /// The generated record_use mapping file, if configured.
+  final File? recordUseMappingFile;
+
+  const FfiGeneratorResult({
+    required this.dartFile,
+    this.symbols,
+    this.objCFile,
+    this.cppFile,
+    this.symbolFile,
+    this.recordUseMappingFile,
+  });
 }
 
 /// The configuration for header parsing of [FfiGenerator].

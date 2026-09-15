@@ -11,7 +11,7 @@
 /// @docImport 'src/config_provider.dart';
 library;
 
-export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
+export 'package:ffigen_symbols/ffigen_symbols.dart';
 export 'src/config_provider.dart'
     show
         BindingStyle,
@@ -21,11 +21,11 @@ export 'src/config_provider.dart'
         CompoundDependencies,
         Cpp,
         DartOutput,
-        Declaration,
         DynamicLibraryBindings,
         EnumStyle,
         ExternalVersions,
         FfiGenerator,
+        FfiGeneratorResult,
         Input,
         NativeExternalBindings,
         ObjectiveC,
@@ -40,6 +40,8 @@ export 'src/config_provider.dart'
         defaultCompilerOpts,
         importFromSymbolFile,
         importFromSymbolFiles,
+        importFromSymbolMaps,
+        importFromSymbols,
         iosSdkPath,
         iosSdkUri,
         macSdkPath,

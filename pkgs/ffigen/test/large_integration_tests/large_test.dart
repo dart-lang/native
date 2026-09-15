@@ -64,7 +64,7 @@ void main() {
           ].any((filename) => header.pathSegments.last == filename),
         ),
         importType: (decl) => decl.originalName == 'time_t'
-            ? ImportedType(ffiImport, 'Int64', 'int', 'time_t')
+            ? const ImportedType(ffiImport, 'Int64', 'int', 'time_t')
             : null,
         visitors: [
           Visitor(

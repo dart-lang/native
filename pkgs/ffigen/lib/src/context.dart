@@ -74,9 +74,10 @@ class LibraryImports {
   String get objcPkgPrefix => prefix(objcPkgImport);
   String get selfImportPrefix => prefix(selfImport);
 
-  // Dedupe [lib] by name.
+  // Dedupe [lib] by name and import path.
   LibraryImport canonicalize(LibraryImport lib) =>
-      builtInLibraries[lib.name] ?? (_canonicalImports[lib.name] ??= lib);
+      builtInLibraries[lib.name] ??
+      (_canonicalImports['${lib.name}:${lib.importPath(false)}'] ??= lib);
   final _canonicalImports = <String, LibraryImport>{};
 
   // Mark an import as being used so that it can be assigned a prefix.

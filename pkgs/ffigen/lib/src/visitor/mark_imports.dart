@@ -12,8 +12,13 @@ class MarkImportsVisitation extends Visitation {
   MarkImportsVisitation(this.context);
 
   @override
-  void visitLibraryImport(LibraryImport node) {
+  void visitImportedType(AstImportedType node) {
     node.visitChildren(visitor);
+    context.libs.markUsed(node.libraryImport);
+  }
+
+  @override
+  void visitLibraryImport(LibraryImport node) {
     context.libs.markUsed(node);
   }
 }
