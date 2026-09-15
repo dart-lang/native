@@ -7,7 +7,8 @@ import 'runtime_bindings_generated.dart';
 /// Creates an Objective-C autorelease pool, runs [function], then releases the
 /// pool.
 ///
-/// ```
+/// <!-- no-source-file -->
+/// ```dart
 /// while (longRunningCondiditon) {
 ///   // When writing ObjC interop code inside a long running loop, it's a good
 ///   // idea to use an autorelease pool to clean up autoreleased references.
@@ -21,7 +22,7 @@ import 'runtime_bindings_generated.dart';
 /// ```
 ///
 /// This is analogous to the Objective-C `@autoreleasepool` block:
-/// ```
+/// ```objc
 /// while (longRunningCondiditon) {
 ///   @autoreleasepool {
 ///     SomeObjCObject *someObjCObject = [fooObjCApi loadNextObject];

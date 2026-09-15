@@ -13,6 +13,7 @@ import 'public_ast.dart';
 /// ### Examples
 ///
 /// Filtering declarations:
+/// <!-- file://./../../../example/api/visitor_snippet.dart#filter_visitor -->
 /// ```dart
 /// final class FilterVisitor extends Visitor {
 ///   FilterVisitor() : super.base();
@@ -27,6 +28,7 @@ import 'public_ast.dart';
 /// ```
 ///
 /// Renaming declarations:
+/// <!-- file://./../../../example/api/visitor_snippet.dart#rename_visitor -->
 /// ```dart
 /// final class RenameVisitor extends Visitor {
 ///   RenameVisitor() : super.base();
@@ -47,6 +49,7 @@ abstract base class Visitor {
   /// ### Examples
   ///
   /// Filtering declarations:
+  /// <!-- file://./../../../example/api/visitor_snippet.dart#filter_closure -->
   /// ```dart
   /// Visitor(
   ///   func: (node) {
@@ -58,6 +61,7 @@ abstract base class Visitor {
   /// ```
   ///
   /// Renaming declarations:
+  /// <!-- file://./../../../example/api/visitor_snippet.dart#rename_closure -->
   /// ```dart
   /// Visitor(
   ///   struct: (node) {

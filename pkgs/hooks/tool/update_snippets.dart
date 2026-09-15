@@ -31,6 +31,8 @@ void main(List<String> args) {
     'jni',
     'jni_util',
     'jni_flutter',
+    'objective_c',
+    'ffigen',
   ]) {
     final packageRoot = hooksPackageRoot.resolve('../$package/');
 
