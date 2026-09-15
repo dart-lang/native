@@ -1,4 +1,4 @@
-## 9.6.1-wip
+## 9.6.1
 
 - Fix a crash in the `NSInputStream` returned by `toNSInputStream`: reading
   from or closing the stream after its Dart side had already closed it raised
