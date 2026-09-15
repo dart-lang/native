@@ -133,6 +133,16 @@ final class FfiGenerator {
       this,
     ).generate(logger: logger, libclangDylib: libclangDylib);
   }
+
+  /// Parses the headers according to this config and dumps all user-visible
+  /// AST nodes.
+  ///
+  /// Returns the formatted dump string.
+  Future<String> dumpApi({Logger? logger, Uri? libclangDylib}) {
+    return FfiGenGenerator(
+      this,
+    ).dumpApi(logger: logger, libclangDylib: libclangDylib);
+  }
 }
 
 /// The configuration for header parsing of [FfiGenerator].

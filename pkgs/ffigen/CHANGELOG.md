@@ -1,5 +1,6 @@
-## 22.0.1-wip
+## 22.1.0-wip
 
+- Add `dumpApi` utility and `ApiDumperVisitor` to dump entire parsed AST.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions
   using pointers to a C++ class were skipped unless C++ support was configured:
   `class` declarations are now treated like structs, and with C++ support on,
