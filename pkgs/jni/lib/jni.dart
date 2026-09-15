@@ -62,6 +62,7 @@ library;
 
 export 'package:ffi/ffi.dart' show Arena, using;
 
+export 'src/converter.dart';
 export 'src/core_bindings.dart'
     show
         $JCollection,
@@ -106,7 +107,6 @@ export 'src/core_bindings.dart'
         JShort$$Methods,
         JString,
         JString$$Methods;
-export 'src/converter.dart';
 export 'src/errors.dart';
 export 'src/jarray.dart';
 export 'src/jimplementer.dart';
