@@ -38,7 +38,8 @@ class KernelAssets {
       'native-assets': {
         for (final entry in assetsPerTarget.entries)
           entry.key.toString(): {
-            for (final e in entry.value) e.id: e.path.toJson(entry.key),
+            for (final e in entry.value)
+              e.id: e.path.toJsonForTarget(entry.key),
           },
       },
     };
@@ -56,7 +57,25 @@ class KernelAsset {
 }
 
 abstract class KernelAssetPath {
-  List<String> toJson(Target target);
+  List<String> toJson();
+}
+
+extension KernelAssetPathExtension on KernelAssetPath {
+  List<String> toJsonForTarget(Target target) => switch (this) {
+    final KernelAssetAbsolutePath p => [
+      KernelAssetAbsolutePath._pathTypeValue,
+      p.uri.toFilePath(windows: target.os == OS.windows),
+    ],
+    final KernelAssetRelativePath p => [
+      KernelAssetRelativePath._pathTypeValue,
+      p.uri.toFilePath(windows: target.os == OS.windows),
+    ],
+    final KernelAssetSystemPath p => [
+      KernelAssetSystemPath._pathTypeValue,
+      p.uri.toFilePath(windows: target.os == OS.windows),
+    ],
+    _ => toJson(),
+  };
 }
 
 /// Asset at absolute path [uri] on the target device where Dart is run.
@@ -76,9 +95,9 @@ class KernelAssetAbsolutePath implements KernelAssetPath {
   int get hashCode => uri.hashCode;
 
   @override
-  List<String> toJson(Target target) => [
+  List<String> toJson() => [
     _pathTypeValue,
-    uri.toFilePath(windows: target.os == OS.windows),
+    uri.toFilePath(),
   ];
 }
 
@@ -112,9 +131,9 @@ class KernelAssetRelativePath implements KernelAssetPath {
   int get hashCode => uri.hashCode;
 
   @override
-  List<String> toJson(Target target) => [
+  List<String> toJson() => [
     _pathTypeValue,
-    uri.toFilePath(windows: target.os == OS.windows),
+    uri.toFilePath(),
   ];
 }
 
@@ -140,9 +159,9 @@ class KernelAssetSystemPath implements KernelAssetPath {
   String toString() => 'KernelAssetAbsolutePath($uri)';
 
   @override
-  List<String> toJson(Target target) => [
+  List<String> toJson() => [
     _pathTypeValue,
-    uri.toFilePath(windows: target.os == OS.windows),
+    uri.toFilePath(),
   ];
 }
 
@@ -158,7 +177,7 @@ class KernelAssetInProcess implements KernelAssetPath {
   static const _pathTypeValue = 'process';
 
   @override
-  List<String> toJson(Target target) => [_pathTypeValue];
+  List<String> toJson() => [_pathTypeValue];
 }
 
 /// Asset is embedded in executable and symbols are available through
@@ -173,5 +192,5 @@ class KernelAssetInExecutable implements KernelAssetPath {
   static const _pathTypeValue = 'executable';
 
   @override
-  List<String> toJson(Target target) => [_pathTypeValue];
+  List<String> toJson() => [_pathTypeValue];
 }
