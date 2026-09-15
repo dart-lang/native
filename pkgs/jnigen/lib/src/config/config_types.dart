@@ -356,6 +356,9 @@ bool _isCapitalized(String s) {
 }
 
 void _validateClassName(String className) {
+  if (className.isEmpty) {
+    throw ConfigException('Class names cannot be empty.');
+  }
   final parts = className.split('.');
   assert(parts.isNotEmpty);
   const nestedClassesInfo =
@@ -471,7 +474,12 @@ final class JniGenerator {
       input: Input(
         sourcePath: prov.getPathList(_Props.sourcePath) ?? const [],
         classPath: prov.getPathList(_Props.classPath) ?? const [],
-        classes: must(prov.getStringList, [], _Props.classes),
+        classes: must(prov.getStringList, <String>[], _Props.classes)
+            // An empty YAML entry reads as null. Turn it into an empty name so
+            // that _validateClassName reports it instead of a cast error.
+            .cast<Object?>()
+            .map((className) => className as String? ?? '')
+            .toList(),
         extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
         backend: getSummarizerBackend(prov.getString(_Props.backend), null),
         workingDirectory: prov.getPath(_Props.summarizerWorkingDir),

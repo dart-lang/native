@@ -12,6 +12,8 @@ import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
+import 'util.dart';
+
 void main() {
   group('NSData', () {
     group('toNSData', () {
@@ -35,6 +37,20 @@ void main() {
         expect(data.length, 1);
         expect(data.bytes.cast<Uint8>().value, 1);
         data.ref.release(); // Make sure that dealloc succeeds.
+      });
+
+      test('garbage collected', () async {
+        await using((arena) async {
+          final tracker = ReferenceTracker(arena);
+          () {
+            final data = [1, 2, 3].toNSData();
+            tracker.track(data);
+          }();
+          doGC();
+          await Future<void>.delayed(Duration.zero);
+          doGC();
+          expect(tracker.isAlive, isFalse);
+        });
       });
     });
 
