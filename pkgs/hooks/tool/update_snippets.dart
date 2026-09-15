@@ -21,7 +21,13 @@ void main(List<String> args) {
   final counts = Counts();
   final errors = <String>[];
   final hooksPackageRoot = findPackageRoot('hooks');
-  for (final package in ['hooks', 'code_assets', 'data_assets', 'record_use']) {
+  for (final package in [
+    'hooks',
+    'code_assets',
+    'data_assets',
+    'record_use',
+    'web_assets',
+  ]) {
     final packageRoot = hooksPackageRoot.resolve('../$package/');
 
     final files = Directory.fromUri(packageRoot)

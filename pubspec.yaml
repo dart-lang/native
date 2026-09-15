@@ -128,6 +128,7 @@ workspace:
   - pkgs/record_use/test_data/library_uris
   - pkgs/record_use/test_data/library_uris_helper
   - pkgs/test_case_selector
+  - pkgs/web_assets
   # - pkgs/swift2objc  # TODO
   # - pkgs/swiftgen  # TODO
   # - pkgs/swiftgen/example  # TODO
