@@ -1163,6 +1163,14 @@ class _PathResolver {
         final posixRest = p.posix.normalize(p.split(rest).join('/'));
         return "packageRoot.resolve('lib/$posixRest')";
       }
+      final pkgName = uri.pathSegments.first;
+      final examplePkgLib = File(
+        p.join(packageRoot.path, 'example', pkgName, 'lib', rest),
+      );
+      if (examplePkgLib.existsSync()) {
+        final posixRest = p.posix.normalize(p.split(rest).join('/'));
+        return "packageRoot.resolve('example/$pkgName/lib/$posixRest')";
+      }
       return "Uri.parse('$rawPath')";
     }
     if (rawPath.startsWith('http:') || rawPath.startsWith('https:')) {
@@ -1254,83 +1262,6 @@ class _PathResolver {
     String repoRoot,
     String ffigenRoot,
   ) {
-    final baseName = fileName.replaceAll('.yaml', '');
-
-    if (baseName.startsWith('example_shared_bindings_')) {
-      final sub = baseName.replaceFirst('example_shared_bindings_', '');
-      return p.join(
-        ffigenRoot,
-        'example',
-        'shared_bindings',
-        'ffigen_configs',
-        '$sub.yaml',
-      );
-    }
-    if (baseName.startsWith('example_')) {
-      final sub = baseName.replaceFirst('example_', '').replaceAll('_', '-');
-      final candidates = [
-        p.join(
-          ffigenRoot,
-          'example',
-          baseName.replaceFirst('example_', ''),
-          'config.yaml',
-        ),
-        p.join(ffigenRoot, 'example', sub, 'config.yaml'),
-      ];
-      for (final c in candidates) {
-        if (Directory(p.dirname(c)).existsSync()) return c;
-      }
-    }
-    if (baseName.startsWith('header_parser_')) {
-      final sub = baseName.replaceFirst('header_parser_', '');
-      return p.join(ffigenRoot, 'test', 'header_parser_tests', '$sub.yaml');
-    }
-    if (baseName.startsWith('native_objc_')) {
-      final sub = baseName.replaceFirst('native_objc_', '');
-      return p.join(
-        ffigenRoot,
-        'test',
-        'native_objc_test',
-        '${sub}_config.yaml',
-      );
-    }
-    if (baseName.startsWith('native_cpp_')) {
-      final sub = baseName.replaceFirst('native_cpp_', '');
-      return p.join(
-        ffigenRoot,
-        'test',
-        'native_cpp_test',
-        '${sub}_config.yaml',
-      );
-    }
-    if (baseName == 'native_test_config') {
-      return p.join(ffigenRoot, 'test', 'native_test', 'config.yaml');
-    }
-    if (baseName == 'tool_libclang') {
-      return p.join(ffigenRoot, 'tool', 'libclang_config.yaml');
-    }
-    if (baseName.startsWith('objc_pkg_ffigen_')) {
-      final sub = baseName.replaceFirst('objc_pkg_ffigen_', '');
-      return p.join(repoRoot, 'pkgs', 'objective_c', '$sub.yaml');
-    }
-    if (baseName == 'jni_pkg_ffigen_exts') {
-      return p.join(repoRoot, 'pkgs', 'jni', 'ffigen_exts.yaml');
-    }
-    if (baseName == 'jni_pkg_ffigen') {
-      return p.join(repoRoot, 'pkgs', 'jni', 'ffigen.yaml');
-    }
-    if (baseName.startsWith('hooks_')) {
-      final sub = baseName.replaceFirst('hooks_', '');
-      return p.join(
-        repoRoot,
-        'pkgs',
-        'hooks',
-        'example',
-        'build',
-        sub,
-        'ffigen.yaml',
-      );
-    }
     return p.join(ffigenRoot, 'test', 'migrate', 'yaml', fileName);
   }
 }

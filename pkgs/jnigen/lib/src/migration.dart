@@ -40,13 +40,8 @@ void migrate({
 
   final baseName = p.basename(configFile.path);
   const testPackageRoots = {
-    'example_in_app_java.yaml': 'example/in_app_java/',
-    'example_kotlin_plugin.yaml': 'example/kotlin_plugin/',
-    'example_notification_plugin.yaml': 'example/notification_plugin/',
-    'example_pdfbox_plugin.yaml': 'example/pdfbox_plugin/',
-    'test_jackson_core.yaml': 'test/jackson_core_test/',
-    'test_dartify_simple_cases.yaml': 'test/simple_package_test/',
-    'comprehensive.yaml': 'test/simple_package_test/',
+    'comprehensive_package.yaml': 'test/simple_package_test/',
+    'comprehensive_single_file.yaml': 'example/pdfbox_plugin/',
   };
   final defaultPackageRoot = testPackageRoots[baseName] ?? '.';
 

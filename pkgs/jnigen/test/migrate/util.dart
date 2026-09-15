@@ -15,22 +15,20 @@ final updateExpectations = Platform.environment['UPDATE'] == 'true';
 
 String findOriginalPath(String fileName, String jnigenRoot) {
   final baseName = fileName.replaceAll('.yaml', '');
-  if (baseName.startsWith('example_')) {
-    final sub = baseName.replaceFirst('example_', '');
-    return path.join(jnigenRoot, 'example', sub, 'jnigen.yaml');
-  }
-  if (baseName == 'test_jackson_core') {
-    return path.join(jnigenRoot, 'test', 'jackson_core_test', 'jnigen.yaml');
-  }
-  if (baseName == 'test_dartify_simple_cases') {
-    return path.join(jnigenRoot, 'test', 'simple_package_test', 'jnigen.yaml');
-  }
-  if (baseName == 'comprehensive') {
+  if (baseName == 'comprehensive_package') {
     return path.join(
       jnigenRoot,
       'test',
       'simple_package_test',
-      'comprehensive.yaml',
+      'comprehensive_package.yaml',
+    );
+  }
+  if (baseName == 'comprehensive_single_file') {
+    return path.join(
+      jnigenRoot,
+      'example',
+      'pdfbox_plugin',
+      'comprehensive_single_file.yaml',
     );
   }
   return path.join(jnigenRoot, 'test', 'migrate', 'yaml', fileName);

@@ -1,0 +1,20 @@
+# Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+name: ComprehensiveCNative
+description: 'Comprehensive C Native bindings'
+output: 'comprehensive_c_native_bindings.dart'
+ffi-native:
+  asset-id: 'package:ffigen/c_native_test'
+headers:
+  entry-points:
+    - 'comprehensive_c_native.h'
+compiler-opts:
+  - '-I.'
+exclude-all-by-default: true
+comments: false
+functions:
+  include:
+    - 'add'
+  leaf: true

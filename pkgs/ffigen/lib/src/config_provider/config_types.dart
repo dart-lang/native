@@ -244,6 +244,10 @@ class YamlIncluder {
   }) : _include = YamlFilter(matchers: includeMatchers, full: includeFull),
        _exclude = YamlFilter(matchers: excludeMatchers, full: excludeFull);
 
+  YamlIncluder.includeByDefault()
+    : _include = YamlFilter(matchers: [RegExp('.*', dotAll: true)]),
+      _exclude = YamlFilter();
+
   YamlIncluder.excludeByDefault()
     : _include = YamlFilter(),
       _exclude = YamlFilter(matchers: [RegExp('.*', dotAll: true)]);
