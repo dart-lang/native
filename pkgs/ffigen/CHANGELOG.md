@@ -1,5 +1,7 @@
 ## 22.0.1-wip
 
+- Preserve documentation comments on same-name typedefs when generating the
+  underlying type binding.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions
   using pointers to a C++ class were skipped unless C++ support was configured:
   `class` declarations are now treated like structs, and with C++ support on,

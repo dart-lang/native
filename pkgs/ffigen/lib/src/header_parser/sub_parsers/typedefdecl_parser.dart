@@ -82,5 +82,10 @@ Typealias parseTypedefDeclaration(
     bindingsIndex.addTypealiasToSeen(usr, type);
     return type;
   }
-  return Typealias.anonymous(usr: usr, name: name, type: s);
+  return Typealias.anonymous(
+    usr: usr,
+    name: name,
+    type: s,
+    dartDoc: getCursorDocComment(context, cursor),
+  );
 }
