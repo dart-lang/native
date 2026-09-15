@@ -1,0 +1,113 @@
+# Codecov configuration
+# https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+
+flag_management:
+  default_rules:
+    carryforward: true
+
+component_management:
+  default_rules:
+    statuses:
+      - type: project
+        target: auto
+        threshold: 1%
+  individual_components:
+    - component_id: code_assets
+      name: code_assets
+      paths:
+        - pkgs/code_assets/**
+    - component_id: data_assets
+      name: data_assets
+      paths:
+        - pkgs/data_assets/**
+    - component_id: ffi
+      name: ffi
+      paths:
+        - pkgs/ffi/**
+    - component_id: ffigen
+      name: ffigen
+      paths:
+        - pkgs/ffigen/**
+    - component_id: hooks
+      name: hooks
+      paths:
+        - pkgs/hooks/**
+    - component_id: hooks_runner
+      name: hooks_runner
+      paths:
+        - pkgs/hooks_runner/**
+    - component_id: jni
+      name: jni
+      paths:
+        - pkgs/jni/**
+    - component_id: jni_flutter
+      name: jni_flutter
+      paths:
+        - pkgs/jni_flutter/**
+    - component_id: jni_util
+      name: jni_util
+      paths:
+        - pkgs/jni_util/**
+    - component_id: jnigen
+      name: jnigen
+      paths:
+        - pkgs/jnigen/**
+    - component_id: json_syntax_generator
+      name: json_syntax_generator
+      paths:
+        - pkgs/json_syntax_generator/**
+    - component_id: native_test_helpers
+      name: native_test_helpers
+      paths:
+        - pkgs/native_test_helpers/**
+    - component_id: native_toolchain_c
+      name: native_toolchain_c
+      paths:
+        - pkgs/native_toolchain_c/**
+    - component_id: objective_c
+      name: objective_c
+      paths:
+        - pkgs/objective_c/**
+    - component_id: pub_formats
+      name: pub_formats
+      paths:
+        - pkgs/pub_formats/**
+    - component_id: record_use
+      name: record_use
+      paths:
+        - pkgs/record_use/**
+    - component_id: swift2objc
+      name: swift2objc
+      paths:
+        - pkgs/swift2objc/**
+    - component_id: swiftgen
+      name: swiftgen
+      paths:
+        - pkgs/swiftgen/**
+    - component_id: test_case_selector
+      name: test_case_selector
+      paths:
+        - pkgs/test_case_selector/**
+
+ignore:
+  - "**/*.g.dart"
+  - "**/*.mocks.dart"
+  - "**/test/**"
+  - "**/example/**"
+  - "**/test_data/**"
+
+comment:
+  layout: "reach,diff,flags,components,files"
+  behavior: default
+  require_changes: false
