@@ -91,7 +91,7 @@ class SummarizerCommand {
   void _addPathParam(List<String> args, String option, List<Uri> paths) {
     if (paths.isNotEmpty) {
       final joined = paths
-          .map((uri) => uri.toFilePath())
+          .map((uri) => File.fromUri(uri).absolute.path)
           .join(Platform.isWindows ? ';' : ':');
       args.addAll([option, '"$joined"']);
     }
@@ -107,7 +107,41 @@ class SummarizerCommand {
     if (backend != null) {
       args.addAll(['--backend', backend!.name]);
     }
-    args.addAll(extraArgs);
+    if (extraArgs.isNotEmpty) {
+      const knownSummarizerFlags = {
+        '-b',
+        '--backend',
+        '-c',
+        '--classes',
+        '-s',
+        '--sources',
+        '-M',
+        '--use-modules',
+        '-m',
+        '--module-names',
+        '-D',
+        '--doctool-args',
+        '-o',
+        '--output-file',
+      };
+      final docArgs = <String>[];
+      final directArgs = <String>[];
+      for (var i = 0; i < extraArgs.length; i++) {
+        final arg = extraArgs[i];
+        if (knownSummarizerFlags.contains(arg)) {
+          directArgs.add(arg);
+          if (i + 1 < extraArgs.length && !extraArgs[i + 1].startsWith('-')) {
+            directArgs.add(extraArgs[++i]);
+          }
+        } else {
+          docArgs.add(arg);
+        }
+      }
+      if (docArgs.isNotEmpty) {
+        directArgs.addAll(['-D', docArgs.join(' ')]);
+      }
+      args.addAll(directArgs);
+    }
     args.addAll(classes);
     final resolvedExec = resolveJavaExecutable(exec);
     log.info('execute $resolvedExec ${args.join(' ')}');
@@ -127,7 +161,7 @@ class SummarizerCommand {
 Future<Classes> getSummary(JniGenerator config) async {
   final summarizer = SummarizerCommand(
     command: config.input.summarizerCommand ??
-        'java -jar .dart_tool/jnigen/ApiSummarizer.jar',
+        'java -jar ${File(targetJarFile).absolute.path}',
     sourcePath: config.input.sourcePath,
     classPath: config.input.classPath,
     classes: config.input.classes,

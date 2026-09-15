@@ -487,7 +487,16 @@ final class YamlConfig {
               ),
               HeterogeneousMapEntry(
                 key: strings.leafFunctions,
-                valueConfigSpec: _includeExcludeObject(),
+                valueConfigSpec: OneOfConfigSpec<YamlIncluder, YamlIncluder>(
+                  childConfigSpecs: [
+                    BoolConfigSpec(
+                      transform: (node) => node.value
+                          ? YamlIncluder.includeByDefault()
+                          : YamlIncluder.excludeByDefault(),
+                    ),
+                    _includeExcludeObject(),
+                  ],
+                ),
                 defaultValue: (node) => YamlIncluder.excludeByDefault(),
               ),
               HeterogeneousMapEntry(

@@ -1,0 +1,24 @@
+# Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+name: ComprehensiveSymbols
+description: 'Comprehensive symbols bindings'
+language: objc
+output: 'comprehensive_symbols_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - NSColorPicker
+    - NSTextList
+  member-filter:
+    NSTextList:
+      exclude:
+        - includesTextListMarkers
+headers:
+  entry-points:
+    - '$XCODE/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h'
+    - '$MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSTextList.h'
+import:
+  symbol-files:
+    - 'package:shared_bindings/generated/base_symbols.yaml'

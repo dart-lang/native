@@ -1,0 +1,56 @@
+output:
+  dart:
+    path: 'lib/'
+    structure: 'package_structure'
+  symbols: 'symbols.yaml'
+
+preamble: |
+  // Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+
+source_path:
+  - 'java'
+
+class_path:
+  - 'java'
+
+classes:
+  - 'com.github.dart_lang.jnigen.simple_package.Example'
+  - 'com.github.dart_lang.jnigen.annotations.Annotated'
+
+summarizer:
+  backend: 'doclet'
+  extra_args:
+    - '-Xmaxerrs'
+    - '1000'
+  working_dir: '.'
+
+maven_downloads:
+  source_deps: []
+  jar_only_deps: []
+  source_dir: 'mvn_java/'
+  jar_dir: 'mvn_jar/'
+
+android_sdk_config:
+  add_gradle_deps: false
+  add_gradle_sources: false
+  android_example: 'example/'
+  versions:
+    - 33
+    - 34
+  sdk_root: '.'
+
+import:
+  - 'package:jni/jni_symbols.yaml'
+
+hide:
+  - 'java.lang.Object'
+
+log_level: 'warning'
+
+non_null_annotations:
+  - 'com.github.dart_lang.jnigen.annotations.NotNull'
+
+nullable_annotations:
+  - 'com.github.dart_lang.jnigen.annotations.Nullable'

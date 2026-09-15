@@ -76,6 +76,7 @@ class GradleTools {
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, Uri targetDir) async {
+    if (deps.isEmpty) return;
     await _runGradleCommand(deps, targetDir, taskName: 'downloadSources');
     await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
@@ -103,6 +104,7 @@ class GradleTools {
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
       List<MavenDependency> deps, Uri targetDir) async {
+    if (deps.isEmpty) return;
     await _runGradleCommand(deps, targetDir, taskName: 'copyJars');
     await _runGradleCommand(deps, targetDir, taskName: 'extractSourceJars');
   }
