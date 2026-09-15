@@ -136,6 +136,7 @@ workspace:
 dev_dependencies:
   args: ^2.7.0
   dart_flutter_team_lints: ^3.5.2
+  dependency_validator: ^5.1.0
   path: ^1.9.1
   yaml: ^3.1.3
 

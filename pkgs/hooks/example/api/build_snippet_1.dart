@@ -4,8 +4,6 @@
 
 // dart format width=76
 
-// ignore_for_file: depend_on_referenced_packages
-
 // snippet-start
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
