@@ -1,0 +1,44 @@
+// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+import 'dart:io';
+
+import 'package:ffigen/ffigen.dart';
+
+FfiGenerator getConfig([Uri? packageRoot]) {
+  packageRoot ??= Uri.directory(Directory.current.path);
+  final testDir = packageRoot.resolve('test/native_objc_test/');
+  return FfiGenerator(
+    output: Output(
+      dart: DartOutput(path: testDir.resolve('enum_test_bindings.dart')),
+      style: const NativeExternalBindings(assetId: 'package:ffigen/objc_test'),
+    ),
+    input: Input(
+      entryPoints: [
+        // Regression test for https://github.com/dart-lang/native/issues/2782
+        testDir.resolve('enum_test.m'),
+        testDir.resolve('enum_test.m'),
+        testDir.resolve('enum_test.m'),
+      ],
+    ),
+    objectiveC: const ObjectiveC(),
+    visitors: [
+      Visitor(
+        enumClass: (node) {
+          const include = {'Fruit', 'CoffeeOptions'};
+          node.isIncluded = include.contains(node.name);
+        },
+        unnamedEnumConstant: (node) {
+          node.isIncluded = node.name == 'UnnamedEnumValue';
+        },
+        macroConstant: (node) {
+          node.isIncluded = node.name == 'SOME_MACRO';
+        },
+        objCInterface: (node) {
+          node.isIncluded = node.originalName == 'EnumTestInterface';
+        },
+      ),
+    ],
+  );
+}

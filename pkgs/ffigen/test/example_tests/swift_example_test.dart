@@ -13,6 +13,7 @@ import 'package:ffigen/src/header_parser.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import '../../example/swift/tool/ffigen.dart' as swift_example;
 import '../test_utils.dart';
 
 void main() {
@@ -35,10 +36,9 @@ void main() {
       final result = await process.exitCode;
       expect(result, 0);
 
+      final packageRoot = path.join(packagePathForTests, 'example', 'swift/');
       final context = testContext(
-        testConfigFromPath(
-          path.join(packagePathForTests, 'example', 'swift', 'config.yaml'),
-        ),
+        swift_example.getConfig(Uri.file(packageRoot)),
       );
 
       await matchLibraryWithExpected(

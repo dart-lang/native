@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import '../../tool/generate_clang_bindings.dart' as generate_clang_bindings;
 import '../test_utils.dart';
 
 void main() {
@@ -249,8 +250,8 @@ void main() {
     });
 
     test('Libclang config test', () {
-      final config = testConfigFromPath(
-        path.join(packagePathForTests, 'tool', 'libclang_config.yaml'),
+      final config = generate_clang_bindings.getConfig(
+        Uri.file(path.join(packagePathForTests, '')),
       );
       final context = testContext(config);
       final library = parse(context);

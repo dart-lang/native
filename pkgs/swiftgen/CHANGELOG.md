@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Bump ffigen and swift2objc versions.
+
 ## 0.1.3
 
 - Bump ffigen, objective_c, and swift2objc versions.

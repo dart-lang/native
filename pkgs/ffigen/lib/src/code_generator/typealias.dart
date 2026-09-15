@@ -83,7 +83,14 @@ class Typealias extends BindingType {
     required String usr,
     required String name,
     required Type type,
-  }) : this._(usr: usr, name: name, type: type, isAnonymous: true);
+    String? dartDoc,
+  }) : this._(
+         usr: usr,
+         name: name,
+         type: type,
+         dartDoc: dartDoc,
+         isAnonymous: true,
+       );
 
   Typealias._({
     super.usr,

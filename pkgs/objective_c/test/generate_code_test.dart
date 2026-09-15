@@ -10,16 +10,16 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
-import '../tool/generate_code.dart' as generate_code;
+import '../tool/ffigen.dart' as ffigen_tool;
 
 void main() {
-  group('generate_code.dart', () {
+  group('ffigen.dart', () {
     test('Runs without exception', () async {
       // As well as testing that this returns normally, this also generates
       // coverage info for the parts of FFIgen that are gated by
       // generate-for-package-objective-c. The github workflow that runs this
       // test also uses it to verify that there are no git-diffs in the output.
-      await expectLater(generate_code.run(format: true), completes);
+      await expectLater(ffigen_tool.run(format: true), completes);
 
       // Sanity check the generated code.
       final rBindings = File(

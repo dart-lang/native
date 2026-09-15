@@ -13,11 +13,12 @@ Future<void> main() async {
     visitors: [
       Visitor(
         func: (node) {
-          node.isIncluded = {
+          const include = {
             'ma_engine_init',
             'ma_engine_play_sound',
             'ma_engine_uninit',
-          }.contains(node.name);
+          };
+          node.isIncluded = include.contains(node.name);
           node.recordUse = true;
         },
         struct: (node) => node.isIncluded = node.name == 'ma_engine',

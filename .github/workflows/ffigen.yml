@@ -50,7 +50,7 @@ jobs:
 
   test-linux:
     needs: analyze
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     defaults:
@@ -65,8 +65,8 @@ jobs:
           channel: stable
       - name: Install dependencies
         run: dart pub get && flutter pub get --directory="../jni"
-      - name: Install libclang-14-dev
-        run: sudo apt-get install libclang-14-dev
+      - name: Install libclang-18-dev
+        run: sudo apt-get update && sudo apt-get install libclang-18-dev
       - name: Run VM tests
         run: dart test
       - name: Generate package:jni bindings

@@ -7,11 +7,11 @@ import 'package:ffigen/src/header_parser.dart' show parse;
 
 import '../test_utils.dart';
 
-void verifyBindings(FfiGenerator config) {
+Future<void> verifyBindings(FfiGenerator config) async {
   final context = testContext(config);
   final library = parse(context);
   final bindingsName = context.config.output.dart.path.pathSegments.last;
-  matchLibraryWithExpected(context, library, bindingsName, [
+  await matchLibraryWithExpected(context, library, bindingsName, [
     'test',
     'native_cpp_test',
     bindingsName,
@@ -19,7 +19,7 @@ void verifyBindings(FfiGenerator config) {
 
   final cppBindingsName =
       context.config.output.cppBindingsFile.pathSegments.last;
-  matchCppFileWithExpected(context, library, cppBindingsName, [
+  await matchCppFileWithExpected(context, library, cppBindingsName, [
     'test',
     'native_cpp_test',
     cppBindingsName,

@@ -175,6 +175,35 @@ void main() {
           expect(inputStream.streamStatus, NSStreamStatus.NSStreamStatusClosed);
           expect(inputStream.streamError, null);
         });
+
+        // NSURLSession can still read from or close a request body stream
+        // after the Dart owner closed it (e.g. when the request completes
+        // with an error or is cancelled right after it starts). By then the
+        // Dart side has received the close message and closed its port, so
+        // these must fail gracefully rather than assert on a failed post.
+        test('read after close', () async {
+          inputStream.open();
+          inputStream.close();
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            10,
+          );
+          expect(count, -1);
+          expect(data, isEmpty);
+          expect(hasBytesAvailable, false);
+          expect(status, NSStreamStatus.NSStreamStatusClosed);
+          expect(error, isNull);
+        });
+
+        test('close twice', () async {
+          inputStream.open();
+          inputStream.close();
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          inputStream.close();
+          expect(inputStream.streamStatus, NSStreamStatus.NSStreamStatusClosed);
+          expect(inputStream.streamError, null);
+        });
       });
     });
 
@@ -373,6 +402,76 @@ void main() {
           doGC();
 
           expect(inputStreamTracker.isAlive, false);
+        });
+      });
+
+      test('from iterable, garbage collected', () async {
+        await using((arena) async {
+          final inputStreamTracker = ReferenceTracker(arena);
+          DartInputStreamAdapter? inputStream =
+              Stream.fromIterable([
+                    [1, 2, 3],
+                    [4, 5, 6],
+                  ]).toNSInputStream()
+                  as DartInputStreamAdapter;
+
+          inputStreamTracker.track(inputStream);
+          expect(inputStreamTracker.isAlive, isTrue);
+
+          inputStream.open();
+          while (true) {
+            final (count, _, _, _, _) = await read(inputStream, 10);
+            if (count == 0) break;
+          }
+          inputStream.close();
+          inputStream = null;
+
+          doGC();
+          await Future<void>.delayed(Duration.zero);
+          doGC();
+
+          expect(inputStreamTracker.isAlive, isFalse);
+        });
+      });
+
+      test('from stream, garbage collected', () async {
+        await using((arena) async {
+          final inputStreamTracker = ReferenceTracker(arena);
+          final chunk = Uint8List(1024 * 1024);
+          final controller = StreamController<Uint8List>();
+
+          DartInputStreamAdapter? inputStream =
+              controller.stream.toNSInputStream() as DartInputStreamAdapter;
+          inputStreamTracker.track(inputStream);
+          expect(inputStreamTracker.isAlive, isTrue);
+
+          inputStream.open();
+
+          final feedFuture = () async {
+            for (var i = 0; i < 50; i++) {
+              controller.add(chunk);
+              await Future<void>.delayed(Duration.zero);
+            }
+            await controller.close();
+          }();
+
+          var totalRead = 0;
+          while (true) {
+            final (count, _, _, _, _) = await read(inputStream, 1024 * 1024);
+            if (count == 0) break;
+            totalRead += count;
+          }
+          expect(totalRead, 50 * 1024 * 1024);
+
+          inputStream.close();
+          inputStream = null;
+          await feedFuture;
+
+          doGC();
+          await Future<void>.delayed(Duration.zero);
+          doGC();
+
+          expect(inputStreamTracker.isAlive, isFalse);
         });
       });
     });

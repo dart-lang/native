@@ -30,7 +30,7 @@ abstract class Binding extends AstNode implements Declaration {
 
   String get name => _symbol.name;
 
-  final String? dartDoc;
+  String? dartDoc;
   final bool isInternal;
 
   /// Whether these bindings should be generated.

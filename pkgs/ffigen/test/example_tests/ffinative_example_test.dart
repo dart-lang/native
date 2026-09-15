@@ -6,22 +6,27 @@ import 'package:ffigen/src/header_parser.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import '../../example/ffinative/tool/ffigen.dart' as ffinative_example;
 import '../test_utils.dart';
 
 void main() {
   group('ffinative_example_test', () {
     test('ffinative', () async {
-      final config = testConfigFromPath(
-        path.join(packagePathForTests, 'example', 'ffinative', 'config.yaml'),
+      final packageRoot = path.join(
+        packagePathForTests,
+        'example',
+        'ffinative/',
       );
-      final context = testContext(config);
+      final context = testContext(
+        ffinative_example.getConfig(Uri.file(packageRoot)),
+      );
       final library = parse(context);
 
       await matchLibraryWithExpected(
         context,
         library,
         'example_ffinative.dart',
-        [config.output.dart.path.toFilePath()],
+        ['example', 'ffinative', 'lib', 'generated_bindings.dart'],
       );
     });
   });

@@ -77,10 +77,20 @@
 
 - (void)close {
   [_dataCondition lock];
+  if (_status == NSStreamStatusClosed) {
+    // The close message has already been sent, there is no reason to send
+    // another message to a port that was already shutdown.
+    [_dataCondition unlock];
+    return;
+  }
   _status = NSStreamStatusClosed;
   if (!_done && _error == nil) {
-    __unused const bool success = Dart_PostInteger_DL(_sendPort, -1);
-    NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
+    // A failed post means the Dart side has already closed its port — there
+    // is nobody left to notify, which is fine for a close.
+    if (!Dart_PostInteger_DL(_sendPort, -1)) {
+      os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG,
+                       "DartInputStreamAdapter: close after the Dart port was closed");
+    }
   }
   [_dataCondition unlock];
 }
@@ -127,9 +137,28 @@
 
   [_dataCondition lock];
 
+  if (_status == NSStreamStatusClosed) {
+    // Behave like Foundation's own streams: a read on a closed stream fails
+    // with -1 but leaves streamStatus at NSStreamStatusClosed and streamError
+    // nil, because being closed is the stream's normal final state, not an
+    // error.
+    [_dataCondition unlock];
+    return -1;
+  }
+
   while (([_data length] == 0) && !_done && _error == nil) {
-    __unused const bool success = Dart_PostInteger_DL(_sendPort, len);
-    NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
+    if (!Dart_PostInteger_DL(_sendPort, len)) {
+      // The Dart port is closed, so no data can ever arrive: fail the read
+      // instead of waiting forever (or aborting the process).
+      _error = [NSError
+          errorWithDomain:@"DartInputStreamAdapter"
+                     code:0
+                 userInfo:@{
+                   NSLocalizedDescriptionKey :
+                       @"The Dart side of the stream is no longer available."
+                 }];
+      break;
+    }
 
     [_dataCondition wait];
   }
