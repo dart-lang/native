@@ -590,6 +590,31 @@ class LicenseTask extends Task {
   }
 }
 
+/// Checks for missing, under-promoted, over-promoted, and unused dependencies.
+class DependencyValidatorTask extends Task {
+  const DependencyValidatorTask()
+    : super(
+        name: 'dependency-validator',
+        helpMessage: 'Run `dependency_validator` on the packages.',
+      );
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    await _runMaybeParallel([
+      for (final package in packages)
+        () => _runProcess('dart', [
+          'run',
+          'dependency_validator',
+          '-C',
+          package,
+        ]),
+    ], argResults);
+  }
+}
+
 const pubTask = PubTask();
 const licenseTask = LicenseTask();
 const analyzeTask = AnalyzeTask();
@@ -600,6 +625,7 @@ const exampleTask = ExampleTask();
 const coverageTask = CoverageTask();
 const apiToolTask = ApiToolTask();
 const workspaceTask = WorkspaceTask();
+const dependencyValidatorTask = DependencyValidatorTask();
 
 // The order of tasks is intentional.
 final tasks = [
@@ -608,6 +634,7 @@ final tasks = [
   licenseTask,
   analyzeTask,
   formatTask,
+  dependencyValidatorTask,
   testTask,
   exampleTask,
   coverageTask,

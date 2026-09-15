@@ -12,10 +12,10 @@ resolution: workspace
 dependencies:
   collection: ^1.19.1
   meta: ^1.19.0
-  pub_semver: ^2.2.0
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
+  hooks: any # Used in example/api/ snippets.
   json_schema: ^5.2.2
   json_syntax_generator: ^0.1.0-wip
   native_test_helpers: ^0.1.0-wip
