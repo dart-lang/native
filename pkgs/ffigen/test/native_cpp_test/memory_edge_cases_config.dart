@@ -16,15 +16,7 @@ FfiGenerator getConfig([Uri? packageRoot]) {
       ),
       style: const NativeExternalBindings(assetId: 'package:ffigen/cpp_test'),
     ),
-    input: Input(
-      entryPoints: [testDir.resolve('memory_edge_cases.h')],
-      compilerOptions: [
-        '-x',
-        'c++',
-        '-std=c++17',
-        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
-      ],
-    ),
+    input: Input(entryPoints: [testDir.resolve('memory_edge_cases.h')]),
     cpp: const Cpp(),
     visitors: [
       Visitor(
