@@ -736,22 +736,38 @@ String _getWritableChar(int char, {bool utf8 = true}) {
   return String.fromCharCode(char);
 }
 
-/// Builds the fully-qualified C++ name of a declaration from its [usr], e.g.
-/// `c:@N@outer@S@Palette@E@Tone` yields `outer::Palette::Tone`.
-String qualifiedNameFromUsr(String usr, String leafName) {
-  // After the `c:` prefix, USR tokens alternate between a single-char kind
-  // marker (`N` namespace, `S` class/struct, `U` union, `E` enum, ...) and its
-  // name. The last pair is the declaration itself, so it is skipped.
-  final parts = usr.split('@');
+/// Builds the fully-qualified C++ name of the declaration at [cursor] by
+/// walking its semantic parents, e.g. an enum `Tone` nested in `struct
+/// Palette` in `namespace outer` yields `outer::Palette::Tone`.
+///
+/// Anonymous scopes and `extern "C"` blocks contribute no segment. The walk
+/// stops at the first parent that is not a namespace or record, so a type
+/// declared at global scope or inside a function yields [leafName] alone.
+String qualifiedNameFromCursor(clang_types.CXCursor cursor, String leafName) {
   final scopes = <String>[];
-  for (var i = 1; i + 3 < parts.length; i += 2) {
-    if (parts[i] == 'N' || parts[i] == 'S' || parts[i] == 'U') {
-      scopes.add(parts[i + 1]);
-    }
+  var parent = clang.clang_getCursorSemanticParent(cursor);
+  while (clang.clang_Cursor_isNull(parent) == 0 &&
+      _isNameScope(clang.clang_getCursorKind(parent))) {
+    final spelling = parent.spelling();
+    if (spelling.isNotEmpty) scopes.insert(0, spelling);
+    parent = clang.clang_getCursorSemanticParent(parent);
   }
   if (scopes.isEmpty) return leafName;
   return [...scopes, leafName].join('::');
 }
+
+/// Whether a cursor of [kind] is a scope that qualifies the names declared
+/// inside it (or, for `extern "C"`, is transparent to them).
+bool _isNameScope(int kind) => switch (kind) {
+  clang_types.CXCursorKind.CXCursor_Namespace ||
+  clang_types.CXCursorKind.CXCursor_LinkageSpec ||
+  clang_types.CXCursorKind.CXCursor_StructDecl ||
+  clang_types.CXCursorKind.CXCursor_ClassDecl ||
+  clang_types.CXCursorKind.CXCursor_UnionDecl ||
+  clang_types.CXCursorKind.CXCursor_ClassTemplate ||
+  clang_types.CXCursorKind.CXCursor_ClassTemplatePartialSpecialization => true,
+  _ => false,
+};
 
 /// Joins the segments of a `::`-qualified C++ name with `$`, so that it can be
 /// used as a Dart identifier, e.g. `outer::inner::Color` becomes
