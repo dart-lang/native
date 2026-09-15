@@ -744,16 +744,15 @@ String _getWritableChar(int char, {bool utf8 = true}) {
 /// stops at the first parent that is not a namespace or record, so a type
 /// declared at global scope or inside a function yields [leafName] alone.
 String qualifiedNameFromCursor(clang_types.CXCursor cursor, String leafName) {
-  final scopes = <String>[];
+  var name = leafName;
   var parent = clang.clang_getCursorSemanticParent(cursor);
   while (clang.clang_Cursor_isNull(parent) == 0 &&
       _isNameScope(clang.clang_getCursorKind(parent))) {
     final spelling = parent.spelling();
-    if (spelling.isNotEmpty) scopes.insert(0, spelling);
+    if (spelling.isNotEmpty) name = '$spelling::$name';
     parent = clang.clang_getCursorSemanticParent(parent);
   }
-  if (scopes.isEmpty) return leafName;
-  return [...scopes, leafName].join('::');
+  return name;
 }
 
 /// Whether a cursor of [kind] is a scope that qualifies the names declared
@@ -773,4 +772,4 @@ bool _isNameScope(int kind) => switch (kind) {
 /// used as a Dart identifier, e.g. `outer::inner::Color` becomes
 /// `outer$inner$Color`.
 String flattenQualifiedName(String qualifiedName) =>
-    qualifiedName.split('::').where((s) => s.isNotEmpty).join(r'$');
+    qualifiedName.replaceAll('::', r'$');

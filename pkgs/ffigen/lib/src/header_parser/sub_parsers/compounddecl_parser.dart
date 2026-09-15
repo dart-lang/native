@@ -139,9 +139,6 @@ Compound? _parseCompoundDeclaration(
       sizeInBytes: sizeInBytes,
     );
   } else {
-    // A C++ compound declared inside a namespace or another record is named
-    // by its enclosing scopes, which have to be flattened to form a Dart
-    // identifier. Users who want a different name can rename via a `Visitor`.
     final qualifiedName = qualifiedNameFromCursor(cursor, declName);
     context.logger.fine(
       '++++ Adding $className: Name: $qualifiedName, '

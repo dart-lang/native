@@ -90,8 +90,8 @@ Set<Binding> parseTranslationUnit(
   return bindings;
 }
 
-/// Recurses into a C++ namespace or record, surfacing the enum, struct and
-/// union declarations nested inside it.
+/// Recurses into a C++ namespace or record, surfacing the enum, struct, class
+/// and union declarations nested inside it.
 // TODO: Dispatch VarDecl, FunctionDecl, etc. here for fuller C++ namespace
 // support.
 void _visitScopeForNestedDecls(
@@ -107,10 +107,10 @@ void _visitScopeForNestedDecls(
   }
   scopeCursor.visitChildren((cursor) {
     final kind = clang.clang_getCursorKind(cursor);
-    if (!_isNestedDeclScope(kind)) {
-      // Bail out before logging: `completeStringRepr` computes the cursor's
-      // USR, which is not meaningful for every kind found in a namespace or
-      // record (e.g. destructors).
+    if (!_nestedDeclKinds.contains(kind)) {
+      // Filter before logging: `completeStringRepr` calls `usr()`, which
+      // asserts that the USR is free of `synthUsrChar` (`~`), and destructor
+      // USRs contain it.
       logger.finer('nestedDeclCursorVisitor: CursorKind not implemented');
       return;
     }
@@ -122,62 +122,51 @@ void _visitScopeForNestedDecls(
       );
       return;
     }
-    try {
-      logger.finest('nestedDeclCursorVisitor: ${cursor.completeStringRepr()}');
-      switch (kind) {
-        case clang_types.CXCursorKind.CXCursor_EnumDecl:
+    logger.finest('nestedDeclCursorVisitor: ${cursor.completeStringRepr()}');
+    switch (kind) {
+      case clang_types.CXCursorKind.CXCursor_EnumDecl:
+        addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
+        break;
+      case clang_types.CXCursorKind.CXCursor_StructDecl:
+      case clang_types.CXCursorKind.CXCursor_ClassDecl:
+      case clang_types.CXCursorKind.CXCursor_UnionDecl:
+        // Anonymous records are handled as members of their parent record,
+        // not as bindings of their own.
+        if (clang.clang_Cursor_isAnonymous(cursor) == 0 &&
+            _mayParseNestedCompound(context, cursor)) {
           addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
-          break;
-        case clang_types.CXCursorKind.CXCursor_UnionDecl:
-        case clang_types.CXCursorKind.CXCursor_StructDecl:
-          // Anonymous records are handled as members of their parent record,
-          // not as bindings of their own.
-          if (clang.clang_Cursor_isAnonymous(cursor) == 0 &&
-              _mayParseNestedCompound(context, cursor)) {
-            addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
-          }
-          _visitScopeForNestedDecls(context, cursor, bindings, headers);
-          break;
-        default:
-          // A namespace, a record or an `extern "C"` block: recurse to find
-          // the declarations nested deeper.
-          _visitScopeForNestedDecls(context, cursor, bindings, headers);
-      }
-    } catch (e, s) {
-      logger.severe(e);
-      logger.severe(s);
-      rethrow;
+        }
+        _visitScopeForNestedDecls(context, cursor, bindings, headers);
+        break;
+      default:
+        // A namespace or an `extern "C"` block.
+        _visitScopeForNestedDecls(context, cursor, bindings, headers);
     }
   });
 }
 
-/// Whether the nested struct or union at [cursor] may be parsed at all.
+/// The cursor kinds [_visitScopeForNestedDecls] descends into or generates
+/// bindings for.
+const _nestedDeclKinds = {
+  clang_types.CXCursorKind.CXCursor_Namespace,
+  clang_types.CXCursorKind.CXCursor_LinkageSpec,
+  clang_types.CXCursorKind.CXCursor_StructDecl,
+  clang_types.CXCursorKind.CXCursor_ClassDecl,
+  clang_types.CXCursorKind.CXCursor_UnionDecl,
+  clang_types.CXCursorKind.CXCursor_EnumDecl,
+};
+
+/// Whether the nested record at [cursor] may be parsed.
 ///
-/// Parsing a record also parses its methods and every type they mention, so a
-/// record nested in a system header would drag in an unbounded amount of the
-/// C++ standard library. `Input.include` admits transitively included headers
-/// by default, so those are refused here rather than left to the AST visitors,
-/// which run after parsing. Enums are leaves and need no such guard.
+/// Records in system headers are skipped: parsing one also parses its methods
+/// and their types, which for the C++ standard library is unbounded, and
+/// `Input.include` admits transitively included headers by default.
 ///
-/// With C++ class support on, a record is parsed as a `CppClass` instead,
-/// which names itself and its method symbols after the leaf name alone. Two
-/// records sharing a leaf name across scopes would be indistinguishable, and
-/// the generated glue would name the type unqualified, so scoped records are
-/// left to the change that gives `CppClass` its qualified name.
+/// With C++ class support on, records become `CppClass`es, which are still
+/// named by their leaf name alone, so scoped ones would collide. They are
+/// skipped until `CppClass` gets a qualified name.
 bool _mayParseNestedCompound(Context context, clang_types.CXCursor cursor) =>
     context.config.cpp == null && !cursor.isInSystemHeader();
-
-/// Whether [_visitScopeForNestedDecls] descends into cursors of [kind], or
-/// generates bindings for them.
-bool _isNestedDeclScope(int kind) => switch (kind) {
-  clang_types.CXCursorKind.CXCursor_Namespace ||
-  clang_types.CXCursorKind.CXCursor_LinkageSpec ||
-  clang_types.CXCursorKind.CXCursor_UnionDecl ||
-  clang_types.CXCursorKind.CXCursor_ClassDecl ||
-  clang_types.CXCursorKind.CXCursor_StructDecl ||
-  clang_types.CXCursorKind.CXCursor_EnumDecl => true,
-  _ => false,
-};
 
 /// Adds to binding if unseen and not null.
 void addToBindings(Set<Binding> bindings, Binding? b) {
