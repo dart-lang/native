@@ -17,6 +17,7 @@ import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
+import '../visitor/copy_typealias_docs.dart';
 import '../visitor/create_scopes.dart';
 import '../visitor/default_param_names.dart';
 import '../visitor/expand_varargs.dart';
@@ -185,6 +186,8 @@ List<String> _findObjectiveCSysroot() => [
 @visibleForTesting
 List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
+
+  visit(context, CopyTypealiasDocsVisitation(), rawBindings);
 
   final almostAllBindings = visit(
     context,
