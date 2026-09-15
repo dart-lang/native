@@ -139,13 +139,15 @@ Compound? _parseCompoundDeclaration(
       sizeInBytes: sizeInBytes,
     );
   } else {
+    final qualifiedName = qualifiedNameFromCursor(cursor, declName);
     context.logger.fine(
-      '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
+      '++++ Adding $className: Name: $qualifiedName, '
+      '${cursor.completeStringRepr()}',
     );
     compound = constructor(
       usr: usr,
-      originalName: declName,
-      name: declName,
+      originalName: qualifiedName,
+      name: flattenQualifiedName(qualifiedName),
       dartDoc: getCursorDocComment(
         context,
         cursor,
