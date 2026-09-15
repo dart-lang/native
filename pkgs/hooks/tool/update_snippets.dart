@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:path/path.dart' as p;
 
 void main(List<String> args) {
   final stopwatch = Stopwatch()..start();
@@ -21,13 +22,20 @@ void main(List<String> args) {
   final counts = Counts();
   final errors = <String>[];
   final hooksPackageRoot = findPackageRoot('hooks');
-  for (final package in ['hooks', 'code_assets', 'data_assets', 'record_use']) {
+  for (final package in [
+    'hooks',
+    'code_assets',
+    'data_assets',
+    'record_use',
+    'jnigen',
+    'jni',
+    'jni_util',
+    'jni_flutter',
+  ]) {
     final packageRoot = hooksPackageRoot.resolve('../$package/');
 
-    final files = Directory.fromUri(packageRoot)
-        .listSync(recursive: true)
-        .whereType<File>()
-        .where((e) => e.path.endsWith('.dart') || e.path.endsWith('.md'));
+    final files = _findFiles(Directory.fromUri(packageRoot));
+    files.sort((a, b) => a.path.compareTo(b.path));
 
     for (final file in files) {
       updateSnippetsInFile(file, counts, errors);
@@ -79,7 +87,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
   var newContent = oldContent;
 
   final markers = RegExp(
-    r'^([ \t]*/*[ ]?)```(\w*)',
+    r'^([ \t]*(?:/{3}[ ]?)?)```(\w*)',
     multiLine: true,
   ).allMatches(oldContent);
 
@@ -268,4 +276,23 @@ String _dedent(String text) {
         return line.substring(minIndent!);
       })
       .join('\n');
+}
+
+List<File> _findFiles(Directory dir) {
+  final result = <File>[];
+  for (final entity in dir.listSync(followLinks: false)) {
+    final baseName = p.basename(entity.path);
+    if (baseName.startsWith('.') || baseName == 'build') {
+      continue;
+    }
+    if (entity is Directory) {
+      result.addAll(_findFiles(entity));
+    } else if (entity is File) {
+      if ((baseName.endsWith('.dart') || baseName.endsWith('.md')) &&
+          baseName != 'CHANGELOG.md') {
+        result.add(entity);
+      }
+    }
+  }
+  return result;
 }

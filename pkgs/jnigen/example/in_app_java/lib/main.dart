@@ -25,6 +25,7 @@ extension IntX on int {
 
 const sunglassEmoji = "😎";
 
+// snippet-start#show_toast
 /// Display device model number and the number of times this was called
 /// as Toast.
 void showToast() {
@@ -46,6 +47,7 @@ void showToast() {
     0,
   );
 }
+// snippet-end#show_toast
 
 void main() {
   EmojiCompat.init(context.as(Context.type));

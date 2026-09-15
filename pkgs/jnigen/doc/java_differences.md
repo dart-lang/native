@@ -29,6 +29,7 @@ This is not the case for Dart. Each method of a class must have a unique name.
 To overcome this limitation, JNIgen adds a dollar sign (`$`) and a numeric
 suffix to the end of the overloaded method name.
 
+<!-- no-source-file -->
 ```dart
 // Dart Bindings - Boilerplate omitted for clarity.
 class Calculator extends JObject {
@@ -84,6 +85,7 @@ public class Calculator {
 
 In this case, the generated code will be:
 
+<!-- no-source-file -->
 ```dart
 // Dart Bindings - Boilerplate omitted for clarity.
 class Calculator extends JObject {
@@ -119,6 +121,7 @@ JNIgen handles this similarly to [method overloading](#method-overloading). The
 method with the same name as the field will be appended by a dollar sign (`$`)
 followed by a numeric suffix.
 
+<!-- no-source-file -->
 ```dart
 // Dart Bindings - Boilerplate omitted for clarity.
 class Player extends JObject {
@@ -154,6 +157,7 @@ public class DuckOwningPlayer extends Player {
 The `Player` class already has a method named `duck` and no field with the same
 name. So this will be the generated bindings for it:
 
+<!-- no-source-file -->
 ```dart
 // Dart Bindings - Boilerplate omitted for clarity.
 class Player extends JObject {
@@ -165,6 +169,7 @@ class Player extends JObject {
 named `duck`. This time, the field will be renamed as the method is simply
 inherited.
 
+<!-- no-source-file -->
 ```dart
 // Dart Bindings - Boilerplate omitted for clarity.
 class DuckOwningPlayer extends Player {
@@ -207,6 +212,7 @@ public class _Example {
 }
 ```
 
+<!-- no-source-file -->
 ```dart
 // Dart Bindings - Boilerplate omitted for clarity.
 class $_Example extends JObject {
@@ -231,6 +237,7 @@ public class Outer {
 
 will be turned into:
 
+<!-- no-source-file -->
 ```dart
 // Dart Bindings - Boilerplate omitted for clarity.
 class Outer extends JObject {}
