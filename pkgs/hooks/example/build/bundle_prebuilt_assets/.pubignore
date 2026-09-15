@@ -2,6 +2,8 @@
 !*
 !*/**
 
-# Exclude local build artifacts and pub cache.
+# Exclude local build artifacts, git metadata, and pub cache.
 .dart_tool/
+.git/
 build/
+pubspec.lock

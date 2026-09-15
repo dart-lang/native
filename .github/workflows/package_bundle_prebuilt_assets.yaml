@@ -134,12 +134,17 @@ jobs:
           dart test
 
       - name: Verify package with dart pub publish --dry-run
-        # Remove workspace resolution and parent `pkgs/hooks/.pubignore` so
-        # `dart pub publish` treats this example package as standalone.
+        # Detach from the monorepo workspace and initialize a clean standalone
+        # git repository so `dart pub publish` does not read parent
+        # `pkgs/hooks/.pubignore` or warn about modified files in git status.
         run: |
-          rm -f ../../.pubignore
           sed -i.bak '/resolution: workspace/d; /publish_to: none/d' pubspec.yaml
           rm -f pubspec.yaml.bak
+          git init
+          git config user.email "ci@example.com"
+          git config user.name "CI"
+          git add -A
+          git commit -m "Prepare standalone package for publish"
           dart pub publish --dry-run
 
       - name: Publish to pub.dev

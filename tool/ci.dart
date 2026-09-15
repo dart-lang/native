@@ -440,14 +440,15 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];
-    await _runMaybeParallel([
-      for (final exampleWithTest in examplesWithTest)
-        () => _runProcess(
-          workingDirectory: repositoryRoot.resolve(exampleWithTest),
-          'dart',
-          ['test'],
-        ),
-    ], argResults);
+    // Run sequentially because `dart test` in a pub workspace writes to the
+    // shared `<workspace_root>/.dart_tool/native_assets.yaml`.
+    for (final exampleWithTest in examplesWithTest) {
+      await _runProcess(
+        workingDirectory: repositoryRoot.resolve(exampleWithTest),
+        'dart',
+        ['test'],
+      );
+    }
 
     await _runProcess(
       workingDirectory: repositoryRoot.resolve(
