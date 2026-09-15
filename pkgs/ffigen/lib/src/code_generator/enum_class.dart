@@ -25,6 +25,7 @@ import 'writer.dart';
 /// ```
 /// The generated dart code is
 ///
+/// <!-- no-source-file -->
 /// ```dart
 /// enum Fruits {
 ///   apple(0),
