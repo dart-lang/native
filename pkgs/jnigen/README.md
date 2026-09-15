@@ -66,7 +66,7 @@ instructions.
 
    import 'package:jnigen/jnigen.dart';
 
-   void main(List<String> args) async {
+   Future<void> main() async {
      final packageRoot = Platform.script.resolve('../');
      final generator = JniGenerator(
        input: Input(
@@ -198,49 +198,51 @@ may be a more automatic way to do this. (e.g. `scoop reset`).
 
 CMake and a standard C toolchain are required to build `package:jni`.
 
-## YAML Configuration Reference
+## Configuration
 
-In addition to the Dart API shown in the "Getting Started" section, JNIgen can
-also be configured via a YAML configuration file. Support for the YAML
-configuration will be eventually phased out, and using the Dart API is 
-recommended. To generate bindings with a YAML configuration stored in
-`jnigen.yaml` use the following command:
+JNIgen is configured using a Dart script, typically placed under
+`tool/jnigen.dart` and executed via `dart run tool/jnigen.dart`.
+The script should instantiate a `JniGenerator` with your desired configuration
+and call `await generator.generate()`.
 
+### Example
+
+```dart
+import 'dart:io';
+
+import 'package:jnigen/jnigen.dart';
+
+Future<void> main() async {
+  final packageRoot = Platform.script.resolve('../');
+  final generator = JniGenerator(
+    // Required. Output path and structure for the generated bindings.
+    output: Output(
+      dart: DartOutput(
+        path: packageRoot.resolve('lib/src/generated_bindings.dart'),
+        structure: OutputStructure.singleFile,
+      ),
+    ),
+    // Where to find Java classes and source files.
+    input: Input(
+      // Required. Fully-qualified names of classes or packages to generate bindings for.
+      classes: ['com.example.MyClass'],
+      // Optional. Directories to search for Java source files.
+      sourcePath: [packageRoot.resolve('android/app/src/main/java')],
+    ),
+  );
+  await generator.generate();
+}
 ```
-dart run jnigen --config jnigen.yaml
+
+Run the script to generate bindings:
+
+```shell
+dart run tool/jnigen.dart
 ```
 
-Any configuration can be overridden through the command line using the `-D` or
-`--override` switch, for example `-Dlog_level=warning` or 
-`-Dsummarizer.backend=asm`. (Use `.` to separate subsection and property name.)
-
-The table below documents the available YAML configuration options. Keys ending
-with a colon (`:`) denote subsections. A `*` denotes a required configuration.
-
-| Configuration property                     | Type / Values                                                             | Description                                                                                                                                                                                                                                                                                                                                                                               |
-|--------------------------------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `preamble`                                 | Text                                                                      | Text to be pasted in the start of each generated file.                                                                                                                                                                                                                                                                                                                                    |
-| `source_path`                              | List of directory paths                                                   | Directories to search for source files. Note: `source_path` for dependencies downloaded using `maven_downloads` configuration is added automatically without the need to specify here.                                                                                                                                                                                                    |
-| `class_path`                               | List of directory / JAR paths                                             | Classpath for API summary generation. This should include any JAR dependencies of the source files in `source_path`.                                                                                                                                                                                                                                                                      |
-| `classes` *                                | List of qualified class / package names                                   | List of qualified class / package names. `source_path` will be scanned assuming the sources follow standard java-ish hierarchy. That is a.b.c either maps to a directory `a/b/c` or a class file `a/b/c.java`.                                                                                                                                                                            |
-| `output:`                                  | (Subsection)                                                              | This subsection will contain configuration related to output files.                                                                                                                                                                                                                                                                                                                       |
-| `output:` >> `dart:`                       | (Subsection)                                                              | This subsection specifies Dart output configuration.                                                                                                                                                                                                                                                                                                                                      |
-| `output:` >> `dart:` >> `structure`        | `package_structure` / `single_file`                                       | Whether to map resulting dart bindings to file-per-class source layout, or write all bindings to single file.                                                                                                                                                                                                                                                                             |
-| `output:` >> `dart:` >> `path` *           | Directory path or File path                                               | Path to write Dart bindings. Should end in `.dart` for `single_file` configurations, and end in `/` for `package_structure` (default) configuration.                                                                                                                                                                                                                                      |
-| `non_null_annotations:`                    | List of annotation fully qualified names                                  | List of custom annotations that specify if the annotation type is non-nullable.                                                                                                                                                                                                                                                                                                           |
-| `nullable_annotations:`                    | List of annotation fully qualified names                                  | List of custom annotations that specify if the annotation type is nullable.                                                                                                                                                                                                                                                                                                               |
-| `maven_downloads:`                         | (Subsection)                                                              | This subsection will contain configuration for automatically downloading Java dependencies (source and JAR) through maven.                                                                                                                                                                                                                                                                |
-| `maven_downloads:` >> `source_deps`        | List of maven package coordinates                                         | Source packages to download and unpack using maven. The names should be valid maven artifact coordinates. (Eg: `org.apache.pdfbox:pdfbox:2.0.26`). The downloads do not include transitive dependencies.                                                                                                                                                                                  |
-| `maven_downloads:` >> `source_dir`         | Path                                                                      | Directory in which maven sources are extracted. Defaults to `mvn_java`. It's not required to list this explicitly in `source_path`.                                                                                                                                                                                                                                                       |
-| `maven_downloads:` >> `jar_only_deps`      | List of maven package coordinates                                         | JAR dependencies to download which are not mandatory transitive dependencies of `source_deps`. Often, it's required to find and include optional dependencies so that entire source is valid for further processing.                                                                                                                                                                      |
-| `maven_downloads:` >> `jar_dir`            | Path                                                                      | Directory to store downloaded JARs. Defaults to `mvn_jar`.                                                                                                                                                                                                                                                                                                                                |
-| `log_level`                                | Logging level                                                             | Configure logging level. Defaults to `info`.                                                                                                                                                                                                                                                                                                                                              |
-| `android_sdk_config:`                      | (Subsection)                                                              | Configuration for autodetection of Android dependencies and SDK. Note that this is more experimental than others, and very likely subject to change.                                                                                                                                                                                                                                      |
-| `android_sdk_config:` >> `add_gradle_deps` | Boolean                                                                   | If true, run a Gradle stub during JNIgen invocation, and add Android compile classpath to the classpath of JNIgen. This requires a release build to have happened before, so that all dependencies are cached appropriately.                                                                                                                                                              |
-| `android_sdk_config:` >> `android_example` | Directory path                                                            | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that Gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](example/notification_plugin/tool/jnigen.dart) for an example. |
-| `summarizer:`                              | (Subsection)                                                              | Configuration specific to summarizer component, which builds API descriptions from Java sources or JAR files.                                                                                                                                                                                                                                                                             |
-| `summarizer:` >> `backend`                 | `auto`, `doclet` or `asm`                                                 | Specifies the backend to use in API summary generation. `doclet` uses OpenJDK Doclet API to build summary from sources. `asm` uses ASM library to build summary from classes in `class_path` JARs. `auto` attempts to find the class in sources, and falls back to using ASM.                                                                                                             |
-| `summarizer:` >> `extra_args` (DEV)        | List of CLI arguments                                                     | Extra arguments to pass to summarizer JAR.                                                                                                                                                                                                                                                                                                                                                |
+See the [examples](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example)
+and [API documentation](https://pub.dev/documentation/jnigen/latest/jnigen/)
+for more information.
 
 ## FAQs
 
@@ -265,7 +267,7 @@ use libraries which depend on them can also lead to ClassNotFound errors.
 Ensure you are providing the correct source and class paths, and they follow the
 standard directory structure. If your class name is `com.abc.MyClass`,
 `MyClass` must be in `com/abc/MyClass.java` relative to one of the source paths,
-or `com/abc/MyClass.class` relative to one of the class paths specified in YAML.
+or `com/abc/MyClass.class` relative to one of the class paths specified in the configuration.
 
 If the classes are in JAR file, make sure to provide the path to the JAR file
 itself, and not to the containing directory.
@@ -287,21 +289,27 @@ so, with the following error:
 For any other types that are in core Java, you can add them in your `classes`
 block and bindings will be generated when you run the generate bindings task.
 
-Below is a snippet of a YAML configuration showing how you might generate
-bindings for several classes in `java.time.*` and a `java.lang` class that is
-not included by default.
+Below is an example showing how you might generate bindings for several classes
+in `java.time.*` and a `java.lang` class that is not included by default:
 
-``` yaml
-output:
-  dart:
-    path: lib/gen/
-
-classes:
-  - 'java.time.Instant'
-  - 'java.time.ZoneOffset'
-  - 'java.time.ZonedDateTime'
-  - 'java.lang.Math'
-# - 'java.lang.Integer' # Will error, already included in binary
+```dart
+final generator = JniGenerator(
+  input: Input(
+    classes: [
+      'java.time.Instant',
+      'java.time.ZoneOffset',
+      'java.time.ZonedDateTime',
+      'java.lang.Math',
+      // 'java.lang.Integer', // Will error, already included in binary
+    ],
+  ),
+  output: Output(
+    dart: DartOutput(
+      path: packageRoot.resolve('lib/gen/'),
+    ),
+  ),
+);
+await generator.generate();
 ```
 
 #### How are classes mapped into bindings?
@@ -322,8 +330,8 @@ release the object using `release` method.
 These days, Android projects depend heavily on AndroidX and other libraries
 downloaded via Gradle. We have a tracking issue to improve detection of Android
 SDK and dependencies ([#793](https://github.com/dart-lang/native/issues/793)).
-Currently, we can fetch the JAR dependencies of an Android project, by running a
-Gradle stub, if `android_sdk_config` >> `add_gradle_deps` is specified. However,
+Currently, we can fetch the JAR dependencies of an Android project by running a
+Gradle stub, if `AndroidSdk(addGradleDeps: true)` is specified. However,
 core libraries (the `android.**` namespace) are not downloaded through Gradle.
 The core libraries are shipped as stub JARs with the Android SDK.
 (`$SDK_ROOT/platforms/android-$VERSION/android-stubs-src.jar`). Currently, we
@@ -344,8 +352,9 @@ Having said that, there are two caveats to this caveat:
 The JAR files (`$SDK_ROOT/platforms/android-$VERSION/android.jar`) can be used
 instead. But compiled JARs do not include JavaDoc and method parameter names.
 This JAR is automatically included by Gradle when 
-`android_sdk_config` >> `add_gradle_deps` is specified.
+`AndroidSdk(addGradleDeps: true)` is specified.
 
 ## Contributing
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) in the root of the repository for
 information on how to contribute.
+
