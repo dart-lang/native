@@ -114,13 +114,27 @@ void main() {
       expect(array.sublist(1, 3), [obj5, obj1]);
     });
 
-    test('garbage collected', () async {
+    test('`NSMutableArray.filled` garbage collected', () async {
       await using((arena) async {
         final tracker = ReferenceTracker(arena);
         () {
-          final array = NSMutableArray.of([NSObject(), NSObject()]);
-          tracker.track(array);
+          tracker.track(NSMutableArray.filled(3, NSObject()));
         }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
+
+    test('`NSMutableArray.of` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(NSMutableArray.of([NSObject(), NSObject()]));
+        }();
+
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();

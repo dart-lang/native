@@ -154,17 +154,25 @@ void main() {
       });
     });
 
-    test('garbage collected', () async {
+    test('`NSDictionary.of` garbage collected', () async {
       await using((arena) async {
-        // Unlike the 'ref counting' test, the collection is deliberately not
-        // created inside an `autoReleasePool`. Dart threads don't run a
-        // `NSRunLoop`, so an autoreleased collection would never be
-        // deallocated.
-        final ofTracker = ReferenceTracker(arena);
-        final fromEntriesTracker = ReferenceTracker(arena);
+        final tracker = ReferenceTracker(arena);
         () {
-          ofTracker.track(NSDictionary.of({'key'.toNSString(): NSObject()}));
-          fromEntriesTracker.track(
+          tracker.track(NSDictionary.of({'key'.toNSString(): NSObject()}));
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
+
+    test('`NSDictionary.fromEntries` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(
             NSDictionary.fromEntries([
               MapEntry('key'.toNSString(), NSObject()),
             ]),
@@ -174,8 +182,7 @@ void main() {
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
-        expect(ofTracker.isAlive, isFalse);
-        expect(fromEntriesTracker.isAlive, isFalse);
+        expect(tracker.isAlive, isFalse);
       });
     });
   });

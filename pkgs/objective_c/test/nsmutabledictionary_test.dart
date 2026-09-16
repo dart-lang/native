@@ -105,13 +105,33 @@ void main() {
       expect(dict.values.toList(), unorderedEquals([obj2, obj4, obj6]));
     });
 
-    test('garbage collected', () async {
+    test('`NSMutableDictionary.of` garbage collected', () async {
       await using((arena) async {
         final tracker = ReferenceTracker(arena);
         () {
-          final dict = NSMutableDictionary.of({'key'.toNSString(): NSObject()});
-          tracker.track(dict);
+          tracker.track(
+            NSMutableDictionary.of({'key'.toNSString(): NSObject()}),
+          );
         }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
+
+    test('`NSMutableDictionary.fromEntries` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(
+            NSMutableDictionary.fromEntries([
+              MapEntry('key'.toNSString(), NSObject()),
+            ]),
+          );
+        }();
+
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();

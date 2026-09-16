@@ -83,13 +83,13 @@ void main() {
       expect(s.toList(), expected);
     });
 
-    test('garbage collected', () async {
+    test('`NSMutableSet.of` garbage collected', () async {
       await using((arena) async {
         final tracker = ReferenceTracker(arena);
         () {
-          final set = NSMutableSet.of([NSObject(), NSObject()]);
-          tracker.track(set);
+          tracker.track(NSMutableSet.of([NSObject(), NSObject()]));
         }();
+
         doGC();
         await Future<void>.delayed(Duration.zero);
         doGC();
