@@ -10,14 +10,15 @@ import 'package:ffigen/src/migration.dart';
 void main(List<String> args) {
   final parser = ArgParser()
     ..addOption(
-      'config',
-      abbr: 'c',
+      'input',
+      abbr: 'i',
       help: 'Path to the YAML configuration file.',
       valueHelp: 'path/to/config.yaml',
     )
     ..addOption(
-      'output',
+      'out',
       abbr: 'o',
+      aliases: ['output'],
       help: 'Path to the output Dart file.',
       valueHelp: 'path/to/output.dart',
     )
@@ -39,25 +40,16 @@ void main(List<String> args) {
 
   if (results['help'] as bool) {
     print(
-      'Usage: dart run ffigen:migrate [options] <config.yaml> <output.dart>\n',
+      'Usage: dart run ffigen:migrate -i <config.yaml> -o <output.dart>\n',
     );
     print(parser.usage);
     exit(0);
   }
 
-  var configPath = results['config'] as String?;
-  var outputPath = results['output'] as String?;
-  final rest = results.rest;
+  final inputPath = results['input'] as String?;
+  final outputPath = results['out'] as String?;
 
-  var restIndex = 0;
-  if (configPath == null && restIndex < rest.length) {
-    configPath = rest[restIndex++];
-  }
-  if (outputPath == null && restIndex < rest.length) {
-    outputPath = rest[restIndex++];
-  }
-
-  if (configPath == null || outputPath == null || restIndex < rest.length) {
+  if (inputPath == null || outputPath == null || results.rest.isNotEmpty) {
     stderr.writeln(
       'Error: Both input config YAML and output Dart paths must be specified.',
     );
@@ -65,9 +57,9 @@ void main(List<String> args) {
     exit(1);
   }
 
-  final configFile = File(configPath);
+  final configFile = File(inputPath);
   if (!configFile.existsSync()) {
-    stderr.writeln("Error: Config file not found at '$configPath'.");
+    stderr.writeln("Error: Config file not found at '$inputPath'.");
     exit(1);
   }
 
@@ -82,7 +74,7 @@ void main(List<String> args) {
 
 void _printUsage(ArgParser parser) {
   stderr.writeln(
-    'Usage: dart run ffigen:migrate [options] <config.yaml> <output.dart>\n',
+    'Usage: dart run ffigen:migrate -i <config.yaml> -o <output.dart>\n',
   );
   stderr.writeln(parser.usage);
 }

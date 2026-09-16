@@ -1,37 +1,29 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 // ignore_for_file: unused_import
 import 'dart:io';
 import 'package:ffigen/ffigen.dart';
 import 'package:glob/glob.dart';
 
-const customLibImport = LibraryImport(
-  'custom_lib',
-  'package:custom_lib/custom_lib.dart',
-);
+final _importedTypes = <String, ImportedType>{
+  'mapped_typedef_t': ImportedType(
+    const LibraryImport('custom_lib', 'package:custom_lib/custom_lib.dart'),
+    'Int32',
+    'int',
+    'mapped_typedef_t',
+  ),
+};
 
-ImportedType? importType(Declaration declaration) {
-  if (declaration.originalName == 'mapped_typedef_t') {
-    return ImportedType(customLibImport, 'Int32', 'int', 'mapped_typedef_t');
-  }
-  return null;
-}
+ImportedType? importType(Declaration declaration) =>
+    _importedTypes[declaration.originalName];
 
-FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
-  packageRoot ??= Platform.script.resolve('../../../');
+Future<void> main() async {
+  final packageRoot = Platform.script.resolve('../../../');
   final configDir = packageRoot.resolve('test/migrate/yaml/');
-  final dartPath = outputDir != null
-      ? outputDir.resolve('comprehensive_objc_bindings.dart')
-      : configDir.resolve('comprehensive_objc_bindings.dart');
-  final objcPath = outputDir != null
-      ? outputDir.resolve('comprehensive_objc_bindings.m')
-      : configDir.resolve('comprehensive_objc_bindings.m');
-  return FfiGenerator(
+  await FfiGenerator(
     output: Output(
-      dart: DartOutput(path: dartPath),
-      objectiveCFile: objcPath,
+      dart: DartOutput(
+        path: configDir.resolve('comprehensive_objc_bindings.dart'),
+      ),
+      objectiveCFile: configDir.resolve('comprehensive_objc_bindings.m'),
       style: const DynamicLibraryBindings(
         wrapperName: 'ComprehensiveObjC',
         wrapperDocComment: 'Comprehensive ObjC bindings',
@@ -69,7 +61,12 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
           if (RegExp(r'^prefix_func_.*$').hasMatch(node.name)) {
             node.name = 'new_prefix';
           }
-          node.name = node.name.replaceFirst(RegExp(r'^strip_'), '');
+          if (RegExp(r'^strip_(.*)$').firstMatch(node.name) case final match?) {
+            node.name = r'$1'.replaceAllMapped(
+              RegExp(r'\$([0-9])'),
+              (m) => match[int.parse(m[1]!)] ?? '',
+            );
+          }
           if (RegExp(r'^swap_(.*)_(.*)$').firstMatch(node.name)
               case final match?) {
             node.name = r'$2_$1'.replaceAllMapped(
@@ -102,7 +99,13 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
           if (RegExp(r'^RegexStructNoGroup_.*$').hasMatch(node.name)) {
             node.name = 'RenamedRegexStruct';
           }
-          node.name = node.name.replaceFirst(RegExp(r'^StripStruct_'), '');
+          if (RegExp(r'^StripStruct_(.*)$').firstMatch(node.name)
+              case final match?) {
+            node.name = r'$1'.replaceAllMapped(
+              RegExp(r'\$([0-9])'),
+              (m) => match[int.parse(m[1]!)] ?? '',
+            );
+          }
           if (RegExp(r'^Swap_Struct_(.*)_(.*)$').firstMatch(node.name)
               case final match?) {
             node.name = r'$2_$1'.replaceAllMapped(
@@ -162,8 +165,8 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
           if (node.name == 'UNNAMED_OLD_CONST') {
             node.name = 'UNNAMED_NEW_CONST';
           }
-          final match = RegExp(r'^UNNAMED_PREFIX_(.*)$').firstMatch(node.name);
-          if (match != null) {
+          if (RegExp(r'^UNNAMED_PREFIX_(.*)$').firstMatch(node.name)
+              case final match?) {
             node.name = r'UNNAMED_STRIP_$1'.replaceAllMapped(
               RegExp(r'\$([0-9])'),
               (m) => match[int.parse(m[1]!)] ?? '',
@@ -177,8 +180,8 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
           if (node.name == 'prefix_global_test') {
             node.name = 'renamed_global_test';
           }
-          final match = RegExp(r'^prefix_global_(.*)$').firstMatch(node.name);
-          if (match != null) {
+          if (RegExp(r'^prefix_global_(.*)$').firstMatch(node.name)
+              case final match?) {
             node.name = r'global_$1'.replaceAllMapped(
               RegExp(r'\$([0-9])'),
               (m) => match[int.parse(m[1]!)] ?? '',
@@ -198,8 +201,8 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
           if (node.name == 'MACRO_EXACT') {
             node.name = 'MACRO_NEW_EXACT';
           }
-          final match = RegExp(r'^MACRO_PREFIX_(.*)$').firstMatch(node.name);
-          if (match != null) {
+          if (RegExp(r'^MACRO_PREFIX_(.*)$').firstMatch(node.name)
+              case final match?) {
             node.name = r'MACRO_STRIP_$1'.replaceAllMapped(
               RegExp(r'\$([0-9])'),
               (m) => match[int.parse(m[1]!)] ?? '',
@@ -215,8 +218,8 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
           if (node.name == 'old_typedef_t') {
             node.name = 'new_typedef_t';
           }
-          final match = RegExp(r'^regex_prefix_(.*)$').firstMatch(node.name);
-          if (match != null) {
+          if (RegExp(r'^regex_prefix_(.*)$').firstMatch(node.name)
+              case final match?) {
             node.name = r'regex_strip_$1'.replaceAllMapped(
               RegExp(r'\$([0-9])'),
               (m) => match[int.parse(m[1]!)] ?? '',
@@ -391,14 +394,5 @@ FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {
         },
       ),
     ],
-  );
-}
-
-Future<void> main(List<String> args) async {
-  final outputDir = args.isNotEmpty
-      ? Uri.directory(args.first)
-      : Platform.environment['OUTPUT_DIR'] != null
-      ? Uri.directory(Platform.environment['OUTPUT_DIR']!)
-      : null;
-  await getConfig(outputDir: outputDir).generate();
+  ).generate();
 }

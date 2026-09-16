@@ -1,0 +1,13 @@
+# Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+name: SimpleBindings
+description: 'Bindings for a simple 2D math and graphics library.'
+output: 'simple_bindings.dart'
+headers:
+  entry-points:
+    - 'simple.h'
+comments:
+  style: any
+  length: full

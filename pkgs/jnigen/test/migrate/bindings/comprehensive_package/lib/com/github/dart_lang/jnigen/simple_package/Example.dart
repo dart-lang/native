@@ -47,8 +47,7 @@ import '../../../../../java/util/Random.dart' as random$_;
 /// from: `com.github.dart_lang.jnigen.simple_package.Example`
 extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
-    r'com/github/dart_lang/jnigen/simple_package/Example',
-  );
+      r'com/github/dart_lang/jnigen/simple_package/Example');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example> type = $Example$Type$();
@@ -86,23 +85,22 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
       _id_unusedRandom.getNullable(_class, random$_.Random.type)
           as random$_.Random?;
 
-  static final _id_get$amount = _class.staticMethodId(r'getAmount', r'()I');
+  static final _id_get$amount = _class.staticMethodId(
+    r'getAmount',
+    r'()I',
+  );
 
-  static final _get$amount =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$amount = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallStaticIntMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public int getAmount()`
   static core$_.int get amount {
@@ -110,23 +108,22 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     return _get$amount(_$$classRef.pointer, _id_get$amount.pointer).integer;
   }
 
-  static final _id_get$pi = _class.staticMethodId(r'getPi', r'()D');
+  static final _id_get$pi = _class.staticMethodId(
+    r'getPi',
+    r'()D',
+  );
 
-  static final _get$pi =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$pi = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallStaticDoubleMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallStaticDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public double getPi()`
   static core$_.double get pi {
@@ -134,23 +131,22 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     return _get$pi(_$$classRef.pointer, _id_get$pi.pointer).doubleFloat;
   }
 
-  static final _id_get$asterisk = _class.staticMethodId(r'getAsterisk', r'()C');
+  static final _id_get$asterisk = _class.staticMethodId(
+    r'getAsterisk',
+    r'()C',
+  );
 
-  static final _get$asterisk =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$asterisk = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallStaticCharMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public char getAsterisk()`
   static core$_.int get asterisk {
@@ -163,30 +159,24 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _get$name =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$name = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallStaticObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get name {
     final _$$classRef = _class.reference;
-    return _get$name(
-      _$$classRef.pointer,
-      _id_get$name.pointer,
-    ).object<jni$_.JString?>();
+    return _get$name(_$$classRef.pointer, _id_get$name.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_get$nestedInstance = _class.staticMethodId(
@@ -194,51 +184,40 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     r'()Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;',
   );
 
-  static final _get$nestedInstance =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$nestedInstance = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallStaticObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public com.github.dart_lang.jnigen.simple_package.Example$Nested getNestedInstance()`
   /// The returned object must be released after use, by calling the [release] method.
   static Example$Nested? get nestedInstance {
     final _$$classRef = _class.reference;
     return _get$nestedInstance(
-      _$$classRef.pointer,
-      _id_get$nestedInstance.pointer,
-    ).object<Example$Nested?>();
+            _$$classRef.pointer, _id_get$nestedInstance.pointer)
+        .object<Example$Nested?>();
   }
 
-  static final _id_set$amount = _class.staticMethodId(r'setAmount', r'(I)V');
+  static final _id_set$amount = _class.staticMethodId(
+    r'setAmount',
+    r'(I)V',
+  );
 
-  static final _set$amount =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_CallStaticVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+  static final _set$amount = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public void setAmount(int newAmount)`
   static set amount(core$_.int newAmount) {
@@ -251,33 +230,23 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$name =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallStaticVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _set$name = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public void setName(java.lang.String newName)`
   static set name(jni$_.JString? newName) {
     final _$$classRef = _class.reference;
     final _$newName = newName?.reference ?? jni$_.jNullReference;
-    _set$name(
-      _$$classRef.pointer,
-      _id_set$name.pointer,
-      _$newName.pointer,
-    ).check();
+    _set$name(_$$classRef.pointer, _id_set$name.pointer, _$newName.pointer)
+        .check();
   }
 
   static final _id_set$nestedInstance = _class.staticMethodId(
@@ -285,59 +254,51 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     r'(Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;)V',
   );
 
-  static final _set$nestedInstance =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallStaticVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _set$nestedInstance = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public void setNestedInstance(com.github.dart_lang.jnigen.simple_package.Example$Nested newNested)`
   static set nestedInstance(Example$Nested? newNested) {
     final _$$classRef = _class.reference;
     final _$newNested = newNested?.reference ?? jni$_.jNullReference;
-    _set$nestedInstance(
-      _$$classRef.pointer,
-      _id_set$nestedInstance.pointer,
-      _$newNested.pointer,
-    ).check();
+    _set$nestedInstance(_$$classRef.pointer, _id_set$nestedInstance.pointer,
+            _$newNested.pointer)
+        .check();
   }
 
-  static final _id_max4 = _class.staticMethodId(r'max4', r'(IIII)I');
+  static final _id_max4 = _class.staticMethodId(
+    r'max4',
+    r'(IIII)I',
+  );
 
-  static final _max4 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _max4 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (jni$_.Int32, jni$_.Int32, jni$_.Int32, jni$_.Int32)
-                >,
-              )
-            >
-          >('globalEnv_CallStaticIntMethod')
-          .asFunction<
-            jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               core$_.int,
               core$_.int,
               core$_.int,
-              core$_.int,
-            )
-          >();
+              core$_.int)>();
 
   /// from: `static public int max4(int a, int b, int c, int d)`
   static core$_.int max4(
@@ -350,31 +311,29 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     return _max4(_$$classRef.pointer, _id_max4.pointer, a, b, c, d).integer;
   }
 
-  static final _id_max8 = _class.staticMethodId(r'max8', r'(IIIIIIII)I');
+  static final _id_max8 = _class.staticMethodId(
+    r'max8',
+    r'(IIIIIIII)I',
+  );
 
-  static final _max8 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _max8 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                  )
-                >,
-              )
-            >
-          >('globalEnv_CallStaticIntMethod')
-          .asFunction<
-            jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               core$_.int,
@@ -384,9 +343,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
               core$_.int,
               core$_.int,
               core$_.int,
-              core$_.int,
-            )
-          >();
+              core$_.int)>();
 
   /// from: `static public int max8(int a, int b, int c, int d, int e, int f, int g, int h)`
   static core$_.int max8(
@@ -400,37 +357,25 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.int h,
   ) {
     final _$$classRef = _class.reference;
-    return _max8(
-      _$$classRef.pointer,
-      _id_max8.pointer,
-      a,
-      b,
-      c,
-      d,
-      e,
-      f,
-      g,
-      h,
-    ).integer;
+    return _max8(_$$classRef.pointer, _id_max8.pointer, a, b, c, d, e, f, g, h)
+        .integer;
   }
 
-  static final _id_new$ = _class.constructorId(r'()V');
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
 
-  static final _new$ =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -439,93 +384,78 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     return _new$(_$$classRef.pointer, _id_new$.pointer).object<Example>();
   }
 
-  static final _id_new$1 = _class.constructorId(r'(I)V');
+  static final _id_new$1 = _class.constructorId(
+    r'(I)V',
+  );
 
-  static final _new$1 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int number)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example.new$1(core$_.int number) {
+  factory Example.new$1(
+    core$_.int number,
+  ) {
     final _$$classRef = _class.reference;
-    return _new$1(
-      _$$classRef.pointer,
-      _id_new$1.pointer,
-      number,
-    ).object<Example>();
+    return _new$1(_$$classRef.pointer, _id_new$1.pointer, number)
+        .object<Example>();
   }
 
-  static final _id_new$2 = _class.constructorId(r'(IZ)V');
+  static final _id_new$2 = _class.constructorId(
+    r'(IZ)V',
+  );
 
-  static final _new$2 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-              core$_.int,
-            )
-          >();
+  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public void <init>(int number, boolean isUp)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example.new$2(core$_.int number, core$_.bool isUp) {
+  factory Example.new$2(
+    core$_.int number,
+    core$_.bool isUp,
+  ) {
     final _$$classRef = _class.reference;
-    return _new$2(
-      _$$classRef.pointer,
-      _id_new$2.pointer,
-      number,
-      isUp ? 1 : 0,
-    ).object<Example>();
+    return _new$2(_$$classRef.pointer, _id_new$2.pointer, number, isUp ? 1 : 0)
+        .object<Example>();
   }
 
-  static final _id_new$3 = _class.constructorId(r'(IZLjava/lang/String;)V');
+  static final _id_new$3 = _class.constructorId(
+    r'(IZLjava/lang/String;)V',
+  );
 
-  static final _new$3 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _new$3 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (jni$_.Int32, jni$_.Int32, jni$_.Pointer<jni$_.Void>)
-                >,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               core$_.int,
               core$_.int,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+              jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void <init>(int number, boolean isUp, java.lang.String codename)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -536,40 +466,33 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   ) {
     final _$$classRef = _class.reference;
     final _$codename = codename?.reference ?? jni$_.jNullReference;
-    return _new$3(
-      _$$classRef.pointer,
-      _id_new$3.pointer,
-      number,
-      isUp ? 1 : 0,
-      _$codename.pointer,
-    ).object<Example>();
+    return _new$3(_$$classRef.pointer, _id_new$3.pointer, number, isUp ? 1 : 0,
+            _$codename.pointer)
+        .object<Example>();
   }
 
-  static final _id_new$4 = _class.constructorId(r'(IIIIIIII)V');
+  static final _id_new$4 = _class.constructorId(
+    r'(IIIIIIII)V',
+  );
 
-  static final _new$4 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _new$4 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                    jni$_.Int32,
-                  )
-                >,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               core$_.int,
@@ -579,9 +502,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
               core$_.int,
               core$_.int,
               core$_.int,
-              core$_.int,
-            )
-          >();
+              core$_.int)>();
 
   /// from: `public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -597,103 +518,84 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   ) {
     final _$$classRef = _class.reference;
     return _new$4(
-      _$$classRef.pointer,
-      _id_new$4.pointer,
-      a,
-      b,
-      c,
-      d,
-      e,
-      f,
-      g,
-      h,
-    ).object<Example>();
+            _$$classRef.pointer, _id_new$4.pointer, a, b, c, d, e, f, g, h)
+        .object<Example>();
   }
 
-  static final _id_addInts = _class.staticMethodId(r'addInts', r'(II)I');
+  static final _id_addInts = _class.staticMethodId(
+    r'addInts',
+    r'(II)I',
+  );
 
-  static final _addInts =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>,
-              )
-            >
-          >('globalEnv_CallStaticIntMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-              core$_.int,
-            )
-          >();
+  static final _addInts = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int addInts(int a, int b)`
-  static core$_.int addInts(core$_.int a, core$_.int b) {
+  static core$_.int addInts(
+    core$_.int a,
+    core$_.int b,
+  ) {
     final _$$classRef = _class.reference;
     return _addInts(_$$classRef.pointer, _id_addInts.pointer, a, b).integer;
   }
 
-  static final _id_get$arr = _class.staticMethodId(r'getArr', r'()[I');
+  static final _id_get$arr = _class.staticMethodId(
+    r'getArr',
+    r'()[I',
+  );
 
-  static final _get$arr =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$arr = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallStaticObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public int[] getArr()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JIntArray? get arr {
     final _$$classRef = _class.reference;
-    return _get$arr(
-      _$$classRef.pointer,
-      _id_get$arr.pointer,
-    ).object<jni$_.JIntArray?>();
+    return _get$arr(_$$classRef.pointer, _id_get$arr.pointer)
+        .object<jni$_.JIntArray?>();
   }
 
-  static final _id_addAll = _class.staticMethodId(r'addAll', r'([I)I');
+  static final _id_addAll = _class.staticMethodId(
+    r'addAll',
+    r'([I)I',
+  );
 
-  static final _addAll =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallStaticIntMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public int addAll(int[] arr)`
-  static core$_.int addAll(jni$_.JIntArray? arr) {
+  static core$_.int addAll(
+    jni$_.JIntArray? arr,
+  ) {
     final _$$classRef = _class.reference;
     final _$arr = arr?.reference ?? jni$_.jNullReference;
-    return _addAll(
-      _$$classRef.pointer,
-      _id_addAll.pointer,
-      _$arr.pointer,
-    ).integer;
+    return _addAll(_$$classRef.pointer, _id_addAll.pointer, _$arr.pointer)
+        .integer;
   }
 
   static final _id_throwException = _class.staticMethodId(
@@ -701,21 +603,17 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     r'()V',
   );
 
-  static final _throwException =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _throwException = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallStaticVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public void throwException()`
   static void throwException() {
@@ -730,21 +628,17 @@ extension Example$$Methods on Example {
     r'()I',
   );
 
-  static final _get$number =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$number = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallIntMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public int getNumber()`
   core$_.int get number {
@@ -757,23 +651,15 @@ extension Example$$Methods on Example {
     r'(I)V',
   );
 
-  static final _set$number =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _set$number = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setNumber(int number)`
   set number(core$_.int number) {
@@ -786,21 +672,17 @@ extension Example$$Methods on Example {
     r'()Z',
   );
 
-  static final _get$isUp =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$isUp = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallBooleanMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public boolean getIsUp()`
   core$_.bool get isUp {
@@ -808,25 +690,20 @@ extension Example$$Methods on Example {
     return _get$isUp(_$$selfRef.pointer, _id_get$isUp.pointer).boolean;
   }
 
-  static final _id_set$up = Example._class.instanceMethodId(r'setUp', r'(Z)V');
+  static final _id_set$up = Example._class.instanceMethodId(
+    r'setUp',
+    r'(Z)V',
+  );
 
-  static final _set$up =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _set$up = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setUp(boolean isUp)`
   set up(core$_.bool isUp) {
@@ -839,30 +716,24 @@ extension Example$$Methods on Example {
     r'()Ljava/lang/String;',
   );
 
-  static final _get$codename =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$codename = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.lang.String getCodename()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get codename {
     final _$$selfRef = reference;
-    return _get$codename(
-      _$$selfRef.pointer,
-      _id_get$codename.pointer,
-    ).object<jni$_.JString?>();
+    return _get$codename(_$$selfRef.pointer, _id_get$codename.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_set$codename = Example._class.instanceMethodId(
@@ -870,33 +741,24 @@ extension Example$$Methods on Example {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$codename =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _set$codename = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void setCodename(java.lang.String codename)`
   set codename(jni$_.JString? codename) {
     final _$$selfRef = reference;
     final _$codename = codename?.reference ?? jni$_.jNullReference;
     _set$codename(
-      _$$selfRef.pointer,
-      _id_set$codename.pointer,
-      _$codename.pointer,
-    ).check();
+            _$$selfRef.pointer, _id_set$codename.pointer, _$codename.pointer)
+        .check();
   }
 
   static final _id_get$random = Example._class.instanceMethodId(
@@ -904,30 +766,24 @@ extension Example$$Methods on Example {
     r'()Ljava/util/Random;',
   );
 
-  static final _get$random =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$random = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.util.Random getRandom()`
   /// The returned object must be released after use, by calling the [release] method.
   random$_.Random? get random {
     final _$$selfRef = reference;
-    return _get$random(
-      _$$selfRef.pointer,
-      _id_get$random.pointer,
-    ).object<random$_.Random?>();
+    return _get$random(_$$selfRef.pointer, _id_get$random.pointer)
+        .object<random$_.Random?>();
   }
 
   static final _id_set$random = Example._class.instanceMethodId(
@@ -935,33 +791,23 @@ extension Example$$Methods on Example {
     r'(Ljava/util/Random;)V',
   );
 
-  static final _set$random =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _set$random = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void setRandom(java.util.Random random)`
   set random(random$_.Random? random) {
     final _$$selfRef = reference;
     final _$random = random?.reference ?? jni$_.jNullReference;
-    _set$random(
-      _$$selfRef.pointer,
-      _id_set$random.pointer,
-      _$random.pointer,
-    ).check();
+    _set$random(_$$selfRef.pointer, _id_set$random.pointer, _$random.pointer)
+        .check();
   }
 
   static final _id_get$randomLong = Example._class.instanceMethodId(
@@ -969,21 +815,17 @@ extension Example$$Methods on Example {
     r'()J',
   );
 
-  static final _get$randomLong =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$randomLong = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallLongMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public long getRandomLong()`
   core$_.int get randomLong {
@@ -996,40 +838,37 @@ extension Example$$Methods on Example {
     r'(JJJJ)J',
   );
 
-  static final _add4Longs =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _add4Longs = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (jni$_.Int64, jni$_.Int64, jni$_.Int64, jni$_.Int64)
-                >,
-              )
-            >
-          >('globalEnv_CallLongMethod')
-          .asFunction<
-            jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64
+                      )>)>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               core$_.int,
               core$_.int,
               core$_.int,
-              core$_.int,
-            )
-          >();
+              core$_.int)>();
 
   /// from: `public long add4Longs(long a, long b, long c, long d)`
-  core$_.int add4Longs(core$_.int a, core$_.int b, core$_.int c, core$_.int d) {
+  core$_.int add4Longs(
+    core$_.int a,
+    core$_.int b,
+    core$_.int c,
+    core$_.int d,
+  ) {
     final _$$selfRef = reference;
-    return _add4Longs(
-      _$$selfRef.pointer,
-      _id_add4Longs.pointer,
-      a,
-      b,
-      c,
-      d,
-    ).long;
+    return _add4Longs(_$$selfRef.pointer, _id_add4Longs.pointer, a, b, c, d)
+        .long;
   }
 
   static final _id_add8Longs = Example._class.instanceMethodId(
@@ -1037,29 +876,24 @@ extension Example$$Methods on Example {
     r'(JJJJJJJJ)J',
   );
 
-  static final _add8Longs =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _add8Longs = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (
-                    jni$_.Int64,
-                    jni$_.Int64,
-                    jni$_.Int64,
-                    jni$_.Int64,
-                    jni$_.Int64,
-                    jni$_.Int64,
-                    jni$_.Int64,
-                    jni$_.Int64,
-                  )
-                >,
-              )
-            >
-          >('globalEnv_CallLongMethod')
-          .asFunction<
-            jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64,
+                        jni$_.Int64
+                      )>)>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               core$_.int,
@@ -1069,9 +903,7 @@ extension Example$$Methods on Example {
               core$_.int,
               core$_.int,
               core$_.int,
-              core$_.int,
-            )
-          >();
+              core$_.int)>();
 
   /// from: `public long add8Longs(long a, long b, long c, long d, long e, long f, long g, long h)`
   core$_.int add8Longs(
@@ -1086,17 +918,8 @@ extension Example$$Methods on Example {
   ) {
     final _$$selfRef = reference;
     return _add8Longs(
-      _$$selfRef.pointer,
-      _id_add8Longs.pointer,
-      a,
-      b,
-      c,
-      d,
-      e,
-      f,
-      g,
-      h,
-    ).long;
+            _$$selfRef.pointer, _id_add8Longs.pointer, a, b, c, d, e, f, g, h)
+        .long;
   }
 
   static final _id_getRandomNumericString = Example._class.instanceMethodId(
@@ -1104,34 +927,27 @@ extension Example$$Methods on Example {
     r'(Ljava/util/Random;)Ljava/lang/String;',
   );
 
-  static final _getRandomNumericString =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _getRandomNumericString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public java.lang.String getRandomNumericString(java.util.Random random)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getRandomNumericString(random$_.Random? random) {
+  jni$_.JString? getRandomNumericString(
+    random$_.Random? random,
+  ) {
     final _$$selfRef = reference;
     final _$random = random?.reference ?? jni$_.jNullReference;
-    return _getRandomNumericString(
-      _$$selfRef.pointer,
-      _id_getRandomNumericString.pointer,
-      _$random.pointer,
-    ).object<jni$_.JString?>();
+    return _getRandomNumericString(_$$selfRef.pointer,
+            _id_getRandomNumericString.pointer, _$random.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_finalMethod = Example._class.instanceMethodId(
@@ -1139,21 +955,17 @@ extension Example$$Methods on Example {
     r'()V',
   );
 
-  static final _finalMethod =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _finalMethod = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public final void finalMethod()`
   void finalMethod() {
@@ -1166,30 +978,24 @@ extension Example$$Methods on Example {
     r'()Ljava/util/List;',
   );
 
-  static final _get$list =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$list = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.util.List<java.lang.String> getList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? get list {
     final _$$selfRef = reference;
-    return _get$list(
-      _$$selfRef.pointer,
-      _id_get$list.pointer,
-    ).object<jni$_.JList<jni$_.JString?>?>();
+    return _get$list(_$$selfRef.pointer, _id_get$list.pointer)
+        .object<jni$_.JList<jni$_.JString?>?>();
   }
 
   static final _id_joinStrings = Example._class.instanceMethodId(
@@ -1197,26 +1003,22 @@ extension Example$$Methods on Example {
     r'(Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;',
   );
 
-  static final _joinStrings =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _joinStrings = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
-                >,
-              )
-            >
-          >('globalEnv_CallObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+              jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public java.lang.String joinStrings(java.util.List<java.lang.String> values, java.lang.String delim)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1229,12 +1031,9 @@ extension Example$$Methods on Example {
     final _$$selfRef = reference;
     final _$values = values?.reference ?? jni$_.jNullReference;
     final _$delim = delim?.reference ?? jni$_.jNullReference;
-    return _joinStrings(
-      _$$selfRef.pointer,
-      _id_joinStrings.pointer,
-      _$values.pointer,
-      _$delim.pointer,
-    ).object<jni$_.JString?>();
+    return _joinStrings(_$$selfRef.pointer, _id_joinStrings.pointer,
+            _$values.pointer, _$delim.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_deprecatedMethod = Example._class.instanceMethodId(
@@ -1242,21 +1041,17 @@ extension Example$$Methods on Example {
     r'()Ljava/lang/String;',
   );
 
-  static final _deprecatedMethod =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _deprecatedMethod = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.lang.String deprecatedMethod()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1266,10 +1061,8 @@ extension Example$$Methods on Example {
   @core$_.Deprecated('Use methodWithSeveralParams instead.')
   jni$_.JString? deprecatedMethod() {
     final _$$selfRef = reference;
-    return _deprecatedMethod(
-      _$$selfRef.pointer,
-      _id_deprecatedMethod.pointer,
-    ).object<jni$_.JString?>();
+    return _deprecatedMethod(_$$selfRef.pointer, _id_deprecatedMethod.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_methodWithSeveralParams = Example._class.instanceMethodId(
@@ -1277,27 +1070,22 @@ extension Example$$Methods on Example {
     r'(CLjava/lang/String;[ILjava/lang/CharSequence;Ljava/util/List;Ljava/util/Map;)V',
   );
 
-  static final _methodWithSeveralParams =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _methodWithSeveralParams = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (
-                    jni$_.Int32,
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.Pointer<jni$_.Void>,
-                  )
-                >,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               core$_.int,
@@ -1305,9 +1093,7 @@ extension Example$$Methods on Example {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+              jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void methodWithSeveralParams(char ch, java.lang.String s, int[] a, T t, java.util.List<T> lt, java.util.Map<java.lang.String, ? extends java.lang.CharSequence> wm)`
   void methodWithSeveralParams<$T extends jni$_.JObject?>(
@@ -1325,15 +1111,15 @@ extension Example$$Methods on Example {
     final _$lt = lt?.reference ?? jni$_.jNullReference;
     final _$wm = wm?.reference ?? jni$_.jNullReference;
     _methodWithSeveralParams(
-      _$$selfRef.pointer,
-      _id_methodWithSeveralParams.pointer,
-      ch,
-      _$s.pointer,
-      _$a.pointer,
-      _$t.pointer,
-      _$lt.pointer,
-      _$wm.pointer,
-    ).check();
+            _$$selfRef.pointer,
+            _id_methodWithSeveralParams.pointer,
+            ch,
+            _$s.pointer,
+            _$a.pointer,
+            _$t.pointer,
+            _$lt.pointer,
+            _$wm.pointer)
+        .check();
   }
 
   static final _id_whichExample = Example._class.instanceMethodId(
@@ -1341,21 +1127,17 @@ extension Example$$Methods on Example {
     r'()I',
   );
 
-  static final _whichExample =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _whichExample = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallIntMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public int whichExample()`
   core$_.int whichExample() {
@@ -1368,30 +1150,24 @@ extension Example$$Methods on Example {
     r'()Lcom/github/dart_lang/jnigen/simple_package/Example;',
   );
 
-  static final _get$self =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$self = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallObjectMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public com.github.dart_lang.jnigen.simple_package.Example getSelf()`
   /// The returned object must be released after use, by calling the [release] method.
   Example? get self {
     final _$$selfRef = reference;
-    return _get$self(
-      _$$selfRef.pointer,
-      _id_get$self.pointer,
-    ).object<Example?>();
+    return _get$self(_$$selfRef.pointer, _id_get$self.pointer)
+        .object<Example?>();
   }
 
   static final _id_overloaded = Example._class.instanceMethodId(
@@ -1399,21 +1175,17 @@ extension Example$$Methods on Example {
     r'()V',
   );
 
-  static final _overloaded =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _overloaded = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public void overloaded()`
   void overloaded() {
@@ -1426,35 +1198,27 @@ extension Example$$Methods on Example {
     r'(ILjava/lang/String;)V',
   );
 
-  static final _overloaded$1 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _overloaded$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void overloaded(int a, java.lang.String b)`
-  void overloaded$1(core$_.int a, jni$_.JString? b) {
+  void overloaded$1(
+    core$_.int a,
+    jni$_.JString? b,
+  ) {
     final _$$selfRef = reference;
     final _$b = b?.reference ?? jni$_.jNullReference;
-    _overloaded$1(
-      _$$selfRef.pointer,
-      _id_overloaded$1.pointer,
-      a,
-      _$b.pointer,
-    ).check();
+    _overloaded$1(_$$selfRef.pointer, _id_overloaded$1.pointer, a, _$b.pointer)
+        .check();
   }
 
   static final _id_overloaded$2 = Example._class.instanceMethodId(
@@ -1462,26 +1226,20 @@ extension Example$$Methods on Example {
     r'(I)V',
   );
 
-  static final _overloaded$2 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _overloaded$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void overloaded(int a)`
-  void overloaded$2(core$_.int a) {
+  void overloaded$2(
+    core$_.int a,
+  ) {
     final _$$selfRef = reference;
     _overloaded$2(_$$selfRef.pointer, _id_overloaded$2.pointer, a).check();
   }
@@ -1491,38 +1249,34 @@ extension Example$$Methods on Example {
     r'(Ljava/util/List;Ljava/lang/String;)V',
   );
 
-  static final _overloaded$3 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _overloaded$3 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
-                >,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+              jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void overloaded(java.util.List<java.lang.Integer> a, java.lang.String b)`
-  void overloaded$3(jni$_.JList<jni$_.JInteger?>? a, jni$_.JString? b) {
+  void overloaded$3(
+    jni$_.JList<jni$_.JInteger?>? a,
+    jni$_.JString? b,
+  ) {
     final _$$selfRef = reference;
     final _$a = a?.reference ?? jni$_.jNullReference;
     final _$b = b?.reference ?? jni$_.jNullReference;
-    _overloaded$3(
-      _$$selfRef.pointer,
-      _id_overloaded$3.pointer,
-      _$a.pointer,
-      _$b.pointer,
-    ).check();
+    _overloaded$3(_$$selfRef.pointer, _id_overloaded$3.pointer, _$a.pointer,
+            _$b.pointer)
+        .check();
   }
 
   static final _id_overloaded$4 = Example._class.instanceMethodId(
@@ -1530,83 +1284,71 @@ extension Example$$Methods on Example {
     r'(Ljava/util/List;)V',
   );
 
-  static final _overloaded$4 =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _overloaded$4 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void overloaded(java.util.List<java.lang.Integer> a)`
-  void overloaded$4(jni$_.JList<jni$_.JInteger?>? a) {
+  void overloaded$4(
+    jni$_.JList<jni$_.JInteger?>? a,
+  ) {
     final _$$selfRef = reference;
     final _$a = a?.reference ?? jni$_.jNullReference;
-    _overloaded$4(
-      _$$selfRef.pointer,
-      _id_overloaded$4.pointer,
-      _$a.pointer,
-    ).check();
+    _overloaded$4(_$$selfRef.pointer, _id_overloaded$4.pointer, _$a.pointer)
+        .check();
   }
 
-  static final _id_bool = Example._class.instanceMethodId(r'bool', r'(Z)Z');
+  static final _id_bool = Example._class.instanceMethodId(
+    r'bool',
+    r'(Z)Z',
+  );
 
-  static final _bool =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _bool = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_CallBooleanMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public boolean bool(boolean x)`
-  core$_.bool bool(core$_.bool x) {
+  core$_.bool bool(
+    core$_.bool x,
+  ) {
     final _$$selfRef = reference;
     return _bool(_$$selfRef.pointer, _id_bool.pointer, x ? 1 : 0).boolean;
   }
 
-  static final _id_num = Example._class.instanceMethodId(r'num', r'(D)D');
+  static final _id_num = Example._class.instanceMethodId(
+    r'num',
+    r'(D)D',
+  );
 
-  static final _num =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _num = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Double,)>,
-              )
-            >
-          >('globalEnv_CallDoubleMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.double,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public double num(double x)`
-  core$_.double num(core$_.double x) {
+  core$_.double num(
+    core$_.double x,
+  ) {
     final _$$selfRef = reference;
     return _num(_$$selfRef.pointer, _id_num.pointer, x).doubleFloat;
   }
@@ -1625,70 +1367,60 @@ final class $Example$Type$ extends jni$_.JType<Example> {
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested`
 extension type Example$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
-    r'com/github/dart_lang/jnigen/simple_package/Example$Nested',
-  );
+      r'com/github/dart_lang/jnigen/simple_package/Example$Nested');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example$Nested> type = $Example$Nested$Type$();
-  static final _id_new$ = _class.constructorId(r'(Z)V');
+  static final _id_new$ = _class.constructorId(
+    r'(Z)V',
+  );
 
-  static final _new$ =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(boolean value)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example$Nested(core$_.bool value) {
+  factory Example$Nested(
+    core$_.bool value,
+  ) {
     final _$$classRef = _class.reference;
-    return _new$(
-      _$$classRef.pointer,
-      _id_new$.pointer,
-      value ? 1 : 0,
-    ).object<Example$Nested>();
+    return _new$(_$$classRef.pointer, _id_new$.pointer, value ? 1 : 0)
+        .object<Example$Nested>();
   }
 }
 
 extension Example$Nested$$Methods on Example$Nested {
-  static final _id_usesAnonymousInnerClass = Example$Nested._class
-      .instanceMethodId(r'usesAnonymousInnerClass', r'()V');
+  static final _id_usesAnonymousInnerClass =
+      Example$Nested._class.instanceMethodId(
+    r'usesAnonymousInnerClass',
+    r'()V',
+  );
 
-  static final _usesAnonymousInnerClass =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _usesAnonymousInnerClass = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public void usesAnonymousInnerClass()`
   void usesAnonymousInnerClass() {
     final _$$selfRef = reference;
     _usesAnonymousInnerClass(
-      _$$selfRef.pointer,
-      _id_usesAnonymousInnerClass.pointer,
-    ).check();
+            _$$selfRef.pointer, _id_usesAnonymousInnerClass.pointer)
+        .check();
   }
 
   static final _id_get$value = Example$Nested._class.instanceMethodId(
@@ -1696,21 +1428,17 @@ extension Example$Nested$$Methods on Example$Nested {
     r'()Z',
   );
 
-  static final _get$value =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _get$value = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_CallBooleanMethod')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public boolean getValue()`
   core$_.bool get value {
@@ -1723,32 +1451,21 @@ extension Example$Nested$$Methods on Example$Nested {
     r'(Z)V',
   );
 
-  static final _set$value =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _set$value = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Int32,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              core$_.int,
-            )
-          >();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setValue(boolean value)`
   set value(core$_.bool value) {
     final _$$selfRef = reference;
-    _set$value(
-      _$$selfRef.pointer,
-      _id_set$value.pointer,
-      value ? 1 : 0,
-    ).check();
+    _set$value(_$$selfRef.pointer, _id_set$value.pointer, value ? 1 : 0)
+        .check();
   }
 }
 
@@ -1766,13 +1483,15 @@ final class $Example$Nested$Type$ extends jni$_.JType<Example$Nested> {
 extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
     implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
-    r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice',
-  );
+      r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example$Nested$NestedTwice> type =
       $Example$Nested$NestedTwice$Type$();
-  static final _id_ZERO = _class.staticFieldId(r'ZERO', r'I');
+  static final _id_ZERO = _class.staticFieldId(
+    r'ZERO',
+    r'I',
+  );
 
   /// from: `static public int ZERO`
   static core$_.int get ZERO =>
@@ -1782,32 +1501,28 @@ extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
   static set ZERO(core$_.int value) =>
       _id_ZERO.set(_class, jni$_.jint.type, value);
 
-  static final _id_new$ = _class.constructorId(r'()V');
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
 
-  static final _new$ =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-            )
-          >();
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example$Nested$NestedTwice() {
     final _$$classRef = _class.reference;
-    return _new$(
-      _$$classRef.pointer,
-      _id_new$.pointer,
-    ).object<Example$Nested$NestedTwice>();
+    return _new$(_$$classRef.pointer, _id_new$.pointer)
+        .object<Example$Nested$NestedTwice>();
   }
 }
 
@@ -1826,8 +1541,7 @@ final class $Example$Nested$NestedTwice$Type$
 extension type Example$NonStaticNested._(jni$_.JObject _$this)
     implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
-    r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested',
-  );
+      r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example$NonStaticNested> type =
@@ -1836,34 +1550,26 @@ extension type Example$NonStaticNested._(jni$_.JObject _$this)
     r'(Lcom/github/dart_lang/jnigen/simple_package/Example;)V',
   );
 
-  static final _new$ =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_NewObject')
-          .asFunction<
-            jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void <init>(com.github.dart_lang.jnigen.simple_package.Example $outerClass)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example$NonStaticNested(Example $outerClass) {
+  factory Example$NonStaticNested(
+    Example $outerClass,
+  ) {
     final _$$classRef = _class.reference;
     final _$$outerClass = $outerClass.reference;
-    return _new$(
-      _$$classRef.pointer,
-      _id_new$.pointer,
-      _$$outerClass.pointer,
-    ).object<Example$NonStaticNested>();
+    return _new$(_$$classRef.pointer, _id_new$.pointer, _$$outerClass.pointer)
+        .object<Example$NonStaticNested>();
   }
 }
 

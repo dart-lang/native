@@ -1,7 +1,7 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
-#import "../../yaml/comprehensive_objc.h"
+#import "comprehensive_objc.h"
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"

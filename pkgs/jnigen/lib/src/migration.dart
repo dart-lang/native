@@ -9,98 +9,63 @@ import 'package:yaml/yaml.dart';
 
 /// Migrates a YAML configuration file to a Dart configuration script.
 ///
-/// Reads [yamlConfig] (or file at [yamlPath]) and writes a Dart configuration
-/// script to [outputDart] (or file at [outputPath]).
+/// Reads [yamlConfig] and writes a Dart configuration script to [outputDart].
 void migrate({
-  File? yamlConfig,
-  File? outputDart,
-  String? yamlPath,
-  String? outputPath,
+  required File yamlConfig,
+  required File outputDart,
 }) {
-  final configFile = yamlConfig ?? (yamlPath != null ? File(yamlPath) : null);
-  final dartFile = outputDart ?? (outputPath != null ? File(outputPath) : null);
-
-  if (configFile == null) {
-    throw ArgumentError('Either yamlConfig or yamlPath must be provided.');
-  }
-  if (dartFile == null) {
-    throw ArgumentError('Either outputDart or outputPath must be provided.');
-  }
-
-  if (!configFile.existsSync()) {
+  if (!yamlConfig.existsSync()) {
     throw FileSystemException(
       'YAML config file does not exist',
-      configFile.path,
+      yamlConfig.path,
     );
   }
 
-  final yamlContent = configFile.readAsStringSync();
+  final yamlContent = yamlConfig.readAsStringSync();
   final loaded = loadYaml(yamlContent);
   final yamlMap = loaded is YamlMap ? loaded : const <dynamic, dynamic>{};
 
-  final baseName = p.basename(configFile.path);
+  final baseName = p.basename(yamlConfig.path);
   const testPackageRoots = {
     'comprehensive_package.yaml': 'test/simple_package_test/',
     'comprehensive_single_file.yaml': 'example/pdfbox_plugin/',
+    'simple.yaml': 'test/simple_package_test/',
   };
   final defaultPackageRoot = testPackageRoots[baseName] ?? '.';
 
   final buf = StringBuffer();
-
-  // License header
-  buf.writeln(
-    '// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file\n'
-    '// for details. All rights reserved. Use of this source code is governed by a\n'
-    '// BSD-style license that can be found in the LICENSE file.\n',
-  );
 
   // Static imports block
   buf.writeln('// ignore_for_file: unused_import');
   buf.writeln("import 'dart:io';\n");
   buf.writeln("import 'package:jnigen/jnigen.dart';\n");
 
-  // Preamble
-  final outputYaml = yamlMap['output'];
-  final preamble = (yamlMap['preamble'] ??
-      (outputYaml is Map ? outputYaml['preamble'] : null)) as String?;
-  if (preamble != null && preamble.isNotEmpty) {
-    buf.writeln('const preamble = ${_formatPreamble(preamble)};\n');
-  }
+  final preamble = _getPreamble(yamlMap);
+  _emitPreamble(buf, preamble);
 
-  // getConfig
-  buf.writeln('JniGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {');
-  buf.writeln("  packageRoot ??= Uri.directory('$defaultPackageRoot');");
-  buf.writeln('  return JniGenerator(');
+  // main
+  buf.writeln('Future<void> main() async {');
+  buf.writeln("  final packageRoot = Uri.directory('$defaultPackageRoot');");
+  buf.writeln('  await JniGenerator(');
 
   _emitInput(buf, yamlMap);
   _emitOutput(buf, yamlMap, preamble != null && preamble.isNotEmpty);
   _emitImports(buf, yamlMap);
   _emitNullability(buf, yamlMap);
 
-  buf.writeln('  );');
+  buf.writeln('  ).generate();');
   buf.writeln('}\n');
 
-  // main
-  buf.writeln('''Future<void> main(List<String> args) async {
-  final outputDir = args.firstOrNull != null
-      ? Uri.directory(args.first)
-      : (Platform.environment['OUTPUT_DIR'] != null
-          ? Uri.directory(Platform.environment['OUTPUT_DIR']!)
-          : null);
-  await getConfig(outputDir: outputDir).generate();
-}
-''');
-
-  final parentDir = dartFile.parent;
+  final parentDir = outputDart.parent;
   if (!parentDir.existsSync()) {
     parentDir.createSync(recursive: true);
   }
-  dartFile.writeAsStringSync(buf.toString());
+  outputDart.writeAsStringSync(buf.toString());
 
   Process.runSync(
     Platform.resolvedExecutable,
-    ['format', dartFile.absolute.path],
-    workingDirectory: dartFile.parent.absolute.path,
+    ['format', outputDart.absolute.path],
+    workingDirectory: outputDart.parent.absolute.path,
   );
 }
 
@@ -118,32 +83,89 @@ String _formatPreamble(String preamble) {
   return "'''\n$escaped'''";
 }
 
-void _emitInput(StringBuffer buf, Map<dynamic, dynamic> yamlMap) {
-  buf.writeln('    input: Input(');
-  final sourcePaths = _strList(yamlMap['source_path']);
-  if (sourcePaths.isNotEmpty) {
-    buf.writeln('      sourcePath: [');
-    for (final p in sourcePaths) {
-      buf.writeln("        packageRoot.resolve('$p'),");
-    }
-    buf.writeln('      ],');
-  }
+String? _getPreamble(Map<dynamic, dynamic> yamlMap) {
+  final outputYaml = yamlMap['output'];
+  return (yamlMap['preamble'] ??
+      (outputYaml is Map ? outputYaml['preamble'] : null)) as String?;
+}
 
-  final classPaths = _strList(yamlMap['class_path']);
-  if (classPaths.isNotEmpty) {
-    buf.writeln('      classPath: [');
-    for (final p in classPaths) {
-      buf.writeln("        packageRoot.resolve('$p'),");
-    }
-    buf.writeln('      ],');
+void _emitPreamble(StringBuffer buf, String? preamble) {
+  if (preamble != null && preamble.isNotEmpty) {
+    buf.writeln('const preamble = ${_formatPreamble(preamble)};\n');
   }
+}
 
-  final classes = _strList(yamlMap['classes']);
-  buf.writeln('      classes: [');
-  for (final c in classes) {
-    buf.writeln("        '$c',");
+void _emitStringList(
+  StringBuffer buf,
+  String name,
+  List<String> items, {
+  bool resolve = false,
+}) {
+  if (items.isEmpty) return;
+  buf.writeln('      $name: [');
+  for (final item in items) {
+    buf.writeln(
+      resolve ? "        packageRoot.resolve('$item')," : "        '$item',",
+    );
   }
   buf.writeln('      ],');
+}
+
+void _emitClasses(StringBuffer buf, List<String> classes) =>
+    _emitStringList(buf, 'classes', classes);
+
+void _emitMavenDownloads(StringBuffer buf, Map<dynamic, dynamic> mavenDl) {
+  buf.writeln('      mavenDownloads: MavenDownloads(');
+  _emitStringList(buf, 'sourceDeps', _strList(mavenDl['source_deps']));
+  final sourceDir = (mavenDl['source_dir'] as String?) ?? 'mvn_java/';
+  final fmtSourceDir = sourceDir.endsWith('/') ? sourceDir : '$sourceDir/';
+  buf.writeln("        sourceDir: packageRoot.resolve('$fmtSourceDir'),");
+  _emitStringList(buf, 'jarOnlyDeps', _strList(mavenDl['jar_only_deps']));
+  final jarDir = (mavenDl['jar_dir'] as String?) ?? 'mvn_jar/';
+  final fmtJarDir = jarDir.endsWith('/') ? jarDir : '$jarDir/';
+  buf.writeln("        jarDir: packageRoot.resolve('$fmtJarDir'),");
+  buf.writeln('      ),');
+}
+
+void _emitAndroidSdk(StringBuffer buf, Map<dynamic, dynamic> androidSdk) {
+  buf.writeln('      androidSdk: AndroidSdk(');
+  if (androidSdk['versions'] case final List<dynamic> versions) {
+    buf.writeln('        versions: [${versions.join(', ')}],');
+  }
+  if (androidSdk['sdk_root'] case final String sdkRoot) {
+    buf.writeln("        sdkRoot: packageRoot.resolve('$sdkRoot'),");
+  }
+  if (androidSdk['add_gradle_deps'] == true) {
+    buf.writeln('        addGradleDeps: true,');
+  }
+  if (androidSdk['add_gradle_sources'] == true) {
+    buf.writeln('        addGradleSources: true,');
+  }
+  final example = androidSdk['android_example'] as String?;
+  if (example != null) {
+    final fmtExample = example.endsWith('/') ? example : '$example/';
+    buf.writeln("        androidExample: packageRoot.resolve('$fmtExample'),");
+  } else {
+    buf.writeln('        androidExample: packageRoot,');
+  }
+  buf.writeln('      ),');
+}
+
+void _emitInput(StringBuffer buf, Map<dynamic, dynamic> yamlMap) {
+  buf.writeln('    input: Input(');
+  _emitStringList(
+    buf,
+    'sourcePath',
+    _strList(yamlMap['source_path']),
+    resolve: true,
+  );
+  _emitStringList(
+    buf,
+    'classPath',
+    _strList(yamlMap['class_path']),
+    resolve: true,
+  );
+  _emitClasses(buf, _strList(yamlMap['classes']));
 
   final summarizer = yamlMap['summarizer'];
   final extraArgs = _strList(
@@ -151,13 +173,7 @@ void _emitInput(StringBuffer buf, Map<dynamic, dynamic> yamlMap) {
         ? summarizer['extra_args']
         : yamlMap['summarizer.extra_args'],
   );
-  if (extraArgs.isNotEmpty) {
-    buf.writeln('      extraArgs: [');
-    for (final a in extraArgs) {
-      buf.writeln("        '$a',");
-    }
-    buf.writeln('      ],');
-  }
+  _emitStringList(buf, 'extraArgs', extraArgs);
 
   final workingDir = (summarizer is Map
       ? summarizer['working_dir']
@@ -167,72 +183,17 @@ void _emitInput(StringBuffer buf, Map<dynamic, dynamic> yamlMap) {
   }
 
   final backend = (summarizer is Map ? summarizer['backend'] : null) as String?;
-  if (backend == 'asm') {
-    buf.writeln('      backend: SummarizerBackend.asm,');
-  } else if (backend == 'doclet') {
-    buf.writeln('      backend: SummarizerBackend.doclet,');
+  if (backend == 'asm' || backend == 'doclet') {
+    buf.writeln('      backend: SummarizerBackend.$backend,');
   }
 
-  final mavenDl = yamlMap['maven_downloads'];
-  if (mavenDl is Map) {
-    buf.writeln('      mavenDownloads: MavenDownloads(');
-    final sourceDeps = _strList(mavenDl['source_deps']);
-    if (sourceDeps.isNotEmpty) {
-      buf.writeln('        sourceDeps: [');
-      for (final dep in sourceDeps) {
-        buf.writeln("          '$dep',");
-      }
-      buf.writeln('        ],');
-    }
-    final sourceDir = (mavenDl['source_dir'] as String?) ?? 'mvn_java/';
-    final formattedSourceDir =
-        sourceDir.endsWith('/') ? sourceDir : '$sourceDir/';
-    buf.writeln(
-      "        sourceDir: packageRoot.resolve('$formattedSourceDir'),",
-    );
-
-    final jarOnlyDeps = _strList(mavenDl['jar_only_deps']);
-    if (jarOnlyDeps.isNotEmpty) {
-      buf.writeln('        jarOnlyDeps: [');
-      for (final dep in jarOnlyDeps) {
-        buf.writeln("          '$dep',");
-      }
-      buf.writeln('        ],');
-    }
-    final jarDir = (mavenDl['jar_dir'] as String?) ?? 'mvn_jar/';
-    final formattedJarDir = jarDir.endsWith('/') ? jarDir : '$jarDir/';
-    buf.writeln("        jarDir: packageRoot.resolve('$formattedJarDir'),");
-    buf.writeln('      ),');
+  if (yamlMap['maven_downloads'] case final Map<dynamic, dynamic> mavenDl) {
+    _emitMavenDownloads(buf, mavenDl);
   }
 
-  final androidSdk = yamlMap['android_sdk_config'];
-  if (androidSdk is Map) {
-    buf.writeln('      androidSdk: AndroidSdk(');
-    final versions = androidSdk['versions'];
-    if (versions is List) {
-      buf.writeln('        versions: [${versions.join(', ')}],');
-    }
-    final sdkRoot = androidSdk['sdk_root'] as String?;
-    if (sdkRoot != null) {
-      buf.writeln("        sdkRoot: packageRoot.resolve('$sdkRoot'),");
-    }
-    if (androidSdk['add_gradle_deps'] == true) {
-      buf.writeln('        addGradleDeps: true,');
-    }
-    if (androidSdk['add_gradle_sources'] == true) {
-      buf.writeln('        addGradleSources: true,');
-    }
-    final androidExample = androidSdk['android_example'] as String?;
-    if (androidExample != null) {
-      final formatted =
-          androidExample.endsWith('/') ? androidExample : '$androidExample/';
-      buf.writeln(
-        "        androidExample: packageRoot.resolve('$formatted'),",
-      );
-    } else {
-      buf.writeln('        androidExample: packageRoot,');
-    }
-    buf.writeln('      ),');
+  if (yamlMap['android_sdk_config']
+      case final Map<dynamic, dynamic> androidSdk) {
+    _emitAndroidSdk(buf, androidSdk);
   }
 
   buf.writeln('    ),');
@@ -254,23 +215,20 @@ void _emitOutput(
   if (outputYaml is Map) {
     final dart = outputYaml['dart'];
     if (dart is Map) {
-      dartPath = dart['path'] as String? ?? 'lib/bindings.dart';
+      dartPath = dart['path'] as String? ?? dartPath;
       structureStr = dart['structure'] as String?;
-      if (structureStr != null) explicitlySpecifiedStructure = true;
+      explicitlySpecifiedStructure = structureStr != null;
     } else if (dart is String) {
       dartPath = dart;
     }
   }
 
-  final singleFile = structureStr == 'single_file';
-  if (singleFile) {
-    buf.writeln("        path: outputDir?.resolve('generated.dart') ??");
-    buf.writeln("            packageRoot.resolve('$dartPath'),");
+  if (structureStr == 'single_file') {
+    buf.writeln("        path: packageRoot.resolve('$dartPath'),");
     buf.writeln('        structure: OutputStructure.singleFile,');
   } else {
     final relPath = dartPath.endsWith('/') ? dartPath : '$dartPath/';
-    buf.writeln("        path: outputDir?.resolve('lib/') ??");
-    buf.writeln("            packageRoot.resolve('$relPath'),");
+    buf.writeln("        path: packageRoot.resolve('$relPath'),");
     if (explicitlySpecifiedStructure && structureStr == 'package_structure') {
       buf.writeln('        structure: OutputStructure.packageStructure,');
     }
@@ -306,13 +264,7 @@ void _emitImports(StringBuffer buf, Map<dynamic, dynamic> yamlMap) {
     }
     buf.writeln('      ],');
   }
-  if (hide.isNotEmpty) {
-    buf.writeln('      hide: [');
-    for (final h in hide) {
-      buf.writeln("        '$h',");
-    }
-    buf.writeln('      ],');
-  }
+  _emitStringList(buf, 'hide', hide);
   buf.writeln('    ),');
 }
 
@@ -326,19 +278,7 @@ void _emitNullability(StringBuffer buf, Map<dynamic, dynamic> yamlMap) {
   if (nonNull.isEmpty && nullable.isEmpty) return;
 
   buf.writeln('    nullability: const NullabilityAnnotations(');
-  if (nonNull.isNotEmpty) {
-    buf.writeln('      nonNull: [');
-    for (final ann in nonNull) {
-      buf.writeln("        '$ann',");
-    }
-    buf.writeln('      ],');
-  }
-  if (nullable.isNotEmpty) {
-    buf.writeln('      nullable: [');
-    for (final ann in nullable) {
-      buf.writeln("        '$ann',");
-    }
-    buf.writeln('      ],');
-  }
+  _emitStringList(buf, 'nonNull', nonNull);
+  _emitStringList(buf, 'nullable', nullable);
   buf.writeln('    ),');
 }

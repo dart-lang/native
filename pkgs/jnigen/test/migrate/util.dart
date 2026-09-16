@@ -15,12 +15,12 @@ final updateExpectations = Platform.environment['UPDATE'] == 'true';
 
 String findOriginalPath(String fileName, String jnigenRoot) {
   final baseName = fileName.replaceAll('.yaml', '');
-  if (baseName == 'comprehensive_package') {
+  if (baseName == 'comprehensive_package' || baseName == 'simple') {
     return path.join(
       jnigenRoot,
       'test',
       'simple_package_test',
-      'comprehensive_package.yaml',
+      '$baseName.yaml',
     );
   }
   if (baseName == 'comprehensive_single_file') {
@@ -165,7 +165,9 @@ Future<void> verifyMigration(File yamlFile) async {
     pkgDir,
   );
 
-  final tempDir = Directory.systemTemp.createTempSync('jnigen_migrate_test_');
+  final tempDir = Directory(
+    path.join(pkgDir, '.dart_tool', 'jnigen_migrate_test', testName),
+  )..createSync(recursive: true);
   try {
     // 1. Generate YAML bindings and verify against checked-in copy.
     final origConfigFile = File(origConfigPath);
@@ -184,6 +186,9 @@ Future<void> verifyMigration(File yamlFile) async {
       }
     }
 
+    final targetDartPath = config.output.dart.path.toFilePath();
+    final targetSymbolsPath = config.output.symbols?.path.toFilePath();
+
     final actualYamlBindingsDir = Directory(
       path.join(tempDir.path, 'yaml_bindings', testName),
     )..createSync(recursive: true);
@@ -191,7 +196,9 @@ Future<void> verifyMigration(File yamlFile) async {
     final singleFile =
         config.output.dart.structure == OutputStructure.singleFile;
     final tempLibUri = singleFile
-        ? actualYamlBindingsDir.uri.resolve('generated.dart')
+        ? actualYamlBindingsDir.uri.resolve(
+            path.basename(config.output.dart.path.toFilePath()),
+          )
         : actualYamlBindingsDir.uri.resolve('lib/');
     config.output.dart.path = tempLibUri;
 
@@ -230,31 +237,45 @@ Future<void> verifyMigration(File yamlFile) async {
       expectedPath: checkedInDartScriptPath,
     );
 
-    // 3. Run the generated Dart script to generate bindings into temp location.
+    // 3. Run the generated Dart script to generate bindings into target path.
     final scriptToRun = File(checkedInDartScriptPath).existsSync()
         ? File(checkedInDartScriptPath)
         : actualDartScriptFile;
 
-    final tempDartGenDir = Directory(
-      path.join(tempDir.path, 'dart_gen', testName),
-    )..createSync(recursive: true);
+    final targetDartEntity = singleFile
+        ? File(targetDartPath)
+        : Directory(targetDartPath);
+    final targetSymbolsFile = targetSymbolsPath != null
+        ? File(targetSymbolsPath)
+        : null;
 
-    final runResult = await Process.run(
-      Platform.resolvedExecutable,
-      ['run', scriptToRun.path, tempDartGenDir.path],
-      workingDirectory: pkgDir,
-      environment: {'OUTPUT_DIR': tempDartGenDir.path},
-    );
-    if (runResult.exitCode != 0) {
-      fail(
-        'Running Dart script ${scriptToRun.path} failed with exit code '
-        '${runResult.exitCode}:\n'
-        '${runResult.stderr}\n${runResult.stdout}',
+    try {
+      final runResult = await Process.run(
+        Platform.resolvedExecutable,
+        ['run', scriptToRun.path],
+        workingDirectory: pkgDir,
       );
-    }
+      if (runResult.exitCode != 0) {
+        fail(
+          'Running Dart script ${scriptToRun.path} failed with exit code '
+          '${runResult.exitCode}:\n'
+          '${runResult.stderr}\n${runResult.stdout}',
+        );
+      }
 
-    // 4. Verify that the two sets of generated bindings are the same.
-    compareBindingDirectories(checkedInBindingsPath, tempDartGenDir.path);
+      // 4. Verify that the two sets of generated bindings are the same.
+      final expectedPath = singleFile
+          ? path.join(checkedInBindingsPath, path.basename(targetDartPath))
+          : path.join(checkedInBindingsPath, 'lib');
+      compareBindingDirectories(expectedPath, targetDartPath);
+    } finally {
+      if (targetDartEntity.existsSync()) {
+        targetDartEntity.deleteSync(recursive: true);
+      }
+      if (targetSymbolsFile != null && targetSymbolsFile.existsSync()) {
+        targetSymbolsFile.deleteSync();
+      }
+    }
   } finally {
     if (tempDir.existsSync()) {
       tempDir.deleteSync(recursive: true);

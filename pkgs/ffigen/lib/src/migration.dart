@@ -7,51 +7,111 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
+import 'code_generator/imports.dart' show builtInLibraries;
+
 /// Migrates a YAML configuration file to a Dart configuration script.
 ///
-/// Reads [yamlConfig] (or file at [yamlPath]) and writes a Dart configuration
-/// script to [outputDart] (or file at [outputPath]).
-void migrate({
-  File? yamlConfig,
-  File? outputDart,
-  String? yamlPath,
-  String? outputPath,
-}) {
-  final configFile = yamlConfig ?? (yamlPath != null ? File(yamlPath) : null);
-  final dartFile = outputDart ?? (outputPath != null ? File(outputPath) : null);
-
-  if (configFile == null) {
-    throw ArgumentError('Either yamlConfig or yamlPath must be provided.');
-  }
-  if (dartFile == null) {
-    throw ArgumentError('Either outputDart or outputPath must be provided.');
-  }
-
-  if (!configFile.existsSync()) {
+/// Reads [yamlConfig] and writes a Dart configuration script to [outputDart].
+void migrate({required File yamlConfig, required File outputDart}) {
+  if (!yamlConfig.existsSync()) {
     throw FileSystemException(
       'YAML config file does not exist',
-      configFile.path,
+      yamlConfig.path,
     );
   }
 
-  final yamlContent = configFile.readAsStringSync();
+  final yamlContent = yamlConfig.readAsStringSync();
   final yamlMap = loadYaml(yamlContent) as YamlMap;
 
-  final resolver = _PathResolver(
-    yamlConfigFile: configFile,
-    outputDartFile: dartFile,
+  final configDirectory = yamlConfig.parent.absolute;
+  var rootDir = configDirectory;
+  while (!File(p.join(rootDir.path, 'pubspec.yaml')).existsSync()) {
+    final parent = rootDir.parent;
+    if (parent.path == rootDir.path) break;
+    rootDir = parent;
+  }
+  final packageRoot = rootDir;
+  final isAtRoot =
+      p.normalize(configDirectory.path) == p.normalize(packageRoot.path);
+  final configDir = isAtRoot ? null : configDirectory;
+
+  final outputDir = yamlConfig.path.contains(p.join('test', 'migrate', 'yaml'))
+      ? p.join(packageRoot.path, 'test', 'migrate', 'dart')
+      : outputDart.parent.path;
+  final relToPkg = p.posix.normalize(
+    p.relative(packageRoot.path, from: outputDir).replaceAll(r'\', '/'),
   );
+  final packageRootExpr = (relToPkg == '.' || relToPkg.isEmpty)
+      ? "Platform.script.resolve('./')"
+      : "Platform.script.resolve('$relToPkg/')";
+
+  String resolvePath(String rawPath) {
+    if (rawPath.startsWith(r'$XCODE/')) {
+      return "xcodeUri.resolve('${p.posix.normalize(rawPath.substring(7))}')";
+    }
+    if (rawPath == r'$XCODE') return 'xcodeUri';
+    if (rawPath.startsWith(r'$IOS_SDK/')) {
+      return "iosSdkUri.resolve('${p.posix.normalize(rawPath.substring(9))}')";
+    }
+    if (rawPath == r'$IOS_SDK') return 'iosSdkUri';
+    if (rawPath.startsWith(r'$MACOS_SDK/')) {
+      return "macSdkUri.resolve('${p.posix.normalize(rawPath.substring(11))}')";
+    }
+    if (rawPath == r'$MACOS_SDK') return 'macSdkUri';
+
+    if (rawPath.startsWith('package:')) {
+      final uri = Uri.parse(rawPath);
+      final rest = uri.pathSegments.skip(1).join('/');
+      if (File(p.join(packageRoot.path, 'lib', rest)).existsSync()) {
+        return "packageRoot.resolve('lib/$rest')";
+      }
+      final pkgName = uri.pathSegments.first;
+      if (File(
+        p.join(packageRoot.path, 'example', pkgName, 'lib', rest),
+      ).existsSync()) {
+        return "packageRoot.resolve('example/$pkgName/lib/$rest')";
+      }
+      return "Uri.parse('$rawPath')";
+    }
+    if (rawPath.startsWith('http:') || rawPath.startsWith('https:')) {
+      return "Uri.parse('$rawPath')";
+    }
+    if (p.isAbsolute(rawPath)) {
+      return "Uri.file('$rawPath')";
+    }
+    final posixPath = p.posix.normalize(rawPath.replaceAll(r'\', '/'));
+    return configDir == null
+        ? "packageRoot.resolve('$posixPath')"
+        : "configDir.resolve('$posixPath')";
+  }
+
+  String resolveCompilerOption(String opt) {
+    if (!opt.startsWith('-I')) return _str(opt);
+    final incPath = opt.substring(2);
+    if (!p.isRelative(incPath)) return _str(opt);
+
+    final posixInc = p.posix.normalize(incPath.replaceAll(r'\', '/'));
+    final fromPkg = p.normalize(p.join(packageRoot.path, incPath));
+    final fromCfg = configDir != null
+        ? p.normalize(p.join(configDir.path, incPath))
+        : fromPkg;
+
+    final expr =
+        configDir == null ||
+            (FileSystemEntity.typeSync(fromPkg) !=
+                    FileSystemEntityType.notFound &&
+                FileSystemEntity.typeSync(fromCfg) ==
+                    FileSystemEntityType.notFound)
+        ? "packageRoot.resolve('$posixInc').toFilePath()"
+        : "configDir.resolve('$posixInc').toFilePath()";
+
+    final optStr = "'-I\${$expr}'";
+    return optStr.length + 10 > 80
+        ? '// ignore: lines_longer_than_80_chars\n$optStr'
+        : optStr;
+  }
 
   final buf = StringBuffer();
-
-  // License header
-  buf.writeln(
-    '// Copyright (c) 2026, the Dart project authors. Please see the '
-    'AUTHORS file\n'
-    '// for details. All rights reserved. Use of this source code is '
-    'governed by a\n'
-    '// BSD-style license that can be found in the LICENSE file.\n',
-  );
 
   // Static imports block
   buf.writeln('// ignore_for_file: unused_import');
@@ -59,68 +119,43 @@ void migrate({
   buf.writeln("import 'package:ffigen/ffigen.dart';");
   buf.writeln("import 'package:glob/glob.dart';\n");
 
-  // Top-level declarations (type-map)
   _emitTopLevelDeclarations(buf, yamlMap);
 
-  // getConfig function
-  buf.writeln('FfiGenerator getConfig({Uri? outputDir, Uri? packageRoot}) {');
-  buf.writeln('packageRoot ??= ${resolver.packageRootDefaultExpr};');
-  if (!resolver.isConfigDirAtPackageRoot) {
-    buf.writeln('final configDir = ${resolver.configDirExpr};');
+  buf.writeln('Future<void> main() async {');
+  buf.writeln('final packageRoot = $packageRootExpr;');
+  if (configDir != null) {
+    final relConfig = p.posix.normalize(
+      p.relative(configDir.path, from: packageRoot.path).replaceAll(r'\', '/'),
+    );
+    buf.writeln("final configDir = packageRoot.resolve('$relConfig/');");
   }
 
-  // Path redirections
-  _emitPathRedirections(buf, yamlMap, resolver);
+  buf.writeln('await FfiGenerator(');
 
-  buf.writeln('return FfiGenerator(');
-
-  // Output
-  _emitOutput(buf, yamlMap, resolver);
-
-  // Input
-  _emitInput(buf, yamlMap, resolver);
-
-  // Objective-C
+  _emitOutput(buf, yamlMap, resolvePath);
+  _emitInput(buf, yamlMap, resolvePath, resolveCompilerOption);
   _emitObjectiveC(buf, yamlMap);
 
-  // C++
   if (yamlMap.containsKey('cpp')) {
     buf.writeln('cpp: const Cpp(),');
   }
 
-  // ImportType
-  _emitImportTypeArgument(buf, yamlMap, resolver);
+  _emitImportTypeArgument(buf, yamlMap, resolvePath);
+  _emitVisitors(buf, yamlMap);
 
-  // Visitors
-  final visitors = _emitVisitors(yamlMap);
-  if (visitors != null) {
-    buf.write(visitors);
-  }
-
-  buf.writeln(');');
+  buf.writeln(').generate();');
   buf.writeln('}\n');
 
-  // main function
-  buf.writeln('''Future<void> main(List<String> args) async {
-  final outputDir = args.isNotEmpty
-      ? Uri.directory(args.first)
-      : Platform.environment['OUTPUT_DIR'] != null
-          ? Uri.directory(Platform.environment['OUTPUT_DIR']!)
-          : null;
-  await getConfig(outputDir: outputDir).generate();
-}
-''');
-
-  final parentDir = dartFile.parent;
+  final parentDir = outputDart.parent;
   if (!parentDir.existsSync()) {
     parentDir.createSync(recursive: true);
   }
-  dartFile.writeAsStringSync(buf.toString());
+  outputDart.writeAsStringSync(buf.toString());
 
   Process.runSync(Platform.resolvedExecutable, [
     'format',
-    dartFile.absolute.path,
-  ], workingDirectory: dartFile.parent.absolute.path);
+    outputDart.absolute.path,
+  ], workingDirectory: outputDart.parent.absolute.path);
 }
 
 String _str(String s) {
@@ -139,8 +174,6 @@ String _str(String s) {
 }
 
 String _strSet(Iterable<String> s) => '{${s.map(_str).join(', ')}}';
-String _strMap(Map<String, String> m) =>
-    '{${m.entries.map((e) => "${_str(e.key)}: ${_str(e.value)}").join(', ')}}';
 
 bool _isExact(String s) => RegExp(r'^[a-zA-Z_0-9:]+$').hasMatch(s);
 
@@ -160,31 +193,15 @@ void _emitTopLevelDeclarations(StringBuffer buf, YamlMap yamlMap) {
   if (typeMap is! Map || typeMap.isEmpty) return;
 
   final libImports = yamlMap['library-imports'] as Map? ?? {};
-  final usedLibs = <String>{};
 
-  for (final section in typeMap.values) {
-    if (section is Map) {
-      for (final entry in section.values) {
-        if (entry is Map && entry.containsKey('lib')) {
-          usedLibs.add(entry['lib'] as String);
-        }
-      }
+  String libImportPath(String lib) {
+    if (builtInLibraries.containsKey(lib)) {
+      return builtInLibraries[lib]!.importPath(false);
     }
+    return libImports[lib]?.toString() ?? lib;
   }
 
-  for (final lib in usedLibs) {
-    final varName = _libImportVarName(lib);
-    if (lib == 'ffi') {
-      buf.writeln("const $varName = LibraryImport('ffi', 'dart:ffi');");
-    } else if (libImports.containsKey(lib)) {
-      final importPath = libImports[lib] as String;
-      buf.writeln("const $varName = LibraryImport('$lib', '$importPath');");
-    } else {
-      buf.writeln("const $varName = LibraryImport('$lib', '$lib');");
-    }
-  }
-
-  buf.writeln('\nImportedType? importType(Declaration declaration) {');
+  buf.writeln('final _importedTypes = <String, ImportedType>{');
   for (final section in typeMap.values) {
     if (section is Map) {
       for (final entry in section.entries) {
@@ -193,39 +210,30 @@ void _emitTopLevelDeclarations(StringBuffer buf, YamlMap yamlMap) {
         final lib = typeInfo['lib'] as String? ?? 'ffi';
         final cType = typeInfo['c-type'] as String? ?? typeName;
         final dartType = typeInfo['dart-type'] as String? ?? typeName;
-        final libVar = _libImportVarName(lib);
+        final importPath = libImportPath(lib);
 
         buf.writeln(
-          "if (declaration.originalName == '$typeName') {"
-          "return ImportedType($libVar, '$cType', '$dartType', '$typeName');"
-          '}',
+          "'$typeName': ImportedType("
+          "const LibraryImport('$lib', '$importPath'), "
+          "'$cType', "
+          "'$dartType', "
+          "'$typeName',"
+          '),',
         );
       }
     }
   }
-  buf.writeln('return null;\n}\n');
+  buf.writeln('};\n');
+  buf.writeln(
+    'ImportedType? importType(Declaration declaration) => '
+    '_importedTypes[declaration.originalName];\n',
+  );
 }
 
-String _libImportVarName(String lib) {
-  if (lib == 'ffi') return 'ffiImport';
-  final parts = lib.split(RegExp(r'[-_]'));
-  final camel =
-      parts.first.toLowerCase() +
-      parts
-          .skip(1)
-          .map(
-            (p) => p.isEmpty
-                ? ''
-                : '${p[0].toUpperCase()}${p.substring(1).toLowerCase()}',
-          )
-          .join();
-  return camel.toLowerCase().endsWith('import') ? camel : '${camel}Import';
-}
-
-void _emitPathRedirections(
+void _emitOutput(
   StringBuffer buf,
   YamlMap yamlMap,
-  _PathResolver resolver,
+  String Function(String) resolvePath,
 ) {
   final hasObjc = yamlMap['language'] == 'objc';
   final hasCpp = yamlMap.containsKey('cpp');
@@ -233,7 +241,8 @@ void _emitPathRedirections(
 
   String rawDart;
   String? rawObjc;
-  String? rawSymbol;
+  String? rawSymbolOutput;
+  String? rawSymbolImport;
 
   if (output is String) {
     rawDart = output;
@@ -246,79 +255,28 @@ void _emitPathRedirections(
       rawObjc = '$rawDart.m';
     }
     if (output.containsKey('symbol-file')) {
-      rawSymbol = (output['symbol-file'] as Map)['output'] as String;
+      final sym = output['symbol-file'] as Map;
+      rawSymbolOutput = sym['output'] as String;
+      rawSymbolImport = sym['import-path'] as String;
     }
   } else {
     throw ArgumentError('Invalid output: $output');
   }
 
-  final dartFileName = p.basename(rawDart);
-  final normalDart = resolver.emitPath(rawDart);
-  buf.writeln(
-    'final dartPath = outputDir != null ? '
-    "outputDir.resolve('$dartFileName') : $normalDart;",
-  );
-  if (rawObjc != null) {
-    final objcFileName = p.basename(rawObjc);
-    final normalObjc = resolver.emitPath(rawObjc);
-    buf.writeln(
-      'final objcPath = outputDir != null ? '
-      "outputDir.resolve('$objcFileName') : $normalObjc;",
-    );
-  }
-  if (hasCpp) {
-    final cppFileName = '${p.basename(rawDart)}.cpp';
-    final normalCpp = resolver.emitPath('$rawDart.cpp');
-    buf.writeln(
-      'final cppPath = outputDir != null ? '
-      "outputDir.resolve('$cppFileName') : $normalCpp;",
-    );
-  }
-  if (rawSymbol != null) {
-    final symFileName = p.basename(rawSymbol);
-    final normalSym = resolver.emitPath(rawSymbol);
-    buf.writeln(
-      'final symbolFilePath = outputDir != null ? '
-      "outputDir.resolve('$symFileName') : $normalSym;",
-    );
-  }
-}
-
-void _emitOutput(StringBuffer buf, YamlMap yamlMap, _PathResolver resolver) {
-  final hasObjc = yamlMap['language'] == 'objc';
-  final hasCpp = yamlMap.containsKey('cpp');
-  final output = yamlMap['output'];
-
-  String? rawObjc;
-  String? rawSymbolOutput;
-  String? rawSymbolImport;
-
-  if (output is String) {
-    rawObjc = hasObjc ? '$output.m' : null;
-  } else if (output is Map) {
-    if (output.containsKey('objc-bindings')) {
-      rawObjc = output['objc-bindings'] as String;
-    } else if (hasObjc) {
-      rawObjc = '${output['bindings']}.m';
-    }
-    if (output.containsKey('symbol-file')) {
-      final sym = output['symbol-file'] as Map;
-      rawSymbolOutput = sym['output'] as String;
-      rawSymbolImport = sym['import-path'] as String;
-    }
-  }
-
   buf.writeln('output: Output(');
-  buf.writeln('dart: DartOutput(path: dartPath),');
+  buf.writeln('dart: DartOutput(path: ${resolvePath(rawDart)}),');
   if (rawObjc != null) {
-    buf.writeln('objectiveCFile: objcPath,');
+    buf.writeln('objectiveCFile: ${resolvePath(rawObjc)},');
   }
   if (hasCpp) {
-    buf.writeln('cppFile: cppPath,');
+    buf.writeln('cppFile: ${resolvePath('$rawDart.cpp')},');
   }
   if (rawSymbolOutput != null) {
     buf.writeln(
-      "symbolFile: SymbolFile(Uri.parse('$rawSymbolImport'), symbolFilePath),",
+      'symbolFile: SymbolFile('
+      "Uri.parse('$rawSymbolImport'), "
+      '${resolvePath(rawSymbolOutput)}'
+      '),',
     );
   }
 
@@ -384,70 +342,82 @@ String _globPattern(String p) {
   return '/**/$p';
 }
 
-void _emitInput(StringBuffer buf, YamlMap yamlMap, _PathResolver resolver) {
-  buf.writeln('input: Input(');
-
-  final headers = yamlMap['headers'] as Map?;
-  if (headers != null) {
-    final entryPoints = headers['entry-points'] as List?;
-    if (entryPoints != null && entryPoints.isNotEmpty) {
-      buf.writeln('entryPoints: [');
-      for (final ep in entryPoints) {
-        buf.writeln('${resolver.emitPath(ep.toString())},');
-      }
-      buf.writeln('],');
+void _emitHeaders(
+  StringBuffer buf,
+  Map<dynamic, dynamic>? headers,
+  String Function(String) resolvePath,
+) {
+  if (headers == null) return;
+  final entryPoints = headers['entry-points'] as List?;
+  if (entryPoints != null && entryPoints.isNotEmpty) {
+    buf.writeln('entryPoints: [');
+    for (final ep in entryPoints) {
+      buf.writeln('${resolvePath(ep.toString())},');
     }
-
-    final includeDirectives = headers['include-directives'] as List?;
-    if (includeDirectives != null && includeDirectives.isNotEmpty) {
-      final globChecks = includeDirectives
-          .map(
-            (p) =>
-                'Glob(${_str(_globPattern(p.toString()))}).matches(uri.path)',
-          )
-          .join(' || ');
-      buf.writeln('include: (uri) => $globChecks,');
-    }
+    buf.writeln('],');
   }
 
+  final includeDirectives = headers['include-directives'] as List?;
+  if (includeDirectives != null && includeDirectives.isNotEmpty) {
+    final globChecks = includeDirectives
+        .map((p) => "Glob('${_globPattern(p.toString())}').matches(uri.path)")
+        .join(' || ');
+    buf.writeln('include: (uri) => $globChecks,');
+  }
+}
+
+void _emitCompilerOptions(
+  StringBuffer buf,
+  YamlMap yamlMap,
+  String Function(String) resolveCompilerOption,
+) {
   final compilerOpts = yamlMap['compiler-opts'];
-  if (compilerOpts != null) {
-    final List<String> opts;
-    if (compilerOpts is String) {
-      opts = compilerOpts
-          .split(' ')
-          .map((s) => s.trim())
-          .where((s) => s.isNotEmpty)
-          .toList();
-    } else if (compilerOpts is List) {
-      opts = compilerOpts.map((e) => e.toString()).toList();
-    } else {
-      opts = const [];
-    }
+  if (compilerOpts == null) return;
 
-    if (opts.isNotEmpty) {
-      final auto = yamlMap['compiler-opts-automatic'] as Map?;
-      final macAuto = auto?['macos'] as Map?;
-      final includeMacStdLib = macAuto?['include-c-standard-library'] != false;
-      final hasSysroot = opts.any(
-        (o) => o.contains('-isysroot') || o.contains('MacOSX.sdk'),
-      );
-
-      buf.writeln('compilerOptions: [');
-      for (final opt in opts) {
-        buf.writeln('${resolver.emitCompilerOption(opt)},');
-      }
-      if (includeMacStdLib && !hasSysroot) {
-        buf.writeln("if (Platform.isMacOS) ...['-isysroot', macSdkPath],");
-      }
-      buf.writeln('],');
-    }
+  final List<String> opts;
+  if (compilerOpts is String) {
+    opts = compilerOpts
+        .split(' ')
+        .map((s) => s.trim())
+        .where((s) => s.isNotEmpty)
+        .toList();
+  } else if (compilerOpts is List) {
+    opts = compilerOpts.map((e) => e.toString()).toList();
+  } else {
+    opts = const [];
   }
 
+  if (opts.isEmpty) return;
+
+  final auto = yamlMap['compiler-opts-automatic'] as Map?;
+  final macAuto = auto?['macos'] as Map?;
+  final includeMacStdLib = macAuto?['include-c-standard-library'] != false;
+  final hasSysroot = opts.any(
+    (o) => o.contains('-isysroot') || o.contains('MacOSX.sdk'),
+  );
+
+  buf.writeln('compilerOptions: [');
+  for (final opt in opts) {
+    buf.writeln('${resolveCompilerOption(opt)},');
+  }
+  if (includeMacStdLib && !hasSysroot) {
+    buf.writeln("if (Platform.isMacOS) ...['-isysroot', macSdkPath],");
+  }
+  buf.writeln('],');
+}
+
+void _emitInput(
+  StringBuffer buf,
+  YamlMap yamlMap,
+  String Function(String) resolvePath,
+  String Function(String) resolveCompilerOption,
+) {
+  buf.writeln('input: Input(');
+  _emitHeaders(buf, yamlMap['headers'] as Map?, resolvePath);
+  _emitCompilerOptions(buf, yamlMap, resolveCompilerOption);
   if (yamlMap['ignore-source-errors'] == true) {
     buf.writeln('ignoreSourceErrors: true,');
   }
-
   buf.writeln('),');
 }
 
@@ -492,7 +462,7 @@ String _formatVersion(String v) {
 void _emitImportTypeArgument(
   StringBuffer buf,
   YamlMap yamlMap,
-  _PathResolver resolver,
+  String Function(String) resolvePath,
 ) {
   final typeMap = yamlMap['type-map'];
   final hasTypeMap = typeMap is Map && typeMap.isNotEmpty;
@@ -501,14 +471,14 @@ void _emitImportTypeArgument(
   final syms = importMap is Map
       ? (importMap['symbol-files'] as List?)?.cast<String>()
       : null;
-  final hasSymbolFiles = syms != null && syms.isNotEmpty;
 
-  if (hasSymbolFiles && !hasTypeMap) {
+  if (syms != null && syms.isNotEmpty && !hasTypeMap) {
     if (syms.length == 1) {
-      final pathExpr = resolver.emitPath(syms.first);
-      buf.writeln('importType: importFromSymbolFile($pathExpr),');
+      buf.writeln(
+        'importType: importFromSymbolFile(${resolvePath(syms.first)}),',
+      );
     } else {
-      final exprs = syms.map(resolver.emitPath).join(', ');
+      final exprs = syms.map(resolvePath).join(', ');
       buf.writeln('importType: importFromSymbolFiles([$exprs]),');
     }
   } else if (hasTypeMap) {
@@ -516,362 +486,364 @@ void _emitImportTypeArgument(
   }
 }
 
-String? _emitVisitors(Map<dynamic, dynamic> yamlMap) {
+void _emitDeclarationFilter(
+  StringBuffer buf,
+  Map<dynamic, dynamic>? cfg, {
+  String target = 'node.originalName',
+  bool defaultInclude = false,
+}) {
+  if (cfg == null) {
+    if (defaultInclude) buf.writeln('node.isIncluded = true;');
+    return;
+  }
+  final includes = (cfg['include'] as List?)?.cast<String>();
+  final excludes = (cfg['exclude'] as List?)?.cast<String>();
+  if (includes == null && excludes == null) {
+    if (defaultInclude) buf.writeln('node.isIncluded = true;');
+    return;
+  }
+  final cond = _buildCondition(includes, excludes, target);
+  buf.writeln('node.isIncluded = $cond;');
+}
+
+void _emitRenames(
+  StringBuffer buf,
+  Map<dynamic, dynamic>? cfg, {
+  String target = 'node.name',
+}) {
+  final rename = cfg?['rename'] as Map?;
+  if (rename == null || rename.isEmpty) return;
+  for (final entry in rename.entries) {
+    final from = entry.key.toString();
+    final to = entry.value.toString();
+    if (_isExact(from)) {
+      buf.writeln("if ($target == '$from') { $target = '$to'; }");
+    } else if (!to.contains(r'$')) {
+      final pat = _regexPat(from);
+      buf.writeln(
+        "if (RegExp(r'^$pat\$').hasMatch($target)) { $target = '$to'; }",
+      );
+    } else {
+      final pat = _regexPat(from);
+      buf.writeln('''
+if (RegExp(r'^$pat\$').firstMatch($target) case final match?) {
+  node.name = r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), (m) => match[int.parse(m[1]!)] ?? '');
+}''');
+    }
+  }
+}
+
+void _emitFuncVisitor(StringBuffer buf, YamlMap yamlMap) {
   final excludeAll = yamlMap['exclude-all-by-default'] == true;
-  bool has(String k) => yamlMap.containsKey(k) && yamlMap[k] != null;
-  Map<dynamic, dynamic>? sec(String k) => yamlMap[k] as Map<dynamic, dynamic>?;
+  if (!yamlMap.containsKey('functions') && excludeAll) return;
+  final cfg = yamlMap['functions'] as Map?;
 
-  final callbacks = <String, String>{};
+  buf.writeln('func: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: !excludeAll);
+  _emitRenames(buf, cfg);
 
-  // func
-  if (has('functions') || !excludeAll) {
-    final cfg = sec('functions') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: !excludeAll,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    if (cfg.containsKey('leaf')) {
-      final leaf = cfg['leaf'];
-      if (leaf is bool) {
-        stmts.add('node.isLeaf = $leaf;');
-      } else if (leaf is Map) {
-        final cond = _buildCondition(
-          (leaf['include'] as List?)?.cast<String>(),
-          (leaf['exclude'] as List?)?.cast<String>(),
-          'node.originalName',
-        );
-        if (cond == 'true') {
-          stmts.add('node.isLeaf = true;');
-        } else if (cond != 'false') {
-          stmts.add('node.isLeaf = $cond;');
-        }
+  if (cfg != null) {
+    final leaf = cfg['leaf'];
+    if (leaf is bool) {
+      buf.writeln('node.isLeaf = $leaf;');
+    } else if (leaf is Map) {
+      final cond = _buildCondition(
+        (leaf['include'] as List?)?.cast<String>(),
+        (leaf['exclude'] as List?)?.cast<String>(),
+        'node.originalName',
+      );
+      if (cond == 'true') {
+        buf.writeln('node.isLeaf = true;');
+      } else if (cond != 'false') {
+        buf.writeln('node.isLeaf = $cond;');
       }
     }
+
     final symAddr = cfg['symbol-address'] as Map?;
     final symInc = (symAddr?['include'] as List?)?.cast<String>();
     if (symInc != null && symInc.isNotEmpty) {
       final cond = _buildCondition(symInc, null, 'node.originalName');
-      stmts.add('if ($cond) { node.exposeSymbolAddress = true; }');
+      buf.writeln('if ($cond) { node.exposeSymbolAddress = true; }');
     }
+
     final expTypedefs = cfg['expose-typedefs'] as Map?;
     final expInc = (expTypedefs?['include'] as List?)?.cast<String>();
     if (expInc != null && expInc.isNotEmpty) {
       final cond = _buildCondition(expInc, null, 'node.originalName');
-      stmts.add('if ($cond) { node.generateTypedefs = true; }');
+      buf.writeln('if ($cond) { node.generateTypedefs = true; }');
     }
-    callbacks['func'] = _formatCallback(stmts);
   }
+  buf.writeln('},');
+}
 
-  // struct
-  if (has('structs') || !excludeAll) {
-    final cfg = sec('structs') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: !excludeAll,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    final depOnly = cfg['dependency-only'] == 'opaque' ? 'opaque' : 'full';
-    stmts.add('node.dependencies = CompoundDependencies.$depOnly;');
-    if (cfg['pack'] is Map) {
-      for (final entry in (cfg['pack'] as Map).entries) {
-        final cond = _nameCond('node.originalName', entry.key.toString());
-        final val = entry.value == 'none' ? 'null' : entry.value.toString();
-        stmts.add('if ($cond) { node.pack = $val; }');
-      }
+void _emitStructVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final excludeAll = yamlMap['exclude-all-by-default'] == true;
+  if (!yamlMap.containsKey('structs') && excludeAll) return;
+  final cfg = yamlMap['structs'] as Map?;
+
+  buf.writeln('struct: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: !excludeAll);
+  _emitRenames(buf, cfg);
+  final depOnly = cfg?['dependency-only'] == 'opaque' ? 'opaque' : 'full';
+  buf.writeln('node.dependencies = CompoundDependencies.$depOnly;');
+  if (cfg?['pack'] is Map) {
+    for (final entry in (cfg!['pack'] as Map).entries) {
+      final cond = _nameCond('node.originalName', entry.key.toString());
+      final val = entry.value == 'none' ? 'null' : entry.value.toString();
+      buf.writeln('if ($cond) { node.pack = $val; }');
     }
-    callbacks['struct'] = _formatCallback(stmts);
   }
+  buf.writeln('},');
+}
 
-  // union
-  if (has('unions') || !excludeAll) {
-    final cfg = sec('unions') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: !excludeAll,
+void _emitUnionVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final excludeAll = yamlMap['exclude-all-by-default'] == true;
+  if (!yamlMap.containsKey('unions') && excludeAll) return;
+  final cfg = yamlMap['unions'] as Map?;
+
+  buf.writeln('union: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: !excludeAll);
+  _emitRenames(buf, cfg);
+  final depOnly = cfg?['dependency-only'] == 'opaque' ? 'opaque' : 'full';
+  buf.writeln('node.dependencies = CompoundDependencies.$depOnly;');
+  buf.writeln('},');
+}
+
+void _emitEnumVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final excludeAll = yamlMap['exclude-all-by-default'] == true;
+  final silenceWarn = yamlMap['silence-enum-warning'] == true;
+  if (!yamlMap.containsKey('enums') && !silenceWarn && excludeAll) return;
+  final cfg = yamlMap['enums'] as Map?;
+
+  buf.writeln('enumClass: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: !excludeAll);
+  _emitRenames(buf, cfg);
+  final asInt = cfg?['as-int'] as Map?;
+  final asIntInc = (asInt?['include'] as List?)?.cast<String>();
+  if (asIntInc != null && asIntInc.isNotEmpty) {
+    final cond = _buildCondition(asIntInc, null, 'node.originalName');
+    buf.writeln('if ($cond) { node.style = EnumStyle.intConstants; }');
+  }
+  if (silenceWarn) {
+    buf.writeln('node.silenceWarning = true;');
+  }
+  buf.writeln('},');
+}
+
+void _emitUnnamedEnumVisitor(StringBuffer buf, YamlMap yamlMap) {
+  if (!yamlMap.containsKey('unnamed-enums')) return;
+  final cfg = yamlMap['unnamed-enums'] as Map?;
+
+  buf.writeln('unnamedEnumConstant: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: false);
+  _emitRenames(buf, cfg);
+  buf.writeln('},');
+}
+
+void _emitGlobalVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final excludeAll = yamlMap['exclude-all-by-default'] == true;
+  if (!yamlMap.containsKey('globals') && excludeAll) return;
+  final cfg = yamlMap['globals'] as Map?;
+
+  buf.writeln('global: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: !excludeAll);
+  _emitRenames(buf, cfg);
+  final symAddr = cfg?['symbol-address'] as Map?;
+  final symInc = (symAddr?['include'] as List?)?.cast<String>();
+  if (symInc != null && symInc.isNotEmpty) {
+    final cond = _buildCondition(symInc, null, 'node.originalName');
+    buf.writeln('if ($cond) { node.exposeSymbolAddress = true; }');
+  }
+  buf.writeln('},');
+}
+
+void _emitMacroVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final excludeAll = yamlMap['exclude-all-by-default'] == true;
+  if (!yamlMap.containsKey('macros') && excludeAll) return;
+  final cfg = yamlMap['macros'] as Map?;
+
+  buf.writeln('macroConstant: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: !excludeAll);
+  _emitRenames(buf, cfg);
+  buf.writeln('},');
+}
+
+void _emitTypealiasVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final excludeAll = yamlMap['exclude-all-by-default'] == true;
+  final includeUnused = yamlMap['include-unused-typedefs'] == true;
+  if (!yamlMap.containsKey('typedefs') && !includeUnused && excludeAll) return;
+  final cfg = yamlMap['typedefs'] as Map?;
+
+  buf.writeln('typealias: (node) {');
+  final incList = (cfg?['include'] as List?)?.cast<String>();
+  final excList = (cfg?['exclude'] as List?)?.cast<String>();
+  if ((incList != null && incList.isNotEmpty) ||
+      (excList != null && excList.isNotEmpty)) {
+    final cond = _buildCondition(incList, excList, 'node.originalName');
+    final trueVal = includeUnused
+        ? 'TypealiasInclude.always'
+        : 'TypealiasInclude.ifUsed';
+    buf.writeln(
+      'node.isIncluded = ($cond) ? $trueVal : TypealiasInclude.never;',
     );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    final depOnly = cfg['dependency-only'] == 'opaque' ? 'opaque' : 'full';
-    stmts.add('node.dependencies = CompoundDependencies.$depOnly;');
-    callbacks['union'] = _formatCallback(stmts);
+  } else if (includeUnused) {
+    buf.writeln('node.isIncluded = TypealiasInclude.always;');
+  } else if (!excludeAll) {
+    buf.writeln('node.isIncluded = TypealiasInclude.ifUsed;');
   }
+  _emitRenames(buf, cfg);
+  buf.writeln('},');
+}
 
-  // enumClass
-  if (has('enums') || yamlMap['silence-enum-warning'] == true || !excludeAll) {
-    final cfg = sec('enums') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: !excludeAll,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    final asInt = cfg['as-int'] as Map?;
-    final asIntInc = (asInt?['include'] as List?)?.cast<String>();
-    if (asIntInc != null && asIntInc.isNotEmpty) {
-      final cond = _buildCondition(asIntInc, null, 'node.originalName');
-      stmts.add('if ($cond) { node.style = EnumStyle.intConstants; }');
-    }
-    if (yamlMap['silence-enum-warning'] == true) {
-      stmts.add('node.silenceWarning = true;');
-    }
-    callbacks['enumClass'] = _formatCallback(stmts);
+void _emitObjCInterfaceVisitor(StringBuffer buf, YamlMap yamlMap) {
+  if (!yamlMap.containsKey('objc-interfaces') &&
+      yamlMap['include-transitive-objc-categories'] != false) {
+    return;
   }
+  final cfg = yamlMap['objc-interfaces'] as Map?;
 
-  // unnamedEnumConstant
-  if (has('unnamed-enums')) {
-    final cfg = sec('unnamed-enums') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: !excludeAll,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    callbacks['unnamedEnumConstant'] = _formatCallback(stmts);
-  }
-
-  // global
-  if (has('globals') || !excludeAll) {
-    final cfg = sec('globals') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: !excludeAll,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    final symAddr = cfg['symbol-address'] as Map?;
-    final symInc = (symAddr?['include'] as List?)?.cast<String>();
-    if (symInc != null && symInc.isNotEmpty) {
-      final cond = _buildCondition(symInc, null, 'node.originalName');
-      stmts.add('if ($cond) { node.exposeSymbolAddress = true; }');
-    }
-    callbacks['global'] = _formatCallback(stmts);
-  }
-
-  // macroConstant
-  if (has('macros') || !excludeAll) {
-    final cfg = sec('macros') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: !excludeAll,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    callbacks['macroConstant'] = _formatCallback(stmts);
-  }
-
-  // typealias
-  if (has('typedefs') ||
-      yamlMap['include-unused-typedefs'] == true ||
-      !excludeAll) {
-    final cfg = sec('typedefs') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final includeUnused = yamlMap['include-unused-typedefs'] == true;
-    final incList = (cfg['include'] as List?)?.cast<String>();
-    final excList = (cfg['exclude'] as List?)?.cast<String>();
-    if ((incList != null && incList.isNotEmpty) ||
-        (excList != null && excList.isNotEmpty)) {
-      final cond = _buildCondition(incList, excList, 'node.originalName');
-      final trueVal = includeUnused
-          ? 'TypealiasInclude.always'
-          : 'TypealiasInclude.ifUsed';
-      stmts.add(
-        'node.isIncluded = ($cond) ? $trueVal : TypealiasInclude.never;',
+  buf.writeln('objCInterface: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: false);
+  _emitRenames(buf, cfg);
+  if (cfg?['module'] is Map) {
+    for (final entry in (cfg!['module'] as Map).entries) {
+      buf.writeln(
+        "if (node.originalName == '${entry.key}') "
+        "{ node.module = '${entry.value}'; }",
       );
-    } else if (includeUnused) {
-      stmts.add('node.isIncluded = TypealiasInclude.always;');
-    } else if (!excludeAll) {
-      stmts.add('node.isIncluded = TypealiasInclude.ifUsed;');
     }
-    _addRenames(cfg, stmts, target: 'node.name');
-    callbacks['typealias'] = _formatCallback(stmts);
   }
-
-  // objCInterface
-  if (has('objc-interfaces') ||
-      yamlMap['include-transitive-objc-categories'] == false) {
-    final cfg = sec('objc-interfaces') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: false,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    if (cfg['module'] is Map) {
-      for (final entry in (cfg['module'] as Map).entries) {
-        stmts.add(
-          'if (node.originalName == ${_str(entry.key.toString())}) '
-          '{ node.module = ${_str(entry.value.toString())}; }',
-        );
-      }
-    }
-    if (yamlMap['include-transitive-objc-categories'] == false) {
-      stmts.add('node.includeCategories = false;');
-    }
-    callbacks['objCInterface'] = _formatCallback(stmts);
+  if (yamlMap['include-transitive-objc-categories'] == false) {
+    buf.writeln('node.includeCategories = false;');
   }
+  buf.writeln('},');
+}
 
-  // objCProtocol
-  if (has('objc-protocols')) {
-    final cfg = sec('objc-protocols') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: false,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    if (cfg['module'] is Map) {
-      for (final entry in (cfg['module'] as Map).entries) {
-        stmts.add(
-          'if (node.originalName == ${_str(entry.key.toString())}) '
-          '{ node.module = ${_str(entry.value.toString())}; }',
-        );
-      }
-    }
-    callbacks['objCProtocol'] = _formatCallback(stmts);
-  }
+void _emitObjCProtocolVisitor(StringBuffer buf, YamlMap yamlMap) {
+  if (!yamlMap.containsKey('objc-protocols')) return;
+  final cfg = yamlMap['objc-protocols'] as Map?;
 
-  // objCCategory
-  if (has('objc-categories')) {
-    final cfg = sec('objc-categories') ?? const <dynamic, dynamic>{};
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cfg,
-      target: 'node.originalName',
-      defaultInclude: false,
-    );
-    if (inc != null) stmts.add(inc);
-    _addRenames(cfg, stmts, target: 'node.name');
-    callbacks['objCCategory'] = _formatCallback(stmts);
-  }
-
-  // cppClass
-  final cpp = sec('cpp');
-  final cppClasses = cpp?['cpp-classes'] as Map<dynamic, dynamic>?;
-  if (cppClasses != null) {
-    final stmts = <String>[];
-    final inc = _buildInclusionStatement(
-      cppClasses,
-      target: 'node.originalName',
-      defaultInclude: false,
-    );
-    if (inc != null) stmts.add(inc);
-    callbacks['cppClass'] = _formatCallback(stmts);
-  }
-
-  // objCMethod
-  final hasObjCMethod = ['objc-interfaces', 'objc-protocols', 'objc-categories']
-      .any(
-        (k) =>
-            sec(k)?['member-filter'] != null ||
-            sec(k)?['member-rename'] != null,
+  buf.writeln('objCProtocol: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: false);
+  _emitRenames(buf, cfg);
+  if (cfg?['module'] is Map) {
+    for (final entry in (cfg!['module'] as Map).entries) {
+      buf.writeln(
+        "if (node.originalName == '${entry.key}') "
+        "{ node.module = '${entry.value}'; }",
       );
-  if (hasObjCMethod) {
-    final stmts = ['final parent = node.parent;'];
-    for (final (k, type) in [
-      ('objc-interfaces', 'ObjCInterface'),
-      ('objc-protocols', 'ObjCProtocol'),
-      ('objc-categories', 'ObjCCategory'),
-    ]) {
-      final c = sec(k);
-      if (c != null) {
-        _emitMemberSection(
-          stmts,
-          parentType: type,
-          filterMap: c['member-filter'] as Map<dynamic, dynamic>?,
-          renameMap: c['member-rename'] as Map<dynamic, dynamic>?,
-          nameProp: 'node.selector',
-        );
-      }
     }
-    callbacks['objCMethod'] = _formatCallback(stmts);
   }
+  buf.writeln('},');
+}
 
-  // field
-  final hasField = [
-    'structs',
-    'unions',
-  ].any((k) => sec(k)?['member-rename'] != null);
-  if (hasField) {
-    final stmts = ['final parent = node.parent;'];
-    for (final (k, type) in [('structs', 'Struct'), ('unions', 'Union')]) {
-      final c = sec(k);
-      if (c != null) {
-        _emitMemberSection(
-          stmts,
-          parentType: type,
-          renameMap: c['member-rename'] as Map<dynamic, dynamic>?,
-          nameProp: 'node.originalName',
-        );
-      }
-    }
-    callbacks['field'] = _formatCallback(stmts);
-  }
+void _emitObjCCategoryVisitor(StringBuffer buf, YamlMap yamlMap) {
+  if (!yamlMap.containsKey('objc-categories')) return;
+  final cfg = yamlMap['objc-categories'] as Map?;
 
-  // param
-  final funcCfg = sec('functions');
-  if (funcCfg?['member-rename'] != null) {
-    final stmts = ['final parent = node.parent;'];
+  buf.writeln('objCCategory: (node) {');
+  _emitDeclarationFilter(buf, cfg, defaultInclude: false);
+  _emitRenames(buf, cfg);
+  buf.writeln('},');
+}
+
+void _emitCppClassVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final cpp = yamlMap['cpp'] as Map?;
+  final cppClasses = cpp?['cpp-classes'] as Map?;
+  if (cppClasses == null) return;
+
+  buf.writeln('cppClass: (node) {');
+  _emitDeclarationFilter(buf, cppClasses, defaultInclude: false);
+  buf.writeln('},');
+}
+
+void _emitObjCMethodVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final keys = [
+    ('objc-interfaces', 'ObjCInterface'),
+    ('objc-protocols', 'ObjCProtocol'),
+    ('objc-categories', 'ObjCCategory'),
+  ];
+  final hasAny = keys.any((k) {
+    final c = yamlMap[k.$1] as Map?;
+    return c?['member-filter'] != null || c?['member-rename'] != null;
+  });
+  if (!hasAny) return;
+
+  buf.writeln('objCMethod: (node) {');
+  buf.writeln('final parent = node.parent;');
+  for (final (key, type) in keys) {
+    final c = yamlMap[key] as Map?;
+    if (c == null) continue;
     _emitMemberSection(
-      stmts,
-      parentType: 'Func',
-      renameMap: funcCfg!['member-rename'] as Map<dynamic, dynamic>?,
+      buf,
+      parentType: type,
+      filterMap: c['member-filter'] as Map?,
+      renameMap: c['member-rename'] as Map?,
+      nameProp: 'node.selector',
+    );
+  }
+  buf.writeln('},');
+}
+
+void _emitFieldVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final keys = [('structs', 'Struct'), ('unions', 'Union')];
+  final hasAny = keys.any(
+    (k) => (yamlMap[k.$1] as Map?)?['member-rename'] != null,
+  );
+  if (!hasAny) return;
+
+  buf.writeln('field: (node) {');
+  buf.writeln('final parent = node.parent;');
+  for (final (key, type) in keys) {
+    final c = yamlMap[key] as Map?;
+    if (c == null) continue;
+    _emitMemberSection(
+      buf,
+      parentType: type,
+      renameMap: c['member-rename'] as Map?,
       nameProp: 'node.originalName',
     );
-    callbacks['param'] = _formatCallback(stmts);
   }
+  buf.writeln('},');
+}
 
-  // enumConstant
-  final enumCfg = sec('enums');
-  if (enumCfg?['member-rename'] != null) {
-    final stmts = ['final parent = node.parent;'];
-    _emitMemberSection(
-      stmts,
-      parentType: null,
-      renameMap: enumCfg!['member-rename'] as Map<dynamic, dynamic>?,
-      nameProp: 'node.originalName',
-    );
-    callbacks['enumConstant'] = _formatCallback(stmts);
-  }
+void _emitParamVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final funcCfg = yamlMap['functions'] as Map?;
+  if (funcCfg?['member-rename'] == null) return;
 
-  if (callbacks.isEmpty) return null;
+  buf.writeln('param: (node) {');
+  buf.writeln('final parent = node.parent;');
+  _emitMemberSection(
+    buf,
+    parentType: 'Func',
+    renameMap: funcCfg!['member-rename'] as Map?,
+    nameProp: 'node.originalName',
+  );
+  buf.writeln('},');
+}
 
-  final buf = StringBuffer('visitors: [Visitor(\n');
-  for (final entry in callbacks.entries) {
-    buf.writeln('${entry.key}: ${entry.value},');
-  }
-  buf.writeln(')],');
-  return buf.toString();
+void _emitEnumConstantVisitor(StringBuffer buf, YamlMap yamlMap) {
+  final enumCfg = yamlMap['enums'] as Map?;
+  if (enumCfg?['member-rename'] == null) return;
+
+  buf.writeln('enumConstant: (node) {');
+  buf.writeln('final parent = node.parent;');
+  _emitMemberSection(
+    buf,
+    renameMap: enumCfg!['member-rename'] as Map?,
+    nameProp: 'node.originalName',
+  );
+  buf.writeln('},');
 }
 
 void _emitMemberSection(
-  List<String> stmts, {
+  StringBuffer buf, {
   String? parentType,
   Map<dynamic, dynamic>? filterMap,
   Map<dynamic, dynamic>? renameMap,
   required String nameProp,
 }) {
-  final sub = <String>[];
+  final sBuf = StringBuffer();
   if (filterMap != null) {
     for (final entry in filterMap.entries) {
       final parentDecl = entry.key.toString();
@@ -883,13 +855,13 @@ void _emitMemberSection(
           inc == null &&
           exc.length == 1 &&
           _isExact(exc.first)) {
-        sub.add(
-          'if ($parentCond && $nameProp == ${_str(exc.first)}) '
-          '{ node.isIncluded = false; }',
+        sBuf.writeln(
+          'if ($parentCond && $nameProp == '
+          "'${exc.first}') { node.isIncluded = false; }",
         );
       } else {
         final cond = _buildCondition(inc, exc, nameProp);
-        sub.add('if ($parentCond) { node.isIncluded = $cond; }');
+        sBuf.writeln('if ($parentCond) { node.isIncluded = $cond; }');
       }
     }
   }
@@ -902,34 +874,58 @@ void _emitMemberSection(
         final from = rentry.key.toString();
         final to = rentry.value.toString();
         if (_isExact(from)) {
-          sub.add(
-            'if ($parentCond && $nameProp == ${_str(from)}) '
-            '{ node.name = ${_str(to)}; }',
+          sBuf.writeln(
+            "if ($parentCond && $nameProp == '$from') { node.name = '$to'; }",
           );
         } else if (!to.contains(r'$')) {
           final pat = _regexPat(from);
-          sub.add(
+          sBuf.writeln(
             'if ($parentCond && RegExp(r\'^$pat\$\').hasMatch($nameProp)) '
-            '{ node.name = ${_str(to)}; }',
+            "{ node.name = '$to'; }",
           );
         } else {
           final pat = _regexPat(from);
-          sub.add(
-            'if ($parentCond) { '
-            'if (RegExp(r\'^$pat\$\').firstMatch($nameProp) '
-            'case final match?) { '
-            'node.name = r\'$to\'.replaceAllMapped(RegExp(r\'\\\$([0-9])\'), '
-            '(m) => match[int.parse(m[1]!)] ?? \'\'); } }',
-          );
+          sBuf.writeln('''
+if ($parentCond) {
+  if (RegExp(r'^$pat\$').firstMatch($nameProp) case final match?) {
+    node.name = r'$to'.replaceAllMapped(RegExp(r'\\\$([0-9])'), (m) => match[int.parse(m[1]!)] ?? '');
+  }
+}''');
         }
       }
     }
   }
-  if (sub.isEmpty) return;
+  if (sBuf.isEmpty) return;
   if (parentType != null) {
-    stmts.add('if (parent is $parentType) {\n${sub.join('\n')}\n}');
+    buf.writeln('if (parent is $parentType) {\n$sBuf}');
   } else {
-    stmts.addAll(sub);
+    buf.write(sBuf);
+  }
+}
+
+void _emitVisitors(StringBuffer buf, YamlMap yamlMap) {
+  final vBuf = StringBuffer();
+  _emitFuncVisitor(vBuf, yamlMap);
+  _emitStructVisitor(vBuf, yamlMap);
+  _emitUnionVisitor(vBuf, yamlMap);
+  _emitEnumVisitor(vBuf, yamlMap);
+  _emitUnnamedEnumVisitor(vBuf, yamlMap);
+  _emitGlobalVisitor(vBuf, yamlMap);
+  _emitMacroVisitor(vBuf, yamlMap);
+  _emitTypealiasVisitor(vBuf, yamlMap);
+  _emitObjCInterfaceVisitor(vBuf, yamlMap);
+  _emitObjCProtocolVisitor(vBuf, yamlMap);
+  _emitObjCCategoryVisitor(vBuf, yamlMap);
+  _emitCppClassVisitor(vBuf, yamlMap);
+  _emitObjCMethodVisitor(vBuf, yamlMap);
+  _emitFieldVisitor(vBuf, yamlMap);
+  _emitParamVisitor(vBuf, yamlMap);
+  _emitEnumConstantVisitor(vBuf, yamlMap);
+
+  if (vBuf.isNotEmpty) {
+    buf.writeln('visitors: [Visitor(');
+    buf.write(vBuf);
+    buf.writeln(')],');
   }
 }
 
@@ -958,13 +954,7 @@ String _buildCondition(
         parts.add('RegExp(r\'^$pat\$\').hasMatch($target)');
       }
     }
-    if (parts.contains('true')) {
-      incCond = 'true';
-    } else if (parts.length == 1) {
-      incCond = parts.first;
-    } else {
-      incCond = parts.join(' || ');
-    }
+    incCond = parts.contains('true') ? 'true' : parts.join(' || ');
   }
 
   String? excCond;
@@ -985,11 +975,7 @@ String _buildCondition(
         parts.add('!RegExp(r\'^$pat\$\').hasMatch($target)');
       }
     }
-    if (parts.length == 1) {
-      excCond = parts.first;
-    } else {
-      excCond = parts.join(' && ');
-    }
+    excCond = parts.join(' && ');
   }
 
   if (incCond != null && excCond != null) {
@@ -997,271 +983,5 @@ String _buildCondition(
     final parenInc = incCond.contains(' || ') ? '($incCond)' : incCond;
     return '$excCond && $parenInc';
   }
-  if (incCond != null) return incCond;
-  if (excCond != null) return excCond;
-  return 'true';
-}
-
-String? _buildInclusionStatement(
-  Map<dynamic, dynamic> cfg, {
-  required String target,
-  required bool defaultInclude,
-}) {
-  final includes = (cfg['include'] as List?)?.cast<String>();
-  final excludes = (cfg['exclude'] as List?)?.cast<String>();
-  if (includes == null && excludes == null) {
-    return defaultInclude ? 'node.isIncluded = true;' : null;
-  }
-  final cond = _buildCondition(includes, excludes, target);
-  return 'node.isIncluded = $cond;';
-}
-
-void _addRenames(
-  Map<dynamic, dynamic> cfg,
-  List<String> stmts, {
-  required String target,
-}) {
-  final rename = cfg['rename'] as Map?;
-  if (rename == null || rename.isEmpty) return;
-  final exact = <String, String>{};
-  final regex = <String, String>{};
-  for (final entry in rename.entries) {
-    final from = entry.key.toString();
-    final to = entry.value.toString();
-    if (_isExact(from)) {
-      exact[from] = to;
-    } else {
-      regex[from] = to;
-    }
-  }
-  if (exact.isNotEmpty) {
-    if (exact.length == 1) {
-      stmts.add(
-        'if ($target == ${_str(exact.keys.first)}) '
-        '{ $target = ${_str(exact.values.first)}; }',
-      );
-    } else {
-      stmts.add('const rename = ${_strMap(exact)};');
-      stmts.add('if (rename[$target] case final r?) { $target = r; }');
-    }
-  }
-  final multiRegex = regex.length > 1;
-  for (final entry in regex.entries) {
-    final from = entry.key;
-    final to = entry.value;
-    if (to == r'$1' && !from.startsWith('^') && from.endsWith(r'(.*)')) {
-      final prefix = from.substring(0, from.length - 4);
-      stmts.add("$target = $target.replaceFirst(RegExp(r'^$prefix'), '');");
-    } else if (!to.contains(r'$')) {
-      final pat = _regexPat(from);
-      stmts.add(
-        'if (RegExp(r\'^$pat\$\').hasMatch($target)) '
-        '{ $target = ${_str(to)}; }',
-      );
-    } else {
-      final pat = _regexPat(from);
-      if (multiRegex) {
-        stmts.add(
-          'if (RegExp(r\'^$pat\$\').firstMatch($target) '
-          'case final match?) { '
-          'node.name = r\'$to\'.replaceAllMapped(RegExp(r\'\\\$([0-9])\'), '
-          '(m) => match[int.parse(m[1]!)] ?? \'\'); }',
-        );
-      } else {
-        stmts.add(
-          'final match = RegExp(r\'^$pat\$\').firstMatch($target);\n'
-          'if (match != null) { '
-          'node.name = r\'$to\'.replaceAllMapped(RegExp(r\'\\\$([0-9])\'), '
-          '(m) => match[int.parse(m[1]!)] ?? \'\'); }',
-        );
-      }
-    }
-  }
-}
-
-String _formatCallback(List<String> statements) {
-  if (statements.isEmpty) return '(node) {}';
-  if (statements.length == 1 &&
-      !statements.first.contains('\n') &&
-      statements.first.endsWith(';') &&
-      !statements.first.startsWith('if ') &&
-      !statements.first.startsWith('if(') &&
-      !statements.first.startsWith('const ') &&
-      !statements.first.startsWith('final ')) {
-    final s = statements.first;
-    return '(node) => ${s.substring(0, s.length - 1)}';
-  }
-  return '(node) {\n${statements.join('\n')}\n}';
-}
-
-class _PathResolver {
-  final File yamlConfigFile;
-  final File outputDartFile;
-
-  late final String origConfigPath;
-  late final String configDir;
-  late final Directory packageRoot;
-
-  _PathResolver({required this.yamlConfigFile, required this.outputDartFile}) {
-    origConfigPath = _resolveConfigPath(yamlConfigFile.path);
-    configDir = p.dirname(origConfigPath);
-    packageRoot = _findPackageRoot(configDir);
-  }
-
-  bool get isConfigDirAtPackageRoot =>
-      p.normalize(configDir) == p.normalize(packageRoot.path);
-
-  String get _effectiveOutputDartDir {
-    final normalizedYaml = p.normalize(p.absolute(yamlConfigFile.path));
-    final parts = p.split(normalizedYaml);
-    final migrateYamlIdx = _findSubsequence(parts, ['test', 'migrate', 'yaml']);
-    if (migrateYamlIdx != -1) {
-      final ffigenRoot = p.joinAll(parts.sublist(0, migrateYamlIdx));
-      return p.join(ffigenRoot, 'test', 'migrate', 'dart');
-    }
-    return outputDartFile.parent.path;
-  }
-
-  String get packageRootDefaultExpr {
-    final rel = p.relative(packageRoot.path, from: _effectiveOutputDartDir);
-    final posixRel = p.posix.normalize(p.split(rel).join('/'));
-    if (posixRel == '.' || posixRel.isEmpty) {
-      return "Platform.script.resolve('./')";
-    }
-    return "Platform.script.resolve('$posixRel/')";
-  }
-
-  String get configDirExpr {
-    if (isConfigDirAtPackageRoot) return 'packageRoot';
-    final rel = p.relative(configDir, from: packageRoot.path);
-    final posixRel = p.posix.normalize(p.split(rel).join('/'));
-    return "packageRoot.resolve('$posixRel/')";
-  }
-
-  String emitPath(String rawPath) {
-    if (rawPath.startsWith(r'$XCODE/')) {
-      final sub = p.posix.normalize(p.split(rawPath.substring(7)).join('/'));
-      return "xcodeUri.resolve('$sub')";
-    }
-    if (rawPath == r'$XCODE') return 'xcodeUri';
-    if (rawPath.startsWith(r'$IOS_SDK/')) {
-      final sub = p.posix.normalize(p.split(rawPath.substring(9)).join('/'));
-      return "iosSdkUri.resolve('$sub')";
-    }
-    if (rawPath == r'$IOS_SDK') return 'iosSdkUri';
-    if (rawPath.startsWith(r'$MACOS_SDK/')) {
-      final sub = p.posix.normalize(p.split(rawPath.substring(11)).join('/'));
-      return "macSdkUri.resolve('$sub')";
-    }
-    if (rawPath == r'$MACOS_SDK') return 'macSdkUri';
-
-    if (rawPath.startsWith('package:')) {
-      final uri = Uri.parse(rawPath);
-      final rest = uri.pathSegments.skip(1).join('/');
-      final localLibFile = File(p.join(packageRoot.path, 'lib', rest));
-      if (localLibFile.existsSync()) {
-        final posixRest = p.posix.normalize(p.split(rest).join('/'));
-        return "packageRoot.resolve('lib/$posixRest')";
-      }
-      final pkgName = uri.pathSegments.first;
-      final examplePkgLib = File(
-        p.join(packageRoot.path, 'example', pkgName, 'lib', rest),
-      );
-      if (examplePkgLib.existsSync()) {
-        final posixRest = p.posix.normalize(p.split(rest).join('/'));
-        return "packageRoot.resolve('example/$pkgName/lib/$posixRest')";
-      }
-      return "Uri.parse('$rawPath')";
-    }
-    if (rawPath.startsWith('http:') || rawPath.startsWith('https:')) {
-      return "Uri.parse('$rawPath')";
-    }
-    if (p.isAbsolute(rawPath)) {
-      return "Uri.file('$rawPath')";
-    }
-    final posixPath = p.posix.normalize(p.split(rawPath).join('/'));
-    if (isConfigDirAtPackageRoot) {
-      return "packageRoot.resolve('$posixPath')";
-    }
-    return "configDir.resolve('$posixPath')";
-  }
-
-  String emitCompilerOption(String opt) {
-    if (!opt.startsWith('-I')) {
-      return _str(opt);
-    }
-    final incPath = opt.substring(2);
-    if (!p.isRelative(incPath)) {
-      return _str(opt);
-    }
-
-    final posixInc = p.posix.normalize(p.split(incPath).join('/'));
-    final resolvedFromPackage = p.normalize(p.join(packageRoot.path, incPath));
-    final resolvedFromConfig = p.normalize(p.join(configDir, incPath));
-
-    final expr =
-        isConfigDirAtPackageRoot ||
-            (FileSystemEntity.typeSync(resolvedFromPackage) !=
-                    FileSystemEntityType.notFound &&
-                FileSystemEntity.typeSync(resolvedFromConfig) ==
-                    FileSystemEntityType.notFound)
-        ? "packageRoot.resolve('$posixInc').toFilePath()"
-        : "configDir.resolve('$posixInc').toFilePath()";
-
-    final optStr = "'-I\${$expr}'";
-    if (optStr.length + 10 > 80) {
-      return '// ignore: lines_longer_than_80_chars\n$optStr';
-    }
-    return optStr;
-  }
-
-  static Directory _findPackageRoot(String startDir) {
-    var dir = Directory(startDir);
-    while (true) {
-      if (File(p.join(dir.path, 'pubspec.yaml')).existsSync()) {
-        return dir;
-      }
-      final parent = dir.parent;
-      if (parent.path == dir.path) break;
-      dir = parent;
-    }
-    return Directory(startDir);
-  }
-
-  static String _resolveConfigPath(String yamlFilePath) {
-    final normalized = p.normalize(p.absolute(yamlFilePath));
-    final parts = p.split(normalized);
-    final migrateYamlIdx = _findSubsequence(parts, ['test', 'migrate', 'yaml']);
-    if (migrateYamlIdx == -1) {
-      return normalized;
-    }
-
-    final ffigenRoot = p.joinAll(parts.sublist(0, migrateYamlIdx));
-    final repoRoot = p.normalize(p.join(ffigenRoot, '..', '..'));
-    final fileName = p.basename(yamlFilePath);
-
-    return _findOriginalTestPath(fileName, repoRoot, ffigenRoot);
-  }
-
-  static int _findSubsequence(List<String> list, List<String> sub) {
-    for (var i = 0; i <= list.length - sub.length; i++) {
-      var match = true;
-      for (var j = 0; j < sub.length; j++) {
-        if (list[i + j] != sub[j]) {
-          match = false;
-          break;
-        }
-      }
-      if (match) return i;
-    }
-    return -1;
-  }
-
-  static String _findOriginalTestPath(
-    String fileName,
-    String repoRoot,
-    String ffigenRoot,
-  ) {
-    return p.join(ffigenRoot, 'test', 'migrate', 'yaml', fileName);
-  }
+  return incCond ?? excCond ?? 'true';
 }
