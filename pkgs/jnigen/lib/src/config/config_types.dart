@@ -43,11 +43,10 @@ class MavenDownloads {
   })  : sourceDir = sourceDir ?? defaultMavenSourceDir,
         jarDir = jarDir ?? defaultMavenJarDir;
 
-  /// List of Maven package coordinates to download and unpack sources for.
+  /// List of Maven dependencies to download and unpack sources for.
   ///
   /// Each entry should be a valid Maven artifact coordinate in the format
-  /// `groupId:artifactId:version` (for example,
-  /// `org.apache.pdfbox:pdfbox:2.0.26`).
+  /// `groupId:artifactId:version`.
   ///
   /// Downloading source packages does not automatically resolve or include
   /// transitive dependencies. Any required transitive dependencies must be
@@ -60,7 +59,7 @@ class MavenDownloads {
   /// explicitly in [Input.sourcePath].
   Uri sourceDir;
 
-  /// List of Maven package coordinates to download JARs for only.
+  /// List of Maven dependencies to download JARs for only.
   ///
   /// Each entry should be a valid Maven artifact coordinate in the format
   /// `groupId:artifactId:version`.

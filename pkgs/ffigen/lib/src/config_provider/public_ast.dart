@@ -222,8 +222,6 @@ class EnumClass extends DeclNode {
   /// The integer type used for enums in C is implementation-defined and not
   /// part of the ABI. FFIgen tries to mimic the integer sizes chosen by the
   /// most common compilers for various OS and architecture combinations.
-  ///
-  /// Setting this to `true` silences this warning.
   bool get silenceWarning => _enumClass.silenceWarning;
   set silenceWarning(bool value) => _enumClass.silenceWarning = value;
 
@@ -339,11 +337,6 @@ class Typealias extends DeclNode {
 }
 
 /// An Objective-C interface (class) declaration.
-///
-/// By default, Objective-C interfaces that are not directly included via
-/// visitors are generated as stubs if transitively referenced (with methods
-/// and class objects omitted). To fully generate an interface, it must be
-/// explicitly included by setting [isIncluded] to `true`.
 class ObjCInterface extends DeclNode {
   final internal.ObjCInterface _interface;
 
@@ -378,11 +371,10 @@ class ObjCInterface extends DeclNode {
 
   /// Whether this [ObjCInterface] should be included in code generation.
   ///
-  /// By default, top-level Objective-C interfaces are not included (`false`).
-  /// If an interface is referenced transitively (e.g. as a parameter or return
-  /// type of an included method) but not directly included, it is generated
-  /// as a stub without its methods or static members. To fully generate the
-  /// interface, set [isIncluded] to `true`.
+  /// By default, Objective-C interfaces that are not directly included, but are
+  /// transitively referenced by included APIs, are generated as stubs. To fully
+  /// generate the interface, it must be explicitly included by setting
+  /// [isIncluded] to `true`.
   bool get isIncluded => _interface.isIncluded;
   set isIncluded(bool value) => _interface.isIncluded = value;
 
@@ -438,10 +430,10 @@ class ObjCProtocol extends DeclNode {
 
   /// Whether this [ObjCProtocol] should be included in code generation.
   ///
-  /// By default, Objective-C protocols are not included (`false`). If a
-  /// protocol is referenced transitively but not directly included via
-  /// visitors, it is generated as a stub or omitted. To fully generate the
-  /// protocol and its methods, set [isIncluded] to `true`.
+  /// By default, Objective-C protocols that are not directly included, but are
+  /// transitively referenced by included APIs, are generated as stubs. To fully
+  /// generate the protocol, it must be explicitly included by setting
+  /// [isIncluded] to `true`.
   bool get isIncluded => _protocol.isIncluded;
   set isIncluded(bool value) => _protocol.isIncluded = value;
 }

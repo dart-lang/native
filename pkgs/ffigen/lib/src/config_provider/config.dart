@@ -11,6 +11,7 @@ import '../code_generator.dart';
 import '../ffigen.dart';
 import 'config_types.dart';
 import 'public_ast.dart';
+import 'spec_utils.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.
@@ -79,12 +80,12 @@ final class FfiGenerator {
   ///
   /// ### Examples
   ///
-  /// Filtering declarations (top-level declarations have
+  /// Filtering declarations (note: top-level declarations have
   /// `isIncluded = false` by default):
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (!node.name.startsWith('_')) {
+  ///     if (!node.originalName.startsWith('_')) {
   ///       node.isIncluded = true;
   ///     }
   ///   },
@@ -95,7 +96,7 @@ final class FfiGenerator {
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
-  ///     if (node.name == 'custom_type') {
+  ///     if (node.originalName == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
   ///   },
@@ -106,12 +107,10 @@ final class FfiGenerator {
   /// Returns an [ImportedType] if the given [Declaration] should be imported
   /// from another Dart library, or `null` otherwise.
   ///
-  /// This can be used to manually map native types, typedefs, structs, or other
-  /// symbols to custom Dart types or existing bindings without requiring symbol
-  /// files. For importing from symbol files, see `importFromSymbolFile` and
-  /// `importFromSymbolFiles`.
+  /// To import from YAML symbol files, call [importFromSymbolFile] or
+  /// [importFromSymbolFiles], and pass the result here.
   ///
-  /// ### Example
+  /// It can also be used to manually map native types to Dart types:
   ///
   /// ```dart
   /// const ffiImport = LibraryImport('ffi', 'dart:ffi');
@@ -128,7 +127,7 @@ final class FfiGenerator {
   ///         customImport,
   ///         'MyCustomStruct',
   ///         'MyCustomStruct',
-  ///         'struct MyCustomStruct',
+  ///         'MyCustomStruct',
   ///         importedDartType: true,
   ///       );
   ///     }
@@ -245,17 +244,20 @@ final class Output {
 
   /// The output Objective-C file for the generated Objective-C bindings.
   ///
-  /// Defaults to the [dart] output path with a `.m` extension (see [objCFile]).
+  /// Defaults to the [dart] output path with a `.m` extension.
   ///
-  /// Note that this file is generated only when necessary (e.g. for Objective-C
-  /// blocks or category trampolines). If generated, this file must be compiled
-  /// into the package (such as via a Flutter plugin, a `build.dart` script, or
-  /// another native build mechanism).
+  /// Note that this file is generated only when necessary for Objective-C
+  /// interop. If generated, this file must be compiled by a build hook.
   final Uri? objectiveCFile;
 
   Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
 
-  /// The output Cpp glue file for the generated Cpp class bindings.
+  /// The output Cpp file for the generated Cpp class bindings.
+  ///
+  /// Defaults to the [dart] output path with a `.cpp` extension.
+  ///
+  /// Note that this file is generated only when necessary for C++
+  /// interop. If generated, this file must be compiled by a build hook.
   final Uri? cppFile;
 
   Uri get cppBindingsFile =>

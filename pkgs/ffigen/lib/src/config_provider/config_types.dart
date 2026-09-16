@@ -445,11 +445,12 @@ class SymbolFile {
   /// The package or file URI that other bindings will use to import the
   /// generated Dart bindings for these symbols.
   ///
-  /// Using a `package:...` URI is strongly recommended so that other packages
-  /// can resolve the import regardless of directory structure.
+  /// Using a `package:...` URI is recommended for cross-package imports, so
+  /// that other packages can resolve the import regardless of directory
+  /// structure.
   final Uri importPath;
 
-  /// The file path or URI where the YAML symbol file will be generated.
+  /// The file URI where YAML symbol file will be generated.
   final Uri output;
 
   SymbolFile(this.importPath, this.output);

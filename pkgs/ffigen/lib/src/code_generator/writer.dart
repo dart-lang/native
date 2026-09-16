@@ -199,8 +199,8 @@ const _\$objcVersionCheck = $objcPrefix.ObjCVersionCheck(
         'architecture combinations. To prevent any crashes, remove the '
         'enums from your API surface. To rely on the (unsafe!) mimicking, '
         'you can silence this warning by setting node.silenceWarning = true '
-        'in a Visitor(enumClass: ...) or adding silence-enum-warning: true '
-        'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
+        'in a Visitor(enumClass: ...). Affected enums:'
+        '\n\t${names.join('\n\t')}',
       );
     }
 

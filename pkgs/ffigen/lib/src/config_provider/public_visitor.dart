@@ -10,16 +10,9 @@ import 'public_ast.dart';
 /// constructor) or use the [Visitor] factory constructor to provide inline
 /// callbacks for specific nodes.
 ///
-/// Top-level declarations have `isIncluded = false` by default, so visitors
-/// must set `node.isIncluded = true` to include symbols in the generated
-/// bindings. For Objective-C interfaces and protocols, those not directly
-/// included via visitors are generated as stubs (and transitive protocols
-/// omitted); to fully generate an interface or protocol, it must be explicitly
-/// included (`node.isIncluded = true`).
-///
 /// ### Examples
 ///
-/// Filtering declarations (top-level declarations have
+/// Filtering declarations (note: top-level declarations have
 /// `isIncluded = false` by default):
 /// ```dart
 /// final class FilterVisitor extends Visitor {
@@ -27,7 +20,7 @@ import 'public_ast.dart';
 ///
 ///   @override
 ///   void visitFunc(Func node) {
-///     if (!node.name.startsWith('_')) {
+///     if (!node.originalName.startsWith('_')) {
 ///       node.isIncluded = true;
 ///     }
 ///   }
@@ -41,7 +34,7 @@ import 'public_ast.dart';
 ///
 ///   @override
 ///   void visitStruct(Struct node) {
-///     if (node.name == 'custom_type') {
+///     if (node.originalName == 'custom_type') {
 ///       node.name = 'CustomType';
 ///     }
 ///   }
@@ -54,12 +47,12 @@ abstract base class Visitor {
   ///
   /// ### Examples
   ///
-  /// Filtering declarations (top-level declarations have
+  /// Filtering declarations (note: top-level declarations have
   /// `isIncluded = false` by default):
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (!node.name.startsWith('_')) {
+  ///     if (!node.originalName.startsWith('_')) {
   ///       node.isIncluded = true;
   ///     }
   ///   },
@@ -70,7 +63,7 @@ abstract base class Visitor {
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
-  ///     if (node.name == 'custom_type') {
+  ///     if (node.originalName == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
   ///   },
