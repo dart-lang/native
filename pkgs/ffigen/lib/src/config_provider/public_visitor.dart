@@ -10,17 +10,25 @@ import 'public_ast.dart';
 /// constructor) or use the [Visitor] factory constructor to provide inline
 /// callbacks for specific nodes.
 ///
+/// Top-level declarations have `isIncluded = false` by default, so visitors
+/// must set `node.isIncluded = true` to include symbols in the generated
+/// bindings. For Objective-C interfaces and protocols, those not directly
+/// included via visitors are generated as stubs (and transitive protocols
+/// omitted); to fully generate an interface or protocol, it must be explicitly
+/// included (`node.isIncluded = true`).
+///
 /// ### Examples
 ///
-/// Filtering declarations:
+/// Filtering declarations (top-level declarations have
+/// `isIncluded = false` by default):
 /// ```dart
 /// final class FilterVisitor extends Visitor {
 ///   FilterVisitor() : super.base();
 ///
 ///   @override
 ///   void visitFunc(Func node) {
-///     if (node.name.startsWith('_')) {
-///       node.isIncluded = false;
+///     if (!node.name.startsWith('_')) {
+///       node.isIncluded = true;
 ///     }
 ///   }
 /// }
@@ -46,12 +54,13 @@ abstract base class Visitor {
   ///
   /// ### Examples
   ///
-  /// Filtering declarations:
+  /// Filtering declarations (top-level declarations have
+  /// `isIncluded = false` by default):
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (node.name.startsWith('_')) {
-  ///       node.isIncluded = false;
+  ///     if (!node.name.startsWith('_')) {
+  ///       node.isIncluded = true;
   ///     }
   ///   },
   /// )

@@ -79,7 +79,11 @@ class Func extends DeclNode {
   List<VarArgFunction> get varArgs => _func.varArgs;
   set varArgs(List<VarArgFunction> value) => _func.varArgs = value;
 
-  /// Whether to generate a typedef for this function's native type.
+  /// Whether to generate typedefs for this function type.
+  ///
+  /// When `true`, generates typedefs for both the Native and Dart function
+  /// types, named `Native<Name>` and `Dart<Name>` (where `<Name>` is the
+  /// capitalized function name).
   bool get generateTypedefs => _func.generateTypedefs;
   set generateTypedefs(bool value) => _func.generateTypedefs = value;
 
@@ -212,11 +216,14 @@ class EnumClass extends DeclNode {
   EnumStyle? get style => _enumClass.style;
   set style(EnumStyle? value) => _enumClass.style = value;
 
-  /// Whether warnings associated with this enum declaration should be
-  /// suppressed.
+  /// Whether the warning regarding enum integer type mimicking should be
+  /// silenced for this enum.
   ///
-  /// When `true`, warnings generated during processing of this enum (such as
-  /// name collisions or unsupported enum features) will be silenced.
+  /// The integer type used for enums in C is implementation-defined and not
+  /// part of the ABI. FFIgen tries to mimic the integer sizes chosen by the
+  /// most common compilers for various OS and architecture combinations.
+  ///
+  /// Setting this to `true` silences this warning.
   bool get silenceWarning => _enumClass.silenceWarning;
   set silenceWarning(bool value) => _enumClass.silenceWarning = value;
 
@@ -332,6 +339,11 @@ class Typealias extends DeclNode {
 }
 
 /// An Objective-C interface (class) declaration.
+///
+/// By default, Objective-C interfaces that are not directly included via
+/// visitors are generated as stubs if transitively referenced (with methods
+/// and class objects omitted). To fully generate an interface, it must be
+/// explicitly included by setting [isIncluded] to `true`.
 class ObjCInterface extends DeclNode {
   final internal.ObjCInterface _interface;
 
@@ -364,7 +376,13 @@ class ObjCInterface extends DeclNode {
   String? get module => _interface.module;
   set module(String? value) => _interface.module = value;
 
-  /// Whether this ObjCInterface should be included in code generation.
+  /// Whether this [ObjCInterface] should be included in code generation.
+  ///
+  /// By default, top-level Objective-C interfaces are not included (`false`).
+  /// If an interface is referenced transitively (e.g. as a parameter or return
+  /// type of an included method) but not directly included, it is generated
+  /// as a stub without its methods or static members. To fully generate the
+  /// interface, set [isIncluded] to `true`.
   bool get isIncluded => _interface.isIncluded;
   set isIncluded(bool value) => _interface.isIncluded = value;
 
@@ -381,6 +399,11 @@ class ObjCInterface extends DeclNode {
 }
 
 /// An Objective-C protocol declaration.
+///
+/// By default, Objective-C protocols that are not directly included via
+/// visitors are omitted (or generated as stubs if directly referenced as a
+/// transitive type constraint). To fully generate a protocol, it must be
+/// explicitly included by setting [isIncluded] to `true`.
 class ObjCProtocol extends DeclNode {
   final internal.ObjCProtocol _protocol;
 
@@ -413,7 +436,12 @@ class ObjCProtocol extends DeclNode {
   String? get module => _protocol.module;
   set module(String? value) => _protocol.module = value;
 
-  /// Whether this ObjCProtocol should be included in code generation.
+  /// Whether this [ObjCProtocol] should be included in code generation.
+  ///
+  /// By default, Objective-C protocols are not included (`false`). If a
+  /// protocol is referenced transitively but not directly included via
+  /// visitors, it is generated as a stub or omitted. To fully generate the
+  /// protocol and its methods, set [isIncluded] to `true`.
   bool get isIncluded => _protocol.isIncluded;
   set isIncluded(bool value) => _protocol.isIncluded = value;
 }

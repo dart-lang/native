@@ -9,10 +9,20 @@ import 'type.dart';
 
 /// A library import which will be written as an import in the generated file.
 class LibraryImport extends AstNode {
+  /// The identifier prefix used to reference symbols from this library in the
+  /// generated Dart file.
   final String name;
+
+  /// The URI string or path of the library to import (e.g. `'dart:ffi'` or
+  /// `'package:my_pkg/my_pkg.dart'`).
   final String _importPath;
+
+  /// An optional import path override used when generating code for
+  /// `package:objective_c`.
   final String? _importPathWhenImportedByPackageObjC;
 
+  /// Creates a [LibraryImport] with the given [name] (used as prefix/identifier)
+  /// and [_importPath].
   const LibraryImport(
     this.name,
     this._importPath, {
@@ -44,15 +54,40 @@ class LibraryImport extends AstNode {
 
 /// An imported type which will be used in the generated code.
 class ImportedType extends Type {
+  /// The [LibraryImport] representing the library where this type is defined.
   final LibraryImport libraryImport;
+
+  /// The C-type representation in FFI (e.g. `'Int64'`, `'Pointer<Void>'`, or
+  /// the name of an imported struct).
   final String cType;
+
+  /// The Dart representation of the type (e.g. `'int'`, `'double'`, or the
+  /// Dart class name).
   final String dartType;
+
+  /// The C/native type string as it appears in C declarations (e.g. `'time_t'`).
   final String nativeType;
+
+  /// An optional default value expression for this type when used as an
+  /// optional parameter.
   final String? defaultValue;
 
   /// Whether the [dartType] is an import from the [libraryImport].
+  ///
+  /// When `true`, [dartType] will be prefixed with the import prefix in
+  /// generated Dart signatures. When `false`, [dartType] is treated as a core
+  /// or locally available type unless [cType] equals [dartType].
   final bool importedDartType;
 
+  /// Creates an [ImportedType].
+  ///
+  /// [libraryImport] specifies the library providing the type.
+  /// [cType] is the FFI representation (e.g. `'Int64'`, `'Pointer<Void>'`).
+  /// [dartType] is the Dart representation (e.g. `'int'`, `'MyClass'`).
+  /// [nativeType] is the native C type name (e.g. `'time_t'`).
+  /// [defaultValue] is an optional default value expression.
+  /// [importedDartType] indicates whether [dartType] should be prefixed by the
+  /// import prefix.
   ImportedType(
     this.libraryImport,
     this.cType,

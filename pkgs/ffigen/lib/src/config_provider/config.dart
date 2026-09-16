@@ -79,12 +79,13 @@ final class FfiGenerator {
   ///
   /// ### Examples
   ///
-  /// Filtering declarations:
+  /// Filtering declarations (top-level declarations have
+  /// `isIncluded = false` by default):
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (node.name.startsWith('_')) {
-  ///       node.isIncluded = false;
+  ///     if (!node.name.startsWith('_')) {
+  ///       node.isIncluded = true;
   ///     }
   ///   },
   /// )
@@ -104,6 +105,37 @@ final class FfiGenerator {
 
   /// Returns an [ImportedType] if the given [Declaration] should be imported
   /// from another Dart library, or `null` otherwise.
+  ///
+  /// This can be used to manually map native types, typedefs, structs, or other
+  /// symbols to custom Dart types or existing bindings without requiring symbol
+  /// files. For importing from symbol files, see `importFromSymbolFile` and
+  /// `importFromSymbolFiles`.
+  ///
+  /// ### Example
+  ///
+  /// ```dart
+  /// const ffiImport = LibraryImport('ffi', 'dart:ffi');
+  /// const customImport = LibraryImport('custom', 'package:my_pkg/types.dart');
+  ///
+  /// final generator = FfiGenerator(
+  ///   // ...
+  ///   importType: (declaration) {
+  ///     if (declaration.originalName == 'time_t') {
+  ///       return ImportedType(ffiImport, 'Int64', 'int', 'time_t');
+  ///     }
+  ///     if (declaration.originalName == 'MyCustomStruct') {
+  ///       return ImportedType(
+  ///         customImport,
+  ///         'MyCustomStruct',
+  ///         'MyCustomStruct',
+  ///         'struct MyCustomStruct',
+  ///         importedDartType: true,
+  ///       );
+  ///     }
+  ///     return null;
+  ///   },
+  /// );
+  /// ```
   final ImportedType? Function(Declaration declaration) importType;
 
   static ImportedType? _defaultImportType(Declaration declaration) => null;
@@ -212,6 +244,13 @@ final class Output {
   final DartOutput dart;
 
   /// The output Objective-C file for the generated Objective-C bindings.
+  ///
+  /// Defaults to the [dart] output path with a `.m` extension (see [objCFile]).
+  ///
+  /// Note that this file is generated only when necessary (e.g. for Objective-C
+  /// blocks or category trampolines). If generated, this file must be compiled
+  /// into the package (such as via a Flutter plugin, a `build.dart` script, or
+  /// another native build mechanism).
   final Uri? objectiveCFile;
 
   Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
@@ -222,7 +261,12 @@ final class Output {
   Uri get cppBindingsFile =>
       cppFile ?? Uri.file('${dart.path.toFilePath()}.cpp');
 
-  /// The config for the symbol file.
+  /// The configuration for generating a symbol file.
+  ///
+  /// When specified, FFIgen will export a YAML symbol file containing symbol
+  /// signatures and metadata, which allows other FFIgen configurations to
+  /// import types from this library (via [FfiGenerator.importType]) instead
+  /// of re-generating them.
   final SymbolFile? symbolFile;
 
   /// The type of comments to generate.
