@@ -22,11 +22,10 @@ Once you have an Objective-C wrapper header, FFIgen can parse it like
 any other header:
 
 ```shell
-dart run ffigen --config config.yaml
+dart run tool/ffigen.dart
 ```
 
-This will generate [swift_api_bindings.dart](./swift_api_bindings.dart),
-using the config in the FFIgen section of the pubspec.yaml.
+This will generate [swift_api_bindings.dart](./swift_api_bindings.dart).
 
 Finally, you can run the example using this command:
 
@@ -36,37 +35,35 @@ dart run example.dart
 
 ## Config notes
 
-FFIgen only sees the Objective-C wrapper header, swift_api.h. So you
-need to set the language to objc, and set the entry-point to the header:
+The FFIgen configuration is defined in `tool/ffigen.dart`. FFIgen only sees
+the Objective-C wrapper header, `swift_api.h`. So you need to enable Objective-C
+support and set the entry-point to the header.
 
-```yaml
-language: objc
-headers:
-  entry-points:
-    - 'third_party/swift_api.h'
+```dart
+final generator = FfiGenerator(
+  output: Output(
+    dart: DartOutput(path: packageRoot.resolve('swift_api_bindings.dart')),
+  ),
+  objectiveC: const ObjectiveC(),
+  input: Input(entryPoints: [packageRoot.resolve('third_party/swift_api.h')]),
+  visitors: [
+    Visitor(
+      objCInterface: (node) {
+        if (node.name == 'SwiftClass') {
+          node.isIncluded = true;
+          node.module = 'swift_module';
+        }
+      },
+    ),
+  ],
+);
 ```
 
-Swift classes become Objective-C interfaces, so include them like this:
-
-```yaml
-objc-interfaces:
-  include:
-    - 'SwiftClass'
-```
-
-There is one extra option you need to set when wrapping a Swift library.
-When `swiftc` compiles the library, it gives the Objective-C interface
-a module prefix. Internally, our `SwiftClass` is actually registered
-as `swift_module.SwiftClass`. So you need to tell FFIgen about this prefix,
-so it loads the correct class from the dylib:
-
-```yaml
-objc-interfaces:
-  include:
-    - 'SwiftClass'
-  module:
-    'SwiftClass': 'swift_module'
-```
-
-The module prefix is whatever you passed to `swiftc` in the
-`-module-name` flag.
+There are two important things to note about this example:
+1. Swift classes become Objective-C interfaces, so include them using an
+  `objCInterface` visitor.
+2. When `swiftc` compiles the library, it gives the Objective-C interface
+  a module prefix. Internally, our `SwiftClass` is actually registered
+  as `swift_module.SwiftClass`. So you need to tell FFIgen about this prefix
+  using `node.module`. The module is whatever you passed to `swiftc` in the
+  `-module-name` flag.
