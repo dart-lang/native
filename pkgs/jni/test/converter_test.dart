@@ -573,7 +573,7 @@ void main() {
         true,
       ];
 
-      final javaArray = dartList.toJArrayDeep();
+      final javaArray = dartList.toJArray();
 
       expect(
         toDartObject(javaArray),
@@ -591,7 +591,7 @@ void main() {
         ],
       ];
 
-      final javaArray = dartList.toJArrayDeep();
+      final javaArray = dartList.toJArray();
 
       expect(
         toDartObject(javaArray),

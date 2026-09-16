@@ -27,13 +27,13 @@ JObject toJObject(
       int() => dartObject.toJLong(),
       double() => dartObject.toJDouble(),
       String() => dartObject.toJString(),
-      List<Object?>() => dartObject.toJListDeep(
+      List<Object?>() => dartObject.toJList(
           convertOther: convertOther,
         ),
-      Set<Object?>() => dartObject.toJSetDeep(
+      Set<Object?>() => dartObject.toJSet(
           convertOther: convertOther,
         ),
-      Map<Object?, Object?>() => dartObject.toJMapDeep(
+      Map<Object?, Object?>() => dartObject.toJMap(
           convertOther: convertOther,
         ),
       _ => convertOther(dartObject),
@@ -57,9 +57,11 @@ JObject? toNullableJObject(
   );
 }
 
-extension DartListToJList on List<Object?> {
-  /// Deep converts this Dart [List] to a [JList].
-  JList<JObject?> toJListDeep({
+extension DartIterableToJList on Iterable<Object?> {
+  /// Converts this Dart [Iterable] to a [JList].
+  ///
+  /// Elements are recursively converted to Java objects.
+  JList<JObject?> toJList({
     JObject Function(Object) convertOther = _defaultJObjectConverter,
   }) =>
       map(
@@ -71,8 +73,10 @@ extension DartListToJList on List<Object?> {
 }
 
 extension DartListToJArray on List<Object?> {
-  /// Deep converts this Dart [List] to a [JArray].
-  JArray<JObject?> toJArrayDeep({
+  /// Converts this Dart [List] to a [JArray].
+  ///
+  /// Elements are recursively converted to Java objects.
+  JArray<JObject?> toJArray({
     JObject Function(Object) convertOther = _defaultJObjectConverter,
   }) =>
       JArray.of(
@@ -86,9 +90,11 @@ extension DartListToJArray on List<Object?> {
       );
 }
 
-extension DartSetToJSet on Set<Object?> {
-  /// Deep converts this Dart [Set] to a [JSet].
-  JSet<JObject?> toJSetDeep({
+extension DartIterableToJSet on Iterable<Object?> {
+  /// Converts this Dart [Iterable] to a [JSet].
+  ///
+  /// Elements are recursively converted to Java objects.
+  JSet<JObject?> toJSet({
     JObject Function(Object) convertOther = _defaultJObjectConverter,
   }) =>
       map(
@@ -100,8 +106,10 @@ extension DartSetToJSet on Set<Object?> {
 }
 
 extension DartMapToJMap on Map<Object?, Object?> {
-  /// Deep converts this Dart [Map] to a [JMap].
-  JMap<JObject?, JObject?> toJMapDeep({
+  /// Converts this Dart [Map] to a [JMap].
+  ///
+  /// Keys and values are recursively converted to Java objects.
+  JMap<JObject?, JObject?> toJMap({
     JObject Function(Object) convertOther = _defaultJObjectConverter,
   }) =>
       map(
