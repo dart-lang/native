@@ -70,7 +70,7 @@ Before making any changes, run the existing legacy YAML generator to ensure that
 dart run ffigen
 
 # Or if a custom config file was used:
-dart run ffigen --config config.yaml
+dart run ffigen --config ffigen.yaml
 ```
 Verify that `git status` reflects a clean working tree (or commit existing changes first). If there are significant changes to the bindings output due to upgrading ffigen, inform the user.
 
@@ -82,7 +82,7 @@ cp lib/src/generated_bindings.dart lib/src/generated_bindings.temp_backup.dart
 *(If Objective-C `.m` files or symbol files are also generated, back them up as well).*
 
 ### Step 4: Create the Dart Configuration Script
-Create the generator script at `tool/ffigen.dart`:
+Create the generator script. The typical location is `tool/ffigen.dart`:
 
 ```dart
 import 'dart:io';
@@ -114,8 +114,8 @@ Compare the new output with the temporary backup. Do this for each binding file 
 git diff --no-index lib/src/generated_bindings.temp_backup.dart lib/src/generated_bindings.dart
 ```
 **Verification rules**:
-- **Allowed diffs**: Trivial differences such as formatting, renaming of internal-only methods, reordering of the bindings, or the names of positional parameters.
-- **Forbidden diffs**: Any differences in public APIs, class names, method signatures, struct fields, enum constants, native types, leaf annotations, packing annotations, or exposed addresses. It's critical that there are no breaking changes, but we also don't want to add new classes or methods unnecessarily.
+- **Allowed diffs**: Trivial differences such as formatting, renaming of internal-only methods or variables, reordering of the bindings, or the names of positional parameters.
+- **Forbidden diffs**: Any differences in public APIs, class names, method signatures, struct fields, enum constants, native types, leaf annotations, packing annotations, etc. It's critical that there are no breaking changes, but we also don't want to add new classes or methods unnecessarily.
 - If unintended diffs exist, adjust the script and re-run until the diff is clean.
 
 ### Step 8: Clean Up Legacy Files and References

@@ -1,8 +1,6 @@
 ---
 name: jnigen-migrate-yaml-to-dart
 description: Migrate legacy package:jnigen YAML configuration (jnigen.yaml or pubspec.yaml) to modern, type-safe Dart generator scripts in tool/jnigen.dart using JniGenerator. Use this skill when asked to migrate jnigen configs, convert jnigen YAML to Dart code, modernize jnigen setup, or transition from `dart run jnigen` to `dart run tool/jnigen.dart`.
-metadata:
-  model: models/gemini-3.1-pro-preview
 ---
 
 # Migrating JNIgen YAML Configuration to Modern Dart Code
@@ -74,12 +72,12 @@ Before making any changes, run the existing legacy YAML generator to ensure that
 dart run jnigen
 
 # Or if a custom config file was used:
-dart run jnigen --config path/to/jnigen.yaml
+dart run jnigen --config jnigen.yaml
 ```
-Verify that `git status` reflects a clean working tree (or commit existing changes first).
+Verify that `git status` reflects a clean working tree (or commit existing changes first). If there are significant changes to the bindings output due to upgrading jnigen, inform the user.
 
 ### Step 3: Copy Existing Generated Bindings to a Temporary Backup
-Make a temporary copy of every generated file or directory so that the newly generated bindings can be diffed line-by-line:
+Make a temporary copy of every generated file or directory so that the newly generated bindings can be diffed line-by-line. For example:
 
 - **Single-file layout**:
   ```bash
@@ -89,13 +87,13 @@ Make a temporary copy of every generated file or directory so that the newly gen
   ```bash
   cp -r lib/src/third_party lib/src/third_party_temp_backup
   ```
-- **Generated symbol file (`symbols.yaml`) or C files (if applicable)**:
+- **Generated symbol file (`symbols.yaml`) (if applicable)**:
   ```bash
   cp symbols.yaml symbols.temp_backup.yaml
   ```
 
 ### Step 4: Create the Dart Configuration Script
-Create the generator entrypoint at `tool/jnigen.dart` (the standard location across Dart ecosystem packages). Ensure the script resolves paths relative to `Platform.script` so that it can be invoked from any working directory:
+Create the generator entrypoint. The typical location is `tool/jnigen.dart`:
 
 ```dart
 import 'dart:io';
@@ -104,17 +102,7 @@ import 'package:jnigen/jnigen.dart';
 void main() async {
   final packageRoot = Platform.script.resolve('../');
   final generator = JniGenerator(
-    input: Input(
-      classes: [
-        // Target classes translated in Step 5...
-      ],
-    ),
-    output: Output(
-      dart: DartOutput(
-        path: packageRoot.resolve('lib/src/generated_bindings.dart'),
-        structure: OutputStructure.singleFile,
-      ),
-    ),
+    // Configuration translated in Step 5...
   );
   await generator.generate();
 }
@@ -122,12 +110,8 @@ void main() async {
 
 ### Step 5: Translate YAML Keys into Modern Dart API
 Inspect the legacy YAML configuration and systematically translate each section into `JniGenerator` parameters using the [Comprehensive YAML to Dart API Mapping](#comprehensive-yaml-to-dart-api-mapping) below:
-- Translate `classes`, `source_path`, `class_path`, `summarizer`, `maven_downloads`, and `android_sdk_config` into `Input(...)`.
-- Translate `output.dart` into `DartOutput(path: ..., structure: ...)`.
-- Translate `output.symbols`, `preamble`, `generate_stubs`, and `format` into `Output(...)`.
-- Translate `import` and `hide` into `SymbolImports(...)`.
-- Translate `non_null_annotations` and `nullable_annotations` into `NullabilityAnnotations(...)`.
-- Resolve all relative directory and file paths using `packageRoot.resolve(...)`.
+
+The most important change is that filtering and renaming is now performed using `Visitor`s.
 
 ### Step 6: Execute the New Generator Script
 Run the newly created generator script from the package root:
@@ -148,9 +132,9 @@ Compare the new output with the temporary backup:
   ```
 
 **Verification rules**:
-- **Allowed diffs**: Trivial differences in comments (e.g., timestamps, generator versions, comment formatting), or minor whitespace formatting differences caused by `dart format`.
-- **Forbidden diffs**: Any differences in public APIs, class names, method signatures, parameter names, return types, field types, static methods, constructors, interface mixins, or type arguments.
-- If unintended diffs exist, adjust the `Input` settings, `Output` configuration, or `Visitor` callbacks in `tool/jnigen.dart` and re-run until the diff is completely clean.
+- **Allowed diffs**: Trivial differences such as formatting, renaming of internal-only methods or variables, reordering of the bindings, or the names of positional parameters.
+- **Forbidden diffs**: Any differences in public APIs, class names, method signatures, field types, etc. It's critical that there are no breaking changes, but we also don't want to add new classes or methods unnecessarily.
+- If unintended diffs exist, adjust the script and re-run until the diff is clean.
 
 ### Step 8: Clean Up Legacy Files and References
 1. Delete the temporary backup files:
@@ -271,59 +255,6 @@ Custom Java annotations indicating nullability map into `NullabilityAnnotations(
 | `OutputConfig` class name | **Renamed** | Renamed to `Output` in Dart API. |
 | `DartCodeOutput` class name | **Renamed** | Renamed to `DartOutput` in Dart API. |
 | `generateJniBindings(...)` | **Renamed** | Replaced by `await generator.generate()` extension method on `JniGenerator`. |
-
-### 9. Modern Dart-Only Capabilities
-
-The programmatic Dart API unlocks powerful features that were impossible or difficult to express in YAML:
-
-1. **AST Visitor Passes for Renaming and Filtering**:
-   Inspect and modify Java classes, methods, fields, and parameters before bindings are generated:
-   ```dart
-   visitors: [
-     Visitor(
-       classDecl: (node) {
-         if (node.binaryName.contains('internal')) {
-           node.isIncluded = false; // Exclude class
-         }
-         if (node.name == 'OldName') {
-           node.name = 'NewName'; // Rename class in generated Dart code
-         }
-       },
-       method: (node) {
-         if (node.name == 'disposeNative') {
-           node.isIncluded = false; // Exclude specific method
-         }
-       },
-       field: (node) {
-         if (node.name == 'DEBUG_FLAG') {
-           node.isIncluded = false; // Exclude field
-         }
-       },
-     ),
-   ]
-   ```
-2. **Custom Interface Mixin Names**:
-   Customize the name of the Dart mixin generated for implementing Java interfaces:
-   ```dart
-   Visitor(
-     classDecl: (node) {
-       if (node.binaryName == 'android.view.View\$OnClickListener') {
-         node.interfaceMixinName = 'CustomOnClickListenerMixin';
-       }
-     },
-   )
-   ```
-3. **Dynamic Path & Environment Resolution**:
-   Compute paths dynamically, detect local SDKs, or conditionally include classes:
-   ```dart
-   final isCI = Platform.environment.containsKey('CI');
-   final classes = [
-     'com.example.CoreApi',
-     if (!isCI) 'com.example.DebugTools',
-   ];
-   ```
-
----
 
 ## Before & After Migration Examples
 
@@ -543,117 +474,6 @@ void main() async {
         'org.jetbrains.annotations.Nullable',
       ],
     ),
-  );
-
-  await generator.generate();
-}
-```
-
----
-
-### Example 4: Legacy Dart + C Bindings Migration
-
-Migrating legacy JNIgen configurations that generated C wrapper code (`output.c` or `c_root`) to modern pure Dart bindings:
-
-#### BEFORE: `jnigen.yaml` (Legacy)
-```yaml
-# Legacy configuration that used C wrappers:
-output:
-  dart:
-    path: lib/src/legacy_bindings.dart
-    structure: single_file
-  c:
-    path: src/legacy_bindings/
-    library_name: legacy_bindings
-
-classes:
-  - 'com.example.LegacyManager'
-
-source_path:
-  - 'android/src/main/java'
-```
-
-#### AFTER: `tool/jnigen.dart` (Modern Pure Dart)
-```dart
-import 'dart:io';
-import 'package:jnigen/jnigen.dart';
-
-void main() async {
-  final packageRoot = Platform.script.resolve('../');
-
-  // Modern JNIgen generates direct pure Dart FFI calls via package:jni.
-  // The legacy 'output.c' configuration is removed completely.
-  final generator = JniGenerator(
-    input: Input(
-      classes: ['com.example.LegacyManager'],
-      sourcePath: [packageRoot.resolve('android/src/main/java/')],
-    ),
-    output: Output(
-      dart: DartOutput(
-        path: packageRoot.resolve('lib/src/legacy_bindings.dart'),
-        structure: OutputStructure.singleFile,
-      ),
-    ),
-  );
-
-  await generator.generate();
-}
-```
-*(Note: After verifying the Dart bindings, any obsolete C glue files in `src/legacy_bindings/` and CMake targets in `CMakeLists.txt` that only compiled JNIgen wrappers can be safely removed if no longer used).*
-
----
-
-### Example 5: AST Filtering & Renaming with Modern Visitors
-
-Using `Visitor` callbacks in `tool/jnigen.dart` to rename symbols and exclude specific methods or fields:
-
-#### `tool/jnigen.dart`
-```dart
-import 'dart:io';
-import 'package:jnigen/jnigen.dart';
-
-void main() async {
-  final packageRoot = Platform.script.resolve('../');
-
-  final generator = JniGenerator(
-    input: Input(
-      classes: ['com.example.DatabaseClient'],
-      sourcePath: [packageRoot.resolve('java/')],
-    ),
-    output: Output(
-      dart: DartOutput(
-        path: packageRoot.resolve('lib/src/database_client.g.dart'),
-        structure: OutputStructure.singleFile,
-      ),
-    ),
-    visitors: [
-      Visitor(
-        classDecl: (node) {
-          // Rename class in generated Dart bindings
-          if (node.name == 'DatabaseClient') {
-            node.name = 'Client';
-          }
-          // Customize interface mixin name if implementing Java interfaces
-          node.interfaceMixinName = '${node.name}Mixin';
-        },
-        method: (node) {
-          // Exclude internal or unwanted methods
-          if (node.name.startsWith('internal') || node.name == 'rawExecute') {
-            node.isIncluded = false;
-          }
-          // Rename Dart method name
-          if (node.name == 'closeConnection') {
-            node.name = 'close';
-          }
-        },
-        field: (node) {
-          // Exclude sensitive or debug constants
-          if (node.name == 'DEBUG_LOG') {
-            node.isIncluded = false;
-          }
-        },
-      ),
-    ],
   );
 
   await generator.generate();
