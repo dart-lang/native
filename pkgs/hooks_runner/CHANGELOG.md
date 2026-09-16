@@ -1,6 +1,7 @@
-## 1.6.4-wip
+## 1.6.4
 
 - Use the path separator of the target platform in native_assets.yaml.
+- Bump `package:code_assets` dependency to `^2.1.0`.
 
 ## 1.6.3
 
