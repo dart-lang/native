@@ -437,8 +437,20 @@ class FfiNativeConfig {
   const FfiNativeConfig({required this.enabled, this.assetId});
 }
 
+/// Configuration for generating a symbol file.
+///
+/// Symbol files allow other FFIgen runs to import and reuse symbols defined in
+/// these bindings rather than regenerating them.
 class SymbolFile {
+  /// The package or file URI that other bindings will use to import the
+  /// generated Dart bindings for these symbols.
+  ///
+  /// Using a `package:...` URI is recommended for cross-package imports, so
+  /// that other packages can resolve the import regardless of directory
+  /// structure.
   final Uri importPath;
+
+  /// The file URI where YAML symbol file will be generated.
   final Uri output;
 
   SymbolFile(this.importPath, this.output);

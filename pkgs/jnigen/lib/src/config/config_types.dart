@@ -21,13 +21,14 @@ final _currentVersion = Version(1, 0, 0);
 
 /// Configuration for dependencies to be downloaded using maven.
 ///
-/// Dependency names should be listed in groupId:artifactId:version format.
+/// Dependency names should be listed in `groupId:artifactId:version` format.
 /// For [sourceDeps], sources will be unpacked to [sourceDir] root and JAR files
-/// will also be downloaded. For the packages in jarOnlyDeps, only JAR files
-/// will be downloaded.
+/// will also be downloaded. Note that downloading source packages does not
+/// automatically resolve or include transitive dependencies. For packages in
+/// [jarOnlyDeps], only JAR files will be downloaded.
 ///
 /// When passed as a parameter to [JniGenerator], the downloaded sources and
-/// JAR files will be automatically added to source path and class path
+/// JAR files will be automatically added to the source path and class path
 /// respectively.
 class MavenDownloads {
   static final defaultMavenSourceDir = Uri.directory('mvn_java');
@@ -42,16 +43,36 @@ class MavenDownloads {
   })  : sourceDir = sourceDir ?? defaultMavenSourceDir,
         jarDir = jarDir ?? defaultMavenJarDir;
 
-  /// List of Maven dependencies to download sources for.
+  /// List of Maven dependencies to download and unpack sources for.
+  ///
+  /// Each entry should be a valid Maven artifact coordinate in the format
+  /// `groupId:artifactId:version`.
+  ///
+  /// Downloading source packages does not automatically resolve or include
+  /// transitive dependencies. Any required transitive dependencies must be
+  /// listed explicitly in [sourceDeps] or [jarOnlyDeps].
   List<String> sourceDeps;
 
   /// Directory where Maven sources are extracted.
+  ///
+  /// Defaults to `mvn_java/`. It is not required to list this directory
+  /// explicitly in [Input.sourcePath].
   Uri sourceDir;
 
   /// List of Maven dependencies to download JARs for only.
+  ///
+  /// Each entry should be a valid Maven artifact coordinate in the format
+  /// `groupId:artifactId:version`.
+  ///
+  /// These can be used for JAR dependencies (including optional or transitive
+  /// dependencies of [sourceDeps]) that are needed on the classpath so the
+  /// source code can be analyzed, but do not need Dart bindings generated.
   List<String> jarOnlyDeps;
 
   /// Directory where Maven JARs are stored.
+  ///
+  /// Defaults to `mvn_jar/`. It is not required to list this directory
+  /// explicitly in [Input.classPath].
   Uri jarDir;
 }
 
@@ -123,10 +144,18 @@ class AndroidSdk {
   /// specified.
   bool addGradleSources;
 
-  /// Relative path to example application which will be used to determine
-  /// compile time classpath using a gradle stub. For most Android plugin
-  /// packages, 'example' will be the name of example application created inside
-  /// the package.
+  /// Path to the Android application project (or example application) used to
+  /// determine compile-time classpath using a Gradle stub.
+  ///
+  /// In the case of an Android plugin project, the plugin itself cannot be
+  /// built directly and [addGradleDeps] is not directly feasible. This property
+  /// can be set to the path of the package's example application (usually
+  /// `example/`) so that Gradle dependencies can be collected by running a
+  /// stub in that directory.
+  ///
+  /// See `example/notification_plugin/tool/jnigen.dart` for an example.
+  ///
+  /// Defaults to the current directory (`.`).
   Uri androidExample;
 }
 
@@ -217,6 +246,11 @@ class DartOutput {
   }
 
   /// Path to write generated Dart bindings.
+  ///
+  /// When [structure] is [OutputStructure.packageStructure] (the default),
+  /// this must be a directory path ending with a trailing slash (`/`).
+  /// When [structure] is [OutputStructure.singleFile], this must be a file
+  /// path ending with `.dart`.
   Uri path;
 
   /// File structure of the generated Dart bindings.
@@ -295,9 +329,16 @@ final class Output {
 /// Configuration for input Java source files, classpaths, and SDK dependencies.
 final class Input {
   /// Directories to search for Java source files.
+  ///
+  /// Note that source paths for dependencies downloaded using [mavenDownloads]
+  /// are added automatically without needing to be specified here.
   final List<Uri> sourcePath;
 
   /// Classpaths/JARs to search for compiled Java classes and dependencies.
+  ///
+  /// This should include any JAR dependencies of the source files in
+  /// [sourcePath]. Note that JARs downloaded using [mavenDownloads] are added
+  /// automatically without needing to be specified here.
   final List<Uri> classPath;
 
   /// Fully-qualified class or package names to generate bindings for.
