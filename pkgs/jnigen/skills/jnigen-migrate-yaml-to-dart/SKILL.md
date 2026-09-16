@@ -1,5 +1,5 @@
 ---
-name: dart-migrate-jnigen-to-code
+name: jnigen-migrate-yaml-to-dart
 description: Migrate legacy package:jnigen YAML configuration (jnigen.yaml or pubspec.yaml) to modern, type-safe Dart generator scripts in tool/jnigen.dart using JniGenerator. Use this skill when asked to migrate jnigen configs, convert jnigen YAML to Dart code, modernize jnigen setup, or transition from `dart run jnigen` to `dart run tool/jnigen.dart`.
 metadata:
   model: models/gemini-3.1-pro-preview
