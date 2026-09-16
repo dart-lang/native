@@ -122,5 +122,23 @@ void main() {
         }
       });
     });
+
+    test('garbage collected', () async {
+      await using((arena) async {
+        // Unlike the 'ref counting' test, the collection is deliberately not
+        // created inside an `autoReleasePool`. Dart threads don't run a
+        // `NSRunLoop`, so an autoreleased collection would never be
+        // deallocated.
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(NSSet.of([NSObject(), NSObject()]));
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
   });
 }

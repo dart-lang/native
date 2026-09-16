@@ -6,8 +6,11 @@
 @TestOn('mac-os')
 library;
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
+
+import 'util.dart';
 
 void main() {
   group('NSMutableDictionary', () {
@@ -100,6 +103,20 @@ void main() {
         unorderedEquals(['obj1', 'obj3', 'obj5']),
       );
       expect(dict.values.toList(), unorderedEquals([obj2, obj4, obj6]));
+    });
+
+    test('garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          final dict = NSMutableDictionary.of({'key'.toNSString(): NSObject()});
+          tracker.track(dict);
+        }();
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
     });
   });
 }

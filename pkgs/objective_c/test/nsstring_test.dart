@@ -6,8 +6,11 @@
 @TestOn('mac-os')
 library;
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
+
+import 'util.dart';
 
 void main() {
   group('NSString', () {
@@ -24,5 +27,22 @@ void main() {
         expect(ns2.toDartString(), s);
       });
     }
+
+    // Strings short enough to be stored as tagged pointers are never
+    // deallocated, so use one that is long enough to be a real object.
+    test('garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          const longString =
+              'a string that is far too long to be stored as a tagged pointer';
+          tracker.track(longString.toNSString());
+        }();
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
   });
 }

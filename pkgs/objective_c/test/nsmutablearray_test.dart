@@ -6,8 +6,11 @@
 @TestOn('mac-os')
 library;
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
+
+import 'util.dart';
 
 void main() {
   group('NSMutableArray', () {
@@ -109,6 +112,20 @@ void main() {
       expect(array, [obj1, obj5, obj1, obj5]);
 
       expect(array.sublist(1, 3), [obj5, obj1]);
+    });
+
+    test('garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          final array = NSMutableArray.of([NSObject(), NSObject()]);
+          tracker.track(array);
+        }();
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
     });
   });
 }

@@ -6,8 +6,11 @@
 @TestOn('mac-os')
 library;
 
+import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
+
+import 'util.dart';
 
 void main() {
   group('NSMutableSet', () {
@@ -78,6 +81,20 @@ void main() {
       expect(s.isNotEmpty, isTrue);
       expect(s.intersection({obj5, obj2, null, 123}), {obj5, obj2});
       expect(s.toList(), expected);
+    });
+
+    test('garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          final set = NSMutableSet.of([NSObject(), NSObject()]);
+          tracker.track(set);
+        }();
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
     });
   });
 }
