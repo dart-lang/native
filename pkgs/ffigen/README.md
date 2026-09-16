@@ -18,6 +18,9 @@ For details see https://dart.dev/guides/libraries/objective-c-interop.
 
 More FFIgen documentation can be found [here](doc/README.md).
 
+> [!NOTE]
+> The YAML configuration format is deprecated and will be removed in a future version. Please migrate to the programmatic Dart generator API. You can use the migration skill in [`skills/ffigen-migrate-yaml-to-dart`](skills/ffigen-migrate-yaml-to-dart) to automate the migration with an agent, but it also serves as good documentation if doing the migration manually.
+
 ## Getting Started
 
 This guide demonstrates how to call a custom C API from a standalone Dart

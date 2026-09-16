@@ -1,5 +1,6 @@
 ## 1.0.1-wip
 
+- The YAML configuration format is deprecated and will be removed in a future release.
 - Report an empty entry under `classes` in the config file as a config error
   instead of failing with a type error.
 - Generate links to method-specific Javadocs for Maven dependencies when
