@@ -246,8 +246,8 @@ final class Output {
   ///
   /// Defaults to the [dart] output path with a `.m` extension.
   ///
-  /// Note that this file is generated only when necessary for Objective-C
-  /// interop. If generated, this file must be compiled by a build hook.
+  /// This file is generated only when necessary for Objective-C interop. If
+  /// generated, this file must be compiled by a build hook.
   final Uri? objectiveCFile;
 
   Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
@@ -256,8 +256,8 @@ final class Output {
   ///
   /// Defaults to the [dart] output path with a `.cpp` extension.
   ///
-  /// Note that this file is generated only when necessary for C++
-  /// interop. If generated, this file must be compiled by a build hook.
+  /// This file is generated only when necessary for C++ interop. If generated,
+  /// this file must be compiled by a build hook.
   final Uri? cppFile;
 
   Uri get cppBindingsFile =>

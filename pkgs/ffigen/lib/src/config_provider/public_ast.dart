@@ -369,7 +369,7 @@ class ObjCInterface extends DeclNode {
   String? get module => _interface.module;
   set module(String? value) => _interface.module = value;
 
-  /// Whether this [ObjCInterface] should be included in code generation.
+  /// Whether this interface should be included in code generation.
   ///
   /// By default, Objective-C interfaces that are not directly included, but are
   /// transitively referenced by included APIs, are generated as stubs. To fully
@@ -428,7 +428,7 @@ class ObjCProtocol extends DeclNode {
   String? get module => _protocol.module;
   set module(String? value) => _protocol.module = value;
 
-  /// Whether this [ObjCProtocol] should be included in code generation.
+  /// Whether this protocol should be included in code generation.
   ///
   /// By default, Objective-C protocols that are not directly included, but are
   /// transitively referenced by included APIs, are generated as stubs. To fully
@@ -470,7 +470,7 @@ class ObjCCategory extends DeclNode {
   @override
   set name(String value) => _category.symbol.oldName = value;
 
-  /// Whether this ObjCCategory should be included in code generation.
+  /// Whether this category should be included in code generation.
   ///
   /// If you have set this field to false, but the category is still being
   /// generated, you may need to set [interface]`.includeCategories` to false
