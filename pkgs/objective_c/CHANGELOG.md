@@ -18,6 +18,11 @@
 - Fix potential memory leaks when converting a Dart `int`, `double`, `num` or
   `bool` to a `NSNumber` (via `toNSNumber`) because the created `NSNumber` was
   added to the autorelease pool.
+- Replace `NSDate.dateWithTimeIntervalSince1970` with
+  `NSDate.alloc().initWithTimeIntervalSince1970`. `NSDate` uses pointer
+  tagging rather than reference counting for the entire range of `DateTime`
+  so this change is for consistency (and not rely on an implementation
+  detail), not correctness.
 - Fix a crash in the `NSInputStream` returned by `toNSInputStream`: reading
   from or closing the stream after its Dart side had already closed it raised
   `NSInternalInconsistencyException` ("DartInputStreamAdapter:
