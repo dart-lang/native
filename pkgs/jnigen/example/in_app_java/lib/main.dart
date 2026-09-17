@@ -26,9 +26,21 @@ extension IntX on int {
 const sunglassEmoji = "😎";
 
 // snippet-start#show_toast
+void showToast() {
+  final activity =
+      androidActivity(PlatformDispatcher.instance.engineId!)?.as(Activity.type);
+  final message = 'This is a native toast shown from a Flutter app via JNI.';
+  AndroidUtils.showToast(
+    activity,
+    message.toJString().as(CharSequence.type),
+    0,
+  );
+}
+// snippet-end#show_toast
+
 /// Display device model number and the number of times this was called
 /// as Toast.
-void showToast() {
+void showToastFancy() {
   final toastCount = hashmap.getOrDefault(
     "toastCount".toJString(),
     0.toJString(),
@@ -47,7 +59,6 @@ void showToast() {
     0,
   );
 }
-// snippet-end#show_toast
 
 void main() {
   EmojiCompat.init(context.as(Context.type));
@@ -82,7 +93,7 @@ class MyHomePage extends StatelessWidget {
           children: [
             ElevatedButton(
               child: const Text('Show Device Model'),
-              onPressed: () => showToast(),
+              onPressed: () => showToastFancy(),
             ),
           ],
         ),

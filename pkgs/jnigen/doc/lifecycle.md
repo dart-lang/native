@@ -79,13 +79,13 @@ using((arena) {
 - When an original Java object is no longer needed, set `releaseOriginal` to
   `true` during conversion to Dart equivalents or casting.
 
-  <!-- no-source-file -->
+  <!-- file://./../example/api/lifecycle_snippet.dart#release_original -->
   ```dart
   final foo = Foo();
   final String string = foo.someJString().toDartString(releaseOriginal: true);
   final JInteger jint =
-        foo.someJNumber().as(JInteger.type, releaseOriginal: true);
-  final int dartInt = castedAsInteger.intValue(releaseOriginal: true);
+      foo.someJNumber().as(JInteger.type, releaseOriginal: true);
+  final int dartInt = jint.toDartInt(releaseOriginal: true);
   foo.release();
   // All references are removed.
   ```
@@ -103,13 +103,13 @@ corresponding closures.
 One could create cycles between Dart and Java GC's when implementing interfaces.
 For example consider the following:
 
-<!-- no-source-file -->
+<!-- file://./../example/api/lifecycle_snippet.dart#cycle -->
 ```dart
 final foo = Foo();
 foo.bar = Bar.implement($Bar(
   f: () {
-   return foo;
-  }
+    return foo;
+  },
 ));
 ```
 
@@ -127,17 +127,17 @@ graph TD;
 To prevent cycles, use
 [`WeakReference`](https://api.dart.dev/dart-core/WeakReference-class.html)s.
 
-<!-- no-source-file -->
+<!-- file://./../example/api/lifecycle_snippet.dart#cycle_breaker -->
 ```dart
 final weakFoo = WeakReference(foo);
 foo.bar = Bar.implement($Bar(
   f: () {
     final foo = weakFoo.target;
     if (foo == null) {
-      throw StateError();
+      throw StateError('Foo was collected');
     }
     return foo;
-  }
+  },
 ));
 ```
 
@@ -156,7 +156,7 @@ graph TD;
 > overcapturing, implement your logic in a separate function or create a class
 > that implements `$Bar`.
 >
-> <!-- no-source-file -->
+> <!-- file://./../example/api/lifecycle_snippet.dart#cycle_breaker_class -->
 > ```dart
 > final class BarImpl with $Bar {
 >   final WeakReference<Foo> weakFoo;
@@ -164,16 +164,16 @@ graph TD;
 >   BarImpl(this.weakFoo);
 >
 >   @override
->   void f() {
+>   Foo f() {
 >     final foo = weakFoo.target;
 >     if (foo == null) {
->       throw StateError();
+>       throw StateError('Foo was collected');
 >     }
 >     return foo;
 >   }
 > }
 >
-> void main() {
+> void cycleBreakerClassMain(Foo foo) {
 >   final weakFoo = WeakReference(foo);
 >   foo.bar = Bar.implement(BarImpl(weakFoo));
 >   // ...
