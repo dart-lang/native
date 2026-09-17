@@ -71,13 +71,16 @@ instructions.
      final packageRoot = Platform.script.resolve('../');
      final generator = JniGenerator(
        input: Input(
-         sourcePath: [packageRoot.resolve('android/app/src/main/java')],
+         // Required. List of classes or packages for which bindings should be generated.
          classes: [
            'com.example.in_app_java', // Generate the entire package
            'androidx.emoji2.text.EmojiCompat', // From gradle's compile classpath
            'androidx.emoji2.text.DefaultEmojiCompatConfig', // From gradle's compile classpath
            'android.os.Build', // from gradle's compile classpath
          ],
+         // Optional. List of directories that contain the source files for which to generate bindings.
+         sourcePath: [packageRoot.resolve('android/app/src/main/java')],
+         // Optional. Configuration to search for Android SDK libraries.
          androidSdk: AndroidSdk(
            addGradleDeps: true,
            androidExample: packageRoot,
@@ -85,7 +88,9 @@ instructions.
        ),
        output: Output(
          dart: DartOutput(
+           // Required. Output path for generated bindings.
            path: packageRoot.resolve('lib/android_utils.g.dart'),
+           // Optional. Write bindings into a single file (instead of one file per class).
            structure: OutputStructure.singleFile,
          ),
        ),
@@ -105,23 +110,12 @@ instructions.
 
    <!-- file://./example/in_app_java/lib/main.dart#show_toast -->
    ```dart
-   /// Display device model number and the number of times this was called
-   /// as Toast.
    void showToast() {
-     final toastCount = hashmap.getOrDefault(
-       "toastCount".toJString(),
-       0.toJString(),
-     );
-     final newToastCount = (int.parse(toastCount!.toDartString()) + 1).toJString();
-     hashmap.put("toastCount".toJString(), newToastCount);
-     final emoji =
-         emojiCompat.hasEmojiGlyph(sunglassEmoji.toJString().as(CharSequence.type))
-             ? sunglassEmoji
-             : ':cool:';
-     final message =
-         '${newToastCount.toDartString()} - ${Build.MODEL!.toDartString()} $emoji';
+     final activity =
+         androidActivity(PlatformDispatcher.instance.engineId!)?.as(Activity.type);
+     final message = 'This is a native toast shown from a Flutter app via JNI.';
      AndroidUtils.showToast(
-       androidActivity(PlatformDispatcher.instance.engineId!)?.as(Activity.type),
+       activity,
        message.toJString().as(CharSequence.type),
        0,
      );

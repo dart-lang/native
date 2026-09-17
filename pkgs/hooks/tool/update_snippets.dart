@@ -91,7 +91,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
   var newContent = oldContent;
 
   final markers = RegExp(
-    r'^([ \t]*(?:/{3}[ ]?)?)```(\w*)',
+    r'^([ \t]*(?:(?:>[ \t]*)+|/{3}[ ]?)?)```(\w*)',
     multiLine: true,
   ).allMatches(oldContent);
 
@@ -153,7 +153,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     final lineBeforeText = oldContent.split('\n')[lastLineOfContentBefore];
 
     final fileLineMatch = RegExp(
-      r'^(.*?)<!-- (?:file://./(\S+?)(?:#(\S+))?|(no-source-file)) -->\s*$',
+      r'^([ \t]*(?:(?:>[ \t]*)+|/{3}[ ]?)?)<!-- (?:file://./(\S+?)(?:#(\S+))?|(no-source-file)) -->\s*$',
     ).firstMatch(lineBeforeText);
 
     if (fileLineMatch == null) {
