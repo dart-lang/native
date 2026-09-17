@@ -59,8 +59,8 @@ void main() {
       final repoRoot = packageRoot.uri.resolve('../../../../../');
       final pubspecFile = File.fromUri(tempDir.uri.resolve('pubspec.yaml'));
       final pubspecContent = (await pubspecFile.readAsString())
-          .replaceFirst('resolution: workspace\n', '')
-          .replaceFirst('publish_to: none\n', '''
+          .replaceFirst('resolution: workspace', '')
+          .replaceFirst('publish_to: none', '''
 dependency_overrides:
   code_assets:
     path: ${repoRoot.resolve('pkgs/code_assets').toFilePath()}
@@ -69,8 +69,7 @@ dependency_overrides:
   native_toolchain_c:
     path: ${repoRoot.resolve('pkgs/native_toolchain_c').toFilePath()}
   ffigen:
-    path: ${repoRoot.resolve('pkgs/ffigen').toFilePath()}
-''');
+    path: ${repoRoot.resolve('pkgs/ffigen').toFilePath()}''');
       await pubspecFile.writeAsString(pubspecContent);
 
       final publishResult = await Process.run(Platform.resolvedExecutable, [
@@ -86,6 +85,7 @@ dependency_overrides:
       final fileName = targetFileName(OS.current, Architecture.current, null);
       expect(publishResult.stdout as String, contains(fileName));
     },
+    timeout: const Timeout(Duration(minutes: 5)),
   );
 }
 
