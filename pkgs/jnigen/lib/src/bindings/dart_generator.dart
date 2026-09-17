@@ -166,6 +166,7 @@ String escapeDartString(String value) {
 ///
 /// Let's take the following code as an example:
 ///
+/// <!-- no-source-file -->
 /// ```dart
 /// Method definition
 /// void f<T extends num, U>(JType<T> $T, JType<U> $U, T t, U u) {
@@ -1562,6 +1563,7 @@ ${modifier}final _$idName = $_protectedExtension
 /// Method parameter's definition.
 ///
 /// For example `Foo foo` in:
+/// <!-- no-source-file -->
 /// ```dart
 /// void bar(Foo foo) => ...
 /// ```
@@ -1589,6 +1591,7 @@ class _ParamDef extends Visitor<Param, String> {
 /// in the method's scope they have to be assigned to a local variable.
 ///
 /// For example:
+/// <!-- no-source-file -->
 /// ```dart
 /// final _foo = foo.reference;
 /// ```
@@ -1610,6 +1613,7 @@ class _ParamReference extends Visitor<Param, String> {
 /// Method parameter used in calling the native method.
 ///
 /// For example `foo.reference.pointer` in:
+/// <!-- no-source-file -->
 /// ```dart
 /// void bar(Foo foo) => _bar(foo.reference.pointer);
 /// ```
@@ -1629,6 +1633,7 @@ class _ParamCall extends Visitor<Param, String> {
 /// inwards.
 ///
 /// For example:
+/// <!-- no-source-file -->
 /// ```dart
 /// final buffer = OutsideInBuffer(); // asterisk (*) is used to show the middle
 /// buffer.appendLeft('f('); // f(*
