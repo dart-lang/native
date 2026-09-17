@@ -14,13 +14,13 @@ import 'native_test_config.dart' as native_test_config;
 
 void main() {
   group('native_test', () {
-    test('generate_bindings', () {
+    test('generate_bindings', () async {
       final config = native_test_config.getConfig(
         Uri.file(path.join(packagePathForTests, '')),
       );
       final context = testContext(config);
 
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         parse(context),
         'native_test_bindings.dart',

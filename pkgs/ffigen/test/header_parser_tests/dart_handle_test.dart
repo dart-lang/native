@@ -33,9 +33,9 @@ ${strings.headers}:
         ),
       );
     });
-    test('Expected Bindings', () {
+    test('Expected Bindings', () async {
       final context = testContext();
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         actual,
         'header_parser_dart_handle_test_output.dart',

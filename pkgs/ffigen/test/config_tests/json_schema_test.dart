@@ -19,8 +19,8 @@ void main() {
       context.logger,
     ).generateJsonSchema(strings.ffigenJsonSchemaId);
 
-    test('Schema Changes', () {
-      matchFileWithExpected(
+    test('Schema Changes', () async {
+      await matchFileWithExpected(
         context: context,
         pathForActual: 'ffigen.schema.json',
         pathToExpected: [strings.ffigenJsonSchemaFileName],

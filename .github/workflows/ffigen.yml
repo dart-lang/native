@@ -50,7 +50,7 @@ jobs:
 
   test-linux:
     needs: analyze
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     defaults:
@@ -65,8 +65,8 @@ jobs:
           channel: stable
       - name: Install dependencies
         run: dart pub get && flutter pub get --directory="../jni"
-      - name: Install libclang-14-dev
-        run: sudo apt-get install libclang-14-dev
+      - name: Install libclang-18-dev
+        run: sudo apt-get update && sudo apt-get install libclang-18-dev
       - name: Run VM tests
         run: dart test
       - name: Generate package:jni bindings
@@ -101,21 +101,14 @@ jobs:
       - name: Generate package:jni bindings
         run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
-      - name: Trust Coveralls tap
-        run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
         with:
-          flag-name: ffigen
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
-          path-to-lcov: pkgs/ffigen/coverage/lcov.info
-      - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
-        with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+          files: pkgs/ffigen/coverage/lcov.info
+          flags: ffigen
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
 
   test-mac-intel:
     needs: analyze

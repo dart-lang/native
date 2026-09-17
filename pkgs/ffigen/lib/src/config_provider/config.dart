@@ -11,6 +11,7 @@ import '../code_generator.dart';
 import '../ffigen.dart';
 import 'config_types.dart';
 import 'public_ast.dart';
+import 'spec_utils.dart';
 
 /// The generator that generates bindings for `dart:ffi` from C and Objective-C
 /// headers.
@@ -79,12 +80,13 @@ final class FfiGenerator {
   ///
   /// ### Examples
   ///
-  /// Filtering declarations:
+  /// Filtering declarations (note: top-level declarations have
+  /// `isIncluded = false` by default):
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (node.name.startsWith('_')) {
-  ///       node.isIncluded = false;
+  ///     if (!node.originalName.startsWith('_')) {
+  ///       node.isIncluded = true;
   ///     }
   ///   },
   /// )
@@ -94,7 +96,7 @@ final class FfiGenerator {
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
-  ///     if (node.name == 'custom_type') {
+  ///     if (node.originalName == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
   ///   },
@@ -104,6 +106,35 @@ final class FfiGenerator {
 
   /// Returns an [ImportedType] if the given [Declaration] should be imported
   /// from another Dart library, or `null` otherwise.
+  ///
+  /// To import from YAML symbol files, call [importFromSymbolFile] or
+  /// [importFromSymbolFiles], and pass the result here.
+  ///
+  /// It can also be used to manually map native types to Dart types:
+  ///
+  /// ```dart
+  /// const ffiImport = LibraryImport('ffi', 'dart:ffi');
+  /// const customImport = LibraryImport('custom', 'package:my_pkg/types.dart');
+  ///
+  /// final generator = FfiGenerator(
+  ///   // ...
+  ///   importType: (declaration) {
+  ///     if (declaration.originalName == 'time_t') {
+  ///       return ImportedType(ffiImport, 'Int64', 'int', 'time_t');
+  ///     }
+  ///     if (declaration.originalName == 'MyCustomStruct') {
+  ///       return ImportedType(
+  ///         customImport,
+  ///         'MyCustomStruct',
+  ///         'MyCustomStruct',
+  ///         'MyCustomStruct',
+  ///         importedDartType: true,
+  ///       );
+  ///     }
+  ///     return null;
+  ///   },
+  /// );
+  /// ```
   final ImportedType? Function(Declaration declaration) importType;
 
   static ImportedType? _defaultImportType(Declaration declaration) => null;
@@ -212,17 +243,32 @@ final class Output {
   final DartOutput dart;
 
   /// The output Objective-C file for the generated Objective-C bindings.
+  ///
+  /// Defaults to the [dart] output path with a `.m` extension.
+  ///
+  /// This file is generated only when necessary for Objective-C interop. If
+  /// generated, this file must be compiled by a build hook.
   final Uri? objectiveCFile;
 
   Uri get objCFile => objectiveCFile ?? Uri.file('${dart.path.toFilePath()}.m');
 
-  /// The output Cpp glue file for the generated Cpp class bindings.
+  /// The output Cpp file for the generated Cpp class bindings.
+  ///
+  /// Defaults to the [dart] output path with a `.cpp` extension.
+  ///
+  /// This file is generated only when necessary for C++ interop. If generated,
+  /// this file must be compiled by a build hook.
   final Uri? cppFile;
 
   Uri get cppBindingsFile =>
       cppFile ?? Uri.file('${dart.path.toFilePath()}.cpp');
 
-  /// The config for the symbol file.
+  /// The configuration for generating a symbol file.
+  ///
+  /// When specified, FFIgen will export a YAML symbol file containing symbol
+  /// signatures and metadata, which allows other FFIgen configurations to
+  /// import types from this library (via [FfiGenerator.importType]) instead
+  /// of re-generating them.
   final SymbolFile? symbolFile;
 
   /// The type of comments to generate.

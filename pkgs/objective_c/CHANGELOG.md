@@ -1,3 +1,41 @@
+## 9.6.1
+
+- Fix potential memory leaks when converting a Dart `String` to a `NSString`
+  (via `toNSString` or the `NSString` constructor) because the created
+  `NSString` was added to the autorelease pool.
+- Fix potential memory leaks when calling the following Objective-C collection
+  factories because the created collection was added to the autorelease pool:
+    - `NSArray.filled`
+    - `NSArray.of`
+    - `NSMutableArray.filled`
+    - `NSMutableArray.of`
+    - `NSDictionary.of`
+    - `NSDictionary.fromEntries`
+    - `NSMutableDictionary.of`
+    - `NSMutableDictionary.fromEntries`
+    - `NSSet.of`
+    - `NSMutableSet.of`
+- Fix potential memory leaks when converting a Dart `int`, `double`, `num` or
+  `bool` to a `NSNumber` (via `toNSNumber`) because the created `NSNumber` was
+  added to the autorelease pool.
+- Replace `NSDate.dateWithTimeIntervalSince1970` with
+  `NSDate.alloc().initWithTimeIntervalSince1970`. `NSDate` uses pointer
+  tagging rather than reference counting for the entire range of `DateTime`
+  so this change is for consistency (and not rely on an implementation
+  detail), not correctness.
+- Fix a crash in the `NSInputStream` returned by `toNSInputStream`: reading
+  from or closing the stream after its Dart side had already closed it raised
+  `NSInternalInconsistencyException` ("DartInputStreamAdapter:
+  Dart_PostCObject_DL failed") and aborted the process. `NSURLSession` does
+  exactly that with a request body stream when the request completes with an
+  error or is cancelled right after it starts. `close` is now idempotent, and
+  a read on a closed stream (or one whose Dart owner is gone) fails with -1
+  instead of asserting.
+- Fix a bug where `toNSData`/`toNSMutableData` added the returned `NSData`
+  to the autorelease pool.
+- Fix a bug where `toNSInputStream` would create cycles between Dart and
+  Objective-C.
+
 ## 9.6.0
 
 - Add a bunch more categories to the bindings.
