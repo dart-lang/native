@@ -126,61 +126,82 @@ void main() {
     );
   });
 
-  test('toJson', () {
+  test('toJsonForTarget', () {
     expect(
       KernelAssetAbsolutePath(
         Uri.parse('/path/to/libfoo.so'),
-      ).toJson(.linuxArm64),
+      ).toJsonForTarget(.linuxArm64),
       ['absolute', '/path/to/libfoo.so'],
     );
 
     expect(
       KernelAssetAbsolutePath(
         Uri.parse('/path/to/libfoo.so'),
-      ).toJson(.windowsArm64),
+      ).toJsonForTarget(.windowsArm64),
       ['absolute', '\\path\\to\\libfoo.so'],
     );
 
     expect(
       KernelAssetRelativePath(
         Uri.parse('path/to/libfoo.so'),
-      ).toJson(.linuxArm64),
+      ).toJsonForTarget(.linuxArm64),
       ['relative', 'path/to/libfoo.so'],
     );
 
     expect(
       KernelAssetRelativePath(
         Uri.parse('path/to/libfoo.so'),
-      ).toJson(.windowsArm64),
+      ).toJsonForTarget(.windowsArm64),
       ['relative', 'path\\to\\libfoo.so'],
     );
 
     expect(
       KernelAssetSystemPath(
         Uri.parse('path/to/libfoo.so'),
-      ).toJson(.linuxArm64),
+      ).toJsonForTarget(.linuxArm64),
       ['system', 'path/to/libfoo.so'],
     );
 
     expect(
       KernelAssetSystemPath(
         Uri.parse('path/to/libfoo.so'),
-      ).toJson(.windowsArm64),
+      ).toJsonForTarget(.windowsArm64),
       ['system', 'path\\to\\libfoo.so'],
     );
 
-    expect(KernelAssetInProcess().toJson(.linuxArm64), ['process']);
+    expect(KernelAssetInProcess().toJsonForTarget(.linuxArm64), ['process']);
 
     expect(
-      KernelAssetInProcess().toJson(.windowsArm64),
+      KernelAssetInProcess().toJsonForTarget(.windowsArm64),
       ['process'],
     );
 
-    expect(KernelAssetInExecutable().toJson(.linuxArm64), ['executable']);
+    expect(KernelAssetInExecutable().toJsonForTarget(.linuxArm64), [
+      'executable',
+    ]);
 
     expect(
-      KernelAssetInExecutable().toJson(.windowsArm64),
+      KernelAssetInExecutable().toJsonForTarget(.windowsArm64),
       ['executable'],
     );
+  });
+
+  test('toJson', () {
+    final fooUri = Uri.parse('/path/to/libfoo.so');
+    final relUri = Uri.parse('path/to/libfoo.so');
+    expect(
+      KernelAssetAbsolutePath(fooUri).toJson(),
+      ['absolute', fooUri.toFilePath()],
+    );
+    expect(
+      KernelAssetRelativePath(relUri).toJson(),
+      ['relative', relUri.toFilePath()],
+    );
+    expect(
+      KernelAssetSystemPath(relUri).toJson(),
+      ['system', relUri.toFilePath()],
+    );
+    expect(KernelAssetInProcess().toJson(), ['process']);
+    expect(KernelAssetInExecutable().toJson(), ['executable']);
   });
 }

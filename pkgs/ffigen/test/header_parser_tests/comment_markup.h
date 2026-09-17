@@ -27,3 +27,7 @@ struct Com4{
     /* Comment on array member. */
     int c[3];
 };
+
+struct Com5;
+/// Documentation attached to a separate same-name typedef.
+typedef struct Com5 Com5;

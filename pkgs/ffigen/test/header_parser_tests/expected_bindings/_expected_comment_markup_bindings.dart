@@ -68,3 +68,6 @@ final class Com4 extends ffi.Struct {
   @ffi.Array.multi([3])
   external ffi.Array<ffi.Int> c;
 }
+
+/// Documentation attached to a separate same-name typedef.
+final class Com5 extends ffi.Opaque {}

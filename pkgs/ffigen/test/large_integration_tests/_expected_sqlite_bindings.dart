@@ -11490,6 +11490,196 @@ final class Fts5PhraseIter extends ffi.Struct {
     ..ref.b = b;
 }
 
+/// CUSTOM TOKENIZERS
+///
+/// Applications may also register custom tokenizer types. A tokenizer
+/// is registered by providing fts5 with a populated instance of the
+/// following structure. All structure methods must be defined, setting
+/// any member of the fts5_tokenizer struct to NULL leads to undefined
+/// behaviour. The structure methods are expected to function as follows:
+///
+/// xCreate:
+/// This function is used to allocate and initialize a tokenizer instance.
+/// A tokenizer instance is required to actually tokenize text.
+///
+/// The first argument passed to this function is a copy of the (void*)
+/// pointer provided by the application when the fts5_tokenizer object
+/// was registered with FTS5 (the third argument to xCreateTokenizer()).
+/// The second and third arguments are an array of nul-terminated strings
+/// containing the tokenizer arguments, if any, specified following the
+/// tokenizer name as part of the CREATE VIRTUAL TABLE statement used
+/// to create the FTS5 table.
+///
+/// The final argument is an output variable. If successful, (*ppOut)
+/// should be set to point to the new tokenizer handle and SQLITE_OK
+/// returned. If an error occurs, some value other than SQLITE_OK should
+/// be returned. In this case, fts5 assumes that the final value of *ppOut
+/// is undefined.
+///
+/// xDelete:
+/// This function is invoked to delete a tokenizer handle previously
+/// allocated using xCreate(). Fts5 guarantees that this function will
+/// be invoked exactly once for each successful call to xCreate().
+///
+/// xTokenize:
+/// This function is expected to tokenize the nText byte string indicated
+/// by argument pText. pText may or may not be nul-terminated. The first
+/// argument passed to this function is a pointer to an Fts5Tokenizer object
+/// returned by an earlier call to xCreate().
+///
+/// The second argument indicates the reason that FTS5 is requesting
+/// tokenization of the supplied text. This is always one of the following
+/// four values:
+///
+/// <ul><li> <b>FTS5_TOKENIZE_DOCUMENT</b> - A document is being inserted into
+/// or removed from the FTS table. The tokenizer is being invoked to
+/// determine the set of tokens to add to (or delete from) the
+/// FTS index.
+///
+/// <li> <b>FTS5_TOKENIZE_QUERY</b> - A MATCH query is being executed
+/// against the FTS index. The tokenizer is being called to tokenize
+/// a bareword or quoted string specified as part of the query.
+///
+/// <li> <b>(FTS5_TOKENIZE_QUERY | FTS5_TOKENIZE_PREFIX)</b> - Same as
+/// FTS5_TOKENIZE_QUERY, except that the bareword or quoted string is
+/// followed by a "*" character, indicating that the last token
+/// returned by the tokenizer will be treated as a token prefix.
+///
+/// <li> <b>FTS5_TOKENIZE_AUX</b> - The tokenizer is being invoked to
+/// satisfy an fts5_api.xTokenize() request made by an auxiliary
+/// function. Or an fts5_api.xColumnSize() request made by the same
+/// on a columnsize=0 database.
+/// </ul>
+///
+/// For each token in the input string, the supplied callback xToken() must
+/// be invoked. The first argument to it should be a copy of the pointer
+/// passed as the second argument to xTokenize(). The third and fourth
+/// arguments are a pointer to a buffer containing the token text, and the
+/// size of the token in bytes. The 4th and 5th arguments are the byte offsets
+/// of the first byte of and first byte immediately following the text from
+/// which the token is derived within the input.
+///
+/// The second argument passed to the xToken() callback ("tflags") should
+/// normally be set to 0. The exception is if the tokenizer supports
+/// synonyms. In this case see the discussion below for details.
+///
+/// FTS5 assumes the xToken() callback is invoked for each token in the
+/// order that they occur within the input text.
+///
+/// If an xToken() callback returns any value other than SQLITE_OK, then
+/// the tokenization should be abandoned and the xTokenize() method should
+/// immediately return a copy of the xToken() return value. Or, if the
+/// input buffer is exhausted, xTokenize() should return SQLITE_OK. Finally,
+/// if an error occurs with the xTokenize() implementation itself, it
+/// may abandon the tokenization and return any error code other than
+/// SQLITE_OK or SQLITE_DONE.
+///
+/// SYNONYM SUPPORT
+///
+/// Custom tokenizers may also support synonyms. Consider a case in which a
+/// user wishes to query for a phrase such as "first place". Using the
+/// built-in tokenizers, the FTS5 query 'first + place' will match instances
+/// of "first place" within the document set, but not alternative forms
+/// such as "1st place". In some applications, it would be better to match
+/// all instances of "first place" or "1st place" regardless of which form
+/// the user specified in the MATCH query text.
+///
+/// There are several ways to approach this in FTS5:
+///
+/// <ol><li> By mapping all synonyms to a single token. In this case, using
+/// the above example, this means that the tokenizer returns the
+/// same token for inputs "first" and "1st". Say that token is in
+/// fact "first", so that when the user inserts the document "I won
+/// 1st place" entries are added to the index for tokens "i", "won",
+/// "first" and "place". If the user then queries for '1st + place',
+/// the tokenizer substitutes "first" for "1st" and the query works
+/// as expected.
+///
+/// <li> By querying the index for all synonyms of each query term
+/// separately. In this case, when tokenizing query text, the
+/// tokenizer may provide multiple synonyms for a single term
+/// within the document. FTS5 then queries the index for each
+/// synonym individually. For example, faced with the query:
+///
+/// <codeblock>
+/// ... MATCH 'first place'</codeblock>
+///
+/// the tokenizer offers both "1st" and "first" as synonyms for the
+/// first token in the MATCH query and FTS5 effectively runs a query
+/// similar to:
+///
+/// <codeblock>
+/// ... MATCH '(first OR 1st) place'</codeblock>
+///
+/// except that, for the purposes of auxiliary functions, the query
+/// still appears to contain just two phrases - "(first OR 1st)"
+/// being treated as a single phrase.
+///
+/// <li> By adding multiple synonyms for a single term to the FTS index.
+/// Using this method, when tokenizing document text, the tokenizer
+/// provides multiple synonyms for each token. So that when a
+/// document such as "I won first place" is tokenized, entries are
+/// added to the FTS index for "i", "won", "first", "1st" and
+/// "place".
+///
+/// This way, even if the tokenizer does not provide synonyms
+/// when tokenizing query text (it should not - to do so would be
+/// inefficient), it doesn't matter if the user queries for
+/// 'first + place' or '1st + place', as there are entries in the
+/// FTS index corresponding to both forms of the first token.
+/// </ol>
+///
+/// Whether it is parsing document or query text, any call to xToken that
+/// specifies a <i>tflags</i> argument with the FTS5_TOKEN_COLOCATED bit
+/// is considered to supply a synonym for the previous token. For example,
+/// when parsing the document "I won first place", a tokenizer that supports
+/// synonyms would call xToken() 5 times, as follows:
+///
+/// <codeblock>
+/// xToken(pCtx, 0, "i",                      1,  0,  1);
+/// xToken(pCtx, 0, "won",                    3,  2,  5);
+/// xToken(pCtx, 0, "first",                  5,  6, 11);
+/// xToken(pCtx, FTS5_TOKEN_COLOCATED, "1st", 3,  6, 11);
+/// xToken(pCtx, 0, "place",                  5, 12, 17);
+/// </codeblock>
+///
+/// It is an error to specify the FTS5_TOKEN_COLOCATED flag the first time
+/// xToken() is called. Multiple synonyms may be specified for a single token
+/// by making multiple calls to xToken(FTS5_TOKEN_COLOCATED) in sequence.
+/// There is no limit to the number of synonyms that may be provided for a
+/// single token.
+///
+/// In many cases, method (1) above is the best approach. It does not add
+/// extra data to the FTS index or require FTS5 to query for multiple terms,
+/// so it is efficient in terms of disk space and query speed. However, it
+/// does not support prefix queries very well. If, as suggested above, the
+/// token "first" is substituted for "1st" by the tokenizer, then the query:
+///
+/// <codeblock>
+/// ... MATCH '1s*'</codeblock>
+///
+/// will not match documents that contain the token "1st" (as the tokenizer
+/// will probably not map "1s" to any prefix of "first").
+///
+/// For full prefix support, method (3) may be preferred. In this case,
+/// because the index contains entries for both "first" and "1st", prefix
+/// queries such as 'fi*' or '1s*' will match correctly. However, because
+/// extra entries are added to the FTS index, this method uses more space
+/// within the database.
+///
+/// Method (2) offers a midpoint between (1) and (3). Using this method,
+/// a query such as '1s*' will match documents that contain the literal
+/// token "1st", but not "first" (assuming the tokenizer is not able to
+/// provide synonyms for prefixes). However, a non-prefix query like '1st'
+/// will match against "1st" and "first". This method does not require
+/// extra disk space, as no extra entries are added to the FTS index.
+/// On the other hand, it may require more CPU cycles to run MATCH queries,
+/// as separate queries of the FTS index are required for each synonym.
+///
+/// When using methods (2) or (3), it is important that the tokenizer only
+/// provide synonyms when tokenizing document text (method (2)) or query
+/// text (method (3)), not both. Doing so will not cause any errors, but is
+/// inefficient.
 final class Fts5Tokenizer extends ffi.Opaque {}
 
 const int NOT_WITHIN = 0;
@@ -12573,12 +12763,48 @@ final class fts5_tokenizer extends ffi.Struct {
     ..ref.xTokenize = xTokenize;
 }
 
+/// CAPI3REF: Database Connection Handle
+/// KEYWORDS: {database connection} {database connections}
+///
+/// Each open SQLite database is represented by a pointer to an instance of
+/// the opaque structure named "sqlite3".  It is useful to think of an sqlite3
+/// pointer as an object.  The [sqlite3_open()], [sqlite3_open16()], and
+/// [sqlite3_open_v2()] interfaces are its constructors, and [sqlite3_close()]
+/// and [sqlite3_close_v2()] are its destructors.  There are many other
+/// interfaces (such as
+/// [sqlite3_prepare_v2()], [sqlite3_create_function()], and
+/// [sqlite3_busy_timeout()] to name but three) that are methods on an
+/// sqlite3 object.
 final class sqlite3 extends ffi.Opaque {}
 
+/// CAPI3REF: Loadable Extension Thunk
+///
+/// A pointer to the opaque sqlite3_api_routines structure is passed as
+/// the third parameter to entry points of [loadable extensions].  This
+/// structure must be typedefed in order to work around compiler warnings
+/// on some platforms.
 final class sqlite3_api_routines extends ffi.Opaque {}
 
+/// CAPI3REF: Online Backup Object
+///
+/// The sqlite3_backup object records state information about an ongoing
+/// online backup operation.  ^The sqlite3_backup object is created by
+/// a call to [sqlite3_backup_init()] and is destroyed by a call to
+/// [sqlite3_backup_finish()].
+///
+/// See Also: [Using the SQLite Online Backup API]
 final class sqlite3_backup extends ffi.Opaque {}
 
+/// CAPI3REF: A Handle To An Open BLOB
+/// KEYWORDS: {BLOB handle} {BLOB handles}
+///
+/// An instance of this object represents an open BLOB on which
+/// [sqlite3_blob_open | incremental BLOB I/O] can be performed.
+/// ^Objects of this type are created by [sqlite3_blob_open()]
+/// and destroyed by [sqlite3_blob_close()].
+/// ^The [sqlite3_blob_read()] and [sqlite3_blob_write()] interfaces
+/// can be used to read or write small subsections of the BLOB.
+/// ^The [sqlite3_blob_bytes()] interface returns the size of the BLOB in bytes.
 final class sqlite3_blob extends ffi.Opaque {}
 
 /// The type for a callback function.
@@ -12601,6 +12827,16 @@ typedef Dartsqlite3_callbackFunction =
       ffi.Pointer<ffi.Pointer<ffi.Char>>,
     );
 
+/// CAPI3REF: SQL Function Context Object
+///
+/// The context in which an SQL function executes is stored in an
+/// sqlite3_context object.  ^A pointer to an sqlite3_context object
+/// is always first parameter to [application-defined SQL functions].
+/// The application-defined SQL function implementation will pass this
+/// pointer through into calls to [sqlite3_result_int | sqlite3_result()],
+/// [sqlite3_aggregate_context()], [sqlite3_user_data()],
+/// [sqlite3_context_db_handle()], [sqlite3_get_auxdata()],
+/// and/or [sqlite3_set_auxdata()].
 final class sqlite3_context extends ffi.Opaque {}
 
 /// CAPI3REF: Constants Defining Special Destructor Behavior
@@ -12880,8 +13116,161 @@ final class sqlite3_index_orderby extends ffi.Struct {
 
 typedef sqlite3_int64 = sqlite_int64;
 
+/// CAPI3REF: OS Interface File Virtual Methods Object
+///
+/// Every file opened by the [sqlite3_vfs.xOpen] method populates an
+/// [sqlite3_file] object (or, more commonly, a subclass of the
+/// [sqlite3_file] object) with a pointer to an instance of this object.
+/// This object defines the methods used to perform various operations
+/// against the open file represented by the [sqlite3_file] object.
+///
+/// If the [sqlite3_vfs.xOpen] method sets the sqlite3_file.pMethods element
+/// to a non-NULL pointer, then the sqlite3_io_methods.xClose method
+/// may be invoked even if the [sqlite3_vfs.xOpen] reported that it failed.  The
+/// only way to prevent a call to xClose following a failed [sqlite3_vfs.xOpen]
+/// is for the [sqlite3_vfs.xOpen] to set the sqlite3_file.pMethods element
+/// to NULL.
+///
+/// The flags argument to xSync may be one of [SQLITE_SYNC_NORMAL] or
+/// [SQLITE_SYNC_FULL].  The first choice is the normal fsync().
+/// The second choice is a Mac OS X style fullsync.  The [SQLITE_SYNC_DATAONLY]
+/// flag may be ORed in to indicate that only the data of the file
+/// and not its inode needs to be synced.
+///
+/// The integer values to xLock() and xUnlock() are one of
+/// <ul>
+/// <li> [SQLITE_LOCK_NONE],
+/// <li> [SQLITE_LOCK_SHARED],
+/// <li> [SQLITE_LOCK_RESERVED],
+/// <li> [SQLITE_LOCK_PENDING], or
+/// <li> [SQLITE_LOCK_EXCLUSIVE].
+/// </ul>
+/// xLock() increases the lock. xUnlock() decreases the lock.
+/// The xCheckReservedLock() method checks whether any database connection,
+/// either in this process or in some other process, is holding a RESERVED,
+/// PENDING, or EXCLUSIVE lock on the file.  It returns true
+/// if such a lock exists and false otherwise.
+///
+/// The xFileControl() method is a generic interface that allows custom
+/// VFS implementations to directly control an open file using the
+/// [sqlite3_file_control()] interface.  The second "op" argument is an
+/// integer opcode.  The third argument is a generic pointer intended to
+/// point to a structure that may contain arguments or space in which to
+/// write return values.  Potential uses for xFileControl() might be
+/// functions to enable blocking locks with timeouts, to change the
+/// locking strategy (for example to use dot-file locks), to inquire
+/// about the status of a lock, or to break stale locks.  The SQLite
+/// core reserves all opcodes less than 100 for its own use.
+/// A [file control opcodes | list of opcodes] less than 100 is available.
+/// Applications that define a custom xFileControl method should use opcodes
+/// greater than 100 to avoid conflicts.  VFS implementations should
+/// return [SQLITE_NOTFOUND] for file control opcodes that they do not
+/// recognize.
+///
+/// The xSectorSize() method returns the sector size of the
+/// device that underlies the file.  The sector size is the
+/// minimum write that can be performed without disturbing
+/// other bytes in the file.  The xDeviceCharacteristics()
+/// method returns a bit vector describing behaviors of the
+/// underlying device:
+///
+/// <ul>
+/// <li> [SQLITE_IOCAP_ATOMIC]
+/// <li> [SQLITE_IOCAP_ATOMIC512]
+/// <li> [SQLITE_IOCAP_ATOMIC1K]
+/// <li> [SQLITE_IOCAP_ATOMIC2K]
+/// <li> [SQLITE_IOCAP_ATOMIC4K]
+/// <li> [SQLITE_IOCAP_ATOMIC8K]
+/// <li> [SQLITE_IOCAP_ATOMIC16K]
+/// <li> [SQLITE_IOCAP_ATOMIC32K]
+/// <li> [SQLITE_IOCAP_ATOMIC64K]
+/// <li> [SQLITE_IOCAP_SAFE_APPEND]
+/// <li> [SQLITE_IOCAP_SEQUENTIAL]
+/// <li> [SQLITE_IOCAP_UNDELETABLE_WHEN_OPEN]
+/// <li> [SQLITE_IOCAP_POWERSAFE_OVERWRITE]
+/// <li> [SQLITE_IOCAP_IMMUTABLE]
+/// <li> [SQLITE_IOCAP_BATCH_ATOMIC]
+/// </ul>
+///
+/// The SQLITE_IOCAP_ATOMIC property means that all writes of
+/// any size are atomic.  The SQLITE_IOCAP_ATOMICnnn values
+/// mean that writes of blocks that are nnn bytes in size and
+/// are aligned to an address which is an integer multiple of
+/// nnn are atomic.  The SQLITE_IOCAP_SAFE_APPEND value means
+/// that when data is appended to a file, the data is appended
+/// first then the size of the file is extended, never the other
+/// way around.  The SQLITE_IOCAP_SEQUENTIAL property means that
+/// information is written to disk in the same order as calls
+/// to xWrite().
+///
+/// If xRead() returns SQLITE_IOERR_SHORT_READ it must also fill
+/// in the unread portions of the buffer with zeros.  A VFS that
+/// fails to zero-fill short reads might seem to work.  However,
+/// failure to zero-fill short reads will eventually lead to
+/// database corruption.
 final class sqlite3_io_methods extends ffi.Opaque {}
 
+/// CAPI3REF: Memory Allocation Routines
+///
+/// An instance of this object defines the interface between SQLite
+/// and low-level memory allocation routines.
+///
+/// This object is used in only one place in the SQLite interface.
+/// A pointer to an instance of this object is the argument to
+/// [sqlite3_config()] when the configuration option is
+/// [SQLITE_CONFIG_MALLOC] or [SQLITE_CONFIG_GETMALLOC].
+/// By creating an instance of this object
+/// and passing it to [sqlite3_config]([SQLITE_CONFIG_MALLOC])
+/// during configuration, an application can specify an alternative
+/// memory allocation subsystem for SQLite to use for all of its
+/// dynamic memory needs.
+///
+/// Note that SQLite comes with several [built-in memory allocators]
+/// that are perfectly adequate for the overwhelming majority of applications
+/// and that this object is only useful to a tiny minority of applications
+/// with specialized memory allocation requirements.  This object is
+/// also used during testing of SQLite in order to specify an alternative
+/// memory allocator that simulates memory out-of-memory conditions in
+/// order to verify that SQLite recovers gracefully from such
+/// conditions.
+///
+/// The xMalloc, xRealloc, and xFree methods must work like the
+/// malloc(), realloc() and free() functions from the standard C library.
+/// ^SQLite guarantees that the second argument to
+/// xRealloc is always a value returned by a prior call to xRoundup.
+///
+/// xSize should return the allocated size of a memory allocation
+/// previously obtained from xMalloc or xRealloc.  The allocated size
+/// is always at least as big as the requested size but may be larger.
+///
+/// The xRoundup method returns what would be the allocated size of
+/// a memory allocation given a particular requested size.  Most memory
+/// allocators round up memory allocations at least to the next multiple
+/// of 8.  Some allocators round up to a larger multiple or to a power of 2.
+/// Every memory allocation request coming in through [sqlite3_malloc()]
+/// or [sqlite3_realloc()] first calls xRoundup.  If xRoundup returns 0,
+/// that causes the corresponding memory allocation to fail.
+///
+/// The xInit method initializes the memory allocator.  For example,
+/// it might allocate any required mutexes or initialize internal data
+/// structures.  The xShutdown method is invoked (indirectly) by
+/// [sqlite3_shutdown()] and should deallocate any resources acquired
+/// by xInit.  The pAppData pointer is used as the only parameter to
+/// xInit and xShutdown.
+///
+/// SQLite holds the [SQLITE_MUTEX_STATIC_MASTER] mutex when it invokes
+/// the xInit method, so the xInit method need not be threadsafe.  The
+/// xShutdown method is only called from [sqlite3_shutdown()] so it does
+/// not need to be threadsafe either.  For all other methods, SQLite
+/// holds the [SQLITE_MUTEX_STATIC_MEM] mutex as long as the
+/// [SQLITE_CONFIG_MEMSTATUS] configuration option is turned on (which
+/// it is by default) and so the methods are automatically serialized.
+/// However, if [SQLITE_CONFIG_MEMSTATUS] is disabled, then the other
+/// methods must be threadsafe or else make their own arrangements for
+/// serialization.
+///
+/// SQLite will never invoke xInit() more than once without an intervening
+/// call to xShutdown().
 final class sqlite3_mem_methods extends ffi.Struct {
   /// Memory allocation function
   external ffi.Pointer<
@@ -13384,8 +13773,79 @@ final class sqlite3_module extends ffi.Struct {
     ..ref.xShadowName = xShadowName;
 }
 
+/// CAPI3REF: Mutex Handle
+///
+/// The mutex module within SQLite defines [sqlite3_mutex] to be an
+/// abstract type for a mutex object.  The SQLite core never looks
+/// at the internal representation of an [sqlite3_mutex].  It only
+/// deals with pointers to the [sqlite3_mutex] object.
+///
+/// Mutexes are created using [sqlite3_mutex_alloc()].
 final class sqlite3_mutex extends ffi.Opaque {}
 
+/// CAPI3REF: Mutex Methods Object
+///
+/// An instance of this structure defines the low-level routines
+/// used to allocate and use mutexes.
+///
+/// Usually, the default mutex implementations provided by SQLite are
+/// sufficient, however the application has the option of substituting a custom
+/// implementation for specialized deployments or systems for which SQLite
+/// does not provide a suitable implementation. In this case, the application
+/// creates and populates an instance of this structure to pass
+/// to sqlite3_config() along with the [SQLITE_CONFIG_MUTEX] option.
+/// Additionally, an instance of this structure can be used as an
+/// output variable when querying the system for the current mutex
+/// implementation, using the [SQLITE_CONFIG_GETMUTEX] option.
+///
+/// ^The xMutexInit method defined by this structure is invoked as
+/// part of system initialization by the sqlite3_initialize() function.
+/// ^The xMutexInit routine is called by SQLite exactly once for each
+/// effective call to [sqlite3_initialize()].
+///
+/// ^The xMutexEnd method defined by this structure is invoked as
+/// part of system shutdown by the sqlite3_shutdown() function. The
+/// implementation of this method is expected to release all outstanding
+/// resources obtained by the mutex methods implementation, especially
+/// those obtained by the xMutexInit method.  ^The xMutexEnd()
+/// interface is invoked exactly once for each call to [sqlite3_shutdown()].
+///
+/// ^(The remaining seven methods defined by this structure (xMutexAlloc,
+/// xMutexFree, xMutexEnter, xMutexTry, xMutexLeave, xMutexHeld and
+/// xMutexNotheld) implement the following interfaces (respectively):
+///
+/// <ul>
+/// <li>  [sqlite3_mutex_alloc()] </li>
+/// <li>  [sqlite3_mutex_free()] </li>
+/// <li>  [sqlite3_mutex_enter()] </li>
+/// <li>  [sqlite3_mutex_try()] </li>
+/// <li>  [sqlite3_mutex_leave()] </li>
+/// <li>  [sqlite3_mutex_held()] </li>
+/// <li>  [sqlite3_mutex_notheld()] </li>
+/// </ul>)^
+///
+/// The only difference is that the public sqlite3_XXX functions enumerated
+/// above silently ignore any invocations that pass a NULL pointer instead
+/// of a valid mutex handle. The implementations of the methods defined
+/// by this structure are not required to handle this case. The results
+/// of passing a NULL pointer instead of a valid mutex handle are undefined
+/// (i.e. it is acceptable to provide an implementation that segfaults if
+/// it is passed a NULL pointer).
+///
+/// The xMutexInit() method must be threadsafe.  It must be harmless to
+/// invoke xMutexInit() multiple times within the same process and without
+/// intervening calls to xMutexEnd().  Second and subsequent calls to
+/// xMutexInit() must be no-ops.
+///
+/// xMutexInit() must not use SQLite memory allocation ([sqlite3_malloc()]
+/// and its associates).  Similarly, xMutexAlloc() must not use SQLite memory
+/// allocation for a static mutex.  ^However xMutexAlloc() may use SQLite
+/// memory allocation for a fast or recursive mutex.
+///
+/// ^SQLite will invoke the xMutexEnd() method when [sqlite3_shutdown()] is
+/// called, but only if the prior call to xMutexInit returned SQLITE_OK.
+/// If xMutexInit fails in any way, it is expected to clean up after itself
+/// prior to returning.
 final class sqlite3_mutex_methods extends ffi.Struct {
   external ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> xMutexInit;
 
@@ -13470,8 +13930,20 @@ final class sqlite3_mutex_methods extends ffi.Struct {
     ..ref.xMutexNotheld = xMutexNotheld;
 }
 
+/// CAPI3REF: Custom Page Cache Object
+///
+/// The sqlite3_pcache type is opaque.  It is implemented by
+/// the pluggable module.  The SQLite core has no knowledge of
+/// its size or internal structure and never deals with the
+/// sqlite3_pcache object except by holding and passing pointers
+/// to the object.
+///
+/// See [sqlite3_pcache_methods2] for additional information.
 final class sqlite3_pcache extends ffi.Opaque {}
 
+/// This is the obsolete pcache_methods object that has now been replaced
+/// by sqlite3_pcache_methods2.  This object is not used by SQLite.  It is
+/// retained in the header file for backwards compatibility only.
 final class sqlite3_pcache_methods extends ffi.Struct {
   external ffi.Pointer<ffi.Void> pArg;
 
@@ -13630,6 +14102,163 @@ final class sqlite3_pcache_methods extends ffi.Struct {
     ..ref.xDestroy = xDestroy;
 }
 
+/// CAPI3REF: Application Defined Page Cache.
+/// KEYWORDS: {page cache}
+///
+/// ^(The [sqlite3_config]([SQLITE_CONFIG_PCACHE2], ...) interface can
+/// register an alternative page cache implementation by passing in an
+/// instance of the sqlite3_pcache_methods2 structure.)^
+/// In many applications, most of the heap memory allocated by
+/// SQLite is used for the page cache.
+/// By implementing a
+/// custom page cache using this API, an application can better control
+/// the amount of memory consumed by SQLite, the way in which
+/// that memory is allocated and released, and the policies used to
+/// determine exactly which parts of a database file are cached and for
+/// how long.
+///
+/// The alternative page cache mechanism is an
+/// extreme measure that is only needed by the most demanding applications.
+/// The built-in page cache is recommended for most uses.
+///
+/// ^(The contents of the sqlite3_pcache_methods2 structure are copied to an
+/// internal buffer by SQLite within the call to [sqlite3_config].  Hence
+/// the application may discard the parameter after the call to
+/// [sqlite3_config()] returns.)^
+///
+/// [[the xInit() page cache method]]
+/// ^(The xInit() method is called once for each effective
+/// call to [sqlite3_initialize()])^
+/// (usually only once during the lifetime of the process). ^(The xInit()
+/// method is passed a copy of the sqlite3_pcache_methods2.pArg value.)^
+/// The intent of the xInit() method is to set up global data structures
+/// required by the custom page cache implementation.
+/// ^(If the xInit() method is NULL, then the
+/// built-in default page cache is used instead of the application defined
+/// page cache.)^
+///
+/// [[the xShutdown() page cache method]]
+/// ^The xShutdown() method is called by [sqlite3_shutdown()].
+/// It can be used to clean up
+/// any outstanding resources before process shutdown, if required.
+/// ^The xShutdown() method may be NULL.
+///
+/// ^SQLite automatically serializes calls to the xInit method,
+/// so the xInit method need not be threadsafe.  ^The
+/// xShutdown method is only called from [sqlite3_shutdown()] so it does
+/// not need to be threadsafe either.  All other methods must be threadsafe
+/// in multithreaded applications.
+///
+/// ^SQLite will never invoke xInit() more than once without an intervening
+/// call to xShutdown().
+///
+/// [[the xCreate() page cache methods]]
+/// ^SQLite invokes the xCreate() method to construct a new cache instance.
+/// SQLite will typically create one cache instance for each open database file,
+/// though this is not guaranteed. ^The
+/// first parameter, szPage, is the size in bytes of the pages that must
+/// be allocated by the cache.  ^szPage will always a power of two.  ^The
+/// second parameter szExtra is a number of bytes of extra storage
+/// associated with each page cache entry.  ^The szExtra parameter will
+/// a number less than 250.  SQLite will use the
+/// extra szExtra bytes on each page to store metadata about the underlying
+/// database page on disk.  The value passed into szExtra depends
+/// on the SQLite version, the target platform, and how SQLite was compiled.
+/// ^The third argument to xCreate(), bPurgeable, is true if the cache being
+/// created will be used to cache database pages of a file stored on disk, or
+/// false if it is used for an in-memory database. The cache implementation
+/// does not have to do anything special based with the value of bPurgeable;
+/// it is purely advisory.  ^On a cache where bPurgeable is false, SQLite will
+/// never invoke xUnpin() except to deliberately delete a page.
+/// ^In other words, calls to xUnpin() on a cache with bPurgeable set to
+/// false will always have the "discard" flag set to true.
+/// ^Hence, a cache created with bPurgeable false will
+/// never contain any unpinned pages.
+///
+/// [[the xCachesize() page cache method]]
+/// ^(The xCachesize() method may be called at any time by SQLite to set the
+/// suggested maximum cache-size (number of pages stored by) the cache
+/// instance passed as the first argument. This is the value configured using
+/// the SQLite "[PRAGMA cache_size]" command.)^  As with the bPurgeable
+/// parameter, the implementation is not required to do anything with this
+/// value; it is advisory only.
+///
+/// [[the xPagecount() page cache methods]]
+/// The xPagecount() method must return the number of pages currently
+/// stored in the cache, both pinned and unpinned.
+///
+/// [[the xFetch() page cache methods]]
+/// The xFetch() method locates a page in the cache and returns a pointer to
+/// an sqlite3_pcache_page object associated with that page, or a NULL pointer.
+/// The pBuf element of the returned sqlite3_pcache_page object will be a
+/// pointer to a buffer of szPage bytes used to store the content of a
+/// single database page.  The pExtra element of sqlite3_pcache_page will be
+/// a pointer to the szExtra bytes of extra storage that SQLite has requested
+/// for each entry in the page cache.
+///
+/// The page to be fetched is determined by the key. ^The minimum key value
+/// is 1.  After it has been retrieved using xFetch, the page is considered
+/// to be "pinned".
+///
+/// If the requested page is already in the page cache, then the page cache
+/// implementation must return a pointer to the page buffer with its content
+/// intact.  If the requested page is not already in the cache, then the
+/// cache implementation should use the value of the createFlag
+/// parameter to help it determined what action to take:
+///
+/// <table border=1 width=85% align=center>
+/// <tr><th> createFlag <th> Behavior when page is not already in cache
+/// <tr><td> 0 <td> Do not allocate a new page.  Return NULL.
+/// <tr><td> 1 <td> Allocate a new page if it easy and convenient to do so.
+/// Otherwise return NULL.
+/// <tr><td> 2 <td> Make every effort to allocate a new page.  Only return
+/// NULL if allocating a new page is effectively impossible.
+/// </table>
+///
+/// ^(SQLite will normally invoke xFetch() with a createFlag of 0 or 1.  SQLite
+/// will only use a createFlag of 2 after a prior call with a createFlag of 1
+/// failed.)^  In between the xFetch() calls, SQLite may
+/// attempt to unpin one or more cache pages by spilling the content of
+/// pinned pages to disk and synching the operating system disk cache.
+///
+/// [[the xUnpin() page cache method]]
+/// ^xUnpin() is called by SQLite with a pointer to a currently pinned page
+/// as its second argument.  If the third parameter, discard, is non-zero,
+/// then the page must be evicted from the cache.
+/// ^If the discard parameter is
+/// zero, then the page may be discarded or retained at the discretion of
+/// page cache implementation. ^The page cache implementation
+/// may choose to evict unpinned pages at any time.
+///
+/// The cache must not perform any reference counting. A single
+/// call to xUnpin() unpins the page regardless of the number of prior calls
+/// to xFetch().
+///
+/// [[the xRekey() page cache methods]]
+/// The xRekey() method is used to change the key value associated with the
+/// page passed as the second argument. If the cache
+/// previously contains an entry associated with newKey, it must be
+/// discarded. ^Any prior cache entry associated with newKey is guaranteed not
+/// to be pinned.
+///
+/// When SQLite calls the xTruncate() method, the cache must discard all
+/// existing cache entries with page numbers (keys) greater than or equal
+/// to the value of the iLimit parameter passed to xTruncate(). If any
+/// of these pages are pinned, they are implicitly unpinned, meaning that
+/// they can be safely discarded.
+///
+/// [[the xDestroy() page cache method]]
+/// ^The xDestroy() method is used to delete a cache allocated by xCreate().
+/// All resources associated with the specified cache should be freed. ^After
+/// calling the xDestroy() method, SQLite considers the [sqlite3_pcache*]
+/// handle invalid, and will not use it with any other sqlite3_pcache_methods2
+/// functions.
+///
+/// [[the xShrink() page cache method]]
+/// ^SQLite invokes the xShrink() method when it wants the page cache to
+/// free up as much of heap memory as possible.  The page cache implementation
+/// is not obligated to free any memory, but well-behaved implementations should
+/// do their best.
 final class sqlite3_pcache_methods2 extends ffi.Struct {
   @ffi.Int()
   external int iVersion;
@@ -13811,6 +14440,14 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
     ..ref.xShrink = xShrink;
 }
 
+/// CAPI3REF: Custom Page Cache Object
+///
+/// The sqlite3_pcache_page object represents a single page in the
+/// page cache.  The page cache will allocate instances of this
+/// object.  Various methods of the page cache use pointers to instances
+/// of this object as parameters or as their return value.
+///
+/// See [sqlite3_pcache_methods2] for additional information.
 final class sqlite3_pcache_page extends ffi.Struct {
   /// The content of the page
   external ffi.Pointer<ffi.Void> pBuf;
@@ -14001,8 +14638,44 @@ final class sqlite3_snapshot extends ffi.Struct {
   external ffi.Array<ffi.UnsignedChar> hidden;
 }
 
+/// CAPI3REF: Prepared Statement Object
+/// KEYWORDS: {prepared statement} {prepared statements}
+///
+/// An instance of this object represents a single SQL statement that
+/// has been compiled into binary form and is ready to be evaluated.
+///
+/// Think of each SQL statement as a separate computer program.  The
+/// original SQL text is source code.  A prepared statement object
+/// is the compiled object code.  All SQL must be converted into a
+/// prepared statement before it can be run.
+///
+/// The life-cycle of a prepared statement object usually goes like this:
+///
+/// <ol>
+/// <li> Create the prepared statement object using [sqlite3_prepare_v2()].
+/// <li> Bind values to [parameters] using the sqlite3_bind_*()
+/// interfaces.
+/// <li> Run the SQL by calling [sqlite3_step()] one or more times.
+/// <li> Reset the prepared statement using [sqlite3_reset()] then go back
+/// to step 2.  Do this zero or more times.
+/// <li> Destroy the object using [sqlite3_finalize()].
+/// </ol>
 final class sqlite3_stmt extends ffi.Opaque {}
 
+/// CAPI3REF: Dynamic String Object
+/// KEYWORDS: {dynamic string}
+///
+/// An instance of the sqlite3_str object contains a dynamically-sized
+/// string under construction.
+///
+/// The lifecycle of an sqlite3_str object is as follows:
+/// <ol>
+/// <li> ^The sqlite3_str object is created using [sqlite3_str_new()].
+/// <li> ^Text is appended to the sqlite3_str object using various
+/// methods, such as [sqlite3_str_appendf()].
+/// <li> ^The sqlite3_str object is destroyed and the string it created
+/// is returned using the [sqlite3_str_finish()] interface.
+/// </ol>
 final class sqlite3_str extends ffi.Opaque {}
 
 typedef sqlite3_syscall_ptr =
@@ -14011,6 +14684,44 @@ typedef sqlite3_syscall_ptrFunction = ffi.Void Function();
 typedef Dartsqlite3_syscall_ptrFunction = void Function();
 typedef sqlite3_uint64 = sqlite_uint64;
 
+/// CAPI3REF: Dynamically Typed Value Object
+/// KEYWORDS: {protected sqlite3_value} {unprotected sqlite3_value}
+///
+/// SQLite uses the sqlite3_value object to represent all values
+/// that can be stored in a database table. SQLite uses dynamic typing
+/// for the values it stores.  ^Values stored in sqlite3_value objects
+/// can be integers, floating point values, strings, BLOBs, or NULL.
+///
+/// An sqlite3_value object may be either "protected" or "unprotected".
+/// Some interfaces require a protected sqlite3_value.  Other interfaces
+/// will accept either a protected or an unprotected sqlite3_value.
+/// Every interface that accepts sqlite3_value arguments specifies
+/// whether or not it requires a protected sqlite3_value.  The
+/// [sqlite3_value_dup()] interface can be used to construct a new
+/// protected sqlite3_value from an unprotected sqlite3_value.
+///
+/// The terms "protected" and "unprotected" refer to whether or not
+/// a mutex is held.  An internal mutex is held for a protected
+/// sqlite3_value object but no mutex is held for an unprotected
+/// sqlite3_value object.  If SQLite is compiled to be single-threaded
+/// (with [SQLITE_THREADSAFE=0] and with [sqlite3_threadsafe()] returning 0)
+/// or if SQLite is run in one of reduced mutex modes
+/// [SQLITE_CONFIG_SINGLETHREAD] or [SQLITE_CONFIG_MULTITHREAD]
+/// then there is no distinction between protected and unprotected
+/// sqlite3_value objects and they can be used interchangeably.  However,
+/// for maximum code portability it is recommended that applications
+/// still make the distinction between protected and unprotected
+/// sqlite3_value objects even when not strictly required.
+///
+/// ^The sqlite3_value objects that are passed as parameters into the
+/// implementation of [application-defined SQL functions] are protected.
+/// ^The sqlite3_value object returned by
+/// [sqlite3_column_value()] is unprotected.
+/// Unprotected sqlite3_value objects may only be used as arguments
+/// to [sqlite3_result_value()], [sqlite3_bind_value()], and
+/// [sqlite3_value_dup()].
+/// The [sqlite3_value_blob | sqlite3_value_type()] family of
+/// interfaces require protected sqlite3_value objects.
 final class sqlite3_value extends ffi.Opaque {}
 
 final class sqlite3_vfs extends ffi.Struct {

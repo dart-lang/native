@@ -9,3 +9,5 @@ linter:
   rules:
     prefer_final_locals: true
     prefer_const_declarations: true
+    unawaited_futures: true
+    discarded_futures: true

@@ -1,5 +1,7 @@
 ## 22.0.1-wip
 
+- Preserve documentation comments on same-name typedefs when generating the
+  underlying type binding.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions
   using pointers to a C++ class were skipped unless C++ support was configured:
   `class` declarations are now treated like structs, and with C++ support on,
@@ -9,6 +11,8 @@
   `std::uint16_t`) was left unresolved, which dropped every function that
   mentioned it from the bindings. Such types now resolve through their
   canonical type.
+- Generate bindings for declarations inside C++ `extern "C" { ... }`
+  blocks, which were previously skipped entirely.
 
 ## 22.0.0
 
