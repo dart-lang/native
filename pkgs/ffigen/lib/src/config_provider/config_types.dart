@@ -384,17 +384,18 @@ List<String> defaultCompilerOpts(
   Logger logger, {
   bool macIncludeStdLib = true,
   bool cpp = false,
-}) => [
-  if (Platform.isMacOS && macIncludeStdLib && !cpp)
-    ...getCStandardLibraryHeadersForMac(logger),
-  if (Platform.isMacOS && !cpp) '-Wno-nullability-completeness',
-  if (cpp) ...[
-    '-x',
-    'c++',
-    '-std=c++17',
-    if (Platform.isMacOS) ...['-isysroot', macSdkPath],
-  ],
-];
+}) => cpp
+    ? [
+        '-x',
+        'c++',
+        '-std=c++17',
+        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+      ]
+    : [
+        if (Platform.isMacOS && macIncludeStdLib)
+          ...getCStandardLibraryHeadersForMac(logger),
+        if (Platform.isMacOS) '-Wno-nullability-completeness',
+      ];
 
 /// Handles config for automatically added compiler options.
 class CompilerOptsAuto {
