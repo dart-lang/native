@@ -1,3 +1,7 @@
+## 1.1.2-wip
+
+- No user-visible changes yet.
+
 ## 1.1.1
 
 - Fix quadratic deserialization performance and index corruption in
