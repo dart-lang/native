@@ -33,9 +33,9 @@ ${strings.headers}:
       );
     });
 
-    test('Expected bindings', () {
+    test('Expected bindings', () async {
       final context = testContext();
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         actual,
         'header_parser_struct_fptr_fields_output.dart',

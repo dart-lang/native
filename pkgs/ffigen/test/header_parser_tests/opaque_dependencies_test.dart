@@ -34,9 +34,9 @@ ${strings.unions}:
         ),
       );
     });
-    test('Expected bindings', () {
+    test('Expected bindings', () async {
       final context = testContext();
-      matchLibraryWithExpected(
+      await matchLibraryWithExpected(
         context,
         actual,
         'header_parser_opaque_dependencies_test_output.dart',

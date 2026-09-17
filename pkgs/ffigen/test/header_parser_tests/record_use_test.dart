@@ -11,7 +11,7 @@ import '../test_utils.dart';
 
 void main() {
   group('record_use_test', () {
-    test('Expected Bindings', () {
+    test('Expected Bindings', () async {
       final headerFile = absPath(
         p.join('test', 'header_parser_tests', 'record_use.h'),
       );
@@ -38,14 +38,19 @@ void main() {
       final context = testContext(generator);
       final library = parse(context);
 
-      matchLibraryWithExpected(context, library, 'record_use_bindings.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_record_use_bindings.dart',
-      ]);
+      await matchLibraryWithExpected(
+        context,
+        library,
+        'record_use_bindings.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_record_use_bindings.dart',
+        ],
+      );
 
-      matchRecordUseMappingWithExpected(
+      await matchRecordUseMappingWithExpected(
         context,
         library,
         'record_use_mapping.dart',

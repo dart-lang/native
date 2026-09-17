@@ -20,3 +20,5 @@ linter:
   rules:
     prefer_final_locals: true
     prefer_final_in_for_each: true
+    unawaited_futures: true
+    discarded_futures: true

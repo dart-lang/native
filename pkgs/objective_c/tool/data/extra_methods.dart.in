@@ -16,7 +16,7 @@ extension type NSString._(objc.ObjCObject object$) {
 
   static NSString _stringToNSString$(String str) {
     final cstr = str.toNativeUtf16();
-    final nsstr = stringWithCharacters(cstr.cast(), length: str.length);
+    final nsstr = alloc().initWithCharacters(cstr.cast(), length: str.length);
     pkg_ffi.calloc.free(cstr);
     return nsstr;
   }
@@ -40,14 +40,14 @@ extension type NSMutableArray._(objc.ObjCObject object$) {
   ///
   /// The [length] must be a non-negative integer.
   static NSMutableArray filled(int length, objc.ObjCObject fill) {
-    final a = arrayWithCapacity(length);
+    final a = alloc().initWithCapacity(length);
     for (var i = 0; i < length; ++i) a.addObject(fill);
     return a;
   }
 
   /// Creates a [NSMutableArray] from [elements].
   static NSMutableArray of(Iterable<objc.ObjCObject> elements) {
-    final a = arrayWithCapacity(elements.length);
+    final a = alloc().initWithCapacity(elements.length);
     for (final e in elements) a.addObject(e);
     return a;
   }
@@ -73,7 +73,7 @@ extension type NSMutableDictionary._(objc.ObjCObject object$) {
   static NSMutableDictionary fromEntries(
     Iterable<MapEntry<NSCopying, objc.ObjCObject>> entries,
   ) {
-    final dict = dictionaryWithCapacity(entries.length);
+    final dict = alloc().initWithCapacity(entries.length);
     for (final MapEntry(:key, :value) in entries) {
       dict.setObject(
         value,
@@ -93,7 +93,7 @@ extension type NSSet._(objc.ObjCObject object$) {
 extension type NSMutableSet._(objc.ObjCObject object$) {
   /// Creates a [NSMutableSet] from [elements].
   static NSMutableSet of(Iterable<objc.ObjCObject> elements) {
-    final set = setWithCapacity(elements.length);
+    final set = alloc().initWithCapacity(elements.length);
     for (final e in elements) set.addObject(e);
     return set;
   }
