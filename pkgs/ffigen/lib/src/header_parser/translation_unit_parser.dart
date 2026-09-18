@@ -26,8 +26,9 @@ Set<Binding> parseTranslationUnit(
   /// Visits a child of the translation unit or, when [nested], of a C++
   /// namespace or record. Only the kinds in [_nestedDeclKinds] are surfaced
   /// from namespaces and records so far.
-  // TODO: Dispatch VarDecl, FunctionDecl, etc. when nested, for fuller C++
-  // namespace support.
+  // TODO(https://github.com/dart-lang/native/issues/3667): Dispatch VarDecl
+  // and FunctionDecl when nested. They need an identity distinct from the
+  // lookup symbol first.
   void cursorVisitor(clang_types.CXCursor cursor, {required bool nested}) {
     final kind = clang.clang_getCursorKind(cursor);
     if (nested && !_nestedDeclKinds.contains(kind)) {
