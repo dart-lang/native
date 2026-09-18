@@ -54,6 +54,7 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         .isNotEmpty;
   } else {
     logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
+    final qualifiedName = qualifiedNameFromCursor(cursor, enumName);
     enumClass = EnumClass(
       usr: usr,
       dartDoc: getCursorDocComment(
@@ -61,8 +62,8 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
         cursor,
         availability: apiAvailability.dartDoc,
       ),
-      originalName: enumName,
-      name: enumName,
+      originalName: qualifiedName,
+      name: flattenQualifiedName(qualifiedName),
       nativeType: nativeType,
       context: context,
       apiAvailability: apiAvailability,

@@ -118,6 +118,19 @@ extension CXCursorExt on clang_types.CXCursor {
     return res;
   }
 
+  /// The [Declaration] handed to `importType` for this cursor.
+  ///
+  /// A C++ type nested in a namespace or record is named by its qualified
+  /// name, matching the `originalName` of the binding a `Visitor` would see.
+  /// Anonymous cursors keep an empty name.
+  Declaration declaration() {
+    final leaf = spelling();
+    return Declaration(
+      usr: usr(),
+      originalName: leaf.isEmpty ? '' : qualifiedNameFromCursor(this, leaf),
+    );
+  }
+
   /// Returns the kind int from [clang_types.CXCursorKind].
   int kind() {
     return clang.clang_getCursorKind(this);
@@ -735,3 +748,41 @@ String _getWritableChar(int char, {bool utf8 = true}) {
   /// In all other cases, simply convert to string.
   return String.fromCharCode(char);
 }
+
+/// Builds the fully-qualified C++ name of the declaration at [cursor] by
+/// walking its semantic parents, e.g. an enum `Tone` nested in `struct
+/// Palette` in `namespace outer` yields `outer::Palette::Tone`.
+///
+/// Anonymous scopes and `extern "C"` blocks contribute no segment. The walk
+/// stops at the first parent that is not a namespace or record, so a type
+/// declared at global scope or inside a function yields [leafName] alone.
+String qualifiedNameFromCursor(clang_types.CXCursor cursor, String leafName) {
+  var name = leafName;
+  var parent = clang.clang_getCursorSemanticParent(cursor);
+  while (clang.clang_Cursor_isNull(parent) == 0 &&
+      _isNameScope(clang.clang_getCursorKind(parent))) {
+    final spelling = parent.spelling();
+    if (spelling.isNotEmpty) name = '$spelling::$name';
+    parent = clang.clang_getCursorSemanticParent(parent);
+  }
+  return name;
+}
+
+/// Whether a cursor of [kind] is a scope that qualifies the names declared
+/// inside it (or, for `extern "C"`, is transparent to them).
+bool _isNameScope(int kind) => switch (kind) {
+  clang_types.CXCursorKind.CXCursor_Namespace ||
+  clang_types.CXCursorKind.CXCursor_LinkageSpec ||
+  clang_types.CXCursorKind.CXCursor_StructDecl ||
+  clang_types.CXCursorKind.CXCursor_ClassDecl ||
+  clang_types.CXCursorKind.CXCursor_UnionDecl ||
+  clang_types.CXCursorKind.CXCursor_ClassTemplate ||
+  clang_types.CXCursorKind.CXCursor_ClassTemplatePartialSpecialization => true,
+  _ => false,
+};
+
+/// Joins the segments of a `::`-qualified C++ name with `$`, so that it can be
+/// used as a Dart identifier, e.g. `outer::inner::Color` becomes
+/// `outer$inner$Color`.
+String flattenQualifiedName(String qualifiedName) =>
+    qualifiedName.replaceAll('::', r'$');
