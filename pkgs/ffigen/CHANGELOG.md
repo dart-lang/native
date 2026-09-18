@@ -14,6 +14,9 @@
   canonical type.
 - Generate bindings for declarations inside C++ `extern "C" { ... }`
   blocks, which were previously skipped entirely.
+- Allow `package:cli_util` versions `0.5.x` and `0.6.x`, so that `ffigen` can
+  be used together with packages that require a newer `cli_util`, such as
+  `melos`.
 
 ## 22.0.0
 
