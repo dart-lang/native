@@ -22,7 +22,7 @@ void main(List<String> args) async {
 }
 
 /// Builds the native asset for [os], [architecture], and optional [iOSSdk]
-/// and copies the compiled dynamic library into `assets/`.
+/// and copies the compiled dynamic library into `prebuilt/`.
 Future<File> buildPrebuiltAsset(
   OS os,
   Architecture architecture,
@@ -42,7 +42,7 @@ Future<File> buildPrebuiltAsset(
   final builtFile = File.fromUri(builtAsset.file!);
   final fileName = targetFileName(os, architecture, iOSSdk);
   final targetFile = File.fromUri(
-    input.packageRoot.resolve('assets/$fileName'),
+    input.packageRoot.resolve('prebuilt/$fileName'),
   );
   await targetFile.parent.create(recursive: true);
   return await builtFile.copy(targetFile.path);

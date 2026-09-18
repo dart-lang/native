@@ -13,7 +13,7 @@ import '../tool/build.dart';
 
 void main() {
   test(
-    'build hook uses prebuilt asset from assets/ directory and pub publish includes it',
+    'build hook uses prebuilt asset from prebuilt/ directory and pub publish includes it',
     () async {
       final prebuiltFile = await buildPrebuiltAsset(
         OS.current,
@@ -31,9 +31,9 @@ void main() {
         if (await prebuiltFile.exists()) {
           await prebuiltFile.delete();
         }
-        final assetsDir = prebuiltFile.parent;
-        if (await assetsDir.exists() && await assetsDir.list().isEmpty) {
-          await assetsDir.delete();
+        final prebuiltDir = prebuiltFile.parent;
+        if (await prebuiltDir.exists() && await prebuiltDir.list().isEmpty) {
+          await prebuiltDir.delete();
         }
       });
 
@@ -45,7 +45,7 @@ void main() {
             Architecture.current,
             null,
           );
-          final expectedUri = input.packageRoot.resolve('assets/$fileName');
+          final expectedUri = input.packageRoot.resolve('prebuilt/$fileName');
           expect(output.assets.code, hasLength(1));
           expect(output.assets.code.single.file, expectedUri);
           expect(output.dependencies, contains(expectedUri));
@@ -54,7 +54,7 @@ void main() {
 
       // Copy the package to a standalone directory (outside the monorepo's
       // `pkgs/hooks/.pubignore` which ignores `example/*/*`) and verify
-      // `dart pub publish --dry-run` bundles the prebuilt binary in `assets/`.
+      // `dart pub publish --dry-run` bundles the prebuilt binary in `prebuilt/`.
       await _copyDirectory(packageRoot, tempDir);
       final repoRoot = packageRoot.uri.resolve('../../../../../');
       final pubspecFile = File.fromUri(tempDir.uri.resolve('pubspec.yaml'));

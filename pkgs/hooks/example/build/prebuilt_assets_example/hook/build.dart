@@ -15,7 +15,7 @@ void main(List<String> args) async {
     final targetArchitecture = input.config.code.targetArchitecture;
     final iOSSdk = targetOS == OS.iOS ? input.config.code.iOS.targetSdk : null;
     final fileName = targetFileName(targetOS, targetArchitecture, iOSSdk);
-    final assetUri = input.packageRoot.resolve('assets/$fileName');
+    final assetUri = input.packageRoot.resolve('prebuilt/$fileName');
     final assetFile = File.fromUri(assetUri);
 
     if (localBuild || !assetFile.existsSync()) {
