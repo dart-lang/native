@@ -6,7 +6,7 @@
 # inside package:hooks.
 #
 # It builds dynamic libraries across multiple GitHub Actions runners, pulls them
-# all into a single runner into `assets/`, and runs `dart pub publish`.
+# all into a single runner into `prebuilt/`, and runs `dart pub publish`.
 name: package_prebuilt_assets_example
 
 permissions:
@@ -94,9 +94,9 @@ jobs:
         with:
           name: ${{ matrix.os }}-prebuilt-assets
           path: |
-            pkgs/hooks/example/build/prebuilt_assets_example/assets/*.dll
-            pkgs/hooks/example/build/prebuilt_assets_example/assets/*.dylib
-            pkgs/hooks/example/build/prebuilt_assets_example/assets/*.so
+            pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/*.dll
+            pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/*.dylib
+            pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/*.so
           if-no-files-found: error
 
   publish:
@@ -119,14 +119,14 @@ jobs:
         with:
           sdk: stable
 
-      - name: Pull all prebuilt assets into assets/ directory
+      - name: Pull all prebuilt assets into prebuilt/ directory
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           merge-multiple: true
-          path: pkgs/hooks/example/build/prebuilt_assets_example/assets/
+          path: pkgs/hooks/example/build/prebuilt_assets_example/prebuilt/
 
       - name: Display bundled assets
-        run: ls -la assets/
+        run: ls -la prebuilt/
 
       - name: Install dependencies and run tests using bundled prebuilt assets
         run: |
