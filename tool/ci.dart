@@ -439,10 +439,10 @@ class ExampleTask extends Task {
       // TODO(https://github.com/dart-lang/sdk/issues/63372): Run this on ci
       // after dev/stable support it.
       // 'pkgs/hooks_runner/test_data/treeshaking_dylib_record_use/',
-      'pkgs/hooks/example/build/bundle_prebuilt_assets/',
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',
+      'pkgs/hooks/example/build/prebuilt_assets_example/',
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];

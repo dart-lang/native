@@ -18,7 +18,7 @@ to building from source.
 
 * `tool/build.dart` prebuilds assets into `assets/` and is exercised from a
   GitHub workflow.
-* A [GitHub workflow](../../../../../.github/workflows/package_bundle_prebuilt_assets.yaml)
+* A [GitHub workflow](../../../../../.github/workflows/package_prebuilt_assets_example.yaml)
   that builds assets across a matrix of runners, downloads them all into
   `assets/` in a single job, and runs `dart pub publish`.
 * `.gitignore` ignores `assets/` so binaries are not committed to source

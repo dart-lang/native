@@ -5,10 +5,10 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:bundle_prebuilt_assets/src/hook_helpers/c_build.dart';
-import 'package:bundle_prebuilt_assets/src/hook_helpers/target_versions.dart';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:prebuilt_assets_example/src/hook_helpers/c_build.dart';
+import 'package:prebuilt_assets_example/src/hook_helpers/target_versions.dart';
 
 void main(List<String> args) async {
   final (os: os, architecture: architecture, iOSSdk: iOSSdk) = parseArguments(
@@ -95,16 +95,16 @@ BuildInput createBuildInput(
       ? defaultRoot
       : Directory.current.uri;
   final outputDirectoryShared = packageRoot.resolve(
-    '.dart_tool/bundle_prebuilt_assets/shared/',
+    '.dart_tool/prebuilt_assets_example/shared/',
   );
   final outputFile = packageRoot.resolve(
-    '.dart_tool/bundle_prebuilt_assets/output.json',
+    '.dart_tool/prebuilt_assets_example/output.json',
   );
 
   final inputBuilder = BuildInputBuilder()
     ..setupShared(
       packageRoot: packageRoot,
-      packageName: 'bundle_prebuilt_assets',
+      packageName: 'prebuilt_assets_example',
       outputFile: outputFile,
       outputDirectoryShared: outputDirectoryShared,
     )

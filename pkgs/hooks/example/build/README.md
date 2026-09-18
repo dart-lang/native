@@ -21,7 +21,7 @@ Examples:
     [native_add_library/](native_add_library/), but instead of building the
     native code on the machine of developers pulling in the package, the native
     libraries are prebuilt in GitHub actions and downloaded in the build hook.
-  * [bundle_prebuilt_assets/](bundle_prebuilt_assets/) prebuilds native
+  * [prebuilt_assets_example/](prebuilt_assets_example/) prebuilds native
     libraries across separate GitHub Actions runners, pulls them into a single
     job, and bundles them directly inside the published pub package.
 * Bundling multiple dynamic libraries depending on each other.

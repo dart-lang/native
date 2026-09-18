@@ -2,12 +2,10 @@
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
 
-publish_to: none
-
-name: bundle_prebuilt_assets
+name: prebuilt_assets_example
 description: Sums two numbers with native code, bundling prebuilt assets in pub package.
 version: 0.1.0
-repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks/example/build/bundle_prebuilt_assets
+repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks/example/build/prebuilt_assets_example
 
 resolution: workspace
 
@@ -30,5 +28,5 @@ dev_dependencies:
 # removed.
 hooks:
   user_defines:
-    bundle_prebuilt_assets: # package name
+    prebuilt_assets_example: # package name
       local_build: false

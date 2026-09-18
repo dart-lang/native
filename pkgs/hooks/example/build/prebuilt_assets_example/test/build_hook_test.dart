@@ -4,8 +4,8 @@
 
 import 'dart:io';
 
-import 'package:bundle_prebuilt_assets/src/hook_helpers/c_build.dart';
 import 'package:code_assets/code_assets.dart';
+import 'package:prebuilt_assets_example/src/hook_helpers/c_build.dart';
 import 'package:test/test.dart';
 
 import '../hook/build.dart' as build_hook;
@@ -22,7 +22,7 @@ void main() {
       );
       final packageRoot = prebuiltFile.parent.parent;
       final tempDir = await Directory.systemTemp.createTemp(
-        'bundle_prebuilt_assets_test_',
+        'prebuilt_assets_example_test_',
       );
       addTearDown(() async {
         if (await tempDir.exists()) {
@@ -58,9 +58,9 @@ void main() {
       await _copyDirectory(packageRoot, tempDir);
       final repoRoot = packageRoot.uri.resolve('../../../../../');
       final pubspecFile = File.fromUri(tempDir.uri.resolve('pubspec.yaml'));
-      final pubspecContent = (await pubspecFile.readAsString())
-          .replaceFirst('resolution: workspace', '')
-          .replaceFirst('publish_to: none', '''
+      final pubspecContent = (await pubspecFile.readAsString()).replaceFirst(
+        'resolution: workspace',
+        '''
 dependency_overrides:
   code_assets:
     path: ${repoRoot.resolve('pkgs/code_assets').toFilePath()}
@@ -69,7 +69,8 @@ dependency_overrides:
   native_toolchain_c:
     path: ${repoRoot.resolve('pkgs/native_toolchain_c').toFilePath()}
   ffigen:
-    path: ${repoRoot.resolve('pkgs/ffigen').toFilePath()}''');
+    path: ${repoRoot.resolve('pkgs/ffigen').toFilePath()}''',
+      );
       await pubspecFile.writeAsString(pubspecContent);
 
       final publishResult = await Process.run(Platform.resolvedExecutable, [

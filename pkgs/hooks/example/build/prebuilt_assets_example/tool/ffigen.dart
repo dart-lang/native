@@ -6,9 +6,9 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 
-FfiGenerator getConfig([Uri? packageRoot]) {
-  packageRoot ??= Platform.script.resolve('../');
-  return FfiGenerator(
+Future<void> main() async {
+  final packageRoot = Platform.script.resolve('../');
+  await FfiGenerator(
     output: Output(
       dart: DartOutput(path: packageRoot.resolve('lib/native_add.dart')),
       preamble: '''
@@ -20,9 +20,5 @@ FfiGenerator getConfig([Uri? packageRoot]) {
     ),
     input: Input(entryPoints: [packageRoot.resolve('src/native_add.h')]),
     visitors: [Visitor(func: (node) => node.isIncluded = true)],
-  );
-}
-
-Future<void> main() async {
-  await getConfig().generate();
+  ).generate();
 }

@@ -2,12 +2,12 @@
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
 
-# A workflow that goes together with the example package:bundle_prebuilt_assets
+# A workflow that goes together with the example package:prebuilt_assets_example
 # inside package:hooks.
 #
 # It builds dynamic libraries across multiple GitHub Actions runners, pulls them
 # all into a single runner into `assets/`, and runs `dart pub publish`.
-name: package_bundle_prebuilt_assets
+name: package_prebuilt_assets_example
 
 permissions:
   contents: read
@@ -16,11 +16,11 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - .github/workflows/package_bundle_prebuilt_assets.yaml
-      - pkgs/hooks/example/build/bundle_prebuilt_assets/
+      - .github/workflows/package_prebuilt_assets_example.yaml
+      - pkgs/hooks/example/build/prebuilt_assets_example/
   push:
     tags:
-      - 'bundle_prebuilt_assets-v*'
+      - 'prebuilt_assets_example-v*'
   workflow_dispatch:
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: pkgs/hooks/example/build/bundle_prebuilt_assets/
+        working-directory: pkgs/hooks/example/build/prebuilt_assets_example/
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -58,7 +58,7 @@ jobs:
 
       - run: dart pub get
 
-      # Keep this list consistent with pkgs/hooks/example/build/bundle_prebuilt_assets/lib/src/hook_helpers/targets.dart
+      # Keep this list consistent with pkgs/hooks/example/build/prebuilt_assets_example/lib/src/hook_helpers/targets.dart
       - name: Build Linux & Android targets
         if: matrix.os == 'ubuntu'
         run: |
@@ -94,9 +94,9 @@ jobs:
         with:
           name: ${{ matrix.os }}-prebuilt-assets
           path: |
-            pkgs/hooks/example/build/bundle_prebuilt_assets/assets/*.dll
-            pkgs/hooks/example/build/bundle_prebuilt_assets/assets/*.dylib
-            pkgs/hooks/example/build/bundle_prebuilt_assets/assets/*.so
+            pkgs/hooks/example/build/prebuilt_assets_example/assets/*.dll
+            pkgs/hooks/example/build/prebuilt_assets_example/assets/*.dylib
+            pkgs/hooks/example/build/prebuilt_assets_example/assets/*.so
           if-no-files-found: error
 
   publish:
@@ -108,7 +108,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: pkgs/hooks/example/build/bundle_prebuilt_assets/
+        working-directory: pkgs/hooks/example/build/prebuilt_assets_example/
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -123,7 +123,7 @@ jobs:
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           merge-multiple: true
-          path: pkgs/hooks/example/build/bundle_prebuilt_assets/assets/
+          path: pkgs/hooks/example/build/prebuilt_assets_example/assets/
 
       - name: Display bundled assets
         run: ls -la assets/
@@ -138,7 +138,7 @@ jobs:
         # git repository so `dart pub publish` does not read parent
         # `pkgs/hooks/.pubignore` or warn about modified files in git status.
         run: |
-          sed -i.bak '/resolution: workspace/d; /publish_to: none/d' pubspec.yaml
+          sed -i.bak '/resolution: workspace/d' pubspec.yaml
           rm -f pubspec.yaml.bak
           git init
           git config user.email "ci@example.com"
@@ -148,5 +148,5 @@ jobs:
           dart pub publish --dry-run
 
       - name: Publish to pub.dev
-        if: startsWith(github.ref, 'refs/tags/bundle_prebuilt_assets-v')
+        if: startsWith(github.ref, 'refs/tags/prebuilt_assets_example-v')
         run: dart pub publish --force

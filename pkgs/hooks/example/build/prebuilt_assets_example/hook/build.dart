@@ -4,9 +4,9 @@
 
 import 'dart:io';
 
-import 'package:bundle_prebuilt_assets/src/hook_helpers/c_build.dart';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:prebuilt_assets_example/src/hook_helpers/c_build.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {

@@ -7,6 +7,8 @@ import 'package:code_assets/code_assets.dart';
 /// A list of supported target combinations of OS, architecture, and iOS SDK.
 ///
 /// Used to determine which assets to build and bundle.
+///
+/// Keep in sync with the matrix in `package_prebuilt_assets_example.yaml`.
 const supportedTargets = [
   (OS.android, Architecture.arm, null),
   (OS.android, Architecture.arm64, null),
