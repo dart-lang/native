@@ -55,4 +55,28 @@ void main() async {
     final buildOutputUri = input.outputFile;
     expect(File.fromUri(buildOutputUri), exists);
   });
+
+  test('link method', () async {
+    final linkOutFile = tempUri.resolve('link_output.json');
+    final linkInputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageRoot: tempUri,
+        packageName: packageName,
+        outputFile: linkOutFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLink(assets: [], recordedUsesFile: null, assetsFromLinking: []);
+    final linkInput = linkInputBuilder.build();
+    final linkInputUri = tempUri.resolve('link_input.json');
+    await File.fromUri(linkInputUri).writeAsString(json.encode(linkInput.json));
+
+    await link(['--config', linkInputUri.toFilePath()], (input, output) async {
+      output.dependencies.add(packageRootUri.resolve('bar'));
+    });
+    expect(File.fromUri(linkOutFile), exists);
+  });
+
+  test('missing --config argument throws StateError', () {
+    expect(() => build([], (input, output) async {}), throwsStateError);
+  });
 }
