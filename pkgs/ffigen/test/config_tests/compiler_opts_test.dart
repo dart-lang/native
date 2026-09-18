@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:ffigen/ffigen.dart' show defaultCompilerOpts;
 import 'package:ffigen/src/config_provider/spec_utils.dart';
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -40,6 +41,15 @@ ${strings.compilerOptsAuto}:
         config.input.compilerOptions,
         equals([if (Platform.isMacOS) '-Wno-nullability-completeness']),
       );
+    });
+    test('C++ defaults', () {
+      final opts = defaultCompilerOpts(createTestLogger(), cpp: true);
+      expect(opts, [
+        '-x',
+        'c++',
+        '-std=c++17',
+        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+      ]);
     });
   });
 }

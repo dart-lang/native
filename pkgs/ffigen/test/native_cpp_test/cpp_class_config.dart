@@ -19,12 +19,6 @@ FfiGenerator getConfig([Uri? packageRoot]) {
         testDir.resolve('cpp_class_test.h'),
         testDir.resolve('finalizer_test_subject.h'),
       ],
-      compilerOptions: [
-        '-x',
-        'c++',
-        '-std=c++17',
-        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
-      ],
     ),
     cpp: const Cpp(),
     visitors: [
