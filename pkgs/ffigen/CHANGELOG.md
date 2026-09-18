@@ -1,5 +1,7 @@
 ## 22.0.1-wip
 
+- Added `Input.appendCompilerOptions` to allow appending custom compiler
+  options to default options instead of replacing them.
 - Default to C++17 compiler options when C++ bindings are enabled.
 - Preserve documentation comments on same-name typedefs when generating the
   underlying type binding.

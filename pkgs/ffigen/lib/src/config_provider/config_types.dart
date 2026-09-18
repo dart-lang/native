@@ -397,6 +397,17 @@ List<String> defaultCompilerOpts(
         if (Platform.isMacOS) '-Wno-nullability-completeness',
       ];
 
+/// Computes compiler options based on [input], [logger], and [cpp].
+List<String> computeCompilerOpts({
+  required Input input,
+  required Logger logger,
+  bool cpp = false,
+}) => [
+  if (input.appendCompilerOptions || input.compilerOptions == null)
+    ...defaultCompilerOpts(logger, cpp: cpp),
+  if (input.compilerOptions != null) ...input.compilerOptions!,
+];
+
 /// Handles config for automatically added compiler options.
 class CompilerOptsAuto {
   final bool macIncludeStdLib;
