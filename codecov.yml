@@ -103,9 +103,11 @@ component_management:
 ignore:
   - "**/*.g.dart"
   - "**/*.mocks.dart"
-  - "**/test/**"
-  - "**/example/**"
-  - "**/test_data/**"
+  - "pkgs/*/test/**"
+  - "pkgs/*/example/**"
+  - "pkgs/*/test_data/**"
+  - "tool/**"
+  - "pkgs/*/tool/**"
 
 comment:
   layout: "reach,diff,flags,components,files"
