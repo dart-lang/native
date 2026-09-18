@@ -166,6 +166,14 @@ external ffi.Pointer<ObjCObjectImpl> objectRetain(
   ffi.Pointer<ObjCObjectImpl> object,
 );
 
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'objc_retainAutoreleasedReturnValue',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCObjectImpl> objectRetainAutoreleasedReturnValue(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
+
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'sel_registerName',
   isLeaf: true,

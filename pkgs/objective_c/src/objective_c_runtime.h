@@ -19,6 +19,7 @@ ObjCSelector *sel_registerName(const char *name);
 const char * sel_getName(ObjCSelector* sel);
 ObjCObjectImpl *objc_getClass(const char *name);
 ObjCObjectImpl *objc_retain(ObjCObjectImpl *object);
+ObjCObjectImpl *objc_retainAutoreleasedReturnValue(ObjCObjectImpl *object);
 ObjCObjectImpl *objc_retainBlock(const ObjCObjectImpl *object);
 void objc_release(ObjCObjectImpl *object);
 ObjCObjectImpl *objc_autorelease(ObjCObjectImpl *object);
