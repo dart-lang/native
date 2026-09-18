@@ -50,8 +50,10 @@ final class MetadataAsset {
   /// Encodes this [MetadataAsset] into an [EncodedAsset].
   EncodedAsset encode() => EncodedAsset(_type, {'key': key, 'value': value});
 
+  // coverage:ignore-start
   @override
   String toString() => 'MetadataAsset(${encode().encoding})';
+  // coverage:ignore-end
 
   static const _type = 'hooks/metadata';
 }

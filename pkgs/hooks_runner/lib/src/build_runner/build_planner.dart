@@ -311,6 +311,7 @@ class PackageGraph {
     });
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     final buffer = StringBuffer();
@@ -324,6 +325,7 @@ class PackageGraph {
     buffer.writeln(')');
     return buffer.toString();
   }
+  // coverage:ignore-end
 }
 
 /// The two types of scripts which are hooked into the compilation process.
