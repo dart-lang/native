@@ -27,3 +27,15 @@ Logger createDefaultLogger([Level level = Level.INFO]) {
   });
   return logger;
 }
+
+final _useAnsi =
+    stdout.supportsAnsiEscapes && stdioType(stdout) == StdioType.terminal;
+
+String _ansiColor(String message, int code) =>
+    _useAnsi ? '\u001b[${code}m$message\u001b[0m' : message;
+
+/// Colors [message] green if stdout is a terminal that supports ANSI escapes.
+String ansiGreen(String message) => _ansiColor(message, 32);
+
+/// Colors [message] red if stdout is a terminal that supports ANSI escapes.
+String ansiRed(String message) => _ansiColor(message, 31);
