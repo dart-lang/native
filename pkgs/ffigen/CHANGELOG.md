@@ -14,6 +14,9 @@
   canonical type.
 - Generate bindings for declarations inside C++ `extern "C" { ... }`
   blocks, which were previously skipped entirely.
+- Remove the dependency on `package:cli_util`, which was only used for coloring
+  terminal output. This lets `ffigen` be used together with packages that
+  require a newer `cli_util`, such as `melos`.
 
 ## 22.0.0
 

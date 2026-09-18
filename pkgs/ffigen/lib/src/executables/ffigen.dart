@@ -6,15 +6,14 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 import '../../ffigen.dart';
 import '../header_parser.dart';
+import '../logger.dart';
 
-final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 final logger = () {
   final l = Logger('ffigen.ffigen');
   l.onRecord.listen((record) {
@@ -23,7 +22,7 @@ final logger = () {
     if (record.level < Level.SEVERE) {
       print(log);
     } else {
-      print('${_ansi.red}$log${_ansi.none}');
+      print(ansiRed(log));
     }
   });
   return l;

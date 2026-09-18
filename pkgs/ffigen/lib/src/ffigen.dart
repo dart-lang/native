@@ -4,15 +4,12 @@
 
 import 'dart:io';
 
-import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 
 import 'config_provider.dart' show FfiGenerator;
 import 'context.dart';
 import 'header_parser.dart' show parse;
 import 'logger.dart';
-
-final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 extension FfiGenGenerator on FfiGenerator {
   /// Runs the entire generation pipeline for the given config.
@@ -84,5 +81,5 @@ extension FfiGenGenerator on FfiGenerator {
     }
   }
 
-  static String _successPen(String str) => '${_ansi.green}$str${_ansi.none}';
+  static String _successPen(String str) => ansiGreen(str);
 }
