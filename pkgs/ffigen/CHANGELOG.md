@@ -1,4 +1,4 @@
-## 22.0.1-wip
+## 22.1.0-wip
 
 - Added `Input.appendCompilerOptions` to allow appending custom compiler
   options to default options instead of replacing them.

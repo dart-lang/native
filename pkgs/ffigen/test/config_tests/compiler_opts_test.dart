@@ -60,19 +60,27 @@ ${strings.compilerOptsAuto}:
     test('computeCompilerOpts', () {
       final logger = createTestLogger();
       final defaultOpts = defaultCompilerOpts(logger);
+      FfiGenerator testGen({Input input = const Input(), Cpp? cpp}) =>
+          FfiGenerator(
+            output: Output(dart: DartOutput(path: Uri.file('unused.dart'))),
+            input: input,
+            cpp: cpp,
+          );
 
       // Overwrites defaults when appendCompilerOptions is false or omitted.
       final overwriteOpts = computeCompilerOpts(
-        input: const Input(compilerOptions: ['-DFOO']),
+        config: testGen(input: const Input(compilerOptions: ['-DFOO'])),
         logger: logger,
       );
       expect(overwriteOpts, ['-DFOO']);
 
       // Appends to defaults when appendCompilerOptions is true.
       final appendOpts = computeCompilerOpts(
-        input: const Input(
-          compilerOptions: ['-DFOO'],
-          appendCompilerOptions: true,
+        config: testGen(
+          input: const Input(
+            compilerOptions: ['-DFOO'],
+            appendCompilerOptions: true,
+          ),
         ),
         logger: logger,
       );
@@ -81,7 +89,7 @@ ${strings.compilerOptsAuto}:
       // Uses defaults when compilerOptions is null even if
       // appendCompilerOptions is true.
       final nullAppendOpts = computeCompilerOpts(
-        input: const Input(appendCompilerOptions: true),
+        config: testGen(input: const Input(appendCompilerOptions: true)),
         logger: logger,
       );
       expect(nullAppendOpts, defaultOpts);
@@ -89,12 +97,14 @@ ${strings.compilerOptsAuto}:
       // Appends to C++ defaults when C++ is enabled.
       final defaultCppOpts = defaultCompilerOpts(logger, cpp: true);
       final cppAppendOpts = computeCompilerOpts(
-        input: const Input(
-          compilerOptions: ['-DFOO'],
-          appendCompilerOptions: true,
+        config: testGen(
+          input: const Input(
+            compilerOptions: ['-DFOO'],
+            appendCompilerOptions: true,
+          ),
+          cpp: const Cpp(),
         ),
         logger: logger,
-        cpp: true,
       );
       expect(cppAppendOpts, [...defaultCppOpts, '-DFOO']);
     });

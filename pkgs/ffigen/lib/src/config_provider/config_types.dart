@@ -397,15 +397,15 @@ List<String> defaultCompilerOpts(
         if (Platform.isMacOS) '-Wno-nullability-completeness',
       ];
 
-/// Computes compiler options based on [input], [logger], and [cpp].
+/// Computes compiler options based on [config] and [logger].
 List<String> computeCompilerOpts({
-  required Input input,
+  required FfiGenerator config,
   required Logger logger,
-  bool cpp = false,
 }) => [
-  if (input.appendCompilerOptions || input.compilerOptions == null)
-    ...defaultCompilerOpts(logger, cpp: cpp),
-  if (input.compilerOptions != null) ...input.compilerOptions!,
+  if (config.input.appendCompilerOptions ||
+      config.input.compilerOptions == null)
+    ...defaultCompilerOpts(logger, cpp: config.cpp != null),
+  if (config.input.compilerOptions != null) ...config.input.compilerOptions!,
 ];
 
 /// Handles config for automatically added compiler options.

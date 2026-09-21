@@ -28,9 +28,8 @@ class Context {
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
   late final compilerOpts = computeCompilerOpts(
-    input: config.input,
+    config: config,
     logger: logger,
-    cpp: config.cpp != null,
   );
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
