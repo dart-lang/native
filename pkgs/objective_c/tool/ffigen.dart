@@ -347,6 +347,8 @@ FfiGenerator getRuntimeConfig([Uri? packageRoot]) {
             'objc_msgSend_stret': 'msgSendStret',
             'objc_release': 'objectRelease',
             'objc_retain': 'objectRetain',
+            'objc_retainAutoreleasedReturnValue':
+                'objectRetainAutoreleasedReturnValue',
             'objc_retainBlock': 'blockRetain',
             'object_getClass': 'getObjectClass',
             'protocol_getMethodDescription': 'getMethodDescription',

@@ -39,6 +39,7 @@ export 'src/runtime_bindings_generated.dart'
         ObjCSelector,
         blockRetain,
         objectRelease,
-        objectRetain;
+        objectRetain,
+        objectRetainAutoreleasedReturnValue;
 export 'src/selector.dart';
 export 'src/version_check.dart';
