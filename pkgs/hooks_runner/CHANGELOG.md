@@ -1,6 +1,7 @@
 ## 1.6.5-wip
 
-- No user-visible changes yet.
+- Fail eagerly instead of waiting for timeout when running on a file system that
+  does not support process locks.
 
 ## 1.6.4
 
