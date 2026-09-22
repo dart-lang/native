@@ -27,7 +27,7 @@ export 'visitor.dart';
 ///    so that `Bar`'s children are also visited. If all `Foo`'s children
 ///    are inherited from `Bar`, it's not necessary to implement this method.
 ///
-/// <!-- no-source-file -->
+/// <!-- file://./../../../test/unit/visitor_guide_snippet_test.dart#visit_children -->
 /// ```dart
 /// @override
 /// void visitChildren(Visitor visitor) {
@@ -53,13 +53,13 @@ export 'visitor.dart';
 ///    have finished being visited when processing the parent.
 /// 2. Override the visit methods for whichever type you're interested in.
 ///
-/// <!-- no-source-file -->
+/// <!-- file://./../../../test/unit/visitor_guide_snippet_test.dart#visit_foo -->
 /// ```dart
 /// @override
 /// void visitFoo(Foo node) {
 ///   // Typically this method would visit the children, but that's not always
 ///   // what you want to do.
-///   node.visitChildren(this);
+///   node.visitChildren(visitor);
 ///
 ///   // It's not necessarily true that all the children have finished being
 ///   // visited at this point.
@@ -74,7 +74,7 @@ export 'visitor.dart';
 ///   `void visitFoo(Foo node) => visitBar(node);`
 /// 4. Then add a `visit` method to `Foo` that invokes `visitFoo`:
 ///
-/// <!-- no-source-file -->
+/// <!-- file://./../../../test/unit/visitor_guide_snippet_test.dart#visit_dispatch -->
 /// ```dart
 /// @override
 /// void visit(Visitation visitation) => visitation.visitFoo(this);
@@ -84,10 +84,10 @@ export 'visitor.dart';
 /// ## Running a [Visitation]
 ///
 /// 1. Construct the [Visitation] and wrap it in a [Visitor]:
-///   `final visitor = Visitor(MyFancyVisitation(1, 2, 3));`
+///   `final visitor = Visitor(context, MyFancyVisitation(1, 2, 3));`
 /// 2. Invoke the [Visitor] on the root nodes of the AST:
 ///
-/// <!-- no-source-file -->
+/// <!-- file://./../../../test/unit/visitor_guide_snippet_test.dart#run_visitor -->
 /// ```dart
 /// visitor.visit(someRootNode);
 /// visitor.visitAll(listOfRootNodes);
