@@ -1,4 +1,4 @@
-## 9.6.2-wip
+## 9.6.1
 
 - Fix potential memory leaks when converting a Dart `String` to a `NSString`
   (via `toNSString` or the `NSString` constructor) because the created
@@ -35,9 +35,6 @@
   to the autorelease pool.
 - Fix a bug where `toNSInputStream` would create cycles between Dart and
   Objective-C.
-- Switch most retain calls from `objc_retain` to
-  `objc_retainAutoreleasedReturnValue`, further reducing the number of
-  autoreleased references we create.
 
 ## 9.6.0
 
