@@ -1,4 +1,4 @@
-// Copyright (c) 2025, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -217,7 +217,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     newSnippetText = newSnippetText.trim();
 
     final copyrightRegex = RegExp(r'''
-// Copyright \(c\) [0-9]*, the Dart project authors.  Please see the AUTHORS file
+// Copyright \(c\) [0-9]*, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 ''');
