@@ -71,8 +71,10 @@ sealed class Reference {
     return mappedUnit == otherUnit;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => loadingUnit.name;
+  // coverage:ignore-end
 }
 
 mixin _HasArguments {
@@ -411,6 +413,7 @@ final class CallWithArguments extends CallReference with _HasArguments {
     }
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     final parts = <String>[];
@@ -431,6 +434,7 @@ final class CallWithArguments extends CallReference with _HasArguments {
     parts.add('loadingUnit: ${loadingUnit.name}');
     return 'CallWithArguments(${parts.join(', ')})';
   }
+  // coverage:ignore-end
 }
 
 /// A reference to a tear-off use of the [Definition]. This means that we can't
@@ -491,6 +495,7 @@ final class CallTearoff extends CallReference {
     }
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     final parts = <String>[];
@@ -500,6 +505,7 @@ final class CallTearoff extends CallReference {
     parts.add('loadingUnit: ${loadingUnit.name}');
     return 'CallTearoff(${parts.join(', ')})';
   }
+  // coverage:ignore-end
 }
 
 /// A reference to an instance usage of a [DefinitionWithInstances] (`final`
@@ -666,6 +672,7 @@ final class InstanceConstantReference extends InstanceReference {
     );
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     final parts = <String>[];
@@ -673,6 +680,7 @@ final class InstanceConstantReference extends InstanceReference {
     parts.add('loadingUnit: ${loadingUnit.name}');
     return 'InstanceConstantReference(${parts.join(', ')})';
   }
+  // coverage:ignore-end
 }
 
 /// Recorded for generative constructor invocations (non-const).
@@ -802,6 +810,7 @@ final class InstanceCreationReference extends InstanceReference
     );
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     final parts = <String>[];
@@ -820,6 +829,7 @@ final class InstanceCreationReference extends InstanceReference
     parts.add('loadingUnit: ${loadingUnit.name}');
     return 'InstanceCreationReference(${parts.join(', ')})';
   }
+  // coverage:ignore-end
 }
 
 /// A reference to a tear-off of a generative constructor on [definition].
@@ -894,6 +904,7 @@ final class ConstructorTearoffReference extends InstanceReference {
     );
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     final parts = <String>[];
@@ -901,6 +912,7 @@ final class ConstructorTearoffReference extends InstanceReference {
     parts.add('loadingUnit: ${loadingUnit.name}');
     return 'ConstructorTearoffReference(${parts.join(', ')})';
   }
+  // coverage:ignore-end
 }
 
 /// Package private (protected) methods for [Reference].

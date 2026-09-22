@@ -203,6 +203,29 @@ void main() async {
     expect(countingAllocator.allocationCount, 2);
     expect(countingAllocator.freeCount, 2);
   });
+
+  test('onReleaseAll and free', () {
+    var released = false;
+    final arena = Arena();
+    arena.onReleaseAll(() {
+      released = true;
+    });
+    final ptr = arena<Uint8>();
+    arena.free(ptr); // no-op
+    arena.releaseAll();
+    expect(released, isTrue);
+    expect(() => arena.allocate<Uint8>(1), throwsStateError);
+  });
+
+  test('zoneArena errors outside zone and after release', () {
+    expect(() => zoneArena, throwsA(isA<StateError>()));
+
+    late Zone capturedZone;
+    withZoneArena(() {
+      capturedZone = Zone.current;
+    });
+    expect(() => capturedZone.run(() => zoneArena), throwsA(isA<StateError>()));
+  });
 }
 
 /// Keeps track of the number of allocates and frees for testing purposes.

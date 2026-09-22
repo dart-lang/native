@@ -75,18 +75,11 @@ jobs:
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
         run: dart pub global run coverage:test_with_coverage --scope-output=swiftgen
-      - name: Trust Coveralls tap
-        run: brew trust coverallsapp/coveralls
       - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
         with:
-          flag-name: swiftgen
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
-          path-to-lcov: pkgs/swiftgen/coverage/lcov.info
-      - name: Upload coverage
-        uses: coverallsapp/github-action@7eaec0f9ffb3343970b8447736fc85442e961b67
-        with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+          files: pkgs/swiftgen/coverage/lcov.info
+          flags: swiftgen
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+

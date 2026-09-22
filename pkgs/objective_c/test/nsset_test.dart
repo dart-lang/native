@@ -122,5 +122,19 @@ void main() {
         }
       });
     });
+
+    test('`NSSet.of` garbage collected', () async {
+      await using((arena) async {
+        final tracker = ReferenceTracker(arena);
+        () {
+          tracker.track(NSSet.of([NSObject(), NSObject()]));
+        }();
+
+        doGC();
+        await Future<void>.delayed(Duration.zero);
+        doGC();
+        expect(tracker.isAlive, isFalse);
+      });
+    });
   });
 }

@@ -14,6 +14,7 @@ import 'package:quiver/pattern.dart' as quiver;
 import '../code_generator.dart';
 import 'config.dart';
 import 'path_finder.dart';
+import 'utils.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
 
@@ -382,11 +383,19 @@ class YamlMemberIncluder {
 List<String> defaultCompilerOpts(
   Logger logger, {
   bool macIncludeStdLib = true,
-}) => [
-  if (Platform.isMacOS && macIncludeStdLib)
-    ...getCStandardLibraryHeadersForMac(logger),
-  if (Platform.isMacOS) '-Wno-nullability-completeness',
-];
+  bool cpp = false,
+}) => cpp
+    ? [
+        '-x',
+        'c++',
+        '-std=c++17',
+        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+      ]
+    : [
+        if (Platform.isMacOS && macIncludeStdLib)
+          ...getCStandardLibraryHeadersForMac(logger),
+        if (Platform.isMacOS) '-Wno-nullability-completeness',
+      ];
 
 /// Handles config for automatically added compiler options.
 class CompilerOptsAuto {
@@ -437,8 +446,20 @@ class FfiNativeConfig {
   const FfiNativeConfig({required this.enabled, this.assetId});
 }
 
+/// Configuration for generating a symbol file.
+///
+/// Symbol files allow other FFIgen runs to import and reuse symbols defined in
+/// these bindings rather than regenerating them.
 class SymbolFile {
+  /// The package or file URI that other bindings will use to import the
+  /// generated Dart bindings for these symbols.
+  ///
+  /// Using a `package:...` URI is recommended for cross-package imports, so
+  /// that other packages can resolve the import regardless of directory
+  /// structure.
   final Uri importPath;
+
+  /// The file URI where YAML symbol file will be generated.
   final Uri output;
 
   SymbolFile(this.importPath, this.output);

@@ -399,6 +399,12 @@ class TestTask extends Task {
           .toList();
     }
     final testUris = getUriInPackage(packages, 'test');
+    if (coverageTask.shouldRun(argResults)) {
+      final coverageDir = Directory.fromUri(repositoryRoot.resolve('coverage'));
+      if (coverageDir.existsSync()) {
+        coverageDir.deleteSync(recursive: true);
+      }
+    }
     await _runProcess('dart', [
       'test',
       if (coverageTask.shouldRun(argResults)) '--coverage=./coverage',
@@ -436,17 +442,19 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',
+      'pkgs/hooks/example/build/prebuilt_assets_example/',
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];
-    await _runMaybeParallel([
-      for (final exampleWithTest in examplesWithTest)
-        () => _runProcess(
-          workingDirectory: repositoryRoot.resolve(exampleWithTest),
-          'dart',
-          ['test'],
-        ),
-    ], argResults);
+    // Run sequentially because `dart test` in a pub workspace copies to the
+    // shared `<workspace_root>/.dart_tool/native_assets.yaml`.
+    for (final exampleWithTest in examplesWithTest) {
+      await _runProcess(
+        workingDirectory: repositoryRoot.resolve(exampleWithTest),
+        'dart',
+        ['test'],
+      );
+    }
 
     await _runProcess(
       workingDirectory: repositoryRoot.resolve(
@@ -503,6 +511,8 @@ class CoverageTask extends Task {
       'coverage:format_coverage',
       '--packages=.dart_tool/package_config.json',
       for (final libUri in libUris) '--report-on=$libUri',
+      '--check-ignore',
+      '--ignore-files=**/*.g.dart',
       '--lcov',
       '-o',
       './coverage/lcov.info',
@@ -590,6 +600,31 @@ class LicenseTask extends Task {
   }
 }
 
+/// Checks for missing, under-promoted, over-promoted, and unused dependencies.
+class DependencyValidatorTask extends Task {
+  const DependencyValidatorTask()
+    : super(
+        name: 'dependency-validator',
+        helpMessage: 'Run `dependency_validator` on the packages.',
+      );
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    await _runMaybeParallel([
+      for (final package in packages)
+        () => _runProcess('dart', [
+          'run',
+          'dependency_validator',
+          '-C',
+          package,
+        ]),
+    ], argResults);
+  }
+}
+
 const pubTask = PubTask();
 const licenseTask = LicenseTask();
 const analyzeTask = AnalyzeTask();
@@ -600,6 +635,7 @@ const exampleTask = ExampleTask();
 const coverageTask = CoverageTask();
 const apiToolTask = ApiToolTask();
 const workspaceTask = WorkspaceTask();
+const dependencyValidatorTask = DependencyValidatorTask();
 
 // The order of tasks is intentional.
 final tasks = [
@@ -608,6 +644,7 @@ final tasks = [
   licenseTask,
   analyzeTask,
   formatTask,
+  dependencyValidatorTask,
   testTask,
   exampleTask,
   coverageTask,

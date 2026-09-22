@@ -1,3 +1,7 @@
+## 2.2.1-wip
+
+- No user-visible changes yet.
+
 ## 2.2.0
 
 - Add `ProtocolExtension.setupLogger`, which the hooks runner calls to provide

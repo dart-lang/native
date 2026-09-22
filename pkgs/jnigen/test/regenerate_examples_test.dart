@@ -35,8 +35,15 @@ void testDartApiExample(
           return;
         }
         final processResults = await Process.run(
-            'git', ['diff', '--exit-code', outputPath],
-            workingDirectory: examplePath);
+          'git',
+          [
+            'diff',
+            '--exit-code',
+            r'--ignore-matching-lines=^const _\$jniVersionCheck = jni\$_\.JniVersionCheck',
+            outputPath,
+          ],
+          workingDirectory: examplePath,
+        );
         if (processResults.exitCode == 1) {
           fail('The checked-in bindings of $exampleName are out of date. Run '
               'the generator script ($generatorScriptPath) and commit the '

@@ -49,10 +49,9 @@ no way FFIgen can generate a single `WKWebView` class for both platforms.
 In cases like this, it's necessary to run FFIgen separately for each
 platform, and generate different bindings for iOS and macOS. Since you can't
 conditionally import based on the OS, you need a way of pulling both sets
-of bindings into your plugin. The simplest approach is to use the rename
-config option to rename the APIs so they don't conflict (eg `WKWebViewIOS`
-and `WKWebViewMacOS`), then import both sets of bindings and use `Platform`
-checks to call different APIs.
+of bindings into your plugin. The simplest approach is to use an AST visitor to rename the APIs so they
+don't conflict (e.g. `WKWebViewIOS` and `WKWebViewMacOS`), then import both sets
+of bindings and use `Platform` checks to call different APIs.
 
 ```dart
 if (Platform.isMacOS) {

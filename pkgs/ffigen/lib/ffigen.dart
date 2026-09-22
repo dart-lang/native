@@ -5,8 +5,7 @@
 /// This is the Dart API for FFIgen. The main entrypoint is the [FfiGenerator]
 /// class.
 ///
-/// For most use cases the YAML based API is simpler. See
-/// https://pub.dev/packages/ffigen for details.
+/// See https://pub.dev/packages/ffigen for details and examples.
 ///
 /// @docImport 'src/config_provider.dart';
 library;

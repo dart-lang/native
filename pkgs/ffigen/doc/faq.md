@@ -2,56 +2,46 @@
 
 ## Can FFIgen be used for removing underscores or renaming declarations?
 
-FFIgen supports **regexp-based renaming**. The regexp must be a full match.
-For renaming you can use regexp groups (`$1` means group 1).
+You can use a `Visitor` to rename declarations or members, by setting the `name` property.
 
-To renaming `clang_dispose_string` to `string_dispose` we can match it using
-`clang_(.*)_(.*)` and rename with `$2_$1`.
+Here's an example of how to remove prefix underscores from any struct name:
 
-Here's an example of how to remove prefix underscores from any struct and its
-members.
-
-```yaml
-structs:
-  ...
-  rename:
-    '_(.*)': '$1' # Removes prefix underscores from all structures.
-  member-rename:
-    '.*': # Matches any struct.
-      '_(.*)': '$1' # Removes prefix underscores from members.
+```dart
+Visitor(
+  struct: (node) {
+    if (node.name.startsWith('_')) {
+      node.name = node.name.substring(1);
+    }
+  },
+)
 ```
+
 ## How to generate declarations only from particular headers?
 
-The default behavior is to include everything directly/transitively under
-each of the `entry-points` specified.
+The default behavior is to include everything directly or transitively under each of the `entryPoints` specified in `Input`.
 
-If you only want to have declarations directly particular header you can do so
-using `include-directives`. You can use **glob matching** to match header paths.
+If you only want declarations from particular headers, you can provide an `include` callback to `Input`:
 
-```yaml
-headers:
-  entry-points:
-    - 'path/to/my_header.h'
-  include-directives:
-    - '**my_header.h' # This glob pattern matches the header path.
+```dart
+Input(
+  entryPoints: [packageRoot.resolve('path/to/my_header.h')],
+  include: (header) => header.path.endsWith('my_header.h'),
+)
 ```
+
 ## Can FFIgen filter declarations by name?
 
-FFIgen supports including/excluding declarations using full regexp matching.
+By default, all top level API elements are excluded from the generated bindings.
+You must write a `Visitor` to include the specific APIs you want:
 
-Here's an example to filter functions using names:
-
-```yaml
-functions:
-  include:
-    - 'clang.*' # Include all functions starting with clang.
-  exclude:
-    - '.*dispose': # Exclude all functions ending with dispose.
+```dart
+Visitor(
+  func: (node) {
+    // Include all functions starting with clang.
+    node.isIncluded = node.name.startsWith('clang'); 
+  },
+)
 ```
-
-This will include `clang_help`. But will exclude `clang_dispose`.
-
-Note: exclude overrides include.
 
 ## How does FFIgen handle C Strings?
 
@@ -62,25 +52,25 @@ Use `ptr.cast<Utf8>().toDartString()` to convert `char*` to dart `string` and
 
 ## How are unnamed enums handled?
 
-Unnamed enums are handled separately, under the key `unnamed-enums`, and are
-generated as top level constants.
+Unnamed enums are visited via `Visitor.unnamedEnumConstant` and generated as top-level constants.
 
-Here's an example that shows how to include/exclude/rename unnamed enums:
+Here's an example that shows how to include and rename unnamed enum constants:
 
-```yaml
-unnamed-enums:
-  include:
-    - 'CX_.*'
-  exclude:
-    - '.*Flag'
-  rename:
-    'CXType_(.*)': '$1'
+```dart
+Visitor(
+  unnamedEnumConstant: (node) {
+    node.isIncluded = node.originalName.startsWith('CX');
+    if (node.name.startsWith('CXType_')) {
+      node.name = node.name.replaceFirst('CXType_', '');
+    }
+  },
+)
 ```
 
 ## How can I handle unexpected enum values?
 
 Native enums are, by default, generated into Dart enums with `int get value` and
-`fromValue(int)`. This works well in the case that your enums values are known
+`fromValue(int)`. This works well in the case that your enum values are known
 in advance and not going to change, and in return, you get the full benefits of
 Dart enums like exhaustiveness checking.
 
@@ -89,16 +79,16 @@ your bindings, and this new value is passed to your Dart code, this will result
 in an `ArgumentError` at runtime. To fix this, you can regenerate the bindings
 on the new header file, but if you wish to avoid this issue entirely, you can
 tell FFIgen to generate plain Dart integers for your enum instead. To do this,
-simply list your enum's name in the `as-int` section of your FFIgen config:
+set `node.style = EnumStyle.intConstants` in a visitor:
 
-```yaml
-enums:
-  as-int:
-    include:
-      - MyIntegerEnum
-      - '*IntegerEnum'
-    exclude:
-      - FakeIntegerEnum
+```dart
+Visitor(
+  enumClass: (node) {
+    if (node.name == 'MyIntegerEnum') {
+      node.style = EnumStyle.intConstants;
+    }
+  },
+)
 ```
 
 Functions that accept or return these enums will now accept or return integers
@@ -106,58 +96,61 @@ instead, and it will be up to your code to map integer values to behavior and
 handle invalid values. But your code will be future-proof against new additions
 to the enums.
 
-## Why are some struct/union declarations generated even after excluded them in config?
+## Why are some struct/union declarations generated even after excluding them?
 
 This happens when an excluded struct/union is a dependency to some included
 declaration. (A dependency means a struct is being passed/returned by a function
 or is member of another struct in some way.)
 
-Note: If you supply `structs.dependency-only` as `opaque` FFIgen will generate
-these struct dependencies as `Opaque` if they were only passed by reference
-(pointer).
+Note: You can configure `dependencies = CompoundDependencies.opaque` so that
+FFIgen generates these struct dependencies as `Opaque` if they were only passed
+by reference (pointer):
 
-```yaml
-structs:
-  dependency-only: opaque
-unions:
-  dependency-only: opaque
+```dart
+Visitor(
+  struct: (node) {
+    // You can set the opaque option for all nodes.
+    node.dependencies = CompoundDependencies.opaque;
+  },
+  union: (node) {
+    // Or for specific nodes.
+    if (node.name == 'MyOpaqueUnion') {
+      node.dependencies = CompoundDependencies.opaque;
+    }
+  },
+)
 ```
 
-## How to expose the native pointers?
+## How to expose the native function pointers?
 
-By default, the native pointers are private, but you can use the
-`symbol-address` subkey for functions/globals and make them public by matching
-with its name. The pointers are then accessible via `nativeLibrary.addresses`.
+By default, native function pointers are private, but you can expose them by setting
+`node.exposeSymbolAddress = true` on `Func` or `Global` nodes:
 
-Example:
-
-```yaml
-functions:
-  symbol-address:
-    include:
-      - 'myFunc' # Match function name.
-      - '.*' # Do this to expose all function pointers.
-    exclude: # If you only use exclude, then everything not excluded is generated.
-      - 'dispose'
+```dart
+Visitor(
+  func: (node) {
+    if (node.name == 'someFunc') {
+      node.exposeSymbolAddress = true;
+    }
+  },
+)
 ```
 
 ## How to get typedefs to Native and Dart type of a function?
 
-By default, these types are inline. But you can use the `expose-typedef` subkey
-for functions to generate them. This will expose the Native and Dart type.
-E.g. for a function named `hello` the generated typedefs are named as
+By default, these types are inline. But you can set `node.generateTypedefs = true`
+on a `Func` node to generate them. This will expose the Native and Dart types.
+E.g. for a function named `hello` the generated typedefs are named
 `NativeHello` and `DartHello`.
 
-Example:
-
-```yaml
-functions:
-  expose-typedefs:
-    include:
-      - 'myFunc' # Match function name.
-      - '.*' # Do this to expose types for all functions.
-    exclude: # If you only use exclude, then everything not excluded is generated.
-      - 'dispose'
+```dart
+Visitor(
+  func: (node) {
+    if (node.name == 'hello') {
+      node.generateTypedefs = true;
+    }
+  },
+)
 ```
 
 ## How are Structs/Unions/Enums that are referred to via typedefs handled?
@@ -189,29 +182,40 @@ FFIgen can sometimes generate a lot of logs, especially when it's parsing a lot
 of code.
 - `SEVERE` logs are something you *definitely need to address*. They can be
   caused due to syntax errors, or more generally missing header files
-  (which need to be specified using `compiler-opts` in config).
+  (which need to be specified using `compilerOptions` on `Input`).
 - `WARNING` logs are something *you can ignore*, but should probably look into.
   These are mostly indications of declarations FFIgen couldn't generate due
   to limitations of `dart:ffi`, private declarations (which can be resolved
-  by renaming them via FFIgen's config) or other minor issues in the config
-  file itself.
+  by renaming them via a `Visitor`) or other minor issues.
 - Everything else can be safely ignored. Its purpose is to simply let you know
   what FFIgen is doing.
-- The verbosity of the logs can be changed by adding a flag with
-  the log level, e.g. `dart run ffigen --verbose <level>`.
-  Level options are `[all, fine, info (default), warning, severe]`.
-  The `all` and `fine` will print a ton of logs are meant for debugging
-  purposes only.
+- The verbosity and destination of the logs can be configured by passing a custom
+  `Logger` to `generate(logger: logger)`.
 
 ## How can type definitions be shared?
 
 FFIgen can share type definitions using symbol files.
-- A package can generate a symbol file using the `output.symbol-file` config.
-- And another package can then import this, using `import.symbol-files` config.
+- A package can generate a symbol file by configuring `symbolFile` in `Output`:
+  ```dart
+  Output(
+    dart: DartOutput(path: packageRoot.resolve('lib/base.dart')),
+    symbolFile: SymbolFile(
+      Uri.parse('package:my_pkg/base.dart'),
+      packageRoot.resolve('lib/symbols.yaml'),
+    ),
+  )
+  ```
+- Another package can then import and reuse those types via `importType`:
+  ```dart
+  final generator = FfiGenerator(
+    // ...
+    importType: (declaration) => importFromSymbolFile(symbolFileUri, declaration),
+  );
+  ```
 - Doing so will reuse all the types such as Struct/Unions, and will automatically
-  exclude generating other types (E.g. functions, enums, macros).
+  exclude generating other types (e.g. functions, enums, macros).
 
-Checkout `examples/shared_bindings` for details.
+Check out `example/shared_bindings` for details.
 
-For manually reusing definitions from another package, the `library-imports`
-and `type-map` config can be used.
+For manually reusing definitions from another package, you can write your own
+`importType` function that returns a custom `ImportedType`.
