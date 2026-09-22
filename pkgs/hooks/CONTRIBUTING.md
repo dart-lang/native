@@ -39,4 +39,4 @@ void main(List<String> arguments) async {
 foo: bar
 ```
 
-This is enforced by `pkgs/hooks/tool/update_snippets.dart`.
+This is enforced by `dart run snippet_tool`.
