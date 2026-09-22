@@ -89,6 +89,9 @@ Set<Binding> parseTranslationUnit(
           addToBindings(bindings, parseVarDeclaration(context, cursor));
           break;
         case clang_types.CXCursorKind.CXCursor_Namespace:
+          // Anonymous namespaces are private to their translation unit. Types
+          // in them are still parsed on demand when an included function or
+          // record refers to them.
           if (clang.clang_Cursor_isAnonymous(cursor) == 0) visitNested(cursor);
           break;
         case clang_types.CXCursorKind.CXCursor_LinkageSpec:
