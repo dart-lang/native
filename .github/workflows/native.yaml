@@ -11,6 +11,7 @@ on:
     # No `branches:` to enable stacked PRs on GitHub.
     paths:
       - '.github/workflows/native.yaml'
+      - 'codecov.yml'
       - 'pkgs/code_assets/**'
       - 'pkgs/data_assets/**'
       - 'pkgs/ffi/**'
@@ -20,12 +21,17 @@ on:
       - 'pkgs/json_syntax_generator/**'
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/pub_formats/**'
       - 'pkgs/record_use/**'
+      - 'pkgs/snippet_tool/**'
+      - 'pkgs/test_case_selector/**'
+      - 'pubspec.yaml'
       - 'tool/**'
   push:
     branches: [main]
     paths:
       - '.github/workflows/native.yaml'
+      - 'codecov.yml'
       - 'pkgs/code_assets/**'
       - 'pkgs/data_assets/**'
       - 'pkgs/ffi/**'
@@ -35,7 +41,11 @@ on:
       - 'pkgs/json_syntax_generator/**'
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/pub_formats/**'
       - 'pkgs/record_use/**'
+      - 'pkgs/snippet_tool/**'
+      - 'pkgs/test_case_selector/**'
+      - 'pubspec.yaml'
       - 'tool/**'
   schedule:
     - cron: '0 0 * * 0' # weekly

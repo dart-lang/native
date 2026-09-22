@@ -37,19 +37,37 @@ void main() {
     expect(
       testResult,
       throwsA(
-        isA<ValidationFailure>().having(
-          (e) => e.message,
-          'message',
-          contains(
-            'output validation issues: [Code asset '
-            '"package:foreign_package/foo.dart" does not start with '
-            // We don't know the expected prefix here because this test can be
-            // run from the hooks package or the workspace. We just want to
-            // assert some message related to outputs gets thrown.
-            '"package:',
-          ),
-        ),
+        isA<ValidationFailure>()
+            .having(
+              (e) => e.message,
+              'message',
+              contains(
+                'output validation issues: [Code asset '
+                '"package:foreign_package/foo.dart" does not start with '
+                // We don't know the expected prefix here because this test can
+                // be run from the hooks package or the workspace. We just want
+                // to assert some message related to outputs gets thrown.
+                '"package:',
+              ),
+            )
+            .having(
+              (e) => e.toString(),
+              'toString',
+              contains('output validation issues:'),
+            ),
       ),
     );
   });
+
+  test('ProtocolExtension default implementations', () async {
+    final ext = _EmptyExtension();
+    final buildInputBuilder = BuildInputBuilder();
+    final linkInputBuilder = LinkInputBuilder();
+    ext.setupBuildInput(buildInputBuilder);
+    ext.setupLinkInput(linkInputBuilder);
+    expect(await ext.validateApplicationAssets([]), isEmpty);
+    expect(ext.outputFiles([]), isEmpty);
+  });
 }
+
+final class _EmptyExtension extends ProtocolExtension {}

@@ -1,5 +1,6 @@
 ## 22.0.1-wip
 
+- Default to C++17 compiler options when C++ bindings are enabled.
 - Preserve documentation comments on same-name typedefs when generating the
   underlying type binding.
 - Fix [a bug](https://github.com/dart-lang/native/issues/3592) where functions

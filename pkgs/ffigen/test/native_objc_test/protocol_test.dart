@@ -470,7 +470,6 @@ void main() {
 
     @pragma('vm:never-inline')
     (NSObject, ReferenceTracker) blockRefCountTestInner(Arena arena) {
-      final pool = objc_autoreleasePoolPush();
       final protocolBuilder = ObjCProtocolBuilder();
 
       final block = InstanceMethodBlock.fromFunction(
@@ -484,7 +483,6 @@ void main() {
         block,
       );
       final protocol = protocolBuilder.build();
-      objc_autoreleasePoolPop(pool);
 
       // There are 2 references to the block. One owned by the Dart wrapper
       // object, and the other owned by the protocol.
@@ -590,7 +588,6 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, builder first', () {
-      final pool = objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(
         debugName: 'Foo',
       );
@@ -602,7 +599,6 @@ void main() {
         startsWith('Foo'),
       );
       expect(isValidClass(clazz), isTrue);
-      objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();
@@ -615,7 +611,6 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, instance first', () {
-      final pool = objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(
         debugName: 'Foo',
       );
@@ -627,7 +622,6 @@ void main() {
         startsWith('Foo'),
       );
       expect(isValidClass(clazz), isTrue);
-      objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();

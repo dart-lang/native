@@ -8,7 +8,14 @@ import 'package:test/test.dart';
 
 void main() {
   test('LinkMode toString', () async {
-    StaticLinking().toString();
+    expect(StaticLinking().toString(), 'static');
+    expect(DynamicLoadingBundled().toString(), 'bundled');
+    expect(
+      DynamicLoadingSystem(Uri.file('foo.so')).toString(),
+      'dynamic_loading_system',
+    );
+    expect(LookupInProcess().toString(), 'process');
+    expect(LookupInExecutable().toString(), 'executable');
   });
 
   test('Unknown LinkMode throws FormatException', () async {

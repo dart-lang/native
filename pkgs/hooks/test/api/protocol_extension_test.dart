@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks/hooks.dart';
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 /// A concrete subclass of [ProtocolExtension] that intentionally implements
@@ -26,11 +27,49 @@ final class ConcreteProtocolExtension extends ProtocolExtension {
 void main() {
   test(
     'ProtocolExtension can be fully subclassed without overriding methods',
-    () {
+    () async {
       final extension = ConcreteProtocolExtension();
 
+      final logger = Logger('test');
+      extension.setupLogger(logger);
+      expect(extension.logger, same(logger));
+
+      final buildInputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageRoot: Uri.file('/tmp/'),
+          packageName: 'my_package',
+          outputFile: Uri.file('/tmp/output.json'),
+          outputDirectoryShared: Uri.file('/tmp/shared/'),
+        )
+        ..config.setupBuild(linkingEnabled: false);
+      extension.setupBuildInput(buildInputBuilder);
+      final buildInput = buildInputBuilder.build();
+      final buildOutput = BuildOutput(BuildOutputBuilder().json);
+
+      final linkInputBuilder = LinkInputBuilder()
+        ..setupShared(
+          packageRoot: Uri.file('/tmp/'),
+          packageName: 'my_package',
+          outputFile: Uri.file('/tmp/link_output.json'),
+          outputDirectoryShared: Uri.file('/tmp/shared/'),
+        )
+        ..setupLink(assets: [], recordedUsesFile: null, assetsFromLinking: []);
+      extension.setupLinkInput(linkInputBuilder);
+      final linkInput = linkInputBuilder.build();
+      final linkOutput = LinkOutput(LinkOutputBuilder().json);
+
       // Verify default implementations return expected empty collections.
-      expect(extension.validateApplicationAssets([]), completion(isEmpty));
+      expect(await extension.validateBuildInput(buildInput), isEmpty);
+      expect(
+        await extension.validateBuildOutput(buildInput, buildOutput),
+        isEmpty,
+      );
+      expect(await extension.validateLinkInput(linkInput), isEmpty);
+      expect(
+        await extension.validateLinkOutput(linkInput, linkOutput),
+        isEmpty,
+      );
+      expect(await extension.validateApplicationAssets([]), isEmpty);
       expect(extension.outputFiles([]), isEmpty);
     },
   );
