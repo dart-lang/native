@@ -83,6 +83,54 @@ $endFence
 ''');
     });
 
+    test('ignores non-doc comments (// ```dart)', () {
+      const docContent =
+          '''
+/// $tag
+/// $fence
+/// old doc content
+/// $endFence
+
+// $fence
+// regular comment code block
+// $endFence
+
+// $fence
+// unmatched non-doc comment fence
+
+$tag
+$fence
+old markdown content
+$endFence
+''';
+      final docUri = tempDir.uri.resolve('doc.dart');
+      final errors = <String>[];
+      final updated = updateSnippets(docContent, docUri, errors);
+      expect(errors, isEmpty);
+      expect(updated, '''
+/// $tag
+/// $fence
+/// void hello() {
+///   print('hello');
+/// }
+/// $endFence
+
+// $fence
+// regular comment code block
+// $endFence
+
+// $fence
+// unmatched non-doc comment fence
+
+$tag
+$fence
+void hello() {
+  print('hello');
+}
+$endFence
+''');
+    });
+
     test('blockquoted code block (> )', () {
       const docContent =
           '''
@@ -406,6 +454,77 @@ $endFence
       final files = findFiles(tempDir);
       expect(files.length, 1);
       expect(files.first.path, snippetFile.path);
+    });
+  });
+
+  group('findFiles', () {
+    test('skips CHANGELOG.md and SKILL.md', () {
+      final changelog = File.fromUri(tempDir.uri.resolve('CHANGELOG.md'))
+        ..writeAsStringSync('# Changelog');
+      final skill = File.fromUri(tempDir.uri.resolve('SKILL.md'))
+        ..writeAsStringSync('# Skill');
+      final normalMd = File.fromUri(tempDir.uri.resolve('README.md'))
+        ..writeAsStringSync('# Readme');
+      final normalDart = File.fromUri(tempDir.uri.resolve('main.dart'))
+        ..writeAsStringSync('void main() {}');
+
+      final subDir = Directory.fromUri(tempDir.uri.resolve('pkg/'))
+        ..createSync();
+      final subChangelog = File.fromUri(subDir.uri.resolve('CHANGELOG.md'))
+        ..writeAsStringSync('# Sub Changelog');
+      final subSkill = File.fromUri(subDir.uri.resolve('SKILL.md'))
+        ..writeAsStringSync('# Sub Skill');
+      final subDart = File.fromUri(subDir.uri.resolve('sub.dart'))
+        ..writeAsStringSync('void sub() {}');
+
+      final files = findFiles(tempDir);
+      final paths = files.map((f) => f.path).toList();
+
+      expect(paths, contains(normalMd.path));
+      expect(paths, contains(normalDart.path));
+      expect(paths, contains(subDart.path));
+      expect(paths, contains(snippetFile.path));
+      expect(paths, isNot(contains(changelog.path)));
+      expect(paths, isNot(contains(subChangelog.path)));
+      expect(paths, isNot(contains(skill.path)));
+      expect(paths, isNot(contains(subSkill.path)));
+    });
+
+    test('does not follow symlinks', () {
+      final externalDir = Directory.systemTemp.createTempSync(
+        'snippet_external_dir',
+      );
+      addTearDown(() => externalDir.deleteSync(recursive: true));
+
+      File.fromUri(
+        externalDir.uri.resolve('external.dart'),
+      ).writeAsStringSync('void external() {}');
+      File.fromUri(
+        externalDir.uri.resolve('external.md'),
+      ).writeAsStringSync('# External');
+
+      // Link pointing to an external directory.
+      final externalLink = Link.fromUri(tempDir.uri.resolve('external_link'));
+      externalLink.createSync(externalDir.path);
+
+      // Link pointing to an internal directory.
+      final insideDir = Directory.fromUri(tempDir.uri.resolve('inside/'))
+        ..createSync();
+      final insideFile = File.fromUri(insideDir.uri.resolve('inside.dart'))
+        ..writeAsStringSync('void inside() {}');
+      final insideLink = Link.fromUri(tempDir.uri.resolve('inside_link'));
+      insideLink.createSync(insideDir.path);
+
+      // Link pointing to a file.
+      final fileLink = Link.fromUri(tempDir.uri.resolve('file_link.dart'));
+      fileLink.createSync(
+        File.fromUri(externalDir.uri.resolve('external.dart')).path,
+      );
+
+      final files = findFiles(tempDir);
+      final paths = files.map((f) => f.path).toList();
+
+      expect(paths, unorderedEquals([snippetFile.path, insideFile.path]));
     });
   });
 }
