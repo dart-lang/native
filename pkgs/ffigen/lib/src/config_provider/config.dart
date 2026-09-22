@@ -153,7 +153,10 @@ final class FfiGenerator {
     this.visitors = const [],
     this.importType = _defaultImportType,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
-  });
+  }) : assert(
+         cpp == null || objectiveC == null,
+         'Cannot use C++ and Objective-C together.',
+       );
 
   /// Run this generator.
   ///

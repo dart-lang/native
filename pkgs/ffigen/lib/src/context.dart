@@ -38,6 +38,9 @@ class Context {
       tmpDir =
           tmpDir ??
           Directory.systemTemp.createTempSync('ffigen temp dir ').path {
+    if (config.cpp != null && config.objectiveC != null) {
+      throw ArgumentError('Cannot use C++ and Objective-C together.');
+    }
     objCBuiltInFunctions = ObjCBuiltInFunctions(
       this,
       // ignore: deprecated_member_use_from_same_package
