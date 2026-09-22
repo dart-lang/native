@@ -27,10 +27,6 @@ void main(List<String> args) {
     'code_assets',
     'data_assets',
     'record_use',
-    'jnigen',
-    'jni',
-    'jni_util',
-    'jni_flutter',
   ]) {
     final packageRoot = hooksPackageRoot.resolve('../$package/');
 
