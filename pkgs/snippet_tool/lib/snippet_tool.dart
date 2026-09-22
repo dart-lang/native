@@ -250,7 +250,8 @@ List<File> findFiles(Directory dir) {
       result.addAll(findFiles(entity));
     } else if (entity is File) {
       if ((baseName.endsWith('.dart') || baseName.endsWith('.md')) &&
-          baseName != 'CHANGELOG.md') {
+          baseName != 'CHANGELOG.md' &&
+          baseName != 'SKILL.md') {
         result.add(entity);
       }
     }
