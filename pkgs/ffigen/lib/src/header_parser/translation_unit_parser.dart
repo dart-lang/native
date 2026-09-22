@@ -126,9 +126,8 @@ const _nestedDeclKinds = {
 
 /// Whether the nested record at [cursor] may be parsed.
 ///
-/// Records in system headers are skipped: parsing one also parses its methods
-/// and their types, which for the C++ standard library is unbounded, and
-/// `Input.include` admits transitively included headers by default.
+/// Records in system headers are skipped, or `Input.include`'s default would
+/// bind every non-template record of the C++ standard library.
 ///
 /// With C++ class support on, records become `CppClass`es, which are still
 /// named by their leaf name alone, so scoped ones would collide. They are
