@@ -74,7 +74,7 @@ new file please also add this. The year should be a single number stating the
 year the file was created (don't use a range like "2011-2012"). Additionally, if
 you edit an existing file, you shouldn't update the year.
 
-    // Copyright (c) 2025, the Dart project authors.  Please see the AUTHORS file
+    // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
     // for details. All rights reserved. Use of this source code is governed by a
     // BSD-style license that can be found in the LICENSE file.
 
