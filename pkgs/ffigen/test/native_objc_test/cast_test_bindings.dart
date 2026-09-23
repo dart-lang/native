@@ -31,32 +31,40 @@ extension type Castaway._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Castaway].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class_Castaway,
+      : objc.autoReleasePool(
+          () => _objc_msgSend_19nvye5(
+            obj.ref.pointer,
+            _sel_isKindOfClass_,
+            _class_Castaway,
+          ),
         );
 
   /// alloc
   static Castaway alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Castaway, _sel_alloc);
-    return Castaway.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Castaway, _sel_alloc);
+      return Castaway.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Castaway allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_Castaway,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return Castaway.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_Castaway,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return Castaway.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static Castaway new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Castaway, _sel_new);
-    return Castaway.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Castaway, _sel_new);
+      return Castaway.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Castaway constructed with the default `new` method.
@@ -72,24 +80,30 @@ extension Castaway$Methods on Castaway {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Castaway.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Castaway.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// meAsInt
   int meAsInt() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_meAsInt);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_meAsInt);
+    });
   }
 
   /// meAsNSObject
   objc.NSObject meAsNSObject() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_meAsNSObject);
-    return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_meAsNSObject);
+      return objc.NSObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 

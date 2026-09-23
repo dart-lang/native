@@ -4,15 +4,14 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+library;
+
 import 'dart:ffi';
-import 'dart:io';
 
 import 'package:ffi/ffi.dart';
-import 'package:path/path.dart' as path;
+import 'package:objective_c/objective_c.dart' as objc;
 import 'package:test/test.dart';
-import '../test_utils.dart';
 import 'method_test_bindings.dart';
-import 'util.dart';
 
 void main() {
   group('method calls', () {
@@ -36,6 +35,12 @@ void main() {
 
       test('Three arguments', () {
         expect(testInterface.add$3(23, Y: 17, Z: 60), 100);
+      });
+
+      test('NSString concat', () {
+        final str = objc.NSString('Hello');
+        final result = testInterface.concat(str);
+        expect(result.toDartString(), 'Hello_benchmark_suffix');
       });
     });
 

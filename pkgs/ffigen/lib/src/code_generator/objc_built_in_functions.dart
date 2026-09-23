@@ -59,6 +59,7 @@ class ObjCBuiltInFunctions {
   );
   static const nsErrorException = ObjCImport('NSErrorException');
   static const checkOsVersion = ObjCImport('checkOsVersionInternal');
+  static const autoReleasePool = ObjCImport('autoReleasePool');
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.

@@ -129,8 +129,10 @@ void main() {
       final pool1 = objc_autoreleasePoolPush();
       autoreleaseMethodsInner(counter);
       doGC();
-      // The autorelease pool is still holding a reference to the object.
-      expect(counter.value, 1);
+      // Method calls are now automatically wrapped in an autorelease pool,
+      // so the autoreleased return value is already cleaned up and the
+      // object is collected by GC without waiting for pool1 to pop.
+      expect(counter.value, 0);
       objc_autoreleasePoolPop(pool1);
       expect(counter.value, 0);
 
@@ -204,12 +206,12 @@ void main() {
 
     test('retain properties ref count correctly', () {
       final counter = calloc<Int32>()..value = 0;
-      // The getters of retain properties retain+autorelease the value. So we
-      // need an autorelease pool.
+      // Property getters are automatically wrapped in an autorelease pool,
+      // so the getter's autoreleased return value is already cleaned up.
       final pool = objc_autoreleasePoolPush();
       retainPropertiesInner(counter);
       doGC();
-      expect(counter.value, 1);
+      expect(counter.value, 0);
       objc_autoreleasePoolPop(pool);
       expect(counter.value, 0);
       calloc.free(counter);
@@ -239,12 +241,12 @@ void main() {
 
     test('copy properties ref count correctly', () {
       final counter = calloc<Int32>()..value = 0;
-      // The getters of copy properties retain+autorelease the value. So we need
-      // an autorelease pool.
+      // Property getters are automatically wrapped in an autorelease pool,
+      // so the getter's autoreleased return value is already cleaned up.
       final pool = objc_autoreleasePoolPush();
       copyPropertiesInner(counter);
       doGC();
-      expect(counter.value, 1);
+      expect(counter.value, 0);
       objc_autoreleasePoolPop(pool);
       expect(counter.value, 0);
       calloc.free(counter);

@@ -31,56 +31,68 @@ extension type NullableInterface._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [NullableInterface].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class_NullableInterface,
+      : objc.autoReleasePool(
+          () => _objc_msgSend_19nvye5(
+            obj.ref.pointer,
+            _sel_isKindOfClass_,
+            _class_NullableInterface,
+          ),
         );
 
   /// alloc
   static NullableInterface alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NullableInterface, _sel_alloc);
-    return NullableInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NullableInterface, _sel_alloc);
+      return NullableInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static NullableInterface allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_NullableInterface,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return NullableInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_NullableInterface,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return NullableInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// isNullWithExplicitNonNullableNSObjectPtrArg:
   static bool isNullWithExplicitNonNullableNSObjectPtrArg(objc.NSObject x) {
     final _$$ref = x.ref;
-    return _objc_msgSend_19nvye5(
-      _class_NullableInterface,
-      _sel_isNullWithExplicitNonNullableNSObjectPtrArg_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _class_NullableInterface,
+        _sel_isNullWithExplicitNonNullableNSObjectPtrArg_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// isNullWithNotNullableNSObjectPtrArg:
   static bool isNullWithNotNullableNSObjectPtrArg(objc.NSObject x) {
     final _$$ref = x.ref;
-    return _objc_msgSend_19nvye5(
-      _class_NullableInterface,
-      _sel_isNullWithNotNullableNSObjectPtrArg_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _class_NullableInterface,
+        _sel_isNullWithNotNullableNSObjectPtrArg_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// isNullWithNullableNSObjectArg:
   static bool isNullWithNullableNSObjectArg(objc.NSObject? x) {
     final _$$ref = x?.ref;
-    return _objc_msgSend_19nvye5(
-      _class_NullableInterface,
-      _sel_isNullWithNullableNSObjectArg_,
-      _$$ref?.pointer ?? ffi.nullptr,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_19nvye5(
+        _class_NullableInterface,
+        _sel_isNullWithNullableNSObjectArg_,
+        _$$ref?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 
   /// multipleNullableArgs:y:z:
@@ -92,46 +104,54 @@ extension type NullableInterface._(objc.ObjCObject object$)
     final _$$ref = x?.ref;
     final _$$ref$1 = y?.ref;
     final _$$ref$2 = z?.ref;
-    final $ret = _objc_msgSend_11spmsz(
-      _class_NullableInterface,
-      _sel_multipleNullableArgs_y_z_,
-      _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-      _$$ref$2?.pointer ?? ffi.nullptr,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.NSObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_11spmsz(
+        _class_NullableInterface,
+        _sel_multipleNullableArgs_y_z_,
+        _$$ref?.pointer ?? ffi.nullptr,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+        _$$ref$2?.pointer ?? ffi.nullptr,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.NSObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// new
   static NullableInterface new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NullableInterface, _sel_new);
-    return NullableInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_NullableInterface, _sel_new);
+      return NullableInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// returnNil:
   static objc.NSObject? returnNil(bool r) {
-    final $ret = _objc_msgSend_1t6aok9(
-      _class_NullableInterface,
-      _sel_returnNil_,
-      r,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.NSObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1t6aok9(
+        _class_NullableInterface,
+        _sel_returnNil_,
+        r,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.NSObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// returnNullableAlias:
   static objc.NSString? returnNullableAlias(bool r) {
-    final $ret = _objc_msgSend_1t6aok9(
-      _class_NullableInterface,
-      _sel_returnNullableAlias_,
-      r,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1t6aok9(
+        _class_NullableInterface,
+        _sel_returnNullableAlias_,
+        r,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// Returns a new instance of NullableInterface constructed with the default `new` method.
@@ -147,34 +167,40 @@ extension NullableInterface$Methods on NullableInterface {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NullableInterface.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return NullableInterface.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// nullableObjectProperty
   objc.NSObject? get nullableObjectProperty {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.pointer,
-      _sel_nullableObjectProperty,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.NSObject.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.pointer,
+        _sel_nullableObjectProperty,
+      );
+      return $ret.address == 0
+          ? null
+          : objc.NSObject.fromPointer($ret, retain: true, release: true);
+    });
   }
 
   /// setNullableObjectProperty:
   set nullableObjectProperty(objc.NSObject? value) {
     final _$$ref = object$.ref;
     final _$$ref$1 = value?.ref;
-    _objc_msgSend_xtuoz7(
-      _$$ref.pointer,
-      _sel_setNullableObjectProperty_,
-      _$$ref$1?.pointer ?? ffi.nullptr,
-    );
+    objc.autoReleasePool(() {
+      _objc_msgSend_xtuoz7(
+        _$$ref.pointer,
+        _sel_setNullableObjectProperty_,
+        _$$ref$1?.pointer ?? ffi.nullptr,
+      );
+    });
   }
 }
 

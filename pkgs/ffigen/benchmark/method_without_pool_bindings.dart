@@ -31,84 +31,60 @@ extension type MethodInterface._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [MethodInterface].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : objc.autoReleasePool(
-          () => _objc_msgSend_19nvye5(
-            obj.ref.pointer,
-            _sel_isKindOfClass_,
-            _class_MethodInterface,
-          ),
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_MethodInterface,
         );
 
   /// alloc
   static MethodInterface alloc() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_MethodInterface, _sel_alloc);
-      return MethodInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_MethodInterface, _sel_alloc);
+    return MethodInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static MethodInterface allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1cwp428(
-        _class_MethodInterface,
-        _sel_allocWithZone_,
-        zone,
-      );
-      return MethodInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_1cwp428(
+      _class_MethodInterface,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return MethodInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// instStaticSameName
   static int instStaticSameName$1() {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1gcq84o(
-        _class_MethodInterface,
-        _sel_instStaticSameName,
-      );
-    });
+    return _objc_msgSend_1gcq84o(
+      _class_MethodInterface,
+      _sel_instStaticSameName,
+    );
   }
 
   /// new
   static MethodInterface new$() {
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(_class_MethodInterface, _sel_new);
-      return MethodInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(_class_MethodInterface, _sel_new);
+    return MethodInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// sub
   static int sub() {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1gcq84o(_class_MethodInterface, _sel_sub);
-    });
+    return _objc_msgSend_1gcq84o(_class_MethodInterface, _sel_sub);
   }
 
   /// sub:
   static int sub$1(int x) {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_zo3bvx(_class_MethodInterface, _sel_sub_, x);
-    });
+    return _objc_msgSend_zo3bvx(_class_MethodInterface, _sel_sub_, x);
   }
 
   /// sub:Y:
   static int sub$2(int x, {required int Y}) {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1q0lyci(_class_MethodInterface, _sel_sub_Y_, x, Y);
-    });
+    return _objc_msgSend_1q0lyci(_class_MethodInterface, _sel_sub_Y_, x, Y);
   }
 
   /// sub:Y:Z:
   static int sub$3(int x, {required int Y, required int Z}) {
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_b9kbqv(
-        _class_MethodInterface,
-        _sel_sub_Y_Z_,
-        x,
-        Y,
-        Z,
-      );
-    });
+    return _objc_msgSend_b9kbqv(_class_MethodInterface, _sel_sub_Y_Z_, x, Y, Z);
   }
 
   /// Returns a new instance of MethodInterface constructed with the default `new` method.
@@ -119,83 +95,67 @@ extension MethodInterface$Methods on MethodInterface {
   /// Vec4
   Vec4 Vec4$1() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ptr = pkg_ffi.calloc<Vec4>();
-      objc.useMsgSendVariants
-          ? _objc_msgSend_o6r21bStret($ptr, _$$ref.pointer, _sel_Vec4)
-          : $ptr.ref = _objc_msgSend_o6r21b(_$$ref.pointer, _sel_Vec4);
-      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-        ffi.sizeOf<Vec4>(),
-        finalizer: pkg_ffi.calloc.nativeFree,
-      );
-      return ffi.Struct.create<Vec4>($finalizable);
-    });
+    final $ptr = pkg_ffi.calloc<Vec4>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_o6r21bStret($ptr, _$$ref.pointer, _sel_Vec4)
+        : $ptr.ref = _objc_msgSend_o6r21b(_$$ref.pointer, _sel_Vec4);
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Vec4>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
+    );
+    return ffi.Struct.create<Vec4>($finalizable);
   }
 
   /// add
   int add() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_add);
-    });
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_add);
   }
 
   /// add:
   int add$1(int x) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_zo3bvx(_$$ref.pointer, _sel_add_, x);
-    });
+    return _objc_msgSend_zo3bvx(_$$ref.pointer, _sel_add_, x);
   }
 
   /// add:Y:
   int add$2(int x, {required int Y}) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_add_Y_, x, Y);
-    });
+    return _objc_msgSend_1q0lyci(_$$ref.pointer, _sel_add_Y_, x, Y);
   }
 
   /// add:Y:Z:
   int add$3(int x, {required int Y, required int Z}) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_b9kbqv(_$$ref.pointer, _sel_add_Y_Z_, x, Y, Z);
-    });
+    return _objc_msgSend_b9kbqv(_$$ref.pointer, _sel_add_Y_Z_, x, Y, Z);
   }
 
   /// addDoubles:Y:
   double addDoubles(double x, {required double Y}) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return objc.useMsgSendVariants
-          ? _objc_msgSend_srsdcwFpret(_$$ref.pointer, _sel_addDoubles_Y_, x, Y)
-          : _objc_msgSend_srsdcw(_$$ref.pointer, _sel_addDoubles_Y_, x, Y);
-    });
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_srsdcwFpret(_$$ref.pointer, _sel_addDoubles_Y_, x, Y)
+        : _objc_msgSend_srsdcw(_$$ref.pointer, _sel_addDoubles_Y_, x, Y);
   }
 
   /// addFloats:Y:
   double addFloats(double x, {required double Y}) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return objc.useMsgSendVariants
-          ? _objc_msgSend_sk7f6fFpret(_$$ref.pointer, _sel_addFloats_Y_, x, Y)
-          : _objc_msgSend_sk7f6f(_$$ref.pointer, _sel_addFloats_Y_, x, Y);
-    });
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_sk7f6fFpret(_$$ref.pointer, _sel_addFloats_Y_, x, Y)
+        : _objc_msgSend_sk7f6f(_$$ref.pointer, _sel_addFloats_Y_, x, Y);
   }
 
   /// concat:
   objc.NSString concat(objc.NSString str) {
     final _$$ref = object$.ref;
     final _$$ref$1 = str.ref;
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_1sotr3r(
-        _$$ref.pointer,
-        _sel_concat_,
-        _$$ref$1.pointer,
-      );
-      return objc.NSString.fromPointer($ret, retain: true, release: true);
-    });
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.pointer,
+      _sel_concat_,
+      _$$ref$1.pointer,
+    );
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
@@ -206,46 +166,40 @@ extension MethodInterface$Methods on MethodInterface {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    return objc.autoReleasePool(() {
-      final $ret = _objc_msgSend_151sglz(
-        _$$ref.retainAndReturnPointer(),
-        _sel_init,
-      );
-      return MethodInterface.fromPointer($ret, retain: false, release: true);
-    });
+    final $ret = _objc_msgSend_151sglz(
+      _$$ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return MethodInterface.fromPointer($ret, retain: false, release: true);
   }
 
   /// instStaticSameName
   int instStaticSameName() {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_instStaticSameName);
-    });
+    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_instStaticSameName);
   }
 
   /// twiddleVec4Components:
   Vec4 twiddleVec4Components(Vec4 v) {
     final _$$ref = object$.ref;
-    return objc.autoReleasePool(() {
-      final $ptr = pkg_ffi.calloc<Vec4>();
-      objc.useMsgSendVariants
-          ? _objc_msgSend_ivr5s7Stret(
-              $ptr,
-              _$$ref.pointer,
-              _sel_twiddleVec4Components_,
-              v,
-            )
-          : $ptr.ref = _objc_msgSend_ivr5s7(
-              _$$ref.pointer,
-              _sel_twiddleVec4Components_,
-              v,
-            );
-      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-        ffi.sizeOf<Vec4>(),
-        finalizer: pkg_ffi.calloc.nativeFree,
-      );
-      return ffi.Struct.create<Vec4>($finalizable);
-    });
+    final $ptr = pkg_ffi.calloc<Vec4>();
+    objc.useMsgSendVariants
+        ? _objc_msgSend_ivr5s7Stret(
+            $ptr,
+            _$$ref.pointer,
+            _sel_twiddleVec4Components_,
+            v,
+          )
+        : $ptr.ref = _objc_msgSend_ivr5s7(
+            _$$ref.pointer,
+            _sel_twiddleVec4Components_,
+            v,
+          );
+    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+      ffi.sizeOf<Vec4>(),
+      finalizer: pkg_ffi.calloc.nativeFree,
+    );
+    return ffi.Struct.create<Vec4>($finalizable);
   }
 }
 

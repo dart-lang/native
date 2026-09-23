@@ -38,32 +38,40 @@ extension type MySwiftClass._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [MySwiftClass].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class_MySwiftClass,
+      : objc.autoReleasePool(
+          () => _objc_msgSend_19nvye5(
+            obj.ref.pointer,
+            _sel_isKindOfClass_,
+            _class_MySwiftClass,
+          ),
         );
 
   /// alloc
   static MySwiftClass alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_alloc);
-    return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_alloc);
+      return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static MySwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_MySwiftClass,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_MySwiftClass,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static MySwiftClass new$() {
-    final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_new);
-    return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_MySwiftClass, _sel_new);
+      return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of MySwiftClass constructed with the default `new` method.
@@ -74,7 +82,9 @@ extension MySwiftClass$Methods on MySwiftClass {
   /// getValue
   DartNSInteger getValue() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
+    });
   }
 
   /// init
@@ -85,17 +95,21 @@ extension MySwiftClass$Methods on MySwiftClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return MySwiftClass.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// setValueWithX:
   void setValueWithX(DartNSInteger x) {
     final _$$ref = object$.ref;
-    _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setValueWithX_, x);
+    objc.autoReleasePool(() {
+      _objc_msgSend_4sp4xj(_$$ref.pointer, _sel_setValueWithX_, x);
+    });
   }
 }
 
@@ -114,10 +128,12 @@ extension type MySwiftProtocol._(objc.ObjCProtocol object$)
 
   /// Returns whether [obj] is an instance of [MySwiftProtocol].
   static bool conformsTo(objc.ObjCObject obj) {
-    return _objc_msgSend_e3qsqz(
-      obj.ref.pointer,
-      _sel_conformsToProtocol_,
-      _protocol_MySwiftProtocol,
+    return objc.autoReleasePool(
+      () => _objc_msgSend_e3qsqz(
+        obj.ref.pointer,
+        _sel_conformsToProtocol_,
+        _protocol_MySwiftProtocol,
+      ),
     );
   }
 }
@@ -126,7 +142,9 @@ extension MySwiftProtocol$Methods on MySwiftProtocol {
   /// getValue
   DartNSInteger getValue() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_getValue);
+    });
   }
 }
 
@@ -278,18 +296,20 @@ abstract final class ObjCBlock_NSInteger_ffiVoid {
 extension ObjCBlock_NSInteger_ffiVoid$CallExtension
     on objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>)> {
   DartNSInteger call(ffi.Pointer<ffi.Void> arg0) {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            NSInteger Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-            )
-          >
-        >()
-        .asFunction<
-          int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
-        >()(ref.pointer, arg0);
+    return objc.autoReleasePool(
+      () => ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              NSInteger Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+              )
+            >
+          >()
+          .asFunction<
+            int Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
+          >()(ref.pointer, arg0),
+    );
   }
 }
 

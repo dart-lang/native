@@ -78,14 +78,17 @@ abstract final class ObjCBlock_Struct16 {
 extension ObjCBlock_Struct16$CallExtension
     on objc.ObjCBlock<Struct16 Function()> {
   Struct16 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Struct16 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Struct16 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Struct16 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Struct16 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -157,14 +160,17 @@ abstract final class ObjCBlock_Struct24 {
 extension ObjCBlock_Struct24$CallExtension
     on objc.ObjCBlock<Struct24 Function()> {
   Struct24 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Struct24 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Struct24 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Struct24 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Struct24 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -236,14 +242,17 @@ abstract final class ObjCBlock_Struct32 {
 extension ObjCBlock_Struct32$CallExtension
     on objc.ObjCBlock<Struct32 Function()> {
   Struct32 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Struct32 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Struct32 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Struct32 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Struct32 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -315,14 +324,17 @@ abstract final class ObjCBlock_Struct8 {
 extension ObjCBlock_Struct8$CallExtension
     on objc.ObjCBlock<Struct8 Function()> {
   Struct8 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Struct8 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Struct8 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Struct8 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Struct8 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -394,14 +406,17 @@ abstract final class ObjCBlock_Union16 {
 extension ObjCBlock_Union16$CallExtension
     on objc.ObjCBlock<Union16 Function()> {
   Union16 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Union16 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Union16 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Union16 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Union16 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -473,14 +488,17 @@ abstract final class ObjCBlock_Union24 {
 extension ObjCBlock_Union24$CallExtension
     on objc.ObjCBlock<Union24 Function()> {
   Union24 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Union24 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Union24 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Union24 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Union24 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -552,14 +570,17 @@ abstract final class ObjCBlock_Union32 {
 extension ObjCBlock_Union32$CallExtension
     on objc.ObjCBlock<Union32 Function()> {
   Union32 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Union32 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Union32 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Union32 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Union32 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -631,14 +652,17 @@ abstract final class ObjCBlock_Union8 {
 /// Call operator for `objc.ObjCBlock<Union8 Function()>`.
 extension ObjCBlock_Union8$CallExtension on objc.ObjCBlock<Union8 Function()> {
   Union8 call() {
-    return ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            Union8 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
-          >
-        >()
-        .asFunction<Union8 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
-      ref.pointer,
+    return objc.autoReleasePool(
+      () =>
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  Union8 Function(ffi.Pointer<objc.ObjCBlockImpl> block)
+                >
+              >()
+              .asFunction<Union8 Function(ffi.Pointer<objc.ObjCBlockImpl>)>()(
+            ref.pointer,
+          ),
     );
   }
 }
@@ -663,164 +687,188 @@ extension type SmallStructTester._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [SmallStructTester].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class_SmallStructTester,
+      : objc.autoReleasePool(
+          () => _objc_msgSend_19nvye5(
+            obj.ref.pointer,
+            _sel_isKindOfClass_,
+            _class_SmallStructTester,
+          ),
         );
 
   /// alloc
   static SmallStructTester alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_SmallStructTester, _sel_alloc);
-    return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_SmallStructTester, _sel_alloc);
+      return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static SmallStructTester allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_SmallStructTester,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_SmallStructTester,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// callStruct16Block:
   static Struct16 callStruct16Block(DartStruct16Block block) {
     final _$$ref = block.ref;
-    return _objc_msgSend_52unem(
-      _class_SmallStructTester,
-      _sel_callStruct16Block_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_52unem(
+        _class_SmallStructTester,
+        _sel_callStruct16Block_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// callStruct24Block:
   static Struct24 callStruct24Block(DartStruct24Block block) {
     final _$$ref = block.ref;
-    final $ptr = pkg_ffi.calloc<Struct24>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_dod749Stret(
-            $ptr,
-            _class_SmallStructTester,
-            _sel_callStruct24Block_,
-            _$$ref.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_dod749(
-            _class_SmallStructTester,
-            _sel_callStruct24Block_,
-            _$$ref.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct24>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct24>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Struct24>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_dod749Stret(
+              $ptr,
+              _class_SmallStructTester,
+              _sel_callStruct24Block_,
+              _$$ref.pointer,
+            )
+          : $ptr.ref = _objc_msgSend_dod749(
+              _class_SmallStructTester,
+              _sel_callStruct24Block_,
+              _$$ref.pointer,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Struct24>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Struct.create<Struct24>($finalizable);
+    });
   }
 
   /// callStruct32Block:
   static Struct32 callStruct32Block(DartStruct32Block block) {
     final _$$ref = block.ref;
-    final $ptr = pkg_ffi.calloc<Struct32>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_pqul40Stret(
-            $ptr,
-            _class_SmallStructTester,
-            _sel_callStruct32Block_,
-            _$$ref.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_pqul40(
-            _class_SmallStructTester,
-            _sel_callStruct32Block_,
-            _$$ref.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct32>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct32>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Struct32>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_pqul40Stret(
+              $ptr,
+              _class_SmallStructTester,
+              _sel_callStruct32Block_,
+              _$$ref.pointer,
+            )
+          : $ptr.ref = _objc_msgSend_pqul40(
+              _class_SmallStructTester,
+              _sel_callStruct32Block_,
+              _$$ref.pointer,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Struct32>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Struct.create<Struct32>($finalizable);
+    });
   }
 
   /// callStruct8Block:
   static Struct8 callStruct8Block(DartStruct8Block block) {
     final _$$ref = block.ref;
-    return _objc_msgSend_12y327v(
-      _class_SmallStructTester,
-      _sel_callStruct8Block_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_12y327v(
+        _class_SmallStructTester,
+        _sel_callStruct8Block_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// callUnion16Block:
   static Union16 callUnion16Block(DartUnion16Block block) {
     final _$$ref = block.ref;
-    return _objc_msgSend_f8uoqi(
-      _class_SmallStructTester,
-      _sel_callUnion16Block_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_f8uoqi(
+        _class_SmallStructTester,
+        _sel_callUnion16Block_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// callUnion24Block:
   static Union24 callUnion24Block(DartUnion24Block block) {
     final _$$ref = block.ref;
-    final $ptr = pkg_ffi.calloc<Union24>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_14sbhfpStret(
-            $ptr,
-            _class_SmallStructTester,
-            _sel_callUnion24Block_,
-            _$$ref.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_14sbhfp(
-            _class_SmallStructTester,
-            _sel_callUnion24Block_,
-            _$$ref.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Union24>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Union.create<Union24>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Union24>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_14sbhfpStret(
+              $ptr,
+              _class_SmallStructTester,
+              _sel_callUnion24Block_,
+              _$$ref.pointer,
+            )
+          : $ptr.ref = _objc_msgSend_14sbhfp(
+              _class_SmallStructTester,
+              _sel_callUnion24Block_,
+              _$$ref.pointer,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Union24>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Union.create<Union24>($finalizable);
+    });
   }
 
   /// callUnion32Block:
   static Union32 callUnion32Block(DartUnion32Block block) {
     final _$$ref = block.ref;
-    final $ptr = pkg_ffi.calloc<Union32>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_bycxucStret(
-            $ptr,
-            _class_SmallStructTester,
-            _sel_callUnion32Block_,
-            _$$ref.pointer,
-          )
-        : $ptr.ref = _objc_msgSend_bycxuc(
-            _class_SmallStructTester,
-            _sel_callUnion32Block_,
-            _$$ref.pointer,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Union32>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Union.create<Union32>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Union32>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_bycxucStret(
+              $ptr,
+              _class_SmallStructTester,
+              _sel_callUnion32Block_,
+              _$$ref.pointer,
+            )
+          : $ptr.ref = _objc_msgSend_bycxuc(
+              _class_SmallStructTester,
+              _sel_callUnion32Block_,
+              _$$ref.pointer,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Union32>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Union.create<Union32>($finalizable);
+    });
   }
 
   /// callUnion8Block:
   static Union8 callUnion8Block(DartUnion8Block block) {
     final _$$ref = block.ref;
-    return _objc_msgSend_1dk1rdj(
-      _class_SmallStructTester,
-      _sel_callUnion8Block_,
-      _$$ref.pointer,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1dk1rdj(
+        _class_SmallStructTester,
+        _sel_callUnion8Block_,
+        _$$ref.pointer,
+      );
+    });
   }
 
   /// new
   static SmallStructTester new$() {
-    final $ret = _objc_msgSend_151sglz(_class_SmallStructTester, _sel_new);
-    return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_SmallStructTester, _sel_new);
+      return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of SmallStructTester constructed with the default `new` method.
@@ -831,101 +879,125 @@ extension SmallStructTester$Methods on SmallStructTester {
   /// getStruct16Method
   Struct16 getStruct16Method() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1728cw3(_$$ref.pointer, _sel_getStruct16Method);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1728cw3(_$$ref.pointer, _sel_getStruct16Method);
+    });
   }
 
   /// getStruct24Method
   Struct24 getStruct24Method() {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct24>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_cckn96Stret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_getStruct24Method,
-          )
-        : $ptr.ref = _objc_msgSend_cckn96(
-            _$$ref.pointer,
-            _sel_getStruct24Method,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct24>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct24>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Struct24>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_cckn96Stret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_getStruct24Method,
+            )
+          : $ptr.ref = _objc_msgSend_cckn96(
+              _$$ref.pointer,
+              _sel_getStruct24Method,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Struct24>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Struct.create<Struct24>($finalizable);
+    });
   }
 
   /// getStruct32Method
   Struct32 getStruct32Method() {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct32>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1krpi0dStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_getStruct32Method,
-          )
-        : $ptr.ref = _objc_msgSend_1krpi0d(
-            _$$ref.pointer,
-            _sel_getStruct32Method,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct32>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct32>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Struct32>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_1krpi0dStret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_getStruct32Method,
+            )
+          : $ptr.ref = _objc_msgSend_1krpi0d(
+              _$$ref.pointer,
+              _sel_getStruct32Method,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Struct32>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Struct.create<Struct32>($finalizable);
+    });
   }
 
   /// getStruct8Method
   Struct8 getStruct8Method() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_8lxd0c(_$$ref.pointer, _sel_getStruct8Method);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_8lxd0c(_$$ref.pointer, _sel_getStruct8Method);
+    });
   }
 
   /// getUnion16Method
   Union16 getUnion16Method() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1j2v0w7(_$$ref.pointer, _sel_getUnion16Method);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1j2v0w7(_$$ref.pointer, _sel_getUnion16Method);
+    });
   }
 
   /// getUnion24Method
   Union24 getUnion24Method() {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Union24>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_yygd0uStret($ptr, _$$ref.pointer, _sel_getUnion24Method)
-        : $ptr.ref = _objc_msgSend_yygd0u(
-            _$$ref.pointer,
-            _sel_getUnion24Method,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Union24>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Union.create<Union24>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Union24>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_yygd0uStret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_getUnion24Method,
+            )
+          : $ptr.ref = _objc_msgSend_yygd0u(
+              _$$ref.pointer,
+              _sel_getUnion24Method,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Union24>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Union.create<Union24>($finalizable);
+    });
   }
 
   /// getUnion32Method
   Union32 getUnion32Method() {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Union32>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_9oml3tStret($ptr, _$$ref.pointer, _sel_getUnion32Method)
-        : $ptr.ref = _objc_msgSend_9oml3t(
-            _$$ref.pointer,
-            _sel_getUnion32Method,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Union32>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Union.create<Union32>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Union32>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_9oml3tStret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_getUnion32Method,
+            )
+          : $ptr.ref = _objc_msgSend_9oml3t(
+              _$$ref.pointer,
+              _sel_getUnion32Method,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Union32>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Union.create<Union32>($finalizable);
+    });
   }
 
   /// getUnion8Method
   Union8 getUnion8Method() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_qlggu8(_$$ref.pointer, _sel_getUnion8Method);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_qlggu8(_$$ref.pointer, _sel_getUnion8Method);
+    });
   }
 
   /// init
@@ -936,149 +1008,201 @@ extension SmallStructTester$Methods on SmallStructTester {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return SmallStructTester.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// setStruct16Property:
   set struct16Property(Struct16 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_bc9ifz(_$$ref.pointer, _sel_setStruct16Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_bc9ifz(_$$ref.pointer, _sel_setStruct16Property_, value);
+    });
   }
 
   /// setStruct24Property:
   set struct24Property(Struct24 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_qofdt8(_$$ref.pointer, _sel_setStruct24Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_qofdt8(_$$ref.pointer, _sel_setStruct24Property_, value);
+    });
   }
 
   /// setStruct32Property:
   set struct32Property(Struct32 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1xk0msh(_$$ref.pointer, _sel_setStruct32Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1xk0msh(_$$ref.pointer, _sel_setStruct32Property_, value);
+    });
   }
 
   /// setStruct8Property:
   set struct8Property(Struct8 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_zho4aa(_$$ref.pointer, _sel_setStruct8Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_zho4aa(_$$ref.pointer, _sel_setStruct8Property_, value);
+    });
   }
 
   /// setUnion16Property:
   set union16Property(Union16 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_uj4el3(_$$ref.pointer, _sel_setUnion16Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_uj4el3(_$$ref.pointer, _sel_setUnion16Property_, value);
+    });
   }
 
   /// setUnion24Property:
   set union24Property(Union24 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_19s6byc(_$$ref.pointer, _sel_setUnion24Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_19s6byc(_$$ref.pointer, _sel_setUnion24Property_, value);
+    });
   }
 
   /// setUnion32Property:
   set union32Property(Union32 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_7qiyh(_$$ref.pointer, _sel_setUnion32Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_7qiyh(_$$ref.pointer, _sel_setUnion32Property_, value);
+    });
   }
 
   /// setUnion8Property:
   set union8Property(Union8 value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1yl1yru(_$$ref.pointer, _sel_setUnion8Property_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1yl1yru(_$$ref.pointer, _sel_setUnion8Property_, value);
+    });
   }
 
   /// struct16Property
   Struct16 get struct16Property {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1728cw3(_$$ref.pointer, _sel_struct16Property);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1728cw3(_$$ref.pointer, _sel_struct16Property);
+    });
   }
 
   /// struct24Property
   Struct24 get struct24Property {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct24>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_cckn96Stret($ptr, _$$ref.pointer, _sel_struct24Property)
-        : $ptr.ref = _objc_msgSend_cckn96(
-            _$$ref.pointer,
-            _sel_struct24Property,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct24>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct24>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Struct24>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_cckn96Stret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_struct24Property,
+            )
+          : $ptr.ref = _objc_msgSend_cckn96(
+              _$$ref.pointer,
+              _sel_struct24Property,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Struct24>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Struct.create<Struct24>($finalizable);
+    });
   }
 
   /// struct32Property
   Struct32 get struct32Property {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Struct32>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_1krpi0dStret(
-            $ptr,
-            _$$ref.pointer,
-            _sel_struct32Property,
-          )
-        : $ptr.ref = _objc_msgSend_1krpi0d(
-            _$$ref.pointer,
-            _sel_struct32Property,
-          );
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Struct32>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Struct.create<Struct32>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Struct32>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_1krpi0dStret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_struct32Property,
+            )
+          : $ptr.ref = _objc_msgSend_1krpi0d(
+              _$$ref.pointer,
+              _sel_struct32Property,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Struct32>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Struct.create<Struct32>($finalizable);
+    });
   }
 
   /// struct8Property
   Struct8 get struct8Property {
     final _$$ref = object$.ref;
-    return _objc_msgSend_8lxd0c(_$$ref.pointer, _sel_struct8Property);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_8lxd0c(_$$ref.pointer, _sel_struct8Property);
+    });
   }
 
   /// union16Property
   Union16 get union16Property {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1j2v0w7(_$$ref.pointer, _sel_union16Property);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1j2v0w7(_$$ref.pointer, _sel_union16Property);
+    });
   }
 
   /// union24Property
   Union24 get union24Property {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Union24>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_yygd0uStret($ptr, _$$ref.pointer, _sel_union24Property)
-        : $ptr.ref = _objc_msgSend_yygd0u(_$$ref.pointer, _sel_union24Property);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Union24>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Union.create<Union24>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Union24>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_yygd0uStret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_union24Property,
+            )
+          : $ptr.ref = _objc_msgSend_yygd0u(
+              _$$ref.pointer,
+              _sel_union24Property,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Union24>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Union.create<Union24>($finalizable);
+    });
   }
 
   /// union32Property
   Union32 get union32Property {
     final _$$ref = object$.ref;
-    final $ptr = pkg_ffi.calloc<Union32>();
-    objc.useMsgSendVariants
-        ? _objc_msgSend_9oml3tStret($ptr, _$$ref.pointer, _sel_union32Property)
-        : $ptr.ref = _objc_msgSend_9oml3t(_$$ref.pointer, _sel_union32Property);
-    final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
-      ffi.sizeOf<Union32>(),
-      finalizer: pkg_ffi.calloc.nativeFree,
-    );
-    return ffi.Union.create<Union32>($finalizable);
+    return objc.autoReleasePool(() {
+      final $ptr = pkg_ffi.calloc<Union32>();
+      objc.useMsgSendVariants
+          ? _objc_msgSend_9oml3tStret(
+              $ptr,
+              _$$ref.pointer,
+              _sel_union32Property,
+            )
+          : $ptr.ref = _objc_msgSend_9oml3t(
+              _$$ref.pointer,
+              _sel_union32Property,
+            );
+      final $finalizable = $ptr.cast<ffi.Uint8>().asTypedList(
+        ffi.sizeOf<Union32>(),
+        finalizer: pkg_ffi.calloc.nativeFree,
+      );
+      return ffi.Union.create<Union32>($finalizable);
+    });
   }
 
   /// union8Property
   Union8 get union8Property {
     final _$$ref = object$.ref;
-    return _objc_msgSend_qlggu8(_$$ref.pointer, _sel_union8Property);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_qlggu8(_$$ref.pointer, _sel_union8Property);
+    });
   }
 }
 

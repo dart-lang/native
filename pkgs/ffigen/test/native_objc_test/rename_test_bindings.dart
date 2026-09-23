@@ -33,32 +33,40 @@ extension type Renamed._(objc.ObjCObject object$)
   /// Returns whether [obj] is an instance of [Renamed].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class_Renamed,
+      : objc.autoReleasePool(
+          () => _objc_msgSend_19nvye5(
+            obj.ref.pointer,
+            _sel_isKindOfClass_,
+            _class_Renamed,
+          ),
         );
 
   /// alloc
   static Renamed alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_Renamed, _sel_alloc);
-    return Renamed.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Renamed, _sel_alloc);
+      return Renamed.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// allocWithZone:
   static Renamed allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_Renamed,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return Renamed.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_1cwp428(
+        _class_Renamed,
+        _sel_allocWithZone_,
+        zone,
+      );
+      return Renamed.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// new
   static Renamed new$() {
-    final $ret = _objc_msgSend_151sglz(_class_Renamed, _sel_new);
-    return Renamed.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_class_Renamed, _sel_new);
+      return Renamed.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// Returns a new instance of Renamed constructed with the default `new` method.
@@ -69,7 +77,9 @@ extension Renamed$Methods on Renamed {
   /// CollidingStructName
   int CollidingStructName$1() {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_CollidingStructName);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_CollidingStructName);
+    });
   }
 
   /// init
@@ -80,53 +90,67 @@ extension Renamed$Methods on Renamed {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(
-      _$$ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return Renamed.fromPointer($ret, retain: false, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(
+        _$$ref.retainAndReturnPointer(),
+        _sel_init,
+      );
+      return Renamed.fromPointer($ret, retain: false, release: true);
+    });
   }
 
   /// property
   int get property {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_property);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_property);
+    });
   }
 
   /// renamedMethod:otherArg:
   int fooBarBaz(int x, {required int otherArg}) {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1q0lyci(
-      _$$ref.pointer,
-      _sel_renamedMethod_otherArg_,
-      x,
-      otherArg,
-    );
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1q0lyci(
+        _$$ref.pointer,
+        _sel_renamedMethod_otherArg_,
+        x,
+        otherArg,
+      );
+    });
   }
 
   /// renamedProperty
   int get reProp {
     final _$$ref = object$.ref;
-    return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_renamedProperty);
+    return objc.autoReleasePool(() {
+      return _objc_msgSend_1gcq84o(_$$ref.pointer, _sel_renamedProperty);
+    });
   }
 
   /// setProperty:
   set property(int value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setProperty_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setProperty_, value);
+    });
   }
 
   /// setRenamedProperty:
   set reProp(int value) {
     final _$$ref = object$.ref;
-    _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setRenamedProperty_, value);
+    objc.autoReleasePool(() {
+      _objc_msgSend_1bqef4y(_$$ref.pointer, _sel_setRenamedProperty_, value);
+    });
   }
 
   /// toString
   objc.NSString toString$1() {
     final _$$ref = object$.ref;
-    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_toString);
-    return objc.NSString.fromPointer($ret, retain: true, release: true);
+    return objc.autoReleasePool(() {
+      final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_toString);
+      return objc.NSString.fromPointer($ret, retain: true, release: true);
+    });
   }
 }
 
