@@ -178,7 +178,14 @@ final class Input {
   static bool _includeDefault(Uri header) => true;
 
   /// Command line arguments to pass to clang_compiler.
+  ///
+  /// By default, these options replace the default compiler options. To append
+  /// them to the default options instead, set [appendCompilerOptions] to true.
   final List<String>? compilerOptions;
+
+  /// Whether [compilerOptions] should be appended to the default compiler
+  /// options, instead of replacing them.
+  final bool appendCompilerOptions;
 
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
@@ -187,6 +194,7 @@ final class Input {
     this.entryPoints = const [],
     this.include = _includeDefault,
     this.compilerOptions,
+    this.appendCompilerOptions = false,
     this.ignoreSourceErrors = false,
   });
 }
