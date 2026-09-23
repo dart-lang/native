@@ -162,6 +162,7 @@ The script instantiates an `FfiGenerator` with your desired configuration and ca
 
 ### Example
 
+<!-- file://./tool/snippets/readme_config_snippet.dart -->
 ```dart
 import 'dart:io';
 
@@ -177,9 +178,7 @@ Future<void> main() async {
       ),
     ),
     // Where to look for header files.
-    input: Input(
-      entryPoints: [packageRoot.resolve('src/my_header.h')],
-    ),
+    input: Input(entryPoints: [packageRoot.resolve('src/my_header.h')]),
     // Visitors transform and filter AST nodes. By default, all top level APIs
     // are excluded from the bindings. You must explicitly include the APIs
     // you're interested in. Here we include all functions and structs.

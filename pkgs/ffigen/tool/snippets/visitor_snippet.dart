@@ -56,4 +56,32 @@ void closuresExample() {
   )
   // snippet-end#rename_closure
   ;
+
+  // snippet-start#objc_method_filter
+  Visitor(
+    objCMethod: (node) {
+      if (node.parent.name == 'MyInterface') {
+        if (node.selector == 'someMethod:withArg:') {
+          node.name = 'someMethodWithArg';
+        }
+        if (node.selector == 'someOtherMethod') {
+          node.isIncluded = false;
+        }
+      }
+    },
+  )
+  // snippet-end#objc_method_filter
+  ;
+
+  // snippet-start#objc_property_filter
+  Visitor(
+    objCMethod: (node) {
+      // Exclude all property setters on MyInterface
+      if (node.parent.name == 'MyInterface' && node.isPropertySetter) {
+        node.isIncluded = false;
+      }
+    },
+  )
+  // snippet-end#objc_property_filter
+  ;
 }

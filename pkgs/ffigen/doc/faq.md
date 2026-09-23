@@ -6,6 +6,7 @@ You can use a `Visitor` to rename declarations or members, by setting the `name`
 
 Here's an example of how to remove prefix underscores from any struct name:
 
+<!-- file://./../tool/snippets/faq_snippet.dart#remove_underscores -->
 ```dart
 Visitor(
   struct: (node) {
@@ -22,6 +23,7 @@ The default behavior is to include everything directly or transitively under eac
 
 If you only want declarations from particular headers, you can provide an `include` callback to `Input`:
 
+<!-- file://./../tool/snippets/faq_snippet.dart#header_filter -->
 ```dart
 Input(
   entryPoints: [packageRoot.resolve('path/to/my_header.h')],
@@ -34,11 +36,12 @@ Input(
 By default, all top level API elements are excluded from the generated bindings.
 You must write a `Visitor` to include the specific APIs you want:
 
+<!-- file://./../tool/snippets/faq_snippet.dart#filter_by_name -->
 ```dart
 Visitor(
   func: (node) {
     // Include all functions starting with clang.
-    node.isIncluded = node.name.startsWith('clang'); 
+    node.isIncluded = node.name.startsWith('clang');
   },
 )
 ```
@@ -56,6 +59,7 @@ Unnamed enums are visited via `Visitor.unnamedEnumConstant` and generated as top
 
 Here's an example that shows how to include and rename unnamed enum constants:
 
+<!-- file://./../tool/snippets/faq_snippet.dart#unnamed_enums -->
 ```dart
 Visitor(
   unnamedEnumConstant: (node) {
@@ -81,6 +85,7 @@ on the new header file, but if you wish to avoid this issue entirely, you can
 tell FFIgen to generate plain Dart integers for your enum instead. To do this,
 set `node.style = EnumStyle.intConstants` in a visitor:
 
+<!-- file://./../tool/snippets/faq_snippet.dart#enum_int_constants -->
 ```dart
 Visitor(
   enumClass: (node) {
@@ -106,6 +111,7 @@ Note: You can configure `dependencies = CompoundDependencies.opaque` so that
 FFIgen generates these struct dependencies as `Opaque` if they were only passed
 by reference (pointer):
 
+<!-- file://./../tool/snippets/faq_snippet.dart#compound_dependencies -->
 ```dart
 Visitor(
   struct: (node) {
@@ -126,6 +132,7 @@ Visitor(
 By default, native function pointers are private, but you can expose them by setting
 `node.exposeSymbolAddress = true` on `Func` or `Global` nodes:
 
+<!-- file://./../tool/snippets/faq_snippet.dart#expose_symbol_address -->
 ```dart
 Visitor(
   func: (node) {
@@ -143,6 +150,7 @@ on a `Func` node to generate them. This will expose the Native and Dart types.
 E.g. for a function named `hello` the generated typedefs are named
 `NativeHello` and `DartHello`.
 
+<!-- file://./../tool/snippets/faq_snippet.dart#generate_typedefs -->
 ```dart
 Visitor(
   func: (node) {
@@ -196,6 +204,7 @@ of code.
 
 FFIgen can share type definitions using symbol files.
 - A package can generate a symbol file by configuring `symbolFile` in `Output`:
+  <!-- file://./../tool/snippets/faq_snippet.dart#generate_symbol_file -->
   ```dart
   Output(
     dart: DartOutput(path: packageRoot.resolve('lib/base.dart')),
@@ -206,10 +215,11 @@ FFIgen can share type definitions using symbol files.
   )
   ```
 - Another package can then import and reuse those types via `importType`:
+  <!-- file://./../tool/snippets/faq_snippet.dart#import_from_symbol_file -->
   ```dart
   final generator = FfiGenerator(
-    // ...
-    importType: (declaration) => importFromSymbolFile(symbolFileUri, declaration),
+    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
+    importType: importFromSymbolFile(symbolFileUri),
   );
   ```
 - Doing so will reuse all the types such as Struct/Unions, and will automatically

@@ -3,7 +3,7 @@
 Ordinary Dart has a distinction between an object's static type and its
 runtime type:
 
-<!-- file://./../example/api/runtime_types_snippet.dart#static_vs_runtime_type -->
+<!-- file://./../tool/snippets/runtime_types_snippet.dart#static_vs_runtime_type -->
 ```dart
 class Base {}
 

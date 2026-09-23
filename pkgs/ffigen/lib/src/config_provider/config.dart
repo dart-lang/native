@@ -21,7 +21,7 @@ import 'spec_utils.dart';
 ///
 /// ### Example
 ///
-/// <!-- file://./../../../example/api/generator_snippet.dart#main -->
+/// <!-- file://./../../../tool/snippets/generator_snippet.dart#main -->
 /// ```dart
 /// import 'package:ffigen/ffigen.dart';
 ///
@@ -75,23 +75,23 @@ final class FfiGenerator {
   ///
   /// Filtering declarations (note: top-level declarations have
   /// `isIncluded = false` by default):
-  /// <!-- file://./../../../example/api/visitor_snippet.dart#filter_closure -->
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#filter_closure -->
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (!node.originalName.startsWith('_')) {
-  ///       node.isIncluded = true;
+  ///     if (node.name.startsWith('_')) {
+  ///       node.isIncluded = false;
   ///     }
   ///   },
   /// )
   /// ```
   ///
   /// Renaming declarations:
-  /// <!-- file://./../../../example/api/visitor_snippet.dart#rename_closure -->
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#rename_closure -->
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
-  ///     if (node.originalName == 'custom_type') {
+  ///     if (node.name == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
   ///   },
@@ -107,12 +107,16 @@ final class FfiGenerator {
   ///
   /// It can also be used to manually map native types to Dart types:
   ///
+  /// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_type -->
   /// ```dart
   /// const ffiImport = LibraryImport('ffi', 'dart:ffi');
-  /// const customImport = LibraryImport('custom', 'package:my_pkg/types.dart');
+  /// const customImport = LibraryImport(
+  ///   'custom',
+  ///   'package:my_pkg/types.dart',
+  /// );
   ///
   /// final generator = FfiGenerator(
-  ///   // ...
+  ///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
   ///   importType: (declaration) {
   ///     if (declaration.originalName == 'time_t') {
   ///       return ImportedType(ffiImport, 'Int64', 'int', 'time_t');

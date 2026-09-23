@@ -29,3 +29,32 @@ void symbolFileExample() {
   );
   // snippet-end#import_from_symbol_file
 }
+
+void importTypeExample() {
+  // snippet-start#import_type
+  const ffiImport = LibraryImport('ffi', 'dart:ffi');
+  const customImport = LibraryImport(
+    'custom',
+    'package:my_pkg/types.dart',
+  );
+
+  final generator = FfiGenerator(
+    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
+    importType: (declaration) {
+      if (declaration.originalName == 'time_t') {
+        return ImportedType(ffiImport, 'Int64', 'int', 'time_t');
+      }
+      if (declaration.originalName == 'MyCustomStruct') {
+        return ImportedType(
+          customImport,
+          'MyCustomStruct',
+          'MyCustomStruct',
+          'MyCustomStruct',
+          importedDartType: true,
+        );
+      }
+      return null;
+    },
+  );
+  // snippet-end#import_type
+}

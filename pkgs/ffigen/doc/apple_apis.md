@@ -14,6 +14,7 @@ when configuring `Input.entryPoints`:
 
 For example:
 
+<!-- no-source-file -->
 ```dart
 final generator = FfiGenerator(
   input: Input(
