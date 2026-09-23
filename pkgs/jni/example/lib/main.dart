@@ -67,9 +67,11 @@ void showToast(String text) {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // snippet-start#spawn
   if (!Platform.isAndroid) {
     Jni.spawn();
   }
+  // snippet-end#spawn
   final examples = [
     Example("Math.random()", () => randomDouble(), runInitially: false),
     if (Platform.isAndroid) ...[

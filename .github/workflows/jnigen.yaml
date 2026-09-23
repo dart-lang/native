@@ -21,6 +21,7 @@ on:
       - 'pkgs/jni/**'
       - 'pkgs/jni_flutter/**'
       - 'pkgs/jni_util/**'
+      - 'pkgs/snippet_tool/**'
   pull_request:
     branches: [main]
     paths:
@@ -29,6 +30,7 @@ on:
       - 'pkgs/jni/**'
       - 'pkgs/jni_flutter/**'
       - 'pkgs/jni_util/**'
+      - 'pkgs/snippet_tool/**'
   schedule:
     - cron: '0 0 * * 0'
 
@@ -52,11 +54,15 @@ jobs:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - run: dart pub get
+      - id: install
+        name: Install dependencies
+        run: dart pub get && dart pub get --directory="../.."
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
       - name: Analyze code
         run: dart analyze --fatal-infos
+      - name: Check snippets
+        run: dart run ../snippet_tool/bin/snippet_tool.dart --set-exit-if-changed .
 
   test_jni_util:
     needs: [analyze_jni_util]
@@ -105,7 +111,7 @@ jobs:
           exclude-path: './pkgs/jnigen/test/large_java_test/java/*'
       - id: install
         name: pub get
-        run: dart pub get
+        run: dart pub get && dart pub get --directory="../.."
       - name: pub get android_test_runner
         run: flutter pub get
         working-directory: ./pkgs/jnigen/android_test_runner
@@ -115,6 +121,8 @@ jobs:
       - name: Analyze code
         run: flutter analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
+      - name: Check snippets
+        run: dart run ../snippet_tool/bin/snippet_tool.dart --set-exit-if-changed .
 
   test_jnigen:
     needs: [analyze_jnigen]
@@ -237,7 +245,9 @@ jobs:
       - uses: ./.github/actions/java-format-check
         with:
           working-directory: ./pkgs/jni_flutter
-      - run: flutter pub get
+      - id: install
+        name: Install dependencies
+        run: flutter pub get && dart pub get --directory="../.."
       - name: pub get android_test_runner
         run: flutter pub get
         working-directory: ./pkgs/jni_flutter/android_test_runner
@@ -245,6 +255,8 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
       - name: Run lints
         run: flutter analyze --fatal-infos
+      - name: Check snippets
+        run: dart run ../snippet_tool/bin/snippet_tool.dart --set-exit-if-changed .
 
   test_jni_flutter_android:
     needs: [analyze_jni_flutter]
@@ -311,7 +323,9 @@ jobs:
           sudo ./llvm.sh 20
           sudo apt-get update -y
           sudo apt-get install -y clang-format-20 build-essential cmake
-      - run: flutter pub get
+      - id: install
+        name: Install dependencies
+        run: flutter pub get && dart pub get --directory="../.."
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
       - name: Run lints
@@ -319,6 +333,8 @@ jobs:
       - name: Check C code formatting using clang-format
         run: clang-format --dry-run -Werror dartjni.c dartjni.h third_party/*.c third_party/*.h
         working-directory: ./pkgs/jni/src
+      - name: Check snippets
+        run: dart run ../snippet_tool/bin/snippet_tool.dart --set-exit-if-changed .
       - name: verify that tool/generate_ide_files.dart generates a file
         run: |
           dart run tool/generate_ide_files.dart

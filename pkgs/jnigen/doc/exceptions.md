@@ -42,6 +42,7 @@ In Dart, after generating bindings for these classes, you can catch the
 exception as a `JThrowable` and use `isA` and `as` to cast it to
 your custom exception type:
 
+<!-- file://./../tool/snippets/exceptions_snippet.dart -->
 ```dart
 void doSomethingInJava() {
   try {
@@ -51,7 +52,7 @@ void doSomethingInJava() {
     print('Java stack trace:\n${throwable.javaStackTrace}');
     print('Dart stack trace:\n$stackTrace');
 
-    if (e.isA(MyCustomException.type)) {
+    if (throwable.isA(MyCustomException.type)) {
       final customEx = throwable.as(MyCustomException.type);
       print('Caught MyCustomException!');
       print('Error Code: ${customEx.errorCode}');
