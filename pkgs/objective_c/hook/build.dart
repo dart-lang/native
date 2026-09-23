@@ -65,15 +65,11 @@ void main(List<String> args) async {
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
 
-    // TODO(https://github.com/flutter/flutter/issues/186856): Remove this
-    // workaround and just use -target. Atm this is necessary for AOT testing.
-    final useArm64e =
-        testMode && codeConfig.targetArchitecture == Architecture.arm64;
-
     final cFlags = <String>[
       '-isysroot',
       sysroot,
-      if (useArm64e) ...['-arch', 'arm64e'] else ...['-target', target],
+      '-target',
+      target,
       minVersion,
     ];
     final mFlags = [...cFlags, ...objCFlags];
