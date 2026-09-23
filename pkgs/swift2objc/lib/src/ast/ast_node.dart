@@ -84,7 +84,12 @@ export 'visitor.dart';
 /// ## Running a [Visitation]
 ///
 /// 1. Construct the [Visitation] and wrap it in a [Visitor]:
-///   `final visitor = Visitor(context, MyFancyVisitation(1, 2, 3));`
+///
+/// <!-- file://./../../../test/unit/visitor_guide_snippet_test.dart#construct_visitor -->
+/// ```dart
+/// final visitation = MyVisitation();
+/// final visitor = Visitor(context, visitation);
+/// ```
 /// 2. Invoke the [Visitor] on the root nodes of the AST:
 ///
 /// <!-- file://./../../../test/unit/visitor_guide_snippet_test.dart#run_visitor -->

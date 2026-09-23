@@ -78,8 +78,10 @@ void runVisitor(
 void main() {
   test('visitor guide snippets compile and execute', () {
     final context = Context(Logger.root);
+    // snippet-start#construct_visitor
     final visitation = MyVisitation();
     final visitor = Visitor(context, visitation);
+    // snippet-end#construct_visitor
 
     final child1 = Bar();
     final child2 = Bar();
