@@ -833,8 +833,8 @@ void main() {
 
     test(
       'Objects received and returned by native blocks have correct ref counts',
-      () {
-        using((Arena arena) async {
+      () async {
+        await using((Arena arena) async {
           final (inputCounter, outputCounter) = objectNativeBlockRefCountTest(
             arena,
           );
@@ -971,7 +971,7 @@ void main() {
         dummyObject = null;
         block = null;
         doGC();
-        await Future<void>.delayed(Duration.zero);
+        await Future<void>.delayed(const Duration(milliseconds: 100));
         doGC();
         expect(blockTracker.isAlive, false);
         expect(dummyObjectTracker.isAlive, false);

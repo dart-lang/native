@@ -90,16 +90,55 @@ int fnvHash32(String input) {
 final String dartExecutable = _findDart();
 
 String _findDart() {
-  var path = Platform.resolvedExecutable;
+  final path = Platform.resolvedExecutable;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
-  final dartExe = 'dart${p.extension(path)}';
-  while (path.isNotEmpty) {
-    path = p.dirname(path);
-    final dartPath = p.normalize(p.join(path, dartExe));
-    if (File(dartPath).existsSync()) return dartPath;
+  final exeNames = Platform.isWindows
+      ? const ['dart.exe', 'dart.bat']
+      : const ['dart'];
+
+  // Try walking up from Platform.resolvedExecutable (e.g. flutter_tester).
+  var cur = path;
+  while (true) {
+    final parent = p.dirname(cur);
+    if (parent == cur) break;
+    cur = parent;
+    for (final exe in exeNames) {
+      final dartPath = p.normalize(p.join(cur, exe));
+      if (File(dartPath).existsSync()) return dartPath;
+    }
   }
+
+  // Fallback 1: check DART_SDK environment variable.
+  if (Platform.environment['DART_SDK'] case final sdk?) {
+    for (final exe in exeNames) {
+      final dartPath = p.normalize(p.join(sdk, 'bin', exe));
+      if (File(dartPath).existsSync()) return dartPath;
+    }
+  }
+
+  // Fallback 2: check PATH.
+  final pathEnv = Platform.environment['PATH'];
+  if (pathEnv != null) {
+    final separator = Platform.isWindows ? ';' : ':';
+    for (final dir in pathEnv.split(separator)) {
+      if (dir.isEmpty) continue;
+      // If dir is flutter/bin, check for embedded dart-sdk first.
+      for (final exe in exeNames) {
+        final embeddedDart = p.normalize(
+          p.join(dir, 'cache', 'dart-sdk', 'bin', exe),
+        );
+        if (File(embeddedDart).existsSync()) return embeddedDart;
+      }
+      for (final exe in exeNames) {
+        final candidate = p.normalize(p.join(dir, exe));
+        if (File(candidate).existsSync()) return candidate;
+      }
+    }
+  }
+
   throw Exception(
-    "Couldn't find Dart executable near ${Platform.resolvedExecutable}",
+    "Couldn't find Dart executable near ${Platform.resolvedExecutable} "
+    'or on PATH',
   );
 }
 

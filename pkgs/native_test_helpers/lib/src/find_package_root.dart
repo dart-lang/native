@@ -14,34 +14,40 @@ import 'dart:io';
 ///
 /// https://github.com/dart-lang/test/issues/110
 Uri findPackageRoot(String packageName) {
+  final envPackageRoot = Platform.environment['PACKAGE_ROOT'];
+  if (envPackageRoot != null) return Uri.directory(envPackageRoot);
+
   final script = Platform.script;
   final fileName = script.name;
   if (fileName.endsWith('.dart')) {
     // We're likely running from source in the package somewhere.
     var directory = script.resolve('.');
     while (true) {
-      final dirName = directory.name;
-      if (dirName == packageName) {
+      if (_isPackageRoot(directory, packageName)) {
         return directory;
       }
       final parent = directory.resolve('..');
       if (parent == directory) break;
       directory = parent;
     }
-  } else if (fileName.endsWith('.dill')) {
-    // Probably from the package root.
-    final cwd = Directory.current.uri;
-    final dirName = cwd.name;
-    if (dirName == packageName) {
-      return cwd;
+  }
+
+  // Running via `dart test` (JIT or CLI) or from within the package or
+  // workspace.
+  var directory = Directory.current.uri;
+  while (true) {
+    if (_isPackageRoot(directory, packageName)) {
+      return directory;
     }
+    final candidate = directory.resolve('pkgs/$packageName/');
+    if (Directory.fromUri(candidate).existsSync()) {
+      return candidate;
+    }
+    final parent = directory.resolve('..');
+    if (parent == directory) break;
+    directory = parent;
   }
-  // Or the workspace root.
-  final cwd = Directory.current.uri;
-  final candidate = cwd.resolve('pkgs/$packageName/');
-  if (Directory.fromUri(candidate).existsSync()) {
-    return candidate;
-  }
+
   throw StateError(
     "Could not find package root for package '$packageName'. "
     'Tried finding the package root via Platform.script '
@@ -50,6 +56,29 @@ Uri findPackageRoot(String packageName) {
   );
 }
 
+bool _isPackageRoot(Uri uri, String packageName) {
+  if (uri.name == packageName) {
+    return true;
+  }
+  final pubspec = File.fromUri(uri.resolve('pubspec.yaml'));
+  if (pubspec.existsSync()) {
+    try {
+      final lines = pubspec.readAsLinesSync();
+      for (final line in lines) {
+        final trimmed = line.trim();
+        if (trimmed.startsWith('name:')) {
+          final name = trimmed.substring('name:'.length).trim();
+          return name == packageName;
+        }
+      }
+    } catch (_) {}
+  }
+  return false;
+}
+
 extension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
+  String get name {
+    final segments = pathSegments.where((e) => e != '');
+    return segments.isEmpty ? '' : segments.last;
+  }
 }

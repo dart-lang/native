@@ -77,7 +77,7 @@ void main(List<String> args) async {
     if (codeConfig.targetOS == OS.macOS) {
       final builder = await CustomBuilder.create(
         input,
-        input.packageRoot.toFilePath(),
+        input.packageRoot.resolve('../').toFilePath(),
       );
 
       // Build swift_class_test.swift. There's no swift compilation package, so
@@ -140,11 +140,42 @@ void main(List<String> args) async {
         );
       }
 
-      // Add dart_api_dl.c from objective_c package.
-      final dartApiDl = input.packageRoot.resolve(
-        '../objective_c/src/include/dart_api_dl.c',
-      );
-      objFiles.add(await builder.buildObject(dartApiDl, cFlags));
+      // Build package:objective_c sources into objc_test as a workaround for
+      // dependency native asset resolution in tests.
+      final objcPkgDir = input.packageRoot.resolve('../objective_c/');
+      final objcSrcDir = Directory.fromUri(objcPkgDir.resolve('src/'));
+      final objcCFlags = [
+        ...cFlags,
+        '-I',
+        objcPkgDir.resolve('src/').toFilePath(),
+      ];
+      final objcMFlags = [...objcCFlags, '-x', 'objective-c', '-fobjc-arc'];
+
+      final objcDependencies = <Uri>[];
+      for (final file in objcSrcDir.listSync(recursive: true)) {
+        if (file is File) {
+          final path = file.path;
+          if (path.endsWith('.c')) {
+            objcDependencies.add(file.uri);
+            objFiles.add(await builder.buildObject(file.uri, objcCFlags));
+          } else if (path.endsWith('.m')) {
+            objcDependencies.add(file.uri);
+            objFiles.add(await builder.buildObject(file.uri, objcMFlags));
+          } else if (path.endsWith('.h')) {
+            objcDependencies.add(file.uri);
+          }
+        }
+      }
+      final refTracker = objcPkgDir.resolve('test/reference_tracker.m');
+      if (File.fromUri(refTracker).existsSync()) {
+        objcDependencies.add(refTracker);
+        objFiles.add(await builder.buildObject(refTracker, objcMFlags));
+      }
+      final gcInject = objcPkgDir.resolve('test/gc_inject.m');
+      if (File.fromUri(gcInject).existsSync()) {
+        objcDependencies.add(gcInject);
+        objFiles.add(await builder.buildObject(gcInject, objcMFlags));
+      }
 
       const objcAsset = 'objc_test';
       final objcLib = input.outputDirectory.resolve('$objcAsset.dylib');
@@ -152,9 +183,16 @@ void main(List<String> args) async {
         ...cFlags,
         '-framework',
         'Foundation',
+        '-undefined',
+        'dynamic_lookup',
       ]);
 
-      output.dependencies.addAll([...mFiles, ...hFiles, swiftFile, dartApiDl]);
+      output.dependencies.addAll([
+        ...mFiles,
+        ...hFiles,
+        swiftFile,
+        ...objcDependencies,
+      ]);
 
       output.assets.code.add(
         CodeAsset(

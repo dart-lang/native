@@ -10,6 +10,8 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:path/path.dart' as p;
 
 const assetId = 'package:objective_c/objective_c.dylib';
 const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
@@ -551,25 +553,64 @@ FfiGenerator getObjCConfig([Uri? packageRoot]) {
 }
 
 Uri _defaultPackageRoot() {
-  if (Platform.script.isScheme('file')) {
-    final scriptFile = File.fromUri(Platform.script);
-    var dir = scriptFile.parent;
-    while (dir.path != dir.parent.path) {
-      final pubspec = File('${dir.path}/pubspec.yaml');
-      if (pubspec.existsSync()) {
-        if (pubspec.readAsStringSync().contains('name: objective_c\n') ||
-            pubspec.readAsStringSync().contains('name: objective_c\r\n')) {
-          return dir.uri;
-        }
-      }
-      dir = dir.parent;
+  try {
+    return findPackageRoot('objective_c');
+  } catch (_) {
+    return Directory.current.uri;
+  }
+}
+
+String _findDart() {
+  final path = Platform.resolvedExecutable;
+  if (p.basenameWithoutExtension(path) == 'dart') return path;
+  final exeNames = Platform.isWindows
+      ? const ['dart.exe', 'dart.bat']
+      : const ['dart'];
+
+  // Try walking up from Platform.resolvedExecutable.
+  var cur = path;
+  while (true) {
+    final parent = p.dirname(cur);
+    if (parent == cur) break;
+    cur = parent;
+    for (final exe in exeNames) {
+      final dartPath = p.normalize(p.join(cur, exe));
+      if (File(dartPath).existsSync()) return dartPath;
     }
   }
-  return Directory.current.uri;
+
+  // Fallback 1: check DART_SDK environment variable.
+  if (Platform.environment['DART_SDK'] case final sdk?) {
+    for (final exe in exeNames) {
+      final dartPath = p.normalize(p.join(sdk, 'bin', exe));
+      if (File(dartPath).existsSync()) return dartPath;
+    }
+  }
+
+  // Fallback 2: check PATH.
+  final pathEnv = Platform.environment['PATH'];
+  if (pathEnv != null) {
+    final separator = Platform.isWindows ? ';' : ':';
+    for (final dir in pathEnv.split(separator)) {
+      if (dir.isEmpty) continue;
+      for (final exe in exeNames) {
+        final embeddedDart = p.normalize(
+          p.join(dir, 'cache', 'dart-sdk', 'bin', exe),
+        );
+        if (File(embeddedDart).existsSync()) return embeddedDart;
+      }
+      for (final exe in exeNames) {
+        final candidate = p.normalize(p.join(dir, exe));
+        if (File(candidate).existsSync()) return candidate;
+      }
+    }
+  }
+
+  return 'dart';
 }
 
 void dartCmd(List<String> args, {String? workingDir}) {
-  final exec = Platform.resolvedExecutable;
+  final exec = _findDart();
   final proc = Process.runSync(
     exec,
     args,
