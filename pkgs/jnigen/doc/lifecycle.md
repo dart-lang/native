@@ -26,7 +26,7 @@ application crashes.
 Instead of waiting for Dart GC to release the JNI global references,
 `.release()` can be called on the `JObject`s.
 
-<!-- file://./../example/api/lifecycle_snippet.dart#release_manual -->
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#release_manual -->
 ```dart
 // Construct the object.
 final hello = 'Hello'.toJString();
@@ -42,7 +42,7 @@ First, create an `Arena` via
 [`using`](https://pub.dev/documentation/ffi/latest/ffi/using.html). Then
 register the object to be released at the end of the callback.
 
-<!-- file://./../example/api/lifecycle_snippet.dart#arena_using -->
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#arena_using -->
 ```dart
 using((arena) {
   final hello = 'Hello'.toJString()..releasedBy(arena);
@@ -58,7 +58,7 @@ using((arena) {
 - Avoid storing `JObject`s in Dart collections like `List` or `Map`. Use Java
   collections such as `JList` or `JMap` instead.
 
-  <!-- file://./../example/api/lifecycle_snippet.dart#java_collections -->
+  <!-- file://./../tool/snippets/lifecycle_snippet.dart#java_collections -->
   ```dart
   // GOOD:
   final jstrings = JList(JString.type);
@@ -79,7 +79,7 @@ using((arena) {
 - When an original Java object is no longer needed, set `releaseOriginal` to
   `true` during conversion to Dart equivalents or casting.
 
-  <!-- file://./../example/api/lifecycle_snippet.dart#release_original -->
+  <!-- file://./../tool/snippets/lifecycle_snippet.dart#release_original -->
   ```dart
   final foo = Foo();
   final String string = foo.someJString().toDartString(releaseOriginal: true);
@@ -103,7 +103,7 @@ corresponding closures.
 One could create cycles between Dart and Java GC's when implementing interfaces.
 For example consider the following:
 
-<!-- file://./../example/api/lifecycle_snippet.dart#cycle -->
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#cycle -->
 ```dart
 final foo = Foo();
 foo.bar = Bar.implement($Bar(
@@ -127,7 +127,7 @@ graph TD;
 To prevent cycles, use
 [`WeakReference`](https://api.dart.dev/dart-core/WeakReference-class.html)s.
 
-<!-- file://./../example/api/lifecycle_snippet.dart#cycle_breaker -->
+<!-- file://./../tool/snippets/lifecycle_snippet.dart#cycle_breaker -->
 ```dart
 final weakFoo = WeakReference(foo);
 foo.bar = Bar.implement($Bar(
@@ -156,7 +156,7 @@ graph TD;
 > overcapturing, implement your logic in a separate function or create a class
 > that implements `$Bar`.
 >
-> <!-- file://./../example/api/lifecycle_snippet.dart#cycle_breaker_class -->
+> <!-- file://./../tool/snippets/lifecycle_snippet.dart#cycle_breaker_class -->
 > ```dart
 > final class BarImpl with $Bar {
 >   final WeakReference<Foo> weakFoo;

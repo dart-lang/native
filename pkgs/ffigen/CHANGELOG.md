@@ -14,6 +14,7 @@
   canonical type.
 - Generate bindings for declarations inside C++ `extern "C" { ... }`
   blocks, which were previously skipped entirely.
+- Allow `package:cli_util` versions `0.5.x` and `0.6.x`.
 
 ## 22.0.0
 

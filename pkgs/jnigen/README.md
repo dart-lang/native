@@ -216,7 +216,7 @@ and call `await generator.generate()`.
 
 ### Example
 
-<!-- file://./example/api/generate_bindings_snippet.dart#configuration -->
+<!-- file://./tool/snippets/generate_bindings_snippet.dart#configuration -->
 ```dart
 import 'dart:io';
 
@@ -302,7 +302,7 @@ block and bindings will be generated when you run the generate bindings task.
 Below is an example showing how you might generate bindings for several classes
 in `java.time.*` and a `java.lang` class that is not included by default:
 
-<!-- file://./example/api/generate_bindings_snippet.dart#built_in_types -->
+<!-- file://./tool/snippets/generate_bindings_snippet.dart#built_in_types -->
 ```dart
 final generator = JniGenerator(
   input: Input(

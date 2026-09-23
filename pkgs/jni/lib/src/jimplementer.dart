@@ -19,7 +19,7 @@ import 'util/jlist.dart';
 /// A builder that builds proxy objects that implement one or more interfaces.
 ///
 /// Example:
-/// <!-- file://./../../example/api/jimplementer_snippet.dart -->
+/// <!-- file://./../../tool/snippets/jimplementer_snippet.dart -->
 /// ```dart
 /// final implementer = JImplementer();
 /// Foo.implementIn(implementer, fooImpl);

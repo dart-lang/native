@@ -42,7 +42,7 @@ In Dart, after generating bindings for these classes, you can catch the
 exception as a `JThrowable` and use `isA` and `as` to cast it to
 your custom exception type:
 
-<!-- file://./../example/api/exceptions_snippet.dart -->
+<!-- file://./../tool/snippets/exceptions_snippet.dart -->
 ```dart
 void doSomethingInJava() {
   try {

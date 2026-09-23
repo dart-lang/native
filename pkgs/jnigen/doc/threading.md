@@ -20,7 +20,7 @@ deadlocks. Suppose we have created an object that implements `Runnable` in Dart
 in the main isolate. This means that the code will always be run on the platform
 thread.
 
-<!-- file://./../example/api/interface_implementation_snippet.dart#runnable_from_dart -->
+<!-- file://./../tool/snippets/interface_implementation_snippet.dart#runnable_from_dart -->
 ```dart
 final runnableFromDart = Runnable.implement(
   $Runnable(run: () => print('hello')),
@@ -40,7 +40,7 @@ If the callback does not need to be blocking,
 [making it a listener](../interface_implementation.md#implement-as-a-listener)
 solves this issue:
 
-<!-- file://./../example/api/interface_implementation_snippet.dart#runnable_from_dart_async -->
+<!-- file://./../tool/snippets/interface_implementation_snippet.dart#runnable_from_dart_async -->
 ```dart
 final runnableFromDart = Runnable.implement($Runnable(
   run: () => print('hello'),

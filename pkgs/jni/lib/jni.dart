@@ -62,6 +62,7 @@ library;
 
 export 'package:ffi/ffi.dart' show Arena, using;
 
+export 'src/converter.dart';
 export 'src/core_bindings.dart'
     show
         $JCollection,
