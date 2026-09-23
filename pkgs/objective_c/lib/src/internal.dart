@@ -4,7 +4,6 @@
 
 import 'dart:async';
 import 'dart:ffi';
-import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
@@ -235,41 +234,9 @@ final class _FinalizablePointer<T extends NativeType> implements Finalizable {
 bool _dartAPIInitialized = false;
 void _ensureDartAPI() {
   if (!_dartAPIInitialized) {
-    _tryLoadDylibFallback();
     final result = c.initializeApi(NativeApi.initializeApiDLData);
     assert(result == 0);
     _dartAPIInitialized = true;
-  }
-}
-
-void _tryLoadDylibFallback() {
-  if (DynamicLibrary.process().providesSymbol('DOBJC_initializeApi')) {
-    return;
-  }
-  final candidates = [
-    Platform.script.resolve('../lib/objective_c.dylib').toFilePath(),
-    Platform.script.resolve('../lib/objc_test.dylib').toFilePath(),
-    Platform.script.resolve('objective_c.dylib').toFilePath(),
-    Platform.script.resolve('objc_test.dylib').toFilePath(),
-    '${Directory.current.path}/.dart_tool/lib/objective_c.dylib',
-    '${Directory.current.path}/.dart_tool/lib/objc_test.dylib',
-  ];
-  for (final path in candidates) {
-    if (File(path).existsSync()) {
-      try {
-        final dlopen = DynamicLibrary.process()
-            .lookupFunction<
-              Pointer<Void> Function(Pointer<Utf8>, Int32),
-              Pointer<Void> Function(Pointer<Utf8>, int)
-            >('dlopen');
-        final pathPtr = path.toNativeUtf8();
-        dlopen(pathPtr, 0x8 | 0x2); // RTLD_GLOBAL | RTLD_NOW
-        calloc.free(pathPtr);
-        if (DynamicLibrary.process().providesSymbol('DOBJC_initializeApi')) {
-          return;
-        }
-      } catch (_) {}
-    }
   }
 }
 
@@ -618,10 +585,7 @@ Function getBlockClosure(BlockPtr block) {
 }
 
 /// Only for use by FFIgen bindings.
-final ContextPtr objCContext = () {
-  _ensureDartAPI();
-  return c.createContext();
-}();
+final ContextPtr objCContext = c.createContext();
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>
