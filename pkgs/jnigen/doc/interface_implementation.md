@@ -63,7 +63,7 @@ Runnable runnable = () -> System.out.println("hello");
 To allow the same flexibility in Dart, `$Runnable` has a default factory that
 simply gets each method of the interface as a closure argument. So you would do:
 
-<!-- file://./../example/api/interface_implementation_snippet.dart#runnable_lambda -->
+<!-- file://./../tool/snippets/interface_implementation_snippet.dart#runnable_lambda -->
 ```dart
 final runnable = Runnable.implement($Runnable(run: () => print('hello')));
 ```
@@ -95,7 +95,7 @@ This way you can create multiple such Runnables like `new Printer("hello")` and
 
 You can do the same in Dart by creating a subclass that implements `$Runnable`:
 
-<!-- file://./../example/api/interface_implementation_snippet.dart#printer_subclass -->
+<!-- file://./../tool/snippets/interface_implementation_snippet.dart#printer_subclass -->
 ```dart
 final class Printer with $Runnable {
   final String text;
@@ -122,7 +122,7 @@ Void-returning functions don't have to return a result, so we can choose to not
 block the caller when the method is just a listener. To signal this, pass `true`
 to `<method name>$async` argument when implementing the interface inline:
 
-<!-- file://./../example/api/interface_implementation_snippet.dart#runnable_listener -->
+<!-- file://./../tool/snippets/interface_implementation_snippet.dart#runnable_listener -->
 ```dart
 final runnable = Runnable.implement($Runnable(
   run: () => print('hello'),
@@ -132,7 +132,7 @@ final runnable = Runnable.implement($Runnable(
 
 Similarly, when subclassing 
 
-<!-- file://./../example/api/interface_implementation_listener_snippet.dart#printer_listener -->
+<!-- file://./../tool/snippets/interface_implementation_listener_snippet.dart#printer_listener -->
 ```dart
 final class Printer with $Runnable {
   final String text;
@@ -157,7 +157,7 @@ To implement more than one interface, use a `JImplementer` from `package:jni`.
 method. Here is how we create an object that implements both `Runnable` and
 `Closable`:
 
-<!-- file://./../example/api/interface_implementation_snippet.dart#multiple_interfaces -->
+<!-- file://./../tool/snippets/interface_implementation_snippet.dart#multiple_interfaces -->
 ```dart
 final implementer = JImplementer();
 Runnable.implementIn(implementer, $Runnable(run: () => print('run')));
@@ -169,7 +169,7 @@ As the created `object` implements both `Runnable` and `Closable`, it's also
 possible to make it a `Closable` by passing in `Closable.type` to
 `implementer.implement`. Or simply cast it after creation:
 
-<!-- file://./../example/api/interface_implementation_snippet.dart#cast_closable -->
+<!-- file://./../tool/snippets/interface_implementation_snippet.dart#cast_closable -->
 ```dart
 final closable = object.as(Closable.type);
 ```

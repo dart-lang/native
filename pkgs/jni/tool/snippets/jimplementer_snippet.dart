@@ -4,7 +4,8 @@
 
 // dart format width=74
 
-// ignore_for_file: avoid_print, unused_local_variable, undefined_method, non_constant_identifier_names
+// ignore_for_file: avoid_dynamic_calls, avoid_print, undefined_method
+// ignore_for_file: non_constant_identifier_names, unused_local_variable
 
 import 'package:jni/jni.dart';
 

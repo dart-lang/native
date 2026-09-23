@@ -38,7 +38,7 @@ JObject get androidApplicationContext => JniFlutterPlugin.applicationContext;
 ///
 /// ### Correct Usage (Synchronous, "Get-and-Use"):
 ///
-/// <!-- file://./../../example/api/activity_snippet.dart#safe -->
+/// <!-- file://./../../tool/snippets/activity_snippet.dart#safe -->
 /// ```dart
 /// void safeCall() {
 ///   // This is safe because the `Activity` is retrieved and used
@@ -53,7 +53,7 @@ JObject get androidApplicationContext => JniFlutterPlugin.applicationContext;
 ///
 /// ### **DANGEROUS** Usage (Asynchronous Gap):
 ///
-/// <!-- file://./../../example/api/activity_snippet.dart#dangerous -->
+/// <!-- file://./../../tool/snippets/activity_snippet.dart#dangerous -->
 /// ```dart
 /// Future<void> dangerousCall() async {
 ///   // 1. Get the Activity (e.g., Activity "A")

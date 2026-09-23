@@ -16,7 +16,7 @@ flag to capture the stack trace when an object is released.
 You can enable stack trace capturing by setting
 `Jni.captureStackTraceOnRelease = true`.
 
-<!-- file://./../example/api/debugging_snippet.dart#capture_stack_trace -->
+<!-- file://./../tool/snippets/debugging_snippet.dart#capture_stack_trace -->
 ```dart
 // Enable stack trace capturing for debugging
 Jni.captureStackTraceOnRelease = true;
@@ -48,7 +48,7 @@ Object was released at:
 If you use `using` (from `package:ffi`) and `releasedBy`, the stack trace will
 also include where the object was registered to be released.
 
-<!-- file://./../example/api/debugging_snippet.dart#arena -->
+<!-- file://./../tool/snippets/debugging_snippet.dart#arena -->
 ```dart
 using((arena) {
   final s = 'hello'.toJString()..releasedBy(arena);

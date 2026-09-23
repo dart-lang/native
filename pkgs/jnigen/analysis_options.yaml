@@ -5,7 +5,7 @@
 include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
-  exclude: [build/**, example/**]
+  exclude: [build/**, example/**, tool/snippets/**]
   language:
     strict-raw-types: true
 

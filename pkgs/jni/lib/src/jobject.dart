@@ -80,7 +80,7 @@ class JObject {
   ///
   /// For example:
   ///
-  /// <!-- file://./../../example/api/jobject_snippet.dart -->
+  /// <!-- file://./../../tool/snippets/jobject_snippet.dart -->
   /// ```dart
   /// if (object.isA(JLong.type)) {
   ///   final i = object.as(JLong.type).longValue();
