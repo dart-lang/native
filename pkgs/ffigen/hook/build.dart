@@ -298,9 +298,9 @@ class CustomBuilder {
       '-emit-library',
     ];
 
-final arch = _codeConfig.targetArchitecture == Architecture.x64
-          ? 'x86_64'
-          : 'arm64';
+    final arch = _codeConfig.targetArchitecture == Architecture.x64
+        ? 'x86_64'
+        : 'arm64';
     final String target;
     if (_codeConfig.targetOS == OS.iOS) {
       final version = _codeConfig.iOS.targetVersion;
