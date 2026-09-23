@@ -365,6 +365,7 @@ class GenerateTask extends Task {
       'pkgs/hooks',
       'pkgs/code_assets',
       'pkgs/data_assets',
+      'pkgs/web_assets',
       'pkgs/record_use',
     ];
     final fix = argResults['fix'] as bool;
