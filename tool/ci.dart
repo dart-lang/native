@@ -358,9 +358,14 @@ class GenerateTask extends Task {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
-      'pkgs/hooks/tool/update_snippets.dart',
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
+    ];
+    const snippetTargets = [
+      'pkgs/hooks',
+      'pkgs/code_assets',
+      'pkgs/data_assets',
+      'pkgs/record_use',
     ];
     final fix = argResults['fix'] as bool;
     await _runMaybeParallel([
@@ -369,6 +374,12 @@ class GenerateTask extends Task {
           generator,
           if (!fix) '--set-exit-if-changed',
         ]),
+      () => _runProcess('dart', [
+        'run',
+        'snippet_tool',
+        if (!fix) '--set-exit-if-changed',
+        ...snippetTargets,
+      ]),
     ], argResults);
   }
 }
