@@ -25,6 +25,7 @@ import 'writer.dart';
 /// The generated Dart code for this function (without `FfiNative`) is as
 /// follows.
 ///
+/// <!-- no-source-file -->
 /// ```dart
 /// int sum(int a, int b) {
 ///   return _sum(a, b);
@@ -39,6 +40,7 @@ import 'writer.dart';
 ///
 /// When using `Native`, the code is as follows.
 ///
+/// <!-- no-source-file -->
 /// ```dart
 /// @ffi.Native<ffi.Int32 Function(ffi.Int32 a, ffi.Int32 b)>('sum')
 /// external int sum(int a, int b);

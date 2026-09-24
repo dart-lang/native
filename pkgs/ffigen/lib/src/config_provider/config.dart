@@ -21,22 +21,15 @@ import 'spec_utils.dart';
 ///
 /// ### Example
 ///
+/// <!-- file://./../../../tool/snippets/generator_snippet.dart#main -->
 /// ```dart
 /// import 'package:ffigen/ffigen.dart';
 ///
 /// Future<void> main() async {
 ///   final generator = FfiGenerator(
-///     output: Output(
-///       dart: DartOutput(path: Uri.file('lib/bindings.dart')),
-///     ),
-///     input: Input(
-///       entryPoints: [Uri.file('src/my_c_header.h')],
-///     ),
-///     visitors: [
-///       Visitor(
-///         func: (node) => node.isIncluded = true,
-///       ),
-///     ],
+///     output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
+///     input: Input(entryPoints: [Uri.file('src/my_c_header.h')]),
+///     visitors: [Visitor(func: (node) => node.isIncluded = true)],
 ///   );
 ///   await generator.generate();
 /// }
@@ -82,6 +75,7 @@ final class FfiGenerator {
   ///
   /// Filtering declarations (note: top-level declarations have
   /// `isIncluded = false` by default):
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#filter_closure -->
   /// ```dart
   /// Visitor(
   ///   func: (node) {
@@ -93,6 +87,7 @@ final class FfiGenerator {
   /// ```
   ///
   /// Renaming declarations:
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#rename_closure -->
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
@@ -112,12 +107,16 @@ final class FfiGenerator {
   ///
   /// It can also be used to manually map native types to Dart types:
   ///
+  /// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_type -->
   /// ```dart
   /// const ffiImport = LibraryImport('ffi', 'dart:ffi');
-  /// const customImport = LibraryImport('custom', 'package:my_pkg/types.dart');
+  /// const customImport = LibraryImport(
+  ///   'custom',
+  ///   'package:my_pkg/types.dart',
+  /// );
   ///
   /// final generator = FfiGenerator(
-  ///   // ...
+  ///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
   ///   importType: (declaration) {
   ///     if (declaration.originalName == 'time_t') {
   ///       return ImportedType(ffiImport, 'Int64', 'int', 'time_t');
