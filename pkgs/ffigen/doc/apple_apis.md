@@ -14,16 +14,17 @@ when configuring `Input.entryPoints`:
 
 For example:
 
-<!-- no-source-file -->
+<!-- file://./../tool/snippets/apple_apis_snippet.dart#apple_apis -->
 ```dart
 final generator = FfiGenerator(
   input: Input(
     entryPoints: [
+      // Use macSdkUri to resolve headers within the macOS SDK.
       macSdkUri.resolve(
         'System/Library/Frameworks/Foundation.framework/Headers/NSDate.h',
       ),
     ],
   ),
-  ...
+  output: Output(dart: DartOutput(path: Uri.file('nsdate.dart'))),
 );
 ```
