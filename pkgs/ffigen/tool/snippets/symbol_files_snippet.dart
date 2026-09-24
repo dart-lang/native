@@ -12,11 +12,11 @@ import 'package:package_config/package_config.dart';
 void symbolFilesExample(PackageConfig? packageConfig) {
   // snippet-start#import_from_symbol_files
   final config = FfiGenerator(
-    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
     importType: importFromSymbolFiles([
       Uri.file('path/to/symbols1.yaml'),
       Uri.parse('package:other_pkg/symbols2.yaml'),
     ], packageConfig: packageConfig),
+    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
   );
   // snippet-end#import_from_symbol_files
 }
@@ -24,8 +24,8 @@ void symbolFilesExample(PackageConfig? packageConfig) {
 void symbolFileExample() {
   // snippet-start#import_from_symbol_file
   final config = FfiGenerator(
-    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
     importType: importFromSymbolFile(Uri.file('path/to/symbols.yaml')),
+    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
   );
   // snippet-end#import_from_symbol_file
 }

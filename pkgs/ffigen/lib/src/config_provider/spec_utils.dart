@@ -167,11 +167,11 @@ Map<String, ImportedType> _loadSymbolFiles(
 /// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_from_symbol_files -->
 /// ```dart
 /// final config = FfiGenerator(
-///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 ///   importType: importFromSymbolFiles([
 ///     Uri.file('path/to/symbols1.yaml'),
 ///     Uri.parse('package:other_pkg/symbols2.yaml'),
 ///   ], packageConfig: packageConfig),
+///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbolFiles(
@@ -193,8 +193,8 @@ ImportedType? Function(Declaration) importFromSymbolFiles(
 /// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_from_symbol_file -->
 /// ```dart
 /// final config = FfiGenerator(
-///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 ///   importType: importFromSymbolFile(Uri.file('path/to/symbols.yaml')),
+///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
 /// );
 /// ```
 ImportedType? Function(Declaration) importFromSymbolFile(
