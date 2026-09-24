@@ -79,8 +79,8 @@ final class FfiGenerator {
   /// ```dart
   /// Visitor(
   ///   func: (node) {
-  ///     if (node.name.startsWith('_')) {
-  ///       node.isIncluded = false;
+  ///     if (!node.originalName.startsWith('_')) {
+  ///       node.isIncluded = true;
   ///     }
   ///   },
   /// )
@@ -91,7 +91,7 @@ final class FfiGenerator {
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
-  ///     if (node.name == 'custom_type') {
+  ///     if (node.originalName == 'custom_type') {
   ///       node.name = 'CustomType';
   ///     }
   ///   },

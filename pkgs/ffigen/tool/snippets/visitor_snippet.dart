@@ -14,8 +14,8 @@ final class FilterVisitor extends Visitor {
 
   @override
   void visitFunc(Func node) {
-    if (node.name.startsWith('_')) {
-      node.isIncluded = false;
+    if (!node.originalName.startsWith('_')) {
+      node.isIncluded = true;
     }
   }
 }
@@ -27,7 +27,7 @@ final class RenameVisitor extends Visitor {
 
   @override
   void visitStruct(Struct node) {
-    if (node.name == 'custom_type') {
+    if (node.originalName == 'custom_type') {
       node.name = 'CustomType';
     }
   }
@@ -38,8 +38,8 @@ void closuresExample() {
   // snippet-start#filter_closure
   Visitor(
     func: (node) {
-      if (node.name.startsWith('_')) {
-        node.isIncluded = false;
+      if (!node.originalName.startsWith('_')) {
+        node.isIncluded = true;
       }
     },
   )
@@ -49,7 +49,7 @@ void closuresExample() {
   // snippet-start#rename_closure
   Visitor(
     struct: (node) {
-      if (node.name == 'custom_type') {
+      if (node.originalName == 'custom_type') {
         node.name = 'CustomType';
       }
     },
