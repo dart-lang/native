@@ -454,8 +454,6 @@ final class JniGenerator {
   final SymbolImports imports;
 
   /// Custom nullability annotation configuration.
-  ///
-  /// See [NullabilityAnnotations] for recognized annotations and defaults.
   final NullabilityAnnotations nullability;
 
   /// AST visitors for filtering, renaming, and AST transformation passes.
