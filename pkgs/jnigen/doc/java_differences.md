@@ -278,32 +278,26 @@ Generates Dart bindings like this:
 <!-- file://./../tool/snippets/nullability_snippet.dart#generated_methods -->
 ```dart
 class UserService extends JObject {
-  /// from: `public @NotNull String getUserId()`
   JString getUserId() {
     // ...
   }
 
-  /// from: `public @Nullable String getNickname()`
   JString? getNickname() {
     // ...
   }
 
-  /// from: `public String getDisplayName()`
   JString? getDisplayName() {
     // ...
   }
 
-  /// from: `public void setNickname(@Nullable String nickname)`
   void setNickname(JString? nickname) {
     // ...
   }
 
-  /// from: `public void setUserId(@NotNull String id)`
   void setUserId(JString id) {
     // ...
   }
 
-  /// from: `public void setDisplayName(String name)`
   void setDisplayName(JString? name) {
     // ...
   }
