@@ -81,6 +81,7 @@ extension LibraryTestExt on Library {
     context.libs.forceFillForTesting();
     context.rootScope.fillNames();
     context.rootObjCScope.fillNames();
+    context.rootCppScope.fillNames();
   }
 }
 

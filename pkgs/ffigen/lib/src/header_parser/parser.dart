@@ -311,6 +311,7 @@ void _nameAllSymbols(Context context, Set<Binding> bindings) {
 
   context.rootScope.fillNames();
   context.rootObjCScope.fillNames();
+  context.rootCppScope.fillNames();
 }
 
 ExtraSymbols _createExtraSymbols(Context context) {

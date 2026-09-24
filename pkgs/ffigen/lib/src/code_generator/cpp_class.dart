@@ -17,8 +17,8 @@ enum CppMethodKind { constructor, method }
 
 /// A method or constructor belonging to a C++ class.
 class CppMethod extends AstNode with HasLocalScope {
-  final Symbol name;
-  final String cGlueSymbol;
+  final Symbol symbol;
+  final Symbol cGlueSymbol;
   final String originalName;
   final Type returnType;
   final List<Parameter> parameters;
@@ -30,7 +30,7 @@ class CppMethod extends AstNode with HasLocalScope {
   bool isIncluded = true;
 
   CppMethod({
-    required this.name,
+    required this.symbol,
     required this.cGlueSymbol,
     required this.originalName,
     required this.returnType,
@@ -45,8 +45,11 @@ class CppMethod extends AstNode with HasLocalScope {
 
   CppMethod cloneForClass(CppClass targetClass, CppClass baseClass) {
     return CppMethod(
-      name: name.clone(),
-      cGlueSymbol: '${targetClass.originalName}_$originalName',
+      symbol: symbol.clone(),
+      cGlueSymbol: Symbol(
+        '${targetClass.originalName}_$originalName',
+        SymbolKind.method,
+      ),
       originalName: originalName,
       returnType: returnType,
       parameters: parameters.map((p) => p.clone()).toList(),
@@ -69,7 +72,8 @@ class CppMethod extends AstNode with HasLocalScope {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(name);
+    visitor.visit(symbol);
+    visitor.visit(cGlueSymbol);
     visitor.visit(returnType);
     visitor.visitAll(parameters);
     visitor.visit(originatingClass);
@@ -257,7 +261,7 @@ class $name implements $implementsClause {
 ''');
 
     for (final ctor in constructors) {
-      final glueName = ctor.cGlueSymbol;
+      final glueName = ctor.cGlueSymbol.name;
       final privateName = '_$glueName';
 
       final dartParams = dartParamList(ctor.parameters);
@@ -284,7 +288,7 @@ class $name implements $implementsClause {
     }
 
     for (final method in classMethods) {
-      final glue = '_${method.cGlueSymbol}';
+      final glue = '_${method.cGlueSymbol.name}';
       final dartReturn = method.returnType.getDartType(ctx);
       final dartParams = dartParamList(method.parameters);
       final localVars = LocalVariables(method.localScope);
@@ -314,14 +318,14 @@ class $name implements $implementsClause {
 
       if (method.isStatic) {
         s.write('''\
-  static $dartReturn ${method.name}($dartParams) {
+  static $dartReturn ${method.symbol}($dartParams) {
     $decls
     $callLine
   }
 ''');
       } else {
         s.write('''\
-  $dartReturn ${method.name}($dartParams) {
+  $dartReturn ${method.symbol}($dartParams) {
     if (_ptr == $ffiPrefix.nullptr) {
       throw StateError('This object has already been disposed.');
     }
@@ -370,7 +374,7 @@ class $name implements $implementsClause {
     }
 
     for (final method in methods) {
-      final symbol = method.cGlueSymbol;
+      final symbol = method.cGlueSymbol.name;
       final glue = '_$symbol';
 
       final cReturn = method.isConstructor
@@ -428,7 +432,7 @@ FFIGEN_EXPORT void ${name}_delete($originalName* self) {
 
     final methodBindings = methods
         .map((method) {
-          final symbol = method.cGlueSymbol;
+          final symbol = Namer.cSafeName(method.cGlueSymbol.name);
 
           final String returnTypeString;
           final String params;

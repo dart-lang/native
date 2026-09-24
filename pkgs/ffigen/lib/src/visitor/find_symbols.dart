@@ -85,7 +85,8 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitCppMethod(CppMethod node) {
-    currentScope.add(node.name);
+    currentScope.add(node.symbol);
+    insideScope(context.rootCppScope, () => visitor.visit(node.cGlueSymbol));
     visitInsideScope(node, node.localScope);
   }
 

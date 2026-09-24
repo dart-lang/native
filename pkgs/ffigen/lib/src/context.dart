@@ -31,6 +31,7 @@ class Context {
       config.input.compilerOptions ?? defaultCompilerOpts(logger);
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
+  final Scope rootCppScope = Scope.createRoot('cpp_root');
   late final ExtraSymbols extraSymbols;
   final String tmpDir;
 

@@ -642,8 +642,8 @@ objc-interfaces:
       expect(publicObjCCategory.interface.name, 'MyItf');
 
       final cgCppMethod = CppMethod(
-        name: Symbol('cppFunc', SymbolKind.method),
-        cGlueSymbol: 'CppClass_cppFunc',
+        symbol: Symbol('cppFunc', SymbolKind.method),
+        cGlueSymbol: Symbol('CppClass_cppFunc', SymbolKind.method),
         originalName: 'cppFunc',
         returnType: voidType,
         parameters: [Parameter(name: 'cppArg', type: intType)],

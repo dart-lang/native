@@ -187,8 +187,8 @@ void _parseAnyMethod(
   logger.fine('  ++++ ${kind.name}: $methodName (const=$isConst)');
   methods.add(
     CppMethod(
-      name: Symbol(methodName, SymbolKind.method),
-      cGlueSymbol: symbol,
+      symbol: Symbol(methodName, SymbolKind.method),
+      cGlueSymbol: Symbol(symbol, SymbolKind.method),
       originalName: methodName,
       returnType: returnType,
       parameters: parameters,
