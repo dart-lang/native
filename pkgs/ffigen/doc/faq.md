@@ -218,8 +218,8 @@ FFIgen can share type definitions using symbol files.
   <!-- file://./../tool/snippets/faq_snippet.dart#import_from_symbol_file -->
   ```dart
   final generator = FfiGenerator(
-    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
     importType: importFromSymbolFile(symbolFileUri),
+    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
   );
   ```
 - Doing so will reuse all the types such as Struct/Unions, and will automatically

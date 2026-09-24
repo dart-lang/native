@@ -112,8 +112,8 @@ void faqVisitorExamples(Uri packageRoot, Uri symbolFileUri) {
 
   // snippet-start#import_from_symbol_file
   final generator = FfiGenerator(
-    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
     importType: importFromSymbolFile(symbolFileUri),
+    output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
   );
   // snippet-end#import_from_symbol_file
 }
