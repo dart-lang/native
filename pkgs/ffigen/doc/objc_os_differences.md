@@ -90,7 +90,9 @@ abstract interface class WebView {
 }
 
 class WebViewMac implements WebView {
-  late mac.WKWebView _view;
+  WebViewMac() : _view = mac.WKWebView();
+
+  final mac.WKWebView _view;
 
   @override
   void load(Uri uri) {
@@ -99,7 +101,9 @@ class WebViewMac implements WebView {
 }
 
 class WebViewIOS implements WebView {
-  late ios.WKWebView _view;
+  WebViewIOS() : _view = ios.WKWebView();
+
+  final ios.WKWebView _view;
 
   @override
   void load(Uri uri) {
