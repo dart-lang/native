@@ -244,3 +244,77 @@ class Outer extends JObject {}
 
 class Outer$Inner extends JObject {}
 ```
+
+### Nullability
+
+Dart features sound null safety, whereas traditional Java reference types can
+always hold `null` at runtime.
+To protect against runtime `TypeError` crashes when Java returns `null`,
+unannotated Java reference types default to **nullable** in generated Dart
+bindings (e.g. `String` generates `JString?`).
+
+When nullability annotations (such as `@NonNull` and `@Nullable` from popular
+frameworks) or Kotlin metadata are present, JNIgen respects them to produce
+non-nullable Dart types where appropriate:
+* Types annotated with `@NonNull` (or non-nullable Kotlin types) map to
+  non-nullable Dart types (e.g. `JString`).
+* Types annotated with `@Nullable` map to nullable Dart types (e.g. `JString?`).
+
+JNIgen recognizes standard nullability annotations out of the box based on
+[Kotlin's Java interop conventions](https://kotlinlang.org/docs/java-interop.html#nullability-annotations).
+See [`NullabilityAnnotations`](https://pub.dev/documentation/jnigen/latest/jnigen/NullabilityAnnotations-class.html)
+for the list of recognized annotations and to configure custom annotations via
+[`JniGenerator.nullability`](https://pub.dev/documentation/jnigen/latest/jnigen/JniGenerator/nullability.html).
+
+Consider a Java class with annotated and unannotated methods:
+
+```java
+// Java
+public class UserService {
+  public @NotNull String getUserId() { ... }
+  public @Nullable String getNickname() { ... }
+  public String getDisplayName() { ... }
+  public void setNickname(@Nullable String nickname) { ... }
+  public void setUserId(@NotNull String id) { ... }
+  public void setDisplayName(String name) { ... }
+}
+```
+
+JNIgen generates bindings where `@NotNull` enforces non-nullability on return
+types and arguments, while `@Nullable` and unannotated reference types map to
+nullable Dart types:
+
+<!-- file://./../tool/snippets/nullability_snippet.dart#generated_methods -->
+```dart
+class UserService extends JObject {
+  /// from: `public @NotNull String getUserId()`
+  JString getUserId() {
+    // ...
+  }
+
+  /// from: `public @Nullable String getNickname()`
+  JString? getNickname() {
+    // ...
+  }
+
+  /// from: `public String getDisplayName()`
+  JString? getDisplayName() {
+    // ...
+  }
+
+  /// from: `public void setNickname(@Nullable String nickname)`
+  void setNickname(JString? nickname) {
+    // ...
+  }
+
+  /// from: `public void setUserId(@NotNull String id)`
+  void setUserId(JString id) {
+    // ...
+  }
+
+  /// from: `public void setDisplayName(String name)`
+  void setDisplayName(JString? name) {
+    // ...
+  }
+}
+```

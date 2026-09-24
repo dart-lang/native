@@ -284,12 +284,20 @@ final class SymbolImports {
   });
 }
 
-/// Custom nullability annotations configuration.
+/// Configuration for custom nullability annotations recognized by JNIgen.
+///
+/// In addition to custom annotations configured here, JNIgen automatically
+/// recognizes standard nullability annotations based on
+/// [Kotlin's Java interop conventions](https://kotlinlang.org/docs/java-interop.html#nullability-annotations):
 final class NullabilityAnnotations {
   /// Fully-qualified class names of custom `@NonNull` annotations.
+  ///
+  /// These are recognized in addition to the default `@NonNull` annotations.
   final List<String> nonNull;
 
   /// Fully-qualified class names of custom `@Nullable` annotations.
+  ///
+  /// These are recognized in addition to the default `@Nullable` annotations.
   final List<String> nullable;
 
   const NullabilityAnnotations({
@@ -446,6 +454,8 @@ final class JniGenerator {
   final SymbolImports imports;
 
   /// Custom nullability annotation configuration.
+  ///
+  /// See [NullabilityAnnotations] for recognized annotations and defaults.
   final NullabilityAnnotations nullability;
 
   /// AST visitors for filtering, renaming, and AST transformation passes.
