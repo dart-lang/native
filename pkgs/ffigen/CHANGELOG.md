@@ -20,9 +20,8 @@
   the qualified C++ name, so a `Visitor` or `importType` can filter or rename
   by it.
 - Generate bindings for C++ structs, classes and unions declared inside a
-  namespace or a record, named the same way. Nested records declared in
-  system headers, and scoped records when C++ class support is enabled, are
-  not yet surfaced.
+  namespace or a record, named the same way. Scoped records are not yet
+  surfaced when C++ class support is enabled.
 - Allow `package:cli_util` versions `0.5.x` and `0.6.x`.
 
 ## 22.0.0
