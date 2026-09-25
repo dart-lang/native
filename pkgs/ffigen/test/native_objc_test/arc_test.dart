@@ -75,7 +75,6 @@ void main() {
 
     @pragma('vm:never-inline')
     void copyMethodsInner(Pointer<Int32> counter) {
-      final pool = objc_autoreleasePoolPush();
       final obj1 = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
       final obj2 = obj1.copyMe();
@@ -93,9 +92,6 @@ void main() {
       final obj8 = obj1.copyMeAutorelease();
       expect(counter.value, 8);
       final obj9 = obj1.copyMeConsumeSelf();
-      expect(counter.value, 9);
-
-      objc_autoreleasePoolPop(pool);
       expect(counter.value, 9);
 
       expect(obj1, isNotNull);
@@ -126,24 +122,15 @@ void main() {
     test('autorelease methods ref count correctly', () {
       final counter = calloc<Int32>()..value = 0;
 
-      final pool1 = objc_autoreleasePoolPush();
       autoreleaseMethodsInner(counter);
       doGC();
-      // Method calls are now automatically wrapped in an autorelease pool,
-      // so the autoreleased return value is already cleaned up and the
-      // object is collected by GC without waiting for pool1 to pop.
-      expect(counter.value, 0);
-      objc_autoreleasePoolPop(pool1);
       expect(counter.value, 0);
 
-      final pool2 = objc_autoreleasePoolPush();
       final obj2 = ArcTestObject.makeAndAutorelease(counter);
       expect(counter.value, 1);
       doGC();
       expect(counter.value, 1);
-      objc_autoreleasePoolPop(pool2);
       // The obj2 variable still holds a reference to the object.
-      expect(counter.value, 1);
       obj2.ref.release();
       expect(counter.value, 0);
 
@@ -206,13 +193,8 @@ void main() {
 
     test('retain properties ref count correctly', () {
       final counter = calloc<Int32>()..value = 0;
-      // Property getters are automatically wrapped in an autorelease pool,
-      // so the getter's autoreleased return value is already cleaned up.
-      final pool = objc_autoreleasePoolPush();
       retainPropertiesInner(counter);
       doGC();
-      expect(counter.value, 0);
-      objc_autoreleasePoolPop(pool);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
@@ -241,13 +223,8 @@ void main() {
 
     test('copy properties ref count correctly', () {
       final counter = calloc<Int32>()..value = 0;
-      // Property getters are automatically wrapped in an autorelease pool,
-      // so the getter's autoreleased return value is already cleaned up.
-      final pool = objc_autoreleasePoolPush();
       copyPropertiesInner(counter);
       doGC();
-      expect(counter.value, 0);
-      objc_autoreleasePoolPop(pool);
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
