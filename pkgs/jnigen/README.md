@@ -64,21 +64,30 @@ instructions.
    comments below and the API docs to learn more about available configuration
    options.
 
+   <!-- file://./example/in_app_java/tool/jnigen.dart -->
    ```dart
    import 'dart:io';
-
+  
    import 'package:jnigen/jnigen.dart';
-
-   Future<void> main() async {
+  
+   void main(List<String> args) async {
      final packageRoot = Platform.script.resolve('../');
      final generator = JniGenerator(
        input: Input(
          // Required. List of classes or packages for which bindings should be generated.
-         classes: ['com.example.in_app_java'],
+         classes: [
+           'com.example.in_app_java', // Generate the entire package
+           'androidx.emoji2.text.EmojiCompat', // From gradle's compile classpath
+           'androidx.emoji2.text.DefaultEmojiCompatConfig', // From gradle's compile classpath
+           'android.os.Build', // from gradle's compile classpath
+         ],
          // Optional. List of directories that contain the source files for which to generate bindings.
          sourcePath: [packageRoot.resolve('android/app/src/main/java')],
          // Optional. Configuration to search for Android SDK libraries.
-         androidSdk: AndroidSdk(addGradleDeps: true),
+         androidSdk: AndroidSdk(
+           addGradleDeps: true,
+           androidExample: packageRoot,
+         ),
        ),
        output: Output(
          dart: DartOutput(
@@ -102,17 +111,17 @@ instructions.
 6. Import `android_utils.g.dart` in your Flutter app and call the generated
    methods to access the native Java API:
 
+   <!-- file://./example/in_app_java/lib/main.dart#show_toast -->
    ```dart
-   import 'package:jni/jni.dart';
-
-   import 'android_utils.g.dart';
-
-   // ...
-
    void showToast() {
-     JObject activity = JObject.fromReference(Jni.getCurrentActivity());
+     final activity =
+         androidActivity(PlatformDispatcher.instance.engineId!)?.as(Activity.type);
      final message = 'This is a native toast shown from a Flutter app via JNI.';
-     AndroidUtils.showToast(activity, message.toJString(), 0);
+     AndroidUtils.showToast(
+       activity,
+       message.toJString().as(CharSequence.type),
+       0,
+     );
    }
    ```
 
@@ -210,6 +219,7 @@ and call `await generator.generate()`.
 
 ### Example
 
+<!-- file://./tool/snippets/generate_bindings_snippet.dart#configuration -->
 ```dart
 import 'dart:io';
 
@@ -295,6 +305,7 @@ block and bindings will be generated when you run the generate bindings task.
 Below is an example showing how you might generate bindings for several classes
 in `java.time.*` and a `java.lang` class that is not included by default:
 
+<!-- file://./tool/snippets/generate_bindings_snippet.dart#built_in_types -->
 ```dart
 final generator = JniGenerator(
   input: Input(

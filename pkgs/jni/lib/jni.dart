@@ -15,10 +15,10 @@
 /// On Android, the existing JVM is used, a new JVM needs to be spawned on
 /// flutter desktop & standalone targets.
 ///
+/// <!-- file://./../example/lib/main.dart#spawn -->
 /// ```dart
 /// if (!Platform.isAndroid) {
-///   // Spin up a JVM instance with custom classpath etc..
-///   Jni.spawn(/* options */);
+///   Jni.spawn();
 /// }
 /// ```
 ///
@@ -62,6 +62,7 @@ library;
 
 export 'package:ffi/ffi.dart' show Arena, using;
 
+export 'src/converter.dart';
 export 'src/core_bindings.dart'
     show
         $JCollection,

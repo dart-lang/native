@@ -1,0 +1,9 @@
+# Include all package files (overriding parent .pubignore and .gitignore rules).
+!*
+!*/**
+
+# Exclude local build artifacts, git metadata, and pub cache.
+.dart_tool/
+.git/
+build/
+pubspec.lock

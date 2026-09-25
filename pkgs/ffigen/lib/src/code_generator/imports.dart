@@ -9,8 +9,14 @@ import 'type.dart';
 
 /// A library import which will be written as an import in the generated file.
 class LibraryImport extends AstNode {
+  /// The identifier prefix used to reference symbols from this library in the
+  /// generated Dart file.
   final String name;
+
+  /// The URI string or path of the library to import (e.g. `'dart:ffi'` or
+  /// `'package:my_pkg/my_pkg.dart'`).
   final String _importPath;
+
   final String? _importPathWhenImportedByPackageObjC;
 
   const LibraryImport(
@@ -44,13 +50,27 @@ class LibraryImport extends AstNode {
 
 /// An imported type which will be used in the generated code.
 class ImportedType extends Type {
+  /// The [LibraryImport] representing the library where this type is defined.
   final LibraryImport libraryImport;
+
+  /// The Dart representation of the C type. Must be an FFI `NativeType` (e.g.
+  /// `'Int64'`, `'Pointer<Void>'`, or the name of a `Struct`).
   final String cType;
+
+  /// The Dart representation of the type (e.g. `'int'`, `'double'`).
   final String dartType;
+
+  /// The type as it appears in native code (e.g. `'int64_t'` or `'time_t'`).
   final String nativeType;
+
+  /// An optional default value expression for this type when used as an
+  /// optional parameter.
   final String? defaultValue;
 
   /// Whether the [dartType] is an import from the [libraryImport].
+  ///
+  /// When `true`, [dartType] will be prefixed with the import prefix in
+  /// generated Dart signatures.
   final bool importedDartType;
 
   ImportedType(

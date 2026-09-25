@@ -358,9 +358,15 @@ class GenerateTask extends Task {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
-      'pkgs/hooks/tool/update_snippets.dart',
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
+    ];
+    const snippetTargets = [
+      'pkgs/hooks',
+      'pkgs/code_assets',
+      'pkgs/data_assets',
+      'pkgs/web_assets',
+      'pkgs/record_use',
     ];
     final fix = argResults['fix'] as bool;
     await _runMaybeParallel([
@@ -369,6 +375,12 @@ class GenerateTask extends Task {
           generator,
           if (!fix) '--set-exit-if-changed',
         ]),
+      () => _runProcess('dart', [
+        'run',
+        'snippet_tool',
+        if (!fix) '--set-exit-if-changed',
+        ...snippetTargets,
+      ]),
     ], argResults);
   }
 }
@@ -399,6 +411,12 @@ class TestTask extends Task {
           .toList();
     }
     final testUris = getUriInPackage(packages, 'test');
+    if (coverageTask.shouldRun(argResults)) {
+      final coverageDir = Directory.fromUri(repositoryRoot.resolve('coverage'));
+      if (coverageDir.existsSync()) {
+        coverageDir.deleteSync(recursive: true);
+      }
+    }
     await _runProcess('dart', [
       'test',
       if (coverageTask.shouldRun(argResults)) '--coverage=./coverage',
@@ -436,17 +454,19 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',
+      'pkgs/hooks/example/build/prebuilt_assets_example/',
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];
-    await _runMaybeParallel([
-      for (final exampleWithTest in examplesWithTest)
-        () => _runProcess(
-          workingDirectory: repositoryRoot.resolve(exampleWithTest),
-          'dart',
-          ['test'],
-        ),
-    ], argResults);
+    // Run sequentially because `dart test` in a pub workspace copies to the
+    // shared `<workspace_root>/.dart_tool/native_assets.yaml`.
+    for (final exampleWithTest in examplesWithTest) {
+      await _runProcess(
+        workingDirectory: repositoryRoot.resolve(exampleWithTest),
+        'dart',
+        ['test'],
+      );
+    }
 
     await _runProcess(
       workingDirectory: repositoryRoot.resolve(
@@ -503,6 +523,8 @@ class CoverageTask extends Task {
       'coverage:format_coverage',
       '--packages=.dart_tool/package_config.json',
       for (final libUri in libUris) '--report-on=$libUri',
+      '--check-ignore',
+      '--ignore-files=**/*.g.dart',
       '--lcov',
       '-o',
       './coverage/lcov.info',

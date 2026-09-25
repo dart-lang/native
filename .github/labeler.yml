@@ -48,6 +48,10 @@
   - changed-files:
     - any-glob-to-any-file: 'pkgs/objective_c/**'
 
+'package:snippet_tool':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/snippet_tool/**'
+
 'package:swift2objc':
   - changed-files:
     - any-glob-to-any-file: 'pkgs/swift2objc/**'
