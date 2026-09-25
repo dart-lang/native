@@ -40,9 +40,9 @@ import Foundation
 }
 
 @objc public class IntWrapper: NSObject {
-  var wrappedInstance: Int
+  @objc public var wrappedInstance: Int
 
-  init(_ wrappedInstance: Int) {
+  @objc public init(_ wrappedInstance: Int) {
     self.wrappedInstance = wrappedInstance
   }
 

@@ -1,3 +1,8 @@
+## 0.3.1-wip
+
+- Fix a bug in primitive wrapper objects, where the value wasn't accessible
+  from ObjC code.
+
 ## 0.3.0
 
 - Fix extensions of nested types to use fully qualified generated wrapper names.
