@@ -15,5 +15,10 @@ void main(List<String> args) async {
   } on FormatException catch (e) {
     log.fatal(e);
   }
+  log.warning(
+    'The YAML configuration format is deprecated and will be removed in a '
+    'future release. Please migrate to the programmatic Dart generator API. '
+    'See skills/jnigen-migrate-yaml-to-dart for migration instructions.',
+  );
   await config.generate(logger: log);
 }

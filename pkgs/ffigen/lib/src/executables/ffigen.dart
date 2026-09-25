@@ -79,6 +79,12 @@ FfiGenerator getGenerator(ArgResults result, PackageConfig? packageConfig) {
     config = getConfigFromPubspec(packageConfig);
   }
 
+  logger.warning(
+    'The YAML configuration format is deprecated and will be removed in a '
+    'future release. Please migrate to the programmatic Dart generator API. '
+    'See skills/ffigen-migrate-yaml-to-dart for migration instructions.',
+  );
+
   // Add compiler options from command line.
   if (result.wasParsed(compilerOpts)) {
     logger.fine('Passed compiler opts - "${result[compilerOpts]}"');

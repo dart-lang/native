@@ -21,22 +21,15 @@ import 'spec_utils.dart';
 ///
 /// ### Example
 ///
+/// <!-- file://./../../../tool/snippets/generator_snippet.dart#main -->
 /// ```dart
 /// import 'package:ffigen/ffigen.dart';
 ///
 /// Future<void> main() async {
 ///   final generator = FfiGenerator(
-///     output: Output(
-///       dart: DartOutput(path: Uri.file('lib/bindings.dart')),
-///     ),
-///     input: Input(
-///       entryPoints: [Uri.file('src/my_c_header.h')],
-///     ),
-///     visitors: [
-///       Visitor(
-///         func: (node) => node.isIncluded = true,
-///       ),
-///     ],
+///     output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
+///     input: Input(entryPoints: [Uri.file('src/my_c_header.h')]),
+///     visitors: [Visitor(func: (node) => node.isIncluded = true)],
 ///   );
 ///   await generator.generate();
 /// }
@@ -82,6 +75,7 @@ final class FfiGenerator {
   ///
   /// Filtering declarations (note: top-level declarations have
   /// `isIncluded = false` by default):
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#filter_closure -->
   /// ```dart
   /// Visitor(
   ///   func: (node) {
@@ -93,6 +87,7 @@ final class FfiGenerator {
   /// ```
   ///
   /// Renaming declarations:
+  /// <!-- file://./../../../tool/snippets/visitor_snippet.dart#rename_closure -->
   /// ```dart
   /// Visitor(
   ///   struct: (node) {
@@ -112,12 +107,16 @@ final class FfiGenerator {
   ///
   /// It can also be used to manually map native types to Dart types:
   ///
+  /// <!-- file://./../../../tool/snippets/symbol_files_snippet.dart#import_type -->
   /// ```dart
   /// const ffiImport = LibraryImport('ffi', 'dart:ffi');
-  /// const customImport = LibraryImport('custom', 'package:my_pkg/types.dart');
+  /// const customImport = LibraryImport(
+  ///   'custom',
+  ///   'package:my_pkg/types.dart',
+  /// );
   ///
   /// final generator = FfiGenerator(
-  ///   // ...
+  ///   output: Output(dart: DartOutput(path: Uri.file('lib/bindings.dart'))),
   ///   importType: (declaration) {
   ///     if (declaration.originalName == 'time_t') {
   ///       return ImportedType(ffiImport, 'Int64', 'int', 'time_t');
@@ -153,7 +152,10 @@ final class FfiGenerator {
     this.visitors = const [],
     this.importType = _defaultImportType,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
-  });
+  }) : assert(
+         cpp == null || objectiveC == null,
+         'Cannot use C++ and Objective-C together.',
+       );
 
   /// Run this generator.
   ///
@@ -178,7 +180,14 @@ final class Input {
   static bool _includeDefault(Uri header) => true;
 
   /// Command line arguments to pass to clang_compiler.
+  ///
+  /// By default, these options replace the default compiler options. To append
+  /// them to the default options instead, set [appendCompilerOptions] to true.
   final List<String>? compilerOptions;
+
+  /// Whether [compilerOptions] should be appended to the default compiler
+  /// options, instead of replacing them.
+  final bool appendCompilerOptions;
 
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
@@ -187,6 +196,7 @@ final class Input {
     this.entryPoints = const [],
     this.include = _includeDefault,
     this.compilerOptions,
+    this.appendCompilerOptions = false,
     this.ignoreSourceErrors = false,
   });
 }

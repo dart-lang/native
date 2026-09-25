@@ -1,5 +1,8 @@
-## 22.0.1-wip
+## 22.1.0-wip
 
+- The YAML configuration format is deprecated and will be removed in a future release.
+- Added `Input.appendCompilerOptions` to allow appending custom compiler
+  options to default options instead of replacing them.
 - Default to C++17 compiler options when C++ bindings are enabled.
 - Preserve documentation comments on same-name typedefs when generating the
   underlying type binding.
