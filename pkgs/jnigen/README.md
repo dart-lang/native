@@ -13,6 +13,9 @@ C bindings, which in-turn call the Java functions through JNI. Shared
 functionality and base classes are provided through the support library,
 `package:jni`.
 
+> [!NOTE]
+> The YAML configuration format is deprecated and will be removed in a future version. Please migrate to the programmatic Dart generator API. You can use the migration skill in [`skills/jnigen-migrate-yaml-to-dart`](skills/jnigen-migrate-yaml-to-dart) to automate the migration with an agent, but it also serves as good documentation if doing the migration manually.
+
 ## Getting Started
 
 This guide demonstrates how to call a custom Java API from a Flutter
