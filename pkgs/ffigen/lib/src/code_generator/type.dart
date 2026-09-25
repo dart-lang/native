@@ -75,6 +75,21 @@ abstract class Type extends AstNode {
   String getNativeType(Context context, {String varName = ''}) =>
       throw UnsupportedError('No native mapping for type: $this');
 
+  /// Returns the type used in the extern "C" glue function signatures.
+  String getExternCType(Context context, {String varName = ''}) =>
+      getNativeType(context, varName: varName);
+
+  /// Returns whether the native type and extern "C" type string are same.
+  bool get sameNativeAndExternCType => true;
+
+  /// Returns C++ code converting an extern "C" parameter into the native C++
+  /// argument.
+  String convertExternCTypeToNativeType(Context context, String value) => value;
+
+  /// Returns C++ code converting the native C++ return value into the extern
+  /// "C" return value.
+  String convertNativeTypeToExternCType(Context context, String value) => value;
+
   /// Returns whether the FFI dart type and C type string are same.
   bool get sameFfiDartAndCType;
 
@@ -206,6 +221,19 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   @override
   String getNativeType(Context context, {String varName = ''}) =>
       throw UnsupportedError('No native mapping for type: $this');
+
+  @override
+  String getExternCType(Context context, {String varName = ''}) =>
+      getNativeType(context, varName: varName);
+
+  @override
+  bool get sameNativeAndExternCType => true;
+
+  @override
+  String convertExternCTypeToNativeType(Context context, String value) => value;
+
+  @override
+  String convertNativeTypeToExternCType(Context context, String value) => value;
 
   @override
   bool get sameDartAndCType => sameFfiDartAndCType;
