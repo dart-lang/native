@@ -87,6 +87,10 @@ component_management:
       name: record_use
       paths:
         - pkgs/record_use/**
+    - component_id: snippet_tool
+      name: snippet_tool
+      paths:
+        - pkgs/snippet_tool/**
     - component_id: swift2objc
       name: swift2objc
       paths:
@@ -103,9 +107,11 @@ component_management:
 ignore:
   - "**/*.g.dart"
   - "**/*.mocks.dart"
-  - "**/test/**"
-  - "**/example/**"
-  - "**/test_data/**"
+  - "pkgs/*/test/**"
+  - "pkgs/*/example/**"
+  - "pkgs/*/test_data/**"
+  - "tool/**"
+  - "pkgs/*/tool/**"
 
 comment:
   layout: "reach,diff,flags,components,files"

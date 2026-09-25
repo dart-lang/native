@@ -243,8 +243,10 @@ final class NonConstant extends MaybeConstant {
   @override
   int _compareToSameType(NonConstant other) => 0;
 
+  // coverage:ignore-start
   @override
   String toString() => 'NonConstant()';
+  // coverage:ignore-end
 
   @override
   @visibleForTesting
@@ -323,8 +325,10 @@ final class NullConstant extends Constant {
   @override
   int _compareToSameType(NullConstant other) => 0;
 
+  // coverage:ignore-start
   @override
   String toString() => 'NullConstant()';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -371,8 +375,10 @@ final class UnsupportedConstant extends Constant {
   int _compareToSameType(UnsupportedConstant other) =>
       message.compareTo(other.message);
 
+  // coverage:ignore-start
   @override
   String toString() => 'UnsupportedConstant($message)';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -422,8 +428,10 @@ final class BoolConstant extends Constant {
     return value ? 1 : -1;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'BoolConstant($value)';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -469,8 +477,10 @@ final class IntConstant extends Constant {
   @override
   int _compareToSameType(IntConstant other) => value.compareTo(other.value);
 
+  // coverage:ignore-start
   @override
   String toString() => 'IntConstant($value)';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -527,8 +537,10 @@ final class DoubleConstant extends Constant {
   @override
   int _compareToSameType(DoubleConstant other) => value.compareTo(other.value);
 
+  // coverage:ignore-start
   @override
   String toString() => 'DoubleConstant($value)';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -574,8 +586,10 @@ final class StringConstant extends Constant {
   @override
   int _compareToSameType(StringConstant other) => value.compareTo(other.value);
 
+  // coverage:ignore-start
   @override
   String toString() => 'StringConstant($value)';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -634,6 +648,7 @@ final class SymbolConstant extends Constant {
     return libraryUri!.compareTo(other.libraryUri!);
   }
 
+  // coverage:ignore-start
   @override
   String toString() {
     if (libraryUri == null) {
@@ -641,6 +656,7 @@ final class SymbolConstant extends Constant {
     }
     return '$libraryUri::#$name';
   }
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -723,8 +739,10 @@ final class ListConstant extends Constant {
     return 0;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'ListConstant([${value.join(', ')}])';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -823,8 +841,10 @@ final class SetConstant extends Constant {
     return 0;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'SetConstant({${value.join(', ')}})';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -953,9 +973,11 @@ final class MapConstant extends Constant {
     return 0;
   }
 
+  // coverage:ignore-start
   @override
   String toString() =>
       'MapConstant({${entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -1098,10 +1120,12 @@ final class InstanceConstant extends Constant {
     return 0;
   }
 
+  // coverage:ignore-start
   @override
   String toString() =>
       'InstanceConstant($definition, {'
       '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -1265,10 +1289,12 @@ final class EnumConstant extends Constant {
     return 0;
   }
 
+  // coverage:ignore-start
   @override
   String toString() =>
       'EnumConstant($definition, index: $index, name: $name, fields: {'
       '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(
@@ -1418,12 +1444,14 @@ final class RecordConstant extends Constant {
     return 0;
   }
 
+  // coverage:ignore-start
   @override
   String toString() =>
       'RecordConstant('
       '${positional.join(', ')}'
       '${positional.isNotEmpty && named.isNotEmpty ? ', ' : ''}'
       '${named.entries.map((e) => '${e.key}: ${e.value}').join(', ')})';
+  // coverage:ignore-end
 
   @override
   bool _semanticEqualsInternal(

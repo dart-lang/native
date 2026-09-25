@@ -17,9 +17,11 @@ final class PackageUserDefines {
   /// Creates a [PackageUserDefines].
   PackageUserDefines({required this.workspacePubspec});
 
+  // coverage:ignore-start
   @override
   String toString() =>
       'PackageUserDefines(workspacePubspec: $workspacePubspec)';
+  // coverage:ignore-end
 }
 
 /// Extension methods for [PackageUserDefines] to convert to and from syntax
@@ -55,9 +57,11 @@ final class PackageUserDefinesSource {
   /// Creates a [PackageUserDefinesSource].
   PackageUserDefinesSource({required this.defines, required this.basePath});
 
+  // coverage:ignore-start
   @override
   String toString() =>
       'PackageUserDefinesSource(defines: $defines, basePath: $basePath)';
+  // coverage:ignore-end
 }
 
 /// Extension methods for [PackageUserDefinesSource] to convert to and from

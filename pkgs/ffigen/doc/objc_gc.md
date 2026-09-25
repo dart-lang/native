@@ -12,12 +12,13 @@ block/protocol method closes over a wrapper object that holds a reference
 to the block/protocol, this cycle will cause a memory leak. This example
 uses a protocol, but the same thing can happen with a block:
 
+<!-- file://./../tool/snippets/objc_gc_snippet.dart#cycle -->
 ```dart
 final foo = FooInterface();
 foo.delegate = BarDelegate.implement(
   someMethod: () {
     foo.anotherMethod();
-  }
+  },
 );
 ```
 
@@ -36,15 +37,18 @@ need for things like this. To ensure the method doesn't capture anything
 unexpected, it's also a good idea to move its construction to a separate
 function.
 
+<!-- file://./../tool/snippets/objc_gc_snippet.dart#weak_ref -->
 ```dart
 BarDelegate createBarDelegate(WeakReference<FooInterface> weakFoo) {
   return BarDelegate.implement(
     someMethod: () {
       weakFoo.target?.anotherMethod();
-    }
+    },
   );
 }
 
-final foo = FooInterface();
-foo.delegate = createBarDelegate(WeakReference(foo));
+void main() {
+  final foo = FooInterface();
+  foo.delegate = createBarDelegate(WeakReference(foo));
+}
 ```

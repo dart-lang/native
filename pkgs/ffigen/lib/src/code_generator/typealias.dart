@@ -16,6 +16,7 @@ import 'writer.dart';
 
 /// A simple Typealias, Expands to -
 ///
+/// <!-- no-source-file -->
 /// ```dart
 /// typedef $name = $type;
 /// );

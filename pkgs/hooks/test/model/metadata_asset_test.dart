@@ -24,5 +24,8 @@ void main() async {
     final encodedAsset = EncodedAsset.fromJson(jsonEncoding);
     expect(encodedAsset.isMetadataAsset, isTrue);
     expect(MetadataAsset.fromEncoded(encodedAsset), metadataAsset);
+    expect(encodedAsset.asMetadataAsset, metadataAsset);
+    expect(encodedAsset.asMetadataAsset.hashCode, metadataAsset.hashCode);
+    expect(encodedAsset.hashCode, EncodedAsset.fromJson(jsonEncoding).hashCode);
   });
 }

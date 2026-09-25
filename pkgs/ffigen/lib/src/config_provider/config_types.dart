@@ -14,6 +14,7 @@ import 'package:quiver/pattern.dart' as quiver;
 import '../code_generator.dart';
 import 'config.dart';
 import 'path_finder.dart';
+import 'utils.dart';
 
 export 'package:pub_semver/pub_semver.dart' show Version;
 
@@ -382,10 +383,29 @@ class YamlMemberIncluder {
 List<String> defaultCompilerOpts(
   Logger logger, {
   bool macIncludeStdLib = true,
+  bool cpp = false,
+}) => cpp
+    ? [
+        '-x',
+        'c++',
+        '-std=c++17',
+        if (Platform.isMacOS) ...['-isysroot', macSdkPath],
+      ]
+    : [
+        if (Platform.isMacOS && macIncludeStdLib)
+          ...getCStandardLibraryHeadersForMac(logger),
+        if (Platform.isMacOS) '-Wno-nullability-completeness',
+      ];
+
+/// Computes compiler options based on [config] and [logger].
+List<String> computeCompilerOpts({
+  required FfiGenerator config,
+  required Logger logger,
 }) => [
-  if (Platform.isMacOS && macIncludeStdLib)
-    ...getCStandardLibraryHeadersForMac(logger),
-  if (Platform.isMacOS) '-Wno-nullability-completeness',
+  if (config.input.appendCompilerOptions ||
+      config.input.compilerOptions == null)
+    ...defaultCompilerOpts(logger, cpp: config.cpp != null),
+  if (config.input.compilerOptions != null) ...config.input.compilerOptions!,
 ];
 
 /// Handles config for automatically added compiler options.

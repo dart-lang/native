@@ -79,8 +79,10 @@ final class DataAsset {
     return EncodedAsset(DataAssetType.type, encoding.json);
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'DataAsset(${encode().encoding})';
+  // coverage:ignore-end
 }
 
 extension DataAssetType on DataAsset {

@@ -9,6 +9,11 @@ import 'package:file_testing/file_testing.dart';
 import 'package:hooks/hooks.dart';
 import 'package:test/test.dart';
 
+class _TestExit implements Exception {
+  final int exitCode;
+  _TestExit(this.exitCode);
+}
+
 void main() async {
   late Uri tempUri;
   late Uri outFile;
@@ -18,6 +23,8 @@ void main() async {
   late Uri packageRootUri;
   late Uri buildInputUri;
   late BuildInput input;
+  late Uri linkOutFile;
+  late Uri linkInputUri;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -43,6 +50,19 @@ void main() async {
     final inputJson = json.encode(input.json);
     buildInputUri = tempUri.resolve('input.json');
     await File.fromUri(buildInputUri).writeAsString(inputJson);
+
+    linkOutFile = tempUri.resolve('link_output.json');
+    final linkInputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageRoot: tempUri,
+        packageName: packageName,
+        outputFile: linkOutFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLink(assets: [], recordedUsesFile: null, assetsFromLinking: []);
+    final linkInput = linkInputBuilder.build();
+    linkInputUri = tempUri.resolve('link_input.json');
+    await File.fromUri(linkInputUri).writeAsString(json.encode(linkInput.json));
   });
 
   test('build method', () async {
@@ -54,5 +74,84 @@ void main() async {
     });
     final buildOutputUri = input.outputFile;
     expect(File.fromUri(buildOutputUri), exists);
+  });
+
+  test('build method throws HookError', () async {
+    await expectLater(
+      () => IOOverrides.runZoned(
+        () => build(['--config', buildInputUri.toFilePath()], (
+          input,
+          output,
+        ) async {
+          throw BuildError(
+            message: 'build failed',
+            wrappedException: Exception('inner'),
+            wrappedTrace: StackTrace.current,
+          );
+        }),
+        exit: (code) => throw _TestExit(code),
+      ),
+      throwsA(isA<_TestExit>().having((e) => e.exitCode, 'exitCode', 1)),
+    );
+    expect(File.fromUri(outFile), exists);
+  });
+
+  test('build method validation error', () async {
+    await expectLater(
+      () => IOOverrides.runZoned(
+        () => build(['--config', buildInputUri.toFilePath()], (
+          input,
+          output,
+        ) async {
+          output.assets.addEncodedAsset(EncodedAsset('unsupported_type', {}));
+        }),
+        exit: (code) => throw _TestExit(code),
+      ),
+      throwsA(isA<_TestExit>().having((e) => e.exitCode, 'exitCode', 1)),
+    );
+    expect(File.fromUri(outFile), exists);
+  });
+
+  test('link method', () async {
+    await link(['--config', linkInputUri.toFilePath()], (input, output) async {
+      output.dependencies.add(packageRootUri.resolve('bar'));
+    });
+    expect(File.fromUri(linkOutFile), exists);
+  });
+
+  test('link method throws HookError', () async {
+    await expectLater(
+      () => IOOverrides.runZoned(
+        () => link(['--config', linkInputUri.toFilePath()], (
+          input,
+          output,
+        ) async {
+          throw InfraError(message: 'infra failed');
+        }),
+        exit: (code) => throw _TestExit(code),
+      ),
+      throwsA(isA<_TestExit>().having((e) => e.exitCode, 'exitCode', 2)),
+    );
+    expect(File.fromUri(linkOutFile), exists);
+  });
+
+  test('link method validation error', () async {
+    await expectLater(
+      () => IOOverrides.runZoned(
+        () => link(['--config', linkInputUri.toFilePath()], (
+          input,
+          output,
+        ) async {
+          output.assets.addEncodedAsset(EncodedAsset('unsupported_type', {}));
+        }),
+        exit: (code) => throw _TestExit(code),
+      ),
+      throwsA(isA<_TestExit>().having((e) => e.exitCode, 'exitCode', 1)),
+    );
+    expect(File.fromUri(linkOutFile), exists);
+  });
+
+  test('missing --config argument throws StateError', () {
+    expect(() => build([], (input, output) async {}), throwsStateError);
   });
 }

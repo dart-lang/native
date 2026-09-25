@@ -38,11 +38,12 @@ JObject get androidApplicationContext => JniFlutterPlugin.applicationContext;
 ///
 /// ### Correct Usage (Synchronous, "Get-and-Use"):
 ///
+/// <!-- file://./../../tool/snippets/activity_snippet.dart#safe -->
 /// ```dart
 /// void safeCall() {
 ///   // This is safe because the `Activity` is retrieved and used
 ///   // in a single, unbroken, synchronous block.
-///   final activity = Jni.androidActivity(engineId);
+///   final activity = androidActivity(engineId);
 ///   if (activity != null) {
 ///     someGeneratedApi.doSomething(activity);
 ///     activity.release();
@@ -52,10 +53,11 @@ JObject get androidApplicationContext => JniFlutterPlugin.applicationContext;
 ///
 /// ### **DANGEROUS** Usage (Asynchronous Gap):
 ///
+/// <!-- file://./../../tool/snippets/activity_snippet.dart#dangerous -->
 /// ```dart
 /// Future<void> dangerousCall() async {
 ///   // 1. Get the Activity (e.g., Activity "A")
-///   final activity = Jni.androidActivity(engineId);
+///   final activity = androidActivity(engineId);
 ///
 ///   // 2. An `await` occurs. The main thread is freed.
 ///   //    While waiting, Android might destroy Activity "A" and create "B".

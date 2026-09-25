@@ -1,5 +1,5 @@
-group 'com.example.maven_libs_groovy'
-version '1.0-SNAPSHOT'
+group = 'com.example.maven_libs_groovy'
+version = '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -24,12 +24,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    namespace 'com.example.maven_libs_groovy'
-    compileSdk 34
+    namespace = 'com.example.maven_libs_groovy'
+    compileSdk = 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion = 21
     }
 }
 

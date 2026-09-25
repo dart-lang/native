@@ -1,3 +1,7 @@
+## 0.19.6-wip
+
+- Default `linkerOptions` to `LinkerOptions.manual()` in `CLinker.run` when omitted so static archives link all symbols by default.
+
 ## 0.19.5
 
 - Support `Architecture.arm64e` for macOS and iOS.

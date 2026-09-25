@@ -155,8 +155,10 @@ class KernelAssetSystemPath implements KernelAssetPath {
   @override
   int get hashCode => uri.hashCode;
 
+  // coverage:ignore-start
   @override
   String toString() => 'KernelAssetAbsolutePath($uri)';
+  // coverage:ignore-end
 
   @override
   List<String> toJson() => [

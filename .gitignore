@@ -37,6 +37,7 @@ Pods/
 
 # Build directories are produced when building using the Flutter CLI.
 build
+!pkgs/hooks/example/build/
 
 # This file is produced as a back-up when web_benchmarks fails to parse a
 # Chrome trace.
