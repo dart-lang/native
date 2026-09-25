@@ -18,6 +18,10 @@
 - Generate bindings for declarations inside C++ `extern "C" { ... }`
   blocks, which were previously skipped entirely.
 - Allow `package:cli_util` versions `0.5.x` and `0.6.x`.
+- Fix a crash during code generation when a typedef refers to a function
+  pointer with an unsupported parameter type (e.g. a C++ reference). Such
+  typedefs are now skipped like other unsupported typedefs, so struct members
+  and functions using them are dropped instead of crashing the writer.
 
 ## 22.0.0
 
