@@ -1,5 +1,4 @@
 #import <Foundation/NSObject.h>
-#import <Foundation/NSString.h>
 
 typedef struct {
   double x;
@@ -31,8 +30,6 @@ typedef struct {
 // https://github.com/dart-lang/native/issues/1136
 - (int32_t)instStaticSameName;
 + (int32_t)instStaticSameName;
-
-- (NSString *)concat:(NSString *)str;
 
 @end
 
@@ -102,10 +99,6 @@ typedef struct {
 
 + (int32_t)instStaticSameName {
   return 456;
-}
-
-- (NSString *)concat:(NSString *)str {
-  return [str stringByAppendingString:@"_benchmark_suffix"];
 }
 
 @end
